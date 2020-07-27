@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672B522EC37
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:32:03 +0200 (CEST)
-Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E6522EC48
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:37:14 +0200 (CEST)
+Received: from localhost ([::1]:54120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k02IU-0001hm-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37142)
+	id 1k02NV-0007X4-PQ
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02B3-0007UU-EB
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:24:24 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40280)
+ id 1k02JB-0002no-K8
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:32:46 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02B1-0006SJ-J3
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:24:21 -0400
-Received: by mail-wr1-x435.google.com with SMTP id l2so4116234wrc.7
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 05:24:19 -0700 (PDT)
+ id 1k02J7-0007Sw-Qt
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:32:45 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id f7so14724188wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 05:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rjsRSDGtJjMEQxhz0G+U/kI6w5pgukPBopF+vgNZ2Io=;
- b=kafMP2lLrcvQTVRd4gSyevAhwZcDyE5G24Kq/oeBd3EHXGRFg69Ry4mkUudGCTuyvM
- LZqzVEABV7JyIbbs5jLQe+gMTQ4vQhWQ6ssoF9qUB9fQUAKsExsTZ4V/14u7I+ucvYYV
- kbDPfPc3/VxLkhfiB8agRBBJwGAZFwjrgF89eN/hQ2GWitK9ztJE/Tpi/oBGHGSvMzxk
- n7twUjL9Yii1g2GDhQovrrMbF5H3vb1YOv/VPW/VyqgufCq2rY5epUAGDuMtvfe9debI
- hKU6bXHVMJIVf7lxZpdQcgKeIFp7O3PNCObXtssL8HoQUZ1BkANx92k0RvfMN/B+O+1w
- bbHg==
+ bh=8y6ixeIPgJW86fjgIL3Yvs/KvQizsaV1ZAK37O5WFus=;
+ b=DM3WCwv71sJo7LObRORAeYVh+LMSx0nkIQA5OEYmXGC9KE6aVC9HbDFNb1OkVgXIgg
+ kdhLMxacNe8u2Z6TedyPuT41tl5NWo2bnbUX06Esw3p2VRFHcJlUp1oXQjTHdMHd3Yla
+ JoekFOsble9nEyLd96S9hyCTiQpXzlwa5JhihoBynbFeZXE7H8zJrhIsEqt3e8PAeGaF
+ vZCgnygMP47IwcahfewsafNVuNypJaU6btd0s+Fm3pbh3NHoZbRwwmn/vrH8MIKHeKkG
+ qZbGZI1PV8r7hJTP3BaMn7W2bgyTXWJx/S21QsFIN7A2q0B7oUd6tXO7X1kdWUxtTgeA
+ P6eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rjsRSDGtJjMEQxhz0G+U/kI6w5pgukPBopF+vgNZ2Io=;
- b=Yg81NePeqUehiaqnZ947PHVDHL5S8bCLBTRAWg/stohN6jm0YxsEa4+zwdWUh/lFhm
- 2/P6+tG/DpVHK7CEftZ+03r7QvV0HTkGdLLEQTt75GKzFxa6phAXLnQPK+ozC+HzPltO
- uwR8htxWEFLRnf5gFFjYAUfPlrUhIEQgMVKgjNOXJpQYaUHM1nb5n+LPaOQhdUFfdRq9
- RVhTiKcuK4uM3NWU3D1wY7spTPzgV13Xzt1SRH6TIAETkZArb1HiLNcK5jQaBHfeGhZ9
- DiTc1th8HT3+dXr6zB1JjdWwoF7utoHpe67EO0reEAUiuPjhgMSeZVfopzPdLIsOFiE7
- FwOQ==
-X-Gm-Message-State: AOAM530d8N0lny4ydJIorQt5T5SXBAqiMYqW8u9VuxJrSe1g1L6zPNz8
- compKQ1vjSwPC/lWm3NhcmXWPw==
-X-Google-Smtp-Source: ABdhPJxKbpLIxwskJW6OXvblOGfRIu6wxImZ7nLay2D/5QSap1P2adXEdP+eVrhalKCEvdwbfQxYOQ==
-X-Received: by 2002:a5d:438c:: with SMTP id i12mr21595404wrq.210.1595852658235; 
- Mon, 27 Jul 2020 05:24:18 -0700 (PDT)
+ bh=8y6ixeIPgJW86fjgIL3Yvs/KvQizsaV1ZAK37O5WFus=;
+ b=mLygHTE6Y7YkMJw2rSxbmMzP59F7GUw+/6rXGqhuL9CfuxSlX4+0yQmxLLgO6YtjCu
+ T/PkaxmuLX6mZcyhpIuBY7iriDKKGKLfzjiKKj9Kr8SzhURHeU1UUvxyN5GpcCTpDwJe
+ FO+xgB9M7QxdXN2wmc3TXFSMgwtIItVdFql+DLpWOM+JK4oBZcn/p1ZQFYYqeNKMEnVg
+ 5kYjE2583zl36uTxavG9WgXblJaTrthxlOWp5NDCVk4eZ9ZBeFly3YCqKQViAuxytdEo
+ A3laDpRGbw9J7Cxp04dok9zUW1n5VGB0yZpj71cHCGZuLnLyd4V3T8tcMPiPuvG+gAxr
+ HJRQ==
+X-Gm-Message-State: AOAM531oqF+lREaTCqowIrxLb1VxSxQYNO7fDVyWKxgKqxrOk67CAxB9
+ 6rcDrkRnRhWvGKYnQ+lzsWqWaA==
+X-Google-Smtp-Source: ABdhPJx9zwS3YB8uXuH+1JOW4PrFuz0cAYPhC6/CSA6tKzEvgqeqwCNI+5FM/t0xkYmq9/hdEusezA==
+X-Received: by 2002:a5d:4611:: with SMTP id t17mr19041904wrq.243.1595853157251; 
+ Mon, 27 Jul 2020 05:32:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g16sm12065159wrs.88.2020.07.27.05.24.04
+ by smtp.gmail.com with ESMTPSA id z6sm12993226wrs.36.2020.07.27.05.32.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 05:24:09 -0700 (PDT)
+ Mon, 27 Jul 2020 05:32:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AB1AE1FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id C3E121FF9E;
  Mon, 27 Jul 2020 13:23:58 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/16] python/qemu: Cleanup changes to ConsoleSocket
-Date: Mon, 27 Jul 2020 13:23:55 +0100
-Message-Id: <20200727122357.31263-15-alex.bennee@linaro.org>
+Subject: [PULL 15/16] python/qemu: Change ConsoleSocket to optionally drain
+ socket.
+Date: Mon, 27 Jul 2020 13:23:56 +0100
+Message-Id: <20200727122357.31263-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200727122357.31263-1-alex.bennee@linaro.org>
 References: <20200727122357.31263-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,163 +89,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Robert Foley <robert.foley@linaro.org>
+Cc: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Robert Foley <robert.foley@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-The changes to console_socket.py and machine.py are to
-cleanup for pylint and flake8.
+The primary purpose of this change is to clean up
+machine.py's console_socket property to return a single type,
+a ConsoleSocket.
+
+ConsoleSocket now derives from a socket, which means that
+in the default case (of not draining), machine.py
+will see the same behavior as it did prior to ConsoleSocket.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200717203041.9867-2-robert.foley@linaro.org>
-Message-Id: <20200724064509.331-15-alex.bennee@linaro.org>
+Message-Id: <20200717203041.9867-3-robert.foley@linaro.org>
+Message-Id: <20200724064509.331-16-alex.bennee@linaro.org>
 
 diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index 830cb7c6282..09986bc2152 100644
+index 09986bc2152..70869fbbdc4 100644
 --- a/python/qemu/console_socket.py
 +++ b/python/qemu/console_socket.py
-@@ -1,12 +1,9 @@
--#!/usr/bin/env python3
--#
--# This python module implements a ConsoleSocket object which is
--# designed always drain the socket itself, and place
--# the bytes into a in memory buffer for later processing.
--#
--# Optionally a file path can be passed in and we will also
--# dump the characters to this file for debug.
--#
-+"""
-+QEMU Console Socket Module:
-+
-+This python module implements a ConsoleSocket object,
-+which can drain a socket and optionally dump the bytes to file.
-+"""
- # Copyright 2020 Linaro
- #
- # Authors:
-@@ -15,20 +12,27 @@
- # This code is licensed under the GPL version 2 or later.  See
+@@ -13,68 +13,75 @@ which can drain a socket and optionally dump the bytes to file.
  # the COPYING file in the top-level directory.
  #
-+
- import asyncore
+ 
+-import asyncore
  import socket
  import threading
--import io
--import os
--import sys
  from collections import deque
  import time
--import traceback
-+
  
- class ConsoleSocket(asyncore.dispatcher):
-+    """
-+    ConsoleSocket represents a socket attached to a char device.
  
-+    Drains the socket and places the bytes into an in memory buffer
-+    for later processing.
-+
-+    Optionally a file path can be passed in and we will also
-+    dump the characters to this file for debugging purposes.
-+    """
-     def __init__(self, address, file=None):
+-class ConsoleSocket(asyncore.dispatcher):
++class ConsoleSocket(socket.socket):
+     """
+     ConsoleSocket represents a socket attached to a char device.
+ 
+-    Drains the socket and places the bytes into an in memory buffer
+-    for later processing.
++    Optionally (if drain==True), drains the socket and places the bytes
++    into an in memory buffer for later processing.
+ 
+     Optionally a file path can be passed in and we will also
+     dump the characters to this file for debugging purposes.
+     """
+-    def __init__(self, address, file=None):
++    def __init__(self, address, file=None, drain=False):
          self._recv_timeout_sec = 300
-+        self._sleep_time = 0.5
+         self._sleep_time = 0.5
          self._buffer = deque()
-         self._asyncore_thread = None
-         self._sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-@@ -70,31 +74,28 @@ class ConsoleSocket(asyncore.dispatcher):
+-        self._asyncore_thread = None
+-        self._sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+-        self._sock.connect(address)
++        socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
++        self.connect(address)
+         self._logfile = None
+         if file:
+             self._logfile = open(file, "w")
+-        asyncore.dispatcher.__init__(self, sock=self._sock)
+         self._open = True
+-        self._thread_start()
++        if drain:
++            self._drain_thread = self._thread_start()
++        else:
++            self._drain_thread = None
  
-     def handle_read(self):
-         """process arriving characters into in memory _buffer"""
--        try:
--            data = asyncore.dispatcher.recv(self, 1)
--            # latin1 is needed since there are some chars
--            # we are receiving that cannot be encoded to utf-8
--            # such as 0xe2, 0x80, 0xA6.
--            string = data.decode("latin1")
--        except:
--            print("Exception seen.")
--            traceback.print_exc()
+-    def _thread_start(self):
+-        """Kick off a thread to wait on the asyncore.loop"""
+-        if self._asyncore_thread is not None:
 -            return
-+        data = asyncore.dispatcher.recv(self, 1)
-+        # latin1 is needed since there are some chars
-+        # we are receiving that cannot be encoded to utf-8
-+        # such as 0xe2, 0x80, 0xA6.
-+        string = data.decode("latin1")
-         if self._logfile:
-             self._logfile.write("{}".format(string))
-             self._logfile.flush()
+-        self._asyncore_thread = threading.Thread(target=asyncore.loop,
+-                                                 kwargs={'timeout':1})
+-        self._asyncore_thread.daemon = True
+-        self._asyncore_thread.start()
++    def _drain_fn(self):
++        """Drains the socket and runs while the socket is open."""
++        while self._open:
++            try:
++                self._drain_socket()
++            except socket.timeout:
++                # The socket is expected to timeout since we set a
++                # short timeout to allow the thread to exit when
++                # self._open is set to False.
++                time.sleep(self._sleep_time)
+ 
+-    def handle_close(self):
+-        """redirect close to base class"""
+-        # Call the base class close, but not self.close() since
+-        # handle_close() occurs in the context of the thread which
+-        # self.close() attempts to join.
+-        asyncore.dispatcher.close(self)
++    def _thread_start(self):
++        """Kick off a thread to drain the socket."""
++        # Configure socket to not block and timeout.
++        # This allows our drain thread to not block
++        # on recieve and exit smoothly.
++        socket.socket.setblocking(self, False)
++        socket.socket.settimeout(self, 1)
++        drain_thread = threading.Thread(target=self._drain_fn)
++        drain_thread.daemon = True
++        drain_thread.start()
++        return drain_thread
+ 
+     def close(self):
+         """Close the base object and wait for the thread to terminate"""
+         if self._open:
+             self._open = False
+-            asyncore.dispatcher.close(self)
+-            if self._asyncore_thread is not None:
+-                thread, self._asyncore_thread = self._asyncore_thread, None
++            if self._drain_thread is not None:
++                thread, self._drain_thread = self._drain_thread, None
+                 thread.join()
++            socket.socket.close(self)
+             if self._logfile:
+                 self._logfile.close()
+                 self._logfile = None
+ 
+-    def handle_read(self):
++    def _drain_socket(self):
+         """process arriving characters into in memory _buffer"""
+-        data = asyncore.dispatcher.recv(self, 1)
++        data = socket.socket.recv(self, 1)
+         # latin1 is needed since there are some chars
+         # we are receiving that cannot be encoded to utf-8
+         # such as 0xe2, 0x80, 0xA6.
+@@ -85,27 +92,38 @@ class ConsoleSocket(asyncore.dispatcher):
          for c in string:
              self._buffer.extend(c)
  
--    def recv(self, n=1, sleep_delay_s=0.1):
--        """Return chars from in memory buffer"""
-+    def recv(self, buffer_size=1):
-+        """Return chars from in memory buffer.
-+           Maintains the same API as socket.socket.recv.
-+        """
+-    def recv(self, buffer_size=1):
++    def recv(self, bufsize=1):
+         """Return chars from in memory buffer.
+            Maintains the same API as socket.socket.recv.
+         """
++        if self._drain_thread is None:
++            # Not buffering the socket, pass thru to socket.
++            return socket.socket.recv(self, bufsize)
          start_time = time.time()
--        while len(self._buffer) < n:
--            time.sleep(sleep_delay_s)
-+        while len(self._buffer) < buffer_size:
-+            time.sleep(self._sleep_time)
+-        while len(self._buffer) < buffer_size:
++        while len(self._buffer) < bufsize:
+             time.sleep(self._sleep_time)
              elapsed_sec = time.time() - start_time
              if elapsed_sec > self._recv_timeout_sec:
                  raise socket.timeout
--        chars = ''.join([self._buffer.popleft() for i in range(n)])
-+        chars = ''.join([self._buffer.popleft() for i in range(buffer_size)])
+-        chars = ''.join([self._buffer.popleft() for i in range(buffer_size)])
++        chars = ''.join([self._buffer.popleft() for i in range(bufsize)])
          # We choose to use latin1 to remain consistent with
          # handle_read() and give back the same data as the user would
          # receive if they were reading directly from the
+         # socket w/o our intervention.
+         return chars.encode("latin1")
+ 
+-    def set_blocking(self):
+-        """Maintain compatibility with socket API"""
+-        pass
++    def setblocking(self, value):
++        """When not draining we pass thru to the socket,
++           since when draining we control socket blocking.
++        """
++        if self._drain_thread is None:
++            socket.socket.setblocking(self, value)
+ 
+     def settimeout(self, seconds):
+-        """Set current timeout on recv"""
+-        self._recv_timeout_sec = seconds
++        """When not draining we pass thru to the socket,
++           since when draining we control the timeout.
++        """
++        if seconds is not None:
++            self._recv_timeout_sec = seconds
++        if self._drain_thread is None:
++            socket.socket.settimeout(self, seconds)
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 51aa255ef96..a09768e9f92 100644
+index a09768e9f92..82f3731fc3f 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -27,7 +27,7 @@ import socket
+@@ -23,7 +23,6 @@ import os
+ import subprocess
+ import shutil
+ import signal
+-import socket
  import tempfile
  from typing import Optional, Type
  from types import TracebackType
--from qemu.console_socket import ConsoleSocket
-+from . import console_socket
- 
- from . import qmp
- 
-@@ -674,8 +674,9 @@ class QEMUMachine:
+@@ -673,12 +672,8 @@ class QEMUMachine:
+         Returns a socket connected to the console
          """
          if self._console_socket is None:
-             if self._drain_console:
--                self._console_socket = ConsoleSocket(self._console_address,
--                                                    file=self._console_log_path)
-+                self._console_socket = console_socket.ConsoleSocket(
-+                    self._console_address,
-+                    file=self._console_log_path)
-             else:
-                 self._console_socket = socket.socket(socket.AF_UNIX,
-                                                      socket.SOCK_STREAM)
-diff --git a/python/qemu/pylintrc b/python/qemu/pylintrc
-index 5d6ae7367d8..3f69205000d 100644
---- a/python/qemu/pylintrc
-+++ b/python/qemu/pylintrc
-@@ -33,7 +33,7 @@ good-names=i,
-            Run,
-            _,
-            fd,
--
-+           c,
- [VARIABLES]
- 
- [STRING]
+-            if self._drain_console:
+-                self._console_socket = console_socket.ConsoleSocket(
+-                    self._console_address,
+-                    file=self._console_log_path)
+-            else:
+-                self._console_socket = socket.socket(socket.AF_UNIX,
+-                                                     socket.SOCK_STREAM)
+-                self._console_socket.connect(self._console_address)
++            self._console_socket = console_socket.ConsoleSocket(
++                self._console_address,
++                file=self._console_log_path,
++                drain=self._drain_console)
+         return self._console_socket
 -- 
 2.20.1
 
