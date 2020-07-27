@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7EF422FAF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:05:45 +0200 (CEST)
-Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF3122FB13
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:09:35 +0200 (CEST)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0AJc-0002t8-NN
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35332)
+	id 1k0ANK-0001q2-J5
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAk-0005jG-Af
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58505
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAl-0005lk-Jc
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31642
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAi-00050P-3Z
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:33 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAj-00050l-Bp
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595883391;
+ s=mimecast20190719; t=1595883392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tHc0nQj+QkzuTabuTPWO7D1hcUTptMOxXx4vvq4SA+E=;
- b=OT8E3EYTTwrNRRSrKHUT9iISiuDEFivugy7VLXUgbENwFF300c4mO3gJfrGK6+U83HQ9pH
- ZtdPSCYDRyTENKWIa5YCzw/eke7pEx+pEVsfRTqy8zmZ7jg1lNDE3z4wocRlN7hOg06w0c
- 8PnMDrnDC2qJhlm5cDM/XAXOFP25n1A=
+ bh=4YU+2DllB+WRMBKkKdzwQniGyf8W+ZI6W9hF8rTdQIM=;
+ b=HhuIT7JpBbgoF0SV0TFbxDL790Wj62ycCVB0L4JP5UH9+MctCOnrl5pGc0voSG7nRtdHj3
+ WpmVrpYR5zkaSc12Em49TtPLI5PY003v6g7bPpPl4Fbzj+GFY9wM17W8pkzsfxfRAlcUJU
+ b03yvsOBZMOl3lxBsrpFtzGFzIeGm1Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-FEK2kFEsMJ6pBu0VvjupSg-1; Mon, 27 Jul 2020 16:56:27 -0400
-X-MC-Unique: FEK2kFEsMJ6pBu0VvjupSg-1
+ us-mta-181-z3Y2Q7ZUMDWmS8rYQyh41g-1; Mon, 27 Jul 2020 16:56:28 -0400
+X-MC-Unique: z3Y2Q7ZUMDWmS8rYQyh41g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31B42101C8A5;
- Mon, 27 Jul 2020 20:56:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56B4E80183C;
+ Mon, 27 Jul 2020 20:56:27 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6865119C66;
- Mon, 27 Jul 2020 20:56:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7299619C66;
+ Mon, 27 Jul 2020 20:56:26 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/24] migration/savevm: don't worry if bitmap migration
- postcopy failed
-Date: Mon, 27 Jul 2020 15:55:37 -0500
-Message-Id: <20200727205543.206624-19-eblake@redhat.com>
+Subject: [PULL 19/24] qemu-iotests/199: prepare for new test-cases addition
+Date: Mon, 27 Jul 2020 15:55:38 -0500
+Message-Id: <20200727205543.206624-20-eblake@redhat.com>
 In-Reply-To: <20200727205543.206624-1-eblake@redhat.com>
 References: <20200727205543.206624-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:02:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,120 +77,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-First, if only bitmaps postcopy is enabled (and not ram postcopy)
-postcopy_pause_incoming crashes on an assertion
-assert(mis->to_src_file).
-
-And anyway, bitmaps postcopy is not prepared to be somehow recovered.
-The original idea instead is that if bitmaps postcopy failed, we just
-lose some bitmaps, which is not critical. So, on failure we just need
-to remove unfinished bitmaps and guest should continue execution on
-destination.
+Move future common part to start_postcopy() method. Move checking
+number of bitmaps to check_bitmap().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200727194236.19551-18-vsementsov@virtuozzo.com>
+Message-Id: <20200727194236.19551-19-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- migration/savevm.c | 37 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 32 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/199 | 36 +++++++++++++++++++++++-------------
+ 1 file changed, 23 insertions(+), 13 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 45c9dd9d8a6d..a843d202b5b4 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1813,6 +1813,9 @@ static void *postcopy_ram_listen_thread(void *opaque)
-     MigrationIncomingState *mis = migration_incoming_get_current();
-     QEMUFile *f = mis->from_src_file;
-     int load_res;
-+    MigrationState *migr = migrate_get_current();
+diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
+index d8532e49da00..355c0b288592 100755
+--- a/tests/qemu-iotests/199
++++ b/tests/qemu-iotests/199
+@@ -29,6 +29,8 @@ disk_b = os.path.join(iotests.test_dir, 'disk_b')
+ size = '256G'
+ fifo = os.path.join(iotests.test_dir, 'mig_fifo')
+
++granularity = 512
++nb_bitmaps = 15
+
+ GiB = 1024 * 1024 * 1024
+
+@@ -61,6 +63,15 @@ def event_dist(e1, e2):
+     return event_seconds(e2) - event_seconds(e1)
+
+
++def check_bitmaps(vm, count):
++    result = vm.qmp('query-block')
 +
-+    object_ref(OBJECT(migr));
-
-     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-                                    MIGRATION_STATUS_POSTCOPY_ACTIVE);
-@@ -1839,11 +1842,24 @@ static void *postcopy_ram_listen_thread(void *opaque)
-
-     trace_postcopy_ram_listen_thread_exit();
-     if (load_res < 0) {
--        error_report("%s: loadvm failed: %d", __func__, load_res);
-         qemu_file_set_error(f, load_res);
--        migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
--                                       MIGRATION_STATUS_FAILED);
--    } else {
-+        dirty_bitmap_mig_cancel_incoming();
-+        if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING &&
-+            !migrate_postcopy_ram() && migrate_dirty_bitmaps())
-+        {
-+            error_report("%s: loadvm failed during postcopy: %d. All states "
-+                         "are migrated except dirty bitmaps. Some dirty "
-+                         "bitmaps may be lost, and present migrated dirty "
-+                         "bitmaps are correctly migrated and valid.",
-+                         __func__, load_res);
-+            load_res = 0; /* prevent further exit() */
-+        } else {
-+            error_report("%s: loadvm failed: %d", __func__, load_res);
-+            migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
-+                                           MIGRATION_STATUS_FAILED);
-+        }
-+    }
-+    if (load_res >= 0) {
-         /*
-          * This looks good, but it's possible that the device loading in the
-          * main thread hasn't finished yet, and so we might not be in 'RUN'
-@@ -1879,6 +1895,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
-     mis->have_listen_thread = false;
-     postcopy_state_set(POSTCOPY_INCOMING_END);
-
-+    object_unref(OBJECT(migr));
++    if count == 0:
++        assert 'dirty-bitmaps' not in result['return'][0]
++    else:
++        assert len(result['return'][0]['dirty-bitmaps']) == count
 +
-     return NULL;
- }
-
-@@ -2437,6 +2455,8 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
- {
-     trace_postcopy_pause_incoming();
-
-+    assert(migrate_postcopy_ram());
 +
-     /* Clear the triggered bit to allow one recovery */
-     mis->postcopy_recover_triggered = false;
+ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+     def tearDown(self):
+         if debug:
+@@ -101,10 +112,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.vm_a_events = []
+         self.vm_b_events = []
 
-@@ -2521,15 +2541,22 @@ out:
-     if (ret < 0) {
-         qemu_file_set_error(f, ret);
+-    def test_postcopy(self):
+-        granularity = 512
+-        nb_bitmaps = 15
+-
++    def start_postcopy(self):
++        """ Run migration until RESUME event on target. Return this event. """
+         for i in range(nb_bitmaps):
+             result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
+                                    name='bitmap{}'.format(i),
+@@ -119,10 +128,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
 
-+        /* Cancel bitmaps incoming regardless of recovery */
-+        dirty_bitmap_mig_cancel_incoming();
+         result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+                                node='drive0', name='bitmap0')
+-        discards1_sha256 = result['return']['sha256']
++        self.discards1_sha256 = result['return']['sha256']
+
+         # Check, that updating the bitmap by discards works
+-        assert discards1_sha256 != empty_sha256
++        assert self.discards1_sha256 != empty_sha256
+
+         # We want to calculate resulting sha256. Do it in bitmap0, so, disable
+         # other bitmaps
+@@ -135,7 +144,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+
+         result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+                                node='drive0', name='bitmap0')
+-        all_discards_sha256 = result['return']['sha256']
++        self.all_discards_sha256 = result['return']['sha256']
+
+         # Now, enable some bitmaps, to be updated during migration
+         for i in range(2, nb_bitmaps, 2):
+@@ -160,6 +169,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+
+         event_resume = self.vm_b.event_wait('RESUME')
+         self.vm_b_events.append(event_resume)
++        return event_resume
 +
-         /*
-          * If we are during an active postcopy, then we pause instead
-          * of bail out to at least keep the VM's dirty data.  Note
-          * that POSTCOPY_INCOMING_LISTENING stage is still not enough,
-          * during which we're still receiving device states and we
-          * still haven't yet started the VM on destination.
-+         *
-+         * Only RAM postcopy supports recovery. Still, if RAM postcopy is
-+         * enabled, canceled bitmaps postcopy will not affect RAM postcopy
-+         * recovering.
-          */
-         if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING &&
--            postcopy_pause_incoming(mis)) {
-+            migrate_postcopy_ram() && postcopy_pause_incoming(mis)) {
-             /* Reset f to point to the newly created channel */
-             f = mis->from_src_file;
-             goto retry;
++    def test_postcopy_success(self):
++        event_resume = self.start_postcopy()
+
+         # enabled bitmaps should be updated
+         apply_discards(self.vm_b, discards2)
+@@ -180,18 +193,15 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+             print('downtime:', downtime)
+             print('postcopy_time:', postcopy_time)
+
+-        # Assert that bitmap migration is finished (check that successor bitmap
+-        # is removed)
+-        result = self.vm_b.qmp('query-block')
+-        assert len(result['return'][0]['dirty-bitmaps']) == nb_bitmaps
++        check_bitmaps(self.vm_b, nb_bitmaps)
+
+         # Check content of migrated bitmaps. Still, don't waste time checking
+         # every bitmap
+         for i in range(0, nb_bitmaps, 5):
+             result = self.vm_b.qmp('x-debug-block-dirty-bitmap-sha256',
+                                    node='drive0', name='bitmap{}'.format(i))
+-            sha256 = discards1_sha256 if i % 2 else all_discards_sha256
+-            self.assert_qmp(result, 'return/sha256', sha256)
++            sha = self.discards1_sha256 if i % 2 else self.all_discards_sha256
++            self.assert_qmp(result, 'return/sha256', sha)
+
+
+ if __name__ == '__main__':
 -- 
 2.27.0
 
