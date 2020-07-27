@@ -2,88 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409A422EFEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:20:45 +0200 (CEST)
-Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FADD22F0BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:27:13 +0200 (CEST)
+Received: from localhost ([::1]:52572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03zg-0004Mh-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48828)
+	id 1k045w-0000Hz-4B
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03yi-0003w1-3d
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:19:44 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53807
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k044x-0007le-Az
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:26:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44348
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03yg-0007su-7Z
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:19:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k044t-0000RP-OA
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:26:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595859581;
+ s=mimecast20190719; t=1595859966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4KatCUtUi43U46Atl2lq5BZU0nb0mygjLHB1Uv+pzig=;
- b=Uuyb6tjQ/931ufByvRzD9VJ8idSuNPyL5J4dIaH0iyA/U/TYQHcj7cgEik/fxlt7okMuv8
- Ad5gqtEx6m27k2WFMhdLyTWRzXzkH65B8qmzNccMcQqa7UmfyefoQALp5k3HJUxPRvJ+v+
- cMiPSz9YdU2LE2SwD6/5AoBwSH+pAUI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-3NU6qu6tPx25WLR8znuyLg-1; Mon, 27 Jul 2020 10:19:39 -0400
-X-MC-Unique: 3NU6qu6tPx25WLR8znuyLg-1
-Received: by mail-wr1-f70.google.com with SMTP id w7so1693824wre.11
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:19:39 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=f1nruIkH4Jxy3iYFtzV56x29iyq7meu8IAa80mcmG9U=;
+ b=WHNe0GWLZZ8f5dVv082SAKrzIGIsu8FYpW4hB55UomEP0JDxF60dnDVniM8s8P7+/yv+Hn
+ dwZlHeIYuZIH84VF/YKHy1B99eJhSNVtbOsC5L2EXdWfhlDVGzd8brShl+YBfL9gRB73mR
+ +A33A02VbFnEEBSPF3HkqaLN+aCAmUk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-HfBQ8c4XOZiUTwcqah257g-1; Mon, 27 Jul 2020 10:26:04 -0400
+X-MC-Unique: HfBQ8c4XOZiUTwcqah257g-1
+Received: by mail-ed1-f69.google.com with SMTP id t9so4205493edw.22
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:26:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4KatCUtUi43U46Atl2lq5BZU0nb0mygjLHB1Uv+pzig=;
- b=kUA40JL9RiYM65iWCdivnBEwLgry6cqSGyk82DUuti86XFaFZpaYOw8IkLltAoenXe
- ChgXya6VjcEzJZgM2ZNoqv/xWvQymXS+ayFoTjLtPGUY6JUcud9EFKciq56vGqJM9FMs
- Q5jFMQiDA5zaACRUH3tS1Zki7q27Zhrw0v5g1r3LcrTbDN2nf8wTciktXmClXOAbcxzo
- T4w7tKMOPVGzo1sw3A1RiHKlz+7LDRAb7m9UsVgMWDQuJIn4N67cotZiusHI5ZNgu3TX
- DXRRdvsIpE2IuWzVFk6atdeLwjUsWUvVuy8Jvb3u2bupaqnFETtK+7KQe6HE+gMEjiQs
- adGw==
-X-Gm-Message-State: AOAM533cXfYAtcwyCKc4svw8fJrK5kIrl9BHjzU9WNqhL+EhiG/skEdN
- +FHUf1FDdYG4Qj/21JHGGIDxgLoRFKmPDYheDQDeyljlwko9j/y+GWBddY8YZow8wHXWBCJU3gJ
- AI/hbj+ELX9iu74M=
-X-Received: by 2002:adf:cf10:: with SMTP id o16mr18915798wrj.380.1595859578502; 
- Mon, 27 Jul 2020 07:19:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+NGh+OCKYXu6+ZCjwrtqN+xjdJZEIV8Y3biPaczNcj97Ntsz/tivp1u3W1bs7XyF8dE7Fqg==
-X-Received: by 2002:adf:cf10:: with SMTP id o16mr18915785wrj.380.1595859578277; 
- Mon, 27 Jul 2020 07:19:38 -0700 (PDT)
-Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id s20sm7334140wmh.21.2020.07.27.07.19.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 07:19:37 -0700 (PDT)
-Date: Mon, 27 Jul 2020 10:19:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [virtio-comment] Re: [RFC] ivshmem v2: Shared memory device
- specification
-Message-ID: <20200727101824-mutt-send-email-mst@kernel.org>
-References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
- <20200727091802-mutt-send-email-mst@kernel.org>
- <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
- <20200727095239-mutt-send-email-mst@kernel.org>
- <ac7ceefb-99d8-0662-8863-c90c20b2f31a@siemens.com>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=f1nruIkH4Jxy3iYFtzV56x29iyq7meu8IAa80mcmG9U=;
+ b=qLYAtTK0t3Z+JjeTLaklBvkS5vvu7q8rLRHLJDcBMQoo0gKJfCPsEPxkbyhOcMqLF3
+ KvjRanqzdn8LMog6ZSXBaQroEfqLU2YqxFjR8c32lnglXB7cJAK1fkPNLDFfreu1r8Mq
+ Uot1MqCIP8V1gzpA0Cvask9mZ8l7EM9nWrfgNBawIVyiSBtmm/aRk8ssxandMxQa3Du7
+ 7IbUj7GXSrDDloJPdqaE1l5+xcB08Q0Br99+bhw1HmUdPLy84KKJ6UurjsArbeOLk8ZB
+ StoKTCdacSZPKd7xDTxzDOqz17UETH6OEdVG8DNXPHqL4kAgEQXqU+kLsfo3eMFNWPYG
+ 8gtg==
+X-Gm-Message-State: AOAM532B4JWJhQyNUFZ2T11beu3dwXynsnSJr0jUXqKpeycdtXtLWZLB
+ uJYByzQCUk/DBVF0lTJqWBW5bCV2Tw4dV+TsghNgLGrFnZX+lUbjn300UXRPYYxf+0LWmyeZXBV
+ 9L76vdF0rMX0vEks=
+X-Received: by 2002:aa7:c2c5:: with SMTP id m5mr21848568edp.214.1595859963494; 
+ Mon, 27 Jul 2020 07:26:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDWgGpsFMchR6ZFZCZfU+cqnKvMRdof7Z3evMmiHu9CRMtY5tMZWINXENouaTTbny2Jds5Lw==
+X-Received: by 2002:aa7:c2c5:: with SMTP id m5mr21848526edp.214.1595859963130; 
+ Mon, 27 Jul 2020 07:26:03 -0700 (PDT)
+Received: from [192.168.1.33] (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id a1sm7176764ejk.125.2020.07.27.07.26.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jul 2020 07:26:02 -0700 (PDT)
+Subject: Re: [PATCH v3 3/8] ppc/spapr: Use start-powered-off CPUState property
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
+References: <20200723025657.644724-1-bauerman@linux.ibm.com>
+ <20200723025657.644724-4-bauerman@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <1d97ef8a-13fc-201d-1fbd-263397a6021c@redhat.com>
+Date: Mon, 27 Jul 2020 16:25:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <ac7ceefb-99d8-0662-8863-c90c20b2f31a@siemens.com>
+In-Reply-To: <20200723025657.644724-4-bauerman@linux.ibm.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,105 +121,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 27, 2020 at 04:17:06PM +0200, Jan Kiszka wrote:
-> On 27.07.20 15:56, Michael S. Tsirkin wrote:
-> > On Mon, Jul 27, 2020 at 03:39:32PM +0200, Jan Kiszka wrote:
-> > > On 27.07.20 15:20, Michael S. Tsirkin wrote:
-> > > > On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
-> > > > > #### Vendor Specific Capability (ID 09h)
-> > > > > 
-> > > > > This capability must always be present.
-> > > > > 
-> > > > > | Offset | Register            | Content                                        |
-> > > > > |-------:|:--------------------|:-----------------------------------------------|
-> > > > > |    00h | ID                  | 09h                                            |
-> > > > > |    01h | Next Capability     | Pointer to next capability or 00h              |
-> > > > > |    02h | Length              | 20h if Base Address is present, 18h otherwise  |
-> > > > > |    03h | Privileged Control  | Bit 0 (read/write): one-shot interrupt mode    |
-> > > > > |        |                     | Bits 1-7: Reserved (0 on read, writes ignored) |
-> > > > > |    04h | State Table Size    | 32-bit size of read-only State Table           |
-> > > > > |    08h | R/W Section Size    | 64-bit size of common read/write section       |
-> > > > > |    10h | Output Section Size | 64-bit size of output sections                 |
-> > > > > |    18h | Base Address        | optional: 64-bit base address of shared memory |
-> > > > > 
-> > > > > All registers are read-only. Writes are ignored, except to bit 0 of
-> > > > > the Privileged Control register.
-> > > > 
-> > > > 
-> > > > Is there value in making this follow the virtio vendor-specific
-> > > > capability format? That will cost several extra bytes - do you envision
-> > > > having many of these in the config space?
-> > > 
-> > > Of course, this could be modeled with via virtio_pci_cap as well. Would add
-> > > 12 unused by bytes and one type byte. If it helps to make the device look
-> > > more virtio'ish, but I'm afraid there are more differences at PCI level.
-> > 
-> > I guess it will be useful if we ever find it handy to make an ivshmem
-> > device also be a virtio device. Can't say why yet but if we don't care
-> > it vaguely seems kind of like a good idea. I guess it will also be handy
-> > if you ever need another vendor specific cap: you already get a way to
-> > identify it without breaking drivers.
-> > 
+On 7/23/20 4:56 AM, Thiago Jung Bauermann wrote:
+> PowerPC sPAPR CPUs start in the halted state, and spapr_reset_vcpu()
+> attempts to implement this by setting CPUState::halted to 1. But that's too
+> late for the case of hotplugged CPUs in a machine configure with 2 or more
+> threads per core.
 > 
-> I can look into that. Those 12 wasted bytes are a bit ugly, but so far we
-> are not short on config space, even in the non-extended range.
+> By then, other parts of QEMU have already caused the vCPU to run in an
+> unitialized state a couple of times. For example, ppc_cpu_reset() calls
+> ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
+> kicks the new vCPU while it has CPUState::halted = 0, causing QEMU to issue
+> a KVM_RUN ioctl on the new vCPU before the guest is able to make the
+> start-cpu RTAS call to initialize its register state.
 > 
-> More problematic is that the existing specification of virtio_pci_cap
-> assumes that this describes a structure in a PCI resource, rather than even
-> being that data itself, and even a register (privileged control).
+> This problem doesn't seem to cause visible issues for regular guests, but
+> on a secure guest running under the Ultravisor it does. The Ultravisor
+> relies on being able to snoop on the start-cpu RTAS call to map vCPUs to
+> guests, and this issue causes it to see a stray vCPU that doesn't belong to
+> any guest.
 > 
-> Would it be possible to split the types into two ranges, one for the
-> existing structure, one for others - like ivshmem - that will only share the
-> cfg_type field?
-
-Sure.
-
-> > 
-> > > I do not see a use case for having multiple of those caps above per device.
-> > > If someone comes around with a valid use case for having multiple,
-> > > non-consequitive shared memory regions for one device, we would need to add
-> > > registers for them. But that would also only work for non-BAR regions due to
-> > > limited BARs.
-> > 
-> > 
-> > OK, I guess this answers the below too.
-> > 
-> > > > Also, do we want to define an extended capability format in case this
-> > > > is a pci extended capability?
-> > > > 
-> > > 
-> > > What would be the practical benefit? Do you see PCIe caps that could become
-> > > useful in virtual setups?
-> > 
-> > So if we ever have a huge number of these caps, PCIe allows many more
-> > caps.
-> > 
-> > > We don't do that for regular virtio devices
-> > > either, do we?
-> > 
-> > We don't, there's a small number of these so we don't run out of config
-> > space.
+> Fix by setting the start-powered-off CPUState property in
+> spapr_create_vcpu(), which makes cpu_common_reset() initialize
+> CPUState::halted to 1 at an earlier moment.
 > 
-> Right. But then it would not a be a problem to add PCIe (right before adding
-> it becomes impossible) and push new caps into the extended space. And all
-> that without breaking existing drivers. It's just a cap, and the spec so far
-> does not state that there must be no other cap, neither in current virtio
-> nor this ivshmem device.
+> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> ---
+>  hw/ppc/spapr_cpu_core.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> Jan
+> NB: Tested on ppc64le pseries KVM guest with two threads per core. 
+> Hot-plugging additional cores doesn't cause the bug described above
+> anymore.
+> 
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index c4f47dcc04..2125fdac34 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -36,11 +36,6 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+>  
+>      cpu_reset(cs);
+>  
+> -    /* All CPUs start halted.  CPU0 is unhalted from the machine level
+> -     * reset code and the rest are explicitly started up by the guest
+> -     * using an RTAS call */
+> -    cs->halted = 1;
+> -
+>      env->spr[SPR_HIOR] = 0;
+>  
+>      lpcr = env->spr[SPR_LPCR];
+> @@ -274,6 +269,11 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+>  
+>      cs = CPU(obj);
+>      cpu = POWERPC_CPU(obj);
+> +    /*
+> +     * All CPUs start halted. CPU0 is unhalted from the machine level reset code
+> +     * and the rest are explicitly started up by the guest using an RTAS call.
+> +     */
+> +    cs->start_powered_off = true;
+>      cs->cpu_index = cc->core_id + i;
+>      spapr_set_vcpu_id(cpu, cs->cpu_index, &local_err);
+>      if (local_err) {
+> 
 
-Right.
-
-
-> -- 
-> Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-> Corporate Competence Center Embedded Linux
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
