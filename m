@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDC722E5E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 08:30:05 +0200 (CEST)
-Received: from localhost ([::1]:34598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCE022E5EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 08:35:09 +0200 (CEST)
+Received: from localhost ([::1]:38162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzweC-0000hp-H8
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 02:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48806)
+	id 1jzwj7-0002QT-1g
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 02:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jzwcd-0007fO-Nj; Mon, 27 Jul 2020 02:28:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:55017)
+ id 1jzwht-0001Pe-JC; Mon, 27 Jul 2020 02:33:54 -0400
+Received: from ozlabs.org ([203.11.71.1]:59701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jzwca-00042Z-Sd; Mon, 27 Jul 2020 02:28:27 -0400
+ id 1jzwhr-0004mO-2G; Mon, 27 Jul 2020 02:33:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BFVHQ5jlBz9sPB; Mon, 27 Jul 2020 16:28:18 +1000 (AEST)
+ id 4BFVPj48cMz9sRW; Mon, 27 Jul 2020 16:33:45 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595831298;
- bh=SF4UJUT4rhnCiCoRCeeFADiKD0zcMDoggaOqiwG6Jsg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YpHoLVe4MSv/ZfNZGR/p0kUbIDlFtaeZZAgpCCkHicRjF0DfSw1ePRiH3J7UQOgfQ
- J0TpWOJcyNAS+amu2wvJkxG7MdTfx/YsYbuiFIC3Ftb0N7ECueVlCm01JOfB6xAmFJ
- OVZ5bthP0omxryRG1jEj4eJBKwsgqaJNkM42uECg=
+ d=gibson.dropbear.id.au; s=201602; t=1595831625;
+ bh=SHz1xsciwn+faV4kcwI0Mz8B61s/ECoa82BkmB+xCI4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jKgijQq8XPz/MhjHGJzy4eAdxYAm9jevjavrEzCqBX7b8Pr471RdeTtl7zAsrq5Zf
+ UFEjzWOo1nGE7xlca+Z/zukrpZ6ZN9bprIM4vvsfJT3320gVvP4H5iaHPmHgnjaWBF
+ ZNmPLn6W11gP7Pp0iWqDi6m/quwJr0Vu4jT6MU1U=
+Date: Mon, 27 Jul 2020 16:32:55 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 1/1] pseries: fix kvmppc_set_fwnmi()
-Date: Mon, 27 Jul 2020 16:28:14 +1000
-Message-Id: <20200727062814.179163-2-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200727062814.179163-1-david@gibson.dropbear.id.au>
-References: <20200727062814.179163-1-david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 3/6] target/ppc: add vmulh{su}w instructions
+Message-ID: <20200727063255.GF84173@umbus.fritz.box>
+References: <20200724045845.89976-1-ljp@linux.ibm.com>
+ <20200724045845.89976-4-ljp@linux.ibm.com>
+ <7fb84b5a-b32f-4c2a-7359-2aaabf34814d@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dgjlcl3Tl+kb3YDk"
+Content-Disposition: inline
+In-Reply-To: <7fb84b5a-b32f-4c2a-7359-2aaabf34814d@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 02:33:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -59,107 +62,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org, npiggin@gmail.com,
- groug@kaod.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org, Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
 
-QEMU issues the ioctl(KVM_CAP_PPC_FWNMI) on the first vCPU.
+--dgjlcl3Tl+kb3YDk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If the first vCPU is currently running, the vCPU mutex is held
-and the ioctl() cannot be done and waits until the mutex is released.
-This never happens and the VM is stuck.
+On Fri, Jul 24, 2020 at 10:57:51AM -0700, Richard Henderson wrote:
+> On 7/23/20 9:58 PM, Lijun Pan wrote:
+> > vmulhsw: Vector Multiply High Signed Word
+> > vmulhuw: Vector Multiply High Unsigned Word
+> >=20
+> > Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
+> > ---
+> > v4/v5: no change
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > v3: inline the helper_vmulh{su}w multiply directly instead of using mac=
+ro
+> > v2: fix coding style
+> >     use Power ISA 3.1 flag
+>=20
+> The Reviewed-by tag goes above the "---" marker so that it is included wh=
+en the
+> patch is applied.
 
-To avoid this deadlock, issue the ioctl on the same vCPU doing the
-RTAS call.
+Right, but I've fixed it up on this occasion.
 
-The problem can be reproduced by booting a guest with several vCPUs
-(the probability to have the problem is (n - 1) / n,  n = # of CPUs),
-and then by triggering a kernel crash with "echo c >/proc/sysrq-trigger".
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-On the reboot, the kernel hangs after:
+--dgjlcl3Tl+kb3YDk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-...
-[    0.000000] -----------------------------------------------------
-[    0.000000] ppc64_pft_size    = 0x0
-[    0.000000] phys_mem_size     = 0x48000000
-[    0.000000] dcache_bsize      = 0x80
-[    0.000000] icache_bsize      = 0x80
-[    0.000000] cpu_features      = 0x0001c06f8f4f91a7
-[    0.000000]   possible        = 0x0003fbffcf5fb1a7
-[    0.000000]   always          = 0x00000003800081a1
-[    0.000000] cpu_user_features = 0xdc0065c2 0xaee00000
-[    0.000000] mmu_features      = 0x3c006041
-[    0.000000] firmware_features = 0x00000085455a445f
-[    0.000000] physical_start    = 0x8000000
-[    0.000000] -----------------------------------------------------
-[    0.000000] numa:   NODE_DATA [mem 0x47f33c80-0x47f3ffff]
+-----BEGIN PGP SIGNATURE-----
 
-Fixes: ec010c00665b ("ppc/spapr: KVM FWNMI should not be enabled until guest requests it")
-Cc: npiggin@gmail.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20200724083533.281700-1-lvivier@redhat.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_rtas.c  | 2 +-
- target/ppc/kvm.c     | 3 +--
- target/ppc/kvm_ppc.h | 4 ++--
- 3 files changed, 4 insertions(+), 5 deletions(-)
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8edRUACgkQbDjKyiDZ
+s5LRzA/+IykxkcakPaXmiCEbizkkpSg7Sm/pkvtsYfmBaSXwb5dfGVcK3Yy5jGvs
+kAIwoJUoMpvYf29l59LvF06/fr10+havpaZJa/sOQU4YXqR5KgDLsy19MlZcwYSB
+mNp+EuMz5on3aqGgkUnqOTFsjLTWcUsDDoAiIPmV3qaiMWpzvCJfWkgw9immSjnF
+GkSn8tned02CQXsWbZBC0iL/5QP3tjipBQE8V22K9fgvmKEFbsq4eiKaBtAButH8
+nNSLhiJZhoDDm1QMHLR+4WuexIxrUXxMdB9RpoKO79bDD76R3Fp8rZ7lPRxTwpNb
+CwfHACZaTBmXp3ttsnUurrzKjLxyHZnKT9VGoiQH9tGYPzIWYVQMB228X8veFufI
+u6U1sHBl1HjAVFbdEvdt0yzYR9ZHmM98B7XKNFqAKmUqpDb/zIpx8Tm3PzLpEEbJ
+4qmHfY6hWYUjj4e4j/9hyoT9ltOVO3ohE62924WSKGhxEHKM+eeGW0XlsR1C+A6i
+nYy9sD7HVtZTdJjN/eXmyGvkQTsAxp5oUnqZaHZZlRDVRtTgvP69uqinfF2Y+mcY
+9GauZPg6KP0ANMr8fPtqlGlrJje/eLqnBdqJ86SJo6aCv6vbQwUVV6J2dN3igudz
+9lG9eGR/p3WGOMpGZPYfSZYVamsSGA/1+SEG3ZYeHxwR1L9zSpI=
+=161J
+-----END PGP SIGNATURE-----
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index bcac0d00e7..513c7a8435 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -438,7 +438,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-     }
- 
-     if (kvm_enabled()) {
--        if (kvmppc_set_fwnmi() < 0) {
-+        if (kvmppc_set_fwnmi(cpu) < 0) {
-             rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-             return;
-         }
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 2692f76130..d85ba8ffe0 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2071,9 +2071,8 @@ bool kvmppc_get_fwnmi(void)
-     return cap_fwnmi;
- }
- 
--int kvmppc_set_fwnmi(void)
-+int kvmppc_set_fwnmi(PowerPCCPU *cpu)
- {
--    PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
-     CPUState *cs = CPU(cpu);
- 
-     return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 701c0c262b..72e05f1cd2 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -28,7 +28,7 @@ void kvmppc_set_papr(PowerPCCPU *cpu);
- int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
- void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
- bool kvmppc_get_fwnmi(void);
--int kvmppc_set_fwnmi(void);
-+int kvmppc_set_fwnmi(PowerPCCPU *cpu);
- int kvmppc_smt_threads(void);
- void kvmppc_error_append_smt_possible_hint(Error *const *errp);
- int kvmppc_set_smt_threads(int smt);
-@@ -169,7 +169,7 @@ static inline bool kvmppc_get_fwnmi(void)
-     return false;
- }
- 
--static inline int kvmppc_set_fwnmi(void)
-+static inline int kvmppc_set_fwnmi(PowerPCCPU *cpu)
- {
-     return -1;
- }
--- 
-2.26.2
-
+--dgjlcl3Tl+kb3YDk--
 
