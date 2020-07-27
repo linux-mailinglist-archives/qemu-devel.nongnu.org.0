@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3D222F8AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:05:31 +0200 (CEST)
-Received: from localhost ([::1]:40358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3AC22F8B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:10:26 +0200 (CEST)
+Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k08RG-00065w-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
+	id 1k08Vz-0000AO-0u
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k08Op-0003N3-20
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:02:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53638
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k08V2-00088n-2H
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:09:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34981
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k08On-0007JG-5G
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:02:58 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k08Uz-0007u6-JS
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:09:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595876575;
+ s=mimecast20190719; t=1595876960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+DTzCWtkAYWXXwDS71eiC1B/ZYAtPEUDUkQAuCNxmV0=;
- b=FO+0w1AQKuhLRS/B0XsKaxVIJ4TMt6Vb1mgLYT+zNPAEPMRsQt2S9BkCcjqkaGLVlHNehH
- JPjyMMjjWE+qDtjPqC3rSlspO/EipRkXP7r2y6dVT16agPgHdzq+FXZslqNjIm3iUVlVNy
- qpga4EJjZK3iDUd1FZ7m2w5MBkNjG40=
+ bh=+L9bWD9Rp1zywQaxHNOfbEQdpKSZ/8gfiu5uLsraM9A=;
+ b=U27QVmie3WWgVOQiVS/vMTD/z1zES50ef7v5phW7OjT+2gO66UmutGz2l11t4RX6wi3XVj
+ 8eFu4fi5fKxd1omkL1KUPcHWQNVe4AR8RBVxT88q3IjGj5p3Ha5S3scRH5Om5cW8gR/pJQ
+ wtJoX535c9UWzn5B8R2NkEh8vRxqEks=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-5SAXAgUaPwKyb32WpT4kTw-1; Mon, 27 Jul 2020 15:02:50 -0400
-X-MC-Unique: 5SAXAgUaPwKyb32WpT4kTw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-491-SdKztvAAOS-MGKkydDtRKw-1; Mon, 27 Jul 2020 15:09:13 -0400
+X-MC-Unique: SdKztvAAOS-MGKkydDtRKw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34F2E106B243;
- Mon, 27 Jul 2020 19:02:48 +0000 (UTC)
-Received: from localhost (ovpn-114-74.ams2.redhat.com [10.36.114.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A84890E63;
- Mon, 27 Jul 2020 19:02:41 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an error
-Date: Mon, 27 Jul 2020 20:02:23 +0100
-Message-Id: <20200727190223.422280-4-stefanha@redhat.com>
-In-Reply-To: <20200727190223.422280-1-stefanha@redhat.com>
-References: <20200727190223.422280-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9026058;
+ Mon, 27 Jul 2020 19:09:12 +0000 (UTC)
+Received: from work-vm (ovpn-114-135.ams2.redhat.com [10.36.114.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E45E270597;
+ Mon, 27 Jul 2020 19:09:11 +0000 (UTC)
+Date: Mon, 27 Jul 2020 20:09:09 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: William Lima Reiznautt <willreli@gmail.com>
+Subject: Re: Live Migration (L2 network)
+Message-ID: <20200727190909.GA29172@work-vm>
+References: <CAO4s5Y90ZTYLbt1M_JDOJx1wmOY43PEu+cFSw0SHY5BOEqk3pA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAO4s5Y90ZTYLbt1M_JDOJx1wmOY43PEu+cFSw0SHY5BOEqk3pA@mail.gmail.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:02:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vromanso@redhat.com, Daniel Walsh <dwalsh@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, rmohr@redhat.com,
- virtio-fs@redhat.com, Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, mpatel@redhat.com, vgoyal@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QW4gYXNzZXJ0aW9uIGZhaWx1cmUgaXMgcmFpc2VkIGR1cmluZyByZXF1ZXN0IHByb2Nlc3Npbmcg
-aWYKdW5zaGFyZShDTE9ORV9GUykgZmFpbHMuIEltcGxlbWVudCBhIHByb2JlIGF0IHN0YXJ0dXAg
-c28gdGhlIHByb2JsZW0gY2FuCmJlIGRldGVjdGVkIHJpZ2h0IGF3YXkuCgpVbmZvcnR1bmF0ZWx5
-IERvY2tlci9Nb2J5IGRvZXMgbm90IGluY2x1ZGUgdW5zaGFyZSBpbiB0aGUgc2VjY29tcC5qc29u
-Cmxpc3QgdW5sZXNzIENBUF9TWVNfQURNSU4gaXMgZ2l2ZW4uIE90aGVyIHNlY2NvbXAuanNvbiBs
-aXN0cyBhbHdheXMKaW5jbHVkZSB1bnNoYXJlIChlLmcuIHBvZG1hbiBpcyB1bmFmZmVjdGVkKToK
-aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3NlY2NvbXAvY29udGFpbmVycy1nb2xh
-bmcvbWFzdGVyL3NlY2NvbXAuanNvbgoKVXNlICJkb2NrZXIgcnVuIC0tc2VjdXJpdHktb3B0IHNl
-Y2NvbXA9cGF0aC90by9zZWNjb21wLmpzb24gLi4uIiBpZiB0aGUKZGVmYXVsdCBzZWNjb21wLmpz
-b24gaXMgbWlzc2luZyB1bnNoYXJlLgoKQ2M6IE1pc29ubyBUb21vaGlybyA8bWlzb25vLnRvbW9o
-aXJvQGpwLmZ1aml0c3UuY29tPgpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZh
-bmhhQHJlZGhhdC5jb20+Ci0tLQogdG9vbHMvdmlydGlvZnNkL2Z1c2VfdmlydGlvLmMgfCAxNiAr
-KysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
-LWdpdCBhL3Rvb2xzL3ZpcnRpb2ZzZC9mdXNlX3ZpcnRpby5jIGIvdG9vbHMvdmlydGlvZnNkL2Z1
-c2VfdmlydGlvLmMKaW5kZXggM2I2ZDE2YTA0MS4uOWU1NTM3NTA2YyAxMDA2NDQKLS0tIGEvdG9v
-bHMvdmlydGlvZnNkL2Z1c2VfdmlydGlvLmMKKysrIGIvdG9vbHMvdmlydGlvZnNkL2Z1c2Vfdmly
-dGlvLmMKQEAgLTk0OSw2ICs5NDksMjIgQEAgaW50IHZpcnRpb19zZXNzaW9uX21vdW50KHN0cnVj
-dCBmdXNlX3Nlc3Npb24gKnNlKQogewogICAgIGludCByZXQ7CiAKKyAgICAvKgorICAgICAqIFRl
-c3QgdGhhdCB1bnNoYXJlKENMT05FX0ZTKSB3b3Jrcy4gZnZfcXVldWVfd29ya2VyKCkgd2lsbCBu
-ZWVkIGl0LiBJdCdzCisgICAgICogYW4gdW5wcml2aWxlZ2VkIHN5c3RlbSBjYWxsIGJ1dCBzb21l
-IERvY2tlci9Nb2J5IHZlcnNpb25zIGFyZSBrbm93biB0bworICAgICAqIHJlamVjdCBpdCB2aWEg
-c2VjY29tcCB3aGVuIENBUF9TWVNfQURNSU4gaXMgbm90IGdpdmVuLgorICAgICAqCisgICAgICog
-Tm90ZSB0aGF0IHRoZSBwcm9ncmFtIGlzIHNpbmdsZS10aHJlYWRlZCBoZXJlIHNvIHRoaXMgc3lz
-Y2FsbCBoYXMgbm8KKyAgICAgKiB2aXNpYmxlIGVmZmVjdCBhbmQgaXMgc2FmZSB0byBtYWtlLgor
-ICAgICAqLworICAgIHJldCA9IHVuc2hhcmUoQ0xPTkVfRlMpOworICAgIGlmIChyZXQgPT0gLTEg
-JiYgZXJybm8gPT0gRVBFUk0pIHsKKyAgICAgICAgZnVzZV9sb2coRlVTRV9MT0dfRVJSLCAidW5z
-aGFyZShDTE9ORV9GUykgZmFpbGVkIHdpdGggRVBFUk0uIElmICIKKyAgICAgICAgICAgICAgICAi
-cnVubmluZyBpbiBhIGNvbnRhaW5lciBwbGVhc2UgY2hlY2sgdGhhdCB0aGUgY29udGFpbmVyICIK
-KyAgICAgICAgICAgICAgICAicnVudGltZSBzZWNjb21wIHBvbGljeSBhbGxvd3MgdW5zaGFyZS5c
-biIpOworICAgICAgICByZXR1cm4gLTE7CisgICAgfQorCiAgICAgcmV0ID0gZnZfY3JlYXRlX2xp
-c3Rlbl9zb2NrZXQoc2UpOwogICAgIGlmIChyZXQgPCAwKSB7CiAgICAgICAgIHJldHVybiByZXQ7
-Ci0tIAoyLjI2LjIKCg==
+* William Lima Reiznautt (willreli@gmail.com) wrote:
+> Hi folks,
+> 
+> I hope everything is well.
+
+Hi,
+
+> Sorry about that doubt in this channel.
+
+No, it's the right place to ask!
+
+> I have a doubt about live migration interacting with layer 2 network, when
+> the live migration is running. How does the qemu signal the switch network
+> that the qemu instance changes port ? Because when the qemu migration to
+> another port switch, the switch has a time to understand that flow is
+> changed.
+> 
+> I saw the dump traffic in live migration and I noticed that one packet
+> (RARP). "This packet is created by qemu."
+> 
+> Does anyone know if there is documentation on this?
+
+I'm not sure we have documentation, but the code is in net/announce.c in
+recent qemu.
+When the migration has finished we send an ARP and then, when it starts
+running, we tell the guest to send a RARP;  we send those a few times
+to make sure we don't miss it.
+Those are normally enough for the switch to realise that the VM
+has moved port;  some very complex switch setups are less forgiving - in
+recent qemu's you can send the announce again later and/or change the
+timing of it.
+
+Dave
+
+> Thanks
+> 
+> - - -
+> William Lima Reiznautt
+> willreli@gmail.com
+> www.ic.unicamp.br/~william
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
