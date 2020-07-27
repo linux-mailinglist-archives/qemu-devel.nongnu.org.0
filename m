@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1F922F9CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:06:04 +0200 (CEST)
-Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2969122F9D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:08:07 +0200 (CEST)
+Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k09Nr-0001Bq-VM
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52756)
+	id 1k09Pq-000382-6t
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k09Me-0000Px-78
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:04:48 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:37757)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k09Ow-0002eX-8y
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:07:10 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:45051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k09Mc-0006Pj-Iu
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:04:47 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k09Ou-0006r0-KR
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:07:10 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
  (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MsZeX-1ko8Lg3ZcZ-00txST; Mon, 27 Jul 2020 22:04:44 +0200
-Subject: Re: [PATCH] linux-user: Fix syscall rt_sigtimedwait() implementation
-To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
-References: <20200724181651.167819-1-Filip.Bozuta@syrmia.com>
+ 1M9Evp-1jtoHW2Ruh-006QBv; Mon, 27 Jul 2020 22:07:05 +0200
+Subject: Re: [PATCH] linux-user: Use getcwd syscall directly
+To: Andreas Schwab <schwab@suse.de>, qemu-devel@nongnu.org
+References: <mvmmu3qplvi.fsf@suse.de>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -66,35 +66,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <0fb358d3-5570-964d-f088-5ca7b1facdb9@vivier.eu>
-Date: Mon, 27 Jul 2020 22:04:43 +0200
+Message-ID: <afc11140-30af-b2cb-c602-e2fa5c28dbca@vivier.eu>
+Date: Mon, 27 Jul 2020 22:07:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200724181651.167819-1-Filip.Bozuta@syrmia.com>
+In-Reply-To: <mvmmu3qplvi.fsf@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vusUhGfTo7NVHnPCZAZV78if2KIOL3AYdMKIhMnqiSuBC4mqWJx
- rG1EwQhYWHeSE+4vMgQdNCDQZ8Sob1Epsf8ZI33qVfwE+hIyWEB2StwEFG70NcluuqHrsbh
- e2O7SpOVydMdxpaUOZZM6u+NnFF9Hfm2G+HJj9EfyD2ZubkqYpUSlPhZg//nTBqeIpBnnij
- yCkWasetJyqs1vhDLN7wQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:++hU27+sBxM=:2E2WSYO/PvtIb83GPuUGvt
- O3PN+yTlk0iz2o7eEFQYMHt6mpxAUlDltTGv6nxABA1V+Ma7uw+XEbDCrUGFdAU370V6gQXPU
- 2Qrp8a2jxq6q8T4HXxVyG/6htfahKygg5kdwd65IgbFAKPwnOE+4u0BmAvNqLzaGejwGCj9VX
- akaiU/uiH5MyaSMPS2hbcaSa3aceM4bajjIS9enznUc6cVC+jya3YHGtlr8i/1LSoTKscYlwu
- huyBrOdRgISUWP8Y3hbUj4Q2ORH46pOPTtqbPx7C9Rz9KlutKgLsSIKUMCJXM/2tb2T5MAecT
- fnMsGWnXIaWNCYxHQnDpuxwH6Mv8RyS5h+8Wh+6dzUhIHYSlWJ8KfoDzV/WlnkD7F6FEt0OZV
- Dd6jvjuecStqMLeWLVAnYNeyf5kQINI3NkYWofyFryvZreZDInxnszrNmU9NkSktH1zixapFj
- 0rF66uIRI1Psg9sZ9zFbVsRwAUUd03Zz84KlVDdrAIzyBP14Rr/GvWotYyMbxTb7KTus7PWDg
- op1KJtiTKgMhZ+fpgX6DzTWxo3Teuc80izsY5eLRtMhiQZwbQi53vj6ZA4G3TdLFbSDJWRosn
- T5XyoKF98da7kfxhuYOeKpIFLaw+sCHKPQp2mg04IERD/ertypWoZTLLNErTYxnYXopGw0NCO
- 2WeYErbrYhCWHQV567H7fTLKbi+l+WzlixyhZ6fLHBvkQmsIPaYkhRTOG8OVFHlFcQT2S7Enf
- qUcP1q26F64Hu3s8uD28X60R3v93oQjaFkekU7x/XQeTm3kJtPs7+RND+Vtv+AEkHMZDlNVYx
- BoQh8bDYnLhXIonkqg+UAAzc/w3NaC3+HozAtGFiIlJCmOK+A3vjry4NIBVrcFbxQeFad0I
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lQp/crF4tui01gcUaqNCg0DZC1Roz2Kh/+fglTC5021zmwrGD3Q
+ QDHTsqMKK79Vuf8rk2VnhMtScgwTeTI7b8aWCTN93hJPWkm5oHjw9O2WFsorbWx/icwva+J
+ rn2Ks1rAfdpoDBPeESfRrJ0nPd1OUW5XgxUhlEhiQQrFPUFaGBcg+6LpRfXFo1Comz0047Q
+ jzfXYLoy/f8OV+uvgGZJw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s5cCQ0dvnyE=:KETLR6VMwPN1MbyXNGX3B2
+ Q8KIEYNKm0kTfv/L59mv28sPUhA1pW9RBRqtu7BDI3vnxDNOccEG+bcXEWVBEnrKrsmQj0VV9
+ S5hs3t7SliG1ubp4YZR65ZChv9ll5+zDeU554MLsObDVq/qYlIPrK+kMxaeeWjIfDlPSP1OLG
+ P7v5RtfmQn+scduM+GiOKiL2QhGjL2JWuxKkP/JCR++PL/pGL6WkLVDtEfIqleGY04upwu4v2
+ ZrXpP7TnnEAj0XGdlZWtY/7Co6vWuhql7vRKSTgQk49HCJzohQpHOPzvNHawBf+U0sVaZl14C
+ 1ZOw/3do38nAbIiUCl3A04RckMIKLB9AdzYjnQvzMeYfiXza7Ddo7IukStiQJjQjXcXXOs9jw
+ gbc8cJtqh8TF2j+j1bTnShqMZcF2j3T6WDMT39oXcfTQCIQlyHsQ+z8bMJP1ML+T0ZmqpX/a3
+ j9a6ZnyRxQgxfDdj9ImRC/jGMV+7i/Ey57rIRVZFIk4oExisQWWCzDDFC9UADDpWt3TlXUC3J
+ 3lKa2Rw5Nc6JTzWoxl7tYBMy1pu9XBOFDLn10wCuHEzlTCs4yoSbtlRd2c0MYfD7ZLZdy58oa
+ CNrc3YWzLwmxBfTELU7Yk/96kkhNbF1lQqJMb0LGLcDZtOYFI/U38Tc4kz5RYFC3L8yKBd7Oh
+ HGRiQK816AWwfTe/gPeTTP8Qo8kcIbgUvK7V5hmETFM4NLUJht4boRbC/ESuKm4OGy2crH/+T
+ 8CYm5JIWpq2GfJHi0sBzCE+MGMtRaWA5jJsqx8rvidRtADjhV6eOm+4YELu3Ix8u5tQbKqTB7
+ IMQ8n0RA3T8gjCP+Yu0cD42ki3mZjm7CTwscQj+3XuZqlx+PJvHZ7RREzNAuGsg9QtkBgoo
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 16:04:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 16:07:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -117,49 +117,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/07/2020 à 20:16, Filip Bozuta a écrit :
-> Implementation of 'rt_sigtimedwait()' in 'syscall.c' uses the
-> function 'target_to_host_timespec()' to transfer the value of
-> 'struct timespec' from target to host. However, the implementation
-> doesn't check whether this conversion succeeds and thus can cause
-> an unaproppriate error instead of the 'EFAULT (Bad address)' which
-> is supposed to be set if the conversion from target to host fails.
+Le 23/07/2020 à 12:27, Andreas Schwab a écrit :
+> The glibc getcwd function returns different errors than the getcwd
+> syscall, which triggers an assertion failure in the glibc getcwd function
+> when running under the emulation.
 > 
-> This was confirmed with the LTP test for rt_sigtimedwait:
-> "/testcases/kernel/syscalls/rt_sigtimedwait/rt_sigtimedwait01.c"
-> which causes an unapropriate error in test case "test_bad_adress3"
-> which is run with a bad adress for the 'struct timespec' argument:
-> 
-> FAIL: test_bad_address3 (349): Unexpected failure: EAGAIN/EWOULDBLOCK (11)
-> 
-> The test fails with an unexptected errno 'EAGAIN/EWOULDBLOCK' instead
-> of the expected EFAULT.
-> 
-> After the changes from this patch, the test case is executed successfully
-> along with the other LTP test cases for 'rt_sigtimedwait()':
-> 
-> PASS: test_bad_address3 (349): Test passed
-> 
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> Signed-off-by: Andreas Schwab <schwab@suse.de>
 > ---
->  linux-user/syscall.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  linux-user/syscall.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
 > 
 > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 1211e759c2..72735682cb 100644
+> index b9144b18fc..e4e46867e8 100644
 > --- a/linux-user/syscall.c
 > +++ b/linux-user/syscall.c
-> @@ -8868,7 +8868,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->              unlock_user(p, arg1, 0);
->              if (arg3) {
->                  puts = &uts;
-> -                target_to_host_timespec(puts, arg3);
-> +                if (target_to_host_timespec(puts, arg3)) {
-> +                    return -TARGET_EFAULT;
-> +                }
->              } else {
->                  puts = NULL;
->              }
+> @@ -388,14 +388,7 @@ static bitmask_transtbl fcntl_flags_tbl[] = {
+>    { 0, 0, 0, 0 }
+>  };
+>  
+> -static int sys_getcwd1(char *buf, size_t size)
+> -{
+> -  if (getcwd(buf, size) == NULL) {
+> -      /* getcwd() sets errno */
+> -      return (-1);
+> -  }
+> -  return strlen(buf)+1;
+> -}
+> +_syscall2(int, sys_getcwd1, char *, buf, size_t, size)
+>  
+>  #ifdef TARGET_NR_utimensat
+>  #if defined(__NR_utimensat)
 > 
 
 Applied to my linux-user-for-5.1 branch.
