@@ -2,129 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB9122EE20
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:58:43 +0200 (CEST)
-Received: from localhost ([::1]:55592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A33522EDFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:54:36 +0200 (CEST)
+Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03eM-0001qk-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36206)
+	id 1k03aN-0004a2-GK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k03Yv-0002ta-Ii
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:53:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29578
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k03YH-0001eN-3s
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:52:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22866
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k03Yt-0002o1-J2
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:53:05 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k03YE-0002f5-Rr
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:52:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595857982;
+ s=mimecast20190719; t=1595857942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=E8lMIVjxuLaRPpwvDeFtM/z5Vx0hQupESzf8q5nbYxE=;
- b=WlKiO1ptXsrTLbbA2ExM6uXmTs7+B8BB6myIb4Hfs3aeULtiACj0JIsgolnYce5zGWMtXr
- 7jdefYrLsR3c7wb3M3KMuN2b+Q5U8k34Yg5Ywa7sN6fdtJ1moLGqurXn3nxn51stkSUh1x
- NPaWJI1VjzL0vHZp0czQMmuLzMziBUA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-CgCpFN19PzqogZZ3QAUhHw-1; Mon, 27 Jul 2020 09:51:48 -0400
-X-MC-Unique: CgCpFN19PzqogZZ3QAUhHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05C89800688;
- Mon, 27 Jul 2020 13:51:47 +0000 (UTC)
-Received: from [10.36.113.103] (ovpn-113-103.ams2.redhat.com [10.36.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE6B55F21E;
- Mon, 27 Jul 2020 13:51:42 +0000 (UTC)
-Subject: Re: [PULL v2 31/41] virtio-pci: implement queue_enabled method
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20200704182750.1088103-1-mst@redhat.com>
- <20200704182750.1088103-32-mst@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <42c43784-627f-80ee-b9cb-5d22b127235a@redhat.com>
-Date: Mon, 27 Jul 2020 15:51:41 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=dEh74gD+rAx7ukTboaG1WO4/7ysT1480XKGzm3H04jg=;
+ b=T2p3S6MxJ6gpOjeve5Tv1IRE9wHc6gacUJEy0H4M1A29niPIdbLJum1SXl1fvOyAK2poZh
+ UfEUz1ZBLQDM2BqO777gOr1/jPMF2JAIiJI4M1oUMXqh8UP/LgtqvvMCV+55bBw03eAMOF
+ ltbFfZOe6i5qhBK7nKWJPAMVM48sfFo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-iW4P9KsTNHKYgMkoTZp73A-1; Mon, 27 Jul 2020 09:52:18 -0400
+X-MC-Unique: iW4P9KsTNHKYgMkoTZp73A-1
+Received: by mail-wm1-f72.google.com with SMTP id p23so839133wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:52:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dEh74gD+rAx7ukTboaG1WO4/7ysT1480XKGzm3H04jg=;
+ b=CeUkOAmBNKHoAJJmngyYtN/2bL9FiIz16gGZkRAcGJup2/b7niQwMkC6IxbM8d2FUD
+ BVs3h6ZbCX5v2r/QUFmAZzJl/wBy3ASfFqpATYv4itz43zHuHZ3ByxoSCk7QE55TVZeL
+ SCjBZu5+qf0CEahsYAgkSoVtbu0ha6xZCJGhWMTx7GZZVXLOYS+wHXZhYkiKTuKOJL+5
+ AvUHiIr9DnGKBf4PQgc8C9O0YWw/upkRcMZCeHvDjw0KLsbjD4ZHIQ+pkXHBJSpfuZ/k
+ /2buCMwn/Cd2U1DkOArip/eGt9t8FA6g4xdxA6MfBQX6dHYroMr1Yygrg5UqgnXaUhbI
+ dITw==
+X-Gm-Message-State: AOAM532d441qz8Ruhi/KwKmWAnMaGGJCUjvGo1TUZsMPxoVwCFUEws7/
+ 3ll97Cb9nhcw5NR8WGaXg9a+ciZnscO1KqykFKeylsGKJlxQ/8GiPrH9XqDBp5NufLeCcQrjlLi
+ v+bf4EuPHfrCLtZ8=
+X-Received: by 2002:adf:f64f:: with SMTP id x15mr9037601wrp.180.1595857936828; 
+ Mon, 27 Jul 2020 06:52:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGLme77aIoKLJ9RA6JJ+DWJkhwD+9GXLckkBwAxT3jJUKdS9wYEuqFubXfbiUPrsMEOAz30Q==
+X-Received: by 2002:adf:f64f:: with SMTP id x15mr9037581wrp.180.1595857936531; 
+ Mon, 27 Jul 2020 06:52:16 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:4502:3ee3:2bae:c612?
+ ([2001:b07:6468:f312:4502:3ee3:2bae:c612])
+ by smtp.gmail.com with ESMTPSA id c4sm3515412wrt.41.2020.07.27.06.52.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jul 2020 06:52:16 -0700 (PDT)
+Subject: Re: [RFC PATCH-for-5.1] hw/isa/lpc_ich9: Ignore reserved/invalid SCI
+ IRQ
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200717151705.18611-1-f4bug@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ed1d1e59-bb09-1497-9b09-62051b191f6e@redhat.com>
+Date: Mon, 27 Jul 2020 15:52:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200704182750.1088103-32-mst@redhat.com>
+In-Reply-To: <20200717151705.18611-1-f4bug@amsat.org>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -137,83 +103,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-stable@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/07/2020 20:30, Michael S. Tsirkin wrote:
-> From: Jason Wang <jasowang@redhat.com>
+On 17/07/20 17:17, Philippe Mathieu-Daudé wrote:
+> libFuzzer triggered the following assertion:
 > 
-> With version 1, we can detect whether a queue is enabled via
-> queue_enabled.
+>   cat << EOF | qemu-system-i386 -M pc-q35-5.0 \
+>     -nographic -monitor none -serial none \
+>     -qtest stdio -d guest_errors -trace pci\*
+>   outl 0xcf8 0x8400f841
+>   outl 0xcfc 0xebed205d
+>   outl 0x5d02 0xedf82049
+>   EOF
+>   pci_cfg_write ICH9-LPC 31:0 @0x41 <- 0xebed205d
+>   hw/pci/pci.c:268: int pci_bus_get_irq_level(PCIBus *, int): Assertion `irq_num < bus->nirq' failed.
 > 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
-> Message-Id: <20200701145538.22333-5-lulu@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> Acked-by: Jason Wang <jasowang@redhat.com>
+> This is because ich9_lpc_sci_irq() returns -1 for reserved
+> (illegal) values, but ich9_lpc_pmbase_sci_update() considers
+> it valid and store it in a 8-bit unsigned type. Then the 255
+> value is used as GSI IRQ, resulting in a PIRQ value of 247,
+> more than ICH9_LPC_NB_PIRQS (8).
+> 
+> Fix by simply ignoring the invalid access (and reporting it):
+> 
+>   pci_cfg_write ICH9-LPC 31:0 @0x41 <- 0xebed205d
+>   ICH9 LPC: SCI IRQ SEL #3 is reserved
+>   pci_cfg_read mch 00:0 @0x0 -> 0x8086
+>   pci_cfg_read mch 00:0 @0x0 -> 0x29c08086
+>   ...
+> 
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Fixes: 8f242cb724 ("ich9: implement SCI_IRQ_SEL register")
+> BugLink: https://bugs.launchpad.net/qemu/+bug/1878642
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/virtio/virtio-pci.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+> RFC because I have no idea how to report the error. The LPC is on
+> Device 31 Function 0. Should it trigger some error to the PCI bridge?
+> I can't find that info in the ICH9 datasheet.
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+The patch is okay, but anything found by a fuzzer should really have a
+qtest testcase.
+
+Paolo
+
+> ---
+>  include/hw/i386/ich9.h |  1 +
+>  hw/isa/lpc_ich9.c      | 14 +++++++++++---
+>  2 files changed, 12 insertions(+), 3 deletions(-)
 > 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 7bc8c1c056..8554cf2a03 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1107,6 +1107,18 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
->      return pci_get_address_space(dev);
+> diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+> index a98d10b252..60483b16cd 100644
+> --- a/include/hw/i386/ich9.h
+> +++ b/include/hw/i386/ich9.h
+> @@ -144,6 +144,7 @@ typedef struct ICH9LPCState {
+>  #define ICH9_LPC_PMBASE_BASE_ADDRESS_MASK       Q35_MASK(32, 15, 7)
+>  #define ICH9_LPC_PMBASE_RTE                     0x1
+>  #define ICH9_LPC_PMBASE_DEFAULT                 0x1
+> +
+>  #define ICH9_LPC_ACPI_CTRL                      0x44
+>  #define ICH9_LPC_ACPI_CTRL_ACPI_EN              0x80
+>  #define ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK     Q35_MASK(8, 2, 0)
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index cd6e169d47..5ed28a726c 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -29,6 +29,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/log.h"
+>  #include "cpu.h"
+>  #include "qapi/visitor.h"
+>  #include "qemu/range.h"
+> @@ -312,10 +313,12 @@ void ich9_generate_smi(void)
+>      cpu_interrupt(first_cpu, CPU_INTERRUPT_SMI);
 >  }
 >  
-> +static bool virtio_pci_queue_enabled(DeviceState *d, int n)
-> +{
-> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
-> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-> +
-> +    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-> +        return proxy->vqs[vdev->queue_sel].enabled;
-> +    }
-> +
-> +    return virtio_queue_enabled(vdev, n);
-> +}
-
-With "disable-legacy=off,disable-modern=true",
-this changes introduces an infinite loop: virtio_queue_enabled() calls
-again virtio_pci_queue_enabled() that calls
-againvirtio_pci_queue_enabled()...
-
-I think this should be changed like this:
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ada1101d07..0a85c17e91 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1116,7 +1116,7 @@ static bool virtio_pci_queue_enabled(DeviceState
-*d, int n)
-         return proxy->vqs[vdev->queue_sel].enabled;
-     }
-
--    return virtio_queue_enabled(vdev, n);
-+    return virtio_queue_get_desc_addr(vdev, n) != 0;
- }
-
-
-> +
->  static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
->                                     struct virtio_pci_cap *cap)
+> +/* Returns -1 on error, IRQ number on success */
+>  static int ich9_lpc_sci_irq(ICH9LPCState *lpc)
 >  {
-> @@ -2064,6 +2076,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
->      k->ioeventfd_enabled = virtio_pci_ioeventfd_enabled;
->      k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
->      k->get_dma_as = virtio_pci_get_dma_as;
-> +    k->queue_enabled = virtio_pci_queue_enabled;
->  }
+> -    switch (lpc->d.config[ICH9_LPC_ACPI_CTRL] &
+> -            ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK) {
+> +    uint8_t sel = lpc->d.config[ICH9_LPC_ACPI_CTRL] &
+> +                  ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK;
+> +    switch (sel) {
+>      case ICH9_LPC_ACPI_CTRL_9:
+>          return 9;
+>      case ICH9_LPC_ACPI_CTRL_10:
+> @@ -328,6 +331,8 @@ static int ich9_lpc_sci_irq(ICH9LPCState *lpc)
+>          return 21;
+>      default:
+>          /* reserved */
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "ICH9 LPC: SCI IRQ SEL #%u is reserved\n", sel);
+>          break;
+>      }
+>      return -1;
+> @@ -450,7 +455,7 @@ ich9_lpc_pmbase_sci_update(ICH9LPCState *lpc)
+>  {
+>      uint32_t pm_io_base = pci_get_long(lpc->d.config + ICH9_LPC_PMBASE);
+>      uint8_t acpi_cntl = pci_get_long(lpc->d.config + ICH9_LPC_ACPI_CTRL);
+> -    uint8_t new_gsi;
+> +    int new_gsi;
 >  
->  static const TypeInfo virtio_pci_bus_info = {
+>      if (acpi_cntl & ICH9_LPC_ACPI_CTRL_ACPI_EN) {
+>          pm_io_base &= ICH9_LPC_PMBASE_BASE_ADDRESS_MASK;
+> @@ -461,6 +466,9 @@ ich9_lpc_pmbase_sci_update(ICH9LPCState *lpc)
+>      ich9_pm_iospace_update(&lpc->pm, pm_io_base);
+>  
+>      new_gsi = ich9_lpc_sci_irq(lpc);
+> +    if (new_gsi == -1) {
+> +        return;
+> +    }
+>      if (lpc->sci_level && new_gsi != lpc->sci_gsi) {
+>          qemu_set_irq(lpc->pm.irq, 0);
+>          lpc->sci_gsi = new_gsi;
 > 
-
-Thanks,
-Laurent
 
 
