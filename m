@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725D922F3C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:22:47 +0200 (CEST)
-Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C7E22F3DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:31:25 +0200 (CEST)
+Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04xi-0005ae-I2
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42668)
+	id 1k0564-0001Tz-Ll
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uh-0001o5-M8
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:39 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uf-0001NP-T8
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:39 -0400
-Received: by mail-wm1-x335.google.com with SMTP id g10so13606087wmc.1
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Df26pyr1FoUci06b9bgZLyVGVD2YeeZNhUfL4mWRueY=;
- b=uL8MCJQlncq3jVP207n1hpGBN56b9iLP6py9pa1w75Ls1qKB1pJeUKfe243G3y+wjU
- RoODpdIT7pRaPSBz1lBLQwFmTJqjvqEZu3JZfloyGnCPuAYS5VbFgD0mvLeI8fYU4NVK
- /R6DByaYkt18gl/JMzms/M/YOc98hlJDr8JxklxfcQhxjk1ovkQhMTwEchCwJz77EKkE
- SIKp72GrCuZacC2vi/gGWLdKFO95UdDn+w1Bdy2WFajKhM2U/GDRlZFeufTyv+xz4sOu
- CJZOOuhmZIwZ4cPog3qZzNidSBgReATUPWqVqrFrqzqqsMMngktOBQVkLXsEshEQNNzy
- evaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Df26pyr1FoUci06b9bgZLyVGVD2YeeZNhUfL4mWRueY=;
- b=gCo43rTb2/WeYiKHUPCUojDA0+YcsrLdZp/FQlPGBjRZ/X4gEE0/ueL16binQH4sn8
- GJDHtCu5vukNx0yboH5gcEhKspj1fHNJIAtBXZTLhQBj6TqWf1cEqHxY9rZp83Jxjx5b
- I2fzzTkkytJb7nWLlIEMiD3EOsJSZKgUBOBTvZKGoOsi6MvtV4t5HPnLpNdfmKPgJiUV
- evkiOIACKrxbi33EisQdA+SDeM7JheeaFXEQ/heApZEz2ObIG7Nk+VioJ/dQUkbYr/WL
- gR9Q290Os3yLG0oO4kYnHN8l37LdtSm4e2Gtp3kOJQ2KaiBZaEOUWCQdSTkJATfKZCIg
- caiw==
-X-Gm-Message-State: AOAM531wDlBNm10QbNnGO/m2SoOJg6Dku/+A7YToZKu6Tpd4WIgJ1VMO
- xZXDL+KFOsgNx61l1juD0aIlqYVsWcfwBA==
-X-Google-Smtp-Source: ABdhPJxHk89Hl257Ymn12N4VBpYOUxyBIKG0pVwVy2GnXlL08sIiU/1AVE6Ntwvn17ddASWQmiD4lA==
-X-Received: by 2002:a1c:7e02:: with SMTP id z2mr8175969wmc.138.1595863173102; 
- Mon, 27 Jul 2020 08:19:33 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.31
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 08:19:32 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] target/arm: Improve IMPDEF algorithm for IRG
-Date: Mon, 27 Jul 2020 16:19:20 +0100
-Message-Id: <20200727151920.19150-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200727151920.19150-1-peter.maydell@linaro.org>
-References: <20200727151920.19150-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1k04v9-0002Sv-Lt
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:20:07 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:58497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1k04v7-0001QC-Hb
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:20:07 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 4042140002;
+ Mon, 27 Jul 2020 18:20:02 +0300 (MSK)
+Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 3BFADE8;
+ Mon, 27 Jul 2020 18:20:03 +0300 (MSK)
+Subject: Re: [PATCH] xen: xenguest is not used so is not needed
+To: Anthony PERARD <anthony.perard@citrix.com>
+References: <20200727140048.19779-1-mjt@msgid.tls.msk.ru>
+ <20200727150949.GC2866@perard.uk.xensource.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <c90a625b-51d3-3718-1e83-1019f1cbd227@msgid.tls.msk.ru>
+Date: Mon, 27 Jul 2020 18:20:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200727150949.GC2866@perard.uk.xensource.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 10:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,84 +58,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+27.07.2020 18:09, Anthony PERARD wrote:
+> On Mon, Jul 27, 2020 at 05:00:48PM +0300, Michael Tokarev wrote:
+>> There's no references in only file which includes xenguest.h
+>> to any xen definitions. And there's no references to -lxenguest
+>> in qemu, either. Drop it.
+> 
+> I'm not sure what you mean by "no references to -lxenguest", do you mean
+> in the binary?
 
-When GCR_EL1.RRND==1, the choosing of the random value is IMPDEF,
-and the kernel is not expected to have set RGSR_EL1.  Force a
-non-zero value into SEED, so that we do not continually return
-the same tag.
+Yes, in the qemu-system-i386 binary, it can be linked without -lxenguest.
 
-Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200724163853.504655-4-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/mte_helper.c | 37 ++++++++++++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 7 deletions(-)
+Just a caveat, -- I know almost nothing about xen, especially xen
+internals and its (stable, unversioned and unstable, versioned) libs.
+Qemu links fine without libxenguest in the mix with xen 4.11.4, - I
+can't say for other versions.  I just thought if it does not include
+<xenguest.h>, why it should link with -lxenguest? :)
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 5ea57d487a4..104752041f7 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -24,6 +24,8 @@
- #include "exec/ram_addr.h"
- #include "exec/cpu_ldst.h"
- #include "exec/helper-proto.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
- 
- 
- static int choose_nonexcluded_tag(int tag, int offset, uint16_t exclude)
-@@ -211,16 +213,37 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
- 
- uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
- {
--    int rtag;
--
--    /*
--     * Our IMPDEF choice for GCR_EL1.RRND==1 is to behave as if
--     * GCR_EL1.RRND==0, always producing deterministic results.
--     */
-     uint16_t exclude = extract32(rm | env->cp15.gcr_el1, 0, 16);
-+    int rrnd = extract32(env->cp15.gcr_el1, 16, 1);
-     int start = extract32(env->cp15.rgsr_el1, 0, 4);
-     int seed = extract32(env->cp15.rgsr_el1, 8, 16);
--    int offset, i;
-+    int offset, i, rtag;
-+
-+    /*
-+     * Our IMPDEF choice for GCR_EL1.RRND==1 is to continue to use the
-+     * deterministic algorithm.  Except that with RRND==1 the kernel is
-+     * not required to have set RGSR_EL1.SEED != 0, which is required for
-+     * the deterministic algorithm to function.  So we force a non-zero
-+     * SEED for that case.
-+     */
-+    if (unlikely(seed == 0) && rrnd) {
-+        do {
-+            Error *err = NULL;
-+            uint16_t two;
-+
-+            if (qemu_guest_getrandom(&two, sizeof(two), &err) < 0) {
-+                /*
-+                 * Failed, for unknown reasons in the crypto subsystem.
-+                 * Best we can do is log the reason and use a constant seed.
-+                 */
-+                qemu_log_mask(LOG_UNIMP, "IRG: Crypto failure: %s\n",
-+                              error_get_pretty(err));
-+                error_free(err);
-+                two = 1;
-+            }
-+            seed = two;
-+        } while (seed == 0);
-+    }
- 
-     /* RandomTag */
-     for (i = offset = 0; i < 4; ++i) {
--- 
-2.20.1
-
+/mjt
 
