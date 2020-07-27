@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3595422FC3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 00:33:49 +0200 (CEST)
-Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8626D22FC47
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 00:37:57 +0200 (CEST)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Bgq-0002S3-6L
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 18:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54076)
+	id 1k0Bkq-0005Wn-B4
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 18:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Bdv-0008Jn-4a
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 18:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35560)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Bk3-0004ub-7q; Mon, 27 Jul 2020 18:37:07 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:46653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Bdq-0000G8-8l
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 18:30:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k0Bdo-00016c-Ud
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 22:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E58552E80D2
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 22:30:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Bk1-0000v8-5l; Mon, 27 Jul 2020 18:37:06 -0400
+Received: by mail-il1-x141.google.com with SMTP id l17so4312526ilq.13;
+ Mon, 27 Jul 2020 15:37:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZDwVYMRN6PXjA735pEdIR4fqv2Bs46W3UJXGcYcYV0Y=;
+ b=JhxkW20gjiOygC5kJjz57XqOUc8EM2U5UxtA3KK/Tsyz8FuEeK9OGE0hz11UECp7QQ
+ ojrQ3WK3yowM/nK8KInhZca3ABfejGqQEKzawTpk8hCXSBN/LnT/JZidWSoUBtl5jH/B
+ yyUmAfy3cO5cSJ4/78JW8A2jQ14/OahQELDYwTzKJhBFOAMB33X5YWTkBU7EuXbgpStA
+ 8RHDoSP45xVvuJB3acf7XJfVpXsy0sY3derayf2TgRRtiIq/20y82s0+1gQRPsPvqN6F
+ vcxouSd6rSnn3JYMvAy9yCDy6nLxT3g05/0QJHpkUHxtm6ttI/RXbKVg/CXkk/N3C1+8
+ 8n5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZDwVYMRN6PXjA735pEdIR4fqv2Bs46W3UJXGcYcYV0Y=;
+ b=RU7z1Ubj8TeG0WbHwfSOblnOIuGUiXkJWkD6In2iT5KZBqOHkEeDKcPnDcG0UfY6Mr
+ v2k7n/XJz/BvUbR7DrqyVF60p/DLKIcAA1exkP4EesXMZMNX9wF+m3ZNLsLY9TLCJmpg
+ AIFr5YrIClKlgR+yqTymx+4ps2sF/1ICYn/inzWFD2EsqmHRfTUxraFs9yDoLSelpvqu
+ GAUlIH92/O+sZpmBgUIuVspvsLerfldXQF8VKbSHbxoULnTdUHHGQoIwakX9MHwW/oul
+ FByyIstXU6L9LednMbiUMF8OcIhHIwA4xQUkTxd3zGDs681LsTeszug+xf5nAdqei10T
+ pblA==
+X-Gm-Message-State: AOAM533goURs8FooydMU0aA9kRNSD5yRrDzun7dU6+JF5B/DXXwsmuhk
+ K767IAgm1EBaYJmJgnB8sU4fxMEhQBgQKCBccQU=
+X-Google-Smtp-Source: ABdhPJyCEqip9ZtAJaO1ZEnF9iD8Tn4gTI5Ccq1YjF+5o+a4yEadXA3u6MPrdDDDZMfMSHIu8FzJfN7bItbM4gWxTaA=
+X-Received: by 2002:a92:cf50:: with SMTP id c16mr5817019ilr.131.1595889423708; 
+ Mon, 27 Jul 2020 15:37:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Jul 2020 22:25:14 -0000
-From: John Snow <1884693@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <159287602229.13953.9997472132144071395.malonedeb@wampee.canonical.com>
-Message-Id: <159588871526.9911.13181749479273530157.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1884693] Re: Assertion failure in address_space_unmap through
- ahci_map_clb_address
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c7362a93a1b87ec97e6af70299d6dfd49e4a4b0d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 16:15:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <cover.1595689201.git.zong.li@sifive.com>
+ <a1ddde7963423df8e62e98fcf3dc75ae092186b2.1595689201.git.zong.li@sifive.com>
+In-Reply-To: <a1ddde7963423df8e62e98fcf3dc75ae092186b2.1595689201.git.zong.li@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Jul 2020 15:26:47 -0700
+Message-ID: <CAKmqyKNiYMmWMpphNJcg8bOpVWKVFO53i9+QxW8a5Herw3v15g@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] target/riscv/pmp.c: Fix the index offset on RV64
+To: Zong Li <zong.li@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,97 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884693 <1884693@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Confirmed =3D> In Progress
+On Sat, Jul 25, 2020 at 8:04 AM Zong Li <zong.li@sifive.com> wrote:
+>
+> On RV64, the reg_index is 2 (pmpcfg2 CSR) after the seventh pmp
+> entry, it is not 1 (pmpcfg1 CSR) like RV32. In the original
+> implementation, the second parameter of pmp_write_cfg is
+> "reg_index * sizeof(target_ulong)", and we get the the result
+> which is started from 16 if reg_index is 2, but we expect that
+> it should be started from 8. Separate the implementation for
+> RV32 and RV64 respectively.
+>
+> Signed-off-by: Zong Li <zong.li@sifive.com>
 
--- =
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884693
+Alistair
 
-Title:
-  Assertion failure in address_space_unmap through ahci_map_clb_address
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Hello,
-  Reproducer:
-  cat << EOF | ./i386-softmmu/qemu-system-i386 -qtest stdio -monitor none -=
-serial none -M pc-q35-5.0 -nographic
-  outl 0xcf8 0x8000fa24
-  outl 0xcfc 0xe1068000
-  outl 0xcf8 0x8000fa04
-  outw 0xcfc 0x7
-  outl 0xcf8 0x8000fb20
-  write 0xe1068304 0x1 0x21
-  write 0xe1068318 0x1 0x21
-  write 0xe1068384 0x1 0x21
-  write 0xe1068398 0x2 0x21
-  EOF
-
-  Stack trace:
-  #0 0x55bfabfe9ea0 in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/csu=
-/../csu/libc-start.c:308:16
-  #1 0x55bfabfc8ef9 in __sanitizer_print_stack_trace (build/i386-softmmu/qe=
-mu-fuzz-i386+0x7b7ef9)
-  #2 0x55bfabfaf933 in fuzzer::PrintStackTrace() FuzzerUtil.cpp:210:5
-  #3 0x7f88df76110f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1410f)
-  #4 0x7f88df5a4760 in __libc_signal_restore_set /build/glibc-GwnBeO/glibc-=
-2.30/signal/../sysdeps/unix/sysv/linux/internal-signals.h:84:10
-  #5 0x7f88df5a4760 in raise /build/glibc-GwnBeO/glibc-2.30/signal/../sysde=
-ps/unix/sysv/linux/raise.c:48:3
-  #6 0x7f88df58e55a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abort.c:=
-79:7
-  #7 0x7f88df58e42e in __assert_fail_base /build/glibc-GwnBeO/glibc-2.30/as=
-sert/assert.c:92:3
-  #8 0x7f88df59d091 in __assert_fail /build/glibc-GwnBeO/glibc-2.30/assert/=
-assert.c:101:3
-  #9 0x55bfabff7182 in address_space_unmap exec.c:3602:9
-  #10 0x55bfac4a452f in dma_memory_unmap include/sysemu/dma.h:148:5
-  #11 0x55bfac4a452f in map_page hw/ide/ahci.c:254:9
-  #12 0x55bfac4a1f98 in ahci_map_clb_address hw/ide/ahci.c:748:5
-  #13 0x55bfac4a1f98 in ahci_cond_start_engines hw/ide/ahci.c:276:14
-  #14 0x55bfac4a074e in ahci_port_write hw/ide/ahci.c:339:9
-  #15 0x55bfac4a074e in ahci_mem_write hw/ide/ahci.c:513:9
-  #16 0x55bfac0e0dc2 in memory_region_write_accessor memory.c:483:5
-  #17 0x55bfac0e0bde in access_with_adjusted_size memory.c:544:18
-  #18 0x55bfac0e0917 in memory_region_dispatch_write memory.c
-  #19 0x55bfabffa4fd in flatview_write_continue exec.c:3146:23
-  #20 0x55bfabff569b in flatview_write exec.c:3186:14
-  #21 0x55bfabff569b in address_space_write exec.c:3280:18
-  #22 0x55bfac8982a9 in op_write_pattern tests/qtest/fuzz/general_fuzz.c:40=
-7:5
-  #23 0x55bfac897749 in general_fuzz tests/qtest/fuzz/general_fuzz.c:481:17
-  #24 0x55bfac8930a2 in LLVMFuzzerTestOneInput tests/qtest/fuzz/fuzz.c:136:5
-  #25 0x55bfabfb0e68 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const=
-*, unsigned long) FuzzerLoop.cpp:558:15
-  #26 0x55bfabfb0485 in fuzzer::Fuzzer::RunOne(unsigned char const*, unsign=
-ed long, bool, fuzzer::InputInfo*, bool*) FuzzerLoop.cpp:470:3
-  #27 0x55bfabfb18a1 in fuzzer::Fuzzer::MutateAndTestOne() FuzzerLoop.cpp:7=
-01:19
-  #28 0x55bfabfb2305 in fuzzer::Fuzzer::Loop(std::vector<fuzzer::SizedFile,=
- fuzzer::fuzzer_allocator<fuzzer::SizedFile> >&) FuzzerLoop.cpp:837:5
-  #29 0x55bfabfa2018 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigne=
-d char const*, unsigned long)) FuzzerDriver.cpp:846:6
-  #30 0x55bfabfb8722 in main FuzzerMain.cpp:19:10
-  #31 0x7f88df58fe0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/cs=
-u/../csu/libc-start.c:308:16
-  #32 0x55bfabf97869 in _start (build/i386-softmmu/qemu-fuzz-i386+0x786869)
-
-  The same error can be triggered through  ahci_map_fis_address @ hw/ide/ah=
-ci.c:721:5
-  Found with generic device fuzzer: https://patchew.org/QEMU/20200611055651=
-.13784-1-alxndr@bu.edu/
-
-  Please let me know if I can provide any further info.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884693/+subscriptions
+> ---
+>  target/riscv/pmp.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 2a2b9f5363..aeba796484 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -318,6 +318,10 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+>          return;
+>      }
+>
+> +#if defined(TARGET_RISCV64)
+> +    reg_index >>= 1;
+> +#endif
+> +
+>      for (i = 0; i < sizeof(target_ulong); i++) {
+>          cfg_val = (val >> 8 * i)  & 0xff;
+>          pmp_write_cfg(env, (reg_index * sizeof(target_ulong)) + i,
+> @@ -335,11 +339,16 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+>      target_ulong cfg_val = 0;
+>      target_ulong val = 0;
+>
+> +    trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
+> +
+> +#if defined(TARGET_RISCV64)
+> +    reg_index >>= 1;
+> +#endif
+> +
+>      for (i = 0; i < sizeof(target_ulong); i++) {
+>          val = pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i);
+>          cfg_val |= (val << (i * 8));
+>      }
+> -    trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
+>
+>      return cfg_val;
+>  }
+> --
+> 2.27.0
+>
+>
 
