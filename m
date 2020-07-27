@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D58922F3E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:34:36 +0200 (CEST)
-Received: from localhost ([::1]:35334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62AD22F403
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:41:58 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0599-0006HE-E2
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
+	id 1k05GH-0000FB-Cb
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k0587-0005cz-6J
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:33:31 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58750
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k0585-0003go-3f
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:33:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595864008;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tDjUQ2Z9JsNJEcx/9dZ18f+wBEDy9xDAp0GKz2Db+tE=;
- b=cYb2bVpReMb4eXa9oyHo9QKi6OcufT9YEFupH/9qru2clX/3vkb2lTh1Uf53chOOwp/vth
- d9UVCttdy2f9TeGccJaDPWoX7qYB4LqbqNC0Vc77Jxf9RAckBWRbabrZrTxMIxjuukOiUD
- s11xJsNvO8Ejm6JI275F13xp2oKkdsw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-dutLkrI7MLeqtvbK1FJ26Q-1; Mon, 27 Jul 2020 11:33:26 -0400
-X-MC-Unique: dutLkrI7MLeqtvbK1FJ26Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A9B101C8AF
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 15:33:25 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-113-103.ams2.redhat.com
- [10.36.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B892B712C2;
- Mon, 27 Jul 2020 15:33:20 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio-pci: fix virtio_pci_queue_enabled()
-Date: Mon, 27 Jul 2020 17:33:19 +0200
-Message-Id: <20200727153319.43716-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1k05FE-0008DY-Fq; Mon, 27 Jul 2020 11:40:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1k05FC-0004vE-9i; Mon, 27 Jul 2020 11:40:52 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06RFWdrH117955; Mon, 27 Jul 2020 11:40:46 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32hvhdtfy5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jul 2020 11:40:46 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06RFWfXj118105;
+ Mon, 27 Jul 2020 11:40:45 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32hvhdtfws-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jul 2020 11:40:45 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06RFRRNK012640;
+ Mon, 27 Jul 2020 15:40:43 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06fra.de.ibm.com with ESMTP id 32gcye9ey1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jul 2020 15:40:43 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06RFee4N26214806
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Jul 2020 15:40:40 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3E74FAE053;
+ Mon, 27 Jul 2020 15:40:40 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A9991AE057;
+ Mon, 27 Jul 2020 15:40:39 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.17.84])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Jul 2020 15:40:39 +0000 (GMT)
+Subject: Re: [RFC PATCH] s390x/pci: vfio-pci breakage with disabled mem
+ enforcement
+To: Alex Williamson <alex.williamson@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
+References: <1595517236-17823-1-git-send-email-mjrosato@linux.ibm.com>
+ <20200723102916.7cf15b43@w520.home>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <0481c77e-f71f-886b-9b0a-41529eb139ee@linux.ibm.com>
+Date: Mon, 27 Jul 2020 17:40:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+In-Reply-To: <20200723102916.7cf15b43@w520.home>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-27_10:2020-07-27,
+ 2020-07-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999
+ clxscore=1011 mlxscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007270105
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 11:40:46
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,100 +103,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: schnelle@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In legacy mode, virtio_pci_queue_enabled() falls back to
-virtio_queue_enabled() to know if the queue is enabled.
 
-But virtio_queue_enabled() calls again virtio_pci_queue_enabled()
-if k->queue_enabled is set. This ends in a crash after a stack
-overflow.
 
-The problem can be reproduced with
-"-device virtio-net-pci,disable-legacy=off,disable-modern=true
- -net tap,vhost=on"
+On 2020-07-23 18:29, Alex Williamson wrote:
+> On Thu, 23 Jul 2020 11:13:55 -0400
+> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+> 
+>> I noticed that after kernel commit abafbc55 'vfio-pci: Invalidate mmaps
+>> and block MMIO access on disabled memory' vfio-pci via qemu on s390x
+>> fails spectacularly, with errors in qemu like:
+>>
+>> qemu-system-s390x: vfio_region_read(0001:00:00.0:region0+0x0, 4) failed: Input/output error
+>>
+>>  From read to bar 0 originating out of hw/s390x/s390-pci-inst.c:zpci_read_bar().
+>>
+>> So, I'm trying to figure out how to get vfio-pci happy again on s390x.  From
+>> a bit of tracing, we seem to be triggering the new trap in
+>> __vfio_pci_memory_enabled().  Sure enough, if I just force this function to
+>> return 'true' as a test case, things work again.
+>> The included patch attempts to enforce the setting, which restores everything
+>> to working order but also triggers vfio_bar_restore() in the process....  So
+>> this isn't the right answer, more of a proof-of-concept.
+>>
+>> @Alex: Any guidance on what needs to happen to make qemu-s390x happy with this
+>> recent kernel change?
+> 
+> Bummer!  I won't claim to understand s390 PCI, but if we have a VF
+> exposed to the "host" (ie. the first level where vfio-pci is being
+> used), but we can't tell that it's a VF, how do we know whether the
+> memory bit in the command register is unimplemented because it's a VF
+> or unimplemented because the device doesn't support MMIO?  How are the
+> device ID, vendor ID, and BAR registers virtualized to the host?  Could
+> the memory enable bit also be emulated by that virtualization, much
+> like vfio-pci does for userspace?  If the other registers are
+> virtualized, but these command register bits are left unimplemented, do
+> we need code to deduce that we have a VF based on the existence of MMIO
+> BARs, but lack of memory enable bit?  Thanks,
+> 
+> Alex
 
-And a look to the backtrace is very explicit:
+Alex, Matt,
 
-    ...
-    #4  0x000000010029a438 in virtio_queue_enabled ()
-    #5  0x0000000100497a9c in virtio_pci_queue_enabled ()
-    ...
-    #130902 0x000000010029a460 in virtio_queue_enabled ()
-    #130903 0x0000000100497a9c in virtio_pci_queue_enabled ()
-    #130904 0x000000010029a460 in virtio_queue_enabled ()
-    #130905 0x0000000100454a20 in vhost_net_start ()
-    ...
+in s390 we have the possibility to assign a virtual function to a 
+logical partition as function 0.
+In this case it can not be treated as a virtual function but must be 
+treated as a physical function.
+This is currently working very well.
+However, these functions do not set PCI_COMMAND_MEMORY as we need.
 
-This patch fixes the problem by introducing a new function
-for the legacy case and calls it from virtio_pci_queue_enabled().
-It also calls it from virtio_queue_enabled() to avoid code duplication.
+Shouldn't we fix this inside the kernel, to keep older QMEU working?
 
-Fixes: f19bcdfedd53 ("virtio-pci: implement queue_enabled method")
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Cindy Lu <lulu@redhat.com>
-CC: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/virtio/virtio-pci.c     | 2 +-
- hw/virtio/virtio.c         | 7 ++++++-
- include/hw/virtio/virtio.h | 1 +
- 3 files changed, 8 insertions(+), 2 deletions(-)
+Then would it be OK to add a new bit/boolean inside the 
+pci_dev/vfio_pci_device like, is_detached_vfn, that we could set during 
+enumeration and test inside __vfio_pci_memory_enabled() to return true?
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ada1101d07bf..4ad3ad81a2cf 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1116,7 +1116,7 @@ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
-         return proxy->vqs[vdev->queue_sel].enabled;
-     }
- 
--    return virtio_queue_enabled(vdev, n);
-+    return virtio_queue_enabled_legacy(vdev, n);
- }
- 
- static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 546a198e79b0..e98302521769 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3309,6 +3309,11 @@ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
-     return vdev->vq[n].vring.desc;
- }
- 
-+bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n)
-+{
-+    return virtio_queue_get_desc_addr(vdev, n) != 0;
-+}
-+
- bool virtio_queue_enabled(VirtIODevice *vdev, int n)
- {
-     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
-@@ -3317,7 +3322,7 @@ bool virtio_queue_enabled(VirtIODevice *vdev, int n)
-     if (k->queue_enabled) {
-         return k->queue_enabled(qbus->parent, n);
-     }
--    return virtio_queue_get_desc_addr(vdev, n) != 0;
-+    return virtio_queue_enabled_legacy(vdev, n);
- }
- 
- hwaddr virtio_queue_get_avail_addr(VirtIODevice *vdev, int n)
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 198ffc762678..e424df12cf6d 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -295,6 +295,7 @@ typedef struct VirtIORNGConf VirtIORNGConf;
-                       VIRTIO_F_RING_PACKED, false)
- 
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
-+bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
- bool virtio_queue_enabled(VirtIODevice *vdev, int n);
- hwaddr virtio_queue_get_avail_addr(VirtIODevice *vdev, int n);
- hwaddr virtio_queue_get_used_addr(VirtIODevice *vdev, int n);
+In the enumeration we have the possibility to know if the function is a 
+HW/Firmware virtual function on devfn 0 or if it is created by SRIOV.
+
+It seems an easy fix without side effects.
+
+What do you think?
+
+
+> 
+>> @Nilkas/@Pierre: I wonder if this might be related to host device is_virtfn?
+>> I note that my host device lspci output looks like:
+>>
+>> 0000:00:00.0 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx Virtual Function]
+>>
+>> But the device is not marked as is_virtfn..  Otherwise, Alex's fix
+>> from htps://lkml.org/lkml/2020/6/25/628 should cover the case.
+>>
+
+I do not think we can fix this problem by forcing the is_virtfn bit.
+AFAIU, our HW virtual function works a lot like a physical function.
+
+>>
+>>
+>> Matthew Rosato (1):
+>>    s390x/pci: Enforce PCI_COMMAND_MEMORY for vfio-pci
+>>
+>>   hw/s390x/s390-pci-inst.c | 10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+> 
+> 
+
+Regards,
+Pierre
+
 -- 
-2.26.2
-
+Pierre Morel
+IBM Lab Boeblingen
 
