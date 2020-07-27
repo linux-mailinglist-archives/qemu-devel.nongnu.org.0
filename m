@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7DD22F99B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:57:34 +0200 (CEST)
-Received: from localhost ([::1]:40096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507B622F992
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:56:12 +0200 (CEST)
+Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k09Fd-00027N-TG
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
+	id 1k09EJ-0007uX-AT
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1k09BA-0002b1-OR
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:52:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25305
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k09C7-0004R9-3t
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:53:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40254
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1k09B9-0004v3-2f
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:52:56 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k09C5-00050x-FM
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:53:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595879574;
+ s=mimecast20190719; t=1595879632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V2MWuTAM3RtL8UFBs368jGyD/owBI/fNCsO4fD/G0Wk=;
- b=LPPB9ryTZ4pggF79EcUMDdCqm9VPajrf1tMQuafQhxGyh124y46ocu9VSqGHnwk8q5HQfV
- eHjA1QPoHUCPVvVrV/QCu9eu1k85l+NDjkYm50o6fBDV5rjWIAbjJlsv8pzM5yxbS8sAbu
- sE/n0aRY5SsHu5iTXOVLuYdaPpUFLjw=
+ bh=yFdkzdGhUxHdQ8GimoiYq5DLLZHjIs5r/7+BDsKgIoI=;
+ b=EhqMFCsjkCVdC0/tmL8gQPdcHZfDmBg7EgrFIEgn9anymcfTaKZG0V2Q6Umd4lNaOGVbnb
+ yPYFhN7qVEbtlIMufVSorboVYYQ7pap7Spy9TcOAUTjkXxnoydGEu6UcrPFjn4XBszmshP
+ DXplMrGzXsPAAQXwte4XzrUDr2bzIeU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-CkEo3LiMNRioZ3LUs_hE4Q-1; Mon, 27 Jul 2020 15:52:50 -0400
-X-MC-Unique: CkEo3LiMNRioZ3LUs_hE4Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-8-vBXULGcdOOefw8rpmGUQRA-1; Mon, 27 Jul 2020 15:53:46 -0400
+X-MC-Unique: vBXULGcdOOefw8rpmGUQRA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52BA0101C8A5;
- Mon, 27 Jul 2020 19:52:49 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
- (ovpn-119-72.rdu2.redhat.com [10.10.119.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3B9B5DA33;
- Mon, 27 Jul 2020 19:52:44 +0000 (UTC)
-Subject: Re: [PATCH for 5.1] docs: fix trace docs build with sphinx 3.1.1
-To: Andreas Schwab <schwab@linux-m68k.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200714162659.1017432-1-berrange@redhat.com>
- <87blk257eg.fsf@igel.home>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <94143f30-d646-763d-5b10-ef0ca8b246ca@redhat.com>
-Date: Mon, 27 Jul 2020 15:52:44 -0400
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28B44801A03;
+ Mon, 27 Jul 2020 19:53:45 +0000 (UTC)
+Received: from [10.10.118.248] (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD43D10013C0;
+ Mon, 27 Jul 2020 19:53:40 +0000 (UTC)
+Subject: Re: [PATCH v4 for-5.1 00/21] Fix error handling during bitmap postcopy
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200727194236.19551-1-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c61f9429-8f2c-836d-be76-34a32bfae470@redhat.com>
+Date: Mon, 27 Jul 2020 14:53:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <87blk257eg.fsf@igel.home>
+In-Reply-To: <20200727194236.19551-1-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:02:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, quintela@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, stefanha@redhat.com,
+ den@openvz.org, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/20 4:49 PM, Andreas Schwab wrote:
-> On Jul 14 2020, Daniel P. Berrangé wrote:
+On 7/27/20 2:42 PM, Vladimir Sementsov-Ogievskiy wrote:
+> v4:
 > 
->> In Fedora 33 rawhide, we now have sphinx 3.1.1, as opposed
->> to previous 2.2.2. This new version generates a warning on
->> the source:
->>
->> docs/qemu-option-trace.rst.inc:4:Malformed option description
->>    '[enable=]PATTERN', should look like "opt", "-opt args",
->>    "--opt args", "/opt args" or "+opt args"
->>
->> This turns into an error when QEMU passes -W to sphinx-build
->>
->> Strangely the previous 2.2.2 code has the exact same logic
->> for checking the syntax, but it is not being triggered. While
->> it is only complaining about the first option, I changed all
->> the options to give consistency.
->>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> Running Sphinx v1.7.6
-> [...]
-> Warning, treated as error:
-> ../qemu-5.0.0/docs/qemu-option-trace.rst.inc:21:Duplicate explicit target name: "cmdoption-qemu-img-trace".
-> 
-> Andreas.
-> 
+> 01: typo in commit msg
+> 07: reword commit msg, add Eric's r-b
+> 10: add Dr. David's r-b
+> 15: add check for buf_size
+>      use g_autofree (and fix introduced in v3)
+>      use QEMU_LOCK_GUARD
+> 17: fix commit msg, add Eric's r-b
+> 20-21: add Eric's t-b
 
-I ran into this before, I forget what causes it, or how I fixed it ...
+What timing!  I was literally in the middle of composing my pull request 
+when this landed in my inbox; I'll refresh my local contents to pick 
+this up (and see if you tweaked anything differently than I did).
 
-Oh, it was part of the research I was doing into why we can't support 
-Sphinx prior to 1.6; and it's documented in conf.py:
+Therefore, my pull request is now shifted by an hour or two, but will 
+still come today ;)
 
-# Sphinx 1.5 and earlier can't build our docs because they are too 
-
-# picky about the syntax of the argument to the option:: directive 
-
-# (see Sphinx bugs #646, #3366). 
-
-needs_sphinx = '1.6'
-
-... Should we say goodbye to Sphinx 1.7.x, or is there a workaround that 
-keeps support from 1.6.1 through to 3.1.1?
-
---js
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
