@@ -2,106 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A0822FA5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:51:05 +0200 (CEST)
-Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA5A22FAC6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:57:56 +0200 (CEST)
+Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0A5Q-0003QC-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33610)
+	id 1k0AC3-0006YZ-31
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k0A4J-0002ob-Hb; Mon, 27 Jul 2020 16:49:55 -0400
-Received: from mail-am6eur05on2138.outbound.protection.outlook.com
- ([40.107.22.138]:27104 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k0A4G-00042B-DW; Mon, 27 Jul 2020 16:49:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lRVNw+7yrLizZ2v83dRKJ3upEgSD94m2lSMHI4t62G0Fxxz4c3FwrP+HQwJ0f+K84CHrczTSCeRqPeYBcrQmUMtan8MB1H3opIIwFJBpv+3yTRj3K37UyqW3qWd/VzRpkDo4rfBGqElZabRNQXnLZVXxbyDya3dRo+WpbZDWLFGl+hwMW8EzWBWJKz8Qw1eRX6pk3SSXe2QdQPcj0qdIcphh1kGbTBzOeLlndXG0+v7I0WbTeuX3Zqw5Bubd7bUqqMWe+5jND/qgaT879q7nkiEleo1jps7qVDsINUxUIzo92zhr07HZ0TUEh27+31+6UWqLGvgm1lf4314FlCltaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sKcGOQhuVDquFgZHvTXIBvc+lFCwsd5Jan/jRXs/xWk=;
- b=Sg+T4QbcX6kripy+E7IxellXuFg7rb9ZgUR0PG7UCURHBJgDCb1hWSHWqM2Aijc8LIIHYD//h9ff3p1IvDqamDYQfy3DzEKps6bGy+oAPNapKO8tGAvQl8gJkBzxRv0BwmONPI4sHsgL6EEFOsp279ICQ9wmR0TECIsDRIQCHKol88Pc6cYUlEblVldNdHrgqTIWu6Ezq0L0sZfejz4yzEXP0bfh2UTN5l1HiZ2yXZpPHCjwaTxp3SHoSYjRsnPp0pBhKX/sq8WYkD1aKi7uKQ84P9Jb4HL1UaYfgR2sXblZzNB0k3ubEI8yE8DOf8aQQ64qXo58NqGObAflqT00Ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sKcGOQhuVDquFgZHvTXIBvc+lFCwsd5Jan/jRXs/xWk=;
- b=iPPA3wsgvj0YHDGRUgG0cYDohe+l43rjBuA49oMOzIdv2GiNZ4ugdhZfgZojp3CCUDFvPxiywxIgqeOQdOgBwIzGQt9Hbxr5Thqs/8DOr1AmdF/76KfffvB8JHpL5n0af9FjTzUQ8Q7HN4hA9UzC79dDEOGYECOjGYH9B3EFZaI=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB2035.eurprd08.prod.outlook.com (2603:10a6:203:4a::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20; Mon, 27 Jul
- 2020 20:49:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
- 20:49:48 +0000
-Subject: Re: [PATCH] migration: Fix typos in bitmap migration comments
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200727203206.134996-1-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <8aac7e3b-11ed-296e-5308-110901e9e090@virtuozzo.com>
-Date: Mon, 27 Jul 2020 23:49:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200727203206.134996-1-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR03CA0007.eurprd03.prod.outlook.com
- (2603:10a6:208:14::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AA7-0004mV-EZ
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:55:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42621
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AA3-0004r0-MK
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:55:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595883350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3WSoViD1INQELnLZIjX3ZhssaegdLQW2k6yg4s06dKk=;
+ b=UrzaHaH5VROopeABPZkclg+FVYrpoJQ/9lxZWH8QmE23+u41YJnVmuw5Jc0luhY+FqfJ7Q
+ 9m4u9qm1A9G3IKeXY1Q+pf0RYP0nm5i3wd0a/wwFicvV9sTYgBUz3vvqjdRQxub9gxrux8
+ ybZDLre0YlAYewzHxoue+ELhBP4E9As=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-LkPH-01HNhSeGVNLJhfNgA-1; Mon, 27 Jul 2020 16:55:46 -0400
+X-MC-Unique: LkPH-01HNhSeGVNLJhfNgA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9B4E186A825
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 20:55:45 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74FD419724
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 20:55:45 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/24] bitmaps patches for -rc2, 2020-07-27
+Date: Mon, 27 Jul 2020 15:55:19 -0500
+Message-Id: <20200727205543.206624-1-eblake@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.158) by
- AM0PR03CA0007.eurprd03.prod.outlook.com (2603:10a6:208:14::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3216.22 via Frontend Transport; Mon, 27 Jul 2020 20:49:47 +0000
-X-Originating-IP: [185.215.60.158]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34e8ba9a-19b9-4447-955a-08d8326e99b2
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2035:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB2035C15C447CCFB95B3EB92FC1720@AM5PR0801MB2035.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: W8dW1TX3Y9MV5X5XPhKXHm80h7wgHaIOCAioXZw10alwOJcpbkWDB77Lz+g4Ot6Hf9emBukCSZ3IcDYPOwFbKoshPISaAY5mWEIhya8fPvcccg7fywbg5RxPDJemFaZf7KmkxSjTtElbmV87HAqQOb/I336JcnOOtecblj3Z3PZPBLvdiepNK+yzgV/FUJv4C+NtF1X7BVUW783Lhi3R9+0KK9KHIFgck8NpLi/7p7BX5MIyul0eztG3h1LAqSpJeOlP4c5X9U6INz49Mjc9nDDDf48jQOijOA1U798B3v1vV0lKdH0x1q9rlM0qQM7r1nwa+v3QvuMpoXL5PMkeE4R7tx4raKA785wA11BazxjY6rHoscnSj5Jg4wYA50Hf
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(39850400004)(136003)(376002)(396003)(346002)(31696002)(66476007)(83380400001)(8936002)(8676002)(86362001)(52116002)(31686004)(66556008)(36756003)(316002)(54906003)(186003)(956004)(2616005)(478600001)(26005)(5660300002)(4326008)(16576012)(6486002)(2906002)(16526019)(66946007)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: KspHb1bB6gppsC5NdIqKpYmqG9OtGEzUbdnX7Gswome0dfj3sabWaxv8z25xU03Q2Db9TPRYwaEClkLNVWAz9SmytU5DAoI6uDJPocdZSoUK4JAEm4lEBQ34/G8RJczC6T+QNiI96079ZwJIvh47X9+A7ix2t/+swN4jle8j3exMNtaVfSRhsO5jHZDxn+4Rg98RyA0JkzvMjsrr6MRZ8cdbQ+u+y1rc2E866vW7+eagoCh9kaDIx3kIEv19X2YbI0+TLymYRFLlXBc9vXgo1VoONmuhJ1M3fJvGAoVojFxCvsM5huDED0oSs65Wqs8VaHQve18O3OPliGQE2x7DxF/JMcWNYgqwM4Llxv6IZH4X5R+AUq34bKIjyyScx65LTRjuWX9Ex0PSZ3ZLKaqKlATg1Zws2X5SG+m7HOaoL0XJCfRzK0xozLJ3sO55z6Wh0DNSCs8BK49c8qilFQ6eY7CkWGCekQUDGMJZH3k+3Z2Ofo6fOHCgRohibhP1zjnT
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34e8ba9a-19b9-4447-955a-08d8326e99b2
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 20:49:48.0578 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k/H6K0Z2zP4jeGOJToo4iWuYLbNJ1nLk9RMwA/m5vspiQxP/OvMWmDuTjdK0BKT6EJqhZGGAA32HuUoqZB7EJcPrwbGXUwFQgTg9Lip16tQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2035
-Received-SPF: pass client-ip=40.107.22.138;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 16:49:49
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:02:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,61 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, dgilbert@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.07.2020 23:32, Eric Blake wrote:
-> Noticed while reviewing the file for newer patches.
-> 
-> Fixes: b35ebdf076
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
-> 
-> This is trivial enough that I'll throw it in my pull request today.
-> 
->   migration/block-dirty-bitmap.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-> index 1f675b792fc9..784330ebe130 100644
-> --- a/migration/block-dirty-bitmap.c
-> +++ b/migration/block-dirty-bitmap.c
-> @@ -97,7 +97,7 @@
-> 
->   #define DIRTY_BITMAP_MIG_START_FLAG_ENABLED          0x01
->   #define DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT       0x02
-> -/* 0x04 was "AUTOLOAD" flags on elder versions, no it is ignored */
-> +/* 0x04 was "AUTOLOAD" flags on older versions, now it is ignored */
+The following changes since commit 9303ecb658a0194560d1eecde165a1511223c2d8:
 
-may be also s/flags/flag
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200727' into staging (2020-07-27 17:25:06 +0100)
 
->   #define DIRTY_BITMAP_MIG_START_FLAG_RESERVED_MASK    0xf8
-> 
->   /* State of one bitmap during save process */
-> @@ -180,7 +180,7 @@ static uint32_t qemu_get_bitmap_flags(QEMUFile *f)
-> 
->   static void qemu_put_bitmap_flags(QEMUFile *f, uint32_t flags)
->   {
-> -    /* The code currently do not send flags more than one byte */
-> +    /* The code currently does not send flags as more than one byte */
+are available in the Git repository at:
 
-Hmm, why "as more than", not just "more than"?.
-(this note is about the following: the protocol allows adding more than
-one byte of flags with use of DIRTY_BITMAP_MIG_EXTRA_FLAGS. Still,
-currently this possibility is not used and we assert it.)
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-07-27
 
->       assert(!(flags & (0xffffff00 | DIRTY_BITMAP_MIG_EXTRA_FLAGS)));
-> 
->       qemu_put_byte(f, flags);
-> 
+for you to fetch changes up to 37931e006f05cb768b78dcc47453b13f76ea43c5:
 
-Anyway:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+  migration: Fix typos in bitmap migration comments (2020-07-27 15:42:21 -0500)
+
+----------------------------------------------------------------
+bitmaps patches for 2020-07-27
+
+- Improve handling of various post-copy bitmap migration scenarios. A lost
+bitmap should merely mean that the next backup must be full rather than
+incremental, rather than abruptly breaking the entire guest migration.
+- Associated iotest improvements
+
+----------------------------------------------------------------
+Andrey Shinkevich (1):
+      qcow2: Fix capitalization of header extension constant.
+
+Eric Blake (2):
+      iotests: Adjust which migration tests are quick
+      migration: Fix typos in bitmap migration comments
+
+Vladimir Sementsov-Ogievskiy (21):
+      qemu-iotests/199: fix style
+      qemu-iotests/199: drop extra constraints
+      qemu-iotests/199: better catch postcopy time
+      qemu-iotests/199: improve performance: set bitmap by discard
+      qemu-iotests/199: change discard patterns
+      qemu-iotests/199: increase postcopy period
+      migration/block-dirty-bitmap: fix dirty_bitmap_mig_before_vm_start
+      migration/block-dirty-bitmap: rename state structure types
+      migration/block-dirty-bitmap: rename dirty_bitmap_mig_cleanup
+      migration/block-dirty-bitmap: move mutex init to dirty_bitmap_mig_init
+      migration/block-dirty-bitmap: refactor state global variables
+      migration/block-dirty-bitmap: rename finish_lock to just lock
+      migration/block-dirty-bitmap: simplify dirty_bitmap_load_complete
+      migration/block-dirty-bitmap: keep bitmap state for all bitmaps
+      migration/block-dirty-bitmap: relax error handling in incoming part
+      migration/block-dirty-bitmap: cancel migration on shutdown
+      migration/savevm: don't worry if bitmap migration postcopy failed
+      qemu-iotests/199: prepare for new test-cases addition
+      qemu-iotests/199: check persistent bitmaps
+      qemu-iotests/199: add early shutdown case to bitmaps postcopy
+      qemu-iotests/199: add source-killed case to bitmaps postcopy
+
+ docs/interop/qcow2.txt         |   2 +-
+ migration/migration.h          |   3 +-
+ block/qcow2.c                  |   2 +-
+ migration/block-dirty-bitmap.c | 472 ++++++++++++++++++++++++++---------------
+ migration/migration.c          |  15 +-
+ migration/savevm.c             |  37 +++-
+ tests/qemu-iotests/199         | 254 +++++++++++++++++-----
+ tests/qemu-iotests/199.out     |   4 +-
+ tests/qemu-iotests/group       |  12 +-
+ 9 files changed, 556 insertions(+), 245 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.27.0
+
 
