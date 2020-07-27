@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78F022EC51
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:38:32 +0200 (CEST)
-Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A29022EC43
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:35:45 +0200 (CEST)
+Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k02Ol-0000nt-Rz
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39064)
+	id 1k02M4-0005oO-MK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02JC-0002o5-B4
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:32:46 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02J7-0007T4-Qt
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:32:46 -0400
-Received: by mail-wm1-x344.google.com with SMTP id c80so14006873wme.0
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 05:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tOI4eNCeOvJeLfp6drp84GLtLjEuFDD1qv2L6pFrH6Y=;
- b=LwSJmrv6jhy4JDNIv539CsKeG1Avbu7HIGfZ/lW15nBAg/Xn/jDeQKPyaFk4P7kbBK
- GGncrHjB4qRy4uilpxoYhUnXm4dyRG/xZLegHQPNxn2aPAOo5GiBymMp7/KJbsUJS9/C
- 3ejlbixcMX9vfP/kgtorWPkCPCLiRFVteRfTFtxY7wT/wTddHlZfJ1hUKpsBrGBIrVNU
- 9IZm/5yVWBU5lN8lHevGDTa3R0ySsFbrv6NRpfBFtQo7ZIfVcGErOgtdtULmeEC+jvW2
- Sf9rJrDkh1HyVgmbUNrbrAyho5xugXoaEiy5N+gmSje9tSuj729oeT72gPeJsP+EgCzL
- ebLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tOI4eNCeOvJeLfp6drp84GLtLjEuFDD1qv2L6pFrH6Y=;
- b=V1aXOWqSnohobd5tUtiYCH5Azw6s64yF+3WxaSQ1LqJWG5mbR1rSCBVsmNG+LPC7wS
- 3NtHI9CtbIctCtbw/WV0qk009wLO2qHcFxrYP0/ux9rDNHGJHrqmi0Dri2ymPpLMOJeW
- ZBpm26s49YYvtwM3R6e/Z1bv532eGWyC+WoGUI0BynCF5g78+HrBoAHsKpGLE0cBiG1g
- rpTwRCUeiSJT844WbQi8wThGPp0Sjbai5ITebhLSg8WbzdkaPO7CbCBPIsxjGBGppXDn
- JDRkMyCdzonyv2VUjc03QFNfdq3fmCafeOzKVQFSV9Wv4tbigueHtd8289gpxbNCYhp6
- zWbw==
-X-Gm-Message-State: AOAM533Mq8BJ1Kbycxbayk5zX2O5jcypXQNrUBwa8eFtPKs9TGPvE/QI
- bGRPZHcoSkOvmOakkD9KTKEmQQ==
-X-Google-Smtp-Source: ABdhPJzmUzfrTsX4fRtFgYM718NUN8VaAXHZgL5AtqWqxXFyhCh93q1N75gIO9scbQjXI/S+nqvUvA==
-X-Received: by 2002:a1c:e382:: with SMTP id a124mr20435395wmh.11.1595853158389; 
- Mon, 27 Jul 2020 05:32:38 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o126sm6776581wma.20.2020.07.27.05.32.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 05:32:35 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D7CC61FF9F;
- Mon, 27 Jul 2020 13:23:58 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 16/16] tests/vm: add shutdown timeout in basevm.py
-Date: Mon, 27 Jul 2020 13:23:57 +0100
-Message-Id: <20200727122357.31263-17-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200727122357.31263-1-alex.bennee@linaro.org>
-References: <20200727122357.31263-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k02GP-0008R8-4i
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:29:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21340
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k02GM-00070c-75
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:29:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595852988;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F4uavNF+nYeIfbchy/Gnexd3ES9/AHoWblRFnJoTCPA=;
+ b=I5rEUd2IuGbq0iHYpw6zDhq5hfCT6v9De41rUb+sf4++1rquQ43P3dF0HaV7fvyjQpRXTA
+ 8xHuwssKHR/1ZNmMsz/rrOGL5gmmRvRV15uAxzg77kghpm2iyRcmL/rC9++vq0IivsNzgb
+ /cWqxt7QZJICKybUYwjfkwTpAP/rMXU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-aOR3GZT8Mj2cGLnXAL6lWw-1; Mon, 27 Jul 2020 08:29:46 -0400
+X-MC-Unique: aOR3GZT8Mj2cGLnXAL6lWw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A2F080BCAD;
+ Mon, 27 Jul 2020 12:29:44 +0000 (UTC)
+Received: from localhost (ovpn-114-74.ams2.redhat.com [10.36.114.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24E215DA6A;
+ Mon, 27 Jul 2020 12:29:40 +0000 (UTC)
+Date: Mon, 27 Jul 2020 13:29:39 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [virtio-comment] [RFC] ivshmem v2: Shared memory device
+ specification
+Message-ID: <20200727122939.GB386429@stefanha-x1.localdomain>
+References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
+ <20200715132748.GA20677@stefanha-x1.localdomain>
+ <88a33034-783a-07d2-85e0-c1a1ecd2721f@siemens.com>
+ <20200723065423.GE268427@stefanha-x1.localdomain>
+ <10df6427-eab0-d3b8-4624-ede98ff7ef09@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <10df6427-eab0-d3b8-4624-ede98ff7ef09@siemens.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4SFOXa2GPu3tIq4H"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,90 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Robert Foley <robert.foley@linaro.org>
+Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Foley <robert.foley@linaro.org>
+--4SFOXa2GPu3tIq4H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We are adding the shutdown timeout to solve an issue
-we now see where the aarch64 VMs timeout on shutdown
-under TCG.
+On Thu, Jul 23, 2020 at 09:02:09AM +0200, Jan Kiszka wrote:
+> On 23.07.20 08:54, Stefan Hajnoczi wrote:
+> > On Fri, Jul 17, 2020 at 06:15:58PM +0200, Jan Kiszka wrote:
+> > > On 15.07.20 15:27, Stefan Hajnoczi wrote:
+> > > > On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
+> >=20
+> > Thanks for the responses. It would be great to update the spec with
+> > these clarifications.
+> >=20
+> > > > > If BAR 2 is not present, the shared memory region is not relocata=
+ble
+> > > > > by the user. In that case, the hypervisor has to implement the Ba=
+se
+> > > > > Address register in the vendor-specific capability.
+> > > >=20
+> > > > What does relocatable mean in this context?
+> > >=20
+> > > That the guest can decide (via BAR) where the resource should show up=
+ in the
+> > > physical guest address space. We do not want to support this in setup=
+s like
+> > > for static partitioning hypervisors, and then we use that side-channe=
+l
+> > > read-only configuration.
+> >=20
+> > I see. I'm not sure what is vendor-specific about non-relocatable share=
+d
+> > memory. I guess it could be added to the spec too?
+>=20
+> That "vendor-specific" comes from the PCI spec which - to my understandin=
+g -
+> provides us no other means to introduce registers to the config space tha=
+t
+> are outside of the PCI spec. I could introduce a name for the ivshmem ven=
+dor
+> cap and use that name here - would that be better?
 
-There is a new 3 second timeout in machine.py,
-which we override in basevm.py when shutting down.
+Sounds good.
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200717203041.9867-4-robert.foley@linaro.org>
-Message-Id: <20200724064509.331-17-alex.bennee@linaro.org>
+--4SFOXa2GPu3tIq4H
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 7acb48b8761..3fac20e929a 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -80,6 +80,8 @@ class BaseVM(object):
-     arch = "#arch"
-     # command to halt the guest, can be overridden by subclasses
-     poweroff = "poweroff"
-+    # Time to wait for shutdown to finish.
-+    shutdown_timeout_default = 30
-     # enable IPv6 networking
-     ipv6 = True
-     # This is the timeout on the wait for console bytes.
-@@ -87,7 +89,7 @@ class BaseVM(object):
-     # Scale up some timeouts under TCG.
-     # 4 is arbitrary, but greater than 2,
-     # since we found we need to wait more than twice as long.
--    tcg_ssh_timeout_multiplier = 4
-+    tcg_timeout_multiplier = 4
-     def __init__(self, args, config=None):
-         self._guest = None
-         self._genisoimage = args.genisoimage
-@@ -141,9 +143,12 @@ class BaseVM(object):
-         if args.jobs and args.jobs > 1:
-             self._args += ["-smp", "%d" % args.jobs]
-         if kvm_available(self.arch):
-+            self._shutdown_timeout = self.shutdown_timeout_default
-             self._args += ["-enable-kvm"]
-         else:
-             logging.info("KVM not available, not using -enable-kvm")
-+            self._shutdown_timeout = \
-+                self.shutdown_timeout_default * self.tcg_timeout_multiplier
-         self._data_args = []
- 
-         if self._config['qemu_args'] != None:
-@@ -423,7 +428,7 @@ class BaseVM(object):
-     def wait_ssh(self, wait_root=False, seconds=300, cmd="exit 0"):
-         # Allow more time for VM to boot under TCG.
-         if not kvm_available(self.arch):
--            seconds *= self.tcg_ssh_timeout_multiplier
-+            seconds *= self.tcg_timeout_multiplier
-         starttime = datetime.datetime.now()
-         endtime = starttime + datetime.timedelta(seconds=seconds)
-         cmd_success = False
-@@ -441,14 +446,14 @@ class BaseVM(object):
-             raise Exception("Timeout while waiting for guest ssh")
- 
-     def shutdown(self):
--        self._guest.shutdown()
-+        self._guest.shutdown(timeout=self._shutdown_timeout)
- 
-     def wait(self):
--        self._guest.wait()
-+        self._guest.wait(timeout=self._shutdown_timeout)
- 
-     def graceful_shutdown(self):
-         self.ssh_root(self.poweroff)
--        self._guest.wait()
-+        self._guest.wait(timeout=self._shutdown_timeout)
- 
-     def qmp(self, *args, **kwargs):
-         return self._guest.qmp(*args, **kwargs)
--- 
-2.20.1
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8eyLMACgkQnKSrs4Gr
+c8iz3gf+PR7V8VCympAWs+Z7xHZgGlFUy375IgC6F5z+6fundn/iK0s7G4F+x5yO
+H3NmnoiUpdobJ52yzuTaft5DEsdL8GZ3AoDeCNp0TzU+89PFsXzDeozT9v3FGagz
+GLnwzyCpWZ8qfbEJSUeKk549gfdqunLm6liqo3h6yiBlAs6dYAnh9RppXFxVdmLw
+ydiDM+1kLBmsU5SCM8x1Uq2DNyPPySQukuCqUMQe8ssbI3L52y5+k/xverd44fUR
+rGYc2n3Z6pZ+prPkRRkUKycP0H9csQyTIcIs7PKGMhPKOMqoXCe174y4dro4GrAb
++HGBBvp2fW5ztZHRP20XjqrWhotyow==
+=AR2l
+-----END PGP SIGNATURE-----
+
+--4SFOXa2GPu3tIq4H--
 
 
