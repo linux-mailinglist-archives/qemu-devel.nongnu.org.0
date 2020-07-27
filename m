@@ -2,54 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AB422E82D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 10:48:02 +0200 (CEST)
-Received: from localhost ([::1]:42146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3262022E838
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 10:52:33 +0200 (CEST)
+Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzynh-00021o-4q
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 04:48:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52956)
+	id 1jzys4-0004U1-92
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 04:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1jzyma-0000bb-31
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 04:46:52 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:34348 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1jzymW-0006vI-OB
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 04:46:51 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 982EA8A8B4ABC2B35CE9;
- Mon, 27 Jul 2020 16:46:36 +0800 (CST)
-Received: from localhost (10.174.149.56) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 27 Jul 2020
- 16:46:29 +0800
-From: Hogan Wang <hogan.wang@huawei.com>
-To: <marcel.apfelbaum@gmail.com>, <dgilbert@redhat.com>, <jusual@redhat.com>, 
- <mst@redhat.com>, <qemu-devel@nongnu.org>
-Subject: [PATCH v4 2/2] hw/pci-host: save/restore pci host config register for
- old ones
-Date: Mon, 27 Jul 2020 16:46:21 +0800
-Message-ID: <20200727084621.3279-2-hogan.wang@huawei.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200727084621.3279-1-hogan.wang@huawei.com>
-References: <20200727084621.3279-1-hogan.wang@huawei.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jzyrD-00041f-BN
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 04:51:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43920
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jzyrA-0007b7-39
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 04:51:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595839894;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gD1XHIeg+rH4dV6cMXLr+reRu5ehSqbcP6OIbgJackc=;
+ b=GI5Umf7VRF+kkhdAEqXiIkOjwSon94LgiCZY3VJyA9PCZhc54A77COs8lrvEIxmqZvxDDC
+ gMtOPqETLk1Gp8sEAxoMIhLZDoQXSjXr9uVOzxRtMeIRd5/wVSUfo7AoF2tzRs9W4jG2p4
+ JZqJqnQJAqz+yiWhQCjS0wlKxCEjU5g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-VcpOUGRCN-iRRM-J33X1WQ-1; Mon, 27 Jul 2020 04:51:31 -0400
+X-MC-Unique: VcpOUGRCN-iRRM-J33X1WQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C1F3800688;
+ Mon, 27 Jul 2020 08:51:30 +0000 (UTC)
+Received: from [10.72.12.200] (ovpn-12-200.pek2.redhat.com [10.72.12.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB62E90E63;
+ Mon, 27 Jul 2020 08:51:24 +0000 (UTC)
+Subject: Re: [BUG] vhost-vdpa: qemu-system-s390x crashes with second
+ virtio-net-ccw device
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200724152718.4e1cbc9e.cohuck@redhat.com>
+ <20200724092906-mutt-send-email-mst@kernel.org>
+ <20200724165627.70c6dfd6.cohuck@redhat.com>
+ <20200724111512-mutt-send-email-mst@kernel.org>
+ <20200724173448.18773aec.cohuck@redhat.com>
+ <5a0dfa0b-5a1d-e7d2-1785-8cca6ddb9db8@redhat.com>
+ <20200727084310.7d29ec6d.cohuck@redhat.com>
+ <676ce079-adf6-a279-c2ea-68f43146e2ac@redhat.com>
+ <20200727104148.4ae49715.cohuck@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <fe474426-bb3e-5021-7d43-f3d0812dcaa4@redhat.com>
+Date: Mon, 27 Jul 2020 16:51:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200727104148.4ae49715.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.149.56]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=hogan.wang@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 04:46:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,197 +91,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangxinxin.wang@huawei.com, weidong.huang@huawei.com, hogan.wang@huawei.com
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The i440fx and q35 machines integrate i440FX or MCH PCI device by default.
-Refer to i440FX and ICH9-LPC spcifications, there are some reserved
-configuration registers can used to save/restore PCIHostState.config_reg.
-It's nasty but friendly to old ones.
 
-Reproducer steps:
-step 1. Make modifications to seabios and qemu for increase reproduction
-efficiency, write 0xf0 to 0x402 port notify qemu to stop vcpu after
-0x0cf8 port wrote i440 configure register. qemu stop vcpu when catch
-0x402 port wrote 0xf0.
+On 2020/7/27 下午4:41, Cornelia Huck wrote:
+> On Mon, 27 Jul 2020 15:38:12 +0800
+> Jason Wang <jasowang@redhat.com> wrote:
+>
+>> On 2020/7/27 下午2:43, Cornelia Huck wrote:
+>>> On Sat, 25 Jul 2020 08:40:07 +0800
+>>> Jason Wang <jasowang@redhat.com> wrote:
+>>>   
+>>>> On 2020/7/24 下午11:34, Cornelia Huck wrote:
+>>>>> On Fri, 24 Jul 2020 11:17:57 -0400
+>>>>> "Michael S. Tsirkin"<mst@redhat.com>  wrote:
+>>>>>      
+>>>>>> On Fri, Jul 24, 2020 at 04:56:27PM +0200, Cornelia Huck wrote:
+>>>>>>> On Fri, 24 Jul 2020 09:30:58 -0400
+>>>>>>> "Michael S. Tsirkin"<mst@redhat.com>  wrote:
+>>>>>>>          
+>>>>>>>> On Fri, Jul 24, 2020 at 03:27:18PM +0200, Cornelia Huck wrote:
+>>>>>>>>> When I start qemu with a second virtio-net-ccw device (i.e. adding
+>>>>>>>>> -device virtio-net-ccw in addition to the autogenerated device), I get
+>>>>>>>>> a segfault. gdb points to
+>>>>>>>>>
+>>>>>>>>> #0  0x000055d6ab52681d in virtio_net_get_config (vdev=<optimized out>,
+>>>>>>>>>        config=0x55d6ad9e3f80 "RT") at /home/cohuck/git/qemu/hw/net/virtio-net.c:146
+>>>>>>>>> 146	    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+>>>>>>>>>
+>>>>>>>>> (backtrace doesn't go further)
+>>>>>>> The core was incomplete, but running under gdb directly shows that it
+>>>>>>> is just a bog-standard config space access (first for that device).
+>>>>>>>
+>>>>>>> The cause of the crash is that nc->peer is not set... no idea how that
+>>>>>>> can happen, not that familiar with that part of QEMU. (Should the code
+>>>>>>> check, or is that really something that should not happen?)
+>>>>>>>
+>>>>>>> What I don't understand is why it is set correctly for the first,
+>>>>>>> autogenerated virtio-net-ccw device, but not for the second one, and
+>>>>>>> why virtio-net-pci doesn't show these problems. The only difference
+>>>>>>> between -ccw and -pci that comes to my mind here is that config space
+>>>>>>> accesses for ccw are done via an asynchronous operation, so timing
+>>>>>>> might be different.
+>>>>>> Hopefully Jason has an idea. Could you post a full command line
+>>>>>> please? Do you need a working guest to trigger this? Does this trigger
+>>>>>> on an x86 host?
+>>>>> Yes, it does trigger with tcg-on-x86 as well. I've been using
+>>>>>
+>>>>> s390x-softmmu/qemu-system-s390x -M s390-ccw-virtio,accel=tcg -cpu qemu,zpci=on
+>>>>> -m 1024 -nographic -device virtio-scsi-ccw,id=scsi0,devno=fe.0.0001
+>>>>> -drive file=/path/to/image,format=qcow2,if=none,id=drive-scsi0-0-0-0
+>>>>> -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=1
+>>>>> -device virtio-net-ccw
+>>>>>
+>>>>> It seems it needs the guest actually doing something with the nics; I
+>>>>> cannot reproduce the crash if I use the old advent calendar moon buggy
+>>>>> image and just add a virtio-net-ccw device.
+>>>>>
+>>>>> (I don't think it's a problem with my local build, as I see the problem
+>>>>> both on my laptop and on an LPAR.)
+>>>> It looks to me we forget the check the existence of peer.
+>>>>
+>>>> Please try the attached patch to see if it works.
+>>> Thanks, that patch gets my guest up and running again. So, FWIW,
+>>>
+>>> Tested-by: Cornelia Huck <cohuck@redhat.com>
+>>>
+>>> Any idea why this did not hit with virtio-net-pci (or the autogenerated
+>>> virtio-net-ccw device)?
+>>
+>> It can be hit with virtio-net-pci as well (just start without peer).
+> Hm, I had not been able to reproduce the crash with a 'naked' -device
+> virtio-net-pci. But checking seems to be the right idea anyway.
 
-seabios:/src/hw/pci.c
-@@ -52,6 +52,11 @@ void pci_config_writeb(u16 bdf, u32 addr, u8 val)
-         writeb(mmconfig_addr(bdf, addr), val);
-     } else {
-         outl(ioconfig_cmd(bdf, addr), PORT_PCI_CMD);
-+       if (bdf == 0 && addr == 0x72 && val == 0xa) {
-+            dprintf(1, "stop vcpu\n");
-+            outb(0xf0, 0x402); // notify qemu to stop vcpu
-+            dprintf(1, "resume vcpu\n");
-+        }
-         outb(val, PORT_PCI_DATA + (addr & 3));
-     }
- }
 
-qemu:hw/char/debugcon.c
-@@ -60,6 +61,9 @@ static void debugcon_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-     printf(" [debugcon: write addr=0x%04" HWADDR_PRIx " val=0x%02" PRIx64 "]\n", addr, val);
- #endif
+Sorry for being unclear, I meant for networking part, you just need 
+start without peer, and you need a real guest (any Linux) that is trying 
+to access the config space of virtio-net.
 
-+    if (ch == 0xf0) {
-+        vm_stop(RUN_STATE_PAUSED);
-+    }
-     /* XXX this blocks entire thread. Rewrite to use
-      * qemu_chr_fe_write and background I/O callbacks */
-     qemu_chr_fe_write_all(&s->chr, &ch, 1);
+Thanks
 
-step 2. start vm1 by the following command line, and then vm stopped.
-$ qemu-system-x86_64 -machine pc-i440fx-5.0,accel=kvm\
- -netdev tap,ifname=tap-test,id=hostnet0,vhost=on,downscript=no,script=no\
- -device virtio-net-pci,netdev=hostnet0,id=net0,bus=pci.0,addr=0x13,bootindex=3\
- -device cirrus-vga,id=video0,vgamem_mb=16,bus=pci.0,addr=0x2\
- -chardev file,id=seabios,path=/var/log/test.seabios,append=on\
- -device isa-debugcon,iobase=0x402,chardev=seabios\
- -monitor stdio
 
-step 3. start vm2 to accept vm1 state.
-$ qemu-system-x86_64 -machine pc-i440fx-5.0,accel=kvm\
- -netdev tap,ifname=tap-test1,id=hostnet0,vhost=on,downscript=no,script=no\
- -device virtio-net-pci,netdev=hostnet0,id=net0,bus=pci.0,addr=0x13,bootindex=3\
- -device cirrus-vga,id=video0,vgamem_mb=16,bus=pci.0,addr=0x2\
- -chardev file,id=seabios,path=/var/log/test.seabios,append=on\
- -device isa-debugcon,iobase=0x402,chardev=seabios\
- -monitor stdio \
- -incoming tcp:127.0.0.1:8000
-
-step 4. execute the following qmp command in vm1 to migrate.
-(qemu) migrate tcp:127.0.0.1:8000
-
-step 5. execute the following qmp command in vm2 to resume vcpu.
-(qemu) cont
-
-Before this patch, we can get KVM "emulation failure" error on vm2.
-This patch can fix it.
-
-Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
----
- hw/pci-host/i440fx.c | 31 +++++++++++++++++++++++++++++++
- hw/pci-host/q35.c    | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 61 insertions(+)
-
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 8ed2417f0c..b78c8bc5f9 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -64,6 +64,14 @@ typedef struct I440FXState {
-  */
- #define I440FX_COREBOOT_RAM_SIZE 0x57
- 
-+/* Older I440FX machines (5.0 and older) not support i440FX-pcihost state
-+ * migration, use some reserved INTEL 82441 configuration registers to
-+ * save/restore i440FX-pcihost config register. Refer to [INTEL 440FX PCISET
-+ * 82441FX PCI AND MEMORY CONTROLLER (PMC) AND 82442FX DATA BUS ACCELERATOR
-+ * (DBX) Table 1. PMC Configuration Space]
-+ */
-+#define I440FX_PCI_HOST_CONFIG_REG 0x94
-+
- static void i440fx_update_memory_mappings(PCII440FXState *d)
- {
-     int i;
-@@ -98,8 +106,30 @@ static void i440fx_write_config(PCIDevice *dev,
- static int i440fx_post_load(void *opaque, int version_id)
- {
-     PCII440FXState *d = opaque;
-+    PCIDevice *dev;
-+    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-+                                   object_resolve_path("/machine/i440fx", NULL),
-+                                   TYPE_PCI_HOST_BRIDGE);
- 
-     i440fx_update_memory_mappings(d);
-+
-+    if (!s->mig_enabled) {
-+        dev = PCI_DEVICE(d);
-+        s->config_reg = pci_get_long(&dev->config[I440FX_PCI_HOST_CONFIG_REG]);
-+    }
-+    return 0;
-+}
-+
-+static int i440fx_pre_save(void *opaque)
-+{
-+    PCIDevice *dev = opaque;
-+    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-+                                   object_resolve_path("/machine/i440fx", NULL),
-+                                   TYPE_PCI_HOST_BRIDGE);
-+    if (!s->mig_enabled) {
-+        pci_set_long(&dev->config[I440FX_PCI_HOST_CONFIG_REG],
-+                     s->config_reg);
-+    }
-     return 0;
- }
- 
-@@ -107,6 +137,7 @@ static const VMStateDescription vmstate_i440fx = {
-     .name = "I440FX",
-     .version_id = 3,
-     .minimum_version_id = 3,
-+    .pre_save = i440fx_pre_save,
-     .post_load = i440fx_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(parent_obj, PCII440FXState),
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index b67cb9c29f..bed66be181 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -43,6 +43,15 @@
- 
- #define Q35_PCI_HOST_HOLE64_SIZE_DEFAULT (1ULL << 35)
- 
-+/* Older Q35 machines (5.0 and older) not support q35-pcihost state
-+ * migration, use some reserved INTEL MCH configuration registers to
-+ * save/restore q35-pcihost config register. Refer to [Intel 3 Series
-+ * Chipset Family Datasheet Table 5-1. DRAM Controller Register Address
-+ * Map (D0:F0)]
-+ */
-+#define Q35_PCI_HOST_CONFIG_REG 0x70
-+
-+
- static void q35_host_realize(DeviceState *dev, Error **errp)
- {
-     PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-@@ -513,7 +522,27 @@ static void mch_update(MCHPCIState *mch)
- static int mch_post_load(void *opaque, int version_id)
- {
-     MCHPCIState *mch = opaque;
-+    PCIDevice *dev;
-+    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-+                                   object_resolve_path("/machine/q35", NULL),
-+                                   TYPE_PCI_HOST_BRIDGE);
-     mch_update(mch);
-+    if (!s->mig_enabled) {
-+        dev = PCI_DEVICE(mch);
-+        s->config_reg = pci_get_long(&dev->config[Q35_PCI_HOST_CONFIG_REG]);
-+    }
-+    return 0;
-+}
-+
-+static int mch_pre_save(void *opaque)
-+{
-+    PCIDevice *dev = opaque;
-+    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-+                                   object_resolve_path("/machine/q35", NULL),
-+                                   TYPE_PCI_HOST_BRIDGE);
-+    if (!s->mig_enabled) {
-+        pci_set_long(&dev->config[Q35_PCI_HOST_CONFIG_REG], s->config_reg);
-+    }
-     return 0;
- }
- 
-@@ -521,6 +550,7 @@ static const VMStateDescription vmstate_mch = {
-     .name = "mch",
-     .version_id = 1,
-     .minimum_version_id = 1,
-+    .pre_save = mch_pre_save,
-     .post_load = mch_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(parent_obj, MCHPCIState),
--- 
-2.27.0
-
+>
+>> For autogenerated virtio-net-cww, I think the reason is that it has
+>> already had a peer set.
+> Ok, that might well be.
+>
+>
 
 
