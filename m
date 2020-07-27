@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D5B22F3CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:24:01 +0200 (CEST)
-Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D2322F3BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:20:56 +0200 (CEST)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04yu-0007gB-L6
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42552)
+	id 1k04vv-0002tg-L3
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uZ-0001Yd-3P
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:31 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34164)
+ id 1k04ub-0001bB-1m
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:33 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uX-0001M6-ED
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:30 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f7so15311899wrw.1
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:29 -0700 (PDT)
+ id 1k04uZ-0001MN-Fj
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:32 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id b6so15285254wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=R9nya5qllTCM3YMYSzF0QauvCLw6C0mO2StmL8/Bb3Y=;
- b=D4JcadsbbjMe67R37gKM0i6ccbHQ/Y5Mf+30LKl2kG7E65l1GzPHTSAH61jm13hZxW
- jZ3lkYJqTNfsJqBVVW30gtpVbHgbL3l350QNjUK1DtHESCIetQ+bSinW1Y3EpnFEUoJD
- 1LJsr60/4cxe5mXajCgOy5px3QaLgr3JR0EiKJ/iq5zkyhGcbs7MFOcqB7UF3QIaU4mr
- JR5v5LEJ9S7MwzgKqQ7jTX3cMmxPXXf4xXpYDEOEkbzIDf2vk5HQ9Z+N0XKhl+yGqijP
- +nmGmULZWlHmg+yxKM8mZ9k7b3r5Cad/0lxa1/fprn7Ls4/BVIEK5BZt6oimTryzxBFq
- 5uWQ==
+ bh=PZFpVZfQpAAFemnJfw1bta1je15PzH0gg3ZsQFBq8iI=;
+ b=VIf8x036KsTgU/ng8WCiKOyytOQ5iM2vvTbq/C/FbgVZ2LqKcWg39+9GIBRxNtRoug
+ tQ35IX60aKfQLW6LeEERtTnKWxfO4IUW3Sn7Gtk8SPSK/T5dfMRNhAjWaETKv3IR85bw
+ y2U7zzipUR0+dXfKx1RaDDA2xfcOrA2hArMSN2SxKM11v0cn4zGnLgLND9w67Mr8IUb9
+ W2vGdfWIy3kuyBOyyYjUVOGmU0h8ZlSHuz1T+ACE0YlYGEsKrcoqnvqaWh38wna9YNaC
+ AXwinQiP7mCXeMwfFR2JHoXK0zdpdkgi9zLbEUu/23jU+cD7cIqtR7N/2Fy3uy4Zm3NQ
+ y/Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R9nya5qllTCM3YMYSzF0QauvCLw6C0mO2StmL8/Bb3Y=;
- b=I68+eyrwN1/5voKWBzCulcGhTVZJRVmN6nLTwk1WplifJViSdOvYoTLlNYvEoPWayZ
- BhFBcKW+owQRPrGY8eGOBq5pTxJoe7xyDhS2HJzHJgrUICaF0JXL73hMWYT3vk9rsNiJ
- 4MogZsDgFntW79GO0SzdBs85BLMUIEAxdp0xrlqMFmM71sGyOcKDhg/ghBep8oXov+mF
- yQdYa0N8i1uH+vGkM324cL9K8T3NoKmqcJ3aGy6x2NH+h1y6rYVlKYFUVKT39I70g9za
- n+14HmcY+kGQEXqizI9q8W5Ozhyh8RcppvF/iEyPbm6bVB2APLODNjk+ppZ8BVz1Kd8H
- QYFg==
-X-Gm-Message-State: AOAM532jxgpUgPMP7yq5lpeup9OhR/Rs8O7NPMQwzx0bkdukFLrNzMwn
- oh/yFJSTU1easkUP7D229xBLkZB9o1EbjA==
-X-Google-Smtp-Source: ABdhPJz7k1KZYdY/+EBfD1qzAgwexagrf+4/T0hQ+05mZelWjRn3pA1RWAUSguBExattBgoc+0PbtA==
-X-Received: by 2002:adf:de09:: with SMTP id b9mr8154842wrm.409.1595863167650; 
- Mon, 27 Jul 2020 08:19:27 -0700 (PDT)
+ bh=PZFpVZfQpAAFemnJfw1bta1je15PzH0gg3ZsQFBq8iI=;
+ b=sH8ekD+oR2HCshA90OeAYqYxPPf21f++rAd4RsMn5Cck1InHL+/1YwFAnULOcO74Mn
+ DPvyBJIO5CUNfEFiDAZOX5HrPF5SUjT3koPVM4bom/PiWupBYW0mNh2ug3YI1yU2V9MY
+ 7TtvsKF3WlbKipbM3n0A2ybpfTZs1+JxJeuVR9cWPiilQ9EN1raCe3e680B8r5zXow+3
+ p+YwwHD3njUOYhPa69yUvVwUcedfwnAkqQ71daght9GVR8LsLeVNxkmRZOik+jI9tWMU
+ dfchtN4pBaEWGXvnsOd5qqBSOQ8488b9c7Leopy1HedojeepOPbL3yUt2EnT/hQRfkxb
+ 71lQ==
+X-Gm-Message-State: AOAM530sUiXkMPM8pnAf2fXRf0iBjwMO/ulY+yLCx5kCZPrgdfCBF6pC
+ FQBqz37CL9KqKztVMz9a8gn+kAiQJ/gz0Q==
+X-Google-Smtp-Source: ABdhPJzVMAqNzTNYH4pOYTY4FGkkG2LqIRl6g737fGmUnRuF64v+Y93sLUWeD1uRsAgIrhe8U6ikGQ==
+X-Received: by 2002:adf:b7cd:: with SMTP id t13mr19989737wre.424.1595863169112; 
+ Mon, 27 Jul 2020 08:19:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.26
+ by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 08:19:27 -0700 (PDT)
+ Mon, 27 Jul 2020 08:19:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] target/arm: Always pass cacheattr in S1_ptw_translate
-Date: Mon, 27 Jul 2020 16:19:16 +0100
-Message-Id: <20200727151920.19150-4-peter.maydell@linaro.org>
+Subject: [PULL 4/7] docs/system/arm/virt: Document 'mte' machine option
+Date: Mon, 27 Jul 2020 16:19:17 +0100
+Message-Id: <20200727151920.19150-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200727151920.19150-1-peter.maydell@linaro.org>
 References: <20200727151920.19150-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,63 +89,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Commit 6a0b7505f1fd6769c which added documentation of the virt board
+crossed in the post with commit 6f4e1405b91da0d0 which added a new
+'mte' machine option. Update the docs to include the new option.
 
-When we changed the interface of get_phys_addr_lpae to require
-the cacheattr parameter, this spot was missed.  The compiler is
-unable to detect the use of NULL vs the nonnull attribute here.
-
-Fixes: 7e98e21c098
-Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Jan Kiszka <jan.kiskza@siemens.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ docs/system/arm/virt.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c69a2baf1d3..8ef0fb478f4 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10204,21 +10204,11 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-         int s2prot;
-         int ret;
-         ARMCacheAttrs cacheattrs = {};
--        ARMCacheAttrs *pcacheattrs = NULL;
--
--        if (env->cp15.hcr_el2 & HCR_PTW) {
--            /*
--             * PTW means we must fault if this S1 walk touches S2 Device
--             * memory; otherwise we don't care about the attributes and can
--             * save the S2 translation the effort of computing them.
--             */
--            pcacheattrs = &cacheattrs;
--        }
+diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+index 6621ab7205d..32dc5eb22ee 100644
+--- a/docs/system/arm/virt.rst
++++ b/docs/system/arm/virt.rst
+@@ -79,6 +79,10 @@ virtualization
+   Set ``on``/``off`` to enable/disable emulating a guest CPU which implements the
+   Arm Virtualization Extensions. The default is ``off``.
  
-         ret = get_phys_addr_lpae(env, addr, MMU_DATA_LOAD, ARMMMUIdx_Stage2,
-                                  false,
-                                  &s2pa, &txattrs, &s2prot, &s2size, fi,
--                                 pcacheattrs);
-+                                 &cacheattrs);
-         if (ret) {
-             assert(fi->type != ARMFault_None);
-             fi->s2addr = addr;
-@@ -10226,8 +10216,11 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-             fi->s1ptw = true;
-             return ~0;
-         }
--        if (pcacheattrs && (pcacheattrs->attrs & 0xf0) == 0) {
--            /* Access was to Device memory: generate Permission fault */
-+        if ((env->cp15.hcr_el2 & HCR_PTW) && (cacheattrs.attrs & 0xf0) == 0) {
-+            /*
-+             * PTW set and S1 walk touched S2 Device memory:
-+             * generate Permission fault.
-+             */
-             fi->type = ARMFault_Permission;
-             fi->s2addr = addr;
-             fi->stage2 = true;
++mte
++  Set ``on``/``off`` to enable/disable emulating a guest CPU which implements the
++  Arm Memory Tagging Extensions. The default is ``off``.
++
+ highmem
+   Set ``on``/``off`` to enable/disable placing devices and RAM in physical
+   address space above 32 bits. The default is ``on`` for machine types
 -- 
 2.20.1
 
