@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A2E2315F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 01:05:49 +0200 (CEST)
-Received: from localhost ([::1]:49822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CF5231662
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 01:42:37 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0YfM-0005oI-4n
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 19:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40386)
+	id 1k0ZEy-0004FC-CX
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 19:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k0Yds-0005Bh-Dq; Tue, 28 Jul 2020 19:04:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k0Ydq-0003Ta-2I; Tue, 28 Jul 2020 19:04:16 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06SN2wfO055069; Tue, 28 Jul 2020 19:03:38 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32hs1dfnam-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jul 2020 19:03:38 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06SN2whd055056;
- Tue, 28 Jul 2020 19:03:38 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32hs1dfna5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jul 2020 19:03:38 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06SMsU3V015338;
- Tue, 28 Jul 2020 23:03:36 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma03dal.us.ibm.com with ESMTP id 32gcy74e4h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jul 2020 23:03:36 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06SN3abQ30474616
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Jul 2020 23:03:36 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0B533AC062;
- Tue, 28 Jul 2020 23:03:36 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 403C3AC060;
- Tue, 28 Jul 2020 23:03:29 +0000 (GMT)
-Received: from morokweng.localdomain (unknown [9.163.54.39])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Tue, 28 Jul 2020 23:03:28 +0000 (GMT)
-References: <20200723025657.644724-1-bauerman@linux.ibm.com>
- <20200723025657.644724-4-bauerman@linux.ibm.com>
- <20200727152828.133ee76a@bahia.lan>
-User-agent: mu4e 1.2.0; emacs 26.3
-From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 3/8] ppc/spapr: Use start-powered-off CPUState property
-In-reply-to: <20200727152828.133ee76a@bahia.lan>
-Date: Tue, 28 Jul 2020 20:03:24 -0300
-Message-ID: <87bljzuts3.fsf@morokweng.localdomain>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1k0ZDb-0003ps-Lj
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 19:41:11 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1k0ZDY-0000Fq-T3
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 19:41:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595979666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=znjZ9sel4k/dKCZFj1Mz6lZtME9lwovF4ezKLIhaDCo=;
+ b=hrzLzSLNkW/ZPQIasM6vAc6W2V+FlOOEuLCeb/G9pI4iW0BXmlc35vSZK8Q090/dQb9MiN
+ DSuVW/zN999xLpXt7t42ZVnPXp49AWoMu6QwzGXXkO721CWw4sURNbDI7+xdPIqq0OMfZG
+ cL+Wu7ocLGPn1aZcMkHtfcIQ6Yn7nN8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-xA6Qtz7sM5-CXNDu3i0OPA-1; Tue, 28 Jul 2020 19:41:04 -0400
+X-MC-Unique: xA6Qtz7sM5-CXNDu3i0OPA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC9821005510;
+ Tue, 28 Jul 2020 23:41:02 +0000 (UTC)
+Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
+ (ovpn-112-49.rdu2.redhat.com [10.10.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 700EA60E1C;
+ Tue, 28 Jul 2020 23:40:58 +0000 (UTC)
+Subject: Re: [PATCH for 5.1] docs: fix trace docs build with sphinx 3.1.1
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200714162659.1017432-1-berrange@redhat.com>
+ <87blk257eg.fsf@igel.home> <94143f30-d646-763d-5b10-ef0ca8b246ca@redhat.com>
+ <CAFEAcA8GyXLkt439aYTbNSO_CSoh_Fq0HJeMzYuAkB6RBOfdoQ@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <6ec6a79f-fdf5-57b9-50f5-3c02ee9f11d5@redhat.com>
+Date: Tue, 28 Jul 2020 19:40:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-28_17:2020-07-28,
- 2020-07-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 phishscore=0 spamscore=0
- clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007280164
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 19:04:11
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+In-Reply-To: <CAFEAcA8GyXLkt439aYTbNSO_CSoh_Fq0HJeMzYuAkB6RBOfdoQ@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.74; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 16:54:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,64 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, David
- Hildenbrand <david@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Andreas Schwab <schwab@linux-m68k.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/27/20 4:14 PM, Peter Maydell wrote:
+> On Mon, 27 Jul 2020 at 20:52, John Snow <jsnow@redhat.com> wrote:
+>> ... Should we say goodbye to Sphinx 1.7.x, or is there a workaround that
+>> keeps support from 1.6.1 through to 3.1.1?
+> 
+> I think we need to keep 1.7.x because it's the Sphinx shipped
+> by some LTS distros we support, don't we?
+> 
 
-Greg Kurz <groug@kaod.org> writes:
+Only if you feel it's important that doc building works using packages 
+from the system repo. `pip3 install --user sphinx` works on all of these 
+distros, too.
 
-> On Wed, 22 Jul 2020 23:56:52 -0300
-> Thiago Jung Bauermann <bauerman@linux.ibm.com> wrote:
->
->> PowerPC sPAPR CPUs start in the halted state, and spapr_reset_vcpu()
->> attempts to implement this by setting CPUState::halted to 1. But that's too
->> late for the case of hotplugged CPUs in a machine configure with 2 or more
->> threads per core.
->> 
->> By then, other parts of QEMU have already caused the vCPU to run in an
->> unitialized state a couple of times. For example, ppc_cpu_reset() calls
->> ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
->> kicks the new vCPU while it has CPUState::halted = 0, causing QEMU to issue
->> a KVM_RUN ioctl on the new vCPU before the guest is able to make the
->> start-cpu RTAS call to initialize its register state.
->> 
->> This problem doesn't seem to cause visible issues for regular guests, but
->> on a secure guest running under the Ultravisor it does. The Ultravisor
->> relies on being able to snoop on the start-cpu RTAS call to map vCPUs to
->> guests, and this issue causes it to see a stray vCPU that doesn't belong to
->> any guest.
->> 
->> Fix by setting the start-powered-off CPUState property in
->> spapr_create_vcpu(), which makes cpu_common_reset() initialize
->> CPUState::halted to 1 at an earlier moment.
->> 
->> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
->> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
->> ---
->
-> Thanks for doing this ! I remember seeing partly initialized CPUs being
-> kicked in the past, which is clearly wrong but I never got time to find
-> a proper fix (especially since it didn't seem to break anything).
->
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+We already somewhat break our promise where Sphinx is concerned for the 
+oldest distros on our support list.
 
-Thanks for confirming the issue, and for reviewing the code.
+> I do feel we probably need to defend our Sphinx-version-support
+> more actively by having oldest-supported and bleeding-edge
+> both tested in the CI setup...
+> 
 
--- 
-Thiago Jung Bauermann
-IBM Linux Technology Center
+We could either:
+
+A) Start using a "build venv" that uses specific sets of python packages 
+for the build process to pin everyone's build at version 1.6.1
+
+B) Add some sort of pytest/tox/whatever to add a test that does a sphinx 
+doc build across multiple different versions, 1.6.1, 1.7.x, 2.0.x, etc.
+
+(I don't think you liked the idea of a Python environment in QEMU taking 
+responsibility of Sphinx, though ...)
+
 
