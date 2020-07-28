@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D18F230323
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 08:39:40 +0200 (CEST)
-Received: from localhost ([::1]:37896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA3B230310
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 08:37:37 +0200 (CEST)
+Received: from localhost ([::1]:58324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0JH0-0008VY-OA
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 02:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50846)
+	id 1k0JF2-0005Kd-T4
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 02:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1k0J5p-0001L1-6O
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:05 -0400
-Received: from mga09.intel.com ([134.134.136.24]:37274)
+ id 1k0J5q-0001N2-9Q
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:06 -0400
+Received: from mga09.intel.com ([134.134.136.24]:37270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1k0J5n-0002BC-4y
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:04 -0400
-IronPort-SDR: SHRu7bdwBeNINvYkpQFM3VSlN/Z6MVwkmJOgQc09qrUyujSZZRmGyWndfWlbg03Pa+qKsn5DDB
- pw5tiaiN4OmQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152412064"
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="152412064"
+ id 1k0J5o-0002B0-9s
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:05 -0400
+IronPort-SDR: 1LexbXZzBZp0DA2pVHbv4Kdm4TxJOXzYFRSYlEqOOgW09N648YQ2XWuPYnNuv4W+9jjkcUsx2B
+ s5a5L6R2zZPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152412067"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="152412067"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2020 23:27:54 -0700
-IronPort-SDR: cI+u6BoBiVXaD1ZHPOtGYUecQ1q4g30tRZxcHcHm4aDudZcHfvA8Ack9r2K6qx0ItpuoSIQrV4
- fhC02+72y6PQ==
+ 27 Jul 2020 23:27:55 -0700
+IronPort-SDR: ejMU6DzdEDW/ABSoGRiipppTxqc9OzO7XfaQxChOAC7EQJFA5skIXq+AIvA81uV11Q6WgEXI9m
+ S2V3TpLbWJQw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="394233060"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="394233075"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2020 23:27:52 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2020 23:27:54 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, alex.williamson@redhat.com, peterx@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v9 20/25] intel_iommu: do not pass down pasid bind for PASID #0
-Date: Mon, 27 Jul 2020 23:34:13 -0700
-Message-Id: <1595918058-33392-21-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v9 21/25] vfio: add support for flush iommu stage-1 cache
+Date: Mon, 27 Jul 2020 23:34:14 -0700
+Message-Id: <1595918058-33392-22-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1595918058-33392-1-git-send-email-yi.l.liu@intel.com>
 References: <1595918058-33392-1-git-send-email-yi.l.liu@intel.com>
@@ -52,7 +52,7 @@ X-Spam_score: -6.9
 X-Spam_bar: ------
 X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,73 +66,131 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
+ Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, eric.auger@redhat.com, yi.y.sun@intel.com,
  Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+ hao.wu@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RID_PASID field was introduced in VT-d 3.0 spec, it is used
-for DMA requests w/o PASID in scalable mode VT-d. It is also
-known as IOVA. And in VT-d 3.1 spec, there is definition on it:
-
-"Implementations not supporting RID_PASID capability
-(ECAP_REG.RPS is 0b), use a PASID value of 0 to perform
-address translation for requests without PASID."
-
-This patch adds a check against the PASIDs which are going to be
-bound to device. For PASID #0, it is not necessary to pass down
-pasid bind request for it since PASID #0 is used as RID_PASID for
-DMA requests without pasid. Further reason is current Intel vIOMMU
-supports gIOVA by shadowing guest 2nd level page table. However,
-in future, if guest IOMMU driver uses 1st level page table to store
-IOVA mappings, then guest IOVA support will also be done via nested
-translation. When gIOVA is over FLPT, then vIOMMU should pass down
-the pasid bind request for PASID #0 to host, host needs to bind the
-guest IOVA page table to a proper PASID. e.g. PASID value in RID_PASID
-field for PF/VF if ECAP_REG.RPS is clear or default PASID for ADI
-(Assignable Device Interface in Scalable IOV solution).
-
-IOVA over FLPT support on Intel VT-d:
-https://lkml.org/lkml/2019/9/23/297
+This patch adds flush_stage1_cache() definition in HostIOMUContextClass.
+And adds corresponding implementation in VFIO. This is to expose a way
+for vIOMMU to flush stage-1 cache in host side since guest owns stage-1
+translation structures in dual stage DMA translation configuration.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/i386/intel_iommu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/iommu/host_iommu_context.c         | 19 +++++++++++++++++++
+ hw/vfio/common.c                      | 24 ++++++++++++++++++++++++
+ include/hw/iommu/host_iommu_context.h |  8 ++++++++
+ 3 files changed, 51 insertions(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index efad0af..f0e1afa 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1893,6 +1893,16 @@ static int vtd_bind_guest_pasid(IntelIOMMUState *s, VTDBus *vtd_bus,
-     HostIOMMUContext *iommu_ctx;
-     int ret = -1;
+diff --git a/hw/iommu/host_iommu_context.c b/hw/iommu/host_iommu_context.c
+index c43965c..a3f7706 100644
+--- a/hw/iommu/host_iommu_context.c
++++ b/hw/iommu/host_iommu_context.c
+@@ -113,6 +113,25 @@ int host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
+     return hicxc->unbind_stage1_pgtbl(iommu_ctx, unbind);
+ }
  
-+    if (pasid < VTD_HPASID_MIN) {
-+        /*
-+         * If pasid < VTD_HPASID_MIN, this pasid is not allocated
-+         * from host. No need to pass down the changes on it to host.
-+         * TODO: when IOVA over FLPT is ready, this switch should be
-+         * refined.
-+         */
-+        return 0;
++int host_iommu_ctx_flush_stage1_cache(HostIOMMUContext *iommu_ctx,
++                                 struct iommu_cache_invalidate_info *cache)
++{
++    HostIOMMUContextClass *hicxc;
++
++    hicxc = HOST_IOMMU_CONTEXT_GET_CLASS(iommu_ctx);
++
++    if (!hicxc) {
++        return -EINVAL;
 +    }
 +
-     vtd_dev_icx = vtd_bus->dev_icx[devfn];
-     if (!vtd_dev_icx) {
-         /* means no need to go further, e.g. for emulated devices */
++    if (!(iommu_ctx->flags & HOST_IOMMU_NESTING) ||
++        !hicxc->flush_stage1_cache) {
++        return -EINVAL;
++    }
++
++    return hicxc->flush_stage1_cache(iommu_ctx, cache);
++}
++
+ void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+                          const char *mrtypename,
+                          uint64_t flags,
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 3f09e74..97b8200 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1275,6 +1275,29 @@ static int vfio_host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
+     return ret;
+ }
+ 
++static int vfio_host_iommu_ctx_flush_stage1_cache(HostIOMMUContext *iommu_ctx,
++                                    struct iommu_cache_invalidate_info *cache)
++{
++    VFIOContainer *container = container_of(iommu_ctx,
++                                            VFIOContainer, iommu_ctx);
++    struct vfio_iommu_type1_nesting_op *op;
++    unsigned long argsz;
++    int ret = 0;
++
++    argsz = sizeof(*op) + sizeof(*cache);
++    op = g_malloc0(argsz);
++    op->argsz = argsz;
++    op->flags = VFIO_IOMMU_NESTING_OP_CACHE_INVLD;
++    memcpy(&op->data, cache, sizeof(*cache));
++
++    if (ioctl(container->fd, VFIO_IOMMU_NESTING_OP, op)) {
++        ret = -errno;
++        error_report("%s: iommu cache flush failed: %m", __func__);
++    }
++    g_free(op);
++    return ret;
++}
++
+ /**
+  * Get iommu info from host. Caller of this funcion should free
+  * the memory pointed by the returned pointer stored in @info
+@@ -2023,6 +2046,7 @@ static void vfio_host_iommu_context_class_init(ObjectClass *klass,
+     hicxc->pasid_free = vfio_host_iommu_ctx_pasid_free;
+     hicxc->bind_stage1_pgtbl = vfio_host_iommu_ctx_bind_stage1_pgtbl;
+     hicxc->unbind_stage1_pgtbl = vfio_host_iommu_ctx_unbind_stage1_pgtbl;
++    hicxc->flush_stage1_cache = vfio_host_iommu_ctx_flush_stage1_cache;
+ }
+ 
+ static const TypeInfo vfio_host_iommu_context_info = {
+diff --git a/include/hw/iommu/host_iommu_context.h b/include/hw/iommu/host_iommu_context.h
+index 2883ed8..40e860a 100644
+--- a/include/hw/iommu/host_iommu_context.h
++++ b/include/hw/iommu/host_iommu_context.h
+@@ -64,6 +64,12 @@ typedef struct HostIOMMUContextClass {
+     /* Undo a previous bind. @unbind specifies the unbind info. */
+     int (*unbind_stage1_pgtbl)(HostIOMMUContext *iommu_ctx,
+                                struct iommu_gpasid_bind_data *unbind);
++    /*
++     * Propagate stage-1 cache flush to host IOMMU, cache
++     * info specifid in @cache
++     */
++    int (*flush_stage1_cache)(HostIOMMUContext *iommu_ctx,
++                              struct iommu_cache_invalidate_info *cache);
+ } HostIOMMUContextClass;
+ 
+ /*
+@@ -85,6 +91,8 @@ int host_iommu_ctx_bind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
+                                      struct iommu_gpasid_bind_data *bind);
+ int host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
+                                  struct iommu_gpasid_bind_data *unbind);
++int host_iommu_ctx_flush_stage1_cache(HostIOMMUContext *iommu_ctx,
++                               struct iommu_cache_invalidate_info *cache);
+ 
+ void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+                          const char *mrtypename,
 -- 
 2.7.4
 
