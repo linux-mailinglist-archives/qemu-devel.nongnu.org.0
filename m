@@ -2,110 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF16523074C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:08:05 +0200 (CEST)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D55923075B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:10:45 +0200 (CEST)
+Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0MWj-00040B-2d
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
+	id 1k0MZI-0006JK-F8
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k0MVy-0003Ur-FZ; Tue, 28 Jul 2020 06:07:18 -0400
-Received: from mail-eopbgr60113.outbound.protection.outlook.com
- ([40.107.6.113]:7604 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k0MVw-0006cz-Kj; Tue, 28 Jul 2020 06:07:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NbxY7odcm91QVhjPQ1lhe7dly8ggw3uCjaIYCTbiYiqepNOgEeCkywo4uKiwufL4d1EBbIiw+LcNyrJhv/AOXs4rvZ2WP2upNLJJfd/b3ZxElbBYU4DQNvQA54dcc2KefuZSv5BD9Mvk6BFgvc3NiADnADH4yzkMdBH+mh9Dr07x68SylL0nRoVXlpUbC1VH9sal/ZhB+BtWU4OXkCx43qMmwKfoawLUp8qlLBBDftYPEjhm4xr8gCrU+LLO8qJUx2V4TdMwWM2WfJgZs6DU0Szv7ktP79NZC+bkFEidk4uFwUn069SlliPmDOoWsLDlz5xpGvCMAQh6Hwyk/m6z2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=afKh6gHIZ4FOkWyhl4+lXreTfUHlCFBcflzx/SFZgo0=;
- b=I9/LUUWc5sCRdxBCYLZe5peti+UeHWMJIwEaIL26RRowU+bM1O6SLNn1qSfEk+0r4oGWQxINKYJ8ow8qa74TgG424aNP0HgB534BTdoACjtEKs1H/8/CrTOdW1WsMkFcK9D1J4IkCBpiOVcI7dqRY+imZouyKEhMhpLIuGvx5L5zqLGP+xS4PLIiV0qOjqcP25E0e2hjuFsw6YpINEEKmOn+gu/xpGoRJcE4LAXyxmW504GdobgHvsHBwAHtOID7AGHyiGAqFEplE22iNzB1s2CJrBk6/RN9uaq9Hazw118KVzTbqV67xriqsPg8OPZRW5PCFWpHGjXW34PtdYgh1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=afKh6gHIZ4FOkWyhl4+lXreTfUHlCFBcflzx/SFZgo0=;
- b=Vv7Fx5Bave1XyZjyr+VhguAiReKUNBdCROT0NtJuV6nRDKqNWgR8sZZMdTFfQ7Fe5HOFxXu0AWcE/yN/Xy+TgONOcC8Rb10bQQvP6krMBdoaLnCZxG4Qc/alZJJwfYNHfuaJZXmAFJHfA4VM//yvotuM4CwOAPO1qkI89ySaJg4=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3383.eurprd08.prod.outlook.com (2603:10a6:20b:50::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Tue, 28 Jul
- 2020 10:07:13 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
- 10:07:13 +0000
-Subject: Re: [PATCH v11 08/11] qcow2.py: Introduce '-j' key to dump in JSON
- format
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1594973699-781898-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1594973699-781898-9-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <7a776fc5-707c-4750-074c-d8a4a58a1871@virtuozzo.com>
-Date: Tue, 28 Jul 2020 13:07:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <1594973699-781898-9-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k0MYA-0005Ng-8L
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:09:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29589
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k0MY7-0006u5-DZ
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:09:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595930970;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BhUW9ESioUiSA1BxCHyRzLsoe5bVOy2Ifgl37qfIfW8=;
+ b=M1NjIiBcjrot7DWhYtF7aKO/qSfinOA8LevBZzsPan0Mgj49Al0NeqNbtcZRx5QrmQBRXo
+ dxBEVNer32uiZinbJIYLTo2uedbvtVL8CiJy75F9Ycvatp7nV6ZxvlQCrtlonk50acMBic
+ T+JlF6CRHB5IF/gqOdbUotbhDRgTjfY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-U_OYnENiNLiJvY542YaO1A-1; Tue, 28 Jul 2020 06:09:28 -0400
+X-MC-Unique: U_OYnENiNLiJvY542YaO1A-1
+Received: by mail-wm1-f70.google.com with SMTP id h205so8702012wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 03:09:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BhUW9ESioUiSA1BxCHyRzLsoe5bVOy2Ifgl37qfIfW8=;
+ b=qa5cCIbYsO/Tza0tdrHIDZkAJ+TOMX40v6MYuSU4CxFwsq8JxsxFEn+GXMhMzJ/FYS
+ Amg1nKT66er1xRmOD0Ijpp3aDkWNWxZYFueC0OG6yxx29rabiCI8549/3/BfRV5F7daj
+ mpA4DjuBPe1Rw1KFfwKWiNRburwag4gdVYD9pU3eYZ1zMF9NItF04xNyKr/qZvm+Wshk
+ NLg6Cjora74zBcT4AmhQxN9o4ko7wsiYYdQJaDZQKjQV9uZj/99HoSHroeDhZV+XHjM8
+ i+fsb203nVZR9e8azGRF100/S3/XOV9vMMo2LcuDZeLtdOLkQ2nquXNWLKvPpa0gRlvI
+ LPZA==
+X-Gm-Message-State: AOAM530Yyoj2a9drq1/UqIewN45OxOBVZKmpytmJQcdWwW9+b1h8MEsk
+ ncnum+s/JyCJKypXlAoEBTbnwGOIXGESCYEKF4C27vZePCStZUunhKWM6RQlDSXHHpsSIGxBRCL
+ jf37naO0TRJyuvv4=
+X-Received: by 2002:a7b:cc12:: with SMTP id f18mr3138784wmh.129.1595930967308; 
+ Tue, 28 Jul 2020 03:09:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBky3N1fiOwAUAbRDwFfDOzU+3zWFKcPh/zvwPQji/U4MbFglqtL0NILX0yFEK52pUUrByrA==
+X-Received: by 2002:a7b:cc12:: with SMTP id f18mr3138766wmh.129.1595930967114; 
+ Tue, 28 Jul 2020 03:09:27 -0700 (PDT)
+Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id t202sm3475876wmt.20.2020.07.28.03.09.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jul 2020 03:09:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.1] accel/xen: Fix xen_enabled() behavior on
+ target-agnostic objects
+Date: Tue, 28 Jul 2020 12:09:25 +0200
+Message-Id: <20200728100925.10454-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.158) by
- FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3239.9 via Frontend Transport; Tue, 28 Jul 2020 10:07:12 +0000
-X-Originating-IP: [185.215.60.158]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5d61f07d-1bfa-4fdb-13b3-08d832ddffbe
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3383:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB33839CD5D051D8521488D4EEC1730@AM6PR08MB3383.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:608;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1D1VkUI9rhWWmBnxWP+yN12xAyJzbjZUtk3qqAqe4d4iZBvijI2oO12oqiARO4FUJAFcfIVBOOIi4kheVQEHekkuBjvzOAXU8AvAcf5gw8JxxQ3n/8pb8b9zK/ScG1bG4+pXhjZVYUyYf9eky/5bo0Psrf911xBVJHkuOz4hhbqhvuVYolOr8RIdKDGUz2gLtDOpEUF3oLYlU5xCaK/Zx7LNYMS/lpN0fXp9wyS8c/Bz37gc7SFosHCoDuF6Tr2OcuanK6rMRpQlz9JBS/1pp65S00PC966Fx8ZQqyoWypqn8frRyNiyQwQ2sI8/yDWKu6x3bQG0/t0hu9wl0kmGeTNfS7pY3wnKOm1eX3Sw+IbDK5nTDJ7Yq4/zPdh+LoF3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(376002)(366004)(396003)(346002)(39850400004)(52116002)(31696002)(16576012)(2906002)(316002)(6486002)(8936002)(5660300002)(8676002)(66556008)(478600001)(66476007)(26005)(186003)(66946007)(86362001)(16526019)(2616005)(956004)(107886003)(31686004)(4326008)(83380400001)(36756003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: t/bm/26j9duk6703HMwzz3h4g4ahJA2p7XNKBnpVLg1918P8dbPAirZVh1VfuvYMWfLBL7yOKcUUoO9/9NGRxPFa5RoKvOEbB7yCb3+8JeYtPuo3eEDi3JdbRwGhew0G2Kc9o3J44+Yx84fArUj3KiSplfqnodw3qw52NSXLUk9BIagN0ixBUNL8Dvih7279pIw5PJboFsEX5JB6Lcn8ZBW1FJSwgZGoWJepW9bO9UVfl+CjnEvRAIWuVSRu2Xrfu0oN/1/6uDwLEzXrJ6lLLvrvGT7yBuU6jd49HJldesrBLFkcjNa0ED2X9XO544dICzh0xlHAgZtwAUKfoYWcF+m2cnTiilZ02YahyBpqjmQs59o9mp/TdVhcgfcYebWvJXj6BSmvNFap+2IvB5JXN00QKXbONnWVOH9qmtMiUxb/abY31tq7dUMzZgzptGrQw+z27yPZ6xqZsaTN8pnE6J+clt4qzrPqpstEMTT9kG79cS9OWydae0BYwn0FNmmU
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d61f07d-1bfa-4fdb-13b3-08d832ddffbe
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 10:07:13.3908 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MBEQGjxeLS0hGKjd6piZ4vVgMkWgFfIZtMcd3o2uvOIsDPlhK2uzXOgz8e3vfKcI0/BuolETw5NjRjzBymMCMk+C+NYNWSjYi97n8zp8eA0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3383
-Received-SPF: pass client-ip=40.107.6.113;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:07:14
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:05:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,112 +93,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Paul Durrant <pdurrant@amazon.com>, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.07.2020 11:14, Andrey Shinkevich wrote:
-> Add the command key to the qcow2.py arguments list to dump QCOW2
-> metadata in JSON format. Here is the suggested way to do that. The
-> implementation of the dump in JSON format is in the patch that follows.
-> 
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->   tests/qemu-iotests/qcow2.py        | 18 ++++++++++++++----
->   tests/qemu-iotests/qcow2_format.py |  5 +++--
->   2 files changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-> index 0910e6a..77ca59c 100755
-> --- a/tests/qemu-iotests/qcow2.py
-> +++ b/tests/qemu-iotests/qcow2.py
-> @@ -26,16 +26,19 @@ from qcow2_format import (
->   )
->   
->   
-> +is_json = False
-> +
-> +
->   def cmd_dump_header(fd):
->       h = QcowHeader(fd)
-> -    h.dump()
-> +    h.dump(is_json)
->       print()
-> -    h.dump_extensions()
-> +    h.dump_extensions(is_json)
->   
->   
->   def cmd_dump_header_exts(fd):
->       h = QcowHeader(fd)
-> -    h.dump_extensions()
-> +    h.dump_extensions(is_json)
->   
->   
->   def cmd_set_header(fd, name, value):
-> @@ -151,11 +154,14 @@ def main(filename, cmd, args):
->   
->   
->   def usage():
-> -    print("Usage: %s <file> <cmd> [<arg>, ...]" % sys.argv[0])
-> +    print("Usage: %s <file> <cmd> [<arg>, ...] [<key>, ...]" % sys.argv[0])
->       print("")
->       print("Supported commands:")
->       for name, handler, num_args, desc in cmds:
->           print("    %-20s - %s" % (name, desc))
-> +    print("")
-> +    print("Supported keys:")
-> +    print("    %-20s - %s" % ('-j', 'Dump in JSON format'))
->   
->   
->   if __name__ == '__main__':
-> @@ -163,4 +169,8 @@ if __name__ == '__main__':
->           usage()
->           sys.exit(1)
->   
-> +    is_json = '-j' in sys.argv
-> +    if is_json:
-> +        sys.argv.remove('-j')
-> +
->       main(sys.argv[1], sys.argv[2], sys.argv[3:])
-> diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-> index ad1918c..2921a27 100644
-> --- a/tests/qemu-iotests/qcow2_format.py
-> +++ b/tests/qemu-iotests/qcow2_format.py
-> @@ -109,7 +109,7 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
->           self.__dict__ = dict((field[2], values[i])
->                                for i, field in enumerate(self.fields))
->   
-> -    def dump(self):
-> +    def dump(self, is_json=False):
->           for f in self.fields:
->               value = self.__dict__[f[2]]
->               if isinstance(f[1], str):
-> @@ -147,6 +147,7 @@ class Qcow2BitmapExt(Qcow2Struct):
->   
->       def dump(self):
->           super().dump()
-> +
+CONFIG_XEN is generated by configure and stored in "config-target.h",
+which is (obviously) only include for target-specific objects.
+This is a problem for target-agnostic objects as CONFIG_XEN is never
+defined and xen_enabled() is always inlined as 'false'.
 
-Unrelated code-style. Please don't do so. With it dropped:
+Fix by following the KVM schema, defining CONFIG_XEN_IS_POSSIBLE
+when we don't know to force the call of the non-inlined function,
+returning the xen_allowed boolean.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Fixes: da278d58a092 ("accel: Move Xen accelerator code under accel/xen/")
+Reported-by: Paul Durrant <pdurrant@amazon.com>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/sysemu/xen.h | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
->           for entry in self.bitmap_directory:
->               print()
->               entry.dump()
-> @@ -399,7 +400,7 @@ class QcowHeader(Qcow2Struct):
->           buf = buf[0:header_bytes-1]
->           fd.write(buf)
->   
-> -    def dump_extensions(self):
-> +    def dump_extensions(self, is_json=False):
->           for ex in self.extensions:
->               print('Header extension:')
->               ex.dump()
-> 
-
-
+diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
+index 1ca292715e..385a1fa2bf 100644
+--- a/include/sysemu/xen.h
++++ b/include/sysemu/xen.h
+@@ -8,7 +8,15 @@
+ #ifndef SYSEMU_XEN_H
+ #define SYSEMU_XEN_H
+ 
+-#ifdef CONFIG_XEN
++#ifdef NEED_CPU_H
++# ifdef CONFIG_XEN
++#  define CONFIG_XEN_IS_POSSIBLE
++# endif
++#else
++# define CONFIG_XEN_IS_POSSIBLE
++#endif
++
++#ifdef CONFIG_XEN_IS_POSSIBLE
+ 
+ bool xen_enabled(void);
+ 
+@@ -18,7 +26,7 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
+                    struct MemoryRegion *mr, Error **errp);
+ #endif
+ 
+-#else /* !CONFIG_XEN */
++#else /* !CONFIG_XEN_IS_POSSIBLE */
+ 
+ #define xen_enabled() 0
+ #ifndef CONFIG_USER_ONLY
+@@ -33,6 +41,6 @@ static inline void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
+ }
+ #endif
+ 
+-#endif /* CONFIG_XEN */
++#endif /* CONFIG_XEN_IS_POSSIBLE */
+ 
+ #endif
 -- 
-Best regards,
-Vladimir
+2.21.3
+
 
