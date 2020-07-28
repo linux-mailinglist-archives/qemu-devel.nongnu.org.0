@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F22E230CC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 16:52:14 +0200 (CEST)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935A5230CAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 16:49:54 +0200 (CEST)
+Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Qxh-0004oM-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 10:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36294)
+	id 1k0QvR-0001a0-Kh
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 10:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0QwM-0003Zc-3c
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 10:50:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0QwK-0004CP-4L
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 10:50:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k0QwH-00040z-RF
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 14:50:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BD9602E80EF
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 14:50:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0Qr8-000719-Ek
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 10:45:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22210
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0Qr5-0003Yb-Ix
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 10:45:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595947522;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bL/gBNlRFjMp9o+dNvFBzHggRQlsmx6krk5RNr5RiRQ=;
+ b=ZBPIHdMJu8ZcsGRxWc5hEcLT08gXLpFyijvVuQl44jtEU4W/MKsyf9CXpjVI8JUDdUu5yB
+ SFAMmKGmRSkBeglYPApYb7tA1n1F6SZuWLwMhVqbbIT6GfCVh6y+9pDUfsZYnE/daiyv2W
+ +7M/CDtLXzQ/8lpz/olgXl0XxGVxn1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-fnu4x7ESMAax0j71is7Jnw-1; Tue, 28 Jul 2020 10:45:18 -0400
+X-MC-Unique: fnu4x7ESMAax0j71is7Jnw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77ECC100AA22;
+ Tue, 28 Jul 2020 14:45:17 +0000 (UTC)
+Received: from [10.10.118.248] (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DD925DA74;
+ Tue, 28 Jul 2020 14:45:16 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] iotests: Test convert to qcow2 compressed to NBD
+To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20200727215846.395443-1-nsoffer@redhat.com>
+ <20200727215846.395443-5-nsoffer@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3dc15aa8-161d-7ea7-32d1-13c72ef8f3f0@redhat.com>
+Date: Tue, 28 Jul 2020 09:45:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2020 14:44:29 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1859021@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: arm tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <157857629827.5165.2496570379985305724.malonedeb@gac.canonical.com>
-Message-Id: <159594746923.10348.3935993314603968059.malone@chaenomeles.canonical.com>
-Subject: [Bug 1859021] Re: qemu-system-aarch64 (tcg): cval + voff overflow not
- handled, causes qemu to hang
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cfa70ea079b24d33de5222ce40c64b997c30ef15
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:25:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200727215846.395443-5-nsoffer@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,73 +82,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859021 <1859021@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ vsementsov@virtuozzo.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A different approach was posted that basically elides the overflow case
-by not scheduling timers for IRQ events which have already happened:
+On 7/27/20 4:58 PM, Nir Soffer wrote:
+> Add test for "qemu-img convert -O qcow2 -c" to NBD target. The tests
+> create a OVA file and write compressed qcow2 disk content directly into
+> the OVA file via qemu-nbd.
+> 
+> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+> ---
+>   tests/qemu-iotests/302     | 127 +++++++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/302.out |  31 +++++++++
+>   tests/qemu-iotests/group   |   1 +
+>   3 files changed, 159 insertions(+)
+>   create mode 100755 tests/qemu-iotests/302
+>   create mode 100644 tests/qemu-iotests/302.out
+> 
 
-  https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg07915.html
+Tested-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
--- =
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859021
-
-Title:
-  qemu-system-aarch64 (tcg):  cval + voff overflow not handled, causes
-  qemu to hang
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  The Armv8 architecture reference manual states that for any timer set
-  (e.g. CNTP* and CNTV*), the condition for such timer to generate an
-  interrupt (if enabled & unmasked) is:
-
-  CVAL <=3D CNT(P/V)CT
-
-  Although this is arguably sloppy coding, I have seen code that is
-  therefore assuming it can set CVAL to a very high value (e.g.
-  UINT64_MAX) and leave the interrupt enabled in CTL, and never get the
-  interrupt.
-
-  On latest master commit as the time of writing, there is an integer
-  overflow in target/arm/helper.c gt_recalc_timer affecting the virtual
-  timer when the interrupt is enabled in CTL:
-
-      /* Next transition is when we hit cval */
-      nexttick =3D gt->cval + offset;
-
-  When this overflow happens, I notice that qemu is no longer responsive an=
-d that I have to SIGKILL the process:
-      - qemu takes nearly all the cpu time of the cores it is running on (e=
-.g. 50% cpu usage if running on half the cores) and is completely unrespons=
-ive
-      - no guest interrupt (reported via -d int) is generated
-
-  Here the minimal code example to reproduce the issue:
-
-      mov     x0, #1
-      msr     cntvoff_el2, x0
-      mov     x0, #-1
-      msr     cntv_cval_el0, x0
-      mov     x0, #1
-      msr     cntv_ctl_el0, x0 // interrupt generation enabled, not masked;=
- qemu will start to hang here
-
-  Options used:
-  -nographic -machine virt,virtualization=3Don,gic-version=3D2,accel=3Dtcg =
--cpu cortex-a57
-  -smp 4 -m 1024 -kernel whatever.elf -d unimp,guest_errors,int -semihostin=
-g-config enable,target=3Dnative
-  -serial mon:stdio
-
-  Version used: 4.2
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859021/+subscriptions
 
