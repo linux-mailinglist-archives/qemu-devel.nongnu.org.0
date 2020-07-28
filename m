@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC25230780
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:17:20 +0200 (CEST)
-Received: from localhost ([::1]:41918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6301C230787
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:20:21 +0200 (CEST)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Mff-0001Aw-7c
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
+	id 1k0Mia-0003Fc-ET
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k0Meb-0000Pe-A2
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:16:13 -0400
-Resent-Date: Tue, 28 Jul 2020 06:16:13 -0400
-Resent-Message-Id: <E1k0Meb-0000Pe-A2@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k0MeY-00083F-Px
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:16:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1595931335; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gnWIF8tKZ21krMd4CyQBMHsJ3sp85Sky3fozkOqX5IPzKyBFRAFN4rxWCfiakbA6G45qPkZAwrZOz4upub/0uCCFmGZcu5nHmwAxV9pMG40T3A/gSCtnMmRrBf6DWmf/6CJMkLtYoKINksSQr1ZKVnUhPQNsRBZ++IQ2/jDeuhQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1595931335;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=IAuw8LyCXyP8m3ZRiPRN7vC6Q+SkTb4+JXRWw49XNSE=; 
- b=WazofzMan9KjIol6ttc45TjVf67qSJcZykkSH3/ux052HxGznA0IiMJOZtLIC4uZmF+dpbKjrLWdjiKtMKFM8gB5j7OsyBjnjSl2cM0FFe8Sq/PjLnsGZqoRptJ4x1/cxxVEzrYNH90gv+Sqi1BReUG5e/NU9bk+atiae6QTF2g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1595931333107699.9161531048355;
- Tue, 28 Jul 2020 03:15:33 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1] accel/xen: Fix xen_enabled() behavior on
- target-agnostic objects
-Message-ID: <159593133240.22228.17592220013997022688@66eaa9a8a123>
-In-Reply-To: <20200728100925.10454-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0Mhq-0002ie-2Q
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:19:34 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0Mhn-0008K6-CG
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:19:33 -0400
+Received: by mail-oi1-x242.google.com with SMTP id j7so609883oij.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 03:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MZLqhHPbd1yGJM3lp3wAUsZ/dHhC4BUDsaOMlyyZJ1I=;
+ b=gViAEQM0Z5itVcQrR5B0BpgY4ssFOKmKRy/AU/Elkm1Oc3dp0EHvNCzTg1ru5IwJoF
+ fyWU/Wia1B0zmQ2XR1kizSBgv+7AoSpV5KCn/wgFcToe3uAh1Vms8kzCWYXC9YFS80N+
+ ZPIKz2Ez0WwRpUCCTLUrVo+7+a/2z/8/ooCYh9aJEOPYVIbBo5itSM3dSTM8nV52EHrO
+ LO2gz2H+/Y+1hko0yX9dxY7fFC0SqS1bqGqofkiDdtozDiFMKiS0zsS2LjnYoWQe0RAe
+ SI1199dMZao820nU9/0xDfkC+curgxP1j8tLn2q79+mzYOLR8aruZ5B0/tChASFd9f5U
+ hGxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MZLqhHPbd1yGJM3lp3wAUsZ/dHhC4BUDsaOMlyyZJ1I=;
+ b=nwLjgF/KA1mPdlwYAJOyjpxFemJVnxBKMWmH0HxWGv94Bt0FpLS+zc9TO53cKPhgbz
+ Abthy0nnMvCFqGGlhREc30JTZOmrfGSurY1vcZgqIU0iR0xJ90w7r7JBkQgGJkAd+HNO
+ PwvV+qcXvd6wvaSQlRcF3inVxpJT/VvECznPO9nHC25pizhL3RALNFHKioM7XBFdYnEl
+ a7HAkglG0BCYkZN3MI1rN9yqfxSa1MqcWYQkc2JRvoPmp55fPCO5ujmQjtheBhWUgkDc
+ DKmNa7YlG6qbxSZtMhzlKx75k+/K6VUYdasUBJqkCG4RcdahezuZoDZHCHg+BuSH3iPG
+ IXWA==
+X-Gm-Message-State: AOAM532zjR7x/cTbwLAtX1XruN2iZOS3e8NuYrSRw5FeLEVO0r9CJCGp
+ bhhuXQejG33PIwsRvWqT964wO8KPT0Ga1pkNPSEhOA==
+X-Google-Smtp-Source: ABdhPJzSJ/fVsGWiy1C9D/z6W4cZdsyMPPtAdZ0yS70Pn+9zD4dlPmRwXVN30uHc8i/epy4R+DHUG+uDk21dEB9AW+0=
+X-Received: by 2002:aca:4a96:: with SMTP id x144mr2831511oia.163.1595931570077; 
+ Tue, 28 Jul 2020 03:19:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Tue, 28 Jul 2020 03:15:33 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:16:06
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200727143812.1101547-1-mreitz@redhat.com>
+In-Reply-To: <20200727143812.1101547-1-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jul 2020 11:19:19 +0100
+Message-ID: <CAFEAcA_8hhEUJdxGzmjVjG+CFosAtDf9GAR0D2x+-k_mU7Gfug@mail.gmail.com>
+Subject: Re: [PULL 0/3] Block patches for 5.1
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,24 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, sstabellini@kernel.org, paul@xen.org,
- pdurrant@amazon.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- anthony.perard@citrix.com, xen-devel@lists.xenproject.org, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcyODEwMDkyNS4xMDQ1
-NC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MjgxMDA5MjUuMTA0NTQt
-MS1waGlsbWRAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+On Mon, 27 Jul 2020 at 15:38, Max Reitz <mreitz@redhat.com> wrote:
+>
+> The following changes since commit 4215d3413272ad6d1c6c9d0234450b602e46a74c:
+>
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.1-20200727' into staging (2020-07-27 09:33:04 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/XanClic/qemu.git tags/pull-block-2020-07-27
+>
+> for you to fetch changes up to 1855536256eb0a5708b04b85f744de69559ea323:
+>
+>   iotests/197: Fix for compat=0.10 (2020-07-27 16:35:17 +0200)
+>
+> ----------------------------------------------------------------
+> Block patches for 5.1:
+> - Coverity fix
+> - iotests fix for rx and avr
+> - iotests fix for qcow2 -o compat=0.10
+>
+
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
