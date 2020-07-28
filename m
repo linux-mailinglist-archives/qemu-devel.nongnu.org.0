@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3046F2311DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 20:41:05 +0200 (CEST)
-Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8980C2311D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 20:39:32 +0200 (CEST)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0UXA-0003J8-8e
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 14:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45550)
+	id 1k0UVf-0000t4-7X
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 14:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0UU6-0007dW-Aj
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 14:37:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35620
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0UUE-0007n7-8F
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 14:38:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59000
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0UU4-0005KR-SQ
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 14:37:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0UUC-0005Mq-Mu
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 14:38:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595961472;
+ s=mimecast20190719; t=1595961479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=OOAth+yTKBkPo6wkpKNriKVNskluGMqRi9nkamVdc7Q=;
- b=U2t6PbnGU4ODqgdp3L5ne4g55Qy+YXkXTn9PxyiAHLA4pxlcXTn1nbR18jXzAlKNiCLnGL
- qJIVSlM1xgnLpjeqFs2A63M+ZOmmMOh02SG5m5gqSg3Vd5x3BSrZuvLBJq1iydPl0EAKYq
- qYv/wmaC0oO8Ifzv64wicwQA63GdFSU=
+ references:references; bh=Hfp3QM9SgYQE0pQgUg/eToLLU9Zi7JYBr6vL1JgNcdI=;
+ b=cPgZWFeLQ8r3kwso4iDeAISBgjZ4QNt660d4KAFN+EWLbZ/I6xqbjkoQfX1mraI2QNncY+
+ GtVuDugBhnrgW6EXzIcrw7SPcYckcuBslTxZy2JZwk6PdqVJereS5/DKa+a7njCpbdm/6i
+ 2uSiuVHHbLSBgvtv2hH3tbiT4u1+ffU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-Ru6A5vsKNMOblaFRX8MWyg-1; Tue, 28 Jul 2020 14:37:48 -0400
-X-MC-Unique: Ru6A5vsKNMOblaFRX8MWyg-1
+ us-mta-236-AWZM8PtnN4SP-KN18QMYCw-1; Tue, 28 Jul 2020 14:37:57 -0400
+X-MC-Unique: AWZM8PtnN4SP-KN18QMYCw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6A94800685;
- Tue, 28 Jul 2020 18:37:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 961F480046C;
+ Tue, 28 Jul 2020 18:37:56 +0000 (UTC)
 Received: from thuth.com (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9A4B60BF4;
- Tue, 28 Jul 2020 18:37:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05D2360BF4;
+ Tue, 28 Jul 2020 18:37:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 1/6] pc-bios/s390-ccw/Makefile: Compile with
- -std=gnu99, -fwrapv and -fno-common
-Date: Tue, 28 Jul 2020 20:37:29 +0200
-Message-Id: <20200728183734.7838-2-thuth@redhat.com>
+Subject: [PATCH for-5.2 2/6] pc-bios/s390-ccw: Move ipl-related code from
+ main() into a separate function
+Date: Tue, 28 Jul 2020 20:37:30 +0200
+Message-Id: <20200728183734.7838-3-thuth@redhat.com>
 In-Reply-To: <20200728183734.7838-1-thuth@redhat.com>
 References: <20200728183734.7838-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:31:13
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:31:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +83,54 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main QEMU code is compiled with -std=gnu99, -fwrapv and -fno-common.
-We should use the same flags for the s390-ccw bios, too, to avoid that
-we get different behavior with different compiler versions that changed
-their default settings in the course of time (it happened at least with
--std=... and -fno-common in the past already).
-
-While we're at it, also group the other flags here in a little bit nicer
-fashion: Move the two "-m" flags out of the "-f" area and specify them on
-a separate line.
+Let's move this part of the code into a separate function to be able
+to use it from multiple spots later.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/Makefile | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ pc-bios/s390-ccw/main.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 50bc880272..9abb0ea4c0 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -13,10 +13,11 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
- 	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index 146a50760b..9b64eb0c24 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -223,14 +223,8 @@ static void virtio_setup(void)
+     }
+ }
  
- QEMU_CFLAGS := $(filter -W%, $(QEMU_CFLAGS))
--QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -msoft-float
--QEMU_CFLAGS += -march=z900 -fPIE -fno-strict-aliasing
--QEMU_CFLAGS += -fno-asynchronous-unwind-tables
-+QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
-+QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
- QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
-+QEMU_CFLAGS += -msoft-float -march=z900
-+QEMU_CFLAGS += -std=gnu99
- LDFLAGS += -Wl,-pie -nostdlib
+-int main(void)
++static void ipl_boot_device(void)
+ {
+-    sclp_setup();
+-    css_setup();
+-    boot_setup();
+-    find_boot_device();
+-    enable_subchannel(blk_schid);
+-
+     switch (cutype) {
+     case CU_TYPE_DASD_3990:
+     case CU_TYPE_DASD_2107:
+@@ -242,8 +236,18 @@ int main(void)
+         break;
+     default:
+         print_int("Attempting to boot from unexpected device type", cutype);
+-        panic("");
++        panic("\nBoot failed.\n");
+     }
++}
++
++int main(void)
++{
++    sclp_setup();
++    css_setup();
++    boot_setup();
++    find_boot_device();
++    enable_subchannel(blk_schid);
++    ipl_boot_device();
  
- build-all: s390-ccw.img s390-netboot.img
+     panic("Failed to load OS from hard disk\n");
+     return 0; /* make compiler happy */
 -- 
 2.18.1
 
