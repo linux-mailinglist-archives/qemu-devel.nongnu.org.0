@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14046230EC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 18:04:57 +0200 (CEST)
-Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EB6230ED1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 18:06:49 +0200 (CEST)
+Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0S63-0005vX-M1
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 12:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
+	id 1k0S7s-0007i4-6M
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 12:06:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k0S5G-0005Uf-4d
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:04:06 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k0S5E-0008Eu-FN
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:04:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id f18so18844252wrs.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 09:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=XNRbxDXYqtKxJzkFjKkOZyGUXhNdT8PDRiOUBlQ+pjI=;
- b=Mwv8t1LBr0X/K6s/jx+RUloS04NjuPWp4r7MxymPuzc4Qj1Q9FoTV0B3n/o8ZNf4p5
- +S/5meJ0Yc1Y3afvzhr+NMapZhY4EA7otitVd00YCPWt4gC3nSnuQNt1+YWKZhrevPs/
- lEEre/O1dHi9aOE85f4q7Qz4TLT52N1PEYlZYOaVc5/jQzIeV3lSZOPg2cjCNhBdSb99
- uH1bJzOHaQG1eoWb5SIc8RrkH5GLM8rnkRwu1YGRRkvmPVWRjyWytzpjPpaPYj1GeL6e
- 2vvqXFwMBKoYYQ5lKKq5m0V+fz3e9tNB+qSuB06OKsalmSTQxKjc1c3sfkKH85URDqR7
- 36Qw==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1k0S6l-0006tL-5s
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:05:39 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21192
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1k0S6h-0008S6-VW
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:05:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595952334;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bOebxCoEn0DcfuvxjNfVXlJz9FhGJZSVlqSJdGnoS/I=;
+ b=QpCHIFkvc1V9Gvv1NuLfFolpVZ/eoaJf83b2evWKOD5boKnpjxxiAEcb9pKFAZjhWLyVOV
+ AzylHtxnp/FPM3ofxVTsHt76K3mHnPT0GqWgaURoiyshnndUgkpR5/7j36cDgrbhyU0n7b
+ XrtPgZpnYFzrVLP9wZQDbCLqYUQ7Pwo=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-mmW8K5G0O3q2OigmRrxoog-1; Tue, 28 Jul 2020 12:05:32 -0400
+X-MC-Unique: mmW8K5G0O3q2OigmRrxoog-1
+Received: by mail-oi1-f197.google.com with SMTP id r62so10722160oif.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 09:05:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=XNRbxDXYqtKxJzkFjKkOZyGUXhNdT8PDRiOUBlQ+pjI=;
- b=jjot6lu7gRuvz+7ae3He2lnZBS8kh9bXADTRPZINzV+8i4JGLX0krdoDbh9lBbTfVl
- BuYWtml1pMI22ISgIpsGKGFAAIFHf98SE2vQ7TQhfgqYcpp8ZDMXMLhnvswp5KYciVz+
- yCbNLoCABgJIZvpNKhy/6MO79dZN54M05i/5Pxy4z7Z0O0o8mlUmvM3BJYLN22KE94r6
- n7Ds1toqVoRVIRR8U28xPo/8zdcdgqIWz6MXJHDqJ+nHwpK8AxtprAXVrB/fmCTjA2hR
- be04HEv8zy43Ppltu8t8VzHYXO7u0RUK61A9G2RtdlaMePEaEAxnwyHlmlLRR8aNo1lN
- PJ2Q==
-X-Gm-Message-State: AOAM530AwQscalL4cieqWquA9NUE0wZNdOi2eRI09tYYVqLu2YlrSWRA
- hV9VMWTRl7B1MZAl/5Z2W7uEqw==
-X-Google-Smtp-Source: ABdhPJw5CGwNi/zE1N26ji0as1Oom0kVdowrmlzIkwWBseiEy8vKUfxWvyuizcoUcXpV34SQ+3kz4g==
-X-Received: by 2002:a5d:43c4:: with SMTP id v4mr24557700wrr.426.1595952242441; 
- Tue, 28 Jul 2020 09:04:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n12sm18734747wrg.77.2020.07.28.09.04.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 09:04:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 17E601FF7E;
- Tue, 28 Jul 2020 17:04:00 +0100 (BST)
-References: <20200727122357.31263-1-alex.bennee@linaro.org>
- <20200727122357.31263-9-alex.bennee@linaro.org>
- <CAFEAcA8oTrHUzOF5tcqVDNtPWdoG0Yz0GKb2=JuT3O5h5g-YQg@mail.gmail.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 08/16] linux-user: don't use MAP_FIXED in
- pgd_find_hole_fallback
-In-reply-to: <CAFEAcA8oTrHUzOF5tcqVDNtPWdoG0Yz0GKb2=JuT3O5h5g-YQg@mail.gmail.com>
-Date: Tue, 28 Jul 2020 17:04:00 +0100
-Message-ID: <87r1sv39u7.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bOebxCoEn0DcfuvxjNfVXlJz9FhGJZSVlqSJdGnoS/I=;
+ b=l2PlZrPo/cfcQOzw73h5pF+amyPf0bD+fNHhRavQR4h1IUO3KtS9GSmMWJZDL1jBSv
+ uu+74gAvCLbHeNWagsprkedNZx2VFJ5PU61/4p8EX3IlIXRzETZxX7SdDpCQTX6acilo
+ EOx6EAY6wbqqfm4JAIDZ6mH1alcSXa3qCSUTfNBHx1MOsuX7ehPOvIIdgTCu4Q/jB9Th
+ FHR7WOPUhqIDFfuyGkDE5e1s2zIG9QKYr7WTk5QY4emO5HRTVTeLh26fzw68i0RrM/Qv
+ QgBPyI6nU2BLbeBGvzcUas0kLb9IRqFuZq5GFQx0nU6IyJfzAeTMDGfcIU17UD/1S0Ib
+ y9TQ==
+X-Gm-Message-State: AOAM532kE86CCJMCWcgxuKLOkNOdrxPOu8x6/7jHd+99v/BSz8knhH6z
+ 2F6qb+UPu+hQiS6xT19tFJNT8FyVUPDvkNh9wPsrsq8u4pJP9snRHMhYXUU3Q3krPBBVj50mHzc
+ R5yzAQUH6Xtx/i0pjM97pZ1b2XVrDnug=
+X-Received: by 2002:a9d:6f85:: with SMTP id h5mr25071849otq.81.1595952331176; 
+ Tue, 28 Jul 2020 09:05:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcse7NmRyTKQeTm+Zz1ktD/6wUHXO6X7kUAyjZEd0sx8Zif0jCe70EP9kRNIiLSRZC8pTX4iME75MA4tOtJnk=
+X-Received: by 2002:a9d:6f85:: with SMTP id h5mr25071809otq.81.1595952330765; 
+ Tue, 28 Jul 2020 09:05:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200727215846.395443-1-nsoffer@redhat.com>
+ <20200727215846.395443-3-nsoffer@redhat.com>
+ <ac8994e8-7f06-0710-78ce-0596e9538e7d@virtuozzo.com>
+In-Reply-To: <ac8994e8-7f06-0710-78ce-0596e9538e7d@virtuozzo.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 28 Jul 2020 19:05:14 +0300
+Message-ID: <CAMRbyyuz5yfbuQHJDNXcdbW=pdyH8rSqM6um=XkaDtH1gpk9dg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] iotests: Make qemu_nbd_popen() a contextmanager
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 11:04:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,54 +90,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nirsof@gmail.com>,
+ qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Mon, 27 Jul 2020 at 13:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> Plain MAP_FIXED has the undesirable behaviour of splatting exiting
->> maps so we don't actually achieve what we want when looking for gaps.
->> We should be using MAP_FIXED_NOREPLACE. As this isn't always available
->> we need to potentially check the returned address to see if the kernel
->> gave us what we asked for.
->>
->> Fixes: ad592e37dfc ("linux-user: provide fallback pgd_find_hole for bare=
- chroots")
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Message-Id: <20200724064509.331-9-alex.bennee@linaro.org>
+On Tue, Jul 28, 2020 at 4:43 PM Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
 >
-> Hi; Coverity thinks this conditional expression is suspicious
-> (CID 1431059):
+> 28.07.2020 00:58, Nir Soffer wrote:
+> > Instead of duplicating the code to wait until the server is ready and
+> > remember to terminate the server and wait for it, make it possible to
+> > use like this:
+> >
+> >      with qemu_nbd_popen('-k', sock, image):
+> >          # Access image via qemu-nbd socket...
+> >
+> > Only test 264 used this helper, but I had to modify the output since it
+> > did not consistently when starting and stopping qemu-nbd.
+> >
+> > Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+> > ---
+> >   tests/qemu-iotests/264        | 76 +++++++++++++----------------------
+> >   tests/qemu-iotests/264.out    |  2 +
+> >   tests/qemu-iotests/iotests.py | 28 ++++++++++++-
+> >   3 files changed, 56 insertions(+), 50 deletions(-)
+> >
+> > diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
+> > index 304a7443d7..666f164ed8 100755
+> > --- a/tests/qemu-iotests/264
+> > +++ b/tests/qemu-iotests/264
+> > @@ -36,48 +36,32 @@ wait_step = 0.2
+> >
+> >   qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
+> >   qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
+> > -srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
+> >
+> > -# Wait for NBD server availability
+> > -t = 0
+> > -ok = False
+> > -while t < wait_limit:
+> > -    ok = qemu_io_silent_check('-f', 'raw', '-c', 'read 0 512', nbd_uri)
+> > -    if ok:
+> > -        break
+> > -    time.sleep(wait_step)
+> > -    t += wait_step
+> > +with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
+> > +    vm = iotests.VM().add_drive(disk_a)
+> > +    vm.launch()
+> > +    vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
+> > +
+> > +    vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
+> > +               **{'node_name': 'backup0',
+> > +                  'driver': 'raw',
+> > +                  'file': {'driver': 'nbd',
+> > +                           'server': {'type': 'unix', 'path': nbd_sock},
+> > +                           'reconnect-delay': 10}})
+> > +    vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
+> > +               speed=(1 * 1024 * 1024))
+> > +
+> > +    # Wait for some progress
+> > +    t = 0
+> > +    while t < wait_limit:
+> > +        jobs = vm.qmp('query-block-jobs')['return']
+> > +        if jobs and jobs[0]['offset'] > 0:
+> > +            break
+> > +        time.sleep(wait_step)
+> > +        t += wait_step
+> >
+> > -assert ok
+> > -
+> > -vm = iotests.VM().add_drive(disk_a)
+> > -vm.launch()
+> > -vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
+> > -
+> > -vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
+> > -           **{'node_name': 'backup0',
+> > -              'driver': 'raw',
+> > -              'file': {'driver': 'nbd',
+> > -                       'server': {'type': 'unix', 'path': nbd_sock},
+> > -                       'reconnect-delay': 10}})
+> > -vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
+> > -           speed=(1 * 1024 * 1024))
+> > -
+> > -# Wait for some progress
+> > -t = 0
+> > -while t < wait_limit:
+> > -    jobs = vm.qmp('query-block-jobs')['return']
+> >       if jobs and jobs[0]['offset'] > 0:
+> > -        break
+> > -    time.sleep(wait_step)
+> > -    t += wait_step
+> > -
+> > -if jobs and jobs[0]['offset'] > 0:
+> > -    log('Backup job is started')
+> > -
+> > -log('Kill NBD server')
+> > -srv.kill()
+> > -srv.wait()
+> > +        log('Backup job is started')
+> >
+> >   jobs = vm.qmp('query-block-jobs')['return']
+> >   if jobs and jobs[0]['offset'] < jobs[0]['len']:
+> > @@ -88,12 +72,8 @@ vm.qmp_log('block-job-set-speed', device='drive0', speed=0)
+> >   # Emulate server down time for 1 second
+> >   time.sleep(1)
+> >
+> > -log('Start NBD server')
+> > -srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
+> > -
+> > -e = vm.event_wait('BLOCK_JOB_COMPLETED')
+> > -log('Backup completed: {}'.format(e['data']['offset']))
+> > -
+> > -vm.qmp_log('blockdev-del', node_name='backup0')
+> > -srv.kill()
+> > -vm.shutdown()
+> > +with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
+> > +    e = vm.event_wait('BLOCK_JOB_COMPLETED')
+> > +    log('Backup completed: {}'.format(e['data']['offset']))
+> > +    vm.qmp_log('blockdev-del', node_name='backup0')
+> > +    vm.shutdown()
+> > diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
+> > index 3000944b09..c45b1e81ef 100644
+> > --- a/tests/qemu-iotests/264.out
+> > +++ b/tests/qemu-iotests/264.out
+> > @@ -1,3 +1,4 @@
+> > +Start NBD server
+> >   {"execute": "blockdev-add", "arguments": {"driver": "raw", "file": {"driver": "nbd", "reconnect-delay": 10, "server": {"path": "TEST_DIR/PID-nbd-sock", "type": "unix"}}, "node-name": "backup0"}}
+> >   {"return": {}}
+> >   {"execute": "blockdev-backup", "arguments": {"device": "drive0", "speed": 1048576, "sync": "full", "target": "backup0"}}
+> > @@ -11,3 +12,4 @@ Start NBD server
+> >   Backup completed: 5242880
+> >   {"execute": "blockdev-del", "arguments": {"node-name": "backup0"}}
+> >   {"return": {}}
+> > +Kill NBD server
+> > diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> > index 3590ed78a0..8f79668435 100644
+> > --- a/tests/qemu-iotests/iotests.py
+> > +++ b/tests/qemu-iotests/iotests.py
+> > @@ -28,10 +28,13 @@ import signal
+> >   import struct
+> >   import subprocess
+> >   import sys
+> > +import time
+> >   from typing import (Any, Callable, Dict, Iterable,
+> >                       List, Optional, Sequence, Tuple, TypeVar)
+> >   import unittest
+> >
+> > +from contextlib import contextmanager
+> > +
+> >   # pylint: disable=import-error, wrong-import-position
+> >   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> >   from qemu import qtest
+> > @@ -270,9 +273,30 @@ def qemu_nbd_early_pipe(*args):
+> >
+> >       return subp.returncode, output if subp.returncode else ''
+> >
+> > +@contextmanager
+> >   def qemu_nbd_popen(*args):
+> > -    '''Run qemu-nbd in daemon mode and return the parent's exit code'''
+> > -    return subprocess.Popen(qemu_nbd_args + ['--persistent'] + list(args))
+> > +    '''Context manager running qemu-nbd within the context'''
 >
->>              if (mmap_start !=3D MAP_FAILED) {
->>                  munmap((void *) align_start, guest_size);
->> -                return (uintptr_t) mmap_start + offset;
->> +                if (MAP_FIXED_NOREPLACE || mmap_start =3D=3D (void *) a=
-lign_start) {
+> PEP8 (or some another PEP referenced in PEP8) asks to use """ for doc-strings
+
+Both are valid, but I agree that """ is nicer.
+
+This module needs more work:
+
+$ flake8 --statistics --quiet tests/qemu-iotests/iotests.py
+tests/qemu-iotests/iotests.py
+1     E261 at least two spaces before inline comment
+3     E301 expected 1 blank line, found 0
+64    E302 expected 2 blank lines, found 1
+1     E303 too many blank lines (2)
+5     E305 expected 2 blank lines after class or function definition, found 1
+2     E402 module level import not at top of file
+
+> > +    pid_file = file_path("pid")
+> > +
+> > +    cmd = list(qemu_nbd_args)
+> > +    cmd.extend(('--persistent', '--pid-file', pid_file))
+> > +    cmd.extend(args)
+> > +
+> > +    log('Start NBD server')
+> > +    p = subprocess.Popen(cmd)
+> > +    try:
+> > +        while not os.path.exists(pid_file):
+> > +            if p.poll() is not None:
+> > +                raise RuntimeError(
+> > +                    "qemu-nbd terminated with exit code {}: {}"
+> > +                    .format(p.returncode, ' '.join(cmd)))
+> > +
+> > +            time.sleep(0.01)
+> > +        yield
+> > +    finally:
+> > +        log('Kill NBD server')
+> > +        p.kill()
+> > +        p.wait()
 >
-> because it's performing a logical OR operation where the left
-> operand is an integer constant that's neither 0 nor 1
-> (it's 1048576). What was this intended to be?
+> why do we need try-finally? I think, the only possible exception is your "raise RuntimeError", and in this case the process is alredy dead, no need to kill it (and print the log message)
 
-It's 0 if the header doesn't provide it. If it's !0 we don't need to
-check the address because it should have been in the correct place.
+The try-finally is needed for errors in user code like:
 
+    with qemu_nbd_popen():
+         assert 0
+
+Without try-finally qemu-nbd will continue to run after the assert
+fails, which may
+cause trouble, depending on the test.
+
+In the case of the RuntimeError inside the try, the cleanup in finally is
+not needed but harmless.
+
+Looking in python source:
+
+        def send_signal(self, sig):
+            """Send a signal to the process."""
+            # Skip signalling a process that we know has already died.
+            if self.returncode is None:
+                os.kill(self.pid, sig)
+
+        def kill(self):
+            """Kill the process with SIGKILL
+            """
+            self.send_signal(signal.SIGKILL)
+
+So the kill() will do nothing, and wait() will return immediately.
+
+> >   def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
+> >       '''Return True if two image files are identical'''
+> >
 >
->> +                    return (uintptr_t) mmap_start + offset;
->> +                }
->>              }
+> anyway:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >
-> thanks
-> -- PMM
+> --
+> Best regards,
+> Vladimir
+>
 
-
---=20
-Alex Benn=C3=A9e
 
