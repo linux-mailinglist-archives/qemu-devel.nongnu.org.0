@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CD7230D27
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:12:37 +0200 (CEST)
-Received: from localhost ([::1]:42508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CBE230D91
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:20:55 +0200 (CEST)
+Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0RHQ-000270-4T
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41726)
+	id 1k0RPS-0000fr-La
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1k0REx-0007Ny-PT
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:10:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56944
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0RJZ-0008FV-77
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:14:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45158
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1k0REv-0007hH-Sc
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:10:03 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0RJW-0000C8-Q3
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:14:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595949001;
+ s=mimecast20190719; t=1595949285;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wajrc5595bXMCOZDYbIG4TGDfIsoetfQTnbdxR5w6Ic=;
- b=MzbPTb46Jycjb+dmMnZZEope/57UgbwlrDfDKTDta07ITuZL0nR3avhHvVMb5LyJ61rCys
- alSJl0LQwC50fckpBj1KUZ/v2VXg6uz5V5ov/0Whb2lFgHuXwvKddu5ME4IxwderQgytj8
- DCUNo6cIuAEfS3gVgAMEYpcVjuGEtns=
+ bh=anc8Br3qGriCA+r6335+UsYnHuX3VQmWprTUm7ERQvQ=;
+ b=DiOlH4a+VoKddFGi04XmtuO6bwewtrICyqyJqY5lHTdX/ktiA6U5QG3Pltp3ioZxO5D+Xx
+ LacKDUqlSH0aZ3+MmF2Zavdfm29EDQqXmVR7Vekkva+9AyIEgozxa7GtvbrSKdXjR6oUo4
+ iFdaXTBX9p926f5g0EBQ96wp4c6Lzcg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-EUF4TonRNOWUzThNBJq9bQ-1; Tue, 28 Jul 2020 11:09:59 -0400
-X-MC-Unique: EUF4TonRNOWUzThNBJq9bQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-412-OvuIJ47dPJO2HMw85JG66A-1; Tue, 28 Jul 2020 11:14:43 -0400
+X-MC-Unique: OvuIJ47dPJO2HMw85JG66A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F37780046C;
- Tue, 28 Jul 2020 15:09:57 +0000 (UTC)
-Received: from [10.36.112.203] (ovpn-112-203.ams2.redhat.com [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A080971901;
- Tue, 28 Jul 2020 15:09:45 +0000 (UTC)
-Subject: Re: [PATCH v3 11/11] hw/arm/smmuv3: Advertise SMMUv3.2 range
- invalidation
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200708141856.15776-1-eric.auger@redhat.com>
- <20200708141856.15776-12-eric.auger@redhat.com>
- <CAFEAcA-zXyzq5ph3U0vFuqRz9=NEq-piw_9gsYbrwg=+g9nbXw@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <9d9c93b8-9797-c18e-fc66-7f5bc6ebb0fd@redhat.com>
-Date: Tue, 28 Jul 2020 17:09:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE56B8015CE;
+ Tue, 28 Jul 2020 15:14:41 +0000 (UTC)
+Received: from gondolin (ovpn-113-128.ams2.redhat.com [10.36.113.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C35F510013C4;
+ Tue, 28 Jul 2020 15:14:40 +0000 (UTC)
+Date: Tue, 28 Jul 2020 17:14:38 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PULL 2/2] s390x/s390-virtio-ccw: fix loadparm property getter
+Message-ID: <20200728171438.2c3eb4fb.cohuck@redhat.com>
+In-Reply-To: <CAFEAcA_1xECE+ESWoioHFSF_mwDG11NrR2=J3NWx2X+OGg3SZw@mail.gmail.com>
+References: <20200727140522.251815-1-cohuck@redhat.com>
+ <20200727140522.251815-3-cohuck@redhat.com>
+ <CAFEAcA_1xECE+ESWoioHFSF_mwDG11NrR2=J3NWx2X+OGg3SZw@mail.gmail.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-zXyzq5ph3U0vFuqRz9=NEq-piw_9gsYbrwg=+g9nbXw@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 11:04:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On Tue, 28 Jul 2020 14:52:36 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-On 7/10/20 11:47 AM, Peter Maydell wrote:
-> On Wed, 8 Jul 2020 at 15:20, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> Expose the RIL bit so that the guest driver uses range
->> invalidation. Range invalidation being an SMMU3.2 feature,
->> let AIDR advertise SMMUv3.2 support.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> On Mon, 27 Jul 2020 at 15:05, Cornelia Huck <cohuck@redhat.com> wrote:
+> >
+> > From: Halil Pasic <pasic@linux.ibm.com>
+> >
+> > The function machine_get_loadparm() is supposed to produce a C-string,
+> > that is a NUL-terminated one, but it does not. ElectricFence can detect
+> > this problem if the loadparm machine property is used.
+> >
+> > Let us make the returned string a NUL-terminated one.
+> >
+> > Fixes: 7104bae9de ("hw/s390x: provide loadparm property for the machine")
+> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > Reviewed-by: Thomas Huth <thuth@redhat.com>
+> > Message-Id: <20200723162717.88485-1-pasic@linux.ibm.com>
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> >  hw/s390x/s390-virtio-ccw.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> > index 8cc2f25d8a6a..403d30e13bca 100644
+> > --- a/hw/s390x/s390-virtio-ccw.c
+> > +++ b/hw/s390x/s390-virtio-ccw.c
+> > @@ -701,8 +701,12 @@ bool hpage_1m_allowed(void)
+> >  static char *machine_get_loadparm(Object *obj, Error **errp)
+> >  {
+> >      S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> > +    char *loadparm_str;
+> >
+> > -    return g_memdup(ms->loadparm, sizeof(ms->loadparm));
+> > +    /* make a NUL-terminated string */
+> > +    loadparm_str = g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1);
+> > +    loadparm_str[sizeof(ms->loadparm)] = 0;
+> > +    return loadparm_str;  
 > 
-> I think that to advertise SMMUv3.2 we would also need to
-> set the IDR3.BBML field to something non-zero. That means
-> we need to analyze our implementation of the caching of page
-> table structures to see if we need to do anything different
-> (per the behaviours and guarantees described in section 3.21.1
-> of the spec).
+> Hi. Coverity points out (CID 1431058) that this code now
+> reads off the end of the ms->loadparm buffer, because
+> g_memdup() is going to read and copy 9 bytes (size + 1)
+> and the array itself is only 8 bytes.
 > 
-> Alternatively, we could take advantage of the language
-> in section 2.5 that says that a v3.x implementation is
-> allowed to implement features from v3.(x+1), and just
-> set the RIL bit while leaving AIDR advertising us as v3.1.
-So I eventually lazily chose this solution. I will address BBML support
-in a separate patch series.
+> I don't think you can use g_memdup() here -- you need to
+> allocate the memory with g_malloc() and then fill it with
+> memcpy(), something like:
+> 
+>     loadparm_str = g_malloc(sizeof(ms->loadparm) + 1);
+>     memcpy(loadparm_str, ms->loadparm, sizeof(ms->loadparm));
+>     loadparm_str[sizeof(ms->loadparm)] = 0;
 
-Thanks
+Sigh.
 
-Eric
-> 
-> thanks
-> -- PMM
-> 
+Halil, do you have time to cook up a patch?
 
 
