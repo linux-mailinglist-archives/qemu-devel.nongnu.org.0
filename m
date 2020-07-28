@@ -2,55 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F287523057B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 10:34:41 +0200 (CEST)
-Received: from localhost ([::1]:55254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 349112305AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 10:44:23 +0200 (CEST)
+Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0L4L-0003KY-2S
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 04:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1k0LDi-0005Yx-1M
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 04:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k0L3Y-0002tl-St
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:33:53 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42823)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k0LCm-00058S-Ao
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:43:24 -0400
+Received: from mail-eopbgr30113.outbound.protection.outlook.com
+ ([40.107.3.113]:56548 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k0L3W-0001qD-A8
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:33:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=QN9akQrpIezSUuBUdR2asvPzaS4+EuqudeKxLdn8EUQ=; b=dcV694UxN2fEXTGpWQVPCiVDzD
- NNOSuqiLPlYvhMyz72Kak5s8LLKgcM0L0yNBd1+SJD60dibfUjlrBFXihngQd8kKR6a7m+msWwRGC
- 7Yb+QHxH2Ah1QvPxiWT2sNPQDf/sqvxi5c6P8ECVBWVX5/XjkNH46RzJhTAQVxvksL+hY4uBZgXi3
- CpZqccUFS6//HfClwS/PF1Zxny+txF05G5Zuq4YySawHggEc5RfeV23VtQHZyhI3uFKtkH1Nqf4Pg
- 3Bp7tiWIMTWX6LjT62MvY1C23yn0lisAwMxOAIe0X9OlgMy7ExM5pOWgR83aCq5UuuKRTidQDaA9v
- a0OCAnxQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v7 3/6] 9pfs: add new function v9fs_co_readdir_many()
-Date: Tue, 28 Jul 2020 10:33:42 +0200
-Message-ID: <1626524.GXyn7ySoG3@silver>
-In-Reply-To: <4035f3a28461ba21ab5e24c843556b0ec06246ab.1595166227.git.qemu_oss@crudebyte.com>
-References: <cover.1595166227.git.qemu_oss@crudebyte.com>
- <4035f3a28461ba21ab5e24c843556b0ec06246ab.1595166227.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k0LCj-00031e-2n
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:43:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dc6stwQEnLWQZFZJg6idAbVlhFucfzm4gNOKhKGmafBzVxTEOQVUFgJchWmMNmYtIbL1HN3wxYyDzn0nb6+5rSdl5bDopPi0IDzugQ5KnIERRuS4PLlUE4z24uwHY2X8S2BGWcrbrlskCK5E0Vcwbdbjo+yCd8I0NF7g+1rglqxZraHyxdGoj09+PSokGdj9olnigWH0QXdDPRSs3w/qSLPwJKjxsiGqbMRfWgTBjXl5A5Lm5THrmB8QoskcU9NysSG5d+JQ4lPap/iwfzZfelXIBuIBIg+ncIFktoT8nPytb1YMEvMaLRVxAnYnjfF4cyoRswsG65itaOlsUGww2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X1rOryD7Y+cKI7vZ4HFd748+e/iuVXzwPN8lsrqCSbk=;
+ b=lbmhqcZfbz7PBzXwj6i84p3MtTMEdxpa8sQFS//tsoPYLSq6lBv5YIEhM+s+DvVPjcctlaTzSQy/KakKZzO2yHLy4fWnWObiJmY/CEfsQznTbd/IDAmnKDd7vSqST33NnMreMS76BUc9KlAIwsX67BifLQmKruKOXlXvjuv3YAxV12PkcOjWoWlLTrcXvtHvlVTezcHJkgegHscFPgOiAHWinZMBVF1IOyMtB3q/0kSjsu40pGPjcbuWYZyZc4GMD8dYX2NSPqEj4MsPvnxwuhgpcUAwyEPvdRNEwSrC6RtiDviKy10jqUQuzqyZkwv33rt3v1NO/s54lRkU+76EDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X1rOryD7Y+cKI7vZ4HFd748+e/iuVXzwPN8lsrqCSbk=;
+ b=Sz+OOhW9XPS90NhFpQJ2RRkSqKaqwyhoT7cbo9CwpUhBkzdO1S+v/CDwrBhZi2xQ38dDE3xHvUpLmVi6OFaaGrl3WnMwdI/mzHCxxMBMQeJCNYNXTOrwRbSjMO0LKyKH6nMPrnrbnvwAtoHlr5KcjeVx7R+6sB0NwV2cm4ge1I8=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1778.eurprd08.prod.outlook.com (2603:10a6:203:3b::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
+ 2020 08:43:17 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
+ 08:43:17 +0000
+Subject: Re: migration: broken snapshot saves appear on s390 when small fields
+ in migration stream removed
+To: Bruce Rogers <brogers@suse.com>, Claudio Fontana <cfontana@suse.de>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf
+ <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
+ <55c406cd-b9ca-4e9b-0acd-d33cfe2a70e3@redhat.com>
+ <bf074240-8cc3-96ff-e95e-bd301822b756@suse.de>
+ <ea3b617f-c2ea-534c-06ba-f5f9f43828a7@suse.de>
+ <8125b1ff-373a-aadc-eccf-27c567007a27@redhat.com>
+ <8ff7eeab-bef1-0957-a95c-72819680c431@suse.de>
+ <1db6d502-73d1-5e3d-10d1-796d80ab8f07@suse.de>
+ <13728e69-75a5-2edc-9ed3-6e08d94c722d@suse.de>
+ <636bb3c4-2242-284b-30cd-299f447117c2@suse.de>
+ <5f455e82e0a4f3662918dcdc85d1cfc5a3187896.camel@suse.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <476f0f77-7676-f69b-99c8-a2bf16e69b94@virtuozzo.com>
+Date: Tue, 28 Jul 2020 11:43:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <5f455e82e0a4f3662918dcdc85d1cfc5a3187896.camel@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR04CA0125.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 04:33:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.158) by
+ AM0PR04CA0125.eurprd04.prod.outlook.com (2603:10a6:208:55::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.22 via Frontend Transport; Tue, 28 Jul 2020 08:43:16 +0000
+X-Originating-IP: [185.215.60.158]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3e82b92a-7fde-4c66-8ea1-08d832d245c8
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1778:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB17782A3F5E7F222C02E7ABFAC1730@AM5PR0801MB1778.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ltcGrS2D3iNzKon0xn3po0Cnrd+Lgab0F6PT8f8xEIe9lNgXthoJVjTU+Tr4qXqMzWwOki68FAQOXFsMa+towypKcKmGnBGHmgL4YHFm/Y9ESThRMoTH0Gb3fsi2BNKvgE6Xct9dfqDFt8fWXdtJkHuDweTBYuyOHV3ALiBKAwlwy/3LVJio1W4muHNB2QYlyqrAJ/a/AyIOlmXyLWvVelhg52T5koxwsdEzwEWG1HVBKpbTwuuomRRjnhD0ztXK3TuRfA43O70cs2bxZyK1B1LmAj/kuiTJmtz3MA5dtRqGIlQgpT3MVr4KFZwJLql9HfSv9uNkHUY72ikckZl7PI760QwbCBYEY70J+R/yxSbHoD9gNvaCHgu/iyzrpjFu
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(346002)(376002)(136003)(366004)(39840400004)(8936002)(7416002)(53546011)(16576012)(478600001)(316002)(2906002)(6486002)(52116002)(8676002)(36756003)(4326008)(26005)(31686004)(19627235002)(86362001)(83380400001)(110136005)(5660300002)(66556008)(66476007)(66946007)(16526019)(186003)(2616005)(956004)(54906003)(31696002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: T/uFw34ht0x5rcHDpnebs0EJa37WYBm+0+AcfuvOsXI8nFM8imrv9G3ilbL7uSwwYd+C5G9IhfuOkNtFnWGKzJybP5DOVbRWTj0/d7MbVRmMkci4miAlQP+lCPSJxsK3RWw87ERMFJWpXD/meqW8uG/FIXiR0xjxrNsbNdx30BcDSMQxkmPWQ6+h1PoEj7BoffZsz4WJbvc/WPMyZqkKYfCz8yl/oyZK9pimWM1PZPv0T7lBmaF5POKQti6PNtfxtMwd79MH43RThtg0LnA9mtkuSUkLyUL5uRQic2xstZ6dHY7oRz5/XrbY97SyZ5CRWs84MHnSFK2IQiB3HH53+dHj/XtOj517TQFF/zlnZhD/PiHi8gT4fiL0dT6nSKvFL3Ls9EJ+lH13hDTnQmWGIa718m13EyT3GMkepUGcXaCSjh/T3IVbAYt9tAKYbB1FEKnvZFngW/LqnVIvU37Wd7I3l41Ctlaxa2EKRwNQdtlOCxYl4qe3V/mvrjFvSmZ7
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e82b92a-7fde-4c66-8ea1-08d832d245c8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 08:43:16.9342 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6x3b3HnPKVnjhPc3zpLpQt51qzvfS/4erzQ00OLnsVpPf5RRpJMOyFEugG3Pyl/ghX4qbTRDRrswSSO26mZR9PuAw6ZPIxzuWO5NNJDKMSE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1778
+Received-SPF: pass client-ip=40.107.3.113;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 04:43:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,315 +131,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
+ Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 19. Juli 2020 14:29:13 CEST Christian Schoenebeck wrote:
-> The newly added function v9fs_co_readdir_many() retrieves multiple
-> directory entries with a single fs driver request. It is intended to
-> replace uses of v9fs_co_readdir(), the latter only retrives a single
-> directory entry per fs driver request instead.
+28.07.2020 02:09, Bruce Rogers wrote:
+> On Tue, 2020-07-21 at 10:22 +0200, Claudio Fontana wrote:
+>> On 7/20/20 8:24 PM, Claudio Fontana wrote:
+>>> I have now been able to reproduce this on X86 as well.
+>>>
+>>> It happens much more rarely, about once every 10 times.
+>>>
+>>> I will sort out the data and try to make it even more reproducible,
+>>> then post my findings in detail.
+>>>
+>>> Overall I proceeded as follows:
+>>>
+>>> 1) hooked the savevm code to skip all fields with the exception of
+>>> "s390-skeys". So only s390-skeys are actually saved.
+>>>
+>>> 2) reimplemented "s390-skeys" in a common implementation in cpus.c,
+>>> used on both x86 and s390, modeling the behaviour of save/load from
+>>> hw/s390
+>>>
+>>> 3) ran ./check -qcow2 267 on both x86 and s390.
+>>>
+>>> In the case of s390, failure seems to be reproducible 100% of the
+>>> times.
+>>> On X86, it is as mentioned failing about 10% of the times.
+>>>
+>>> Ciao,
+>>>
+>>> Claudio
+>>
+>> And here is a small series of two patches that can be used to
+>> reproduce the problem.
+>>
+>> Clearly, this is not directly related to s390 or to skeys or to
+>> icount in particular, it is just an issue that happened to be more
+>> visible there.
+>>
+>> If you could help with this, please apply the attached patches.
+>>
+>> Patch 1 just adds a new "300" iotest. It is way easier to extract the
+>> relevant part out of test 267, which does a bit too much in the same
+>> file.
+>> Also this allows easier use of valgrind, since it does not "require"
+>> anything.
+>>
+>> Patch 2 hooks the savevm code to skip all fields during the snapshot
+>> with the exception of "s390-skeys", a new artificial field
+>> implemented to
+>> model what the real s390-skeys is doing.
+>>
+>> After applying patch 1 and patch 2, you can test (also on X86), with:
+>>
+>> ./check -qcow2 300
+>>
+>> On X86 many runs will be successful, but a certain % of them will
+>> instead fail like this:
+>>
+>>
+>> claudio@linux-ch70:~/git/qemu-pristine/qemu-build/tests/qemu-iotests>
+>> ./check -qcow2 300
+>> QEMU          -- "/home/claudio/git/qemu-pristine/qemu-
+>> build/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
+>> -nodefaults -display none -accel qtest
+>> QEMU_IMG      -- "/home/claudio/git/qemu-pristine/qemu-
+>> build/tests/qemu-iotests/../../qemu-img"
+>> QEMU_IO       -- "/home/claudio/git/qemu-pristine/qemu-
+>> build/tests/qemu-iotests/../../qemu-io"  --cache writeback --aio
+>> threads -f qcow2
+>> QEMU_NBD      -- "/home/claudio/git/qemu-pristine/qemu-
+>> build/tests/qemu-iotests/../../qemu-nbd"
+>> IMGFMT        -- qcow2 (compat=1.1)
+>> IMGPROTO      -- file
+>> PLATFORM      -- Linux/x86_64 linux-ch70 4.12.14-lp151.28.36-default
+>> TEST_DIR      -- /home/claudio/git/qemu-pristine/qemu-
+>> build/tests/qemu-iotests/scratch
+>> SOCK_DIR      -- /tmp/tmp.gdcUu3l0SM
+>> SOCKET_SCM_HELPER -- /home/claudio/git/qemu-pristine/qemu-
+>> build/tests/qemu-iotests/socket_scm_helper
+>>
+>> 300      fail       [10:14:05] [10:14:06]      (last: 0s)    output
+>> mismatch (see 300.out.bad)
+>> --- /home/claudio/git/qemu-pristine/qemu/tests/qemu-
+>> iotests/300.out     2020-07-21 10:03:54.468104764 +0200
+>> +++ /home/claudio/git/qemu-pristine/qemu-build/tests/qemu-
+>> iotests/300.out.bad   2020-07-21 10:14:06.098090543 +0200
+>> @@ -12,6 +12,9 @@
+>>   ID        TAG                 VM SIZE                DATE       VM
+>> CLOCK
+>>   --        snap0                  SIZE yyyy-mm-dd
+>> hh:mm:ss   00:00:00.000
+>>   (qemu) loadvm snap0
+>> +Unexpected storage key data: 0
+>> +error while loading state for instance 0x0 of device 's390-skeys'
+>> +Error: Error -22 while loading VM state
+>>   (qemu) quit
+>>   
+>>   *** done
+>> Failures: 300
+>> Failed 1 of 1 iotests
+>>
+>>
+>> At this point somebody more knowledgeable about QCOW2, coroutines and
+>> backing files could chime in?
+>>
+> <trim>
 > 
-> The reason for this planned replacement is that for every fs driver
-> request the coroutine is dispatched from main I/O thread to a
-> background I/O thread and eventually dispatched back to main I/O
-> thread. Hopping between threads adds latency. So if a 9pfs Treaddir
-> request reads a large amount of directory entries, this currently
-> sums up to huge latencies of several hundred ms or even more. So
-> using v9fs_co_readdir_many() instead of v9fs_co_readdir() will
-> provide significant performance improvements.
+> I used the reproducer you provide here to do a git bisect as I assume
+> whatever is now broken wasn't always broken, and it pointed to the
+> following commit:
 > 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  hw/9pfs/9p.h    |  22 ++++++
->  hw/9pfs/codir.c | 196 +++++++++++++++++++++++++++++++++++++++++++++---
->  hw/9pfs/coth.h  |   3 +
->  3 files changed, 210 insertions(+), 11 deletions(-)
+> commit df893d25ceea3c0dcbe6d6b425309317fab6b22e (refs/bisect/bad)
+> Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Date:   Tue Jun 4 19:15:13 2019 +0300
 > 
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 561774e843..93b7030edf 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -215,6 +215,28 @@ static inline void v9fs_readdir_init(V9fsDir *dir)
->      qemu_co_mutex_init(&dir->readdir_mutex);
->  }
+>      block/qcow2: implement .bdrv_co_preadv_part
 > 
-> +/**
-> + * Type for 9p fs drivers' (a.k.a. 9p backends) result of readdir requests,
-> + * which is a chained list of directory entries.
-> + */
-> +typedef struct V9fsDirEnt {
-> +    /* mandatory (must not be NULL) information for all readdir requests */
-> +    struct dirent *dent;
-> +    /*
-> +     * optional (may be NULL): A full stat of each directory entry is just
-> +     * done if explicitly told to fs driver.
-> +     */
-> +    struct stat *st;
-> +    /*
-> +     * instead of an array, directory entries are always returned as
-> +     * chained list, that's because the amount of entries retrieved by fs
-> +     * drivers is dependent on the individual entries' name (since response
-> +     * messages are size limited), so the final amount cannot be estimated
-> +     * before hand
-> +     */
-> +    struct V9fsDirEnt *next;
-> +} V9fsDirEnt;
-> +
->  /*
->   * Filled by fs driver on open and other
->   * calls.
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 73f9a751e1..07da5d8d70 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -18,28 +18,202 @@
->  #include "qemu/main-loop.h"
->  #include "coth.h"
+> Indeed, I am currently able to reliable reproduce the issue with this
+> commit applied, and not reproduce it without it.
+
+Do you have a reproducer on top of df893d25ceea? I tried to apply the patches on it, there are a lot of conflicts and after solving them, the test not work for me.
+
+What do you mean by not reproduce without df893d25ceea3c0d? I also tried to do "git rebase df893d25ceea3c0d --onto df893d25ceea3c0d^", after applying the reproducing patches on master, but again, there are conflicts..
+
+How did you applied
+
+commit 88f468e54696cd9ffc28ecf96f18f04125402541
+Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Date:   Mon Sep 16 20:53:22 2019 +0300
+
+     block/qcow2: refactor qcow2_co_preadv_part
+
+and, which is more important further
+
+commit d710cf575ad5fb3ab329204620de45bfe50caa53
+Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Date:   Mon Sep 16 20:53:24 2019 +0300
+
+     block/qcow2: introduce parallel subrequest handling in read and write
+
+without df893d25ceea3c0d ?
+
+
+I can reproduce the bug on master with Claudio's two patches, but how to reproduce the relation with df893d25ceea3c0d?
+
 > 
-> +/*
-> + * This is solely executed on a background IO thread.
-> + */
-> +static int do_readdir(V9fsPDU *pdu, V9fsFidState *fidp, struct dirent
-> **dent) +{
-> +    int err = 0;
-> +    V9fsState *s = pdu->s;
-> +    struct dirent *entry;
-> +
-> +    errno = 0;
-> +    entry = s->ops->readdir(&s->ctx, &fidp->fs);
-> +    if (!entry && errno) {
-> +        *dent = NULL;
-> +        err = -errno;
-> +    } else {
-> +        *dent = entry;
-> +    }
-> +    return err;
-> +}
-> +
-> +/*
-> + * TODO: This will be removed for performance reasons.
-> + * Use v9fs_co_readdir_many() instead.
-> + */
->  int coroutine_fn v9fs_co_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
->                                   struct dirent **dent)
->  {
->      int err;
-> -    V9fsState *s = pdu->s;
+> That said, I've not been able to identify exactly what is going wrong.
+> I'm fairly confident the savevm data is correctly written out, but on
+> the loadvm side, somehow the last part of the s390 data is not
+> correctly read in the data (it's in the second pass through the while
+> loop in qcow2_co_preadv_part() where that happens.)
 > 
->      if (v9fs_request_cancelled(pdu)) {
->          return -EINTR;
->      }
-> -    v9fs_co_run_in_worker(
-> -        {
-> -            struct dirent *entry;
-> +    v9fs_co_run_in_worker({
-> +        err = do_readdir(pdu, fidp, dent);
-> +    });
-> +    return err;
-> +}
-
-Ok, this ^ part (precisely: do_readdir() and v9fs_co_readdir()) can still be 
-sliced out into a separate patch, and apparently makes sense, as it would 
-avoid cluttering this patch like ...
-
-> +
-> +/*
-> + * This is solely executed on a background IO thread.
-> + *
-> + * See v9fs_co_readdir_many() (as its only user) below for details.
-> + */
-> +static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-> +                           struct V9fsDirEnt **entries, off_t offset,
-> +                           int32_t maxsize, bool dostat)
-> +{
-> +    V9fsState *s = pdu->s;
-> +    V9fsString name;
-> +    int len, err = 0;
-> +    int32_t size = 0;
-> +    off_t saved_dir_pos;
-> +    struct dirent *dent;
-> +    struct V9fsDirEnt *e = NULL;
-> +    V9fsPath path;
-> +    struct stat stbuf;
-> +
-> +    *entries = NULL;
-> +    v9fs_path_init(&path);
-> +
-> +    /*
-> +     * TODO: Here should be a warn_report_once() if lock failed.
-> +     *
-> +     * With a good 9p client we should not get into concurrency here,
-> +     * because a good client would not use the same fid for concurrent
-> +     * requests. We do the lock here for safety reasons though. However
-> +     * the client would then suffer performance issues, so better log that
-> +     * issue here.
-> +     */
-> +    v9fs_readdir_lock(&fidp->fs.dir);
-> +
-> +    /* seek directory to requested initial position */
-> +    if (offset == 0) {
-> +        s->ops->rewinddir(&s->ctx, &fidp->fs);
-> +    } else {
-> +        s->ops->seekdir(&s->ctx, &fidp->fs, offset);
-> +    }
-> +
-> +    /* save the directory position */
-> +    saved_dir_pos = s->ops->telldir(&s->ctx, &fidp->fs);
-> +    if (saved_dir_pos < 0) {
-> +        err = saved_dir_pos;
-> +        goto out;
-> +    }
-> +
-> +    while (true) {
-> +        /* get directory entry from fs driver */
-> +        err = do_readdir(pdu, fidp, &dent);
-> +        if (err || !dent) {
-> +            break;
-> +        }
+> If anyone familiar with this code can have a look or provide some
+> pointers, it would be much appreciated.
 > 
-> -            errno = 0;
-> -            entry = s->ops->readdir(&s->ctx, &fidp->fs);
-> -            if (!entry && errno) {
 
-... here ...
 
-> +        /*
-> +         * stop this loop as soon as it would exceed the allowed maximum
-> +         * response message size for the directory entries collected so
-> far, +         * because anything beyond that size would need to be
-> discarded by +         * 9p controller (main thread / top half) anyway
-> +         */
-> +        v9fs_string_init(&name);
-> +        v9fs_string_sprintf(&name, "%s", dent->d_name);
-> +        len = v9fs_readdir_response_size(&name);
-> +        v9fs_string_free(&name);
-> +        if (size + len > maxsize) {
-> +            /* this is not an error case actually */
-> +            break;
-> +        }
-> +
-> +        /* append next node to result chain */
-> +        if (!e) {
-> +            *entries = e = g_malloc0(sizeof(V9fsDirEnt));
-> +        } else {
-> +            e = e->next = g_malloc0(sizeof(V9fsDirEnt));
-> +        }
-> +        e->dent = g_malloc0(sizeof(struct dirent));
-> +        memcpy(e->dent, dent, sizeof(struct dirent));
-> +
-> +        /* perform a full stat() for directory entry if requested by caller
-> */ +        if (dostat) {
-> +            err = s->ops->name_to_path(
-> +                &s->ctx, &fidp->path, dent->d_name, &path
-> +            );
-> +            if (err < 0) {
->                  err = -errno;
-> -            } else {
-> -                *dent = entry;
-> -                err = 0;
 
-... and here.
 
-> +                break;
->              }
-> -        });
-> +
-> +            err = s->ops->lstat(&s->ctx, &path, &stbuf);
-> +            if (err < 0) {
-> +                err = -errno;
-> +                break;
-> +            }
-> +
-> +            e->st = g_malloc0(sizeof(struct stat));
-> +            memcpy(e->st, &stbuf, sizeof(struct stat));
-> +        }
-> +
-> +        size += len;
-> +        saved_dir_pos = dent->d_off;
-> +    }
-> +
-> +    /* restore (last) saved position */
-> +    s->ops->seekdir(&s->ctx, &fidp->fs, saved_dir_pos);
-> +
-> +out:
-> +    v9fs_readdir_unlock(&fidp->fs.dir);
-> +    v9fs_path_free(&path);
-> +    if (err < 0) {
-> +        return err;
-> +    }
-> +    return size;
-> +}
-> +
-> +/**
-> + * @brief Reads multiple directory entries in one rush.
-> + *
-> + * Retrieves the requested (max. amount of) directory entries from the fs
-> + * driver. This function must only be called by the main IO thread (top
-> half). + * Internally this function call will be dispatched to a background
-> IO thread + * (bottom half) where it is eventually executed by the fs
-> driver. + *
-> + * @discussion Acquiring multiple directory entries in one rush from the fs
-> + * driver, instead of retrieving each directory entry individually, is
-> very + * beneficial from performance point of view. Because for every fs
-> driver + * request latency is added, which in practice could lead to
-> overall + * latencies of several hundred ms for reading all entries (of
-> just a single + * directory) if every directory entry was individually
-> requested from fs + * driver.
-> + *
-> + * @note You must @b ALWAYS call @c v9fs_free_dirents(entries) after
-> calling + * v9fs_co_readdir_many(), both on success and on error cases of
-> this + * function, to avoid memory leaks once @p entries are no longer
-> needed. + *
-> + * @param pdu - the causing 9p (T_readdir) client request
-> + * @param fidp - already opened directory where readdir shall be performed
-> on + * @param entries - output for directory entries (must not be NULL) + *
-> @param offset - initial position inside the directory the function shall +
-> *                 seek to before retrieving the directory entries + *
-> @param maxsize - maximum result message body size (in bytes)
-> + * @param dostat - whether a stat() should be performed and returned for
-> + *                 each directory entry
-> + * @returns resulting response message body size (in bytes) on success,
-> + *          negative error code otherwise
-> + */
-> +int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-> +                                      struct V9fsDirEnt **entries,
-> +                                      off_t offset, int32_t maxsize,
-> +                                      bool dostat)
-> +{
-> +    int err = 0;
-> +
-> +    if (v9fs_request_cancelled(pdu)) {
-> +        return -EINTR;
-> +    }
-> +    v9fs_co_run_in_worker({
-> +        err = do_readdir_many(pdu, fidp, entries, offset, maxsize, dostat);
-> +    });
->      return err;
->  }
-> 
-> diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-> index c2cdc7a9ea..fd4a45bc7c 100644
-> --- a/hw/9pfs/coth.h
-> +++ b/hw/9pfs/coth.h
-> @@ -49,6 +49,9 @@
->  void co_run_in_worker_bh(void *);
->  int coroutine_fn v9fs_co_readlink(V9fsPDU *, V9fsPath *, V9fsString *);
->  int coroutine_fn v9fs_co_readdir(V9fsPDU *, V9fsFidState *, struct dirent
-> **); +int coroutine_fn v9fs_co_readdir_many(V9fsPDU *, V9fsFidState *,
-> +                                      struct V9fsDirEnt **, off_t, int32_t,
-> +                                      bool);
->  off_t coroutine_fn v9fs_co_telldir(V9fsPDU *, V9fsFidState *);
->  void coroutine_fn v9fs_co_seekdir(V9fsPDU *, V9fsFidState *, off_t);
->  void coroutine_fn v9fs_co_rewinddir(V9fsPDU *, V9fsFidState *);
 
-So I'll prepare a v8 with this patch here split into two.
-
-But this is it. I don't see another chunk in this patch set that could be 
-split further down in an useful way.
-
+-- 
 Best regards,
-Christian Schoenebeck
-
-
+Vladimir
 
