@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445B5230998
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 14:09:28 +0200 (CEST)
-Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C52F230999
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 14:09:39 +0200 (CEST)
+Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0OQA-00087c-Po
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 08:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
+	id 1k0OQM-0008Jm-CT
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 08:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k0OP3-0006pW-It
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:08:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33694
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k0OP9-0006z3-KA
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:08:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60565
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k0OP1-0006XK-Ex
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:08:16 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k0OP8-0006YC-2i
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:08:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595938094;
+ s=mimecast20190719; t=1595938101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lJqsnMNFiFlojDnXvnC1iXWC+Z5YPyNcXB1luyYoIgc=;
- b=BHu5norTXjINSEpQSZorg/9mECNCbu/6pmnV9fmYRnOaxlJDkawx9LPmPuTY6z9QWrix1c
- 290S+0Uhc+HE/7+x/SM+TUPdf5hTGlfMAsSoAaFyLVHmXn4zJCxfr5LHnutcYjGCcli4t8
- LqInbDSVN09736QyAeak7t4A4u6uc2c=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GkFU7XQqzErmywaN2FDrnnVSpqyXImZjhBFs9rCnQGE=;
+ b=Ntcpcv18+UgY6NbNIVCT3tFfvMgzZbDKWp2JBPsOs83E4T7uLM6J8zv/Gj0BHXksWFa8eL
+ 3JzE9AHh8Qw8N82wPDQhzRfxr6+s5BN22XgmvHAbXtkI/fjbQN7Wqr1dcsAndyHNgKrnqi
+ 1Z2Ft4FhBRoOEEiZLyn+Os662ZoRvxs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-0oGK7aRDP1CkmxU-QUmf-w-1; Tue, 28 Jul 2020 08:08:12 -0400
-X-MC-Unique: 0oGK7aRDP1CkmxU-QUmf-w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-81-_V5vf65VNLCRwVfwxvavEQ-1; Tue, 28 Jul 2020 08:08:17 -0400
+X-MC-Unique: _V5vf65VNLCRwVfwxvavEQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 218C719057A3;
- Tue, 28 Jul 2020 12:08:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 320F11005504;
+ Tue, 28 Jul 2020 12:08:16 +0000 (UTC)
 Received: from localhost (ovpn-112-145.ams2.redhat.com [10.36.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B67E8171F9;
- Tue, 28 Jul 2020 12:08:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E32AB712EC;
+ Tue, 28 Jul 2020 12:08:12 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.1 0/2] block: Fix bdrv_aligned_p*v() for qiov_offset != 0
-Date: Tue, 28 Jul 2020 14:08:03 +0200
-Message-Id: <20200728120806.265916-1-mreitz@redhat.com>
+Subject: [PATCH for-5.1 1/2] block: Fix bdrv_aligned_p*v() for qiov_offset != 0
+Date: Tue, 28 Jul 2020 14:08:04 +0200
+Message-Id: <20200728120806.265916-2-mreitz@redhat.com>
+In-Reply-To: <20200728120806.265916-1-mreitz@redhat.com>
+References: <20200728120806.265916-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:05:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,22 +87,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Bruce Rogers <brogers@suse.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Since these functions take a @qiov_offset, they must always take it into
+account when working with @qiov.  There are a couple of places where
+they do not, but they should.
 
-Patch 1 is the fix, patch 2 adds a test.
+Fixes: 65cd4424b9df03bb5195351c33e04cbbecc0705c
+Fixes: 28c4da28695bdbe04b336b2c9c463876cc3aaa6d
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Bruce Rogers <brogers@suse.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/io.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-I think we must get this into 5.1, rc2 or not.
-
-
-Max Reitz (2):
-  block: Fix bdrv_aligned_p*v() for qiov_offset != 0
-  iotests/028: Add test for cross-base-EOF reads
-
- block/io.c                 | 10 ++++++----
- tests/qemu-iotests/028     | 19 +++++++++++++++++++
- tests/qemu-iotests/028.out | 11 +++++++++++
- 3 files changed, 36 insertions(+), 4 deletions(-)
-
+diff --git a/block/io.c b/block/io.c
+index b6564e34c5..ad3a51ed53 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1524,12 +1524,13 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+             assert(num);
+ 
+             ret = bdrv_driver_preadv(bs, offset + bytes - bytes_remaining,
+-                                     num, qiov, bytes - bytes_remaining, 0);
++                                     num, qiov,
++                                     qiov_offset + bytes - bytes_remaining, 0);
+             max_bytes -= num;
+         } else {
+             num = bytes_remaining;
+-            ret = qemu_iovec_memset(qiov, bytes - bytes_remaining, 0,
+-                                    bytes_remaining);
++            ret = qemu_iovec_memset(qiov, qiov_offset + bytes - bytes_remaining,
++                                    0, bytes_remaining);
+         }
+         if (ret < 0) {
+             goto out;
+@@ -2032,7 +2033,8 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
+             }
+ 
+             ret = bdrv_driver_pwritev(bs, offset + bytes - bytes_remaining,
+-                                      num, qiov, bytes - bytes_remaining,
++                                      num, qiov,
++                                      qiov_offset + bytes - bytes_remaining,
+                                       local_flags);
+             if (ret < 0) {
+                 break;
 -- 
 2.26.2
 
