@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C360C230066
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 05:57:54 +0200 (CEST)
-Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C744A23006E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 06:02:07 +0200 (CEST)
+Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0GkT-0004Mr-SV
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 23:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
+	id 1k0GoY-0006zp-SF
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 00:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k0Giv-0003KK-1L
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 23:56:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27092
+ id 1k0GnA-0006Wx-5B
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 00:00:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49875
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k0Git-00008A-Dq
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 23:56:16 -0400
+ id 1k0Gn8-0000iw-Kp
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 00:00:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595908574;
+ s=mimecast20190719; t=1595908837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L6HbxXhtFXvfi1LmZynDaM1zj1p6jSb+Qlah7mFyxrM=;
- b=YmNAwg9pzrK0slGn/0qVmQZdKs8G59BIlw3CDG4qVNl0qsu0uWimBgufW62cL7CYGOjimv
- LlwhmBDJvCHA+/+lUdVQ6pwciO0KnWezZO81Xvt4VAxNuwJZ742BgorHqKYJj3kb4fWLkO
- MqWnJA2cdQXyWB0JP1PeMj5vd1Q519M=
+ bh=hknvEOICRQY0q1eoXLR0kORhRPhVlLEyukskQ3N7UK0=;
+ b=XaSe47S0XymvyXAQmtQ/cAEFVLXAChWoW6/62tm1I3t0tRAclJIoiDhX1JTS/iQ1GoJFmX
+ 0aEdxxpFvE2bNoc/bms9vJhoWFeLtbpwVCednZevw357/R241HrGKvaxofHb1OR5kJ23uL
+ fz5KG2PYFeGImgfcO5v98phuFZnUnp8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-j47WBlyAOLOe8ZhlmEB3dg-1; Mon, 27 Jul 2020 23:56:10 -0400
-X-MC-Unique: j47WBlyAOLOe8ZhlmEB3dg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-16-_Rw0QYY8OhaOdALhGIKHPg-1; Tue, 28 Jul 2020 00:00:35 -0400
+X-MC-Unique: _Rw0QYY8OhaOdALhGIKHPg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18CEF8015CE;
- Tue, 28 Jul 2020 03:56:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0C7F1DE6;
+ Tue, 28 Jul 2020 04:00:33 +0000 (UTC)
 Received: from [10.72.13.242] (ovpn-13-242.pek2.redhat.com [10.72.13.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9A942C724;
- Tue, 28 Jul 2020 03:56:04 +0000 (UTC)
-Subject: Re: [PATCH] virtio-pci: fix wrong index in virtio_pci_queue_enabled
-To: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org,
- mst@redhat.com
-References: <20200727143807.19230-1-yuri.benditovich@daynix.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2A93712F8;
+ Tue, 28 Jul 2020 04:00:19 +0000 (UTC)
+Subject: Re: [PATCH 1/2] net: forbid the reentrant RX
+To: qemu-devel@nongnu.org
+References: <20200722085747.6514-1-jasowang@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <fc011d82-0482-bea9-433b-76772b78980f@redhat.com>
-Date: Tue, 28 Jul 2020 11:56:03 +0800
+Message-ID: <0fd8eb52-6410-1bbd-2462-598c6fcebeb9@redhat.com>
+Date: Tue, 28 Jul 2020 12:00:18 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200727143807.19230-1-yuri.benditovich@daynix.com>
+In-Reply-To: <20200722085747.6514-1-jasowang@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -83,38 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: dmitry.fleytman@gmail.com, mst@redhat.com, liq3ea@163.com, liq3ea@gmail.com,
+ alxndr@bu.edu, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/7/27 下午10:38, Yuri Benditovich wrote:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1702608
+On 2020/7/22 下午4:57, Jason Wang wrote:
+> The memory API allows DMA into NIC's MMIO area. This means the NIC's
+> RX routine must be reentrant. Instead of auditing all the NIC, we can
+> simply detect the reentrancy and return early. The queue->delivering
+> is set and cleared by qemu_net_queue_deliver() for other queue helpers
+> to know whether the delivering in on going (NIC's receive is being
+> called). We can check it and return early in qemu_net_queue_flush() to
+> forbid reentrant RX.
 >
-> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>   net/queue.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/net/queue.c b/net/queue.c
+> index 0164727e39..19e32c80fd 100644
+> --- a/net/queue.c
+> +++ b/net/queue.c
+> @@ -250,6 +250,9 @@ void qemu_net_queue_purge(NetQueue *queue, NetClientState *from)
+>   
+>   bool qemu_net_queue_flush(NetQueue *queue)
+>   {
+> +    if (queue->delivering)
+> +        return false;
+> +
+>       while (!QTAILQ_EMPTY(&queue->packets)) {
+>           NetPacket *packet;
+>           int ret;
 
 
 Queued for rc2.
 
 Thanks
-
-
-> ---
->   hw/virtio/virtio-pci.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index ada1101d07..2b1f9cc67b 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1113,7 +1113,7 @@ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
->       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->   
->       if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-> -        return proxy->vqs[vdev->queue_sel].enabled;
-> +        return proxy->vqs[n].enabled;
->       }
->   
->       return virtio_queue_enabled(vdev, n);
 
 
