@@ -2,77 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8F12305B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 10:49:25 +0200 (CEST)
-Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 872612305F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:00:23 +0200 (CEST)
+Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0LIZ-0007mH-Uj
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 04:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53940)
+	id 1k0LTC-0001Yf-51
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0LHR-0007Em-1r
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:48:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46537
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0LHN-0003eq-Hc
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:48:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595926088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=ao3c9TQKb+juCT9/UCqPiTX4wcTHfvLH4i6SAgssd44=;
- b=GNhc1aYzVV/sddzs9eSjkVrbl6CGkJb4ArmWQc4IYH/dckT7DzgUuk0ygB1I7XCSa3LJKc
- jp+kQjCJYkoD/2H09znb9YJJpli82vCPYNvCZxUessyBNvm06fRx+/HzmbS88AuN8qH2oj
- nggBHn9WFjwnhdA8Qo6FImtAudwd9E8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-I9n3-TntMqu6TfwaycGEJw-1; Tue, 28 Jul 2020 04:48:06 -0400
-X-MC-Unique: I9n3-TntMqu6TfwaycGEJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2548D8014D7;
- Tue, 28 Jul 2020 08:48:05 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-161.ams2.redhat.com [10.36.112.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA3C560CD0;
- Tue, 28 Jul 2020 08:48:02 +0000 (UTC)
-Subject: Re: [PATCH] bugfix: irq: Avoid covering object refcount of qemu_irq
-To: Peter Maydell <peter.maydell@linaro.org>,
- Keqian Zhu <zhukeqian1@huawei.com>
-References: <20200727130225.32640-1-zhukeqian1@huawei.com>
- <CAFEAcA9vQMP0YLAuzdPW2m3RcRNySxA0gJQZmeXBUYRy4=Dk+w@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <92e8dc9b-deed-afb8-89ae-f50b68bbafa8@redhat.com>
-Date: Tue, 28 Jul 2020 10:48:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
+ id 1k0LSG-00017U-6n; Tue, 28 Jul 2020 04:59:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
+ id 1k0LSD-0004pY-5F; Tue, 28 Jul 2020 04:59:23 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06S89IlU038839; Tue, 28 Jul 2020 04:59:18 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32j213yaa4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jul 2020 04:59:17 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06S8A3WF040471;
+ Tue, 28 Jul 2020 04:59:17 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32j213ya8k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jul 2020 04:59:17 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06S8pFok015516;
+ Tue, 28 Jul 2020 08:59:14 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 32gcqk1y6n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jul 2020 08:59:14 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 06S8vk0F66388256
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jul 2020 08:57:46 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5C64AE051;
+ Tue, 28 Jul 2020 08:59:11 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A1F5AE059;
+ Tue, 28 Jul 2020 08:59:11 +0000 (GMT)
+Received: from oc5500677777.ibm.com (unknown [9.145.68.234])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 28 Jul 2020 08:59:11 +0000 (GMT)
+Subject: Re: [RFC PATCH] s390x/pci: vfio-pci breakage with disabled mem
+ enforcement
+To: Pierre Morel <pmorel@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
+References: <1595517236-17823-1-git-send-email-mjrosato@linux.ibm.com>
+ <20200723102916.7cf15b43@w520.home>
+ <0481c77e-f71f-886b-9b0a-41529eb139ee@linux.ibm.com>
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Message-ID: <c0c5d214-4578-1cf2-6b72-e8b312e541b3@linux.ibm.com>
+Date: Tue, 28 Jul 2020 10:59:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9vQMP0YLAuzdPW2m3RcRNySxA0gJQZmeXBUYRy4=Dk+w@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <0481c77e-f71f-886b-9b0a-41529eb139ee@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-28_01:2020-07-27,
+ 2020-07-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007280056
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=schnelle@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 04:59:18
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,51 +105,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yezengruan@huawei.com, Li Qiang <liq3ea@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: david@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/07/2020 16.41, Peter Maydell wrote:
-> On Mon, 27 Jul 2020 at 14:03, Keqian Zhu <zhukeqian1@huawei.com> wrote:
->>
->> Avoid covering object refcount of qemu_irq, otherwise it may causes
->> memory leak.
->>
->> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->> ---
->>  hw/core/irq.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/core/irq.c b/hw/core/irq.c
->> index fb3045b912..59af4dfc74 100644
->> --- a/hw/core/irq.c
->> +++ b/hw/core/irq.c
->> @@ -125,7 +125,9 @@ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n)
->>      int i;
->>      qemu_irq *old_irqs = qemu_allocate_irqs(NULL, NULL, n);
->>      for (i = 0; i < n; i++) {
->> -        *old_irqs[i] = *gpio_in[i];
->> +        old_irqs[i]->handler = gpio_in[i]->handler;
->> +        old_irqs[i]->opaque = gpio_in[i]->opaque;
->> +
->>          gpio_in[i]->handler = handler;
->>          gpio_in[i]->opaque = &old_irqs[i];
->>      }
+
+
+On 7/27/20 5:40 PM, Pierre Morel wrote:
 > 
-> This function is leaky by design, because it doesn't do anything
-> with the old_irqs array and there's no function for un-intercepting
-> the IRQs (which would need to free that memory). This is not ideal
-> but OK because it's only used in the test suite.
+> 
+> On 2020-07-23 18:29, Alex Williamson wrote:
+>> On Thu, 23 Jul 2020 11:13:55 -0400
+>> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+>>
+>>> I noticed that after kernel commit abafbc55 'vfio-pci: Invalidate mmaps
+>>> and block MMIO access on disabled memory' vfio-pci via qemu on s390x
+>>> fails spectacularly, with errors in qemu like:
+>>>
+>>> qemu-system-s390x: vfio_region_read(0001:00:00.0:region0+0x0, 4) failed: Input/output error
+>>>
+>>>  From read to bar 0 originating out of hw/s390x/s390-pci-inst.c:zpci_read_bar().
+>>>
+>>> So, I'm trying to figure out how to get vfio-pci happy again on s390x.  From
+>>> a bit of tracing, we seem to be triggering the new trap in
+>>> __vfio_pci_memory_enabled().  Sure enough, if I just force this function to
+>>> return 'true' as a test case, things work again.
+>>> The included patch attempts to enforce the setting, which restores everything
+>>> to working order but also triggers vfio_bar_restore() in the process....  So
+>>> this isn't the right answer, more of a proof-of-concept.
+>>>
+>>> @Alex: Any guidance on what needs to happen to make qemu-s390x happy with this
+>>> recent kernel change?
+>>
+>> Bummer!  I won't claim to understand s390 PCI, but if we have a VF
+>> exposed to the "host" (ie. the first level where vfio-pci is being
+>> used), but we can't tell that it's a VF, how do we know whether the
+>> memory bit in the command register is unimplemented because it's a VF
+>> or unimplemented because the device doesn't support MMIO?  How are the
+>> device ID, vendor ID, and BAR registers virtualized to the host?  Could
+>> the memory enable bit also be emulated by that virtualization, much
+>> like vfio-pci does for userspace?  If the other registers are
+>> virtualized, but these command register bits are left unimplemented, do
+>> we need code to deduce that we have a VF based on the existence of MMIO
+>> BARs, but lack of memory enable bit?  Thanks,
+>>
+>> Alex
+> 
+> Alex, Matt,
+> 
+> in s390 we have the possibility to assign a virtual function to a logical partition as function 0.
+> In this case it can not be treated as a virtual function but must be treated as a physical function.
+> This is currently working very well.
+Can you explain why it must be treated as a physical function and must not have is_virtfn set?
+I'm currently reworking my fix for PF/VF linking not happening for all ways to attach a
+VF and in that I intend to set is_virtfn = 1 also for VFs that are not linked with a PF
+including those attached to an LPAR.
 
-I think this could better be done without calling qemu_allocate_irqs():
-Simply call qemu_allocate_irq() (without "s" at the end) within the
-for-loop for each irq instead. What do you think?
-
- Thomas
+So far I really can not see a reason why that should not work since I was wrong before
+and Firmware does tell us that these are indeed VFs (zdev->is_physfn == 0).
+AFAIK on nearly all platforms guests will often have a VF as function zero on a bus
+because that is what I expect to happen if you pass it through as a PCI function.
+So unless I'm missing something, that just makes LPAR look more like a QEMU guest on
+another platform which is very likely much more well tested than treating a VF as
+a PF as we have been doing.
+> However, these functions do not set PCI_COMMAND_MEMORY as we need.
+> 
+> Shouldn't we fix this inside the kernel, to keep older QMEU working?
+> 
+> Then would it be OK to add a new bit/boolean inside the pci_dev/vfio_pci_device like, is_detached_vfn, that we could set during enumeration and test inside __vfio_pci_memory_enabled() to return true?
+This does not make sense to me, as I wrote above it's totally normal for VMs to see VFs detached
+from the PF as they are passed-through to a QEMU guest so IMHO that's already covered by the meaning
+of is_virtfn.
+> 
+> In the enumeration we have the possibility to know if the function is a HW/Firmware virtual function on devfn 0 or if it is created by SRIOV.
+> 
 
 
