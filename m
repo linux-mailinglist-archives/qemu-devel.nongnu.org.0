@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA600230DCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:28:58 +0200 (CEST)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E44F230DEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:33:55 +0200 (CEST)
+Received: from localhost ([::1]:42420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0RXG-0006y4-0I
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:28:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47486)
+	id 1k0Rc2-0001qo-Mh
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:33:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0RWP-00060S-IG
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:28:05 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34329)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Rb9-0000vR-CV; Tue, 28 Jul 2020 11:32:59 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:35779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0RWN-0002Wo-Rf
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:28:05 -0400
-Received: by mail-ot1-x341.google.com with SMTP id a26so6364048otf.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 08:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Rb7-0003M7-PF; Tue, 28 Jul 2020 11:32:59 -0400
+Received: by mail-io1-xd42.google.com with SMTP id s189so13929831iod.2;
+ Tue, 28 Jul 2020 08:32:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xGn+hPttuKSZ5D6i4FBqX65nRKEoDNdUCW3hb3L+7aA=;
- b=Em+N7m/D81JOE0szhaMTk+bT2t+SC9SNk2f2T02E9ZC3E7KmHSqieCptcBkOCiukxN
- H3MKWo7H7b4EZnfXfPy9Jqe+i4vhQjiWoN0tH6rSMFLTgdeEIf3RZK3yp6njLiJZroH8
- igH+1Sf9tqLZZJRkLtp7FgTvtD3QlVkXH+qkzCVfiC1yQCSpE0E86Sa/FkcI0ob8Tonc
- hs/CkGzsb7fm42dyJH2/Fd7JL5D41/MmszsnmPWGUjuUxfzq0aJz6jHJR4ZAGXp/rt3d
- IqnBq+XZb6+x0uspPzsMtGLvBv5CtK8kHyr42IbOvt0ZOt3e3jzYrHzfzD/qlOMv10VL
- Zchw==
+ :cc; bh=aFiggvsybxP7Q+K3MUxmqRhc2eENIdqqqh2Sgg6FwSA=;
+ b=HsvX8jEPFGV1imUvxGXB6TqbHibeXL99BAweT80B49/e6Silh0P87mtljdW7uS7zz7
+ njG/bQ65jmYThbJm7IhazJxFaeoOR05jphXbfktp/UOXX3biVeMnhfaXL9FEwEws6Jgr
+ LfmVvSM2xZIS5MSDFre+ExrlwWS7O2DWzBkSNqln4LQRP3by6tSEiKFJSkwE+PUANGGk
+ wehp9VtXOodEWpjdcxAdYSMP37O7kz+EQF+NVdzUgeE15Wod9LxG7bKiIb9LGyf68VWI
+ h7CmjtqE/nznt6Dgq13bY3NcNzYeY1stkT5rWWPOWRyxJ3uajXpUDB30gMzTJCca1brm
+ 6EpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xGn+hPttuKSZ5D6i4FBqX65nRKEoDNdUCW3hb3L+7aA=;
- b=ErQk210ydMCQtVwMiA75PK98K6HXLWGR4z/mYgIqle0eiJ0XAg2+dxSF0jtwrA+pIN
- eiC/tiCIUZB8ERPU5l60Zt82KvVa9oJgnFBRDddmHwrbdep6exnGhARGufBbPr3jpqiq
- sBri7BBxiSIHfwRJbiHQompcq+V57okL0b6a3MbJpqoDdyRt07bGu4TlIvleTBSZfVt6
- tIdPzgqIPZHbPqfcUXVaZXocaXN7rQrMyFTv1t/rBfMwBOh/FRRZLwb/C+GPvOvO7D1W
- eEYdB90cJyk2EHWDHShsY7naeTuZsC9KGxARZgAOzRUvNeBzVZcSBnlMCREGFpPnw1/G
- q5MQ==
-X-Gm-Message-State: AOAM533fNKNNHe3FssJGuKzgBogmLvstttDUKh2uCqdD/ImC765A3zPJ
- ynq/0gfso3gekNhToZwvnfMhk+QZW0NlDmCBfpjMzA==
-X-Google-Smtp-Source: ABdhPJwQuC4SeNBozGj6ZyR059CNpBq8cOvPOdvTqUGovpS4ie09l77kdetScF7x/FoyxtC47OZPk4A6dYFaCgr1cQU=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr25541302oto.135.1595950082469; 
- Tue, 28 Jul 2020 08:28:02 -0700 (PDT)
+ bh=aFiggvsybxP7Q+K3MUxmqRhc2eENIdqqqh2Sgg6FwSA=;
+ b=Cez/u8JIuvvCI4e835ACSSC0WjoDuEI8ZEEB7hlEXJE2Z1Z4XUVPxf+9jLysWAxNnq
+ deQ7EA0paha0eZVLcxNfYPss6iUNX+9IWEac1eKAY9J++QjLRQrpC28fMaGu4k/jmql5
+ jjklKL2JeOsCTkotSk5KJrUrEGZV+RC6NHQQICFHdJzEo3TmWIydXVFOQhEM9qETKgZU
+ r5eKAbF6vusexnznLs8GC7izjpFZEGC/p5oeVLdajGBJMJo/5PbbjLe0GX9ZYpriAoPB
+ 1UprjtJC3ajlF9ZTxHcZdp6PJ9mlepv3u3RMQwH49Rb+iqc0+0Ax/1xEwa0zC97x6oA3
+ avFA==
+X-Gm-Message-State: AOAM530VDZRZHvKK/fUcLe6j5PDoOVk/B6r0gi9HFvHgSuiYSOCDXM5e
+ VEx84PSLCvABChpxbjjGXbGRGLLuHZhBskMoBPc=
+X-Google-Smtp-Source: ABdhPJxoj7UHLrYCkgoHrAXLwuILv1cnBNW9I9zIU1rE4GFVStbxrpSGQDZ2xi5a+lLTMdvZH1b5bD/99osMfo4fJPE=
+X-Received: by 2002:a02:5b83:: with SMTP id g125mr33368303jab.91.1595950376114; 
+ Tue, 28 Jul 2020 08:32:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200727232237.31024-1-mdroth@linux.vnet.ibm.com>
-In-Reply-To: <20200727232237.31024-1-mdroth@linux.vnet.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Jul 2020 16:27:51 +0100
-Message-ID: <CAFEAcA_Tu3FK3fhBb5ZzOkmy6Usqk7utDU_OW0_kQ7GRSYo10w@mail.gmail.com>
-Subject: Re: [PULL for-5.1 0/2] qemu-ga patch queue for hard-freeze
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
+References: <1595227748-24720-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1595227748-24720-1-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 28 Jul 2020 08:22:37 -0700
+Message-ID: <CAKmqyKPSaB_GVM7K6BTzFApSEBWE0xE4_wXi0GbHnwfT0kRXig@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: sifive_u: Add a dummy L2 cache controller device
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,38 +77,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jul 2020 at 00:23, Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
+On Sun, Jul 19, 2020 at 11:50 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> The following changes since commit 9303ecb658a0194560d1eecde165a1511223c2d8:
+> From: Bin Meng <bin.meng@windriver.com>
 >
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200727' into staging (2020-07-27 17:25:06 +0100)
+> It is enough to simply map the SiFive FU540 L2 cache controller
+> into the MMIO space using create_unimplemented_device(), with an
+> FDT fragment generated, to make the latest upstream U-Boot happy.
 >
-> are available in the Git repository at:
->
->   git://github.com/mdroth/qemu.git tags/qga-pull-2020-07-27-tag
->
-> for you to fetch changes up to ba620541d0db7e3433babbd97c0413a371e6fb4a:
->
->   qga/qapi-schema: Document -1 for invalid PCI address fields (2020-07-27 18:03:55 -0500)
->
-> ----------------------------------------------------------------
-> qemu-ga patch queue for hard-freeze
->
-> * document use of -1 when pci_controller field can't be retrieved for
->   guest-get-fsinfo
-> * fix incorrect filesystem type reporting on w32 for guest-get-fsinfo
->   when a volume is not mounted
->
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Applied, thanks.
+Applied to riscv-to-apply.next tree for 5.2.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+Alistair
 
--- PMM
+> ---
+>
+>  hw/riscv/sifive_u.c         | 22 ++++++++++++++++++++++
+>  include/hw/riscv/sifive_u.h |  4 ++++
+>  2 files changed, 26 insertions(+)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 6487d5e..f771cb0 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -72,6 +72,7 @@ static const struct MemmapEntry {
+>      [SIFIVE_U_DEBUG] =    {        0x0,      0x100 },
+>      [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
+>      [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
+> +    [SIFIVE_U_L2CC] =     {  0x2010000,     0x1000 },
+>      [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
+>      [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
+>      [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
+> @@ -302,6 +303,24 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
+>      g_free(nodename);
+>
+> +    nodename = g_strdup_printf("/soc/cache-controller@%lx",
+> +        (long)memmap[SIFIVE_U_L2CC].base);
+> +    qemu_fdt_add_subnode(fdt, nodename);
+> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+> +        0x0, memmap[SIFIVE_U_L2CC].base,
+> +        0x0, memmap[SIFIVE_U_L2CC].size);
+> +    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
+> +        SIFIVE_U_L2CC_IRQ0, SIFIVE_U_L2CC_IRQ1, SIFIVE_U_L2CC_IRQ2);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+> +    qemu_fdt_setprop(fdt, nodename, "cache-unified", NULL, 0);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "cache-size", 2097152);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "cache-sets", 1024);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "cache-level", 2);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "cache-block-size", 64);
+> +    qemu_fdt_setprop_string(fdt, nodename, "compatible",
+> +                            "sifive,fu540-c000-ccache");
+> +    g_free(nodename);
+> +
+>      phy_phandle = phandle++;
+>      nodename = g_strdup_printf("/soc/ethernet@%lx",
+>          (long)memmap[SIFIVE_U_GEM].base);
+> @@ -732,6 +751,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>
+>      create_unimplemented_device("riscv.sifive.u.dmc",
+>          memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
+> +
+> +    create_unimplemented_device("riscv.sifive.u.l2cc",
+> +        memmap[SIFIVE_U_L2CC].base, memmap[SIFIVE_U_L2CC].size);
+>  }
+>
+>  static Property sifive_u_soc_props[] = {
+> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> index aba4d01..d3c0c00 100644
+> --- a/include/hw/riscv/sifive_u.h
+> +++ b/include/hw/riscv/sifive_u.h
+> @@ -71,6 +71,7 @@ enum {
+>      SIFIVE_U_DEBUG,
+>      SIFIVE_U_MROM,
+>      SIFIVE_U_CLINT,
+> +    SIFIVE_U_L2CC,
+>      SIFIVE_U_L2LIM,
+>      SIFIVE_U_PLIC,
+>      SIFIVE_U_PRCI,
+> @@ -86,6 +87,9 @@ enum {
+>  };
+>
+>  enum {
+> +    SIFIVE_U_L2CC_IRQ0 = 1,
+> +    SIFIVE_U_L2CC_IRQ1 = 2,
+> +    SIFIVE_U_L2CC_IRQ2 = 3,
+>      SIFIVE_U_UART0_IRQ = 4,
+>      SIFIVE_U_UART1_IRQ = 5,
+>      SIFIVE_U_GPIO_IRQ0 = 7,
+> --
+> 2.7.4
+>
+>
 
