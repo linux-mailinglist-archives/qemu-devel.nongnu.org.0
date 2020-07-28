@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB418230639
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:11:51 +0200 (CEST)
-Received: from localhost ([::1]:50258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF7923063F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:12:03 +0200 (CEST)
+Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0LeI-0007N0-QL
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59982)
+	id 1k0LeU-0007YW-N9
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k0Ld2-0006GG-HM
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:10:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51936
+ id 1k0Ld6-0006KD-Jq
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:10:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55962
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k0Ld0-0007CH-Fc
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:10:32 -0400
+ id 1k0Ld4-0007CW-PE
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:10:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595927429;
+ s=mimecast20190719; t=1595927434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=6j23IAoPrbb8aGcSXff/ft1jrj0qn3P0QT0dUg8cv3A=;
- b=R+lYWaeYFWy73fO7Ga9ubQj46IPDiUgGz2IR1TR6oZBiCSB9ay9whlaclPI/LawT9E0zrT
- cFzFtteZBINRAyRwhYcpvuOc7z9XpsWPMkushx3dOCRB+XCk9eUiHA0Z99dsbEylbroekF
- 8dBw6MoFz5RksQMyVjeXoD51k5yjpmI=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=QEWe54TC6Rr7+K7ziQiMtOrZqhkhpMwTIP1e/wV8VVU=;
+ b=H7KAgO4leSvF33scLRrXrCWI39MZ0TAsebeG6S8oXDol/1PbED0gw8KDapDbgwWuH0jDEX
+ /aJa2PR2Q4/mmsAd8vBNOgprDt1GdTvtSkzyXusShtSK7gSlihs+3AKVXjTfmnr70r4WQr
+ AbU4IlsZ2BAx0cs7AaWKBXbZH1PU1oU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-OfOWkRe4Ok-Fw-Z-bnDF0w-1; Tue, 28 Jul 2020 05:10:27 -0400
-X-MC-Unique: OfOWkRe4Ok-Fw-Z-bnDF0w-1
+ us-mta-377-6lPiy0tLPBKVRNr19AFrOw-1; Tue, 28 Jul 2020 05:10:31 -0400
+X-MC-Unique: 6lPiy0tLPBKVRNr19AFrOw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A93351800D4A;
- Tue, 28 Jul 2020 09:10:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C971DE1;
+ Tue, 28 Jul 2020 09:10:30 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-214.pek2.redhat.com
  [10.72.12.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C53A90E62;
- Tue, 28 Jul 2020 09:10:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 348FC90E62;
+ Tue, 28 Jul 2020 09:10:26 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL V2 0/3] Net patches
-Date: Tue, 28 Jul 2020 17:10:16 +0800
-Message-Id: <1595927419-27346-1-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 1/3] virtio-pci: fix wrong index in virtio_pci_queue_enabled
+Date: Tue, 28 Jul 2020 17:10:17 +0800
+Message-Id: <1595927419-27346-2-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1595927419-27346-1-git-send-email-jasowang@redhat.com>
+References: <1595927419-27346-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -74,44 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 93ea484375ab473379dd9c836261ef484bd71ab1:
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-07-27 21:00:01 +0100)
+We should use the index passed by the caller instead of the queue_sel
+when checking the enablement of a specific virtqueue.
 
-are available in the git repository at:
+This is reported in https://bugzilla.redhat.com/show_bug.cgi?id=1702608
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
+Fixes: f19bcdfedd53 ("virtio-pci: implement queue_enabled method")
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/virtio-pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 22dc8663d9fc7baa22100544c600b6285a63c7a3:
-
-  net: forbid the reentrant RX (2020-07-28 16:57:58 +0800)
-
-----------------------------------------------------------------
-Want to send earlier but most patches just come.
-
-- fix vhost-vdpa issues when no peer
-- fix virtio-pci queue enabling index value
-- forbid reentrant RX
-
-Changes from V1:
-
-- drop the patch that has been merged
-
-----------------------------------------------------------------
-Jason Wang (2):
-      virtio-net: check the existence of peer before accessing vDPA config
-      net: forbid the reentrant RX
-
-Yuri Benditovich (1):
-      virtio-pci: fix wrong index in virtio_pci_queue_enabled
-
- hw/net/virtio-net.c    | 30 +++++++++++++++++++-----------
- hw/virtio/virtio-pci.c |  2 +-
- net/queue.c            |  3 +++
- 3 files changed, 23 insertions(+), 12 deletions(-)
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 4ad3ad8..ccdf54e 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1113,7 +1113,7 @@ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
+     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+ 
+     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+-        return proxy->vqs[vdev->queue_sel].enabled;
++        return proxy->vqs[n].enabled;
+     }
+ 
+     return virtio_queue_enabled_legacy(vdev, n);
+-- 
+2.7.4
 
 
