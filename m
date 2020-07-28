@@ -2,113 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B36D230B75
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:29:00 +0200 (CEST)
-Received: from localhost ([::1]:38856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5C9230B87
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:36:04 +0200 (CEST)
+Received: from localhost ([::1]:46838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Pf9-00055A-HH
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
+	id 1k0Ply-0000iJ-W3
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k0Pdq-0003pJ-4l; Tue, 28 Jul 2020 09:27:38 -0400
-Received: from mail-eopbgr70110.outbound.protection.outlook.com
- ([40.107.7.110]:14954 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k0Pdm-0000eM-8k; Tue, 28 Jul 2020 09:27:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JpEILGB2nU/frGr+InQau++5Axig/A7QOFNTi/32++gHU34kCh8C+qRrr2KJgOwBI1ML+5k/XRwyKudRHxI2lFKLjOJ42yODB3+eoCSCufEOAwXpQw43zy5P/ePF5wykpUdvaO/4zbJ5pykDA0cWV/RbBCYfX6AknYICVc7qf1RLLQS7MXLUIF5xeowQmq1vZBTnxqu+M46cXolha3NVctRGWrgaEUxFJuIScdNZCmBmKDG5AKJOy8NUk/y/MgvDKUFkqOv5KlXIde9PabeuwdK1tgPWU+M7RXh8aJn5VjB2DKrPvwQKAP+8+g88UEEdB06PxY9M6aqVuY+rQRDACg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8TPEol2OjoKHUsUn0fUcGCcXbsAKuLXjoawLZrCZXqY=;
- b=IIabt3nj23IzB+FtO7mflj4cYUb61sXSZULxTVetFsFnsolYj2IQuIkNlv++YCmkELXdTkv10clCR/G5VNPJVVw3kvOL61zDSz9j+ofKPfcw4Nlr78qqwxJnLPx5pJtmBS/3HsXREBTI8l6tDqxejF8DqAoDc15bE1/kjbG+QiDQSj5NCfAEGu1ZvBIUNTELkVxqSXwTrOI8IshTCXoiThcoFIKjuK5Ch2UOUeNr2mRGg4Xhim5zB3sjyRatfdO0XvWHdynF6Q6egHTt6s7lmXZm71autd5AykyGX46HeT2UrZorFK6csBwcD5RLo99butfy01BXBzQ7hqxrqt0g4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8TPEol2OjoKHUsUn0fUcGCcXbsAKuLXjoawLZrCZXqY=;
- b=NxD3m7+5Gu4IGBGirwK+blQdLHdL1TSvS4lcDZCF0Xtha7JyTW6kMGTgxwIbJb1GfL1+L/R/hbucUMrkLO11wK6VdFGNYw723IfyPimKBuLiA7Sr6qkm9m23p5bUed+3WcaXZJyRsgzDR62d7Tmsbdeuyifi9bsin0ZyQPRZVxQ=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB4079.eurprd08.prod.outlook.com (2603:10a6:803:e4::19)
- by VI1PR08MB3007.eurprd08.prod.outlook.com (2603:10a6:803:4a::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
- 2020 13:27:26 +0000
-Received: from VI1PR08MB4079.eurprd08.prod.outlook.com
- ([fe80::20fe:9b19:3990:3b2f]) by VI1PR08MB4079.eurprd08.prod.outlook.com
- ([fe80::20fe:9b19:3990:3b2f%3]) with mapi id 15.20.3216.034; Tue, 28 Jul 2020
- 13:27:25 +0000
-Subject: Re: [PATCH v11 10/11] qcow2_format.py: introduce
- Qcow2HeaderExtensionsDoc class
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <1594973699-781898-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1594973699-781898-11-git-send-email-andrey.shinkevich@virtuozzo.com>
- <db73d013-832d-234c-7828-80d8b1ed962e@virtuozzo.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <d2752450-0c26-a40e-3dc8-e095e7009919@virtuozzo.com>
-Date: Tue, 28 Jul 2020 16:27:17 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <db73d013-832d-234c-7828-80d8b1ed962e@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM0PR04CA0140.eurprd04.prod.outlook.com
- (2603:10a6:208:55::45) To VI1PR08MB4079.eurprd08.prod.outlook.com
- (2603:10a6:803:e4::19)
+ (Exim 4.90_1) (envelope-from <rmohr@redhat.com>) id 1k0MVq-0003U4-4J
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:07:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43290
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rmohr@redhat.com>) id 1k0MVo-0006bI-6Q
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:07:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595930827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZXtTZPYGL+ZKCi8Z0tLZ6BdzWB9NWw0lgNcWs3Gv3dI=;
+ b=f+eR4ar7BPQtvGtBVvjbr5p06mgCGaAQftrIL829oPA2cysukfg5FqljTUjrlGmlljwIvI
+ peGNT4SwXVmNLiZnz3L/qgz9WsOc+sw4cUaol5yNZARHxVAZ6KBsFU3a0Fcy8ruW8sIj8F
+ 6u9uTSrBQ6xIM+KMWCtpJf8hl0K2nQ8=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-CROIG4NkPAW_PqK6K4XZ0w-1; Tue, 28 Jul 2020 06:00:33 -0400
+X-MC-Unique: CROIG4NkPAW_PqK6K4XZ0w-1
+Received: by mail-oo1-f71.google.com with SMTP id v21so6384207ooq.12
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 03:00:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZXtTZPYGL+ZKCi8Z0tLZ6BdzWB9NWw0lgNcWs3Gv3dI=;
+ b=g/FN/VjGLTQrtmja/9CVz4H7iSi5WgHQY8qBBYvmV/NPDzvSx8xcE9eYE9JG2FpkA5
+ o/5XzJgTgw7BrN4QXfkmYE3F4urTK3xglZrFm96D3RzYs6OLzX334XjuydpWCtV+GAgJ
+ MPnRxfctRKhQh8iaNdPqLri2dPKG64BPXczl+32wkP4qcYlGgTydneLF6pYK44ql8J2S
+ Y25fS80+P8mE/VSm7Quj2ewktoUu95XkWvftmBT58uxGA14hJ9byrMLIprez8r3b8Evx
+ 4RBcePAQWY80CvlUNOe38fPM/fFNEwBfGpg0Ytzlim7kdERvsmA6JOvjqDgQGC5Do69S
+ 66RQ==
+X-Gm-Message-State: AOAM531u8gvh8fn2hNL3wA+/UwjnyBuFyNXZeojKPuhoPS1EH+qjR2el
+ EsxfSrSoNvQ5686KtQPgE+OLxaNvPNIt1Cxwwlfe+L2mjvR3CNKeEXPghLlwB1x+9qfRv46qY6z
+ CDyPnIC1dIpHCFBG/k+vOXTVSqNdu0sg=
+X-Received: by 2002:a9d:6d97:: with SMTP id x23mr24030525otp.171.1595930431324; 
+ Tue, 28 Jul 2020 03:00:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7axnV/+QHQr0EPbt/MO8R+JoguBYu59o8iDz5fexs6Jutv0YvS/wdefMQ1R4YQ3eScRB0saNcNLDoq6QsAmg=
+X-Received: by 2002:a9d:6d97:: with SMTP id x23mr24030502otp.171.1595930431100; 
+ Tue, 28 Jul 2020 03:00:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.82) by
- AM0PR04CA0140.eurprd04.prod.outlook.com (2603:10a6:208:55::45) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3216.21 via Frontend Transport; Tue, 28 Jul 2020 13:27:21 +0000
-X-Originating-IP: [109.252.114.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 837c708f-24dd-4c25-56f5-08d832f9f7a2
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3007:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB30075DC2B6C568350D8B07A9F4730@VI1PR08MB3007.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hJWnlzcSRjOKHUpb/nP5/ueD6/eS2bnfkO/f3FAf0at1XmnzlLrq+EBliSYf3mM92ffVCpajRohSJjtexjuPA5XmvvABiCBC2/abL6+Krh8geaHWtFW5ndbARbq7Fswtn6b0YOwFPzWgQKLTCZdfc8V6h41nkjIapOcmYwwRg2m20o/I35OOblzXjV+z+GdfXd5zpxpPcN5MLBNVeo1cEXN9m+BO5uuf1UR76xqv/6HWRFzzlVDrQfif8RqQKK6HcTgP9gnlegCYFIQLD9KyxCvaqznd30ZHz2HZnDS9b+VbUm0LRyZ9Svf314M8jaJFw9yQT7z5I6OTtG2cmMe0R1jd0KbDtvEBsLk506LVGiTQZ5y1E71g2doR107VB+2R
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB4079.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(376002)(39840400004)(396003)(366004)(5660300002)(26005)(53546011)(186003)(8936002)(36756003)(478600001)(6666004)(16526019)(66556008)(19627235002)(66476007)(6506007)(2906002)(44832011)(66946007)(52116002)(2616005)(956004)(31686004)(316002)(31696002)(4326008)(86362001)(8676002)(6486002)(6512007)(107886003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 01JUKwytDM/H4edRw+ZW+sO6r3n524R8+MD/1r/tKk40Ywl2oQRzIG8nVMDJinAi2lSHn3PIJ/jKw3sQOfGJxo/HkMa7qPuIc2+p0N+45in7fn/E0zEJ3oac/0UTLqwyyCg4YL+umfsFgA36o59mrL75FMNDReMLOEFiN+SciTAdcwYq0iVtIsuWaR/c6lUT88iGJyEyr38dE9WY/S1VjhagF0FK67uGDIVBH8ULZTXeuBnKehnkuHUbZ/l8z9GM3NlI1Mr+HAUcmhHqqxtJD455+rvjv/P8zDhyNbn5lvhL+u7DJfR0r6xYDhi3WB/JWT0ZLlm5buGO92SnU5B64stDDQFsH/YoDxN9MCaFsx0avb2sxAUVthUS+hTwaAMjBtz/N+5TWq9FHuEf0GxDs01EIDetEKFzt/Mm1HUWyAZ1f8J86C0HNyjLML+Y/1bAcrd8CJ6MzB7trCSJiIjUW/T3jWL1MK92cZX/47e1qfs8O19ABXZBBtlY5CCNnJ0O
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 837c708f-24dd-4c25-56f5-08d832f9f7a2
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB4079.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 13:27:25.7311 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AeHT+fDzjLMAmsfmgV7n+P43b4xxO/tV0anfmHkStqUNwybqxY83+GiVfIPR8dU+I3V2Atv6NJykC33CRp13kGUEzOGU4cRTk4+KzoCK/4E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3007
-Received-SPF: pass client-ip=40.107.7.110;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 09:27:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200727190223.422280-1-stefanha@redhat.com>
+ <20200727190223.422280-4-stefanha@redhat.com>
+ <OSBPR01MB45826073E5A54CF869E56721E5730@OSBPR01MB4582.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB45826073E5A54CF869E56721E5730@OSBPR01MB4582.jpnprd01.prod.outlook.com>
+From: Roman Mohr <rmohr@redhat.com>
+Date: Tue, 28 Jul 2020 12:00:20 +0200
+Message-ID: <CALDPj7syG0KPhtZEma5n403=YFZ2ptcD4MtP=GdrY9n1eUs5Eg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an
+ error
+To: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000006eab2505ab7d8245"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=rmohr@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:05:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 28 Jul 2020 09:35:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,55 +90,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: "vromanso@redhat.com" <vromanso@redhat.com>,
+ Daniel Walsh <dwalsh@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "mpatel@redhat.com" <mpatel@redhat.com>,
+ "vgoyal@redhat.com" <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.07.2020 14:36, Vladimir Sementsov-Ogievskiy wrote:
-> 17.07.2020 11:14, Andrey Shinkevich wrote:
->> Per original script design, QcowHeader class may dump the QCOW2 header
->> info separately from the QCOW2 extensions info. To implement the
->> to_dict() method for dumping extensions, let us introduce the class
->> Qcow2HeaderExtensionsDoc.
+--0000000000006eab2505ab7d8245
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Jul 28, 2020 at 3:07 AM misono.tomohiro@fujitsu.com <
+misono.tomohiro@fujitsu.com> wrote:
+
+> > Subject: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an
+> error
+> >
+> > An assertion failure is raised during request processing if
+> > unshare(CLONE_FS) fails. Implement a probe at startup so the problem can
+> > be detected right away.
+> >
+> > Unfortunately Docker/Moby does not include unshare in the seccomp.json
+> > list unless CAP_SYS_ADMIN is given. Other seccomp.json lists always
+> > include unshare (e.g. podman is unaffected):
+> >
+> https://raw.githubusercontent.com/seccomp/containers-golang/master/seccomp.json
+> >
+> > Use "docker run --security-opt seccomp=path/to/seccomp.json ..." if the
+> > default seccomp.json is missing unshare.
 >
-> I think, when dumping to qcow2, no needs to omit extensions, let's 
-> just always dump them.
+> Hi, sorry for a bit late.
+>
+> unshare() was added to fix xattr problem:
+>
+> https://github.com/qemu/qemu/commit/bdfd66788349acc43cd3f1298718ad491663cfcc#
+> In theory we don't need to call unshare if xattr is disabled, but it is
+> hard to get to know
+> if xattr is enabled or disabled in fv_queue_worker(), right?
+>
+>
+In kubevirt we want to run virtiofsd in containers. We would already not
+have xattr support for e.g. overlayfs in the VM after this patch series (an
+acceptable con at least for us right now).
+If we can get rid of the unshare (and potentially of needing root) that
+would be great. We always assume that everything which we run in containers
+should work for cri-o and docker.
+
+"Just" pointing docker to a different seccomp.json file is something which
+k8s users/admin in many cases can't do.
+
+Best Regards,
+Roman
+
+
+> So, it looks good to me.
+> Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+>
+> Regards,
+> Misono
+>
+> >
+> > Cc: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  tools/virtiofsd/fuse_virtio.c | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/tools/virtiofsd/fuse_virtio.c
+> b/tools/virtiofsd/fuse_virtio.c
+> > index 3b6d16a041..9e5537506c 100644
+> > --- a/tools/virtiofsd/fuse_virtio.c
+> > +++ b/tools/virtiofsd/fuse_virtio.c
+> > @@ -949,6 +949,22 @@ int virtio_session_mount(struct fuse_session *se)
+> >  {
+> >      int ret;
+> >
+> > +    /*
+> > +     * Test that unshare(CLONE_FS) works. fv_queue_worker() will need
+> it. It's
+> > +     * an unprivileged system call but some Docker/Moby versions are
+> known to
+> > +     * reject it via seccomp when CAP_SYS_ADMIN is not given.
+> > +     *
+> > +     * Note that the program is single-threaded here so this syscall
+> has no
+> > +     * visible effect and is safe to make.
+> > +     */
+> > +    ret = unshare(CLONE_FS);
+> > +    if (ret == -1 && errno == EPERM) {
+> > +        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_FS) failed with EPERM. If
+> "
+> > +                "running in a container please check that the container
+> "
+> > +                "runtime seccomp policy allows unshare.\n");
+> > +        return -1;
+> > +    }
+> > +
+> >      ret = fv_create_listen_socket(se);
+> >      if (ret < 0) {
+> >          return ret;
+> > --
+> > 2.26.2
+>
 >
 
-Do you like to eliminate the command 'dump-header-exts' and the relevant 
-handler 'cmd_dump_header_exts' from the script qcow2.py ?
+--0000000000006eab2505ab7d8245
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Andrey
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 28, 2020 at 3:07 AM <a hr=
+ef=3D"mailto:misono.tomohiro@fujitsu.com">misono.tomohiro@fujitsu.com</a> &=
+lt;<a href=3D"mailto:misono.tomohiro@fujitsu.com">misono.tomohiro@fujitsu.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">&gt; Subject: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print=
+ an error<br>
+&gt; <br>
+&gt; An assertion failure is raised during request processing if<br>
+&gt; unshare(CLONE_FS) fails. Implement a probe at startup so the problem c=
+an<br>
+&gt; be detected right away.<br>
+&gt; <br>
+&gt; Unfortunately Docker/Moby does not include unshare in the seccomp.json=
+<br>
+&gt; list unless CAP_SYS_ADMIN is given. Other seccomp.json lists always<br=
+>
+&gt; include unshare (e.g. podman is unaffected):<br>
+&gt; <a href=3D"https://raw.githubusercontent.com/seccomp/containers-golang=
+/master/seccomp.json" rel=3D"noreferrer" target=3D"_blank">https://raw.gith=
+ubusercontent.com/seccomp/containers-golang/master/seccomp.json</a><br>
+&gt; <br>
+&gt; Use &quot;docker run --security-opt seccomp=3Dpath/to/seccomp.json ...=
+&quot; if the<br>
+&gt; default seccomp.json is missing unshare.<br>
+<br>
+Hi, sorry for a bit late.<br>
+<br>
+unshare() was added to fix xattr problem: <br>
+=C2=A0 <a href=3D"https://github.com/qemu/qemu/commit/bdfd66788349acc43cd3f=
+1298718ad491663cfcc#" rel=3D"noreferrer" target=3D"_blank">https://github.c=
+om/qemu/qemu/commit/bdfd66788349acc43cd3f1298718ad491663cfcc#</a><br>
+In theory we don&#39;t need to call unshare if xattr is disabled, but it is=
+ hard to get to know<br>
+if xattr is enabled or disabled in fv_queue_worker(), right?<br>
+<br></blockquote><div><br>In kubevirt we want to run virtiofsd in container=
+s. We would already not have xattr support for e.g. overlayfs in the VM aft=
+er this patch series (an acceptable con at least for us right now).<br>If w=
+e can get rid of the unshare (and potentially of needing root) that would b=
+e great. We always assume that everything which we run in containers should=
+ work for cri-o and docker.<br><br></div><div>&quot;Just&quot; pointing doc=
+ker to a different seccomp.json file is something which k8s users/admin in =
+many cases can&#39;t do.</div><div><br></div><div>Best Regards,<br>Roman<br=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+So, it looks good to me.<br>
+Reviewed-by: Misono Tomohiro &lt;<a href=3D"mailto:misono.tomohiro@jp.fujit=
+su.com" target=3D"_blank">misono.tomohiro@jp.fujitsu.com</a>&gt;<br>
+<br>
+Regards,<br>
+Misono<br>
+<br>
+&gt; <br>
+&gt; Cc: Misono Tomohiro &lt;<a href=3D"mailto:misono.tomohiro@jp.fujitsu.c=
+om" target=3D"_blank">misono.tomohiro@jp.fujitsu.com</a>&gt;<br>
+&gt; Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.c=
+om" target=3D"_blank">stefanha@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 tools/virtiofsd/fuse_virtio.c | 16 ++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 16 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virt=
+io.c<br>
+&gt; index 3b6d16a041..9e5537506c 100644<br>
+&gt; --- a/tools/virtiofsd/fuse_virtio.c<br>
+&gt; +++ b/tools/virtiofsd/fuse_virtio.c<br>
+&gt; @@ -949,6 +949,22 @@ int virtio_session_mount(struct fuse_session *se)=
+<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int ret;<br>
+&gt; <br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Test that unshare(CLONE_FS) works. fv_queue_wor=
+ker() will need it. It&#39;s<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* an unprivileged system call but some Docker/Mob=
+y versions are known to<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* reject it via seccomp when CAP_SYS_ADMIN is not=
+ given.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Note that the program is single-threaded here s=
+o this syscall has no<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* visible effect and is safe to make.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 ret =3D unshare(CLONE_FS);<br>
+&gt; +=C2=A0 =C2=A0 if (ret =3D=3D -1 &amp;&amp; errno =3D=3D EPERM) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fuse_log(FUSE_LOG_ERR, &quot;unshare(CLON=
+E_FS) failed with EPERM. If &quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;running=
+ in a container please check that the container &quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;runtime=
+ seccomp policy allows unshare.\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret =3D fv_create_listen_socket(se);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (ret &lt; 0) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+&gt; --<br>
+&gt; 2.26.2<br>
+<br>
+</blockquote></div></div>
 
+--0000000000006eab2505ab7d8245--
 
->>
->> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/qcow2_format.py | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/tests/qemu-iotests/qcow2_format.py 
->> b/tests/qemu-iotests/qcow2_format.py
->> index 19d29b8..d2a8659 100644
->> --- a/tests/qemu-iotests/qcow2_format.py
->> +++ b/tests/qemu-iotests/qcow2_format.py
->> @@ -248,6 +248,15 @@ class Qcow2BitmapTable:
->>           return dict(entries=self.entries)
->>     +class Qcow2HeaderExtensionsDoc:
->> +
->> +    def __init__(self, extensions):
->> +        self.extensions = extensions
->> +
->> +    def to_dict(self):
->> +        return dict(Header_extensions=self.extensions)
->
-> s/H/h/
->
->> +
->> +
->>   QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
->>
->
->
->
 
