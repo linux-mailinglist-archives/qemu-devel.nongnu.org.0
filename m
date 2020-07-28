@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBFB22FF04
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:41:43 +0200 (CEST)
-Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A0322FF0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:45:53 +0200 (CEST)
+Received: from localhost ([::1]:42074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Ecg-0003pZ-PB
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57876)
+	id 1k0Egi-0004v5-7R
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Ebz-0003QS-O9
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:40:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45094)
+ id 1k0Efv-0004UV-Rb
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:45:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Eby-0005dm-4s
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:40:59 -0400
+ id 1k0Eft-00065M-S0
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:45:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k0Ebw-0000De-Kl
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:40:56 +0000
+ id 1k0Efs-0000ex-OR
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:45:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 99F182E80D2
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:40:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A973D2E80EE
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:45:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2020 01:30:47 -0000
-From: John Snow <1777315@bugs.launchpad.net>
+Date: Tue, 28 Jul 2020 01:34:52 -0000
+From: John Snow <1070762@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: a1xndr asurati icytxw melver th-huth
-X-Launchpad-Bug-Reporter: icytxw (icytxw)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jnsnow oliver-francke
+X-Launchpad-Bug-Reporter: Oliver Francke (oliver-francke)
 X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <152923423559.26799.9467570390321302567.malonedeb@gac.canonical.com>
-Message-Id: <159589984778.3361.442531051523520772.launchpad@gac.canonical.com>
-Subject: [Bug 1777315] Re: IDE short PRDT abort
+References: <20121024095851.10767.86404.malonedeb@gac.canonical.com>
+Message-Id: <159590009218.9962.2617153897157973795.malone@chaenomeles.canonical.com>
+Subject: [Bug 1070762] Re: savevm fails with inserted CD,
+ "Device '%s' is writable but does not support  snapshots."
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cb1a91acb7e9bcbd8d2cfb0f2839b527452e81e9
+X-Launchpad-Hash: 2c982f3ccad110ef1af9114450671ba2186ff9bd
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 21:25:57
@@ -72,106 +73,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1777315 <1777315@bugs.launchpad.net>
+Reply-To: Bug 1070762 <1070762@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
+Very old bug. If anyone sees this behavior, please re-file against a
+supported release (5.0 at time of writing, soon to be 5.1) and please
+paste a full command-line and steps to reproduce.
 
-- Denial of service
-+ IDE short PRDT abort
+(To my knowledge, this bug is not present in modern QEMU builds, but do
+not know when it would have changed.)
+
+--js
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+** Changed in: qemu
+     Assignee: John Snow (jnsnow) =3D> (unassigned)
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1777315
+https://bugs.launchpad.net/bugs/1070762
 
 Title:
-  IDE short PRDT abort
+  savevm fails with inserted CD, "Device '%s' is writable but does not
+  support  snapshots."
 
 Status in QEMU:
-  In Progress
+  Incomplete
 
 Bug description:
   Hi,
-  QEMU 'hw/ide/core.c:871' Denial of Service Vulnerability in version qemu-=
-2.12.0
 
-  run the program in qemu-2.12.0:
-  #define _GNU_SOURCE =
+  yesterday unfortunately a customer reported a failed snapshot of his
+  VM. Going through the logfile I discovered:
 
-  #include <endian.h>
-  #include <sys/syscall.h>
-  #include <unistd.h>
-  #include <fcntl.h>
-  #include <stdio.h>
-  #include <string.h>
-  #include <sys/stat.h>
-  #include <stdint.h>
-  #include <string.h>
+  "Device 'ide1-cd0' is writable but does not support snapshots"
 
-  static uintptr_t syz_open_dev(uintptr_t a0, uintptr_t a1, uintptr_t a2)
-  {
-          if (a0 =3D=3D 0xc || a0 =3D=3D 0xb) {
-                  char buf[128];
-                  sprintf(buf, "/dev/%s/%d:%d", a0 =3D=3D 0xc ? "char" : "b=
-lock", (uint8_t)a1, (uint8_t)a2);
-                  return open(buf, O_RDWR, 0);
-          } else {
-                  char buf[1024];
-                  char* hash;
-  strncpy(buf, (char*)a0, sizeof(buf) - 1);
-                  buf[sizeof(buf) - 1] =3D 0;
-                  while ((hash =3D strchr(buf, '#'))) {
-                          *hash =3D '0' + (char)(a1 % 10);
-                          a1 /=3D 10;
-                  }
-                  return open(buf, a2, 0);
-          }
-  }
+  this is with qemu-1.2.0 and 1.0.1 at least...
 
-  uint64_t r[2] =3D {0xffffffffffffffff, 0xffffffffffffffff};
-  void loop()
-  {
-          long res =3D 0;
-  memcpy((void*)0x20000000, "/dev/sg#", 9);
-          res =3D syz_open_dev(0x20000000, 0, 2);
-          if (res !=3D -1)
-                  r[0] =3D res;
-          res =3D syscall(__NR_dup2, r[0], r[0]);
-          if (res !=3D -1)
-                  r[1] =3D res;
-  *(uint8_t*)0x20000ec0 =3D 0;
-  *(uint8_t*)0x20000ec1 =3D 0;
-  *(uint8_t*)0x20000ec2 =3D 0;
-  *(uint8_t*)0x20000ec3 =3D 0;
-  *(uint32_t*)0x20000ec8 =3D 0;
-  *(uint8_t*)0x20000ed8 =3D 0;
-  *(uint8_t*)0x20000ed9 =3D 0;
-  *(uint8_t*)0x20000eda =3D 0;
-  *(uint8_t*)0x20000edb =3D 0;
-  memcpy((void*)0x20000ee0, "\x9c\x4d\xe7\xd5\x0a\x62\x43\xa7\x77\x53\x67\x=
-b3", 12);
-          syscall(__NR_write, r[1], 0x20000ec0, 0x323);
-  }
+  Why writeable?
+  Even if I specify "-drive ...,readonly=3Don,snapshot=3Doff" to qemu the m=
+onitor-command sees the CD-ROM-device as being writeable?!
 
-  int main()
-  {
-          syscall(__NR_mmap, 0x20000000, 0x1000000, 3, 0x32, -1, 0);
-          loop();
-          return 0;
-  }
-  this will crash qemu, output information:
-   qemu-system-x86_64: hw/ide/core.c:843: ide_dma_cb: Assertion `n * 512 =
-=3D=3D s->sg.size' failed.
+  Somewhere I saw a "hint" for blockdev.c:
+  =3D=3D=3D snip =3D=3D=3D
 
-  =
+  --- /tmp/blockdev.c	2012-10-24 11:37:10.000000000 +0200
+  +++ blockdev.c	2012-10-24 11:37:17.000000000 +0200
+  @@ -551,6 +551,7 @@
+       case IF_XEN:
+       case IF_NONE:
+           dinfo->media_cd =3D media =3D=3D MEDIA_CDROM;
+  +	dinfo->bdrv->read_only =3D 1;
+           break;
+       case IF_SD:
+       case IF_FLOPPY:
 
-  Thanks =
+  =3D=3D=3D snap =3D=3D=3D
 
-  owl337
+  after installing with this small patch applied it works, so insert CD, sa=
+vevm <somename> succeeds.
+  This should be fixed at all correct places, and the tags "readonly=3Don,s=
+napshot=3Doff" should do it, too. Or even just work after specifying a driv=
+e being a CD-rom should do the trick ;-)
+
+  Another "bad habit" is, that the ISO/DVD-file has to be writeable to
+  be changed?
+
+  Thnx for attention and regards,
+
+  Oliver.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1777315/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1070762/+subscriptions
 
