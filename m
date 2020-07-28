@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C7D230DFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:36:47 +0200 (CEST)
-Received: from localhost ([::1]:47376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FAA230E50
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:45:37 +0200 (CEST)
+Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Reo-00043d-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
+	id 1k0RnM-0007UD-Vc
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1k0Re3-0003ZA-PB
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:35:59 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:44861)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1k0Re1-0003vk-Nu
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:35:59 -0400
-Received: from mail-vk1-f200.google.com ([209.85.221.200])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <christian.ehrhardt@canonical.com>)
- id 1k0Rdy-0006dB-Tj
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 15:35:55 +0000
-Received: by mail-vk1-f200.google.com with SMTP id b128so6606975vka.17
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 08:35:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mFDQCktakhwVAEppX4yHYmu7f/9fuhVpPW+ZcqQ6Fy8=;
- b=P/SLq9YfcJN1WiVQpcm5iKYwLD6NTOxC3FR4a6h84XQWrkqLMNWfk2WfKTX9TPjxhX
- 0mkx7Q6AcNuLQSwJa9zIB5kcgDcLChmXmPx7oV5HIq8S0GwD5o3fW7Qa9SlFak3PsFY/
- Pb/bWxUW4Ctn9lbqFoxO/8Q/6USjnpvHNJoIzE98USRghMLv91EQuPJDSTMAUstzUZ1B
- iq6Jdjl116YcHyuaFYQ8QAugviQ/N9mjvIYKIvmsUfyHxYkTxVTMFOczgfd1/D6WY9d4
- g1nTdFrM+46OINMygsq9llBDvH8nAfUtvHA+diPvU2/p/Q/S9Hqox62DgbxYhTF5sFNH
- OoBw==
-X-Gm-Message-State: AOAM530aPHxbWIsbJpMA7rJO4hlT9txVEs+BcHxw6L3YmmQB5dte2JWa
- gUdPz4kbOBTrbyjRTbQnq3NyjJlNlHDAGsElvD4TmhaoyKCSu7MMCfheEBKQsP72OdPxMkhZB1B
- pd+3GPuZl8T3Al/ZPbkKpCyg2CZZy88R9BZuC0A3IwHtDeLWe
-X-Received: by 2002:a67:7c11:: with SMTP id x17mr9279186vsc.155.1595950552987; 
- Tue, 28 Jul 2020 08:35:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxE4hXpi8ZhRKdev1JBjeH+pRijExT2OH39RSepmAtVrJyzxl1lmb4TLg3Z0GKc4Fnlhw5epC7fwhgP8irY1WY=
-X-Received: by 2002:a67:7c11:: with SMTP id x17mr9279153vsc.155.1595950552621; 
- Tue, 28 Jul 2020 08:35:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0RmM-0006yj-Ly
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:44:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58930
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0RmK-0005TH-Gh
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:44:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595951071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oX0MDNmbez7Vo9omv9rLXT2ENPzORxiz9rHy2FeZttw=;
+ b=fLJUuW24VPtsnjCbZZ6FDZ7aTqwlA7Le1w2b6N0OGwLPazNJbebEgVzFk4pRU+TWbbnrMj
+ pIFl0zHBCnhiLKH0ueNpNw6SDVjCPNGBFU3fQMHNLOryuLMQo1Gsey2o/49TFGZxnmjAoR
+ 4Z1mp61EgtpbywIs3eMNqDis9As7YK0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-wNmlRL1SMDqTEZ87Sj-Mjw-1; Tue, 28 Jul 2020 11:44:27 -0400
+X-MC-Unique: wNmlRL1SMDqTEZ87Sj-Mjw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37D3D10CE790
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 15:44:26 +0000 (UTC)
+Received: from [10.10.118.248] (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27603726BE;
+ Tue, 28 Jul 2020 15:44:22 +0000 (UTC)
+Subject: Re: Missing qapi_free_Type in error case for qapi generated code?
+To: Christophe de Dinechin <dinechin@redhat.com>, qemu-devel@nongnu.org
+References: <ly4kprhd8e.fsf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <fe8f0bd6-ed47-08b8-d7c9-fc40c32b0bb2@redhat.com>
+Date: Tue, 28 Jul 2020 10:44:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200727122357.31263-1-alex.bennee@linaro.org>
- <20200727122357.31263-7-alex.bennee@linaro.org>
-In-Reply-To: <20200727122357.31263-7-alex.bennee@linaro.org>
-From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Date: Tue, 28 Jul 2020 17:35:26 +0200
-Message-ID: <CAATJJ0+umgefGS-sfAxbt1QhWwO4j5hcL0_Mq918wKc=_u7ZJg@mail.gmail.com>
-Subject: Re: [PULL 06/16] accel/tcg: better handle memory constrained systems
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000c4bd7605ab8231b7"
-Received-SPF: none client-ip=91.189.89.112;
- envelope-from=christian.ehrhardt@canonical.com; helo=youngberry.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 11:35:55
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ly4kprhd8e.fsf@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,174 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Robert Foley <robert.foley@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c4bd7605ab8231b7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 7/28/20 10:26 AM, Christophe de Dinechin wrote:
+> The qapi generated code for qmp_marshal_query_spice seems to be missing a
+> resource deallocation for "retval". For example, for SpiceInfo:
+> 
 
-On Mon, Jul 27, 2020 at 2:24 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+>      retval = qmp_query_spice(&err);
+>      error_propagate(errp, err);
+>      if (err) {
+> /* retval not freed here */
 
-> It turns out there are some 64 bit systems that have relatively low
-> amounts of physical memory available to them (typically CI system).
-> Even with swapping available a 1GB translation buffer that fills up
-> can put the machine under increased memory pressure. Detect these low
-> memory situations and reduce tb_size appropriately.
->
-> Fixes: 600e17b2615 ("accel/tcg: increase default code gen buffer size for
-> 64 bit")
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Robert Foley <robert.foley@linaro.org>
-> Cc: BALATON Zoltan <balaton@eik.bme.hu>
-> Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-> Message-Id: <20200724064509.331-7-alex.bennee@linaro.org>
->
+Because it should be NULL here.  Returning an error AND an object is 
+frowned on.
 
-I beg your pardon for the late reply, but I was out a week.
-I see this is already the pull request and my former feedback was included
-- thanks.
-
-Never the less I took the chance to test it in the context that I found and
-reported the initial bug.
-If only to show that I didn't fire&forget this case :-)
-
-We know there is quite some noise/deviation, but I only ran single tests as
-the problem was easily visible despite the noise. Amount of memory qemu
-settles on:
-
-Host 32G, Guest 512M
-4.2        633M
-5.0       1672M
-5.0+ Fix  1670M
-
-Host 1.5G, Guest 512M
-4.2        692M
-5.0       16xxM (OOM)
-5.0+ Fix   766M
-
-So we seem to have achieved that small environments no more break (a very
-small amount of very densely sized systems might still) but at the same
-time get the bigger cache for any normal/large system.
-Tested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Reviewed-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-
-
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 2afa46bd2b1..2d83013633b 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -976,7 +976,12 @@ static inline size_t size_code_gen_buffer(size_t
-> tb_size)
->  {
->      /* Size the buffer.  */
->      if (tb_size =3D=3D 0) {
-> -        tb_size =3D DEFAULT_CODE_GEN_BUFFER_SIZE;
-> +        size_t phys_mem =3D qemu_get_host_physmem();
-> +        if (phys_mem =3D=3D 0) {
-> +            tb_size =3D DEFAULT_CODE_GEN_BUFFER_SIZE;
-> +        } else {
-> +            tb_size =3D MIN(DEFAULT_CODE_GEN_BUFFER_SIZE, phys_mem / 8);
-> +        }
+> /* Missing: qapi_free_SpiceInfo(retval); */
+>          goto out;
 >      }
->      if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
->          tb_size =3D MIN_CODE_GEN_BUFFER_SIZE;
-> --
-> 2.20.1
->
->
+> 
+>      qmp_marshal_output_SpiceInfo(retval, ret, errp);
 
---=20
-Christian Ehrhardt
-Staff Engineer, Ubuntu Server
-Canonical Ltd
+And here, retval was non-NULL, but is cleaned as a side-effect of 
+qmp_marshal_output_SpiceInfo.
 
---000000000000c4bd7605ab8231b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> out:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 27, 2020 at 2:24 PM Alex =
-Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">It turns out there are some 64 bit systems that have relatively low<br=
->
-amounts of physical memory available to them (typically CI system).<br>
-Even with swapping available a 1GB translation buffer that fills up<br>
-can put the machine under increased memory pressure. Detect these low<br>
-memory situations and reduce tb_size appropriately.<br>
-<br>
-Fixes: 600e17b2615 (&quot;accel/tcg: increase default code gen buffer size =
-for 64 bit&quot;)<br>
-Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
-g" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-Reviewed-by: Robert Foley &lt;<a href=3D"mailto:robert.foley@linaro.org" ta=
-rget=3D"_blank">robert.foley@linaro.org</a>&gt;<br>
-Cc: BALATON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu" target=3D"_bla=
-nk">balaton@eik.bme.hu</a>&gt;<br>
-Cc: Christian Ehrhardt &lt;<a href=3D"mailto:christian.ehrhardt@canonical.c=
-om" target=3D"_blank">christian.ehrhardt@canonical.com</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20200724064509.331-7-alex.bennee@linaro.o=
-rg" target=3D"_blank">20200724064509.331-7-alex.bennee@linaro.org</a>&gt;<b=
-r></blockquote><div><br></div><div>I beg your pardon for the late reply, bu=
-t I was out a week.</div><div>I see this is already the pull request and my=
- former feedback was included - thanks.</div><div><br></div><div>Never the =
-less I took the chance to test it in the context that I found and reported =
-the initial bug.</div><div>If only to show that I didn&#39;t fire&amp;forge=
-t this case=C2=A0:-)</div><div><br></div><div>We know there is quite some n=
-oise/deviation, but I only ran single tests as the problem was easily visib=
-le despite the noise. Amount of memory qemu settles on:<br><br>Host 32G, Gu=
-est 512M<br>4.2 =C2=A0 =C2=A0 =C2=A0 =C2=A0633M<br>5.0 =C2=A0 =C2=A0 =C2=A0=
- 1672M<br>5.0+ Fix =C2=A01670M<br><br>Host 1.5G, Guest 512M<br>4.2 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0692M<br>5.0 =C2=A0 =C2=A0 =C2=A0 16xxM (OOM)<br>5.0+ Fi=
-x =C2=A0 766M<br></div><div><br></div><div>So we seem to have achieved that=
- small environments no more break (a very small amount of very densely size=
-d systems might still) but at the same time get the bigger cache for any no=
-rmal/large system.</div><div>Tested-by: Christian Ehrhardt &lt;<a href=3D"m=
-ailto:christian.ehrhardt@canonical.com">christian.ehrhardt@canonical.com</a=
->&gt;</div><div>Reviewed-by:=C2=A0Christian Ehrhardt &lt;<a href=3D"mailto:=
-christian.ehrhardt@canonical.com">christian.ehrhardt@canonical.com</a>&gt;<=
-br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c<br>
-index 2afa46bd2b1..2d83013633b 100644<br>
---- a/accel/tcg/translate-all.c<br>
-+++ b/accel/tcg/translate-all.c<br>
-@@ -976,7 +976,12 @@ static inline size_t size_code_gen_buffer(size_t tb_si=
-ze)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0/* Size the buffer.=C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0if (tb_size =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tb_size =3D DEFAULT_CODE_GEN_BUFFER_SIZE;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t phys_mem =3D qemu_get_host_physmem();<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (phys_mem =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tb_size =3D DEFAULT_CODE_GEN_BUF=
-FER_SIZE;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tb_size =3D MIN(DEFAULT_CODE_GEN=
-_BUFFER_SIZE, phys_mem / 8);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0if (tb_size &lt; MIN_CODE_GEN_BUFFER_SIZE) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tb_size =3D MIN_CODE_GEN_BUFFER_SIZE;<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Christian Ehrhardt<br>Staff Engineer, Ubuntu Ser=
-ver<br>Canonical Ltd</div></div>
+So no matter how you get to the label, retval is no longer valid memory 
+that can be leaked.
 
---000000000000c4bd7605ab8231b7--
+>      visit_free(v);
+>      v = qapi_dealloc_visitor_new();
+>      visit_start_struct(v, NULL, NULL, 0, NULL);
+>      visit_end_struct(v, NULL);
+>      visit_free(v);
+> }
+> #endif /* defined(CONFIG_SPICE) */
+> 
+> Questions:
+> 
+> - Is the query code supposed to always return NULL in case of error?
+
+Yes.  If not, that is a bug in qmp_query_spice.
+
+> In the
+>    case of hmp_info_spice, there is no check for info==NULL, so on the
+>    contrary, it seems to indicate that a non-null result is always expected,
+>    and that function does call qapi_free_SpiceInfo
+
+Calling qapi_free_SpiceInfo(NULL) is a safe no-op.  Or if you expect the 
+function to always succeed, you could pass &error_abort as the errp 
+parameter.
+
+> 
+> - If not, is there an existing shortcut to generate the correct deallocation
+>    code for return types that need it? You can't just use
+>    qapi_free_%(c_type)s because that would generate an extra * character,
+>    i.e. I get "SpiceInfo *" and not "SpiceInfo".
+
+Ah, you're debating about editing scripts/qapi/commands.py.  If 
+anything, an edit to add 'assert(!retval)' if qmp_COMMAND failed might 
+be smarter than trying to add code to free retval.
+
+> 
+> - If not, is there any good way to know if the type is a pointer type?
+>    (A quick look in cripts/qapi/types.py does not show anything obvious)
+
+Look at scripts/qapi/schema.py; each QAPI metatype has implementations 
+of .c_name and .c_type that determine how to represent that QAPI object 
+in C.  You probably want c_name instead of c_type when constructing the 
+name of a qapi_free_FOO function, but that goes back to my question of 
+whether such a call is even needed.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
