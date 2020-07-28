@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0385230BD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:53:49 +0200 (CEST)
-Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7ADA230BF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 16:01:35 +0200 (CEST)
+Received: from localhost ([::1]:53250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Q3A-0006iM-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48996)
+	id 1k0QAg-00006w-CR
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 10:01:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0Q2H-0006DP-LM
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:52:53 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0Q2C-0004Ny-QE
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:52:53 -0400
-Received: by mail-oi1-x241.google.com with SMTP id j11so17484946oiw.12
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 06:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tbppK52n3H9pWzeUVQb33/TDF6fZaPSYmG0qcIei3hw=;
- b=x/Ub+YUIS6uGtxIjMSTT61IDC6d2UlPFWGGIvf9MrzWFxb27iKFpRL461Apv+NpjaA
- iZ1LUP0S/lEXLT/le/JzO1+LI3vC/oPws/SyCP4Z2OpYx/qVjjFJoHR3xZ4uBaFyUCsy
- 8RY5eIyRz41aE6kTZwqlIa+5/rcJxkrLBGL5+695bz6Ze9MxWegDN/UOJO3lBxabVxsO
- OfMKbFS2RhoUxXNTj85lQL6dOEPlZTujreUrK2476FHrM3VuID68KNQHC3yDbGNeAu9S
- Fn0gQApf1bNomw2GMNDBmW1aocpYxxf0R4TAQlhX+sl9y23NuQrORSifMwFoIZXvSThl
- 2ZBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tbppK52n3H9pWzeUVQb33/TDF6fZaPSYmG0qcIei3hw=;
- b=DlSWZjkBrAV7/nvGs5X/1st+0usIcn9FNec+JvU4rIX+YiOkin22LYhqH/+66TdfkP
- hAEBspIkW3rf3p6Q5KTltMyFdZSSLtHEJs68wCbvGyFEOD9rHbBAOmNw9miUKD9CpagP
- polKlzS907GnpyblMQqJyteTHJPRiunw+/4QwqkkPGunFWn8vhhCcblNufda8bg8XteV
- XZpFk6s8QK8OvmRHVTbegrxKQSTt3axbFWtjJR313o1c9JzYLCYXLhdEgWOHjL3akw75
- czyeDYArGMnqmcVF0opjLsb5hxcmrfgPBGs7olA0fnyW44PO3BeQ3DY19QVLO6AWSVGW
- 0tKQ==
-X-Gm-Message-State: AOAM5304C3U31nj3tVDKD1kmtvK3+x1nud8ujmhrF8kniLLdxMUQzMFG
- gNhYUB4kUv/ut9VqROZNJxOM3epkDuuwC2IuLGTskw==
-X-Google-Smtp-Source: ABdhPJxKKglY96Rl4MiZpcLd1k5WwpPze7wAzwVEeSyz1fRU5GvIcu5mW8Ki3olmjmFK7Eyb1x1prZHtIDHf/mtaCxI=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr3333679oix.48.1595944367476;
- Tue, 28 Jul 2020 06:52:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k0Q9b-00083S-Uv
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 10:00:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48250
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k0Q9a-0005TD-CN
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 10:00:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595944825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XdRx9RfntRvN1LAdfUlY4UXQyYIsAs8rH8Ht/mUNM3M=;
+ b=GIiejBUZZq/3gDy6Uh6GmX2wKEH2QyepuRB1S7lD5Hj9GsjB3vElOw4r2w5EqVZUfD3bxh
+ kjgDgFDfwDetLHAShI/3kRl6tOgLdlt6zDgXCaFH9a3TMfQCcgOVVGYtgMTbZ/XpU5i3Hp
+ TW1VCknmoErtkIAm3dg61gAPceNdN7M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-VQmQ6mGQNQeqdg_SzDcbvQ-1; Tue, 28 Jul 2020 10:00:20 -0400
+X-MC-Unique: VQmQ6mGQNQeqdg_SzDcbvQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D348E101C8AB;
+ Tue, 28 Jul 2020 14:00:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-145.ams2.redhat.com
+ [10.36.112.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A2B060BF4;
+ Tue, 28 Jul 2020 14:00:18 +0000 (UTC)
+Subject: Re: [PATCH v7 44/47] iotests: Add filter commit test cases
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <20200625152215.941773-45-mreitz@redhat.com>
+ <2c1c30da-a1e5-3bc6-0620-50ebdccb7dfc@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6a0540c2-d6f2-a59d-0ba0-11572f9897e6@redhat.com>
+Date: Tue, 28 Jul 2020 16:00:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200727140522.251815-1-cohuck@redhat.com>
- <20200727140522.251815-3-cohuck@redhat.com>
-In-Reply-To: <20200727140522.251815-3-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Jul 2020 14:52:36 +0100
-Message-ID: <CAFEAcA_1xECE+ESWoioHFSF_mwDG11NrR2=J3NWx2X+OGg3SZw@mail.gmail.com>
-Subject: Re: [PULL 2/2] s390x/s390-virtio-ccw: fix loadparm property getter
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <2c1c30da-a1e5-3bc6-0620-50ebdccb7dfc@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="tCypa2MSY19Upn9GHsvccJ2BBVXPIcL9S"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:05:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,59 +106,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Jul 2020 at 15:05, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> From: Halil Pasic <pasic@linux.ibm.com>
->
-> The function machine_get_loadparm() is supposed to produce a C-string,
-> that is a NUL-terminated one, but it does not. ElectricFence can detect
-> this problem if the loadparm machine property is used.
->
-> Let us make the returned string a NUL-terminated one.
->
-> Fixes: 7104bae9de ("hw/s390x: provide loadparm property for the machine")
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20200723162717.88485-1-pasic@linux.ibm.com>
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->  hw/s390x/s390-virtio-ccw.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 8cc2f25d8a6a..403d30e13bca 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -701,8 +701,12 @@ bool hpage_1m_allowed(void)
->  static char *machine_get_loadparm(Object *obj, Error **errp)
->  {
->      S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> +    char *loadparm_str;
->
-> -    return g_memdup(ms->loadparm, sizeof(ms->loadparm));
-> +    /* make a NUL-terminated string */
-> +    loadparm_str = g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1);
-> +    loadparm_str[sizeof(ms->loadparm)] = 0;
-> +    return loadparm_str;
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--tCypa2MSY19Upn9GHsvccJ2BBVXPIcL9S
+Content-Type: multipart/mixed; boundary="iQz2pz1rHUVm2IQldPZf82CXMg4knMzNF"
 
-Hi. Coverity points out (CID 1431058) that this code now
-reads off the end of the ms->loadparm buffer, because
-g_memdup() is going to read and copy 9 bytes (size + 1)
-and the array itself is only 8 bytes.
+--iQz2pz1rHUVm2IQldPZf82CXMg4knMzNF
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I don't think you can use g_memdup() here -- you need to
-allocate the memory with g_malloc() and then fill it with
-memcpy(), something like:
+On 27.07.20 19:45, Andrey Shinkevich wrote:
+> On 25.06.2020 18:22, Max Reitz wrote:
+>> This patch adds some tests on how commit copes with filter nodes.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>> =C2=A0 tests/qemu-iotests/040=C2=A0=C2=A0=C2=A0=C2=A0 | 177 ++++++++++++=
++++++++++++++++++++++++++
+>> =C2=A0 tests/qemu-iotests/040.out |=C2=A0=C2=A0 4 +-
+>> =C2=A0 2 files changed, 179 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+>> index 32c82b4ec6..e7fa244738 100755
+>> --- a/tests/qemu-iotests/040
+>> +++ b/tests/qemu-iotests/040
+>> @@ -713,6 +713,183 @@ class TestErrorHandling(iotests.QMPTestCase):
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assertTrue(i=
+otests.compare_images(mid_img, backing_img,
+>> fmt2=3D'raw'),
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 'target image does not match source after
+>> commit')
+>> =C2=A0 +class TestCommitWithFilters(iotests.QMPTestCase):
+>> +=C2=A0=C2=A0=C2=A0 img0 =3D os.path.join(iotests.test_dir, '0.img')
+>> +=C2=A0=C2=A0=C2=A0 img1 =3D os.path.join(iotests.test_dir, '1.img')
+>> +=C2=A0=C2=A0=C2=A0 img2 =3D os.path.join(iotests.test_dir, '2.img')
+>> +=C2=A0=C2=A0=C2=A0 img3 =3D os.path.join(iotests.test_dir, '3.img')
+>> +
+>> +=C2=A0=C2=A0=C2=A0 def do_test_io(self, read_or_write):
+>=20
+>=20
+> The method defenition could be moved down after the ones of setUp() and
+> tearDown().
 
-    loadparm_str = g_malloc(sizeof(ms->loadparm) + 1);
-    memcpy(loadparm_str, ms->loadparm, sizeof(ms->loadparm));
-    loadparm_str[sizeof(ms->loadparm)] = 0;
+Yes, but it=E2=80=99s used by setUp(), so I thought maybe it=E2=80=99s nice=
+r to place it
+first.
 
-thanks
--- PMM
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for index, pattern_file in e=
+numerate(self.pattern_files):
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resu=
+lt =3D qemu_io('-f', iotests.imgfmt,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 '-c', '{} -P {} {}M
+>> 1M'.format(read_or_write,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 index +
+>> 1, index),
+>=20
+>=20
+> The Python3 format string f'{rad_or_write} ..' might be used instead of
+> the .format one.
+
+Ah, sure.  The test is a bit older already, from when we didn=E2=80=99t yet=
+ use
+format strings as often in the iotests. :)
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 pattern_file)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self=
+.assertFalse('Pattern verification failed' in result)
+>> +
+>> +=C2=A0=C2=A0=C2=A0 def setUp(self):
+>=20
+> ...
+>=20
+>=20
+> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>=20
+>=20
+
+
+
+--iQz2pz1rHUVm2IQldPZf82CXMg4knMzNF--
+
+--tCypa2MSY19Upn9GHsvccJ2BBVXPIcL9S
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8gL3AACgkQ9AfbAGHV
+z0AwUggAqJMiQAxn477NrET4kk302zpWMaUdAYJ5KvDTBYDhV5OA8FVstGxPmdy3
+onRQqLfCkuALu3v2MYpLPcd2Z3R7/wv2O3xv/zOdYXsNbXkc0ayXKMY6kzaLRdLJ
+RQSwYYVIRvXhyatjgFsNrZkY9BsT6E7e47NH58DHnbmc/RzJ6WPDYnI+vjMPPRie
+FauRVk2yPSRS6ZzBR/7UYGgbxbsRCXliRZhpAuvE7COcwFP6MZz+ofYIGipENk5L
+BbCNq4YMgwZYA52c1Zo+tHdBf1fpoGVvvIyFC+ZzdHiUJ2NKFsMv0Fl+waMl8ZKG
+Yn5m2vRCG1f1nLVgpvD6V6VFKGR8Kw==
+=A4aj
+-----END PGP SIGNATURE-----
+
+--tCypa2MSY19Upn9GHsvccJ2BBVXPIcL9S--
+
 
