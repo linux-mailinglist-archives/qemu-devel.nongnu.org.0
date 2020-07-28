@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1507C230642
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:13:16 +0200 (CEST)
-Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524E6230648
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:15:49 +0200 (CEST)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Lff-0000sW-6E
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60034)
+	id 1k0Li8-0002T6-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:15:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k0Ld9-0006Ok-RR
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:10:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39093
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k0Lgo-0001cy-JP
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:14:26 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22948
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k0Ld8-0007Df-9g
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:10:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595927437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=BizKAjSDHwqLVrq96cuiIXoDoNkf2Pbi3L5JlP/JAHo=;
- b=NNfq+3tDlUgum+tX/fc4QPR30/gtTOAuRdzW9Zhj5R6mh2B1LpcJIKwypPTZrybl5LRahZ
- dZ5yoNM6EqdHt4L0JnkMVcfThZMW1cEO32dmiGQ9uJFLNk9jNdqJuXx1KJQbf9ewl9kO4i
- zoAdVHPtVxMQ/rSE3KcziAfE3m3MKi0=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k0Lgk-0007eY-Ct
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:14:26 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-jK5oLramPnaKBWu5pCTfiQ-1; Tue, 28 Jul 2020 05:10:35 -0400
-X-MC-Unique: jK5oLramPnaKBWu5pCTfiQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-215-OXq25s6EMK2cdfmb7XeBKA-1; Tue, 28 Jul 2020 05:14:17 -0400
+X-MC-Unique: OXq25s6EMK2cdfmb7XeBKA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26E51932480;
- Tue, 28 Jul 2020 09:10:34 +0000 (UTC)
-Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-214.pek2.redhat.com
- [10.72.12.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F7EE90E62;
- Tue, 28 Jul 2020 09:10:33 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org
-Subject: [PULL V2 3/3] net: forbid the reentrant RX
-Date: Tue, 28 Jul 2020 17:10:19 +0800
-Message-Id: <1595927419-27346-4-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1595927419-27346-1-git-send-email-jasowang@redhat.com>
-References: <1595927419-27346-1-git-send-email-jasowang@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC51C79EC1;
+ Tue, 28 Jul 2020 09:14:15 +0000 (UTC)
+Received: from bahia.lan (ovpn-114-208.ams2.redhat.com [10.36.114.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10DC15C1BD;
+ Tue, 28 Jul 2020 09:14:14 +0000 (UTC)
+Subject: [PATCH for-5.2] spapr: Avoid some integer conversions in
+ spapr_phb_realize()
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 28 Jul 2020 11:14:13 +0200
+Message-ID: <159592765385.99837.12059368746532345109.stgit@bahia.lan>
+User-Agent: StGit/0.21
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.31.81; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 00:06:48
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,38 +66,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The memory API allows DMA into NIC's MMIO area. This means the NIC's
-RX routine must be reentrant. Instead of auditing all the NIC, we can
-simply detect the reentrancy and return early. The queue->delivering
-is set and cleared by qemu_net_queue_deliver() for other queue helpers
-to know whether the delivering in on going (NIC's receive is being
-called). We can check it and return early in qemu_net_queue_flush() to
-forbid reentrant RX.
+Without this patch, the irq number gets converted uselessly from int
+to int32_t, back and forth.
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
+This doesn't fix an actual issue, it's just to make the code neater.
+
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- net/queue.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/net/queue.c b/net/queue.c
-index 0164727..19e32c8 100644
---- a/net/queue.c
-+++ b/net/queue.c
-@@ -250,6 +250,9 @@ void qemu_net_queue_purge(NetQueue *queue, NetClientState *from)
- 
- bool qemu_net_queue_flush(NetQueue *queue)
- {
-+    if (queue->delivering)
-+        return false;
-+
-     while (!QTAILQ_EMPTY(&queue->packets)) {
-         NetPacket *packet;
-         int ret;
--- 
-2.7.4
+This is a follow-up to my previous "spapr: Simplify error handling in
+spapr_phb_realize()" patch. Maybe worth squashing it there ?
+---
+ hw/ppc/spapr_pci.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 59441e2117f3..0a418f1e6711 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1964,7 +1964,7 @@ static void spapr_phb_realize(DeviceState *dev, Error=
+ **errp)
+=20
+     /* Initialize the LSI table */
+     for (i =3D 0; i < PCI_NUM_PINS; i++) {
+-        int32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i=
+;
++        int irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
+=20
+         if (smc->legacy_irq_allocation) {
+             irq =3D spapr_irq_findone(spapr, errp);
+
 
 
