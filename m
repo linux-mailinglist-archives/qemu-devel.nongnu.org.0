@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA4C2304F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 10:07:41 +0200 (CEST)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D410F23050E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 10:15:41 +0200 (CEST)
+Received: from localhost ([::1]:56216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0KeB-0005rQ-UV
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 04:07:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
+	id 1k0Klw-0007Yc-Ml
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 04:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1k0KdF-0005Q9-9f
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:06:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20251
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1k0KdC-00076R-7r
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:06:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595923597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g62gKk23pwaPZr1jd3oGgtEgsDFXSjFHy5b+HvjXMpY=;
- b=gszE7Z0ovnWCI+pjfQ/M2DTRPc27xsEJac4CpxAIfiRYwf2f9pOtgIx1Lo9tVw6yOhc4wX
- 7LFuCUDAurXfcHHswJmCD+6DGrIcJZQf0DnbFq/HI7eS+PhXZgRyRIdGnQwFMCapfbv9ad
- VcOVEaKhjYco1zRpey1lMj2BfOOI/z8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-gPAc6BT3MTuEaTQgMlvRTg-1; Tue, 28 Jul 2020 04:05:30 -0400
-X-MC-Unique: gPAc6BT3MTuEaTQgMlvRTg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFEA4107B814
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 08:05:28 +0000 (UTC)
-Received: from [10.40.195.1] (unknown [10.40.195.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3C915D9CD;
- Tue, 28 Jul 2020 08:05:27 +0000 (UTC)
-Subject: Re: [PATCH v2 0/2] qmp: Expose MachineClass::default_ram_id
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <cover.1590481402.git.mprivozn@redhat.com>
- <20200727184109.GB225270@habkost.net>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <f820a890-da1f-9a0a-2484-6a1ffeafefb3@redhat.com>
-Date: Tue, 28 Jul 2020 10:05:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0Kl8-00076p-Vb
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:14:50 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0Kl7-0007os-4l
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 04:14:50 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k4so16752211oik.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jZmLVwaJb+7MUJARjYNIfs7wBH+N6us3PNnhKbScvrY=;
+ b=pnoQaKtyGrqgIVMM2XdIuz+GCgEPEuF++y6Ut8jEnO9KxiGJGQNmBWAh69p367PUME
+ J8ExeK0cDaFnE2mBkhBcx5O3q+s2r+ixlqq0d6bey3fQ4DROafYlgoa+AsNSYGUmsaMD
+ Quwye5w3xRonmuINoe3NSAf7tP8vm0aC21sTahN9SbJ/KBx9aOOeXl397Rw7eUo+cSYp
+ tZEPnDcSgVRRqm4YhVVeFNP+lyMx8N4JKBVmk5E4m2UYBAXvXkly+XXi2jOTK3DOx9At
+ tP7eBz0RkEHZykFkxRAYywfzDafP/3tjVRd1zs1ERNzyk4vRkzrJBaYvehO5/iV2KtMK
+ rJug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jZmLVwaJb+7MUJARjYNIfs7wBH+N6us3PNnhKbScvrY=;
+ b=g8DL/I8NhXsrn8GdLkk3esOPlC2FqRXaTVarBzdH0kb2b/OLjySXD3OQXQRiAUzzDX
+ y08MbNK20Q24O7Ng5sSVnEMFUzjrZiL6kFaKYnlsZk1ZAktYG/L3Wxlw6LRc5ihD4V5b
+ WFwbLORRrI/M8FNmGcQEnWtb8hxZAZikr0odrkQwgqx+Wm6NH6Mp1mt8IMUdTnJmsPh/
+ HjaIDARuDsr0Ds3cuZRB1Et6xS+Y/XEAj7kyLLM+CIdkFl0fR1+T7T12BF+A/Uwp0XXp
+ 9liFMNX82Fo8wUWlwiauT9VZd2nchVVB63CrMrD1XgJCy9+JJGjXcuNvpPdPGlZPo469
+ RoDQ==
+X-Gm-Message-State: AOAM533PwvDoKyXJCSl+aEQsbqtjb3LOzmwSnKfPMJfWwm6UYVwwoZ85
+ 3E3OorrU//4m3WK4nUvIi0mtSl7JUnQBNy7+m0BPYg==
+X-Google-Smtp-Source: ABdhPJySyrxz+9iMtRBJU7ox8HlD8C4aQrRSQLhLIpPbEfzPd7cXHmy5NSXTvCAw61z4UHW0Vnui81Gx+55F2w3iCrk=
+X-Received: by 2002:aca:50c4:: with SMTP id e187mr2442624oib.146.1595924087697; 
+ Tue, 28 Jul 2020 01:14:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200727184109.GB225270@habkost.net>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 00:06:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200727143104.97776-1-mst@redhat.com>
+In-Reply-To: <20200727143104.97776-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jul 2020 09:14:36 +0100
+Message-ID: <CAFEAcA-Q9N8+2-6PJ1whVsn_2SQ8Xm9-85mSCfTPuN9VrJzoDQ@mail.gmail.com>
+Subject: Re: [PULL v2 0/6] virtio,pci: bugfixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,22 +78,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/27/20 8:41 PM, Eduardo Habkost wrote:
-> Hi Michal,
-> 
-> It looks like this has fallen through the cracks, my apologies.
-> 
-> I'm queueing this for 5.2.  I assume this is the latest version,
-> correct?
-> 
+On Mon, 27 Jul 2020 at 15:32, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> v2 due to issues noticed by dgilbert in v1.
+> Changes from v1:
+>     dropped a work around for pci migration for old machine types.
+>
+>
+> The following changes since commit 4215d3413272ad6d1c6c9d0234450b602e46a74c:
+>
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.1-20200727' into staging (2020-07-27 09:33:04 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to d0d89526f70ded5ac41a4c6bb071c0d919b772db:
+>
+>   MAINTAINERS: Cover the firmware JSON schema (2020-07-27 10:28:28 -0400)
+>
+> ----------------------------------------------------------------
+> virtio,pci: bugfixes
+>
+> Minor bugfixes all over the places, including one CVE.
+>
+> Additionally, a fix for an ancient bug in migration -
+> one has to wonder how come no one noticed.
+>
+> The fix is also non-trivial since we dare not break all
+> existing machine types with pci - we have a work around
+> in the works, for now we just skip the work-around for
+> old machine types.
+>
+> Great job by Hogan Wang noticing, debugging and fixing it,
+> and thanks to Dr. David Alan Gilbert for reviewing the patches.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
 
-Yes. No worries, I forgot about it too :-) If I remembered, I would have 
-pinged.
 
-Michal
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
