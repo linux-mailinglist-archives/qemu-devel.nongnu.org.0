@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08453230F23
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 18:24:01 +0200 (CEST)
-Received: from localhost ([::1]:35918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F86230F26
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 18:24:40 +0200 (CEST)
+Received: from localhost ([::1]:38058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0SOV-0003z0-K9
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 12:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35982)
+	id 1k0SP9-0004ui-6p
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 12:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0SNj-0003Rr-28
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:23:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54539
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0SNZ-0002aD-HN
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:23:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595953380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=S2IvhYQ5Xm0ErwXs3Q92eqLXabE5MEngHH7UJiL7kQM=;
- b=AMwCROf5ZWkVGgPnW9VF4lUhpatnDhCkBV8KQ0yiTFPyg8iJIQETw3x487XRzpnGLXIVlT
- o44F/OjGFuIQddvTHMnKkDZFHs7tvwiu4NBbpwY7N55ww9MfqBYkm+vaGpUFl7Bm4bzeRL
- ZpwHLVp9Q1DmDSxRQcjYFeZG7EuXSBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-GthZzNCUMqayaUYTTprdTg-1; Tue, 28 Jul 2020 12:22:56 -0400
-X-MC-Unique: GthZzNCUMqayaUYTTprdTg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1146C8005B0;
- Tue, 28 Jul 2020 16:22:55 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-161.ams2.redhat.com [10.36.112.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6C6F712E8;
- Tue, 28 Jul 2020 16:22:53 +0000 (UTC)
-Subject: Re: [PULL 0/3] Block patches for 5.1
-To: Peter Maydell <peter.maydell@linaro.org>, Max Reitz <mreitz@redhat.com>
-References: <20200727143812.1101547-1-mreitz@redhat.com>
- <CAFEAcA_8hhEUJdxGzmjVjG+CFosAtDf9GAR0D2x+-k_mU7Gfug@mail.gmail.com>
- <CAFEAcA_W+G_5iSGj+rg0dx0rUod7XYmR8cxEfGcSKsccVNrtTA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <355c94af-aa03-f56f-ee84-e82ef31e797c@redhat.com>
-Date: Tue, 28 Jul 2020 18:22:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0SOL-0004Ar-Oy
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:23:49 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0SOK-0002oH-0T
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:23:49 -0400
+Received: by mail-ot1-x344.google.com with SMTP id r21so4781878ota.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 09:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7cv4AUL/fnzDoJOpUl1vW/Sj05yw/1Tgv9JYL89+o8Y=;
+ b=q5wcqq0Hj9J+x2ijuuNXnGwfwVpss6RK+HferqcAkUbfmMf8g2yIqke/D7K9JxYRX+
+ /Po90OAYqlQd3R5AnR6EwwDbCiNPPJ3SW5X3rnUuO20MLudHwdbyFlADWigrDcG70Oeg
+ w7fpPuJFSRuD4eCOKhLnh57csRucMlBqWm30W4d7NOYEppDU1E2QYRffxW3pe4de4N24
+ 3WY1wptzlgYRt2SiDLz50jUlhTgwJAtXLvhyMS27qJ3u/0wjYv2IffrjI17SZsZfl466
+ bkSdryRYgadMidk8zFaHObtD43Gdh+Vq9BaiKSTofrP0kfA5BvbkYzDv3mxgdSx+LpzI
+ c2Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7cv4AUL/fnzDoJOpUl1vW/Sj05yw/1Tgv9JYL89+o8Y=;
+ b=SRN9zDdHhqhvf1hNDEHwFd2g3BtV59T7D2NqbMv5nYTuYTQRZM+G74HCecGH8JFzcg
+ lKnJNCCD0TMR8qolA61x2am/jtqBjtzt/Z8fLz5UyfLEo9GqgEM/0X/Y6uryiMsGD5C5
+ Rzh/hFf+Rh/KFmYBBG7cLhj8d5hHzJWwpDhSgYk8iqCr8/nC3g2Vkd6r4REN7xPRSOJl
+ sonRlzofQhFRrkT47NMDs4TEC9rqkBRCoPFx9qbkok2IrJkYmqDwKHxOb3SqvgAFmN2T
+ HJ25dyz47U9ixzvTeOsb7GlfnjRgKNTx/920WWzyKoLLI1UOQzckLypHCAcUg8Lxnbre
+ HIlA==
+X-Gm-Message-State: AOAM532rIy94diFwqHlTnBp00A+CV1fXO65uWWe0LpJI9wQlrciputOj
+ ieDLh39mwBFpdgl8Fljpevo2hIV97qodOgmeDkqWzw==
+X-Google-Smtp-Source: ABdhPJxpG7KR7SpnqBcjIwEsY5ZmHPyaAmFvZAiORyl19n+yV1+/2J6/lYctcZzsP4RE2kzxI1nGyUg/ie1oGw6/r48=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr25778481oto.135.1595953426552; 
+ Tue, 28 Jul 2020 09:23:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_W+G_5iSGj+rg0dx0rUod7XYmR8cxEfGcSKsccVNrtTA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200728141005.28664-1-alex.bennee@linaro.org>
+ <20200728141005.28664-3-alex.bennee@linaro.org>
+ <CAFEAcA_MT8U6uUYhNVDc1-AkxPPL22pBevNDSbB2ZwQQ94OPmw@mail.gmail.com>
+ <87lfj339i5.fsf@linaro.org>
+In-Reply-To: <87lfj339i5.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jul 2020 17:23:35 +0100
+Message-ID: <CAFEAcA-DzMVz=4MnMtOOyzi-_i1J=-8z1JBg3M6n1Tov68eV8A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] target/arm: only set the nexttick timer if !ISTATUS
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,30 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Igor R <boost.lists@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Victor CLEMENT <victor.clement@openwide.fr>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Pavel Dovgaluk <pavel.dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/07/2020 18.12, Peter Maydell wrote:
-> On Tue, 28 Jul 2020 at 11:19, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Mon, 27 Jul 2020 at 15:38, Max Reitz <mreitz@redhat.com> wrote:
->>> ----------------------------------------------------------------
->>> Block patches for 5.1:
->>> - Coverity fix
->>> - iotests fix for rx and avr
->>> - iotests fix for qcow2 -o compat=0.10
->>>
->>
->> Applied, thanks.
-> 
-> This seems to have broken the "tcg disabled" build on gitlab:
-> https://gitlab.com/qemu-project/qemu/-/jobs/659352096
+On Tue, 28 Jul 2020 at 17:11, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Tue, 28 Jul 2020 at 15:10, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+> >>
+> >> Otherwise we have an unfortunate interaction with -count sleep=3Doff
+> >> which means we fast forward time when we don't need to. The easiest
+> >> way to trigger it was to attach to the gdbstub and place a break point
+> >> at the timers IRQ routine. Once the timer fired setting the next event
+> >> at INT_MAX then qemu_start_warp_timer would skip to the end.
+> >>
+> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >> ---
 
-Max already sent another pull request that contains the fix for this
-issue, look for "[PULL 0/3] Block patches for 5.1.0-rc2?"
+> >>          if (istatus) {
+> >> -            /* Next transition is when count rolls back over to zero =
+*/
+> >> -            nexttick =3D UINT64_MAX;
+> >> +            /*
+> >> +             * The IRQ status of the timer will persist until:
+> >> +             *   - CVAL is changed or
+> >> +             *   - ENABLE is changed
+> >> +             *
+> >> +             * There is no point re-arming the timer for some far
+> >> +             * flung future - currently it just is.
+> >> +             */
+> >> +            timer_del(cpu->gt_timer[timeridx]);
+> >
+> > Why do we delete the timer for this case of "next time we need to
+> > know is massively in the future"...
+>
+> It's not really - it's happening now and it will continue to happen
+> until the IRQ is serviced or we change the CVAL at which point we can
+> calculate the next time we need it.
 
- Thomas
+It is far-future: the counter can roll all the way round and back over
+to zero, as the old comment states. (Other reasons for things to change
+get handled via other code paths: it's only the "at some defined time
+in the future a change happens" cases that we need to set a timer for).
+It's the same situation as below, I think (though I don't know why we
+used UINT64_MAX for one and INT64_MAX for the other).
 
+-- PMM
 
