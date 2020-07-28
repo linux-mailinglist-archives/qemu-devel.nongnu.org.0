@@ -2,69 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA13230BCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:51:21 +0200 (CEST)
-Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0269C230BCE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:52:40 +0200 (CEST)
+Received: from localhost ([::1]:48058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Q0m-00038f-6h
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
+	id 1k0Q23-0005gM-2R
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k0PzH-0001O2-MU
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:49:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35132
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k0PzF-0003xI-RT
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:49:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595944184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=5ZyevTFA0A+T1irRP2Heall65qhALB5ppulMHCnQmtY=;
- b=GiM8G3fwbTB/cAubMfFcgTkFFZOUrgCRzpUL1zOK7YcOCuYvGPRPK8DpmCYIqMx/eR092Q
- IvoUx/yc0km3m1Lk7qYr5pa2KSehyddDtSWsy50oxDJsCf5E8uqA8XSESZa5BlTVP7iYLN
- jAuIqGauuN2mHyiBQDZBFtRGU4cmmdE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-7PtklTnkMq69WznBD8HSRA-1; Tue, 28 Jul 2020 09:49:42 -0400
-X-MC-Unique: 7PtklTnkMq69WznBD8HSRA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B8E580BCAC;
- Tue, 28 Jul 2020 13:49:41 +0000 (UTC)
-Received: from localhost (ovpn-115-19.ams2.redhat.com [10.36.115.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C801819D7C;
- Tue, 28 Jul 2020 13:49:37 +0000 (UTC)
-Date: Tue, 28 Jul 2020 14:49:36 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: jwsu1986@gmail.com
-Subject: Re: virtio-fs performance
-Message-ID: <20200728134936.GA21660@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k0Pzn-0002ae-Ru; Tue, 28 Jul 2020 09:50:19 -0400
+Received: from mail-eopbgr30091.outbound.protection.outlook.com
+ ([40.107.3.91]:9187 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k0Pzk-00040W-H7; Tue, 28 Jul 2020 09:50:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dR7Dd1+jhUNjSMrULG3aSYLJP2+BZjpDC6G3X/pvIFnPWCoDCmi1dqRs/NjnqU9TecvdfrpqXW651Pqin63Ow/ypd+oRpkJz4aT//ynKJR30OLhOoTyGtJxzUVshulIa4mflIX2bwldEtv6ryy8Zh5xtZl5nUXb7y8v5VU3QayKiV7qBBXz+3da1Q35WUviXlB9aMcyBSkD+ziravo5DKj2vONkdDbXM0VJpYmiLly4+D3ogWxK2nZTS2WJSDpxgZOObhYg3F4stSiGVJL0FCRUqY+MeOWk9wz4R0UggCp5axHVITSfeIbVjILPf5yM0vNTGCBh8g/nfgsb5sU3vCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j9jAhHNd3tGmTrDdF5v/U2LBZKjislAc13K866Hk5e4=;
+ b=f1aihljvjgCnbou1OjM+KSy7qAELLWJBY8qWA75/Ybbh5G0w+YIdCxJtW/1uLO+ScyrYlpp1lu3ZbWieapZ+Xy32V4uvZEGwlBy4/Dsayv/KX/zjARidZ8lmRQ3daHQW82ZWaNNlBT5zS7eA6xp315ETwEQRlwjQQyx3TzLr5nf3Gsj31lK7ZvNJlhYimE3Gw4+i+3tcWvxoo4H4zhEQXDctYDgsJteBsKhcyzE7GrPsuXqsc6Smvdtp1nfcM183yXYmxxhyQrZQPuNQCUQAFOrGQaWfQ+4cNkTew2KQiEWhC1eW8HMfBiAAwEg2wLCmToGeV2j6Genhihr3/kepYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j9jAhHNd3tGmTrDdF5v/U2LBZKjislAc13K866Hk5e4=;
+ b=ZouPRKbR7MJtQihUZ9/R0rcvIRiKxrTw2BQMZ0NVTZFhFN0/MOBEfDEcEoXQFjIU4/swVreqorxQ+UykLe/+Nr1l1Z7NLKW/ULXCFq6vxmKbIfpzllDR1ocqvFlxDuyF/bg9MhtNjieR+/pKT6X8dbp6gR/ESh8fJa3WhiJ6xDc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4021.eurprd08.prod.outlook.com (2603:10a6:20b:aa::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
+ 2020 13:50:13 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
+ 13:50:13 +0000
+Subject: Re: [PATCH v2 3/4] iotests: Add more qemu_img helpers
+To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20200727215846.395443-1-nsoffer@redhat.com>
+ <20200727215846.395443-4-nsoffer@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <398e7bd6-3bc6-f42a-0a9e-df8cc76e073d@virtuozzo.com>
+Date: Tue, 28 Jul 2020 16:50:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200727215846.395443-4-nsoffer@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR05CA0088.eurprd05.prod.outlook.com
+ (2603:10a6:208:136::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <CAFKS8hWbckrE_cyJCf0pgFresD-JQk66wo-6uJA=Gu2MhReHVw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:02:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.158) by
+ AM0PR05CA0088.eurprd05.prod.outlook.com (2603:10a6:208:136::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23 via Frontend
+ Transport; Tue, 28 Jul 2020 13:50:13 +0000
+X-Originating-IP: [185.215.60.158]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a5d80fed-57af-4959-e7e4-08d832fd2710
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4021:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB40217BA22050CA39E7F8D1BDC1730@AM6PR08MB4021.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: znn3rWbmvJcOpZM4hYurN9o/Wiu2SB4HXoFxwbGgSJ+13eFj4x9/PHX0rTlKNK0AK1eDwgxtGSPa9uoC53dz4z1Qdy15BEuN9/QJ/Eg8X40/dmDWtyCkydBft2DSAMs//bHA5aJQq3R/5SAYyUjSVfTEproN0GnScT7LSPhAdKgxBEMaNuCX/HWhaSK+as37jt3euPyq+LN5lwCG+fNx/CVo+kWoNOXipv9lnWlOrxAAZu9KMxDuk8gEe59CplqsddYA+GUElqiWIl9KOq09N0gllbummLpXJYCzZLuCjhF/KT+g57spRVE9LmmNFd9rS+uKLpLCS7OK7reKwRfI9AqbPwGsxOmbhcPwU0ePt7ivvHA3OObQ/FxFaB1yttN0
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(136003)(39840400004)(376002)(366004)(346002)(6486002)(31686004)(36756003)(16526019)(5660300002)(478600001)(4326008)(2906002)(31696002)(8936002)(2616005)(54906003)(52116002)(16576012)(86362001)(186003)(956004)(8676002)(66946007)(316002)(26005)(66556008)(66476007)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: w2ax0gIiKgIL/idNbmf6j0b76izTvRkBOdnNFECqW1lys3Y1ObwKIln8cd88ZXDORczOGnTFZ21d98WesJDl0r25X3CFy5iCHrIhZ+vyLpDE9zBLx6AJZXK62+/v+ELdi+OKgmb8s0l27Lm90yUPOxmcX14eJiDz7NciketkDpG5iEh7gxhj7bIdRA0lWKgA7KbewCLNHyllsDP5FgnLseMPyWIZ75eirSmJKTLERQAPzwBn6BDoaNdAjLjL+RHXHKdOQ26YVHG6TgnHHFfC254oA8Ix43we9aVzid7sukmgpDks0UZQpm91cowclxnzfBiPpr9uoKRQ7r0uixvQT82f2ZarAxtK3doQTPzaP4iJZ4A4LDSeovuLFPR5Y1Pbt33nHyhqoU0XrLBA857SQvzx2Rt96Or+VfZifk9xwrw1Zc7tDjm7z94lST7yBF8VKc+37bGv+EvaHl58z+A/MNLV1wJArB9rcR9dBMBPfypkZnUIot6j0JeCfcEQkVhD
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5d80fed-57af-4959-e7e4-08d832fd2710
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 13:50:13.7305 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /HwqYD8nml+hhSOXhibvMKMtSWQHAzijlZR1EBEJFJEprjZvBoLBz9dxvfAY1cQrqV481ZMMYl/4DFc4GzF1TbfeDDovnf18ok85Tg0oEm4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4021
+Received-SPF: pass client-ip=40.107.3.91;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 09:50:14
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,130 +117,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---bp/iNruPH9dso1Pn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+28.07.2020 00:58, Nir Soffer wrote:
+> Add 2 helpers for measuring and checking images:
+> - qemu_img_measure()
+> - qemu_img_check()
+> 
+> Both use --output-json and parse the returned json to make easy to use
+> in other tests. I'm going to use them in a new test, and I hope they
+> will be useful in may other tests.
+> 
+> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+> ---
+>   tests/qemu-iotests/iotests.py | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 8f79668435..717b5b652c 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -141,6 +141,12 @@ def qemu_img_create(*args):
+>   
+>       return qemu_img(*args)
+>   
+> +def qemu_img_measure(*args):
+> +    return json.loads(qemu_img_pipe("measure", "--output", "json", *args))
+> +
+> +def qemu_img_check(*args):
+> +    return json.loads(qemu_img_pipe("check", "--output", "json", *args))
+> +
 
-> I'm trying and testing the virtio-fs feature in QEMU v5.0.0.
-> My host and guest OS are both ubuntu 18.04 with kernel 5.4, and the
-> underlying storage is one single SSD.
->=20
-> The configuations are:
-> (1) virtiofsd
-> ./virtiofsd -o=20
-> source=3D/mnt/ssd/virtiofs,cache=3Dauto,flock,posix_lock,writeback,xattr
-> --thread-pool-size=3D1 --socket-path=3D/tmp/vhostqemu
->=20
-> (2) qemu
-> qemu-system-x86_64 \
-> -enable-kvm \
-> -name ubuntu \
-> -cpu Westmere \
-> -m 4096 \
-> -global kvm-apic.vapic=3Dfalse \
-> -netdev tap,id=3Dhn0,vhost=3Doff,br=3Dbr0,helper=3D/usr/local/libexec/qem=
-u-bridge-helper
-> \
-> -device e1000,id=3De0,netdev=3Dhn0 \
-> -blockdev '{"node-name": "disk0", "driver": "qcow2",
-> "refcount-cache-size": 1638400, "l2-cache-size": 6553600, "file": {
-> "driver": "file", "filename": "'${imagefolder}\/ubuntu.qcow2'"}}' \
-> -device virtio-blk,drive=3Ddisk0,id=3Ddisk0 \
-> -chardev socket,id=3Dch0,path=3D/tmp/vhostqemu \
-> -device vhost-user-fs-pci,chardev=3Dch0,tag=3Dmyfs \
-> -object memory-backend-memfd,id=3Dmem,size=3D4G,share=3Don \
-> -numa node,memdev=3Dmem \
-> -qmp stdio \
-> -vnc :0
->=20
-> (3) guest
-> mount -t virtiofs myfs /mnt/virtiofs
->=20
-> I tried to change virtiofsd's --thread-pool-size value and test the
-> storage performance by fio.
-> Before each read/write/randread/randwrite test, the pagecaches of
-> guest and host are dropped.
->=20
-> ```
-> RW=3D"read" # or write/randread/randwrite
-> fio --name=3Dtest --rw=3D$RW --bs=3D4k --numjobs=3D1 --ioengine=3Dlibaio
-> --runtime=3D60 --direct=3D0 --iodepth=3D64 --size=3D10g
-> --filename=3D/mnt/virtiofs/testfile
-> done
-> ```
->=20
-> --thread-pool-size=3D64 (default)
->     seq read: 305 MB/s
->     seq write: 118 MB/s
->     rand 4KB read: 2222 IOPS
->     rand 4KB write: 21100 IOPS
->=20
-> --thread-pool-size=3D1
->     seq read: 387 MB/s
->     seq write: 160 MB/s
->     rand 4KB read: 2622 IOPS
->     rand 4KB write: 30400 IOPS
->=20
-> The results show the performance using default-pool-size (64) is
-> poorer than using single thread.
-> Is it due to the lock contention of the multiple threads?
-> When can virtio-fs get better performance using multiple threads?
->=20
->=20
-> I also tested the performance that guest accesses host's files via
-> NFSv4/CIFS network filesystem.
-> The "seq read" and "randread" performance of virtio-fs are also worse
-> than the NFSv4 and CIFS.
->=20
-> NFSv4:
->   seq write: 244 MB/s
->   rand 4K read: 4086 IOPS
->=20
-> I cannot figure out why the perf of NFSv4/CIFS with the network stack
-> is better than virtio-fs.
-> Is it expected? Or, do I have an incorrect configuration?
+qemu_img_pipe has type hints, so I assume we should add them here too.
 
-No, I remember benchmarking the thread pool and did not see such a big
-difference.
+Also, qemu-img don't report errors in json format, so in case of error, this will raise a problem about something that json can't parse. Probably we need better error handling.
 
-Please use direct=3D1 so that each I/O results in a virtio-fs request.
-Otherwise the I/O pattern is not directly controlled by the benchmark
-but by the page cache (readahead, etc).
+Still, for 5.1 it's OK as is I think, so if we are in a hurry:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Using numactl(8) or taskset(1) to launch virtiofsd allows you to control
-NUMA and CPU scheduling properties. For example, you could force all 64
-threads to run on the same host CPU using taskset to see if that helps
-this I/O bound workload.
+>   def qemu_img_verbose(*args):
+>       '''Run qemu-img without suppressing its output and return the exit code'''
+>       exitcode = subprocess.call(qemu_img_args + list(args))
+> 
 
-fio can collect detailed statistics on queue depths and a latency
-histogram. It would be interesting to compare the --thread-pool-size=3D64
-and --thread-pool-size=3D1 numbers.
 
-Comparing the "perf record -e kvm:kvm_exit" counts between the two might
-also be interesting.
-
-Stefan
-
---bp/iNruPH9dso1Pn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8gLPAACgkQnKSrs4Gr
-c8gjegf8Df/59da0oKXZgqtOYrjLMp/b4LKjG7pvRgSill4J8rxGVW2ABdp7cquh
-mc7nOiMU3NwOnh6bn9PkQ1v590QI9KcSGeaGy8T4Z+MbEx4BqkNuZ+dHNsid7KuK
-QbSQxxPrT16sktgjQnFIT+G3JF3jvkoaQvS1n3zB7IV7SzOZyDvycgERRLzVVdYh
-fy9hWFLf6dTRUeraxFG/cHX1KUmFnbEpPFQqKVYx7f4RZ5KIzgnV0zCvudTNOhup
-aJ57dETC5CukcklT3Nn5mnLRRircE99n8bWjL7/2X2jv8aAl89wcL5klixdZNU8G
-CLL2XAY/06/ZyyE9xPyQbNfBHJWAaw==
-=Zc/F
------END PGP SIGNATURE-----
-
---bp/iNruPH9dso1Pn--
-
+-- 
+Best regards,
+Vladimir
 
