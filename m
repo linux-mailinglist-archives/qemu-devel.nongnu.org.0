@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698B0230395
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:13:12 +0200 (CEST)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C35C2303A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:14:55 +0200 (CEST)
+Received: from localhost ([::1]:48220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0JnT-0001nS-HI
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60684)
+	id 1k0Jp8-0003nG-Nq
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1k0Jli-0008Jo-Uf
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:11:22 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4161 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1k0Jlg-0007oW-Le
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:11:22 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id CB9D0ED6E4550D39A4F2;
- Tue, 28 Jul 2020 15:11:17 +0800 (CST)
-Received: from localhost (10.174.149.56) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Jul 2020
- 15:11:10 +0800
-From: Hogan Wang <hogan.wang@huawei.com>
-To: <pbonzini@redhat.com>, <qemu-devel@nongnu.org>
-Subject: [PATCH 3/3] qemu-options: introduce parse_virtfs
-Date: Tue, 28 Jul 2020 15:11:04 +0800
-Message-ID: <20200728071104.3835-3-hogan.wang@huawei.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200728071104.3835-1-hogan.wang@huawei.com>
-References: <20200728071104.3835-1-hogan.wang@huawei.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0Jnz-0002nX-JI
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:13:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41481
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k0Jnx-00086N-V2
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:13:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595920421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=Nsq/K0cHy36uLyGHLotdp7Jm1mgA/469RX4IJhdaXMI=;
+ b=UYG7yYOwmMmhWiwCz4U6BdYqlpqYgEcMRoR4gb1pzxdZqhF/9oPXPvZdoES7RByQaWvaXc
+ VtGvpMZuLn3oKpQ6cYqMd8Oi+eUnUQusmouBLfKC7VTh8aebTiijkiQKZFtEuWcQxoEw/K
+ nmJI3tc8bOe1scnipsOI1S1E9iBt+S8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-FVNFH-5VMoKAPuHBZMJsUQ-1; Tue, 28 Jul 2020 03:13:36 -0400
+X-MC-Unique: FVNFH-5VMoKAPuHBZMJsUQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C026A102C7EC;
+ Tue, 28 Jul 2020 07:13:35 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-161.ams2.redhat.com [10.36.112.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A8B072699;
+ Tue, 28 Jul 2020 07:13:32 +0000 (UTC)
+Subject: Re: [PATCH for-5.1?] iotests: Adjust which tests are quick
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200727195117.132151-1-eblake@redhat.com>
+ <f304c499-0c4a-a179-c20e-af7fb8940b20@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <a0e7e923-5ef2-837b-2397-5783e0942f49@redhat.com>
+Date: Tue, 28 Jul 2020 09:13:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <f304c499-0c4a-a179-c20e-af7fb8940b20@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.149.56]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=hogan.wang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 03:11:14
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 03:13:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,211 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangxinxin.wang@huawei.com, weidong.huang@huawei.com, hogan.wang@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, dgilbert@redhat.com, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: w00506750 <hogan.wang@huawei.com>
+On 27/07/2020 22.07, Vladimir Sementsov-Ogievskiy wrote:
+> 27.07.2020 22:51, Eric Blake wrote:
+>> A quick run of './check -qcow2 -g migration' shows that test 169 is
+>> NOT quick, but meanwhile several other tests ARE quick.  Let's adjust
+>> the test designations accordingly.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> Still, why do we need quick group? make check uses "auto" group..
+> Some tests are considered important enough to run even not being quick.
+> Probably, everyone who don't want to run all tests, should run "auto"
+> group, not "quick"?
+> I, when want to check my changes, run all tests or limit them with
+> help of grep. I mostly run tests on tmpfs, so they all are quick enough.
+> Saving several minutes of cpu work doesn't worth missing a bug..
 
-introduce parse_virtfs to parse virtfs options.
+I think it still makes at least some sense:
 
-Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
----
- qemu-options.hx |   2 +-
- softmmu/vl.c    | 158 +++++++++++++++++++++++++-----------------------
- 2 files changed, 82 insertions(+), 78 deletions(-)
+- "quick" is for tests that run fast on the developers systems (i.e.
+  only Linux, I guess) - can be used during development for a quick
+  check in between when you don't want to wait too long
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index cf811c552e..e6320e18f2 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1542,7 +1542,7 @@ DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
-     "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly]\n"
-     "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly]\n"
-     "-virtfs synth,mount_tag=tag[,id=id][,readonly]\n",
--    QEMU_ARCH_ALL)
-+    QEMU_ARCH_ALL, parse_virtfs)
- 
- SRST
- ``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 6a0a49c7c7..a868acd37c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1737,6 +1737,87 @@ static int parse_net_client(const QEMUOption *popt, const char* optarg)
-     return 0;
- }
- 
-+static int parse_virtfs(const QEMUOption *popt, const char* optarg)
-+{
-+    QemuOptsList *olist;
-+    QemuOpts *fsdev;
-+    QemuOpts *device;
-+    QemuOpts *opts;
-+    const char *writeout, *sock_fd, *socket, *path, *security_model,
-+               *multidevs;
-+
-+    olist = qemu_find_opts("virtfs");
-+    if (!olist) {
-+        error_report("virtfs support is disabled");
-+        exit(1);
-+    }
-+    opts = qemu_opts_parse_noisily(olist, optarg, true);
-+    if (!opts) {
-+        exit(1);
-+    }
-+
-+    if (qemu_opt_get(opts, "fsdriver") == NULL ||
-+        qemu_opt_get(opts, "mount_tag") == NULL) {
-+        error_report("Usage: -virtfs fsdriver,mount_tag=tag");
-+        exit(1);
-+    }
-+    fsdev = qemu_opts_create(qemu_find_opts("fsdev"),
-+                             qemu_opts_id(opts) ?:
-+                             qemu_opt_get(opts, "mount_tag"),
-+                             1, NULL);
-+    if (!fsdev) {
-+        error_report("duplicate or invalid fsdev id: %s",
-+                     qemu_opt_get(opts, "mount_tag"));
-+        exit(1);
-+    }
-+
-+    writeout = qemu_opt_get(opts, "writeout");
-+    if (writeout) {
-+#ifdef CONFIG_SYNC_FILE_RANGE
-+        qemu_opt_set(fsdev, "writeout", writeout, &error_abort);
-+#else
-+        error_report("writeout=immediate not supported "
-+                     "on this platform");
-+        exit(1);
-+#endif
-+    }
-+    qemu_opt_set(fsdev, "fsdriver",
-+                 qemu_opt_get(opts, "fsdriver"), &error_abort);
-+    path = qemu_opt_get(opts, "path");
-+    if (path) {
-+        qemu_opt_set(fsdev, "path", path, &error_abort);
-+    }
-+    security_model = qemu_opt_get(opts, "security_model");
-+    if (security_model) {
-+        qemu_opt_set(fsdev, "security_model", security_model,
-+                     &error_abort);
-+    }
-+    socket = qemu_opt_get(opts, "socket");
-+    if (socket) {
-+        qemu_opt_set(fsdev, "socket", socket, &error_abort);
-+    }
-+    sock_fd = qemu_opt_get(opts, "sock_fd");
-+    if (sock_fd) {
-+        qemu_opt_set(fsdev, "sock_fd", sock_fd, &error_abort);
-+    }
-+
-+    qemu_opt_set_bool(fsdev, "readonly",
-+                      qemu_opt_get_bool(opts, "readonly", 0),
-+                      &error_abort);
-+    multidevs = qemu_opt_get(opts, "multidevs");
-+    if (multidevs) {
-+        qemu_opt_set(fsdev, "multidevs", multidevs, &error_abort);
-+    }
-+    device = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
-+                              &error_abort);
-+    qemu_opt_set(device, "driver", "virtio-9p-pci", &error_abort);
-+    qemu_opt_set(device, "fsdev",
-+                 qemu_opts_id(fsdev), &error_abort);
-+    qemu_opt_set(device, "mount_tag",
-+                 qemu_opt_get(opts, "mount_tag"), &error_abort);
-+    return 0;
-+}
-+
- static const QEMUOption qemu_options[] = {
-     { "h", 0, QEMU_OPTION_h, QEMU_ARCH_ALL },
- #define QEMU_OPTIONS_GENERATE_OPTIONS
-@@ -3293,83 +3374,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                     exit(1);
-                 }
-                 break;
--            case QEMU_OPTION_virtfs: {
--                QemuOpts *fsdev;
--                QemuOpts *device;
--                const char *writeout, *sock_fd, *socket, *path, *security_model,
--                           *multidevs;
--
--                olist = qemu_find_opts("virtfs");
--                if (!olist) {
--                    error_report("virtfs support is disabled");
--                    exit(1);
--                }
--                opts = qemu_opts_parse_noisily(olist, optarg, true);
--                if (!opts) {
--                    exit(1);
--                }
--
--                if (qemu_opt_get(opts, "fsdriver") == NULL ||
--                    qemu_opt_get(opts, "mount_tag") == NULL) {
--                    error_report("Usage: -virtfs fsdriver,mount_tag=tag");
--                    exit(1);
--                }
--                fsdev = qemu_opts_create(qemu_find_opts("fsdev"),
--                                         qemu_opts_id(opts) ?:
--                                         qemu_opt_get(opts, "mount_tag"),
--                                         1, NULL);
--                if (!fsdev) {
--                    error_report("duplicate or invalid fsdev id: %s",
--                                 qemu_opt_get(opts, "mount_tag"));
--                    exit(1);
--                }
--
--                writeout = qemu_opt_get(opts, "writeout");
--                if (writeout) {
--#ifdef CONFIG_SYNC_FILE_RANGE
--                    qemu_opt_set(fsdev, "writeout", writeout, &error_abort);
--#else
--                    error_report("writeout=immediate not supported "
--                                 "on this platform");
--                    exit(1);
--#endif
--                }
--                qemu_opt_set(fsdev, "fsdriver",
--                             qemu_opt_get(opts, "fsdriver"), &error_abort);
--                path = qemu_opt_get(opts, "path");
--                if (path) {
--                    qemu_opt_set(fsdev, "path", path, &error_abort);
--                }
--                security_model = qemu_opt_get(opts, "security_model");
--                if (security_model) {
--                    qemu_opt_set(fsdev, "security_model", security_model,
--                                 &error_abort);
--                }
--                socket = qemu_opt_get(opts, "socket");
--                if (socket) {
--                    qemu_opt_set(fsdev, "socket", socket, &error_abort);
--                }
--                sock_fd = qemu_opt_get(opts, "sock_fd");
--                if (sock_fd) {
--                    qemu_opt_set(fsdev, "sock_fd", sock_fd, &error_abort);
--                }
--
--                qemu_opt_set_bool(fsdev, "readonly",
--                                  qemu_opt_get_bool(opts, "readonly", 0),
--                                  &error_abort);
--                multidevs = qemu_opt_get(opts, "multidevs");
--                if (multidevs) {
--                    qemu_opt_set(fsdev, "multidevs", multidevs, &error_abort);
--                }
--                device = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
--                                          &error_abort);
--                qemu_opt_set(device, "driver", "virtio-9p-pci", &error_abort);
--                qemu_opt_set(device, "fsdev",
--                             qemu_opts_id(fsdev), &error_abort);
--                qemu_opt_set(device, "mount_tag",
--                             qemu_opt_get(opts, "mount_tag"), &error_abort);
--                break;
--            }
-             case QEMU_OPTION_serial:
-                 add_device_config(DEV_SERIAL, optarg);
-                 default_serial = 0;
--- 
-2.27.0
+- "auto" group is for "make check", i.e. the test runs fine and
+  reasonable fast on all systems (including macOS, *BSD and weird
+  CI pipelines)
 
+- The full check should be done before submitting block-layer related
+  code, to make sure that no regression happened
+
+Just my 0.02 €, of course.
+
+ Thomas
 
 
