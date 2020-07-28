@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CBE230D91
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:20:55 +0200 (CEST)
-Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF576230D88
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:18:27 +0200 (CEST)
+Received: from localhost ([::1]:42070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0RPS-0000fr-La
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
+	id 1k0RN5-0005Lr-0G
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0RJZ-0008FV-77
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:14:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45158
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0RLk-0003cf-ON
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:17:04 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33464
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0RJW-0000C8-Q3
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:14:48 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0RLi-0000Y7-ML
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:17:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595949285;
+ s=mimecast20190719; t=1595949421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=anc8Br3qGriCA+r6335+UsYnHuX3VQmWprTUm7ERQvQ=;
- b=DiOlH4a+VoKddFGi04XmtuO6bwewtrICyqyJqY5lHTdX/ktiA6U5QG3Pltp3ioZxO5D+Xx
- LacKDUqlSH0aZ3+MmF2Zavdfm29EDQqXmVR7Vekkva+9AyIEgozxa7GtvbrSKdXjR6oUo4
- iFdaXTBX9p926f5g0EBQ96wp4c6Lzcg=
+ bh=dM94Xaz1NxuD9p5SZkbxYD83WyMjyQ8SEHfH4LK1oLg=;
+ b=ivyvgNrNsow67Fx7quC9eVo7zjfsAPyCmVinwQjOdRngehp39rZu0shoR73nfwg25Y8bNa
+ z0u5ECA1jjsHV1BBRiK7tdQX06NHS8WlYGbCAs/Gpa/Ff9II6OBpSBFsXnjpHpWu0TUsr8
+ vqDXvG8RsI0e4y0BSQlyPm/hqYn4yQM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-OvuIJ47dPJO2HMw85JG66A-1; Tue, 28 Jul 2020 11:14:43 -0400
-X-MC-Unique: OvuIJ47dPJO2HMw85JG66A-1
+ us-mta-417-Mo6xYo90NLCV0PKA93r4ww-1; Tue, 28 Jul 2020 11:16:56 -0400
+X-MC-Unique: Mo6xYo90NLCV0PKA93r4ww-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE56B8015CE;
- Tue, 28 Jul 2020 15:14:41 +0000 (UTC)
-Received: from gondolin (ovpn-113-128.ams2.redhat.com [10.36.113.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C35F510013C4;
- Tue, 28 Jul 2020 15:14:40 +0000 (UTC)
-Date: Tue, 28 Jul 2020 17:14:38 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PULL 2/2] s390x/s390-virtio-ccw: fix loadparm property getter
-Message-ID: <20200728171438.2c3eb4fb.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA_1xECE+ESWoioHFSF_mwDG11NrR2=J3NWx2X+OGg3SZw@mail.gmail.com>
-References: <20200727140522.251815-1-cohuck@redhat.com>
- <20200727140522.251815-3-cohuck@redhat.com>
- <CAFEAcA_1xECE+ESWoioHFSF_mwDG11NrR2=J3NWx2X+OGg3SZw@mail.gmail.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BC1D91272;
+ Tue, 28 Jul 2020 15:16:55 +0000 (UTC)
+Received: from [10.10.118.248] (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D7C7D10013C4;
+ Tue, 28 Jul 2020 15:16:54 +0000 (UTC)
+Subject: Re: [PATCH] osdep.h: Add doc comment for qemu_get_thread_id()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20200716154114.10838-1-peter.maydell@linaro.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0f8b8fea-2bd0-7616-292b-8fb0f87cec75@redhat.com>
+Date: Tue, 28 Jul 2020 10:16:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200716154114.10838-1-peter.maydell@linaro.org>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 11:04:16
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:31:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,64 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jul 2020 14:52:36 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Mon, 27 Jul 2020 at 15:05, Cornelia Huck <cohuck@redhat.com> wrote:
-> >
-> > From: Halil Pasic <pasic@linux.ibm.com>
-> >
-> > The function machine_get_loadparm() is supposed to produce a C-string,
-> > that is a NUL-terminated one, but it does not. ElectricFence can detect
-> > this problem if the loadparm machine property is used.
-> >
-> > Let us make the returned string a NUL-terminated one.
-> >
-> > Fixes: 7104bae9de ("hw/s390x: provide loadparm property for the machine")
-> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > Reviewed-by: Thomas Huth <thuth@redhat.com>
-> > Message-Id: <20200723162717.88485-1-pasic@linux.ibm.com>
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> >  hw/s390x/s390-virtio-ccw.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> > index 8cc2f25d8a6a..403d30e13bca 100644
-> > --- a/hw/s390x/s390-virtio-ccw.c
-> > +++ b/hw/s390x/s390-virtio-ccw.c
-> > @@ -701,8 +701,12 @@ bool hpage_1m_allowed(void)
-> >  static char *machine_get_loadparm(Object *obj, Error **errp)
-> >  {
-> >      S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> > +    char *loadparm_str;
-> >
-> > -    return g_memdup(ms->loadparm, sizeof(ms->loadparm));
-> > +    /* make a NUL-terminated string */
-> > +    loadparm_str = g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1);
-> > +    loadparm_str[sizeof(ms->loadparm)] = 0;
-> > +    return loadparm_str;  
+On 7/16/20 10:41 AM, Peter Maydell wrote:
+> Add a documentation comment for qemu_get_thread_id(): since this
+> is rather host-OS-specific it's useful if people writing the
+> implementation and people thinking of using the function know
+> what the purpose and limitations are.
 > 
-> Hi. Coverity points out (CID 1431058) that this code now
-> reads off the end of the ms->loadparm buffer, because
-> g_memdup() is going to read and copy 9 bytes (size + 1)
-> and the array itself is only 8 bytes.
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Based on conversation with Dan on IRC, and prompted by the recent
+> patch to add OpenBSD support.
 > 
-> I don't think you can use g_memdup() here -- you need to
-> allocate the memory with g_malloc() and then fill it with
-> memcpy(), something like:
+> Q: should we document exactly what the thread-id value is for
+> each host platform in the QMP documentation ? Somebody writing
+> a management layer app should ideally not have to grovel through
+> the application to figure out what they should do with the
+> integer value they get back from query-cpus...
 > 
->     loadparm_str = g_malloc(sizeof(ms->loadparm) + 1);
->     memcpy(loadparm_str, ms->loadparm, sizeof(ms->loadparm));
->     loadparm_str[sizeof(ms->loadparm)] = 0;
+>   include/qemu/osdep.h | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 
-Sigh.
+Do we need a counterpart change...
 
-Halil, do you have time to cook up a patch?
+> 
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 4841b5c6b5f..8279f72e5ed 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -515,6 +515,20 @@ bool qemu_has_ofd_lock(void);
+>   
+>   bool qemu_write_pidfile(const char *pidfile, Error **errp);
+>   
+> +/**
+> + * qemu_get_thread_id: Return OS-specific ID of current thread
+> + *
+> + * This function returns an OS-specific identifier of the
+> + * current thread. This will be used for the "thread-id" field in
+> + * the response to the QMP query-cpus and query-iothreads commands.
+
+...to the qapi definition of query-cpus and query-iothreads?
+
+> + * The intention is that a VM management layer application can then
+> + * use it to tie specific QEMU vCPU and IO threads to specific host
+> + * CPUs using whatever the host OS's CPU affinity setting API is.
+> + * New implementations of this function for new host OSes should
+> + * return the most sensible integer ID that works for that purpose.
+> + *
+> + * This function should not be used for anything else inside QEMU.
+> + */
+>   int qemu_get_thread_id(void);
+
+Otherwise this change looks sensible to me.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+>   
+>   #ifndef CONFIG_IOVEC
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
