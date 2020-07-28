@@ -2,57 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203E1230B82
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:31:21 +0200 (CEST)
-Received: from localhost ([::1]:42420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EBA230B89
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 15:37:15 +0200 (CEST)
+Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0PhQ-0006lR-6J
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42442)
+	id 1k0Pn8-0001eA-5X
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 09:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k0Pg0-0005xD-9t
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:29:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23729
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k0Pfy-00015E-DH
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:29:51 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-eyU6gwVgOyml2gJWev25gQ-1; Tue, 28 Jul 2020 09:29:37 -0400
-X-MC-Unique: eyU6gwVgOyml2gJWev25gQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 593EB100CEB6;
- Tue, 28 Jul 2020 13:29:36 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-26.ams2.redhat.com [10.36.112.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3134819C71;
- Tue, 28 Jul 2020 13:29:34 +0000 (UTC)
-Subject: [PATCH v5 for-5.2] spapr: Use error_append_hint() in spapr_caps.c
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Tue, 28 Jul 2020 15:29:34 +0200
-Message-ID: <159594297421.8262.14314530897345809924.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0PmP-0001Cr-Ib
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:36:29 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:38500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0PmN-0002Cg-Rh
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 09:36:29 -0400
+Received: by mail-ot1-x332.google.com with SMTP id t18so14891301otq.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 06:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WgoeIB9Ctt5pbHTzAXd6Rc6bpnJrmiChoUgQLE4Wuho=;
+ b=MfXva+Qc7zPN9OvRk2j9e0xRzXHpWL01FDtM1VHSdmudvnetTepMRmz2nkidpNx5TC
+ 3iCkUGSfRiqr6qHaRc2/dBsYpukcFo4lTEZL9T6GJJp50HG2HQNdN5yS1alNpGcVvjfw
+ 9Ojfb8eNLWKtZGEWUFZ+IQNAewwqOhStvjwsGSS+Ypc6rR2xqOxjSF3LZWI+wRag8Jea
+ 8lcUMLrDFhY1cQwtJEEQhyUnvnWkSMDvDfA4dD2JSnkj4Z1z0pGXrlIunRXlTyrFkG/m
+ D5NU567kJtVCn0qozL8fG/0LoPqaxVsgSO8wRhPx2wYFRFqfvyuuK5PqQGMxtrM7tG3C
+ soVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WgoeIB9Ctt5pbHTzAXd6Rc6bpnJrmiChoUgQLE4Wuho=;
+ b=SwQ80I2/BFqMc7U+3EwM3M9V8duwpg5dO0grCTR4OvlsEFqUG5usTrJ6rodhEtGu/n
+ KubC55kNfqexriUiSfaw7FlPnjK56cG4CrLVruH5O5+hVzQcmEa26NkEhXEtxBT9KftZ
+ 3+mai2e5eOUkfK5ntg4KMXdrWu/G7jp+s7ThbUbapfsOxPJ5fUSZlstNblPfXATWDq9x
+ 49oa/KfBW/K66rp4ALMrkCpFedLipSGOomYYFHRZko8xnozYd2JORnD+BkeD4E5/y+Lf
+ PxpOcBaX41QNvWmnlOUgY2LSdVZAr3/+H7AhF4CcQRlziIqXwsk+j+GnhA78Ijo678Po
+ fPfA==
+X-Gm-Message-State: AOAM5339uH/mi6XNo/XuEeqqWDgvCFe4xbvxGfsLUbX3PYb0NnNKS6uW
+ obsLu+YOFM2nSHQ+ZsmQbVqpsqU0nqkaVlkswzjcvQ==
+X-Google-Smtp-Source: ABdhPJw3YULVJIBVeYXW1ZbujlsodYXjWAR9uMV2T4fr5RVyTsvlyLFGiLRq87PyA5KlMGs8mPgHnHH+1vllnzzlfM8=
+X-Received: by 2002:a9d:7303:: with SMTP id e3mr23279400otk.221.1595943386543; 
+ Tue, 28 Jul 2020 06:36:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
+References: <MN2PR11MB4318AB4E0101B3D312277D978D730@MN2PR11MB4318.namprd11.prod.outlook.com>
+In-Reply-To: <MN2PR11MB4318AB4E0101B3D312277D978D730@MN2PR11MB4318.namprd11.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jul 2020 14:36:15 +0100
+Message-ID: <CAFEAcA_c68Ern29dzoWLG4nC1SDOrKK-LVwSexxPNeKGF0b+fA@mail.gmail.com>
+Subject: Re: qemu icount to run guest SMP code
+To: "Wu, Wentong" <wentong.wu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.31.120; envelope-from=groug@kaod.org;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,308 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have a dedicated error API for hints. Use it instead of embedding
-the hint in the error message, as recommanded in the "qapi/error.h"
-header file.
+On Tue, 28 Jul 2020 at 13:34, Wu, Wentong <wentong.wu@intel.com> wrote:
+> We are trying to run guest SMP code with qemu icount mode, but based on m=
+y current understanding I don=E2=80=99t think we can do that, because with =
+icount enabled, the multi cpus will be simulated in round-robin way(tcg kic=
+k vcpu timer, or current cpu exit in order to handle interrupt or the endin=
+g of the current execution translationblock) with the single vCPU thread, s=
+o qemu is not running guest code in parallel as real hardware does, if gues=
+t code has the assumption cores run in parallel it will cause unexpected be=
+havior.
 
-While here, have cap_fwnmi_apply(), which already uses
-error_append_hint(), to call ERRP_GUARD() as well.
+In general you can't expect QEMU's simulation to be accurate
+to the level that it will correctly run guest code that's looking
+carefully at the level of parallelism between multiple cores
+(whether using -icount or not.) Timing of the emulated CPUs
+will always vary from that of real hardware to some extent.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
----
-v5: same patch as v4 with an updated changelog (dropped misleading
-    sentence about the need to use ERRP_GUARD) as suggested by Markus.
+SMP mode with icount (ie without MTTCG) will run all vCPUs
+on one thread, but since we always round-robin between them
+well-behaved guest code will make forward progress and will
+not notice any major differences between this and real
+parallel execution. (Sometimes it might spin a little more if
+it has a busy-loop waiting for another core, but only until
+the round-robin kicks in and runs the other core.)
 
-This is a replacement for commit ff9feac2a9291e9a7875ae289dfe7bc71abc2590
-in the ppc-for-5.2 branch.
----
- hw/ppc/spapr_caps.c |   89 +++++++++++++++++++++++++++++------------------=
-----
- 1 file changed, 50 insertions(+), 39 deletions(-)
-
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 3225fc5a2edc..275f5bd0342c 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -180,24 +180,24 @@ static void spapr_cap_set_pagesize(Object *obj, Visit=
-or *v, const char *name,
-=20
- static void cap_htm_apply(SpaprMachineState *spapr, uint8_t val, Error **e=
-rrp)
- {
-+    ERRP_GUARD();
-     if (!val) {
-         /* TODO: We don't support disabling htm yet */
-         return;
-     }
-     if (tcg_enabled()) {
--        error_setg(errp,
--                   "No Transactional Memory support in TCG,"
--                   " try appending -machine cap-htm=3Doff");
-+        error_setg(errp, "No Transactional Memory support in TCG");
-+        error_append_hint(errp, "Try appending -machine cap-htm=3Doff\n");
-     } else if (kvm_enabled() && !kvmppc_has_cap_htm()) {
-         error_setg(errp,
--"KVM implementation does not support Transactional Memory,"
--                   " try appending -machine cap-htm=3Doff"
--            );
-+                   "KVM implementation does not support Transactional Memo=
-ry");
-+        error_append_hint(errp, "Try appending -machine cap-htm=3Doff\n");
-     }
- }
-=20
- static void cap_vsx_apply(SpaprMachineState *spapr, uint8_t val, Error **e=
-rrp)
- {
-+    ERRP_GUARD();
-     PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-     CPUPPCState *env =3D &cpu->env;
-=20
-@@ -209,13 +209,14 @@ static void cap_vsx_apply(SpaprMachineState *spapr, u=
-int8_t val, Error **errp)
-      * rid of anything that doesn't do VMX */
-     g_assert(env->insns_flags & PPC_ALTIVEC);
-     if (!(env->insns_flags2 & PPC2_VSX)) {
--        error_setg(errp, "VSX support not available,"
--                   " try appending -machine cap-vsx=3Doff");
-+        error_setg(errp, "VSX support not available");
-+        error_append_hint(errp, "Try appending -machine cap-vsx=3Doff\n");
-     }
- }
-=20
- static void cap_dfp_apply(SpaprMachineState *spapr, uint8_t val, Error **e=
-rrp)
- {
-+    ERRP_GUARD();
-     PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-     CPUPPCState *env =3D &cpu->env;
-=20
-@@ -224,8 +225,8 @@ static void cap_dfp_apply(SpaprMachineState *spapr, uin=
-t8_t val, Error **errp)
-         return;
-     }
-     if (!(env->insns_flags2 & PPC2_DFP)) {
--        error_setg(errp, "DFP support not available,"
--                   " try appending -machine cap-dfp=3Doff");
-+        error_setg(errp, "DFP support not available");
-+        error_append_hint(errp, "Try appending -machine cap-dfp=3Doff\n");
-     }
- }
-=20
-@@ -239,6 +240,7 @@ SpaprCapPossible cap_cfpc_possible =3D {
- static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
-                                  Error **errp)
- {
-+    ERRP_GUARD();
-     uint8_t kvm_val =3D  kvmppc_get_cap_safe_cache();
-=20
-     if (tcg_enabled() && val) {
-@@ -247,9 +249,9 @@ static void cap_safe_cache_apply(SpaprMachineState *spa=
-pr, uint8_t val,
-                     cap_cfpc_possible.vals[val]);
-     } else if (kvm_enabled() && (val > kvm_val)) {
-         error_setg(errp,
--                   "Requested safe cache capability level not supported by=
- kvm,"
--                   " try appending -machine cap-cfpc=3D%s",
--                   cap_cfpc_possible.vals[kvm_val]);
-+                   "Requested safe cache capability level not supported by=
- KVM");
-+        error_append_hint(errp, "Try appending -machine cap-cfpc=3D%s\n",
-+                          cap_cfpc_possible.vals[kvm_val]);
-     }
- }
-=20
-@@ -263,6 +265,7 @@ SpaprCapPossible cap_sbbc_possible =3D {
- static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t =
-val,
-                                         Error **errp)
- {
-+    ERRP_GUARD();
-     uint8_t kvm_val =3D  kvmppc_get_cap_safe_bounds_check();
-=20
-     if (tcg_enabled() && val) {
-@@ -271,9 +274,9 @@ static void cap_safe_bounds_check_apply(SpaprMachineSta=
-te *spapr, uint8_t val,
-                     cap_sbbc_possible.vals[val]);
-     } else if (kvm_enabled() && (val > kvm_val)) {
-         error_setg(errp,
--"Requested safe bounds check capability level not supported by kvm,"
--                   " try appending -machine cap-sbbc=3D%s",
--                   cap_sbbc_possible.vals[kvm_val]);
-+"Requested safe bounds check capability level not supported by KVM");
-+        error_append_hint(errp, "Try appending -machine cap-sbbc=3D%s\n",
-+                          cap_sbbc_possible.vals[kvm_val]);
-     }
- }
-=20
-@@ -290,6 +293,7 @@ SpaprCapPossible cap_ibs_possible =3D {
- static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
-                                            uint8_t val, Error **errp)
- {
-+    ERRP_GUARD();
-     uint8_t kvm_val =3D kvmppc_get_cap_safe_indirect_branch();
-=20
-     if (tcg_enabled() && val) {
-@@ -298,9 +302,9 @@ static void cap_safe_indirect_branch_apply(SpaprMachine=
-State *spapr,
-                     cap_ibs_possible.vals[val]);
-     } else if (kvm_enabled() && (val > kvm_val)) {
-         error_setg(errp,
--"Requested safe indirect branch capability level not supported by kvm,"
--                   " try appending -machine cap-ibs=3D%s",
--                   cap_ibs_possible.vals[kvm_val]);
-+"Requested safe indirect branch capability level not supported by KVM");
-+        error_append_hint(errp, "Try appending -machine cap-ibs=3D%s\n",
-+                          cap_ibs_possible.vals[kvm_val]);
-     }
- }
-=20
-@@ -377,23 +381,25 @@ static void cap_hpt_maxpagesize_cpu_apply(SpaprMachin=
-eState *spapr,
- static void cap_nested_kvm_hv_apply(SpaprMachineState *spapr,
-                                     uint8_t val, Error **errp)
- {
-+    ERRP_GUARD();
-     if (!val) {
-         /* capability disabled by default */
-         return;
-     }
-=20
-     if (tcg_enabled()) {
--        error_setg(errp,
--                   "No Nested KVM-HV support in tcg,"
--                   " try appending -machine cap-nested-hv=3Doff");
-+        error_setg(errp, "No Nested KVM-HV support in TCG");
-+        error_append_hint(errp, "Try appending -machine cap-nested-hv=3Dof=
-f\n");
-     } else if (kvm_enabled()) {
-         if (!kvmppc_has_cap_nested_kvm_hv()) {
-             error_setg(errp,
--"KVM implementation does not support Nested KVM-HV,"
--                       " try appending -machine cap-nested-hv=3Doff");
-+                       "KVM implementation does not support Nested KVM-HV"=
-);
-+            error_append_hint(errp,
-+                              "Try appending -machine cap-nested-hv=3Doff\=
-n");
-         } else if (kvmppc_set_cap_nested_kvm_hv(val) < 0) {
--                error_setg(errp,
--"Error enabling cap-nested-hv with KVM, try cap-nested-hv=3Doff");
-+                error_setg(errp, "Error enabling cap-nested-hv with KVM");
-+                error_append_hint(errp,
-+                                  "Try appending -machine cap-nested-hv=3D=
-off\n");
-         }
-     }
- }
-@@ -401,6 +407,7 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState *=
-spapr,
- static void cap_large_decr_apply(SpaprMachineState *spapr,
-                                  uint8_t val, Error **errp)
- {
-+    ERRP_GUARD();
-     PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-=20
-@@ -411,22 +418,23 @@ static void cap_large_decr_apply(SpaprMachineState *s=
-papr,
-     if (tcg_enabled()) {
-         if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
-                               spapr->max_compat_pvr)) {
--            error_setg(errp,
--                "Large decrementer only supported on POWER9, try -cpu POWE=
-R9");
-+            error_setg(errp, "Large decrementer only supported on POWER9")=
-;
-+            error_append_hint(errp, "Try -cpu POWER9\n");
-             return;
-         }
-     } else if (kvm_enabled()) {
-         int kvm_nr_bits =3D kvmppc_get_cap_large_decr();
-=20
-         if (!kvm_nr_bits) {
--            error_setg(errp,
--                       "No large decrementer support,"
--                        " try appending -machine cap-large-decr=3Doff");
-+            error_setg(errp, "No large decrementer support");
-+            error_append_hint(errp,
-+                              "Try appending -machine cap-large-decr=3Doff=
-\n");
-         } else if (pcc->lrg_decr_bits !=3D kvm_nr_bits) {
-             error_setg(errp,
--"KVM large decrementer size (%d) differs to model (%d),"
--                " try appending -machine cap-large-decr=3Doff",
--                kvm_nr_bits, pcc->lrg_decr_bits);
-+                       "KVM large decrementer size (%d) differs to model (=
-%d)",
-+                       kvm_nr_bits, pcc->lrg_decr_bits);
-+            error_append_hint(errp,
-+                              "Try appending -machine cap-large-decr=3Doff=
-\n");
-         }
-     }
- }
-@@ -435,14 +443,15 @@ static void cap_large_decr_cpu_apply(SpaprMachineStat=
-e *spapr,
-                                      PowerPCCPU *cpu,
-                                      uint8_t val, Error **errp)
- {
-+    ERRP_GUARD();
-     CPUPPCState *env =3D &cpu->env;
-     target_ulong lpcr =3D env->spr[SPR_LPCR];
-=20
-     if (kvm_enabled()) {
-         if (kvmppc_enable_cap_large_decr(cpu, val)) {
--            error_setg(errp,
--                       "No large decrementer support,"
--                       " try appending -machine cap-large-decr=3Doff");
-+            error_setg(errp, "No large decrementer support");
-+            error_append_hint(errp,
-+                              "Try appending -machine cap-large-decr=3Doff=
-\n");
-         }
-     }
-=20
-@@ -457,6 +466,7 @@ static void cap_large_decr_cpu_apply(SpaprMachineState =
-*spapr,
- static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
-                                  Error **errp)
- {
-+    ERRP_GUARD();
-     uint8_t kvm_val =3D kvmppc_get_cap_count_cache_flush_assist();
-=20
-     if (tcg_enabled() && val) {
-@@ -479,14 +489,15 @@ static void cap_ccf_assist_apply(SpaprMachineState *s=
-papr, uint8_t val,
-             return;
-         }
-         error_setg(errp,
--"Requested count cache flush assist capability level not supported by kvm,=
-"
--                   " try appending -machine cap-ccf-assist=3Doff");
-+                   "Requested count cache flush assist capability level no=
-t supported by KVM");
-+        error_append_hint(errp, "Try appending -machine cap-ccf-assist=3Do=
-ff\n");
-     }
- }
-=20
- static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
-                                 Error **errp)
- {
-+    ERRP_GUARD();
-     if (!val) {
-         return; /* Disabled by default */
-     }
-
-
+thanks
+-- PMM
 
