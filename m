@@ -2,58 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A335230781
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:18:18 +0200 (CEST)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0354230767
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:14:52 +0200 (CEST)
+Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Mgb-00027K-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
+	id 1k0MdH-0007UO-U8
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k0Mf4-0000uY-Ab; Tue, 28 Jul 2020 06:16:42 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:36465 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k0Mez-00085d-Kn; Tue, 28 Jul 2020 06:16:42 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BGCJJ2g9gz9sTK; Tue, 28 Jul 2020 20:16:32 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595931392;
- bh=71CxD+3qFGsQZR6lzzXOj7xvtbJ/4K1FuQmuu1Ou/14=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mdyBD+/XOefqdz7lSXWanaYQvd/9JbDl8dXWP42TLBs7yi6/dgtnxnDZpwym3xreR
- YnwxOlypYFoxj60zPurdQ1ul/hgDQHrOKY3aEKdDV+UuumInsCWRtxnXUlZQbaeIUW
- ZlOCZ87jr2UmIeFWKci6XXjJRu/evCanmF1Mu4vs=
-Date: Tue, 28 Jul 2020 20:09:37 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 for-5.2 1/2] spapr: Use error_append_hint() in
- spapr_caps.c
-Message-ID: <20200728100937.GI84173@umbus.fritz.box>
-References: <159491945918.188975.4358645698778061430.stgit@bahia.lan>
- <159491947184.188975.5055299566400098290.stgit@bahia.lan>
- <87mu3uciq4.fsf@dusky.pond.sub.org>
- <20200727150425.2c7562ed@bahia.lan>
- <87h7tsf6cv.fsf@dusky.pond.sub.org>
- <20200728110726.5882b046@bahia.lan>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0McJ-00072j-Uo
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:13:51 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:40326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k0McI-0007iS-6x
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:13:51 -0400
+Received: by mail-oi1-x241.google.com with SMTP id u24so7100422oiv.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 03:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dIGitEZzrPfalnnDRusGe28l2o0rf72O/DvG7N9N97E=;
+ b=b0fbrVc8hmErEmlFhfL5lTeN9t7A3Y/NNz9ll10zrA+Rqr6Rm33Pceg/B5+x4mmt+Y
+ EHGT2F4txMqMn5Sf4UTpq5A8nt+UJzjmVOCu/z27+epYaa4ProLwm0ttSKIaoJs+DyFT
+ kbBZaFP9pyzsVLI3NPiAiLTCcqYJLlo/x+kQN/FH3/+MecdNkLz/QaRHqm59CAmkkUw7
+ Fo047mxpm3vj+qaoPjxhWJAImYZE7NgWvBMvxu9MGwD4gzoA4He7ZYSPm00pw72HgX4j
+ S/IxVEn9Fb+dRcB5NKxPulhl/XnafW/kclyefM+2AjouvvckBIyGc1R5Ns8RovWh6du0
+ hyEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dIGitEZzrPfalnnDRusGe28l2o0rf72O/DvG7N9N97E=;
+ b=TaMvz0hY7dMRbQxXB3LikB9OTH82UFNgSFaIan3G0jh4B23qQOEKhkyclSnQeTddxk
+ JZ9IMcIhydzRRtQcTqyTcvftdh1qm6kGhNmZlNWOV9DcB2d4i7Dd2ilmCURjjzJ3gp0f
+ dKCcdXP7XnWoajgVpQBMgdxFb1S2ra+LXqFimd/4JGlgHEqNHpHnsOkorDbwqtZdBZJ+
+ Pko3WMhA6u+6e/4O1RUEcZcfS8UAzil7oIouAR77/QiEwAxpaLzuYQvnbB+4I2g2XKZv
+ 6dVl75iV/tKsHnS/qTaO4xEgx+WnEEJbItXik+h8zY4cWuUwey7wPQxiyDgbk3uui2Ty
+ VR+w==
+X-Gm-Message-State: AOAM533XtSZS5AbsFERP8zPHD42zNnGxyLMRpFPGsu4kKz61Y9rICcpU
+ HLvVxoo61lvZdzwgQu7teGSnuC1NfHouaXmSUfJPjg==
+X-Google-Smtp-Source: ABdhPJzFJC22rWeZ4x/tjI2G7ahXjg4PWDt64qOjlCb0r7cf4shJQj8p9wDx5Yd4f0r/+JUpZ9r5PzneOkT/HQbrL8w=
+X-Received: by 2002:aca:4a96:: with SMTP id x144mr2814958oia.163.1595931229010; 
+ Tue, 28 Jul 2020 03:13:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pe+tqlI1iYzVj1X/"
-Content-Disposition: inline
-In-Reply-To: <20200728110726.5882b046@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:16:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+References: <20200728091828.21702-1-paul@xen.org>
+ <CAFEAcA_wKTFWk9Uk5HMabqfa6QkkTAdzBotmnrA_EH1BR4XjYg@mail.gmail.com>
+ <32ad0742-bff2-1fbc-2f7a-d078980eb171@redhat.com>
+ <CAFEAcA84fH3aGpbrJoA6S3qJ-FjD3NZMoj0G7jqvRneH_pS6=A@mail.gmail.com>
+ <a09853d3-5c27-893f-54ed-63dc461bfacb@redhat.com>
+ <ee8374bd-1257-1d29-6800-3902426b1a0b@redhat.com>
+In-Reply-To: <ee8374bd-1257-1d29-6800-3902426b1a0b@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jul 2020 11:13:38 +0100
+Message-ID: <CAFEAcA9zp48p64mPxR4_NyLDdYxjtEkKE_xQz_4D+Uau7HTE3A@mail.gmail.com>
+Subject: Re: [PATCH] configure: define CONFIG_XEN when Xen is enabled
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,131 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Paul Durrant <pdurrant@amazon.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 28 Jul 2020 at 11:00, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> Apparently kvm_enabled() checks CONFIG_KVM_IS_POSSIBLE instead
+> of CONFIG_KVM, I suppose to bypass this limitation (from osdep.h):
+>
+>  21 #ifdef NEED_CPU_H
+>  22 # ifdef CONFIG_KVM
+>  24 #  define CONFIG_KVM_IS_POSSIBLE
+>  25 # endif
+>  26 #else
+>  27 # define CONFIG_KVM_IS_POSSIBLE
+>  28 #endif
+>  29
+>  30 #ifdef CONFIG_KVM_IS_POSSIBLE
+>     ...
 
---pe+tqlI1iYzVj1X/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Interesting. We don't have CONFIG_WHPX_IS_POSSIBLE,
+CONFIG_HVF_IS_POSSIBLE, etc -- also bugs, or do we avoid
+them by happening not to check whpx_enabled(), hvf_enabled(),
+etc in obj-common-compiled source files?
 
-On Tue, Jul 28, 2020 at 11:07:26AM +0200, Greg Kurz wrote:
-> On Tue, 28 Jul 2020 09:26:08 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->=20
-> > Greg Kurz <groug@kaod.org> writes:
-> >=20
-> > > On Mon, 20 Jul 2020 17:24:35 +0200
-> > > Markus Armbruster <armbru@redhat.com> wrote:
-> > >
-> > >> Greg Kurz <groug@kaod.org> writes:
-> > >>=20
-> > >> > We have a dedicated error API for hints. Use it instead of embeddi=
-ng
-> > >> > the hint in the error message, as recommanded in the "qapi/error.h"
-> > >> > header file.
-> > >> >
-> > >> > Since spapr_caps_apply() passes &error_fatal, all functions must
-> > >> > also call the ERRP_GUARD() macro for error_append_hint() to be
-> > >> > functional.
-> > >>=20
-> > >> This isn't a request for change in this patch, just an attempt to sq=
-uash
-> > >> possible misunderstandings.
-> > >>=20
-> > >> It's true that error_append_hint() without ERRP_GUARD() works as lon=
-g as
-> > >> the caller doesn't pass certain errp arguments.  But the callee shou=
-ld
-> > >> work for all possible @errp arguments, not just the ones that get pa=
-ssed
-> > >> today.  That's why error.h wants you to guard *all* uses of
-> > >> error_append_hint(errp):
-> > >>=20
-> > >>  * =3D Why, when and how to use ERRP_GUARD() =3D
-> > >>  *
-> > >>  * Without ERRP_GUARD(), use of the @errp parameter is restricted:
-> > >>  * - It must not be dereferenced, because it may be null.
-> > >>  * - It should not be passed to error_prepend() or
-> > >>  *   error_append_hint(), because that doesn't work with &error_fata=
-l.
-> > >>  * ERRP_GUARD() lifts these restrictions.
-> > >>=20
-> > >
-> > > Yeah, I just wanted to emphasize that we were precisely in the case
-> > > where we _really_ need to lift the restriction, but I'm perfectly fine
-> > > with dropping this sentence if you consider it useless.
-> >=20
-> > I lean towards dropping it.
-> >=20
->=20
-> David,
->=20
-> Do you want me to send an updated version of this patch or can you
-> fix this in your tree ?
-
-Updated version please, I'm afraid I've lost track of quite what was
-suggested in this thread.
-
->=20
-> > > BTW, should we have a way for CI to ensure that a patch that adds
-> > > error_prepend(errp, ...) or error_append_hint(errp, ...) also adds
-> > > ERRP_GUARD() ? Not sure that people read error.h that often...
-> >=20
-> > I don't know.  Wait and see whether it's worth automating?  We didn't
-> > automate checking other Error API rules, like "no newlines in error
-> > messages".  That one can't crash, though.
-> >=20
-> > The check would have to look beyond the patch, which checkpatch.pl
-> > doesn't do.
-> >=20
->=20
-> <thinking aloud>
-> Maybe checkpatch.pl could be fed with an extended version of the patch
-> that has enough context, eg. git show -U$(wc -l ${file}) ${file} ?
-> </thinking aloud>
->=20
-> > >> No need to make an argument involving the possible arguments (pardon=
- the
-> > >> pun).
-> > >>=20
-> > >
-> > > :)
-> > >
-> > >> [...]
-> > >>=20
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---pe+tqlI1iYzVj1X/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8f+V4ACgkQbDjKyiDZ
-s5KPJRAAmWArB19Ohjz0H0SWtgrT8qo71f7oe2EHTxqtZ9RfiF33OIJUV3HuQ/L0
-bKuYxivbsK/Dv5r01pLOIULyu87sT+sfkyS/YH0ZO4IMcljOpzW847KRp/W1KpL2
-UpRz2z6C9a3kuehQQdV/3zjV4JO9H/sLlnUks252vDyY6M8/h4Z5iOiV2ii5cPVg
-86bPb7/AqF5oCuFRVLSfToAZfrOgkDb2+D5Rb7mVuqGGWdOQap4sE7n/XNAusleo
-fSCUkZ6bKOp7GqV+OIbXInfaayS6ITo1+pL2rD2hw+L37tErL0rtZwMWUxAjAy6r
-7r6fORRA9kZ5MpiXhC8fD2xlqXuT8cUXCCIcsCY5atnok84sMBB6fJdPe9+S1aaA
-uRV3WohHIzoLNt2BVu4GIMoZ8tRr21xGqDnB8UMfHNexDLCf3pZf2j4fwveu1X3u
-oV0hM6l4O7+Apz33ElFUR3RRZxPVD08kflDXLhfHYV8xX/AEZQtcRbFSgf8HqPkD
-3vVwwX5Oxy7PQFOSlGYi3drLG3j5wfXAxMPRjDl9CqI3zsr7M6p6DCS21cL6pEZQ
-bmHYSEsY36S7eaAeMA6AYxqGYvidGrN0x06Hay86w+8sc0QJnFEN7FKAmApOwgm7
-slkN6YDr4+y7X0xlGeKNERaP5ZluzzNxtBOvE0uDfx9TlaB2gOU=
-=341b
------END PGP SIGNATURE-----
-
---pe+tqlI1iYzVj1X/--
+thanks
+-- PMM
 
