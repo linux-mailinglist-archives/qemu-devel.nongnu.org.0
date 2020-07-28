@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F302307D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:40:07 +0200 (CEST)
-Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9302307E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:43:33 +0200 (CEST)
+Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0N1d-0006yR-Hk
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1k0N52-0002in-FI
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:43:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0MzZ-0004lr-Iw
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:37:53 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0MzX-0002lw-3g
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:37:53 -0400
-Received: by mail-wm1-x342.google.com with SMTP id d190so204799wmd.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 03:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=K3mgJCwncdqIipiYAU+wCrFh9fTPvR4OlTHmlok7qrM=;
- b=Hc9j+SdmnOO9Yaf2c4ihvxVxBuQIhB7CHYtOAbMj1VJLNlJTx2rL3DReli7UFIxIaZ
- QkKH1I38JhE3+Sqe/K2wUU8qRCN3EyKMzB0wRqFnjm2NTCA+0qOkwD+qBA2PAm6FcMtt
- mHVS9roCEh3Rvbxb4soAAj9GOJZU/G86iJY26JuYic+tm7VqiUwtEzgAmnuxZRior7+E
- O0PIFDKe/UCHMUmc20SbH8KNxGaqP2Llaie8ci2+XMn6bILBzHZOXbD+HmQtHsHU2cPy
- /ZAafJG1W/R9F3f8YFz/N3Ob1hqDFukA8xih65RfeMg0s1l0zuJNbmpoPqutv4lz6zVz
- gF9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=K3mgJCwncdqIipiYAU+wCrFh9fTPvR4OlTHmlok7qrM=;
- b=qaK/9Iw3Lbmac/hZRTPIeQRxvEn4FDwEJVsawdgM+8HoYZCQe7yFgLqlYztcCc0P9S
- wF1J1KbFZsd5M1j/lKWerDUoLyGn+ejSF+dmJZ7hiUFt8Mz0Ov5xelY2OCIEisbFW1A0
- oh8gvnvuCZIxoZNDw9TYAWp4YkniphML1P0xynzz/zbcoQ69GHVXCRkLrAHmlsm5lKmR
- wepVXvD0XBr0zByD/ZbdiXfeQpwhHVQylIcaBDiooBtD0JpulbbOOcVb+F8o8zE9eHZZ
- kEubMrJcy/xj62GzmjXiTozqVmowLGQr+n/OjSCvohXp2Ly71KPO/Eh7b9FPOLD/SzpE
- +KrA==
-X-Gm-Message-State: AOAM532toeeJYO/HLE8K61VDnT3bxaWK3HG/94glQkOFnmas2vHr/L6P
- QlmwQzpKEywp+K8pNjruADoIgA==
-X-Google-Smtp-Source: ABdhPJwMVbKHpRie44qNkpjUr4qDDsGjIUX/LdMua/Al2EivDnbEMzeKdeov7bCT9FvM7adOFiPJrg==
-X-Received: by 2002:a1c:dc02:: with SMTP id t2mr3391892wmg.55.1595932669892;
- Tue, 28 Jul 2020 03:37:49 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w16sm18634657wrg.95.2020.07.28.03.37.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 03:37:49 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-5.1? 3/3] msf2-soc, stellaris: Don't wire up SYSRESETREQ
-Date: Tue, 28 Jul 2020 11:37:44 +0100
-Message-Id: <20200728103744.6909-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200728103744.6909-1-peter.maydell@linaro.org>
-References: <20200728103744.6909-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k0N1p-0000Fq-8R
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:40:13 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27795
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k0N1n-0002z1-Ew
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:40:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595932810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0Zqtu93XjkTXjRgpWdCxN5V6Q2rGF/LY/1avvcwWTU8=;
+ b=HXJEFfSu2uwrvA32achqLO8Mo1sVLXy6Pv81izNd6f3u8/ZHh2LCWDDebZV9HxvBB/od0p
+ Ke8yQiSeoiDQgEG6g86R8bDQPgev5SC7yaI7WxZJJ9FAOHsnQjTkGFUux5fydMSsKx+03C
+ x2mvwHM1IKFmkKaFV58xOjVrvsfU4xE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-Db-3W4OXMSa6UJo7G_1ccg-1; Tue, 28 Jul 2020 06:40:06 -0400
+X-MC-Unique: Db-3W4OXMSa6UJo7G_1ccg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23650107ACCA;
+ Tue, 28 Jul 2020 10:40:04 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65716726BA;
+ Tue, 28 Jul 2020 10:39:55 +0000 (UTC)
+Date: Tue, 28 Jul 2020 12:39:52 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH] hw: add compat machines for 5.2
+Message-ID: <20200728103952.aklbaxcgw7c6eywz@kamzik.brq.redhat.com>
+References: <20200728094645.272149-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200728094645.272149-1-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:02:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,95 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MSF2 SoC model and the Stellaris board code both wire
-SYSRESETREQ up to a function that just invokes
-    qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-This is now the default action that the NVIC does if the line is
-not connected, so we can delete the handling code.
+On Tue, Jul 28, 2020 at 11:46:45AM +0200, Cornelia Huck wrote:
+> Add 5.2 machine types for arm/i440fx/q35/s390x/spapr.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  hw/arm/virt.c              |  9 ++++++++-
+>  hw/core/machine.c          |  3 +++
+>  hw/i386/pc.c               |  3 +++
+>  hw/i386/pc_piix.c          | 14 +++++++++++++-
+>  hw/i386/pc_q35.c           | 13 ++++++++++++-
+>  hw/ppc/spapr.c             | 15 +++++++++++++--
+>  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>  include/hw/boards.h        |  3 +++
+>  include/hw/i386/pc.h       |  3 +++
+>  9 files changed, 71 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index ecfee362a182..acf9bfbeceaf 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2546,10 +2546,17 @@ static void machvirt_machine_init(void)
+>  }
+>  type_init(machvirt_machine_init);
+>  
+> +static void virt_machine_5_2_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
+> +
+>  static void virt_machine_5_1_options(MachineClass *mc)
+>  {
+> +    virt_machine_5_2_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+>  }
+> -DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
+> +DEFINE_VIRT_MACHINE(5, 1)
+>  
+>  static void virt_machine_5_0_options(MachineClass *mc)
+>  {
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/msf2-soc.c  | 11 -----------
- hw/arm/stellaris.c | 12 ------------
- 2 files changed, 23 deletions(-)
+For the above hw/arm/virt.c part
 
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 33ea7df342c..d2c29e82d13 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -30,7 +30,6 @@
- #include "hw/irq.h"
- #include "hw/arm/msf2-soc.h"
- #include "hw/misc/unimp.h"
--#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- 
- #define MSF2_TIMER_BASE       0x40004000
-@@ -59,13 +58,6 @@ static const int spi_irq[MSF2_NUM_SPIS] = { 2, 3 };
- static const int uart_irq[MSF2_NUM_UARTS] = { 10, 11 };
- static const int timer_irq[MSF2_NUM_TIMERS] = { 14, 15 };
- 
--static void do_sys_reset(void *opaque, int n, int level)
--{
--    if (level) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
- static void m2sxxx_soc_initfn(Object *obj)
- {
-     MSF2State *s = MSF2_SOC(obj);
-@@ -130,9 +122,6 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-         return;
-     }
- 
--    qdev_connect_gpio_out_named(DEVICE(&s->armv7m.nvic), "SYSRESETREQ", 0,
--                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
--
-     system_clock_scale = NANOSECONDS_PER_SECOND / s->m3clk;
- 
-     for (i = 0; i < MSF2_NUM_UARTS; i++) {
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 28eb15c76ca..5f9d0801807 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -18,7 +18,6 @@
- #include "hw/boards.h"
- #include "qemu/log.h"
- #include "exec/address-spaces.h"
--#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "hw/arm/armv7m.h"
- #include "hw/char/pl011.h"
-@@ -1206,14 +1205,6 @@ static void stellaris_adc_init(Object *obj)
-     qdev_init_gpio_in(dev, stellaris_adc_trigger, 1);
- }
- 
--static
--void do_sys_reset(void *opaque, int n, int level)
--{
--    if (level) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
- /* Board init.  */
- static stellaris_board_info stellaris_boards[] = {
-   { "LM3S811EVB",
-@@ -1317,9 +1308,6 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-     /* This will exit with an error if the user passed us a bad cpu_type */
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(nvic), &error_fatal);
- 
--    qdev_connect_gpio_out_named(nvic, "SYSRESETREQ", 0,
--                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
--
-     if (board->dc1 & (1 << 16)) {
-         dev = sysbus_create_varargs(TYPE_STELLARIS_ADC, 0x40038000,
-                                     qdev_get_gpio_in(nvic, 14),
--- 
-2.20.1
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
