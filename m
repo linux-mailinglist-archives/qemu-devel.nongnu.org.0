@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB6A22FEC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:12:34 +0200 (CEST)
-Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DEDF22FEE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:26:50 +0200 (CEST)
+Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0EAT-0000WL-VJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
+	id 1k0EOG-0006Wf-Va
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
- id 1k0E7k-0005eR-Ut
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:09:44 -0400
-Received: from mga06.intel.com ([134.134.136.31]:61355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
- id 1k0E7i-0001ph-AU
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:09:44 -0400
-IronPort-SDR: +/4/sIRekadl6QuHEeutLBE211EJmWSFwurvufu8fo8+mSZZR/tM+F0EWRnb34EkR+ec54WXWv
- XwLonS2iyFDA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="212658095"
-X-IronPort-AV: E=Sophos;i="5.75,404,1589266800"; d="scan'208";a="212658095"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2020 18:09:33 -0700
-IronPort-SDR: 1Dazf2mhTEslFcuCB98A6IGK/VRIez9cT9+WHLdYFlww6E4QQW6zAhQzlS8nEnYP+W/uGGs2Ls
- r+MXWfAcVBBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,404,1589266800"; d="scan'208";a="329874218"
-Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.6.132])
- ([10.238.6.132])
- by orsmga007.jf.intel.com with ESMTP; 27 Jul 2020 18:09:32 -0700
-Subject: Re: [PATCH] docs/nvdimm: add 'pmem=on' for the device dax backend file
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20200715025429.28657-1-jingqi.liu@intel.com>
-From: "Liu, Jingqi" <jingqi.liu@intel.com>
-Message-ID: <f9215aa3-bffe-210b-2eef-560532a57460@intel.com>
-Date: Tue, 28 Jul 2020 09:09:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k0ENV-00066B-GD
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:26:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k0ENT-0003uX-7z
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:26:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k0ENR-000774-1u
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:25:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 046ED2E80EE
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:25:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200715025429.28657-1-jingqi.liu@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=jingqi.liu@intel.com;
- helo=mga06.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 21:09:34
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 Jul 2020 01:11:39 -0000
+From: John Snow <1681439@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr bugs-syssec janitor jnsnow kempniu th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?b?TWljaGHFgiBLxJlwaWXFhCAoa2VtcG5pdSk=?=
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <20170410132346.31250.84835.malonedeb@wampee.canonical.com>
+Message-Id: <159589869923.9862.12491854264782196101.malone@chaenomeles.canonical.com>
+Subject: [Bug 1681439] Re: qemu-system-x86_64: hw/ide/core.c:685:
+ ide_cancel_dma_sync: Assertion `s->bus->dma->aiocb == NULL' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 65d61b2984fb3cdb3edd7551bd5024d4cabeb130
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 21:25:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,51 +73,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1681439 <1681439@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+The qtest reproducers are so nice.
 
-Any comments for this patch ?
+writel 0x0 0xffffffff
 
-Thanks,
+outw 0x171 0x32a
+  features :=3D 0x2a    b8cb
+  count :=3D 0x03;      b8cb
+outw 0x176 0x3570
+  device :=3D 0x70     (select device1)   b8cb
+  command :=3D 0x35    (DMA WRITE EXT)    8f98
 
-Jingqi
+outl 0xcf8 0x80000903
+outl 0xcfc 0x4e002700
+outl 0xcf8 0x80000920
+outb 0xcfc 0x5e
 
-On 7/15/2020 10:54 AM, Liu, Jingqi wrote:
-> At the end of live migration, QEMU uses msync() to flush the data to
-> the backend storage. When the backend file is a character device dax,
-> the pages explicitly avoid the page cache. It will return failure from msync().
-> The following warning is output.
->
->      "warning: qemu_ram_msync: failed to sync memory range“
->
-> So we add 'pmem=on' to avoid calling msync(), use the QEMU command line:
->
->      -object memory-backend-file,id=mem1,pmem=on,mem-path=/dev/dax0.0,size=4G
->
-> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-> ---
->   docs/nvdimm.txt | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-> index c2c6e441b3..31048aff5e 100644
-> --- a/docs/nvdimm.txt
-> +++ b/docs/nvdimm.txt
-> @@ -243,6 +243,13 @@ use the QEMU command line:
->   
->       -object memory-backend-file,id=nv_mem,mem-path=/XXX/yyy,size=4G,pmem=on
->   
-> +At the end of live migration, QEMU uses msync() to flush the data to the
-> +backend storage. When the backend file is a character device dax, the pages
-> +explicitly avoid the page cache. It will return failure from msync().
-> +So we add 'pmem=on' to avoid calling msync(), use the QEMU command line:
-> +
-> +    -object memory-backend-file,id=mem1,pmem=on,mem-path=/dev/dax0.0,size=4G
-> +
->   References
->   ----------
->   
+outb 0x58 0xe1
+  bmdma_cmd_writeb val =3D 0xe1 [1110 0001]
+                           DMA READ ^  ^ DMA Start
+outw 0x57 0x0
+  bmdma_cmd_writeb val =3D 0x00 [0000 0000]
+                                       ^ DMA Cancel
+EOF
+
+
+This should be a straightforward DMA cancel. I added some more traces;
+
+# After the 0x35 command write:
+ide_exec_cmd IDE exec cmd: bus 0x561808b0ecc0; state 0x561808b0f118; cmd 0x=
+35
+ide_sector_start_dma IDEState 0x561808b0f118;
+ide_start_dma IDEState 0x561808b0f118;
+
+# After the 0xe1 bmdma kick:
+ide_dma_cb_entry IDEState 0x561808b0f118; ret 0;
+ide_dma_cb IDEState 0x561808b0f118; sector_num=3D1 n=3D259 cmd=3DDMA WRITE
+ide_dma_cb_next IDEState 0x561808b0f118;
+
+So far, pretty normal. IDE calls the HBA's DMA start, but the HBA
+doesn't have DMA enabled, so it stalls. Later, when we turn on DMA, the
+HBA engages the DMA callback and sets up the first transfer. This sets
+s->bus->dma->aiocb.
+
+Then, we try to cancel DMA:
+
+ide_cancel_dma_sync IDEState 0x561808b0f118;
+ide_cancel_dma_sync_remaining draining all remaining requests
+1343877@1595891049.469050:dma_blk_cb dbs=3D0x55baededdc50 ret=3D0
+1343877@1595891049.469054:dma_map_wait dbs=3D0x55baededdc50
+qemu-system-i386: /home/jsnow/src/qemu/hw/ide/core.c:732: void ide_cancel_d=
+ma_sync(IDEState *): Assertion `s->bus->dma->aiocb =3D=3D NULL' failed.
+
+We still have a DMA callback out, so we try to synchronously cancel it;
+but the blk_drain doesn't appear to be effective!
+
+We apparently wind up here:
+
+    if (dbs->iov.size =3D=3D 0) {
+        trace_dma_map_wait(dbs);
+        dbs->bh =3D aio_bh_new(dbs->ctx, reschedule_dma, dbs);
+        cpu_register_map_client(dbs->bh);
+        return;
+    }
+
+
+... The DMA simply re-schedules itself (?) when iov.size is zero. unfortuna=
+tely for us, that means that the original point of scheduling the drain doe=
+sn't work, because the DMA never returns all the way to the IDE device emul=
+ation code.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1681439
+
+Title:
+  qemu-system-x86_64: hw/ide/core.c:685: ide_cancel_dma_sync: Assertion
+  `s->bus->dma->aiocb =3D=3D NULL' failed.
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Since upgrading to QEMU 2.8.0, my Windows 7 64-bit virtual machines
+  started crashing due to the assertion quoted in the summary failing.
+  The assertion in question was added by commit 9972354856 ("block: add
+  BDS field to count in-flight requests").  My tests show that setting
+  discard=3Dunmap is needed to reproduce the issue.  Speaking of
+  reproduction, it is a bit flaky, because I have been unable to come up
+  with specific instructions that would allow the issue to be triggered
+  outside of my environment, but I do have a semi-sane way of testing that
+  appears to depend on a specific initial state of data on the underlying
+  storage volume, actions taken within the VM and waiting for about 20
+  minutes.
+
+  Here is the shortest QEMU command line that I managed to reproduce the
+  bug with:
+
+      qemu-system-x86_64 \
+          -machine pc-i440fx-2.7,accel=3Dkvm \
+          -m 3072 \
+          -drive file=3D/dev/lvm/qemu,format=3Draw,if=3Dide,discard=3Dunmap=
+ \
+  	-netdev tap,id=3Dhostnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno,vhos=
+t=3Don \
+          -device virtio-net-pci,netdev=3Dhostnet0 \
+  	-vnc :0
+
+  The underlying storage (/dev/lvm/qemu) is a thin LVM snapshot.
+
+  QEMU was compiled using:
+
+      ./configure --python=3D/usr/bin/python2.7 --target-list=3Dx86_64-soft=
+mmu
+      make -j3
+
+  My virtualization environment is not really a critical one and
+  reproduction is not that much of a hassle, so if you need me to gather
+  further diagnostic information or test patches, I will be happy to help.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1681439/+subscriptions
 
