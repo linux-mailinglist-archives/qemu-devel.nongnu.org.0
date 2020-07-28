@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463A722FEF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:36:45 +0200 (CEST)
-Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AA122FEFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:36:46 +0200 (CEST)
+Received: from localhost ([::1]:34248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0EXs-0001Aw-Bt
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
+	id 1k0EXt-0001Cv-NP
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0EWu-0000Lb-RL
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:35:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44572)
+ id 1k0EWw-0000Ly-4d
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:35:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0EWs-00052H-Tp
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:35:44 -0400
+ id 1k0EWs-00052I-To
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:35:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k0EWq-0008Cs-Lq
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:35:40 +0000
+ id 1k0EWr-0008A3-7s
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:35:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 92B612E80EE
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:35:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 39B662E80D2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 01:35:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2020 01:27:17 -0000
-From: John Snow <1883739@bugs.launchpad.net>
+Date: Tue, 28 Jul 2020 01:29:34 -0000
+From: John Snow <1681439@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
  assignee=jsnow@redhat.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bugs-syssec jnsnow
-X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
+X-Launchpad-Bug-Commenters: a1xndr bugs-syssec janitor jnsnow kempniu th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?b?TWljaGHFgiBLxJlwaWXFhCAoa2VtcG5pdSk=?=
 X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-X-Launchpad-Bug-Duplicate: 1777315
-References: <159232297702.28606.15425668787325606341.malonedeb@soybean.canonical.com>
-Message-Id: <159589963744.3412.2947305099743233679.launchpad@gac.canonical.com>
-Subject: [Bug 1883739] Re: ide_dma_cb: Assertion `prep_size >= 0 && prep_size
- <= n * 512' failed.
+References: <20170410132346.31250.84835.malonedeb@wampee.canonical.com>
+Message-Id: <159589977487.5696.18052729090937478864.launchpad@soybean.canonical.com>
+Subject: [Bug 1681439] Re: qemu-system-x86_64: hw/ide/core.c:685:
+ ide_cancel_dma_sync: Assertion `s->bus->dma->aiocb == NULL' failed.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 140e62e6c0e5b1204e4c134c59a7635d8b44b18c
+X-Launchpad-Hash: b2eac806a618a6a12460bcd0c6d6dfeafab13644
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 21:25:57
@@ -74,50 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883739 <1883739@bugs.launchpad.net>
+Reply-To: Bug 1681439 <1681439@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1777315 ***
-    https://bugs.launchpad.net/bugs/1777315
-
-** This bug has been marked a duplicate of bug 1777315
-   Denial of service
+** Changed in: qemu
+       Status: Confirmed =3D> In Progress
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883739
+https://bugs.launchpad.net/bugs/1681439
 
 Title:
-  ide_dma_cb: Assertion `prep_size >=3D 0 && prep_size <=3D n * 512' failed.
+  qemu-system-x86_64: hw/ide/core.c:685: ide_cancel_dma_sync: Assertion
+  `s->bus->dma->aiocb =3D=3D NULL' failed.
 
 Status in QEMU:
-  Confirmed
+  In Progress
 
 Bug description:
-  To reproduce run the QEMU with the following command line:
-  ```
-  qemu-system-x86_64 -cdrom hypertrash.iso -nographic -m 100 -enable-kvm -n=
-et none -drive id=3Ddisk,file=3Dhda.img,if=3Dnone -device ahci,id=3Dahci -d=
-evice ide-hd,drive=3Ddisk,bus=3Dahci.0
-  ```
+  Since upgrading to QEMU 2.8.0, my Windows 7 64-bit virtual machines
+  started crashing due to the assertion quoted in the summary failing.
+  The assertion in question was added by commit 9972354856 ("block: add
+  BDS field to count in-flight requests").  My tests show that setting
+  discard=3Dunmap is needed to reproduce the issue.  Speaking of
+  reproduction, it is a bit flaky, because I have been unable to come up
+  with specific instructions that would allow the issue to be triggered
+  outside of my environment, but I do have a semi-sane way of testing that
+  appears to depend on a specific initial state of data on the underlying
+  storage volume, actions taken within the VM and waiting for about 20
+  minutes.
 
-  QEMU Version:
-  ```
-  # qemu-5.0.0
-  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
-  $ x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 5.0.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-  ```
+  Here is the shortest QEMU command line that I managed to reproduce the
+  bug with:
 
-  To create disk image run:
-  ```
-  dd if=3D/dev/zero of=3Dhda.img bs=3D1024 count=3D1024
-  ```
+      qemu-system-x86_64 \
+          -machine pc-i440fx-2.7,accel=3Dkvm \
+          -m 3072 \
+          -drive file=3D/dev/lvm/qemu,format=3Draw,if=3Dide,discard=3Dunmap=
+ \
+  	-netdev tap,id=3Dhostnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno,vhos=
+t=3Don \
+          -device virtio-net-pci,netdev=3Dhostnet0 \
+  	-vnc :0
+
+  The underlying storage (/dev/lvm/qemu) is a thin LVM snapshot.
+
+  QEMU was compiled using:
+
+      ./configure --python=3D/usr/bin/python2.7 --target-list=3Dx86_64-soft=
+mmu
+      make -j3
+
+  My virtualization environment is not really a critical one and
+  reproduction is not that much of a hassle, so if you need me to gather
+  further diagnostic information or test patches, I will be happy to help.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883739/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1681439/+subscriptions
 
