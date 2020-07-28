@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E202303F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:21:40 +0200 (CEST)
-Received: from localhost ([::1]:52770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C18223038A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:11:34 +0200 (CEST)
+Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Jvf-0006MS-K0
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
+	id 1k0Jls-00086E-S9
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Juo-0005my-BS
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Jul-0000k2-D5
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:20:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k0Juj-0000fJ-7C
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 07:20:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B8872E80D2
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 07:20:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0Jku-0007ay-Qo
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:10:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38393
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0Jks-0007e1-4P
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:10:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595920228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bi3XAWtGzW8VXmlrE4wOEJkpx+dsTooU3HE+QJViYNE=;
+ b=GVXQTfkYCH2yjQ/XoLceGaanngtRP3g31AJI/3f18uH/6u0f6DdegUNpWj3AoOL528xYjs
+ 2octp5EXBM+ofsE5LkA9d0QUS1Y9ECw8ud3Oh8t3b4mXOuOrB+ghRyKqxh1R50UGhCKNLC
+ XS1wamdPD/lQgL77JA46C1L2Vs6bLM8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-8cDU_wVyNiuiyOwUviqdWA-1; Tue, 28 Jul 2020 03:10:26 -0400
+X-MC-Unique: 8cDU_wVyNiuiyOwUviqdWA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4E5A1005510;
+ Tue, 28 Jul 2020 07:10:24 +0000 (UTC)
+Received: from gondolin (ovpn-113-21.ams2.redhat.com [10.36.113.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 708D05D9CD;
+ Tue, 28 Jul 2020 07:10:16 +0000 (UTC)
+Date: Tue, 28 Jul 2020 09:10:14 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFCv3 6/9] s390x/diag: subcode to query device memory
+ region
+Message-ID: <20200728091014.173a7d18.cohuck@redhat.com>
+In-Reply-To: <68205bc1-1ac4-a023-0531-aa1a0c91e17d@redhat.com>
+References: <20200724143750.59836-1-david@redhat.com>
+ <20200724143750.59836-7-david@redhat.com>
+ <20200727114819.3f816010.cohuck@redhat.com>
+ <963e5931-117e-48cb-b829-d630abff9e42@redhat.com>
+ <20200727120930.7b8803e4.cohuck@redhat.com>
+ <520ac822-df67-b33a-378f-a8f91a3bed2f@redhat.com>
+ <20200727111546.GA13770@osiris>
+ <68205bc1-1ac4-a023-0531-aa1a0c91e17d@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2020 07:05:53 -0000
-From: Thomas Huth <1888923@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: bandwidth hmat hmat-lb latency
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: imammedo rvdixit23
-X-Launchpad-Bug-Reporter: Vishnu Dixit (rvdixit23)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159566199879.4877.1642879405857907906.malonedeb@wampee.canonical.com>
-Message-Id: <159591995442.4950.15737201959046694076.launchpad@soybean.canonical.com>
-Subject: [Bug 1888923] Re: Configured Memory access latency and bandwidth not
- taking effect
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 320c71f297a396876913c478b35dcea7bd955953
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 02:15:06
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,106 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888923 <1888923@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+On Mon, 27 Jul 2020 14:02:47 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
--- =
+> On 27.07.20 13:15, Heiko Carstens wrote:
+> > On Mon, Jul 27, 2020 at 12:12:02PM +0200, David Hildenbrand wrote:  
+> >>>>>> +#define DIAG500_DEVICE_MEMORY_REGION   4    
+> >>>>>
+> >>>>> Regardless what we end up with, this needs to be specified
+> >>>>> somewhere(tm).  
+> >>>>
+> >>>> Yeah, there, we should also document the existing subcodes. What would
+> >>>> be the right place for this? The kernel feels somewhat wrong to me.  
+> >>>
+> >>> The still supported subcode 3 is properly specified in the virtio spec.
+> >>> That's not a good place for that new one, though.
+> >>>
+> >>> QEMU is probably a better place than the kernel to specify stuff,
+> >>> although it's not really ideal, either. OTOH, do we ever expect other
+> >>> hypervisors to implement this new subcode?  
+> >>
+> >> cloud-hypervisor implements virtio-mem. If it were ever to support s390x
+> >> (guess it does not yet), it would also want to implement that one. But
+> >> then, it can just look at QEMU doc I guess :)  
+> > 
+> > It must be well defined and easy to find also for kernel developers
+> > who actually have to care about memory detection code :)  
+> 
+> So I'd suggest documenting it in QEMU (docs/specs ...) for now, and
+> referencing it from the relevant Linux patch - other suggestions?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888923
+That's probably the easiest way for now... the kernel's s390-diag.rst
+should also point to it.
 
-Title:
-  Configured Memory access latency and bandwidth not taking effect
+However, I think we really need a central place for definitions that
+are not just a Linux/QEMU interface, but can potentially also be used
+by other hypervisors/guests. Nothing as complicated as an OASIS spec,
+but maybe a git??b project?
 
-Status in QEMU:
-  Invalid
-
-Bug description:
-  I was trying to configure latencies and bandwidths between nodes in a
-  NUMA emulation using QEMU 5.0.0.
-
-  Host : Ubuntu 20.04 64 bit
-  Guest : Ubuntu 18.04 64 bit
-
-  The machine configured has 2 nodes. Each node has 2 CPUs and has been
-  allocated 3GB of memory. The memory access latencies and bandwidths
-  for a local access (i.e from initiator 0 to target 0, and from
-  initiator 1 to target 1) are set as 40ns and 10GB/s respectively. The
-  memory access latencies and bandwidths for a remote access (i.e from
-  initiator 1 to target 0, and from initiator 0 to target 1) are set as
-  80ns and 5GB/s respectively.
-
-  The command line launch is as follows.
-
-  sudo x86_64-softmmu/qemu-system-x86_64  \
-  -machine hmat=3Don \
-  -boot c \
-  -enable-kvm \
-  -m 6G,slots=3D2,maxmem=3D7G \
-  -object memory-backend-ram,size=3D3G,id=3Dm0 \
-  -object memory-backend-ram,size=3D3G,id=3Dm1 \
-  -numa node,nodeid=3D0,memdev=3Dm0 \
-  -numa node,nodeid=3D1,memdev=3Dm1 \
-  -smp 4,sockets=3D4,maxcpus=3D4  \
-  -numa cpu,node-id=3D0,socket-id=3D0 \
-  -numa cpu,node-id=3D0,socket-id=3D1 \
-  -numa cpu,node-id=3D1,socket-id=3D2 \
-  -numa cpu,node-id=3D1,socket-id=3D3 \
-  -numa dist,src=3D0,dst=3D1,val=3D20 \
-  -net nic \
-  -net user \
-  -hda testing.img \
-  -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dacc=
-ess-latency,latency=3D40 \
-  -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dacc=
-ess-bandwidth,bandwidth=3D10G \
-  -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dacc=
-ess-latency,latency=3D80 \
-  -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dacc=
-ess-bandwidth,bandwidth=3D5G \
-  -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Dacc=
-ess-latency,latency=3D80 \
-  -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Dacc=
-ess-bandwidth,bandwidth=3D5G \
-  -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Dacc=
-ess-latency,latency=3D40 \
-  -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Dacc=
-ess-bandwidth,bandwidth=3D10G \
-
-  Then the latencies and bandwidths between the nodes were tested using
-  the Intel Memory Latency Checker v3.9
-  (https://software.intel.com/content/www/us/en/develop/articles/intelr-
-  memory-latency-checker.html). But the obtained results did not match
-  the configuration. The following are the results obtained.
-
-  Latency_matrix with idle latencies (in ns)
-
-  Numa Node
-  . .0. . .1.
-  0 36.2 36.4
-  1 34.9 35.4
-
-  Bandwidth_matrix with memory bandwidths (in MB/s)
-
-  Numa Node
-  . . .0. . . .1. =
-
-  0 15167.1 15308.9
-  1 15226.0 15234.0
-
-  A test was also conducted with the tool =E2=80=9Clat_mem_rd=E2=80=9D from=
- lmbench to
-  measure the memory read latencies. This also gave results which did
-  not match the config.
-
-  Any information on why the config latency and bandwidth values are not
-  applied, would be appreciated.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888923/+subscriptions
 
