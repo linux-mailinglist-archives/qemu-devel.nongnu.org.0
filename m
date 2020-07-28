@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4D72303EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:20:44 +0200 (CEST)
-Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B89230412
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:27:13 +0200 (CEST)
+Received: from localhost ([::1]:55812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Jul-0005Jz-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34378)
+	id 1k0K12-000894-Do
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k0Jth-0004sN-8m
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:19:37 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55835
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k0K0A-0007bk-1j
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:26:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40409
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k0Jtf-0000Tu-Jm
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:19:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k0K08-0001S0-Dk
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:26:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595920773;
+ s=mimecast20190719; t=1595921175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=etsKp6eUHvowZpjko+WHii8IkNFTldq5c81krElRdoU=;
- b=DDct2mh5OJ6oGrpf9vYz1N30ERI0ZrTQU9g0XWnPO9voh0V2lwF931+Ta72qotEbR3cCba
- +NkbePJG5wafhKWfsSaxGvJ6FaaW5CqaK0PGzorW+M3z9QTZzrjZKbu8xNGqDIVY/oPj12
- eOdLzEjmc/A5Ub13bHiHG76l2IkIEGw=
+ bh=2QsXihKapXiQQ5rbKZwXsdyE49ycyb3Cw3o87/w3AfM=;
+ b=iEksaWYoLWb4QkbLTNoaItlBdL0iG2E1q6XvrkqLzyOuZsBkTDbUKKd4yRFwZQdY6TFrwf
+ /Vmp/gb1fUHRpY4OH7S3hahvE+JTg3iCOL+o34x00W7zHvPVRSwHwSCgYPKYdpjn9AcF6q
+ N+OzrCDodr2/D1YAFx9Ac4YPfy/lHYQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-WYehxzBXMGiaRgiYBGYhPw-1; Tue, 28 Jul 2020 03:19:31 -0400
-X-MC-Unique: WYehxzBXMGiaRgiYBGYhPw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-105-ljFxoyvgOk-cQhHAfCztkw-1; Tue, 28 Jul 2020 03:26:12 -0400
+X-MC-Unique: ljFxoyvgOk-cQhHAfCztkw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9D458;
- Tue, 28 Jul 2020 07:19:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D096C1923761;
+ Tue, 28 Jul 2020 07:26:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68C8019C66;
- Tue, 28 Jul 2020 07:19:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6727D5DA72;
+ Tue, 28 Jul 2020 07:26:10 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E290F1132FD2; Tue, 28 Jul 2020 09:19:28 +0200 (CEST)
+ id D1C391132FD2; Tue, 28 Jul 2020 09:26:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: sysbus_create_simple Vs qdev_create
-References: <CA+aXn+EkkyiXmKpNhbggy0pjKVpiHxa+TUqEnZLB4v_D=T+7tA@mail.gmail.com>
- <CA+aXn+HHXAmT6Ljj2tpovGAYSurHKSdtUL3y-89t31B0e7jpsA@mail.gmail.com>
- <adb25c78-2edc-115a-5264-ca9f97864ec7@redhat.com>
- <87365t18mp.fsf@dusky.pond.sub.org>
- <CA+aXn+Guvt34PDD=N3FsD5w1C-aDXZ7gS8H_AZN-JEM8j8wBiQ@mail.gmail.com>
- <87lfjkvo81.fsf@dusky.pond.sub.org>
- <20200716222130.GO1274972@habkost.net>
- <87tuy6k9pa.fsf@dusky.pond.sub.org>
- <20200717162312.GR1274972@habkost.net>
- <87r1t6hc0f.fsf@dusky.pond.sub.org>
- <20200720155955.GV1274972@habkost.net>
- <87v9ihbe6u.fsf@dusky.pond.sub.org>
- <50e31ece-215c-a632-e5a2-86ae7ab3abab@redhat.com>
-Date: Tue, 28 Jul 2020 09:19:28 +0200
-In-Reply-To: <50e31ece-215c-a632-e5a2-86ae7ab3abab@redhat.com> (Paolo
- Bonzini's message of "Mon, 27 Jul 2020 16:29:43 +0200")
-Message-ID: <87lfj4f6nz.fsf@dusky.pond.sub.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 for-5.2 1/2] spapr: Use error_append_hint() in
+ spapr_caps.c
+References: <159491945918.188975.4358645698778061430.stgit@bahia.lan>
+ <159491947184.188975.5055299566400098290.stgit@bahia.lan>
+ <87mu3uciq4.fsf@dusky.pond.sub.org>
+ <20200727150425.2c7562ed@bahia.lan>
+Date: Tue, 28 Jul 2020 09:26:08 +0200
+In-Reply-To: <20200727150425.2c7562ed@bahia.lan> (Greg Kurz's message of "Mon, 
+ 27 Jul 2020 15:04:25 +0200")
+Message-ID: <87h7tsf6cv.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 00:06:48
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,7 +73,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,115 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Greg Kurz <groug@kaod.org> writes:
 
-> On 21/07/20 08:00, Markus Armbruster wrote:
->>> They are already mirrored as links, and guess what's the link
->>> name: "child[...]".
->> You're right, except for the link name: it's parent_bus.
+> On Mon, 20 Jul 2020 17:24:35 +0200
+> Markus Armbruster <armbru@redhat.com> wrote:
 >
-> There's links in both directions.
->
->> So the qtree is actually embedded in the QOM graph: it's the device and
->> bus nodes connected by the child edges from device to provided bus and
->> parent_bus link egdes from device to bus it's plugged into, except the
->> latter are backward rather than forward.
+>> Greg Kurz <groug@kaod.org> writes:
 >> 
->> Strange: even bus-less devices have this parent_bus link, and its value
->> is "" (the underlying pointer is null, and null gets mapped to "", for
->> better or worse).
+>> > We have a dedicated error API for hints. Use it instead of embedding
+>> > the hint in the error message, as recommanded in the "qapi/error.h"
+>> > header file.
+>> >
+>> > Since spapr_caps_apply() passes &error_fatal, all functions must
+>> > also call the ERRP_GUARD() macro for error_append_hint() to be
+>> > functional.
 >> 
->> Should the property be limited to devices that actually have a parent
->> bus?
+>> This isn't a request for change in this patch, just an attempt to squash
+>> possible misunderstandings.
+>> 
+>> It's true that error_append_hint() without ERRP_GUARD() works as long as
+>> the caller doesn't pass certain errp arguments.  But the callee should
+>> work for all possible @errp arguments, not just the ones that get passed
+>> today.  That's why error.h wants you to guard *all* uses of
+>> error_append_hint(errp):
+>> 
+>>  * = Why, when and how to use ERRP_GUARD() =
+>>  *
+>>  * Without ERRP_GUARD(), use of the @errp parameter is restricted:
+>>  * - It must not be dereferenced, because it may be null.
+>>  * - It should not be passed to error_prepend() or
+>>  *   error_append_hint(), because that doesn't work with &error_fatal.
+>>  * ERRP_GUARD() lifts these restrictions.
+>> 
 >
-> Yes, it could be done.
+> Yeah, I just wanted to emphasize that we were precisely in the case
+> where we _really_ need to lift the restriction, but I'm perfectly fine
+> with dropping this sentence if you consider it useless.
+
+I lean towards dropping it.
+
+> BTW, should we have a way for CI to ensure that a patch that adds
+> error_prepend(errp, ...) or error_append_hint(errp, ...) also adds
+> ERRP_GUARD() ? Not sure that people read error.h that often...
+
+I don't know.  Wait and see whether it's worth automating?  We didn't
+automate checking other Error API rules, like "no newlines in error
+messages".  That one can't crash, though.
+
+The check would have to look beyond the patch, which checkpatch.pl
+doesn't do.
+
+>> No need to make an argument involving the possible arguments (pardon the
+>> pun).
+>> 
 >
->>>> I don't know why the rebase of qdev onto QOM was done that way.  Perhaps
->>>> Paolo remembers.
->>> I'm guessing this is because QOM parent/child relationships
->>> represent ownership, while there's no ownership relationship
->>> between buses and devices.
->>
->> Plausible.  I guess the separate qtree was kept even though it's
->> redundant with the QOM graph because switching its users to the QOM
->> graph would be work.
+> :)
 >
-> No, it was kept because:
->
-> 1) the QOM graph wasn't embedding the qdev tree at the time.  That was
-> added later.
->
-> 2) the composition tree generally mirrors things that are born and die
-> at the same time, and creating children is generally reserved to the
-> object itself.
-
-Yes.  Notable exceptions: containers /machine/peripheral,
-/machine/peripheral-anon, /machine/unattached.
-
->                 Children are usually embedded directly in a struct, for
-> example.
-
-We sometimes use object_new() + object_property_add_child() instead.
-Extra indirection.  I guess we'd be better off without the extra
-indirection most of the time.  Implementation detail.
-
-We sometimes use object_new() without object_property_add_child(), and
-have qdev_realize() put the device in the /machine/unattached orphanage.
-Meh.  I guess the orphanage feature exists to make conversion to QOM
-slightly easier.  Could we ban its use for new boards at least?
-
->           Instead, peripherals are not created by the bus, they are
-> created by the device_add monitor command and the like.
-
-Plugged devices (the ones created with -device / device_add) have
-/machine/peripheral or /machine/peripheral-anon as QOM parent.
-
-> 3) accessing the QOM graph is slow (it requires hash table lookups,
-> string comparisons and all that), so the pointers that cache the
-> parent-child links are needed for use in hot paths.
-
-True, but only because QOM's design opts for generality, efficiency be
-damned :)
-
-The QOM graph's edges are properties.
-
-The child edges form the QOM composition tree.  The property contains
-the child in ObjectProperty member @opaque.  To go from parent to child,
-you have to get the property by name (hash table lookup), then follow
-@opaque.  Except that would be too simple (and way too efficient), so we
-convert pointers to QOM path names and back with visitors for accessing
-a single child, or iterate over all properties (hash table iteration)
-for accessing all children.
-
-There is also a pointer from child back to parent, which is not a
-property.  That one is actually fast and easy to use from C.
-
-The remaining QOM graph edges are link edges.  Compared to child edges,
-there's a further indirection through the LinkProperty struct, and no
-support for iterating over link edge targets.
-
-This design supports adding arbitrary children and links at run time,
-with the actual object none the wiser.
-
-A less general and more efficient design would put pointers right into
-the objects' structs, then wrap what we call class properties around the
-pointers.  C code for specific objects could then simply follow the
-pointers.  Generic code could still use properties.  If efficiency
-matters there, we could avoid the detour through path names.
-
-Properties backed by a (pointer-valued) struct member are less general,
-of course: you can't add this kind of property without first adding the
-struct member.  The property needs to be declared at compile time rather
-than built at run time.
-
-I never quite understood why we need to build properties at run time.
-It's makes reasoning about properties harder, and introspection brittle.
+>> [...]
+>> 
 
 
