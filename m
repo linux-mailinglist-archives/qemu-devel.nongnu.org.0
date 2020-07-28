@@ -2,120 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C455022FEB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:07:50 +0200 (CEST)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB6A22FEC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 03:12:34 +0200 (CEST)
+Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0E5t-0002mi-B4
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52466)
+	id 1k0EAT-0000WL-VJ
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 21:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1k0E4p-0002MO-TU
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:06:43 -0400
-Received: from esa8.fujitsucc.c3s2.iphmx.com ([68.232.159.88]:61698)
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1k0E7k-0005eR-Ut
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:09:44 -0400
+Received: from mga06.intel.com ([134.134.136.31]:61355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1k0E4m-0001XW-Jg
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:06:43 -0400
-IronPort-SDR: HPPtf7IzFTto7joHIMCWvTrLg1j7UX56ElCjembggH9jz96SAqSpJLCTYpow/OlfAMr3W5vq/8
- SpZV4hE5jdDJ1AqZ1lxLRj1CNPMS86gGZXV4Qs55XYh49iGvzGLCOlpk2S/lklPgenUZ2fyLe4
- fRL8mHzLexEJb5yes5+E5xVUO/MHqXYTvQkgAIEf/Og02OUei3g+NSf6+QoLgFx/PHVFFqKqA0
- Hd+gAR2Q57nDyEDD3T4tAIK/TUsCouYxU77fl/BqbWcoezgUXsOj6zVjd/wFtIIQbg7GvA8lHO
- jX4=
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="16082438"
-X-IronPort-AV: E=Sophos;i="5.75,404,1589209200"; d="scan'208";a="16082438"
-Received: from mail-os2jpn01lp2052.outbound.protection.outlook.com (HELO
- JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.52])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2020 10:06:32 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bjyHlJtAWnDYyGLgmIUlKZXEKwIXx95lRVOrlFHQA+YGgw32o/S2svNkCR5Ut5OO84eEyyVawjIoA75o6AaxeiQr+7I8AS+JOWXQ6tv9FqfVrIRpJ76sb6FRtIwZHsDu6K6JF+IB+u1hIfkKiPkt9M+KJm7hCJkEyERs7ToE8hrp78fOSEbUMdAUKv/AxYTvOY1S2bdVqnc0L11+d2cvW7l2Mv92U7vlQsbZls89GVYw5ddrAxtzz6n3xXv84K1Z0uGTa6k0eg7lL5hsw/T4wVCCFrVfMTANrKM2MDK74oiR/++35ql1qLLWQ1doF5IEHO6fEtKFhtZd+kp9wNWBcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iJLwpsTVnamdBcvWM3pinX7B3nkos738/piCt9lRNMc=;
- b=AKz2iQ7IbeDpFxUTX7ToXOZx7oIn7Ngn6cUa+Ltquxxy77OOSPZ7jy9o6NBBr3ra3ApP2qWbpo31xo1kwGcfqBcrmxaKMUOS92s4pvwQ3gE1X5RB5YnQE/S+UvIwfuz02Sm2AJ5I3OPSzA586zgYOrYmhUrkaNZmNcJHtwXwU66Ea2DLNIVJic/FWNSWjpqY9baHL5iza47CFI1AtzCe9r4mRns8oyzrN5S+XU+T8oRgj9Pgdz5s3VRpiOFbfr9T6scaAR9ahHxBtZA0VOA/YSotXAd/K7dXyUT7X4bTHtotmSWxZ2ATsNRs5qpyqFhzHP7WTIPq3tJeaKAHf4QtTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iJLwpsTVnamdBcvWM3pinX7B3nkos738/piCt9lRNMc=;
- b=msblpOIW9d4SS3JGe+spzmO/ebCMAuFn7GsyYwfM1LpjdHgRP6QrIc68CJ4l8BS6K3Mlnu6vdnCFrHAZwLMEjMLtFgguCv+OSqb9av+whTA56VbB+TTyDYQ4jo4dl9acq+tr9ywZNMxnkHxFbvqRU3FTHHQcXYyY8ibBVPYr6AE=
-Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com (2603:1096:604:74::21)
- by OSAPR01MB2356.jpnprd01.prod.outlook.com (2603:1096:604:4::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
- 2020 01:06:30 +0000
-Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com
- ([fe80::d8f2:88cb:21f7:f426]) by OSBPR01MB4582.jpnprd01.prod.outlook.com
- ([fe80::d8f2:88cb:21f7:f426%3]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
- 01:06:30 +0000
-From: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>
-To: 'Stefan Hajnoczi' <stefanha@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an
- error
-Thread-Topic: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an
- error
-Thread-Index: AQHWZEivmvW03GFCrkeQVmLj4OJ+oKkcK5UA
-Date: Tue, 28 Jul 2020 01:05:10 +0000
-Deferred-Delivery: Tue, 28 Jul 2020 01:06:10 +0000
-Message-ID: <OSBPR01MB45826073E5A54CF869E56721E5730@OSBPR01MB4582.jpnprd01.prod.outlook.com>
-References: <20200727190223.422280-1-stefanha@redhat.com>
- <20200727190223.422280-4-stefanha@redhat.com>
-In-Reply-To: <20200727190223.422280-4-stefanha@redhat.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-shieldmailcheckermailid: 54bd764f6b734f24b691a183ef9bbd28
-x-securitypolicycheck: OK by SHieldMailChecker v2.6.3
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [118.155.224.185]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4bf4e8c7-3b4e-4566-6589-08d83292760e
-x-ms-traffictypediagnostic: OSAPR01MB2356:
-x-microsoft-antispam-prvs: <OSAPR01MB2356CA84ED9D499E9D4297A4E5730@OSAPR01MB2356.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: THC30Mt2S7RcDoXmRRURNWK/XMlFgWFJjym8PM/7kNTUKKZ+M5cJDWXiUMOwReb7bzI8KhW0hGmxmj4Gr9uUYAPv9Xw05Qm7yQ4r/H9gSXY6tqGMPoZ/40v7tT8QG+F7Ysp8hhtSxOfgqSFtwPbMHxDoYoSxI3iv0X/00k0GrlnbaIg1Vt+5Be3fUi4FL6zKN3A/PZWIVik+nW6B39CsQrirO/zaWpKXctHZfkGy0w6UU9wpUmFRV+WTuEF9xgUIfx8sgd5EAHnpbq+zJcPcEcbqJk6qlxDunkeUfpJY6xD/Av+LJNrytPkMjMa+TymatXxId1BgMuC5ci3yih2ZM0Gqi7Fv468QpDYOKUyzwoulJv6dahfaEh9K3YeSO6Ic9h7Gb50TOfzHb1Pqwm4PdG2STG/fOKr1FEShSR65TWskxQNLPdszqrO5UNphJSOi
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OSBPR01MB4582.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(86362001)(8936002)(7696005)(83380400001)(110136005)(85182001)(54906003)(55016002)(8676002)(33656002)(6666004)(26005)(83080400001)(66446008)(64756008)(66946007)(66476007)(76116006)(4326008)(2906002)(478600001)(186003)(966005)(52536014)(316002)(6506007)(5660300002)(71200400001)(66556008)(9686003)(777600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: 8yaYL8sJd8+KabkaFYLaXYXTB64NYh5SLLezwFQAhpVsNmmhr+o9WEUZJMZ3jes7zPKsrLHD6OQevYfDTCs7jLJtRD8yQFesH2+EhvO9Yc6qXC7RHFopFE0wK0iCmxSGmH9SsFsy7t7/SKLYwGiXdl/K1Ia9MfpEBmy30amF3PVPth+UvPUOHh7H+Ju4NYA5rPr2Pnf+a9V7txDP3MZ5GdtszxdtihXALr8Qi+ABUzQMyFlhRNEbKrFZw99ZvpeNwG19aosGt8Q1QLvaxlVfnZkJcotpYA/RAmVOYfSOPZ4nxTxMK7CsR8VlY3fG1M4xelmXAifj6A9XcAefbo05AULlgXjhh+A++pCHD/WXtIQ5nVTG6ob2xK7+65ryNm7Sf1ZqVjpofNsy/G+dJGoJip/EONwTwdl0V0WuyMreCAO7aHAgq1aArzm2z1/B9M0lSYbbESDA0O1ZuX1oUPuIM9toxnoF1hzMVWw4MstNxR6kZHC9KMPBkurncAxDXNoQ
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1k0E7i-0001ph-AU
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 21:09:44 -0400
+IronPort-SDR: +/4/sIRekadl6QuHEeutLBE211EJmWSFwurvufu8fo8+mSZZR/tM+F0EWRnb34EkR+ec54WXWv
+ XwLonS2iyFDA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="212658095"
+X-IronPort-AV: E=Sophos;i="5.75,404,1589266800"; d="scan'208";a="212658095"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2020 18:09:33 -0700
+IronPort-SDR: 1Dazf2mhTEslFcuCB98A6IGK/VRIez9cT9+WHLdYFlww6E4QQW6zAhQzlS8nEnYP+W/uGGs2Ls
+ r+MXWfAcVBBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,404,1589266800"; d="scan'208";a="329874218"
+Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.6.132])
+ ([10.238.6.132])
+ by orsmga007.jf.intel.com with ESMTP; 27 Jul 2020 18:09:32 -0700
+Subject: Re: [PATCH] docs/nvdimm: add 'pmem=on' for the device dax backend file
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20200715025429.28657-1-jingqi.liu@intel.com>
+From: "Liu, Jingqi" <jingqi.liu@intel.com>
+Message-ID: <f9215aa3-bffe-210b-2eef-560532a57460@intel.com>
+Date: Tue, 28 Jul 2020 09:09:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB4582.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4bf4e8c7-3b4e-4566-6589-08d83292760e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2020 01:06:29.9474 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mAhti4sCSApZDPciksL/mcip9a+ZkzgjAfdY4INycFBhQOdOYPazD/iPFgxFOzzzCuW3PlgTuKDtmEZblLPzxtfmUuYomJjmI7bBIoFfeag=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB2356
-Received-SPF: pass client-ip=68.232.159.88;
- envelope-from=misono.tomohiro@fujitsu.com; helo=esa8.fujitsucc.c3s2.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 21:06:35
+In-Reply-To: <20200715025429.28657-1-jingqi.liu@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=jingqi.liu@intel.com;
+ helo=mga06.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 21:09:34
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,88 +68,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "vromanso@redhat.com" <vromanso@redhat.com>,
- Daniel Walsh <dwalsh@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "rmohr@redhat.com" <rmohr@redhat.com>,
- "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- "mpatel@redhat.com" <mpatel@redhat.com>,
- "vgoyal@redhat.com" <vgoyal@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Subject: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an e=
-rror
->=20
-> An assertion failure is raised during request processing if
-> unshare(CLONE_FS) fails. Implement a probe at startup so the problem can
-> be detected right away.
->=20
-> Unfortunately Docker/Moby does not include unshare in the seccomp.json
-> list unless CAP_SYS_ADMIN is given. Other seccomp.json lists always
-> include unshare (e.g. podman is unaffected):
-> https://raw.githubusercontent.com/seccomp/containers-golang/master/seccom=
-p.json
->=20
-> Use "docker run --security-opt seccomp=3Dpath/to/seccomp.json ..." if the
-> default seccomp.json is missing unshare.
+Hi Paolo,
 
-Hi, sorry for a bit late.
+Any comments for this patch ?
 
-unshare() was added to fix xattr problem:=20
-  https://github.com/qemu/qemu/commit/bdfd66788349acc43cd3f1298718ad491663c=
-fcc#
-In theory we don't need to call unshare if xattr is disabled, but it is har=
-d to get to know
-if xattr is enabled or disabled in fv_queue_worker(), right?
+Thanks,
 
-So, it looks good to me.
-Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Jingqi
 
-Regards,
-Misono
-
->=20
-> Cc: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 7/15/2020 10:54 AM, Liu, Jingqi wrote:
+> At the end of live migration, QEMU uses msync() to flush the data to
+> the backend storage. When the backend file is a character device dax,
+> the pages explicitly avoid the page cache. It will return failure from msync().
+> The following warning is output.
+>
+>      "warning: qemu_ram_msync: failed to sync memory range“
+>
+> So we add 'pmem=on' to avoid calling msync(), use the QEMU command line:
+>
+>      -object memory-backend-file,id=mem1,pmem=on,mem-path=/dev/dax0.0,size=4G
+>
+> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
 > ---
->  tools/virtiofsd/fuse_virtio.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->=20
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.=
-c
-> index 3b6d16a041..9e5537506c 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -949,6 +949,22 @@ int virtio_session_mount(struct fuse_session *se)
->  {
->      int ret;
->=20
-> +    /*
-> +     * Test that unshare(CLONE_FS) works. fv_queue_worker() will need it=
-. It's
-> +     * an unprivileged system call but some Docker/Moby versions are kno=
-wn to
-> +     * reject it via seccomp when CAP_SYS_ADMIN is not given.
-> +     *
-> +     * Note that the program is single-threaded here so this syscall has=
- no
-> +     * visible effect and is safe to make.
-> +     */
-> +    ret =3D unshare(CLONE_FS);
-> +    if (ret =3D=3D -1 && errno =3D=3D EPERM) {
-> +        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_FS) failed with EPERM. If =
-"
-> +                "running in a container please check that the container =
-"
-> +                "runtime seccomp policy allows unshare.\n");
-> +        return -1;
-> +    }
+>   docs/nvdimm.txt | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+> index c2c6e441b3..31048aff5e 100644
+> --- a/docs/nvdimm.txt
+> +++ b/docs/nvdimm.txt
+> @@ -243,6 +243,13 @@ use the QEMU command line:
+>   
+>       -object memory-backend-file,id=nv_mem,mem-path=/XXX/yyy,size=4G,pmem=on
+>   
+> +At the end of live migration, QEMU uses msync() to flush the data to the
+> +backend storage. When the backend file is a character device dax, the pages
+> +explicitly avoid the page cache. It will return failure from msync().
+> +So we add 'pmem=on' to avoid calling msync(), use the QEMU command line:
 > +
->      ret =3D fv_create_listen_socket(se);
->      if (ret < 0) {
->          return ret;
-> --
-> 2.26.2
-
+> +    -object memory-backend-file,id=mem1,pmem=on,mem-path=/dev/dax0.0,size=4G
+> +
+>   References
+>   ----------
+>   
 
