@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A80A2308DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 13:38:12 +0200 (CEST)
-Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC3B230900
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 13:39:44 +0200 (CEST)
+Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Nvv-0008ND-2p
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 07:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
+	id 1k0NxP-0001k4-65
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 07:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k0Nty-0006K1-6D
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:36:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53666
+ id 1k0NuV-00071j-04
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:36:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57737
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k0Ntv-0002MB-6z
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:36:09 -0400
+ id 1k0NuT-0002Qd-9s
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:36:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595936166;
+ s=mimecast20190719; t=1595936200;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wMqhzE+S9oR1YMXqhq1BnEaokUrYMTNG5WKLwVuwXRQ=;
- b=EuTnwCPFKZObFGX5Om3G1YVJBtPl2pUPb81KvXdOW26nBELIEvHEUCusnBkd2pyMrpfs5k
- cZR3EiGuyfD3vaQzs3ooeh5IvyDEsNkDK8YSbq3TevncphOx+XiGRQjrSnz50ynqg3zY1A
- gruaUCjUPMMwghAQ0mGENLZcJQ+X25w=
+ bh=d8SabgdVUpt+n/vtaiwrQWUwdJpKAGQ3f4JT78wT8UM=;
+ b=Tn/tYpbougpg2CpG5Hw25qsTfBocqo/uAMFL+cnMmBsK1Zb1LDqFh1+OQ5LyhxuAxRY0Hb
+ VmNdi/b3l4QKwE1nDAgk4N0v2NUjbltiebOWWaaO4LGJGtS8Zx+8Tqs4AjUShHD0adC9XU
+ ekQl9jjeOxcJYICYrNAQb1JJeFTT0sA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-s3D4N8ewPheyXIWR0imDNw-1; Tue, 28 Jul 2020 07:36:04 -0400
-X-MC-Unique: s3D4N8ewPheyXIWR0imDNw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-278-R5r5wtE2M3uasN4vI5O-Vw-1; Tue, 28 Jul 2020 07:36:36 -0400
+X-MC-Unique: R5r5wtE2M3uasN4vI5O-Vw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EA31102C848;
- Tue, 28 Jul 2020 11:36:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2899102C7EC;
+ Tue, 28 Jul 2020 11:36:35 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B24A60BF4;
- Tue, 28 Jul 2020 11:35:58 +0000 (UTC)
-Date: Tue, 28 Jul 2020 12:35:55 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8E265D9CD;
+ Tue, 28 Jul 2020 11:36:29 +0000 (UTC)
+Date: Tue, 28 Jul 2020 12:36:26 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v5 3/7] chardev/char-socket.c: Add yank feature
-Message-ID: <20200728113555.GC3437398@redhat.com>
+Subject: Re: [PATCH v5 4/7] migration: Add yank feature
+Message-ID: <20200728113626.GD3437398@redhat.com>
 References: <cover.1592923201.git.lukasstraub2@web.de>
- <f98dad765c275daa6b822eba1ad27f8ca74b35d3.1592923201.git.lukasstraub2@web.de>
+ <5f155c94d2d516bf2a10cb183b1740f7d56f0459.1592923201.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <f98dad765c275daa6b822eba1ad27f8ca74b35d3.1592923201.git.lukasstraub2@web.de>
+In-Reply-To: <5f155c94d2d516bf2a10cb183b1740f7d56f0459.1592923201.git.lukasstraub2@web.de>
 User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
@@ -72,7 +70,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,13 +92,18 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 23, 2020 at 04:42:48PM +0200, Lukas Straub wrote:
-> Register a yank function to shutdown the socket on yank.
+On Tue, Jun 23, 2020 at 04:42:52PM +0200, Lukas Straub wrote:
+> Register yank functions on sockets to shut them down.
 > 
 > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 > ---
->  chardev/char-socket.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  migration/channel.c           | 12 ++++++++++++
+>  migration/migration.c         | 18 +++++++++++++++++-
+>  migration/multifd.c           | 10 ++++++++++
+>  migration/qemu-file-channel.c |  6 ++++++
+>  migration/savevm.c            |  2 ++
+>  tests/Makefile.include        |  2 +-
+>  6 files changed, 48 insertions(+), 2 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
