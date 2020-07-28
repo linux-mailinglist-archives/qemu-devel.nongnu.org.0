@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D55923075B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:10:45 +0200 (CEST)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A335230781
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 12:18:18 +0200 (CEST)
+Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0MZI-0006JK-F8
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
+	id 1k0Mgb-00027K-NQ
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 06:18:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k0MYA-0005Ng-8L
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:09:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29589
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k0MY7-0006u5-DZ
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 06:09:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595930970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BhUW9ESioUiSA1BxCHyRzLsoe5bVOy2Ifgl37qfIfW8=;
- b=M1NjIiBcjrot7DWhYtF7aKO/qSfinOA8LevBZzsPan0Mgj49Al0NeqNbtcZRx5QrmQBRXo
- dxBEVNer32uiZinbJIYLTo2uedbvtVL8CiJy75F9Ycvatp7nV6ZxvlQCrtlonk50acMBic
- T+JlF6CRHB5IF/gqOdbUotbhDRgTjfY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-U_OYnENiNLiJvY542YaO1A-1; Tue, 28 Jul 2020 06:09:28 -0400
-X-MC-Unique: U_OYnENiNLiJvY542YaO1A-1
-Received: by mail-wm1-f70.google.com with SMTP id h205so8702012wmf.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 03:09:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BhUW9ESioUiSA1BxCHyRzLsoe5bVOy2Ifgl37qfIfW8=;
- b=qa5cCIbYsO/Tza0tdrHIDZkAJ+TOMX40v6MYuSU4CxFwsq8JxsxFEn+GXMhMzJ/FYS
- Amg1nKT66er1xRmOD0Ijpp3aDkWNWxZYFueC0OG6yxx29rabiCI8549/3/BfRV5F7daj
- mpA4DjuBPe1Rw1KFfwKWiNRburwag4gdVYD9pU3eYZ1zMF9NItF04xNyKr/qZvm+Wshk
- NLg6Cjora74zBcT4AmhQxN9o4ko7wsiYYdQJaDZQKjQV9uZj/99HoSHroeDhZV+XHjM8
- i+fsb203nVZR9e8azGRF100/S3/XOV9vMMo2LcuDZeLtdOLkQ2nquXNWLKvPpa0gRlvI
- LPZA==
-X-Gm-Message-State: AOAM530Yyoj2a9drq1/UqIewN45OxOBVZKmpytmJQcdWwW9+b1h8MEsk
- ncnum+s/JyCJKypXlAoEBTbnwGOIXGESCYEKF4C27vZePCStZUunhKWM6RQlDSXHHpsSIGxBRCL
- jf37naO0TRJyuvv4=
-X-Received: by 2002:a7b:cc12:: with SMTP id f18mr3138784wmh.129.1595930967308; 
- Tue, 28 Jul 2020 03:09:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBky3N1fiOwAUAbRDwFfDOzU+3zWFKcPh/zvwPQji/U4MbFglqtL0NILX0yFEK52pUUrByrA==
-X-Received: by 2002:a7b:cc12:: with SMTP id f18mr3138766wmh.129.1595930967114; 
- Tue, 28 Jul 2020 03:09:27 -0700 (PDT)
-Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id t202sm3475876wmt.20.2020.07.28.03.09.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 03:09:26 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1] accel/xen: Fix xen_enabled() behavior on
- target-agnostic objects
-Date: Tue, 28 Jul 2020 12:09:25 +0200
-Message-Id: <20200728100925.10454-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k0Mf4-0000uY-Ab; Tue, 28 Jul 2020 06:16:42 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36465 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k0Mez-00085d-Kn; Tue, 28 Jul 2020 06:16:42 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BGCJJ2g9gz9sTK; Tue, 28 Jul 2020 20:16:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1595931392;
+ bh=71CxD+3qFGsQZR6lzzXOj7xvtbJ/4K1FuQmuu1Ou/14=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mdyBD+/XOefqdz7lSXWanaYQvd/9JbDl8dXWP42TLBs7yi6/dgtnxnDZpwym3xreR
+ YnwxOlypYFoxj60zPurdQ1ul/hgDQHrOKY3aEKdDV+UuumInsCWRtxnXUlZQbaeIUW
+ ZlOCZ87jr2UmIeFWKci6XXjJRu/evCanmF1Mu4vs=
+Date: Tue, 28 Jul 2020 20:09:37 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 for-5.2 1/2] spapr: Use error_append_hint() in
+ spapr_caps.c
+Message-ID: <20200728100937.GI84173@umbus.fritz.box>
+References: <159491945918.188975.4358645698778061430.stgit@bahia.lan>
+ <159491947184.188975.5055299566400098290.stgit@bahia.lan>
+ <87mu3uciq4.fsf@dusky.pond.sub.org>
+ <20200727150425.2c7562ed@bahia.lan>
+ <87h7tsf6cv.fsf@dusky.pond.sub.org>
+ <20200728110726.5882b046@bahia.lan>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:05:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pe+tqlI1iYzVj1X/"
+Content-Disposition: inline
+In-Reply-To: <20200728110726.5882b046@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 06:16:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,71 +66,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Paul Durrant <pdurrant@amazon.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CONFIG_XEN is generated by configure and stored in "config-target.h",
-which is (obviously) only include for target-specific objects.
-This is a problem for target-agnostic objects as CONFIG_XEN is never
-defined and xen_enabled() is always inlined as 'false'.
 
-Fix by following the KVM schema, defining CONFIG_XEN_IS_POSSIBLE
-when we don't know to force the call of the non-inlined function,
-returning the xen_allowed boolean.
+--pe+tqlI1iYzVj1X/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: da278d58a092 ("accel: Move Xen accelerator code under accel/xen/")
-Reported-by: Paul Durrant <pdurrant@amazon.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/sysemu/xen.h | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+On Tue, Jul 28, 2020 at 11:07:26AM +0200, Greg Kurz wrote:
+> On Tue, 28 Jul 2020 09:26:08 +0200
+> Markus Armbruster <armbru@redhat.com> wrote:
+>=20
+> > Greg Kurz <groug@kaod.org> writes:
+> >=20
+> > > On Mon, 20 Jul 2020 17:24:35 +0200
+> > > Markus Armbruster <armbru@redhat.com> wrote:
+> > >
+> > >> Greg Kurz <groug@kaod.org> writes:
+> > >>=20
+> > >> > We have a dedicated error API for hints. Use it instead of embeddi=
+ng
+> > >> > the hint in the error message, as recommanded in the "qapi/error.h"
+> > >> > header file.
+> > >> >
+> > >> > Since spapr_caps_apply() passes &error_fatal, all functions must
+> > >> > also call the ERRP_GUARD() macro for error_append_hint() to be
+> > >> > functional.
+> > >>=20
+> > >> This isn't a request for change in this patch, just an attempt to sq=
+uash
+> > >> possible misunderstandings.
+> > >>=20
+> > >> It's true that error_append_hint() without ERRP_GUARD() works as lon=
+g as
+> > >> the caller doesn't pass certain errp arguments.  But the callee shou=
+ld
+> > >> work for all possible @errp arguments, not just the ones that get pa=
+ssed
+> > >> today.  That's why error.h wants you to guard *all* uses of
+> > >> error_append_hint(errp):
+> > >>=20
+> > >>  * =3D Why, when and how to use ERRP_GUARD() =3D
+> > >>  *
+> > >>  * Without ERRP_GUARD(), use of the @errp parameter is restricted:
+> > >>  * - It must not be dereferenced, because it may be null.
+> > >>  * - It should not be passed to error_prepend() or
+> > >>  *   error_append_hint(), because that doesn't work with &error_fata=
+l.
+> > >>  * ERRP_GUARD() lifts these restrictions.
+> > >>=20
+> > >
+> > > Yeah, I just wanted to emphasize that we were precisely in the case
+> > > where we _really_ need to lift the restriction, but I'm perfectly fine
+> > > with dropping this sentence if you consider it useless.
+> >=20
+> > I lean towards dropping it.
+> >=20
+>=20
+> David,
+>=20
+> Do you want me to send an updated version of this patch or can you
+> fix this in your tree ?
 
-diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
-index 1ca292715e..385a1fa2bf 100644
---- a/include/sysemu/xen.h
-+++ b/include/sysemu/xen.h
-@@ -8,7 +8,15 @@
- #ifndef SYSEMU_XEN_H
- #define SYSEMU_XEN_H
- 
--#ifdef CONFIG_XEN
-+#ifdef NEED_CPU_H
-+# ifdef CONFIG_XEN
-+#  define CONFIG_XEN_IS_POSSIBLE
-+# endif
-+#else
-+# define CONFIG_XEN_IS_POSSIBLE
-+#endif
-+
-+#ifdef CONFIG_XEN_IS_POSSIBLE
- 
- bool xen_enabled(void);
- 
-@@ -18,7 +26,7 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
-                    struct MemoryRegion *mr, Error **errp);
- #endif
- 
--#else /* !CONFIG_XEN */
-+#else /* !CONFIG_XEN_IS_POSSIBLE */
- 
- #define xen_enabled() 0
- #ifndef CONFIG_USER_ONLY
-@@ -33,6 +41,6 @@ static inline void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
- }
- #endif
- 
--#endif /* CONFIG_XEN */
-+#endif /* CONFIG_XEN_IS_POSSIBLE */
- 
- #endif
--- 
-2.21.3
+Updated version please, I'm afraid I've lost track of quite what was
+suggested in this thread.
 
+>=20
+> > > BTW, should we have a way for CI to ensure that a patch that adds
+> > > error_prepend(errp, ...) or error_append_hint(errp, ...) also adds
+> > > ERRP_GUARD() ? Not sure that people read error.h that often...
+> >=20
+> > I don't know.  Wait and see whether it's worth automating?  We didn't
+> > automate checking other Error API rules, like "no newlines in error
+> > messages".  That one can't crash, though.
+> >=20
+> > The check would have to look beyond the patch, which checkpatch.pl
+> > doesn't do.
+> >=20
+>=20
+> <thinking aloud>
+> Maybe checkpatch.pl could be fed with an extended version of the patch
+> that has enough context, eg. git show -U$(wc -l ${file}) ${file} ?
+> </thinking aloud>
+>=20
+> > >> No need to make an argument involving the possible arguments (pardon=
+ the
+> > >> pun).
+> > >>=20
+> > >
+> > > :)
+> > >
+> > >> [...]
+> > >>=20
+> >=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--pe+tqlI1iYzVj1X/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8f+V4ACgkQbDjKyiDZ
+s5KPJRAAmWArB19Ohjz0H0SWtgrT8qo71f7oe2EHTxqtZ9RfiF33OIJUV3HuQ/L0
+bKuYxivbsK/Dv5r01pLOIULyu87sT+sfkyS/YH0ZO4IMcljOpzW847KRp/W1KpL2
+UpRz2z6C9a3kuehQQdV/3zjV4JO9H/sLlnUks252vDyY6M8/h4Z5iOiV2ii5cPVg
+86bPb7/AqF5oCuFRVLSfToAZfrOgkDb2+D5Rb7mVuqGGWdOQap4sE7n/XNAusleo
+fSCUkZ6bKOp7GqV+OIbXInfaayS6ITo1+pL2rD2hw+L37tErL0rtZwMWUxAjAy6r
+7r6fORRA9kZ5MpiXhC8fD2xlqXuT8cUXCCIcsCY5atnok84sMBB6fJdPe9+S1aaA
+uRV3WohHIzoLNt2BVu4GIMoZ8tRr21xGqDnB8UMfHNexDLCf3pZf2j4fwveu1X3u
+oV0hM6l4O7+Apz33ElFUR3RRZxPVD08kflDXLhfHYV8xX/AEZQtcRbFSgf8HqPkD
+3vVwwX5Oxy7PQFOSlGYi3drLG3j5wfXAxMPRjDl9CqI3zsr7M6p6DCS21cL6pEZQ
+bmHYSEsY36S7eaAeMA6AYxqGYvidGrN0x06Hay86w+8sc0QJnFEN7FKAmApOwgm7
+slkN6YDr4+y7X0xlGeKNERaP5ZluzzNxtBOvE0uDfx9TlaB2gOU=
+=341b
+-----END PGP SIGNATURE-----
+
+--pe+tqlI1iYzVj1X/--
 
