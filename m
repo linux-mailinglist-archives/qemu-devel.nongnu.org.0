@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C31230903
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 13:40:18 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E73E23090D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 13:41:57 +0200 (CEST)
+Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Nxx-0002Mn-3c
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 07:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40598)
+	id 1k0NzY-0004F0-72
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 07:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1k0Nvu-0000b0-FS
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:38:10 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1k0Nvs-0002X3-K5
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:38:10 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id k8so7527267wma.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 04:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:content-language
- :thread-index; bh=GtCXrUyMcdfUK9u5L9780Nv/+GQh+rPlWS9tXEVEQ1E=;
- b=tM7aGjd0FQT3yaT7+031Tlnysibz7ocdgILc/qNcllesimpWOyi1Ny6a4L/hDJnr6K
- llwf0E9RA0hHT4WNR/XM88aVBh5S1/P8YX2Sm4gohXauAAR5fNremiNKDoN9a0RLMGvb
- hqMDnJaxM8MJ5kjXyaNPVZOZKVUJ2uNSPyGLUQBEVKBKzR14DtyKpOCWkEwOl9MtCmg6
- W6Hn/X7KlpZdQCj+hnM4LkQQkibiFPMM5SfTvW/u06BBR9GmLXgS+vWlr2M3o8dOMG3J
- 30QOlaozpUpSqkYfZPsl7FiCN+4XiPh+pyBGxt9h/DC5penPyMY0RFiii1wAn3eGREBX
- zXqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :content-language:thread-index;
- bh=GtCXrUyMcdfUK9u5L9780Nv/+GQh+rPlWS9tXEVEQ1E=;
- b=kU9QN18eq8bLSkZd+9kIAw9hQz/+qkiKWHhabCfhJWiWqu1ovxVJgiJcoj7PJYM+Mn
- ji85Bsf02AQU+eyaPY3CJHPKDLI5GGlLAlwFt4zfIMmgOmRGup4Tb5aJgo6bs2Dd71v4
- c8P09IO7KMzqBi7r6KBrvB2UnqfFnL1zP9/XcecQh6zGlDmFz7Q0hF152iQVjFJUkdHL
- HcKeV03Qo/qxsmLUBNZF+qpA6MBq391cTO7Q+gBxozsTRr7LYGd5AgpmssoS6GAc60Bb
- M2YGrzfJZYltnH9MXuYVyup9CMDmcBtWbpdHAvkMzKwb1KJJ9G27HhRFDVPP8uOfuY33
- Rwdw==
-X-Gm-Message-State: AOAM5326927UEfMaYsbjlTafsrK+h8TjpTlV+8d0PfNpAZ58EN5jOFcd
- bXBp3ZQxH3HDNbXAOsBH9dE=
-X-Google-Smtp-Source: ABdhPJz/rLdReHCjDfI4CPt0oZx4S9Edc53mF4qYVIcJnJHvTAYUGj9wZfJjhvhtT6hUxywQ/eS0bw==
-X-Received: by 2002:a1c:a9c6:: with SMTP id s189mr3429083wme.166.1595936285688; 
- Tue, 28 Jul 2020 04:38:05 -0700 (PDT)
-Received: from CBGR90WXYV0 (host86-143-223-30.range86-143.btcentralplus.com.
- [86.143.223.30])
- by smtp.gmail.com with ESMTPSA id x11sm3521703wmc.33.2020.07.28.04.38.04
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 Jul 2020 04:38:05 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-References: <20200728100925.10454-1-philmd@redhat.com>
-In-Reply-To: <20200728100925.10454-1-philmd@redhat.com>
-Subject: RE: [PATCH-for-5.1] accel/xen: Fix xen_enabled() behavior on
- target-agnostic objects
-Date: Tue, 28 Jul 2020 12:37:42 +0100
-Message-ID: <000501d664d3$8e72bed0$ab583c70$@xen.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k0Nx5-0002De-SH
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:39:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29717
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k0Nx3-0002bf-Br
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 07:39:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595936359;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JWu0ePoNfSbIcaewrP3F++/gfeISlqnT5nMIxseXo1w=;
+ b=O6E99rQ/w4Lgv7zQ1cdHoFz3PJrzjeWfbo/JblYhueylZobIwOeZa0kNrz+AP6j61jZr4L
+ DcKB/zJG5kH2QFNs/XSzMV/MIK6Xs2d3WMw6wXBKC59bEGNP0UWHygPKH4hbHlrGKOg7KA
+ 06kV6XS6cxjnS7NHTS64eGVk8ooLD1k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-q73PQ57XPzWKz04SBae3oA-1; Tue, 28 Jul 2020 07:39:17 -0400
+X-MC-Unique: q73PQ57XPzWKz04SBae3oA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF4A6107ACCA;
+ Tue, 28 Jul 2020 11:39:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 707471C6;
+ Tue, 28 Jul 2020 11:39:11 +0000 (UTC)
+Date: Tue, 28 Jul 2020 12:39:08 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH v5 5/7] io/channel-tls.c: make qio_channel_tls_shutdown
+ thread-safe
+Message-ID: <20200728113908.GE3437398@redhat.com>
+References: <cover.1592923201.git.lukasstraub2@web.de>
+ <c05e7d6cc8484965d8041b90c92370a9828029d6.1592923201.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQENRsOLIapjYfI4XdI3JVM2u0h2V6qvGVsw
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c05e7d6cc8484965d8041b90c92370a9828029d6.1592923201.git.lukasstraub2@web.de>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,92 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Peter Maydell' <peter.maydell@linaro.org>,
- 'Stefano Stabellini' <sstabellini@kernel.org>,
- 'Paul Durrant' <pdurrant@amazon.com>, xen-devel@lists.xenproject.org,
- 'Anthony Perard' <anthony.perard@citrix.com>,
- 'Paolo Bonzini' <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Sent: 28 July 2020 11:09
-> To: qemu-devel@nongnu.org
-> Cc: Paul Durrant <paul@xen.org>; Paolo Bonzini <pbonzini@redhat.com>; =
-xen-devel@lists.xenproject.org;
-> Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard =
-<anthony.perard@citrix.com>; Philippe
-> Mathieu-Daud=C3=A9 <philmd@redhat.com>; Paul Durrant =
-<pdurrant@amazon.com>; Peter Maydell
-> <peter.maydell@linaro.org>
-> Subject: [PATCH-for-5.1] accel/xen: Fix xen_enabled() behavior on =
-target-agnostic objects
->=20
-> CONFIG_XEN is generated by configure and stored in "config-target.h",
-> which is (obviously) only include for target-specific objects.
-> This is a problem for target-agnostic objects as CONFIG_XEN is never
-> defined and xen_enabled() is always inlined as 'false'.
->=20
-> Fix by following the KVM schema, defining CONFIG_XEN_IS_POSSIBLE
-> when we don't know to force the call of the non-inlined function,
-> returning the xen_allowed boolean.
->=20
-> Fixes: da278d58a092 ("accel: Move Xen accelerator code under =
-accel/xen/")
-> Reported-by: Paul Durrant <pdurrant@amazon.com>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Tested-by: Paul Durrant <paul@xen.org>
-
+On Tue, Jun 23, 2020 at 04:42:56PM +0200, Lukas Straub wrote:
+> Make qio_channel_tls_shutdown thread-safe by using atomics when
+> accessing tioc->shutdown.
+> 
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 > ---
->  include/sysemu/xen.h | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->=20
-> diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
-> index 1ca292715e..385a1fa2bf 100644
-> --- a/include/sysemu/xen.h
-> +++ b/include/sysemu/xen.h
-> @@ -8,7 +8,15 @@
->  #ifndef SYSEMU_XEN_H
->  #define SYSEMU_XEN_H
->=20
-> -#ifdef CONFIG_XEN
-> +#ifdef NEED_CPU_H
-> +# ifdef CONFIG_XEN
-> +#  define CONFIG_XEN_IS_POSSIBLE
-> +# endif
-> +#else
-> +# define CONFIG_XEN_IS_POSSIBLE
-> +#endif
-> +
-> +#ifdef CONFIG_XEN_IS_POSSIBLE
->=20
->  bool xen_enabled(void);
->=20
-> @@ -18,7 +26,7 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t =
-size,
->                     struct MemoryRegion *mr, Error **errp);
->  #endif
->=20
-> -#else /* !CONFIG_XEN */
-> +#else /* !CONFIG_XEN_IS_POSSIBLE */
->=20
->  #define xen_enabled() 0
->  #ifndef CONFIG_USER_ONLY
-> @@ -33,6 +41,6 @@ static inline void xen_ram_alloc(ram_addr_t =
-ram_addr, ram_addr_t size,
->  }
->  #endif
->=20
-> -#endif /* CONFIG_XEN */
-> +#endif /* CONFIG_XEN_IS_POSSIBLE */
->=20
->  #endif
-> --
-> 2.21.3
+>  io/channel-tls.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
