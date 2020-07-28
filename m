@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAD6230A4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 14:35:50 +0200 (CEST)
-Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44472230A50
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 14:35:54 +0200 (CEST)
+Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Oph-0005w0-LV
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 08:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55692)
+	id 1k0Opl-00062i-BK
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 08:35:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0OoZ-0004c9-AU
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:34:39 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:42975)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0Oob-0004f9-Uv
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:34:41 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:35975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0OoX-0001rS-Jz
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:34:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0Ooa-0001sk-08
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:34:41 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N8X9L-1knIHA3k1J-014TAY; Tue, 28 Jul 2020 14:34:34 +0200
+ id 1MsZeX-1kuPoN0yOB-00txhg; Tue, 28 Jul 2020 14:34:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] Linux user for 5.1 patches
-Date: Tue, 28 Jul 2020 14:34:29 +0200
-Message-Id: <20200728123432.501354-1-laurent@vivier.eu>
+Subject: [PULL 1/3] linux-user: Ensure mmap_min_addr is non-zero
+Date: Tue, 28 Jul 2020 14:34:30 +0200
+Message-Id: <20200728123432.501354-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200728123432.501354-1-laurent@vivier.eu>
+References: <20200728123432.501354-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fcmWkIjMJNgZToDqYuIDIuS7y0Bs8Dtge+/XUrIW5ocEj1EqJ+o
- ESJ0xLp9VsF3ePPlIP5gmGmyV3WkN5+g0/jf3lleH7vibpg1Wu1pbIvDKMshSzfBAZccmAR
- 4f6QOMVrY5r2v1BQ0MONWI7tIXBLpUNwCs7b0dW+phMKvYJku5oapp2SA1BNZrnDDt3GYb5
- jI1SoLqdrELRhwjvMWCKw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:URZRxqmIbPU=:GJmMMjXt2BtkODP+egkGP8
- iVDyWsZgJc3niPeeZTPgkSihokFFAMuqFAyUvmNqMZVHCt8n4hXw/egpeB53ZrFryoEih/sbt
- VU4HcKxqQbB3CLT827QEVg3QHRsiySRFNlYpefYx25fsagPay5/+sXUMOzgxKmWVbKJeUkvgD
- UHCZ74rIkF5zwxhpSgq00L6TI8jZdVYSPFBZBqHJlL0bRQPgRYFdUikb1fcnJYrMB7sTy72Nx
- Cl/LY5TGUX/AGUNn7wJ3meKiitG7cWxbgxem7dXvuFdFpTLAf/kIrxVhMdsZoXt4OEykHQ33e
- hs67HhdKYXVwEAE3u5pqnVtPls4OZm8e6R0XJwArGxflljggZTWxWq8LKOrrRaa1XeKSnxP3V
- 2GPK6ijF6FG5wxSwt2LNgFR18IxGEQpNjaVefE4qbJKvHjVgpImefCYOZ5FSs97KMP2IkvuNF
- 1XErQxKK0F4vqNU+3w7Zd4duJAXNBu4xYEYmiTuyWaLcx074Okl15iuVxqcmSZpTiw4RTc6yr
- bCXw0cnfriufUGPOPwbdUGayzlttTbf04G1OztTeRo6ggs9oLej6Pz3gRNv85uUzzDioOYth/
- jqii4/j7X1cw8UYWbi6is41v/BNSfque65sncNfpX8Ej6HcOa3NnKJUwgu1ifBdp83ID2Krkp
- cosUVTj/Y6r7B6xmZyeDlNlF1DuaXF94r1W0uGexFpnpticRGazZYIcEhQgYpE6FsZ7RpYkG+
- WGIA2roi/jKz5X82LBd0+QMH5A+582+eIq4jG1hBSSTrIool/sjdidXadNoHeLibbkl8a+Zl2
- Z6gsUZ7Dq9c+RCGPOCOpSsNAmmSUyv0jEmc/zGj1+8Mlch8zwHw4MNDYT2sixzwHBWm4U2D
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Y2ExmyX9KMXPBHInR9cJgIGGafjMGPxin0bASUuAkr8/70Pz4Em
+ raz9/VAxgZJXZJxjlStLDW9ANTbxeoxFfzJspUeSzfgrBqJ99NpX9h1jhb3M65hW6vF+u4B
+ 3nPGO8g6EqAMgShCaDBXcUj9zAeycj5OfwIe4oaDES89alsWNvKoO2G0sabytEEW10hgtki
+ aD/IcpIf2mu/qAJMMP93w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b1BCzJtxbZE=:PD6/Q5pEJLLVllme/haQCH
+ UH/eLgAww0XTykMUKveg7nJsC7TuJg7zBYiL+ji0BZpDNgFxLSxYvFVpki/r4sjNk+tIPdzPD
+ zdG3mOBNwOF/6QIlm+qO6Ql6Q73xZuws2ejPTTWgJ/bejvtVA0lp63TZdJgQtR2E9pVW6+Laj
+ 6ZfS7Q0VMokFlWRqCp44+SY+cWrtyRQ4axmM6OcI0GNgQWHy36jtJGHIjFrznZWv7V5Dajnyu
+ Oii7ntwZtjsTCxv3EdnGHFzwL+XbOmdDxo8czPIBol8eqZ7DhfICWefje9ivhFjEH7F93n7nB
+ TXwApsRXrRINYvT28BQ/1vy3VE7LJE/qCOEOUUKL18T0+A+fSxkZc7YxcelbZaw+tKrSMD1uH
+ MkEa4Uk9M6Bw5eWty+IhvKIy8hh/+Oz3Mkm2CDjQy9u1YI52LXIkidBDMzYoE39/5OEG8+xEo
+ vqBpJVrg+OGm/9wDMfMC8bbuC4LBh4Rin6LTHqq9IJomBWoUjtxAV5rNrkIr9pMkRTiaJMJPW
+ mxTyivnrlabLRwnu9mIUtjmukH7MprHpazaomNkEsH1buKbXJ13DRsKqBbz2SoMMqsnTxE8Y1
+ 2+ZyUwoHKkaANDYNFeNVDS04gJ/2shG0tmuGhACt7QtKYsqfBWfUxz2lgbR39MN9kPPIP3/zZ
+ Df5aDRV077tKhe5a1j2bzrbP5gc2bKgNgxgdc2iMeX6uNkE+Y7nL3szg91xa3cBxRWvAw7Tkh
+ BD3a8RHNmu5DdkKwOUsO0kNxhOwNQUi3I4RMIqgadX0eP1Roq/b0xuNc04gN8pNeHYrwU3VtT
+ Met0NlwlqgUMdDU5/9YNYZVV8sdr/t3k8zVDpcRL7pWogEwUKUBQijQ/H3xguxtv5lacyCj
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 08:34:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 08:34:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,47 +69,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9303ecb658a0194560d1eecde165a1511223c2d8=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200727' into st=
-aging (2020-07-27 17:25:06 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request=0D
-=0D
-for you to fetch changes up to 0f6bb1958f3aae0171996941df7fb7ea7536bb12:=0D
-=0D
-  linux-user: Use getcwd syscall directly (2020-07-27 22:05:34 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-linux-user 20200728=0D
-=0D
-Fix "pgb_reserved_va: Assertion `guest_base !=3D 0' failed." error=0D
-Fix rt_sigtimedwait() errno=0D
-Fix getcwd() errno=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Andreas Schwab (1):=0D
-  linux-user: Use getcwd syscall directly=0D
-=0D
-Filip Bozuta (1):=0D
-  linux-user: Fix syscall rt_sigtimedwait() implementation=0D
-=0D
-Richard Henderson (1):=0D
-  linux-user: Ensure mmap_min_addr is non-zero=0D
-=0D
- linux-user/main.c    | 16 ++++++++++++++--=0D
- linux-user/syscall.c | 13 ++++---------=0D
- 2 files changed, 18 insertions(+), 11 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+From: Richard Henderson <richard.henderson@linaro.org>
+
+When the chroot does not have /proc mounted, we can read neither
+/proc/sys/vm/mmap_min_addr nor /proc/sys/maps.
+
+The enforcement of mmap_min_addr in the host kernel is done by
+the security module, and so does not apply to processes owned
+by root.  Which leads pgd_find_hole_fallback to succeed in probing
+a reservation at address 0.  Which confuses pgb_reserved_va to
+believe that guest_base has not actually been initialized.
+
+We don't actually want NULL addresses to become accessible, so
+make sure that mmap_min_addr is initialized with a non-zero value.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1888728
+Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Acked-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200724212314.545877-1-richard.henderson@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/main.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 3597e99bb10a..75c97851579e 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -758,14 +758,26 @@ int main(int argc, char **argv, char **envp)
+ 
+         if ((fp = fopen("/proc/sys/vm/mmap_min_addr", "r")) != NULL) {
+             unsigned long tmp;
+-            if (fscanf(fp, "%lu", &tmp) == 1) {
++            if (fscanf(fp, "%lu", &tmp) == 1 && tmp != 0) {
+                 mmap_min_addr = tmp;
+-                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n", mmap_min_addr);
++                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n",
++                              mmap_min_addr);
+             }
+             fclose(fp);
+         }
+     }
+ 
++    /*
++     * We prefer to not make NULL pointers accessible to QEMU.
++     * If we're in a chroot with no /proc, fall back to 1 page.
++     */
++    if (mmap_min_addr == 0) {
++        mmap_min_addr = qemu_host_page_size;
++        qemu_log_mask(CPU_LOG_PAGE,
++                      "host mmap_min_addr=0x%lx (fallback)\n",
++                      mmap_min_addr);
++    }
++
+     /*
+      * Prepare copy of argv vector for target.
+      */
+-- 
+2.26.2
+
 
