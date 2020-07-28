@@ -2,111 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945A7230A5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 14:38:59 +0200 (CEST)
-Received: from localhost ([::1]:54480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1652A230A92
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 14:48:44 +0200 (CEST)
+Received: from localhost ([::1]:58480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Osk-0000bY-Lp
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 08:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56384)
+	id 1k0P2A-0003IB-KG
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 08:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k0Orr-0008Vp-OW; Tue, 28 Jul 2020 08:38:04 -0400
-Received: from mail-eopbgr140115.outbound.protection.outlook.com
- ([40.107.14.115]:4450 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k0P1G-0002df-FL
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:47:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k0Oro-0002Gv-Gi; Tue, 28 Jul 2020 08:38:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c2ndUiBu4WobgeODtv3MzAGvhTAzf3LdAJ1uA54E0/zLAR2a3rcBVMc13o89FtN7w2gcC6UDNNvIRzfQzMExQWPXhgPRoqmi4IygkNUducRv/HE/5lYlYSBKBTQLT5Y+cu6hW4Hw4r50mrHsU9Q2rwmy7YtuerXHW7YKE0rslMdI13zMXWXfENci03qE5L8RAhBR58J1GAd3QkPsD0bZr2V72XPAeLmBBUYEQ0S4eMn8A7JyUmi0nytKyy88zpDH1tXrLT2bFZCF1H1NEr/eI7wibf2kuX7yTg1skYEuRu+tFLzEP6+W4GaI4UJlPkDvitbLQtkp0EWDwndYNfpifQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e9o51S4tsVoPIzJ3GLbfSk50A7U9TWQDlqSiU7z9sD0=;
- b=U2DXZSUcxOp45J0i8sZ3fduHt5KmEdUaQVdsLJBDJCwGh1N+BzN17LSjZRjMV0fdcPLjmSjeZUn/MAsfmrk+zWNaMUxfDTud5G622gPmjyg4l/eANn94KfifzaqyNyDxUQ66FYeqddwy7jkgC0VO/xjmDP0Kf2vBj8RDtok5hpfe8AAYT2lASULO6GYvmcBk4iG5wrLw1S5tCY9kquA0So8PO0xWENyi2y5uISK889S+fyBMtpnd10enS6Yq3kZ9B0ioBVfHkQszJLqKqTtcQuYCtHLLOn5qNOffdQh3GnPEc3t9fvYwF4q2mAGRhEv64tRtBFAsVqkj2aWCsDt5OQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e9o51S4tsVoPIzJ3GLbfSk50A7U9TWQDlqSiU7z9sD0=;
- b=cOwOqbT4MD6gburcKZscVf4gDz0XB2sCRxCHjIy2qDseJ5d/Ak/n07HT8HxoR3Xwc3v2udH6tuwXPL6GTyGsg+CZ05S6oWyeBiC4l5SekS1Tqx3s828HpZICfMyen3M8Ruy/egjL0Ijzatqar5BK1Ghg+SlriF4yY5qBGsn3MkA=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3894.eurprd08.prod.outlook.com (2603:10a6:20b:90::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
- 2020 12:37:57 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
- 12:37:57 +0000
-Subject: Re: [PATCH v11 11/11] qcow2_format.py: support dumping metadata in
- JSON format
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1594973699-781898-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1594973699-781898-12-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <d9707b42-a1da-5485-c994-8cb19455de74@virtuozzo.com>
-Date: Tue, 28 Jul 2020 15:37:55 +0300
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k0P1E-0003cF-4e
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 08:47:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DCF5EACB5;
+ Tue, 28 Jul 2020 12:47:48 +0000 (UTC)
+Subject: Re: migration: broken snapshot saves appear on s390 when small fields
+ in migration stream removed
+To: Max Reitz <mreitz@redhat.com>, Bruce Rogers <brogers@suse.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
+ <55c406cd-b9ca-4e9b-0acd-d33cfe2a70e3@redhat.com>
+ <bf074240-8cc3-96ff-e95e-bd301822b756@suse.de>
+ <ea3b617f-c2ea-534c-06ba-f5f9f43828a7@suse.de>
+ <8125b1ff-373a-aadc-eccf-27c567007a27@redhat.com>
+ <8ff7eeab-bef1-0957-a95c-72819680c431@suse.de>
+ <1db6d502-73d1-5e3d-10d1-796d80ab8f07@suse.de>
+ <13728e69-75a5-2edc-9ed3-6e08d94c722d@suse.de>
+ <636bb3c4-2242-284b-30cd-299f447117c2@suse.de>
+ <5f455e82e0a4f3662918dcdc85d1cfc5a3187896.camel@suse.com>
+ <72ff33d4-653f-5702-fc04-9090653ab782@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <435b4387-5e8d-93b0-2d25-675476758359@suse.de>
+Date: Tue, 28 Jul 2020 14:47:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <1594973699-781898-12-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <72ff33d4-653f-5702-fc04-9090653ab782@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR10CA0003.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:17c::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.158) by
- AM0PR10CA0003.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21 via Frontend
- Transport; Tue, 28 Jul 2020 12:37:56 +0000
-X-Originating-IP: [185.215.60.158]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65108940-e119-47b8-ebdd-08d832f30e43
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3894:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38944E5F0CE6A8A23FA30CD7C1730@AM6PR08MB3894.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0X48rc5vuYm70ijaq9+mFZCyujiOrHvi6pFDqU+BBAgPEQ1OQRyEZXzGvTQRrfQGxhDuEBfyjK3ZvkgGlZyzPJOyLJxJxvAYHs5zHfZs32264Ftwt19xf4Xnisa5vwICSYWwv4L1r3BnxToM5djei1JM05vVWmXsBxB4c2yQuPse+r+dcxMV9fJeMnabMKhVZzGnVpLk9HaQmyjJ1zTINQOwQmPT9mgOmhaFRHrRcqbRIZ/iLr1kT9/JTC0ShHIx2xW24hHBOgcsw5gppcqc0KQIGzcf/lCGIB0qJKgXF8b+hDTIF/5ajhM0wmTlA0NdTLPlwQOGq6MseffM/zq7uUNVl7WctSoOepVdwxlzvjDA4EeqMNFB4TDA2sH4/Ymi
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(136003)(376002)(39840400004)(396003)(366004)(31696002)(52116002)(5660300002)(86362001)(4326008)(2906002)(26005)(107886003)(66946007)(16526019)(66556008)(36756003)(66476007)(478600001)(186003)(6486002)(16576012)(19627235002)(8936002)(2616005)(316002)(8676002)(956004)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: sk1ioBJ3yEwrWIioYSm26HEP2+fQg3f2YSd3I9WQKtkAAknxU0uekibiLYS7Mg1egm6/d+BrrvzxM9ONn89/RXWboP6WMnGT9d1P6e1ecR3rLL5m9vy+b/KLNkSLTKDBoIqJv4+hkL0Ub93st7dNQAKsqKgLwwTLr7/7DpVbnkJHWE+YsGFtjagAulye7bPRXIJs/KG8jOpFI2ABzS5yY00LG99ozLTqJp6LSkzsuxbj39nKTGepaHuyd5smlqyTWUoyTyOAE22DmMAr/wNNox7oCtGjic4CPRBwI6yruUdoZR7H316DoBaSd7TLGRBQkEa/XoKp81pRpbxkq7zb4oxGQGcjw9C6ybE/aVjrx7eYC3ZfN/NwpWEpTN3puvpe4FO7IIO68BIZRVLrO22RyWYnMJrh0lhZanEggJuDFQJBNCSkgc7ty8rKWwqudHKc3HJMAj+QUj5l/myPlsguIZPBoLwEVAIqa8FXMo3lUxVH8GIIy2KjOm0g2x5DkJda
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65108940-e119-47b8-ebdd-08d832f30e43
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 12:37:57.1983 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u5Ci/423SRuZJ5Yg2AC/Tm6uoffgIcyNpXtxPLat2A3j3LHMwhEDubB7sbgDwfy5MVMUlVi7bBoPM7ppbSAQUaSeLXPhOokjtqolpH+U3qw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3894
-Received-SPF: pass client-ip=40.107.14.115;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 08:37:58
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 01:54:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,114 +70,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
+ Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ vsementsov@virtuozzo.com, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.07.2020 11:14, Andrey Shinkevich wrote:
-> Implementation of dumping QCOW2 image metadata.
-> The sample output:
-> {
->      "Header_extensions": [
->          {
->              "name": "Feature table",
->              "magic": 1745090647,
->              "length": 192,
->              "data_str": "<binary>"
->          },
->          {
->              "name": "Bitmaps",
->              "magic": 595929205,
->              "length": 24,
->              "data": {
->                  "nb_bitmaps": 2,
->                  "reserved32": 0,
->                  "bitmap_directory_size": 64,
->                  "bitmap_directory_offset": 1048576,
->                  "bitmap_directory": [
-
-bitmap_directy is just a list of dicts..
-
->                      {
->                          "name": "bitmap-1",
->                          "bitmap_table_offset": 589824,
->                          "bitmap_table_size": 1,
->                          "flags": 2,
->                          "type": 1,
->                          "granularity_bits": 15,
->                          "name_size": 8,
->                          "extra_data_size": 0,
->                          "bitmap_table": {
-
-.. can bitmap_table be just a list of dicts as well, not {entries: <list of dicts>} ?
->                              "entries": [
->                                  {
->                                      "type": "serialized",
->                                      "offset": 655360
->                                  },
->                                  ...
+On 7/28/20 1:10 PM, Max Reitz wrote:
+> On 28.07.20 01:09, Bruce Rogers wrote:
+>> On Tue, 2020-07-21 at 10:22 +0200, Claudio Fontana wrote:
+>>> On 7/20/20 8:24 PM, Claudio Fontana wrote:
+>>>> I have now been able to reproduce this on X86 as well.
+>>>>
+>>>> It happens much more rarely, about once every 10 times.
+>>>>
+>>>> I will sort out the data and try to make it even more reproducible,
+>>>> then post my findings in detail.
+>>>>
+>>>> Overall I proceeded as follows:
+>>>>
+>>>> 1) hooked the savevm code to skip all fields with the exception of
+>>>> "s390-skeys". So only s390-skeys are actually saved.
+>>>>
+>>>> 2) reimplemented "s390-skeys" in a common implementation in cpus.c,
+>>>> used on both x86 and s390, modeling the behaviour of save/load from
+>>>> hw/s390
+>>>>
+>>>> 3) ran ./check -qcow2 267 on both x86 and s390.
+>>>>
+>>>> In the case of s390, failure seems to be reproducible 100% of the
+>>>> times.
+>>>> On X86, it is as mentioned failing about 10% of the times.
+>>>>
+>>>> Ciao,
+>>>>
+>>>> Claudio
+>>>
+>>> And here is a small series of two patches that can be used to
+>>> reproduce the problem.
+>>>
+>>> Clearly, this is not directly related to s390 or to skeys or to
+>>> icount in particular, it is just an issue that happened to be more
+>>> visible there.
+>>>
+>>> If you could help with this, please apply the attached patches.
+>>>
+>>> Patch 1 just adds a new "300" iotest. It is way easier to extract the
+>>> relevant part out of test 267, which does a bit too much in the same
+>>> file.
+>>> Also this allows easier use of valgrind, since it does not "require"
+>>> anything.
+>>>
+>>> Patch 2 hooks the savevm code to skip all fields during the snapshot
+>>> with the exception of "s390-skeys", a new artificial field
+>>> implemented to
+>>> model what the real s390-skeys is doing.
+>>>
+>>> After applying patch 1 and patch 2, you can test (also on X86), with:
+>>>
+>>> ./check -qcow2 300
+>>>
+>>> On X86 many runs will be successful, but a certain % of them will
+>>> instead fail like this:
+>>>
+>>>
+>>> claudio@linux-ch70:~/git/qemu-pristine/qemu-build/tests/qemu-iotests> 
+>>> ./check -qcow2 300
+>>> QEMU          -- "/home/claudio/git/qemu-pristine/qemu-
+>>> build/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
+>>> -nodefaults -display none -accel qtest
+>>> QEMU_IMG      -- "/home/claudio/git/qemu-pristine/qemu-
+>>> build/tests/qemu-iotests/../../qemu-img" 
+>>> QEMU_IO       -- "/home/claudio/git/qemu-pristine/qemu-
+>>> build/tests/qemu-iotests/../../qemu-io"  --cache writeback --aio
+>>> threads -f qcow2
+>>> QEMU_NBD      -- "/home/claudio/git/qemu-pristine/qemu-
+>>> build/tests/qemu-iotests/../../qemu-nbd" 
+>>> IMGFMT        -- qcow2 (compat=1.1)
+>>> IMGPROTO      -- file
+>>> PLATFORM      -- Linux/x86_64 linux-ch70 4.12.14-lp151.28.36-default
+>>> TEST_DIR      -- /home/claudio/git/qemu-pristine/qemu-
+>>> build/tests/qemu-iotests/scratch
+>>> SOCK_DIR      -- /tmp/tmp.gdcUu3l0SM
+>>> SOCKET_SCM_HELPER -- /home/claudio/git/qemu-pristine/qemu-
+>>> build/tests/qemu-iotests/socket_scm_helper
+>>>
+>>> 300      fail       [10:14:05] [10:14:06]      (last: 0s)    output
+>>> mismatch (see 300.out.bad)
+>>> --- /home/claudio/git/qemu-pristine/qemu/tests/qemu-
+>>> iotests/300.out     2020-07-21 10:03:54.468104764 +0200
+>>> +++ /home/claudio/git/qemu-pristine/qemu-build/tests/qemu-
+>>> iotests/300.out.bad   2020-07-21 10:14:06.098090543 +0200
+>>> @@ -12,6 +12,9 @@
+>>>  ID        TAG                 VM SIZE                DATE       VM
+>>> CLOCK
+>>>  --        snap0                  SIZE yyyy-mm-dd
+>>> hh:mm:ss   00:00:00.000
+>>>  (qemu) loadvm snap0
+>>> +Unexpected storage key data: 0
+>>> +error while loading state for instance 0x0 of device 's390-skeys'
+>>> +Error: Error -22 while loading VM state
+>>>  (qemu) quit
+>>>  
+>>>  *** done
+>>> Failures: 300
+>>> Failed 1 of 1 iotests
+>>>
+>>>
+>>> At this point somebody more knowledgeable about QCOW2, coroutines and
+>>> backing files could chime in?
+>>>
+>> <trim>
+>>
+>> I used the reproducer you provide here to do a git bisect as I assume
+>> whatever is now broken wasn't always broken, and it pointed to the
+>> following commit:
+>>
+>> commit df893d25ceea3c0dcbe6d6b425309317fab6b22e (refs/bisect/bad)
+>> Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> Date:   Tue Jun 4 19:15:13 2019 +0300
+>>
+>>     block/qcow2: implement .bdrv_co_preadv_part
+>>
+>> Indeed, I am currently able to reliable reproduce the issue with this
+>> commit applied, and not reproduce it without it.
+>>
+>> That said, I've not been able to identify exactly what is going wrong.
+>> I'm fairly confident the savevm data is correctly written out, but on
+>> the loadvm side, somehow the last part of the s390 data is not
+>> correctly read in the data (it's in the second pass through the while
+>> loop in qcow2_co_preadv_part() where that happens.)
+>>
+>> If anyone familiar with this code can have a look or provide some
+>> pointers, it would be much appreciated.
 > 
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->   tests/qemu-iotests/qcow2_format.py | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
+> Thanks for both your investigation.  Does the attached patch help?
 > 
-> diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-> index d2a8659..d40eb49 100644
-> --- a/tests/qemu-iotests/qcow2_format.py
-> +++ b/tests/qemu-iotests/qcow2_format.py
-> @@ -19,6 +19,15 @@
->   
->   import struct
->   import string
-> +import json
-> +
-> +
-> +class ComplexEncoder(json.JSONEncoder):
-> +    def default(self, obj):
-> +        if hasattr(obj, 'to_dict'):
-> +            return obj.to_dict()
-> +        else:
-> +            return json.JSONEncoder.default(self, obj)
->   
->   
->   class Qcow2Field:
-> @@ -110,6 +119,11 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
->                                for i, field in enumerate(self.fields))
->   
->       def dump(self, is_json=False):
-> +        if is_json:
-> +            print(json.dumps(self.to_dict(), indent=4,
-> +                             cls=ComplexEncoder))
-> +            return
-> +
->           for f in self.fields:
->               value = self.__dict__[f[2]]
->               if isinstance(f[1], str):
-> @@ -445,6 +459,12 @@ class QcowHeader(Qcow2Struct):
->           fd.write(buf)
->   
->       def dump_extensions(self, is_json=False):
-> +        if is_json:
-> +            ext_doc = Qcow2HeaderExtensionsDoc(self.extensions)
-> +            print(json.dumps(ext_doc.to_dict(), indent=4,
-> +                             cls=ComplexEncoder))
-> +            return
-
-I'd prefer to get rid of Qcow2HeaderExtensionsDoc.
-
-Could we just do something like json.dumps(self.extensions, indent=4, cls=ComplexEncoder) ?
-
-
-> +
->           for ex in self.extensions:
->               print('Header extension:')
->               ex.dump()
+> Max
 > 
 
+Hello Max,
 
--- 
-Best regards,
-Vladimir
+yes, this solves the problem everywhere (on s390, on X86, based on all the reproducers so far).
+
+Thanks a lot for the help!
+
+Claudio
 
