@@ -2,55 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE9C2306A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:35:27 +0200 (CEST)
-Received: from localhost ([::1]:41684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1E62306F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:51:15 +0200 (CEST)
+Received: from localhost ([::1]:59444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0M18-0008JK-A4
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
+	id 1k0MGQ-00008X-Hh
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k0M03-0007Qd-Cs
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:34:19 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:35905)
+ (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1k0MF3-0007Mx-1m
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:49:49 -0400
+Received: from mail-eopbgr80111.outbound.protection.outlook.com
+ ([40.107.8.111]:1974 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k0M00-0002AA-BN
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:34:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=ZK2baikIxFUth6O+ZE0Jhwc0q+XRqMZKUrH1RwXVGfc=; b=Wn3WKLeA0LW7BAIdKjXCJIgf5A
- u8OSQaX83a6ELbV59t+40YzEc5p6YMIEDUcxQ9P8MgXBkiTigoHowyblBerL3vIcbipHijtVyOwvx
- NuA0po2dmxj0ritJEthV/ZE0zB3GKEBOm+xvTJrlG16I1NK3n7/E4IJOuOnLVhcdW77ioKU67iY32
- rkqe1jaeYoZ41x15OOO3Jjay0HmiTMJ7+0Q8QlLpo6NHTh1xCorEv0fmFO3TRUuo9KLCzxy8IbsDJ
- q3kptTNw2O+mk7zDk8wQR6YDtarsRk0VA8DUD6GbXRJgRURPbxYaXmNAe0cwoFLvfAO8EXIC0y7Ez
- 3/LtkqNg==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v7 3/6] 9pfs: add new function v9fs_co_readdir_many()
-Date: Tue, 28 Jul 2020 11:34:12 +0200
-Message-ID: <8722268.CRvGb0V2lm@silver>
-In-Reply-To: <20200728104600.4552a126@bahia.lan>
-References: <cover.1595166227.git.qemu_oss@crudebyte.com>
- <1626524.GXyn7ySoG3@silver> <20200728104600.4552a126@bahia.lan>
+ (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1k0MEz-0004AQ-V0
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:49:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aZymozHT9d/7KBlicKjs0TIHJ3V9Asm9JUA9H7ToI2TDtKLuNdupNN4xRCamSdrKu8Knio+ZtaCyeguaVwsvfi15CQBLUD0dF2OPzSoqJQ/UAok2QL2g+P7kqFvwX3L6SJZuypaxf8BonTzaveHSghJDojuxdbOLdcsQNpUCTx1Uxc0aoHs6Us0RSti/5MKDaJOWdGtPt93zuyQf2zkpixxMN9LV7VU/xCrMLruVbv1M2i5X+IZOpq0cXLGRZ991nMUAlnrmpajvSLCBu1hlsdtOEhi4+tmXdtSXaRWGohstNWWHrtmm0Ck+AKnhfK3hW1TGEwU8wIntiVrzH6Y7Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=anPZ7t3cGvtb4IvvAGHgOQoF8f4AU5pHmQJ+X3rrV04=;
+ b=Sk+v/LCuhMxvI0DK0OTmJr/bzC6QIDlHNkpE4wLw2oTNcbI1yQgJ/hxiMXfKCO7Zk7C/9o0+OqwxOzNW6yvN+o76Rr2bWfKedXq1CfRFoVX7+wP0H9kXdT05nLP9EbAJzJKvJFRoYtCual/i88cH3tzPwtocZRGff1rYTz0huZ41TV6Tg1m9blCLo6Og+cXGIYA+pUtWyCPUAo1j3QI5Rp0tNJVmOeax1/AZhGLUftVZ/e4xs6to+im1F4tZrRoG/sL4zvhYYgDjv1WDzFT7fMDq2H6w72kD7lCB26701w/K0tUd68IvDzodU1sRsUGfHJRiT2vFDndoge78wP7ooQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=anPZ7t3cGvtb4IvvAGHgOQoF8f4AU5pHmQJ+X3rrV04=;
+ b=fI1Ih1UYHQzBvBodA7BZE/eaqnymD/JeKdWAqJpBUvhITIaljvknwuIBbGiCKfjw9l8V3ENgP/HjcoOSlj546c6ZcN43I7foDUIyDsJx8dG+YrXEfwKuQFzDKFbeq5p4eS4zJ8CT6VNI8dwUXTq7XOPNrcphA+zKsRthH3r/9a0=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (2603:10a6:208:ff::27)
+ by AM0PR08MB3058.eurprd08.prod.outlook.com (2603:10a6:208:5a::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Tue, 28 Jul
+ 2020 09:34:39 +0000
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::5d21:ce58:6f11:b5dd]) by AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::5d21:ce58:6f11:b5dd%7]) with mapi id 15.20.3216.034; Tue, 28 Jul 2020
+ 09:34:39 +0000
+Subject: Re: [PATCH v0 3/4] migration: add background snapshot
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
+ <20200722081133.29926-4-dplotnikov@virtuozzo.com>
+ <20200727164848.GR3040@work-vm>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <092ca853-d4ec-788d-6f26-7361714b8dea@virtuozzo.com>
+Date: Tue, 28 Jul 2020 12:34:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200727164848.GR3040@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: HE1PR0301CA0018.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::28) To AM0PR08MB3745.eurprd08.prod.outlook.com
+ (2603:10a6:208:ff::27)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 04:33:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.102] (178.34.150.43) by
+ HE1PR0301CA0018.eurprd03.prod.outlook.com (2603:10a6:3:76::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.21 via Frontend Transport; Tue, 28 Jul 2020 09:34:37 +0000
+X-Originating-IP: [178.34.150.43]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7e82b824-dd56-4452-4cb5-08d832d972d6
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3058:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB3058936B1074E47075AEFBF8CF730@AM0PR08MB3058.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yQXukdVWkMhLyxJaDSTmyuIxhfq+qnHN7n/2r7nChausYddE/jhvxZeoiKk05s9nVRJoRVGNttaLaElCzKp6JiDtMKm1uUBEPf7vVPkydx1E+DDBbMlPeSkDV+TXnimRtss/vVFr30edtWgsnubEda0FXcIOeGE7iGRm/Bi2YM9DA1YnltDm5FiCC5yUG3WT5jmBUjYPmiOjFwEEjUgpXQb3ZKuDuuVF1JJKrT2EX+49ljmzsGUaTo8FNA2ipTQkp2s73SxqqNeHk2sYtGAC68/ha+SkxGCDvCwiGnc6dhCUMLVKbSDS1TFK9VWLBxXiIIvOwp/MfPgA8N0qOF47jN3CUSL6JfD8bhx7mf0KG5eCRA99JIzWq3DEbB7olOrd
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(346002)(376002)(396003)(39850400004)(366004)(66946007)(66476007)(66556008)(478600001)(16576012)(316002)(5660300002)(2906002)(6916009)(6486002)(86362001)(83380400001)(31686004)(6666004)(186003)(16526019)(8676002)(107886003)(36756003)(26005)(8936002)(956004)(2616005)(52116002)(53546011)(4326008)(31696002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: NXZ2eoEgNRV5ChtUZdAxNpJPqH7Ngi3jqY9+wBSCNw5zRlH9Z+hfjqI9h3nyHSuRew7C9mPNWZYEsAmKk9HkNCZfaen1yqorCeF/wPw//IkucB1ZR4Zuw1XPkvzMtKj3N4P57IJAlWiHcSVNqzjINyfEFTwpbR7StV88Y/0KyNiAz0EnMI8A0jvT4ufMPnZwIlLfRTw67IbTfIBBR/Jv/fMPetEjqxRViZ1/FlXzpqKDQ69FDhylBKWM/ZX04YIgoAd83aitEj/mtYJdCQyEgOIviRTfsphijjA9ygeMiqzaRKBmYI5f8ZJYFYlI1H4YRxbJ1Fc4yc6HgyIHnKihDtOj5iGn5k5gAFzv4qX3lugKHGcU7Fsr0dsl7qBHggsVGxSu3XJmP/oDzTl0bGIPpFJXempnyakxM8lGKX9tmKmK3qrOEfyArPViDK/RVsxC1ETmkWBtd2XGNB7t88t++Mm5dpcKObpj5kejGC5JC1m5yw8cyhqyedE+SO8iwTl3ArCeg0NHe8cuAtXoSH2mPL3JqcfdhlBYJ56iYFxJvP/GQpZZZnz2Yt1dmHYk/wWy6hq8DYUoenVlfRZAl9TgCjUp0WYeY5SI4OAT4V4ouvd+eaO2dOliTjcIW0EhdJdZ3YcpUre6KVJQswVJZEg8ow==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e82b824-dd56-4452-4cb5-08d832d972d6
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3745.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 09:34:39.0203 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +3J0kjUXwgEyVS++dJpU80uif/MHD6sZkPPxMY6x7FQRUhk/Aj1A10GtJChI/49dPJzMNzf7u3X98UJ8K20LSQrebazY5gx5QKA4JXgkVrs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3058
+Received-SPF: pass client-ip=40.107.8.111;
+ envelope-from=dplotnikov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 05:49:43
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,41 +120,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ armbru@redhat.com, den@openvz.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 28. Juli 2020 10:46:00 CEST Greg Kurz wrote:
-> > So I'll prepare a v8 with this patch here split into two.
-> > 
-> > But this is it. I don't see another chunk in this patch set that could be
-> > split further down in an useful way.
-> > 
-> > Best regards,
-> > Christian Schoenebeck
-> 
-> You're in charge now so feel free to do that if the development+testing
-> cost is acceptable to you. 
 
-Yep, that's the plan. This patch set is already thoroughly tested by me, so I 
-would like to avoid major changes for this series now that would require me to 
-restart major testing cycles.
 
-In this particular case, this patch-split ends up in 100% identical code. So 
-it is really just git history tweaking after all.
+On 27.07.2020 19:48, Dr. David Alan Gilbert wrote:
+> * Denis Plotnikov (dplotnikov@virtuozzo.com) wrote:
+...
+>> +static void page_fault_thread_stop(void)
+>> +{
+>> +    if (page_fault_fd) {
+>> +        close(page_fault_fd);
+>> +        page_fault_fd = 0;
+>> +    }
+> I think you need to do that after you've done the quit and join,
+> otherwise the fault thread might still be reading this.
 
-> You already know my take on having smaller
-> patches :)
+Seems to be so
+>
+>> +    if (thread_quit_fd) {
+>> +        uint64_t val = 1;
+>> +        int ret;
+>> +
+>> +        ret = write(thread_quit_fd, &val, sizeof(val));
+>> +        assert(ret == sizeof(val));
+>> +
+>> +        qemu_thread_join(&page_fault_thread);
+>> +        close(thread_quit_fd);
+>> +        thread_quit_fd = 0;
+>> +    }
+>> +}
+...
+>>   /**
+>>    * ram_find_and_save_block: finds a dirty page and sends it to f
+>>    *
+>> @@ -1782,6 +2274,7 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+>>       pss.block = rs->last_seen_block;
+>>       pss.page = rs->last_page;
+>>       pss.complete_round = false;
+>> +    pss.page_copy = NULL;
+>>   
+>>       if (!pss.block) {
+>>           pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+>> @@ -1794,11 +2287,30 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+>>           if (!found) {
+>>               /* priority queue empty, so just search for something dirty */
+>>               found = find_dirty_block(rs, &pss, &again);
+>> +
+>> +            if (found && migrate_background_snapshot()) {
+>> +                /*
+>> +                 * make a copy of the page and
+>> +                 * pass it to the page search status
+>> +                 */
+>> +                int ret;
+>> +                ret = ram_copy_page(pss.block, pss.page, &pss.page_copy);
+> I'm a bit confused about why we hit this; the way I'd thought about your
+> code was we turn on the write faulting, do one big save and then fixup
+> the faults as the save is happening (doing the copies) as the writes
+> hit; so when does this case hit?
 
-A pure desire for something is one thing, the actually available real-life 
-options are another thing. If you see more options than I can identify, you 
-are always invited to make your call.
+To make it more clear, let me draw the whole picture:
 
-Plus this patch series already contain trivial patches for a long time (e.g. 
-patch 1, 2, 6), and yet I haven't seen any ack from your side for any of them.
-Be invited for that as well.
+When we do background snapshot, the vm is paused untill all vmstate 
+EXCEPT ram is saved.
+RAM isn't written at all. That vmstate part is saved in the temporary 
+buffer.
 
-Best regards,
-Christian Schoenebeck
+Then all the RAM is marked as read-only and the vm is un-paused. Note 
+that at this moment all vm's vCPUs are
+running and can touch any part of memory.
+After that, the migration thread starts writing the ram content. Once a 
+memory chunk is written, the write protection is removed for that chunk.
+If a vCPU wants to write to a memory page which is write protected 
+(hasn't been written yet), this write is intercepted, the memory page is 
+copied
+and queued for writing, the memory page write access is restored. The 
+intention behind of that, is to allow vCPU to work with a memory page as 
+soon as possible.
 
+Once all the RAM has been written, the rest of the vmstate is written 
+from the buffer. This needs to be so because some of the emulated 
+devices, saved in that
+buffered vmstate part, expects the RAM content to be available first on 
+its loading.
+
+I hope this description will make things more clear.
+If not, please let me know, so I could add more details.
+
+Denis
+
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
 
 
