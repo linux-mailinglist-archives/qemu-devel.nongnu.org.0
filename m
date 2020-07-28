@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7C6230CFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:06:01 +0200 (CEST)
-Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FB2230D11
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:08:08 +0200 (CEST)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0RB2-0007cF-ON
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
+	id 1k0RD5-0002bG-9v
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9R-00064C-40
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:21 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28048
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9T-00067M-NP
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56572
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9N-0006s0-V6
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:20 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9Q-0006se-Vy
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595948656;
+ s=mimecast20190719; t=1595948659;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V8k5wikXvPVmhblRldgoJMU2RI2i2mycBnjay7fXFw4=;
- b=d6SlI/AoTrLJCyqv7kUrQNwf//p85kwPQYbWWG7lucs9vL+1CYxIsHzxlhI6sqTUZPMvqF
- v4llxAhnN6NcOl38s1qfoBTQ0srXPrpTPcaeCBC0WN4IwCZWB7Koov78dPgFClCNRtOtxT
- YLOTKAL0xhtNRrNIrWtH7IZBJocQ7MY=
+ bh=9gHPdIJ5NKGQI04PaXppH9DfzdHxKKOt0eEbsUplSgQ=;
+ b=AlNJ/+divCBdP6m6cv3pSDVdedbRZxANwncRtYG9dHGNiYA1igrLb82PzQtWTf7PezG/a8
+ WKpVPii5LBhCLy9k6h8i5Dl/b72Va2M2xc5v1tgh2B79QzlyfMO9YE1s04sg/1F41bXpcM
+ pS2OW9HP90L7BzCSgU2DvxYV7NCkEVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-IKHxsBRGNXm6ZfUCvEiLfQ-1; Tue, 28 Jul 2020 11:04:14 -0400
-X-MC-Unique: IKHxsBRGNXm6ZfUCvEiLfQ-1
+ us-mta-249-X_HjwuNTMZyXpdAxRgMWTQ-1; Tue, 28 Jul 2020 11:04:15 -0400
+X-MC-Unique: X_HjwuNTMZyXpdAxRgMWTQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBB3A10059B2;
- Tue, 28 Jul 2020 15:04:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54EC710059B6;
+ Tue, 28 Jul 2020 15:04:14 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D69DD1992D;
- Tue, 28 Jul 2020 15:04:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43E2219741;
+ Tue, 28 Jul 2020 15:04:13 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] block: nbd: Fix convert qcow2 compressed to nbd
-Date: Tue, 28 Jul 2020 10:04:00 -0500
-Message-Id: <20200728150408.291299-3-eblake@redhat.com>
+Subject: [PULL 3/9] iotests: Make qemu_nbd_popen() a contextmanager
+Date: Tue, 28 Jul 2020 10:04:01 -0500
+Message-Id: <20200728150408.291299-4-eblake@redhat.com>
 In-Reply-To: <20200728150408.291299-1-eblake@redhat.com>
 References: <20200728150408.291299-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:31:13
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -66,7 +64,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,140 +81,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Nir Soffer <nirsof@gmail.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
  Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nir Soffer <nirsof@gmail.com>
 
-When converting to qcow2 compressed format, the last step is a special
-zero length compressed write, ending in a call to bdrv_co_truncate(). This
-call always fails for the nbd driver since it does not implement
-bdrv_co_truncate().
+Instead of duplicating the code to wait until the server is ready and
+remember to terminate the server and wait for it, make it possible to
+use like this:
 
-For block devices, which have the same limits, the call succeeds since
-the file driver implements bdrv_co_truncate(). If the caller asked to
-truncate to the same or smaller size with exact=false, the truncate
-succeeds. Implement the same logic for nbd.
+    with qemu_nbd_popen('-k', sock, image):
+        # Access image via qemu-nbd socket...
 
-Example failing without this change:
+Only test 264 used this helper, but I had to modify the output since it
+did not consistently when starting and stopping qemu-nbd.
 
-In one shell start qemu-nbd:
-
-$ truncate -s 1g test.tar
-$ qemu-nbd --socket=/tmp/nbd.sock --persistent --format=raw --offset 1536 test.tar
-
-In another shell convert an image to qcow2 compressed via NBD:
-
-$ echo "disk data" > disk.raw
-$ truncate -s 1g disk.raw
-$ qemu-img convert -f raw -O qcow2 -c disk1.raw nbd+unix:///?socket=/tmp/nbd.sock; echo $?
-1
-
-qemu-img failed, but the conversion was successful:
-
-$ qemu-img info nbd+unix:///?socket=/tmp/nbd.sock
-image: nbd+unix://?socket=/tmp/nbd.sock
-file format: qcow2
-virtual size: 1 GiB (1073741824 bytes)
-...
-
-$ qemu-img check nbd+unix:///?socket=/tmp/nbd.sock
-No errors were found on the image.
-1/16384 = 0.01% allocated, 100.00% fragmented, 100.00% compressed clusters
-Image end offset: 393216
-
-$ qemu-img compare disk.raw nbd+unix:///?socket=/tmp/nbd.sock
-Images are identical.
-
-Fixes: https://bugzilla.redhat.com/1860627
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Message-Id: <20200727215846.395443-2-nsoffer@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200727215846.395443-3-nsoffer@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-[eblake: typo fixes]
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/nbd.c    | 30 ++++++++++++++++++++++++++++++
- qemu-io-cmds.c |  2 +-
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/264        | 72 +++++++++++++----------------------
+ tests/qemu-iotests/264.out    |  2 +
+ tests/qemu-iotests/iotests.py | 28 +++++++++++++-
+ 3 files changed, 54 insertions(+), 48 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 65a4f56924ec..8934bcb47901 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1966,6 +1966,33 @@ static void nbd_close(BlockDriverState *bs)
-     nbd_clear_bdrvstate(s);
- }
+diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
+index 304a7443d77f..666f164ed8f4 100755
+--- a/tests/qemu-iotests/264
++++ b/tests/qemu-iotests/264
+@@ -36,48 +36,32 @@ wait_step = 0.2
 
-+/*
-+ * NBD cannot truncate, but if the caller asks to truncate to the same size, or
-+ * to a smaller size with exact=false, there is no reason to fail the
-+ * operation.
-+ *
-+ * Preallocation mode is ignored since it does not seems useful to fail when
-+ * we never change anything.
-+ */
-+static int coroutine_fn nbd_co_truncate(BlockDriverState *bs, int64_t offset,
-+                                        bool exact, PreallocMode prealloc,
-+                                        BdrvRequestFlags flags, Error **errp)
-+{
-+    BDRVNBDState *s = bs->opaque;
+ qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
+ qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
+-srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
+
+-# Wait for NBD server availability
+-t = 0
+-ok = False
+-while t < wait_limit:
+-    ok = qemu_io_silent_check('-f', 'raw', '-c', 'read 0 512', nbd_uri)
+-    if ok:
+-        break
+-    time.sleep(wait_step)
+-    t += wait_step
++with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
++    vm = iotests.VM().add_drive(disk_a)
++    vm.launch()
++    vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
+
+-assert ok
++    vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
++               **{'node_name': 'backup0',
++                  'driver': 'raw',
++                  'file': {'driver': 'nbd',
++                           'server': {'type': 'unix', 'path': nbd_sock},
++                           'reconnect-delay': 10}})
++    vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
++               speed=(1 * 1024 * 1024))
+
+-vm = iotests.VM().add_drive(disk_a)
+-vm.launch()
+-vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
++    # Wait for some progress
++    t = 0
++    while t < wait_limit:
++        jobs = vm.qmp('query-block-jobs')['return']
++        if jobs and jobs[0]['offset'] > 0:
++            break
++        time.sleep(wait_step)
++        t += wait_step
+
+-vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
+-           **{'node_name': 'backup0',
+-              'driver': 'raw',
+-              'file': {'driver': 'nbd',
+-                       'server': {'type': 'unix', 'path': nbd_sock},
+-                       'reconnect-delay': 10}})
+-vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
+-           speed=(1 * 1024 * 1024))
+-
+-# Wait for some progress
+-t = 0
+-while t < wait_limit:
+-    jobs = vm.qmp('query-block-jobs')['return']
+     if jobs and jobs[0]['offset'] > 0:
+-        break
+-    time.sleep(wait_step)
+-    t += wait_step
+-
+-if jobs and jobs[0]['offset'] > 0:
+-    log('Backup job is started')
+-
+-log('Kill NBD server')
+-srv.kill()
+-srv.wait()
++        log('Backup job is started')
+
+ jobs = vm.qmp('query-block-jobs')['return']
+ if jobs and jobs[0]['offset'] < jobs[0]['len']:
+@@ -88,12 +72,8 @@ vm.qmp_log('block-job-set-speed', device='drive0', speed=0)
+ # Emulate server down time for 1 second
+ time.sleep(1)
+
+-log('Start NBD server')
+-srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
+-
+-e = vm.event_wait('BLOCK_JOB_COMPLETED')
+-log('Backup completed: {}'.format(e['data']['offset']))
+-
+-vm.qmp_log('blockdev-del', node_name='backup0')
+-srv.kill()
+-vm.shutdown()
++with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
++    e = vm.event_wait('BLOCK_JOB_COMPLETED')
++    log('Backup completed: {}'.format(e['data']['offset']))
++    vm.qmp_log('blockdev-del', node_name='backup0')
++    vm.shutdown()
+diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
+index 3000944b099a..c45b1e81ef26 100644
+--- a/tests/qemu-iotests/264.out
++++ b/tests/qemu-iotests/264.out
+@@ -1,3 +1,4 @@
++Start NBD server
+ {"execute": "blockdev-add", "arguments": {"driver": "raw", "file": {"driver": "nbd", "reconnect-delay": 10, "server": {"path": "TEST_DIR/PID-nbd-sock", "type": "unix"}}, "node-name": "backup0"}}
+ {"return": {}}
+ {"execute": "blockdev-backup", "arguments": {"device": "drive0", "speed": 1048576, "sync": "full", "target": "backup0"}}
+@@ -11,3 +12,4 @@ Start NBD server
+ Backup completed: 5242880
+ {"execute": "blockdev-del", "arguments": {"node-name": "backup0"}}
+ {"return": {}}
++Kill NBD server
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 3590ed78a0e4..8f79668435a0 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -28,10 +28,13 @@ import signal
+ import struct
+ import subprocess
+ import sys
++import time
+ from typing import (Any, Callable, Dict, Iterable,
+                     List, Optional, Sequence, Tuple, TypeVar)
+ import unittest
+
++from contextlib import contextmanager
 +
-+    if (offset != s->info.size && exact) {
-+        error_setg(errp, "Cannot resize NBD nodes");
-+        return -ENOTSUP;
-+    }
+ # pylint: disable=import-error, wrong-import-position
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu import qtest
+@@ -270,9 +273,30 @@ def qemu_nbd_early_pipe(*args):
+
+     return subp.returncode, output if subp.returncode else ''
+
++@contextmanager
+ def qemu_nbd_popen(*args):
+-    '''Run qemu-nbd in daemon mode and return the parent's exit code'''
+-    return subprocess.Popen(qemu_nbd_args + ['--persistent'] + list(args))
++    '''Context manager running qemu-nbd within the context'''
++    pid_file = file_path("pid")
 +
-+    if (offset > s->info.size) {
-+        error_setg(errp, "Cannot grow NBD nodes");
-+        return -EINVAL;
-+    }
++    cmd = list(qemu_nbd_args)
++    cmd.extend(('--persistent', '--pid-file', pid_file))
++    cmd.extend(args)
 +
-+    return 0;
-+}
++    log('Start NBD server')
++    p = subprocess.Popen(cmd)
++    try:
++        while not os.path.exists(pid_file):
++            if p.poll() is not None:
++                raise RuntimeError(
++                    "qemu-nbd terminated with exit code {}: {}"
++                    .format(p.returncode, ' '.join(cmd)))
 +
- static int64_t nbd_getlength(BlockDriverState *bs)
- {
-     BDRVNBDState *s = bs->opaque;
-@@ -2045,6 +2072,7 @@ static BlockDriver bdrv_nbd = {
-     .bdrv_co_flush_to_os        = nbd_co_flush,
-     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
-     .bdrv_refresh_limits        = nbd_refresh_limits,
-+    .bdrv_co_truncate           = nbd_co_truncate,
-     .bdrv_getlength             = nbd_getlength,
-     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
-     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
-@@ -2072,6 +2100,7 @@ static BlockDriver bdrv_nbd_tcp = {
-     .bdrv_co_flush_to_os        = nbd_co_flush,
-     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
-     .bdrv_refresh_limits        = nbd_refresh_limits,
-+    .bdrv_co_truncate           = nbd_co_truncate,
-     .bdrv_getlength             = nbd_getlength,
-     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
-     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
-@@ -2099,6 +2128,7 @@ static BlockDriver bdrv_nbd_unix = {
-     .bdrv_co_flush_to_os        = nbd_co_flush,
-     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
-     .bdrv_refresh_limits        = nbd_refresh_limits,
-+    .bdrv_co_truncate           = nbd_co_truncate,
-     .bdrv_getlength             = nbd_getlength,
-     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
-     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 851f07e8f8b9..baeae86d8c85 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1715,7 +1715,7 @@ static int truncate_f(BlockBackend *blk, int argc, char **argv)
-      * exact=true.  It is better to err on the "emit more errors" side
-      * than to be overly permissive.
-      */
--    ret = blk_truncate(blk, offset, true, PREALLOC_MODE_OFF, 0, &local_err);
-+    ret = blk_truncate(blk, offset, false, PREALLOC_MODE_OFF, 0, &local_err);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
++            time.sleep(0.01)
++        yield
++    finally:
++        log('Kill NBD server')
++        p.kill()
++        p.wait()
+
+ def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
+     '''Return True if two image files are identical'''
 -- 
 2.27.0
 
