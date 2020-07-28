@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CA72302FA
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C94C2302F9
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 08:32:35 +0200 (CEST)
-Received: from localhost ([::1]:40580 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0JAA-0006KL-Gt
+	id 1k0JAA-0006J3-68
 	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 02:32:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50642)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1k0J5b-00011f-Mj
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:27:51 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57952)
+ id 1k0J5c-00011v-0A
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:27:52 -0400
+Received: from mga09.intel.com ([134.134.136.24]:37270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1k0J5X-0002Ah-Rj
+ id 1k0J5X-0002B0-Gh
  for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:27:51 -0400
-IronPort-SDR: tbf9DNCrMHgwNc2jeMLTFMO06Cvmtm56orKtjGyfR9wIEvO/+7RBM6RRMdXAkBAn5xPXCRNBBw
- yws3/V6iRoew==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="130720417"
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="130720417"
+IronPort-SDR: NetYnAWPEafohbw3ZvlZW7Y3dVT1By7QDNp00YCzkKX8G6ZGFswk71jLM5MucuQAuAByjsOH66
+ 6w1r6IKPwa/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152412035"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="152412035"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2020 23:27:41 -0700
-IronPort-SDR: ZZBh2i2ZiLLbFq2GI8n1scT1MUTr2ELDtZKZ6a62v2422P609PZmiTGok7fQ4Y3rhkjetKls9u
- qv8FmENxgEzw==
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2020 23:27:44 -0700
+IronPort-SDR: 5+GfGKVDR5LtslOLL5rC8q4mxOMKWWo94xUZ7pTU3MDxa8T4G6KANA79n/IWWa6s096EbCxq3B
+ VadO1Sw/8seQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="394232901"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="394232918"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2020 23:27:40 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2020 23:27:41 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, alex.williamson@redhat.com, peterx@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v9 11/25] vfio/common: provide PASID alloc/free hooks
-Date: Mon, 27 Jul 2020 23:34:04 -0700
-Message-Id: <1595918058-33392-12-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v9 12/25] vfio: init HostIOMMUContext per-container
+Date: Mon, 27 Jul 2020 23:34:05 -0700
+Message-Id: <1595918058-33392-13-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1595918058-33392-1-git-send-email-yi.l.liu@intel.com>
 References: <1595918058-33392-1-git-send-email-yi.l.liu@intel.com>
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=yi.l.liu@intel.com;
- helo=mga12.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 02:27:42
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yi.l.liu@intel.com;
+ helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 02:27:45
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,8 +73,14 @@ Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch defines vfio_host_iommu_context_info, implements the PASID
-alloc/free hooks defined in HostIOMMUContextClass.
+In this patch, QEMU firstly gets iommu info from kernel to check the
+supported capabilities by a VFIO_IOMMU_TYPE1_NESTING iommu. And inits
+HostIOMMUContet instance.
+
+For vfio-pci devices, it could use pci_device_set/unset_iommu() to
+expose host iommu context to vIOMMU emulators. vIOMMU emulators
+could make use the methods provided by host iommu context. e.g.
+propagate requests to host iommu.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -84,134 +91,190 @@ Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/vfio/common.c                      | 66 +++++++++++++++++++++++++++++++++++
- include/hw/iommu/host_iommu_context.h |  3 ++
- include/hw/vfio/vfio-common.h         |  4 +++
- 3 files changed, 73 insertions(+)
+ hw/vfio/common.c | 113 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c    |  17 +++++++++
+ 2 files changed, 130 insertions(+)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index af91eca..41aaf41 100644
+index 41aaf41..9d90732 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -1183,6 +1183,50 @@ static int vfio_get_iommu_type(VFIOContainer *container,
+@@ -1227,10 +1227,102 @@ static int vfio_host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx,
      return ret;
  }
  
-+static int vfio_host_iommu_ctx_pasid_alloc(HostIOMMUContext *iommu_ctx,
-+                                           uint32_t min, uint32_t max,
-+                                           uint32_t *pasid)
++/**
++ * Get iommu info from host. Caller of this funcion should free
++ * the memory pointed by the returned pointer stored in @info
++ * after a successful calling when finished its usage.
++ */
++static int vfio_get_iommu_info(VFIOContainer *container,
++                         struct vfio_iommu_type1_info **info)
 +{
-+    VFIOContainer *container = container_of(iommu_ctx,
-+                                            VFIOContainer, iommu_ctx);
-+    struct vfio_iommu_type1_pasid_request req;
-+    int ret = 0;
 +
-+    req.argsz = sizeof(req);
-+    req.flags = VFIO_IOMMU_FLAG_ALLOC_PASID;
-+    req.range.min = min;
-+    req.range.max = max;
++    size_t argsz = sizeof(struct vfio_iommu_type1_info);
 +
-+    ret = ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-+    if (ret < 0) {
-+        error_report("%s: alloc failed (%m)", __func__);
-+        return ret;
++    *info = g_malloc0(argsz);
++
++retry:
++    (*info)->argsz = argsz;
++
++    if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
++        g_free(*info);
++        *info = NULL;
++        return -errno;
 +    }
-+    *pasid = ret;
++
++    if (((*info)->argsz > argsz)) {
++        argsz = (*info)->argsz;
++        *info = g_realloc(*info, argsz);
++        goto retry;
++    }
++
 +    return 0;
 +}
 +
-+static int vfio_host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx,
-+                                          uint32_t pasid)
++static struct vfio_info_cap_header *
++vfio_get_iommu_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
 +{
-+    VFIOContainer *container = container_of(iommu_ctx,
-+                                            VFIOContainer, iommu_ctx);
-+    struct vfio_iommu_type1_pasid_request req;
++    struct vfio_info_cap_header *hdr;
++    void *ptr = info;
 +
-+    int ret = 0;
-+
-+    req.argsz = sizeof(req);
-+    req.flags = VFIO_IOMMU_FLAG_FREE_PASID;
-+    req.range.min = pasid;
-+    req.range.max = pasid + 1;
-+
-+    ret = ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-+    if (ret) {
-+        error_report("%s: free failed (%m)", __func__);
++    if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
++        return NULL;
 +    }
-+    return ret;
++
++    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
++        if (hdr->id == id) {
++            return hdr;
++        }
++    }
++
++    return NULL;
++}
++
++static int vfio_get_nesting_iommu_cap(VFIOContainer *container,
++                   struct vfio_iommu_type1_info_cap_nesting **cap_nesting)
++{
++    struct vfio_iommu_type1_info *info;
++    struct vfio_info_cap_header *hdr;
++    struct vfio_iommu_type1_info_cap_nesting *cap;
++    struct iommu_nesting_info *nest_info;
++    int ret;
++    uint32_t minsz, cap_size;
++
++    ret = vfio_get_iommu_info(container, &info);
++    if (ret) {
++        return ret;
++    }
++
++    hdr = vfio_get_iommu_info_cap(info,
++                        VFIO_IOMMU_TYPE1_INFO_CAP_NESTING);
++    if (!hdr) {
++        g_free(info);
++        return -EINVAL;
++    }
++
++    cap = container_of(hdr,
++                struct vfio_iommu_type1_info_cap_nesting, header);
++
++    nest_info = &cap->info;
++    minsz = offsetof(struct iommu_nesting_info, data);
++    if (nest_info->argsz < minsz) {
++        g_free(info);
++        return -EINVAL;
++    }
++
++    cap_size = offsetof(struct vfio_iommu_type1_info_cap_nesting, info) +
++               nest_info->argsz;
++    *cap_nesting = g_malloc0(cap_size);
++    memcpy(*cap_nesting, cap, cap_size);
++
++    g_free(info);
++    return 0;
 +}
 +
  static int vfio_init_container(VFIOContainer *container, int group_fd,
                                 bool want_nested, Error **errp)
  {
-@@ -1802,3 +1846,25 @@ int vfio_eeh_as_op(AddressSpace *as, uint32_t op)
+     int iommu_type, ret;
++    uint64_t flags = 0;
+ 
+     iommu_type = vfio_get_iommu_type(container, want_nested, errp);
+     if (iommu_type < 0) {
+@@ -1258,6 +1350,27 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+         return -errno;
      }
-     return vfio_eeh_container_op(container, op);
+ 
++    if (iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
++        struct vfio_iommu_type1_info_cap_nesting *nesting = NULL;
++        struct iommu_nesting_info *nest_info;
++
++        ret = vfio_get_nesting_iommu_cap(container, &nesting);
++        if (ret) {
++            error_setg_errno(errp, -ret,
++                             "Failed to get nesting iommu cap");
++            return ret;
++        }
++
++        nest_info = (struct iommu_nesting_info *) &nesting->info;
++        flags |= (nest_info->features & IOMMU_NESTING_FEAT_SYSWIDE_PASID) ?
++                 HOST_IOMMU_PASID_REQUEST : 0;
++        host_iommu_ctx_init(&container->iommu_ctx,
++                            sizeof(container->iommu_ctx),
++                            TYPE_VFIO_HOST_IOMMU_CONTEXT,
++                            flags);
++        g_free(nesting);
++    }
++
+     container->iommu_type = iommu_type;
+     return 0;
  }
-+
-+static void vfio_host_iommu_context_class_init(ObjectClass *klass,
-+                                                       void *data)
-+{
-+    HostIOMMUContextClass *hicxc = HOST_IOMMU_CONTEXT_CLASS(klass);
-+
-+    hicxc->pasid_alloc = vfio_host_iommu_ctx_pasid_alloc;
-+    hicxc->pasid_free = vfio_host_iommu_ctx_pasid_free;
-+}
-+
-+static const TypeInfo vfio_host_iommu_context_info = {
-+    .parent = TYPE_HOST_IOMMU_CONTEXT,
-+    .name = TYPE_VFIO_HOST_IOMMU_CONTEXT,
-+    .class_init = vfio_host_iommu_context_class_init,
-+};
-+
-+static void vfio_register_types(void)
-+{
-+    type_register_static(&vfio_host_iommu_context_info);
-+}
-+
-+type_init(vfio_register_types)
-diff --git a/include/hw/iommu/host_iommu_context.h b/include/hw/iommu/host_iommu_context.h
-index 35c4861..227c433 100644
---- a/include/hw/iommu/host_iommu_context.h
-+++ b/include/hw/iommu/host_iommu_context.h
-@@ -33,6 +33,9 @@
- #define TYPE_HOST_IOMMU_CONTEXT "qemu:host-iommu-context"
- #define HOST_IOMMU_CONTEXT(obj) \
-         OBJECT_CHECK(HostIOMMUContext, (obj), TYPE_HOST_IOMMU_CONTEXT)
-+#define HOST_IOMMU_CONTEXT_CLASS(klass) \
-+        OBJECT_CLASS_CHECK(HostIOMMUContextClass, (klass), \
-+                         TYPE_HOST_IOMMU_CONTEXT)
- #define HOST_IOMMU_CONTEXT_GET_CLASS(obj) \
-         OBJECT_GET_CLASS(HostIOMMUContextClass, (obj), \
-                          TYPE_HOST_IOMMU_CONTEXT)
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index bdb09f4..a5eaf35 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -26,12 +26,15 @@
- #include "qemu/notify.h"
- #include "ui/console.h"
- #include "hw/display/ramfb.h"
-+#include "hw/iommu/host_iommu_context.h"
- #ifdef CONFIG_LINUX
- #include <linux/vfio.h>
- #endif
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 8cd1e72..f954c28 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2707,6 +2707,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+     VFIODevice *vbasedev_iter;
+     VFIOGroup *group;
++    VFIOContainer *container;
+     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+     Error *err = NULL;
+     ssize_t len;
+@@ -2783,6 +2784,15 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         goto error;
+     }
  
- #define VFIO_MSG_PREFIX "vfio %s: "
- 
-+#define TYPE_VFIO_HOST_IOMMU_CONTEXT "qemu:vfio-host-iommu-context"
++    container = group->container;
++    if (container->iommu_ctx.initialized &&
++        pci_device_set_iommu_context(pdev, &container->iommu_ctx)) {
++        error_setg(errp, "device attachment is denied by vIOMMU, "
++                   "please check host IOMMU nesting capability");
++        vfio_put_group(group);
++        goto error;
++    }
 +
- enum {
-     VFIO_DEVICE_TYPE_PCI = 0,
-     VFIO_DEVICE_TYPE_PLATFORM = 1,
-@@ -71,6 +74,7 @@ typedef struct VFIOContainer {
-     MemoryListener listener;
-     MemoryListener prereg_listener;
-     unsigned iommu_type;
-+    HostIOMMUContext iommu_ctx;
-     Error *error;
-     bool initialized;
-     unsigned long pgsizes;
+     QLIST_FOREACH(vbasedev_iter, &group->device_list, next) {
+         if (strcmp(vbasedev_iter->name, vdev->vbasedev.name) == 0) {
+             error_setg(errp, "device is already attached");
+@@ -3068,9 +3078,16 @@ static void vfio_instance_finalize(Object *obj)
+ static void vfio_exitfn(PCIDevice *pdev)
+ {
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOContainer *container;
+ 
+     vfio_unregister_req_notifier(vdev);
+     vfio_unregister_err_notifier(vdev);
++
++    container = vdev->vbasedev.group->container;
++    if (container->iommu_ctx.initialized) {
++        pci_device_unset_iommu_context(pdev);
++    }
++
+     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+     if (vdev->irqchip_change_notifier.notify) {
+         kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
 -- 
 2.7.4
 
