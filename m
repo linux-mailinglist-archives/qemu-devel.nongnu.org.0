@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42FB2230D11
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:08:08 +0200 (CEST)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E7A230D2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:13:04 +0200 (CEST)
+Received: from localhost ([::1]:44902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0RD5-0002bG-9v
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39838)
+	id 1k0RHr-00038S-6i
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9T-00067M-NP
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56572
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9Z-0006IU-30
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:29 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21203
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9Q-0006se-Vy
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:23 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9V-0006uE-UF
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595948659;
+ s=mimecast20190719; t=1595948665;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9gHPdIJ5NKGQI04PaXppH9DfzdHxKKOt0eEbsUplSgQ=;
- b=AlNJ/+divCBdP6m6cv3pSDVdedbRZxANwncRtYG9dHGNiYA1igrLb82PzQtWTf7PezG/a8
- WKpVPii5LBhCLy9k6h8i5Dl/b72Va2M2xc5v1tgh2B79QzlyfMO9YE1s04sg/1F41bXpcM
- pS2OW9HP90L7BzCSgU2DvxYV7NCkEVU=
+ bh=kEro/WGEDa7FLpObt0GBhXJnpiF9wp9HuVFS+fPX2vU=;
+ b=AhDdQ+iDADqz+amOEYn11uLvXqczSer8KaZ4unc3jAmFX73lThE8kBHwpVL+PObFpUysYV
+ 5PWMgnxg9buNNsTBc3KCriJ4Qx8lzZOJs/23cArpY9+onJqWtdzuDw4CKbgFWhAKrj0LVN
+ hgXdcU5+a2JgtyV5jitY+UsD/KtkuBU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-X_HjwuNTMZyXpdAxRgMWTQ-1; Tue, 28 Jul 2020 11:04:15 -0400
-X-MC-Unique: X_HjwuNTMZyXpdAxRgMWTQ-1
+ us-mta-472-arlqmFcUPm6xpcDegXiJqA-1; Tue, 28 Jul 2020 11:04:16 -0400
+X-MC-Unique: arlqmFcUPm6xpcDegXiJqA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54EC710059B6;
- Tue, 28 Jul 2020 15:04:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9346800460;
+ Tue, 28 Jul 2020 15:04:15 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43E2219741;
- Tue, 28 Jul 2020 15:04:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 968FB19C71;
+ Tue, 28 Jul 2020 15:04:14 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] iotests: Make qemu_nbd_popen() a contextmanager
-Date: Tue, 28 Jul 2020 10:04:01 -0500
-Message-Id: <20200728150408.291299-4-eblake@redhat.com>
+Subject: [PULL 4/9] iotests: Add more qemu_img helpers
+Date: Tue, 28 Jul 2020 10:04:02 -0500
+Message-Id: <20200728150408.291299-5-eblake@redhat.com>
 In-Reply-To: <20200728150408.291299-1-eblake@redhat.com>
 References: <20200728150408.291299-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,18 +54,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 11:04:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,183 +87,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nir Soffer <nirsof@gmail.com>
 
-Instead of duplicating the code to wait until the server is ready and
-remember to terminate the server and wait for it, make it possible to
-use like this:
+Add 2 helpers for measuring and checking images:
+- qemu_img_measure()
+- qemu_img_check()
 
-    with qemu_nbd_popen('-k', sock, image):
-        # Access image via qemu-nbd socket...
-
-Only test 264 used this helper, but I had to modify the output since it
-did not consistently when starting and stopping qemu-nbd.
+Both use --output-json and parse the returned json to make easy to use
+in other tests. I'm going to use them in a new test, and I hope they
+will be useful in may other tests.
 
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Message-Id: <20200727215846.395443-3-nsoffer@redhat.com>
+Message-Id: <20200727215846.395443-4-nsoffer@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/264        | 72 +++++++++++++----------------------
- tests/qemu-iotests/264.out    |  2 +
- tests/qemu-iotests/iotests.py | 28 +++++++++++++-
- 3 files changed, 54 insertions(+), 48 deletions(-)
+ tests/qemu-iotests/iotests.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
-index 304a7443d77f..666f164ed8f4 100755
---- a/tests/qemu-iotests/264
-+++ b/tests/qemu-iotests/264
-@@ -36,48 +36,32 @@ wait_step = 0.2
-
- qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
- qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
--srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
-
--# Wait for NBD server availability
--t = 0
--ok = False
--while t < wait_limit:
--    ok = qemu_io_silent_check('-f', 'raw', '-c', 'read 0 512', nbd_uri)
--    if ok:
--        break
--    time.sleep(wait_step)
--    t += wait_step
-+with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
-+    vm = iotests.VM().add_drive(disk_a)
-+    vm.launch()
-+    vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
-
--assert ok
-+    vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
-+               **{'node_name': 'backup0',
-+                  'driver': 'raw',
-+                  'file': {'driver': 'nbd',
-+                           'server': {'type': 'unix', 'path': nbd_sock},
-+                           'reconnect-delay': 10}})
-+    vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
-+               speed=(1 * 1024 * 1024))
-
--vm = iotests.VM().add_drive(disk_a)
--vm.launch()
--vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
-+    # Wait for some progress
-+    t = 0
-+    while t < wait_limit:
-+        jobs = vm.qmp('query-block-jobs')['return']
-+        if jobs and jobs[0]['offset'] > 0:
-+            break
-+        time.sleep(wait_step)
-+        t += wait_step
-
--vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
--           **{'node_name': 'backup0',
--              'driver': 'raw',
--              'file': {'driver': 'nbd',
--                       'server': {'type': 'unix', 'path': nbd_sock},
--                       'reconnect-delay': 10}})
--vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
--           speed=(1 * 1024 * 1024))
--
--# Wait for some progress
--t = 0
--while t < wait_limit:
--    jobs = vm.qmp('query-block-jobs')['return']
-     if jobs and jobs[0]['offset'] > 0:
--        break
--    time.sleep(wait_step)
--    t += wait_step
--
--if jobs and jobs[0]['offset'] > 0:
--    log('Backup job is started')
--
--log('Kill NBD server')
--srv.kill()
--srv.wait()
-+        log('Backup job is started')
-
- jobs = vm.qmp('query-block-jobs')['return']
- if jobs and jobs[0]['offset'] < jobs[0]['len']:
-@@ -88,12 +72,8 @@ vm.qmp_log('block-job-set-speed', device='drive0', speed=0)
- # Emulate server down time for 1 second
- time.sleep(1)
-
--log('Start NBD server')
--srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
--
--e = vm.event_wait('BLOCK_JOB_COMPLETED')
--log('Backup completed: {}'.format(e['data']['offset']))
--
--vm.qmp_log('blockdev-del', node_name='backup0')
--srv.kill()
--vm.shutdown()
-+with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
-+    e = vm.event_wait('BLOCK_JOB_COMPLETED')
-+    log('Backup completed: {}'.format(e['data']['offset']))
-+    vm.qmp_log('blockdev-del', node_name='backup0')
-+    vm.shutdown()
-diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
-index 3000944b099a..c45b1e81ef26 100644
---- a/tests/qemu-iotests/264.out
-+++ b/tests/qemu-iotests/264.out
-@@ -1,3 +1,4 @@
-+Start NBD server
- {"execute": "blockdev-add", "arguments": {"driver": "raw", "file": {"driver": "nbd", "reconnect-delay": 10, "server": {"path": "TEST_DIR/PID-nbd-sock", "type": "unix"}}, "node-name": "backup0"}}
- {"return": {}}
- {"execute": "blockdev-backup", "arguments": {"device": "drive0", "speed": 1048576, "sync": "full", "target": "backup0"}}
-@@ -11,3 +12,4 @@ Start NBD server
- Backup completed: 5242880
- {"execute": "blockdev-del", "arguments": {"node-name": "backup0"}}
- {"return": {}}
-+Kill NBD server
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 3590ed78a0e4..8f79668435a0 100644
+index 8f79668435a0..717b5b652c45 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -28,10 +28,13 @@ import signal
- import struct
- import subprocess
- import sys
-+import time
- from typing import (Any, Callable, Dict, Iterable,
-                     List, Optional, Sequence, Tuple, TypeVar)
- import unittest
+@@ -141,6 +141,12 @@ def qemu_img_create(*args):
 
-+from contextlib import contextmanager
-+
- # pylint: disable=import-error, wrong-import-position
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qtest
-@@ -270,9 +273,30 @@ def qemu_nbd_early_pipe(*args):
+     return qemu_img(*args)
 
-     return subp.returncode, output if subp.returncode else ''
-
-+@contextmanager
- def qemu_nbd_popen(*args):
--    '''Run qemu-nbd in daemon mode and return the parent's exit code'''
--    return subprocess.Popen(qemu_nbd_args + ['--persistent'] + list(args))
-+    '''Context manager running qemu-nbd within the context'''
-+    pid_file = file_path("pid")
++def qemu_img_measure(*args):
++    return json.loads(qemu_img_pipe("measure", "--output", "json", *args))
 +
-+    cmd = list(qemu_nbd_args)
-+    cmd.extend(('--persistent', '--pid-file', pid_file))
-+    cmd.extend(args)
++def qemu_img_check(*args):
++    return json.loads(qemu_img_pipe("check", "--output", "json", *args))
 +
-+    log('Start NBD server')
-+    p = subprocess.Popen(cmd)
-+    try:
-+        while not os.path.exists(pid_file):
-+            if p.poll() is not None:
-+                raise RuntimeError(
-+                    "qemu-nbd terminated with exit code {}: {}"
-+                    .format(p.returncode, ' '.join(cmd)))
-+
-+            time.sleep(0.01)
-+        yield
-+    finally:
-+        log('Kill NBD server')
-+        p.kill()
-+        p.wait()
-
- def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
-     '''Return True if two image files are identical'''
+ def qemu_img_verbose(*args):
+     '''Run qemu-img without suppressing its output and return the exit code'''
+     exitcode = subprocess.call(qemu_img_args + list(args))
 -- 
 2.27.0
 
