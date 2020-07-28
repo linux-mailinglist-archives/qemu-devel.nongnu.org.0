@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DDD230D13
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:08:12 +0200 (CEST)
-Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C15230D17
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:10:10 +0200 (CEST)
+Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0RD9-0002ks-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39946)
+	id 1k0RF3-0006ER-1p
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9X-0006Ft-Qm
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:27 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20205
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9b-0006OV-Hz
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47816
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9V-0006u1-2C
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:27 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0R9Y-0006uy-MF
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:04:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595948664;
+ s=mimecast20190719; t=1595948667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r/a1rGqjYWIyOxl6RfY6IwBJxZ5hlPtmnidW1TBR+C0=;
- b=DYevB8bevnY/QKT7vGiDPF85PUwfXgYBtzdq7ZXzKHpmoYrL8tDD2e8/zpFKk8IVQGOv8U
- cLYU5ew2Hlma9LWdf7S6UkI24jbaBMUyFoMXmEt85U1M0OF8iU3DHd2aXqKVajzi4n7J56
- 0IWltmMvaS+rgGFPK62Nup2OjXsLQwA=
+ bh=SB4Hc2q6uuPHOSGYKf6pIASqeyKKgufXtcN8atc9kFs=;
+ b=VZ5bPJInfSNvdu2EIvAi1E6SdN/wzte/sdqDfS8q/OujeQAyfsnpE+GwK8RyVm+zI1r+Av
+ NDAW5seWmuGK+nerPh9QbJxjQKTB3IsUdIZoiz6jFmxHFIJkpqt4bdI4p28kblaem6RYPx
+ PmeQnV02PPKslrU8uocV39n1zpIE59s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-x95emFrtNk67EN07YTod7A-1; Tue, 28 Jul 2020 11:04:20 -0400
-X-MC-Unique: x95emFrtNk67EN07YTod7A-1
+ us-mta-435-QrHGTC0FONunJbziWCHV0g-1; Tue, 28 Jul 2020 11:04:23 -0400
+X-MC-Unique: QrHGTC0FONunJbziWCHV0g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BC741030C22;
- Tue, 28 Jul 2020 15:04:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DB9A18A1DFE;
+ Tue, 28 Jul 2020 15:04:22 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 634F719C71;
- Tue, 28 Jul 2020 15:04:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EA0E19C71;
+ Tue, 28 Jul 2020 15:04:19 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] block/nbd: allow drain during reconnect attempt
-Date: Tue, 28 Jul 2020 10:04:05 -0500
-Message-Id: <20200728150408.291299-8-eblake@redhat.com>
+Subject: [PULL 8/9] block/nbd: on shutdown terminate connection attempt
+Date: Tue, 28 Jul 2020 10:04:06 -0500
+Message-Id: <20200728150408.291299-9-eblake@redhat.com>
 In-Reply-To: <20200728150408.291299-1-eblake@redhat.com>
 References: <20200728150408.291299-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -87,11 +87,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-It should be safe to reenter qio_channel_yield() on io/channel read/write
-path, so it's safe to reduce in_flight and allow attaching new aio
-context. And no problem to allow drain itself: connection attempt is
-not a guest request. Moreover, if remote server is down, we can hang
-in negotiation, blocking drain section and provoking a dead lock.
+On shutdown nbd driver may be in a connecting state. We should shutdown
+it as well, otherwise we may hang in
+nbd_teardown_connection, waiting for conneciton_co to finish in
+BDRV_POLL_WHILE(bs, s->connection_co) loop if remote server is down.
 
 How to reproduce the dead lock:
 
@@ -116,102 +115,75 @@ n=1; while true; do
     ./qemu-io -c 'read 0 512' nbd://127.0.0.1:10000;
 done
 
-After some time, qemu-io will hang trying to drain, for example, like
-this:
-
- #3 aio_poll (ctx=0x55f006bdd890, blocking=true) at
-    util/aio-posix.c:600
- #4 bdrv_do_drained_begin (bs=0x55f006bea710, recursive=false,
-    parent=0x0, ignore_bds_parents=false, poll=true) at block/io.c:427
- #5 bdrv_drained_begin (bs=0x55f006bea710) at block/io.c:433
- #6 blk_drain (blk=0x55f006befc80) at block/block-backend.c:1710
- #7 blk_unref (blk=0x55f006befc80) at block/block-backend.c:498
- #8 bdrv_open_inherit (filename=0x7fffba1563bc
-    "nbd+tcp://127.0.0.1:10000", reference=0x0, options=0x55f006be86d0,
-    flags=24578, parent=0x0, child_class=0x0, child_role=0,
-    errp=0x7fffba154620) at block.c:3491
- #9 bdrv_open (filename=0x7fffba1563bc "nbd+tcp://127.0.0.1:10000",
-    reference=0x0, options=0x0, flags=16386, errp=0x7fffba154620) at
-    block.c:3513
- #10 blk_new_open (filename=0x7fffba1563bc "nbd+tcp://127.0.0.1:10000",
-    reference=0x0, options=0x0, flags=16386, errp=0x7fffba154620) at
-    block/block-backend.c:421
-
-And connection_co stack like this:
-
- #0 qemu_coroutine_switch (from_=0x55f006bf2650, to_=0x7fe96e07d918,
-    action=COROUTINE_YIELD) at util/coroutine-ucontext.c:302
- #1 qemu_coroutine_yield () at util/qemu-coroutine.c:193
- #2 qio_channel_yield (ioc=0x55f006bb3c20, condition=G_IO_IN) at
-    io/channel.c:472
- #3 qio_channel_readv_all_eof (ioc=0x55f006bb3c20, iov=0x7fe96d729bf0,
-    niov=1, errp=0x7fe96d729eb0) at io/channel.c:110
- #4 qio_channel_readv_all (ioc=0x55f006bb3c20, iov=0x7fe96d729bf0,
-    niov=1, errp=0x7fe96d729eb0) at io/channel.c:143
- #5 qio_channel_read_all (ioc=0x55f006bb3c20, buf=0x7fe96d729d28
-    "\300.\366\004\360U", buflen=8, errp=0x7fe96d729eb0) at
-    io/channel.c:247
- #6 nbd_read (ioc=0x55f006bb3c20, buffer=0x7fe96d729d28, size=8,
-    desc=0x55f004f69644 "initial magic", errp=0x7fe96d729eb0) at
-    /work/src/qemu/master/include/block/nbd.h:365
- #7 nbd_read64 (ioc=0x55f006bb3c20, val=0x7fe96d729d28,
-    desc=0x55f004f69644 "initial magic", errp=0x7fe96d729eb0) at
-    /work/src/qemu/master/include/block/nbd.h:391
- #8 nbd_start_negotiate (aio_context=0x55f006bdd890,
-    ioc=0x55f006bb3c20, tlscreds=0x0, hostname=0x0,
-    outioc=0x55f006bf19f8, structured_reply=true,
-    zeroes=0x7fe96d729dca, errp=0x7fe96d729eb0) at nbd/client.c:904
- #9 nbd_receive_negotiate (aio_context=0x55f006bdd890,
-    ioc=0x55f006bb3c20, tlscreds=0x0, hostname=0x0,
-    outioc=0x55f006bf19f8, info=0x55f006bf1a00, errp=0x7fe96d729eb0) at
-    nbd/client.c:1032
- #10 nbd_client_connect (bs=0x55f006bea710, errp=0x7fe96d729eb0) at
-    block/nbd.c:1460
- #11 nbd_reconnect_attempt (s=0x55f006bf19f0) at block/nbd.c:287
- #12 nbd_co_reconnect_loop (s=0x55f006bf19f0) at block/nbd.c:309
- #13 nbd_connection_entry (opaque=0x55f006bf19f0) at block/nbd.c:360
- #14 coroutine_trampoline (i0=113190480, i1=22000) at
-    util/coroutine-ucontext.c:173
-
-Note, that the hang may be
+After some time, qemu-io will hang. Note, that this hang may be
 triggered by another bug, so the whole case is fixed only together with
-commit "block/nbd: on shutdown terminate connection attempt".
+commit "block/nbd: allow drain during reconnect attempt".
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200727184751.15704-3-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200727184751.15704-4-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/nbd.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ block/nbd.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 3558c173e34b..ee9ab7512b65 100644
+index ee9ab7512b65..620c97be6ba2 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -291,8 +291,22 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-         goto out;
+@@ -209,11 +209,15 @@ static void nbd_teardown_connection(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+
+-    if (s->state == NBD_CLIENT_CONNECTED) {
++    if (s->ioc) {
+         /* finish any pending coroutines */
+-        assert(s->ioc);
+         qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
++    } else if (s->sioc) {
++        /* abort negotiation */
++        qio_channel_shutdown(QIO_CHANNEL(s->sioc), QIO_CHANNEL_SHUTDOWN_BOTH,
++                             NULL);
+     }
++
+     s->state = NBD_CLIENT_QUIT;
+     if (s->connection_co) {
+         if (s->connection_co_sleep_ns_state) {
+@@ -1459,6 +1463,9 @@ static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
+     int ret;
+
+     trace_nbd_client_handshake(s->export);
++
++    s->sioc = sioc;
++
+     qio_channel_set_blocking(QIO_CHANNEL(sioc), false, NULL);
+     qio_channel_attach_aio_context(QIO_CHANNEL(sioc), aio_context);
+
+@@ -1473,6 +1480,7 @@ static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
+     g_free(s->info.name);
+     if (ret < 0) {
+         object_unref(OBJECT(sioc));
++        s->sioc = NULL;
+         return ret;
+     }
+     if (s->x_dirty_bitmap && !s->info.base_allocation) {
+@@ -1498,8 +1506,6 @@ static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
+         }
      }
 
-+    bdrv_dec_in_flight(s->bs);
-+
-     ret = nbd_client_handshake(s->bs, sioc, &local_err);
+-    s->sioc = sioc;
+-
+     if (!s->ioc) {
+         s->ioc = QIO_CHANNEL(sioc);
+         object_ref(OBJECT(s->ioc));
+@@ -1520,6 +1526,7 @@ static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
+         nbd_send_request(s->ioc ?: QIO_CHANNEL(sioc), &request);
 
-+    if (s->drained) {
-+        s->wait_drained_end = true;
-+        while (s->drained) {
-+            /*
-+             * We may be entered once from nbd_client_attach_aio_context_bh
-+             * and then from nbd_client_co_drain_end. So here is a loop.
-+             */
-+            qemu_coroutine_yield();
-+        }
-+    }
-+    bdrv_inc_in_flight(s->bs);
-+
- out:
-     s->connect_status = ret;
-     error_free(s->connect_err);
+         object_unref(OBJECT(sioc));
++        s->sioc = NULL;
+
+         return ret;
+     }
 -- 
 2.27.0
 
