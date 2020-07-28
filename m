@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322D4230392
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:12:20 +0200 (CEST)
-Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30B52303A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 09:14:22 +0200 (CEST)
+Received: from localhost ([::1]:46266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Jmd-0000sr-9k
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
+	id 1k0Joc-0002yb-0f
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 03:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1k0Jlh-0008J7-Uw
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:11:21 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4160 helo=huawei.com)
+ id 1k0Jlk-0008Ls-GN
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:11:24 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4162 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1k0Jlf-0007oI-Jr
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:11:21 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id E717ADA38931473CEA7F;
- Tue, 28 Jul 2020 15:11:13 +0800 (CST)
-Received: from localhost (10.174.149.56) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Jul 2020
- 15:11:07 +0800
+ id 1k0Jli-0007oa-Dt
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 03:11:24 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id CB998ADB37732AA8688D;
+ Tue, 28 Jul 2020 15:11:18 +0800 (CST)
+Received: from localhost (10.174.149.56) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Jul 2020
+ 15:11:08 +0800
 From: Hogan Wang <hogan.wang@huawei.com>
 To: <pbonzini@redhat.com>, <qemu-devel@nongnu.org>
-Subject: [PATCH 1/3] qemu-options: introduce functions to parse options
-Date: Tue, 28 Jul 2020 15:11:02 +0800
-Message-ID: <20200728071104.3835-1-hogan.wang@huawei.com>
+Subject: [PATCH 2/3] qemu-options: introduce parse_net_client
+Date: Tue, 28 Jul 2020 15:11:03 +0800
+Message-ID: <20200728071104.3835-2-hogan.wang@huawei.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200728071104.3835-1-hogan.wang@huawei.com>
+References: <20200728071104.3835-1-hogan.wang@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -64,155 +66,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: w00506750 <hogan.wang@huawei.com>
 
-All of the qemu options are parsed in qemu_init function,
-and make qemu_init function too long and nasty. Introduce
-'parser' function pointer in QEMUOption struct to parse
-one option or a set of options.
+introduce parse_net_client to parse netdev/nic/net clients.
 
 Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
 ---
- qemu-options-wrapper.h | 10 +++++-----
- qemu-options.hx        | 12 ++++++++----
- softmmu/vl.c           | 33 +++++++++++++++++----------------
- 3 files changed, 30 insertions(+), 25 deletions(-)
+ include/net/net.h |  1 -
+ net/net.c         |  9 ---------
+ qemu-options.hx   |  8 +++++---
+ softmmu/vl.c      | 30 ++++++++++++------------------
+ 4 files changed, 17 insertions(+), 31 deletions(-)
 
-diff --git a/qemu-options-wrapper.h b/qemu-options-wrapper.h
-index 6f548e3922..efdfbf1dfd 100644
---- a/qemu-options-wrapper.h
-+++ b/qemu-options-wrapper.h
-@@ -1,15 +1,15 @@
+diff --git a/include/net/net.h b/include/net/net.h
+index e7ef42d62b..d41dad5a96 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -198,7 +198,6 @@ extern NICInfo nd_table[MAX_NICS];
+ extern const char *host_net_devices[];
  
- #if defined(QEMU_OPTIONS_GENERATE_ENUM)
+ /* from net.c */
+-int net_client_parse(QemuOptsList *opts_list, const char *str);
+ int net_init_clients(Error **errp);
+ void net_check_clients(void);
+ void net_cleanup(void);
+diff --git a/net/net.c b/net/net.c
+index bbaedb3c7a..7380ab0123 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1507,15 +1507,6 @@ int net_init_clients(Error **errp)
+     return 0;
+ }
  
--#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)     \
-+#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask, ...)     \
-     opt_enum,
- #define DEFHEADING(text)
- #define ARCHHEADING(text, arch_mask)
- 
- #elif defined(QEMU_OPTIONS_GENERATE_HELP)
- 
--#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)    \
--    if ((arch_mask) & arch_type)                               \
-+#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask, ...)    \
-+    if ((arch_mask) & arch_type)                                    \
-         fputs(opt_help, stdout);
- 
- #define ARCHHEADING(text, arch_mask) \
-@@ -20,8 +20,8 @@
- 
- #elif defined(QEMU_OPTIONS_GENERATE_OPTIONS)
- 
--#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask)     \
--    { option, opt_arg, opt_enum, arch_mask },
-+#define DEF(option, opt_arg, opt_enum, opt_help, arch_mask, ...)     \
-+    { option, opt_arg, opt_enum, arch_mask, __VA_ARGS__},
- #define DEFHEADING(text)
- #define ARCHHEADING(text, arch_mask)
- 
+-int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+-{
+-    if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
+-        return -1;
+-    }
+-
+-    return 0;
+-}
+-
+ /* From FreeBSD */
+ /* XXX: optimize */
+ uint32_t net_crc32(const uint8_t *p, int len)
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 708583b4ce..988fa4026b 100644
+index 988fa4026b..cf811c552e 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -3352,7 +3352,8 @@ testing of various kernels.
- ERST
- 
- DEF("kernel", HAS_ARG, QEMU_OPTION_kernel, \
--    "-kernel bzImage use 'bzImage' as kernel image\n", QEMU_ARCH_ALL)
-+    "-kernel bzImage use 'bzImage' as kernel image\n", QEMU_ARCH_ALL, \
-+    parse_linux_boot)
+@@ -2433,7 +2433,8 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+     "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
+ #endif
+     "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
+-    "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
++    "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL, \
++    parse_net_client)
+ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
+     "-nic [tap|bridge|"
+ #ifdef CONFIG_SLIRP
+@@ -2456,7 +2457,7 @@ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
+     "                macaddr) and connect it to the given host network backend\n"
+     "-nic none       use it alone to have zero network devices (the default is to\n"
+     "                provided a 'user' network connection)\n",
+-    QEMU_ARCH_ALL)
++    QEMU_ARCH_ALL, parse_net_client)
+ DEF("net", HAS_ARG, QEMU_OPTION_net,
+     "-net nic[,macaddr=mac][,model=type][,name=str][,addr=str][,vectors=v]\n"
+     "                configure or create an on-board (or machine default) NIC and\n"
+@@ -2475,7 +2476,8 @@ DEF("net", HAS_ARG, QEMU_OPTION_net,
+ #endif
+     "socket][,option][,option][,...]\n"
+     "                old way to initialize a host network interface\n"
+-    "                (use the -netdev option if possible instead)\n", QEMU_ARCH_ALL)
++    "                (use the -netdev option if possible instead)\n", QEMU_ARCH_ALL, \
++    parse_net_client)
  SRST
- ``-kernel bzImage``
-     Use bzImage as kernel image. The kernel can be either a Linux kernel
-@@ -3360,14 +3361,16 @@ SRST
- ERST
- 
- DEF("append", HAS_ARG, QEMU_OPTION_append, \
--    "-append cmdline use 'cmdline' as kernel command line\n", QEMU_ARCH_ALL)
-+    "-append cmdline use 'cmdline' as kernel command line\n", QEMU_ARCH_ALL, \
-+    parse_linux_boot)
- SRST
- ``-append cmdline``
-     Use cmdline as kernel command line
- ERST
- 
- DEF("initrd", HAS_ARG, QEMU_OPTION_initrd, \
--           "-initrd file    use 'file' as initial ram disk\n", QEMU_ARCH_ALL)
-+           "-initrd file    use 'file' as initial ram disk\n", QEMU_ARCH_ALL, \
-+    parse_linux_boot)
- SRST
- ``-initrd file``
-     Use file as initial ram disk.
-@@ -3380,7 +3383,8 @@ SRST
- ERST
- 
- DEF("dtb", HAS_ARG, QEMU_OPTION_dtb, \
--    "-dtb    file    use 'file' as device tree image\n", QEMU_ARCH_ALL)
-+    "-dtb    file    use 'file' as device tree image\n", QEMU_ARCH_ALL, \
-+    parse_linux_boot)
- SRST
- ``-dtb file``
-     Use file as a device tree binary (dtb) image and pass it to the
+ ``-nic [tap|bridge|user|l2tpv3|vde|netmap|vhost-user|socket][,...][,mac=macaddr][,model=mn]``
+     This option is a shortcut for configuring both the on-board
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 4eb9d1f7fd..edb24fd3f7 100644
+index edb24fd3f7..6a0a49c7c7 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1715,8 +1715,16 @@ typedef struct QEMUOption {
-     int flags;
-     int index;
-     uint32_t arch_mask;
-+    int (*parser)(const struct QEMUOption *popt, const char* optarg);
- } QEMUOption;
+@@ -1725,6 +1725,18 @@ static int parse_linux_boot(const QEMUOption *popt, const char* optarg)
+     return 0;
+ }
  
-+static int parse_linux_boot(const QEMUOption *popt, const char* optarg)
++static int parse_net_client(const QEMUOption *popt, const char* optarg)
 +{
-+    qemu_opts_set(qemu_find_opts("machine"), NULL, popt->name, optarg,
-+                  &error_abort);
++    QemuOptsList *opts;
++
++    default_net = 0;
++    opts = qemu_find_opts(popt->name);
++    if (!qemu_opts_parse_noisily(opts, optarg, true)) {
++        return -1;
++    }
 +    return 0;
 +}
 +
  static const QEMUOption qemu_options[] = {
      { "h", 0, QEMU_OPTION_h, QEMU_ARCH_ALL },
  #define QEMU_OPTIONS_GENERATE_OPTIONS
-@@ -2981,6 +2989,15 @@ void qemu_init(int argc, char **argv, char **envp)
-                 error_report("Option not supported for this target");
-                 exit(1);
-             }
-+
-+            if (popt->parser) {
-+                if (popt->parser(popt, optarg)) {
-+                    error_report("Parser '%s' option error", popt->name);
-+                    exit(1);
-+                }
-+                continue;
-+            }
-+
-             switch(popt->index) {
-             case QEMU_OPTION_cpu:
-                 /* hw initialization will check this */
-@@ -3075,22 +3092,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                     exit(1);
-                 }
+@@ -3110,24 +3122,6 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_no_fd_bootchk:
+                 fd_bootchk = 0;
                  break;
--            case QEMU_OPTION_kernel:
--                qemu_opts_set(qemu_find_opts("machine"), NULL, "kernel", optarg,
--                              &error_abort);
+-            case QEMU_OPTION_netdev:
+-                default_net = 0;
+-                if (net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
+-                    exit(1);
+-                }
 -                break;
--            case QEMU_OPTION_initrd:
--                qemu_opts_set(qemu_find_opts("machine"), NULL, "initrd", optarg,
--                              &error_abort);
+-            case QEMU_OPTION_nic:
+-                default_net = 0;
+-                if (net_client_parse(qemu_find_opts("nic"), optarg) == -1) {
+-                    exit(1);
+-                }
 -                break;
--            case QEMU_OPTION_append:
--                qemu_opts_set(qemu_find_opts("machine"), NULL, "append", optarg,
--                              &error_abort);
+-            case QEMU_OPTION_net:
+-                default_net = 0;
+-                if (net_client_parse(qemu_find_opts("net"), optarg) == -1) {
+-                    exit(1);
+-                }
 -                break;
--            case QEMU_OPTION_dtb:
--                qemu_opts_set(qemu_find_opts("machine"), NULL, "dtb", optarg,
--                              &error_abort);
--                break;
-             case QEMU_OPTION_cdrom:
-                 drive_add(IF_DEFAULT, 2, optarg, CDROM_OPTS);
-                 break;
+ #ifdef CONFIG_LIBISCSI
+             case QEMU_OPTION_iscsi:
+                 opts = qemu_opts_parse_noisily(qemu_find_opts("iscsi"),
 -- 
 2.27.0
 
