@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF0C230E8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 17:55:25 +0200 (CEST)
-Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14046230EC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 18:04:57 +0200 (CEST)
+Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Rwq-00079b-OU
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 11:55:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55148)
+	id 1k0S63-0005vX-M1
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 12:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k0Rui-0003ts-R9
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:53:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50827
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k0Rug-0006iD-PJ
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 11:53:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595951589;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=uBS8YEWffvMUWoBUUD4xWGkSiT7xmymi9OHV+NJxygU=;
- b=I09+YTkMEx4inFwNf9ff/lbTSTqrlWkPraCEpOTIMNMuUDvwFcAgqp6sDY+INXUADn+lXw
- WchTnHy1qMn+snZDpJecMF33SDIYstqrNc7olh9Ul0UC9UAkfUvVAhb2fLhKfpRi6I9P4Z
- 16OgE0/E5XTrROxRXOR1qQaSddMH2gQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-iyB_fjy0M-y-jHBvzacCBA-1; Tue, 28 Jul 2020 11:53:00 -0400
-X-MC-Unique: iyB_fjy0M-y-jHBvzacCBA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 730E379ED9;
- Tue, 28 Jul 2020 15:52:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C94C90E96;
- Tue, 28 Jul 2020 15:52:36 +0000 (UTC)
-Date: Tue, 28 Jul 2020 16:52:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an
- error
-Message-ID: <20200728155233.GC3443476@redhat.com>
-References: <20200727190223.422280-1-stefanha@redhat.com>
- <20200727190223.422280-4-stefanha@redhat.com>
- <OSBPR01MB45826073E5A54CF869E56721E5730@OSBPR01MB4582.jpnprd01.prod.outlook.com>
- <CALDPj7syG0KPhtZEma5n403=YFZ2ptcD4MtP=GdrY9n1eUs5Eg@mail.gmail.com>
- <20200728131250.GB78409@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k0S5G-0005Uf-4d
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:04:06 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k0S5E-0008Eu-FN
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 12:04:05 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f18so18844252wrs.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 09:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=XNRbxDXYqtKxJzkFjKkOZyGUXhNdT8PDRiOUBlQ+pjI=;
+ b=Mwv8t1LBr0X/K6s/jx+RUloS04NjuPWp4r7MxymPuzc4Qj1Q9FoTV0B3n/o8ZNf4p5
+ +S/5meJ0Yc1Y3afvzhr+NMapZhY4EA7otitVd00YCPWt4gC3nSnuQNt1+YWKZhrevPs/
+ lEEre/O1dHi9aOE85f4q7Qz4TLT52N1PEYlZYOaVc5/jQzIeV3lSZOPg2cjCNhBdSb99
+ uH1bJzOHaQG1eoWb5SIc8RrkH5GLM8rnkRwu1YGRRkvmPVWRjyWytzpjPpaPYj1GeL6e
+ 2vvqXFwMBKoYYQ5lKKq5m0V+fz3e9tNB+qSuB06OKsalmSTQxKjc1c3sfkKH85URDqR7
+ 36Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=XNRbxDXYqtKxJzkFjKkOZyGUXhNdT8PDRiOUBlQ+pjI=;
+ b=jjot6lu7gRuvz+7ae3He2lnZBS8kh9bXADTRPZINzV+8i4JGLX0krdoDbh9lBbTfVl
+ BuYWtml1pMI22ISgIpsGKGFAAIFHf98SE2vQ7TQhfgqYcpp8ZDMXMLhnvswp5KYciVz+
+ yCbNLoCABgJIZvpNKhy/6MO79dZN54M05i/5Pxy4z7Z0O0o8mlUmvM3BJYLN22KE94r6
+ n7Ds1toqVoRVIRR8U28xPo/8zdcdgqIWz6MXJHDqJ+nHwpK8AxtprAXVrB/fmCTjA2hR
+ be04HEv8zy43Ppltu8t8VzHYXO7u0RUK61A9G2RtdlaMePEaEAxnwyHlmlLRR8aNo1lN
+ PJ2Q==
+X-Gm-Message-State: AOAM530AwQscalL4cieqWquA9NUE0wZNdOi2eRI09tYYVqLu2YlrSWRA
+ hV9VMWTRl7B1MZAl/5Z2W7uEqw==
+X-Google-Smtp-Source: ABdhPJw5CGwNi/zE1N26ji0as1Oom0kVdowrmlzIkwWBseiEy8vKUfxWvyuizcoUcXpV34SQ+3kz4g==
+X-Received: by 2002:a5d:43c4:: with SMTP id v4mr24557700wrr.426.1595952242441; 
+ Tue, 28 Jul 2020 09:04:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n12sm18734747wrg.77.2020.07.28.09.04.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jul 2020 09:04:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 17E601FF7E;
+ Tue, 28 Jul 2020 17:04:00 +0100 (BST)
+References: <20200727122357.31263-1-alex.bennee@linaro.org>
+ <20200727122357.31263-9-alex.bennee@linaro.org>
+ <CAFEAcA8oTrHUzOF5tcqVDNtPWdoG0Yz0GKb2=JuT3O5h5g-YQg@mail.gmail.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 08/16] linux-user: don't use MAP_FIXED in
+ pgd_find_hole_fallback
+In-reply-to: <CAFEAcA8oTrHUzOF5tcqVDNtPWdoG0Yz0GKb2=JuT3O5h5g-YQg@mail.gmail.com>
+Date: Tue, 28 Jul 2020 17:04:00 +0100
+Message-ID: <87r1sv39u7.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200728131250.GB78409@redhat.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:28:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,102 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "vromanso@redhat.com" <vromanso@redhat.com>,
- "mpatel@redhat.com" <mpatel@redhat.com>, Daniel Walsh <dwalsh@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>,
- Roman Mohr <rmohr@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 28, 2020 at 09:12:50AM -0400, Vivek Goyal wrote:
-> On Tue, Jul 28, 2020 at 12:00:20PM +0200, Roman Mohr wrote:
-> > On Tue, Jul 28, 2020 at 3:07 AM misono.tomohiro@fujitsu.com <
-> > misono.tomohiro@fujitsu.com> wrote:
-> > 
-> > > > Subject: [PATCH v2 3/3] virtiofsd: probe unshare(CLONE_FS) and print an
-> > > error
-> > > >
-> > > > An assertion failure is raised during request processing if
-> > > > unshare(CLONE_FS) fails. Implement a probe at startup so the problem can
-> > > > be detected right away.
-> > > >
-> > > > Unfortunately Docker/Moby does not include unshare in the seccomp.json
-> > > > list unless CAP_SYS_ADMIN is given. Other seccomp.json lists always
-> > > > include unshare (e.g. podman is unaffected):
-> > > >
-> > > https://raw.githubusercontent.com/seccomp/containers-golang/master/seccomp.json
-> > > >
-> > > > Use "docker run --security-opt seccomp=path/to/seccomp.json ..." if the
-> > > > default seccomp.json is missing unshare.
-> > >
-> > > Hi, sorry for a bit late.
-> > >
-> > > unshare() was added to fix xattr problem:
-> > >
-> > > https://github.com/qemu/qemu/commit/bdfd66788349acc43cd3f1298718ad491663cfcc#
-> > > In theory we don't need to call unshare if xattr is disabled, but it is
-> > > hard to get to know
-> > > if xattr is enabled or disabled in fv_queue_worker(), right?
-> > >
-> > >
-> > In kubevirt we want to run virtiofsd in containers. We would already not
-> > have xattr support for e.g. overlayfs in the VM after this patch series (an
-> > acceptable con at least for us right now).
-> > If we can get rid of the unshare (and potentially of needing root) that
-> > would be great. We always assume that everything which we run in containers
-> > should work for cri-o and docker.
-> 
-> But cri-o and docker containers run as root, isn't it? (or atleast have
-> the capability to run as root). Havind said that, it will be nice to be able
-> to run virtiofsd without root. 
-> 
-> There are few hurdles though.
-> 
-> - For file creation, we switch uid/gid (seteuid/setegid) and that seems
->   to require root. If we were to run unpriviliged, probably all files
->   on host will have to be owned by unpriviliged user and guest visible
->   uid/gid will have to be stored in xattrs. I think virtfs supports
->   something similar.
 
-I think I've mentioned before, 9p virtfs supports different modes,
-passthrough, squashed or remapped.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-passthrough should be reasonably straightforward to support in virtiofs.
-The guest sees all the host UID/GIDs ownership as normal, and can read
-any files the host user can read, but are obviously restricted to write
-to only the files that host user can write too. No DAC-OVERRIDE facility
-in essence. You'll just get EPERM, which is fine. This simple passthrough
-scenario would be just what's desired for a typical desktop virt use
-cases, where you want to share part/all of your home dir with a guest for
-easy file access. Personally this is the mode I'd be most interested in
-seeing provided for unprivileged virtiofsd usage.
+> On Mon, 27 Jul 2020 at 13:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> Plain MAP_FIXED has the undesirable behaviour of splatting exiting
+>> maps so we don't actually achieve what we want when looking for gaps.
+>> We should be using MAP_FIXED_NOREPLACE. As this isn't always available
+>> we need to potentially check the returned address to see if the kernel
+>> gave us what we asked for.
+>>
+>> Fixes: ad592e37dfc ("linux-user: provide fallback pgd_find_hole for bare=
+ chroots")
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Message-Id: <20200724064509.331-9-alex.bennee@linaro.org>
+>
+> Hi; Coverity thinks this conditional expression is suspicious
+> (CID 1431059):
+>
+>>              if (mmap_start !=3D MAP_FAILED) {
+>>                  munmap((void *) align_start, guest_size);
+>> -                return (uintptr_t) mmap_start + offset;
+>> +                if (MAP_FIXED_NOREPLACE || mmap_start =3D=3D (void *) a=
+lign_start) {
+>
+> because it's performing a logical OR operation where the left
+> operand is an integer constant that's neither 0 nor 1
+> (it's 1048576). What was this intended to be?
 
-squash is similar to passthrough, except the guest sees everything
-as owned by the same user. This can be surprising as the guest might
-see a file owned by them, but not be able to write to it, as on the
-host its actually owned by some other user. Fairly niche use case
-I think.
+It's 0 if the header doesn't provide it. If it's !0 we don't need to
+check the address because it should have been in the correct place.
 
-remapping would be needed for a more general purpose use cases
-allowing the guest to do arbitrary UID/GID changes, but on the host
-everything is still stored as one user and remapped somehow.
-
-The main challenge for all the unprivileged scenarios is safety of
-the sandbox, to avoid risk of guests escaping to access files outside
-of the exported dir via symlink attacks or similar.
+>
+>> +                    return (uintptr_t) mmap_start + offset;
+>> +                }
+>>              }
+>
+> thanks
+> -- PMM
 
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
