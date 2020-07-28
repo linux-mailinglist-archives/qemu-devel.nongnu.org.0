@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2B723032A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 08:41:36 +0200 (CEST)
-Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6AF230320
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 08:39:06 +0200 (CEST)
+Received: from localhost ([::1]:35908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0JIt-0002pr-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 02:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50960)
+	id 1k0JGT-0007hB-8y
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 02:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1k0J66-0001sB-9V
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:22 -0400
-Received: from mga09.intel.com ([134.134.136.24]:37274)
+ id 1k0J65-0001pX-Af
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:21 -0400
+Received: from mga09.intel.com ([134.134.136.24]:37270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1k0J63-0002BC-Dj
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:21 -0400
-IronPort-SDR: XWYv38BkkkznyRAvsBEdEVsKMJr7BBlCak6CUJV9w/oj7Ob0xXrIS37ja15Pbjhw23CHF196Nz
- CZSm3FJwvRdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152412075"
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="152412075"
+ id 1k0J63-0002B0-EG
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 02:28:20 -0400
+IronPort-SDR: L2PAyOZYRHL8U6Df2/RDB2qp2kR5XVTCV+dnGwCTH3zGrdEN9mxNGruQypB8Amkd0L/zDvA9xp
+ e/B0J5NWzvUw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152412076"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="152412076"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Jul 2020 23:27:57 -0700
-IronPort-SDR: YPZeZKvk6KcgIW8TeRpMnvHXschnyvEMUdTYnUtPHsiSJFf8kcuPi9S63ffLuYfQ4eAVOsJkOG
- Yy3NoD1vO+Rw==
+IronPort-SDR: LdqG82WK/VBHslQ5CCMfRI4fIkplb8kpADA9QGaeaJHnkrQCYPNOq9fUhFeUtWXQ7eOEVE6UBr
+ P/g68B3p4smA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="394233102"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="394233113"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2020 23:27:56 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2020 23:27:57 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, alex.williamson@redhat.com, peterx@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v9 23/25] intel_iommu: propagate PASID-based iotlb invalidation
- to host
-Date: Mon, 27 Jul 2020 23:34:16 -0700
-Message-Id: <1595918058-33392-24-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v9 24/25] intel_iommu: process PASID-based Device-TLB
+ invalidation
+Date: Mon, 27 Jul 2020 23:34:17 -0700
+Message-Id: <1595918058-33392-25-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1595918058-33392-1-git-send-email-yi.l.liu@intel.com>
 References: <1595918058-33392-1-git-send-email-yi.l.liu@intel.com>
@@ -76,22 +76,10 @@ Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch propagates PASID-based iotlb invalidation to host.
-
-Intel VT-d 3.0 supports nested translation in PASID granular.
-Guest SVA support could be implemented by configuring nested
-translation on specific PASID. This is also known as dual stage
-DMA translation.
-
-Under such configuration, guest owns the GVA->GPA translation
-which is configured as first level page table in host side for
-a specific pasid, and host owns GPA->HPA translation. As guest
-owns first level translation table, piotlb invalidation should
-be propagated to host since host IOMMU will cache first level
-page table related mappings during DMA address translation.
-
-This patch traps the guest PASID-based iotlb flush and propagate
-it to host.
+This patch adds an empty handling for PASID-based Device-TLB
+invalidation. For now it is enough as it is not necessary to
+propagate it to host for passthru device and also there is no
+emulated device has device tlb.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -100,168 +88,61 @@ Cc: Yi Sun <yi.y.sun@linux.intel.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
-rfcv4 (v1) -> rfcv5 (v2):
-*) removed the valid check to vtd_pasid_as instance as rfcv5 ensures
-   all vtd_pasid_as instances in hash table should be valid.
----
- hw/i386/intel_iommu.c          | 113 +++++++++++++++++++++++++++++++++++++++++
- hw/i386/intel_iommu_internal.h |   7 +++
- 2 files changed, 120 insertions(+)
+ hw/i386/intel_iommu.c          | 18 ++++++++++++++++++
+ hw/i386/intel_iommu_internal.h |  1 +
+ 2 files changed, 19 insertions(+)
 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index de7947c..db4460a 100644
+index db4460a..11f815d 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -3038,16 +3038,129 @@ static bool vtd_process_pasid_desc(IntelIOMMUState *s,
+@@ -3213,6 +3213,17 @@ static bool vtd_process_inv_iec_desc(IntelIOMMUState *s,
      return true;
  }
  
-+/**
-+ * Caller of this function should hold iommu_lock.
-+ */
-+static void vtd_invalidate_piotlb(IntelIOMMUState *s,
-+                                  VTDBus *vtd_bus,
-+                                  int devfn,
-+                                  struct iommu_cache_invalidate_info *cache)
++static bool vtd_process_device_piotlb_desc(IntelIOMMUState *s,
++                                           VTDInvDesc *inv_desc)
 +{
-+    VTDHostIOMMUContext *vtd_dev_icx;
-+    HostIOMMUContext *iommu_ctx;
-+
-+    vtd_dev_icx = vtd_bus->dev_icx[devfn];
-+    if (!vtd_dev_icx) {
-+        goto out;
-+    }
-+    iommu_ctx = vtd_dev_icx->iommu_ctx;
-+    if (!iommu_ctx) {
-+        goto out;
-+    }
-+    if (host_iommu_ctx_flush_stage1_cache(iommu_ctx, cache)) {
-+        error_report("Cache flush failed");
-+    }
-+out:
-+    return;
++    /*
++     * no need to handle it for passthru device, for emulated
++     * devices with device tlb, it may be required, but for now,
++     * return is enough
++     */
++    return true;
 +}
 +
-+/**
-+ * This function is a loop function for the s->vtd_pasid_as
-+ * list with VTDPIOTLBInvInfo as execution filter. It propagates
-+ * the piotlb invalidation to host. Caller of this function
-+ * should hold iommu_lock.
-+ */
-+static void vtd_flush_pasid_iotlb(gpointer key, gpointer value,
-+                                  gpointer user_data)
-+{
-+    VTDPIOTLBInvInfo *piotlb_info = user_data;
-+    VTDPASIDAddressSpace *vtd_pasid_as = value;
-+    VTDPASIDCacheEntry *pc_entry = &vtd_pasid_as->pasid_cache_entry;
-+    uint16_t did;
-+
-+    did = vtd_pe_get_domain_id(&pc_entry->pasid_entry);
-+
-+    if ((piotlb_info->domain_id == did) &&
-+        (piotlb_info->pasid == vtd_pasid_as->pasid)) {
-+        vtd_invalidate_piotlb(vtd_pasid_as->iommu_state,
-+                              vtd_pasid_as->vtd_bus,
-+                              vtd_pasid_as->devfn,
-+                              piotlb_info->cache_info);
-+    }
-+
-+    /*
-+     * TODO: needs to add QEMU piotlb flush when QEMU piotlb
-+     * infrastructure is ready. For now, it is enough for passthru
-+     * devices.
-+     */
-+}
-+
- static void vtd_piotlb_pasid_invalidate(IntelIOMMUState *s,
-                                         uint16_t domain_id,
-                                         uint32_t pasid)
+ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
+                                           VTDInvDesc *inv_desc)
  {
-+    VTDPIOTLBInvInfo piotlb_info;
-+    struct iommu_cache_invalidate_info *cache_info;
-+
-+    cache_info = g_malloc0(sizeof(*cache_info));
-+
-+    cache_info->argsz = sizeof(*cache_info);
-+    cache_info->version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
-+    cache_info->cache = IOMMU_CACHE_INV_TYPE_IOTLB;
-+    cache_info->granularity = IOMMU_INV_GRANU_PASID;
-+    cache_info->granu.pasid_info.pasid = pasid;
-+    cache_info->granu.pasid_info.flags = IOMMU_INV_PASID_FLAGS_PASID;
-+
-+    piotlb_info.domain_id = domain_id;
-+    piotlb_info.pasid = pasid;
-+    piotlb_info.cache_info = cache_info;
-+
-+    vtd_iommu_lock(s);
-+    /*
-+     * Here loops all the vtd_pasid_as instances in s->vtd_pasid_as
-+     * to find out the affected devices since piotlb invalidation
-+     * should check pasid cache per architecture point of view.
-+     */
-+    g_hash_table_foreach(s->vtd_pasid_as,
-+                         vtd_flush_pasid_iotlb, &piotlb_info);
-+    vtd_iommu_unlock(s);
-+    g_free(cache_info);
- }
+@@ -3334,6 +3345,13 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
+         }
+         break;
  
- static void vtd_piotlb_page_invalidate(IntelIOMMUState *s, uint16_t domain_id,
-                                        uint32_t pasid, hwaddr addr, uint8_t am,
-                                        bool ih)
- {
-+    VTDPIOTLBInvInfo piotlb_info;
-+    struct iommu_cache_invalidate_info *cache_info;
++    case VTD_INV_DESC_DEV_PIOTLB:
++        trace_vtd_inv_desc("device-piotlb", inv_desc.hi, inv_desc.lo);
++        if (!vtd_process_device_piotlb_desc(s, &inv_desc)) {
++            return false;
++        }
++        break;
 +
-+    cache_info = g_malloc0(sizeof(*cache_info));
-+
-+    cache_info->argsz = sizeof(*cache_info);
-+    cache_info->version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
-+    cache_info->cache = IOMMU_CACHE_INV_TYPE_IOTLB;
-+    cache_info->granularity = IOMMU_INV_GRANU_ADDR;
-+    cache_info->granu.addr_info.flags = IOMMU_INV_ADDR_FLAGS_PASID;
-+    cache_info->granu.addr_info.flags |= ih ? IOMMU_INV_ADDR_FLAGS_LEAF : 0;
-+    cache_info->granu.addr_info.pasid = pasid;
-+    cache_info->granu.addr_info.addr = addr;
-+    cache_info->granu.addr_info.granule_size = 1 << (12 + am);
-+    cache_info->granu.addr_info.nb_granules = 1;
-+
-+    piotlb_info.domain_id = domain_id;
-+    piotlb_info.pasid = pasid;
-+    piotlb_info.cache_info = cache_info;
-+
-+    vtd_iommu_lock(s);
-+    /*
-+     * Here loops all the vtd_pasid_as instances in s->vtd_pasid_as
-+     * to find out the affected devices since piotlb invalidation
-+     * should check pasid cache per architecture point of view.
-+     */
-+    g_hash_table_foreach(s->vtd_pasid_as,
-+                         vtd_flush_pasid_iotlb, &piotlb_info);
-+    vtd_iommu_unlock(s);
-+    g_free(cache_info);
- }
- 
- static bool vtd_process_piotlb_desc(IntelIOMMUState *s,
+     case VTD_INV_DESC_DEVICE:
+         trace_vtd_inv_desc("device", inv_desc.hi, inv_desc.lo);
+         if (!vtd_process_device_iotlb_desc(s, &inv_desc)) {
 diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 118d568..08ff58e 100644
+index 08ff58e..9b4fc67 100644
 --- a/hw/i386/intel_iommu_internal.h
 +++ b/hw/i386/intel_iommu_internal.h
-@@ -575,6 +575,13 @@ struct VTDPASIDCacheInfo {
- };
- typedef struct VTDPASIDCacheInfo VTDPASIDCacheInfo;
+@@ -405,6 +405,7 @@ typedef union VTDInvDesc VTDInvDesc;
+ #define VTD_INV_DESC_WAIT               0x5 /* Invalidation Wait Descriptor */
+ #define VTD_INV_DESC_PIOTLB             0x6 /* PASID-IOTLB Invalidate Desc */
+ #define VTD_INV_DESC_PC                 0x7 /* PASID-cache Invalidate Desc */
++#define VTD_INV_DESC_DEV_PIOTLB         0x8 /* PASID-based-DIOTLB inv_desc*/
+ #define VTD_INV_DESC_NONE               0   /* Not an Invalidate Descriptor */
  
-+struct VTDPIOTLBInvInfo {
-+    uint16_t domain_id;
-+    uint32_t pasid;
-+    struct iommu_cache_invalidate_info *cache_info;
-+};
-+typedef struct VTDPIOTLBInvInfo VTDPIOTLBInvInfo;
-+
- /* PASID Table Related Definitions */
- #define VTD_PASID_DIR_BASE_ADDR_MASK  (~0xfffULL)
- #define VTD_PASID_TABLE_BASE_ADDR_MASK (~0xfffULL)
+ /* Masks for Invalidation Wait Descriptor*/
 -- 
 2.7.4
 
