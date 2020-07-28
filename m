@@ -2,72 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71E32306EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:50:10 +0200 (CEST)
-Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A02230703
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 11:52:03 +0200 (CEST)
+Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0MFN-0007Jh-RV
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40766)
+	id 1k0MHC-0001h4-9f
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 05:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0MES-0006m8-1s
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:49:12 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:38685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k0MEP-00047E-1L
- for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:49:11 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id n21so2808122ooj.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 02:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TdyyyqywWUMdnHNVZWGjksiBBFcyc3F5QM+a5cnsI6M=;
- b=CZcmuQz0+fChzJYgANcCMKOFWNVO3nbzqpsuahJiXsM/laZXIVdLxMRAHt4npoyRCl
- 70G3mD52PI70p0JWv0qRLs8sRNY6sA4RyQWGw0MhGSduBQkCTvCGR1jNVR9bi0lH5ybf
- Evlj0B7Upx7JgYHHY58hGzlQsFFUm3zQDtIkvPv/D7MBcmSNVl2fyfmzl/Gd7vstKUNC
- +Q6IlTvmK7gSlUG/vvNFgj3BYV4Qi54EAJFd1o5lKGeBn9brO4CCmePhvSA0P6cG2H3w
- AdS7niyV6lK1U7v/HaBiz2L7Nt4FroG0yuyFvZ0kWuIOOyQABdSk5N4wb458V5r3HnkS
- 7XJg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k0MGL-0000kQ-Mx
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:51:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47098
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k0MGJ-0004Qz-Qi
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 05:51:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595929867;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TDDW6Vmqlcc/jdTvWAQk+vQDf4pMTloVpXra5sEPZ1M=;
+ b=Kt4z69HgMfvqq/ac94D45JNRzKbMXywkUYKU9dkDeAHTyNms6TQpFp1kEtxUZmeyn/qWL7
+ l7t9CRZbRK5k1xSCpzeRtQ/J0wEc/LLsyhDMlRLIYHI1YgBmKqwMXZxP7kCD7C7dleQl+4
+ 8m8lkkJhjOoPcrMH9368HWs25chgP9s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-RxppTDt_NlyuRAI4KT-mBg-1; Tue, 28 Jul 2020 05:51:05 -0400
+X-MC-Unique: RxppTDt_NlyuRAI4KT-mBg-1
+Received: by mail-wm1-f70.google.com with SMTP id s4so945889wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Jul 2020 02:51:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TdyyyqywWUMdnHNVZWGjksiBBFcyc3F5QM+a5cnsI6M=;
- b=qQuTdcLN1OpDBuGn2QB6JUxLNELrAChfUjEGpTLIOU6MdnuDNX62B2vE57zISeS2tC
- TW48E7dcXIkHS4vmSzvjtvbfq2ZYDnhMz7gucNLBKr5edEGe+TJ7do7508e0FL0z9Dhv
- dzcYvgJe5V/80neoYHh3Tl5mQLIFkr/t7ajItqkAvrwU/48EudJtdXCD36dsDLLou3sC
- BXCSUDIQ3ZVkYXVmfL6JDaZSXf2V9s1KdVfHLiFtC2LaUJLzHmtwgd55D0cx7ndSvWSY
- FPBocbTG4oOmNCbnCnttfOq9SAhIvrpF1rnJ/W1HObbxP06eF7bGxMMvX3av+o+RIPyc
- 4gkA==
-X-Gm-Message-State: AOAM53351n/YreZ3BQyjie/l9li1Efg1hea/vQ9IY39A4WFtf5gUjTwY
- s3dhRM/gx6te6wdHMA1MdIHSWeK/YSMPliyEyiZ/zQ==
-X-Google-Smtp-Source: ABdhPJzzTQ/jXcq8/sKyHn3ybKUlbopQPDUo3bwsPERxQxQKwZLXW9tA7zh/rQ5blb36xDnR9nHsYE7zDQh583J4Np4=
-X-Received: by 2002:a4a:4c44:: with SMTP id a65mr16107989oob.20.1595929747785; 
- Tue, 28 Jul 2020 02:49:07 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=TDDW6Vmqlcc/jdTvWAQk+vQDf4pMTloVpXra5sEPZ1M=;
+ b=C8psyz5+pR3iarUIPwUvRTQn2FZ+r9YklCdc/qaIpmyyClITPaR9Q8NkQuNlyoD+qA
+ e6J6yUP8XF9xHXurhYW1a4+mVJqc+iePvBCYcvxAEZZjbh+Z1oXgLZmNHCvGS2I+xC3h
+ lbv2Wwj87xJysAtJLzwyTai9jEU9CwNxoCwBcbuwcVCN9/92FWRpQFOMM8Q/aj7laDHX
+ p3jofGS72c+p5fANOYuF9fRXXnamxJXP+4EyWdx5Pb9H4WIKwnnLBmx/t3JIfq1fEBIm
+ Uxsy3Zqgb5QC/lnE6Fe6mOx0dlsWYr2hMDisrXc5DbCZHiIHqhXYt9+6w/Cxkyg7wz2h
+ ziIw==
+X-Gm-Message-State: AOAM533uFHdJJV4V9JU0IBh/lZ7R1f0ucJE0CZlcWhIh48mMO3JNRpzF
+ 4WPvNBtLtMWdBQdTPBzqzcvvkLTv5upf/xfSN2BgwUQRRx/dmu9906Se+QocaClg58qOhQm8qs8
+ 3XXm74vd5FvIbYJ4=
+X-Received: by 2002:adf:de07:: with SMTP id b7mr26233020wrm.302.1595929863670; 
+ Tue, 28 Jul 2020 02:51:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzO4h2FddLw3k4T2cWIwjScSzLKkXiGx9EEQhnWLPDvoMFerDSIOHcrpY3xpuJiRQ5Sq0g6tg==
+X-Received: by 2002:adf:de07:: with SMTP id b7mr26232994wrm.302.1595929863478; 
+ Tue, 28 Jul 2020 02:51:03 -0700 (PDT)
+Received: from [192.168.1.39] (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id h11sm17616910wrb.68.2020.07.28.02.51.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jul 2020 02:51:02 -0700 (PDT)
+Subject: Re: [PATCH] configure: define CONFIG_XEN when Xen is enabled
+To: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20200728091828.21702-1-paul@xen.org>
+ <CAFEAcA_wKTFWk9Uk5HMabqfa6QkkTAdzBotmnrA_EH1BR4XjYg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <32ad0742-bff2-1fbc-2f7a-d078980eb171@redhat.com>
+Date: Tue, 28 Jul 2020 11:51:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200727130225.32640-1-zhukeqian1@huawei.com>
- <CAFEAcA9vQMP0YLAuzdPW2m3RcRNySxA0gJQZmeXBUYRy4=Dk+w@mail.gmail.com>
- <92e8dc9b-deed-afb8-89ae-f50b68bbafa8@redhat.com>
-In-Reply-To: <92e8dc9b-deed-afb8-89ae-f50b68bbafa8@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Jul 2020 10:48:56 +0100
-Message-ID: <CAFEAcA8myew9LM=ARwSwJybzWQu5=uOn55VrF=SX2xZr=bkRFA@mail.gmail.com>
-Subject: Re: [PATCH] bugfix: irq: Avoid covering object refcount of qemu_irq
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA_wKTFWk9Uk5HMabqfa6QkkTAdzBotmnrA_EH1BR4XjYg@mail.gmail.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 23:55:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,78 +124,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Esteban Bosse <estebanbosse@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, yezengruan@huawei.com,
- qemu-arm <qemu-arm@nongnu.org>, wanghaibin.wang@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <pdurrant@amazon.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jul 2020 at 09:48, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 27/07/2020 16.41, Peter Maydell wrote:
-> > On Mon, 27 Jul 2020 at 14:03, Keqian Zhu <zhukeqian1@huawei.com> wrote:
-> >>
-> >> Avoid covering object refcount of qemu_irq, otherwise it may causes
-> >> memory leak.
-> >>
-> >> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> >> ---
-> >>  hw/core/irq.c | 4 +++-
-> >>  1 file changed, 3 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/core/irq.c b/hw/core/irq.c
-> >> index fb3045b912..59af4dfc74 100644
-> >> --- a/hw/core/irq.c
-> >> +++ b/hw/core/irq.c
-> >> @@ -125,7 +125,9 @@ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n)
-> >>      int i;
-> >>      qemu_irq *old_irqs = qemu_allocate_irqs(NULL, NULL, n);
-> >>      for (i = 0; i < n; i++) {
-> >> -        *old_irqs[i] = *gpio_in[i];
-> >> +        old_irqs[i]->handler = gpio_in[i]->handler;
-> >> +        old_irqs[i]->opaque = gpio_in[i]->opaque;
-> >> +
-> >>          gpio_in[i]->handler = handler;
-> >>          gpio_in[i]->opaque = &old_irqs[i];
-> >>      }
-> >
-> > This function is leaky by design, because it doesn't do anything
-> > with the old_irqs array and there's no function for un-intercepting
-> > the IRQs (which would need to free that memory). This is not ideal
-> > but OK because it's only used in the test suite.
->
-> I think this could better be done without calling qemu_allocate_irqs():
-> Simply call qemu_allocate_irq() (without "s" at the end) within the
-> for-loop for each irq instead. What do you think?
+On 7/28/20 11:27 AM, Peter Maydell wrote:
+> On Tue, 28 Jul 2020 at 10:19, Paul Durrant <paul@xen.org> wrote:
+>>
+>> From: Paul Durrant <pdurrant@amazon.com>
+>>
+>> The recent commit da278d58a092 "accel: Move Xen accelerator code under
+>> accel/xen/" introduced a subtle semantic change, making xen_enabled() always
+>> return false unless CONFIG_XEN is defined prior to inclusion of sysemu/xen.h,
+>> which appears to be the normal case. This causes various use-cases of QEMU
+>> with Xen to break.
+>>
+>> This patch makes sure that CONFIG_XEN is defined if --enable-xen is passed
+>> to configure.
+>>
+>> Fixes: da278d58a092 ("accel: Move Xen accelerator code under accel/xen/")
+>> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+>> ---
+>> Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+>> Cc: Laurent Vivier <laurent@vivier.eu>
+>> Cc: Stefano Stabellini <sstabellini@kernel.org>
+>> Cc: Anthony Perard <anthony.perard@citrix.com>
+>> ---
+>>  configure | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/configure b/configure
+>> index 2acc4d1465..f1b9d129fd 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -7434,6 +7434,7 @@ if test "$virglrenderer" = "yes" ; then
+>>    echo "VIRGL_LIBS=$virgl_libs" >> $config_host_mak
+>>  fi
+>>  if test "$xen" = "yes" ; then
+>> +  echo "CONFIG_XEN=y" >> $config_host_mak
+>>    echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
+>>    echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
+>>  fi
+> 
+> Configure already defines CONFIG_XEN as a target-specific
+> config define in config-target.mak for the specific targets
+> that Xen will work for (ie if you build --enable-xen for
+> x86_64-softmmu and ppc64-softmmu then CONFIG_XEN is set for
+> the former and not the latter). This patch makes it a
+> build-wide config setting by putting it in config-host.mak.
+> 
+> We should figure out which of those two is correct and do
+> just one of them, not do both at the same time.
+> 
+> Since CONFIG_HAX, CONFIG_KVM and other accelerator-type
+> config defines are also per-target, I suspect that the
+> correct fix for this bug is not in configure but elsewhere.
 
-Well, what are we trying to do with the function? I think that
-your suggestion still doesn't really fix the leak in the sense
-that there's no mechanism for undoing the operation and freeing
-the memory allocated by qemu_allocate_irq(). The whole concept
-of the function is pretty dubious because it's arbitrarily
-re-plugging IRQs, which in the whole of the rest of QEMU are
-assumed to be something that's wired up by board code or by
-an SoC device that "owns" the two devices it's connecting.
-That's fine for test-case purposes, and for the qtest code that
-is the only in-tree user of this function we could construct a
-(nominally) leak-free version of the function by having it return
-some kind of handle that could be passed to a
-qemu_irq_remove_intercept_in() to clean up [this would fix a
-Coverity nag, which would be the main benefit...].
+This might come from this change:
 
-I agree that copying the refcount here looks wrong, but in
-what situation is the refcount on any of the qemu_irqs
-involved changing anyway?
+-#include "hw/xen/xen.h"
++#include "sysemu/xen.h"
 
-For non-testing uses of this function it gets trickier (what if the
-device on one end or the other is destroyed while the intercept is
-in place, for instance?) So I'm a bit sceptical of ideas about
-extending the uses of this function to non-test-code, and I think
-I'd want to see what the intended non-test uses were...
+Before Xen was target-specific, now it is a target-agnostic accelerator.
 
-thanks
--- PMM
+However in include/qemu/osdep.h we have:
+
+ 30 #include "config-host.h"
+ 31 #ifdef NEED_CPU_H
+ 32 #include "config-target.h"
+ 33 #else
+ 34 #include "exec/poison.h"
+ 35 #endif
+
+CONFIG_XEN is generated in "config-target.h" (target-specific),
+so target-agnostic code always has it undefined.
+
+I'd rather uninline xen_enabled() but I'm not sure this has perf
+penalties. Paolo is that OK to uninline it?
+
+Phil.
+
 
