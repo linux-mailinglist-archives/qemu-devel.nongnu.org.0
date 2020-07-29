@@ -2,137 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134E3232201
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 17:55:12 +0200 (CEST)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5472D232202
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 17:55:31 +0200 (CEST)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0oQA-0007pf-Tv
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 11:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52756)
+	id 1k0oQU-0002Bx-EQ
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 11:55:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0oLM-00062O-0j
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:50:12 -0400
-Received: from mout.gmx.net ([212.227.15.15]:49599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0oLI-0007Pr-RF
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:50:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1596037801;
- bh=xd1A725CpeIyF5VxjfNzrOOrc+RW65SYe3vF5tvlyWc=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=LrLEDW1X+dDAUji1L8qXgsHwSoE8YzgC1hBrjfU0oS4A1vADFBbs+NE8hj8d+zVJq
- CYxjBM8A9Rfq4jzdxjtZJ0tha65vOoPz4vLSWm2kIz2ceUE6l2AnBrFlvlPsDPzfpT
- YCNmT9dHVLp/xD6TtmSKamjclL9So2h3wROAYXpQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.135.32]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M4s4r-1k2Bmo3JO3-001w5V; Wed, 29
- Jul 2020 17:50:01 +0200
-Subject: Re: [PULL 0/4] target-hppa fixes
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200728193550.3578-1-deller@gmx.de>
- <CAFEAcA9ON0UpPmLBhL4gRnH9eJf0Wz8H26sK_kQaau3-8ZA1-A@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
- c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
-Message-ID: <6ec5ba98-6fb6-ee36-86d8-35ef6bcf2c00@gmx.de>
-Date: Wed, 29 Jul 2020 17:49:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k0oNv-0007hb-As
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:52:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52353
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k0oNr-0007zc-SH
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:52:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596037966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BIU8eEDCl4Usr1vQt6TTglpWuiRFKZ5Tz5yow6d47JU=;
+ b=UdJdb+VjOb7kEu2xj39lzys1pG5S/uQ6GCkwvu3k3LsNdMt0YIZmXX1WfPidDbjAeJ8IDe
+ ehd5fntnt3c1YcHbDJUoX38UmZMKnkxbH8QEuqfQ5Kc5/hnN7ja+ag1/Xn1Zue52WMABEA
+ h7Swb5acpNUarB9M1aXCjHti0U6/oa4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-suCxZNQFPUu_F0kyBDZJhQ-1; Wed, 29 Jul 2020 11:52:42 -0400
+X-MC-Unique: suCxZNQFPUu_F0kyBDZJhQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F34F8014D7;
+ Wed, 29 Jul 2020 15:52:40 +0000 (UTC)
+Received: from titinator (ovpn-114-132.ams2.redhat.com [10.36.114.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FA5360CD1;
+ Wed, 29 Jul 2020 15:52:35 +0000 (UTC)
+References: <20200626162706.3304357-1-dinechin@redhat.com>
+ <20200626162706.3304357-3-dinechin@redhat.com>
+ <20200630130257.GP1370404@redhat.com> <7ha6zq2zxr.fsf@turbo.dinechin.lan>
+ <87mu3qgwbx.fsf@dusky.pond.sub.org> <7ha6zq2ooj.fsf@turbo.dinechin.lan>
+ <87pn8h5puj.fsf@dusky.pond.sub.org> <lya6zjhnag.fsf@redhat.com>
+ <87a6zi8rl6.fsf@dusky.pond.sub.org>
+User-agent: mu4e 1.5.2; emacs 26.3
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 2/3] trace: Add support for recorder back-end
+In-reply-to: <87a6zi8rl6.fsf@dusky.pond.sub.org>
+Date: Wed, 29 Jul 2020 17:52:33 +0200
+Message-ID: <ly4kpqfhdq.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9ON0UpPmLBhL4gRnH9eJf0Wz8H26sK_kQaau3-8ZA1-A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tIhZCmmKlupQddohu/L+woq1V6wIQs156o64BcaJrZhqME/4JQo
- ktJRzken/N9+0+i8yr2Ax+56XWAvPLeQo2Uyu3OJNstrUzgdrNiqGdP81QkpNsRrKrsNpSR
- 9plhmfPoikVgNX+BX35UJG9O5P5iP2BwwnJ1XGH59MB5tDB+t4FJ1w0K0EDkDjh/vC0Q+hI
- 4RSNiN6m8OLgH9IozqjoA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QLtLeN1Y++s=:Hv5i7Wxajmnu424w9LYJXg
- XgMykiraP59yG324rMe02qdZwfcvw9fLhFNsG/+RoBfhEvxRv6lLj/zfyF6XgW0yC2eeaJMlw
- gidMbgfmeFgLdmv2VJ3vGyNrS03hCJPYapNlnNY9KlaVqjwDYeasF7c5VLkEzebu8rWXyDYpt
- 1zaK580DDWwseZFI/tOMOrLoIQmjSDvkwFF+MtptaH0jZ/ZhULNgdATJpEYPNFMRfKATM3yUK
- HYVLWGN7JDykzVCJiF1DWwwfMY4mx5IOHYT2M8E7rrcmWOxUKtNbbAiKu1cyTasPFxO32gRiF
- DZFa90Zfbtf12OMyG3iRcWG75Zi6PH6CpyKE7mHmtOzFfVl0MNLHlnGCER8D12WbZLMs+6xZf
- v2uOuW14EcxQAz5f1j/8cGAKzZ/XlQE0qhs4EvLfxxcGJNgfdVTpBIVeCpX+e4yxyCdsSympN
- wH5lUIb4Kv3gQ+95/656aTlFP0CHEINyyx9IHFlWmQPYPdOlJ8b+PfwDgkjNMRpfBwthU972O
- 6ytU5goJ5BO7diw66rmDISH1NFdSgvWIgqVHu57mWIYtVMCDI+iDpl952m7LudPGZPCGrnbcC
- 2yu5tf/h/dzAxqSAy0BFxbVlZrusVZFDiIxZRlA8qVThJlsUUMGC9J90eMa0Jm3VYVHN+MK4+
- o1bm2sOljTNJVDmplvTzJEZvmj/qleY4I6+zMBARbBExoXygIjAXD9tA8jYwlLLMMSJ/NTKKJ
- Xr1EdK0+hMDdrhloHaLdJLQ+IP6jwactivhawo1WBMJF8Voo5BBUuUEpMsKZeGHmnI8ewWoOC
- WnTqHeF4pXggZu3ccMbdBaM8PSvKvc2Mk8t17hWVtrBOK5o24WLcBx5bHmoe6KTjbNGDQIgWy
- QicHoKWSWWOW+WzXaqrEMHV8LgRpz7FLWR3h7g4eXFn4ncQDm4s66T06WI1AiNYhC4/2bbYVK
- fNNPSyNF/ynhTBcVgWBpNjlyx5jXhmKYSn+sTsXt8Qq7PPfDkKue7wjfDpw/83BkwRxF5xgNb
- b3UBZs85c5YDA6R6FD4CdITApNYky+2bPS6i66ti6CSFFKZg/wG/SB11ywNz7R/vmoUrcgVLj
- 3zDs8619nETZvls8+qXkwKyeCstaj+dIroB6igF88++J439k+dTEE9+arpHakr6s+CFSZHeOF
- 0kFf7M8wynH4W1IRwo5p/YXV1YLONwzmLyRVW2AcX1ekEBEytwlJDwUf1X/G7VXRspnBO7Xni
- o2KotLJSVl5r8UxrU
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 11:50:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:27:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,37 +83,389 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.07.20 17:06, Peter Maydell wrote:
-> On Tue, 28 Jul 2020 at 20:35, Helge Deller <deller@gmx.de> wrote:
->>
->> Please pull to fix those two bugs in target-hppa:
->>
->> * Fix the SeaBIOS-hppa firmware build with gcc-10 on Debian
->>
->> * Fix the following runtime warning with artist framebuffer:
->>   "write outside bounds: wants 1256x1023, max size 1280x1024"
->>
->> in addition the SeaBIOS-hppa firmware now includes a version check to p=
-revent
->> starting when it's incompatible to the emulated qemu hardware.
+
+On 2020-07-29 at 13:53 CEST, Markus Armbruster wrote...
+> Christophe de Dinechin <dinechin@redhat.com> writes:
 >
-> Hi. I'd rather not take a pull request from somebody who's
-> never submitted one before at rc2 with four patches none
-> of which have been reviewed, I'm afraid.
+>> On 2020-07-27 at 10:23 CEST, Markus Armbruster wrote...
+>>> Christophe de Dinechin <dinechin@redhat.com> writes:
+>>>
+>>>> On 2020-07-23 at 16:06 CEST, Markus Armbruster wrote...
+>>>>> Christophe de Dinechin <dinechin@redhat.com> writes:
+> [...]
+>>>>>> I'm certainly not against adding a command-line option to activate recorder
+>>>>>> options specifically, but as I understand, the option -trace already exists,
+>>>>>> and its semantics is sufficiently different from the one in recorder
+>>>>>> patterns that I decided to not connect the two for now. For example, to
+>>>>>> disable trace foo, you'd pass "-foo" to the -trace option, but "foo=0" to
+>>>>>> RECORDER_TRACES. The parsing of graphing options and other related
+>>>>>> recorder-specific stuff is a bit difficult to integrate with -trace too.
+>>>>>
+>>>>> We need proper integration with the existing trace UI.
+>>>>
+>>>> I agree, but I don't think this belongs to this particular patch series.
+>>>> See below why.
+>>>>
+>>>>>
+>>>>> In particular, the ability to enable and disable trace events
+>>>>> dynamically provided by QMP commands trace-event-get-state,
+>>>>> trace-event-set-state, and HMP command trace-event is really useful.
+>>>>
+>>>> That ability exists, but given the many differences between the
+>>>> recorder and other tracing mechanisms, I found it useful to add a specific
+>>>> "recorder" command.
+>>>
+>>> Precedence for commands specific to a trace backend: trace-file.
+>>>
+>>> Name yours trace-recorder?
+>>
+>> But then "recorder dump" does not fit with any "trace" concept.
+>
+> Once you make the recorder a trace backend, whatever the recorder does
+> becomes a trace concept :)
 
-Sure, your reluctance is understood.
+I understand your point, but I want to make a distinction between recorder
+tracing and other recorder features. Does that make sense?
 
-> Richard, you're listed in MAINTAINERS for most of these
-> files, would you mind giving them a look over?
 
-If Richard gives his Ok, it would be really nice if you could
-apply those.
+>
+>>>> For example, assuming I built with both recorder and log trace backends,
+>>>> from the monitor, I can type:
+>>>>
+>>>>   trace-event kvm_run_exit on
+>>>>
+>>>> What I get then is something like that:
+>>>>
+>>>>   2091091@1595518935.441273:kvm_run_exit cpu_index 0, reason 2
+>>>>   2091091@1595518935.441292:kvm_run_exit cpu_index 0, reason 2
+>>>>   2091091@1595518935.441301:kvm_run_exit cpu_index 0, reason 2
+>>>>   2091091@1595518935.441309:kvm_run_exit cpu_index 0, reason 2
+>>>>   2091091@1595518935.441254:kvm_run_exit cpu_index 0, reason 2
+>>>>
+>>>> It would not be very useful to activate recorder traces as well when that
+>>>> happens, which would have the undesired side effect of purging any
+>>>> corresponding entry from a following recorder dump.
+>>>
+>>> I'm afraid I don't understand, because the gaps in my understanding of
+>>> what the recorder can do are just too big.
+>>
+>> There is a video at the top of https://github.com/c3d/recorder, or direct
+>> link https://www.youtube.com/watch?v=kEnQY1zFa0Y. Hope this helps.
+>>
+>>
+>>>
+>>> From your cover letter:
+>>>
+>>>     1. Flight recorder: Dump information on recent events in case of crash
+>>>
+>>> Define "recent events", please.  Is it all trace events (except for the
+>>> ones disabled at build time, of course)?
+>>
+>> For event categories only known through qemu trace definitions, by default,
+>
+> Right now, there are no others, aren't there?
 
-Thanks!
-Helge
+There is one in the second patch, the example. That was actually the whole
+point of that second patch, which is not otherwise particularly exciting.
+
+>
+>> it's the last 8 events. If you manually declare a recorder, then you can
+>> specify any size.
+>>
+>> (The difference between this manual recorder usage and the recorder backend
+>> generated code is similar to the difference between the log backend and
+>> "DPRINTF")
+>
+> I'm not sure I get the parenthesis.
+
+I took that example because it's mentioned in docs/devel/tracing.txt:
+
+    === Log ===
+
+    The "log" backend sends trace events directly to standard error.  This
+    effectively turns trace events into debug printfs.
+
+    This is the simplest backend and can be used together with existing code that
+    uses DPRINTF().
+
+Just the same way, the recorder back-end can both use existing trace points,
+using the recorder back-end, but you can also add explicit record()
+statements much like you can add DPRINTF() statements.
+
+Whether this is a good idea or not is debatable. I would argue that in some
+cases, it's a good idea, or at least, probably a better idea than DPRINTF ;-)
+
+>
+>>> "Flight recorder" hints at recording in some ring buffer.  True?
+>>
+>> Yes.
+>>
+>>>
+>>> Can you explain the difference to trace backend "ftrace"?
+>>
+>> - It's not recording function calls nor stack traces.
+>> - It's faster (no fd write, no % parameter expansion)
+>
+> I guess "simple" doesn't format either, but it still writes to disk.
+>
+>> - It works on non-Linux platforms
+>> - It's always on
+>
+> The combination of "always on" and "minimal overhead" is obviously
+> useful.
+>
+>>>
+>>>     2. Tracing: Individual traces can be enabled using environment variables
+>>>
+>>> I guess "individual traces" means "individual trace events".
+>>
+>> Maybe I'm unwittingly opposing some well-established qemu habits here, as
+>> indicated by the "trace-event" command, but to me, a "trace" reports multiple
+>> "events" of the same class (distinguished e.g. by their timestamps). So I
+>> would say that I am indeed enabling a trace in order to be shown all the
+>> events associated to this trace.
+>>
+>> Does that make sense?
+>>
+>> But then I understand that the existing command is called "trace-event".
+>> So there's that. I don't mind changing the text that much.
+>
+> I'm hardly an expert on tracing in QEMU, I merely use it from time to
+> time.  I am the QMP maintainer, though.  Adding new commands for every
+> new thing is easy.  Proper integration takes thought.  And that's what
+> we're doing.
+>
+> As far as I can tell, QEMU has no concept of a "trace" in the sense of
+> your definition.  There are only individual trace events.  Enabled trace
+> events emit via the enabled trace backends.  Simple & stupid.
+
+I understand this terminology, and I was pointing out that it sounds really
+a strange use of the words. To me, an event is definitely a single point in
+time. However, I don't mind aligning the patch terminology where necessary
+for consistency.
+
+>
+>>> What does it mean to enable a trace event?  How does this affect the
+>>> recorder's behavior?
+>>
+>> For a given recorder instrumentation point, three things can happen:
+>> - It is recorded in a circular buffer (always)
+>> - If tracing is active, then a trace message is displayed
+>> - If sharing is active, then it is copied in shared memory for use by some
+>>   external program, e.g. recorder_scope.
+>
+> Enabled trace events get emitted to the configured backends, which can
+> do whatever they want with the events.
+>
+> Current trace backends emit to a single destination (log: stderr,
+> simple: a file, ftrace: the kernel, nop: the bit bucket, you get the
+> idea), but that's detail.
+>
+> My (possibly naive) expecation for a recorder backend: as always, only
+> the enabled trace events get emitted to the recorder backend.  All of
+> "circular buffer (always), display if tracing is active, copy if sharing
+> is active" happens within the backend.  In particular, enabling a trace
+> event cannot control the "tracing is active" bit.  It effectively
+> controls the "is recorded in a circular buffer" bit.  Correct?
+
+Actually, not in the patches as sent, no. IMO, this would defeat the whole
+purpose of always-on instrumentation. It's possible to disable recording,
+but by default, it's on.
+
+>
+> I guess much of the confusion comes from the fact that trace backends
+> are just that, but the recorder is more.
+>
+> Trace backends emit trace events.
+>
+> The recorder can *also* emit trace events.  But it primarily records.  I
+> figure users commonly record more events than they trace.
+
+Yes. The normal state for a trace point is to be off, the normal state for a
+record point is to be recording but not tracing.
+
+>
+> If you do the recorder as a trace backend, then the existing UI to
+> control what's being traced becomes UI to control what's being recorded
+> by the recorder and traced by everything else.  Confusing, and we're
+> short one UI to control what's being traced by the recorder.
+>
+> Perhaps doing the recorder as a trace backend is simply a bad idea.
+> Perhaps it should be integrated in the trace subsystem differently, so
+> that trace-enable continues to control what's being traced for all
+> backends.
+
+That means you don't benefit from any of the existing trace points.
+
+As an aside, the existing tracing system has the trace points in a different
+file than the actual code. In other words, we have something like:
+
+    # ioport.c
+    cpu_in(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
+    cpu_out(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
+
+and in ioport.c we have:
+
+    trace_cpu_in(addr, 'b', val);
+
+The recorder native approach would be something like:
+
+    trace(cpu_in, "addr 0x%x(%c) value %u", addr, 'b', val);
+
+Is the current syntax an artifact of how tracetool works, or is it intentional?
+
+>
+> Perhaps the recorder should emit the events it traces to a trace
+> backend.
+
+Ah, interesting. The recorder has a configurable output, so it is somewhat
+trivial to connect to some generated function that calls the various trace
+backends.
+
+>
+>>>     3. Real-time graphing / control, using the recorder_scope application
+>>>
+>>> I'm ignoring this one for now.
+>>>
+>>>> There are, however, new monitor commands, so now I can do:
+>>>>
+>>>>   recorder trace kvm_run_exit
+>>>>
+>>>> I now get an output where each trace shows up twice.
+>>>>
+>>>>   [120139718 137.127269] kvm_run_exit: cpu_index 0, reason 2
+>>>>   2091091@1595518954.209803:kvm_run_exit cpu_index 0, reason 2
+>>>>   [120139734 137.127281] kvm_run_exit: cpu_index 0, reason 2
+>>>>   2091091@1595518954.209814:kvm_run_exit cpu_index 0, reason 2
+>>>>   [120139751 137.127293] kvm_run_exit: cpu_index 0, reason 2
+>>>>
+>>>>  I don't find particularly useful, so I don't think having that as the
+>>>> normal behaviour would qualify as what you called proper integration.
+>>>
+>>> Well, I asked for it by configuring two trace backends, didn't I?
+>>
+>> Not really IMO. By configuring two trace backends, what you requested was to
+>> have two different kinds of instrumentation active at the same time. It does
+>> not imply (at least to me) that these two kinds of instrumentation have to
+>> react to *run-time* configuration identically, in particular if that means
+>> in a way that happens to not be helpful.
+>>
+>> If you configure log and ftrace, you are not requesting them to behave
+>> identically at run time.
+>
+> No, but by configuring two trace backends, you ask each one to do its
+> thing.  If "its thing" includes printing to stderr for both, then
+> getting events printed twice is exactly what you asked for.
+
+I think that you are arguing that since trace-event currently activates or
+disables all trace back-ends at once, then that's necessarily what I asked
+for.
+
+There is a nice ambiguity about the word "asked for" here, but that's
+definitely not what I would like. I described this behavior as unhelpful.
+
+However, addressing that correctly may indeed belong to the common code
+rather than to individual backends, I'll certainly grant you that.
+
+
+>
+>>> If I configured just the recorder backend, would I get a useful trace?
+>>
+>> Yes, but not the full functionality that "recorder" gives you.
+>> Notably, there is nothing in the existing trace-event command that would
+>> allow me to configure recorder sharing or trace output format, whereas the
+>> proposed patch allows me to do that.
+>
+> Christophe, leave that windmill alone!  I'm over here!  ;)
+
+;-)
+
+
+> I'm not trying to shoot down commands specific to trace backends.  I'm
+> trying to understand how the proposed recorder backend interacts with
+> the existing tracing UI and infrastructure, so I can figure out how to
+> best fit it with the existing UI and infrastructure.
+>
+> QEMU's tracing subsystem consists of a common, backend-independent part
+> and backends.
+>
+> Command trace-event controls one aspect of the common part: whether to
+> hand the trace event to the backend or not.  The backend has no say in
+> that.
+
+This is the part I changed in the patch, because there is already a
+mechanism to activate / deactivate tracing in the recorder, so having two
+'if(condition)' testing essentially the same condition using two different
+flags seems useless.
+
+>
+> Command trace-file controls one aspect of the backend: writing output to
+> a file.  Only the simple backend makes use of it, but that's detail.
+>
+> You tell me the recorder backend needs to expose more configuration to
+> really make sense.  The question isn't whether that's true (I trust you
+> on that), it's how to best integrate it with what we have.
+
+You gave me a number of interesting ideas. Let me get back to you with a new
+spin. You can tell me which one you prefer. I also made a couple of changes
+to the recorder itself to make future qemu integration easier.
+
+>
+>>> If yes, what's wrong with letting me control what's being traced with
+>>> the common trace-event command in addition to a backend-specific
+>>> command?
+>>
+>> This would force that code to a lower common denominator that would remove a
+>> lot of useful functionality specific to the recorder, even assuming we keep
+>> both the "recorder" and "trace-event" commands to configure the recorder.
+>>
+>> There is a problem with the semantics of the underlying API. For example,
+>> disabling trace foo is "-foo" in qemu, "foo=0" in the recorder API. I don't
+>> really like the idea of adding some string manipulation code to transform
+>> "-foo" into "foo=0". I would prefer to extend the recorder API to accept
+>> -foo, but that's not the case today.
+>
+> You're talking about the configuration file specified with trace
+> events=...
+>
+> The existing UI for the recorder library is different.  Hardly a
+> surprise.
+>
+> Consistency between the existing UI for the common part and the new UI
+> for the recorder backend is quite desirable.  I'm not making it a hard
+> requirement.  I would like to see concrete ideas on how to get it,
+> though.
+
+Here what can be done, but it's a larger undertaking:
+
+- Convert named trace entry points to anonymous trace(...) calls following a
+  syntax similar to record(...), so that traces are readable in one place.
+
+- Have a mechanism for trace activation / deactivation that delegates to the
+  trace back-end. That way, any ugly recorder-specific string manipulation
+  converting regexps and such will be in the back-end, not in common code.
+
+- When multiple trace back-ends are configured, make it possible to
+  configure them independently, ideally using back-end specific options
+
+- Add some notion of back-end specific option, to implement back-end
+  specific configurations like trace-file or recorder_dump_on_signal.
+
+- Split the notion of "trace" and "record", and add some "record"
+  semantics. Some existing backends already are closer to record semantics,
+  e.g. ftrace.
+
+- Convert the existing DPRINTF stuff to trace().
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
+
 
