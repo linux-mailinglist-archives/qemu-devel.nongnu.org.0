@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706E8232739
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 23:58:58 +0200 (CEST)
-Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0470232749
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:04:21 +0200 (CEST)
+Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0u6C-0002a6-7L
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 17:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1k0uBR-00066S-1s
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0u1O-00065a-1u; Wed, 29 Jul 2020 17:53:58 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34582)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1k0u8V-0003MV-9U; Wed, 29 Jul 2020 18:01:20 -0400
+Received: from mga11.intel.com ([192.55.52.93]:41639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0u1H-0006Vr-JN; Wed, 29 Jul 2020 17:53:57 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 03AAABF616;
- Wed, 29 Jul 2020 21:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596059629;
- bh=6+mkL4NmAFuGj12oGAY65eu9O60DUNh+h7p92QWDnpY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S6km0USBqMm9oNVl/UkefU5sWBP7w2vpKn+lGHO7J0sczyOgRT0pnaIwFlFB8dEyi
- lMqFJDreuYZtdKgJyVrp5HdGAjAggAhLGil3TzhgCj1fXdLk3dn34XvBION39G/kNQ
- GJyhrRCxknerYM5shugpJMgeJkdoKRR7GVmMJ1vGOfQd+0L+mBIMBy7t2JrMRKe+h7
- 00htAEZfPR3D2JB0hWx8+DMQv6AreFpu3PpD+2DTfezCUFfP9bp5z1BxlkpgL2sFmh
- hJUOdOy9VDVY2gB4Rpa44GKEaDnZdCNeDfcXWPAXs5d7gbExKlUs+6q0+3aKol/2Py
- mea2HpAejcNqg==
-Date: Wed, 29 Jul 2020 23:53:45 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Subject: Re: [PATCH 02/16] hw/block/nvme: add mapping helpers
-Message-ID: <20200729215345.GA339695@apples.localdomain>
-References: <20200720113748.322965-1-its@irrelevant.dk>
- <20200720113748.322965-3-its@irrelevant.dk>
- <b5e82d6a-471e-8894-f418-73f7d99094da@linux.intel.com>
- <20200729212432.GA332974@apples.localdomain>
- <ab06b5e1-4bc5-50d6-15cf-0d711b741be8@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1k0u8P-0007ro-Vr; Wed, 29 Jul 2020 18:01:18 -0400
+IronPort-SDR: zzT09mbtrBHNCit/tRuCuW3Zj6DNBgw6P2OAMUZN0hqgswVSbbDMCSEZxDTTL8wZz3eYe9S+58
+ MwJoI41VHUsQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9697"; a="149342742"
+X-IronPort-AV: E=Sophos;i="5.75,412,1589266800"; d="scan'208";a="149342742"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2020 15:01:11 -0700
+IronPort-SDR: RiZ58BlH/zkJseVlsG8cbk9wPTm6XwUW3OPAUnhtODa829kJKsg0PLkbqytF66Kfa/FzU6xzWT
+ 0qfRy81evwCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,412,1589266800"; d="scan'208";a="304361597"
+Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
+ ([10.209.191.249])
+ by orsmga002.jf.intel.com with ESMTP; 29 Jul 2020 15:01:09 -0700
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+To: kbusch@kernel.org,
+	kwolf@redhat.com,
+	mreitz@redhat.com
+Subject: [PATCH v6] nvme: allow cmb and pmr emulation on same device
+Date: Wed, 29 Jul 2020 15:01:05 -0700
+Message-Id: <20200729220107.37758-1-andrzej.jakowski@linux.intel.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ab06b5e1-4bc5-50d6-15cf-0d711b741be8@linux.intel.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 14:23:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga11.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 18:01:11
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,87 +64,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul 29 14:51, Andrzej Jakowski wrote:
-> On 7/29/20 2:24 PM, Klaus Jensen wrote:
-> > On Jul 29 13:40, Andrzej Jakowski wrote:
-> >> On 7/20/20 4:37 AM, Klaus Jensen wrote:
-> >>> From: Klaus Jensen <k.jensen@samsung.com>
-> >>>
-> >>> Add nvme_map_addr, nvme_map_addr_cmb and nvme_addr_to_cmb helpers and
-> >>> use them in nvme_map_prp.
-> >>>
-> >>> This fixes a bug where in the case of a CMB transfer, the device would
-> >>> map to the buffer with a wrong length.
-> >>>
-> >>> Fixes: b2b2b67a00574 ("nvme: Add support for Read Data and Write Data in CMBs.")
-> >>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> >>> ---
-> >>>  hw/block/nvme.c       | 109 +++++++++++++++++++++++++++++++++++-------
-> >>>  hw/block/trace-events |   2 +
-> >>>  2 files changed, 94 insertions(+), 17 deletions(-)
-> >>>
-> >>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> >>> index 4d7b730a62b6..9b1a080cdc70 100644
-> >>> --- a/hw/block/nvme.c
-> >>> +++ b/hw/block/nvme.c
-> >>> @@ -270,20 +338,27 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-> >>>          } else {
-> >>>              if (unlikely(prp2 & (n->page_size - 1))) {
-> >>>                  trace_pci_nvme_err_invalid_prp2_align(prp2);
-> >>> +                status = NVME_INVALID_FIELD | NVME_DNR;
-> >>>                  goto unmap;
-> >>>              }
-> >>> -            if (qsg->nsg) {
-> >>> -                qemu_sglist_add(qsg, prp2, len);
-> >>> -            } else {
-> >>> -                qemu_iovec_add(iov, (void *)&n->cmbuf[prp2 - n->ctrl_mem.addr], trans_len);
-> >>> +            status = nvme_map_addr(n, qsg, iov, prp2, len);
-> >>> +            if (status) {
-> >>> +                goto unmap;
-> >>>              }
-> >>>          }
-> >>>      }
-> >>>      return NVME_SUCCESS;
-> >>>  
-> >>> - unmap:
-> >>> -    qemu_sglist_destroy(qsg);
-> >>> -    return NVME_INVALID_FIELD | NVME_DNR;
-> >>> +unmap:
-> >>> +    if (iov && iov->iov) {
-> >>> +        qemu_iovec_destroy(iov);
-> >>> +    }
-> >>> +
-> >>> +    if (qsg && qsg->sg) {
-> >>> +        qemu_sglist_destroy(qsg);
-> >>> +    }
-> >>> +
-> >>> +    return status;
-> >>
-> >> I think it would make sense to move whole unmap block to a separate function.
-> >> That function could be called from here and after completing IO and would contain
-> >> unified deinitialization block - so no code repetitions would be necessary.
-> >> Other than that it looks good to me. Thx!
-> >>
-> >> Reviewed-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-> >>
-> >  
-> > Hi Andrzej,
-> > 
-> > Thanks for the review :)
-> > 
-> > Yes, this is done in a later patch ("hw/block/nvme: consolidate qsg/iov
-> > clearing"), but kept here to reduce churn.
-> > 
-> Yep, noticed that after sending email :)
-> Do you plan to submit second version of these patches incorporating some
-> of the feedback?
-> 
+Resending series recently posted on mailing list related to nvme device
+extension with couple of fixes after review.
 
-Yes, so you can defer your reviews for v2 ;)
+This patch series does following:
+ - Fixes problem where CMBS bit was not set in controller capabilities
+   register, so support for CMB was not correctly advertised to guest.
+   This is resend of patch that has been submitted and reviewed by
+   Klaus [1]
+ - Introduces BAR4 sharing between MSI-X vectors and CMB. This allows
+   to have CMB and PMR emulated on the same device. This extension
+   was indicated by Keith [2]
+
+v6:
+ - instead of using memory_region_to_absolute_addr() function local helper has
+   been defined (nvme_cmb_to_absolute_addr()) to calculate absolute address of
+   CMB in simplified way. Also a number of code style changes has been done
+   (function rename, use literal instead of macro definition, etc.)
+
+v5:
+ - fixed problem introduced in v4 where CMB buffer was represented as
+   subregion of BAR4 memory region. In that case CMB address was used
+   incorrectly as it was relative to BAR4 and not absolute. Appropriate
+   changes were added to v5 to calculate CMB address properly ([6])
+
+v4:
+ - modified BAR4 initialization, so now it consists of CMB, MSIX and
+   PBA memory regions overlapping on top of it. This reduces patch
+   complexity significantly (Klaus [5])
+
+v3:
+ - code style fixes including: removal of spurious line break, moving
+   define into define section and code alignment (Klaus [4])
+ - removed unintended code reintroduction (Klaus [4])
+
+v2:
+ - rebase on Kevin's latest block branch (Klaus [3])
+ - improved comments section (Klaus [3])
+ - simplified calculation of BAR4 size (Klaus [3])
+
+v1:
+ - initial push of the patch
+
+[1]: https://lore.kernel.org/qemu-devel/20200408055607.g2ii7gwqbnv6cd3w@apples.localdomain/
+[2]: https://lore.kernel.org/qemu-devel/20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com/
+[3]: https://lore.kernel.org/qemu-devel/20200605181043.28782-1-andrzej.jakowski@linux.intel.com/
+[4]: https://lore.kernel.org/qemu-devel/20200618092524.posxi5mysb3jjtpn@apples.localdomain/
+[5]: https://lore.kernel.org/qemu-devel/20200626055033.6vxqvi4s5pll7som@apples.localdomain/
+[6]: https://lore.kernel.org/qemu-devel/9143a543-d32d-f3e7-c37b-b3df7f853952@linux.intel.com/
+
+
 
