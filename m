@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6914F231B52
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 10:36:53 +0200 (CEST)
-Received: from localhost ([::1]:44016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA42C231B8C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 10:49:03 +0200 (CEST)
+Received: from localhost ([::1]:47808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0ha0-0003ta-Gm
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 04:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
+	id 1k0hlm-0006Az-Bx
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 04:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0hXx-00028i-5Z
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:34:45 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31269)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0hkO-0005k6-8x
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:47:36 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0hXv-0002GY-F4
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:34:44 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0hkM-0004UT-1J
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:47:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596011681;
+ s=mimecast20190719; t=1596012452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SW53tCPkcb48MlrSl8GF6qoAvxmvNHI42pc2WxZSu7g=;
- b=G3IuZx57gghE4T1NnqCR9tpnCcP/QpKpI+B/NLEw5mwDQxrOF6yq9SMZun+y1apHHBqjlF
- DgyI9FK7bQtBHhQfR2V7Uh85uZIblSIbzwoKbPLxcxYUAgY5zC/WW1RLCDmItG+ZepEFLQ
- T/HM3gcLXyMDckRohvFisiu4ZAr77FM=
+ bh=XzfplvbEl6K/U3utFzz6JkKQlrEfbwm7WX0JTkk6rL4=;
+ b=OnaAYTTM87nKHqQ1mFzCguYySqksyRT/ZTtNKHJpj85D0EjtuOHPgqIdKAUun/pKZyBigE
+ Tya4Tj0RVia6mUApsxrecp6uBAVVtrfe7DGSshzsJ+8jl88QcOcZpIR+4//Kg1mRbSVtgk
+ sCUoG1yjxWHLKfDvc5YP/4PF8t5k5xI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-WQuS8tlXN_6wgbv1GjhWtg-1; Wed, 29 Jul 2020 04:34:40 -0400
-X-MC-Unique: WQuS8tlXN_6wgbv1GjhWtg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-198-thNXQC2CM2qkSgaTFqo5pQ-1; Wed, 29 Jul 2020 04:47:28 -0400
+X-MC-Unique: thNXQC2CM2qkSgaTFqo5pQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B32D59;
- Wed, 29 Jul 2020 08:34:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C91F107ACCA;
+ Wed, 29 Jul 2020 08:47:27 +0000 (UTC)
 Received: from gondolin (ovpn-113-17.ams2.redhat.com [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB5245DA6A;
- Wed, 29 Jul 2020 08:34:36 +0000 (UTC)
-Date: Wed, 29 Jul 2020 10:34:34 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E2B26932E;
+ Wed, 29 Jul 2020 08:47:24 +0000 (UTC)
+Date: Wed, 29 Jul 2020 10:47:21 +0200
 From: Cornelia Huck <cohuck@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-5.2 1/6] pc-bios/s390-ccw/Makefile: Compile with
- -std=gnu99, -fwrapv and -fno-common
-Message-ID: <20200729103434.7fc4eb6a.cohuck@redhat.com>
-In-Reply-To: <20200728183734.7838-2-thuth@redhat.com>
+Subject: Re: [PATCH for-5.2 2/6] pc-bios/s390-ccw: Move ipl-related code
+ from main() into a separate function
+Message-ID: <20200729104721.6f2b8162.cohuck@redhat.com>
+In-Reply-To: <20200728183734.7838-3-thuth@redhat.com>
 References: <20200728183734.7838-1-thuth@redhat.com>
- <20200728183734.7838-2-thuth@redhat.com>
+ <20200728183734.7838-3-thuth@redhat.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -88,26 +86,62 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jul 2020 20:37:29 +0200
+On Tue, 28 Jul 2020 20:37:30 +0200
 Thomas Huth <thuth@redhat.com> wrote:
 
-> The main QEMU code is compiled with -std=gnu99, -fwrapv and -fno-common.
-> We should use the same flags for the s390-ccw bios, too, to avoid that
-> we get different behavior with different compiler versions that changed
-> their default settings in the course of time (it happened at least with
-> -std=... and -fno-common in the past already).
-> 
-> While we're at it, also group the other flags here in a little bit nicer
-> fashion: Move the two "-m" flags out of the "-f" area and specify them on
-> a separate line.
+> Let's move this part of the code into a separate function to be able
+> to use it from multiple spots later.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  pc-bios/s390-ccw/Makefile | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  pc-bios/s390-ccw/main.c | 20 ++++++++++++--------
+>  1 file changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+> index 146a50760b..9b64eb0c24 100644
+> --- a/pc-bios/s390-ccw/main.c
+> +++ b/pc-bios/s390-ccw/main.c
+> @@ -223,14 +223,8 @@ static void virtio_setup(void)
+>      }
+>  }
+>  
+> -int main(void)
+> +static void ipl_boot_device(void)
+>  {
+> -    sclp_setup();
+> -    css_setup();
+> -    boot_setup();
+> -    find_boot_device();
+> -    enable_subchannel(blk_schid);
+> -
+>      switch (cutype) {
+>      case CU_TYPE_DASD_3990:
+>      case CU_TYPE_DASD_2107:
+> @@ -242,8 +236,18 @@ int main(void)
+>          break;
+>      default:
+>          print_int("Attempting to boot from unexpected device type", cutype);
+> -        panic("");
+> +        panic("\nBoot failed.\n");
 
-Commonality is good :)
+Maybe "Boot failed: no supported device type"?
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+>      }
+> +}
+> +
+> +int main(void)
+> +{
+> +    sclp_setup();
+> +    css_setup();
+> +    boot_setup();
+> +    find_boot_device();
+> +    enable_subchannel(blk_schid);
+> +    ipl_boot_device();
+>  
+>      panic("Failed to load OS from hard disk\n");
+>      return 0; /* make compiler happy */
+
+Anyway,
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
