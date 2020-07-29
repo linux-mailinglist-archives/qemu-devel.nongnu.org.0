@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3830232761
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:10:57 +0200 (CEST)
-Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24073232756
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:08:45 +0200 (CEST)
+Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uHo-0003rX-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53682)
+	id 1k0uFg-00005b-7F
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:08:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDo-0006oe-Pw; Wed, 29 Jul 2020 18:06:48 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34612)
+ id 1k0uDn-0006oL-87; Wed, 29 Jul 2020 18:06:47 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDl-0008U5-7v; Wed, 29 Jul 2020 18:06:48 -0400
+ id 1k0uDl-0008U6-7i; Wed, 29 Jul 2020 18:06:46 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id DAF95BF616;
- Wed, 29 Jul 2020 22:06:41 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 6750CBFAB3;
+ Wed, 29 Jul 2020 22:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596060402;
- bh=PWC1uSf9gvUeJXpIbaAR4n8Y57AHWSEEhnnBDFKHR2I=;
- h=From:To:Cc:Subject:Date:From;
- b=rW6aArx/DPe9dEdibtJKQoZ2sX+PYftOqDDqAYiXeZwupItYCfCzjq7FYO4w7nlq7
- u6/jocpNiAUNnlOXTBN7/ZU8fEqHYiBHZaYBtywrZ5qvRMsnIB8aGyYfosJJ7sdNqU
- rfDyI6PF/ex9XK/+UlNVd95GLjifGrGuzuBLIy+8/yHfKsfwsd0VWkrASNnKpg4Oof
- VL5fcm8URiqOi0tXYw0kfT3ki6cJ/oN0EHj1taOQHSR5UehtiL4QMR1/Wr8+bxMYTJ
- 2DKxNocmj3myHNltwRiQQQe8NKivAc9ayGIJHE/hT+dUHTPbBeJljLMnbN6DeT3iMj
- dlP55SRSHI0rA==
+ s=default; t=1596060403;
+ bh=s+3GwpffDUyM2zAU6NIPG+bARhXR6wqmuJDvWfqlYUk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=o6hGZQ8rBTOF/4htVKvePeImiDgsRHzaSmRoPuGy5T1kTMkhjDjF+dcZxEj+9oMrF
+ xIbsW+Zchpn97Z/eb98dhHPpNIX2JJityRsessqNwRfWtmtsSwGOuk04hQMN6hhkyc
+ qFo+KQaZd/QV7BHUdZydQqEy2Vst8NGcObIZTV9++gSgzmT5glT9R7Reisz1XLGIjk
+ p/NQKJjYgQpftTvWZRpqA9nqqma7IjembB7JeAhCuDLBA/d8Fey7czIKC6hwwlRxg0
+ YsAkcS/B3OyEjIsQ28MKJjLjwmyREmyrGouHXGH6iQFwhuCu3zbX9bMR2a66ni5LUO
+ 2SdkfpHYnpdqg==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/16] hw/block/nvme: dma handling and address mapping
- cleanup
-Date: Thu, 30 Jul 2020 00:06:22 +0200
-Message-Id: <20200729220638.344477-1-its@irrelevant.dk>
+Subject: [PATCH v2 01/16] hw/block/nvme: memset preallocated requests
+ structures
+Date: Thu, 30 Jul 2020 00:06:23 +0200
+Message-Id: <20200729220638.344477-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200729220638.344477-1-its@irrelevant.dk>
+References: <20200729220638.344477-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
  helo=charlie.dont.surf
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 14:23:15
@@ -72,79 +73,32 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This series consists of patches that refactors dma read/write and adds a=0D
-number of address mapping helper functions.=0D
-=0D
-v2:=0D
-  * hw/block/nvme: add mapping helpers=0D
-    - Add an assert in case of out of bounds array access. (Maxim)=0D
-=0D
-  * hw/block/nvme: remove redundant has_sg member=0D
-    - Split the fix for the missing qemu_iov_destroy into a fresh patch=0D
-      ("hw/block/nvme: destroy request iov before reuse"). (Minwoo)=0D
-=0D
-  * hw/block/nvme: pass request along for tracing [DROPPED]=0D
-    - Dropped the patch and replaced it with a simple patch that just adds=
-=0D
-      tracing to the nvme_map_prp function ("hw/block/nvme: add tracing to=
-=0D
-      nvme_map_prp"). (Minwoo)=0D
-=0D
-  * hw/block/nvme: add request mapping helper=0D
-    - Changed the name from nvme_map to nvme_map_dptr. (Minwoo, Maxim)=0D
-=0D
-  * hw/block/nvme: add check for mdts=0D
-    - Don't touch the documentaiton for the cmb_size_mb and max_ioqpairs=0D
-      parameters in this patch. (Minwoo)=0D
-=0D
-  * hw/block/nvme: refactor NvmeRequest clearing [DROPPED]=0D
-    - Keep NvmeRequest structure clearing as "before use". (Maxim)=0D
-=0D
-  * hw/block/nvme: add a namespace reference in NvmeRequest=0D
-  * hw/block/nvme: remove NvmeCmd parameter=0D
-    - Squash these two patches together into "hw/block/nvme: add ns/cmd=0D
-      references in NvmeRequest".=0D
-=0D
-  * hw/block/nvme: consolidate qsg/iov clearing=0D
-    - Move the qsg/iov destroys to a new nvme_req_exit function that is cal=
-led=0D
-      after the cqe has been posted.=0D
-=0D
-  * hw/block/nvme: remove explicit qsg/iov parameters=0D
-    - New patch. THe nvme_map_prp() function doesn't require the qsg and io=
-v=0D
-      parameters since it can just get them from the passed NvmeRequest.=0D
-=0D
-Based-on: <20200706061303.246057-1-its@irrelevant.dk>=0D
-=0D
-Klaus Jensen (16):=0D
-  hw/block/nvme: memset preallocated requests structures=0D
-  hw/block/nvme: add mapping helpers=0D
-  hw/block/nvme: replace dma_acct with blk_acct equivalent=0D
-  hw/block/nvme: remove redundant has_sg member=0D
-  hw/block/nvme: destroy request iov before reuse=0D
-  hw/block/nvme: refactor dma read/write=0D
-  hw/block/nvme: add tracing to nvme_map_prp=0D
-  hw/block/nvme: add request mapping helper=0D
-  hw/block/nvme: verify validity of prp lists in the cmb=0D
-  hw/block/nvme: refactor request bounds checking=0D
-  hw/block/nvme: add check for mdts=0D
-  hw/block/nvme: be consistent about zeros vs zeroes=0D
-  hw/block/nvme: add ns/cmd references in NvmeRequest=0D
-  hw/block/nvme: consolidate qsg/iov clearing=0D
-  hw/block/nvme: use preallocated qsg/iov in nvme_dma_prp=0D
-  hw/block/nvme: remove explicit qsg/iov parameters=0D
-=0D
- block/nvme.c          |   4 +-=0D
- hw/block/nvme.c       | 506 +++++++++++++++++++++++++++---------------=0D
- hw/block/nvme.h       |   4 +-=0D
- hw/block/trace-events |   4 +=0D
- include/block/nvme.h  |   4 +-=0D
- 5 files changed, 340 insertions(+), 182 deletions(-)=0D
-=0D
--- =0D
-2.27.0=0D
-=0D
+This is preparatory to subsequent patches that change how QSGs/IOVs are
+handled. It is important that the qsg and iov members of the NvmeRequest
+are initially zeroed.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index a1fd1fe14ba7..25b87486ea5a 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -653,7 +653,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+     sq->size = size;
+     sq->cqid = cqid;
+     sq->head = sq->tail = 0;
+-    sq->io_req = g_new(NvmeRequest, sq->size);
++    sq->io_req = g_new0(NvmeRequest, sq->size);
+ 
+     QTAILQ_INIT(&sq->req_list);
+     QTAILQ_INIT(&sq->out_req_list);
+-- 
+2.27.0
+
 
