@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA30523276E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:12:34 +0200 (CEST)
-Received: from localhost ([::1]:34778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25F3232766
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:11:11 +0200 (CEST)
+Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uJN-0007bz-Vo
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
+	id 1k0uI2-0004PC-Pu
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:11:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uED-0007i2-4u; Wed, 29 Jul 2020 18:07:13 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34750)
+ id 1k0uDs-0006uT-7c; Wed, 29 Jul 2020 18:06:52 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uE9-00005S-Sx; Wed, 29 Jul 2020 18:07:12 -0400
+ id 1k0uDp-00005Y-UI; Wed, 29 Jul 2020 18:06:51 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 73821BFCD9;
+ by charlie.dont.surf (Postfix) with ESMTPSA id DE033BFD37;
  Wed, 29 Jul 2020 22:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596060406;
- bh=qTyhklrZu762Q/Is/xOIluIjK97MW6jku9v2Mt0zX/E=;
+ s=default; t=1596060407;
+ bh=VBVSWdNuq1ew5Oc+LN2Suo2nEIIo0N+RFktzz/ZMpwQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RwsAA6SNyRMV/o99xKq7rXffI7DBHPfcLUQDc8vR0kld3JnELcfph/rwGsQXKk9if
- UOyxOh6T04N/+17KP7snPRsH3oikXkgAIxI+LthsWKT3n1EH5Jfix1JFIGl+sxzxu2
- IMgocN9HeS/0xWzlrqk63S/7gWA+69ms6zYoFoKb9xASkwxAEek96wG6x2zEd/SI69
- anw65M/9qhjqz0HcmEpTA5NWJrlC3YYpWVH4c3mkHGWs6F5cVHNIq8JIKdR1X6PcRW
- 4OokKiuOZ/qyCM3BY5NZe7HOXCKlVORDaXsPvqzi78PcQo4cc/wtM7Oi9NNA083qk8
- ig4b9k1GBbyWA==
+ b=SgGvhYa2ozTb3gVzQxuHrrzSiVodw2ldCtP/gsB/Pa2LnMHFR+fzzvbevzSt1gEoE
+ HyrB/57AmZTgUNYJA/Q6yDoa7gv6XfVOZlPA5EYXWDpD6aBz0RexyhwNNZEwknhg2w
+ JuFOsxctirc/6ERPOkiyHlD5mn/qBQujeANAuVCPJTJZdSC9u8XwguVcIKeEJmlUqY
+ ymj7J2HC/rZAqH9y7IQhzoPFI9mdhvBYuCqkbw09JWxwpImfU/u8eM8Vf8J/ly4RgE
+ yXHh+H1kibXDk5fpUhe1vap4Ik08fGO+gp0SCtQ9KOS1HUWmGdmAxaA3H9Ca59VFkw
+ ecP1S+hvJwyQw==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/16] hw/block/nvme: verify validity of prp lists in the
- cmb
-Date: Thu, 30 Jul 2020 00:06:31 +0200
-Message-Id: <20200729220638.344477-10-its@irrelevant.dk>
+Subject: [PATCH v2 10/16] hw/block/nvme: refactor request bounds checking
+Date: Thu, 30 Jul 2020 00:06:32 +0200
+Message-Id: <20200729220638.344477-11-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200729220638.344477-1-its@irrelevant.dk>
 References: <20200729220638.344477-1-its@irrelevant.dk>
@@ -75,79 +74,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Before this patch the device already supported PRP lists in the CMB, but
-it did not check for the validity of it nor announced the support in the
-Identify Controller data structure LISTS field.
-
-If some of the PRPs in a PRP list are in the CMB, then ALL entries must
-be there. This patch makes sure that requirement is verified as well as
-properly announcing support for PRP lists in the CMB.
+Hoist bounds checking into its own function and check for wrap-around.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/nvme.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 198a26890e0c..45e4060d52d9 100644
+index 45e4060d52d9..c35b35ed41c4 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -273,6 +273,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-     trans_len = MIN(len, trans_len);
-     int num_prps = (len >> n->page_bits) + 1;
-     uint16_t status;
-+    bool prp_list_in_cmb = false;
+@@ -555,6 +555,18 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+     }
+ }
  
-     trace_pci_nvme_map_prp(trans_len, len, prp1, prp2, num_prps);
- 
-@@ -299,11 +300,16 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-             status = NVME_INVALID_FIELD | NVME_DNR;
-             goto unmap;
-         }
++static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
++                                         uint64_t slba, uint32_t nlb)
++{
++    uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
 +
-         if (len > n->page_size) {
-             uint64_t prp_list[n->max_prp_ents];
-             uint32_t nents, prp_trans;
-             int i = 0;
- 
-+            if (nvme_addr_is_cmb(n, prp2)) {
-+                prp_list_in_cmb = true;
-+            }
++    if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
++        return NVME_LBA_RANGE | NVME_DNR;
++    }
 +
-             nents = (len + n->page_size - 1) >> n->page_bits;
-             prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
-             nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
-@@ -317,6 +323,11 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-                         goto unmap;
-                     }
- 
-+                    if (prp_list_in_cmb != nvme_addr_is_cmb(n, prp_ent)) {
-+                        status = NVME_INVALID_USE_OF_CMB | NVME_DNR;
-+                        goto unmap;
-+                    }
++    return NVME_SUCCESS;
++}
 +
-                     i = 0;
-                     nents = (len + n->page_size - 1) >> n->page_bits;
-                     prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
-@@ -336,6 +347,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-                 if (status) {
-                     goto unmap;
-                 }
-+
-                 len -= trans_len;
-                 i++;
-             }
-@@ -2153,7 +2165,7 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+ static void nvme_rw_cb(void *opaque, int ret)
+ {
+     NvmeRequest *req = opaque;
+@@ -602,12 +614,14 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     uint32_t nlb  = le16_to_cpu(rw->nlb) + 1;
+     uint64_t offset = slba << data_shift;
+     uint32_t count = nlb << data_shift;
++    uint16_t status;
  
-     NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-     NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
--    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-+    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
-     NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-     NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-     NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+     trace_pci_nvme_write_zeroes(nvme_cid(req), slba, nlb);
+ 
+-    if (unlikely(slba + nlb > ns->id_ns.nsze)) {
++    status = nvme_check_bounds(n, ns, slba, nlb);
++    if (status) {
+         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+-        return NVME_LBA_RANGE | NVME_DNR;
++        return status;
+     }
+ 
+     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
+@@ -630,13 +644,15 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     uint64_t data_offset = slba << data_shift;
+     int is_write = rw->opcode == NVME_CMD_WRITE ? 1 : 0;
+     enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
++    uint16_t status;
+ 
+     trace_pci_nvme_rw(is_write ? "write" : "read", nlb, data_size, slba);
+ 
+-    if (unlikely((slba + nlb) > ns->id_ns.nsze)) {
+-        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
++    status = nvme_check_bounds(n, ns, slba, nlb);
++    if (status) {
+         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+-        return NVME_LBA_RANGE | NVME_DNR;
++        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
++        return status;
+     }
+ 
+     if (nvme_map_dptr(n, cmd, data_size, req)) {
 -- 
 2.27.0
 
