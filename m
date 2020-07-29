@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33D224298A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:43:32 +0200 (CEST)
-Received: from localhost ([::1]:45694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF46242998
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:44:57 +0200 (CEST)
+Received: from localhost ([::1]:52358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5q6N-0003V9-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
+	id 1k5q7k-0006CV-CO
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:44:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <46488b627ac8f13a3cbf83cfbfa011e82314b279@lizzy.crudebyte.com>)
- id 1k5q3j-0000Mh-4u
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:40:47 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:36499)
+ (envelope-from <29c9d2ca80ebac14ff55f687634cd3fa491ba8be@lizzy.crudebyte.com>)
+ id 1k5q6l-0004xR-GN
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:43:55 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <46488b627ac8f13a3cbf83cfbfa011e82314b279@lizzy.crudebyte.com>)
- id 1k5q3g-0004tq-VU
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:40:46 -0400
+ (envelope-from <29c9d2ca80ebac14ff55f687634cd3fa491ba8be@lizzy.crudebyte.com>)
+ id 1k5q6j-0005WH-Ud
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:43:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=RLW7R/RLw3j8fw80S3T+y1rUBTLcRUwqCiVI6RAC/V4=; b=oPvqr
- Ibvj0V5AOo6mG50FQSOcaPeVz7nBfPArR7D84TLmHQyDs0ZdakTIlrIGENYCmGfhuEi0xnYg6qC0w
- eQQveuwNXTRD31adgw+m4eLh7ZO3/e2buoGNZKO8n3q5MHKWW0MqmA3bhKSapzZNmufu7VejM8oo/
- wwIWzoBRZKkHQ8XKJgeKA+4ZWLhuc/2nU4sPU2Bk9R/JrFVWpCtACOd5ZfbcEZHz4R9E4I/fG1jKo
- wEkCZBK50LpKuHpLSDCyFt2PQhyK1EfIDHn9+RflzNqK6/vJI7Bf4+T5GW/RtrhEVupwYDbQr1csL
- sK4/+XZskdzXV/A+5kCAaXo67gnUA==;
-Message-Id: <46488b627ac8f13a3cbf83cfbfa011e82314b279.1597226797.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=LqNHrKbO1NaaAH1aku5vOmPL7nWsQaBzfBb1PxDUUHY=; b=goUyB
+ 5syWmV0ZuYhBmr6Hvdv2dRTWgb1Li00ePrVsQx2XZjesN7V+U6be825n8FUNV/Y7s9POFE1AYl5tO
+ bilHWNPIVgyxEzZYJ5QGtBTz94x0HduDIOx3aAoShf2s1u+xd9sqQokdHZcHpnUjyyFq9vKER5iea
+ RpFPJa/GpByYLOZ9wbMQyg8x5ie31zOMz91R9IEoYbJvUbcHMQfgoqzl8mqwab3RybZgZH4EPz5Ij
+ ckTz8ARa+qo7VipnanSjkzPJDOMChyS7/SOovIgaDgyyO4mfTI1Q8R/EbNOwANVHLT7GhPbSHKTbx
+ KYqKql5Q/MGYiAZyF/APSp2JbGFag==;
+Message-Id: <29c9d2ca80ebac14ff55f687634cd3fa491ba8be.1597226797.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1597226797.git.qemu_oss@crudebyte.com>
 References: <cover.1597226797.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 29 Jul 2020 10:10:23 +0200
-Subject: [PULL 1/7] tests/virtio-9p: added split readdir tests
+Date: Wed, 29 Jul 2020 10:11:15 +0200
+Subject: [PULL 2/7] 9pfs: make v9fs_readdir_response_size() public
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=46488b627ac8f13a3cbf83cfbfa011e82314b279@lizzy.crudebyte.com;
+ envelope-from=29c9d2ca80ebac14ff55f687634cd3fa491ba8be@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 08:16:56
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
@@ -66,174 +66,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous, already existing 'basic' readdir test simply used a
-'count' parameter big enough to retrieve all directory entries with a
-single Treaddir request.
-
-In the 3 new 'split' readdir tests added by this patch, directory
-entries are retrieved, split over several Treaddir requests by picking
-small 'count' parameters which force the server to truncate the
-response. So the test client sends as many Treaddir requests as
-necessary to get all directory entries.
-
-The following 3 new tests are added (executed in this sequence):
-
-1. Split readdir test with count=512
-2. Split readdir test with count=256
-3. Split readdir test with count=128
-
-This test case sequence is chosen because the smaller the 'count' value,
-the higher the chance of errors in case of implementation bugs on server
-side.
+Rename function v9fs_readdir_data_size() -> v9fs_readdir_response_size()
+and make it callable from other units. So far this function is only
+used by 9p.c, however subsequent patches require the function to be
+callable from another 9pfs unit. And as we're at it; also make it clear
+for what this function is used for.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <569b2e05ab1d0223b14a12dfbdf3ad5e8b3ac131.1596012787.git.qemu_oss@crudebyte.com>
+Message-Id: <3668ebc7d5b929a0e4f1357457060d96f50f76f4.1596012787.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 108 +++++++++++++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
+ hw/9pfs/9p.c | 10 ++++++++--
+ hw/9pfs/9p.h |  1 +
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 2167322985..de30b717b6 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -578,6 +578,7 @@ static bool fs_dirents_contain_name(struct V9fsDirent *e, const char* name)
-     return false;
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 2ffd96ade9..7a228c4828 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -2313,7 +2313,13 @@ out_nofid:
+     pdu_complete(pdu, err);
  }
  
-+/* basic readdir test where reply fits into a single response message */
- static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+-static size_t v9fs_readdir_data_size(V9fsString *name)
++/**
++ * Returns size required in Rreaddir response for the passed dirent @p name.
++ *
++ * @param name - directory entry's name (i.e. file name, directory name)
++ * @returns required size in bytes
++ */
++size_t v9fs_readdir_response_size(V9fsString *name)
  {
-     QVirtio9P *v9p = obj;
-@@ -631,6 +632,89 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
+     /*
+      * Size of each dirent on the wire: size of qid (13) + size of offset (8)
+@@ -2348,7 +2354,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+         }
+         v9fs_string_init(&name);
+         v9fs_string_sprintf(&name, "%s", dent->d_name);
+-        if ((count + v9fs_readdir_data_size(&name)) > max_count) {
++        if ((count + v9fs_readdir_response_size(&name)) > max_count) {
+             v9fs_readdir_unlock(&fidp->fs.dir);
  
-+/* readdir test where overall request is split over several messages */
-+static void fs_readdir_split(void *obj, void *data, QGuestAllocator *t_alloc,
-+                             uint32_t count)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-+    uint16_t nqid;
-+    v9fs_qid qid;
-+    uint32_t nentries, npartialentries;
-+    struct V9fsDirent *entries, *tail, *partialentries;
-+    P9Req *req;
-+    int fid;
-+    uint64_t offset;
-+
-+    fs_attach(v9p, NULL, t_alloc);
-+
-+    fid = 1;
-+    offset = 0;
-+    entries = NULL;
-+    nentries = 0;
-+    tail = NULL;
-+
-+    req = v9fs_twalk(v9p, 0, fid, 1, wnames, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, &nqid, NULL);
-+    g_assert_cmpint(nqid, ==, 1);
-+
-+    req = v9fs_tlopen(v9p, fid, O_DIRECTORY, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rlopen(req, &qid, NULL);
-+
-+    /*
-+     * send as many Treaddir requests as required to get all directory
-+     * entries
-+     */
-+    while (true) {
-+        npartialentries = 0;
-+        partialentries = NULL;
-+
-+        req = v9fs_treaddir(v9p, fid, offset, count, 0);
-+        v9fs_req_wait_for_reply(req, NULL);
-+        v9fs_rreaddir(req, &count, &npartialentries, &partialentries);
-+        if (npartialentries > 0 && partialentries) {
-+            if (!entries) {
-+                entries = partialentries;
-+                nentries = npartialentries;
-+                tail = partialentries;
-+            } else {
-+                tail->next = partialentries;
-+                nentries += npartialentries;
-+            }
-+            while (tail->next) {
-+                tail = tail->next;
-+            }
-+            offset = tail->offset;
-+        } else {
-+            break;
-+        }
-+    }
-+
-+    g_assert_cmpint(
-+        nentries, ==,
-+        QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
-+    );
-+
-+    /*
-+     * Check all file names exist in returned entries, ignore their order
-+     * though.
-+     */
-+    g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
-+    g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
-+    for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
-+        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
-+        g_assert_cmpint(fs_dirents_contain_name(entries, name), ==, true);
-+        g_free(name);
-+    }
-+
-+    v9fs_free_dirents(entries);
-+
-+    g_free(wnames[0]);
-+}
-+
- static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -793,6 +877,24 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
- 
-+static void fs_readdir_split_128(void *obj, void *data,
-+                                 QGuestAllocator *t_alloc)
-+{
-+    fs_readdir_split(obj, data, t_alloc, 128);
-+}
-+
-+static void fs_readdir_split_256(void *obj, void *data,
-+                                 QGuestAllocator *t_alloc)
-+{
-+    fs_readdir_split(obj, data, t_alloc, 256);
-+}
-+
-+static void fs_readdir_split_512(void *obj, void *data,
-+                                 QGuestAllocator *t_alloc)
-+{
-+    fs_readdir_split(obj, data, t_alloc, 512);
-+}
-+
- static void register_virtio_9p_test(void)
- {
-     qos_add_test("config", "virtio-9p", pci_config, NULL);
-@@ -810,6 +912,12 @@ static void register_virtio_9p_test(void)
-     qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-                  NULL);
-     qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
-+    qos_add_test("fs/readdir/split_512", "virtio-9p",
-+                 fs_readdir_split_512, NULL);
-+    qos_add_test("fs/readdir/split_256", "virtio-9p",
-+                 fs_readdir_split_256, NULL);
-+    qos_add_test("fs/readdir/split_128", "virtio-9p",
-+                 fs_readdir_split_128, NULL);
- }
- 
- libqos_init(register_virtio_9p_test);
+             /* Ran out of buffer. Set dir back to old position and return */
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index ee2271663c..561774e843 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -419,6 +419,7 @@ void v9fs_path_init(V9fsPath *path);
+ void v9fs_path_free(V9fsPath *path);
+ void v9fs_path_sprintf(V9fsPath *path, const char *fmt, ...);
+ void v9fs_path_copy(V9fsPath *dst, const V9fsPath *src);
++size_t v9fs_readdir_response_size(V9fsString *name);
+ int v9fs_name_to_path(V9fsState *s, V9fsPath *dirpath,
+                       const char *name, V9fsPath *path);
+ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
 -- 
 2.20.1
 
