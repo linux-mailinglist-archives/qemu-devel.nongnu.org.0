@@ -2,92 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7856C231701
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 02:58:01 +0200 (CEST)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461112317AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 04:31:49 +0200 (CEST)
+Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0aPw-0000LD-97
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 20:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43222)
+	id 1k0bsh-0005wI-QM
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jul 2020 22:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k0aP5-00088n-LF; Tue, 28 Jul 2020 20:57:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k0aP4-0002Kp-0a; Tue, 28 Jul 2020 20:57:07 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06T0Uowh097067; Tue, 28 Jul 2020 20:56:48 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32jqrsbv2r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jul 2020 20:56:47 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06T0VY5q098886;
- Tue, 28 Jul 2020 20:56:47 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32jqrsbv2f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jul 2020 20:56:47 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06T0tkXk030327;
- Wed, 29 Jul 2020 00:56:46 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma05wdc.us.ibm.com with ESMTP id 32gcy9nryh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jul 2020 00:56:46 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06T0ukmf26673480
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Jul 2020 00:56:46 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 43413AE05F;
- Wed, 29 Jul 2020 00:56:46 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E7F12AE05C;
- Wed, 29 Jul 2020 00:56:39 +0000 (GMT)
-Received: from morokweng.localdomain (unknown [9.163.54.39])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Wed, 29 Jul 2020 00:56:39 +0000 (GMT)
-References: <20200723025657.644724-1-bauerman@linux.ibm.com>
-User-agent: mu4e 1.2.0; emacs 26.3
-From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Subject: Re: [PATCH v3 0/8] Generalize start-powered-off property from ARM
-In-reply-to: <20200723025657.644724-1-bauerman@linux.ibm.com>
-Date: Tue, 28 Jul 2020 21:56:36 -0300
-Message-ID: <878sf3uojf.fsf@morokweng.localdomain>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k0brn-0005Mu-Sy
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 22:30:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k0brl-0006eq-C7
+ for qemu-devel@nongnu.org; Tue, 28 Jul 2020 22:30:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k0brj-0000xg-5k
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 02:30:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2A5A92E80D2
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 02:30:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-28_17:2020-07-28,
- 2020-07-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=683 bulkscore=0
- spamscore=0 adultscore=0 impostorscore=0 suspectscore=1 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007280173
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=bauerman@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 19:01:12
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 29 Jul 2020 02:23:39 -0000
+From: Heiko Sieger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos sanjaybmd
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <159598941967.4737.7676730076336265460.malone@soybean.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 08872598b18dba3036718d0d745c2e2c7690d062
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 22:30:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,38 +71,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-s390x@nongnu.org, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Sanjay,
 
-Thiago Jung Bauermann <bauerman@linux.ibm.com> writes:
+You can just increase the number of vcpus, such as:
 
-> The ARM code has a start-powered-off property in ARMCPU, which is a
-> subclass of CPUState. This property causes arm_cpu_reset() to set
-> CPUState::halted to 1, signalling that the CPU should start in a halted
-> state. Other architectures also have code which aim to achieve the same
-> effect, but without using a property.
->
-> The ppc/spapr version has a bug where QEMU does a KVM_RUN on the vcpu
-> before cs->halted is set to 1, causing the vcpu to run while it's still in
-> an unitialized state (more details in patch 3).
+<vcpu placement=3D"static" current=3D"48">64</vcpu>
 
-Since this series fixes a bug is it eligible for 5.1, at least the
-patches that were already approved by the appropriate maintainers?
+then continue to define the vcpus:
 
--- 
-Thiago Jung Bauermann
-IBM Linux Technology Center
+    <vcpu id=3D"32" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"33" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"34" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"35" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"36" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"37" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"38" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"39" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"40" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"41" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"42" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"43" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"44" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"45" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"46" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"47" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"48" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"49" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"50" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"51" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"52" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"53" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"54" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"55" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"56" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"57" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"58" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"59" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"60" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"61" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"62" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"63" enabled=3D"no" hotpluggable=3D"yes"/>
+
+(6x enabled=3Dyes, then 2x enabled=3Dno.)
+
+You will get more vcpu ids than you have threads, but since you disable
+16 out of 64, you will have 48 active.
+
+vcpupin should continue as follows:
+
+    <vcpupin vcpu=3D"32" cpuset=3D"24"/>
+    <vcpupin vcpu=3D"33" cpuset=3D"36"/>
+    <vcpupin vcpu=3D"34" cpuset=3D"25"/>
+    <vcpupin vcpu=3D"35" cpuset=3D"37"/>
+    <vcpupin vcpu=3D"36" cpuset=3D"26"/>
+    <vcpupin vcpu=3D"37" cpuset=3D"38"/>
+    <vcpupin vcpu=3D"40" cpuset=3D"27"/>
+    <vcpupin vcpu=3D"41" cpuset=3D"39"/>
+    <vcpupin vcpu=3D"42" cpuset=3D"28"/>
+    <vcpupin vcpu=3D"43" cpuset=3D"40"/>
+    <vcpupin vcpu=3D"44" cpuset=3D"29"/>
+    <vcpupin vcpu=3D"45" cpuset=3D"41"/>
+    <vcpupin vcpu=3D"48" cpuset=3D"30"/>
+    <vcpupin vcpu=3D"49" cpuset=3D"42"/>
+    <vcpupin vcpu=3D"50" cpuset=3D"31"/>
+    <vcpupin vcpu=3D"51" cpuset=3D"43"/>
+    <vcpupin vcpu=3D"52" cpuset=3D"32"/>
+    <vcpupin vcpu=3D"53" cpuset=3D"44"/>
+    <vcpupin vcpu=3D"56" cpuset=3D"33"/>
+    <vcpupin vcpu=3D"57" cpuset=3D"45"/>
+    <vcpupin vcpu=3D"58" cpuset=3D"34"/>
+    <vcpupin vcpu=3D"59" cpuset=3D"46"/>
+    <vcpupin vcpu=3D"60" cpuset=3D"35"/>
+    <vcpupin vcpu=3D"61" cpuset=3D"47"/>
+
+This is if you pin all vcpus to the VM, which may not be the best thing
+to do. The maximum number of vcpus you can pin on a Threadripper 3960X
+are 48.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
