@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B504231EFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 15:06:53 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32F0231EEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 15:03:44 +0200 (CEST)
+Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0lnI-000543-HC
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 09:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
+	id 1k0lkF-0003AM-Pj
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 09:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1k0lm3-0003vO-Tj; Wed, 29 Jul 2020 09:05:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1k0lm2-00068W-2P; Wed, 29 Jul 2020 09:05:35 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06TD4gqv026343; Wed, 29 Jul 2020 09:05:09 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32jy8vsmx1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jul 2020 09:05:01 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06TD4sM6026904;
- Wed, 29 Jul 2020 09:04:54 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32jy8vsk9b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jul 2020 09:04:46 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06TD0YC4022943;
- Wed, 29 Jul 2020 13:02:41 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma02fra.de.ibm.com with ESMTP id 32gcq0u46a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jul 2020 13:02:41 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06TD2ctP59244576
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Jul 2020 13:02:38 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73DF75204F;
- Wed, 29 Jul 2020 13:02:38 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 13E1252051;
- Wed, 29 Jul 2020 13:02:38 +0000 (GMT)
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH 1/1] s390x/s390-virtio-ccw: fix off-by-one in loadparm getter
-Date: Wed, 29 Jul 2020 15:02:22 +0200
-Message-Id: <20200729130222.29026-1-pasic@linux.ibm.com>
-X-Mailer: git-send-email 2.17.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-29_07:2020-07-29,
- 2020-07-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 mlxscore=0 bulkscore=0 malwarescore=0 adultscore=0
- clxscore=1015 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
- spamscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2007290086
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:05:09
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k0ljQ-0002e4-0b; Wed, 29 Jul 2020 09:02:52 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k0ljO-0005z2-Ex; Wed, 29 Jul 2020 09:02:51 -0400
+Received: by mail-wm1-x331.google.com with SMTP id d190so2643981wmd.4;
+ Wed, 29 Jul 2020 06:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UiAAUsgoxESRAYasZa3Rjo2Nv16PISfy3RzxxRZSHy8=;
+ b=C9lar+7a9IzEqAfsHLPr4U7m5KKzinVfze4e9PJpIVveRVtHJY3E7txgZPtnejQuei
+ IF15CusP8GmvXxGUdR4nW3JZErcc3LsUPEvXEq6jZAFBqVYvcqNNiJSY9X55s3T69Mwf
+ CudF2BgvyfNvZlVoIPfEoFLxfMhifAieDcK8nUwSMQePKFNCwe4oh6pntiwPz0+xwbZL
+ wo2+ZeoX72kw79H3z4DNOMtYxZ3IizSMrLuKTubQoj2dLvst522EO8MwYuuEhM5cL7Cw
+ 1k4CRsNSIh5blvs3SfvKYB76Mln14x6Bk3rgWSo2xlPgDSTl8D2lTKRT2BlcBQP77zZQ
+ c/KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UiAAUsgoxESRAYasZa3Rjo2Nv16PISfy3RzxxRZSHy8=;
+ b=Dh/MzB/brafLlB9h+xhUtKW3t8cY7YHiskb1L8VX6Fzz7+oRO/790095ycibUEPQFe
+ zuMmQY/zlMnJRQkgiH1cEcfFqQJgfyM8lS5XXA3LgaMFlQouAldJpLTEGk+DsC11v1s0
+ 6Zw2y/zztM9scrlqZ86LdUyPtWU4n184jgHccpoktuYpbmAFivDnnR112BbEWY7JY5+V
+ XLnaa8i/7EsAQgTYZySHYB27Ndn4x/c6mdZY3axZwV4da1At5XyXNW/DJfVmOzl09RSb
+ wm8hmxp4fv5mt7AtaqgrW5S5KV/Jr+SktYyO86roU/F6OcQytUMAxTNol1I+Xp1oW9UH
+ zNhQ==
+X-Gm-Message-State: AOAM533exh8erwxvyshp7Ms4PY486l1was2rQcepD9HAeE9qsyxVwrXl
+ t32ITfum3CXAhjTQcztLQfo=
+X-Google-Smtp-Source: ABdhPJy7sh40lOmTZhkMgurgyJBmdShX18znPH7GKIAk2WGYLcP48p48jrZsituJtokj0OBpv2j1FA==
+X-Received: by 2002:a1c:660a:: with SMTP id a10mr8163866wmc.115.1596027768388; 
+ Wed, 29 Jul 2020 06:02:48 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id t17sm4901057wmj.34.2020.07.29.06.02.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jul 2020 06:02:47 -0700 (PDT)
+Date: Wed, 29 Jul 2020 14:02:45 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: anthony smith <backtogeek@gmail.com>
+Subject: Re: Disk cache defaults
+Message-ID: <20200729130245.GH37763@stefanha-x1.localdomain>
+References: <CAPf-64Wni=_9byuHt9HyFnZ6PwTF3wp17oEMF2ok-Tvk6UG0RQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Rn7IEEq3VEzCw+ji"
+Content-Disposition: inline
+In-Reply-To: <CAPf-64Wni=_9byuHt9HyFnZ6PwTF3wp17oEMF2ok-Tvk6UG0RQ@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x331.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,45 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As pointed out by Peter, g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1)
-reads one past of the end of ms->loadparm, so g_memdup() can not be used
-here.
 
-Let's use malloc and memcpy instead!
+--Rn7IEEq3VEzCw+ji
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: d664548328 ("s390x/s390-virtio-ccw: fix loadparm property getter")
-Fixes: Coverity CID 1431058
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
----
- hw/s390x/s390-virtio-ccw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Jul 22, 2020 at 07:14:59AM +0100, anthony smith wrote:
+> Appreciate any assistance even if the answer is just "Not possible" so I
+> can at least drop this search for answers.
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 403d30e13b..8b7bac0392 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -704,8 +704,8 @@ static char *machine_get_loadparm(Object *obj, Error **errp)
-     char *loadparm_str;
- 
-     /* make a NUL-terminated string */
--    loadparm_str = g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1);
--    loadparm_str[sizeof(ms->loadparm)] = 0;
-+    loadparm_str = g_malloc0(sizeof(ms->loadparm) + 1);
-+    memcpy(loadparm_str, ms->loadparm, sizeof(ms->loadparm));
-     return loadparm_str;
- }
- 
+You can create an /etc/qemu/qemu.conf file but I don't remember if there
+is syntax to set -drive cache=none.
 
-base-commit: 5772f2b1fc5d00e7e04e01fa28e9081d6550440a
--- 
-2.17.1
+CCing Kevin Wolf and Markus Armbruster for ideas.
 
+The hacky "solution" is to write a wrapper script (e.g. a shell script)
+that modifies QEMU command-line arguments to use cache=none if no
+explicit cache= option was given:
+
+  $ cat qemu-wrapper.sh
+  #!/bin/bash
+  # Add QEMU -drive cache=none
+
+  declare -a opts
+
+  i=0
+  is_drive=0
+  for opt in "$@"; do
+    if [ "$is_drive" -eq 1 ]; then
+      opt="$opt,cache=none" # TODO skip if cache= is already in opts?
+    fi
+    opts[$i]="$opt"
+    if [ "$opt" = "-drive" ]; then
+      is_drive=1
+    else
+      is_drive=0
+    fi
+    i=$((i + 1))
+  done
+
+  exec /usr/bin/qemu-system-x86_64 "${opts[@]}"
+
+--Rn7IEEq3VEzCw+ji
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8hc3UACgkQnKSrs4Gr
+c8ivgAf8DiEUYK/yt9VXrjGGc+aZK2D8Qk/t4fehzzb7C+pcigZu/QYW/HHfM6cW
+aPrk8W1JBTQDCot+FwcuiiQ2h1JMa/VFayGGkz7KZjz5Qj3ztoSv7epmekhpQYsK
+31AmeMG0ABtKGG1woZsocU3I60m04qrbhbHi7CGJMJjQFXi2BUWbPDYHlaihuZXu
+TSyvjXshtqXK44j0YP377lD+VDahSjS7eVa4/CNwC8oZi8HL7q6CL4yoP/5k7VjC
+1WMGSqZU55FDoJ/FEv/LI7shgz6qg8kClBZ0hTSvL4+mHbZmTANV/8JJ14cd/Jud
+PJbO8VwLXpUoowrT+Z4g1UfDOI+Wfg==
+=DSbJ
+-----END PGP SIGNATURE-----
+
+--Rn7IEEq3VEzCw+ji--
 
