@@ -2,76 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BFA2321F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 17:50:53 +0200 (CEST)
-Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134E3232201
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 17:55:12 +0200 (CEST)
+Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0oLz-00061n-Vr
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 11:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52518)
+	id 1k0oQA-0007pf-Tv
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 11:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k0oKt-0005Vh-FQ; Wed, 29 Jul 2020 11:49:43 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k0oKr-0007MY-TT; Wed, 29 Jul 2020 11:49:43 -0400
-Received: by mail-pf1-x443.google.com with SMTP id y206so2848789pfb.10;
- Wed, 29 Jul 2020 08:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=alkne1QAkPGJT9SL9Y1HfBa4utEtpkzRf0249gtABXw=;
- b=VkBZNYognd6JRCHID2txYoqWTia5lOvI/PzZaDgQZCyGLiZDyh/4MxZW7j86x63udW
- c7QuCooGjqUeB52/6W1QmnFIgyBArNnxTW/eYLkHRWxrEjPFRFyhUOCcShwtoPRYJKPu
- esWMjqz3KvNH5UtvEn3oLpsVZvTnudE1B7sdteKhVM4jJ4MUnD38+UtaWek96gwUMhGK
- YCSS6KugK2kohkWMoDV6iV1rPAd8mjhbZK7aVpiT5B13cR3B1FPmWRz4xYK7nPW62MNW
- g8HtAum+W4KK0eaSXfGGaaYy1aQoOLcwR8t9Ybwv0jSpH+3nWfpY9JshMKvR9bnUOKo5
- 549A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=alkne1QAkPGJT9SL9Y1HfBa4utEtpkzRf0249gtABXw=;
- b=Yz9HhoyO3obDchA23Voo0vipn1iqqFBt//oUO6XlUTb3TcNI95aIomG33YTeDRWH+T
- HUNip54ZKmylVi61zo6KbeXIX8Y0uLbJlrZYraurIc+JcRMEQluMQtdCX7ZqviYLO+Fo
- BUHV6yRWlKVCegYbRBwwbByM5ZqF3bgn8R0+uPkiJcoeYgYTZHTzdZ6Ra967u8wNwD9w
- HTtBpMlLZl2C70hJO4KA4axOZOEEsnc4TkEBXqc4Hs/eTpab8lNrl37zLCUPRloFXvBY
- VGzIEPWzO4eagVwWBRSyo982JfQ/9HSAFDb8X5lxDnM+H+HHxxDcq8MYchEMGVrAkT2S
- 74gA==
-X-Gm-Message-State: AOAM5317zMe/xZeuOsmKiUiZ6A4E/cg1qbhZoy6FEgvIAJLJqCGbExtT
- hBPxHFV9/T0qHFJMv6cOdM0=
-X-Google-Smtp-Source: ABdhPJyJDz6vCTYf5QOw7Gyr97Ax7Bt6Vm3Pv/QsOnRGt2PuqayoizN4gXB+U92SUC+/tdWBJKcpew==
-X-Received: by 2002:a62:8688:: with SMTP id
- x130mr30294445pfd.280.1596037779302; 
- Wed, 29 Jul 2020 08:49:39 -0700 (PDT)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id b18sm2615205pju.10.2020.07.29.08.49.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 29 Jul 2020 08:49:38 -0700 (PDT)
-Date: Thu, 30 Jul 2020 00:49:36 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 06/16] hw/block/nvme: pass request along for tracing
-Message-ID: <20200729154936.GE14876@localhost.localdomain>
-References: <20200720113748.322965-1-its@irrelevant.dk>
- <20200720113748.322965-7-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0oLM-00062O-0j
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:50:12 -0400
+Received: from mout.gmx.net ([212.227.15.15]:49599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0oLI-0007Pr-RF
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:50:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1596037801;
+ bh=xd1A725CpeIyF5VxjfNzrOOrc+RW65SYe3vF5tvlyWc=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=LrLEDW1X+dDAUji1L8qXgsHwSoE8YzgC1hBrjfU0oS4A1vADFBbs+NE8hj8d+zVJq
+ CYxjBM8A9Rfq4jzdxjtZJ0tha65vOoPz4vLSWm2kIz2ceUE6l2AnBrFlvlPsDPzfpT
+ YCNmT9dHVLp/xD6TtmSKamjclL9So2h3wROAYXpQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.135.32]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M4s4r-1k2Bmo3JO3-001w5V; Wed, 29
+ Jul 2020 17:50:01 +0200
+Subject: Re: [PULL 0/4] target-hppa fixes
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200728193550.3578-1-deller@gmx.de>
+ <CAFEAcA9ON0UpPmLBhL4gRnH9eJf0Wz8H26sK_kQaau3-8ZA1-A@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ mQINBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
+ HLnjgkbPFDmcmCz5V0Wv1mKYRClAHPCIBIJgyICqqUZo2qGmKstUx3pFAiztlXBANpRECgwJ
+ r+8w6mkccOM9GhoPU0vMaD/UVJcJQzvrxVHO8EHS36aUkjKd6cOpdVbCt3qx8cEhCmaFEO6u
+ CL+k5AZQoABbFQEBocZE1/lSYzaHkcHrjn4cQjc3CffXnUVYwlo8EYOtAHgMDC39s9a7S90L
+ 69l6G73lYBD/Br5lnDPlG6dKfGFZZpQ1h8/x+Qz366Ojfq9MuuRJg7ZQpe6foiOtqwKym/zV
+ dVvSdOOc5sHSpfwu5+BVAAyBd6hw4NddlAQUjHSRs3zJ9OfrEx2d3mIfXZ7+pMhZ7qX0Axlq
+ Lq+B5cfLpzkPAgKn11tfXFxP+hcPHIts0bnDz4EEp+HraW+oRCH2m57Y9zhcJTOJaLw4YpTY
+ GRUlF076vZ2Hz/xMEvIJddRGId7UXZgH9a32NDf+BUjWEZvFt1wFSW1r7zb7oGCwZMy2LI/G
+ aHQv/N0NeFMd28z+deyxd0k1CGefHJuJcOJDVtcE1rGQ43aDhWSpXvXKDj42vFD2We6uIo9D
+ 1VNre2+uAxFzqqf026H6cH8hin9Vnx7p3uq3Dka/Y/qmRFnKVQARAQABtBxIZWxnZSBEZWxs
+ ZXIgPGRlbGxlckBnbXguZGU+iQJRBBMBCAA7AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheA
+ FiEERUSCKCzZENvvPSX4Pl89BKeiRgMFAl3J1zsCGQEACgkQPl89BKeiRgNK7xAAg6kJTPje
+ uBm9PJTUxXaoaLJFXbYdSPfXhqX/BI9Xi2VzhwC2nSmizdFbeobQBTtRIz5LPhjk95t11q0s
+ uP5htzNISPpwxiYZGKrNnXfcPlziI2bUtlz4ke34cLK6MIl1kbS0/kJBxhiXyvyTWk2JmkMi
+ REjR84lCMAoJd1OM9XGFOg94BT5aLlEKFcld9qj7B4UFpma8RbRUpUWdo0omAEgrnhaKJwV8
+ qt0ULaF/kyP5qbI8iA2PAvIjq73dA4LNKdMFPG7Rw8yITQ1Vi0DlDgDT2RLvKxEQC0o3C6O4
+ iQq7qamsThLK0JSDRdLDnq6Phv+Yahd7sDMYuk3gIdoyczRkXzncWAYq7XTWl7nZYBVXG1D8
+ gkdclsnHzEKpTQIzn/rGyZshsjL4pxVUIpw/vdfx8oNRLKj7iduf11g2kFP71e9v2PP94ik3
+ Xi9oszP+fP770J0B8QM8w745BrcQm41SsILjArK+5mMHrYhM4ZFN7aipK3UXDNs3vjN+t0zi
+ qErzlrxXtsX4J6nqjs/mF9frVkpv7OTAzj7pjFHv0Bu8pRm4AyW6Y5/H6jOup6nkJdP/AFDu
+ 5ImdlA0jhr3iLk9s9WnjBUHyMYu+HD7qR3yhX6uWxg2oB2FWVMRLXbPEt2hRGq09rVQS7DBy
+ dbZgPwou7pD8MTfQhGmDJFKm2ju5Ag0EXchrcwEQAOsDQjdtPeaRt8EP2pc8tG+g9eiiX9Sh
+ rX87SLSeKF6uHpEJ3VbhafIU6A7hy7RcIJnQz0hEUdXjH774B8YD3JKnAtfAyuIU2/rOGa/v
+ UN4BY6U6TVIOv9piVQByBthGQh4YHhePSKtPzK9Pv/6rd8H3IWnJK/dXiUDQllkedrENXrZp
+ eLUjhyp94ooo9XqRl44YqlsrSUh+BzW7wqwfmu26UjmAzIZYVCPCq5IjD96QrhLf6naY6En3
+ ++tqCAWPkqKvWfRdXPOz4GK08uhcBp3jZHTVkcbo5qahVpv8Y8mzOvSIAxnIjb+cklVxjyY9
+ dVlrhfKiK5L+zA2fWUreVBqLs1SjfHm5OGuQ2qqzVcMYJGH/uisJn22VXB1c48yYyGv2HUN5
+ lC1JHQUV9734I5cczA2Gfo27nTHy3zANj4hy+s/q1adzvn7hMokU7OehwKrNXafFfwWVK3OG
+ 1dSjWtgIv5KJi1XZk5TV6JlPZSqj4D8pUwIx3KSp0cD7xTEZATRfc47Yc+cyKcXG034tNEAc
+ xZNTR1kMi9njdxc1wzM9T6pspTtA0vuD3ee94Dg+nDrH1As24uwfFLguiILPzpl0kLaPYYgB
+ wumlL2nGcB6RVRRFMiAS5uOTEk+sJ/tRiQwO3K8vmaECaNJRfJC7weH+jww1Dzo0f1TP6rUa
+ fTBRABEBAAGJAjYEGAEIACAWIQRFRIIoLNkQ2+89Jfg+Xz0Ep6JGAwUCXchrcwIbDAAKCRA+
+ Xz0Ep6JGAxtdEAC54NQMBwjUNqBNCMsh6WrwQwbg9tkJw718QHPw43gKFSxFIYzdBzD/YMPH
+ l+2fFiefvmI4uNDjlyCITGSM+T6b8cA7YAKvZhzJyJSS7pRzsIKGjhk7zADL1+PJei9p9idy
+ RbmFKo0dAL+ac0t/EZULHGPuIiavWLgwYLVoUEBwz86ZtEtVmDmEsj8ryWw75ZIarNDhV74s
+ BdM2ffUJk3+vWe25BPcJiaZkTuFt+xt2CdbvpZv3IPrEkp9GAKof2hHdFCRKMtgxBo8Kao6p
+ Ws/Vv68FusAi94ySuZT3fp1xGWWf5+1jX4ylC//w0Rj85QihTpA2MylORUNFvH0MRJx4mlFk
+ XN6G+5jIIJhG46LUucQ28+VyEDNcGL3tarnkw8ngEhAbnvMJ2RTx8vGh7PssKaGzAUmNNZiG
+ MB4mPKqvDZ02j1wp7vthQcOEg08z1+XHXb8ZZKST7yTVa5P89JymGE8CBGdQaAXnqYK3/yWf
+ FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
+ 4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
+ ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLrgzBF3IbakWCSsGAQQB2kcP
+ AQEHQNdEF2C6q5MwiI+3akqcRJWo5mN24V3vb3guRJHo8xbFiQKtBBgBCAAgFiEERUSCKCzZ
+ ENvvPSX4Pl89BKeiRgMFAl3IbakCGwIAgQkQPl89BKeiRgN2IAQZFggAHRYhBLzpEj4a0p8H
+ wEm73vcStRCiOg9fBQJdyG2pAAoJEPcStRCiOg9fto8A/3cti96iIyCLswnSntdzdYl72SjJ
+ HnsUYypLPeKEXwCqAQDB69QCjXHPmQ/340v6jONRMH6eLuGOdIBx8D+oBp8+BGLiD/9qu5H/
+ eGe0rrmE5lLFRlnm5QqKKi4gKt2WHMEdGi7fXggOTZbuKJA9+DzPxcf9ShuQMJRQDkgzv/VD
+ V1fvOdaIMlM1EjMxIS2fyyI+9KZD7WwFYK3VIOsC7PtjOLYHSr7o7vDHNqTle7JYGEPlxuE6
+ hjMU7Ew2Ni4SBio8PILVXE+dL/BELp5JzOcMPnOnVsQtNbllIYvXRyX0qkTD6XM2Jbh+xI9P
+ xajC+ojJ/cqPYBEALVfgdh6MbA8rx3EOCYj/n8cZ/xfo+wR/zSQ+m9wIhjxI4XfbNz8oGECm
+ xeg1uqcyxfHx+N/pdg5Rvw9g+rtlfmTCj8JhNksNr0NcsNXTkaOy++4Wb9lKDAUcRma7TgMk
+ Yq21O5RINec5Jo3xeEUfApVwbueBWCtq4bljeXG93iOWMk4cYqsRVsWsDxsplHQfh5xHk2Zf
+ GAUYbm/rX36cdDBbaX2+rgvcHDTx9fOXozugEqFQv9oNg3UnXDWyEeiDLTC/0Gei/Jd/YL1p
+ XzCscCr+pggvqX7kI33AQsxo1DT19sNYLU5dJ5Qxz1+zdNkB9kK9CcTVFXMYehKueBkk5MaU
+ ou0ZH9LCDjtnOKxPuUWstxTXWzsinSpLDIpkP//4fN6asmPo2cSXMXE0iA5WsWAXcK8uZ4jD
+ c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
+Message-ID: <6ec5ba98-6fb6-ee36-86d8-35ef6bcf2c00@gmx.de>
+Date: Wed, 29 Jul 2020 17:49:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9ON0UpPmLBhL4gRnH9eJf0Wz8H26sK_kQaau3-8ZA1-A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200720113748.322965-7-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:tIhZCmmKlupQddohu/L+woq1V6wIQs156o64BcaJrZhqME/4JQo
+ ktJRzken/N9+0+i8yr2Ax+56XWAvPLeQo2Uyu3OJNstrUzgdrNiqGdP81QkpNsRrKrsNpSR
+ 9plhmfPoikVgNX+BX35UJG9O5P5iP2BwwnJ1XGH59MB5tDB+t4FJ1w0K0EDkDjh/vC0Q+hI
+ 4RSNiN6m8OLgH9IozqjoA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QLtLeN1Y++s=:Hv5i7Wxajmnu424w9LYJXg
+ XgMykiraP59yG324rMe02qdZwfcvw9fLhFNsG/+RoBfhEvxRv6lLj/zfyF6XgW0yC2eeaJMlw
+ gidMbgfmeFgLdmv2VJ3vGyNrS03hCJPYapNlnNY9KlaVqjwDYeasF7c5VLkEzebu8rWXyDYpt
+ 1zaK580DDWwseZFI/tOMOrLoIQmjSDvkwFF+MtptaH0jZ/ZhULNgdATJpEYPNFMRfKATM3yUK
+ HYVLWGN7JDykzVCJiF1DWwwfMY4mx5IOHYT2M8E7rrcmWOxUKtNbbAiKu1cyTasPFxO32gRiF
+ DZFa90Zfbtf12OMyG3iRcWG75Zi6PH6CpyKE7mHmtOzFfVl0MNLHlnGCER8D12WbZLMs+6xZf
+ v2uOuW14EcxQAz5f1j/8cGAKzZ/XlQE0qhs4EvLfxxcGJNgfdVTpBIVeCpX+e4yxyCdsSympN
+ wH5lUIb4Kv3gQ+95/656aTlFP0CHEINyyx9IHFlWmQPYPdOlJ8b+PfwDgkjNMRpfBwthU972O
+ 6ytU5goJ5BO7diw66rmDISH1NFdSgvWIgqVHu57mWIYtVMCDI+iDpl952m7LudPGZPCGrnbcC
+ 2yu5tf/h/dzAxqSAy0BFxbVlZrusVZFDiIxZRlA8qVThJlsUUMGC9J90eMa0Jm3VYVHN+MK4+
+ o1bm2sOljTNJVDmplvTzJEZvmj/qleY4I6+zMBARbBExoXygIjAXD9tA8jYwlLLMMSJ/NTKKJ
+ Xr1EdK0+hMDdrhloHaLdJLQ+IP6jwactivhawo1WBMJF8Voo5BBUuUEpMsKZeGHmnI8ewWoOC
+ WnTqHeF4pXggZu3ccMbdBaM8PSvKvc2Mk8t17hWVtrBOK5o24WLcBx5bHmoe6KTjbNGDQIgWy
+ QicHoKWSWWOW+WzXaqrEMHV8LgRpz7FLWR3h7g4eXFn4ncQDm4s66T06WI1AiNYhC4/2bbYVK
+ fNNPSyNF/ynhTBcVgWBpNjlyx5jXhmKYSn+sTsXt8Qq7PPfDkKue7wjfDpw/83BkwRxF5xgNb
+ b3UBZs85c5YDA6R6FD4CdITApNYky+2bPS6i66ti6CSFFKZg/wG/SB11ywNz7R/vmoUrcgVLj
+ 3zDs8619nETZvls8+qXkwKyeCstaj+dIroB6igF88++J439k+dTEE9+arpHakr6s+CFSZHeOF
+ 0kFf7M8wynH4W1IRwo5p/YXV1YLONwzmLyRVW2AcX1ekEBEytwlJDwUf1X/G7VXRspnBO7Xni
+ o2KotLJSVl5r8UxrU
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 11:50:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,29 +145,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Klaus,
+On 29.07.20 17:06, Peter Maydell wrote:
+> On Tue, 28 Jul 2020 at 20:35, Helge Deller <deller@gmx.de> wrote:
+>>
+>> Please pull to fix those two bugs in target-hppa:
+>>
+>> * Fix the SeaBIOS-hppa firmware build with gcc-10 on Debian
+>>
+>> * Fix the following runtime warning with artist framebuffer:
+>>   "write outside bounds: wants 1256x1023, max size 1280x1024"
+>>
+>> in addition the SeaBIOS-hppa firmware now includes a version check to p=
+revent
+>> starting when it's incompatible to the emulated qemu hardware.
+>
+> Hi. I'd rather not take a pull request from somebody who's
+> never submitted one before at rc2 with four patches none
+> of which have been reviewed, I'm afraid.
 
-On 20-07-20 13:37:38, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Pass along the NvmeRequest in various functions since it is very useful
-> for tracing.
+Sure, your reluctance is understood.
 
-One doubt here.
-  This patch has put NvmeRequest argument to the nvme_map_prp() to trace
-  the request's command id.  But can we just trace the cid before this
-  kind of prp mapping, somewhere like nvme_process_sq() level.  Then we
-  can figure out the tracing for the prp mapping is from which request.
+> Richard, you're listed in MAINTAINERS for most of these
+> files, would you mind giving them a look over?
 
-Tracing for cid is definitely great, but feels like too much cost to
-pass argument to trace 'cid' in the middle of the dma mapping stage.
+If Richard gives his Ok, it would be really nice if you could
+apply those.
 
-Thanks,
+Thanks!
+Helge
 
