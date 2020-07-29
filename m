@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1BC232765
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:11:04 +0200 (CEST)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972CF232759
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:08:55 +0200 (CEST)
+Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uHv-00046d-I4
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53802)
+	id 1k0uFq-0000WH-LI
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDt-0006wT-5t; Wed, 29 Jul 2020 18:06:53 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34732)
+ id 1k0uDr-0006sj-Db; Wed, 29 Jul 2020 18:06:51 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDo-0008WH-Vm; Wed, 29 Jul 2020 18:06:52 -0400
+ id 1k0uDo-0008Vs-RF; Wed, 29 Jul 2020 18:06:51 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 9358ABFB34;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 052A9BFB38;
  Wed, 29 Jul 2020 22:06:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596060405;
- bh=57sCyuglf/OarbK8HJsuiXONzBM/nfffBxijgmnU9x4=;
+ s=default; t=1596060406;
+ bh=kaCNJXY/14lxAeLsvkBzagbhGzL6kCG/GytOR6K4NiA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Js/sImyOra7dfajjY3Rbe7DustzA4Kb4/wwA/x1SkDDie/4Hf7wJqYf/dhc6rbJTq
- dz8A6mljEBZ+HtBxeGthyJ3MQKhZGBYwNazrzfBovtp/VSqMg+ZPux5yLHx7yNzsRk
- eYn6oIP09kDKocSHhJQXLoYqClfPr4VWmOstqYvcEN9E9bIHaBfk98SNpz3gnH8ZM5
- AG1pq48qosscVF9dpsvlcEUYV+5sD8mAoIACjlFIYGaSTX8fErPb+pFM/DxNJkXHMx
- CWGqkCvUEyM6fMFS+RmD7CTx2Osc2U9ImeYTz74CbSPWl6J0VNfmEOle+iSHFd7AQq
- LW5164oYXBZqw==
+ b=mp4ApttT0y+PRlDq11HHD9Y1YoLL87vTeX28vEWXzT9NjDhS7x9fxH1dX3XZ6xyVX
+ Nl67kAKatbrUZKsSd6Yq9LMUPiInE19akjhcUG9hZYqN7WA5psiBYO2PxFaHQvaiZF
+ q1uYT6fYVk98MWU9pGl7bw0l/xnhBJFwuljU3ORkoUTzwvJg0eCE1/zCPe5ysQ8FbX
+ +3oTHH/2O9uoqZ8t55OvVJ6rDo3oIfy2nwpmmHKpsDvh9F5Ac2qoV4tBjGr1aFUl7Y
+ JZhADVPOFbGZZ1rybzZHBafW9ZPghyXpyr2msXbSEPxggeP002cFkH00QzcJQbBXnA
+ FSRFp5fbVH3PQ==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/16] hw/block/nvme: add tracing to nvme_map_prp
-Date: Thu, 30 Jul 2020 00:06:29 +0200
-Message-Id: <20200729220638.344477-8-its@irrelevant.dk>
+Subject: [PATCH v2 08/16] hw/block/nvme: add request mapping helper
+Date: Thu, 30 Jul 2020 00:06:30 +0200
+Message-Id: <20200729220638.344477-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200729220638.344477-1-its@irrelevant.dk>
 References: <20200729220638.344477-1-its@irrelevant.dk>
@@ -74,39 +74,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add tracing to nvme_map_prp.
+Introduce the nvme_map helper to remove some noise in the main nvme_rw
+function.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c       | 2 ++
- hw/block/trace-events | 1 +
- 2 files changed, 3 insertions(+)
+ hw/block/nvme.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 571635ebe9f9..952afbb05175 100644
+index 952afbb05175..198a26890e0c 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -274,6 +274,8 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-     int num_prps = (len >> n->page_bits) + 1;
-     uint16_t status;
+@@ -415,6 +415,15 @@ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+     return status;
+ }
  
-+    trace_pci_nvme_map_prp(trans_len, len, prp1, prp2, num_prps);
++static uint16_t nvme_map_dptr(NvmeCtrl *n, NvmeCmd *cmd, size_t len,
++                         NvmeRequest *req)
++{
++    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
++    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
 +
-     if (unlikely(!prp1)) {
-         trace_pci_nvme_err_invalid_prp();
++    return nvme_map_prp(&req->qsg, &req->iov, prp1, prp2, len, n);
++}
++
+ static void nvme_post_cqes(void *opaque)
+ {
+     NvmeCQueue *cq = opaque;
+@@ -602,8 +611,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     NvmeRwCmd *rw = (NvmeRwCmd *)cmd;
+     uint32_t nlb  = le32_to_cpu(rw->nlb) + 1;
+     uint64_t slba = le64_to_cpu(rw->slba);
+-    uint64_t prp1 = le64_to_cpu(rw->dptr.prp1);
+-    uint64_t prp2 = le64_to_cpu(rw->dptr.prp2);
+ 
+     uint8_t lba_index  = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+     uint8_t data_shift = ns->id_ns.lbaf[lba_index].ds;
+@@ -620,7 +627,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+         return NVME_LBA_RANGE | NVME_DNR;
+     }
+ 
+-    if (nvme_map_prp(&req->qsg, &req->iov, prp1, prp2, data_size, n)) {
++    if (nvme_map_dptr(n, cmd, data_size, req)) {
+         block_acct_invalid(blk_get_stats(n->conf.blk), acct);
          return NVME_INVALID_FIELD | NVME_DNR;
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index f3b2d004e078..f20c59a4b542 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -35,6 +35,7 @@ pci_nvme_irq_masked(void) "IRQ is masked"
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
-+pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
- pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8""
- pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8""
- pci_nvme_rw(const char *verb, uint32_t blk_count, uint64_t byte_count, uint64_t lba) "%s %"PRIu32" blocks (%"PRIu64" bytes) from LBA %"PRIu64""
+     }
 -- 
 2.27.0
 
