@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D482325E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 22:09:19 +0200 (CEST)
-Received: from localhost ([::1]:48534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93715232613
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 22:18:18 +0200 (CEST)
+Received: from localhost ([::1]:54112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0sO6-0002SS-S2
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 16:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57664)
+	id 1k0sWl-00056Q-Dr
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 16:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0sNO-0001xo-4h; Wed, 29 Jul 2020 16:08:34 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34434)
+ id 1k0sVr-0004BP-Gp; Wed, 29 Jul 2020 16:17:19 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0sNK-0000wB-Mn; Wed, 29 Jul 2020 16:08:33 -0400
+ id 1k0sVo-0002Cs-N1; Wed, 29 Jul 2020 16:17:19 -0400
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 382A7BF616;
- Wed, 29 Jul 2020 20:08:27 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 09EB3BF616;
+ Wed, 29 Jul 2020 20:17:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596053307;
- bh=vLAxAlQcaQFV7/tIA7e1PgFJAwF2GCs5v3eTFDpV7rs=;
+ s=default; t=1596053832;
+ bh=TLGpsGoro2jWDSQLksTfadQMtd2cZaWGgQV5iq+6NAA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DrGdwO/mn1MQnd2ejxcxDeFw5M2V853zhYDWWK3IdjjRJe0VALWyZ92+DyhjzC7vW
- dy0V6zEmJZAxVh6Q3In6KMp2iELBIxiBEXsgPZjrvqrc4SstEPq4gkxmgfSE23w+t7
- 4wlz1n8Qcgop5V+ZTci/lR0dmV9Xm5sDODmM1hswd2Jsex65HQa+4lGygAvIUOxALX
- NJ+Q1TLh8Qo9dWVGg4QJczTuUOorc6VGrMnsHaFb9JNr71hQofre+5QwTEUrq585T2
- 7y9U0/HVp+3DEeaRWrEetVWbS75yt5rX2XN2MGnOXVdpkUUBSEQsd38XRNW7FDvM3I
- uNooN+pi50LBw==
-Date: Wed, 29 Jul 2020 22:08:23 +0200
+ b=e3pGrQxxkUWspjkEvkdWgxNd3/bQtb5bLYsAu5qtBnN8yWlebgT8w2eYv5rj76We9
+ lhKCcQusjG9d71fh5NiDQUEGNByQI0oKYMHCuIoF40f2HvKfuoDofK874kGlVWxnI0
+ Wpbyunq4MjQban0eIyRHMCWGIPMjq9JT/9CRmBukdqmrRnlLDgur3SEmoAA2rN2+jB
+ E6lJZ5S4YWqlskuO9sW+pT24c/DLuS7teGRRkaK/ze50GcdttSI/sx9mJisIppIOBP
+ pBpKVAB87O9qKwKdggfSaGyYXyec0kgSWXkWcY+kg+I1LHAB76N21CVnQ01KlRrF34
+ CxAGpTNWS0JpQ==
+Date: Wed, 29 Jul 2020 22:17:10 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v3 08/18] hw/block/nvme: add support for the asynchronous
- event request command
-Message-ID: <20200729200823.GA318046@apples.localdomain>
-References: <20200706061303.246057-1-its@irrelevant.dk>
- <20200706061303.246057-9-its@irrelevant.dk>
- <233870089fe3b268bfb73cc7c41dc5beecd7904d.camel@redhat.com>
- <20200729133703.GB159410@apples.localdomain>
- <230636e83c8e3c9f51136c169f81f6c4a047b3c4.camel@redhat.com>
+To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Subject: Re: [PATCH v5 3/3] nvme: allow cmb and pmr to be enabled on same
+ device
+Message-ID: <20200729201710.GB318046@apples.localdomain>
+References: <20200723160325.41734-1-andrzej.jakowski@linux.intel.com>
+ <20200723160325.41734-4-andrzej.jakowski@linux.intel.com>
+ <20200727090609.GA42976@apples.localdomain>
+ <80974eaa-70cf-04dc-13ac-cc09b05adfbd@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <230636e83c8e3c9f51136c169f81f6c4a047b3c4.camel@redhat.com>
+In-Reply-To: <80974eaa-70cf-04dc-13ac-cc09b05adfbd@linux.intel.com>
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
  helo=charlie.dont.surf
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 14:23:15
@@ -68,45 +67,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kbusch@kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul 29 21:45, Maxim Levitsky wrote:
-> On Wed, 2020-07-29 at 15:37 +0200, Klaus Jensen wrote:
-> > On Jul 29 13:43, Maxim Levitsky wrote:
-> > > On Mon, 2020-07-06 at 08:12 +0200, Klaus Jensen wrote:
-> > > > +    DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
-> > > So this is number of AERs that we allow the user to be outstanding
+On Jul 27 11:59, Andrzej Jakowski wrote:
+> On 7/27/20 2:06 AM, Klaus Jensen wrote:
+> > On Jul 23 09:03, Andrzej Jakowski wrote:
+> >> So far it was not possible to have CMB and PMR emulated on the same
+> >> device, because BAR2 was used exclusively either of PMR or CMB. This
+> >> patch places CMB at BAR4 offset so it not conflicts with MSI-X vectors.
+> >>
+> >> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+> >> ---
+> >>  hw/block/nvme.c      | 120 +++++++++++++++++++++++++++++--------------
+> >>  hw/block/nvme.h      |   1 +
+> >>  include/block/nvme.h |   4 +-
+> >>  3 files changed, 85 insertions(+), 40 deletions(-)
+> >>
+> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> >> index 43866b744f..d55a71a346 100644
+> >> --- a/hw/block/nvme.c
+> >> +++ b/hw/block/nvme.c
+> >> @@ -22,12 +22,13 @@
+> >>   *              [pmrdev=<mem_backend_file_id>,] \
+> >>   *              max_ioqpairs=<N[optional]>
+> >>   *
+> >> - * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+> >> - * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
+> >> + * Note cmb_size_mb denotes size of CMB in MB. CMB when configured is assumed
+> >> + * to be resident in BAR4 at offset that is 2MiB aligned. When CMB is emulated
+> >> + * on Linux guest it is recommended to make cmb_size_mb multiple of 2. Both
+> >> + * size and alignment restrictions are imposed by Linux guest.
+> >>   *
+> >> - * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
+> >> - * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
+> >> - * both provided.
+> >> + * pmrdev is assumed to be resident in BAR2/BAR3. When configured it consumes
+> >> + * whole BAR2/BAR3 exclusively.
+> >>   * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
+> >>   * For example:
+> >>   * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
+> >> @@ -57,8 +58,8 @@
+> >>  #define NVME_MAX_IOQPAIRS 0xffff
+> >>  #define NVME_DB_SIZE  4
+> >>  #define NVME_SPEC_VER 0x00010300
+> >> -#define NVME_CMB_BIR 2
+> >>  #define NVME_PMR_BIR 2
+> >> +#define NVME_MSIX_BIR 4
 > > 
-> > Yeah, and per the spec, 0's based.
+> > I think that either we keep the CMB constant (but updated with '4' of
+> > course) or we just get rid of both NVME_{CMB,MSIX}_BIR and use a literal
+> > '4' in nvme_bar4_init. It is very clear that is only BAR 4 we use.
 > > 
-> > > > +    DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
-> > > And this is the number of AERs that we keep in our internal AER queue untill user posts and AER so that we
-> > > can complete it.
-> > > 
+> >>  #define NVME_TEMPERATURE 0x143
+> >>  #define NVME_TEMPERATURE_WARNING 0x157
+> >>  #define NVME_TEMPERATURE_CRITICAL 0x175
+> >> @@ -111,16 +112,18 @@ static uint16_t nvme_sqid(NvmeRequest *req)
+> >>  
+> >>  static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+> >>  {
+> >> -    hwaddr low = n->ctrl_mem.addr;
+> >> -    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
+> >> +    hwaddr low = memory_region_to_absolute_addr(&n->ctrl_mem, 0);
+> >> +    hwaddr hi  = low + int128_get64(n->ctrl_mem.size);
 > > 
-> > Correct.
+> > Are we really really sure we want to use a global helper like this? What
+> > are the chances/risk that we ever introduce another overlay? I'd say
+> > zero. We are not even using a *real* overlay, it's just an io memory
+> > region (ctrl_mem) on top of a pure container (bar4). Can't we live with
+> > an internal helper doing `n->bar4.addr + n->ctrl_mem.addr` and be done
+> > with it? It also removes a data structure walk on each invocation of
+> > nvme_addr_is_cmb (which is done for **all** addresses in PRP lists and
+> > SGLs).
 > 
-> Yep - this is what I understood after examining all of the patch, but from the names itself it is hard to understand this.
-> Maybe a comment next to property to at least make it easier for advanced user (e.g user that reads code)
-> to understand?
+> Thx!
+> My understanding of memory_region_absolute_addr()([1]) function is that it walks
+> memory hierarchy up to root while incrementing absolute addr. It is very 
+> similar to n->bar4.addr + n->ctrl_mem.addr approach with following 
+> differences:
+>  * n->bar4.addr + n->ctrl_mem.addr assumes single level hierarchy. Updates would
+>    be needed when another memory level is added.
+>  * memory_region_to_absolute_addr() works for any-level hierarchy at tradeoff
+>    of dereferencing data structure. 
 > 
-> (I often end up reading source to understand various qemu device parameters).
+> I don't have data for likelihood of adding new memory level, nor how much more
+> memory_region_to_absolute_addr() vs n->bar4.addr + n->ctrl_mem.addr costs.
+> 
+> Please let me know which approach is preferred.
 > 
 
-I should add this in docs/specs/nvme.txt (which shows up in one of my
-next series when I add a new PCI id for the device). For now, I will add
-it to the top of the file like the rest of the parameters.
-
-Subsequent series contains a lot more additions of new parameters that
-is directly from the spec and to me it really only makes sense that they
-share the names if they can.
-
-We could consider having them under a "spec namespace"? So, say, we do
-DEFINE_PROP_UINT("spec.aerl", ...)?
+Since you are directly asking me for my preference, then that is
+"n->bar4.addr + n->ctrl_mem.addr". I don't like the walk, even though it
+is super short. I know that the raw addition assumes single level
+hierarchy, but I am fine with that. I would still like it to be in an
+inline helper though.
 
