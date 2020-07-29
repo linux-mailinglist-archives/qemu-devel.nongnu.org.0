@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E645D231B8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 10:50:06 +0200 (CEST)
-Received: from localhost ([::1]:51996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B80231B95
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 10:51:46 +0200 (CEST)
+Received: from localhost ([::1]:55934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0hmo-0007wW-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 04:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59684)
+	id 1k0hoP-0001Dm-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 04:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmitry.fleytman@gmail.com>)
- id 1k0hl1-0006RC-LL
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:48:16 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:44525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmitry.fleytman@gmail.com>)
- id 1k0hky-0004Xj-Ny
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:48:14 -0400
-Received: by mail-ed1-x541.google.com with SMTP id l23so3120328edv.11
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 01:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=S0TE4Jdp2+O1lgoO241QABTtlDNWoL5nAwuUdzS2LB0=;
- b=GOx1VJS8SSifyo5uT9KEz1eRGCT3b651dpAKbhFvUzDYA8T4RS/NeFTMZjtzkp2KqR
- PuHsTAeqdFeN1w4fBHEdSHR+1j/9iIlZjyN1oXagRkUJHMO70InbhMZMTMuOj2vTEUAZ
- YT24jzgT3kwTS8C4yGM68qOpo5ek7kvJRoqzNzXxq3/4Mjujb1tQdmyPT4HySRti8N1I
- /J5ijsN+YataYLT01UKs5I7p0lJqCaz/ldFieHE2NIBPkooxIpSwTlANtVcZ3tUeIhW/
- memoCb1sQGPCiPFDCY2KOtdDkvuO9p5yPSDWz8Hm242ZVBcsa2VuavDEJhmZ5r32v2D1
- 3tMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=S0TE4Jdp2+O1lgoO241QABTtlDNWoL5nAwuUdzS2LB0=;
- b=gANrPULwwlas5c6tqpdsVWOrhGfOtflnzAsYwSD9yHkzB2Hx6hBa8XuexvpfWeoOB3
- 6I/klnET00RN2vjfR7cb3XYazggwd3qohGfRjrDbvufNqDw1zjUXOuDploY5R2gZ5IgR
- MKgnqXTj8cXyGfV0HiAVOhP+9lMaqDBueGhXuAzQJCpEP2FRj/jgdeHCwDeD+7Hp6dcN
- S/GuIFe6Wxvm9rzS16rbPVu/Vq+mhsOoM0M6P7CnsC87kTblKn+O/IVxtd5S8ACi4E+9
- /IFQoBMCNYfps3f+7q4DfUfA8tV4tDjd+OJgqiIKa9KmcWXwVVm2r+egqEmrWmr2o1uo
- g1LA==
-X-Gm-Message-State: AOAM533OGjurJOixTksYAbsSXReOYwtYpjBriAdx0fuVHS7P5Te2+cF3
- 8FAHmkHVuzeyQXW4yK/3sWM=
-X-Google-Smtp-Source: ABdhPJy9gInyQ+K7uZWngudVQqjoOJDGlCD+w7WDZPaIIEqb6GwbcFcjjcJV/1ILbyUcxLgPPVnLqw==
-X-Received: by 2002:aa7:d88e:: with SMTP id u14mr30431017edq.11.1596012490707; 
- Wed, 29 Jul 2020 01:48:10 -0700 (PDT)
-Received: from [10.0.1.16] ([141.226.29.227])
- by smtp.gmail.com with ESMTPSA id q21sm1010128ejr.75.2020.07.29.01.48.09
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 29 Jul 2020 01:48:10 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH 0/2] assertion failure in net_tx_pkt_add_raw_fragment() in
- hw/net/net_tx_pkt.c
-From: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-In-Reply-To: <20200727172929.5nnasrbvp2gg3yyv@mozz.bu.edu>
-Date: Wed, 29 Jul 2020 11:48:08 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <AA604F63-C36B-471C-9E0C-F9A84C9595BA@gmail.com>
-References: <20200727170838.1101775-1-mcascell@redhat.com>
- <20200727172929.5nnasrbvp2gg3yyv@mozz.bu.edu>
-To: Alexander Bulekov <alxndr@bu.edu>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=dmitry.fleytman@gmail.com; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k0hlR-0006im-QR
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:48:41 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48348)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k0hlN-0004ad-Uf
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:48:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596012516;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5JujI55DsHbmtMCcqPwJoGcU8MI0DZ+oEEsuGJhGho=;
+ b=ATe7TYZ8ljNfFPFRKgmBk50XXlGTPkhPfMmufY+NGHgTQxyXdCIVsgj8Iw8rjksR2Fxrvq
+ biJnp05Bi7JN1v9duh1/Nugfmv8fzHyCprmnsnvv9Te48lKzJiam0JWQbRWEe1f+y+kzdJ
+ x7J4gSOcor3qg8pwqMUBumwCuyCbf64=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-i24op6P5NiKh3vTBh9Az-g-1; Wed, 29 Jul 2020 04:48:34 -0400
+X-MC-Unique: i24op6P5NiKh3vTBh9Az-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E36A21DE1
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 08:48:33 +0000 (UTC)
+Received: from titinator (ovpn-114-132.ams2.redhat.com [10.36.114.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6786610098AB;
+ Wed, 29 Jul 2020 08:48:29 +0000 (UTC)
+References: <ly4kprhd8e.fsf@redhat.com>
+ <fe8f0bd6-ed47-08b8-d7c9-fc40c32b0bb2@redhat.com>
+ <87eeouafe0.fsf@dusky.pond.sub.org>
+User-agent: mu4e 1.5.2; emacs 26.3
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Missing qapi_free_Type in error case for qapi generated code?
+In-reply-to: <87eeouafe0.fsf@dusky.pond.sub.org>
+Date: Wed, 29 Jul 2020 10:48:24 +0200
+Message-ID: <lyy2n2g10n.fsf@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.74; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 01:09:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,81 +81,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org,
- ezrakiez@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
 
-The idea looks good to me. I believe it makes sense to do the check in =
-net_tx_pkt_add_raw_fragment() as suggested by Jason.
+On 2020-07-29 at 10:34 CEST, Markus Armbruster wrote...
+> Eric Blake <eblake@redhat.com> writes:
+>
+>> On 7/28/20 10:26 AM, Christophe de Dinechin wrote:
+>>> The qapi generated code for qmp_marshal_query_spice seems to be missing a
+>>> resource deallocation for "retval". For example, for SpiceInfo:
+>>>
+>>
+>>>      retval = qmp_query_spice(&err);
+>>>      error_propagate(errp, err);
+>>>      if (err) {
+>>> /* retval not freed here */
+>>
+>> Because it should be NULL here.  Returning an error AND an object is
+>> frowned on.
+>
+> It's forbidden, actually.  The QMP handler must either succeed and
+> return a value, or fail cleanly.
 
-> On 27 Jul 2020, at 20:29, Alexander Bulekov <alxndr@bu.edu> wrote:
->=20
-> I sent a reproducer for the to the list some time ago, but never =
-created
-> a Launchpad bug...
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg701930.html
->=20
-> Anyways.. I can confirm that I can't reproduce the issue with these
-> patches.
->=20
-> Minimized Reproducer:
-> cat << EOF | ./i386-softmmu/qemu-system-i386 -M pc-q35-5.0 -nographic =
-\
-> -display none -serial none -monitor none -qtest stdio
-> outl 0xcf8 0x80001010
-> outl 0xcfc 0xe1020000
-> outl 0xcf8 0x80001004
-> outw 0xcfc 0x7
-> write 0xe10207e8 0x4 0x25ff13ff
-> write 0xe10200b8 0x7 0xe3055e411b0202
-> write 0xe1020100 0x5 0x5e411b0202
-> write 0xe1020110 0x4 0x1b0202e1
-> write 0xe1020118 0x4 0x06fff105
-> write 0xe1020128 0x7 0xf3055e411b0202
-> write 0xe1020402 0x2 0x5e41
-> write 0xe1020420 0x4 0x1b0202e1
-> write 0xe1020428 0x4 0x06ff6105
-> write 0xe1020438 0x1 0x63
-> write 0xe1020439 0x1 0x05
-> EOF
->=20
-> -Alex
->=20
-> On 200727 1908, Mauro Matteo Cascella wrote:
->> An assertion failure issue was reported by Mr. Ziming Zhang (CC'd).
->> It occurs in the code that processes network packets while adding =
-data
->> fragments into packet context. This flaw could potentially be abused =
-by
->> a malicious guest to abort the QEMU process on the host. This two =
-patch
->> series does a couple of things:
->>=20
->> - introduces a new function in net_tx_pkt.{c,h} to check the maximum =
-number
->>  of data fragments
->> - adds a check in both e1000e and vmxnet3 devices to skip the packet =
-if the
->>  current data fragment exceeds max_raw_frags, preventing
->>  net_tx_pkt_add_raw_fragment() to be called with an invalid raw_frags
->>=20
->> Mauro Matteo Cascella (2):
->>  hw/net/net_tx_pkt: add function to check pkt->max_raw_frags
->>  hw/net: check max_raw_frags in e1000e and vmxnet3 devices
->>=20
->> hw/net/e1000e_core.c | 3 ++-
->> hw/net/net_tx_pkt.c  | 5 +++++
->> hw/net/net_tx_pkt.h  | 8 ++++++++
->> hw/net/vmxnet3.c     | 3 ++-
->> 4 files changed, 17 insertions(+), 2 deletions(-)
->>=20
->> --=20
->> 2.26.2
->>=20
->>=20
+OK. Then I guess Eric's suggestion to add an assert is the correct
+approach, with the caveat you identified.
+
+>
+> Since it has to return a value even when it fails, it returns an error
+> value then.  "Cleanly" means the error value does not require cleanup.
+>
+> The generated marshalling function relies on this: it *ignores* the
+> error value.
+>
+>>> /* Missing: qapi_free_SpiceInfo(retval); */
+>>>          goto out;
+>>>      }
+>>>
+>>>      qmp_marshal_output_SpiceInfo(retval, ret, errp);
+>>
+>> And here, retval was non-NULL, but is cleaned as a side-effect of
+>> qmp_marshal_output_SpiceInfo.
+>>
+>>>
+>>> out:
+>>
+>> So no matter how you get to the label, retval is no longer valid
+>> memory that can be leaked.
+>>
+>>>      visit_free(v);
+>>>      v = qapi_dealloc_visitor_new();
+>>>      visit_start_struct(v, NULL, NULL, 0, NULL);
+>>>      visit_end_struct(v, NULL);
+>>>      visit_free(v);
+>>> }
+>>> #endif /* defined(CONFIG_SPICE) */
+>>>
+>>> Questions:
+>>>
+>>> - Is the query code supposed to always return NULL in case of error?
+>>
+>> Yes.  If not, that is a bug in qmp_query_spice.
+>
+> Correct.
+>
+>>> In the
+>>>    case of hmp_info_spice, there is no check for info==NULL, so on the
+>
+> I'm blind.  Where?
+
+In hmp_info_spice, there is this code:
+
+    info = qmp_query_spice(NULL);
+
+    if (!info->enabled) {
+        monitor_printf(mon, "Server: disabled\n");
+        goto out;
+    }
+
+I guess this code relies on qmp_query_spice never returning an error.
+Why is that a safe assumption?
+
+This came to my attention because I wanted to return an error and a NULL
+value for modular spice if the module is not available.
+
+>
+>>>    contrary, it seems to indicate that a non-null result is always expected,
+>>>    and that function does call qapi_free_SpiceInfo
+>>
+>> Calling qapi_free_SpiceInfo(NULL) is a safe no-op.  Or if you expect
+>> the function to always succeed, you could pass &error_abort as the
+>> errp parameter.
+>>
+>>>
+>>> - If not, is there an existing shortcut to generate the correct deallocation
+>>>    code for return types that need it? You can't just use
+>>>    qapi_free_%(c_type)s because that would generate an extra * character,
+>>>    i.e. I get "SpiceInfo *" and not "SpiceInfo".
+>>
+>> Ah, you're debating about editing scripts/qapi/commands.py.  If
+>> anything, an edit to add 'assert(!retval)' if qmp_COMMAND failed might
+>> be smarter than trying to add code to free retval.
+>
+> This is more complicated than it may seem.
+>
+> The "natural" error value for a pointer-valued function is NULL.  I'm
+> confident the handlers use it.  assert(!retval) should work.
+>
+> For functions returning something else, people may have different ideas
+> on what to return on error.  To make assert(!retval) work, they need to
+> return something "falsish".  I'm not ready to bet my own money on all of
+> them doing that.
+
+That's what I was thinking too. Glad to confirm I was not reading that code
+too wrong.
+
+>
+> Aside: only functions in pragma returns-whitelist can return
+> non-pointer.
+>
+>>> - If not, is there any good way to know if the type is a pointer type?
+>>>    (A quick look in cripts/qapi/types.py does not show anything obvious)
+>
+> No clean way exists, simply because there has been no need.  So far,
+> we've always found a reasonable way to generate code that works whether
+> types are pointers in C or not.
+>
+>> Look at scripts/qapi/schema.py; each QAPI metatype has implementations
+>> of .c_name and .c_type that determine how to represent that QAPI
+>> object in C.  You probably want c_name instead of c_type when
+>> constructing the name of a qapi_free_FOO function, but that goes back
+>> to my question of whether such a call is even needed.
+>
+> Method c_name() returns a string you can interpolate into C identifiers.
+>
+> Method c_type() returns a string you can use as C type in generated
+> code.
+
+That part I understood. I was looking for something like method c_basetype()
+or something like that for the non-pointer type of a pointer.
+
+>
+> The QAPI scripts could use more comments.
+
++1.
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
 
 
