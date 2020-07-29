@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70A523276D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:12:34 +0200 (CEST)
-Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92916232774
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:13:59 +0200 (CEST)
+Received: from localhost ([::1]:41440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uJN-0007c5-ON
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53742)
+	id 1k0uKk-0001rb-Nk
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:13:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDq-0006qg-AU; Wed, 29 Jul 2020 18:06:50 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34664)
+ id 1k0uDq-0006r3-Fn; Wed, 29 Jul 2020 18:06:50 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDo-0008Ux-9D; Wed, 29 Jul 2020 18:06:49 -0400
+ id 1k0uDo-0008VQ-Jn; Wed, 29 Jul 2020 18:06:50 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 3E615BFB1E;
+ by charlie.dont.surf (Postfix) with ESMTPSA id A934EBFB31;
  Wed, 29 Jul 2020 22:06:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596060404;
- bh=yE+0P7b4bSS4mzyUcbut3f0FiC9a8yxBQZRE5PCqs28=;
+ s=default; t=1596060405;
+ bh=36KolzdIFQtbbT6iYuN8iBHW7GoHLWnrJfB04X+Vqy0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WrBqI9RilD9rCaPlEzqz9lym3o4jO42HuVPYZ0va3S/ex+7k9nIuCK6DHmP7GAoU2
- 2hByMOpzh9gGM/HxRy9GIP1vsUD9iFM3TDWrYaLuAdm3zYg7/rsjHGYAPDHYqS4ziV
- dcst+/j2d9Ys5nPQ2U8hxXZ165anjcqz4GkmpHDwxknpdVLDClHjVVe/csP0OxNtUY
- tQa0rIIRpIKOAmJwBMNBQdfBsuSaAOADyWzNHwF2VjJOrz1Wq/z+D+QHn+HJX41fKC
- /5IIXumxKLm3Ynd+qyfUXOmzEMPFT1iq9VQCAwVjEfuBlu0F5wXAycQumRJfXxOZjY
- p+odXFJ5xtXpA==
+ b=yzfaZoJet0EW/Ng3tOfsFlIVGVLuBuqEgCIXBTS1+oZf4PTtqOJe7l6plPIge8DEu
+ tG6++IbuEzi2ghDL9hkogBHgfwdBohLdBT8OQKN91rpNuTqNdl/hHJyYzy2AATlWFl
+ 9malE190aqTx5Lz9eXS2USrlz/MN4bl01xxqsSYlVbJ2Y0ZJqgLdh/anmSg+3HhVFn
+ Kz+9tQBPCiZ+ZO/ORHv8zS40cdf8OKPjtAXGE2bzSSegfegxv+hrEQL0h/G/OhQWbw
+ diMq3dSHQ6k2SMuhJ8Zd8VFBHx993nCfu1SiYP87ccpJrJfWTLI4RWASWkUSO37MoI
+ OixhyetC4FxYg==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/16] hw/block/nvme: remove redundant has_sg member
-Date: Thu, 30 Jul 2020 00:06:26 +0200
-Message-Id: <20200729220638.344477-5-its@irrelevant.dk>
+Subject: [PATCH v2 05/16] hw/block/nvme: destroy request iov before reuse
+Date: Thu, 30 Jul 2020 00:06:27 +0200
+Message-Id: <20200729220638.344477-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200729220638.344477-1-its@irrelevant.dk>
 References: <20200729220638.344477-1-its@irrelevant.dk>
@@ -74,72 +74,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Remove the has_sg member from NvmeRequest since it's redundant.
+Make sure the request iov is destroyed before reuse; fixing a memory
+leak.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 7 ++-----
- hw/block/nvme.h | 1 -
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index d60b19e1840f..a9d9a2912655 100644
+index a9d9a2912655..8f8257e06eed 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -550,7 +550,8 @@ static void nvme_rw_cb(void *opaque, int ret)
-         block_acct_failed(blk_get_stats(n->conf.blk), &req->acct);
-         req->status = NVME_INTERNAL_DEV_ERROR;
-     }
--    if (req->has_sg) {
-+
-+    if (req->qsg.nalloc) {
+@@ -554,6 +554,10 @@ static void nvme_rw_cb(void *opaque, int ret)
+     if (req->qsg.nalloc) {
          qemu_sglist_destroy(&req->qsg);
      }
++    if (req->iov.nalloc) {
++        qemu_iovec_destroy(&req->iov);
++    }
++
      nvme_enqueue_req_completion(cq, req);
-@@ -559,7 +560,6 @@ static void nvme_rw_cb(void *opaque, int ret)
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     NvmeRequest *req)
- {
--    req->has_sg = false;
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-          BLOCK_ACCT_FLUSH);
-     req->aiocb = blk_aio_flush(n->conf.blk, nvme_rw_cb, req);
-@@ -585,7 +585,6 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-         return NVME_LBA_RANGE | NVME_DNR;
-     }
+ }
  
--    req->has_sg = false;
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-                      BLOCK_ACCT_WRITE);
-     req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-@@ -623,7 +622,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     }
- 
-     if (req->qsg.nsg > 0) {
--        req->has_sg = true;
-         block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->qsg.size,
-                          acct);
-         req->aiocb = is_write ?
-@@ -632,7 +630,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-             dma_blk_read(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
-                          nvme_rw_cb, req);
-     } else {
--        req->has_sg = false;
-         block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->iov.size,
-                          acct);
-         req->aiocb = is_write ?
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 0b6a8ae66559..5519b5cc7686 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -22,7 +22,6 @@ typedef struct NvmeRequest {
-     struct NvmeSQueue       *sq;
-     BlockAIOCB              *aiocb;
-     uint16_t                status;
--    bool                    has_sg;
-     NvmeCqe                 cqe;
-     BlockAcctCookie         acct;
-     QEMUSGList              qsg;
 -- 
 2.27.0
 
