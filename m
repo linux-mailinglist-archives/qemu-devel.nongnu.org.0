@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90FA231C47
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 11:47:59 +0200 (CEST)
-Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2B1231C56
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 11:54:30 +0200 (CEST)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0igo-0000s9-Rb
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 05:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49216)
+	id 1k0in7-0006O2-NL
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 05:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3668ebc7d5b929a0e4f1357457060d96f50f76f4@lizzy.crudebyte.com>)
- id 1k0ig6-0000SN-7q
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:47:14 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:57389)
+ (envelope-from <a426ee06e77584fa2d8253ce5d8bea519eb3ffd4@lizzy.crudebyte.com>)
+ id 1k0imC-0005my-2d
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:53:32 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:40351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3668ebc7d5b929a0e4f1357457060d96f50f76f4@lizzy.crudebyte.com>)
- id 1k0ig4-0004fF-Dq
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:47:13 -0400
+ (envelope-from <a426ee06e77584fa2d8253ce5d8bea519eb3ffd4@lizzy.crudebyte.com>)
+ id 1k0imA-0005XD-Fy
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:53:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=pDF58CzzyVkxh+s3PWVUovZOObDqLn6VfIrB7HCsOew=; b=CUqnO
- LRUhkWQymNUW8VSb/901f3JO8nGI3NWAtfnHlfDqCSwxvURds4uwnAMvsSEyU8lBxqkUttKqNy1dj
- Squ4K6iKN+ap/CDy4uk+tkvVjTr3K7d0RSAaT70F4tYK9uA18NJpp2YtLVmW/ZtWVrtGX8JXCNccY
- G+hHmzY/KrhMM8yTUZjk928MGvR2Jk1L6Alh/mUz0KLShOrsS1rNNQW5daHAZKjB6v5v1WBwILpdo
- KUr3E4tFZpN++x5WqNQOgsWIqa4IPyKxvLPoI+BKMQ1jamhGPT6JlHv8KVn5uYix8pDlHjNNudSv7
- XMtSZFellsa+Vbej+rLCav5jr/Q3g==;
-Message-Id: <3668ebc7d5b929a0e4f1357457060d96f50f76f4.1596012787.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=7YfBaX+4mZIaB/1KGeVpeZ5wEcuMfcWwYHidz6lYcoU=; b=PypMt
+ BZVlA48zbxiit1W8HI/R8ejsFU+1+8JnKYJOggcND1eroxKdTvpFiGsqtExMFTSvTdIoLAaXNaM4P
+ qj6x6xbV4Z3xs4OGgWwR7pGXmwvvapigjfIoELoo+Bvrv27mXYJu5QwywK7ctA5OfolIomtaba/7N
+ EZmK6PJKF4BaDiF9kJSbA3ayNHRiLDKZx//E5T4CHS6RFykz7zSim5QNNmYgeuH0URl2IBZNbnhyL
+ G1KawCLL8FjNpJYXsTVhtBUE5AEMHqOztuyJ5zYcBgKnUlhtlTzNjUxFMhsUkXAnPo390+1mrZbcC
+ kg9SjsNNW/mWAM5HYFLAjumgfeZzg==;
+Message-Id: <a426ee06e77584fa2d8253ce5d8bea519eb3ffd4.1596012787.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1596012787.git.qemu_oss@crudebyte.com>
 References: <cover.1596012787.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 29 Jul 2020 10:11:15 +0200
-Subject: [PATCH v8 2/7] 9pfs: make v9fs_readdir_response_size() public
+Date: Wed, 29 Jul 2020 10:11:54 +0200
+Subject: [PATCH v8 3/7] 9pfs: split out fs driver core of v9fs_co_readdir()
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=3668ebc7d5b929a0e4f1357457060d96f50f76f4@lizzy.crudebyte.com;
+ envelope-from=a426ee06e77584fa2d8253ce5d8bea519eb3ffd4@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 05:20:03
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
@@ -64,58 +64,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename function v9fs_readdir_data_size() -> v9fs_readdir_response_size()
-and make it callable from other units. So far this function is only
-used by 9p.c, however subsequent patches require the function to be
-callable from another 9pfs unit. And as we're at it; also make it clear
-for what this function is used for.
+The implementation of v9fs_co_readdir() has two parts: the outer
+part is executed by main I/O thread, whereas the inner part is
+executed by fs driver on a background I/O thread.
+
+Move the inner part to its own new, private function do_readdir(),
+so it can be shared by another upcoming new function.
+
+This is just a preparatory patch for the subsequent patch, with the
+purpose to avoid the next patch to clutter the overall diff.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 10 ++++++++--
- hw/9pfs/9p.h |  1 +
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ hw/9pfs/codir.c | 37 +++++++++++++++++++++++--------------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 2ffd96ade9..7a228c4828 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2313,7 +2313,13 @@ out_nofid:
-     pdu_complete(pdu, err);
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 73f9a751e1..ff57fb8619 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -18,28 +18,37 @@
+ #include "qemu/main-loop.h"
+ #include "coth.h"
+ 
++/*
++ * This must solely be executed on a background IO thread.
++ */
++static int do_readdir(V9fsPDU *pdu, V9fsFidState *fidp, struct dirent **dent)
++{
++    int err = 0;
++    V9fsState *s = pdu->s;
++    struct dirent *entry;
++
++    errno = 0;
++    entry = s->ops->readdir(&s->ctx, &fidp->fs);
++    if (!entry && errno) {
++        *dent = NULL;
++        err = -errno;
++    } else {
++        *dent = entry;
++    }
++    return err;
++}
++
+ int coroutine_fn v9fs_co_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+                                  struct dirent **dent)
+ {
+     int err;
+-    V9fsState *s = pdu->s;
+ 
+     if (v9fs_request_cancelled(pdu)) {
+         return -EINTR;
+     }
+-    v9fs_co_run_in_worker(
+-        {
+-            struct dirent *entry;
+-
+-            errno = 0;
+-            entry = s->ops->readdir(&s->ctx, &fidp->fs);
+-            if (!entry && errno) {
+-                err = -errno;
+-            } else {
+-                *dent = entry;
+-                err = 0;
+-            }
+-        });
++    v9fs_co_run_in_worker({
++        err = do_readdir(pdu, fidp, dent);
++    });
+     return err;
  }
  
--static size_t v9fs_readdir_data_size(V9fsString *name)
-+/**
-+ * Returns size required in Rreaddir response for the passed dirent @p name.
-+ *
-+ * @param name - directory entry's name (i.e. file name, directory name)
-+ * @returns required size in bytes
-+ */
-+size_t v9fs_readdir_response_size(V9fsString *name)
- {
-     /*
-      * Size of each dirent on the wire: size of qid (13) + size of offset (8)
-@@ -2348,7 +2354,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-         }
-         v9fs_string_init(&name);
-         v9fs_string_sprintf(&name, "%s", dent->d_name);
--        if ((count + v9fs_readdir_data_size(&name)) > max_count) {
-+        if ((count + v9fs_readdir_response_size(&name)) > max_count) {
-             v9fs_readdir_unlock(&fidp->fs.dir);
- 
-             /* Ran out of buffer. Set dir back to old position and return */
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index ee2271663c..561774e843 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -419,6 +419,7 @@ void v9fs_path_init(V9fsPath *path);
- void v9fs_path_free(V9fsPath *path);
- void v9fs_path_sprintf(V9fsPath *path, const char *fmt, ...);
- void v9fs_path_copy(V9fsPath *dst, const V9fsPath *src);
-+size_t v9fs_readdir_response_size(V9fsString *name);
- int v9fs_name_to_path(V9fsState *s, V9fsPath *dirpath,
-                       const char *name, V9fsPath *path);
- int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
 -- 
 2.20.1
 
