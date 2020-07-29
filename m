@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DC3232757
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:08:45 +0200 (CEST)
-Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47E323275B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:08:57 +0200 (CEST)
+Received: from localhost ([::1]:45970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uFg-00006H-No
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53666)
+	id 1k0uFs-0000dR-RS
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDn-0006oM-MF; Wed, 29 Jul 2020 18:06:47 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34634)
+ id 1k0uDp-0006pb-QJ; Wed, 29 Jul 2020 18:06:49 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uDl-0008Ue-8K; Wed, 29 Jul 2020 18:06:47 -0400
+ id 1k0uDl-0008Uo-LN; Wed, 29 Jul 2020 18:06:49 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 338C6BFB1A;
+ by charlie.dont.surf (Postfix) with ESMTPSA id B38D8BFB1B;
  Wed, 29 Jul 2020 22:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596060403;
- bh=S/yn54QhYH9YbEzB2qoXQo0fc/7zblQ0igTfbaqcaug=;
+ s=default; t=1596060404;
+ bh=gaSXug6OTT5lsGtaZf6tpFvYStUuN+R0OklGaDtBDtA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=emEmAQ4W/lswc2/YD9mfYNnWX+WB6t/i0F4Aaj9OStDs/Td4MS9GaVAYN35CHbNS6
- hlG8xLvAk0HRMfzuHVEpQmiMvn4TXcdoPOlMJrHbSADH5AhAoRhQ8SE/DOmDV30Jvc
- 7Fhh75BgLSf/FaGeXU+dgppSzCADx6RMgZkyxCXisDODeBVxhP8gR8aw2XC1AQEwuP
- cxMCprTnMt2LJQsKeu5a2JraCHep4DiPekFUc1GnoZdBi9B/WrGkGSuKTBA04UT729
- gkIEbVAkGc8hfo8T1I+Dc9xTKpNocJiK5gvgO+zDRhIn+/71HA//h8r/Gyif1KuxQg
- k843UgV/1WVoQ==
+ b=rgPI/R2It/AZpZ5VlpIhA2IGY86IwErbfdWz7a2ZkUoqy5UJKZTN8DglE/uFxFSMg
+ CQXzKQ2hH7bBH4++KlcN1SfZdE9Z/mQOS/CxZFgNt8cHadIyiBRgmA3/Pxt6an9swI
+ TjxJDoOwq6v3JmfpLu0WZkDatcZt9mGBzR9ZsZH6ahlkqfXQBwQ4HN0gYojG1nCIY4
+ YF6YylvsVbZYnpdkxE6UrucQ4LEWZazrLrjlTspbiO+2NztCmV2jhhDzbZOT0C98pu
+ HWQl3k/eGv+CdaElXMwPh5CMRjDotbvIMRiGzaUvnfuViiea5Om1mwWfGBxK1epAZU
+ 655Kn9t7+UaQA==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/16] hw/block/nvme: add mapping helpers
-Date: Thu, 30 Jul 2020 00:06:24 +0200
-Message-Id: <20200729220638.344477-3-its@irrelevant.dk>
+Subject: [PATCH v2 03/16] hw/block/nvme: replace dma_acct with blk_acct
+ equivalent
+Date: Thu, 30 Jul 2020 00:06:25 +0200
+Message-Id: <20200729220638.344477-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200729220638.344477-1-its@irrelevant.dk>
 References: <20200729220638.344477-1-its@irrelevant.dk>
@@ -74,217 +75,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add nvme_map_addr, nvme_map_addr_cmb and nvme_addr_to_cmb helpers and
-use them in nvme_map_prp.
+The QSG isn't always initialized, so accounting could be wrong. Issue a
+call to blk_acct_start instead with the size taken from the QSG or IOV
+depending on the kind of I/O.
 
-This fixes a bug where in the case of a CMB transfer, the device would
-map to the buffer with a wrong length.
-
-Fixes: b2b2b67a00574 ("nvme: Add support for Read Data and Write Data in CMBs.")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
-Reviewed-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
 ---
- hw/block/nvme.c       | 111 +++++++++++++++++++++++++++++++++++-------
- hw/block/trace-events |   2 +
- 2 files changed, 96 insertions(+), 17 deletions(-)
+ hw/block/nvme.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 25b87486ea5a..0422d4397d76 100644
+index 0422d4397d76..d60b19e1840f 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -117,10 +117,17 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
-     return addr >= low && addr < hi;
- }
- 
-+static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
-+{
-+    assert(nvme_addr_is_cmb(n, addr));
-+
-+    return &n->cmbuf[addr - n->ctrl_mem.addr];
-+}
-+
- static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
- {
-     if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
--        memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
-+        memcpy(buf, nvme_addr_to_cmb(n, addr), size);
-         return;
-     }
- 
-@@ -203,29 +210,91 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
-     }
- }
- 
-+static uint16_t nvme_map_addr_cmb(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
-+                                  size_t len)
-+{
-+    if (!len) {
-+        return NVME_SUCCESS;
-+    }
-+
-+    trace_pci_nvme_map_addr_cmb(addr, len);
-+
-+    if (!nvme_addr_is_cmb(n, addr) || !nvme_addr_is_cmb(n, addr + len - 1)) {
-+        return NVME_DATA_TRAS_ERROR;
-+    }
-+
-+    qemu_iovec_add(iov, nvme_addr_to_cmb(n, addr), len);
-+
-+    return NVME_SUCCESS;
-+}
-+
-+static uint16_t nvme_map_addr(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-+                              hwaddr addr, size_t len)
-+{
-+    if (!len) {
-+        return NVME_SUCCESS;
-+    }
-+
-+    trace_pci_nvme_map_addr(addr, len);
-+
-+    if (nvme_addr_is_cmb(n, addr)) {
-+        if (qsg && qsg->sg) {
-+            return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-+        }
-+
-+        assert(iov);
-+
-+        if (!iov->iov) {
-+            qemu_iovec_init(iov, 1);
-+        }
-+
-+        return nvme_map_addr_cmb(n, iov, addr, len);
-+    }
-+
-+    if (iov && iov->iov) {
-+        return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-+    }
-+
-+    assert(qsg);
-+
-+    if (!qsg->sg) {
-+        pci_dma_sglist_init(qsg, &n->parent_obj, 1);
-+    }
-+
-+    qemu_sglist_add(qsg, addr, len);
-+
-+    return NVME_SUCCESS;
-+}
-+
- static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-                              uint64_t prp2, uint32_t len, NvmeCtrl *n)
- {
-     hwaddr trans_len = n->page_size - (prp1 % n->page_size);
-     trans_len = MIN(len, trans_len);
-     int num_prps = (len >> n->page_bits) + 1;
-+    uint16_t status;
- 
-     if (unlikely(!prp1)) {
-         trace_pci_nvme_err_invalid_prp();
+@@ -622,9 +622,10 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
          return NVME_INVALID_FIELD | NVME_DNR;
--    } else if (n->bar.cmbsz && prp1 >= n->ctrl_mem.addr &&
--               prp1 < n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size)) {
--        qsg->nsg = 0;
-+    }
-+
-+    if (nvme_addr_is_cmb(n, prp1)) {
-         qemu_iovec_init(iov, num_prps);
--        qemu_iovec_add(iov, (void *)&n->cmbuf[prp1 - n->ctrl_mem.addr], trans_len);
+     }
+ 
+-    dma_acct_start(n->conf.blk, &req->acct, &req->qsg, acct);
+     if (req->qsg.nsg > 0) {
+         req->has_sg = true;
++        block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->qsg.size,
++                         acct);
+         req->aiocb = is_write ?
+             dma_blk_write(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
+                           nvme_rw_cb, req) :
+@@ -632,6 +633,8 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+                          nvme_rw_cb, req);
      } else {
-         pci_dma_sglist_init(qsg, &n->parent_obj, num_prps);
--        qemu_sglist_add(qsg, prp1, trans_len);
-     }
-+
-+    status = nvme_map_addr(n, qsg, iov, prp1, trans_len);
-+    if (status) {
-+        goto unmap;
-+    }
-+
-     len -= trans_len;
-     if (len) {
-         if (unlikely(!prp2)) {
-             trace_pci_nvme_err_invalid_prp2_missing();
-+            status = NVME_INVALID_FIELD | NVME_DNR;
-             goto unmap;
-         }
-         if (len > n->page_size) {
-@@ -242,6 +311,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-                 if (i == n->max_prp_ents - 1 && len > n->page_size) {
-                     if (unlikely(!prp_ent || prp_ent & (n->page_size - 1))) {
-                         trace_pci_nvme_err_invalid_prplist_ent(prp_ent);
-+                        status = NVME_INVALID_FIELD | NVME_DNR;
-                         goto unmap;
-                     }
- 
-@@ -255,14 +325,14 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
- 
-                 if (unlikely(!prp_ent || prp_ent & (n->page_size - 1))) {
-                     trace_pci_nvme_err_invalid_prplist_ent(prp_ent);
-+                    status = NVME_INVALID_FIELD | NVME_DNR;
-                     goto unmap;
-                 }
- 
-                 trans_len = MIN(len, n->page_size);
--                if (qsg->nsg){
--                    qemu_sglist_add(qsg, prp_ent, trans_len);
--                } else {
--                    qemu_iovec_add(iov, (void *)&n->cmbuf[prp_ent - n->ctrl_mem.addr], trans_len);
-+                status = nvme_map_addr(n, qsg, iov, prp_ent, trans_len);
-+                if (status) {
-+                    goto unmap;
-                 }
-                 len -= trans_len;
-                 i++;
-@@ -270,20 +340,27 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-         } else {
-             if (unlikely(prp2 & (n->page_size - 1))) {
-                 trace_pci_nvme_err_invalid_prp2_align(prp2);
-+                status = NVME_INVALID_FIELD | NVME_DNR;
-                 goto unmap;
-             }
--            if (qsg->nsg) {
--                qemu_sglist_add(qsg, prp2, len);
--            } else {
--                qemu_iovec_add(iov, (void *)&n->cmbuf[prp2 - n->ctrl_mem.addr], trans_len);
-+            status = nvme_map_addr(n, qsg, iov, prp2, len);
-+            if (status) {
-+                goto unmap;
-             }
-         }
-     }
-     return NVME_SUCCESS;
- 
-- unmap:
--    qemu_sglist_destroy(qsg);
--    return NVME_INVALID_FIELD | NVME_DNR;
-+unmap:
-+    if (iov && iov->iov) {
-+        qemu_iovec_destroy(iov);
-+    }
-+
-+    if (qsg && qsg->sg) {
-+        qemu_sglist_destroy(qsg);
-+    }
-+
-+    return status;
- }
- 
- static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 7b7303cab1dd..f3b2d004e078 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -33,6 +33,8 @@ pci_nvme_irq_msix(uint32_t vector) "raising MSI-X IRQ vector %u"
- pci_nvme_irq_pin(void) "pulsing IRQ pin"
- pci_nvme_irq_masked(void) "IRQ is masked"
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
-+pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
-+pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8""
- pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8""
- pci_nvme_rw(const char *verb, uint32_t blk_count, uint64_t byte_count, uint64_t lba) "%s %"PRIu32" blocks (%"PRIu64" bytes) from LBA %"PRIu64""
+         req->has_sg = false;
++        block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->iov.size,
++                         acct);
+         req->aiocb = is_write ?
+             blk_aio_pwritev(n->conf.blk, data_offset, &req->iov, 0, nvme_rw_cb,
+                             req) :
 -- 
 2.27.0
 
