@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BF4232778
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:16:14 +0200 (CEST)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165A8232783
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:19:26 +0200 (CEST)
+Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uMv-0005Kx-53
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:16:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
+	id 1k0uQ1-0003B9-4y
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLV-0003f4-SK
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49929
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLU-0003cj-MN
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24875
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLS-0001BA-IP
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:45 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLR-0001Az-Qy
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596060881;
+ s=mimecast20190719; t=1596060880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Le4eBw++mBce6PdqacORWJjfRL2BAd88wGHNh6vw6Fw=;
- b=FmiGRpPBWtPkppaPbX/qhXcQ0kAz95Y4azHI20a40WE74yny18HIIkVJ5ottBVklLxMA+N
- LgpXxCMrOs7zDQFIVHo3b+f5PifT0K271uaNdzbS7k3c1WEL31mHJjG9E2egHp7F9KQ527
- MVBu+S7TJUrDHPUjfGKl8ttNIGoxQDU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aRoiGntPr/roRN7z30VYKhnG5GEpKOXqS3TTBjzQ2PQ=;
+ b=b3EBLdKBl9TZHGeimT8swq+HKLqDR8updg9GVW2XL15rftpS9i4TsKluXEgPoT3S25jlsT
+ V1RLPd4t5OZbsppzMIuzRSxgjvicJW+s3N0nJFpA+7/ud/1ytsKAvgk1rksh7qRNP7kQPQ
+ LZY38skadAINetrWgINLZX4KFsNI+1I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-8HK6I55SMFS27ukpBz4eiA-1; Wed, 29 Jul 2020 18:14:39 -0400
-X-MC-Unique: 8HK6I55SMFS27ukpBz4eiA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-325-DkppzhKjPAasRBiuTm0K9Q-1; Wed, 29 Jul 2020 18:14:38 -0400
+X-MC-Unique: DkppzhKjPAasRBiuTm0K9Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C63BB1083E80
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 22:14:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D639C8015F4
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 22:14:37 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-149.rdu2.redhat.com [10.10.116.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3326019C71;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F007712FF;
  Wed, 29 Jul 2020 22:14:32 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id B89B22237A7; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
+ id C2020223D04; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/5] virtiofsd: Add notion of unprivileged mode
-Date: Wed, 29 Jul 2020 18:14:05 -0400
-Message-Id: <20200729221410.147556-1-vgoyal@redhat.com>
+Subject: [PATCH 1/5] virtiofsd: Add notion of unprivileged mode
+Date: Wed, 29 Jul 2020 18:14:06 -0400
+Message-Id: <20200729221410.147556-2-vgoyal@redhat.com>
+In-Reply-To: <20200729221410.147556-1-vgoyal@redhat.com>
+References: <20200729221410.147556-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:17:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:27:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,41 +84,47 @@ Cc: berrange@redhat.com, vromanso@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+At startup if we are running as non-root user, then internall set
+unpriviliged mode set. Also add a notion of sandbox NONE and set
+that internally in unprivileged mode. setting up namespaces and
+chroot() fails when one does not have privileges.
 
-Daniel Berrange mentioned that having a unpriviliged mode in virtiofsd 
-might be useful for certain use cases. Hence I decided to give it
-a try.
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-This is RFC patch series to allow running virtiofsd as unpriviliged
-user. This is still work in progress. I am posting it to get
-some early feedback.
-
-These patches are dependent on Stefan's patch series for sandbox=chroot.
-
-https://www.redhat.com/archives/virtio-fs/2020-July/msg00078.html
-
-I can now run virtiofsd as user "test" and also export a directory
-into a VM running as user test.
-
-This is ideally for the cases where user "test" inside VM will operate
-on this virtiofs mount point. Any filesystem operations which can't
-be done with the creds of "test" user on host, will fail.
-
-Thanks
-Vivek
-
-Vivek Goyal (5):
-  virtiofsd: Add notion of unprivileged mode
-  virtiofsd: create lock/pid file in per user cache dir
-  virtiofsd: open /proc/self/fd/ in sandbox=NONE mode
-  virtiofsd: Open lo->source while setting up root in sandbox=NONE mode
-  virtiofsd: Skip setup_capabilities() in sandbox=NONE mode
-
- tools/virtiofsd/fuse_virtio.c    | 40 ++++++++++++++++++++++++++++----
- tools/virtiofsd/passthrough_ll.c | 29 ++++++++++++++++++++---
- 2 files changed, 61 insertions(+), 8 deletions(-)
-
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index e2fbc614fd..cd91c4a831 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -147,11 +147,13 @@ enum {
+ enum {
+     SANDBOX_NAMESPACE,
+     SANDBOX_CHROOT,
++    SANDBOX_NONE,
+ };
+ 
+ struct lo_data {
+     pthread_mutex_t mutex;
+     int sandbox;
++    bool unprivileged;
+     int debug;
+     int writeback;
+     int flock;
+@@ -3288,6 +3290,12 @@ int main(int argc, char *argv[])
+     lo_map_init(&lo.dirp_map);
+     lo_map_init(&lo.fd_map);
+ 
++    if (geteuid() != 0) {
++       lo.unprivileged = true;
++       lo.sandbox = SANDBOX_NONE;
++       fuse_log(FUSE_LOG_DEBUG, "Running in unprivileged passthrough mode.\n");
++    }
++
+     if (fuse_parse_cmdline(&args, &opts) != 0) {
+         goto err_out1;
+     }
 -- 
 2.25.4
 
