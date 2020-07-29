@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AC5232228
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 18:08:28 +0200 (CEST)
-Received: from localhost ([::1]:59938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FB423222B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 18:09:09 +0200 (CEST)
+Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0od1-0007S9-3Q
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 12:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56584)
+	id 1k0odg-00082w-5i
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 12:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k0oZl-0003F0-Td; Wed, 29 Jul 2020 12:05:06 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33600)
+ id 1k0ob5-00054k-Nm; Wed, 29 Jul 2020 12:06:27 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k0oZi-00019O-Oq; Wed, 29 Jul 2020 12:05:04 -0400
-Received: by mail-pg1-x544.google.com with SMTP id o13so14497277pgf.0;
- Wed, 29 Jul 2020 09:05:01 -0700 (PDT)
+ id 1k0ob3-0001Qk-RF; Wed, 29 Jul 2020 12:06:27 -0400
+Received: by mail-pg1-x542.google.com with SMTP id e8so14462220pgc.5;
+ Wed, 29 Jul 2020 09:06:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=tCRC4BWdPKFmdFcgkqLu+sgM1ZXvWAb2jvhgPT95/7I=;
- b=D0e3UZvOuPlYsaJBvCdI48k06wh5uaAmeQKaX0+KtscYV5v+QAj0juPm6snRgmRMNh
- QAj7VZvsP/kG18RRSlE0IubGmHkBEm5OuRSJs3QAiQIrQFHoFzU/v1PetmH4gomQ5C/W
- 5FSPk50vxlRS6gUUXpeYi/VRp5EFwd7ICAJGd8glimQX1dWOkuIsqvADWeKewTRhInJa
- 8B3THb2FCCMxvDLbzu26PuaJaN0ZZB5qoNKdHW5AwPFP20ih1fBBUvrt0wcqcqfHNAgO
- a5UzLu7MKi66V33L3d5g8QlGepNTx/zxqYlKFE4SPFT8DcbwFq//NbQ4qts1iGi6Bv8/
- c3kg==
+ bh=3cbkbn0l+Xu0Erc68nuJEb4bSTrEz6kipYsTaY+cCFc=;
+ b=Hmw20eGUBQM5s2iiAesNbjeIn83dTdBX4G6sxMZIk5bqjR86EqLiBzCVhYkUzenQC9
+ BrS1uHPRyF9f3TdgK1mWeJPnp3W1rtOOG1CfWHe48oO5nPOE4MywtFjSdsZGTUOy4vIv
+ 4FUrJc6ePjOvvC+ctvf9OrEA6IseP/tt6Omw02MX7lfO3/iugd7gHH24yMDak48gxlol
+ lhAvB/2X/pTvJgQP3d1qPamX0rPDrG1t6mOzJ8bFCpOJq5+LPJ9WF6AQde1/5ClNxjL8
+ Zr+1v7kojvFdEYp2dOfAgFPy7qzX5o8JF052bTFcxevjyE2HVzxmgLJXxMqCWR1dnhlT
+ eXtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=tCRC4BWdPKFmdFcgkqLu+sgM1ZXvWAb2jvhgPT95/7I=;
- b=Ik0tF4+izDuCEZo0mG4tvHh7siywgckKO8tInQAKWtQoR4e3Jz0MObYE/BWKJfqoep
- jdtNCfFmopIcNjGm/qSXUOMieiqdWgQivjU6kZrpPrz5KjOtqWEFmXB9oiCg2Sud1d51
- k8dbpewq1wOsDANMI2P8AaYvXYGoUld71LlpVSYO3eUA3mVH5BYaY7As7AnM0l5m74Dv
- 37xZrY3LInf848BD1MvnIq9thB/YKEp8iRiRMm1v8oEifRLTvQaf8GOBbD6LNAdVezdt
- RTiY2guRCtq1ysPL3w/xJAAek1lBWVUr8sGZ2ndRT4bHlVS2fDuGhZD+/HgcG4439IfA
- DuHQ==
-X-Gm-Message-State: AOAM531SV3bR7IzkGmLyWdb/cD6ljf5cSYTbe/8/IzfX2PUu4LXuK6al
- I2mIq+FVW6+DdZrXCE/0tm6evLDming=
-X-Google-Smtp-Source: ABdhPJxVXOxzh+2BzFM6KWTNscxFoVG3yive7wAT3QGYW7LF+GeuaOkwEL1+08y7OQGMG0Lhc8K+iA==
-X-Received: by 2002:a63:560f:: with SMTP id k15mr29000670pgb.162.1596038700355; 
- Wed, 29 Jul 2020 09:05:00 -0700 (PDT)
+ bh=3cbkbn0l+Xu0Erc68nuJEb4bSTrEz6kipYsTaY+cCFc=;
+ b=t2vX9Esor8kCrulTtsp6TQp7YLPMXDj6UGW7Z+yTg0SKkdxF+aar2gnW07VW3/M3xB
+ HusaOUMqMSeeXI5hVf6LruAblkVprEXi+S9icT8K67SBOSwn+FxvL0V6sbQsFEMfnTnA
+ ml2YUEtFBrZglZcsPuzKgMLYWd6RJeIU/hWpkrS0D8UA6GkBnUVK8f2ADS4xQUX86pMp
+ x04Q5EKLUOa9cjaECV+TforcGBQm02ZRAfsy+ayqe0Rm6SCwkXssOktrlrHYhFGcI0G6
+ FZs8X/zc6wu0n2Djg82omlQzb4yhnHoz8bAV+kmgtELMk/sUV+KLaF0tUFsgswNUWqpw
+ lQ5A==
+X-Gm-Message-State: AOAM532kEikaULtMu179V0/5oYKNNKE7dtZvyRBdldt3LcklEnUZvb9D
+ 2XH/a0zeKgU8YclMLCDT5/k=
+X-Google-Smtp-Source: ABdhPJz7V+Sv2utjWQSheztYSMWNzp5kgZFA4fAJoIYw65GhMUjMU02REGfqX4/S66m0kuis/rXwrA==
+X-Received: by 2002:a62:aa05:: with SMTP id e5mr4190532pff.70.1596038783580;
+ Wed, 29 Jul 2020 09:06:23 -0700 (PDT)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id s8sm2870544pfc.122.2020.07.29.09.04.59
+ by smtp.gmail.com with ESMTPSA id h131sm2830911pfe.138.2020.07.29.09.06.22
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 29 Jul 2020 09:04:59 -0700 (PDT)
-Date: Thu, 30 Jul 2020 01:04:58 +0900
+ Wed, 29 Jul 2020 09:06:23 -0700 (PDT)
+Date: Thu, 30 Jul 2020 01:06:21 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 12/16] hw/block/nvme: refactor NvmeRequest clearing
-Message-ID: <20200729160458.GK14876@localhost.localdomain>
+Subject: Re: [PATCH 13/16] hw/block/nvme: add a namespace reference in
+ NvmeRequest
+Message-ID: <20200729160621.GL14876@localhost.localdomain>
 References: <20200720113748.322965-1-its@irrelevant.dk>
- <20200720113748.322965-13-its@irrelevant.dk>
+ <20200720113748.322965-14-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200720113748.322965-13-its@irrelevant.dk>
+In-Reply-To: <20200720113748.322965-14-its@irrelevant.dk>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,13 +91,13 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20-07-20 13:37:44, Klaus Jensen wrote:
+On 20-07-20 13:37:45, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Move clearing of the structure from "clear before use" to "clear
-> after use".
-
-Yah, agree on this.
+> Instead of passing around the NvmeNamespace, add it as a member in the
+> NvmeRequest structure.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
