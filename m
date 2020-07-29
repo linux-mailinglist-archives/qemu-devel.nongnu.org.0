@@ -2,81 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B317231C41
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 11:43:06 +0200 (CEST)
-Received: from localhost ([::1]:55408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB86231C5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 11:56:39 +0200 (CEST)
+Received: from localhost ([::1]:46598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0ic5-00083t-Eo
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 05:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47816)
+	id 1k0ipC-0008J8-H5
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 05:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k0ibJ-0007dV-SO
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:42:17 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k0ibI-000428-5s
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:42:17 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g10so1769748wmc.1
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 02:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=vz7wp36EtTBX+0pdF91SG6j/vIUUVxEELFnyzyNN2MA=;
- b=aug9XIhCF7a3EzbDdSt5OBxrfNAGuALzZK6XoKVcZyFwURTG5gdO4+ODVFErc9/zpG
- VJVyO5LALPS25eqbJXpZRK9lQzA07RuQiR5KMea7DcJeqRsWRDp9NKGaV35RXxr89AcG
- ixyA2G5icL6JE5t6wUGIr1c4IPgec3sJrw8hEVaH7/Tt4kQSb2mtNzLzqEz3m6TufQsh
- LwLBpnK9Yjc95CrEhjM7Ix1iaTWsqPuhZ0YOouGFaOUsyoqs8PQYLZ5oOs6zTXEErlsT
- j3Ol8dvMTlAbD8kng6q9DaGqY6ej3GBcU9dKFWU2GTggCDQV7MNEq+U11Oz5VhQIh0yL
- NPJQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k0inO-0006xN-8N
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:54:46 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32927)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k0inL-0005m6-2F
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 05:54:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596016482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nay3RuzQJeWwVdKRGkaWIGNw3CG+Y2B8ADLKPgLMk3E=;
+ b=NH3SF0CsW48mfOeGFcvgqVT7cagVa/fgfed1a9+mWRalK/px9j0vMYH4c3x7bnAKd/QS/b
+ dV5VqHmNESJnhPJOltsT5FMqP2B2iwXkEH7ANQbKbbnUG522ACTyITWQ8DNbX0w4ZzgOvj
+ +bu4aTxCK3yFpFOa3LAjFRpIUxGirEA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-qZy888c_PYq9qUNhkVk-wg-1; Wed, 29 Jul 2020 05:54:38 -0400
+X-MC-Unique: qZy888c_PYq9qUNhkVk-wg-1
+Received: by mail-wm1-f71.google.com with SMTP id s2so471525wmj.7
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 02:54:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vz7wp36EtTBX+0pdF91SG6j/vIUUVxEELFnyzyNN2MA=;
- b=NZPmX9L7+aYbz9puaIVltDww92ppqVFyL7KY5E1wcIA0dIHvBOw8gUN2FXQ7Oc9LMa
- h66F00lZI4n1JgyWrj5ArQZksTsJ6NCvLyYzil7ufXODtpOTnCoWEpBNTrzTi/H7IECu
- uPvay3QaqqrG6ro2esOEm7+4pjTDZ+btT8mzbF3vhRcQQ5JizFEfdbp7G0vaw+AR8IBP
- HaaghRlR0AOKN4V1g2SPvl6CHNp42LdziAqJGscVAaUTEzVfyUpzmYAWDMguiRdufRGC
- Jr8icJ4SuZN1CYNky9aNPoXb5m9Lrc+66fBuCKZrQUNJh47Lswmlg08XSOijjYZBdcHP
- bmwA==
-X-Gm-Message-State: AOAM531Smq1NwvPCE/C3UKRfvuzs7o3aJMx3JyOXniMBBCJOzvns52YF
- gxEmuMnWfMsgoQlob2+MUZk=
-X-Google-Smtp-Source: ABdhPJwSzHvZFdLQiXegk2Q3aFnmX5PE3xBpG+3kNaGyyWT46JhUMCWvV8KmBVwMcWP5JDDpoXeFhw==
-X-Received: by 2002:a1c:ed05:: with SMTP id l5mr8012149wmh.85.1596015734693;
- Wed, 29 Jul 2020 02:42:14 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id n12sm4725464wrg.77.2020.07.29.02.42.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jul 2020 02:42:13 -0700 (PDT)
-Date: Wed, 29 Jul 2020 10:42:12 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [RFC 0/2] virtio-rng: add a control queue
-Message-ID: <20200729094212.GB35835@stefanha-x1.localdomain>
-References: <20200123151700.1367857-1-lvivier@redhat.com>
- <20200124110240.GH736986@stefanha-x1.localdomain>
- <e4b0d666-c2a8-6d95-28f4-b51fe80ef73a@redhat.com>
- <20200129154300.GB157595@stefanha-x1.localdomain>
- <eeb362c9-24e8-49ef-4194-617e8a2881a9@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Nay3RuzQJeWwVdKRGkaWIGNw3CG+Y2B8ADLKPgLMk3E=;
+ b=OaUTA1XJcApTtYLogV3S4Cy/1bwIjaoaWL7EIvgMFG+TUauhaD049Ox0Ei7KWHSCn2
+ iK9Vza8QuBxJx6qz7XdtrGxAHudtaHAoTqiAXm2m3qK0NsdhjYFwPM4BI3H++fcVRoWJ
+ 8jyLjpbN3TjoiQVaciIvLhtC9JXEMWKxhcHY+67iKtw9NBa4/MQf3MesSQ5jAHpvnvp/
+ h95Xfu9U8qjVoOeMYOFtpTfApcQg9z5D+5myA37CL5wg9B8V1I/ZKWbG1F7ss17/T9RQ
+ JeN8eGdkXI/O3F7au7EYoKf5byUhNp+DVjjKtXOAkiCyWatL5paRifIqLloHamCU2MUs
+ E1ng==
+X-Gm-Message-State: AOAM5300paQhBpN0KeLD6aRag5v9XCoR6836wxGqyn7z7C7nu8lsn1PZ
+ xc4flWK5IEtHhXE90fVVelGy4sY02PYgMMf5mdsyFOtkBP2AMoJH6De+R7oGJzimWPqCprf1Iqa
+ +gkXjFdHsfkDT0hk=
+X-Received: by 2002:adf:f806:: with SMTP id s6mr29747481wrp.252.1596016477471; 
+ Wed, 29 Jul 2020 02:54:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwFZVqSmU08DSWxEyznJgyN9TClwgG7nFg19yH1w2Y0UzV8s9TcWfc+QeJ9yDuPAFayMe+Cw==
+X-Received: by 2002:adf:f806:: with SMTP id s6mr29747467wrp.252.1596016477203; 
+ Wed, 29 Jul 2020 02:54:37 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:2943:38b:308c:e0b2?
+ ([2001:b07:6468:f312:2943:38b:308c:e0b2])
+ by smtp.gmail.com with ESMTPSA id g18sm4692356wru.27.2020.07.29.02.54.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jul 2020 02:54:36 -0700 (PDT)
+Subject: Re: sysbus_create_simple Vs qdev_create
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <87lfjkvo81.fsf@dusky.pond.sub.org>
+ <20200716222130.GO1274972@habkost.net> <87tuy6k9pa.fsf@dusky.pond.sub.org>
+ <20200717162312.GR1274972@habkost.net> <87r1t6hc0f.fsf@dusky.pond.sub.org>
+ <20200720155955.GV1274972@habkost.net> <87v9ihbe6u.fsf@dusky.pond.sub.org>
+ <50e31ece-215c-a632-e5a2-86ae7ab3abab@redhat.com>
+ <87lfj4f6nz.fsf@dusky.pond.sub.org>
+ <759959d1-f320-734a-ac5e-a60db6b1bc23@redhat.com>
+ <20200728224733.GP225270@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <422d7879-3fdc-d38e-259f-2477b9d3c169@redhat.com>
+Date: Wed, 29 Jul 2020 11:54:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xgyAXRrhYN0wYx8y"
-Content-Disposition: inline
-In-Reply-To: <eeb362c9-24e8-49ef-4194-617e8a2881a9@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200728224733.GP225270@habkost.net>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.74; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 03:32:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,92 +105,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Amit Shah <amit@kernel.org>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 29/07/20 00:47, Eduardo Habkost wrote:
+> On Tue, Jul 28, 2020 at 07:38:27PM +0200, Paolo Bonzini wrote:
+>> On 28/07/20 09:19, Markus Armbruster wrote:
+>>>> the composition tree generally mirrors things that are born and die
+>>>> at the same time, and creating children is generally reserved to the
+>>>> object itself.
+>>>
+>>> Yes.  Notable exceptions: containers /machine/peripheral,
+>>> /machine/peripheral-anon, /machine/unattached.
+>>
+>> And /objects too.  Apart from /machine/unattached, all these dynamic
+>> objects are created by the monitor or the command line.
+>>
+>>>>                 Children are usually embedded directly in a struct, for
+>>>> example.
+>>>
+>>> We sometimes use object_new() + object_property_add_child() instead.
+>>> Extra indirection.  I guess we'd be better off without the extra
+>>> indirection most of the time.  Implementation detail.
+>>>
+>>> We sometimes use object_new() without object_property_add_child(), and
+>>> have qdev_realize() put the device in the /machine/unattached orphanage.
+>>> Meh.  I guess the orphanage feature exists to make conversion to QOM
+>>> slightly easier.  Could we ban its use for new boards at least?
+>>
+>> Banning perhaps is too strong, but yes /machine/unattached is an
+>> anti-pattern.
+>>
+>>>> 3) accessing the QOM graph is slow (it requires hash table lookups,
+>>>> string comparisons and all that), so the pointers that cache the
+>>>> parent-child links are needed for use in hot paths.
+>>>
+>>> True, but only because QOM's design opts for generality, efficiency be
+>>> damned :)
+>>
+>> Remember that QOM's essential feature is the visitors: unlike GObject,
+>> QOM is not targeted at programming languages but rather at CLI and RPC.
+> 
+> This is surprising to me.  I never thought QOM was targeted at
+> the CLI or RPC.  (Every single property mentioned in this message
+> don't seem to be related to the CLI or RPC.)
 
---xgyAXRrhYN0wYx8y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+See https://www.mail-archive.com/qemu-devel@nongnu.org/msg674110.html
+for an explanation.
 
-On Tue, Jul 28, 2020 at 03:45:26PM +0200, Laurent Vivier wrote:
-> On 29/01/2020 16:43, Stefan Hajnoczi wrote:
-> > On Fri, Jan 24, 2020 at 03:05:18PM +0100, Laurent Vivier wrote:
-> >> On 24/01/2020 12:02, Stefan Hajnoczi wrote:
-> >>> On Thu, Jan 23, 2020 at 04:16:58PM +0100, Laurent Vivier wrote:
-> >>>> The kernel needs sometime to be able to cancel an ongoing command.
-> >>>>
-> >>>> For instance, if the virtio-rng device uses the egd backend
-> >>>> and this backend doesn't provide data, the buffer provided by the
-> >>>> kernel is kept as long as it is needed.
-> >>>>
-> >>>> On the kernel side, a read blocks until the buffer returns from QEMU.
-> >>>>
-> >>>> As the read is done with a mutex held, all the hw_random interface
-> >>>> hangs and we cannot switch to another hw_random backend.
-> >>>>
-> >>>> So this series adds a control queue to the virtio-rng device to allow
-> >>>> to flush the virtio-rng input queue to release the kernel mutex and
-> >>>> to allow to switch to another device.
-> >>>>
-> >>>> The kernel side series can be found at:
-> >>>>
-> >>>> https://github.com/vivier/linux/commits/virtio-rng-ctrl
-> >>>>
-> >>>> Laurent Vivier (2):
-> >>>>   virtio-rng: prepare the introduction of a control queue
-> >>>>   virtio-rng: add a control queue
-> >>>>
-> >>>>  hw/core/machine.c                           |  1 +
-> >>>>  hw/virtio/trace-events                      |  6 ++
-> >>>>  hw/virtio/virtio-rng.c                      | 99 ++++++++++++++++++=
----
-> >>>>  include/hw/virtio/virtio-rng.h              |  5 +-
-> >>>>  include/standard-headers/linux/virtio_rng.h | 14 +++
-> >>>>  5 files changed, 111 insertions(+), 14 deletions(-)
-> >>>
-> >>> Where can I find the VIRTIO specification for this new virtqueue?
-> >>
-> >> I didn't update the specs.
-> >>
-> >> Is https://github.com/oasis-tcs/virtio-spec.git the document to update?
-> >=20
-> > Yes, please.
->=20
-> I've updated the specs,
->=20
-> Following
-> https://github.com/oasis-tcs/virtio-spec/blob/master/CONTRIBUTING.md,
-> I've opened an issue:
->=20
-> https://github.com/oasis-tcs/virtio-spec/issues/83
->=20
-> Is this the good process?
+> About the visitors: I always had the impression that usage of
+> visitors inside QOM is unnecessary and avoidable (compared to
+> QAPI, where the visitors are an essential feature).
 
-Please post spec changes to the virtio-comment@lists.oasis-open.org
-mailing list:
-https://github.com/oasis-tcs/virtio-spec/#providing-feedback
+But as I explained in that other message, the main difference between
+QOM and something like GObject is eactly the QAPI integration, and that
+is where CLI and RPC enter the game: for example the possibility to
+share code between -object and HMP object_add on one side and QMP
+object-add on the other side.
 
-Thanks,
-Stefan
+Even code riddled by backwards-compatibility special cases, such as
+-accel and -machine, can share code between themselves and -object to
+some extent; this is thanks to functions such as object_property_parse,
+whose parsing is deferred to visitors and hence to QAPI.
 
---xgyAXRrhYN0wYx8y
-Content-Type: application/pgp-signature; name="signature.asc"
+> Do we really need need QOM children to be accessible using the QOM
+> property API?
+> 
+> Using the same code for both user-configurable properties and for
+> the list of children of a QOM object might have saved some time
+> years ago, but I'm not sure this is still a necessary or useful
+> abstraction.
 
------BEGIN PGP SIGNATURE-----
+The main thing we get from it is that the QOM paths treat children and
+links the same, and links are properties.  To be honest it's not a
+feature that is very much developed, so perhaps we can remove it but we
+need to evaluate the impact of losing it.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8hRHQACgkQnKSrs4Gr
-c8jx7QgAgO6Pzak09keIRWKobhm6bYa1Z/kf1PH5gJonm0oRWFQkTg+qtmfWsYy6
-TmU8KX4vzIRUaJ2t0c66ybrAwFYU2F7Ez8C6Y0J1RtrpqAQTg0rhrtfeBPm/PvDr
-JcU5bdEvZzeZ1QQFz25wS7xPHPf07BWeeKnWhcuS9VcAN3xnmFQaiXy02Wzfsdes
-M2/4gFE6UXaaD+JsvqpSv1xf9j9AFXwqsfXNa6ys6WdcpvIiZQrau15cAnXvSz8K
-+3iE0vxwapRW9eiJ/OU+bppBrYXRwGerZRd+FeQ/ovkhIXV3RqlUKK8+BZiEyd7G
-5GAtWZkqOYOi+l1See2QlaYEgU10kA==
-=/htO
------END PGP SIGNATURE-----
+Paolo
 
---xgyAXRrhYN0wYx8y--
 
