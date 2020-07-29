@@ -2,85 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC8E231DFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 14:03:22 +0200 (CEST)
-Received: from localhost ([::1]:51160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5278E231EBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 14:44:03 +0200 (CEST)
+Received: from localhost ([::1]:35510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0knp-0002a3-6E
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 08:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50244)
+	id 1k0lRC-0001sQ-4c
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 08:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k0kmy-0002AG-FW
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 08:02:28 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k0kmw-0006By-SP
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 08:02:28 -0400
-Received: by mail-ej1-x631.google.com with SMTP id f14so8192683ejb.2
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 05:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TFdASNcQcm/v85ZE9LlhYG7oDqa2ikGwGq8e0g3/ydk=;
- b=sgRIOPqOUq74C7aj5LqByK+0W99agEclTg7azBB7wLCwQvIcvl1d/0G3f+JdBoFBo5
- sxH29/C33ApH+4siGMv3Jva8Q1C7BeNWtv3x6i38yNYNOuf9hgaVJ9wUARhC/QxBMtOJ
- WN3gealNhFeG5aw5PV/h7pLVlZ9S8wQ64vHkbh6nc46oJykibPq7zfX9yi6vwqndDP77
- uOhWkPkb2zP9SS7PTZfT0gKdF9KWCuhFFXYvEg4X14ndbyr+dW1CVv+Uh0/XJeJNlJV+
- Z5xw7PPMO6ZHghR28NkV4K68AHpRFxRXF9vCz0TV6vB1f31b9+lQsSzi5qnffa2w1WKC
- uprg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TFdASNcQcm/v85ZE9LlhYG7oDqa2ikGwGq8e0g3/ydk=;
- b=OvJHh6RBYT0V0KPm0xUBHeGjbJ5v+PCUSHOSDhgJxnq68A4q/XuXi3vLiCDjWW8u18
- ypuohhq1wLOrjWgiwXUjR3l7Py3pm7Hv0xFn4qo6058pAInEmNZl/xixZDQyGSKGVRes
- UsnoOydJVkzX8vuXws/X3GEa5YW4DalhhTWzIKSe4ENdLGnKkzOxXuhNp0RUdesZIdLp
- iyF5zFZMITDBXbaOoYUA1O5gLtfw/FpoLMe0yBNtJW6O6goYg/xZG05k6HtGbbI8cO/j
- F+q5YzRWMSOdo9Zbf7+/YitsVWMsvDeWmq/FvyzWDTVoLYZPNSPDyzAAldT77wtfA8Th
- iwUg==
-X-Gm-Message-State: AOAM531ayheFtEHEDO7wwEDVib5PpeTfJEYKk5b2bTPA2+7FkmtCbJGk
- JuYz17fQEUMj6mN/qIvIAB7180ac
-X-Google-Smtp-Source: ABdhPJyPejvHbzFtR7b2gkL55qlCcxhAnzdmZHYxlkJ0Exe2962AyR302l/phrPZTb0KaLwlrB4OpA==
-X-Received: by 2002:a17:906:381b:: with SMTP id
- v27mr1396214ejc.88.1596024144488; 
- Wed, 29 Jul 2020 05:02:24 -0700 (PDT)
-Received: from [192.168.1.39] (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id be2sm1632029edb.92.2020.07.29.05.02.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jul 2020 05:02:23 -0700 (PDT)
-Subject: Re: [PATCH-for-5.2 v4] hw/core/qdev: Increase qdev_realize() kindness
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200727175112.6820-1-f4bug@amsat.org>
- <87d04gf5i4.fsf@dusky.pond.sub.org>
- <b5cd0d50-c0a6-afee-5b63-80bb83e7e001@redhat.com>
- <87r1suahxu.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a73edd14-ab57-0072-36cb-91222a9a1638@amsat.org>
-Date: Wed, 29 Jul 2020 14:02:22 +0200
+ (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1k0lQ9-0001QD-KE
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 08:42:57 -0400
+Received: from mail-db8eur05on2108.outbound.protection.outlook.com
+ ([40.107.20.108]:37697 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1k0lQ6-000362-10
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 08:42:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MoxOfdT5bwrn0RFMKPlMhMHKu09MiBbNoh1oUWZgIisWFpzVRyARFQmu26Cj0Us/+XdqZHscn9pu5keZpzkbRQ6jVwyEwtnc/OUCsSsPWRrZIwzijIn6i2uyQseje36r9rbab/1ZIp9igxatWc0XAFFEkzdWMFeAK2HI6DpUoIr2onfoUrzYKRBwfS0QP7tf+U4KiEaB6EuVH+pwdXKslsrcKGz96D0Wf4W/gfukGVv14lsBEvEAOBTukRuB+d8P6QpHacyxRuA8z3GkZeZK3CWxYtKS0rodkroOxmx7YoCZ8nBNzVouARJtaPajuJKKm2hh9Q1EcyAOpsR7fIXHTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XL59fhA7dsHV9Pi8KEkSSGO0tdsOFHmY7ZsJrEDSmAA=;
+ b=hzJju8PNf7pYTfSRsxMvPkkD1BYAfdhVAbzRw2Aqg5UXPBt/OfTq7Ds4WtYbQ7OmoWfYi+IOurof3lemmUV3ClQcVcWVMHRCLI16SLd8Jcldl9FWiUmtjd2avGNgqiJvegTwyMqLGdINn4f6t1YyYJpAc+5/oEYswa6qhA1NI366nwEZaIodghNPbqK/hqHouBEJ2EfbicG/x1Z5y/BjML8f0zHBTfhE89JPT0BU9TvSXZCqUPRbm0Wrx+zjdFvamVPM7UHSFOmCcuFMrIviB3N/5ZJoLTxB7Zqyk3xyjXqEXyBC25M/tWupQvaWEFJ6LAP1PFsX51w/hfNkgCJBNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XL59fhA7dsHV9Pi8KEkSSGO0tdsOFHmY7ZsJrEDSmAA=;
+ b=gspS93slX342NM+SoU+7R8g7EuI8OIXhBXYFHphuhPhYPXFccf/U1OnDiHyp25crKGaGOkrorJZi54iZvZJQuYCTPqFlGl3jEhVLDxDPlcSaUm4K8jEej9Lna1vGxwKxCrWcSTmM+fMktqSE+xbwE3kt4pnZypYywvCPHGO8Qls=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (2603:10a6:208:ff::27)
+ by AM0PR08MB4227.eurprd08.prod.outlook.com (2603:10a6:208:13d::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Wed, 29 Jul
+ 2020 12:27:47 +0000
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::5d21:ce58:6f11:b5dd]) by AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::5d21:ce58:6f11:b5dd%7]) with mapi id 15.20.3216.034; Wed, 29 Jul 2020
+ 12:27:47 +0000
+Subject: Re: [PATCH v0 3/4] migration: add background snapshot
+To: Peter Xu <peterx@redhat.com>
+References: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
+ <20200722081133.29926-4-dplotnikov@virtuozzo.com>
+ <20200723221544.GC831087@xz-x1>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <dcbb0760-1221-3f75-0f1a-27560dc073f7@virtuozzo.com>
+Date: Wed, 29 Jul 2020 15:27:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <87r1suahxu.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ Thunderbird/68.10.0
+In-Reply-To: <20200723221544.GC831087@xz-x1>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+X-ClientProxiedBy: AM3PR05CA0100.eurprd05.prod.outlook.com
+ (2603:10a6:207:1::26) To AM0PR08MB3745.eurprd08.prod.outlook.com
+ (2603:10a6:208:ff::27)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.102] (178.34.161.51) by
+ AM3PR05CA0100.eurprd05.prod.outlook.com (2603:10a6:207:1::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.16 via Frontend Transport; Wed, 29 Jul 2020 12:27:46 +0000
+X-Originating-IP: [178.34.161.51]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 022e24ac-b873-427f-4403-08d833bacd3a
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4227:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4227DAEE908C8593F4604343CF700@AM0PR08MB4227.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:404;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UUpGIlODhdRcyUghl2ZqypDvNJ+Vb6nARl6jmPV+oflrnLwd51tRrXoXKjdv11g9GYMyR6CmxxO9Nn2H9L1CWzV28mlwVVUC5gq+2dmb+CGGFvoDZL63XOhbr+WBdNQdudo1LKz/N4Fox6QF7C3IBNT3Z+010DDXdfqFWPQcqqSM0q4+y6qS2y3a31tXXbXzGGcZzHjk0Ku0tiLVyt5Z4zai2qAu/k+4Sv/C14R+Gr5MSsduT0HlDCHcGqNP2pImS2gwDFm5QMpQJVw2wNrMABeKMqT9Dz/Duc/gFJ7Es7pOjHFa1TUfMf0rAI6y/wAfzFUDrlNYvjLs+anWvFiTpYf5K9KO4FcfiXlHyqWzI6bpVbbZ7p9XPWX5MYbp/RCH
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(39830400003)(396003)(136003)(366004)(346002)(31686004)(66946007)(36756003)(86362001)(6486002)(8676002)(8936002)(6916009)(2906002)(66476007)(66556008)(956004)(2616005)(83380400001)(53546011)(16526019)(478600001)(52116002)(4326008)(31696002)(186003)(16576012)(316002)(26005)(5660300002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: CXi8t0xMn19Ho0rOLduLSnkUTBcRjSCeYH0VugLmk/x7uMwkgOywQiSSEmu2MMq1zdx4wkn47an8TI8GcTwe7+9TfqHrQLzTRSr1uT2l1/6DqdcJ3mEHiZrll/IbLppdkiWzLZ7Onw6GN0YnhWO9L77BDJDWMeTtAvluiKsLpl8gFJSA5txRCHhC5a2gSiN+JZBXANb5YefUayxghw2sOag6k9lI+nCKILd9mZb4Shb+JkAjm+NECHIUt1ht0xUoNXjVzVfzfcoRnji14N4A/EgVMUzk7XWqRPBwBvzVyTLiyk0na9mB7owQxO6spZbgvXs46JzhT0U903Q3gEr5i/xqB8P9pab2no1dRszRJiX6Bch6FKTyY5lx4+m8ap/XmS3oviRNev3xYsOirAqJrjVpHmzEOWE4bT40b1iBfjdDEHUbeDCWPZtv+/OhiTFwzM7bvS4A56hEt1PD/u2LXmuZwWKUhxsgexf9NRLPyY4hYwNBKf1L3Py8LxNul2GV+A67r3cOPMt6S7PxBKSoBmYqYYrs9PkE0KL9uJ0c+osRR9FZqog23OW9Sn+3QiOl0RRAJWUI2cHq1YWAa15jWELM0Kun+SvcFcHGaPb3cTo7Q6zVHtXoN9XQPq4QW4fgKSTzKfy/jDN6Oumxcjy8tw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 022e24ac-b873-427f-4403-08d833bacd3a
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3745.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2020 12:27:47.4645 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lT+8wOMhOHiQnjfDiYKTg7qiF8hkROh1ar57PRgQS2/Z6T311IpJMaW5Hv++QVh0TT8k2ypMgDsRwva7YXZt3Qvuapx8yzhScjRflj9sZcc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4227
+Received-SPF: pass client-ip=40.107.20.108;
+ envelope-from=dplotnikov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 08:42:51
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,106 +120,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, den@openvz.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/20 9:39 AM, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> On 28/07/20 09:44, Markus Armbruster wrote:
->>>> -        assert(!DEVICE_GET_CLASS(dev)->bus_type);
->>>> +    } else if (DEVICE_GET_CLASS(dev)->bus_type) {
->>>> +        error_setg(errp, "Unexpected bus '%s' for bus-less device '%s'",
->>>> +                   DEVICE_GET_CLASS(dev)->bus_type,
->>>> +                   object_get_typename(OBJECT(dev)));
->>>> +        return false;
->>>>      }
->>>>  
->>>>      object_property_set_bool(OBJECT(dev), true, "realized", &err);
->>> Objection.  This turns an abort into something else unless the caller
->>> passes &error_abort.  The caller in your commit message's example does,
->>> others don't.
->>>
->>> Keep the unconditional abort, please.  Feel free to print something kind
->>> right before.  I doubt it's all that useful, as I believe whoever gets
->>> to fix the bug will have to figure out the code anyway, but I could be
->>> wrong.
->>>
->>
->> This was my request, actually.  We have an Error**, we should use it in
->> case this code is reached via device_add.
-> 
-> That's not actually possible.
 
-I agree this condition is not possible in current mainstream.
 
-What I'm working on is:
+On 24.07.2020 01:15, Peter Xu wrote:
+> On Wed, Jul 22, 2020 at 11:11:32AM +0300, Denis Plotnikov wrote:
+>> +static void *background_snapshot_thread(void *opaque)
+>> +{
+>> +    MigrationState *m = opaque;
+>> +    QIOChannelBuffer *bioc;
+>> +    QEMUFile *fb;
+>> +    int res = 0;
+>> +
+>> +    rcu_register_thread();
+>> +
+>> +    qemu_file_set_rate_limit(m->to_dst_file, INT64_MAX);
+>> +
+>> +    qemu_mutex_lock_iothread();
+>> +    vm_stop(RUN_STATE_PAUSED);
+>> +
+>> +    qemu_savevm_state_header(m->to_dst_file);
+>> +    qemu_mutex_unlock_iothread();
+>> +    qemu_savevm_state_setup(m->to_dst_file);
+> Is it intended to skip bql for the setup phase?  IIUC the main thread could
+> start the vm before we take the lock again below if we released it...
 
-qmp command that:
-- create a SDCard or FloppyDisk medium
-- eventually link a block driver to it
-- insert the medium into a slot
+Good point!
+>
+>> +    qemu_mutex_lock_iothread();
+>> +
+>> +    migrate_set_state(&m->state, MIGRATION_STATUS_SETUP,
+>> +                      MIGRATION_STATUS_ACTIVE);
+>> +
+>> +    /*
+>> +     * We want to save the vm state for the moment when the snapshot saving was
+>> +     * called but also we want to write RAM content with vm running. The RAM
+>> +     * content should appear first in the vmstate.
+>> +     * So, we first, save non-ram part of the vmstate to the temporary, buffer,
+>> +     * then write ram part of the vmstate to the migration stream with vCPUs
+>> +     * running and, finally, write the non-ram part of the vmstate from the
+>> +     * buffer to the migration stream.
+>> +     */
+>> +    bioc = qio_channel_buffer_new(4096);
+>> +    qio_channel_set_name(QIO_CHANNEL(bioc), "vmstate-buffer");
+>> +    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
+>> +    object_unref(OBJECT(bioc));
+>> +
+>> +    if (ram_write_tracking_start()) {
+>> +        goto failed_resume;
+>> +    }
+>> +
+>> +    if (global_state_store()) {
+>> +        goto failed_resume;
+>> +    }
+> Is this needed?  We should be always in stopped state here, right?
+Yes, seems it isn't needed
+>
+>> +
+>> +    cpu_synchronize_all_states();
+>> +
+>> +    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+>> +        goto failed_resume;
+>> +    }
+>> +
+>> +    vm_start();
+>> +    qemu_mutex_unlock_iothread();
+>> +
+>> +    while (!res) {
+>> +        res = qemu_savevm_state_iterate(m->to_dst_file, false);
+>> +
+>> +        if (res < 0 || qemu_file_get_error(m->to_dst_file)) {
+>> +            goto failed;
+>> +        }
+>> +    }
+>> +
+>> +    /*
+>> +     * By this moment we have RAM content saved into the migration stream.
+>> +     * The next step is to flush the non-ram content (vm devices state)
+>> +     * right after the ram content. The device state was stored in
+>> +     * the temporary buffer prior to the ram saving.
+>> +     */
+>> +    qemu_put_buffer(m->to_dst_file, bioc->data, bioc->usage);
+>> +    qemu_fflush(m->to_dst_file);
+>> +
+>> +    if (qemu_file_get_error(m->to_dst_file)) {
+>> +        goto failed;
+>> +    }
+>> +
+>> +    migrate_set_state(&m->state, MIGRATION_STATUS_ACTIVE,
+>> +                                 MIGRATION_STATUS_COMPLETED);
+>> +    goto exit;
+>> +
+>> +failed_resume:
+>> +    vm_start();
+>> +    qemu_mutex_unlock_iothread();
+>> +failed:
+>> +    migrate_set_state(&m->state, MIGRATION_STATUS_ACTIVE,
+>> +                      MIGRATION_STATUS_FAILED);
+>> +exit:
+>> +    ram_write_tracking_stop();
+>> +    qemu_fclose(fb);
+>> +    qemu_mutex_lock_iothread();
+>> +    qemu_savevm_state_cleanup();
+>> +    qemu_mutex_unlock_iothread();
+>> +    rcu_unregister_thread();
+>> +    return NULL;
+>> +}
+>> +
+>>   void migrate_fd_connect(MigrationState *s, Error *error_in)
+>>   {
+>>       Error *local_err = NULL;
+>> @@ -3599,8 +3694,14 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+>>           migrate_fd_cleanup(s);
+>>           return;
+>>       }
+>> -    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
+>> -                       QEMU_THREAD_JOINABLE);
+>> +    if (migrate_background_snapshot()) {
+>> +        qemu_thread_create(&s->thread, "bg_snapshot",
+> Maybe the name "live_snapshot" suites more (since the other one is
+> "live_migration")?
 
-then another qmp command that
-- eject the medium
-- unlink the block driver
-- destroy the medium
+looks like it, another good name is async_snapshot and all the related 
+function and properties should be rename accordingly
+>
+>> +                           background_snapshot_thread, s,
+>> +                           QEMU_THREAD_JOINABLE);
+>> +    } else {
+>> +        qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
+>> +                           QEMU_THREAD_JOINABLE);
+>> +    }
+>>       s->migration_thread_running = true;
+>>   }
+>>   
+> [...]
+>
+>> @@ -1151,9 +1188,11 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+>>       ram_counters.transferred += save_page_header(rs, rs->f, block,
+>>                                                    offset | RAM_SAVE_FLAG_PAGE);
+>>       if (async) {
+>> -        qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
+>> -                              migrate_release_ram() &
+>> -                              migration_in_postcopy());
+>> +        bool may_free = migrate_background_snapshot() ||
+>> +                        (migrate_release_ram() &&
+>> +                         migration_in_postcopy());
+> Does background snapshot need to free the memory?  /me confused..
+Yes, for the page copies. No, for the rest of the pages.
+>
+>> +
+>> +        qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE, may_free);
+>>       } else {
+>>           qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
+>>       }
+> [...]
+>
+>> +void ram_block_list_create(void)
+>> +{
+>> +    RAMBlock *block = NULL;
+>> +    RamBlockList *block_list = ram_bgs_block_list_get();
+>> +
+>> +    qemu_mutex_lock_ramlist();
+>> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
+>> +        memory_region_ref(block->mr);
+>> +        QLIST_INSERT_HEAD(block_list, block, bgs_next);
+>> +    }
+>> +    qemu_mutex_unlock_ramlist();
+> This kind of duplicate with ram_list.blocks itself...
+>
+>> +}
+>> +
+>> +static int page_fault_fd;
+>> +static int thread_quit_fd;
+>> +static QemuThread page_fault_thread;
+>> +
+>> +static int mem_change_wp(void *addr, uint64_t length, bool protect)
+>> +{
+>> +    struct uffdio_writeprotect wp = { 0 };
+>> +
+>> +    assert(page_fault_fd);
+>> +
+>> +    if (protect) {
+>> +        struct uffdio_register reg = { 0 };
+>> +
+>> +        reg.mode = UFFDIO_REGISTER_MODE_WP;
+>> +        reg.range.start = (uint64_t) addr;
+>> +        reg.range.len = length;
+>> +
+>> +        if (ioctl(page_fault_fd, UFFDIO_REGISTER, &reg)) {
+>> +            error_report("Can't register memeory at %p len: %"PRIu64
+>> +                         " for page fault interception", addr, length);
+>> +            return -1;
+>> +        }
+> IMHO it's better to move the register out of mem_change_wp().  mem_change_wp()
+> should be in page granularity, while we should be clear in the code that the
+> registeration is happening per-ramblock.
 
-second step is a command that takes as argument
-(block driver, bus endpoint) and automatically
-creates the envelope media and insert it to the bus.
+so, will move it
+>
+> Btw, is UFFDIO_UNREGISTER missing in the whole process?
 
-> qdev_device_add():
-> 
->     path = qemu_opt_get(opts, "bus");
->     if (path != NULL) {
-> 
-> If user passed bus=...,
-> 
->         bus = qbus_find(path, errp);
->         if (!bus) {
->             return NULL;
->         }
->         if (!object_dynamic_cast(OBJECT(bus), dc->bus_type)) {
->             error_setg(errp, "Device '%s' can't go on %s bus",
->                        driver, object_get_typename(OBJECT(bus)));
-> 
-> but the device is bus-less, error out.
-> 
->             return NULL;
->         }
->     } else if (dc->bus_type != NULL) {
-> 
-> 
-> If user did not pass bus=..., but the device needs one,
-> 
->         bus = qbus_find_recursive(sysbus_get_default(), NULL, dc->bus_type);
-> 
-> pick a default bus, or else ...
-> 
->         if (!bus || qbus_is_full(bus)) {
->             error_setg(errp, "No '%s' bus found for device '%s'",
->                        dc->bus_type, driver);
->             return NULL;
-> 
-> error out.
-> 
->         }
->     }
-> 
-> Taking a step back, I disagree with the notion that assertions should be
-> avoided just because we have an Error **.  A programming error doesn't
-> become less wrong, and continuing when the program is in disorder
-> doesn't become any safer when you add an Error ** parameter to a
-> function.
-> 
-> If you're calling for recovering from programming errors where that can
-> be done safely, we can talk about creating the necessary infrastructure.
-> Handling them as if they were errors the user can do something about can
-> only lead to confusion.
-> 
-> 
+yeah
+>
+>> +
+>> +        wp.mode = UFFDIO_WRITEPROTECT_MODE_WP;
+>> +    }
+> [...]
+>
+>> @@ -2338,6 +2881,11 @@ static void ram_list_init_bitmaps(void)
+>>               bitmap_set(block->bmap, 0, pages);
+>>               block->clear_bmap_shift = shift;
+>>               block->clear_bmap = bitmap_new(clear_bmap_size(pages, shift));
+>> +
+>> +            if (migrate_background_snapshot()) {
+>> +                block->touched_map = bitmap_new(pages);
+>> +                block->copied_map = bitmap_new(pages);
+>> +            }
+> We should be able to avoid allocating bmap & clear_bmap for snapshots.Or we
+> can also directly reuse the two bitmaps?
+>
+Probably, yes
 
