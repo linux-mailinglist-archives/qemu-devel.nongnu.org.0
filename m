@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B746232784
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:19:30 +0200 (CEST)
-Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0BA232782
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:18:07 +0200 (CEST)
+Received: from localhost ([::1]:58556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uQ5-0003IX-De
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55552)
+	id 1k0uOk-0000SM-Ra
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLV-0003eh-KB
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41367
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLZ-0003lv-0P
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56487
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLS-0001B1-BE
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:45 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLX-0001C0-As
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596060880;
+ s=mimecast20190719; t=1596060886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jhjZBzKdUPWmQBoGYYNmaWrngqD0E272Oq6g881pzZA=;
- b=Ho444FRQkwAr264d9A0hYBt09+WzksEIw3DSNR5y+iZDns+Ad8ErFi3g4myqm2GVJU55gM
- nQ7mPcedSC63omr8g28jLv8WVlR/QJrhbGt7YlfaW9YWXoETd5CnyFjtI5XHu00hPq2Uef
- uCIZGTjyzrxaOQkJORtr/AFvhtXLNxs=
+ bh=1WfN8++UZGyDXNo71dKABhAAZDe/VRBdRr0p8J5WuX0=;
+ b=dSCgztjhfYVSc7nhzYt7pJ2RCoHZbz6Bw0qzFs2bAcvZ87AU5XpfIlUATXvemQv2Sahb39
+ aAYmZFXXM643M1g6PPI4YoZ3WATEozG0IM4mJc3eNJwfy6uoDqshuIS7vSs9rGwnKUFR8M
+ 5aUjKkE1Sz4H/dwJ983ZUr4mTZsUAto=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-rQpeOYq-ObySeWVV-Vg0BA-1; Wed, 29 Jul 2020 18:14:38 -0400
-X-MC-Unique: rQpeOYq-ObySeWVV-Vg0BA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-130-3xoQ3I2MNOmslZpEyI2tcQ-1; Wed, 29 Jul 2020 18:14:44 -0400
+X-MC-Unique: 3xoQ3I2MNOmslZpEyI2tcQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D5C959
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 22:14:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0797F1893DC7
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 22:14:44 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-149.rdu2.redhat.com [10.10.116.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F9971DB;
- Wed, 29 Jul 2020 22:14:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C39A5F7D8;
+ Wed, 29 Jul 2020 22:14:38 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id D090D223D08; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
+ id D4B9C223D09; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] virtiofsd: Open lo->source while setting up root in
- sandbox=NONE mode
-Date: Wed, 29 Jul 2020 18:14:09 -0400
-Message-Id: <20200729221410.147556-5-vgoyal@redhat.com>
+Subject: [PATCH 5/5] virtiofsd: Skip setup_capabilities() in sandbox=NONE mode
+Date: Wed, 29 Jul 2020 18:14:10 -0400
+Message-Id: <20200729221410.147556-6-vgoyal@redhat.com>
 In-Reply-To: <20200729221410.147556-1-vgoyal@redhat.com>
 References: <20200729221410.147556-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:18:45
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:17:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -85,30 +84,29 @@ Cc: berrange@redhat.com, vromanso@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In sandbox=NONE mode, lo->source points to the directory which is being
-exported. We have not done any chroot()/pivot_root(). So open lo->source.
+While running as unpriviliged user setup_capabilities() fails for me.
+So we are doing some operation which requires priviliges. For now
+simply skip it in sandbox=NONE mode.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 76ef891105..a6fa816b6c 100644
+index a6fa816b6c..1a0b24cbf2 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3209,7 +3209,10 @@ static void setup_root(struct lo_data *lo, struct lo_inode *root)
-     int fd, res;
-     struct stat stat;
+@@ -3030,7 +3030,8 @@ static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
+     }
  
--    fd = open("/", O_PATH);
-+    if (lo->sandbox == SANDBOX_NONE)
-+        fd = open(lo->source, O_PATH);
-+    else
-+        fd = open("/", O_PATH);
-     if (fd == -1) {
-         fuse_log(FUSE_LOG_ERR, "open(%s, O_PATH): %m\n", lo->source);
-         exit(1);
+     setup_seccomp(enable_syslog);
+-    setup_capabilities(g_strdup(lo->modcaps));
++    if (lo->sandbox != SANDBOX_NONE)
++       setup_capabilities(g_strdup(lo->modcaps));
+ }
+ 
+ /* Set the maximum number of open file descriptors */
 -- 
 2.25.4
 
