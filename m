@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CE6231919
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 07:29:30 +0200 (CEST)
-Received: from localhost ([::1]:55538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B7A2318DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 07:06:07 +0200 (CEST)
+Received: from localhost ([::1]:41720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0eef-000535-6C
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 01:29:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
+	id 1k0eI1-000691-Nf
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 01:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k0edR-0003xn-3y; Wed, 29 Jul 2020 01:28:13 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:57235)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k0edO-00013P-3T; Wed, 29 Jul 2020 01:28:12 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BGhrt4Xkzz9sRN; Wed, 29 Jul 2020 15:27:58 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1596000478;
- bh=u2H9nUDtULPnaLk2QmdvvA2EoyWj96L7acMienJVhls=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=liTL4arLlOUOp1jmCfDoXzGlgACMYfsWagWtKy5QzF1iIfAAO/PRx3g6gasLxxiDV
- JccrvBwiZFVhnRxFuxzoeOsM3i685TO8jcxf3gKbk+R13FW4FUnDY7iLVRjHxbsk4O
- gM8omNGjtQeGQh/BqHOGMGUHCk/pTJx89FYqbrr0=
-Date: Wed, 29 Jul 2020 12:55:45 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH] hw: add compat machines for 5.2
-Message-ID: <20200729025545.GK84173@umbus.fritz.box>
-References: <20200728094645.272149-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0eH7-0005f9-P1; Wed, 29 Jul 2020 01:05:09 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0eH5-0006Gj-RI; Wed, 29 Jul 2020 01:05:09 -0400
+Received: by mail-io1-xd43.google.com with SMTP id j8so10861893ioe.9;
+ Tue, 28 Jul 2020 22:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sl/azBJAOJa+e97dNS9RfOQn6bNo87whOtH9SDS9pak=;
+ b=UTubwXnjmguCIMh1DEzzk2hQL2ziNpn/Pqan1iWKV4WnkGrNUB1v1qLRgSwXK0hldg
+ MZGrOSEb5RQNKEmI8cLrkEkNNuFceUsVfLUc4KDD92/iye7+Noa87o2TUWb8+k71uAYJ
+ mvpMGYGx2JG/WTSXIK9Tni2QZmu10lcFtyV5K5gq7QQwnqntOH5L2+odr9a+UCLNoqs1
+ ZpfkllwuGWnZJ35OxD9j8Hdw2WmZrD4p2+iebmb3qi4ezRgHHo3rqeE/uk8bGMD8Rk+e
+ 5duw49PlpeTAx72aU5T68vOYBwOkSg8DGOr9F+i5elbomal5A9mSGNksZBcBed1s1weW
+ EC7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sl/azBJAOJa+e97dNS9RfOQn6bNo87whOtH9SDS9pak=;
+ b=PBtc7MIbapEVZT55AMBlZvmOy7oAKtAY6nM+slFTWB1V7gMQ6UbCV+ZpPzFnQ1L3C/
+ GvYl5djxEPHOhKmc0B/f3gbnUj40wVztnER7V0zy0VBXPfocnrYtww1qEbmaBPiytoqx
+ ja7OUkdO+JwBjWRLm76QicXDkchEDFItE1c55CMIgVWpkdJ/UlQ2H5wAfgOfFD1o7Jcl
+ dlqUlT3uaejE897WNlXnf30054OobbpNmY9T6bhF/kJViEdhEnQOF45lD/Gs9baEP+9J
+ shoUG+0a798VGmir54bqWQuDI6sbW/z0nEDcWqhzutzkhnyW8tynjsJiMIrh4KnbALba
+ F40w==
+X-Gm-Message-State: AOAM533jlBKNDuhKinyRKUBCvl3AUu4HTVQJfx3OHHzZhacMtR55/p08
+ NyV4/9qSo9SjUdzBv9B0lVfpayzfnLZu1n+P9O8=
+X-Google-Smtp-Source: ABdhPJw6cjJSLsMc8uq3u7Eg4z9fpb6fL9u2TgSjZvZ6Fl1qnvG5iOKUnU8c05UeYm9GmCl24xu8GuwQoRrvLa84gZw=
+X-Received: by 2002:a02:84c1:: with SMTP id f59mr28272643jai.106.1595999105956; 
+ Tue, 28 Jul 2020 22:05:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zPXeIxDajdrcF2en"
-Content-Disposition: inline
-In-Reply-To: <20200728094645.272149-1-cohuck@redhat.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <1594357499-29068-1-git-send-email-bmeng.cn@gmail.com>
+ <1594357499-29068-5-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKM1m2j15ncbcW0rp5fk6FmbJ20uWOYUC40+v9PG=Hu7yQ@mail.gmail.com>
+ <CAEUhbmWxCMZG+kdyqeSBrJPRf0Jvb7a4AcADuFXpRwQ7fb8zDA@mail.gmail.com>
+ <CAEUhbmVJ94QF3UyEZUwcn-2yS4M3tKR-KOb4xPwSCwf9uRs-ww@mail.gmail.com>
+ <CAKmqyKNJA0_5Qsfe6FZXSgNydxSHRXQQtqk8nB6-kR-yNpFHCQ@mail.gmail.com>
+ <CAEUhbmXzufivy-7Qm-Nr6j6U9ynGOUgzV7XjXYDL_Ewcm1oj_g@mail.gmail.com>
+ <CAKmqyKN-Ez_fE6oBfczxsGVyyRpeEE8go0pB-C7i6a4SALj8uA@mail.gmail.com>
+ <CAEUhbmX5rcMuD8F30wdgYrvUq6NU84t5o=VkgKqwvwyfmA9e+w@mail.gmail.com>
+In-Reply-To: <CAEUhbmX5rcMuD8F30wdgYrvUq6NU84t5o=VkgKqwvwyfmA9e+w@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 28 Jul 2020 21:54:52 -0700
+Message-ID: <CAKmqyKNDTOKeb+5h5NuJcYWMRoS24H=ski6Jau84uEEx46Ep9Q@mail.gmail.com>
+Subject: Re: [PATCH v4 4/7] hw/riscv: Use pre-built bios image of generic
+ platform for virt & sifive_u
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,279 +86,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jul 28, 2020 at 9:51 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Alistair,
+>
+> On Wed, Jul 29, 2020 at 2:26 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Tue, Jul 28, 2020 at 8:46 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Hi Alistair,
+> > >
+> > > On Tue, Jul 28, 2020 at 11:39 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > > >
+> > > > On Wed, Jul 15, 2020 at 9:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > >
+> > > > > Hi Alistair,
+> > > > >
+> > > > > On Mon, Jul 13, 2020 at 9:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > >
+> > > > > > On Sun, Jul 12, 2020 at 1:34 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > > > > > >
+> > > > > > > On Thu, Jul 9, 2020 at 10:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > > > >
+> > > > > > > > From: Bin Meng <bin.meng@windriver.com>
+> > > > > > > >
+> > > > > > > > Update virt and sifive_u machines to use the opensbi fw_dynamic bios
+> > > > > > > > image built for the generic FDT platform.
+> > > > > > > >
+> > > > > > > > Remove the out-of-date no longer used bios images.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > > > > > Reviewed-by: Anup Patel <anup@brainfault.org>
+> > > > > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > > > >
+> > > > > > > This patch seems to break 32-bit Linux boots on the sifive_u and virt machines.
+> > > > > > >
+> > > > > >
+> > > > > > It looks only Linux boot on sifive_u is broken. On our side, we have
+> > > > > > been using VxWorks to test 32-bit OpenSBI on sifive_u so this issue
+> > > > > > gets unnoticed. I will take a look.
+> > > > >
+> > > > > I've figured out the issue of 32-bit Linux booting failure on
+> > > > > sifive_u. A patch has been sent to Linux upstream:
+> > > > > http://lists.infradead.org/pipermail/linux-riscv/2020-July/001213.html
+> > > >
+> > > > Thanks for that. What change in QEMU causes this failure though?
+> > > >
+> > >
+> > > There is nothing wrong in QEMU.
+> >
+> > There is. This patch causes a regression for 32-bit Linux boot on the
+> > sifive_u. Your v5 has not addressed this.
+>
+> The 32-bit Linux boot failure was fixed by:
+> http://lists.infradead.org/pipermail/linux-riscv/2020-July/001213.html
+>
+> What additional issue did you see?
+>
+> >
+> > With this patch, the Linux boot stops here:
+> >
+> > OpenSBI v0.8
+> >    ____                    _____ ____ _____
+> >   / __ \                  / ____|  _ \_   _|
+> >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> >         | |
+> >         |_|
+> >
+> > Platform Name       : SiFive HiFive Unleashed A00
+> > Platform Features   : timer,mfdeleg
+> > Platform HART Count : 4
+> > Boot HART ID        : 3
+> > Boot HART ISA       : rv64imafdcsu
+>
+> This is a 64-bit hardware.
 
---zPXeIxDajdrcF2en
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You are right. It's not 32-bit, that was my mistake. I'm used to my
+first test being 32-bit, but in this case it's not.
 
-On Tue, Jul 28, 2020 at 11:46:45AM +0200, Cornelia Huck wrote:
-> Add 5.2 machine types for arm/i440fx/q35/s390x/spapr.
->=20
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+It looks like this commit instead breaks the sifive_u for 64-bit with
+the 5.3 kernel.
 
-ppc parts
+>
+> > BOOT HART Features  : pmp,scounteren,mcounteren
+> > BOOT HART PMP Count : 16
+> > Firmware Base       : 0x80000000
+> > Firmware Size       : 116 KB
+> > Runtime SBI Version : 0.2
+> >
+> > MIDELEG : 0x0000000000000222
+> > MEDELEG : 0x000000000000b109
+> > PMP0    : 0x0000000080000000-0x000000008001ffff (A)
+> > PMP1    : 0x0000000000000000-0xffffffffffffffff (A,R,W,X)
+> > [    0.000000] OF: fdt: Ignoring memory range 0x80000000 - 0x80200000
+> > [    0.000000] Linux version 5.3.0 (oe-user@oe-host) (gcc version
+>
+> It seems that you are using quite an old kernel. Can you please try
+> the latest version?
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+It is an old kernel, but old kernels should still keep working (or we
+should at least know why they don't)
 
-> ---
->  hw/arm/virt.c              |  9 ++++++++-
->  hw/core/machine.c          |  3 +++
->  hw/i386/pc.c               |  3 +++
->  hw/i386/pc_piix.c          | 14 +++++++++++++-
->  hw/i386/pc_q35.c           | 13 ++++++++++++-
->  hw/ppc/spapr.c             | 15 +++++++++++++--
->  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
->  include/hw/boards.h        |  3 +++
->  include/hw/i386/pc.h       |  3 +++
->  9 files changed, 71 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index ecfee362a182..acf9bfbeceaf 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2546,10 +2546,17 @@ static void machvirt_machine_init(void)
->  }
->  type_init(machvirt_machine_init);
-> =20
-> +static void virt_machine_5_2_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
-> +
->  static void virt_machine_5_1_options(MachineClass *mc)
->  {
-> +    virt_machine_5_2_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->  }
-> -DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
-> +DEFINE_VIRT_MACHINE(5, 1)
-> =20
->  static void virt_machine_5_0_options(MachineClass *mc)
->  {
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 2f881d6d75b8..a24fe18ab6a6 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -28,6 +28,9 @@
->  #include "hw/mem/nvdimm.h"
->  #include "migration/vmstate.h"
-> =20
-> +GlobalProperty hw_compat_5_1[] =3D {};
-> +const size_t hw_compat_5_1_len =3D G_N_ELEMENTS(hw_compat_5_1);
-> +
->  GlobalProperty hw_compat_5_0[] =3D {
->      { "virtio-balloon-device", "page-poison", "false" },
->      { "vmport", "x-read-set-eax", "off" },
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 3d419d599127..1733b5341a62 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -97,6 +97,9 @@
->  #include "fw_cfg.h"
->  #include "trace.h"
-> =20
-> +GlobalProperty pc_compat_5_1[] =3D {};
-> +const size_t pc_compat_5_1_len =3D G_N_ELEMENTS(pc_compat_5_1);
-> +
->  GlobalProperty pc_compat_5_0[] =3D {};
->  const size_t pc_compat_5_0_len =3D G_N_ELEMENTS(pc_compat_5_0);
-> =20
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index b789e83f9acb..c5ba70ca17cb 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -426,7 +426,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
->      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
->  }
-> =20
-> -static void pc_i440fx_5_1_machine_options(MachineClass *m)
-> +static void pc_i440fx_5_2_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
->      pc_i440fx_machine_options(m);
-> @@ -435,6 +435,18 @@ static void pc_i440fx_5_1_machine_options(MachineCla=
-ss *m)
->      pcmc->default_cpu_version =3D 1;
->  }
-> =20
-> +DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
-> +                      pc_i440fx_5_2_machine_options);
-> +
-> +static void pc_i440fx_5_1_machine_options(MachineClass *m)
-> +{
-> +    pc_i440fx_5_2_machine_options(m);
-> +    m->alias =3D NULL;
-> +    m->is_default =3D false;
-> +    compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-> +    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-> +}
-> +
->  DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
->                        pc_i440fx_5_1_machine_options);
-> =20
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index a3e607a544a5..0cb9c18cd44d 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -353,7 +353,7 @@ static void pc_q35_machine_options(MachineClass *m)
->      m->max_cpus =3D 288;
->  }
-> =20
-> -static void pc_q35_5_1_machine_options(MachineClass *m)
-> +static void pc_q35_5_2_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
->      pc_q35_machine_options(m);
-> @@ -361,6 +361,17 @@ static void pc_q35_5_1_machine_options(MachineClass =
-*m)
->      pcmc->default_cpu_version =3D 1;
->  }
-> =20
-> +DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
-> +                   pc_q35_5_2_machine_options);
-> +
-> +static void pc_q35_5_1_machine_options(MachineClass *m)
-> +{
-> +    pc_q35_5_2_machine_options(m);
-> +    m->alias =3D NULL;
-> +    compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-> +    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-> +}
-> +
->  DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
->                     pc_q35_5_1_machine_options);
-> =20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 0ae293ec9431..1c8d0981b382 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4579,15 +4579,26 @@ static void spapr_machine_latest_class_options(Ma=
-chineClass *mc)
->      }                                                                \
->      type_init(spapr_machine_register_##suffix)
-> =20
-> +/*
-> + * pseries-5.2
-> + */
-> +static void spapr_machine_5_2_class_options(MachineClass *mc)
-> +{
-> +    /* Defaults for the latest behaviour inherited from the base class */
-> +}
-> +
-> +DEFINE_SPAPR_MACHINE(5_2, "5.2", true);
-> +
->  /*
->   * pseries-5.1
->   */
->  static void spapr_machine_5_1_class_options(MachineClass *mc)
->  {
-> -    /* Defaults for the latest behaviour inherited from the base class */
-> +    spapr_machine_5_2_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->  }
-> =20
-> -DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
-> +DEFINE_SPAPR_MACHINE(5_1, "5.1", false);
-> =20
->  /*
->   * pseries-5.0
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 403d30e13bca..3dc22737a389 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -804,14 +804,26 @@ bool css_migration_enabled(void)
->      }                                                                   =
-      \
->      type_init(ccw_machine_register_##suffix)
-> =20
-> +static void ccw_machine_5_2_instance_options(MachineState *machine)
-> +{
-> +}
-> +
-> +static void ccw_machine_5_2_class_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_CCW_MACHINE(5_2, "5.2", true);
-> +
->  static void ccw_machine_5_1_instance_options(MachineState *machine)
->  {
-> +    ccw_machine_5_2_instance_options(machine);
->  }
-> =20
->  static void ccw_machine_5_1_class_options(MachineClass *mc)
->  {
-> +    ccw_machine_5_2_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->  }
-> -DEFINE_CCW_MACHINE(5_1, "5.1", true);
-> +DEFINE_CCW_MACHINE(5_1, "5.1", false);
-> =20
->  static void ccw_machine_5_0_instance_options(MachineState *machine)
->  {
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 426ce5f625a4..bc5b82ad209e 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -319,6 +319,9 @@ struct MachineState {
->      } \
->      type_init(machine_initfn##_register_types)
-> =20
-> +extern GlobalProperty hw_compat_5_1[];
-> +extern const size_t hw_compat_5_1_len;
-> +
->  extern GlobalProperty hw_compat_5_0[];
->  extern const size_t hw_compat_5_0_len;
-> =20
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 3d7ed3a55e30..fe52e165b27c 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -193,6 +193,9 @@ void pc_system_firmware_init(PCMachineState *pcms, Me=
-moryRegion *rom_memory);
->  void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
->                         const CPUArchIdList *apic_ids, GArray *entry);
-> =20
-> +extern GlobalProperty pc_compat_5_1[];
-> +extern const size_t pc_compat_5_1_len;
-> +
->  extern GlobalProperty pc_compat_5_0[];
->  extern const size_t pc_compat_5_0_len;
-> =20
+>
+> > 9.2.0 (GCC)) #1 SMP Thu Sep 19 18:34:52 UTC 2019
+> > [    0.000000] earlycon: sbi0 at I/O port 0x0 (options '')
+> > [    0.000000] printk: bootconsole [sbi0] enabled
+> > [    0.000000] initrd not found or empty - disabling initrd
+> > [    0.000000] Zone ranges:
+> > [    0.000000]   DMA32    [mem 0x0000000080200000-0x00000000bfffffff]
+> > [    0.000000]   Normal   empty
+> > [    0.000000] Movable zone start for each node
+> > [    0.000000] Early memory node ranges
+> > [    0.000000]   node   0: [mem 0x0000000080200000-0x00000000bfffffff]
+> > [    0.000000] Initmem setup node 0 [mem 0x0000000080200000-0x00000000bfffffff]
+> > [    0.000000] OF: fdt: Invalid device tree blob header
+> > [    0.000000] software IO TLB: mapped [mem 0xbb1fe000-0xbf1fe000] (64MB)
+> >
+> > Without this patch I can boot all the way to looking for a rootFS.
+> >
+> > Please don't send new versions of patches without addresses regressions.
+>
+> The patches were sent after addressing all regressions you reported
+> (well the 32-bit Linux booting issue is actually not a QEMU
+> regression, but one that exists in the Linux kernel side for a long
+> time).
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Yep, that is my mistake. Sorry about the confusion.
 
---zPXeIxDajdrcF2en
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> I just tested 64-bit Linux boot on both virt and sifive_u, and they
+> both can boot all the way to looking for a root fs.
 
------BEGIN PGP SIGNATURE-----
+Can you test with older kernels?
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8g5TEACgkQbDjKyiDZ
-s5KiTRAAyqYIAF454xAkxXmjLD24v3wRP1OgCvRRu3ndcLyhlqVGSD8GlaWnObPa
-ZFoKEcfdRyAB8p4GM6e/P+/PvSm5scf1AWr5pICymopKs/3yxWzetGOseCA3HOC+
-gul9hon3k0H2qgu4AzO7Rpjfb6TzZrTxbieFp7CVk3NRsyxkt3/jfR/CRsMjJlKD
-WLouyxvoO05l2tDmM6F0pdjhg4FW6G/rf5UJGxCWM6X+YfebtxMUXGvb/DoRdCfl
-urhO/omy/1iaqsJbeWFGNCW7g2rILV16Iwn6dV/xMYM92hGRRGxgRNle9Az6VKaO
-EjznikNVQpOu5kRGpULPaRiWDU+GtALTTAJ2UzWz96sCgbqj7bMNUnb2zCAUSLt+
-LS0Oy6Q1d/XxPE/Fky/Gvug38H1Q+T8oTkDlNAMZVT/QvLE8nzIJoEs0qb+EHAd3
-IMlrwtomMBtLSkxh0UMmJKsd5Y85zrF5Ux1yOpkPdjpHP5QTVNnEyeFpJfxWISkI
-XhyeV6EJIInrs2bTkYq3y6PUduiDCXExiiK0ld7R/HNUBaLkSHT5h+8JQWo7+Z0x
-sNFDFZLkndeydEN0ELf9KA2OdSLybUgXue0ClYTlA5a6tTT5VVHrJRvxEThYYb7X
-xZI0IHkZoewToyzcLg7WdbGOYmMZaezKAKvcSnfELKHhqPsb/Ns=
-=mo8B
------END PGP SIGNATURE-----
+If we can't support older kernels with the default bios option we at
+least need to know why and list that in the release notes.
 
---zPXeIxDajdrcF2en--
+Alistair
+
+>
+> Regards,
+> Bin
 
