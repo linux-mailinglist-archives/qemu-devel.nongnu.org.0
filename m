@@ -2,108 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DCC23221E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 18:05:40 +0200 (CEST)
-Received: from localhost ([::1]:49674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD10232225
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 18:07:32 +0200 (CEST)
+Received: from localhost ([::1]:56094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0oaJ-00030R-R1
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 12:05:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55306)
+	id 1k0oc7-0005qQ-BN
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 12:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0oVX-0005RW-HH
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 12:00:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:39935)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0oVT-0000Zo-Ic
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 12:00:43 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N49Yn-1kiV8m24en-01020U; Wed, 29 Jul 2020 18:00:29 +0200
-Subject: Re: [PATCH 3/4] linux-user: Add support for a group of btrfs ioctls
- used to manipulate with devices
-To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
-References: <20200709155203.21106-1-Filip.Bozuta@syrmia.com>
- <20200709155203.21106-4-Filip.Bozuta@syrmia.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c7106660-b59d-40c0-5040-25e9caee2fc8@vivier.eu>
-Date: Wed, 29 Jul 2020 18:00:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1k0oW6-0005yu-MF; Wed, 29 Jul 2020 12:01:18 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1k0oW4-0000of-Oo; Wed, 29 Jul 2020 12:01:18 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id e22so2237760pjt.3;
+ Wed, 29 Jul 2020 09:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=eQ1OxP1lKc8SGWwbI3pM/V5EqsHqjkegymqwk7prfEw=;
+ b=BrAK7UTlgN90IrLfom3FPWuTUCmE/gXNIrb0tRyWdptbVh6lxdwwwV3b+auMoOGcFT
+ XRfMkYWaEiZ7BUL0j+yAQ/D8fnuwV0hDcQCWsCQ+iPdEFi+tYuhKh8CCKrHFPjCnOBuA
+ VktsHUVZsAF4KSzXFXNeKsjuqVz+KwN9MImX8GO74RLL12T3WreB6Kx/iQf6tkPHtOjn
+ IR30pFSi2JMl8E09GBe11qdaeSz2nyL+GOauPtCWRWA8ZfmmfsUmCwPpnufYnpvLF/Qw
+ aifzG7OBcnP7OCJJ98pjv6v/3UM3HAXlkCUfAcrmcSC2pa7mwowejoCXePXVzfK7wJ93
+ ZsGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=eQ1OxP1lKc8SGWwbI3pM/V5EqsHqjkegymqwk7prfEw=;
+ b=KbGvnZ5ySuprwgx3HQgldfMV/m57l0n8gRlEVtw8u0ineT2zf/Y6ZVWdG3gKhsufpu
+ crDP/VrpNVEC80SQQInhmu2YdDixbabsmQTQOxDzOJ94N0vUNdMVedowNvtx3AfVv7on
+ UUqi4zwSLOoKNlTlQtndacgOWfjIZXp871ipOD7ohGPkUp4MUHwwM02IYNO3vU78dQqZ
+ GuKMNCvatPHjD2KfJm7rODWhTKuj3yMofEV9fn10KUt7RkateiSHT88h2CNW0WLH+XnC
+ QxphQuoPNCooNnsM7tgDe0lyUB7unVETXfXAejFPXMNUOkaH7Pf7b5qF4J1IL1+t4xkR
+ UAkA==
+X-Gm-Message-State: AOAM530T5AiGIKsfeow0SWlqvW/LNh4uyrh8xPj3qeBWjn25WPs6Onlz
+ GOJWVPj5JbNUg0TGMHqr+b4=
+X-Google-Smtp-Source: ABdhPJwc36ovBMiUwDfwDVUVGbN37arx8mLLW5kO/7hf8mNJWN2j7H5Xu6CwPsi5f63UY4RJ7f+L+Q==
+X-Received: by 2002:a17:90b:84:: with SMTP id
+ bb4mr2302932pjb.115.1596038474466; 
+ Wed, 29 Jul 2020 09:01:14 -0700 (PDT)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id lx16sm2863349pjb.1.2020.07.29.09.01.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 29 Jul 2020 09:01:13 -0700 (PDT)
+Date: Thu, 30 Jul 2020 01:01:12 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 11/16] hw/block/nvme: be consistent about zeros vs zeroes
+Message-ID: <20200729160112.GJ14876@localhost.localdomain>
+References: <20200720113748.322965-1-its@irrelevant.dk>
+ <20200720113748.322965-12-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20200709155203.21106-4-Filip.Bozuta@syrmia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:p73qye1jQW/N8ZWl7y1NCGOj9zIaRWmvYOJBwiNEFmr5LSakugF
- 94VQf1JIRGa0B1tHeQxBr0CMQQlepQiVHBlXVGDss8dzV3EwjH9NGfcvd70wzqm25ep0U+G
- w/ksJ7thRY525vQDOd4VCHuaLLPbrasS6uYvQldEMFE1/+0+rj73m5HRGmOAYiefWFXLeuG
- V+soCubzm07ruCxFkbU7w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xBotKHxK2gA=:VHdGMXIBbjov5UtuL+b5vD
- NWuPU0Z9eXKfGwbytT2/AQ9TR8ypvGSqSJssxVvyDDnmdE+dcmQWCx8S8BhcKLHFVDnM3CaPy
- iEVMtamlMJt409eujcVsV/OtvEKvvb1FutBUimZgel588BiO2fOsrCyPhMB3HvVDjopErJ/lJ
- aUN6fODHRLSi75zgb+VRHNLwtjPswQcoFCS8bmPjEPiuRtigSEokm7K0hr4tASWodw5AJLkdc
- YfFXuNEOWyDukx7Hpmhw4cv9RxFxQFNe6vEEkQrMvGgDrCXNkP2pL4mhDSa2Bm6mFhwJch8nr
- Er210IDp0NN2IRf7UGTbzdmOAnavyvhB8PDakAcLchR+jYjBDdz/RUbRTuu1eSIRR+nImppsn
- WM9qM0EX1BnSv7fypyUVen6U1w9aONFFcAyEqqmrShZgSPa4WSnZo7KATBFP5Y0cXyNWoAMKz
- 2opbGid7KCoKXaSjj2YjsCUIDV5WLFqKjVxANj2nKKvoxI6B1UnOF97TjQ6pzAST9NN49K9zl
- fKxsyb0GpxAkji9RnaAsoev38RvZ845rg84+/7RMuxd4tXVq87pLVzkrBmG3gSKztL8WeqYIj
- eNsmnh1VQoekkK0SUlpuvwgmg+tfTeeaIq93c9mesaWjwKT4dLsNoC7Z/B9m8mQO2F3F7Ru0t
- mPs0F5kGB8SOIx6R3XvGtF5hBt+nIAXILa1UVKAg7bM78MUmleHGOGdnFW8OZMhsO6g9YBwcG
- 6R09Z6P8bCA0wVDNIYZd5x0TL3oyhNyjVnYG8UI/oCjHhJhoOPvvBa68v0+yf4ZculIB8489r
- 2PfXJJuTYlkFJJGBeKtOLDJ1ksdZqLrj4N7RcQbS+5Faa1ohOic9eO2x9jfUEgvBQ4lfAs8
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 12:00:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Disposition: inline
+In-Reply-To: <20200720113748.322965-12-its@irrelevant.dk>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1029.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,190 +85,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/07/2020 à 17:52, Filip Bozuta a écrit :
-> This patch implements functionality for following ioctls:
-> 
-> BTRFS_IOC_SCAN_DEV - Scanning device for a btrfs filesystem
-> 
->     Scan a device for a btrfs filesystem. The device that is to
->     be scanned is passed in the ioctl's third argument which
->     represents a pointer to a 'struct ioc_vol_args' (which was
->     mentioned in a previous patch). Before calling this ioctl,
->     the name field of this structure should be filled with the
->     aproppriate name value which represents a path for the device.
->     If the device contains a btrfs filesystem, the ioctl returns 0,
->     otherwise a negative value is returned.
-> 
-> BTRFS_IOC_ADD_DEV - Adding a device to a btrfs filesystem
-> 
->     Add a device to a btrfs filesystem. The device that is to be
->     added is passed in the ioctl's third argument which represents
->     a pointer to a 'struct ioc_vol_args' (which was mentioned in
->     a previous patch). Before calling this ioctl, the name field of
->     this structure should be filled with the aproppriate name value
->     which represents a path for the device.
-> 
-> BTRFS_IOC_RM_DEV - Removing a device from a btrfs filesystem
-> 
->     Remove a device from a btrfs filesystem. The device that is to be
->     removed is passed in the ioctl's third argument which represents
->     a pointer to a 'struct ioc_vol_args' (which was mentioned in
->     a previous patch). Before calling this ioctl, the name field of
->     this structure should be filled with the aproppriate name value
->     which represents a path for the device.
-> 
-> BTRFS_IOC_DEV_INFO - Getting information about a device
-> 
->     Obtain information for device in a btrfs filesystem. The information
->     is gathered in the ioctl's third argument which represents a pointer
->     to a following structure type:
-> 
->     struct btrfs_ioctl_dev_info_args {
-> 	__u64 devid;				/* in/out */
-> 	__u8 uuid[BTRFS_UUID_SIZE];		/* in/out */
-> 	__u64 bytes_used;			/* out */
-> 	__u64 total_bytes;			/* out */
-> 	__u64 unused[379];			/* pad to 4k */
-> 	__u8 path[BTRFS_DEVICE_PATH_NAME_MAX];	/* out */
->     };
-> 
->     Before calling this ioctl, field "devid" should be set with the id value
->     for the device for which the information is to be obtained. If this field
->     is not aproppriately set, the errno ENODEV ("No such device") is returned.
-> 
-> BTRFS_IOC_GET_DEV_STATS - Getting device statistics
-> 
->     Obtain stats informatin for device in a btrfs filesystem. The information
->     is gathered in the ioctl's third argument which represents a pointer to
->     a following structure type:
-> 
->     struct btrfs_ioctl_get_dev_stats {
-> 	__u64 devid;				/* in */
-> 	__u64 nr_items;				/* in/out */
-> 	__u64 flags;				/* in/out */
-> 
-> 	/* out values: */
-> 	__u64 values[BTRFS_DEV_STAT_VALUES_MAX];
-> 
-> 	/*
-> 	 * This pads the struct to 1032 bytes. It was originally meant to pad to
-> 	 * 1024 bytes, but when adding the flags field, the padding calculation
-> 	 * was not adjusted.
-> 	 */
-> 	__u64 unused[128 - 2 - BTRFS_DEV_STAT_VALUES_MAX];
->     };
-> 
->     Before calling this ioctl, field "devid" should be set with the id value
->     for the device for which the information is to be obtained. If this field
->     is not aproppriately set, the errno ENODEV ("No such device") is returned.
-> 
-> BTRFS_IOC_FORGET_DEV - Remove unmounted devices
-> 
->     Search and remove all stale devices (devices which are not mounted).
->     The third ioctl argument is a pointer to a 'struct btrfs_ioctl_vol_args'.
->     The ioctl call will release all unmounted devices which match the path
->     which is specified in the "name" field of the structure. If an empty
->     path ("") is specified, all unmounted devices will be released.
-> 
-> Implementation notes:
-> 
->     Ioctls BTRFS_IOC_DEV_INFO and BTRFS_IOC_GET_DEV_STATS use types
->     'struct btrfs_ioctl_dev_info_args' and ' struct btrfs_ioctl_get_dev_stats'
->     as third argument types. That is the reason why corresponding structure
->     definitions were added in file 'linux-user/syscall_types.h'.
->     Since the thunk type for 'struct ioc_vol_args' was already added in a
->     previous patch, the rest of the implementation was straightforward.
-> 
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-> ---
->  linux-user/ioctls.h        | 24 ++++++++++++++++++++++++
->  linux-user/syscall_defs.h  | 12 ++++++++++++
->  linux-user/syscall_types.h | 16 ++++++++++++++++
->  3 files changed, 52 insertions(+)
-> 
-> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 2422675dd0..c20bd97736 100644
-> --- a/linux-user/ioctls.h
-> +++ b/linux-user/ioctls.h
-> @@ -178,6 +178,22 @@
->       IOCTL(BTRFS_IOC_SNAP_CREATE, IOC_W,
->             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
->  #endif
-> +#ifdef BTRFS_IOC_SCAN_DEV
-> +     IOCTL(BTRFS_IOC_SCAN_DEV, IOC_W,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
-> +#endif
-> +#ifdef BTRFS_IOC_FORGET_DEV
-> +     IOCTL(BTRFS_IOC_FORGET_DEV, IOC_W,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
-> +#endif
-> +#ifdef BTRFS_IOC_ADD_DEV
-> +     IOCTL(BTRFS_IOC_ADD_DEV, IOC_W,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
-> +#endif
-> +#ifdef BTRFS_IOC_RM_DEV
-> +     IOCTL(BTRFS_IOC_RM_DEV, IOC_W,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
-> +#endif
->  #ifdef BTRFS_IOC_SUBVOL_CREATE
->       IOCTL(BTRFS_IOC_SUBVOL_CREATE, IOC_W,
->             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
-> @@ -192,6 +208,14 @@
->  #ifdef BTRFS_IOC_SUBVOL_SETFLAGS
->       IOCTL(BTRFS_IOC_SUBVOL_SETFLAGS, IOC_W, MK_PTR(TYPE_ULONGLONG))
->  #endif
-> +#ifdef BTRFS_IOC_DEV_INFO
-> +     IOCTL(BTRFS_IOC_DEV_INFO, IOC_RW,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_dev_info_args)))
-> +#endif
-> +#ifdef BTRFS_IOC_GET_DEV_STATS
-> +     IOCTL(BTRFS_IOC_GET_DEV_STATS, IOC_RW,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_dev_stats)))
-> +#endif
->  #ifdef BTRFS_IOC_GET_SUBVOL_INFO
->       IOCTL(BTRFS_IOC_GET_SUBVOL_INFO, IOC_R,
->             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_subvol_info_args)))
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 21d8909fd6..20c03cd145 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -970,6 +970,14 @@ struct target_rtc_pll_info {
->  /* btrfs ioctls */
->  #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOW(BTRFS_IOCTL_MAGIC, \
->                                                  1, struct btrfs_ioctl_vol_args)
-> +#define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-> +                                                4, struct btrfs_ioctl_vol_args)
-> +#define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-> +                                                5, struct btrfs_ioctl_vol_args)
-> +#define TARGET_BTRFS_IOC_ADD_DEV                TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-> +                                               10, struct btrfs_ioctl_vol_args)
-> +#define TARGET_BTRFS_IOC_RM_DEV                 TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-> +                                               11, struct btrfs_ioctl_vol_args)
->  #define TARGET_BTRFS_IOC_SUBVOL_CREATE          TARGET_IOW(BTRFS_IOCTL_MAGIC, \
->                                                 14, struct btrfs_ioctl_vol_args)
->  #define TARGET_BTRFS_IOC_SNAP_DESTROY           TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-> @@ -978,6 +986,10 @@ struct target_rtc_pll_info {
->                                                             25, abi_ullong)
->  #define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, \
->                                                             26, abi_ullong)
-> +#define TARGET_BTRFS_IOC_DEV_INFO               TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-> +                                          30, struct btrfs_ioctl_dev_info_args)
-> +#define TARGET_BTRFS_IOC_GET_DEV_STATS          TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-> +                                          52, struct btrfs_ioctl_get_dev_stats)
->  #define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IOR(BTRFS_IOCTL_MAGIC, \
->                                     60, struct btrfs_ioctl_get_subvol_info_args)
->  
-
-TARGET_IOWU() and TARGET_IOWRU()
-
-with that changed:
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
 Thanks,
-Laurent
 
