@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21F9232772
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:13:18 +0200 (CEST)
-Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB1B232767
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:11:47 +0200 (CEST)
+Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uK5-0000Iy-Rt
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53974)
+	id 1k0uIc-0005dM-SC
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uEG-0007rE-Se; Wed, 29 Jul 2020 18:07:16 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:34812)
+ id 1k0uEE-0007mA-R7; Wed, 29 Jul 2020 18:07:14 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:34814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0uEB-000061-FD; Wed, 29 Jul 2020 18:07:16 -0400
+ id 1k0uEB-00006F-OZ; Wed, 29 Jul 2020 18:07:14 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 9A286BFD7B;
- Wed, 29 Jul 2020 22:06:48 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 0AB80BFD95;
+ Wed, 29 Jul 2020 22:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596060408;
- bh=13gLR0nxXCYQ5uI4XwvKB+Igk3iPm/yL5WVNoA8QheY=;
+ s=default; t=1596060409;
+ bh=f4o65hK/qlwKgqBdl9qivIMOxb6C9aGrDxihNb44Vy4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sMdcv1plczxqbRheXbJ121z2iry0ULUmwWkN+O9dXDKAfvpq1ad8rXEK+lstUBHU1
- 3y/eanxJRcCEeik9Y0+bs4QI+ICNHT0Kesm2zJfxl4SRXmDiChB/zdLk6YeK1Eu0VF
- 3m2XiWgdDB77GNl0eGzDvmQDoJcL1frPrejqjbJYIR+7jR6RWME3zbmoGJ/qkydWRe
- w/KU3fo642D4bXf422EdxZ/S+IYiLjPDNR/EqJz87z+xWcj1AafOWzJspGXmQtIdKO
- s3Te2kuJTcNhjznJYkBuF86iIQPpjKoCikVBQNCMHgTjF5yLvpCW9GyEOgSu2KNi0E
- 0eqQk6UtrGvAA==
+ b=uOuLH4om9f+1lpOXSWXUSEadXObVPlM2thun9dAgzKUJ5SmdlUrF/0LPbrx2bPeuW
+ isKFgCHhQNPegx5AzCxGXpsMxvQ1LPJ+X5/mBK8DYMYC5dC/r2Is4P5/6UnoNhQcCW
+ uvDkeR8T89+pdmgoUZH9o/u55TjS2PiBEF8CFwFJLv9m2PargmhYT6fDk5pppflwZA
+ QK2f/UhCPmsg4aP0ZT6HzP1rsG1D7zuv7vpxLNtcXR/h7bCHxcaU8J9JIZE0hQG9tK
+ v5BiOjEw/irXKskbnMUt6R4b/NkBcXrBpZhOszswl0uHrZ/+nU6d7QtY1mP8pcrSv1
+ i1bA75okAynWg==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/16] hw/block/nvme: consolidate qsg/iov clearing
-Date: Thu, 30 Jul 2020 00:06:36 +0200
-Message-Id: <20200729220638.344477-15-its@irrelevant.dk>
+Subject: [PATCH v2 15/16] hw/block/nvme: use preallocated qsg/iov in
+ nvme_dma_prp
+Date: Thu, 30 Jul 2020 00:06:37 +0200
+Message-Id: <20200729220638.344477-16-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200729220638.344477-1-its@irrelevant.dk>
 References: <20200729220638.344477-1-its@irrelevant.dk>
@@ -74,139 +75,161 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Always destroy the request qsg/iov at the end of request use.
+Since clean up of the request qsg/iov is now always done post-use, there
+is no need to use a stack-allocated qsg/iov in nvme_dma_prp.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Acked-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 52 ++++++++++++++++++++-----------------------------
- 1 file changed, 21 insertions(+), 31 deletions(-)
+ hw/block/nvme.c | 41 ++++++++++++++++++-----------------------
+ 1 file changed, 18 insertions(+), 23 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 3d7275eae369..045dd55376a5 100644
+index 045dd55376a5..55b1a68ced8c 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -217,6 +217,17 @@ static void nvme_req_clear(NvmeRequest *req)
-     memset(&req->cqe, 0x0, sizeof(req->cqe));
- }
- 
-+static void nvme_req_exit(NvmeRequest *req)
-+{
-+    if (req->qsg.sg) {
-+        qemu_sglist_destroy(&req->qsg);
-+    }
-+
-+    if (req->iov.iov) {
-+        qemu_iovec_destroy(&req->iov);
-+    }
-+}
-+
- static uint16_t nvme_map_addr_cmb(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
-                                   size_t len)
- {
-@@ -297,15 +308,14 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
- 
-     status = nvme_map_addr(n, qsg, iov, prp1, trans_len);
-     if (status) {
--        goto unmap;
-+        return status;
-     }
- 
-     len -= trans_len;
-     if (len) {
-         if (unlikely(!prp2)) {
-             trace_pci_nvme_err_invalid_prp2_missing();
--            status = NVME_INVALID_FIELD | NVME_DNR;
--            goto unmap;
-+            return NVME_INVALID_FIELD | NVME_DNR;
-         }
- 
-         if (len > n->page_size) {
-@@ -326,13 +336,11 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-                 if (i == n->max_prp_ents - 1 && len > n->page_size) {
-                     if (unlikely(!prp_ent || prp_ent & (n->page_size - 1))) {
-                         trace_pci_nvme_err_invalid_prplist_ent(prp_ent);
--                        status = NVME_INVALID_FIELD | NVME_DNR;
--                        goto unmap;
-+                        return NVME_INVALID_FIELD | NVME_DNR;
-                     }
- 
-                     if (prp_list_in_cmb != nvme_addr_is_cmb(n, prp_ent)) {
--                        status = NVME_INVALID_USE_OF_CMB | NVME_DNR;
--                        goto unmap;
-+                        return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-                     }
- 
-                     i = 0;
-@@ -345,14 +353,13 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
- 
-                 if (unlikely(!prp_ent || prp_ent & (n->page_size - 1))) {
-                     trace_pci_nvme_err_invalid_prplist_ent(prp_ent);
--                    status = NVME_INVALID_FIELD | NVME_DNR;
--                    goto unmap;
-+                    return NVME_INVALID_FIELD | NVME_DNR;
-                 }
- 
-                 trans_len = MIN(len, n->page_size);
-                 status = nvme_map_addr(n, qsg, iov, prp_ent, trans_len);
-                 if (status) {
--                    goto unmap;
-+                    return status;
-                 }
- 
-                 len -= trans_len;
-@@ -361,27 +368,16 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-         } else {
-             if (unlikely(prp2 & (n->page_size - 1))) {
-                 trace_pci_nvme_err_invalid_prp2_align(prp2);
--                status = NVME_INVALID_FIELD | NVME_DNR;
--                goto unmap;
-+                return NVME_INVALID_FIELD | NVME_DNR;
-             }
-             status = nvme_map_addr(n, qsg, iov, prp2, len);
-             if (status) {
--                goto unmap;
-+                return status;
-             }
-         }
-     }
-+
-     return NVME_SUCCESS;
--
--unmap:
--    if (iov && iov->iov) {
--        qemu_iovec_destroy(iov);
--    }
--
--    if (qsg && qsg->sg) {
--        qemu_sglist_destroy(qsg);
--    }
--
--    return status;
+@@ -381,50 +381,45 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
  }
  
  static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-@@ -466,6 +462,7 @@ static void nvme_post_cqes(void *opaque)
-         nvme_inc_cq_tail(cq);
-         pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
-             sizeof(req->cqe));
-+        nvme_req_exit(req);
-         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
-     }
-     if (cq->tail != cq->head) {
-@@ -602,13 +599,6 @@ static void nvme_rw_cb(void *opaque, int ret)
-         req->status = NVME_INTERNAL_DEV_ERROR;
+-                             uint64_t prp1, uint64_t prp2, DMADirection dir)
++                             uint64_t prp1, uint64_t prp2, DMADirection dir,
++                             NvmeRequest *req)
+ {
+-    QEMUSGList qsg;
+-    QEMUIOVector iov;
+     uint16_t status = NVME_SUCCESS;
+ 
+-    status = nvme_map_prp(&qsg, &iov, prp1, prp2, len, n);
++    status = nvme_map_prp(&req->qsg, &req->iov, prp1, prp2, len, n);
+     if (status) {
+         return status;
      }
  
--    if (req->qsg.nalloc) {
--        qemu_sglist_destroy(&req->qsg);
--    }
--    if (req->iov.nalloc) {
--        qemu_iovec_destroy(&req->iov);
--    }
+     /* assert that only one of qsg and iov carries data */
+-    assert((qsg.nsg > 0) != (iov.niov > 0));
++    assert((req->qsg.nsg > 0) != (req->iov.niov > 0));
+ 
+-    if (qsg.nsg > 0) {
++    if (req->qsg.nsg > 0) {
+         uint64_t residual;
+ 
+         if (dir == DMA_DIRECTION_TO_DEVICE) {
+-            residual = dma_buf_write(ptr, len, &qsg);
++            residual = dma_buf_write(ptr, len, &req->qsg);
+         } else {
+-            residual = dma_buf_read(ptr, len, &qsg);
++            residual = dma_buf_read(ptr, len, &req->qsg);
+         }
+ 
+         if (unlikely(residual)) {
+             trace_pci_nvme_err_invalid_dma();
+             status = NVME_INVALID_FIELD | NVME_DNR;
+         }
 -
-     nvme_enqueue_req_completion(cq, req);
+-        qemu_sglist_destroy(&qsg);
+     } else {
+         size_t bytes;
+ 
+         if (dir == DMA_DIRECTION_TO_DEVICE) {
+-            bytes = qemu_iovec_to_buf(&iov, 0, ptr, len);
++            bytes = qemu_iovec_to_buf(&req->iov, 0, ptr, len);
+         } else {
+-            bytes = qemu_iovec_from_buf(&iov, 0, ptr, len);
++            bytes = qemu_iovec_from_buf(&req->iov, 0, ptr, len);
+         }
+ 
+         if (unlikely(bytes != len)) {
+             trace_pci_nvme_err_invalid_dma();
+             status = NVME_INVALID_FIELD | NVME_DNR;
+         }
+-
+-        qemu_iovec_destroy(&iov);
+     }
+ 
+     return status;
+@@ -893,7 +888,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     }
+ 
+     return nvme_dma_prp(n, (uint8_t *) &smart + off, trans_len, prp1, prp2,
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
  }
  
+ static uint16_t nvme_fw_log_info(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
+@@ -916,7 +911,7 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
+     trans_len = MIN(sizeof(fw_log) - off, buf_len);
+ 
+     return nvme_dma_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1, prp2,
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
+ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+@@ -941,7 +936,7 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     trans_len = MIN(sizeof(errlog) - off, buf_len);
+ 
+     return nvme_dma_prp(n, (uint8_t *)&errlog, trans_len, prp1, prp2,
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+@@ -1107,7 +1102,7 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_identify_ctrl();
+ 
+     return nvme_dma_prp(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl), prp1,
+-                        prp2, DMA_DIRECTION_FROM_DEVICE);
++                        prp2, DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
+ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+@@ -1128,7 +1123,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+     ns = &n->namespaces[nsid - 1];
+ 
+     return nvme_dma_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns), prp1,
+-                        prp2, DMA_DIRECTION_FROM_DEVICE);
++                        prp2, DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
+ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+@@ -1165,7 +1160,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+         }
+     }
+     ret = nvme_dma_prp(n, (uint8_t *)list, data_len, prp1, prp2,
+-                       DMA_DIRECTION_FROM_DEVICE);
++                       DMA_DIRECTION_FROM_DEVICE, req);
+     g_free(list);
+     return ret;
+ }
+@@ -1208,7 +1203,7 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
+     stl_be_p(&ns_descrs->uuid.v, nsid);
+ 
+     return nvme_dma_prp(n, list, NVME_IDENTIFY_DATA_SIZE, prp1, prp2,
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
+ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+@@ -1291,7 +1286,7 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
+     uint64_t timestamp = nvme_get_timestamp(n);
+ 
+     return nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), prp1,
+-                        prp2, DMA_DIRECTION_FROM_DEVICE);
++                        prp2, DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
+ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+@@ -1425,7 +1420,7 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
+     uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+ 
+     ret = nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), prp1,
+-                       prp2, DMA_DIRECTION_TO_DEVICE);
++                       prp2, DMA_DIRECTION_TO_DEVICE, req);
+     if (ret != NVME_SUCCESS) {
+         return ret;
+     }
 -- 
 2.27.0
 
