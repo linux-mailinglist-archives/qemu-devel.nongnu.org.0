@@ -2,76 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D897B2318D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 06:52:36 +0200 (CEST)
-Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEE8231918
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 07:29:21 +0200 (CEST)
+Received: from localhost ([::1]:54958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0e4x-0002Dc-DN
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 00:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
+	id 1k0eeW-0004oI-0P
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 01:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1k0e3g-0001Cw-7E; Wed, 29 Jul 2020 00:51:16 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:38654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1k0e3d-0004PN-PQ; Wed, 29 Jul 2020 00:51:15 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id d133so9918412ybh.5;
- Tue, 28 Jul 2020 21:51:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s60jSJJ/3cxrSnbF5oaXBs/Z8ZYWzPit+/YHasxxZpg=;
- b=gqQIShTKeWIWBE/ohzNWmHqlst3OVqOwNrPH8hsedfHBMYOK+bABndbOtpN6HOLUdN
- MTZlQRxzQNmJbT9ZUSZvPYC96MGvUDRRdozjACTwDhJAwPY9Jqj5nRYJBVlHhoMfGN4L
- 1Zr4q0fAVCh9S/GVzVsjVBtyqpx3w5eJAZ4jE1sLkC2FAhl/qGlb4MdTa5PRUYxH8n43
- u/Ak6d5W9foh5DS3wGkV1/7KhfqSldNZp08t2PQakGC5CmwwhDwJVwHSpsbCzpXxmjWf
- dw9TQjTiJ2VssfagEnOSzIC3FbkEopqxzZ4fBXp/GeBtrY0C07hhz6TQtjv6khwUMyfm
- MZww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s60jSJJ/3cxrSnbF5oaXBs/Z8ZYWzPit+/YHasxxZpg=;
- b=mkbQqWgm4XeAvMiv+KoQuLnk0KlYMu0BoEhVMxbXSA1A0tYw57I/byGwHq2DvG1bTW
- cy+zjUttZgIp7oGmjV4AyhK/+niIaDLcWRVAD1BwongvKYZiAqb9W51JSLj9IXhyv9gz
- faAdtyAfZIQGxga5IftHasZebxT25WkE7MxtXckJuwIQuHZudhkxlH/YbV+T53dABhgK
- knvKJJnoQbVQdaCoBJIsC0BV6bqDi/zyRzFXHIdvkwBcytRzv2v1a6AWfoudeKZnTvxM
- 2YZiDduOiFW787j2DYABvd59J4w71DkXLNTMCFv14eZNsCClLEEACE2e/r5xr5Ea+/pj
- OBjw==
-X-Gm-Message-State: AOAM531R0OqABE0zhSy99ILDuW6aE9HvuJN0HiJzgiukiAYmt0MUaPMW
- wCbTFpDSTEnY7ySQYzYvBe4RoaPBbGChIHjK3Fo=
-X-Google-Smtp-Source: ABdhPJzKf+7JJJj3DqCL2DvrE7utAQ7Am9HgubU5SJYkncird9UI1taBbPeEBaR/g2xopBzBQGTEkXNW3u34sSWqo3I=
-X-Received: by 2002:a25:3b0d:: with SMTP id i13mr22763734yba.314.1595998272231; 
- Tue, 28 Jul 2020 21:51:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k0edQ-0003xd-Lz; Wed, 29 Jul 2020 01:28:12 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:39875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k0edN-00013O-MC; Wed, 29 Jul 2020 01:28:12 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BGhrt3vlpz9sSy; Wed, 29 Jul 2020 15:27:58 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1596000478;
+ bh=2oJ2Yi+4iUTO/YFIP4ufXzEc8QHI71RDRpjt5dOCmhU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IFC9M8K8evoU0LdU+dRnK2Isme3RpjEuy23E3m40zxxbUbL7WbFMwInW+EMa8kOnm
+ Dyz7DCbfHlXyn/kFsBRr/KRDvIbIyyGMskRNIWe560J52YRdB/zDI3G535438vhZ7e
+ AyUfK5utb3TFpPV//86ZjN66CoUan6J9y2mK8Xbc=
+Date: Wed, 29 Jul 2020 12:54:41 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-5.2] spapr: Avoid some integer conversions in
+ spapr_phb_realize()
+Message-ID: <20200729025441.GJ84173@umbus.fritz.box>
+References: <159592765385.99837.12059368746532345109.stgit@bahia.lan>
 MIME-Version: 1.0
-References: <1594357499-29068-1-git-send-email-bmeng.cn@gmail.com>
- <1594357499-29068-5-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKM1m2j15ncbcW0rp5fk6FmbJ20uWOYUC40+v9PG=Hu7yQ@mail.gmail.com>
- <CAEUhbmWxCMZG+kdyqeSBrJPRf0Jvb7a4AcADuFXpRwQ7fb8zDA@mail.gmail.com>
- <CAEUhbmVJ94QF3UyEZUwcn-2yS4M3tKR-KOb4xPwSCwf9uRs-ww@mail.gmail.com>
- <CAKmqyKNJA0_5Qsfe6FZXSgNydxSHRXQQtqk8nB6-kR-yNpFHCQ@mail.gmail.com>
- <CAEUhbmXzufivy-7Qm-Nr6j6U9ynGOUgzV7XjXYDL_Ewcm1oj_g@mail.gmail.com>
- <CAKmqyKN-Ez_fE6oBfczxsGVyyRpeEE8go0pB-C7i6a4SALj8uA@mail.gmail.com>
-In-Reply-To: <CAKmqyKN-Ez_fE6oBfczxsGVyyRpeEE8go0pB-C7i6a4SALj8uA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 29 Jul 2020 12:51:00 +0800
-Message-ID: <CAEUhbmX5rcMuD8F30wdgYrvUq6NU84t5o=VkgKqwvwyfmA9e+w@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] hw/riscv: Use pre-built bios image of generic
- platform for virt & sifive_u
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb41.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k1BdFSKqAqVdu8k/"
+Content-Disposition: inline
+In-Reply-To: <159592765385.99837.12059368746532345109.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,134 +61,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <anup@brainfault.org>
+Cc: qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
 
-On Wed, Jul 29, 2020 at 2:26 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Jul 28, 2020 at 8:46 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > Hi Alistair,
-> >
-> > On Tue, Jul 28, 2020 at 11:39 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Wed, Jul 15, 2020 at 9:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > >
-> > > > Hi Alistair,
-> > > >
-> > > > On Mon, Jul 13, 2020 at 9:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > >
-> > > > > On Sun, Jul 12, 2020 at 1:34 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > > >
-> > > > > > On Thu, Jul 9, 2020 at 10:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > > >
-> > > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > > >
-> > > > > > > Update virt and sifive_u machines to use the opensbi fw_dynamic bios
-> > > > > > > image built for the generic FDT platform.
-> > > > > > >
-> > > > > > > Remove the out-of-date no longer used bios images.
-> > > > > > >
-> > > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > > > > Reviewed-by: Anup Patel <anup@brainfault.org>
-> > > > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > > >
-> > > > > > This patch seems to break 32-bit Linux boots on the sifive_u and virt machines.
-> > > > > >
-> > > > >
-> > > > > It looks only Linux boot on sifive_u is broken. On our side, we have
-> > > > > been using VxWorks to test 32-bit OpenSBI on sifive_u so this issue
-> > > > > gets unnoticed. I will take a look.
-> > > >
-> > > > I've figured out the issue of 32-bit Linux booting failure on
-> > > > sifive_u. A patch has been sent to Linux upstream:
-> > > > http://lists.infradead.org/pipermail/linux-riscv/2020-July/001213.html
-> > >
-> > > Thanks for that. What change in QEMU causes this failure though?
-> > >
-> >
-> > There is nothing wrong in QEMU.
->
-> There is. This patch causes a regression for 32-bit Linux boot on the
-> sifive_u. Your v5 has not addressed this.
+--k1BdFSKqAqVdu8k/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The 32-bit Linux boot failure was fixed by:
-http://lists.infradead.org/pipermail/linux-riscv/2020-July/001213.html
+On Tue, Jul 28, 2020 at 11:14:13AM +0200, Greg Kurz wrote:
+> Without this patch, the irq number gets converted uselessly from int
+> to int32_t, back and forth.
+>=20
+> This doesn't fix an actual issue, it's just to make the code neater.
+>=20
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-What additional issue did you see?
+Applied to ppc-for-5.2, thanks.
 
->
-> With this patch, the Linux boot stops here:
->
-> OpenSBI v0.8
->    ____                    _____ ____ _____
->   / __ \                  / ____|  _ \_   _|
->  | |  | |_ __   ___ _ __ | (___ | |_) || |
->  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
->  | |__| | |_) |  __/ | | |____) | |_) || |_
->   \____/| .__/ \___|_| |_|_____/|____/_____|
->         | |
->         |_|
->
-> Platform Name       : SiFive HiFive Unleashed A00
-> Platform Features   : timer,mfdeleg
-> Platform HART Count : 4
-> Boot HART ID        : 3
-> Boot HART ISA       : rv64imafdcsu
+> ---
+>=20
+> This is a follow-up to my previous "spapr: Simplify error handling in
+> spapr_phb_realize()" patch. Maybe worth squashing it there ?
+> ---
+>  hw/ppc/spapr_pci.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 59441e2117f3..0a418f1e6711 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1964,7 +1964,7 @@ static void spapr_phb_realize(DeviceState *dev, Err=
+or **errp)
+> =20
+>      /* Initialize the LSI table */
+>      for (i =3D 0; i < PCI_NUM_PINS; i++) {
+> -        int32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS +=
+ i;
+> +        int irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
+> =20
+>          if (smc->legacy_irq_allocation) {
+>              irq =3D spapr_irq_findone(spapr, errp);
+>=20
+>=20
 
-This is a 64-bit hardware.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> BOOT HART Features  : pmp,scounteren,mcounteren
-> BOOT HART PMP Count : 16
-> Firmware Base       : 0x80000000
-> Firmware Size       : 116 KB
-> Runtime SBI Version : 0.2
->
-> MIDELEG : 0x0000000000000222
-> MEDELEG : 0x000000000000b109
-> PMP0    : 0x0000000080000000-0x000000008001ffff (A)
-> PMP1    : 0x0000000000000000-0xffffffffffffffff (A,R,W,X)
-> [    0.000000] OF: fdt: Ignoring memory range 0x80000000 - 0x80200000
-> [    0.000000] Linux version 5.3.0 (oe-user@oe-host) (gcc version
+--k1BdFSKqAqVdu8k/
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It seems that you are using quite an old kernel. Can you please try
-the latest version?
+-----BEGIN PGP SIGNATURE-----
 
-> 9.2.0 (GCC)) #1 SMP Thu Sep 19 18:34:52 UTC 2019
-> [    0.000000] earlycon: sbi0 at I/O port 0x0 (options '')
-> [    0.000000] printk: bootconsole [sbi0] enabled
-> [    0.000000] initrd not found or empty - disabling initrd
-> [    0.000000] Zone ranges:
-> [    0.000000]   DMA32    [mem 0x0000000080200000-0x00000000bfffffff]
-> [    0.000000]   Normal   empty
-> [    0.000000] Movable zone start for each node
-> [    0.000000] Early memory node ranges
-> [    0.000000]   node   0: [mem 0x0000000080200000-0x00000000bfffffff]
-> [    0.000000] Initmem setup node 0 [mem 0x0000000080200000-0x00000000bfffffff]
-> [    0.000000] OF: fdt: Invalid device tree blob header
-> [    0.000000] software IO TLB: mapped [mem 0xbb1fe000-0xbf1fe000] (64MB)
->
-> Without this patch I can boot all the way to looking for a rootFS.
->
-> Please don't send new versions of patches without addresses regressions.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8g5O4ACgkQbDjKyiDZ
+s5L+Iw/+NLWdKJTDz9TmhYIFELM/iKzSrU6Y3b+j7CC/zV2+YtXwWZSll315Lspj
+V3rWDvcgvKPwt6XTl/Q0O8F1MU5feKElvYk8PxIAz2pkW/Cf+8u+YjXKG5Vh1gbu
+XQ+cJ7/9USLHJ7OYhayjYwHipIdu+ZnRCcVqRWWUZh2UsMFdpV9W+OddsNyl61p5
+b1tDe8s2P1Op92sQW5uBOu8iAtuOEQTxVMZZeC01v13UDzU0HdafwfSaL5MAMAIY
+DPf2TfwPH3XObkZWsU1Vf8nqXJqZftv0GeSVZ2YzXui4xdD0M2h+WNHUh+JCHM2W
+w7CLj8jjNAmNUSAdNGSD2t/rAc7e/hqDtzWPDAuFP7VW0XueRBcdZjKlfXx8GsH8
+DTTexyYf3QpxD8PIS7Hsf9ZmSQCp7tE291cxRnzmh1fzBsNgikTq61m3HrPHKSk5
+Ee5+SH11S7pHSOUVaR4rgFTvp5usEkjW6spnwATMN431EFn3ntGMmIyQZKj45c8v
+iC+vMVTF7MXT+8EFEDPzR2/1Tc7Zv9+ZPli+xJAhcjxuDwv4y4JG4j6zBGy53bmA
+DxRSCu4WFstP7a6RSbgcrY408YLOfZYlAFBeay1vganSCMeabFb3aal1Rs/bjcky
+Mo8nMt9zd8ege3a5P8fFvm0FSSs5LsGEYfmm9yrdDG7LncN16Tg=
+=t81G
+-----END PGP SIGNATURE-----
 
-The patches were sent after addressing all regressions you reported
-(well the 32-bit Linux booting issue is actually not a QEMU
-regression, but one that exists in the Linux kernel side for a long
-time).
-
-I just tested 64-bit Linux boot on both virt and sifive_u, and they
-both can boot all the way to looking for a root fs.
-
-Regards,
-Bin
+--k1BdFSKqAqVdu8k/--
 
