@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF0C2429BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:51:09 +0200 (CEST)
-Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE162429B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:49:15 +0200 (CEST)
+Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5qDi-0006fj-PY
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35782)
+	id 1k5qBu-0004Bx-Fj
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0c4356ba7dafc8ecb5877a42fc0d68d45ccf5951@lizzy.crudebyte.com>)
- id 1k5q9n-0001FH-QL
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:47:03 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:39267)
+ (envelope-from <d2c5cf7ca15490b4737a5393e51abf0301b98971@lizzy.crudebyte.com>)
+ id 1k5qAp-0002w9-Om
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:48:07 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0c4356ba7dafc8ecb5877a42fc0d68d45ccf5951@lizzy.crudebyte.com>)
- id 1k5q9m-0005yi-4e
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:47:03 -0400
+ (envelope-from <d2c5cf7ca15490b4737a5393e51abf0301b98971@lizzy.crudebyte.com>)
+ id 1k5qAo-00066H-24
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:48:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=GNy1vJScIjnAUJYX0AIEa090ls86NMVH10hGMsFeWbM=; b=eEGFs
- NTNVXUXSYhHiV5v5ReeEriH5dNc2X2+4RcjC/HE8ymqJ/xO2e6gAGLO6Tn71TrtLca/I8oRuNUSl7
- Fw2BFpI6CCKo+vDwXmmiPR+HZRI0Zi8iAAcmMuCoCNYxlAZ42f0hCZdUZVG1/yKesFlmpJxtg+dtp
- QP7ImQNkEZ3/m38mXPPK9Y1VI2RPg0eWfYeRXQUMlaJlTovtMeKpdGu6fwhj6N5Uf1mhUk3wu87f+
- bh9Em6+fCvrs2fo8ovuRQ1R20XedryKLTtsWUHcDHeFIK48y/NGWtyS1tFN1yXJAhmNNLxeqbiZXb
- 0hcM71ggTTzwYZWEoGZ9gc/gsY2IA==;
-Message-Id: <0c4356ba7dafc8ecb5877a42fc0d68d45ccf5951.1597226797.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=l/mKW0rgsRslNa0OpCdF8sGaF5LPo7bjDCxdEeS9IPo=; b=Nb8Z7
+ LjunagzVVC8gGnCwB+V+ZqYGLNKXpPVH6Soid29IX0gJxXMi8IUoVB2w4aDVE+n3Xuqoq0FYvQEUP
+ cNETDgGikiwEzpqENUZ6RqtjZMUccDvajkNPRBnCy8FPWNz+DIgxzr7YQjTYvpilTCz7JWbjg2JXw
+ GsxIbt5zmIgu/jpLTnToboYAXHPUSWYcRbtUDgMo+dmrlgv54jy/ScyqC6p/0qb6pwJ+3ILov5Pjb
+ EnESW0Oyald+okCtAkOsFU0iBb+mccRmkE/dNXxWvN1TwT9OYFF3vqmqP4hrrE1zgvotKr2O+qrty
+ vnPn9qAzY9zvbFqdBo+9kM43tsj6Q==;
+Message-Id: <d2c5cf7ca15490b4737a5393e51abf0301b98971.1597226797.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1597226797.git.qemu_oss@crudebyte.com>
 References: <cover.1597226797.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 29 Jul 2020 10:13:05 +0200
-Subject: [PULL 5/7] 9pfs: T_readdir latency optimization
+Date: Wed, 29 Jul 2020 10:39:12 +0200
+Subject: [PULL 6/7] 9pfs: differentiate readdir lock between 9P2000.u vs.
+ 9P2000.L
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=0c4356ba7dafc8ecb5877a42fc0d68d45ccf5951@lizzy.crudebyte.com;
+ envelope-from=d2c5cf7ca15490b4737a5393e51abf0301b98971@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 08:16:56
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
@@ -66,231 +67,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make top half really top half and bottom half really bottom half:
+Previous patch suggests that it might make sense to use a different mutex
+type now while handling readdir requests, depending on the precise
+protocol variant, as v9fs_do_readdir_with_stat() (used by 9P2000.u) uses
+a CoMutex to avoid deadlocks that might happen with QemuMutex otherwise,
+whereas do_readdir_many() (used by 9P2000.L) should better use a
+QemuMutex, as the precise behaviour of a failed CoMutex lock on fs driver
+side would not be clear.
 
-Each T_readdir request handling is hopping between threads (main
-I/O thread and background I/O driver threads) several times for
-every individual directory entry, which sums up to huge latencies
-for handling just a single T_readdir request.
+And to avoid the wrong lock type being used, be now strict and error out
+if a 9P2000.L client sends a Tread on a directory, and likeweise error out
+if a 9P2000.u client sends a Treaddir request.
 
-Instead of doing that, collect now all required directory entries
-(including all potentially required stat buffers for each entry) in
-one rush on a background I/O thread from fs driver by calling the
-previously added function v9fs_co_readdir_many() instead of
-v9fs_co_readdir(), then assemble the entire resulting network
-response message for the readdir request on main I/O thread. The
-fs driver is still aborting the directory entry retrieval loop
-(on the background I/O thread inside of v9fs_co_readdir_many())
-as soon as it would exceed the client's requested maximum R_readdir
-response size. So this will not introduce a performance penalty on
-another end.
-
-Also: No longer seek initial directory position in v9fs_readdir(),
-as this is now handled (more consistently) by
-v9fs_co_readdir_many() instead.
+This patch is just intended as transitional measure, as currently 9P2000.u
+vs. 9P2000.L implementations currently differ where the main logic of
+fetching directory entries is located at (9P2000.u still being more top
+half focused, while 9P2000.L already being bottom half focused in regards
+to fetching directory entries that is).
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <c7c3d1cf4e86611538cef44897842819d9359d7a.1596012787.git.qemu_oss@crudebyte.com>
+Message-Id: <9a2ddc347e533b0d801866afd9dfac853d2d4106.1596012787.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 132 ++++++++++++++++++++++-----------------------------
- 1 file changed, 58 insertions(+), 74 deletions(-)
+ hw/9pfs/9p.c | 21 ++++++++++++++++++---
+ hw/9pfs/9p.h | 27 ++++++++++++++++++++++-----
+ 2 files changed, 40 insertions(+), 8 deletions(-)
 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 7a228c4828..cc4094b971 100644
+index cc4094b971..7bb994bbf2 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -972,30 +972,6 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
-     return 0;
+@@ -314,8 +314,8 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
+     f->next = s->fid_list;
+     s->fid_list = f;
+ 
+-    v9fs_readdir_init(&f->fs.dir);
+-    v9fs_readdir_init(&f->fs_reclaim.dir);
++    v9fs_readdir_init(s->proto_version, &f->fs.dir);
++    v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
+ 
+     return f;
  }
- 
--static int coroutine_fn dirent_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
--                                      struct dirent *dent, V9fsQID *qidp)
--{
--    struct stat stbuf;
--    V9fsPath path;
--    int err;
--
--    v9fs_path_init(&path);
--
--    err = v9fs_co_name_to_path(pdu, &fidp->path, dent->d_name, &path);
--    if (err < 0) {
--        goto out;
--    }
--    err = v9fs_co_lstat(pdu, &path, &stbuf);
--    if (err < 0) {
--        goto out;
--    }
--    err = stat_to_qid(pdu, &stbuf, qidp);
--
--out:
--    v9fs_path_free(&path);
--    return err;
--}
--
- V9fsPDU *pdu_alloc(V9fsState *s)
- {
-     V9fsPDU *pdu = NULL;
-@@ -2328,62 +2304,74 @@ size_t v9fs_readdir_response_size(V9fsString *name)
-     return 24 + v9fs_string_size(name);
- }
- 
-+static void v9fs_free_dirents(struct V9fsDirEnt *e)
-+{
-+    struct V9fsDirEnt *next = NULL;
-+
-+    for (; e; e = next) {
-+        next = e->next;
-+        g_free(e->dent);
-+        g_free(e->st);
-+        g_free(e);
-+    }
-+}
-+
- static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
--                                        int32_t max_count)
-+                                        off_t offset, int32_t max_count)
- {
-     size_t size;
-     V9fsQID qid;
-     V9fsString name;
-     int len, err = 0;
-     int32_t count = 0;
--    off_t saved_dir_pos;
-     struct dirent *dent;
-+    struct stat *st;
-+    struct V9fsDirEnt *entries = NULL;
- 
--    /* save the directory position */
--    saved_dir_pos = v9fs_co_telldir(pdu, fidp);
--    if (saved_dir_pos < 0) {
--        return saved_dir_pos;
--    }
--
--    while (1) {
--        v9fs_readdir_lock(&fidp->fs.dir);
-+    /*
-+     * inode remapping requires the device id, which in turn might be
-+     * different for different directory entries, so if inode remapping is
-+     * enabled we have to make a full stat for each directory entry
-+     */
-+    const bool dostat = pdu->s->ctx.export_flags & V9FS_REMAP_INODES;
- 
--        err = v9fs_co_readdir(pdu, fidp, &dent);
--        if (err || !dent) {
--            break;
--        }
--        v9fs_string_init(&name);
--        v9fs_string_sprintf(&name, "%s", dent->d_name);
--        if ((count + v9fs_readdir_response_size(&name)) > max_count) {
--            v9fs_readdir_unlock(&fidp->fs.dir);
-+    /*
-+     * Fetch all required directory entries altogether on a background IO
-+     * thread from fs driver. We don't want to do that for each entry
-+     * individually, because hopping between threads (this main IO thread
-+     * and background IO driver thread) would sum up to huge latencies.
-+     */
-+    count = v9fs_co_readdir_many(pdu, fidp, &entries, offset, max_count,
-+                                 dostat);
-+    if (count < 0) {
-+        err = count;
-+        count = 0;
-+        goto out;
-+    }
-+    count = 0;
- 
--            /* Ran out of buffer. Set dir back to old position and return */
--            v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
--            v9fs_string_free(&name);
--            return count;
--        }
-+    for (struct V9fsDirEnt *e = entries; e; e = e->next) {
-+        dent = e->dent;
- 
-         if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
--            /*
--             * dirent_to_qid() implies expensive stat call for each entry,
--             * we must do that here though since inode remapping requires
--             * the device id, which in turn might be different for
--             * different entries; we cannot make any assumption to avoid
--             * that here.
--             */
--            err = dirent_to_qid(pdu, fidp, dent, &qid);
-+            st = e->st;
-+            /* e->st should never be NULL, but just to be sure */
-+            if (!st) {
-+                err = -1;
-+                break;
-+            }
-+
-+            /* remap inode */
-+            err = stat_to_qid(pdu, st, &qid);
-             if (err < 0) {
--                v9fs_readdir_unlock(&fidp->fs.dir);
--                v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
--                v9fs_string_free(&name);
--                return err;
-+                break;
-             }
-         } else {
-             /*
-              * Fill up just the path field of qid because the client uses
-              * only that. To fill the entire qid structure we will have
-              * to stat each dirent found, which is expensive. For the
--             * latter reason we don't call dirent_to_qid() here. Only drawback
-+             * latter reason we don't call stat_to_qid() here. Only drawback
-              * is that no multi-device export detection of stat_to_qid()
-              * would be done and provided as error to the user here. But
-              * user would get that error anyway when accessing those
-@@ -2396,25 +2384,26 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-             qid.version = 0;
-         }
- 
-+        v9fs_string_init(&name);
-+        v9fs_string_sprintf(&name, "%s", dent->d_name);
-+
-         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
-         len = pdu_marshal(pdu, 11 + count, "Qqbs",
-                           &qid, dent->d_off,
-                           dent->d_type, &name);
- 
--        v9fs_readdir_unlock(&fidp->fs.dir);
-+        v9fs_string_free(&name);
- 
-         if (len < 0) {
--            v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
--            v9fs_string_free(&name);
--            return len;
-+            err = len;
-+            break;
-         }
-+
-         count += len;
--        v9fs_string_free(&name);
--        saved_dir_pos = dent->d_off;
+@@ -2228,7 +2228,14 @@ static void coroutine_fn v9fs_read(void *opaque)
+         goto out_nofid;
      }
- 
--    v9fs_readdir_unlock(&fidp->fs.dir);
+     if (fidp->fid_type == P9_FID_DIR) {
 -
-+out:
-+    v9fs_free_dirents(entries);
-     if (err < 0) {
-         return err;
-     }
-@@ -2457,12 +2446,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
++        if (s->proto_version != V9FS_PROTO_2000U) {
++            warn_report_once(
++                "9p: bad client: T_read request on directory only expected "
++                "with 9P2000.u protocol version"
++            );
++            err = -EOPNOTSUPP;
++            goto out;
++        }
+         if (off == 0) {
+             v9fs_co_rewinddir(pdu, fidp);
+         }
+@@ -2446,6 +2453,14 @@ static void coroutine_fn v9fs_readdir(void *opaque)
          retval = -EINVAL;
          goto out;
      }
--    if (initial_offset == 0) {
--        v9fs_co_rewinddir(pdu, fidp);
--    } else {
--        v9fs_co_seekdir(pdu, fidp, initial_offset);
--    }
--    count = v9fs_do_readdir(pdu, fidp, max_count);
-+    count = v9fs_do_readdir(pdu, fidp, (off_t) initial_offset, max_count);
++    if (s->proto_version != V9FS_PROTO_2000L) {
++        warn_report_once(
++            "9p: bad client: T_readdir request only expected with 9P2000.L "
++            "protocol version"
++        );
++        retval = -EOPNOTSUPP;
++        goto out;
++    }
+     count = v9fs_do_readdir(pdu, fidp, (off_t) initial_offset, max_count);
      if (count < 0) {
          retval = count;
-         goto out;
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 93b7030edf..3dd1b50b1a 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -197,22 +197,39 @@ typedef struct V9fsXattr
+ 
+ typedef struct V9fsDir {
+     DIR *stream;
+-    CoMutex readdir_mutex;
++    P9ProtoVersion proto_version;
++    /* readdir mutex type used for 9P2000.u protocol variant */
++    CoMutex readdir_mutex_u;
++    /* readdir mutex type used for 9P2000.L protocol variant */
++    QemuMutex readdir_mutex_L;
+ } V9fsDir;
+ 
+ static inline void v9fs_readdir_lock(V9fsDir *dir)
+ {
+-    qemu_co_mutex_lock(&dir->readdir_mutex);
++    if (dir->proto_version == V9FS_PROTO_2000U) {
++        qemu_co_mutex_lock(&dir->readdir_mutex_u);
++    } else {
++        qemu_mutex_lock(&dir->readdir_mutex_L);
++    }
+ }
+ 
+ static inline void v9fs_readdir_unlock(V9fsDir *dir)
+ {
+-    qemu_co_mutex_unlock(&dir->readdir_mutex);
++    if (dir->proto_version == V9FS_PROTO_2000U) {
++        qemu_co_mutex_unlock(&dir->readdir_mutex_u);
++    } else {
++        qemu_mutex_unlock(&dir->readdir_mutex_L);
++    }
+ }
+ 
+-static inline void v9fs_readdir_init(V9fsDir *dir)
++static inline void v9fs_readdir_init(P9ProtoVersion proto_version, V9fsDir *dir)
+ {
+-    qemu_co_mutex_init(&dir->readdir_mutex);
++    dir->proto_version = proto_version;
++    if (proto_version == V9FS_PROTO_2000U) {
++        qemu_co_mutex_init(&dir->readdir_mutex_u);
++    } else {
++        qemu_mutex_init(&dir->readdir_mutex_L);
++    }
+ }
+ 
+ /**
 -- 
 2.20.1
 
