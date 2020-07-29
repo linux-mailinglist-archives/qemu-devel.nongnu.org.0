@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0BA232782
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:18:07 +0200 (CEST)
-Received: from localhost ([::1]:58556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB6C232785
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:19:38 +0200 (CEST)
+Received: from localhost ([::1]:37894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uOk-0000SM-Ra
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:18:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
+	id 1k0uQD-0003Wb-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLZ-0003lv-0P
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56487
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLX-0001C0-As
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596060886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1WfN8++UZGyDXNo71dKABhAAZDe/VRBdRr0p8J5WuX0=;
- b=dSCgztjhfYVSc7nhzYt7pJ2RCoHZbz6Bw0qzFs2bAcvZ87AU5XpfIlUATXvemQv2Sahb39
- aAYmZFXXM643M1g6PPI4YoZ3WATEozG0IM4mJc3eNJwfy6uoDqshuIS7vSs9rGwnKUFR8M
- 5aUjKkE1Sz4H/dwJ983ZUr4mTZsUAto=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-3xoQ3I2MNOmslZpEyI2tcQ-1; Wed, 29 Jul 2020 18:14:44 -0400
-X-MC-Unique: 3xoQ3I2MNOmslZpEyI2tcQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0797F1893DC7
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 22:14:44 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-149.rdu2.redhat.com [10.10.116.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C39A5F7D8;
- Wed, 29 Jul 2020 22:14:38 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id D4B9C223D09; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
-From: Vivek Goyal <vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <e.emanuelegiuseppe@gmail.com>)
+ id 1k0uOc-0001bq-Vd
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:17:58 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <e.emanuelegiuseppe@gmail.com>)
+ id 1k0uOb-0001iP-8M
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:17:58 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id b6so23036511wrs.11
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 15:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=k/Yx5yOHpsjSDbCkwhAkr4UfKKLqMqfAkrAKDj7bYGo=;
+ b=iooUtnXbJg8RZ60tB+u+uT5ZCG98pX0gh8nWR/OUIvMJ69Ph7o8tcMPOzrHcXRaEni
+ nO4IyHJUMAVKR/AWWj1fXnTqZWLNqrdSDDPYOWYx9WOz4ZcFgJrCogo4mJyz9zFJBEyG
+ LhRRk3XS/4zFnxPHOxDWq6QSdj+/33DEnyvlgGk/jDZ/oP9svrg2ZhoRFaZ81MNF0Xd7
+ 7Bbr1/ORZLn8SUUR5eS4jgKR5w+hfqoin+rPzzfss0+CbDSMcFzTycZ6LShlfjF2INty
+ XcsBWtyxAQSFtwSQIzQLkGawR+NbeCC8/FqIy+z+FnXHcmAnjrmFbQOesJu1piYhmtZp
+ 4o6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=k/Yx5yOHpsjSDbCkwhAkr4UfKKLqMqfAkrAKDj7bYGo=;
+ b=udx/zbhnKhXTJ+evGrB0UbF55G4rhC/UIL570RP+kT9Y12RJX0ohbU+nS0UMX5kIvW
+ 7kp8+49C9XsfRXnMPoDmiYIGW/tu7Un/mcyXznS2wmv3zeuaU+C2ooG0ufLSDIn8kLfn
+ w34s7hYx5q7maU9TBmILoKB1NfcG1NWAbpz/sOrrH96t3RXOERqLrsHK7dXcfQhhEfLJ
+ 6ej/CGZdT41mphCAf9zXJSywy4RUGyXi1ANFi96V+fQLIhAHhHnD+qop+vm8zrUggwZ/
+ K7zDZh7+XBEKTfRjrLf9xF2+sv4rI495cmNHMAEFdnul3grOeV9QIqeIGHqqkNz+O9s+
+ oXFA==
+X-Gm-Message-State: AOAM530VWkWhQbd8DVO79DZX0q/P8R9qNzaJA5xO3KYFRzfjyr4LokWQ
+ 0JU+yjzE/QTIJDlTCYpf5SaNmtw9nkQ=
+X-Google-Smtp-Source: ABdhPJzxw8pKLo8hhy2Y4YNb4GJrhK/bHmahJqHb/z6Z5ZLObbWgg+vlsXb0U2dnhLoQ1JHYI70gsg==
+X-Received: by 2002:a5d:6646:: with SMTP id f6mr31661499wrw.155.1596061074991; 
+ Wed, 29 Jul 2020 15:17:54 -0700 (PDT)
+Received: from emanuele-MacBookPro.station
+ (net-130-25-47-175.cust.vodafonedsl.it. [130.25.47.175])
+ by smtp.gmail.com with ESMTPSA id r16sm9150057wrr.13.2020.07.29.15.17.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jul 2020 15:17:54 -0700 (PDT)
+From: Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] virtiofsd: Skip setup_capabilities() in sandbox=NONE mode
-Date: Wed, 29 Jul 2020 18:14:10 -0400
-Message-Id: <20200729221410.147556-6-vgoyal@redhat.com>
-In-Reply-To: <20200729221410.147556-1-vgoyal@redhat.com>
-References: <20200729221410.147556-1-vgoyal@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:17:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Subject: [PATCH] pci_dma_rw: return correct value instead of 0
+Date: Thu, 30 Jul 2020 00:17:32 +0200
+Message-Id: <20200729221732.29041-1-e.emanuelegiuseppe@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=e.emanuelegiuseppe@gmail.com; helo=mail-wr1-x42a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,35 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, vromanso@redhat.com, dgilbert@redhat.com,
- virtio-fs@redhat.com, stefanha@redhat.com, vgoyal@redhat.com
+Cc: Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While running as unpriviliged user setup_capabilities() fails for me.
-So we are doing some operation which requires priviliges. For now
-simply skip it in sandbox=NONE mode.
+pci_dma_rw currently always returns 0, regardless
+of the result of dma_memory_rw. Adjusted to return
+the correct value.
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/pci/pci.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index a6fa816b6c..1a0b24cbf2 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3030,7 +3030,8 @@ static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
-     }
- 
-     setup_seccomp(enable_syslog);
--    setup_capabilities(g_strdup(lo->modcaps));
-+    if (lo->sandbox != SANDBOX_NONE)
-+       setup_capabilities(g_strdup(lo->modcaps));
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index c1bf7d5356..41c4ab5932 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -787,8 +787,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir)
+ {
+-    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+-    return 0;
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
  }
  
- /* Set the maximum number of open file descriptors */
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 -- 
-2.25.4
+2.17.1
 
 
