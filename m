@@ -2,77 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1427E2321FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 17:54:07 +0200 (CEST)
-Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9F5232200
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 17:54:47 +0200 (CEST)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0oP8-0008LM-4g
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 11:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53706)
+	id 1k0oPk-0000l6-UK
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 11:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k0oNv-0007hw-Lg; Wed, 29 Jul 2020 11:52:51 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k0oNu-00080J-0P; Wed, 29 Jul 2020 11:52:51 -0400
-Received: by mail-pl1-x641.google.com with SMTP id q17so11954040pls.9;
- Wed, 29 Jul 2020 08:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=d8s9jWiFQHq+BlQbWewHk6DqjX3SBKIUvmppsVF2oh0=;
- b=e7Dc35RJu8z6JFPnAmN5AwsTgwbyqB5xuh+ybrRFkxMIKqvmVUotpbLSs+3EQhsehD
- fpS2KMfFBhUDko3/qM6Xw2yRLFCFDWfepp+AF54gxoyWgN7fmtXjwTV5vLIlVSo6PcR3
- DtBAxY8rhpxI979HJPTSXVHL08RJ78/mchznHP05jJsMJrT/xaaFA65FE23PWcH/qCuo
- rjpIZhx+76LnS+p8GX04JcgiP0eN5ydjbVBHHkX41DmuMe0dqgjqf3/c4JXn24vj4yb0
- 8ZKCQ9X94SSd9C8Y+ReIyKW74Jtr4DN/O5VCYbAtxd8z+bFGDgvvoTdqKvQTFxg/VHh6
- mWww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=d8s9jWiFQHq+BlQbWewHk6DqjX3SBKIUvmppsVF2oh0=;
- b=Ih79VUSjllZ1l2VZ3IgS2OO8IEAIpXj2EYbFJ9KBcWYQC+gs+hOxzy1P7gCHl4Vpqd
- cZyBiceSgSW1s/yMQhhTIBlaav+lZ4CNvTfTTbcKYIPV79L7uV7PTnhaYHl6lodTfzfC
- eSF2U309hIQPhtw+V7U+qfIClY5y24N1kJ/iA0PYFTv9xuKB7C4OQMShyJMI3y+qD7Sf
- W4f3OnymVXrE8FYkEzn1ndeaV6I2Jp4CDkl+2V9HFRIi1YXX/yYfRrHUNHbHe3qP7kRf
- k3pZqNlo9aKwSkHYLtTxQAB7QX0GqH5oE+7Y5rTCcLbayossN+dLb0TZ4WDIg/+TThWW
- E3aQ==
-X-Gm-Message-State: AOAM530tbMUtlPexrVGyfpTJd6tGjvOu+nh6FJn2YIeCX1XQGk6w9ett
- 2ykFMnWKZKbq0gMRr2wXuS0=
-X-Google-Smtp-Source: ABdhPJw7FTGefH6j2LGmMwYtkV9NtpOciwhUD3Y0woBIvL21D//JlMGLZBWuxkku3601OWt8sm+9KQ==
-X-Received: by 2002:a17:90b:1b11:: with SMTP id
- nu17mr9932258pjb.182.1596037967509; 
- Wed, 29 Jul 2020 08:52:47 -0700 (PDT)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id y11sm3115241pfp.73.2020.07.29.08.52.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 29 Jul 2020 08:52:47 -0700 (PDT)
-Date: Thu, 30 Jul 2020 00:52:45 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 07/16] hw/block/nvme: add request mapping helper
-Message-ID: <20200729155245.GF14876@localhost.localdomain>
-References: <20200720113748.322965-1-its@irrelevant.dk>
- <20200720113748.322965-8-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0oON-0008Cl-6T
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:53:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:46335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k0oOL-00082p-7I
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 11:53:18 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MumVX-1kroNv17JL-00rsKD; Wed, 29 Jul 2020 17:53:12 +0200
+Subject: Re: [PATCH 2/4] linux-user: Add support for a group of btrfs ioctls
+ used for snapshots
+To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200709155203.21106-1-Filip.Bozuta@syrmia.com>
+ <20200709155203.21106-3-Filip.Bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <875a63cd-9e2b-dd4b-edc5-5ed151f9c95f@vivier.eu>
+Date: Wed, 29 Jul 2020 17:53:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200709155203.21106-3-Filip.Bozuta@syrmia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200720113748.322965-8-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:hbJCohSjXDo5eZNX3p5qewsc7PPS7hUVFabHIrSgh78tOsXK4ey
+ Pat52N6ovaFnGOb+DE/ZotKEnU0taJWqhJ/Yp8RL3Hn19FbU3P/x1+O88e0stUg5lAW3aHn
+ f0/RHS3OZ6sH0lbnTIFR08Zdl1UALAQljwz2dr3xTUm3/lzFx+z/g/zfg+EnkFcg/8ZoIpe
+ ZQevR/lAgx+nRdRCxpN2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wnGdOx9SckQ=:VsMEtw80k2y4oeGfgCgC+A
+ O40SE4u1srPs74pWBOWxTNC3hsUaO94++Spo7156B7+RKhKtfsH0TeftqexljoML08OadrHNv
+ H3gzqPgu8Y++ZoFO6vhMhjvdy9l5T4I93pomcSgMYY7QvXYuNLKOYkICw+LLnqAJ8qMGfnyDl
+ CgiVnqazsFNxqjNgj2aV9yo3O+b3PnQpXaoNHycEB4oZGv4TfUnfqeh/qpxk3zc5y96qX2tcM
+ D9EanXIhtI2by+RgFo7ak15rQrMouQlcYegrOVaOF2H18qArGV3qhGZSi5rStlgSkmeH+kQMQ
+ 5DdzlMpdYWYqN6NUEksYlghtA9v03nN2c4vnp2o6M928M0JLYQPCCrOaRz63qfh9x7wdjJREB
+ ThUrvgp7Szt4nZA5EXhBnT1r0vQC4T8LYiJb9hw2AMUfR32yASXIcrIHoeKUpMK6+USISnAH+
+ HMbOjV8QTxPp5+rdygrKqeTxApvZLJzCxjRDVbivrn4TsjyXceYNqplWNpV0bqRPupP8ZfbL5
+ 6TjVCFSoWsJ0lAGlD4UAikjoxWYToRYDDurT0N6OHfZF6QXPC6TccCnXWGEKoHmgf5CGl3xzS
+ 17jsdRnB5KCKaSTt7A7hOcGaiTVp7rHMTalQmHSRgkm+Mtcl2fylOlDNku91zZHwVAgiy9BzM
+ 5tnCHlGsckr3L7188WXK/aORX934Hf9tqSPZNJLoimSxtEsbKgvH5OU8DQSGK6yognYpfG8lK
+ xaD1qkdVpsO1RzIvgu9rDAGvRUu6tjqplygY+1BusIvW/KRmM3TDQ0KYaIhpI7URfPTEz0P7V
+ JsC9WBaCfsBHC7Z+RgXcU0C6bNpnteau+xZHR41zhHQc9EGhGRF+W1x3IpgTwV4brGvFujj
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 11:53:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,39 +116,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Klaus,
-
-On 20-07-20 13:37:39, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+Le 09/07/2020 à 17:52, Filip Bozuta a écrit :
+> This patch implements functionality for following ioctls:
 > 
-> Introduce the nvme_map helper to remove some noise in the main nvme_rw
-> function.
+> BTRFS_IOC_SNAP_CREATE - Creating a subvolume snapshot
 > 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+>     Create a snapshot of a btrfs subvolume. The snapshot is created using the
+>     ioctl's third argument that is a pointer to a 'struct btrfs_ioctl_vol_args'
+>     (which was mentioned in the previous patch). Before calling this ioctl,
+>     the fields of the structure should be filled with aproppriate values for
+>     the file descriptor and path of the subvolume for which the snapshot is to
+>     be created.
+> 
+> BTRFS_IOC_SNAP_DESTROY - Removing a subvolume snapshot
+> 
+>     Delete a snapshot of a btrfs subvolume. The snapshot is deleted using the
+>     ioctl's third argument that is a pointer to a 'struct btrfs_ioctl_vol_args'
+>     (which was mentioned in the previous patch). Before calling this ioctl,
+>     the fields of the structure should be filled with aproppriate values for
+>     the file descriptor and path of the subvolume for which the snapshot is to
+>     be deleted.
+> 
+> Implementation notes:
+> 
+>     Since the thunk type 'struct btrfs_ioctl_vol_args' is defined in the
+>     previous patch, the implementation for these ioctls was straightforward.
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 > ---
->  hw/block/nvme.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  linux-user/ioctls.h       | 8 ++++++++
+>  linux-user/syscall_defs.h | 4 ++++
+>  2 files changed, 12 insertions(+)
 > 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index f1e04608804b..68c33a11c144 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -413,6 +413,15 @@ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
->      return status;
->  }
+> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> index 544184ff95..2422675dd0 100644
+> --- a/linux-user/ioctls.h
+> +++ b/linux-user/ioctls.h
+> @@ -174,10 +174,18 @@
+>       IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
+>       IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
 >  
-> +static uint16_t nvme_map(NvmeCtrl *n, NvmeCmd *cmd, size_t len,
-> +                         NvmeRequest *req)
+> +#ifdef BTRFS_IOC_SNAP_CREATE
+> +     IOCTL(BTRFS_IOC_SNAP_CREATE, IOC_W,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> +#endif
+>  #ifdef BTRFS_IOC_SUBVOL_CREATE
+>       IOCTL(BTRFS_IOC_SUBVOL_CREATE, IOC_W,
+>             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+>  #endif
+> +#ifdef BTRFS_IOC_SNAP_DESTROY
+> +     IOCTL(BTRFS_IOC_SNAP_DESTROY, IOC_W,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> +#endif
+>  #ifdef BTRFS_IOC_SUBVOL_GETFLAGS
+>       IOCTL(BTRFS_IOC_SUBVOL_GETFLAGS, IOC_R, MK_PTR(TYPE_ULONGLONG))
+>  #endif
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index c11bcc6ba9..21d8909fd6 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -968,8 +968,12 @@ struct target_rtc_pll_info {
+>  #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+>  
+>  /* btrfs ioctls */
+> +#define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOW(BTRFS_IOCTL_MAGIC, \
+> +                                                1, struct btrfs_ioctl_vol_args)
+>  #define TARGET_BTRFS_IOC_SUBVOL_CREATE          TARGET_IOW(BTRFS_IOCTL_MAGIC, \
+>                                                 14, struct btrfs_ioctl_vol_args)
+> +#define TARGET_BTRFS_IOC_SNAP_DESTROY           TARGET_IOW(BTRFS_IOCTL_MAGIC, \
+> +                                               15, struct btrfs_ioctl_vol_args)
+>  #define TARGET_BTRFS_IOC_SUBVOL_GETFLAGS        TARGET_IOR(BTRFS_IOCTL_MAGIC, \
+>                                                             25, abi_ullong)
+>  #define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, \
+> 
 
-Can we specify what is going to be mapped in this function? like
-nvme_map_dptr?
+Like for patch 1, use TARGET_IOWU().
+
+with that changed:
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 Thanks,
+Laurent
 
