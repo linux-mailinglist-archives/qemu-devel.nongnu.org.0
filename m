@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA6C231F95
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 15:50:09 +0200 (CEST)
-Received: from localhost ([::1]:39132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B181231FA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 15:56:30 +0200 (CEST)
+Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0mTA-0005jK-Eu
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 09:50:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
+	id 1k0mZJ-0008Ia-My
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 09:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0mSA-0005Cx-CC; Wed, 29 Jul 2020 09:49:06 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:33876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1k0mS7-00045p-4o; Wed, 29 Jul 2020 09:49:05 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id C44AABF616;
- Wed, 29 Jul 2020 13:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1596030540;
- bh=Xmf7EAigExAi9sAZuX5NU9T71eGcb7yfbuJRQj5d+oE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bwecQQRc3LyglBoJYqqx/+/M4wGXc1p8W/+y13OdJJ/ymYGF19I4ZUt4dHac6pXoo
- pU5Q+pPmAzVsIjSLDAbu1tIBcQaEiveH9e6g4KHFB+RPIx6SMANzCUMLMmqXIgmGH5
- oIX/gU+1hIFnLhy5Qb6hNTl+XaPF0zlxs98u+4fHIP8oNszyyJ6JTATBtc4iVhzj77
- yWBw7MDnsXRKZJAt3EW9SPcCt1SxTThOcfriPm5bHzgZx7D5oE4o4vVIwZRztZ7UZu
- 0/pE2+QX3b/q50XuYHXnT2+eJek8aK1qHODqrf+bJwtPgPr5Dr0YvkEAPEf0l/usU7
- liaiMXNqxFcaw==
-Date: Wed, 29 Jul 2020 15:48:56 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v3 12/18] hw/block/nvme: support the get/set features
- select and save fields
-Message-ID: <20200729134856.GA181110@apples.localdomain>
-References: <20200706061303.246057-1-its@irrelevant.dk>
- <20200706061303.246057-13-its@irrelevant.dk>
- <e8cbd8b2126ae35324d13f24a75f591a5a0b1e82.camel@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k0mYa-0007nf-1x
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 09:55:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k0mYY-000509-3m
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 09:55:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k0mYW-0002mg-A0
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 13:55:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3BB622E805D
+ for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 13:55:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e8cbd8b2126ae35324d13f24a75f591a5a0b1e82.camel@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 07:44:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 29 Jul 2020 13:50:28 -0000
+From: pts <1889421@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ptspts
+X-Launchpad-Bug-Reporter: pts (ptspts)
+X-Launchpad-Bug-Modifier: pts (ptspts)
+Message-Id: <159603062878.10118.11664292810636734356.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1889421] [NEW] VVFAT is not writable from Windows NT 3.5,
+ 3.51 and 4.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: adbc865b41beb6e37396561b9153b5044facafe9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 08:55:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,110 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1889421 <1889421@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul 29 16:17, Maxim Levitsky wrote:
-> On Mon, 2020-07-06 at 08:12 +0200, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> > 
-> > Since the device does not have any persistent state storage, no
-> > features are "saveable" and setting the Save (SV) field in any Set
-> > Features command will result in a Feature Identifier Not Saveable status
-> > code.
-> > 
-> > Similarly, if the Select (SEL) field is set to request saved values, the
-> > devices will (as it should) return the default values instead.
-> > 
-> > Since this also introduces "Supported Capabilities", the nsid field is
-> > now also checked for validity wrt. the feature being get/set'ed.
-> > 
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >  hw/block/nvme.c       | 103 +++++++++++++++++++++++++++++++++++++-----
-> >  hw/block/trace-events |   4 +-
-> >  include/block/nvme.h  |  27 ++++++++++-
-> >  3 files changed, 119 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index 2d85e853403f..df8b786e4875 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -1083,20 +1091,47 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >  {
-> >      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> >      uint32_t dw11 = le32_to_cpu(cmd->cdw11);
-> > +    uint32_t nsid = le32_to_cpu(cmd->nsid);
-> >      uint32_t result;
-> >      uint8_t fid = NVME_GETSETFEAT_FID(dw10);
-> > +    NvmeGetFeatureSelect sel = NVME_GETFEAT_SELECT(dw10);
-> >      uint16_t iv;
-> >  
-> >      static const uint32_t nvme_feature_default[NVME_FID_MAX] = {
-> >          [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
-> >      };
-> >  
-> > -    trace_pci_nvme_getfeat(nvme_cid(req), fid, dw11);
-> > +    trace_pci_nvme_getfeat(nvme_cid(req), fid, sel, dw11);
-> >  
-> >      if (!nvme_feature_support[fid]) {
-> >          return NVME_INVALID_FIELD | NVME_DNR;
-> >      }
-> >  
-> > +    if (nvme_feature_cap[fid] & NVME_FEAT_CAP_NS) {
-> > +        if (!nsid || nsid > n->num_namespaces) {
-> > +            /*
-> > +             * The Reservation Notification Mask and Reservation Persistence
-> > +             * features require a status code of Invalid Field in Command when
-> > +             * NSID is 0xFFFFFFFF. Since the device does not support those
-> > +             * features we can always return Invalid Namespace or Format as we
-> > +             * should do for all other features.
-> > +             */
-> > +            return NVME_INVALID_NSID | NVME_DNR;
-> > +        }
-> > +    }
-> > +
-> > +    switch (sel) {
-> > +    case NVME_GETFEAT_SELECT_CURRENT:
-> > +        break;
-> > +    case NVME_GETFEAT_SELECT_SAVED:
-> > +        /* no features are saveable by the controller; fallthrough */
-> > +    case NVME_GETFEAT_SELECT_DEFAULT:
-> > +        goto defaults;
-> 
-> I hate to say it, but while I have nothing against using 'goto' (unlike some types I met),
-> In this particular case it feels like it would be better to have  a separate function for
-> defaults, or have even have a a separate function per feature and have it return current/default/saved/whatever
-> value. The later would allow to have each feature self contained in its own function.
-> 
-> But on the other hand I see that you fail back to defaults for unchangeble features, which does make
-> sense. In other words, I don't have strong opinion against using goto here after all.
-> 
-> When feature code will be getting more features in the future (pun intended) you probably will have to split it,\
-> like I suggest to keep code complexity low.
-> 
+Public bug reported:
 
-Argh... I know you are right.
+I'm running Windows NT 3.5, 3.51 and 4.0 in QEMU 4.2.0 on Linux. I'm
+using a VVFAT filesystem. Command lines:
 
-Since you are "accepting" the current state with your R-b and it already
-carries one from Dmitry I think I'll let this stay for now, but I will
-fix this in a follow up patch for sure.
+$ qemu-system-i386 -L pc -cpu 486 -m 64 -vga cirrus -drive
+file=3Dnt351.img,format=3Draw -net nic,model=3Dpcnet -net user -soundhw
+sb16,pcspk -drive file=3Dfat:rw:drived,format=3Draw
 
-> > @@ -926,6 +949,8 @@ typedef struct NvmeLBAF {
-> >      uint8_t     rp;
-> >  } NvmeLBAF;
-> >  
-> > +#define NVME_NSID_BROADCAST 0xffffffff
-> 
-> Cool, you probably want eventually to go over code and
-> change all places that use the number to the define.
-> (No need to do this now)
-> 
+$ qemu-system-i386 --version
+QEMU emulator version 4.2.0 (Debian 1:4.2-6)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
-True. Noted :)
+Creating a new directory or file on drive D: (the VVFAT filesystem)
+fails on Windows NT 3.5, 3.51 and 4.0 (see screenshot). It succeeds on
+Windows NT 3.1.
+
+Is there a workaround, e.g. a QEMU flag or a change in the Windows NT
+driver settings?
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "screenshot"
+   https://bugs.launchpad.net/bugs/1889421/+attachment/5396980/+files/qemu_=
+vvfat_windows_nt.png
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1889421
+
+Title:
+  VVFAT is not writable from Windows NT 3.5, 3.51 and 4.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm running Windows NT 3.5, 3.51 and 4.0 in QEMU 4.2.0 on Linux. I'm
+  using a VVFAT filesystem. Command lines:
+
+  $ qemu-system-i386 -L pc -cpu 486 -m 64 -vga cirrus -drive
+  file=3Dnt351.img,format=3Draw -net nic,model=3Dpcnet -net user -soundhw
+  sb16,pcspk -drive file=3Dfat:rw:drived,format=3Draw
+
+  $ qemu-system-i386 --version
+  QEMU emulator version 4.2.0 (Debian 1:4.2-6)
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+  Creating a new directory or file on drive D: (the VVFAT filesystem)
+  fails on Windows NT 3.5, 3.51 and 4.0 (see screenshot). It succeeds on
+  Windows NT 3.1.
+
+  Is there a workaround, e.g. a QEMU flag or a change in the Windows NT
+  driver settings?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1889421/+subscriptions
 
