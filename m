@@ -2,124 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FB2231BBA
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 10:59:10 +0200 (CEST)
-Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0484231BE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 11:19:04 +0200 (CEST)
+Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0hvZ-0005ET-RU
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 04:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
+	id 1k0iEp-0001Fr-QP
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 05:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1k0hul-0004n2-3o
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:58:19 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:52916)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1k0huj-0005tp-9i
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 04:58:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596013096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ATwg+RSDVBV28PIF7Fnc5aNz68PE110+SfeCsnKKGrg=;
- b=ImfIGLaIyHkTjWVWjlooKplxxiBD5KTB8P5unhvzimD3IW4Xi9WoGci40FMo0Be87sTcFB
- k3vGt0TYudNgCsjp4yB9mtNOscN2LSxH0SN3YQ5bjI2gLUzQsmtPfd+vhlhErjOOWoiLt9
- B6lVmAniQMYdJZ3QqHKftkFJmaHE4sc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-bSCgPL82M7ecvjHT14UthA-1; Wed, 29 Jul 2020 04:58:14 -0400
-X-MC-Unique: bSCgPL82M7ecvjHT14UthA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C530318C63CF;
- Wed, 29 Jul 2020 08:58:12 +0000 (UTC)
-Received: from [10.36.114.111] (ovpn-114-111.ams2.redhat.com [10.36.114.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 035CC7854D;
- Wed, 29 Jul 2020 08:58:00 +0000 (UTC)
-Subject: Re: [PATCH RFCv3 6/9] s390x/diag: subcode to query device memory
- region
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200724143750.59836-1-david@redhat.com>
- <20200724143750.59836-7-david@redhat.com>
- <20200727114819.3f816010.cohuck@redhat.com>
- <963e5931-117e-48cb-b829-d630abff9e42@redhat.com>
- <20200727120930.7b8803e4.cohuck@redhat.com>
- <520ac822-df67-b33a-378f-a8f91a3bed2f@redhat.com>
- <20200727111546.GA13770@osiris>
- <68205bc1-1ac4-a023-0531-aa1a0c91e17d@redhat.com>
- <20200728091014.173a7d18.cohuck@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <3f337e2d-fc46-b842-cbca-cc4036bf8fe0@redhat.com>
-Date: Wed, 29 Jul 2020 10:57:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1k0iE5-0000oa-G6; Wed, 29 Jul 2020 05:18:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18024
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1k0iE3-0008W6-K3; Wed, 29 Jul 2020 05:18:17 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06T91ixc129657; Wed, 29 Jul 2020 05:18:12 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32j0a6ssj4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jul 2020 05:18:12 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06T91l9Y129953;
+ Wed, 29 Jul 2020 05:18:12 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32j0a6sshd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jul 2020 05:18:11 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06T9FLEq018213;
+ Wed, 29 Jul 2020 09:18:10 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 32gcpwaxvp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jul 2020 09:18:10 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06T9I7M831457646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jul 2020 09:18:07 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E9668A4062;
+ Wed, 29 Jul 2020 09:18:06 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 64491A4060;
+ Wed, 29 Jul 2020 09:18:06 +0000 (GMT)
+Received: from ibm-vm (unknown [9.145.10.171])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 29 Jul 2020 09:18:06 +0000 (GMT)
+Date: Wed, 29 Jul 2020 10:00:42 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-5.2 1/6] pc-bios/s390-ccw/Makefile: Compile with
+ -std=gnu99, -fwrapv and -fno-common
+Message-ID: <20200729100042.089e4098@ibm-vm>
+In-Reply-To: <20200728183734.7838-2-thuth@redhat.com>
+References: <20200728183734.7838-1-thuth@redhat.com>
+ <20200728183734.7838-2-thuth@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200728091014.173a7d18.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.74; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 01:09:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-29_03:2020-07-28,
+ 2020-07-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=727 malwarescore=0 clxscore=1015 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007290058
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 05:18:12
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -133,60 +102,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: "Jason J .
+ Herne" <jjherne@linux.ibm.com>, Collin Walling <walling@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.07.20 09:10, Cornelia Huck wrote:
-> On Mon, 27 Jul 2020 14:02:47 +0200
-> David Hildenbrand <david@redhat.com> wrote:
+On Tue, 28 Jul 2020 20:37:29 +0200
+Thomas Huth <thuth@redhat.com> wrote:
+
+> The main QEMU code is compiled with -std=gnu99, -fwrapv and
+> -fno-common. We should use the same flags for the s390-ccw bios, too,
+> to avoid that we get different behavior with different compiler
+> versions that changed their default settings in the course of time
+> (it happened at least with -std=... and -fno-common in the past
+> already).
 > 
->> On 27.07.20 13:15, Heiko Carstens wrote:
->>> On Mon, Jul 27, 2020 at 12:12:02PM +0200, David Hildenbrand wrote:  
->>>>>>>> +#define DIAG500_DEVICE_MEMORY_REGION   4    
->>>>>>>
->>>>>>> Regardless what we end up with, this needs to be specified
->>>>>>> somewhere(tm).  
->>>>>>
->>>>>> Yeah, there, we should also document the existing subcodes. What would
->>>>>> be the right place for this? The kernel feels somewhat wrong to me.  
->>>>>
->>>>> The still supported subcode 3 is properly specified in the virtio spec.
->>>>> That's not a good place for that new one, though.
->>>>>
->>>>> QEMU is probably a better place than the kernel to specify stuff,
->>>>> although it's not really ideal, either. OTOH, do we ever expect other
->>>>> hypervisors to implement this new subcode?  
->>>>
->>>> cloud-hypervisor implements virtio-mem. If it were ever to support s390x
->>>> (guess it does not yet), it would also want to implement that one. But
->>>> then, it can just look at QEMU doc I guess :)  
->>>
->>> It must be well defined and easy to find also for kernel developers
->>> who actually have to care about memory detection code :)  
->>
->> So I'd suggest documenting it in QEMU (docs/specs ...) for now, and
->> referencing it from the relevant Linux patch - other suggestions?
+> While we're at it, also group the other flags here in a little bit
+> nicer fashion: Move the two "-m" flags out of the "-f" area and
+> specify them on a separate line.
 > 
-> That's probably the easiest way for now... the kernel's s390-diag.rst
-> should also point to it.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/Makefile | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> However, I think we really need a central place for definitions that
-> are not just a Linux/QEMU interface, but can potentially also be used
-> by other hypervisors/guests. Nothing as complicated as an OASIS spec,
-> but maybe a git??b project?
+> diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+> index 50bc880272..9abb0ea4c0 100644
+> --- a/pc-bios/s390-ccw/Makefile
+> +++ b/pc-bios/s390-ccw/Makefile
+> @@ -13,10 +13,11 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o
+> sclp.o menu.o \ virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o
+> dasd-ipl.o 
+>  QEMU_CFLAGS := $(filter -W%, $(QEMU_CFLAGS))
+> -QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks
+> -msoft-float -QEMU_CFLAGS += -march=z900 -fPIE -fno-strict-aliasing
+> -QEMU_CFLAGS += -fno-asynchronous-unwind-tables
+> +QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks
+> -fno-common -fPIE +QEMU_CFLAGS += -fwrapv -fno-strict-aliasing
+> -fno-asynchronous-unwind-tables QEMU_CFLAGS += $(call cc-option,
+> $(QEMU_CFLAGS), -fno-stack-protector) +QEMU_CFLAGS += -msoft-float
+> -march=z900 +QEMU_CFLAGS += -std=gnu99
+>  LDFLAGS += -Wl,-pie -nostdlib
+>  
+>  build-all: s390-ccw.img s390-netboot.img
 
-Sounds good. Maintainers? I can volunteer (+setup/create initial
-version), but would be good to have other QEMU/KVM maintainers there as
-well.
-
--- 
-Thanks,
-
-David / dhildenb
-
+Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
