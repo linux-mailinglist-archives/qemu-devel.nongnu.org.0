@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165A8232783
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:19:26 +0200 (CEST)
-Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C9A232779
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 00:16:15 +0200 (CEST)
+Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0uQ1-0003B9-4y
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
+	id 1k0uMw-0005Nt-5h
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 18:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLU-0003cj-MN
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24875
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLV-0003eB-7x
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:45 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25758
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLR-0001Az-Qy
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:43 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k0uLS-0001B0-9l
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 18:14:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1596060880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aRoiGntPr/roRN7z30VYKhnG5GEpKOXqS3TTBjzQ2PQ=;
- b=b3EBLdKBl9TZHGeimT8swq+HKLqDR8updg9GVW2XL15rftpS9i4TsKluXEgPoT3S25jlsT
- V1RLPd4t5OZbsppzMIuzRSxgjvicJW+s3N0nJFpA+7/ud/1ytsKAvgk1rksh7qRNP7kQPQ
- LZY38skadAINetrWgINLZX4KFsNI+1I=
+ bh=yWt3zKX5kSTo4Po7yflNFrC7QnaOp+4ZYcdeS58v6Ig=;
+ b=T4z/j33MlJOfxnjvYxOLRhkSEOy+DEO1DrcbK1iWKP+rdTikxS8F/iTa+3D0VK8cBqAJAZ
+ tt/XTk3k8LIRgEVwdBMkXqBLZGQtrH882INfSsi5SkNOTHcjw4oWYUZ+5Q4kdlxMT3G45u
+ K4l680OjrLCAXpXPgHS+mWeS3IyHBR0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-DkppzhKjPAasRBiuTm0K9Q-1; Wed, 29 Jul 2020 18:14:38 -0400
-X-MC-Unique: DkppzhKjPAasRBiuTm0K9Q-1
+ us-mta-328-qRVLW7a7OxGu3VEwcyv9Aw-1; Wed, 29 Jul 2020 18:14:38 -0400
+X-MC-Unique: qRVLW7a7OxGu3VEwcyv9Aw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D639C8015F4
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D84FD102C7EC
  for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 22:14:37 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-149.rdu2.redhat.com [10.10.116.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F007712FF;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41EF775559;
  Wed, 29 Jul 2020 22:14:32 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id C2020223D04; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
+ id C8210223D05; Wed, 29 Jul 2020 18:14:31 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] virtiofsd: Add notion of unprivileged mode
-Date: Wed, 29 Jul 2020 18:14:06 -0400
-Message-Id: <20200729221410.147556-2-vgoyal@redhat.com>
+Subject: [PATCH 2/5] virtiofsd: create lock/pid file in per user cache dir
+Date: Wed, 29 Jul 2020 18:14:07 -0400
+Message-Id: <20200729221410.147556-3-vgoyal@redhat.com>
 In-Reply-To: <20200729221410.147556-1-vgoyal@redhat.com>
 References: <20200729221410.147556-1-vgoyal@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:27:47
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:18:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +84,75 @@ Cc: berrange@redhat.com, vromanso@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At startup if we are running as non-root user, then internall set
-unpriviliged mode set. Also add a notion of sandbox NONE and set
-that internally in unprivileged mode. setting up namespaces and
-chroot() fails when one does not have privileges.
+Right now we create lock/pid file in /usr/local/var/... and unprivliged
+user does not have access to create files there.
+
+So create this file in per user cache dir as queried as specified
+by environment variable XDG_RUNTIME_DIR.
+
+Note: "su $USER" does not update XDG_RUNTIME_DIR and it still points to
+root user's director. So for now I create a directory /tmp/$UID to save
+lock/pid file. Dan pointed out that it can be a problem if a malicious
+app already has /tmp/$UID created. So we probably need to get rid of this.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tools/virtiofsd/fuse_virtio.c | 40 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 5 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index e2fbc614fd..cd91c4a831 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -147,11 +147,13 @@ enum {
- enum {
-     SANDBOX_NAMESPACE,
-     SANDBOX_CHROOT,
-+    SANDBOX_NONE,
- };
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 6b21a93841..f763a70ba5 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -972,13 +972,43 @@ static bool fv_socket_lock(struct fuse_session *se)
+     g_autofree gchar *pidfile = NULL;
+     g_autofree gchar *dir = NULL;
+     Error *local_err = NULL;
++    gboolean unprivileged = false;
  
- struct lo_data {
-     pthread_mutex_t mutex;
-     int sandbox;
-+    bool unprivileged;
-     int debug;
-     int writeback;
-     int flock;
-@@ -3288,6 +3290,12 @@ int main(int argc, char *argv[])
-     lo_map_init(&lo.dirp_map);
-     lo_map_init(&lo.fd_map);
+-    dir = qemu_get_local_state_pathname("run/virtiofsd");
++    if (geteuid() != 0)
++        unprivileged = true;
  
-+    if (geteuid() != 0) {
-+       lo.unprivileged = true;
-+       lo.sandbox = SANDBOX_NONE;
-+       fuse_log(FUSE_LOG_DEBUG, "Running in unprivileged passthrough mode.\n");
-+    }
+-    if (g_mkdir_with_parents(dir, S_IRWXU) < 0) {
+-        fuse_log(FUSE_LOG_ERR, "%s: Failed to create directory %s: %s",
+-                 __func__, dir, strerror(errno));
+-        return false;
++    /*
++     * Unpriviliged users don't have access to /usr/local/var. Hence
++     * store lock/pid file in per user directory. Use environment
++     * variable XDG_RUNTIME_DIR.
++     * If one logs into the system as root and then does "su" then
++     * XDG_RUNTIME_DIR still points to root user directory. In that
++     * case create a directory for user in /tmp/$UID
++     */
++    if (unprivileged) {
++        gchar *user_dir = NULL;
++        gboolean create_dir = false;
++        user_dir = g_strdup(g_get_user_runtime_dir());
++        if (!user_dir || g_str_has_suffix(user_dir, "/0")) {
++            user_dir = g_strdup_printf("/tmp/%d", geteuid());
++            create_dir = true;
++        }
 +
-     if (fuse_parse_cmdline(&args, &opts) != 0) {
-         goto err_out1;
++        if (create_dir && g_mkdir_with_parents(user_dir, S_IRWXU) < 0) {
++            fuse_log(FUSE_LOG_ERR, "%s: Failed to create directory %s: %s",
++                     __func__, user_dir, strerror(errno));
++            g_free(user_dir);
++            return false;
++        }
++        dir = g_strdup(user_dir);
++        g_free(user_dir);
++    } else {
++        dir = qemu_get_local_state_pathname("run/virtiofsd");
++        if (g_mkdir_with_parents(dir, S_IRWXU) < 0) {
++            fuse_log(FUSE_LOG_ERR, "%s: Failed to create directory %s: %s",
++                     __func__, dir, strerror(errno));
++            return false;
++        }
      }
+ 
+     sk_name = g_strdup(se->vu_socket_path);
 -- 
 2.25.4
 
