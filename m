@@ -2,91 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2157C23221A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 18:05:23 +0200 (CEST)
-Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C532B23221F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jul 2020 18:05:55 +0200 (CEST)
+Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0oa2-0002Rk-4j
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 12:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55628)
+	id 1k0oaY-0003CO-FW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 12:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k0oWT-0006NP-4O
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 12:01:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28923
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k0oWz-0006wD-Nf
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 12:02:13 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55557
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k0oWQ-0000qa-Md
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 12:01:40 -0400
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k0oWx-0000u1-QL
+ for qemu-devel@nongnu.org; Wed, 29 Jul 2020 12:02:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596038497;
+ s=mimecast20190719; t=1596038530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I8nUgHmZDHlcYcZgpKyAYpuwb4GCg6YuZRnvHKb6rPM=;
- b=LzY4RAVAcseDFkD5U72UG+Un0W7f34I4V3wMja8o60CWkURV8AW+OLQgSxlYw+obofT9KL
- w1xvPCAhmIU7MQG0LINQALUsOmnv5GYCTshEwFjVyRCjjw7UYw80bEHSbrq7JLQ5lBK7l2
- 05fXrQ5gU4LPyJaWXt0KUCH00eqFReY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-cjjoPsuMND6OUq7N9MQm2A-1; Wed, 29 Jul 2020 12:01:35 -0400
-X-MC-Unique: cjjoPsuMND6OUq7N9MQm2A-1
-Received: by mail-ej1-f70.google.com with SMTP id l18so8621912ejn.17
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 09:01:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I8nUgHmZDHlcYcZgpKyAYpuwb4GCg6YuZRnvHKb6rPM=;
- b=oaRPMnWFwuFLnlluPwVX400rJPOT4YhYieXrU7RspPiwc5255vsoyCP51NcTtzEEZx
- W+hBCX/MFDnKeeD8LDhAKT/Q6kpPphU0lDdEc/cnNv97noCAPcnVCFfi3R64a2chZzW5
- r6rH4XMpFF6jR05YCc+cCyoSWvi0e6LMjAtXqTu1jYmzNfW/LsEvsECCWNx2ymOU2B4B
- mrJjPhACo20PUyXN+IRYGa1VzZOmodym+3+Yb0Oz3O+8eDlh/EoaY83LIEiF3P1RyR0B
- gpdQulm14Zu15e+9xO4+SOTy/aHgnUiBMu1J6GFVCk6VGnyx20NDlPnS5B9f1aoaWmfV
- +BzA==
-X-Gm-Message-State: AOAM532nFP8ptR9Hi7De2VB4XdDUVbUydxmbVJdOznDzVnGw+5JehOg7
- YbNmFNhfNNHkECDgjoGSKakc6kqIFUNWUNRZ86oXG0qIZOBGRRVkxne1VSTgZGwCPtUXi0RlVr7
- czeH/unTNKnddI2Q=
-X-Received: by 2002:a17:906:b890:: with SMTP id
- hb16mr21319837ejb.376.1596038493929; 
- Wed, 29 Jul 2020 09:01:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhlkmYIU4DDO03VWayNenOpUHWzy0IjLFMT/zgG0WRsEFx7sk1NfYJFoXYd1nv9pEZkeiVlw==
-X-Received: by 2002:a17:906:b890:: with SMTP id
- hb16mr21319806ejb.376.1596038493654; 
- Wed, 29 Jul 2020 09:01:33 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:101f:6e7:e073:454c?
- ([2001:b07:6468:f312:101f:6e7:e073:454c])
- by smtp.gmail.com with ESMTPSA id dc12sm1933349ejb.124.2020.07.29.09.01.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jul 2020 09:01:32 -0700 (PDT)
-Subject: Re: sysbus_create_simple Vs qdev_create
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <87tuy6k9pa.fsf@dusky.pond.sub.org>
- <20200717162312.GR1274972@habkost.net> <87r1t6hc0f.fsf@dusky.pond.sub.org>
- <20200720155955.GV1274972@habkost.net> <87v9ihbe6u.fsf@dusky.pond.sub.org>
- <50e31ece-215c-a632-e5a2-86ae7ab3abab@redhat.com>
- <87lfj4f6nz.fsf@dusky.pond.sub.org>
- <759959d1-f320-734a-ac5e-a60db6b1bc23@redhat.com>
- <20200728224733.GP225270@habkost.net>
- <422d7879-3fdc-d38e-259f-2477b9d3c169@redhat.com>
- <20200729143241.GS225270@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <78767e1f-4124-cb6e-ead6-25fd415027c7@redhat.com>
-Date: Wed, 29 Jul 2020 18:01:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ bh=92MyhSeistOJZvnkvNBQ5DUgEsXmlH27mjnQIJee6OM=;
+ b=Zfwf/mlvXHB9L2imiRVqC220EQCC4XYEswfsbSpPXNQaLMB1jpeY72b1khlKek/ay5u8dV
+ ZlD0z/ilBcvcyLjnhuDq+V71xUYAZdtDkb6hriDuzOwWlqVyav6yugKfRUXQG4piJzrFNC
+ O4e9n5oI0V3yrcZn2sw1c65cbj905So=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-332-skv8hwvHM5eUQfdGePkYSg-1; Wed, 29 Jul 2020 12:02:08 -0400
+X-MC-Unique: skv8hwvHM5eUQfdGePkYSg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E77EA800465;
+ Wed, 29 Jul 2020 16:02:07 +0000 (UTC)
+Received: from titinator (ovpn-114-132.ams2.redhat.com [10.36.114.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB8B761799;
+ Wed, 29 Jul 2020 16:01:59 +0000 (UTC)
+References: <20200723174615.2370096-1-dinechin@redhat.com>
+ <20200723174615.2370096-3-dinechin@redhat.com>
+ <84be9a34-9f87-1660-3a43-aea72d9496cd@redhat.com>
+User-agent: mu4e 1.5.2; emacs 26.3
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/7] build: fix device module builds
+In-reply-to: <84be9a34-9f87-1660-3a43-aea72d9496cd@redhat.com>
+Date: Wed, 29 Jul 2020 18:01:57 +0200
+Message-ID: <lyy2n2e2dm.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200729143241.GS225270@habkost.net>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 09:18:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -109,36 +82,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ kraxel@redhat.com, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/07/20 16:32, Eduardo Habkost wrote:
-> On Wed, Jul 29, 2020 at 11:54:35AM +0200, Paolo Bonzini wrote:
->> On 29/07/20 00:47, Eduardo Habkost wrote:
-> [...]
->>> Do we really need need QOM children to be accessible using the QOM
->>> property API?
->>>
->>> Using the same code for both user-configurable properties and for
->>> the list of children of a QOM object might have saved some time
->>> years ago, but I'm not sure this is still a necessary or useful
->>> abstraction.
+
+On 2020-07-28 at 18:37 CEST, Philippe Mathieu-Daud=C3=A9 wrote...
+> On 7/23/20 7:46 PM, Christophe de Dinechin wrote:
+>> From: Gerd Hoffmann <kraxel@redhat.com>
 >>
->> The main thing we get from it is that the QOM paths treat children and
->> links the same, and links are properties.  To be honest it's not a
->> feature that is very much developed, so perhaps we can remove it but we
->> need to evaluate the impact of losing it.
-> 
-> Are link properties usable by -device/device_add/-object/object-add?
+>> See comment.  Feels quite hackish.  Better ideas anyone?
+>
+> I don't understand this patch, how is it related to the rest of
+> your series?
 
-Not sure exactly what you mean, but there is DEFINE_PROP_LINK and it's
-used to link devices to objects.  Is it ever used with an actual path
-rather than just the id of something in /objects?  Probably not.
+It's a leftover from an earlier workaround. For some reason, only some
+spurious submodule changes remained over time. That patch can now be
+dropped, I believe.
 
-Paolo
+>
+>>
+>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+>> ---
+>>  dtc           | 2 +-
+>>  roms/SLOF     | 2 +-
+>>  roms/openbios | 2 +-
+>>  roms/opensbi  | 2 +-
+>>  roms/seabios  | 2 +-
+>>  slirp         | 2 +-
+>>  6 files changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/dtc b/dtc
+>> index 85e5d83984..88f18909db 160000
+>> --- a/dtc
+>> +++ b/dtc
+>> @@ -1 +1 @@
+>> -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
+>> +Subproject commit 88f18909db731a627456f26d779445f84e449536
+>> diff --git a/roms/SLOF b/roms/SLOF
+>> index e18ddad851..9546892a80 160000
+>> --- a/roms/SLOF
+>> +++ b/roms/SLOF
+>> @@ -1 +1 @@
+>> -Subproject commit e18ddad8516ff2cfe36ec130200318f7251aa78c
+>> +Subproject commit 9546892a80d5a4c73deea6719de46372f007f4a6
+>> diff --git a/roms/openbios b/roms/openbios
+>> index 75fbb41d28..7e5b89e429 160000
+>> --- a/roms/openbios
+>> +++ b/roms/openbios
+>> @@ -1 +1 @@
+>> -Subproject commit 75fbb41d2857d93208c74a8e0228b29fd7bf04c0
+>> +Subproject commit 7e5b89e4295063d8eba55b9c8ce8bc681c2d129a
+>> diff --git a/roms/opensbi b/roms/opensbi
+>> index 9f1b72ce66..be92da280d 160000
+>> --- a/roms/opensbi
+>> +++ b/roms/opensbi
+>> @@ -1 +1 @@
+>> -Subproject commit 9f1b72ce66d659e91013b358939e832fb27223f5
+>> +Subproject commit be92da280d87c38a2e0adc5d3f43bab7b5468f09
+>> diff --git a/roms/seabios b/roms/seabios
+>> index 88ab0c1552..f21b5a4aeb 160000
+>> --- a/roms/seabios
+>> +++ b/roms/seabios
+>> @@ -1 +1 @@
+>> -Subproject commit 88ab0c15525ced2eefe39220742efe4769089ad8
+>> +Subproject commit f21b5a4aeb020f2a5e2c6503f906a9349dd2f069
+>> diff --git a/slirp b/slirp
+>> index 2faae0f778..126c04acba 160000
+>> --- a/slirp
+>> +++ b/slirp
+>> @@ -1 +1 @@
+>> -Subproject commit 2faae0f778f818fadc873308f983289df697eb93
+>> +Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
+>>
+
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
 
 
