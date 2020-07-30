@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA0223360F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:54:04 +0200 (CEST)
-Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D72233600
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:48:17 +0200 (CEST)
+Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1Asd-0003fA-Bz
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54042)
+	id 1k1An2-0004LA-Dr
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdY-0007eL-Ig
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:28 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:50258)
+ id 1k1AdZ-0007hN-Pt
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:30 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:50262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdV-0002CS-VP
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:27 -0400
+ id 1k1AdV-0002CX-Vt
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:29 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXP6S007487;
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXSrl007533;
  Thu, 30 Jul 2020 15:38:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=YY5D39VKx7KmG8DuA4MVFb9AvBcnww2s9GY477Dv1AY=;
- b=F7bhjvHlazBQxGL8ecgUix4nSu7n3KX2vBNSjqrTaNCfBR3e1OkS+XYQK3UWFGe6odLA
- 9bVzh+9wd9EcRgiQjuHSijJFFYPriyV+HN/AiKi6muNl6v9cpTKGTNJl6NO0LqShbLn7
- 4owo3W8vaMqqnPBuBPTiKRd2tCbIzNvsYz+GdgFoxdHatGqS/+g0FnzztdN6QSr/6hua
- gPOrE5+v8YszM3CJnjMaHo41EG9FKZAdKX5PZhu+9AX1Uf45OvhrQv1qA1Mq0pRzaj6p
- 5lionbrrfOALx6xEpauTA34ORkGF3Wi0dWsug/2Jqrf9TmUPNkHZtn54U33K+Vvj1zl3 IA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 32hu1jmfg8-1
+ bh=UF79pvoFFJrsRYU2u2K28RtDkLoecSqXccCEeTdSY4A=;
+ b=ecgJHuBNf/qK2wMV3XHPCVD5ikOXxVnRjA0Z5VMPbqQe+7mrlCR3wv4k1GSC7+nV1sKe
+ jNznwLs0DIzWWfQ3fJM8sBsIwKgrSG6CRA33Bmkgkcc7lBpYygmnReQ65Lw4kdcDoEWZ
+ tP4ICI+QlVXDI/Mt6q4+lvVXRYzj0rqF3RYNGDV/CPVZNEB2n4iGzlfuAx3XLbVX1a0L
+ /vaxV2hx87nwKsAt6hjVJIOw5kO1aD7f9r8AGD0DGhRbJI8yuiNQmysppoGdZ5jjFi7M
+ LQhIF039F4DdroVKmP4PJpmvaK1giD1081PuHih3gcGD6L14DQ9MC2QVPLL6sgeJb2n1 SQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 32hu1jmfga-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Thu, 30 Jul 2020 15:38:19 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZkc176078;
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWpjI188534;
  Thu, 30 Jul 2020 15:38:18 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 32hu61a21u-1
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 32hu5xja81-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 30 Jul 2020 15:38:18 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFcGG1007551;
- Thu, 30 Jul 2020 15:38:16 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFcIrw020542;
+ Thu, 30 Jul 2020 15:38:18 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:38:16 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:38:18 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 29/32] pci: export pci_update_mappings
-Date: Thu, 30 Jul 2020 08:14:33 -0700
-Message-Id: <1596122076-341293-30-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 31/32] vfio-pci: trace pci config
+Date: Thu, 30 Jul 2020 08:14:35 -0700
+Message-Id: <1596122076-341293-32-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- adultscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007300111
+ malwarescore=0
+ mlxscore=0 adultscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
@@ -109,47 +109,166 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow pci_update_mappings to be called from other modules.
-No change in functionality.
+Add new trace points trace_vfio_pci_config and trace_vfio_msix_table to dump
+PCI config space and MSI data.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/pci/pci.c         | 3 +--
- include/hw/pci/pci.h | 1 +
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/vfio/pci.c        | 99 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events |  2 ++
+ 2 files changed, 101 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index de0fae1..7343e00 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -216,7 +216,6 @@ static const TypeInfo pcie_bus_info = {
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 5743807..f72e277 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2715,6 +2715,90 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+     vdev->req_enabled = false;
+ }
+ 
++/* To limit output, trace only this many bytes of config. */
++#define CONFIG_LEN 512
++
++static void vfio_dump_config(const char *name, int fd, off_t offset)
++{
++    int i, j, n, config[CONFIG_LEN / 4];
++    char buf[128];
++    const char *fmt;
++    char *ptr = buf;
++    int *v = config;
++    int len = sizeof(buf) - 1;
++
++#ifdef CONFIG_TRACE_DTRACE
++    if (!QEMU_VFIO_PCI_CONFIG_ENABLED()) {
++        return;
++    }
++#endif
++
++    if (pread(fd, &config, sizeof(config), offset) < 0) {
++        perror("pread");
++        return;
++    }
++
++    trace_vfio_pci_config(name);
++
++    for (i = 0; i < CONFIG_LEN; i += 32, v += 8) {
++        n = snprintf(buf, len, "+%3d:", i);
++        ptr += n;
++        len -= n;
++        for (j = 0; j < 8; j++) {
++            fmt = v[j] ?  " %08x" : " %8x";
++            n = snprintf(ptr, len, fmt, v[j]);
++            ptr += n;
++            len -= n;
++        }
++        *ptr = 0;   /* terminate in case of truncation above */
++        trace_vfio_pci_config(buf);
++    }
++}
++
++static void vfio_dump_config_vdev(VFIOPCIDevice *vdev)
++{
++    vfio_dump_config(vdev->vbasedev.name, vdev->vbasedev.fd,
++                     vdev->config_offset);
++}
++
++static void vfio_dump_msix_vdev(VFIOPCIDevice *vdev)
++{
++    int i;
++    int *ptr = (int *) vdev->pdev.msix_table;
++
++    for (i = 0; i < vdev->pdev.msix_entries_nr; i++, ptr += 4) {
++        trace_vfio_msix_table(vdev->vbasedev.name, i,
++                              ptr[0], ptr[1], ptr[2], ptr[3]);
++    }
++}
++
++static void vfio_diff_config(VFIOPCIDevice *vdev)
++{
++    int i;
++    unsigned char config[CONFIG_LEN];
++    int n = sizeof(config);
++    unsigned char *c1 = (unsigned char *)config;
++    unsigned char *c2 = (unsigned char *)vdev->pdev.config;
++    char buf[128];
++
++#ifdef CONFIG_TRACE_DTRACE
++    if (!QEMU_VFIO_PCI_CONFIG_ENABLED()) {
++        return;
++    }
++#endif
++
++    if (pread(vdev->vbasedev.fd, &config, n, vdev->config_offset) != n) {
++        error_report("vfio_diff_config pread failed");
++    }
++    for (i = 0; i < CONFIG_LEN; i++) {
++        if (c1[i] != c2[i]) {
++            snprintf(buf, sizeof(buf),
++                     "config mismatch at %d: %x vs %x", i, c1[i], c2[i]);
++            trace_vfio_pci_config(buf);
++        }
++    }
++}
++
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ {
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+@@ -3037,6 +3121,9 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     if (pdev->reused) {
+         pci_update_mappings(pdev);
+     }
++    vfio_diff_config(vdev);
++    vfio_dump_config_vdev(vdev);
++    vfio_dump_msix_vdev(vdev);
+ 
+     return;
+ 
+@@ -3207,6 +3294,15 @@ static Property vfio_pci_dev_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
  };
  
- static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
--static void pci_update_mappings(PCIDevice *d);
- static void pci_irq_handler(void *opaque, int irq_num, int level);
- static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
- static void pci_del_option_rom(PCIDevice *pdev);
-@@ -1316,7 +1315,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
-     return new_addr;
- }
- 
--static void pci_update_mappings(PCIDevice *d)
-+void pci_update_mappings(PCIDevice *d)
++static int vfio_pci_pre_save(void *opaque)
++{
++    VFIOPCIDevice *vdev = opaque;
++
++    vfio_dump_config_vdev(vdev);
++    vfio_dump_msix_vdev(vdev);
++    return 0;
++}
++
+ static int vfio_pci_post_load(void *opaque, int version_id)
  {
-     PCIIORegion *r;
-     int i;
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index c1bf7d5..bd07c86 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -865,5 +865,6 @@ extern const VMStateDescription vmstate_pci_device;
- }
+     int vector;
+@@ -3226,6 +3322,8 @@ static int vfio_pci_post_load(void *opaque, int version_id)
+             }
+         }
  
- MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
-+void pci_update_mappings(PCIDevice *d);
++        vfio_dump_msix_vdev(vdev);
++
+     } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
+         vfio_intx_enable(vdev, &err);
+         if (err) {
+@@ -3246,6 +3344,7 @@ static const VMStateDescription vfio_pci_vmstate = {
+     .version_id = 0,
+     .minimum_version_id = 0,
+     .post_load = vfio_pci_post_load,
++    .pre_save = vfio_pci_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_MSIX(pdev, VFIOPCIDevice),
+         VMSTATE_END_OF_LIST()
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index b1ef55a..10d899c 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -47,6 +47,8 @@ vfio_pci_emulated_vendor_id(const char *name, uint16_t val) "%s 0x%04x"
+ vfio_pci_emulated_device_id(const char *name, uint16_t val) "%s 0x%04x"
+ vfio_pci_emulated_sub_vendor_id(const char *name, uint16_t val) "%s 0x%04x"
+ vfio_pci_emulated_sub_device_id(const char *name, uint16_t val) "%s 0x%04x"
++vfio_msix_table(const char *name, int index, int x0, int x1, int x2, int x3) "%s MSI-X[%d] = { %x %x %x %x }"
++vfio_pci_config(const char *buf) "%s"
  
- #endif
+ # pci-quirks.c
+ vfio_quirk_rom_blacklisted(const char *name, uint16_t vid, uint16_t did) "%s %04x:%04x"
 -- 
 1.8.3.1
 
