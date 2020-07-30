@@ -2,107 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02D32330C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:11:29 +0200 (CEST)
-Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2099F2330EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:28:49 +0200 (CEST)
+Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k16TA-000740-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58522)
+	id 1k16jw-0005x4-6x
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k16Rq-00068w-Aw
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:10:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49908
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k16Ro-0002UV-0W
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:10:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596107403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=luoojh1fwYtgU076SKn33zC8SlsxZeI+EEFUhTRBLZQ=;
- b=RxIpNXPH/2v/9rdaLkTnZgyEnoQuXkHA2QtDKxHQd5FTWe7IBdQB8/3HF4j2zBXNyd+bfh
- 7bpXvbr50EfiUb9UPsm+4TF0qrBuZwW1QU7souY+sSFeU7zVXebF8PCwPg+M2okVXO8RZ2
- SXjy/C4jUUHgIEhlIOLHu7LWld0fxMI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-nE-AghStNa-xogpaEowe4w-1; Thu, 30 Jul 2020 07:10:01 -0400
-X-MC-Unique: nE-AghStNa-xogpaEowe4w-1
-Received: by mail-wm1-f72.google.com with SMTP id a5so2123169wmj.5
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 04:10:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=luoojh1fwYtgU076SKn33zC8SlsxZeI+EEFUhTRBLZQ=;
- b=np76Iu0R4wEOBTFctKEJ+NHti8oxiEF2MB+bZaJg1hNJILN713aD8ioWvGtU1tIUY4
- FMfsh2x8XsZTTqKLKmaDBRJBXjGjVcXPyKgeQTPIBgBHuLKYSgigVKXKQIwmQjdR8P0E
- 1d+TbudlfUWqY5vChtoxjixGd/rBz/ERee0oyjS3qwffQkwKWanlOBMT9cW+9avU/Tqx
- dlZ727iQvCWsfGnjyQeokWqEQEERWA5aGV08UaaJM3rHs9NyFzdwdbxJi/7TeiHmqZpd
- dlQ6JGgBS6A6TVQnS9jjiGVRj0f48wrWT4D4kHB/1SlI3uhaI+9Bucub3meqvrnepB+q
- uzpg==
-X-Gm-Message-State: AOAM532Euw9u7fwUQMDq5sr+hzyX7btcG/iS/p6coSUbjHsE7xiKZkfk
- UOy08Gpyype28gzx8T/q/WYcSgilQdF1d2CtEAzTypF/1oPoXkb02ULyrRYuS5RYb7hhYO8XX1B
- Z1wyDJdu2yoW0Y60=
-X-Received: by 2002:a05:600c:21cd:: with SMTP id
- x13mr10672698wmj.155.1596107399813; 
- Thu, 30 Jul 2020 04:09:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxL1x62jMDSSaHG2OrEsV2oaJd4+vtUsRR2QiFvUt5EPSF63rYo7Kh/N1i2PjbxpBA9UymsxA==
-X-Received: by 2002:a05:600c:21cd:: with SMTP id
- x13mr10672674wmj.155.1596107399551; 
- Thu, 30 Jul 2020 04:09:59 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id m20sm16844069wmc.1.2020.07.30.04.09.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 04:09:59 -0700 (PDT)
-Subject: Re: sysbus_create_simple Vs qdev_create
-To: Markus Armbruster <armbru@redhat.com>
-References: <87lfjkvo81.fsf@dusky.pond.sub.org>
- <20200716222130.GO1274972@habkost.net> <87tuy6k9pa.fsf@dusky.pond.sub.org>
- <20200717162312.GR1274972@habkost.net> <87r1t6hc0f.fsf@dusky.pond.sub.org>
- <20200720155955.GV1274972@habkost.net> <87v9ihbe6u.fsf@dusky.pond.sub.org>
- <50e31ece-215c-a632-e5a2-86ae7ab3abab@redhat.com>
- <87lfj4f6nz.fsf@dusky.pond.sub.org>
- <759959d1-f320-734a-ac5e-a60db6b1bc23@redhat.com>
- <20200728224733.GP225270@habkost.net>
- <422d7879-3fdc-d38e-259f-2477b9d3c169@redhat.com>
- <87zh7i5uj5.fsf@dusky.pond.sub.org>
- <6ee49ad2-8b6b-cb6f-c3c9-b440631cfc75@redhat.com>
- <87sgd91fsa.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0d7a9407-1df6-0c9b-0695-2f438f0de129@redhat.com>
-Date: Thu, 30 Jul 2020 13:09:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k16hP-0003Qb-Gi
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:26:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36412)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k16hN-000555-BF
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:26:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k16hL-0008Vl-Er
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:26:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6C6872E80D2
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:26:07 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87sgd91fsa.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:59:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 30 Jul 2020 11:10:21 -0000
+From: Peter Maydell <1884728@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: harshitm pmaydell
+X-Launchpad-Bug-Reporter: Harshit Monish (harshitm)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <159290165958.6424.14085230914697784861.malonedeb@soybean.canonical.com>
+Message-Id: <159610742259.15668.8139067498206465921.launchpad@wampee.canonical.com>
+Subject: [Bug 1884728] Re: facing build error for qemu-4.0.0 on SUSE11 OS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4feff074cda563ec7bf4933f0633e51053bfb9a4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 07:16:04
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -111,80 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1884728 <1884728@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/07/20 12:03, Markus Armbruster wrote:
-> qdev C layer:
-> 
->     frob->prop = 42;
-> 
-> Least cognitive load.
-> 
-> QOM has no C layer.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Not really, a QOM object is totally free to do frob->prop = 42.  And
-just like we didn't do that outside device implementation in qdev as our
-tithe to the Church of Information Hiding; the same applies to QOM.
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
-> qdev property layer works even when @frob has incomplete type:
-> 
->     qdev_prop_set_int32(DEVICE(frob), "prop", 42);
-> 
-> This used to map property name to struct offset & copy the value.
-> Simple, stupid.
-> 
-> Nowadays, it is the same as
-> 
->     object_property_set_int(OBJECT(frob), "frob", 42, &error_abort);
-> 
-> which first converts the int to a QObject, then uses a QObject input
-> visitor with a virtual walk to convert it back to int and store it in
-> @frob.  It's quite a sight in the debugger.
+-- =
 
-Yes, but thatt's just because we never bothered to create single-type
-visitors.  For a good reason though: I don't think the extra QAPI code
-is worth (not even that much) nicer backtraces when we already have a
-QObject as a battle-tested variant type.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884728
 
-> qdev "text" layer is really a QemuOpts layer (because that's what we had
-> back then).  If we have prop=42 in a QemuOpts, it calls
-> 
->     set_property("prop", "42", frob, &err);
-> 
-> Nowadays, this is a thin wrapper around object_property_parse(),
-> basically
-> 
->     object_property_parse(frob, "prop", 42, &err);
-> 
-> Fine print: except set_property() does nothing for @prop "driver" and
-> "bus", which look just like properties in -device / device-add, but
-> aren't.
+Title:
+  facing build error for qemu-4.0.0 on SUSE11 OS
 
-Ugly indeed.  They should be special cased up in the caller, probably,
-or use the long-discussed "remainder" feature of the QAPI schema.
+Status in QEMU:
+  Invalid
 
-> object_property_parse() uses the string input visitor, which I loathe.
+Bug description:
+  I am trying to compile qemu-4.0.0 on suse11 OS and facing the following e=
+rror on the console:
+  ERROR: sizeof(size_t) doesn't match GLIB_SIZEOF_SIZE_T.
+         You probably need to set PKG_CONFIG_LIBDIR
+         to point to the right pkg-config files for your
+         build target
 
-Apart from the list syntax, the string input visitor is decent I think.
+  Looking into the config.log file following is the error that is
+  listed:
 
->>> I've long had the nagging feeling that if we had special-cased
->>> containers, children and links, we could have made a QOM that was easier
->>> to reason about, and much easier to integrate with a QAPI schema.
->>
->> That's at least plausible.  But I have a nagging feeling that it would
->> only cover 99% of what we're doing with QOM. :)
-> 
-> The question is whether that 1% really should be done the way it is done
-> :)
+  config-temp/qemu-conf.c:12:11: error: 'WACS_DEGREE' undeclared (first use=
+ in this function)
+     add_wch(WACS_DEGREE);
+             ^
+  config-temp/qemu-conf.c:12:11: note: each undeclared identifier is report=
+ed only once for each function it appears in
 
-And that's a very fair question, but it implies non-trivial design work,
-so the smiley changes to a frown. :(
+  ld: skipping incompatible /usr/lib//libc.so when searching for -lc
+  ld: skipping incompatible /usr/lib//libc.a when searching for -lc
+  /tmp/ccmme6E4.o: In function `main':
+  qemu-conf.c:(.text+0x2b): undefined reference to `resize_term'
+  qemu-conf.c:(.text+0x32): undefined reference to `stdscr'
+  qemu-conf.c:(.text+0x49): undefined reference to `waddnwstr'
+  qemu-conf.c:(.text+0x50): undefined reference to `stdscr'
+  qemu-conf.c:(.text+0x67): undefined reference to `waddnwstr'
+  qemu-conf.c:(.text+0x6e): undefined reference to `_nc_wacs'
+  qemu-conf.c:(.text+0x7f): undefined reference to `stdscr'
+  qemu-conf.c:(.text+0x8d): undefined reference to `wadd_wch'
+  collect2: error: ld returned 1 exit status
 
-Paolo
+  Following are the details of the tools versions:
+  OS version =3D SUSE Linux Enterprise Server 11 (x86_64)
+  python =3D v2.7.10
+  glib =3D v2.56.1
+  gcc =3D v4.8.3
+  sdl2 =3D v2.0.12
 
+  Can someone help me understand the cause of this error?
+
+  regards,
+  Harshit
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884728/+subscriptions
 
