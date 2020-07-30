@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED112335B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:40:44 +0200 (CEST)
-Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C49A233607
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:50:49 +0200 (CEST)
+Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1Afj-0000SA-L7
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53794)
+	id 1k1ApU-0007dv-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdB-00076G-GO
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:05 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:49936)
+ id 1k1Af6-0001CJ-0o
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:04 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:47832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Ad8-00025Z-Cr
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:05 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXqlU008034;
- Thu, 30 Jul 2020 15:37:58 GMT
+ id 1k1Af3-0002U1-Qz
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:03 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXTG9152212;
+ Thu, 30 Jul 2020 15:39:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=hbOroEKaTxV0w6TXCHIDZ5gWaq360kaGUNlpSPZEzCw=;
- b=VnmNKzPJh0AifsGIk2Ca/laONYb95ExHFi+JFYY74cFN9Mw20vYgRdwncN5kJlfLdyoB
- Bd0VrRfD7fLau2xoAGMS7GFBNlCYQi2C/cm6E6o8YOPJtx6m4fWfpUqij+JtFKuXG1IA
- JLfozkiGUqufd5h/7ro8yZX4q0pjPd2wY47rQiztOonGBe/yBfCHgYXYoG5JyQoaogPN
- qgpfw9ZHoc4OJ4ay6Ci+1lvyQdwVHY5j+fKEMGm7Ngnp5JZCbwRNpo9ViGFJl8g6oa9u
- iBBHzbnVUobDqGGg+EdVzqq+TP3WDPwNps7wHiG0MRpLblR9+TUS2MkCLD9rZq2xkVq4 8Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 32hu1jmfdk-1
+ bh=d1OT3ty10GFpJwdnOpO08ryOwyf2KWtChB0Ypajkg9M=;
+ b=Emg4Uuw5rZONqvucdJs1QRfhNS/VSGS6ktxi6Fl0eaas4SWyKxs2/jXtQCYKSec9hn5R
+ UdxaVYHTqAdFjL3djkWKp613Q3pT3XqMTxBzROxjajnw6bXWIBM9bt/aexroVagum4t3
+ OngfikS4/GMsMqMLfy5k6gWhv9rEXLbetxFz0R00Pf2HkER+sEJysMP9iohPbvArq5p9
+ TOUHZvQS4jvr7wsAjhOvrf/parVwHgdKVFVWAljc4Wb4EgfMvskxQ2TjRJsLzHKga7y0
+ jxq8E87vYQcKVYcf5X95e/bHdMGI1lnAnbsn2qASgaO3caSzn6i5ckMZgwgO7NtHlFaf QQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 32hu1jveb2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:37:58 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFYj2Q172040;
+ Thu, 30 Jul 2020 15:39:58 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXSO3130733;
  Thu, 30 Jul 2020 15:37:58 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 32hu5x0w2p-1
+ by userp3030.oracle.com with ESMTP id 32hu5wwgn1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jul 2020 15:37:57 +0000
+ Thu, 30 Jul 2020 15:37:58 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFbu84001820;
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFbuT0001829;
  Thu, 30 Jul 2020 15:37:56 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Thu, 30 Jul 2020 08:37:56 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 04/32] savevm: HMP Command for cprsave
-Date: Thu, 30 Jul 2020 08:14:08 -0700
-Message-Id: <1596122076-341293-5-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 05/32] savevm: QMP command for cprload
+Date: Thu, 30 Jul 2020 08:14:09 -0700
+Message-Id: <1596122076-341293-6-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=3 spamscore=0 mlxlogscore=999 mlxscore=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=1 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- clxscore=1015
- malwarescore=0 spamscore=0 suspectscore=3 bulkscore=0 priorityscore=1501
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=1 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:38:02
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,80 +110,166 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable HMP access to the cprsave QMP command.
+Provide the cprload QMP command.  The VM is created from the file produced
+by the cprsave command.  Guest RAM is restored in-place from the shared
+memory backend file, and guest block devices are used as is.  The contents
+of such devices must not be modified between the cprsave and cprload
+operations.  If the VM was running at cprsave time, then VM execution
+resumes.
 
-Usage: cprsave <filename> <mode>
+Syntax:
+  {'command':'cprload', 'data':{'file':'str'}}
 
-Signed-off-by: Maran Wilson <maran.wilson@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+Signed-off-by: Maran Wilson <maran.wilson@oracle.com>
 ---
- hmp-commands.hx       | 18 ++++++++++++++++++
- include/monitor/hmp.h |  1 +
- monitor/hmp-cmds.c    | 10 ++++++++++
- 3 files changed, 29 insertions(+)
+ include/sysemu/sysemu.h |  2 ++
+ migration/savevm.c      | 34 ++++++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c      |  5 +++++
+ qapi/migration.json     | 11 +++++++++++
+ softmmu/vl.c            | 15 ++++++++++++++-
+ 5 files changed, 66 insertions(+), 1 deletion(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 60f395c..c8defd9 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -354,6 +354,24 @@ SRST
- ERST
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 6fe86e6..5360da5 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -25,6 +25,7 @@ void qemu_add_machine_init_done_notifier(Notifier *notify);
+ void qemu_remove_machine_init_done_notifier(Notifier *notify);
  
-     {
-+        .name       = "cprsave",
-+        .args_type  = "file:s,mode:s",
-+        .params     = "file 'reboot'",
-+        .help       = "create a checkpoint of the VM in file",
-+        .cmd        = hmp_cprsave,
-+    },
-+
-+SRST
-+``cprsave`` *tag*
-+  Stop VCPUs, create a checkpoint of the whole virtual machine and save it
-+  in *file*.
-+  If *mode* is 'reboot', the checkpoint can be cprload'ed after a host kexec
-+  reboot.
-+  exec() /usr/bin/qemu-exec if it exists, else exec /usr/bin/qemu-system-x86_64,
-+  passing all the original command line arguments.  The VCPUs remain paused.
-+ERST
-+
-+    {
-         .name       = "delvm",
-         .args_type  = "name:s",
-         .params     = "tag",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index c986cfd..af8ee23 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -59,6 +59,7 @@ void hmp_balloon(Monitor *mon, const QDict *qdict);
- void hmp_loadvm(Monitor *mon, const QDict *qdict);
- void hmp_savevm(Monitor *mon, const QDict *qdict);
- void hmp_delvm(Monitor *mon, const QDict *qdict);
-+void hmp_cprsave(Monitor *mon, const QDict *qdict);
- void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
- void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
- void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ae4b6a4..59196ed 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1139,6 +1139,16 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
-     qapi_free_AnnounceParameters(params);
+ void save_cpr_snapshot(const char *file, const char *mode, Error **errp);
++void load_cpr_snapshot(const char *file, Error **errp);
+ 
+ extern int autostart;
+ 
+@@ -53,6 +54,7 @@ extern uint8_t *boot_splash_filedata;
+ extern bool enable_mlock;
+ extern bool enable_cpu_pm;
+ extern QEMUClockType rtc_clock;
++extern int start_on_wake;
+ 
+ #define MAX_OPTION_ROMS 16
+ typedef struct QEMUOptionRom {
+diff --git a/migration/savevm.c b/migration/savevm.c
+index ff1a46e..1509173 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2948,6 +2948,40 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
+     migration_incoming_state_destroy();
  }
  
-+void hmp_cprsave(Monitor *mon, const QDict *qdict)
++void load_cpr_snapshot(const char *file, Error **errp)
 +{
-+    Error *err = NULL;
++    QEMUFile *f;
++    int ret;
++    RunState state;
 +
-+    qmp_cprsave(qdict_get_try_str(qdict, "file"),
-+                qdict_get_try_str(qdict, "mode"),
-+                &err);
-+    hmp_handle_error(mon, err);
++    if (runstate_is_running()) {
++        error_setg(errp, "cprload called for a running VM");
++        return;
++    }
++
++    f = qf_file_open(file, O_RDONLY, 0, errp);
++    if (!f) {
++        return;
++    }
++
++    ret = qemu_loadvm_state(f, VMS_REBOOT);
++    qemu_fclose(f);
++    if (ret < 0) {
++        error_setg(errp, "Error %d while loading VM state", ret);
++        return;
++    }
++
++    state = global_state_get_runstate();
++    if (state == RUN_STATE_RUNNING) {
++        vm_start();
++    } else {
++        runstate_set(state);
++        if (runstate_check(RUN_STATE_SUSPENDED)) {
++            start_on_wake = 1;
++        }
++    }
 +}
 +
- void hmp_migrate_cancel(Monitor *mon, const QDict *qdict)
+ int load_snapshot(const char *name, Error **errp)
  {
-     qmp_migrate_cancel(NULL);
+     BlockDriverState *bs, *bs_vm_state;
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 9ec7b88..81e6feb 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -167,6 +167,11 @@ void qmp_cprsave(const char *file, const char *mode, Error **errp)
+     save_cpr_snapshot(file, mode, errp);
+ }
+ 
++void qmp_cprload(const char *file, Error **errp)
++{
++    load_cpr_snapshot(file, errp);
++}
++
+ void qmp_system_wakeup(Error **errp)
+ {
+     if (!qemu_wakeup_suspend_enabled()) {
+diff --git a/qapi/migration.json b/qapi/migration.json
+index b61df1d..ce4d32b 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1635,3 +1635,14 @@
+ ##
+ { 'command': 'cprsave', 'data': { 'file': 'str', 'mode': 'str' } }
+ 
++##
++# @cprload:
++#
++# Start virtual machine from checkpoint file that was created earlier using
++# the cprsave command.
++#
++# @file: name of checkpoint file
++#
++# Since 5.0
++##
++{ 'command': 'cprload', 'data': { 'file': 'str' } }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 660537a..8478778 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -137,6 +137,7 @@ static time_t rtc_ref_start_datetime;
+ static int rtc_realtime_clock_offset; /* used only with QEMU_CLOCK_REALTIME */
+ static int rtc_host_datetime_offset = -1; /* valid & used only with
+                                              RTC_BASE_DATETIME */
++int start_on_wake;
+ QEMUClockType rtc_clock;
+ int vga_interface_type = VGA_NONE;
+ static DisplayOptions dpy;
+@@ -602,6 +603,8 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
+     { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
+     { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_PAUSED },
+ 
+     { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
+     { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
+@@ -1519,7 +1522,17 @@ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+     if (!(wakeup_reason_mask & (1 << reason))) {
+         return;
+     }
+-    runstate_set(RUN_STATE_RUNNING);
++
++    /*
++     * Must call vm_start if it has never been called, to invoke the state
++     * change callbacks for the first time.
++     */
++    if (start_on_wake) {
++        start_on_wake = 0;
++        vm_start();
++    } else {
++        runstate_set(RUN_STATE_RUNNING);
++    }
+     wakeup_reason = reason;
+     qemu_notify_event();
+ }
 -- 
 1.8.3.1
 
