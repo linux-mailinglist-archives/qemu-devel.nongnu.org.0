@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55D72335FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:47:35 +0200 (CEST)
-Received: from localhost ([::1]:57356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AD323361E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:57:21 +0200 (CEST)
+Received: from localhost ([::1]:60824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AmM-0003Cz-JA
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:47:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54930)
+	id 1k1Avo-0008Rv-TR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k1Ag0-00021D-FQ
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:41:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42750)
+ id 1k1Akh-0001O3-9t
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:45:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k1Aft-0002jf-H8
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:59 -0400
+ id 1k1Ake-0003ZG-Ia
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:45:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k1Afp-0004W5-LH
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 15:40:49 +0000
+ id 1k1Akc-000646-Es
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 15:45:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D8FF2E80BA
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 15:40:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6F7DD2E80BA
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 15:45:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2020 15:31:41 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1889621@bugs.launchpad.net>
+Date: Thu, 30 Jul 2020 15:37:41 -0000
+From: TheCatFelix <1884684@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <159611622900.2711.11274153830927420832.malonedeb@gac.canonical.com>
-Message-Id: <159612310142.16310.15462691731262899664.malone@wampee.canonical.com>
-Subject: [Bug 1889621] Re: ARM Highbank Crashes Realted to GIC
+X-Launchpad-Bug-Commenters: thecatfelix
+X-Launchpad-Bug-Reporter: TheCatFelix (thecatfelix)
+X-Launchpad-Bug-Modifier: TheCatFelix (thecatfelix)
+References: <159287262873.13509.14889128175029136647.malonedeb@wampee.canonical.com>
+Message-Id: <159612346193.10348.2150148730413805044.malone@chaenomeles.canonical.com>
+Subject: [Bug 1884684] Re: QEMU 5.0: Guest VM hangs/freeze when unplugging USB
+ device
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ebbf87a224fa13528fe4ca51e05af81c375c4687
+X-Launchpad-Hash: cfb3d4b427667f9c39a8d915abce29914b5c786a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 09:45:41
@@ -62,7 +60,8 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,210 +73,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1889621 <1889621@bugs.launchpad.net>
+Reply-To: Bug 1884684 <1884684@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Why put all these bugs in the same ticket?
+Following reports on Proxmox forums, this is still very much seen by
+multiple users with no known workaround.
 
-For reproducer #2:
+I was able to run QEMU 5.0.13 (Debian) with all traces turned on and
+capture the following:
 
-writeq 0xfff11f00 0x613a650f0fda6555 does:
+- Behavior is reproducible by unbinding usb device on the host (ex. "echo '=
+1-8' > /sys/bus/usb/drivers/usb/unbind")
+- qemu trace logs stops at exactly the same time when VM freezes
+- Last few lines of the qemu trace:
 
-gic_dist_write dist write at 0x00000f00 size 4: 0x0fda6555
-
-0x0fda6555 =3D> IRQ 341, mask type 3 illegal -> DPRINTF("Bad Soft Int
-target filter\n");
-
-mask =3D ALL_CPU_MASK =3D 0xff
-
-Having:
-
-#define GIC_NR_SGIS 16
-uint8_t sgi_pending[GIC_NR_SGIS][GIC_NCPU];
-
-s->sgi_pending[irq][target_cpu] |=3D (1 << cpu);
-               ^^^
-                  \ OOB access.
-
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
-** Tags added: arm
+1592303@1596123157.254134:virtio_notify vdev 0x56193d04d820 vq 0x7fcd5c48a0=
+10
+1592320@1596123158.822309:usb_xhci_oper_read off 0x0004, ret 0x00000008
+1592320@1596123158.822397:usb_xhci_port_read port 1, off 0x0000, ret 0x0e00=
+02a0
+1592320@1596123158.822459:usb_xhci_port_read port 2, off 0x0000, ret 0x0e00=
+02a0
+1592320@1596123158.822513:usb_xhci_port_read port 3, off 0x0000, ret 0x0e00=
+02a0
+1592320@1596123158.822565:usb_xhci_port_read port 4, off 0x0000, ret 0x0e00=
+02a0
+1592303@1596123159.858372:virtqueue_alloc_element elem 0x56193c8c8990 size =
+56 in_num 2 out_num 0
+1592303@1596123159.858435:virtqueue_pop vq 0x7fcd5c48a010 elem 0x56193c8c89=
+90 in_num 2 out_num 0
+1592303@1596123159.858482:virtqueue_fill vq 0x7fcd5c48a010 elem 0x56193c8c8=
+990 len 72 idx 0
+1592303@1596123159.858533:virtqueue_flush vq 0x7fcd5c48a010 count 1
+1592303@1596123159.858565:virtio_notify vdev 0x56193d04d820 vq 0x7fcd5c48a0=
+10
+1592303@1596123160.272641:virtqueue_alloc_element elem 0x56193c8c8990 size =
+56 in_num 2 out_num 0
+1592303@1596123160.272702:virtqueue_pop vq 0x7fcd5c48a010 elem 0x56193c8c89=
+90 in_num 2 out_num 0
+1592303@1596123160.272751:virtqueue_fill vq 0x7fcd5c48a010 elem 0x56193c8c8=
+990 len 104 idx 0
+1592303@1596123160.272802:virtqueue_flush vq 0x7fcd5c48a010 count 1
+1592303@1596123160.272833:virtio_notify vdev 0x56193d04d820 vq 0x7fcd5c48a0=
+10
+1592303@1596123160.845694:lockcnt_unlock_attempt lockcnt 0x56193bea6514 unl=
+ock 5->4
+1592303@1596123160.846821:lockcnt_unlock_success lockcnt 0x56193bea6514 unl=
+ock 5->4 succeeded
+1592303@1596123160.847923:usb_host_req_complete dev 1:4, packet 0x7fcb84000=
+ea8, status 0, length 0
+1592303@1596123160.849369:usb_packet_state_change bus 0, port 1, ep 2, pack=
+et 0x7fcb84000ea8, state async -> complete
+1592303@1596123160.851157:usb_xhci_xfer_success 0x7fcb84000ea0: len 0
+1592303@1596123160.851214:usb_xhci_queue_event v 3, idx 5, ER_TRANSFER, CC_=
+SHORT_PACKET, p 0xffffac0c62444ae3, s 0x0d000000, c 0x02058005
+1592303@1596123160.851285:usb_xhci_irq_msix nr 3
+1592303@1596123160.851331:usb_xhci_ep_kick slotid 2, epid 5, streamid 0
+1592303@1596123160.851374:usb_host_req_data dev 1:4, packet 0x56193cce8da8,=
+ in 1, ep 2, size 4
+1592303@1596123160.851434:usb_host_req_complete dev 1:4, packet 0x56193cce8=
+da8, status -1, length 0
+1592303@1596123160.851485:usb_packet_state_change bus 0, port 1, ep 2, pack=
+et 0x56193cce8da8, state queued -> complete
+1592303@1596123160.851541:usb_xhci_xfer_error 0x56193cce8da0: ret -1
+1592303@1596123160.851577:usb_xhci_queue_event v 3, idx 6, ER_TRANSFER, CC_=
+USB_TRANSACTION_ERROR, p 0x00000001c18a4e20, s 0x04000004, c 0x02058001
+1592303@1596123160.851647:usb_xhci_ep_state slotid 2, epid 5, running -> ha=
+lted
+1592303@1596123160.852700:usb_xhci_ep_kick slotid 2, epid 5, streamid 0
+1592303@1596123160.852744:usb_host_req_complete dev 1:4, packet 0x7fcb84000=
+b98, status 0, length 0
+1592303@1596123160.852788:usb_packet_state_change bus 0, port 1, ep 1, pack=
+et 0x7fcb84000b98, state async -> complete
+1592303@1596123160.852845:usb_xhci_xfer_success 0x7fcb84000b90: len 0
+1592303@1596123160.852879:usb_xhci_queue_event v 3, idx 7, ER_TRANSFER, CC_=
+SHORT_PACKET, p 0xffffac0c6229aae3, s 0x0d000000, c 0x02038005
+1592303@1596123160.852945:usb_xhci_ep_kick slotid 2, epid 3, streamid 0
+1592303@1596123160.852977:usb_host_req_data dev 1:4, packet 0x56193c9da348,=
+ in 1, ep 1, size 8
+1592303@1596123160.853031:usb_host_req_complete dev 1:4, packet 0x56193c9da=
+348, status -1, length 0
+1592303@1596123160.853080:usb_packet_state_change bus 0, port 1, ep 1, pack=
+et 0x56193c9da348, state queued -> complete
+1592303@1596123160.853136:usb_xhci_xfer_error 0x56193c9da340: ret -1
+1592303@1596123160.853170:usb_xhci_queue_event v 3, idx 8, ER_TRANSFER, CC_=
+USB_TRANSACTION_ERROR, p 0x00000001c18a4c20, s 0x04000008, c 0x02038001
+1592303@1596123160.853240:usb_xhci_ep_state slotid 2, epid 3, running -> ha=
+lted
+1592303@1596123160.853280:usb_xhci_ep_kick slotid 2, epid 3, streamid 0
+1592303@1596123160.853316:lockcnt_unlock_attempt lockcnt 0x56193bea6514 unl=
+ock 1->4
+1592303@1596123160.853352:lockcnt_unlock_success lockcnt 0x56193bea6514 unl=
+ock 1->4 succeeded
+1592303@1596123160.853564:usb_host_close dev 1:4
+libusb: error [udev_hotplug_event] ignoring udev action unbind
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1889621
+https://bugs.launchpad.net/bugs/1884684
 
 Title:
-  ARM Highbank Crashes Realted to GIC
+  QEMU 5.0: Guest VM hangs/freeze when unplugging USB device
 
 Status in QEMU:
-  Confirmed
+  New
 
 Bug description:
-  Hello,
-  Here are some QTest reproducers for crashes on ARM Highbank that all seem=
- to be related to the gic device.
+  Setup:
 
-  Reproducer 1:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writel 0xfff11f00 0x8405f559
-  writel 0xfff117fd 0x5c057bd8
-  EOF
+  Host: Debian/SID, Kernel 5.6, QEMU 5.0
+  Guest: Windows 10 VM with PCI and USB device passthrough.
 
-  =3D=3D10595=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x62b00=
-0013e01 (pc 0x55b6ab85cc91 bp 0x7fff60bd4d70 sp 0x7fff60bd4ce0 T0)
-  =3D=3D10595=3D=3DThe signal is caused by a READ memory access.
-      #0 0x55b6ab85cc91 in gic_get_current_cpu /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:60:12
-      #1 0x55b6ab85e1bd in gic_dist_writeb /home/alxndr/Development/qemu/ge=
-neral-fuzz/hw/intc/arm_gic.c:1182:11
-      #2 0x55b6ab855a97 in gic_dist_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/hw/intc/arm_gic.c:1514:9
-      #3 0x55b6aa1650d4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
-      #4 0x55b6aa163ac6 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #5 0x55b6aa161f35 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1473:13
-      #6 0x55b6a9313949 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #7 0x55b6a92fca11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #8 0x55b6a92fc54e in address_space_write /home/alxndr/Development/qem=
-u/general-fuzz/exec.c:3308:18
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  Problem: Guest VM suddenly hangs when pulling USB device out from the
+  Host.
 
-  Reproducer 2:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writeq 0xfff11f00 0x613a650f0fda6555
-  EOF
+  Observations:
+   - Issue appears to be related to QEMU 5.0
+     - It started after an upgrade to QEMU 5.0.
+     - Downgrading only QEMU on multiple systems fixes the issue.
 
-  =3D=3D1375=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address =
-0x608000001c80 at pc 0x5618928c486e bp 0x7ffe22c4ee10 sp 0x7ffe22c4ee08
-  READ of size 8 at 0x608000001c80 thread T0
-      #0 0x5618928c486d in address_space_translate_iommu /home/alxndr/Devel=
-opment/qemu/general-fuzz/exec.c:451:23
-      #1 0x561892850acc in flatview_do_translate /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:524:16
-      #2 0x5618928514ad in flatview_translate /home/alxndr/Development/qemu=
-/general-fuzz/exec.c:584:15
-      #3 0x5618928b1e14 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3199:14
-      #4 0x56189289aa11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #5 0x56189289a54e in address_space_write /home/alxndr/Development/qem=
-u/general-fuzz/exec.c:3308:18
-      #6 0x5618937a5e13 in qtest_process_command /home/alxndr/Development/q=
-emu/general-fuzz/softmmu/qtest.c:452:13
-      #7 0x56189379d89f in qtest_process_inbuf /home/alxndr/Development/qem=
-u/general-fuzz/softmmu/qtest.c:710:9
-      #8 0x56189379c680 in qtest_read /home/alxndr/Development/qemu/general=
--fuzz/softmmu/qtest.c:722:5
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   - Issue is very reproducible.
+     - Most of the time within a few attempts of pulling/reconnecting the d=
+evice.
+     - Issue happens with multiple devices (I did try standard HID devices,=
+ a webcam and an x-ray sensor).
 
-  Reproducer 3:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writeq 0xfff11000 0x700000b
-  writeq 0xfff11f00 0x4f4f4fff54a7afaf
-  writel 0xfff10100 0x600001ff
-  EOF
+   - Guest just hangs.
+     - Display output remains on last frame shown.
+     - Ping to Guest immediately stops working.
+     - Logs in the Guest stop logging immediately.
 
-  =3D=3D23743=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address=
- 0x62b000006a92 at pc 0x55d690d980e1 bp 0x7ffe606082d0 sp 0x7ffe606082c8
-  READ of size 1 at 0x62b000006a92 thread T0
-      #0 0x55d690d980e0 in gic_get_best_irq /home/alxndr/Development/qemu/g=
-eneral-fuzz/hw/intc/arm_gic.c:94:13
-      #1 0x55d690d9485b in gic_update_internal /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:185:13
-      #2 0x55d690d90376 in gic_update /home/alxndr/Development/qemu/general=
--fuzz/hw/intc/arm_gic.c:226:5
-      #3 0x55d690dc0879 in gic_cpu_write /home/alxndr/Development/qemu/gene=
-ral-fuzz/hw/intc/arm_gic.c:1758:9
-      #4 0x55d690da41c0 in gic_thiscpu_write /home/alxndr/Development/qemu/=
-general-fuzz/hw/intc/arm_gic.c:1777:12
-      #5 0x55d68f6b30d4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
-      #6 0x55d68f6b1ac6 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #7 0x55d68f6aff35 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1473:13
-      #8 0x55d68e861949 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #9 0x55d68e84aa11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #10 0x55d68e84a54e in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/exec.c:3308:18
-      #11 0x55d68f755537 in qtest_process_command /home/alxndr/Development/=
-qemu/general-fuzz/softmmu/qtest.c:447:13
-      #12 0x55d68f74d89f in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/general-fuzz/softmmu/qtest.c:710:9
-      #13 0x55d68f74c680 in qtest_read /home/alxndr/Development/qemu/genera=
-l-fuzz/softmmu/qtest.c:722:5
-      #14 0x55d692dddc36 in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/general-fuzz/chardev/char.c:188:9
-      #15 0x55d692dddd79 in qemu_chr_be_write /home/alxndr/Development/qemu=
-/general-fuzz/chardev/char.c:200:9
-      #16 0x55d692df105e in fd_chr_read /home/alxndr/Development/qemu/gener=
-al-fuzz/chardev/char-fd.c:68:9
-      #17 0x55d692f395df in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/general-fuzz/io/channel-watch.c:84:12
-      #18 0x7f69a1b50897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55d6932f5c83 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/general-fuzz/util/main-loop.c:217:9
-      #20 0x55d6932f35b6 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/general-fuzz/util/main-loop.c:240:5
-      #21 0x55d6932f2f97 in main_loop_wait /home/alxndr/Development/qemu/ge=
-neral-fuzz/util/main-loop.c:516:11
-      #22 0x55d68f76c62d in qemu_main_loop /home/alxndr/Development/qemu/ge=
-neral-fuzz/softmmu/vl.c:1676:9
-      #23 0x55d692f6f20c in main /home/alxndr/Development/qemu/general-fuzz=
-/softmmu/main.c:49:5
-      #24 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55d68e753459 in _start (/home/alxndr/Development/qemu/general-f=
-uzz/build/arm-softmmu/qemu-system-arm+0x3254459)
+   - Host is fine and thinks the Guest is fine. =
 
-  0x62b000006a92 is located 2 bytes to the right of 26768-byte region [0x62=
-b000000200,0x62b000006a90)
-  allocated by thread T0 here:
-      #0 0x55d68e7cbe4d in malloc (/home/alxndr/Development/qemu/general-fu=
-zz/build/arm-softmmu/qemu-system-arm+0x32cce4d)
-      #1 0x7f69a1b56500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x54500)
-      #2 0x55d69254f231 in object_new /home/alxndr/Development/qemu/general=
--fuzz/qom/object.c:708:12
-      #3 0x55d69034bf01 in qdev_new /home/alxndr/Development/qemu/general-f=
-uzz/hw/core/qdev.c:136:12
-      #4 0x55d68f2b7aa4 in calxeda_init /home/alxndr/Development/qemu/gener=
-al-fuzz/hw/arm/highbank.c:319:15
-      #5 0x55d68f2b6466 in highbank_init /home/alxndr/Development/qemu/gene=
-ral-fuzz/hw/arm/highbank.c:411:5
-      #6 0x55d6903d43f1 in machine_run_board_init /home/alxndr/Development/=
-qemu/general-fuzz/hw/core/machine.c:1134:5
-      #7 0x55d68f77e0ee in qemu_init /home/alxndr/Development/qemu/general-=
-fuzz/softmmu/vl.c:4356:5
-      #8 0x55d692f6f207 in main /home/alxndr/Development/qemu/general-fuzz/=
-softmmu/main.c:48:5
-      #9 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30=
-/csu/../csu/libc-start.c:308:16
+     - Guest continues to show as running in "virsh list".
+     - No suspicious entries in the QEMU logs.
+     - No suspicious entries in Host syslogs/messages.
+     - Host can can kill guest "virsh destroy" and respawn fine.
 
-  =
+   - Issue seems widespread.
+     - Multiple similar reports from ProxMox users after upgrade to ProxMox=
+ 6.2 for both Windows and Linux guests (First version that uses QEMU 5.0)
 
-  Let me know if I can provide any further info.
-  -Alex
+  https://forum.proxmox.com/threads/vm-freezes-when-disconnecting-usb-keybo=
+ard-and-mouse.70287/
+  https://forum.proxmox.com/threads/usb-drive-crashes-vm.70214/
+  https://forum.proxmox.com/threads/latest-proxmox-usb-disconnects-freeze-k=
+vm.70398/
+  https://forum.proxmox.com/threads/vm-with-gpu-passthrough-freezes-when-tu=
+rning-off-monitor-after-proxmox-6-2-upgrade.69821/
+  https://forum.proxmox.com/threads/vm-with-gpu-passthrough-freezes-when-tu=
+rning-off-monitor-after-proxmox-6-2-upgrade.69824/
+
+  I'd be more than happy any debugs that might be helpful.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1889621/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1884684/+subscriptions
 
