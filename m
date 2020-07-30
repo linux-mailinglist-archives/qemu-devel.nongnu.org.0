@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B147233743
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 19:01:18 +0200 (CEST)
-Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C4623374B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 19:05:29 +0200 (CEST)
+Received: from localhost ([::1]:50930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1Bvh-0002r7-8x
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 13:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45940)
+	id 1k1Bzl-0006MI-09
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 13:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1Btn-0001oO-6r
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:59:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45777
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1Btl-0007Na-D0
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:59:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596128356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xsvkRs6YLJaQIptiQqmufvIaiTahLTrG2br/J1zshaU=;
- b=VlGEQUKNxAKwvnv3HHVyCfKoblEcbQjs3RSVCDG53hxvwd/pdJfrzj9S3EjqhBvL2C36nR
- 8gkW1pTpW2Q4Ntv4bvhcKJpo2LoH+zitd1jTOgelaNNhoiQWFm+524hN3ZMnHi3xzvZnZE
- EDFfvZfsDDHdsvIZrUC8Y0QQZ9bpTmA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-pCCIoYVQNH--NHuWfjHoeA-1; Thu, 30 Jul 2020 12:59:15 -0400
-X-MC-Unique: pCCIoYVQNH--NHuWfjHoeA-1
-Received: by mail-wr1-f72.google.com with SMTP id f14so8111613wrm.22
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 09:59:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k1ByN-0005T8-DS
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 13:04:03 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k1ByL-0008Rg-Jx
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 13:04:03 -0400
+Received: by mail-wm1-x343.google.com with SMTP id p14so6356052wmg.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 10:04:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=pchR31nrcO5b0nyQf52oinSOdgGHqZ6o3u5HgtyNLsk=;
+ b=lduqaunyqZlfHe+m1f5mqwheeq4SgMH9gVZP+bXkOSIpYddNRSGeYeOhGQ3ezFJUwA
+ nAwHpO4B5KNuEl85hqIpx6NzUdLgTAOqJaNY55U43ahJotZ2R1j0saP10CPlyqq0glKN
+ L+jOXaXGcpak67hnbDN1wlDdwuuI8WVX8fV881XY0N5XmpzpvdWSva5/4sLXSAptfzCL
+ AQFG9m7GO8Wc+EUKt9cUa3iONREhmFhEHBKIbc8MxoL3zFvVotV3u7n1pykDA+4dRm6G
+ hM+RBMpPlY3RzwbEEHIuJHVSmwbd0+70H2F/r6Sr4PfEye48QiYhkW9Jej9twAoOoT/j
+ pA8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xsvkRs6YLJaQIptiQqmufvIaiTahLTrG2br/J1zshaU=;
- b=MoqeK6iYkixWS/XElp/51oQCT19L8peBst9pxTc/nUUEqSjOicyzrkJllIEcIhpQOh
- QgPcXuaB8oyYWFTNiKLl/cvjC/+SShnX6t9EwSs+NDkEsxcQrX8kNI8ovobc6B9PbdIw
- qa7eDFTGABT8yFzrwn6rcpBhukzb+k22XmHdlKl4tPAeVeEd+++DxGldtftaoSG96+eA
- QVpVoOeZ55yjr6V9514pFmMvrjhpzjXJMdYPwM/DhwN5CUfXukouw88gYON9lpSLNDUx
- tHIoNfP/R0CYVeC2ZzOnwzYUoxLU3NFCuyG90NVS3DeV2H/wWodXak3784L6XmtdfHdK
- h1LQ==
-X-Gm-Message-State: AOAM5331luaNYT8SWgbXWNYoAFvC1pEsGsThmZG5KFb3WABt8lFX2w8t
- sX3bNHFOhYEkvJp+ngX9Pkqo2MiWj3EAyDYildOfuf4ijxl4xZPuvk8N4U/qg8wNJPb3YL0D33S
- vQkaRYp1UitS9sA0=
-X-Received: by 2002:a1c:9650:: with SMTP id y77mr158534wmd.101.1596128352621; 
- Thu, 30 Jul 2020 09:59:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnn3eF39ADajYONkpgFtSa8OUABS1r/WxeKeEQ9uKSNkOSRklLGIB/dZc/SDd3lUmZsRsnYA==
-X-Received: by 2002:a1c:9650:: with SMTP id y77mr158510wmd.101.1596128352344; 
- Thu, 30 Jul 2020 09:59:12 -0700 (PDT)
-Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id g18sm11198388wru.27.2020.07.30.09.59.11
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=pchR31nrcO5b0nyQf52oinSOdgGHqZ6o3u5HgtyNLsk=;
+ b=ABQ9wyeNge+uJ+CKq2Hk2SvIydzN4bJvxWAFiqVrKo526/r5/6r9COLDBX1f2TZp2Q
+ KlZU/M6OT0C0OHr9Xl6IVAR0sDjbHAiSWwOhsnaHvgLARx0i56iL6cRUjPBJIhTelMYH
+ gnj4D1AQ89xM4ULjwPfZ6Dcyt2pcrT/7tjsl7eLbmGZhvHJaCTScFEUkxqNmey0u6/3w
+ AG4aTFnzlYI+uXw0G4yz78bkLADXrdwzVQoghg2GOCk97kwUulGdjF//9EcuvGjYMimD
+ Z3GWig9KjWpcVihMoxgHcGO2vRwKUuzrIsJE11oqOCg9fgkGXzfkvlz2UK/2b1EmtSO/
+ jckQ==
+X-Gm-Message-State: AOAM533vE142E1nhQzdunAj0r7hU1ppg2XMo5WPXVw/6Ucx/vDrvjSQB
+ n5A4frNsycMo5UeszkItNw/w5w==
+X-Google-Smtp-Source: ABdhPJweSrbZ1gHDZRMQF0hXqVFdOY4If/Sjwnx4sei2hbKvQkd2aY+tz4FgtD5w6PEjXr8BP/g5EQ==
+X-Received: by 2002:a1c:9a02:: with SMTP id c2mr258522wme.16.1596128639053;
+ Thu, 30 Jul 2020 10:03:59 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i14sm13610773wrc.19.2020.07.30.10.03.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 09:59:11 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 2/2] hw/char/serial: Remove TYPE_SERIAL_IO (superset
- of TYPE_SERIAL_MM)
-Date: Thu, 30 Jul 2020 18:59:00 +0200
-Message-Id: <20200730165900.7030-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200730165900.7030-1-philmd@redhat.com>
-References: <20200730165900.7030-1-philmd@redhat.com>
+ Thu, 30 Jul 2020 10:03:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 40BC01FF7E;
+ Thu, 30 Jul 2020 18:03:56 +0100 (BST)
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+ <1596122076-341293-13-git-send-email-steven.sistare@oracle.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V1 12/32] vl: pause option
+In-reply-to: <1596122076-341293-13-git-send-email-steven.sistare@oracle.com>
+Date: Thu, 30 Jul 2020 18:03:55 +0100
+Message-ID: <87r1stdjes.fsf@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:41:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,115 +89,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TYPE_SERIAL_IO is a superset of TYPE_SERIAL_MM, and it is
-not used anymore. Remove it.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/char/serial.h |  9 ---------
- hw/char/serial.c         | 41 ----------------------------------------
- 2 files changed, 50 deletions(-)
+Steve Sistare <steven.sistare@oracle.com> writes:
 
-diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 535fa23a2b..81d7ba1917 100644
---- a/include/hw/char/serial.h
-+++ b/include/hw/char/serial.h
-@@ -88,12 +88,6 @@ typedef struct SerialMM {
-     uint8_t endianness;
- } SerialMM;
- 
--typedef struct SerialIO {
--    SysBusDevice parent;
--
--    SerialState serial;
--} SerialIO;
--
- extern const VMStateDescription vmstate_serial;
- extern const MemoryRegionOps serial_io_ops;
- 
-@@ -105,9 +99,6 @@ void serial_set_frequency(SerialState *s, uint32_t frequency);
- #define TYPE_SERIAL_MM "serial-mm"
- #define SERIAL_MM(s) OBJECT_CHECK(SerialMM, (s), TYPE_SERIAL_MM)
- 
--#define TYPE_SERIAL_IO "serial-io"
--#define SERIAL_IO(s) OBJECT_CHECK(SerialIO, (s), TYPE_SERIAL_IO)
--
- SerialMM *serial_mm_init(MemoryRegion *address_space,
-                          hwaddr base, int regshift,
-                          qemu_irq irq, int baudbase,
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 2386479492..fd80ae5592 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -985,46 +985,6 @@ const MemoryRegionOps serial_io_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
--static void serial_io_realize(DeviceState *dev, Error **errp)
--{
--    SerialIO *sio = SERIAL_IO(dev);
--    SerialState *s = &sio->serial;
--
--    if (!qdev_realize(DEVICE(s), NULL, errp)) {
--        return;
--    }
--
--    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial", 8);
--    sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
--    sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
--}
--
--static void serial_io_class_init(ObjectClass *klass, void* data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = serial_io_realize;
--    /* No dc->vmsd: class has no migratable state */
--}
--
--static void serial_io_instance_init(Object *o)
--{
--    SerialIO *sio = SERIAL_IO(o);
--
--    object_initialize_child(o, "serial", &sio->serial, TYPE_SERIAL);
--
--    qdev_alias_all_properties(DEVICE(&sio->serial), o);
--}
--
--
--static const TypeInfo serial_io_info = {
--    .name = TYPE_SERIAL_IO,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(SerialIO),
--    .instance_init = serial_io_instance_init,
--    .class_init = serial_io_class_init,
--};
--
- static Property serial_properties[] = {
-     DEFINE_PROP_CHR("chardev", SerialState, chr),
-     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
-@@ -1178,7 +1138,6 @@ static const TypeInfo serial_mm_info = {
- static void serial_register_types(void)
- {
-     type_register_static(&serial_info);
--    type_register_static(&serial_io_info);
-     type_register_static(&serial_mm_info);
- }
- 
--- 
-2.21.3
+> Provide the -pause command-line parameter and the QEMU_PAUSE environment
+> variable to briefly pause QEMU in main and allow a developer to attach gd=
+b.
+> Useful when the developer does not invoke QEMU directly, such as when usi=
+ng
+> libvirt.
 
+How does this differ from -S?
+
+>
+> Usage:
+>   qemu -pause <seconds>
+>   or
+>   export QEMU_PAUSE=3D<seconds>
+>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>  qemu-options.hx |  9 +++++++++
+>  softmmu/vl.c    | 15 ++++++++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 708583b..8505cf2 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -3668,6 +3668,15 @@ SRST
+>      option is experimental.
+>  ERST
+>=20=20
+> +DEF("pause", HAS_ARG, QEMU_OPTION_pause, \
+> +    "-pause secs    Pause for secs seconds on entry to main.\n", QEMU_AR=
+CH_ALL)
+> +
+> +SRST
+> +``--pause secs``
+> +    Pause for a number of seconds on entry to main.  Useful for attaching
+> +    a debugger after QEMU has been launched by some other entity.
+> +ERST
+> +
+
+It seems like having an option to race with the debugger is just asking
+for trouble.
+
+>  DEF("S", 0, QEMU_OPTION_S, \
+>      "-S              freeze CPU at startup (use 'c' to start execution)\=
+n",
+>      QEMU_ARCH_ALL)
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 8478778..951994f 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2844,7 +2844,7 @@ static void create_default_memdev(MachineState *ms,=
+ const char *path)
+>=20=20
+>  void qemu_init(int argc, char **argv, char **envp)
+>  {
+> -    int i;
+> +    int i, seconds;
+>      int snapshot, linux_boot;
+>      const char *initrd_filename;
+>      const char *kernel_filename, *kernel_cmdline;
+> @@ -2882,6 +2882,13 @@ void qemu_init(int argc, char **argv, char **envp)
+>      QemuPluginList plugin_list =3D QTAILQ_HEAD_INITIALIZER(plugin_list);
+>      int mem_prealloc =3D 0; /* force preallocation of physical target me=
+mory */
+>=20=20
+> +    if (getenv("QEMU_PAUSE")) {
+> +        seconds =3D atoi(getenv("QEMU_PAUSE"));
+> +        printf("Pausing %d seconds for debugger. QEMU PID is %d\n",
+> +               seconds, getpid());
+> +        sleep(seconds);
+> +    }
+> +
+>      os_set_line_buffering();
+>=20=20
+>      error_init(argv[0]);
+> @@ -3204,6 +3211,12 @@ void qemu_init(int argc, char **argv, char **envp)
+>              case QEMU_OPTION_gdb:
+>                  add_device_config(DEV_GDB, optarg);
+>                  break;
+> +            case QEMU_OPTION_pause:
+> +                seconds =3D atoi(optarg);
+> +                printf("Pausing %d seconds for debugger. QEMU PID is %d\=
+n",
+> +                            seconds, getpid());
+> +                sleep(seconds);
+> +                break;
+>              case QEMU_OPTION_L:
+>                  if (is_help_option(optarg)) {
+>                      list_data_dirs =3D true;
+
+
+--=20
+Alex Benn=C3=A9e
 
