@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574B023361A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:56:05 +0200 (CEST)
-Received: from localhost ([::1]:56176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA0223360F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:54:04 +0200 (CEST)
+Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1Aua-0006OL-E0
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54044)
+	id 1k1Asd-0003fA-Bz
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdY-0007eQ-Jp
+ id 1k1AdY-0007eL-Ig
  for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:28 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:46366)
+Received: from userp2130.oracle.com ([156.151.31.86]:50258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdV-0002CO-Tv
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:28 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXPlV152146;
- Thu, 30 Jul 2020 15:38:18 GMT
+ id 1k1AdV-0002CS-VP
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:27 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXP6S007487;
+ Thu, 30 Jul 2020 15:38:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=FPPMSivcUUtl0hRkdAFGBRzCLwr8+PkkoZfhLsJyqGs=;
- b=QM4weokiqiLhDvpSqxMTqdt9/TGQT+Ou7MoBsLCGSgokxwBFmQhmIqisJbHEBmQ7B+oA
- wrn7ouDQNMEgIf1lNz7s98J3ycDk68G3XDQAp0dy2gb++M4uHrM5ls/WAIPYO6ucNbi4
- +/TR+rPPjAIszj52BkxvW/cooNs5NIIcO7cTL9+YLpesp2so6ezMVha22wRXSewrrOjk
- e0sBy0YeViPbxKJvaYsZBppNsdd2dYHF1qRnN+zze1BibThoAlNRhG7i9QXpkUth4mDG
- eLyaZPtsRsjTJlQZHlLVdJ0V3/03rbqzRSaopYlKjFuZ7xPmClm2hlkkO6eVRIWZRw+u pw== 
+ bh=YY5D39VKx7KmG8DuA4MVFb9AvBcnww2s9GY477Dv1AY=;
+ b=F7bhjvHlazBQxGL8ecgUix4nSu7n3KX2vBNSjqrTaNCfBR3e1OkS+XYQK3UWFGe6odLA
+ 9bVzh+9wd9EcRgiQjuHSijJFFYPriyV+HN/AiKi6muNl6v9cpTKGTNJl6NO0LqShbLn7
+ 4owo3W8vaMqqnPBuBPTiKRd2tCbIzNvsYz+GdgFoxdHatGqS/+g0FnzztdN6QSr/6hua
+ gPOrE5+v8YszM3CJnjMaHo41EG9FKZAdKX5PZhu+9AX1Uf45OvhrQv1qA1Mq0pRzaj6p
+ 5lionbrrfOALx6xEpauTA34ORkGF3Wi0dWsug/2Jqrf9TmUPNkHZtn54U33K+Vvj1zl3 IA== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 32hu1jve10-1
+ by userp2130.oracle.com with ESMTP id 32hu1jmfg8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:38:18 +0000
+ Thu, 30 Jul 2020 15:38:19 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZrB176081;
- Thu, 30 Jul 2020 15:38:17 GMT
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZkc176078;
+ Thu, 30 Jul 2020 15:38:18 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 32hu61a20m-1
+ by aserp3020.oracle.com with ESMTP id 32hu61a21u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jul 2020 15:38:17 +0000
+ Thu, 30 Jul 2020 15:38:18 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFcGWZ007542;
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFcGG1007551;
  Thu, 30 Jul 2020 15:38:16 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:38:15 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:38:16 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 28/32] char: restore terminal on restart
-Date: Thu, 30 Jul 2020 08:14:32 -0700
-Message-Id: <1596122076-341293-29-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 29/32] pci: export pci_update_mappings
+Date: Thu, 30 Jul 2020 08:14:33 -0700
+Message-Id: <1596122076-341293-30-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
@@ -65,24 +65,23 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- mlxlogscore=999
- malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
- suspectscore=1 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ clxscore=1015
+ malwarescore=0 spamscore=0 suspectscore=1 bulkscore=0 priorityscore=1501
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:38:02
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,67 +109,47 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If stdin is is a char backend device, then restore original stdin terminal
-settings in before re-exec'ing.  Otherwise, the new qemu sees the modified
-settings as initial settings, and does not restore the true initial settings
-when it exits.
+Allow pci_update_mappings to be called from other modules.
+No change in functionality.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char-stdio.c   | 7 +++++++
- include/chardev/char.h | 2 ++
- migration/savevm.c     | 2 ++
- 3 files changed, 11 insertions(+)
+ hw/pci/pci.c         | 3 +--
+ include/hw/pci/pci.h | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 82eaebc..6481d08 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -119,6 +119,13 @@ static void qemu_chr_open_stdio(Chardev *chr,
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index de0fae1..7343e00 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -216,7 +216,6 @@ static const TypeInfo pcie_bus_info = {
+ };
+ 
+ static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+-static void pci_update_mappings(PCIDevice *d);
+ static void pci_irq_handler(void *opaque, int irq_num, int level);
+ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
+ static void pci_del_option_rom(PCIDevice *pdev);
+@@ -1316,7 +1315,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
+     return new_addr;
  }
- #endif
  
-+void qemu_term_exit(void)
-+{
-+#ifndef _WIN32
-+    term_exit();
-+#endif
-+}
-+
- static void qemu_chr_parse_stdio(QemuOpts *opts, ChardevBackend *backend,
-                                  Error **errp)
+-static void pci_update_mappings(PCIDevice *d)
++void pci_update_mappings(PCIDevice *d)
  {
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index c18bda8..5fd3ecc 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -296,4 +296,6 @@ void save_char_socket_fd(Chardev *);
- void load_char_socket_fd(Chardev *);
- void save_char_pty_fd(Chardev *);
+     PCIIORegion *r;
+     int i;
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index c1bf7d5..bd07c86 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -865,5 +865,6 @@ extern const VMStateDescription vmstate_pci_device;
+ }
  
-+void qemu_term_exit(void);
-+
+ MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
++void pci_update_mappings(PCIDevice *d);
+ 
  #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 732dfb5..881dc13 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -32,6 +32,7 @@
- #include "migration.h"
- #include "migration/snapshot.h"
- #include "migration/vmstate.h"
-+#include "chardev/char.h"
- #include "migration/misc.h"
- #include "migration/register.h"
- #include "migration/global_state.h"
-@@ -2772,6 +2773,7 @@ void save_cpr_snapshot(const char *file, const char *mode, Error **errp)
-         walkenv(FD_PREFIX, preserve_fd, 0);
-         reset_vhost_devices();
-         save_qmp_negotiation_status();
-+        qemu_term_exit();
-         qemu_system_exec_request();
-         putenv((char *)"QEMU_START_FREEZE=");
-     }
 -- 
 1.8.3.1
 
