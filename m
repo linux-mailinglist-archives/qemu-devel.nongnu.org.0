@@ -2,72 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C07233460
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:28:38 +0200 (CEST)
-Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A3823344E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:25:55 +0200 (CEST)
+Received: from localhost ([::1]:44456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k19Xx-0001dy-QG
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:28:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56278)
+	id 1k19VK-0006nd-9J
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k19S5-0002QO-GU
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:22:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31368
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k19S4-000633-1W
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:22:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596118950;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1g+nDRNzICULfjPK9VzqRZhJlna7oA9vv99CYPf3EUg=;
- b=XtrwlQDF9lytp608YOv2xVzyU9pHhmW2OA6C4ngREYspSkmL+F1glzWn0jwIV6snzu9/E4
- 5wnd39fg4u+05n09U1X2nC9OsGevZzWZ8mNv9oYbVKV13mynglk+CxqZEiKAKx+DaM9qHd
- 9z/Nh61gSfM6sJ3xIj6UNGDUAXbzKZQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-2Bh90G5aMwyAAl-9Y6F-XQ-1; Thu, 30 Jul 2020 10:22:29 -0400
-X-MC-Unique: 2Bh90G5aMwyAAl-9Y6F-XQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337B81009440;
- Thu, 30 Jul 2020 14:22:27 +0000 (UTC)
-Received: from work-vm (ovpn-114-102.ams2.redhat.com [10.36.114.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0293F7AC94;
- Thu, 30 Jul 2020 14:22:22 +0000 (UTC)
-Date: Thu, 30 Jul 2020 15:22:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.1? v2 0/2] util/pagesize: Make
- qemu_real_host_page_size of type size_t
-Message-ID: <20200730142220.GA7120@work-vm>
-References: <20200730141245.21739-1-philmd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k19Tp-0005CC-Pj; Thu, 30 Jul 2020 10:24:22 -0400
+Received: from mail-am6eur05on2095.outbound.protection.outlook.com
+ ([40.107.22.95]:62432 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k19Tm-0006QM-D2; Thu, 30 Jul 2020 10:24:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gc4VHgtKUYCrsF+CpUv95jsK6+BgdXhL+49SSXtzYGQH/+3XHRG1T5J7yARJhhZ6FIRSLjVMVXaux5dHcZfT2piyn3bY/0vfA4czkieOCs7LxgIzVcOw3QAaQSlbDzt4hc1Wkd+XwpchNKZUg/nc6LDpQ+bUgi+KT/9wSTzHPARSuRwmBxjSMQLBgyCIFvkibiyuzb1fi6UQQhoUvvnM63/XgOauh13AgIgZrj1mc1I8w+i7W6Fe4z8xB1YFXHNMp1fmcA1FZvZnN/lcTDAKBEB277nAY44kqGgkuBcYOOOVCp/pRQ9XwewY0B1m4OyaeulcHCo9MMAdnikxo2Wl6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y+KUcbE38a6+D1QqwecnTB1EAA0/UcInUKotrTr1z9E=;
+ b=NS9HlA6SkAsn9OwtKNj5BBYg1LIC3mvPj7Yw5/x135uRKJyAsG+w4My+SNrAT7ensnvSoDi4QhPy/teswglSqvbSvoD4ByCUKaSLen8BKjrx9MxzQotDMpmSVCjwai8fnDVpn5YFzUY+jJ6WjIObRl316TnhjMI1OANY2cCfEpEPUBMMCCIyts18iXx70G40rZxbZNmOlMRW3rca/IQeuLYU1tPz0dAzwbapDXyDxw1t9JMO1zVJOmyFpbA/9432L5EoEzZ6wWaoVO0lN9HFCJrUvQbmZI9/RNs94dp0xYWdr2l4Dc/1BCQpL1BJU77wk0IJTy+LgAenOxO+zgSlzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y+KUcbE38a6+D1QqwecnTB1EAA0/UcInUKotrTr1z9E=;
+ b=dcB8LLjl3W9xc9VTIy1Ax9rLer5KJzLFZoUwBPw6s5eNeQHwO44RiWOulINeXZao7hS8gpgtRFuIqFzf6PcD2g7WryM7iSpU/lIwr71rNo194re9T4+CX08qkHauGJ7lb7DRSL4NRw0a3udctQqMD8hq3oK/gWaQhchU0FNeLKg=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
+ by AM7PR08MB5382.eurprd08.prod.outlook.com (2603:10a6:20b:108::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.17; Thu, 30 Jul
+ 2020 14:24:12 +0000
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3239.019; Thu, 30 Jul 2020
+ 14:24:12 +0000
+Subject: Re: [PATCH v11 10/11] qcow2_format.py: introduce
+ Qcow2HeaderExtensionsDoc class
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <1594973699-781898-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1594973699-781898-11-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <db73d013-832d-234c-7828-80d8b1ed962e@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <e0263bec-405e-feca-4f38-1ce811a4c25e@virtuozzo.com>
+Date: Thu, 30 Jul 2020 17:24:08 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <db73d013-832d-234c-7828-80d8b1ed962e@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200730141245.21739-1-philmd@redhat.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:59:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-GB
+X-ClientProxiedBy: AM0P190CA0007.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::17) To AM6PR08MB4070.eurprd08.prod.outlook.com
+ (2603:10a6:20b:a3::25)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.82) by
+ AM0P190CA0007.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.16 via Frontend Transport; Thu, 30 Jul 2020 14:24:10 +0000
+X-Originating-IP: [109.252.114.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f36eeaad-b606-4e87-b377-08d834943b48
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5382:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53821749A1ADB8EEF245F061F4710@AM7PR08MB5382.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: r+s39MY0L6SKXRm+hzvmHJkgtI3gXSO1pzKpwaX8b55YpG3/0QTCqrFuPZPxKHB/zPuVA90P45DruUrprI7XN8Wy4heDvxeIt9LU741QifjgVzg9Gojt6VquMgqwieeaJSmsEuuFtiY4yD+64AqGgJrKMuR81Z1j8O3h8VOFerLWsFoXDAQ8t3d/etzv84ISl4HRqbIS6x8RPWxxN2rOeeWjbrOoVcTo3lq0QTLSJCHUtmAuyPkuwLNolYC3FKReGzmYSyZd0AbyGRCpL4TmdvDa7aPEFpW8tnYDUo2PYQfrIe6ozoHaugdRO6yLbce8KmUODCKw9hEfWJqoGMDaagrsVdZFEEXzjkD89wKNEQVdUO2GCwQROKZFV/mYErm7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(366004)(39840400004)(6512007)(31696002)(36756003)(66946007)(186003)(16526019)(86362001)(478600001)(19627235002)(31686004)(316002)(8676002)(66556008)(8936002)(956004)(2616005)(44832011)(4326008)(2906002)(5660300002)(6506007)(53546011)(107886003)(52116002)(6486002)(66476007)(26005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 3nal0b0kJhdFHxCqX6yqhDTHG5LUul5m1ZQeHRBEIaan2vmnirn/4dknpfNKZaPpbaSl45ylHNy5sFZ41MBvn8QnS4nCdcyvLGsMyCL4ngUnqY2/lyg45PlHa6MqxcBcKl6GxzHS6TTdE+tp68Nw5vvKx1YRzkR2UUGu5DmTixbwHbN5bhXQGP44viSvauzuuSboiaxPwFcZdUjeiu+1PYn6pdqel8EVwXw2fFs0FDPVYdB5wykq+sRCqh759A83sBAvijge8Ki1ccp97Zq35xYREvHvRkqfrycya4u3BNorghtnw+kJEStVb9TszwlKknYiZM9G7xNQGufSrnbuHJEGzKYFKoEA2bCx2bLWU9CMW9NKcwa/XOss4mf+8q2MsbFWQ4qtQi6wo861j2dyHefnHhPs2yyXAr31Iw7p60zqOwopWqzBICCnxuc1abi9Ft5fgL+UNcHHGc8/2yscOmSd143q5Ix2Ah9SrThEKbSvdYh94QnQMOpre2cTzF0Uq+/Gq9t2TlN8BUg5swlPs2QL+WemlPfEBf8dQGuq0r2PAOefA4VzNTJjYEEM4pFYviRTwN4Il+18uEWq4Yg5FTrV3OCNXP2g5Vr4oNlglFuS/IfsXy/fnwEsV6yxUtiWsqXyVd/2P7rr25ylWCpNpw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f36eeaad-b606-4e87-b377-08d834943b48
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2020 14:24:12.8149 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zd5a0Muslqk6CPvYnH1qafkirT0BjcIUIVGqq6pXS+63bihw50t1OcDqIeZWxlhVYgR9CnPYZJ15ZzXdZb3zPZ/VvOtaqwq9cNiMMC1W+YM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5382
+Received-SPF: pass client-ip=40.107.22.95;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 10:24:15
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,47 +120,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Kaige Li <likaige@loongson.cn>,
- kvm@vger.kernel.org, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daud� (philmd@redhat.com) wrote:
-> Since v1:
-> Make QEMU_VMALLOC_ALIGN unsigned in a previous patch
+On 28.07.2020 14:36, Vladimir Sementsov-Ogievskiy wrote:
+> 17.07.2020 11:14, Andrey Shinkevich wrote:
+>> Per original script design, QcowHeader class may dump the QCOW2 header
+>> info separately from the QCOW2 extensions info. To implement the
+>> to_dict() method for dumping extensions, let us introduce the class
+>> Qcow2HeaderExtensionsDoc.
+>
+> I think, when dumping to qcow2, no needs to omit extensions, let's 
+> just always dump them.
+>
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   tests/qemu-iotests/qcow2_format.py | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/tests/qemu-iotests/qcow2_format.py 
+>> b/tests/qemu-iotests/qcow2_format.py
+>> index 19d29b8..d2a8659 100644
+>> --- a/tests/qemu-iotests/qcow2_format.py
+>> +++ b/tests/qemu-iotests/qcow2_format.py
+>> @@ -248,6 +248,15 @@ class Qcow2BitmapTable:
+>>           return dict(entries=self.entries)
+>>     +class Qcow2HeaderExtensionsDoc:
+>> +
+>> +    def __init__(self, extensions):
+>> +        self.extensions = extensions
+>> +
+>> +    def to_dict(self):
+>> +        return dict(Header_extensions=self.extensions)
+>
+> s/H/h/
+>
 
-Nah, not for 5.1 - it feels like the type of thing that might on a
-really bad day create a really subtle bug.
+Sorry. I ment the non-JSON format dump as the original capitalized 'H'. 
+The class Qcow2HeaderExtensionsDoc has been removed in the next v12.
 
-Dave
+Andrey
 
-> Philippe Mathieu-Daud� (2):
->   qemu/osdep: Make QEMU_VMALLOC_ALIGN unsigned long
->   util/pagesize: Make qemu_real_host_page_size of type size_t
-> 
->  include/exec/ram_addr.h  | 4 ++--
->  include/qemu/osdep.h     | 6 +++---
->  accel/kvm/kvm-all.c      | 3 ++-
->  block/qcow2-cache.c      | 2 +-
->  exec.c                   | 8 ++++----
->  hw/ppc/spapr_pci.c       | 2 +-
->  hw/virtio/virtio-mem.c   | 2 +-
->  migration/migration.c    | 2 +-
->  migration/postcopy-ram.c | 2 +-
->  monitor/misc.c           | 2 +-
->  util/pagesize.c          | 2 +-
->  11 files changed, 18 insertions(+), 17 deletions(-)
-> 
-> -- 
-> 2.21.3
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+>> +
+>> +
+>>   QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
+>>
+>
+>
+>
 
