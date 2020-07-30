@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C58C2330E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:27:50 +0200 (CEST)
-Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149DF2330ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:29:47 +0200 (CEST)
+Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k16iz-0004gz-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33788)
+	id 1k16ks-0007ey-2c
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k16hR-0003Rd-Bv
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:26:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36444)
+ id 1k16hT-0003UF-Dp
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:26:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k16hO-00055U-Hi
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:26:13 -0400
+ id 1k16hR-00055t-KW
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:26:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k16hN-000058-7x
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:26:09 +0000
+ id 1k16hQ-00007T-Et
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:26:12 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3AC972E8053
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:26:09 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6DC6B2E80EE
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:26:12 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2020 11:13:01 -0000
-From: Peter Maydell <1881552@bugs.launchpad.net>
+Date: Thu, 30 Jul 2020 11:15:26 -0000
+From: Peter Maydell <1879587@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Commenters: jfreche
+X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <159100411428.13844.7436264299080242287.malonedeb@soybean.canonical.com>
-Message-Id: <159610758121.16504.7090481805210110883.malone@wampee.canonical.com>
-Subject: [Bug 1881552] Re: potential AArch64 ABI bug wrt handling of 128-bit
- bit-fields
+References: <158993429952.22373.5947926664408541430.malonedeb@wampee.canonical.com>
+Message-Id: <159610772697.5578.18190236883836732294.launchpad@soybean.canonical.com>
+Subject: [Bug 1879587] Re: Register number in ESR is incorrect for certain
+ banked registers when switching from AA32 to AA64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1a60e5d7459149c7b7e8e91ae4fc5176ab493684
+X-Launchpad-Hash: ef5ba2376c9e2c11fe12635f39bacad00ed4bd1d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 07:16:04
@@ -74,109 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881552 <1881552@bugs.launchpad.net>
+Reply-To: Bug 1879587 <1879587@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The warnings aren't a problem for QEMU because we don't expose these
-functions as public ABI, so the whole compile will be consistently built
-with the same compiler version. So we added -Wno-psabi in commit
-bac8d222a19f4a30d to silence the compiler here.
-
-
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+** Tags added: arm
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881552
+https://bugs.launchpad.net/bugs/1879587
 
 Title:
-  potential AArch64 ABI bug wrt handling of 128-bit bit-fields
+  Register number in ESR is incorrect for certain banked registers when
+  switching from AA32 to AA64
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  After upgrading to Ubuntu 20.04 LTS, GCC 9.3 displays a lot of notes:
+  I am running into a situation where I have:
+  - A hypervisor running in EL2, AA64
+  - A guest running in EL1, AA32
 
-  hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_read_with_attrs=
-=E2=80=99:
-  hw/block/pflash_cfi01.c:663:20: note: parameter passing for argument of t=
-ype =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} =
-changed in GCC 9.1
-    663 | static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwadd=
-r addr, uint64_t *value,
-        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_write_with_attrs=
-=E2=80=99:
-  hw/block/pflash_cfi01.c:677:20: note: parameter passing for argument of t=
-ype =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} =
-changed in GCC 9.1
-    677 | static MemTxResult pflash_mem_write_with_attrs(void *opaque, hwad=
-dr addr, uint64_t value,
-        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_dma_mem_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:475:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    475 | static bool fw_cfg_dma_mem_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_data_mem_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:483:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    483 | static bool fw_cfg_data_mem_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_ctl_mem_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:501:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    501 | static bool fw_cfg_ctl_mem_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_comb_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:521:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    521 | static bool fw_cfg_comb_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~
-  hw/intc/arm_gic.c: In function =E2=80=98gic_do_hyp_read=E2=80=99:
-  hw/intc/arm_gic.c:1996:20: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-   1996 | static MemTxResult gic_do_hyp_read(void *opaque, hwaddr addr, uin=
-t64_t *data,
-        |                    ^~~~~~~~~~~~~~~
-  hw/intc/arm_gic.c: In function =E2=80=98gic_thiscpu_hyp_read=E2=80=99:
-  hw/intc/arm_gic.c:1979:20: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-   1979 | static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr=
-, uint64_t *data,
-        |                    ^~~~~~~~~~~~~~~~~~~~
-  hw/intc/arm_gic.c: In function =E2=80=98gic_get_current_pending_irq=E2=80=
-=99:
-  hw/intc/arm_gic.c:419:17: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    419 | static uint16_t gic_get_current_pending_irq(GICState *s, int cpu,
-        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  We trap certain accesses to special registers such as DACR (via
+  HCR.TVM). One instruction that is trapped is:
 
-  This seems related to:
-  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D88469
-  https://gcc.gnu.org/git/?p=3Dgcc.git&a=3Dcommit;h=3Dc590597c45
+  ee03ef10  ->    mcr     15, 0, lr, cr3, cr0, {0}
 
-    This is pretty unlikely in real code, but similar to Arm, the AArch64
-    ABI has a bug with the handling of 128-bit bit-fields, where if the
-    bit-field dominates the overall alignment the back-end code may end up
-    passing the argument correctly.  This is a regression that started in
-    gcc-6 when the ABI support code was updated to support overaligned
-    types.  The fix is very similar in concept to the Arm fix.  128-bit
-    bit-fields are fortunately extremely rare, so I'd be very surprised if
-    anyone has been bitten by this.
+  The guest is running in SVC mode. So, LR should refer to LR_svc there.
+  LR_svc is mapped to X18 in AA64. So, ESR should reflect that. However,
+  the actual ESR value is: 0xfe00dc0
+
+  If we decode the 'rt':
+  >>> (0xfe00dc0 >> 5) & 0x1f
+  14
+
+  My understanding is that 14 is incorrect in the context of AA64. rt
+  should be set to 18. The current mode being SVC, LR refers to LR_svc
+  not LR_usr. In other words, the mapping between registers in AA64 and
+  AA32 doesn't seem to be accounted for. I've tested this with Qemu
+  5.0.0
+
+  Let me know if that makes sense and if you would like more info. I am als=
+o happy to test patches.
+  Thanks for all the great work on Qemu!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881552/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1879587/+subscriptions
 
