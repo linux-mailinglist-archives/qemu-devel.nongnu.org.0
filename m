@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F698233428
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:19:09 +0200 (CEST)
-Received: from localhost ([::1]:42648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FB2233420
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:17:11 +0200 (CEST)
+Received: from localhost ([::1]:32866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k19Om-0002oE-89
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
+	id 1k19Ms-0007Gy-4j
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:17:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k19Ix-0001KR-PI
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:13:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20425
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k19JV-00028t-47
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:13:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49891
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k19Is-0004Ig-MG
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:13:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k19JT-0004LX-DN
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:13:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596118382;
+ s=mimecast20190719; t=1596118418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xxBIENL/LoZt89TmQbxcwOuGTpfVQSq5CrXDxfuIriw=;
- b=a6TK0QMgLxiVpxI5qtmk/4MVFvkuLLHWlMNEQpADbFezzevcuzM/QWMS4bs6RQjyag+M5U
- wI50p7iGeWFljQI5WhlbvRJ9rH21B2TbsSM3QlKBYz0AhQEUlCCoe5Aeu5qPDneojFEUus
- AZ3ddE74Yuq8Kx2XuZu9Yo8KnwISz5c=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-BmtdeEJdPG27Px88HCrMeg-1; Thu, 30 Jul 2020 10:13:00 -0400
-X-MC-Unique: BmtdeEJdPG27Px88HCrMeg-1
-Received: by mail-wm1-f69.google.com with SMTP id h205so2284571wmf.0
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 07:13:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xxBIENL/LoZt89TmQbxcwOuGTpfVQSq5CrXDxfuIriw=;
- b=hX7Lwyerjcxs0uFqEalqxBki3n/20EVaGGtoNP/8fHCKe0wf8NPlzzYk/mfahkbuN1
- idB/UKM9mPRAEMPnvsJcM6yNvP71ZgPXhrhxfWGADz8UUXfXdY5+DVcEk2ziAQ1nzmRQ
- vB4/Z33yN5ByinmBAFyeAsQIc3QZ93vG3Qc4VsnoSiE/7x2qdIGCwLrNVQsIjULJc/F5
- omZt4xLgHUgzf5Le4fd/KSpM5JBHqOa6uPk/Bs5NzbKFBNc1Oz19ebU6tTUezj13fYi1
- Vn9SR2J93K8maEnpRvVXd4MT9hu3J4Wx5tal74f5dFsS3hz7gOHieklvJpDYb47h+9JU
- Orew==
-X-Gm-Message-State: AOAM532CjMXd+NCokcE8jBGGYXXHhl7sliOFLqkFz2QUQ+vcYK9UrZkg
- Ahcaw+4TFIHYltpn2HYdoVHMX5aG+vbYbZMKi5dhFSpgk9fvBt+oV5z3E9NLuYe4OWgv91iu69x
- hNAmbNl8P3kUBpwM=
-X-Received: by 2002:a5d:6288:: with SMTP id k8mr33268172wru.373.1596118378757; 
- Thu, 30 Jul 2020 07:12:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOeB5bBzOPnj0Bc4q6B26KoFvfZtUWUvrxAgOD5MUXfYr2PHKsFTZdlbfZ38OAnxsnA9xt/w==
-X-Received: by 2002:a5d:6288:: with SMTP id k8mr33268155wru.373.1596118378437; 
- Thu, 30 Jul 2020 07:12:58 -0700 (PDT)
-Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id v11sm10223890wrr.10.2020.07.30.07.12.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 07:12:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1? v2 2/2] util/pagesize: Make qemu_real_host_page_size
- of type size_t
-Date: Thu, 30 Jul 2020 16:12:45 +0200
-Message-Id: <20200730141245.21739-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200730141245.21739-1-philmd@redhat.com>
-References: <20200730141245.21739-1-philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J25xb/5oNVlwpz+mVU84R/kso5SDjy+5vsH2DY9aSgI=;
+ b=EJd+URVKmGZf7Xqftzjr3hAjniUsk1VDLvqNKdTooK2RG57caQe52PkiEJt+r4RK3nYjBM
+ JJ0xEf8ypjI8fqH29uwgjaLa2W4U3+ljFGd4/CLMPYUpHNbPHebyC/sCroCW3ERuHjLV8K
+ BL/DCCqDxvm5TunT6W/vydFDPop7x7Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173--LnZBZbgMGOUIlCyUx_Ewg-1; Thu, 30 Jul 2020 10:13:35 -0400
+X-MC-Unique: -LnZBZbgMGOUIlCyUx_Ewg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F288017FB;
+ Thu, 30 Jul 2020 14:13:34 +0000 (UTC)
+Received: from thuth.com (ovpn-112-85.ams2.redhat.com [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDC757BEBD;
+ Thu, 30 Jul 2020 14:13:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v2 0/4] Test more in less time in the Gitlab-CI
+Date: Thu, 30 Jul 2020 16:13:22 +0200
+Message-Id: <20200730141326.8260-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:51:24
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:59:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -83,7 +63,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,219 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Kaige Li <likaige@loongson.cn>, kvm@vger.kernel.org, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use different types to hold 'qemu_real_host_page_size'.
-Unify picking 'size_t' which seems the best candidate.
+This patch series adds two new "build-system" pipelines to the Gitlab-CI,
+one based on Debian and one on CentOS. We then use these build pipelines
+to test the targets that were missing so far (e.g. the two new targets
+rx-softmmu and avr-softmmu), and move some of the targets from the other
+build-system pipelines here, too, so that the total testing time gets
+shorter (at least 5 minutes from what I've seen so far).
 
-Doing so fix a format string issue in hw/virtio/virtio-mem.c
-reported when building with GCC 4.9.4:
+Unfortunately, two of the avocado-based acceptance tests that would get
+enabled by this are not working on gitlab, so they are disabled in the
+second patch. It does not seem to be a caching issue (I've checked it
+with the fourth patch), maybe it's something related to ports not being
+available in the container, but I did not investigate further. They
+can be enabled back later again when someone has some more time for
+debugging.
 
-  hw/virtio/virtio-mem.c: In function ‘virtio_mem_set_block_size’:
-  hw/virtio/virtio-mem.c:756:9: error: format ‘%x’ expects argument of type ‘unsigned int’, but argument 7 has type ‘uintptr_t’ [-Werror=format=]
-         error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
-         ^
+v2:
+ - Added Reviewed-bys from v1
+ - Added fourth patch to fix the caching issue
 
-Fixes: 910b25766b ("virtio-mem: Paravirtualized memory hot(un)plug")
-Reported-by: Bruce Rogers <brogers@suse.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/exec/ram_addr.h  | 4 ++--
- include/qemu/osdep.h     | 2 +-
- accel/kvm/kvm-all.c      | 3 ++-
- block/qcow2-cache.c      | 2 +-
- exec.c                   | 8 ++++----
- hw/ppc/spapr_pci.c       | 2 +-
- hw/virtio/virtio-mem.c   | 2 +-
- migration/migration.c    | 2 +-
- migration/postcopy-ram.c | 2 +-
- monitor/misc.c           | 2 +-
- util/pagesize.c          | 2 +-
- 11 files changed, 16 insertions(+), 15 deletions(-)
+Thomas Huth (4):
+  tests/docker: Add python3-venv and netcat to the debian-amd64
+    container
+  tests/acceptance: Disable the rx sash and arm cubieboard replay test
+    on Gitlab
+  gitlab-ci.yml: Add build-system-debian and build-system-centos jobs
+  gitlab-ci: Fix Avocado cache usage
 
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 3ef729a23c..e07532266e 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -93,8 +93,8 @@ static inline unsigned long int ramblock_recv_bitmap_offset(void *host_addr,
- 
- bool ramblock_is_pmem(RAMBlock *rb);
- 
--long qemu_minrampagesize(void);
--long qemu_maxrampagesize(void);
-+size_t qemu_minrampagesize(void);
-+size_t qemu_maxrampagesize(void);
- 
- /**
-  * qemu_ram_alloc_from_file,
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 085df8d508..77115a8270 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -635,10 +635,10 @@ char *qemu_get_pid_name(pid_t pid);
-  */
- pid_t qemu_fork(Error **errp);
- 
-+extern size_t qemu_real_host_page_size;
- /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
-  * when intptr_t is 32-bit and we are aligning a long long.
-  */
--extern uintptr_t qemu_real_host_page_size;
- extern intptr_t qemu_real_host_page_mask;
- 
- extern int qemu_icache_linesize;
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 63ef6af9a1..59becfbd6c 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -674,7 +674,8 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
-     KVMState *s = kvm_state;
-     uint64_t end, bmap_start, start_delta, bmap_npages;
-     struct kvm_clear_dirty_log d;
--    unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
-+    unsigned long *bmap_clear = NULL;
-+    size_t psize = qemu_real_host_page_size;
-     int ret;
- 
-     /*
-diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
-index 7444b9c4ab..4ad9f5929f 100644
---- a/block/qcow2-cache.c
-+++ b/block/qcow2-cache.c
-@@ -74,7 +74,7 @@ static void qcow2_cache_table_release(Qcow2Cache *c, int i, int num_tables)
- /* Using MADV_DONTNEED to discard memory is a Linux-specific feature */
- #ifdef CONFIG_LINUX
-     void *t = qcow2_cache_get_table_addr(c, i);
--    int align = qemu_real_host_page_size;
-+    size_t align = qemu_real_host_page_size;
-     size_t mem_size = (size_t) c->table_size * num_tables;
-     size_t offset = QEMU_ALIGN_UP((uintptr_t) t, align) - (uintptr_t) t;
-     size_t length = QEMU_ALIGN_DOWN(mem_size - offset, align);
-diff --git a/exec.c b/exec.c
-index 6f381f98e2..4b6d52e01f 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1657,7 +1657,7 @@ static int find_max_backend_pagesize(Object *obj, void *opaque)
-  * TODO: We assume right now that all mapped host memory backends are
-  * used as RAM, however some might be used for different purposes.
-  */
--long qemu_minrampagesize(void)
-+size_t qemu_minrampagesize(void)
- {
-     long hpsize = LONG_MAX;
-     Object *memdev_root = object_resolve_path("/objects", NULL);
-@@ -1666,7 +1666,7 @@ long qemu_minrampagesize(void)
-     return hpsize;
- }
- 
--long qemu_maxrampagesize(void)
-+size_t qemu_maxrampagesize(void)
- {
-     long pagesize = 0;
-     Object *memdev_root = object_resolve_path("/objects", NULL);
-@@ -1675,11 +1675,11 @@ long qemu_maxrampagesize(void)
-     return pagesize;
- }
- #else
--long qemu_minrampagesize(void)
-+size_t qemu_minrampagesize(void)
- {
-     return qemu_real_host_page_size;
- }
--long qemu_maxrampagesize(void)
-+size_t qemu_maxrampagesize(void)
- {
-     return qemu_real_host_page_size;
- }
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 363cdb3f7b..a9da84fe30 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1810,7 +1810,7 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
-     char *namebuf;
-     int i;
-     PCIBus *bus;
--    uint64_t msi_window_size = 4096;
-+    size_t msi_window_size = 4096;
-     SpaprTceTable *tcet;
-     const unsigned windows_supported = spapr_phb_windows_supported(sphb);
-     Error *local_err = NULL;
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index c12e9f79b0..34344cec39 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -753,7 +753,7 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
-     }
- 
-     if (value < VIRTIO_MEM_MIN_BLOCK_SIZE) {
--        error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
-+        error_setg(errp, "'%s' property has to be at least 0x%zx", name,
-                    VIRTIO_MEM_MIN_BLOCK_SIZE);
-         return;
-     } else if (!is_power_of_2(value)) {
-diff --git a/migration/migration.c b/migration/migration.c
-index 8fe36339db..b8abbbeabb 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2433,7 +2433,7 @@ static struct rp_cmd_args {
- static void migrate_handle_rp_req_pages(MigrationState *ms, const char* rbname,
-                                        ram_addr_t start, size_t len)
- {
--    long our_host_ps = qemu_real_host_page_size;
-+    size_t our_host_ps = qemu_real_host_page_size;
- 
-     trace_migrate_handle_rp_req_pages(rbname, start, len);
- 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 1bb22f2b6c..f296efd612 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -345,7 +345,7 @@ static int test_ramblock_postcopiable(RAMBlock *rb, void *opaque)
-  */
- bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
- {
--    long pagesize = qemu_real_host_page_size;
-+    size_t pagesize = qemu_real_host_page_size;
-     int ufd = -1;
-     bool ret = false; /* Error unless we change it */
-     void *testarea = NULL;
-diff --git a/monitor/misc.c b/monitor/misc.c
-index e847b58a8c..7970f4ff72 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -740,7 +740,7 @@ static uint64_t vtop(void *ptr, Error **errp)
-     uint64_t pinfo;
-     uint64_t ret = -1;
-     uintptr_t addr = (uintptr_t) ptr;
--    uintptr_t pagesize = qemu_real_host_page_size;
-+    size_t pagesize = qemu_real_host_page_size;
-     off_t offset = addr / pagesize * sizeof(pinfo);
-     int fd;
- 
-diff --git a/util/pagesize.c b/util/pagesize.c
-index 998632cf6e..a08bf1717a 100644
---- a/util/pagesize.c
-+++ b/util/pagesize.c
-@@ -8,7 +8,7 @@
- 
- #include "qemu/osdep.h"
- 
--uintptr_t qemu_real_host_page_size;
-+size_t qemu_real_host_page_size;
- intptr_t qemu_real_host_page_mask;
- 
- static void __attribute__((constructor)) init_real_host_page_size(void)
+ .gitlab-ci.yml                               | 109 +++++++++++++++----
+ tests/acceptance/machine_rx_gdbsim.py        |   4 +
+ tests/acceptance/replay_kernel.py            |   1 +
+ tests/docker/dockerfiles/debian-amd64.docker |   4 +-
+ 4 files changed, 98 insertions(+), 20 deletions(-)
+
 -- 
-2.21.3
+2.18.1
 
 
