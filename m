@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0EC323364A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:06:46 +0200 (CEST)
-Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A13D233662
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:11:06 +0200 (CEST)
+Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1B4w-0004wL-0o
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58936)
+	id 1k1B97-0002sd-Is
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:11:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k1AyU-0004R5-PJ
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:00:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28221
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k1AyM-0005XZ-T8
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:00:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596124797;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=0q0IpqjQUf1MZbx48kiJrFlUsIncplCXrIwKqlQIg7o=;
- b=MLwC6pr6xK6hE1mmlkF9bHclV+Ddy4Hu+qlAoyP46ht6FblSufEZ9irhakK0fEpjmcRPyU
- zUwPYUzMDgYpHT7vdKc0KO9dG12TvPggTdXO6F7bVS2CmVpBHeCB8di8d0pI0hX5u5MhK1
- zENNFjQa3C89fCbQRTEiFxy85ujevRk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-vAYYylkmMvSbJFMjxj2_yw-1; Thu, 30 Jul 2020 11:59:45 -0400
-X-MC-Unique: vAYYylkmMvSbJFMjxj2_yw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65B3D1893DDA;
- Thu, 30 Jul 2020 15:59:44 +0000 (UTC)
-Received: from redhat.com (ovpn-114-181.ams2.redhat.com [10.36.114.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7C5987B19;
- Thu, 30 Jul 2020 15:59:42 +0000 (UTC)
-Date: Thu, 30 Jul 2020 16:59:39 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] osdep.h: Add doc comment for qemu_get_thread_id()
-Message-ID: <20200730155939.GP3477223@redhat.com>
-References: <20200716154114.10838-1-peter.maydell@linaro.org>
- <0f8b8fea-2bd0-7616-292b-8fb0f87cec75@redhat.com>
- <CAFEAcA9ukzKGiaV6Tazu8Aezn39v81DKQik1b=jEy=NLnau05w@mail.gmail.com>
- <87k0ylvy0t.fsf@dusky.pond.sub.org>
- <CAFEAcA-AYJ64HE698TMRS6cV=u4ig6S6TU2xufns7fCVbcQXrg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <rj.bcjesus@gmail.com>)
+ id 1k1AzU-0005F3-Gi
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:01:08 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rj.bcjesus@gmail.com>)
+ id 1k1AzR-0005xm-Gb
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:01:07 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 3so6702246wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 09:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zqQAF9xKE/5F3X4KG56kpfJdotSVLh0P38cqHIhjICA=;
+ b=f+y8E1Z8zCvP411CgM/izmZKnE8vURoP2Dx4cjq3XYc6X6a/PTvO65/Hkm+BMoq254
+ LkmuoMQYNzQNegy0W77/HdcEoSujr+Ki/HAdBFgZRPhcBSUGrau+LIlNyFzv6GPOa2dS
+ OedEf3cbgKij7/xRzi3WiaP+70RN1hMT5Gz8B8XHP+M7Mkz6MdwJJRJ4PgtfjAQN/BZr
+ h/SKbkrB5xBkhgWrUAE8dwo+2azafj3m+uIyiZOaxhwVVBA8pJK+hr583NZI+IeEkwk4
+ 8Lke1SQ0X5UVvnuhKdBHMfkEHg+7uteifKy30u2mlMEk0e0TDZ1MLvhYaFKpax0EvJff
+ 306w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zqQAF9xKE/5F3X4KG56kpfJdotSVLh0P38cqHIhjICA=;
+ b=DKBRayEg0rwIBrkTCob2rFDdaZMlNBPpHDU+AVm4PTzETUwuY14LszenMaDZJLcc6K
+ JnU/p7zVVMH6zZFTIGY4d9Wef9IUilbwu3mHRRdxh7kbRAOpTVEyo9UQfcL4tgzSNSrg
+ uxqphJwI39LkjedOUz7X8m00e9ql51Tu8xuUiYi5GDueL1/k22PN3gwwUzACd/HOgj0H
+ gH6u9Wowkk7jqwyrkH/K37mBWJmDof3vdTFeI6e7t1Xi1rud8Fakb4XcMnatMIZu/C1I
+ vh4LW59rj/360yLQFbALgzGztkolFmcqYOVbWWdEGGdSpb4/CoYKdqnjLw0WAMYe9qSR
+ 7+3g==
+X-Gm-Message-State: AOAM533OPoTMajnIuJWu6ULUPv3BhdCOj9D2F1nHmyY1Out3CPjZmkSk
+ pI9A1fXTRgtMarE63Wdq5pasoROs/y8=
+X-Google-Smtp-Source: ABdhPJwsRVVaU6iyXzRZm4vflijzyRXLhrP5k9jMaX+B1zDA6g9awvvWSgMzyntS46IVzACB2HaTvg==
+X-Received: by 2002:a1c:4183:: with SMTP id
+ o125mr13888093wma.101.1596124862869; 
+ Thu, 30 Jul 2020 09:01:02 -0700 (PDT)
+Received: from localhost ([193.136.93.218])
+ by smtp.gmail.com with ESMTPSA id w2sm12319861wre.5.2020.07.30.09.01.01
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jul 2020 09:01:01 -0700 (PDT)
+From: Ricardo Jesus <rj.bcjesus@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] [v4] linux-user: add option to intercept execve() syscalls
+Date: Thu, 30 Jul 2020 17:01:06 +0100
+Message-Id: <20200730160106.16613-1-rj.bcjesus@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-AYJ64HE698TMRS6cV=u4ig6S6TU2xufns7fCVbcQXrg@mail.gmail.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:59:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=rj.bcjesus@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,108 +84,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 30, 2020 at 04:52:49PM +0100, Peter Maydell wrote:
-> On Thu, 30 Jul 2020 at 16:11, Markus Armbruster <armbru@redhat.com> wrote:
-> >
-> > Peter Maydell <peter.maydell@linaro.org> writes:
-> >
-> > > On Tue, 28 Jul 2020 at 16:17, Eric Blake <eblake@redhat.com> wrote:
-> > >>
-> > >> On 7/16/20 10:41 AM, Peter Maydell wrote:
-> > >> > Add a documentation comment for qemu_get_thread_id(): since this
-> > >> > is rather host-OS-specific it's useful if people writing the
-> > >> > implementation and people thinking of using the function know
-> > >> > what the purpose and limitations are.
-> > >> >
-> > >> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > >> > ---
-> > >> > Based on conversation with Dan on IRC, and prompted by the recent
-> > >> > patch to add OpenBSD support.
-> > >> >
-> > >> > Q: should we document exactly what the thread-id value is for
-> > >> > each host platform in the QMP documentation ? Somebody writing
-> > >> > a management layer app should ideally not have to grovel through
-> > >> > the application to figure out what they should do with the
-> > >> > integer value they get back from query-cpus...
-> > >> >
-> > >> >   include/qemu/osdep.h | 14 ++++++++++++++
-> > >> >   1 file changed, 14 insertions(+)
-> > >>
-> > >> Do we need a counterpart change...
-> > >>
-> > >> >
-> > >> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > >> > index 4841b5c6b5f..8279f72e5ed 100644
-> > >> > --- a/include/qemu/osdep.h
-> > >> > +++ b/include/qemu/osdep.h
-> > >> > @@ -515,6 +515,20 @@ bool qemu_has_ofd_lock(void);
-> > >> >
-> > >> >   bool qemu_write_pidfile(const char *pidfile, Error **errp);
-> > >> >
-> > >> > +/**
-> > >> > + * qemu_get_thread_id: Return OS-specific ID of current thread
-> > >> > + *
-> > >> > + * This function returns an OS-specific identifier of the
-> > >> > + * current thread. This will be used for the "thread-id" field in
-> > >> > + * the response to the QMP query-cpus and query-iothreads commands.
-> > >>
-> > >> ...to the qapi definition of query-cpus and query-iothreads?
-> > >
-> > > Well, that was my question above. Currently the QAPI documentation
-> > > says absolutely nothing about what the thread-id values mean
-> > > for any host OS (beyond "ID of the underlying host thread"), which
-> > > means that any management layer application needs to look in the
-> > > implementation to find out what they actually are...
-> >
-> > ... which they will have to do to actually use it for the purpose we
-> > have in mind, namely:
-> >
-> > >> > + * The intention is that a VM management layer application can then
-> > >> > + * use it to tie specific QEMU vCPU and IO threads to specific host
-> > >> > + * CPUs using whatever the host OS's CPU affinity setting API is.
-> > >> > + * New implementations of this function for new host OSes should
-> > >> > + * return the most sensible integer ID that works for that purpose.
-> > >> > + *
-> > >> > + * This function should not be used for anything else inside QEMU.
-> > >> > + */
-> >
-> > Do they?
-> 
-> Well, I suspect that management-layer code currently has
-> gone for "assume we're always running on Linux" and was
-> written by people who knew they were getting a Linux tid...
+This patch is based on the original work by Petros Angelatos [1], which
+I have updated to the current git master. The following commit message
+is largely based on Petros' original message.
 
-Yes, on the libvirt side, the functionality that relies on thread_is is
-only compiled on Linux. If someone wants to use it on other OS, they'll
-have to provide an impl using their platforms equivalent of
-sched_setaffinity and friends since none of this stuff is standardized
-across OS.
+In order for one to use QEMU user mode emulation under a chroot, it is
+required to use binfmt_misc. This can be avoided by QEMU never doing a
+raw execve() to the host system.
 
+Introduce a new option, --execve, that uses the current QEMU interpreter
+to intercept execve().
 
-> > The PID is quite unlikely to be "an OS-specific identifier of the
-> > current thread".  Shouldn't we fail instead of lie when we don't know
-> > how to compute the truth?
-> 
-> Yeah, I think the default codepath is pretty bogus too. Should
-> the QMP functions have a mechanism for saying "we don't know
-> a thread-id on this platform" ?
+qemu_execve() will prepend the interpreter path, similar to what
+binfmt_misc would do, and then pass the modified execve() to the host.
 
-Thread_id should be optional and thus not filled in if we
-can't provide a sensible value. Unfortunately we made it
-mandatory in QMP.
+[1] https://patchwork.ozlabs.org/patch/582756/
 
+Signed-off-by: Ricardo Jesus <rj.bcjesus@gmail.com>
+---
+ linux-user/main.c    |   8 +++
+ linux-user/qemu.h    |   1 +
+ linux-user/syscall.c | 138 +++++++++++++++++++++++++++++++++++++++----
+ 3 files changed, 136 insertions(+), 11 deletions(-)
 
-Regards,
-Daniel
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 75c9785157..52f6860b45 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -107,6 +107,7 @@ static void usage(int exitcode);
+ 
+ static const char *interp_prefix = CONFIG_QEMU_INTERP_PREFIX;
+ const char *qemu_uname_release;
++const char *qemu_execve_path;
+ 
+ /* XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
+    we allocate a bigger stack. Need a better solution, for example
+@@ -337,6 +338,11 @@ static void handle_arg_guest_base(const char *arg)
+     have_guest_base = true;
+ }
+ 
++static void handle_arg_execve(const char *arg)
++{
++    qemu_execve_path = strdup(arg);
++}
++
+ static void handle_arg_reserved_va(const char *arg)
+ {
+     char *p;
+@@ -441,6 +447,8 @@ static const struct qemu_argument arg_table[] = {
+      "uname",      "set qemu uname release string to 'uname'"},
+     {"B",          "QEMU_GUEST_BASE",  true,  handle_arg_guest_base,
+      "address",    "set guest_base address to 'address'"},
++    {"execve",     "QEMU_EXECVE",      true,  handle_arg_execve,
++     "",           "use this interpreter when a process calls execve()"},
+     {"R",          "QEMU_RESERVED_VA", true,  handle_arg_reserved_va,
+      "size",       "reserve 'size' bytes for guest virtual address space"},
+     {"d",          "QEMU_LOG",         true,  handle_arg_log,
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 5c964389c1..d1b0d5716b 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -160,6 +160,7 @@ void init_task_state(TaskState *ts);
+ void task_settid(TaskState *);
+ void stop_all_tasks(void);
+ extern const char *qemu_uname_release;
++extern const char *qemu_execve_path;
+ extern unsigned long mmap_min_addr;
+ 
+ /* ??? See if we can avoid exposing so much of the loader internals.  */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 945fc25279..a266895a61 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -115,6 +115,7 @@
+ #ifdef HAVE_DRM_H
+ #include <libdrm/drm.h>
+ #endif
++#include <linux/binfmts.h>
+ #include "linux_loop.h"
+ #include "uname.h"
+ 
+@@ -7674,6 +7675,131 @@ static target_timer_t get_timer_id(abi_long arg)
+     return timerid;
+ }
+ 
++/* qemu_execve() Must return target values and target errnos.
++ *
++ * Although execve() is not an interruptible syscall it is
++ * a special case where we must use the safe_syscall wrapper:
++ * if we allow a signal to happen before we make the host
++ * syscall then we will 'lose' it, because at the point of
++ * execve the process leaves QEMU's control. So we use the
++ * safe syscall wrapper to ensure that we either take the
++ * signal as a guest signal, or else it does not happen
++ * before the execve completes and makes it the other
++ * program's problem.
++ */
++static abi_long qemu_execve(char *filename, char *argv[],
++                  char *envp[])
++{
++    char *i_arg = NULL, *i_name = NULL;
++    char **new_argp;
++    int argc, fd, ret, i, offset = 5;
++    char *cp;
++    char buf[BINPRM_BUF_SIZE];
++
++    /* normal execve case */
++    if (qemu_execve_path == NULL || *qemu_execve_path == 0) {
++        return get_errno(safe_execve(filename, argv, envp));
++    }
++
++    for (argc = 0; argv[argc] != NULL; argc++) {
++        /* nothing */ ;
++    }
++
++    fd = open(filename, O_RDONLY);
++    if (fd == -1) {
++        return get_errno(fd);
++    }
++
++    ret = read(fd, buf, BINPRM_BUF_SIZE);
++    if (ret == -1) {
++        close(fd);
++        return get_errno(ret);
++    }
++
++    /* if we have less than 2 bytes, we can guess it is not executable */
++    if (ret < 2) {
++        close(fd);
++        return -host_to_target_errno(ENOEXEC);
++    }
++
++    close(fd);
++
++    /* adapted from the kernel
++     * https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/fs/binfmt_script.c
++     */
++    if ((buf[0] == '#') && (buf[1] == '!')) {
++        /*
++         * This section does the #! interpretation.
++         * Sorta complicated, but hopefully it will work.  -TYT
++         */
++
++        buf[BINPRM_BUF_SIZE - 1] = '\0';
++        cp = strchr(buf, '\n');
++        if (cp == NULL) {
++            cp = buf + BINPRM_BUF_SIZE - 1;
++        }
++        *cp = '\0';
++        while (cp > buf) {
++            cp--;
++            if ((*cp == ' ') || (*cp == '\t')) {
++                *cp = '\0';
++            } else {
++                break;
++            }
++        }
++        for (cp = buf + 2; (*cp == ' ') || (*cp == '\t'); cp++) {
++            /* nothing */ ;
++        }
++        if (*cp == '\0') {
++            return -ENOEXEC; /* No interpreter name found */
++        }
++        i_name = cp;
++        i_arg = NULL;
++        for ( ; *cp && (*cp != ' ') && (*cp != '\t'); cp++) {
++            /* nothing */ ;
++        }
++        while ((*cp == ' ') || (*cp == '\t')) {
++            *cp++ = '\0';
++        }
++        if (*cp) {
++            i_arg = cp;
++        }
++
++        if (i_arg) {
++            offset += 2;
++        } else {
++            offset += 1;
++        }
++    }
++
++    new_argp = alloca((argc + offset + 1) * sizeof(void *));
++
++    /* Copy the original arguments with offset */
++    for (i = 0; i < argc; i++) {
++        new_argp[i + offset] = argv[i];
++    }
++
++    new_argp[0] = strdup(qemu_execve_path);
++    new_argp[1] = strdup("--execve");
++    new_argp[2] = strdup(qemu_execve_path);
++    new_argp[3] = strdup("-0");
++    new_argp[offset] = filename;
++    new_argp[argc + offset] = NULL;
++
++    if (i_name) {
++        new_argp[4] = i_name;
++        new_argp[5] = i_name;
++
++        if (i_arg) {
++            new_argp[6] = i_arg;
++        }
++    } else {
++        new_argp[4] = argv[0];
++    }
++
++    return get_errno(safe_execve(qemu_execve_path, new_argp, envp));
++}
++
+ static int target_to_host_cpu_mask(unsigned long *host_mask,
+                                    size_t host_size,
+                                    abi_ulong target_addr,
+@@ -8023,17 +8149,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ 
+             if (!(p = lock_user_string(arg1)))
+                 goto execve_efault;
+-            /* Although execve() is not an interruptible syscall it is
+-             * a special case where we must use the safe_syscall wrapper:
+-             * if we allow a signal to happen before we make the host
+-             * syscall then we will 'lose' it, because at the point of
+-             * execve the process leaves QEMU's control. So we use the
+-             * safe syscall wrapper to ensure that we either take the
+-             * signal as a guest signal, or else it does not happen
+-             * before the execve completes and makes it the other
+-             * program's problem.
+-             */
+-            ret = get_errno(safe_execve(p, argp, envp));
++            ret = qemu_execve(p, argp, envp);
+             unlock_user(p, arg1, 0);
+ 
+             goto execve_end;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.27.0
 
 
