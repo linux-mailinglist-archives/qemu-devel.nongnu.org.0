@@ -2,42 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700A023343E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:23:54 +0200 (CEST)
-Received: from localhost ([::1]:37558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E8A23345E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:27:35 +0200 (CEST)
+Received: from localhost ([::1]:49816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k19TN-0003tJ-Hy
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54146)
+	id 1k19Ww-0000gl-EV
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k19LA-000510-C5; Thu, 30 Jul 2020 10:15:24 -0400
-Received: from relay.sw.ru ([185.231.240.75]:44454 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k19L4-00052i-NA; Thu, 30 Jul 2020 10:15:23 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k19Kn-0004Cz-2f; Thu, 30 Jul 2020 17:15:01 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v12 11/11] iotests: dump QCOW2 header in JSON in #303
-Date: Thu, 30 Jul 2020 17:15:12 +0300
-Message-Id: <1596118512-424960-12-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1596118512-424960-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1596118512-424960-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 10:15:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k19Pl-0006ez-VC
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:20:09 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44395
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k19Pi-0005bA-Td
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:20:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596118804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o+VimS9LqF5IxW0BnvNLwag4qkt0Zv5i66LhsFaP3tw=;
+ b=bbN/Zx6YkWvYjPCVDpb/IMKa6iNm4n1I+A6i+jgGqtx7BpwzGrvtrnah9tf8VgmwcGGezs
+ wAnmUMTLzSdJv8zUUvTh/eu1opSpSFdqiEwi6WKqUurhzJBKhWopFgwrs3YGICFVhEcfPa
+ 9iTqdJWdwC72KJaly7cysFd1A8DGfJ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-5Ly6-oqWODu27J0up0f8mg-1; Thu, 30 Jul 2020 10:20:00 -0400
+X-MC-Unique: 5Ly6-oqWODu27J0up0f8mg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91E83800597;
+ Thu, 30 Jul 2020 14:19:59 +0000 (UTC)
+Received: from [10.3.114.255] (ovpn-114-255.phx2.redhat.com [10.3.114.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 117285DA7A;
+ Thu, 30 Jul 2020 14:19:59 +0000 (UTC)
+Subject: Re: [PATCH 0/2] qcow2: Release read-only bitmaps when inactivated
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200730120234.49288-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c6a84a92-d2f2-cdfb-154d-470dbb24ed8e@redhat.com>
+Date: Thu, 30 Jul 2020 09:19:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200730120234.49288-1-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:51:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,116 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extend the test case #303 by dumping QCOW2 image metadata in JSON
-format.
+On 7/30/20 7:02 AM, Max Reitz wrote:
+> Hi,
+> 
+> When beginning migration, the qcow2 driver syncs all persistent bitmaps
+> to disk and then releases them.  If the user decides to continue on the
+> source after migration, those bitmaps are re-loaded from the qcow2
+> image.
+> 
+> However, we only do this for bitmaps that were actively synced, i.e. R/W
+> bitmaps.  RO bitmaps (those on backing images) are not written and thus
+> not released.  However, we still try to re-load them when continuing,
+> and that will then fail.
+> 
+> To fix this problem, I think we should just consider RO bitmaps to be in
+> sync from the beginning, so we can release them just like bitmaps that
+> we have actively written back to the image.  This is done by patch 1.
+> 
+> However, there’s a catch: Peter Krempa noted that it isn’t in libvirt’s
+> interest for the bitmaps to be released before migration at all, because
+> this makes them disappear from query-named-block-node’s dirty-bitmaps
+> list, but libvirt needs the bitmaps to be there:
+> 
+> https://bugzilla.redhat.com/show_bug.cgi?id=1858739#c3
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/303     |  3 ++
- tests/qemu-iotests/303.out | 76 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 79 insertions(+)
+And that is enough to make me think this series is -rc3 material. 
+Although I'm not yet sure whether the solution is this series as 
+written, or to patch libvirt to look elsewhere for bitmap information, 
+or to patch qemu on incoming migration to not complain when reloading a 
+RO bitmap, or something else.
 
-diff --git a/tests/qemu-iotests/303 b/tests/qemu-iotests/303
-index 3c7a611..6821bd3 100755
---- a/tests/qemu-iotests/303
-+++ b/tests/qemu-iotests/303
-@@ -57,3 +57,6 @@ add_bitmap(1, 1, 7, False)
- add_bitmap(2, 7, 9, True)
- dump = ['qcow2.py', f'{disk}', 'dump-header']
- subprocess.run(dump)
-+# Dump the metadata in JSON format
-+dump.append('-j')
-+subprocess.run(dump)
-diff --git a/tests/qemu-iotests/303.out b/tests/qemu-iotests/303.out
-index d581fb4..ead3b63 100644
---- a/tests/qemu-iotests/303.out
-+++ b/tests/qemu-iotests/303.out
-@@ -84,3 +84,79 @@ extra_data_size           0
- Bitmap table   type            size         offset
- 0              all-zeroes      65536        0
- 
-+{
-+    "magic": 1363560955,
-+    "version": 3,
-+    "backing_file_offset": 0,
-+    "backing_file_size": 0,
-+    "cluster_bits": 16,
-+    "size": 10485760,
-+    "crypt_method": 0,
-+    "l1_size": 1,
-+    "l1_table_offset": 196608,
-+    "refcount_table_offset": 65536,
-+    "refcount_table_clusters": 1,
-+    "nb_snapshots": 0,
-+    "snapshot_offset": 0,
-+    "incompatible_features": 0,
-+    "compatible_features": 0,
-+    "autoclear_features": 1,
-+    "refcount_order": 4,
-+    "header_length": 112
-+}
-+
-+[
-+    {
-+        "name": "Feature table",
-+        "magic": 1745090647,
-+        "length": 336,
-+        "data_str": "<binary>"
-+    },
-+    {
-+        "name": "Bitmaps",
-+        "magic": 595929205,
-+        "length": 24,
-+        "data": {
-+            "nb_bitmaps": 2,
-+            "reserved32": 0,
-+            "bitmap_directory_size": 64,
-+            "bitmap_directory_offset": 10289152,
-+            "bitmap_directory": [
-+                {
-+                    "name": "bitmap-1",
-+                    "bitmap_table_offset": 10158080,
-+                    "bitmap_table_size": 1,
-+                    "flags": 2,
-+                    "type": 1,
-+                    "granularity_bits": 15,
-+                    "name_size": 8,
-+                    "extra_data_size": 0,
-+                    "bitmap_table": [
-+                        {
-+                            "type": "serialized",
-+                            "offset": 10092544,
-+                            "reserved": 0
-+                        }
-+                    ]
-+                },
-+                {
-+                    "name": "bitmap-2",
-+                    "bitmap_table_offset": 10223616,
-+                    "bitmap_table_size": 1,
-+                    "flags": 0,
-+                    "type": 1,
-+                    "granularity_bits": 16,
-+                    "name_size": 8,
-+                    "extra_data_size": 0,
-+                    "bitmap_table": [
-+                        {
-+                            "type": "all-zeroes",
-+                            "offset": 0,
-+                            "reserved": 0
-+                        }
-+                    ]
-+                }
-+            ]
-+        }
-+    }
-+]
+> 
+> If it’s really not feasible to keep the bitmaps around, then I suppose
+> what might work for libvirt is to query
+> image/format-specific/data/bitmaps in addition to dirty-bitmaps (every
+> bitmap that we released before migration must be a persistent bitmap).
+> 
+> What are your thoughts on this?
+
+I'd really like to hear from Virtuozzo on the topic before committing to 
+this series, but I will at least review it in the meantime.
+
+> 
+> 
+> Max Reitz (2):
+>    qcow2: Release read-only bitmaps when inactivated
+>    iotests/169: Test source cont with backing bmap
+> 
+>   block/qcow2-bitmap.c       | 23 +++++++++++---
+>   tests/qemu-iotests/169     | 64 +++++++++++++++++++++++++++++++++++++-
+>   tests/qemu-iotests/169.out |  4 +--
+>   3 files changed, 84 insertions(+), 7 deletions(-)
+> 
+
 -- 
-1.8.3.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
