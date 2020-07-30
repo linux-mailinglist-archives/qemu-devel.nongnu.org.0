@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C032330FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:32:27 +0200 (CEST)
-Received: from localhost ([::1]:58922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5C22330FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:34:30 +0200 (CEST)
+Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k16nR-0002Tf-Qt
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35168)
+	id 1k16pR-0005Rf-IE
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k16l3-0000qz-0I
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:29:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39553
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k16l1-0005Wv-BR
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:29:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596108593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WZXuqWMMjM71taDLBLMznQua1y5/n6InfoamN+Iv7/Q=;
- b=MYwaSlv53pTMybak+Vir9+Luvib7VKzAAL591ij1Qq3OcXzWZCHjiuxhKkXqiCRIqwEhyD
- 7Fux4T1PM+JBC21Gql1vq9xYIKq0YWkHg+QLmfX7RGdJvBi6LxpK0T+SheY7SL5uA6oY9A
- OVgVTR1MClKg2jSIYmHlTLbJP6J5ymE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-g3Xy1SxEOwaam9tbAdRT2A-1; Thu, 30 Jul 2020 07:29:50 -0400
-X-MC-Unique: g3Xy1SxEOwaam9tbAdRT2A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98AAC800FEA;
- Thu, 30 Jul 2020 11:29:48 +0000 (UTC)
-Received: from gondolin (ovpn-112-203.ams2.redhat.com [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 117E45FC31;
- Thu, 30 Jul 2020 11:29:43 +0000 (UTC)
-Date: Thu, 30 Jul 2020 13:29:42 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: fix off-by-one in loadparm
- getter
-Message-ID: <20200730132942.485b73c6.cohuck@redhat.com>
-In-Reply-To: <20200730132521.674ded34.pasic@linux.ibm.com>
-References: <20200729130222.29026-1-pasic@linux.ibm.com>
- <20200730122656.4942edbb.cohuck@redhat.com>
- <20200730132521.674ded34.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k16oh-0004yD-Ih
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:33:43 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k16of-0006Ar-Qo
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:33:43 -0400
+Received: by mail-oi1-x241.google.com with SMTP id o21so2730075oie.12
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 04:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a/KbVx1s3ycJ66pUa39DQPUXRctiQhwXA1nHi7J6pvM=;
+ b=GwdUmkF8k3UVTryLn57Pqrk1LruMghh8A0C5boBOuSo5L1//iCm7UcWALltoY9Tuax
+ uLosOo+LZfiHGOzgEjfVc99fKEhlkVyF+reFvtDYzhnJMuXCQym4AbrVSN6KFUopxz7h
+ xGENKuIniDoGy1oVDGTBA6P7kMSt3KKFKWBBvFBlaEFE5L8Q5c+V0eDjVfs9T75di4Qk
+ 4B1VNSNOgzR/d79dLvS/MC3oqJcTbakOYZAAtDL4ho60ujpllxqmca5MOwhWA9WTQLjA
+ /KiHGjFxh3kX+Tb1VbYuFTpaO42GdmpvpusPtqpG3CZIq/JIq99PEiRZj7PfcorkU3/a
+ DZOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a/KbVx1s3ycJ66pUa39DQPUXRctiQhwXA1nHi7J6pvM=;
+ b=Hzr6du406chxzVZ5zWHtzgJJOaJedNon+19tJPnQ4nHqdxFjhr196gbuIEzmk6Zt1z
+ bmT5CoHSEJqy2P94aXuyKqoKBB9zCza37EpO4INJQYTNMUL5kpNreJnKJrbMt1Q4S+58
+ ZcY+NgcNHBTT0JZ0BDHXA+cPA5o5Wo1f7wzSJl3RoIXrp9cO7QKct6h+vHIE2bgUwQl+
+ a84pBN3fYEnSVcPX3gtHV1pZGqv65CijZetDib9yVWP5ODmTHgPGET8GOBhX8QjUixxv
+ p38BSMalfoimxFjr4kJQ+PcdZyke2ThlFAaSDQ9ur24hTa2WOSUX28vnAb7hfKLiL9YK
+ NVSw==
+X-Gm-Message-State: AOAM531e/1cI+qTgXemhgfX15P+s5cw+WmKJGb9aWS5Lq9KdT1hfAbHG
+ k07vevz17orcCkBfWJT1Iy+oxW/4FrkkkcbXG5MYEQ==
+X-Google-Smtp-Source: ABdhPJzfXsrwqYDyVw92r1b++cah1Kipdre8OLLOdl7BCpr5/beKT/MUT+f9fbTWsLS8OdjpwwehOcULSMb4KKALEN4=
+X-Received: by 2002:aca:50c4:: with SMTP id
+ e187mr10721818oib.146.1596108820417; 
+ Thu, 30 Jul 2020 04:33:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:59:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1596074182-4920-1-git-send-email-likaige@loongson.cn>
+ <1596074182-4920-2-git-send-email-likaige@loongson.cn>
+ <CAFEAcA_ZgrkcpwYZD-stZGDDjhTgMOSLx--9KHPnxfbKz58s7g@mail.gmail.com>
+ <25c0ba1a-088d-c932-1f17-030211af5d4f@loongson.cn>
+ <CAFEAcA_uy0dpxQ07S=THCBaMx2R0-xaM_BUn8OxLkOwR9LJdWQ@mail.gmail.com>
+ <b52213cb-1caf-75b9-7783-ca531af44e43@loongson.cn>
+In-Reply-To: <b52213cb-1caf-75b9-7783-ca531af44e43@loongson.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Jul 2020 12:33:29 +0100
+Message-ID: <CAFEAcA_6kfWz0KbPYOj4BwHJKDF=k3tvbSozs4_5wk=SVr+0cA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/arm: Fix compile error.
+To: Kaige Li <likaige@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +84,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Jul 2020 13:25:21 +0200
-Halil Pasic <pasic@linux.ibm.com> wrote:
+On Thu, 30 Jul 2020 at 12:28, Kaige Li <likaige@loongson.cn> wrote:
+>
+> On 07/30/2020 07:21 PM, Peter Maydell wrote:
+> > Clang, gcc, OSX clang, something else, and which version number?
+> Sorry for that. Gcc version is 4.9.4.
 
-> On Thu, 30 Jul 2020 12:26:56 +0200
-> Cornelia Huck <cohuck@redhat.com> wrote:
-> 
-> > On Wed, 29 Jul 2020 15:02:22 +0200
-> > Halil Pasic <pasic@linux.ibm.com> wrote:
-> >   
-> > > As pointed out by Peter, g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1)
-> > > reads one past of the end of ms->loadparm, so g_memdup() can not be used
-> > > here.
-> > > 
-> > > Let's use malloc and memcpy instead!  
-> > 
-> > Hm, an alternative would be to use g_strndup(). What do you think?  
-> 
-> Sure. It is more concise and does exactly what we want. I'm not too
-> familiar with the string utility funcitons of glib, so it didn't jup
-> at me.
-> 
-> Shall I spin a v2?
+Ah, that makes sense. That's a pretty old version of gcc (it's
+almost the oldest we still support), and it had more false-positives
+for maybe-used-uninitialized warnings than more recent gcc versions.
+Adding in the = NULL initializer should help it.
 
-Sounds good.
-
+thanks
+-- PMM
 
