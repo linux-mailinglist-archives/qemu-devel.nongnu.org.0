@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9725C2335C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:43:27 +0200 (CEST)
-Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0C72335D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:45:22 +0200 (CEST)
+Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AiM-0004Jy-Hb
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53790)
+	id 1k1AkB-0007qU-Mq
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdB-000769-Bv
+ id 1k1AdB-000764-78
  for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:05 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:36938)
+Received: from aserp2120.oracle.com ([141.146.126.78]:36958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Ad8-00025k-35
+ id 1k1Ad8-000263-VP
  for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:04 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXbJh156082;
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXP0g155719;
  Thu, 30 Jul 2020 15:38:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=FhQZqmnrXiwORnkpYuq9o89R1YbrPjuI/aCeYDWM5Gs=;
- b=zFCQdrwigoggttk5e8vZF0uCpMyx974zHqWu7Bx++ALp0YH4btozEmQ9bZjsklag/daH
- F6kwwnUktRtMLyB/LVFdW5tZwpvgN9I/+8jkU29r35LWEiIBMy0Ec0C68tK7zP8iDMd3
- hLafR4LHQmkHqNhIyuW7BoGPKixWlYvJPvt2BH93+ZNA/L92xFpFEjHWi223NIsJguwm
- nFHnNLKLjaqckTx0OIi1oukCBoWWgp8RIr3Qc6cLkDmhBcuOX4PV2G7ys+OKZSfKmrOt
- rqCAV/pd6COEtwqtQC+/ouhNOmt+uzokpHZahRMa2dCgM1rq1eHoMJyfTLvtopMpUlOj Xw== 
+ bh=h6VW8WSg+pOehoYaPNZ8J01kel1i2awnl/tUOVeNh6I=;
+ b=IfjgW050F/XW/3Xml1jZsZnb0W1dQSCQF/9DB/nrLUJh6W5Dk0tHnwRJdgswj0Ngz10E
+ +/LhlgfAITCh+4WcKCEe1srXgD9j60PZG5dqevaDfAfb0ug4TXIR7H4JSegXr4ScXMEu
+ s/rwWaKwBa/Ejisj0kl9U/W82sk7cp/wsVlQgD7akIOEZ+Dcrd/nwwyKmykwC9tSujgD
+ k1vHwI1Hq3rqHsfmo4RAGWIaoik/TEiiJDc5Rraz/QB99mtpW0OYmJQXm6LQPNEpysQc
+ DPqFOGF3ln0BUBo2mKmuOL/IDdTe0WO7sbAHf4UL96+qtCXuxTHdZJ4NJzi6Xw0Gl8ju VA== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 32hu1jmec8-1
+ by aserp2120.oracle.com with ESMTP id 32hu1jmecc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:37:59 +0000
+ Thu, 30 Jul 2020 15:38:00 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXSQJ130734;
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXSWD130724;
  Thu, 30 Jul 2020 15:37:59 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 32hu5wwgp3-1
+ by userp3030.oracle.com with ESMTP id 32hu5wwgph-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 30 Jul 2020 15:37:59 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFbvPD014430;
- Thu, 30 Jul 2020 15:37:57 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFbwP1014433;
+ Thu, 30 Jul 2020 15:37:58 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:37:57 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:37:58 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 06/32] savevm: HMP Command for cprload
-Date: Thu, 30 Jul 2020 08:14:10 -0700
-Message-Id: <1596122076-341293-7-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 07/32] savevm: QMP command for cprinfo
+Date: Thu, 30 Jul 2020 08:14:11 -0700
+Message-Id: <1596122076-341293-8-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=977 mlxscore=0
+ mlxlogscore=999 mlxscore=0
  suspectscore=1 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- bulkscore=0 mlxlogscore=993
+ bulkscore=0 mlxlogscore=999
  lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
  phishscore=0 adultscore=0 suspectscore=1 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
@@ -109,73 +109,68 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable HMP access to the cprload QMP command.
+Provide the cprinfo QMP command.  This returns a string with a space-
+separated list of modes supported by cprsave, and can be used by clients
+as a feature test to check if the running QEMU instance supports cprsave.
 
-Usage: cprload <file>
+Syntax:
+  {'command':'cprinfo', 'returns':'str'}
 
-Signed-off-bu: Maran Wilson <maran.wilson@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hmp-commands.hx       | 13 +++++++++++++
- include/monitor/hmp.h |  1 +
- monitor/hmp-cmds.c    |  8 ++++++++
- 3 files changed, 22 insertions(+)
+ monitor/qmp-cmds.c  | 5 +++++
+ qapi/migration.json | 9 +++++++++
+ qapi/pragma.json    | 1 +
+ 3 files changed, 15 insertions(+)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index c8defd9..cb67150 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -372,6 +372,19 @@ SRST
- ERST
- 
-     {
-+        .name       = "cprload",
-+        .args_type  = "file:s",
-+        .params     = "file",
-+        .help       = "load VM checkpoint from file",
-+        .cmd        = hmp_cprload,
-+    },
-+
-+SRST
-+``cprload`` *tag*
-+  Load a virtual machine from checkpoint file *file* and continue VCPUs.
-+ERST
-+
-+    {
-         .name       = "delvm",
-         .args_type  = "name:s",
-         .params     = "tag",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index af8ee23..7b8cdfd 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -60,6 +60,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict);
- void hmp_savevm(Monitor *mon, const QDict *qdict);
- void hmp_delvm(Monitor *mon, const QDict *qdict);
- void hmp_cprsave(Monitor *mon, const QDict *qdict);
-+void hmp_cprload(Monitor *mon, const QDict *qdict);
- void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
- void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
- void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 59196ed..ba95737 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1149,6 +1149,14 @@ void hmp_cprsave(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 81e6feb..8c400e6 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -162,6 +162,11 @@ void qmp_cont(Error **errp)
+     }
  }
  
-+void hmp_cprload(Monitor *mon, const QDict *qdict)
++char *qmp_cprinfo(Error **errp)
 +{
-+    Error *err = NULL;
-+
-+    qmp_cprload(qdict_get_try_str(qdict, "file"), &err);
-+    hmp_handle_error(mon, err);
++    return g_strdup("reboot");
 +}
 +
- void hmp_migrate_cancel(Monitor *mon, const QDict *qdict)
+ void qmp_cprsave(const char *file, const char *mode, Error **errp)
  {
-     qmp_migrate_cancel(NULL);
+     save_cpr_snapshot(file, mode, errp);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index ce4d32b..8190b16 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1623,6 +1623,15 @@
+   'data': { 'device-id': 'str' } }
+ 
+ ##
++# @cprinfo:
++#
++# Return a space-delimited list of modes supported by the cprsave command
++#
++# Since 5.0
++##
++{ 'command': 'cprinfo', 'returns': 'str' }
++
++##
+ # @cprsave:
+ #
+ # Create a checkpoint of the virtual machine device state in @file.
+diff --git a/qapi/pragma.json b/qapi/pragma.json
+index cffae27..43bdb39 100644
+--- a/qapi/pragma.json
++++ b/qapi/pragma.json
+@@ -5,6 +5,7 @@
+ { 'pragma': {
+     # Commands allowed to return a non-dictionary:
+     'returns-whitelist': [
++        'cprinfo',
+         'human-monitor-command',
+         'qom-get',
+         'query-migrate-cache-size',
 -- 
 1.8.3.1
 
