@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F2B233601
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:49:46 +0200 (CEST)
-Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5137B233621
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:58:35 +0200 (CEST)
+Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AoT-0006e7-UF
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53916)
+	id 1k1Ax0-0001et-Di
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdJ-0007Kh-Bu
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:13 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:46170)
+ id 1k1AfK-0001Ni-M8
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:18 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:51954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdH-00028y-5e
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:12 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXcEf152601;
- Thu, 30 Jul 2020 15:38:08 GMT
+ id 1k1AfD-0002V8-Ru
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:18 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXRow007525;
+ Thu, 30 Jul 2020 15:40:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=OOANDamxT/8UjVbukusZVM3EHUd5XIA23EDjTuSw9PA=;
- b=x2cFeCgrSHq5pOZc51DK+4PxT5AyGmJa1UYZI4GZodfMOVbP/3yQi7y1zdgMjw5V5GY9
- DJY4TjNOpceEDJ9WBZ6o12fvW3MsGZfSJirah7kD6RysIrBZYfRzNHpGCYBSASDEHZS0
- gTuRco46r+9tGku9RH4Q+ILsi8tse3Y/M/cI5T4OjAl7Fv1nhT/yLoZXZX6/DS5130j3
- xGQNOcg/LhFziRfoVW5p9c5RR6ACBCPdiD4OiBQVagmgqrpyrA92q5JOk659eaIMLgE1
- r8F2vP+Nf0moGMJsi0nRCv9Nyq3lIbUb2qgTZqO2BRm1rqWqjiSyASC/CCeiKzMV8mqw 8Q== 
+ bh=ry5gpuR23eKIdEylleUh4be2sKRb+84pqqOoEO+MYg8=;
+ b=lsSyF+C/tqD3ISTZNiwNOPrib3QIAnPbkYJ8Mcp1rleIuVNIq8NWkYnoVynlQhJIUSTq
+ wyqLQnPTN9FFoVkAm8VWFFClAOCo5SXuR6FrTL+ponj2ySn2eICSpcS0s4XnymR/nQbJ
+ rVgYuNu19n5QvjKt/Z4VY1Lq138ulf6AhsCLvXP1vc+WURvmRRSQugpJ4LQ2L98s7QuY
+ gKdBGcKaVlbHY9HOF1SAus7DCz9rsWpuzMmpBuZthLcDylZvtxtVHzlqGVPsRd7G48Wf
+ pGQkNQKZ1SzreBKRpquYLoVHW+YFRwe4DNb4GuoFjX78U8iyjsgU/hPg6GYDxKw1BdZP Bg== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 32hu1jvdyk-1
+ by userp2130.oracle.com with ESMTP id 32hu1jmfuj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:38:08 +0000
+ Thu, 30 Jul 2020 15:40:08 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWYbh176052;
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWa6v176315;
  Thu, 30 Jul 2020 15:38:07 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 32hu61a1h0-1
+ by aserp3020.oracle.com with ESMTP id 32hu61a1hs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 30 Jul 2020 15:38:07 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc60G020470;
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc6Gi020474;
  Thu, 30 Jul 2020 15:38:06 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:38:05 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:38:06 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 17/32] util: env var helpers
-Date: Thu, 30 Jul 2020 08:14:21 -0700
-Message-Id: <1596122076-341293-18-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 18/32] osdep: import MADV_DOEXEC
+Date: Thu, 30 Jul 2020 08:14:22 -0700
+Message-Id: <1596122076-341293-19-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  adultscore=0 bulkscore=0
  malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- mlxlogscore=999
- malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
- suspectscore=1 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ clxscore=1015
+ malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:38:02
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,233 +109,49 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add functions for saving fd's and ram extents in the environment via
-setenv, and for reading them back via getenv.
+Anonymous memory segments used by the guest are preserved across a re-exec
+of qemu, mapped at the same VA, via a proposed madvise(MADV_DOEXEC) option
+in the Linux kernel. For the madvise patches, see:
+
+https://lore.kernel.org/lkml/1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com/
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 ---
- MAINTAINERS           |   7 +++
- include/qemu/cutils.h |   1 +
- include/qemu/env.h    |  31 ++++++++++++
- util/Makefile.objs    |   2 +-
- util/env.c            | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 172 insertions(+), 1 deletion(-)
- create mode 100644 include/qemu/env.h
- create mode 100644 util/env.c
+ include/qemu/osdep.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3395abd..8d377a7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3115,3 +3115,10 @@ Performance Tools and Tests
- M: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
- S: Maintained
- F: scripts/performance/
-+
-+Environment variable helpers
-+M: Steve Sistare <steven.sistare@oracle.com>
-+M: Mark Kanda <mark.kanda@oracle.com>
-+S: Maintained
-+F: include/qemu/env.h
-+F: util/env.c
-diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-index eb59852..d4c7d70 100644
---- a/include/qemu/cutils.h
-+++ b/include/qemu/cutils.h
-@@ -1,6 +1,7 @@
- #ifndef QEMU_CUTILS_H
- #define QEMU_CUTILS_H
- 
-+#include "qemu/env.h"
- /**
-  * pstrcpy:
-  * @buf: buffer to copy string into
-diff --git a/include/qemu/env.h b/include/qemu/env.h
-new file mode 100644
-index 0000000..53cc121
---- /dev/null
-+++ b/include/qemu/env.h
-@@ -0,0 +1,31 @@
-+/*
-+ * Copyright (c) 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef QEMU_ENV_H
-+#define QEMU_ENV_H
-+
-+#define FD_PREFIX "QEMU_FD_"
-+#define ADDR_PREFIX "QEMU_ADDR_"
-+#define LEN_PREFIX "QEMU_LEN_"
-+#define BOOL_PREFIX "QEMU_BOOL_"
-+
-+typedef int (*walkenv_cb)(const char *name, const char *val, void *handle);
-+
-+bool getenv_ram(const char *name, void **addrp, size_t *lenp);
-+void setenv_ram(const char *name, void *addr, size_t len);
-+void unsetenv_ram(const char *name);
-+int getenv_fd(const char *name);
-+void setenv_fd(const char *name, int fd);
-+void unsetenv_fd(const char *name);
-+bool getenv_bool(const char *name);
-+void setenv_bool(const char *name, bool val);
-+void unsetenv_bool(const char *name);
-+int walkenv(const char *prefix, walkenv_cb cb, void *handle);
-+void printenv(void);
-+
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index bb28df1..7ce555a 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -390,6 +390,11 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #else
+ #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
+ #endif
++#ifdef MADV_DOEXEC
++#define QEMU_MADV_DOEXEC MADV_DOEXEC
++#else
++#define QEMU_MADV_DOEXEC QEMU_MADV_INVALID
 +#endif
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index cc5e371..d357932 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -1,4 +1,4 @@
--util-obj-y = osdep.o cutils.o unicode.o qemu-timer-common.o
-+util-obj-y = osdep.o cutils.o unicode.o qemu-timer-common.o env.o
- util-obj-$(call lnot,$(CONFIG_ATOMIC64)) += atomic64.o
- util-obj-$(CONFIG_POSIX) += aio-posix.o
- util-obj-$(CONFIG_POSIX) += fdmon-poll.o
-diff --git a/util/env.c b/util/env.c
-new file mode 100644
-index 0000000..0cc4a9f
---- /dev/null
-+++ b/util/env.c
-@@ -0,0 +1,132 @@
-+/*
-+ * Copyright (c) 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/env.h"
-+
-+static uint64_t getenv_ulong(const char *prefix, const char *name, bool *found)
-+{
-+    char var[80], *val;
-+    uint64_t res;
-+
-+    snprintf(var, sizeof(var), "%s%s", prefix, name);
-+    val = getenv(var);
-+    if (val) {
-+        *found = true;
-+        res = strtol(val, 0, 10);
-+    } else {
-+        *found = false;
-+        res = 0;
-+    }
-+    return res;
-+}
-+
-+static void setenv_ulong(const char *prefix, const char *name, uint64_t val)
-+{
-+    char var[80], val_str[80];
-+    snprintf(var, sizeof(var), "%s%s", prefix, name);
-+    snprintf(val_str, sizeof(val_str), "%"PRIu64, val);
-+    setenv(var, val_str, 1);
-+}
-+
-+static void unsetenv_ulong(const char *prefix, const char *name)
-+{
-+    char var[80];
-+    snprintf(var, sizeof(var), "%s%s", prefix, name);
-+    unsetenv(var);
-+}
-+
-+bool getenv_ram(const char *name, void **addrp, size_t *lenp)
-+{
-+    bool found1, found2;
-+    *addrp = (void *) getenv_ulong(ADDR_PREFIX, name, &found1);
-+    *lenp = getenv_ulong(LEN_PREFIX, name, &found2);
-+    assert(found1 == found2);
-+    return found1;
-+}
-+
-+void setenv_ram(const char *name, void *addr, size_t len)
-+{
-+    setenv_ulong(ADDR_PREFIX, name, (uint64_t)addr);
-+    setenv_ulong(LEN_PREFIX, name, len);
-+}
-+
-+void unsetenv_ram(const char *name)
-+{
-+    unsetenv_ulong(ADDR_PREFIX, name);
-+    unsetenv_ulong(LEN_PREFIX, name);
-+}
-+
-+int getenv_fd(const char *name)
-+{
-+    bool found;
-+    int fd = getenv_ulong(FD_PREFIX, name, &found);
-+    if (!found) {
-+        fd = -1;
-+    }
-+    return fd;
-+}
-+
-+void setenv_fd(const char *name, int fd)
-+{
-+    setenv_ulong(FD_PREFIX, name, fd);
-+}
-+
-+void unsetenv_fd(const char *name)
-+{
-+    unsetenv_ulong(FD_PREFIX, name);
-+}
-+
-+bool getenv_bool(const char *name)
-+{
-+    bool found;
-+    bool val = getenv_ulong(BOOL_PREFIX, name, &found);
-+    if (!found) {
-+        val = -1;
-+    }
-+    return val;
-+}
-+
-+void setenv_bool(const char *name, bool val)
-+{
-+    setenv_ulong(BOOL_PREFIX, name, val);
-+}
-+
-+void unsetenv_bool(const char *name)
-+{
-+    unsetenv_ulong(BOOL_PREFIX, name);
-+}
-+
-+int walkenv(const char *prefix, walkenv_cb cb, void *handle)
-+{
-+    char *str, name[128];
-+    char **envp = environ;
-+    size_t prefix_len = strlen(prefix);
-+
-+    while (*envp) {
-+        str = *envp++;
-+        if (!strncmp(str, prefix, prefix_len)) {
-+            char *val = strchr(str, '=');
-+            str += prefix_len;
-+            strncpy(name, str, val - str);
-+            name[val - str] = 0;
-+            if (cb(name, val + 1, handle)) {
-+                return 1;
-+            }
-+        }
-+    }
-+    return 0;
-+}
-+
-+void printenv(void)
-+{
-+    char **ptr = environ;
-+    while (*ptr) {
-+        puts(*ptr++);
-+    }
-+}
+ 
+ #elif defined(CONFIG_POSIX_MADVISE)
+ 
+@@ -403,6 +408,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
++#define QEMU_MADV_DOEXEC  QEMU_MADV_INVALID
+ 
+ #else /* no-op */
+ 
+@@ -416,6 +422,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
++#define QEMU_MADV_DOEXEC  QEMU_MADV_INVALID
+ 
+ #endif
+ 
 -- 
 1.8.3.1
 
