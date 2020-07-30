@@ -2,105 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A332C233280
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 14:59:13 +0200 (CEST)
-Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19FF233253
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 14:37:46 +0200 (CEST)
+Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k189Q-0006rt-Nh
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 08:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
+	id 1k17of-0008NX-Dk
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 08:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@mellanox.com>)
- id 1k13V9-0006Zf-Ue
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 04:01:20 -0400
-Received: from mail-eopbgr10068.outbound.protection.outlook.com
- ([40.107.1.68]:29779 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@mellanox.com>)
- id 1k13V7-0002hO-8y
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 04:01:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UT9jvf5TY2at2vWpwPPv/y0AXhMNOW9tAk3Qr3AtSVTX8A4vlAvCB+Aa7VZNc6sK0BK0wRccNjvIvExDCQD+WaIGi07TAWro0gOnrkE2HuQKgbZ36VKPfOh4Rs+JW3KkXAoz6KHOPOd5IWZ4/sBkcmfapzRScZLqPOjI+NTYnkIZpZVS5xMhYfODpXQT81zaU+ShCXRfaQZz4i0ZPCEC31lu+MwQ7DkqYxGaRqvayEd5LJ2BNzaKClFIySPy3cCb8T2IZSfzc6E8qkyXSm9LhbVON9lFlWmJtqBMHsUZfbUIYQ1FUBvpa0o/zcuY3X42nHB4EXABCbJMMJUzpktOfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RAGzxxNykyGSWuHRyG8fOWldTzxxgomTA7wl14DtZwI=;
- b=P9hRkzRwj2KCCejxT46bGeyBGua/HgY1R7NprLgFByWPcCbyAGRzGCL0vYPmS1y25lMqb2OhgfpZ9KgvY06LNihaO9Bc2ctHoUWsCMUDTbDEMwNfqvLwvc+wakPu9byNWmfyEbuXue582VqDd9lN18jd061KR/aK602+63CtPn4FmcI5csJLren9XE6aTtBGstmEF5OPw7g9YZSfiMk34RsNt/1vQ0mjr26MeOFJ7Or8e4Qz3aHqBE2L+eWnZR6KLIi97twoPtRFw8IbEEMTuxTjzLt97cq7TsawbVkiuXRG+pDZe6VNT7OIuR9OilQmxn9LpH8cLFqXEfZCFL901w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RAGzxxNykyGSWuHRyG8fOWldTzxxgomTA7wl14DtZwI=;
- b=hr0ljGLzXDJI4fD0a5aWjdqe1igfjcyGpdc8OpzlV0JFEbIGuiPmd5QmJVH+ibb4LiWTZKU/wg3Wen09A+VhSl4wbnWm8S+A2OFQ9/pF6uBi5VnePbN1kLjHOkjX8G91qu9MtRSA//8qc4vbJS6v3fmWwaYuLgAEqDzMTyDHCL8=
-Received: from AM7PR05MB6695.eurprd05.prod.outlook.com (2603:10a6:20b:142::22)
- by AM6PR05MB4968.eurprd05.prod.outlook.com (2603:10a6:20b:4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Thu, 30 Jul
- 2020 07:46:10 +0000
-Received: from AM7PR05MB6695.eurprd05.prod.outlook.com
- ([fe80::8574:63a5:ef7b:bd]) by AM7PR05MB6695.eurprd05.prod.outlook.com
- ([fe80::8574:63a5:ef7b:bd%3]) with mapi id 15.20.3239.017; Thu, 30 Jul 2020
- 07:46:09 +0000
-From: Yajun Wu <yajunw@mellanox.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Any reason VIRTQUEUE_MAX_SIZE is 1024? Can we increase this limit?
-Thread-Topic: Any reason VIRTQUEUE_MAX_SIZE is 1024? Can we increase this
- limit?
-Thread-Index: AdZmRKXyRhpGB73vSMi6kUjXqcq6sw==
-Date: Thu, 30 Jul 2020 07:46:09 +0000
-Message-ID: <AM7PR05MB6695D4FF6766BF2942C345D6BB710@AM7PR05MB6695.eurprd05.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=mellanox.com;
-x-originating-ip: [101.80.66.147]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: fa8b9c4c-a2bd-4164-f45e-08d8345ca000
-x-ms-traffictypediagnostic: AM6PR05MB4968:
-x-microsoft-antispam-prvs: <AM6PR05MB4968BDB6122BC6454049F85EBB710@AM6PR05MB4968.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GSQ33o1PoF+FW8PIKG22MtP19r3IJ0CDgffIiUc/2/I4PVtIFWea9bIPpkz2j/0fQT78OiAzeobTEjruyGq4/GGhyuEY7hVnj+I8qHV8LDxt4D5p+sV4oeNPmLY8+oc1vEVTFGtX2InltwR/4UxfrST+G8+TU5uphuHO55BKz1jl/s0lH8dAOF3RTbn6kbTdFPgwY667B6fz++EZ/XO6p/E/SgIP0kvLEdgvTk6nmgL9OaJ3j9t4C40dTCWOwOXUcdOCIcEhTvmrZoWrMabEjFM/5B8lk7v3K+cbnRtR2UeEu7TXGyLvs069kPTD4snECcN739WyYVQqwQXQHnygEg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR05MB6695.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(376002)(366004)(346002)(396003)(39860400002)(7696005)(52536014)(86362001)(6506007)(5660300002)(71200400001)(33656002)(478600001)(8676002)(66476007)(66946007)(6916009)(66556008)(64756008)(26005)(55016002)(83380400001)(9686003)(2906002)(186003)(8936002)(4744005)(316002)(76116006)(66446008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: ThBU01aDYCUXC/2ZGEhP0NiH+3ZMeFx5oNFrzVMyagpG7zewZnNyVdytg5rleWLF2V+gfQ8osq2bkp/LRrvutfrBRc2V3EoU5/DOzlGsbNOAki3I43UbMd+3ktoJHL4cKA+wNkHV/t8ggKjz13A7fjFHSBP+KauIUuIW8sX9KYGczztMk2m8fQsx1l0W1ttrJjF7EORAd9aVSRGTehUpRWyTrvFyZbKTNUOm24tYM9PdoxIzYgJnUp504A44KKkU/XnXBWZeg8icpdEBuMtSqKSxEczL4EQ29nnRcEkKJouE4dI6GP6kYNy3FSOnXZseW7b/LqHn6YHH1ch3CNPxD51Qv8yeVI6bSl/eJIUbMy/ENTGZFSoZQAd1RSOA8C775awuUJeGfiQ6KkiFey5HTpVnrD2XEJ2xcuDBOhQOnh5dCBXESFFl0/rei1BB+EV5R5KJOHgFgDZspMmh5yPXYemD+4RMbhznkLpyw8s2GBc7z+hNd82GTpxmyi4IWLW7/L+rrN9eGBN3TR1tukNamUsZUUUxnFbQ5blTZhWqg+N7UhnVCUC8+8YSBnEe8ywmKxHEiODvO0PzUwfEazG8L184PzWCWrNezLSMRvSYXNsltu8YGpHqBpc5J7oj1SkTEAyIi78LvxpSiR074iUp9w==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_"
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k17nq-0007wz-1b
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 08:36:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27986
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k17nn-00076d-Fy
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 08:36:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596112609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MVINQ4U00qUSX5sWafsKfFcXCNRmGfs4kwSMkfPQqL8=;
+ b=D0c1kvoVkuJrrAazvJNDGq0WD4Qo5Lo4+5ZhefydON/FJIJ+gR9Ynw9wEM2MuCGWOdWTjX
+ aM8TqFWj/jA59021xj2s4WBLMhL0whESVNMoo3VZNTeb+XnFV7dpCD9VECYWodX5pYJ1VJ
+ 6O2YcSA20KiW5+3JNJgPqc41aogh0w4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-dS_U46YmOdOtSLDDS3k0Kg-1; Thu, 30 Jul 2020 08:36:48 -0400
+X-MC-Unique: dS_U46YmOdOtSLDDS3k0Kg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB3F1005504;
+ Thu, 30 Jul 2020 12:36:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C83E319D9E;
+ Thu, 30 Jul 2020 12:36:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4D1B81132FD2; Thu, 30 Jul 2020 14:36:45 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: sysbus_create_simple Vs qdev_create
+References: <87lfjkvo81.fsf@dusky.pond.sub.org>
+ <20200716222130.GO1274972@habkost.net>
+ <87tuy6k9pa.fsf@dusky.pond.sub.org>
+ <20200717162312.GR1274972@habkost.net>
+ <87r1t6hc0f.fsf@dusky.pond.sub.org>
+ <20200720155955.GV1274972@habkost.net>
+ <87v9ihbe6u.fsf@dusky.pond.sub.org>
+ <50e31ece-215c-a632-e5a2-86ae7ab3abab@redhat.com>
+ <87lfj4f6nz.fsf@dusky.pond.sub.org>
+ <759959d1-f320-734a-ac5e-a60db6b1bc23@redhat.com>
+ <20200728224733.GP225270@habkost.net>
+ <422d7879-3fdc-d38e-259f-2477b9d3c169@redhat.com>
+ <87zh7i5uj5.fsf@dusky.pond.sub.org>
+ <6ee49ad2-8b6b-cb6f-c3c9-b440631cfc75@redhat.com>
+ <87sgd91fsa.fsf@dusky.pond.sub.org>
+ <0d7a9407-1df6-0c9b-0695-2f438f0de129@redhat.com>
+Date: Thu, 30 Jul 2020 14:36:45 +0200
+In-Reply-To: <0d7a9407-1df6-0c9b-0695-2f438f0de129@redhat.com> (Paolo
+ Bonzini's message of "Thu, 30 Jul 2020 13:09:58 +0200")
+Message-ID: <87zh7hxjqa.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR05MB6695.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa8b9c4c-a2bd-4164-f45e-08d8345ca000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2020 07:46:09.7484 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pNZnqR3DFPVw4dLHW61+1zH3Wk4lIoywVTl9HacnwX3WqzZiUh5fXOq0VCDhuptBq6a2F1Pns6Jawq5AEYpVOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4968
-Received-SPF: pass client-ip=40.107.1.68; envelope-from=yajunw@mellanox.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 04:01:14
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 30 Jul 2020 08:58:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,100 +95,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Hi all,
-
-I'm doing iperf test on VIRTIO net through vhost-user(HW VDPA).
-Find maximal acceptable tx_queue_size/rx_queue_size is 1024.
-Basically increase queue size can get better RX rate for my case.
-
-Can we increase the limit(VIRTQUEUE_MAX_SIZE) to 8192 to possibly gain bett=
-er performance?
-
-Thanks,
-Yajun
-
-
-
---_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> On 30/07/20 12:03, Markus Armbruster wrote:
+>> qdev C layer:
+>> 
+>>     frob->prop = 42;
+>> 
+>> Least cognitive load.
+>> 
+>> QOM has no C layer.
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.25in 1.0in 1.25in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi all,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I&#8217;m doing iperf test on VIRTIO net through vho=
-st-user(HW VDPA).<o:p></o:p></p>
-<p class=3D"MsoNormal">Find maximal acceptable tx_queue_size/rx_queue_size =
-is 1024.
-<o:p></o:p></p>
-<p class=3D"MsoNormal">Basically increase queue size can get better RX rate=
- for my case.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Can we increase the limit(VIRTQUEUE_MAX_SIZE) to 819=
-2 to possibly gain better performance?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal">Yajun<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> Not really, a QOM object is totally free to do frob->prop = 42.  And
+> just like we didn't do that outside device implementation in qdev as our
+> tithe to the Church of Information Hiding; the same applies to QOM.
 
---_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_--
+I screwed up the part of my argument that actually has a hope to be
+valid, let me try again.
+
+With qdev, you can always do frob->prop = 42, because properties are
+always backed by a struct member.
+
+With QOM, properties are built around visitor-based getters and setters.
+This means you can always do (but never actually would do) something
+like
+
+    fortytwo = qnum_from_int(42);
+    v = qobject_input_visitor_new(fortytwo);
+    set_prop(OBJECT(frob), v, "prop", cookie, &err);
+    visit_free(v);
+    qobject_unref(fortytwo);
+
+where set_prop() is the setter you passed to object_property_add(), and
+@cookie is the opaque value you passed along with it.
+
+*Maybe* set_prop() wraps around a simpler setter you can call directly,
+or even a struct member you can set directy.  QOM does not care.
+
+And that's my point: QOM does not care for the C layer.
+
+>> qdev property layer works even when @frob has incomplete type:
+>> 
+>>     qdev_prop_set_int32(DEVICE(frob), "prop", 42);
+>> 
+>> This used to map property name to struct offset & copy the value.
+>> Simple, stupid.
+>> 
+>> Nowadays, it is the same as
+>> 
+>>     object_property_set_int(OBJECT(frob), "frob", 42, &error_abort);
+>> 
+>> which first converts the int to a QObject, then uses a QObject input
+>> visitor with a virtual walk to convert it back to int and store it in
+>> @frob.  It's quite a sight in the debugger.
+>
+> Yes, but thatt's just because we never bothered to create single-type
+> visitors.  For a good reason though: I don't think the extra QAPI code
+> is worth (not even that much) nicer backtraces when we already have a
+> QObject as a battle-tested variant type.
+>
+>> qdev "text" layer is really a QemuOpts layer (because that's what we had
+>> back then).  If we have prop=42 in a QemuOpts, it calls
+>> 
+>>     set_property("prop", "42", frob, &err);
+>> 
+>> Nowadays, this is a thin wrapper around object_property_parse(),
+>> basically
+>> 
+>>     object_property_parse(frob, "prop", 42, &err);
+>> 
+>> Fine print: except set_property() does nothing for @prop "driver" and
+>> "bus", which look just like properties in -device / device-add, but
+>> aren't.
+>
+> Ugly indeed.  They should be special cased up in the caller, probably,
+> or use the long-discussed "remainder" feature of the QAPI schema.
+
+qdev_device_add() is still stuck in the QemuOpts age.
+
+>> object_property_parse() uses the string input visitor, which I loathe.
+>
+> Apart from the list syntax, the string input visitor is decent I think.
+
+It's a death trap:
+
+/*
+ * The string input visitor does not implement support for visiting
+ * QAPI structs, alternates, null, or arbitrary QTypes. Only flat lists
+ * of integers (except type "size") are supported.
+ */
+
+"Does not implement support for visiting" is polite language for
+"crashes when you dare to visit".
+
+>>>> I've long had the nagging feeling that if we had special-cased
+>>>> containers, children and links, we could have made a QOM that was easier
+>>>> to reason about, and much easier to integrate with a QAPI schema.
+>>>
+>>> That's at least plausible.  But I have a nagging feeling that it would
+>>> only cover 99% of what we're doing with QOM. :)
+>> 
+>> The question is whether that 1% really should be done the way it is done
+>> :)
+>
+> And that's a very fair question, but it implies non-trivial design work,
+> so the smiley changes to a frown. :(
+
+True!
+
 
