@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5137B233621
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:58:35 +0200 (CEST)
-Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446ED23360A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:52:58 +0200 (CEST)
+Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1Ax0-0001et-Di
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:58:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54680)
+	id 1k1ArX-0001y5-PB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AfK-0001Ni-M8
+ id 1k1AfK-0001Mp-2l
  for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:18 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:51954)
+Received: from userp2120.oracle.com ([156.151.31.85]:48020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AfD-0002V8-Ru
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:18 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXRow007525;
- Thu, 30 Jul 2020 15:40:08 GMT
+ id 1k1AfG-0002VF-1c
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:17 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXPdm152163;
+ Thu, 30 Jul 2020 15:40:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=ry5gpuR23eKIdEylleUh4be2sKRb+84pqqOoEO+MYg8=;
- b=lsSyF+C/tqD3ISTZNiwNOPrib3QIAnPbkYJ8Mcp1rleIuVNIq8NWkYnoVynlQhJIUSTq
- wyqLQnPTN9FFoVkAm8VWFFClAOCo5SXuR6FrTL+ponj2ySn2eICSpcS0s4XnymR/nQbJ
- rVgYuNu19n5QvjKt/Z4VY1Lq138ulf6AhsCLvXP1vc+WURvmRRSQugpJ4LQ2L98s7QuY
- gKdBGcKaVlbHY9HOF1SAus7DCz9rsWpuzMmpBuZthLcDylZvtxtVHzlqGVPsRd7G48Wf
- pGQkNQKZ1SzreBKRpquYLoVHW+YFRwe4DNb4GuoFjX78U8iyjsgU/hPg6GYDxKw1BdZP Bg== 
+ bh=Wd03TfXmai9NVMgUXNcCRPWvxEvO9M/ot786QtmLF84=;
+ b=caIpVjen6t/UHEre+7bHaGST8tTYb0s5QO9k0jZg1bga0vlGajfp65SNV2xee+JVEide
+ iXwf05pih5aOVVnXcscu1J70cYZO6G5RaJcY5QEVhrSqaktjuLhsswuNOOl/vFyTYN56
+ Nwy6RM5rvFmM7d6caDYk7MjeEptlsbGllcy0Zo+eQVdljiHWRds3ZcA6iXzcqKfYUhor
+ LhI3bZ4g8naUO+DFlldV8GgXWCjUNWILFDBkqXpWYEmSk9uRObH9tRgL1sgXVHp8MA9h
+ 0m9JC20uW9FKuJC3m5NCxj8fjbQsLDqSfATkDyQT0bBzJDP8hc2rylz2PaG51tJASOQv 2Q== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 32hu1jmfuj-1
+ by userp2120.oracle.com with ESMTP id 32hu1jvecr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:40:08 +0000
+ Thu, 30 Jul 2020 15:40:10 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWa6v176315;
- Thu, 30 Jul 2020 15:38:07 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 32hu61a1hs-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZQE176243;
+ Thu, 30 Jul 2020 15:38:09 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 32hu61a1mb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jul 2020 15:38:07 +0000
+ Thu, 30 Jul 2020 15:38:09 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc6Gi020474;
- Thu, 30 Jul 2020 15:38:06 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFc7lY007504;
+ Thu, 30 Jul 2020 15:38:07 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:38:06 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:38:07 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 18/32] osdep: import MADV_DOEXEC
-Date: Thu, 30 Jul 2020 08:14:22 -0700
-Message-Id: <1596122076-341293-19-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 19/32] memory: ram_block_add cosmetic changes
+Date: Thu, 30 Jul 2020 08:14:23 -0700
+Message-Id: <1596122076-341293-20-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  adultscore=0 bulkscore=0
  malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- clxscore=1015
- malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=1 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:38:02
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,48 +110,65 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Anonymous memory segments used by the guest are preserved across a re-exec
-of qemu, mapped at the same VA, via a proposed madvise(MADV_DOEXEC) option
-in the Linux kernel. For the madvise patches, see:
+Massage the code to simplify the later patch "exec, memory: exec(3) to
+restart".
 
-https://lore.kernel.org/lkml/1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com/
+No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/qemu/osdep.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ exec.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index bb28df1..7ce555a 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -390,6 +390,11 @@ void qemu_anon_ram_free(void *ptr, size_t size);
- #else
- #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
- #endif
-+#ifdef MADV_DOEXEC
-+#define QEMU_MADV_DOEXEC MADV_DOEXEC
-+#else
-+#define QEMU_MADV_DOEXEC QEMU_MADV_INVALID
-+#endif
+diff --git a/exec.c b/exec.c
+index 02160e0..359e437 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2233,32 +2233,37 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+     RAMBlock *last_block = NULL;
+     ram_addr_t old_ram_size, new_ram_size;
+     Error *err = NULL;
++    const char *name;
++    void *addr;
++    size_t maxlen;
  
- #elif defined(CONFIG_POSIX_MADVISE)
+     old_ram_size = last_ram_page();
  
-@@ -403,6 +408,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
- #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
- #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
- #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
-+#define QEMU_MADV_DOEXEC  QEMU_MADV_INVALID
+     qemu_mutex_lock_ramlist();
+-    new_block->offset = find_ram_offset(new_block->max_length);
++    maxlen = new_block->max_length;
++    new_block->offset = find_ram_offset(maxlen);
  
- #else /* no-op */
- 
-@@ -416,6 +422,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
- #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
- #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
- #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
-+#define QEMU_MADV_DOEXEC  QEMU_MADV_INVALID
- 
- #endif
+     if (!new_block->host) {
+         if (xen_enabled()) {
+-            xen_ram_alloc(new_block->offset, new_block->max_length,
+-                          new_block->mr, &err);
++            xen_ram_alloc(new_block->offset, maxlen, new_block->mr, &err);
+             if (err) {
+                 error_propagate(errp, err);
+                 qemu_mutex_unlock_ramlist();
+                 return;
+             }
+         } else {
+-            new_block->host = phys_mem_alloc(new_block->max_length,
+-                                             &new_block->mr->align, shared);
+-            if (!new_block->host) {
++            name = memory_region_name(new_block->mr);
++            addr = phys_mem_alloc(maxlen, &new_block->mr->align, shared);
++
++            if (!addr) {
+                 error_setg_errno(errp, errno,
+                                  "cannot set up guest memory '%s'",
+-                                 memory_region_name(new_block->mr));
++                                 name);
+                 qemu_mutex_unlock_ramlist();
+                 return;
+             }
+-            memory_try_enable_merging(new_block->host, new_block->max_length);
++            memory_try_enable_merging(addr, maxlen);
++            new_block->host = addr;
+         }
+     }
  
 -- 
 1.8.3.1
