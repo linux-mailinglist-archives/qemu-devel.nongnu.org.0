@@ -2,70 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7C5233695
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:21:46 +0200 (CEST)
-Received: from localhost ([::1]:43282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B355233681
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:15:11 +0200 (CEST)
+Received: from localhost ([::1]:33662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1BJR-0004c6-Qb
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1k1BD4-0000GB-IB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k1BIS-0004At-Qp
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:20:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k1BIP-0001im-Mr
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:20:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k1BIN-0004Z4-E7
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 16:20:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 697F92E80D2
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 16:20:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1B9a-0004Ga-D8
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:11:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60323
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1B9U-0000AN-VQ
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:11:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596125486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=LsHJBTEaKzlKHvGL1D+u6E/99h7vm8La4lCjYKoomPI=;
+ b=VL5L/mHnvOLntyi24k6FtFciUZd0wT87XX2YVpMsKAOQhiRaj222nOEECaqmvI4js5AwgB
+ xbd+162oUvpCaY3GgBN9ivLI48xsOiYWdlaAC9nNIweF2E7n+zY1fW01qwWQzV5QFEgS31
+ NzTNS1Fzt4kBC/GsmU4VpvQk2ruuP4E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-rG4Y9WbiPm-aga9v9zqlLw-1; Thu, 30 Jul 2020 12:11:20 -0400
+X-MC-Unique: rG4Y9WbiPm-aga9v9zqlLw-1
+Received: by mail-wm1-f70.google.com with SMTP id h6so1477502wml.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 09:11:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=LsHJBTEaKzlKHvGL1D+u6E/99h7vm8La4lCjYKoomPI=;
+ b=iqUjfC24ZFK66ELzfKpO8RXeuyZhgiNwhRRTth8WLt6i31dlb2FQ2uKFCVEN4g0V6Z
+ AMMXUDZMByoRD/BF5sU90/HImAlhy1iOxDKtNOpbIjOSSLSFiT2sNJT7rKTQ4eEtOQez
+ oK+Jm0C8hV1pQSidO/3M0cpHkx96z6T3FfuSMz3iDpCHzhyzvEQr3tuJPrM6HHfUenn1
+ PLf/Or8n0a6CpoI9h1Vfl9gpwYj+ahmiL5bf5oWuv2GumaXUuh/g+z0sST9YZCBzPARQ
+ KqiNzebzQFFZ7QGnjNbb3qQ2nXVpRwo2ZL4tzzPPA0a4/Dt0AmA+ZZUlyVUeUffRrgpN
+ LbTg==
+X-Gm-Message-State: AOAM5318ZYQ+1UjP4CK53LOSvBbN0ZZEkSoA2VAxNo9YkzGj0iIQfUo3
+ 5eYPqk0XJvdvw0Ol8wif1nSgHZQZaoHpNKR5TBpYm5d+y9+LkWLP6B/h03Fw2Sj/m69AVkVRjkL
+ PV8G+4u/hr8nqGQ0=
+X-Received: by 2002:a1c:9cd4:: with SMTP id
+ f203mr14646158wme.155.1596125479369; 
+ Thu, 30 Jul 2020 09:11:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzV0ItGIAToxBdVDGaZhl3LIsKhLWaX9QvMlJqRECAM45UjRm6D8ju39t/xNkfzZV8kSSvUuA==
+X-Received: by 2002:a1c:9cd4:: with SMTP id
+ f203mr14646131wme.155.1596125479109; 
+ Thu, 30 Jul 2020 09:11:19 -0700 (PDT)
+Received: from [192.168.1.39] (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id v1sm9240377wro.83.2020.07.30.09.11.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jul 2020 09:11:18 -0700 (PDT)
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20200730155755.188845-1-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <e1759ee7-b167-d69e-99f9-e824e9e3e0b8@redhat.com>
+Date: Thu, 30 Jul 2020 18:11:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2020 16:10:33 -0000
-From: Alexander Bulekov <1889621@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <159611622900.2711.11274153830927420832.malonedeb@gac.canonical.com>
- <159612424385.10118.15460946185823463538.malone@chaenomeles.canonical.com>
-Message-Id: <20200730161033.cbsxknhnxmtfe46o@mozz.bu.edu>
-Subject: Re: [Bug 1889621] Re: ARM Highbank Crashes Realted to GIC
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 50791eeacbd7454903a8a75b8bbc4336e36aa420
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 09:45:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200730155755.188845-1-mst@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:51:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,386 +122,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1889621 <1889621@bugs.launchpad.net>
+Cc: vit9696 <vit9696@protonmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200730 1550, Peter Maydell wrote:
-> I haven't looked at reproducer #1, but is it a fuzzer-specific variant
-> of LP:1602247 (trying to read the "for this CPU" registers from
-> something other than a CPU doesn't work) ?
+On 7/30/20 5:58 PM, Michael S. Tsirkin wrote:
+> macOS uses ACPI UIDs to build the DevicePath for NVRAM boot options,
+> while OVMF firmware gets them via an internal channel through QEMU.
+> Due to a bug in QEMU ACPI currently UEFI firmware and ACPI have
+> different values, and this makes the underlying operating system
+> unable to report its boot option.
+> 
+> The particular node in question is the primary PciRoot (PCI0 in ACPI),
+> which for some reason gets assigned 1 in ACPI UID and 0 in the
+> DevicePath. This is due to the _UID assigned to it by build_dsdt in
+> hw/i386/acpi-build.c Which does not correspond to the primary PCI
+> identifier given by pcibus_num in hw/pci/pci.c
+> 
+> Reference with the device paths, OVMF startup logs, and ACPI table
+> dumps (SysReport):
+> https://github.com/acidanthera/bugtracker/issues/1050
+> 
+> In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
+> the paragraph,
+> 
+>     Root PCI bridges will use the plug and play ID of PNP0A03, This will
+>     be stored in the ACPI Device Path _HID field, or in the Expanded
+>     ACPI Device Path _CID field to match the ACPI name space. The _UID
+>     in the ACPI Device Path structure must match the _UID in the ACPI
+>     name space.
+> 
+> (See especially the last sentence.)
+> 
+> Considering *extra* root bridges / root buses (with bus number > 0),
+> QEMU's ACPI generator actually does the right thing; since QEMU commit
+> c96d9286a6d7 ("i386/acpi-build: more traditional _UID and _HID for PXB
+> root buses", 2015-06-11).
+> 
+> However, the _UID values for root bridge zero (on both i440fx and q35)
+> have always been "wrong" (from UEFI perspective), going back in QEMU to
+> commit 74523b850189 ("i386: add ACPI table files from seabios",
+> 2013-10-14).
+> 
+> Even in SeaBIOS, these _UID values have always been 1; see commit
+> a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008-03-08) for
+> i440fx, and commit ecbe3fd61511 ("seabios: q35: add dsdt", 2012-12-01)
+> for q35.
+> 
+> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> Tested-by: vit9696 <vit9696@protonmail.com>
 
-That was my initial suspicion as well, but it looks like the SEGV
-happens here:
-if (s->num_cpu > 1) {
-rather than here:
-    return current_cpu->cpu_index;
+Vitaly uses his full name on EDK2 mailing list, so I don't think he'll
+have a problem to use it in QEMU too:
+Tested-by: Vitaly Cheptsov <vit9696@protonmail.com>
 
--Alex
+From:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
+"Please use your real name to sign a patch (not an alias or acronym)."
 
-> =
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/i386/acpi-build.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index b7bcbbbb2a..7a5a8b3521 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>          aml_append(sb_scope, dev);
+>          aml_append(dsdt, sb_scope);
+>  
+> @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+>          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>          aml_append(dev, build_q35_osc_method());
+>          aml_append(sb_scope, dev);
+>          aml_append(dsdt, sb_scope);
+> 
 
-> -- =
-
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1889621
-> =
-
-> Title:
->   ARM Highbank Crashes Realted to GIC
-> =
-
-> Status in QEMU:
->   Confirmed
-> =
-
-> Bug description:
->   Hello,
->   Here are some QTest reproducers for crashes on ARM Highbank that all se=
-em to be related to the gic device.
-> =
-
->   Reproducer 1:
->   cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
->   -nographic -monitor none -serial none -qtest stdio
->   writel 0xfff11f00 0x8405f559
->   writel 0xfff117fd 0x5c057bd8
->   EOF
-> =
-
->   =3D=3D10595=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x62b=
-000013e01 (pc 0x55b6ab85cc91 bp 0x7fff60bd4d70 sp 0x7fff60bd4ce0 T0)
->   =3D=3D10595=3D=3DThe signal is caused by a READ memory access.
->       #0 0x55b6ab85cc91 in gic_get_current_cpu /home/alxndr/Development/q=
-emu/general-fuzz/hw/intc/arm_gic.c:60:12
->       #1 0x55b6ab85e1bd in gic_dist_writeb /home/alxndr/Development/qemu/=
-general-fuzz/hw/intc/arm_gic.c:1182:11
->       #2 0x55b6ab855a97 in gic_dist_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/hw/intc/arm_gic.c:1514:9
->       #3 0x55b6aa1650d4 in memory_region_write_with_attrs_accessor /home/=
-alxndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
->       #4 0x55b6aa163ac6 in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/softmmu/memory.c:544:18
->       #5 0x55b6aa161f35 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/softmmu/memory.c:1473:13
->       #6 0x55b6a9313949 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/exec.c:3176:23
->       #7 0x55b6a92fca11 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/exec.c:3216:14
->       #8 0x55b6a92fc54e in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:3308:18
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =
-
->   Reproducer 2:
->   cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
->   -nographic -monitor none -serial none -qtest stdio
->   writeq 0xfff11f00 0x613a650f0fda6555
->   EOF
-> =
-
->   =3D=3D1375=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s 0x608000001c80 at pc 0x5618928c486e bp 0x7ffe22c4ee10 sp 0x7ffe22c4ee08
->   READ of size 8 at 0x608000001c80 thread T0
->       #0 0x5618928c486d in address_space_translate_iommu /home/alxndr/Dev=
-elopment/qemu/general-fuzz/exec.c:451:23
->       #1 0x561892850acc in flatview_do_translate /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:524:16
->       #2 0x5618928514ad in flatview_translate /home/alxndr/Development/qe=
-mu/general-fuzz/exec.c:584:15
->       #3 0x5618928b1e14 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/exec.c:3199:14
->       #4 0x56189289aa11 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/exec.c:3216:14
->       #5 0x56189289a54e in address_space_write /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:3308:18
->       #6 0x5618937a5e13 in qtest_process_command /home/alxndr/Development=
-/qemu/general-fuzz/softmmu/qtest.c:452:13
->       #7 0x56189379d89f in qtest_process_inbuf /home/alxndr/Development/q=
-emu/general-fuzz/softmmu/qtest.c:710:9
->       #8 0x56189379c680 in qtest_read /home/alxndr/Development/qemu/gener=
-al-fuzz/softmmu/qtest.c:722:5
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =
-
->   Reproducer 3:
->   cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
->   -nographic -monitor none -serial none -qtest stdio
->   writeq 0xfff11000 0x700000b
->   writeq 0xfff11f00 0x4f4f4fff54a7afaf
->   writel 0xfff10100 0x600001ff
->   EOF
-> =
-
->   =3D=3D23743=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addre=
-ss 0x62b000006a92 at pc 0x55d690d980e1 bp 0x7ffe606082d0 sp 0x7ffe606082c8
->   READ of size 1 at 0x62b000006a92 thread T0
->       #0 0x55d690d980e0 in gic_get_best_irq /home/alxndr/Development/qemu=
-/general-fuzz/hw/intc/arm_gic.c:94:13
->       #1 0x55d690d9485b in gic_update_internal /home/alxndr/Development/q=
-emu/general-fuzz/hw/intc/arm_gic.c:185:13
->       #2 0x55d690d90376 in gic_update /home/alxndr/Development/qemu/gener=
-al-fuzz/hw/intc/arm_gic.c:226:5
->       #3 0x55d690dc0879 in gic_cpu_write /home/alxndr/Development/qemu/ge=
-neral-fuzz/hw/intc/arm_gic.c:1758:9
->       #4 0x55d690da41c0 in gic_thiscpu_write /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:1777:12
->       #5 0x55d68f6b30d4 in memory_region_write_with_attrs_accessor /home/=
-alxndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
->       #6 0x55d68f6b1ac6 in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/general-fuzz/softmmu/memory.c:544:18
->       #7 0x55d68f6aff35 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/general-fuzz/softmmu/memory.c:1473:13
->       #8 0x55d68e861949 in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/general-fuzz/exec.c:3176:23
->       #9 0x55d68e84aa11 in flatview_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/exec.c:3216:14
->       #10 0x55d68e84a54e in address_space_write /home/alxndr/Development/=
-qemu/general-fuzz/exec.c:3308:18
->       #11 0x55d68f755537 in qtest_process_command /home/alxndr/Developmen=
-t/qemu/general-fuzz/softmmu/qtest.c:447:13
->       #12 0x55d68f74d89f in qtest_process_inbuf /home/alxndr/Development/=
-qemu/general-fuzz/softmmu/qtest.c:710:9
->       #13 0x55d68f74c680 in qtest_read /home/alxndr/Development/qemu/gene=
-ral-fuzz/softmmu/qtest.c:722:5
->       #14 0x55d692dddc36 in qemu_chr_be_write_impl /home/alxndr/Developme=
-nt/qemu/general-fuzz/chardev/char.c:188:9
->       #15 0x55d692dddd79 in qemu_chr_be_write /home/alxndr/Development/qe=
-mu/general-fuzz/chardev/char.c:200:9
->       #16 0x55d692df105e in fd_chr_read /home/alxndr/Development/qemu/gen=
-eral-fuzz/chardev/char-fd.c:68:9
->       #17 0x55d692f395df in qio_channel_fd_source_dispatch /home/alxndr/D=
-evelopment/qemu/general-fuzz/io/channel-watch.c:84:12
->       #18 0x7f69a1b50897 in g_main_context_dispatch (/usr/lib/x86_64-linu=
-x-gnu/libglib-2.0.so.0+0x4e897)
->       #19 0x55d6932f5c83 in glib_pollfds_poll /home/alxndr/Development/qe=
-mu/general-fuzz/util/main-loop.c:217:9
->       #20 0x55d6932f35b6 in os_host_main_loop_wait /home/alxndr/Developme=
-nt/qemu/general-fuzz/util/main-loop.c:240:5
->       #21 0x55d6932f2f97 in main_loop_wait /home/alxndr/Development/qemu/=
-general-fuzz/util/main-loop.c:516:11
->       #22 0x55d68f76c62d in qemu_main_loop /home/alxndr/Development/qemu/=
-general-fuzz/softmmu/vl.c:1676:9
->       #23 0x55d692f6f20c in main /home/alxndr/Development/qemu/general-fu=
-zz/softmmu/main.c:49:5
->       #24 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2=
-.30/csu/../csu/libc-start.c:308:16
->       #25 0x55d68e753459 in _start (/home/alxndr/Development/qemu/general=
--fuzz/build/arm-softmmu/qemu-system-arm+0x3254459)
-> =
-
->   0x62b000006a92 is located 2 bytes to the right of 26768-byte region [0x=
-62b000000200,0x62b000006a90)
->   allocated by thread T0 here:
->       #0 0x55d68e7cbe4d in malloc (/home/alxndr/Development/qemu/general-=
-fuzz/build/arm-softmmu/qemu-system-arm+0x32cce4d)
->       #1 0x7f69a1b56500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0+0x54500)
->       #2 0x55d69254f231 in object_new /home/alxndr/Development/qemu/gener=
-al-fuzz/qom/object.c:708:12
->       #3 0x55d69034bf01 in qdev_new /home/alxndr/Development/qemu/general=
--fuzz/hw/core/qdev.c:136:12
->       #4 0x55d68f2b7aa4 in calxeda_init /home/alxndr/Development/qemu/gen=
-eral-fuzz/hw/arm/highbank.c:319:15
->       #5 0x55d68f2b6466 in highbank_init /home/alxndr/Development/qemu/ge=
-neral-fuzz/hw/arm/highbank.c:411:5
->       #6 0x55d6903d43f1 in machine_run_board_init /home/alxndr/Developmen=
-t/qemu/general-fuzz/hw/core/machine.c:1134:5
->       #7 0x55d68f77e0ee in qemu_init /home/alxndr/Development/qemu/genera=
-l-fuzz/softmmu/vl.c:4356:5
->       #8 0x55d692f6f207 in main /home/alxndr/Development/qemu/general-fuz=
-z/softmmu/main.c:48:5
->       #9 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.=
-30/csu/../csu/libc-start.c:308:16
-> =
-
->   =
-
->   Let me know if I can provide any further info.
->   -Alex
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1889621/+subscriptions
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1889621
-
-Title:
-  ARM Highbank Crashes Realted to GIC
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Hello,
-  Here are some QTest reproducers for crashes on ARM Highbank that all seem=
- to be related to the gic device.
-
-  Reproducer 1:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writel 0xfff11f00 0x8405f559
-  writel 0xfff117fd 0x5c057bd8
-  EOF
-
-  =3D=3D10595=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x62b00=
-0013e01 (pc 0x55b6ab85cc91 bp 0x7fff60bd4d70 sp 0x7fff60bd4ce0 T0)
-  =3D=3D10595=3D=3DThe signal is caused by a READ memory access.
-      #0 0x55b6ab85cc91 in gic_get_current_cpu /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:60:12
-      #1 0x55b6ab85e1bd in gic_dist_writeb /home/alxndr/Development/qemu/ge=
-neral-fuzz/hw/intc/arm_gic.c:1182:11
-      #2 0x55b6ab855a97 in gic_dist_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/hw/intc/arm_gic.c:1514:9
-      #3 0x55b6aa1650d4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
-      #4 0x55b6aa163ac6 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #5 0x55b6aa161f35 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1473:13
-      #6 0x55b6a9313949 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #7 0x55b6a92fca11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #8 0x55b6a92fc54e in address_space_write /home/alxndr/Development/qem=
-u/general-fuzz/exec.c:3308:18
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  Reproducer 2:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writeq 0xfff11f00 0x613a650f0fda6555
-  EOF
-
-  =3D=3D1375=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address =
-0x608000001c80 at pc 0x5618928c486e bp 0x7ffe22c4ee10 sp 0x7ffe22c4ee08
-  READ of size 8 at 0x608000001c80 thread T0
-      #0 0x5618928c486d in address_space_translate_iommu /home/alxndr/Devel=
-opment/qemu/general-fuzz/exec.c:451:23
-      #1 0x561892850acc in flatview_do_translate /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:524:16
-      #2 0x5618928514ad in flatview_translate /home/alxndr/Development/qemu=
-/general-fuzz/exec.c:584:15
-      #3 0x5618928b1e14 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3199:14
-      #4 0x56189289aa11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #5 0x56189289a54e in address_space_write /home/alxndr/Development/qem=
-u/general-fuzz/exec.c:3308:18
-      #6 0x5618937a5e13 in qtest_process_command /home/alxndr/Development/q=
-emu/general-fuzz/softmmu/qtest.c:452:13
-      #7 0x56189379d89f in qtest_process_inbuf /home/alxndr/Development/qem=
-u/general-fuzz/softmmu/qtest.c:710:9
-      #8 0x56189379c680 in qtest_read /home/alxndr/Development/qemu/general=
--fuzz/softmmu/qtest.c:722:5
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  Reproducer 3:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writeq 0xfff11000 0x700000b
-  writeq 0xfff11f00 0x4f4f4fff54a7afaf
-  writel 0xfff10100 0x600001ff
-  EOF
-
-  =3D=3D23743=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address=
- 0x62b000006a92 at pc 0x55d690d980e1 bp 0x7ffe606082d0 sp 0x7ffe606082c8
-  READ of size 1 at 0x62b000006a92 thread T0
-      #0 0x55d690d980e0 in gic_get_best_irq /home/alxndr/Development/qemu/g=
-eneral-fuzz/hw/intc/arm_gic.c:94:13
-      #1 0x55d690d9485b in gic_update_internal /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:185:13
-      #2 0x55d690d90376 in gic_update /home/alxndr/Development/qemu/general=
--fuzz/hw/intc/arm_gic.c:226:5
-      #3 0x55d690dc0879 in gic_cpu_write /home/alxndr/Development/qemu/gene=
-ral-fuzz/hw/intc/arm_gic.c:1758:9
-      #4 0x55d690da41c0 in gic_thiscpu_write /home/alxndr/Development/qemu/=
-general-fuzz/hw/intc/arm_gic.c:1777:12
-      #5 0x55d68f6b30d4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
-      #6 0x55d68f6b1ac6 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #7 0x55d68f6aff35 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1473:13
-      #8 0x55d68e861949 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #9 0x55d68e84aa11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #10 0x55d68e84a54e in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/exec.c:3308:18
-      #11 0x55d68f755537 in qtest_process_command /home/alxndr/Development/=
-qemu/general-fuzz/softmmu/qtest.c:447:13
-      #12 0x55d68f74d89f in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/general-fuzz/softmmu/qtest.c:710:9
-      #13 0x55d68f74c680 in qtest_read /home/alxndr/Development/qemu/genera=
-l-fuzz/softmmu/qtest.c:722:5
-      #14 0x55d692dddc36 in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/general-fuzz/chardev/char.c:188:9
-      #15 0x55d692dddd79 in qemu_chr_be_write /home/alxndr/Development/qemu=
-/general-fuzz/chardev/char.c:200:9
-      #16 0x55d692df105e in fd_chr_read /home/alxndr/Development/qemu/gener=
-al-fuzz/chardev/char-fd.c:68:9
-      #17 0x55d692f395df in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/general-fuzz/io/channel-watch.c:84:12
-      #18 0x7f69a1b50897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55d6932f5c83 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/general-fuzz/util/main-loop.c:217:9
-      #20 0x55d6932f35b6 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/general-fuzz/util/main-loop.c:240:5
-      #21 0x55d6932f2f97 in main_loop_wait /home/alxndr/Development/qemu/ge=
-neral-fuzz/util/main-loop.c:516:11
-      #22 0x55d68f76c62d in qemu_main_loop /home/alxndr/Development/qemu/ge=
-neral-fuzz/softmmu/vl.c:1676:9
-      #23 0x55d692f6f20c in main /home/alxndr/Development/qemu/general-fuzz=
-/softmmu/main.c:49:5
-      #24 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55d68e753459 in _start (/home/alxndr/Development/qemu/general-f=
-uzz/build/arm-softmmu/qemu-system-arm+0x3254459)
-
-  0x62b000006a92 is located 2 bytes to the right of 26768-byte region [0x62=
-b000000200,0x62b000006a90)
-  allocated by thread T0 here:
-      #0 0x55d68e7cbe4d in malloc (/home/alxndr/Development/qemu/general-fu=
-zz/build/arm-softmmu/qemu-system-arm+0x32cce4d)
-      #1 0x7f69a1b56500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x54500)
-      #2 0x55d69254f231 in object_new /home/alxndr/Development/qemu/general=
--fuzz/qom/object.c:708:12
-      #3 0x55d69034bf01 in qdev_new /home/alxndr/Development/qemu/general-f=
-uzz/hw/core/qdev.c:136:12
-      #4 0x55d68f2b7aa4 in calxeda_init /home/alxndr/Development/qemu/gener=
-al-fuzz/hw/arm/highbank.c:319:15
-      #5 0x55d68f2b6466 in highbank_init /home/alxndr/Development/qemu/gene=
-ral-fuzz/hw/arm/highbank.c:411:5
-      #6 0x55d6903d43f1 in machine_run_board_init /home/alxndr/Development/=
-qemu/general-fuzz/hw/core/machine.c:1134:5
-      #7 0x55d68f77e0ee in qemu_init /home/alxndr/Development/qemu/general-=
-fuzz/softmmu/vl.c:4356:5
-      #8 0x55d692f6f207 in main /home/alxndr/Development/qemu/general-fuzz/=
-softmmu/main.c:48:5
-      #9 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30=
-/csu/../csu/libc-start.c:308:16
-
-  =
-
-  Let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1889621/+subscriptions
 
