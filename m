@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA522335FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:47:32 +0200 (CEST)
-Received: from localhost ([::1]:56924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7263233602
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:49:56 +0200 (CEST)
+Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AmJ-00031m-Dn
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
+	id 1k1Aod-0006fk-16
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdH-0007FW-4w
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:11 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:46140)
+ id 1k1AdI-0007H9-18
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:12 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:37076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1AdF-00027Q-5K
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:10 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXPHJ152152;
- Thu, 30 Jul 2020 15:38:06 GMT
+ id 1k1AdF-00028f-Nr
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:11 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXUnq155764;
+ Thu, 30 Jul 2020 15:38:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=fYdkKNzUmAEAASFvyVOY1gxPGlabooBwhMTDAwC7ovs=;
- b=yKTS0uk+3YFIJUctgZKyXWdl0SWovuzz/3cS88Uzl3kN83L/nLd9SDoijiapmDdL7BrE
- OUw1fRC3ZN78h3pOMSwFX8CuuBHJf4GTcLPAWg8jAnPcXVSlIpryuNbj9unJ4ajaSqzK
- FGeZ8ID4vmYXYc0Y5BBOCzu9xiNtZZT7Lzc/Y0/VbKCGQO8k7T9tN765LnqQjdidqdqB
- vzcO72BrUIE/g61TzXeLmTO748Z4+ihv6FQNSS8xP3RaS7ZcJkgjiJFEXP1yVsvmgBda
- hL/2nh6mJ5xFX2uMYbCqLGhzeXTCzLdQqqMEhNFxLvieEVoXWlq9MO9Ry578BPE0XSYQ 4g== 
+ bh=zM458HGdyaODhwUhyFUAZDGWqeYgtjsyFhfbjis7N84=;
+ b=uSb0dsIk/YqpNEEaFE+Hm0bhEDfB9TraPWhQzf8MtiCGvd2m9TZhimSEZqnBVqWNbBuA
+ /DtYx+KERiBBTS6oH37vZfW9V3eMMOZqJA7Vdck0bgzV0V3VpMu0y4ltWREh666EkH7W
+ fmHps+1wTKF0B1wVt3UOKH85w8jQR+EEAAr+EPUvQoMKPytaRP8ZxZJx08nl3NXPmJAc
+ 7liEfkhl2B6GKP/7K5bIz2d4Ac4HA7rjYtF+F3BpDhByjsoQbFOsJJpaOnqnu57mjO4F
+ mVd4dijeeQyWgR5p8U30uYWt4I3A6QL0+TsJVDd5xagABc+Wwc0VHFSKp15MO5oeLGi6 RA== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 32hu1jvdyg-1
+ by aserp2120.oracle.com with ESMTP id 32hu1jmedf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:38:06 +0000
+ Thu, 30 Jul 2020 15:38:07 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZoc176171;
- Thu, 30 Jul 2020 15:38:05 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 32hu61a1em-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZL3176147;
+ Thu, 30 Jul 2020 15:38:07 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 32hu61a1h1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jul 2020 15:38:05 +0000
+ Thu, 30 Jul 2020 15:38:07 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc4IN020459;
- Thu, 30 Jul 2020 15:38:04 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc5gj014470;
+ Thu, 30 Jul 2020 15:38:05 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:38:04 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:38:05 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 15/32] vl: QEMU_START_FREEZE env var
-Date: Thu, 30 Jul 2020 08:14:19 -0700
-Message-Id: <1596122076-341293-16-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 16/32] oslib: add qemu_clr_cloexec
+Date: Thu, 30 Jul 2020 08:14:20 -0700
+Message-Id: <1596122076-341293-17-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
@@ -65,24 +65,23 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- mlxlogscore=999
- malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
- suspectscore=1 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=1 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:38:02
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:57
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,33 +109,60 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For qemu upgrade and restart, we will re-exec() qemu with the same argv.
-However, qemu must start in a paused state and wait for the cprload command,
-and the original argv might not contain the -S option.  To avoid modifying
-argv, provide the QEMU_START_FREEZE environment variable.  If
-QEMU_START_FREEZE is set, then set autostart=0, like the -S option.
-
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- softmmu/vl.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/qemu/osdep.h | 1 +
+ util/oslib-posix.c   | 9 +++++++++
+ util/oslib-win32.c   | 4 ++++
+ 3 files changed, 14 insertions(+)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 951994f..7016e39 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4501,6 +4501,11 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
-     }
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 45c217a..bb28df1 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -551,6 +551,7 @@ static inline void qemu_timersub(const struct timeval *val1,
+ #endif
  
-+    if (getenv("QEMU_START_FREEZE")) {
-+        unsetenv("QEMU_START_FREEZE");
-+        autostart = 0;
-+    }
+ void qemu_set_cloexec(int fd);
++void qemu_clr_cloexec(int fd);
+ 
+ /* Starting on QEMU 2.5, qemu_hw_version() returns "2.5+" by default
+  * instead of QEMU_VERSION, so setting hw_version on MachineClass
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index d923674..28fee45 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -314,6 +314,15 @@ void qemu_set_cloexec(int fd)
+     assert(f != -1);
+ }
+ 
++void qemu_clr_cloexec(int fd)
++{
++    int f;
++    f = fcntl(fd, F_GETFD);
++    assert(f != -1);
++    f = fcntl(fd, F_SETFD, f & ~FD_CLOEXEC);
++    assert(f != -1);
++}
 +
-     if (incoming) {
-         Error *local_err = NULL;
-         qemu_start_incoming_migration(incoming, &local_err);
+ /*
+  * Creates a pipe with FD_CLOEXEC set on both file descriptors
+  */
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 7eedbe5..e5d0c7c 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -254,6 +254,10 @@ void qemu_set_cloexec(int fd)
+ {
+ }
+ 
++void qemu_clr_cloexec(int fd)
++{
++}
++
+ /* Offset between 1/1/1601 and 1/1/1970 in 100 nanosec units */
+ #define _W32_FT_OFFSET (116444736000000000ULL)
+ 
 -- 
 1.8.3.1
 
