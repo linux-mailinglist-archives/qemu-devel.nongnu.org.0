@@ -2,103 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF0023367B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:14:15 +0200 (CEST)
-Received: from localhost ([::1]:58260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF68C233683
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:16:23 +0200 (CEST)
+Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1BCA-0007Ay-HC
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34152)
+	id 1k1BEE-0001fJ-TR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1BAR-0005V0-EP
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:12:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57794
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k1BCy-0000nO-Rn
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:15:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1BAP-0000MT-4Z
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:12:26 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k1BCx-0000ud-3B
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:15:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596125543;
+ s=mimecast20190719; t=1596125702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6AmNJhCqaT3lFRHiPhTvavMMXgP1Kog8WuR7ZOTUQM0=;
- b=USo1k0bAfCHpIQ279k2ywWpZaLu5Vv01P+yqUirTZ1K04IolHYKKuoSbPm4dN2vrlqHzF3
- 7RGzfpGZwn7kCHniRsQU5k4Hvj2CjfQgBaNI37vbSNPfQWchTqnTKZIzhrI458yutmnoIf
- /1LvahOZAGv3m5Snb93aLXY+d/LTNVQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-YZ6XoerHN6-J3BsO4p7K9g-1; Thu, 30 Jul 2020 12:12:22 -0400
-X-MC-Unique: YZ6XoerHN6-J3BsO4p7K9g-1
-Received: by mail-wr1-f69.google.com with SMTP id t3so7079277wrr.5
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 09:12:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=6AmNJhCqaT3lFRHiPhTvavMMXgP1Kog8WuR7ZOTUQM0=;
- b=k2JlFREVdbHSMt7HfiTO3fuOFI8CtbK6e2g24nbWQh/zzt4vR4ADaTFLeZFZqk9Sf7
- xs/e0ykWMwiyJ8X7wGAVPY/c9D3nL0LKnXUhK3tY4WvI4x/0zrQki4IFQVg4m02QJ2tt
- iXHCI7pWOs0z4nv+UU0up6T8paTpddUjTRzrSLQSL/zZ/1SneQDhG5idQ6ESrkLF8C63
- Db9oVMokJYNqVs574TT89XywdsHFuR0D+zJB5QkmT+Zy9DD6YPGoymYvK6+f6ZgOT801
- W0ru87HJ6uYyIO4cUGyQ9I34HV3s/3Z6rKgmjfbuLtlH0g4jLHDQaIw8bd8U6ktQ6yLS
- wakQ==
-X-Gm-Message-State: AOAM532i0KQWzhOWIZGeD3c6RslPkLEg0nTHuk6xcpQxBnh24PqO4S1q
- NVtJp44piew2upCOHC2zlAF1Ar1cn+7APrP4YAuNDM2EpA/Lm6iYmnK7PNn7V6qSK5CPXc83aIb
- BpQD14jsmOI+yLRg=
-X-Received: by 2002:a5d:6a42:: with SMTP id t2mr3212666wrw.13.1596125540991;
- Thu, 30 Jul 2020 09:12:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWDW1ASUMFOOphkYzZDh3i51K+wLdxO2YRaPqe178hn5STRrIRL8ng0oF8St3saGgJOddm3w==
-X-Received: by 2002:a5d:6a42:: with SMTP id t2mr3212644wrw.13.1596125540740;
- Thu, 30 Jul 2020 09:12:20 -0700 (PDT)
-Received: from [192.168.1.39] (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id z11sm9712725wrw.93.2020.07.30.09.12.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 09:12:20 -0700 (PDT)
-Subject: Re: [PATCH 2/2] arm/acpi: fix an out of spec _UID for PCI root
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20200730155755.188845-1-mst@redhat.com>
- <20200730155755.188845-2-mst@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <dc8df953-39cd-8a96-af81-8c15e69caa67@redhat.com>
-Date: Thu, 30 Jul 2020 18:12:19 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=8LZqcLBs1ulEw8l14bQMjxZjn+DR+IwLm5uMe9oxz3Y=;
+ b=WQcUIEwsKCC5skYwT0sqbTQnQGoRyRCbuYryr0MQrGTX3DCfCVaDHlr5AI0j88EKN+CNZp
+ Q6kdJulDCVf7FyC+2KrEVnVvOWUJo3fywI3vsV4m7BB/w+y303okl/ISAOmSDItAp/VwDZ
+ MZmtaevnJ2QcFs1bPG0Yq1JgWIf7tsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-ffoYt4wIMmSFinRg87yshg-1; Thu, 30 Jul 2020 12:14:59 -0400
+X-MC-Unique: ffoYt4wIMmSFinRg87yshg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54F6318C63C1;
+ Thu, 30 Jul 2020 16:14:58 +0000 (UTC)
+Received: from [10.3.114.255] (ovpn-114-255.phx2.redhat.com [10.3.114.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E359587B03;
+ Thu, 30 Jul 2020 16:14:46 +0000 (UTC)
+Subject: Re: [PATCH V1 05/32] savevm: QMP command for cprload
+To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+ <1596122076-341293-6-git-send-email-steven.sistare@oracle.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <654553cb-e071-0498-fe66-78ddda3942e9@redhat.com>
+Date: Thu, 30 Jul 2020 11:14:46 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200730155755.188845-2-mst@redhat.com>
+In-Reply-To: <1596122076-341293-6-git-send-email-steven.sistare@oracle.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -108,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,68 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, vit9696 <vit9696@protonmail.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Laszlo Ersek <lersek@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/30/20 5:58 PM, Michael S. Tsirkin wrote:
-> On ARM/virt machine type QEMU currently reports an incorrect _UID in
-> ACPI.
-> 
-> The particular node in question is the primary PciRoot (PCI0 in ACPI),
-> which gets assigned PCI0 in ACPI UID and 0 in the
-> DevicePath. This is due to the _UID assigned to it by build_dsdt in
-> hw/arm/virt-acpi-build.c Which does not correspond to the primary PCI
-> identifier given by pcibus_num in hw/pci/pci.c
-> 
-> In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
-> the paragraph,
-> 
->     Root PCI bridges will use the plug and play ID of PNP0A03, This will
->     be stored in the ACPI Device Path _HID field, or in the Expanded
->     ACPI Device Path _CID field to match the ACPI name space. The _UID
->     in the ACPI Device Path structure must match the _UID in the ACPI
->     name space.
-> 
-> (See especially the last sentence.)
-> 
-> A similar bug has been reported on i386, on that architecture it has
-> been reported to confuse at least macOS which uses ACPI UIDs to build
-> the DevicePath for NVRAM boot options, while OVMF firmware gets them via
-> an internal channel through QEMU.  When UEFI firmware and ACPI have
-> different values, this makes the underlying operating system unable to
-> report its boot option.
-> 
-> Reported-by: vit9696 <vit9696@protonmail.com>
+On 7/30/20 10:14 AM, Steve Sistare wrote:
+> Provide the cprload QMP command.  The VM is created from the file produced
+> by the cprsave command.  Guest RAM is restored in-place from the shared
+> memory backend file, and guest block devices are used as is.  The contents
+> of such devices must not be modified between the cprsave and cprload
+> operations.  If the VM was running at cprsave time, then VM execution
+> resumes.
 
-Ditto:
-Reported-by: Vitaly Cheptsov <vit9696@protonmail.com>
+Is it always wise to unconditionally resume, or might this command need 
+an additional optional knob that says what state (paused or running) to 
+move into?
 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> Syntax:
+>    {'command':'cprload', 'data':{'file':'str'}}
+> 
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> Signed-off-by: Maran Wilson <maran.wilson@oracle.com>
 > ---
-> 
-> Peter can you either ack or merge this one pls?
-> 
->  hw/arm/virt-acpi-build.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 91f0df7b13..0a482ff6f7 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -170,7 +170,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
->      aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
->      aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
->      aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
-> -    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
-> +    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->      aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
->      aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
->  
-> 
+
+> +++ b/qapi/migration.json
+> @@ -1635,3 +1635,14 @@
+>   ##
+>   { 'command': 'cprsave', 'data': { 'file': 'str', 'mode': 'str' } }
+>   
+> +##
+> +# @cprload:
+> +#
+> +# Start virtual machine from checkpoint file that was created earlier using
+> +# the cprsave command.
+> +#
+> +# @file: name of checkpoint file
+> +#
+> +# Since 5.0
+
+another 5.2 instance. I'll quit pointing it out for the rest of the series.
+
+> +##
+> +{ 'command': 'cprload', 'data': { 'file': 'str' } }
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 660537a..8478778 100644
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
