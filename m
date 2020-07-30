@@ -2,85 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52355233216
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 14:29:13 +0200 (CEST)
-Received: from localhost ([::1]:44088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A332C233280
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 14:59:13 +0200 (CEST)
+Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k17gO-0006YG-FE
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 08:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53056)
+	id 1k189Q-0006rt-Nh
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 08:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k17ex-00064S-In
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 08:27:43 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:47032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k17er-0005kj-FP
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 08:27:42 -0400
-Received: by mail-pl1-x634.google.com with SMTP id k13so6142138plk.13
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 05:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0b3dRDlok4eTJZfgVkBj+lYoyi4tcWWlSRgfYqrWfr8=;
- b=H67eqjEV1GlGVsY8KLGbZoJVlxyOWwrQFA9qibdIWaLquLtspruVjfIws8fjZ49l/H
- gmHzcO0DZTYsqcMxazOE43wsmefPhw5uOsEoTq3dmCM4PdGRL2wB9poLOZ8EqaOjTYen
- h/pDFrCSxLe6ljQqRzBQZShvr0rn87qq7vPf0t/S3loWhmGBMWOAbdexeYUFAlA4r0fc
- bbz2nz3jo8jo70ZrRilzWbcP9TJYfkXDNmkc9k/9yGh7chMXGLk2sPUxgBaOpkJgPcNm
- 3pNwRKGIxtMlsBhMYGZ08vj5FE6ld4aa6DYzrIpZ+GjpRhHg9+VeKjm31pLW5yfSX9Pz
- Sadw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0b3dRDlok4eTJZfgVkBj+lYoyi4tcWWlSRgfYqrWfr8=;
- b=aACnRrbS1NehlRZh8gpiLOBd2DLCi57dEUbsvesrMsmo5rfJGWAITZJ4vSTUNPOge+
- rh/WGfMgSwZgXsOYDkXzBJBTRxfl+EMW3P8RilAUdoXmavutM6BylWrssqjp7aPF+spX
- 8upQzMOa5+98f5C7duc5rBrtUs2Xs3/0TyynMyloJ/mmfAhW5jCLPDjUHquWIcOfQpm9
- 7XXf89O7oHoAg4UKVOvbfZwxBq/kF6BKCr+f8PPNi1rj7z5P80KQWrOJ56CUCNlnaqsq
- aljQ9M2LOKNhGb33ycyirnH+/eiKeMu1/jJ/TskcVlwNcDzICgKmN+Ozr8BrHPcat2JA
- C3yQ==
-X-Gm-Message-State: AOAM532SL6tzWecLwN0VznrqZPb6nGWndSUMOClStDgpwS6NIQ09XjMf
- ii6xeMLtW/57x+Xy5uXTjKWxng==
-X-Google-Smtp-Source: ABdhPJwkXf0ayBQ8mAz4nPkAG1/KN+eqI2yls9HUzWq9yVomvJZc9q57puTr9pMcSSuWTCY6gThTlg==
-X-Received: by 2002:a63:6c0a:: with SMTP id h10mr34449497pgc.11.1596112055481; 
- Thu, 30 Jul 2020 05:27:35 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id s125sm4294749pfc.63.2020.07.30.05.27.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 05:27:34 -0700 (PDT)
-Subject: Re: [RFC v2 01/76] target/riscv: drop vector 0.7.1 support
-To: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair23@gmail.com>
-References: <20200722091641.8834-2-frank.chang@sifive.com>
- <mhng-0246b27e-f392-45a9-806e-9998bb5ede5e@palmerdabbelt-glaptop1>
- <CAKmqyKMEraiyw_r7U3v8K-2pdipBh3otaPOaNPLKtpvqPe780A@mail.gmail.com>
- <CAE_xrPi0Rc88P4wehno_ewjH_-wCm5bicO-rae-ZYsAgVpyOBw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5a3b8461-51ba-8fdf-03a0-31da01cd6d91@linaro.org>
-Date: Thu, 30 Jul 2020 05:27:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAE_xrPi0Rc88P4wehno_ewjH_-wCm5bicO-rae-ZYsAgVpyOBw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <yajunw@mellanox.com>)
+ id 1k13V9-0006Zf-Ue
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 04:01:20 -0400
+Received: from mail-eopbgr10068.outbound.protection.outlook.com
+ ([40.107.1.68]:29779 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yajunw@mellanox.com>)
+ id 1k13V7-0002hO-8y
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 04:01:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UT9jvf5TY2at2vWpwPPv/y0AXhMNOW9tAk3Qr3AtSVTX8A4vlAvCB+Aa7VZNc6sK0BK0wRccNjvIvExDCQD+WaIGi07TAWro0gOnrkE2HuQKgbZ36VKPfOh4Rs+JW3KkXAoz6KHOPOd5IWZ4/sBkcmfapzRScZLqPOjI+NTYnkIZpZVS5xMhYfODpXQT81zaU+ShCXRfaQZz4i0ZPCEC31lu+MwQ7DkqYxGaRqvayEd5LJ2BNzaKClFIySPy3cCb8T2IZSfzc6E8qkyXSm9LhbVON9lFlWmJtqBMHsUZfbUIYQ1FUBvpa0o/zcuY3X42nHB4EXABCbJMMJUzpktOfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RAGzxxNykyGSWuHRyG8fOWldTzxxgomTA7wl14DtZwI=;
+ b=P9hRkzRwj2KCCejxT46bGeyBGua/HgY1R7NprLgFByWPcCbyAGRzGCL0vYPmS1y25lMqb2OhgfpZ9KgvY06LNihaO9Bc2ctHoUWsCMUDTbDEMwNfqvLwvc+wakPu9byNWmfyEbuXue582VqDd9lN18jd061KR/aK602+63CtPn4FmcI5csJLren9XE6aTtBGstmEF5OPw7g9YZSfiMk34RsNt/1vQ0mjr26MeOFJ7Or8e4Qz3aHqBE2L+eWnZR6KLIi97twoPtRFw8IbEEMTuxTjzLt97cq7TsawbVkiuXRG+pDZe6VNT7OIuR9OilQmxn9LpH8cLFqXEfZCFL901w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RAGzxxNykyGSWuHRyG8fOWldTzxxgomTA7wl14DtZwI=;
+ b=hr0ljGLzXDJI4fD0a5aWjdqe1igfjcyGpdc8OpzlV0JFEbIGuiPmd5QmJVH+ibb4LiWTZKU/wg3Wen09A+VhSl4wbnWm8S+A2OFQ9/pF6uBi5VnePbN1kLjHOkjX8G91qu9MtRSA//8qc4vbJS6v3fmWwaYuLgAEqDzMTyDHCL8=
+Received: from AM7PR05MB6695.eurprd05.prod.outlook.com (2603:10a6:20b:142::22)
+ by AM6PR05MB4968.eurprd05.prod.outlook.com (2603:10a6:20b:4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Thu, 30 Jul
+ 2020 07:46:10 +0000
+Received: from AM7PR05MB6695.eurprd05.prod.outlook.com
+ ([fe80::8574:63a5:ef7b:bd]) by AM7PR05MB6695.eurprd05.prod.outlook.com
+ ([fe80::8574:63a5:ef7b:bd%3]) with mapi id 15.20.3239.017; Thu, 30 Jul 2020
+ 07:46:09 +0000
+From: Yajun Wu <yajunw@mellanox.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Any reason VIRTQUEUE_MAX_SIZE is 1024? Can we increase this limit?
+Thread-Topic: Any reason VIRTQUEUE_MAX_SIZE is 1024? Can we increase this
+ limit?
+Thread-Index: AdZmRKXyRhpGB73vSMi6kUjXqcq6sw==
+Date: Thu, 30 Jul 2020 07:46:09 +0000
+Message-ID: <AM7PR05MB6695D4FF6766BF2942C345D6BB710@AM7PR05MB6695.eurprd05.prod.outlook.com>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=mellanox.com;
+x-originating-ip: [101.80.66.147]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: fa8b9c4c-a2bd-4164-f45e-08d8345ca000
+x-ms-traffictypediagnostic: AM6PR05MB4968:
+x-microsoft-antispam-prvs: <AM6PR05MB4968BDB6122BC6454049F85EBB710@AM6PR05MB4968.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: GSQ33o1PoF+FW8PIKG22MtP19r3IJ0CDgffIiUc/2/I4PVtIFWea9bIPpkz2j/0fQT78OiAzeobTEjruyGq4/GGhyuEY7hVnj+I8qHV8LDxt4D5p+sV4oeNPmLY8+oc1vEVTFGtX2InltwR/4UxfrST+G8+TU5uphuHO55BKz1jl/s0lH8dAOF3RTbn6kbTdFPgwY667B6fz++EZ/XO6p/E/SgIP0kvLEdgvTk6nmgL9OaJ3j9t4C40dTCWOwOXUcdOCIcEhTvmrZoWrMabEjFM/5B8lk7v3K+cbnRtR2UeEu7TXGyLvs069kPTD4snECcN739WyYVQqwQXQHnygEg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR05MB6695.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(376002)(366004)(346002)(396003)(39860400002)(7696005)(52536014)(86362001)(6506007)(5660300002)(71200400001)(33656002)(478600001)(8676002)(66476007)(66946007)(6916009)(66556008)(64756008)(26005)(55016002)(83380400001)(9686003)(2906002)(186003)(8936002)(4744005)(316002)(76116006)(66446008);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: ThBU01aDYCUXC/2ZGEhP0NiH+3ZMeFx5oNFrzVMyagpG7zewZnNyVdytg5rleWLF2V+gfQ8osq2bkp/LRrvutfrBRc2V3EoU5/DOzlGsbNOAki3I43UbMd+3ktoJHL4cKA+wNkHV/t8ggKjz13A7fjFHSBP+KauIUuIW8sX9KYGczztMk2m8fQsx1l0W1ttrJjF7EORAd9aVSRGTehUpRWyTrvFyZbKTNUOm24tYM9PdoxIzYgJnUp504A44KKkU/XnXBWZeg8icpdEBuMtSqKSxEczL4EQ29nnRcEkKJouE4dI6GP6kYNy3FSOnXZseW7b/LqHn6YHH1ch3CNPxD51Qv8yeVI6bSl/eJIUbMy/ENTGZFSoZQAd1RSOA8C775awuUJeGfiQ6KkiFey5HTpVnrD2XEJ2xcuDBOhQOnh5dCBXESFFl0/rei1BB+EV5R5KJOHgFgDZspMmh5yPXYemD+4RMbhznkLpyw8s2GBc7z+hNd82GTpxmyi4IWLW7/L+rrN9eGBN3TR1tukNamUsZUUUxnFbQ5blTZhWqg+N7UhnVCUC8+8YSBnEe8ywmKxHEiODvO0PzUwfEazG8L184PzWCWrNezLSMRvSYXNsltu8YGpHqBpc5J7oj1SkTEAyIi78LvxpSiR074iUp9w==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_"
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR05MB6695.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa8b9c4c-a2bd-4164-f45e-08d8345ca000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2020 07:46:09.7484 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pNZnqR3DFPVw4dLHW61+1zH3Wk4lIoywVTl9HacnwX3WqzZiUh5fXOq0VCDhuptBq6a2F1Pns6Jawq5AEYpVOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4968
+Received-SPF: pass client-ip=40.107.1.68; envelope-from=yajunw@mellanox.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 04:01:14
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 30 Jul 2020 08:58:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,23 +112,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/30/20 1:07 AM, Frank Chang wrote:
-> So, if it's okay, we can skip RVV v0.9 and bump to RVV v1.0 directly in our
-> next version of patchset.
-> Which I think may relieve the burden for the community to maintain
-> multi-version of vector drafts.
+--_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-That would be my preference.  Thanks,
+Hi all,
+
+I'm doing iperf test on VIRTIO net through vhost-user(HW VDPA).
+Find maximal acceptable tx_queue_size/rx_queue_size is 1024.
+Basically increase queue size can get better RX rate for my case.
+
+Can we increase the limit(VIRTQUEUE_MAX_SIZE) to 8192 to possibly gain bett=
+er performance?
+
+Thanks,
+Yajun
 
 
-r~
+
+--_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi all,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I&#8217;m doing iperf test on VIRTIO net through vho=
+st-user(HW VDPA).<o:p></o:p></p>
+<p class=3D"MsoNormal">Find maximal acceptable tx_queue_size/rx_queue_size =
+is 1024.
+<o:p></o:p></p>
+<p class=3D"MsoNormal">Basically increase queue size can get better RX rate=
+ for my case.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Can we increase the limit(VIRTQUEUE_MAX_SIZE) to 819=
+2 to possibly gain better performance?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">Yajun<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_AM7PR05MB6695D4FF6766BF2942C345D6BB710AM7PR05MB6695eurp_--
 
