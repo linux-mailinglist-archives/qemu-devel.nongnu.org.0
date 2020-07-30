@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6823233544
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:25:10 +0200 (CEST)
-Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E222335C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:43:26 +0200 (CEST)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AQf-0000fs-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49042)
+	id 1k1AiL-0004Ea-1r
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:43:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k1APY-0008JR-Gp
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:24:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52846
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k1APW-0008D0-LM
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:24:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596122637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XbKK2P34Fr/og1u7ILXYU5s/l/I9sfn/kNQkkqWZNA4=;
- b=VFzQWpzdwvwgefUwJ0Ik0rafXG/3NDG7Ua8MYUcIRA+Eps3hs0l7m8jQXruhbHpxmF2gcC
- 9Vh/RjuQxh4APTrJDrj0eTWqgx+yI0sQPVDRh5GsmKeKxnkJzVkD88dNf2zEmZ52lUsLgs
- XKkNuRT4/5G9WHyq08e8inzAnsjMZAs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-k4epkUwWMWWbTNag5trCVA-1; Thu, 30 Jul 2020 11:23:55 -0400
-X-MC-Unique: k4epkUwWMWWbTNag5trCVA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B5D21005504;
- Thu, 30 Jul 2020 15:23:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C37319D7B;
- Thu, 30 Jul 2020 15:23:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EC3211132FD2; Thu, 30 Jul 2020 17:23:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: Disk cache defaults
-References: <CAPf-64Wni=_9byuHt9HyFnZ6PwTF3wp17oEMF2ok-Tvk6UG0RQ@mail.gmail.com>
- <20200729130245.GH37763@stefanha-x1.localdomain>
-Date: Thu, 30 Jul 2020 17:23:52 +0200
-In-Reply-To: <20200729130245.GH37763@stefanha-x1.localdomain> (Stefan
- Hajnoczi's message of "Wed, 29 Jul 2020 14:02:45 +0100")
-Message-ID: <87ft99vxfb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:59:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1k1Ad9-00074r-4i
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:03 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:49904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1k1Ad6-00024e-Py
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:02 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXQsH007512;
+ Thu, 30 Jul 2020 15:37:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=sNMMA9cIERl8NT3gfsUyrYfWvtpuiyyK5Abgvz03fGY=;
+ b=wbnwoCp/D9ZYWWiAUtBZsww3BskBY8+SZrH/Tpk8267ov8r0Ys5GHh4LUgoWcQsqC/SI
+ NGckGsRHLtjV1ihvxV/Xssh/b7l+5z+wxGp7JQ9+2N1QxZoi/EquuYGJXT+Sm7V74k/C
+ q284HD0AzUDGAoN2rb/L31N9GX85C19/sQsiUQNb0nCc8tSKyKyXbts9gSmB8hrFT+7m
+ kfHWotd5PMXHQqvjTelhwkgap9uZEK23L7+oHweHAyz4w36e/jFWC8NBYRycue6Cg3wZ
+ p8E1N/gtg+4ZJ/aqUF91NT0EhEIznU9wRye4r7Ed7xdA9ErhbYMd9kXj3WaVVyT0AmvY zw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 32hu1jmfd4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 30 Jul 2020 15:37:55 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZeI176178;
+ Thu, 30 Jul 2020 15:37:54 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 32hu61a0uy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Jul 2020 15:37:54 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFbq2u001703;
+ Thu, 30 Jul 2020 15:37:53 GMT
+Received: from ca-dev63.us.oracle.com (/10.211.8.221)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 30 Jul 2020 08:37:51 -0700
+From: Steve Sistare <steven.sistare@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH V1 00/32] Live Update
+Date: Thu, 30 Jul 2020 08:14:04 -0700
+Message-Id: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007300111
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ clxscore=1011
+ malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007300111
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,25 +92,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, anthony smith <backtogeek@gmail.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Steve Sistare <steven.sistare@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
+Improve and extend the qemu functions that save and restore VM state so a
+guest may be suspended and resumed with minimal pause time.  qemu may be
+updated to a new version in between.
 
-> On Wed, Jul 22, 2020 at 07:14:59AM +0100, anthony smith wrote:
->> Appreciate any assistance even if the answer is just "Not possible" so I
->> can at least drop this search for answers.
->
-> You can create an /etc/qemu/qemu.conf file but I don't remember if there
-> is syntax to set -drive cache=none.
->
-> CCing Kevin Wolf and Markus Armbruster for ideas.
+The first set of patches adds the cprsave and cprload commands to save and
+restore VM state, and allow the host kernel to be updated and rebooted in
+between.  The VM must create guest RAM in a persistent shared memory file,
+such as /dev/dax0.0 or persistant /dev/shm PKRAM as proposed in 
+https://lore.kernel.org/lkml/1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com/
 
-I'm not aware of a way to modify defaults (except for device propeties
-with -global, which doesn't help you, and is usually a bad idea anyway).
+cprsave stops the VCPUs and saves VM device state in a simple file, and
+thus supports any type of guest image and block device.  The caller must
+not modify the VM's block devices between cprsave and cprload.
 
-[...]
+cprsave and cprload support guests with vfio devices if the caller first
+suspends the guest by issuing guest-suspend-ram to the qemu guest agent.
+The guest drivers suspend methods flush outstanding requests and re-
+initialize the devices, and thus there is no device state to save and
+restore.
+
+   1 savevm: add vmstate handler iterators
+   2 savevm: VM handlers mode mask
+   3 savevm: QMP command for cprsave
+   4 savevm: HMP Command for cprsave
+   5 savevm: QMP command for cprload
+   6 savevm: HMP Command for cprload
+   7 savevm: QMP command for cprinfo
+   8 savevm: HMP command for cprinfo
+   9 savevm: prevent cprsave if memory is volatile
+  10 kvmclock: restore paused KVM clock
+  11 cpu: disable ticks when suspended
+  12 vl: pause option
+  13 gdbstub: gdb support for suspended state
+
+The next patches add a restart method that eliminates the persistent memory
+constraint, and allows qemu to be updated across the restart, but does not
+allow host reboot.  Anonymous memory segments used by the guest are
+preserved across a re-exec of qemu, mapped at the same VA, via a proposed
+madvise(MADV_DOEXEC) option in the Linux kernel.  See
+https://lore.kernel.org/lkml/1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com/
+
+  14 savevm: VMS_RESTART and cprsave restart
+  15 vl: QEMU_START_FREEZE env var
+  16 oslib: add qemu_clr_cloexec
+  17 util: env var helpers
+  18 osdep: import MADV_DOEXEC
+  19 memory: ram_block_add cosmetic changes
+  20 vl: add helper to request re-exec
+  21 exec, memory: exec(3) to restart
+  22 char: qio_channel_socket_accept reuse fd
+  23 char: save/restore chardev socket fds
+  24 ui: save/restore vnc socket fds
+  25 char: save/restore chardev pty fds
+  26 monitor: save/restore QMP negotiation status
+  27 vhost: reset vhost devices upon cprsave
+  28 char: restore terminal on restart
+
+The next patches extend the restart method to save and restore vfio-pci
+state, eliminating the requirement for a guest agent.  The vfio container,
+group, and device descriptors are preserved across the qemu re-exec.
+
+  29 pci: export pci_update_mappings
+  30 vfio-pci: save and restore
+  31 vfio-pci: trace pci config
+  32 vfio-pci: improved tracing
+
+Here is an example of updating qemu from v4.2.0 to v4.2.1 using 
+"cprload restart".  The software update is performed while the guest is
+running to minimize downtime.
+
+window 1				| window 2
+					|
+# qemu-system-x86_64 ... 		|
+QEMU 4.2.0 monitor - type 'help' ...	|
+(qemu) info status			|
+VM status: running			|
+					| # yum update qemu
+(qemu) cprsave /tmp/qemu.sav restart	|
+QEMU 4.2.1 monitor - type 'help' ...	|
+(qemu) info status			|
+VM status: paused (prelaunch)		|
+(qemu) cprload /tmp/qemu.sav		|
+(qemu) info status			|
+VM status: running			|
+
+
+Here is an example of updating the host kernel using "cprload reboot"
+
+window 1					| window 2
+						|
+# qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
+QEMU 4.2.1 monitor - type 'help' ...		|
+(qemu) info status				|
+VM status: running				|
+						| # yum update kernel-uek
+(qemu) cprsave /tmp/qemu.sav restart		|
+						|
+# systemctl kexec				|
+kexec_core: Starting new kernel			|
+...						|
+						|
+# qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
+QEMU 4.2.1 monitor - type 'help' ...		|
+(qemu) info status				|
+VM status: paused (prelaunch)			|
+(qemu) cprload /tmp/qemu.sav			|
+(qemu) info status				|
+VM status: running				|
+
+
+Mark Kanda (5):
+  char: qio_channel_socket_accept reuse fd
+  char: save/restore chardev socket fds
+  ui: save/restore vnc socket fds
+  monitor: save/restore QMP negotiation status
+  vhost: reset vhost devices upon cprsave
+
+Steve Sistare (27):
+  savevm: add vmstate handler iterators
+  savevm: VM handlers mode mask
+  savevm: QMP command for cprsave
+  savevm: HMP Command for cprsave
+  savevm: QMP command for cprload
+  savevm: HMP Command for cprload
+  savevm: QMP command for cprinfo
+  savevm: HMP command for cprinfo
+  savevm: prevent cprsave if memory is volatile
+  kvmclock: restore paused KVM clock
+  cpu: disable ticks when suspended
+  vl: pause option
+  gdbstub: gdb support for suspended state
+  savevm: VMS_RESTART and cprsave restart
+  vl: QEMU_START_FREEZE env var
+  oslib: add qemu_clr_cloexec
+  util: env var helpers
+  osdep: import MADV_DOEXEC
+  memory: ram_block_add cosmetic changes
+  vl: add helper to request re-exec
+  exec, memory: exec(3) to restart
+  char: save/restore chardev pty fds
+  char: restore terminal on restart
+  pci: export pci_update_mappings
+  vfio-pci: save and restore
+  vfio-pci: trace pci config
+  vfio-pci: improved tracing
+
+ MAINTAINERS                    |   7 ++
+ accel/kvm/kvm-all.c            |   8 +-
+ accel/kvm/trace-events         |   3 +-
+ chardev/char-pty.c             |  38 +++++--
+ chardev/char-socket.c          |  35 ++++++
+ chardev/char-stdio.c           |   7 ++
+ chardev/char.c                 |  16 +++
+ exec.c                         |  88 +++++++++++++--
+ gdbstub.c                      |  11 +-
+ hmp-commands.hx                |  46 ++++++++
+ hw/i386/kvm/clock.c            |   6 +-
+ hw/pci/msix.c                  |   1 +
+ hw/pci/pci.c                   |  17 +--
+ hw/pci/trace-events            |   5 +-
+ hw/vfio/common.c               | 115 ++++++++++++++++----
+ hw/vfio/pci.c                  | 179 ++++++++++++++++++++++++++++++-
+ hw/vfio/platform.c             |   2 +-
+ hw/vfio/trace-events           |  11 +-
+ hw/virtio/vhost.c              |  12 +++
+ include/chardev/char.h         |   8 ++
+ include/exec/memory.h          |   4 +
+ include/hw/pci/pci.h           |   2 +
+ include/hw/vfio/vfio-common.h  |   4 +-
+ include/io/channel-socket.h    |   3 +-
+ include/migration/register.h   |   3 +
+ include/migration/vmstate.h    |  11 ++
+ include/monitor/hmp.h          |   3 +
+ include/qemu/cutils.h          |   1 +
+ include/qemu/env.h             |  31 ++++++
+ include/qemu/osdep.h           |   8 ++
+ include/sysemu/sysemu.h        |  10 ++
+ io/channel-socket.c            |  12 ++-
+ io/net-listener.c              |   4 +-
+ migration/block.c              |   1 +
+ migration/migration.c          |   4 +-
+ migration/ram.c                |   1 +
+ migration/savevm.c             | 237 ++++++++++++++++++++++++++++++++++++-----
+ migration/savevm.h             |   4 +-
+ monitor/hmp-cmds.c             |  28 +++++
+ monitor/qmp-cmds.c             |  16 +++
+ monitor/qmp.c                  |  42 ++++++++
+ qapi/migration.json            |  35 ++++++
+ qapi/pragma.json               |   1 +
+ qemu-options.hx                |   9 ++
+ scsi/qemu-pr-helper.c          |   2 +-
+ softmmu/vl.c                   |  65 ++++++++++-
+ tests/qtest/tpm-emu.c          |   2 +-
+ tests/test-char.c              |   2 +-
+ tests/test-io-channel-socket.c |   4 +-
+ trace-events                   |   2 +
+ ui/vnc.c                       | 153 +++++++++++++++++++++-----
+ util/Makefile.objs             |   2 +-
+ util/env.c                     | 132 +++++++++++++++++++++++
+ util/oslib-posix.c             |   9 ++
+ util/oslib-win32.c             |   4 +
+ 55 files changed, 1331 insertions(+), 135 deletions(-)
+ create mode 100644 include/qemu/env.h
+ create mode 100644 util/env.c
+
+-- 
+1.8.3.1
 
 
