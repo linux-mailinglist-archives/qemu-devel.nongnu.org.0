@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E1C23301C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 12:15:21 +0200 (CEST)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B76233022
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 12:17:06 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k15aq-0007XK-6w
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 06:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46400)
+	id 1k15cX-0000Lu-Fy
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 06:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k15a4-00076z-8H; Thu, 30 Jul 2020 06:14:32 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:41155)
+ id 1k15as-0007sF-3E; Thu, 30 Jul 2020 06:15:22 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1k15a2-0003cN-Ld; Thu, 30 Jul 2020 06:14:31 -0400
-Received: by mail-oi1-x242.google.com with SMTP id y22so23255168oie.8;
- Thu, 30 Jul 2020 03:14:30 -0700 (PDT)
+ id 1k15ap-0003hm-VE; Thu, 30 Jul 2020 06:15:21 -0400
+Received: by mail-ot1-x341.google.com with SMTP id k12so2863704otr.1;
+ Thu, 30 Jul 2020 03:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1VFoFEpw4aMFgDVSLWZwQ6jmstub8A0ucj/v5uTmwzg=;
- b=lHHHGSE5DxbLi0k+plxzFWmwxasPVMwQT2AD4lCfnjM4OHy9Nc3dQIkJgOW+O4aehl
- snb8nh2/vgPqdYgiXVoNiIuFAS2M6B7JBjqwuJU1/qPaA8oT12MVGKfgI0mFZ0MVXGWd
- vYP3unWJPqSbKwUIBJfcQrw5cy15GODVm/OHxb6bYZd3KsCxO/MYF4L4BAoBlZdtrjQH
- 5p2ulQP3+BkmE0A06ahtT+GWYhvYGkfRdyPuFdHLPfq646HTgmUddQkhQqYaZVr0JdQi
- JZZvrcV0wRFwTz2NqWr4pCNTObr/SGxJhaOlthgGuKBnFcuDpyv00uWK95OpEN37jAx0
- K/3g==
+ :cc; bh=DrqfWvmGKVXcbnWZjSh3Qz3I25VOsJ/JHkPoIG0SwyY=;
+ b=aUSocNh3VLh08XCvVjK0YAmcL1RgyT49BM0Hk6EnZIYEtbdP7ANO/JR7ipX5bFzah0
+ LnN09Y1sxKLgZ4HtoLyNXUUnMa5fM1nsbbgpNB1hgQwd9kQqh+hDsQq8iYJyiEDAF9tc
+ SDhITKQZ6HLtIpHxB3VKpqbWdT9CCRy3qTrXCSd2u+JrPgILfw5nFBF98rXpynHNAT7l
+ AmMsVFztiydGT4plukQ2gWxF+aQCx7OqLdJum3ZtcmibPziKI+HpH9jfqhbMwFaU9skB
+ 9d1dvSz84y0LB3YW5r90GZ/qYVbaVW2AZWd1DaF8sL8P43P7ahJoEo5/ezQjAVGRgORY
+ ul2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1VFoFEpw4aMFgDVSLWZwQ6jmstub8A0ucj/v5uTmwzg=;
- b=C0f1XI6RSNcVSRRa0FL6bJLjm+7Qyw6zTlmh9pM5eM/x6Lh4BMX6o9vZJbtXSc7aDI
- 4GQ3aimbGetLHsa44OaTcA9MIsXIsS9a1s2ehplxM/D2cy4Zdos8hPXJc2aDzsFjArNI
- pUcHQXIiXLNpRR181HfycH7f/wSehE3x8inpv/rcjjyDjq+VRV87MFViHYiD1muxkYFB
- ywTlXAHkhc0ViwwFIaL0oor18CcBE91KigHxjLfzhv42yJWBOCZ8TqvRBvaZm6NEcQ00
- VmTjfsT5i7V2vkra75ofjk4orH9B7zV6VA1ABwOBrdKD3Kk0Y3Ny/WkNOTPRUobGxIFy
- ja5w==
-X-Gm-Message-State: AOAM532QhDkIRBuUWJkerKtfbuXG/YcKpvLnm3MjF9TSG5ZA6nC1DBVy
- irFXaZoGC6G8QwJ//3D6mu4S6iABg0H5++T5zTQ=
-X-Google-Smtp-Source: ABdhPJwGdjag6t9OZnhHBm7Q53SFSg34sR406jyymLptgFPT/C06VbDLFuxW98dw428nc97XwtCalqHSfntmkLoTgzM=
-X-Received: by 2002:aca:4345:: with SMTP id q66mr7865578oia.151.1596104068838; 
- Thu, 30 Jul 2020 03:14:28 -0700 (PDT)
+ bh=DrqfWvmGKVXcbnWZjSh3Qz3I25VOsJ/JHkPoIG0SwyY=;
+ b=ciemeQDDIvZHA34MzvWihHm0nbAhzLM1hMOEbEU3YBx8aJA9koOf56ZsnXWZ9TzVsq
+ oEF49/fgPVAz0E5O6JcdjBFmWMANs73yQTRm9bHVj1B1uf1m46QLz0qNtP/3q/Ifw7l3
+ FqslX+oHBLs495TkCXXdMRpqH85BUF/TGG6dBuhTyWa5cCB2sQAvp1+vH5c2gJTH51pA
+ APBvGH8fZG304mmNeU+81SVIoB9ApSFf2CwwLzyOtqCxBUBXeWLGlCVnSgtk04q5P84u
+ uKfX16cdrsvxMLAiad1Nh4k1NSwFWTkpfA+GrMR/oVZZCEPlwRgCaJYyI6ETrXYCV46q
+ advA==
+X-Gm-Message-State: AOAM531pClkxKplxdgwmPFfA4+h0K+XUynEr1o+eRlpfx4sKslZWE/JR
+ J7NTMGHsyystbNdAwWP2cTl+IVEGUZeOJFvPrmV65BHc
+X-Google-Smtp-Source: ABdhPJzEtNTNbHcIkx4kuB+SYTg4UUNjFEESgs8YIQrsqPDQ91PgIYMeI9GMwKw0G5ALBWuYkrZ09Xj+DUYbixVU/hk=
+X-Received: by 2002:a9d:4b0c:: with SMTP id q12mr1637262otf.253.1596104118212; 
+ Thu, 30 Jul 2020 03:15:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200729220638.344477-1-its@irrelevant.dk>
- <20200729220638.344477-2-its@irrelevant.dk>
-In-Reply-To: <20200729220638.344477-2-its@irrelevant.dk>
+ <20200729220638.344477-5-its@irrelevant.dk>
+In-Reply-To: <20200729220638.344477-5-its@irrelevant.dk>
 From: Minwoo Im <minwoo.im.dev@gmail.com>
-Date: Thu, 30 Jul 2020 19:14:18 +0900
-Message-ID: <CAA7jztcaTcd0cKKXeXpxHfgZu3Xro3bFZuyCkvOvcuid9J8c-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 01/16] hw/block/nvme: memset preallocated requests
- structures
+Date: Thu, 30 Jul 2020 19:15:07 +0900
+Message-ID: <CAA7jztcEv7LYrRVogLK6iEqfp4kVHM1KnDr4TOPjT070iZJLug@mail.gmail.com>
+Subject: Re: [PATCH v2 04/16] hw/block/nvme: remove redundant has_sg member
 To: Klaus Jensen <its@irrelevant.dk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,12 +89,11 @@ On Thu, Jul 30, 2020 at 7:06 AM Klaus Jensen <its@irrelevant.dk> wrote:
 >
 > From: Klaus Jensen <k.jensen@samsung.com>
 >
-> This is preparatory to subsequent patches that change how QSGs/IOVs are
-> handled. It is important that the qsg and iov members of the NvmeRequest
-> are initially zeroed.
+> Remove the has_sg member from NvmeRequest since it's redundant.
 >
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+
+Looks better than the previous one to me.
 
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
