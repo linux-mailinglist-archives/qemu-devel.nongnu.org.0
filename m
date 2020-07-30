@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756702330D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:17:19 +0200 (CEST)
-Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BBD2330BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 13:10:56 +0200 (CEST)
+Received: from localhost ([::1]:57970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k16Yo-0008MV-Ie
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59556)
+	id 1k16Sd-0006Pq-88
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 07:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k16Xg-0007we-0X
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:16:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k16Xd-0003OX-ML
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 07:16:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k16Xb-00079I-DU
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:16:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5BD952E80EF
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 11:16:03 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1k16RT-0005nK-PJ; Thu, 30 Jul 2020 07:09:44 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:35786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1k16RP-0002PB-QX; Thu, 30 Jul 2020 07:09:43 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 78A8ABF5AF;
+ Thu, 30 Jul 2020 11:09:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
+ s=default; t=1596107377;
+ bh=rbYGzWTjduOLsEG3zE8MOeIQeIAnlsdW0p4pBlX9e5I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LJU8ddBy/tSH0yY1U3xRoNEToyLtFH5SoSFzpBrH+3eco6sRCDzk0P2UU98Fi/9cM
+ M4h/SAK2llMSUoISAgpBpVm6hSXF5hfvGjenlhJlzIJ4M9v/RiVgy1BSKbfItrWw2F
+ 4yYaI/DCwnnpqC+0Z9SaGl+do7nXt0JZ5LGiQOYm1YL0ICY+Ubmg652P5So/okQayr
+ AYcpAVYZC9F7T/Eijnj+o7By4p39Vjt5dl42Ico5m/GxLxc1ovEoVVlZmZKWGxAyHg
+ rTQOXgv9SUzZRHg3fzz8AcCeVg/8HSTGmCOjb+rvF/SvJXL7j++7n8skRqBaKI7atR
+ NqGAFG1PWNyMw==
+Date: Thu, 30 Jul 2020 13:09:33 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH v2 14/16] hw/block/nvme: consolidate qsg/iov clearing
+Message-ID: <20200730110933.GA504315@apples.localdomain>
+References: <20200729220638.344477-1-its@irrelevant.dk>
+ <20200729220638.344477-15-its@irrelevant.dk>
+ <20200730103117.5f7pd6cv3vgqh2mx@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2020 11:08:38 -0000
-From: Peter Maydell <1886343@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell th-huth wilson-q
-X-Launchpad-Bug-Reporter: Wilson-q (wilson-q)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <159397709821.1977.12730820791239292652.malonedeb@wampee.canonical.com>
-Message-Id: <159610731899.9962.5740887293337129850.malone@chaenomeles.canonical.com>
-Subject: [Bug 1886343] Re: configure has non-posix bash syntax
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 12c0a1c2c1d8aae7d95f09cbd6912231401997d3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 07:16:04
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200730103117.5f7pd6cv3vgqh2mx@localhost.localdomain>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 07:09:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,47 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886343 <1886343@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
+ Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit b418d2656112174c; this will be in QEMU 5.1.
+On Jul 30 19:31, Minwoo Im wrote:
+> On 20-07-30 00:06:36, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> > 
+> > Always destroy the request qsg/iov at the end of request use.
+> > 
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/block/nvme.c | 52 ++++++++++++++++++++-----------------------------
+> >  1 file changed, 21 insertions(+), 31 deletions(-)
+> > 
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index 3d7275eae369..045dd55376a5 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -217,6 +217,17 @@ static void nvme_req_clear(NvmeRequest *req)
+> >      memset(&req->cqe, 0x0, sizeof(req->cqe));
+> >  }
+> >  
+> > +static void nvme_req_exit(NvmeRequest *req)
+> > +{
+> > +    if (req->qsg.sg) {
+> > +        qemu_sglist_destroy(&req->qsg);
+> > +    }
+> > +
+> > +    if (req->iov.iov) {
+> > +        qemu_iovec_destroy(&req->iov);
+> > +    }
+> > +}
+> > +
+> 
+> Klaus,
+> 
+> What is differences between 'clear' and 'exit' from the request
+> perspective?
+> 
 
+Hi Minwoo,
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886343
-
-Title:
-  configure has non-posix bash syntax
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  which gives an error when run on a system that uses dash for /bin/sh.
-
-  The problem is at line 6464 which has
-      if test "$have_keyring" =3D=3D "yes"
-  the double equal sign is non-posix bash syntax that isn't accepted by pos=
-ix shells like dash.  This was added 2020-05-25 according to git blame so l=
-ooks like a recent problem.
-
-  On an Ubuntu 20.04 system with top of tree sources I get
-  gondor:2027$ ../qemu/configure --prefix=3D/home/wilson/FOSS/qemu/install-=
-qemu-tmp --target-list=3Driscv64-linux-user,riscv64-softmmu,riscv32-linux-u=
-ser,riscv32-softmmu
-  ../qemu/configure: 6464: test: yes: unexpected operator
-  ...
-
-  configure completes OK, so this is a minor problem.  It is just one
-  configure test that is failing to work properly.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886343/+subscriptions
+The is that on 'exit' we release request resources (like the qsg and
+iov). On 'clear' we initialize the request by clearing the struct. I
+guess I could call it nvme_req_init instead maybe, but really - it is
+clearing it.
 
