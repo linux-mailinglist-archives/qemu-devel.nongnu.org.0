@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCEF233426
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:18:59 +0200 (CEST)
-Received: from localhost ([::1]:41706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B9D233422
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:17:29 +0200 (CEST)
+Received: from localhost ([::1]:34448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k19Oc-0002Ql-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53616)
+	id 1k19NA-0007u9-El
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:17:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k19Jf-0002Ie-7P
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:13:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54905
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k19KH-00037V-U4
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:14:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52874
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k19Jc-0004NS-MN
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:13:50 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k19KF-0004fI-LO
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:14:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596118427;
+ s=mimecast20190719; t=1596118462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X7TPV44PoUc+9Q0lmQXillEDQrne/MHBn47UVLzrINI=;
- b=JQ8jS5tF17V6I0+2thGxv+YYsFYrtKZd2TtyXjjLYm/ZJ7z6Jjgr4yYB4Vi+mVHR16APiW
- ZTkvVzRfGaa6bsTWn0aBJf7kbje3mHfU0rXg/rcijduCPbIlT0meNrwzcQ+FWv+8lg1EMP
- HA7pSh9rh4Ojr4GnCogmLAGZ47aHyXE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-SrAnCSH_MCyp47W_X2-SPw-1; Thu, 30 Jul 2020 10:13:46 -0400
-X-MC-Unique: SrAnCSH_MCyp47W_X2-SPw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4152F107BEFF;
- Thu, 30 Jul 2020 14:13:45 +0000 (UTC)
-Received: from thuth.com (ovpn-112-85.ams2.redhat.com [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EBB97BEBD;
- Thu, 30 Jul 2020 14:13:41 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 4/4] gitlab-ci: Fix Avocado cache usage
-Date: Thu, 30 Jul 2020 16:13:26 +0200
-Message-Id: <20200730141326.8260-5-thuth@redhat.com>
-In-Reply-To: <20200730141326.8260-1-thuth@redhat.com>
-References: <20200730141326.8260-1-thuth@redhat.com>
+ bh=21lG8AJu/mKALr6W5FxxqG4esDmTH8AkVHq1xLcJq7A=;
+ b=iST3+pETcv/oTp5XRIL240xeAFaVoasPYPwfPX0Gu+b4poaNEKSpPsvDZHSqVnTi9u6n7z
+ ovQ1Ik/favRuVYHMEU7i/9j4aOGBFMS0mtCTdfxEQkUYRKRZ1PO8hrBckxMRMMlZFUiyLM
+ 4a/8/N1H9VA/EK3uW4FBUIWz17i8w2s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-aPXBbjzUOiuaB0Jt-Tn_oQ-1; Thu, 30 Jul 2020 10:14:21 -0400
+X-MC-Unique: aPXBbjzUOiuaB0Jt-Tn_oQ-1
+Received: by mail-wm1-f70.google.com with SMTP id f74so2283931wmf.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 07:14:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=21lG8AJu/mKALr6W5FxxqG4esDmTH8AkVHq1xLcJq7A=;
+ b=ox0Seu7NQuZzryVv67b4ARiLJW9/q1YtQakjKcs8q60HWkoPeWsUX6STTtYudTWBpr
+ JT8vH2u79xz1X4mmOPhNFQmgx0CMgqlb2zTvot87PZRkEMRDNMWIVhSc+osNoPzLSVLh
+ ujFQydjJs2AVTsKZAABfRsCbFT4EGFjWBAdKO5DzEC6jPVM+yFGBQpJQ2eu6zQPm5m+i
+ XxhRkGoP8NBkv1JdMbQpFQWcIFMEQLpysVyrDIOKF7Q1kO3w6aKUi1V/2ewZYpnJD+kC
+ tY0upjpHqQoNI97OjbjCOvlA8cglap0o8GkSqbj5MO/hKtbG+xq9XagsVBBJsEww0jGu
+ 7dag==
+X-Gm-Message-State: AOAM5327DPKLZvTvwZ+pYgGwXHTITmq0OMH9nOG7tTwVnLDZAr6T0kyz
+ UcrZmcivr5hrMPuMbrZK3Cy+vkSAYpkuC8Dxtepsjl7iZdd6XsitfngBKqxK1O1//ASjMSx85w/
+ 1/3Pao+1TI7AM1Vk=
+X-Received: by 2002:a1c:de86:: with SMTP id v128mr13100605wmg.36.1596118459513; 
+ Thu, 30 Jul 2020 07:14:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhOSaw0U/B4j1/es3/QkYzr5IrkE7Ezz3XMUOO1F3IOuXvx4mayeUJbzXsRpWIhBwVvj4lYg==
+X-Received: by 2002:a1c:de86:: with SMTP id v128mr13100571wmg.36.1596118459175; 
+ Thu, 30 Jul 2020 07:14:19 -0700 (PDT)
+Received: from steredhat.lan ([5.180.207.22])
+ by smtp.gmail.com with ESMTPSA id x2sm6734715wrg.73.2020.07.30.07.14.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jul 2020 07:14:18 -0700 (PDT)
+Date: Thu, 30 Jul 2020 16:14:09 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.1?] util/pagesize: Make qemu_real_host_page_size of
+ type size_t
+Message-ID: <20200730141409.r3lluyhg4etmid36@steredhat.lan>
+References: <20200730135935.23968-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200730135935.23968-1-philmd@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,7 +84,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,97 +97,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Bruce Rogers <brogers@suse.com>,
+ Kaige Li <likaige@loongson.cn>, kvm@vger.kernel.org, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 6957fd98dc ("gitlab: add avocado asset caching") we
-tried to save the Avocado cache (as in commit c1073e44b4 with
-Travis-CI) however it doesn't work as expected. For some reason
-Avocado uses /root/avocado_cache/ which we can not select later.
+On Thu, Jul 30, 2020 at 03:59:35PM +0200, Philippe Mathieu-Daudé wrote:
+> We use different types to hold 'qemu_real_host_page_size'.
+> Unify picking 'size_t' which seems the best candidate.
 
-Manually generate a Avocado config to force the use of the
-current job's directory.
+I agree, it sounds better!
 
-This patch is based on an earlier version from Philippe Mathieu-Daudé.
+Should we change even "qemu_host_page_size"?
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.yml | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+Thanks,
+Stefano
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index e96bcd50f8..9820066379 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -47,11 +47,24 @@ include:
-     - find . -type f -exec touch {} +
-     - make $MAKE_CHECK_ARGS
- 
--.post_acceptance_template: &post_acceptance
-+.acceptance_template: &acceptance_definition
-+  cache:
-+    key: "${CI_JOB_NAME}-cache"
-+    paths:
-+      - ${CI_PROJECT_DIR}/avocado-cache
-+    policy: pull-push
-+  before_script:
-+    - mkdir -p ~/.config/avocado
-+    - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
-+    - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
-+           >> ~/.config/avocado/avocado.conf
-+    - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
-+        du -chs ${CI_PROJECT_DIR}/avocado-cache ;
-+      fi
-   after_script:
-     - cd build
-     - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
--    - du -chs $HOME/avocado/data/cache
-+    - du -chs ${CI_PROJECT_DIR}/avocado-cache
- 
- build-system-ubuntu:
-   <<: *native_build_job_definition
-@@ -81,7 +94,7 @@ acceptance-system-ubuntu:
-   variables:
-     IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *post_acceptance
-+  <<: *acceptance_definition
- 
- build-system-debian:
-   <<: *native_build_job_definition
-@@ -111,7 +124,7 @@ acceptance-system-debian:
-   variables:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *post_acceptance
-+  <<: *acceptance_definition
- 
- build-system-fedora:
-   <<: *native_build_job_definition
-@@ -141,7 +154,7 @@ acceptance-system-fedora:
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *post_acceptance
-+  <<: *acceptance_definition
- 
- build-system-centos:
-   <<: *native_build_job_definition
-@@ -171,7 +184,7 @@ acceptance-system-centos:
-   variables:
-     IMAGE: centos8
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *post_acceptance
-+  <<: *acceptance_definition
- 
- build-disabled:
-   <<: *native_build_job_definition
--- 
-2.18.1
+> 
+> Doing so fix a format string issue in hw/virtio/virtio-mem.c
+> reported when building with GCC 4.9.4:
+> 
+>   hw/virtio/virtio-mem.c: In function ‘virtio_mem_set_block_size’:
+>   hw/virtio/virtio-mem.c:756:9: error: format ‘%x’ expects argument of type ‘unsigned int’, but argument 7 has type ‘uintptr_t’ [-Werror=format=]
+>          error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
+>          ^
+> 
+> Fixes: 910b25766b ("virtio-mem: Paravirtualized memory hot(un)plug")
+> Reported-by: Bruce Rogers <brogers@suse.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/exec/ram_addr.h  | 4 ++--
+>  include/qemu/osdep.h     | 2 +-
+>  accel/kvm/kvm-all.c      | 3 ++-
+>  block/qcow2-cache.c      | 2 +-
+>  exec.c                   | 8 ++++----
+>  hw/ppc/spapr_pci.c       | 2 +-
+>  hw/virtio/virtio-mem.c   | 2 +-
+>  migration/migration.c    | 2 +-
+>  migration/postcopy-ram.c | 2 +-
+>  monitor/misc.c           | 2 +-
+>  util/pagesize.c          | 2 +-
+>  11 files changed, 16 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+> index 3ef729a23c..e07532266e 100644
+> --- a/include/exec/ram_addr.h
+> +++ b/include/exec/ram_addr.h
+> @@ -93,8 +93,8 @@ static inline unsigned long int ramblock_recv_bitmap_offset(void *host_addr,
+>  
+>  bool ramblock_is_pmem(RAMBlock *rb);
+>  
+> -long qemu_minrampagesize(void);
+> -long qemu_maxrampagesize(void);
+> +size_t qemu_minrampagesize(void);
+> +size_t qemu_maxrampagesize(void);
+>  
+>  /**
+>   * qemu_ram_alloc_from_file,
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 20872e793e..619b8a7a8c 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -635,10 +635,10 @@ char *qemu_get_pid_name(pid_t pid);
+>   */
+>  pid_t qemu_fork(Error **errp);
+>  
+> +extern size_t qemu_real_host_page_size;
+>  /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+>   * when intptr_t is 32-bit and we are aligning a long long.
+>   */
+> -extern uintptr_t qemu_real_host_page_size;
+>  extern intptr_t qemu_real_host_page_mask;
+>  
+>  extern int qemu_icache_linesize;
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 63ef6af9a1..59becfbd6c 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -674,7 +674,8 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+>      KVMState *s = kvm_state;
+>      uint64_t end, bmap_start, start_delta, bmap_npages;
+>      struct kvm_clear_dirty_log d;
+> -    unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
+> +    unsigned long *bmap_clear = NULL;
+> +    size_t psize = qemu_real_host_page_size;
+>      int ret;
+>  
+>      /*
+> diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+> index 7444b9c4ab..4ad9f5929f 100644
+> --- a/block/qcow2-cache.c
+> +++ b/block/qcow2-cache.c
+> @@ -74,7 +74,7 @@ static void qcow2_cache_table_release(Qcow2Cache *c, int i, int num_tables)
+>  /* Using MADV_DONTNEED to discard memory is a Linux-specific feature */
+>  #ifdef CONFIG_LINUX
+>      void *t = qcow2_cache_get_table_addr(c, i);
+> -    int align = qemu_real_host_page_size;
+> +    size_t align = qemu_real_host_page_size;
+>      size_t mem_size = (size_t) c->table_size * num_tables;
+>      size_t offset = QEMU_ALIGN_UP((uintptr_t) t, align) - (uintptr_t) t;
+>      size_t length = QEMU_ALIGN_DOWN(mem_size - offset, align);
+> diff --git a/exec.c b/exec.c
+> index 6f381f98e2..4b6d52e01f 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -1657,7 +1657,7 @@ static int find_max_backend_pagesize(Object *obj, void *opaque)
+>   * TODO: We assume right now that all mapped host memory backends are
+>   * used as RAM, however some might be used for different purposes.
+>   */
+> -long qemu_minrampagesize(void)
+> +size_t qemu_minrampagesize(void)
+>  {
+>      long hpsize = LONG_MAX;
+>      Object *memdev_root = object_resolve_path("/objects", NULL);
+> @@ -1666,7 +1666,7 @@ long qemu_minrampagesize(void)
+>      return hpsize;
+>  }
+>  
+> -long qemu_maxrampagesize(void)
+> +size_t qemu_maxrampagesize(void)
+>  {
+>      long pagesize = 0;
+>      Object *memdev_root = object_resolve_path("/objects", NULL);
+> @@ -1675,11 +1675,11 @@ long qemu_maxrampagesize(void)
+>      return pagesize;
+>  }
+>  #else
+> -long qemu_minrampagesize(void)
+> +size_t qemu_minrampagesize(void)
+>  {
+>      return qemu_real_host_page_size;
+>  }
+> -long qemu_maxrampagesize(void)
+> +size_t qemu_maxrampagesize(void)
+>  {
+>      return qemu_real_host_page_size;
+>  }
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 363cdb3f7b..a9da84fe30 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1810,7 +1810,7 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
+>      char *namebuf;
+>      int i;
+>      PCIBus *bus;
+> -    uint64_t msi_window_size = 4096;
+> +    size_t msi_window_size = 4096;
+>      SpaprTceTable *tcet;
+>      const unsigned windows_supported = spapr_phb_windows_supported(sphb);
+>      Error *local_err = NULL;
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index c12e9f79b0..34344cec39 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -753,7 +753,7 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
+>      }
+>  
+>      if (value < VIRTIO_MEM_MIN_BLOCK_SIZE) {
+> -        error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
+> +        error_setg(errp, "'%s' property has to be at least 0x%zx", name,
+>                     VIRTIO_MEM_MIN_BLOCK_SIZE);
+>          return;
+>      } else if (!is_power_of_2(value)) {
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 8fe36339db..b8abbbeabb 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2433,7 +2433,7 @@ static struct rp_cmd_args {
+>  static void migrate_handle_rp_req_pages(MigrationState *ms, const char* rbname,
+>                                         ram_addr_t start, size_t len)
+>  {
+> -    long our_host_ps = qemu_real_host_page_size;
+> +    size_t our_host_ps = qemu_real_host_page_size;
+>  
+>      trace_migrate_handle_rp_req_pages(rbname, start, len);
+>  
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index 1bb22f2b6c..f296efd612 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -345,7 +345,7 @@ static int test_ramblock_postcopiable(RAMBlock *rb, void *opaque)
+>   */
+>  bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
+>  {
+> -    long pagesize = qemu_real_host_page_size;
+> +    size_t pagesize = qemu_real_host_page_size;
+>      int ufd = -1;
+>      bool ret = false; /* Error unless we change it */
+>      void *testarea = NULL;
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index e847b58a8c..7970f4ff72 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -740,7 +740,7 @@ static uint64_t vtop(void *ptr, Error **errp)
+>      uint64_t pinfo;
+>      uint64_t ret = -1;
+>      uintptr_t addr = (uintptr_t) ptr;
+> -    uintptr_t pagesize = qemu_real_host_page_size;
+> +    size_t pagesize = qemu_real_host_page_size;
+>      off_t offset = addr / pagesize * sizeof(pinfo);
+>      int fd;
+>  
+> diff --git a/util/pagesize.c b/util/pagesize.c
+> index 998632cf6e..a08bf1717a 100644
+> --- a/util/pagesize.c
+> +++ b/util/pagesize.c
+> @@ -8,7 +8,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  
+> -uintptr_t qemu_real_host_page_size;
+> +size_t qemu_real_host_page_size;
+>  intptr_t qemu_real_host_page_mask;
+>  
+>  static void __attribute__((constructor)) init_real_host_page_size(void)
+> -- 
+> 2.21.3
+> 
 
 
