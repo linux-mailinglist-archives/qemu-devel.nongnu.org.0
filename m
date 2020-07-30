@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A13D233662
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:11:06 +0200 (CEST)
-Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9398B233671
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 18:13:16 +0200 (CEST)
+Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1B97-0002sd-Is
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:11:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
+	id 1k1BBD-0005dG-LE
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 12:13:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rj.bcjesus@gmail.com>)
- id 1k1AzU-0005F3-Gi
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:01:08 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rj.bcjesus@gmail.com>)
- id 1k1AzR-0005xm-Gb
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:01:07 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 3so6702246wmi.1
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 09:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zqQAF9xKE/5F3X4KG56kpfJdotSVLh0P38cqHIhjICA=;
- b=f+y8E1Z8zCvP411CgM/izmZKnE8vURoP2Dx4cjq3XYc6X6a/PTvO65/Hkm+BMoq254
- LkmuoMQYNzQNegy0W77/HdcEoSujr+Ki/HAdBFgZRPhcBSUGrau+LIlNyFzv6GPOa2dS
- OedEf3cbgKij7/xRzi3WiaP+70RN1hMT5Gz8B8XHP+M7Mkz6MdwJJRJ4PgtfjAQN/BZr
- h/SKbkrB5xBkhgWrUAE8dwo+2azafj3m+uIyiZOaxhwVVBA8pJK+hr583NZI+IeEkwk4
- 8Lke1SQ0X5UVvnuhKdBHMfkEHg+7uteifKy30u2mlMEk0e0TDZ1MLvhYaFKpax0EvJff
- 306w==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k1B2Z-0002C7-Qf
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:04:19 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28062
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k1B2W-0006dK-Gi
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 12:04:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596125054;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Om/S5CoiVZkr7uxg8+K6ByXJ1ieNR2ZOETlg85kKHr0=;
+ b=RCYIN8ylWMu1FRbOYMtNpRlKVTKoZ6y9y0M6dJLUKV+fWZzZsXWdg/07y6oedDv37Ylo1p
+ wM1R6rCc4UD+RG6wJWxOh9mRdfNJQtUfHCVT/xjM7uH9TmhOgTxF8wgskDk8W3Ukr79/fh
+ bZtFACUHLmI5rrinGdw/eys/EZAL/wY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-130-O24P1IC_NsaVsVvbUZSjCg-1; Thu, 30 Jul 2020 12:04:13 -0400
+X-MC-Unique: O24P1IC_NsaVsVvbUZSjCg-1
+Received: by mail-wm1-f72.google.com with SMTP id c124so1481734wme.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 09:04:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zqQAF9xKE/5F3X4KG56kpfJdotSVLh0P38cqHIhjICA=;
- b=DKBRayEg0rwIBrkTCob2rFDdaZMlNBPpHDU+AVm4PTzETUwuY14LszenMaDZJLcc6K
- JnU/p7zVVMH6zZFTIGY4d9Wef9IUilbwu3mHRRdxh7kbRAOpTVEyo9UQfcL4tgzSNSrg
- uxqphJwI39LkjedOUz7X8m00e9ql51Tu8xuUiYi5GDueL1/k22PN3gwwUzACd/HOgj0H
- gH6u9Wowkk7jqwyrkH/K37mBWJmDof3vdTFeI6e7t1Xi1rud8Fakb4XcMnatMIZu/C1I
- vh4LW59rj/360yLQFbALgzGztkolFmcqYOVbWWdEGGdSpb4/CoYKdqnjLw0WAMYe9qSR
- 7+3g==
-X-Gm-Message-State: AOAM533OPoTMajnIuJWu6ULUPv3BhdCOj9D2F1nHmyY1Out3CPjZmkSk
- pI9A1fXTRgtMarE63Wdq5pasoROs/y8=
-X-Google-Smtp-Source: ABdhPJwsRVVaU6iyXzRZm4vflijzyRXLhrP5k9jMaX+B1zDA6g9awvvWSgMzyntS46IVzACB2HaTvg==
-X-Received: by 2002:a1c:4183:: with SMTP id
- o125mr13888093wma.101.1596124862869; 
- Thu, 30 Jul 2020 09:01:02 -0700 (PDT)
-Received: from localhost ([193.136.93.218])
- by smtp.gmail.com with ESMTPSA id w2sm12319861wre.5.2020.07.30.09.01.01
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 09:01:01 -0700 (PDT)
-From: Ricardo Jesus <rj.bcjesus@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] [v4] linux-user: add option to intercept execve() syscalls
-Date: Thu, 30 Jul 2020 17:01:06 +0100
-Message-Id: <20200730160106.16613-1-rj.bcjesus@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Om/S5CoiVZkr7uxg8+K6ByXJ1ieNR2ZOETlg85kKHr0=;
+ b=bVDkAbYwXG4m4nfnPAKGguovEvuAx7UI6klJyz5SS/ylUwDJSQdoP8AI4HVCBRgDq4
+ m1/oQANwGrZQZzSB+gwEybxbyIEvjvdItFkpxbiHxWrU6YVR9bj4DxxwRP1uNS6lBFvt
+ LOPFMzR86HYLfHGASMmpll82ubS30Q8C0ZWyy+QQ4HtyAFXqcifhllE/bLmH91ahlN4z
+ yanEoezkeLa0I79KUEXN1N5y7O1xUkLyoP9/ZO7zDjJc15DtTIn2aqkijIptZLAbcDUw
+ PMgrUj2AeJPrKOmrYDyYxVqUYsKRbe4YljM1sR+M0xIhQauHwFX4rUO6S3mtCVSz+0FP
+ vCag==
+X-Gm-Message-State: AOAM5319/zo5Xf9qrk0EVPyE1YVGrQ73g6vGXp2eilQkeomYeBbv9CYa
+ zIPEN8aeYF1QNBEOxh5JMoEwIsEMxgiSt3e0iJHY7sGEK6378+tH7xLb0hM2qGIrtRoyA7BgePP
+ w0Xg/Y69FxFhOuE4=
+X-Received: by 2002:a5d:414e:: with SMTP id c14mr3723833wrq.57.1596125051657; 
+ Thu, 30 Jul 2020 09:04:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyT6+ac2+9Ubo0BVPp7x/1C0Zhdi+en5Titigx3VL6I09vZzhxWglrjVuIl+OExBkhvz+596g==
+X-Received: by 2002:a5d:414e:: with SMTP id c14mr3723807wrq.57.1596125051432; 
+ Thu, 30 Jul 2020 09:04:11 -0700 (PDT)
+Received: from redhat.com (bzq-79-179-105-63.red.bezeqint.net. [79.179.105.63])
+ by smtp.gmail.com with ESMTPSA id i66sm10307372wma.35.2020.07.30.09.04.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jul 2020 09:04:10 -0700 (PDT)
+Date: Thu, 30 Jul 2020 12:04:08 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 1/1] pci/pcie: refuse another hotplug/unplug event if
+ attention button is pending
+Message-ID: <20200730120153-mutt-send-email-mst@kernel.org>
+References: <20200722161722.51416-1-mlevitsk@redhat.com>
+ <20200722161722.51416-2-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=rj.bcjesus@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200722161722.51416-2-mlevitsk@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:41:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,241 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jusual@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is based on the original work by Petros Angelatos [1], which
-I have updated to the current git master. The following commit message
-is largely based on Petros' original message.
+On Wed, Jul 22, 2020 at 07:17:22PM +0300, Maxim Levitsky wrote:
+> Curently it is possible to hotplug a device and then immediatly
+> hotunplug it before the OS notices, and that will result
+> in missed unplug event since we can only send one attention button event.
+> 
+> Moreover the device will stuck in unplugging state forever.
+> 
+> Error out in such cases and rely on the caller (e.g libvirt) to retry
+> the unplug a bit later
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  hw/pci/pcie.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 5b48bae0f6..9e836cf2f4 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -402,6 +402,17 @@ static void pcie_cap_slot_plug_common(PCIDevice *hotplug_dev, DeviceState *dev,
+>           */
+>          error_setg_errno(errp, EBUSY, "slot is electromechanically locked");
+>      }
+> +
+> +    if (sltsta & PCI_EXP_SLTSTA_ABP) {
+> +        /*
+> +         * Attention button is pressed, thus we can't send another
+> +         * hotpplug event
 
-In order for one to use QEMU user mode emulation under a chroot, it is
-required to use binfmt_misc. This can be avoided by QEMU never doing a
-raw execve() to the host system.
+typo
 
-Introduce a new option, --execve, that uses the current QEMU interpreter
-to intercept execve().
+> +         */
+> +        error_setg_errno(errp, EBUSY,
+> +                         "attention button is already pressed, can't "
+> +                         "send another hotplug event");
+> +    }
+> +
+>  }
 
-qemu_execve() will prepend the interpreter path, similar to what
-binfmt_misc would do, and then pass the modified execve() to the host.
+It would be neater if we could queue the event up
+in qemu. Alternatively - can we clean up the unhandled
+event so guest does not even notice the device
+briefly appeared?
 
-[1] https://patchwork.ozlabs.org/patch/582756/
-
-Signed-off-by: Ricardo Jesus <rj.bcjesus@gmail.com>
----
- linux-user/main.c    |   8 +++
- linux-user/qemu.h    |   1 +
- linux-user/syscall.c | 138 +++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 136 insertions(+), 11 deletions(-)
-
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 75c9785157..52f6860b45 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -107,6 +107,7 @@ static void usage(int exitcode);
- 
- static const char *interp_prefix = CONFIG_QEMU_INTERP_PREFIX;
- const char *qemu_uname_release;
-+const char *qemu_execve_path;
- 
- /* XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
-    we allocate a bigger stack. Need a better solution, for example
-@@ -337,6 +338,11 @@ static void handle_arg_guest_base(const char *arg)
-     have_guest_base = true;
- }
- 
-+static void handle_arg_execve(const char *arg)
-+{
-+    qemu_execve_path = strdup(arg);
-+}
-+
- static void handle_arg_reserved_va(const char *arg)
- {
-     char *p;
-@@ -441,6 +447,8 @@ static const struct qemu_argument arg_table[] = {
-      "uname",      "set qemu uname release string to 'uname'"},
-     {"B",          "QEMU_GUEST_BASE",  true,  handle_arg_guest_base,
-      "address",    "set guest_base address to 'address'"},
-+    {"execve",     "QEMU_EXECVE",      true,  handle_arg_execve,
-+     "",           "use this interpreter when a process calls execve()"},
-     {"R",          "QEMU_RESERVED_VA", true,  handle_arg_reserved_va,
-      "size",       "reserve 'size' bytes for guest virtual address space"},
-     {"d",          "QEMU_LOG",         true,  handle_arg_log,
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 5c964389c1..d1b0d5716b 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -160,6 +160,7 @@ void init_task_state(TaskState *ts);
- void task_settid(TaskState *);
- void stop_all_tasks(void);
- extern const char *qemu_uname_release;
-+extern const char *qemu_execve_path;
- extern unsigned long mmap_min_addr;
- 
- /* ??? See if we can avoid exposing so much of the loader internals.  */
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 945fc25279..a266895a61 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -115,6 +115,7 @@
- #ifdef HAVE_DRM_H
- #include <libdrm/drm.h>
- #endif
-+#include <linux/binfmts.h>
- #include "linux_loop.h"
- #include "uname.h"
- 
-@@ -7674,6 +7675,131 @@ static target_timer_t get_timer_id(abi_long arg)
-     return timerid;
- }
- 
-+/* qemu_execve() Must return target values and target errnos.
-+ *
-+ * Although execve() is not an interruptible syscall it is
-+ * a special case where we must use the safe_syscall wrapper:
-+ * if we allow a signal to happen before we make the host
-+ * syscall then we will 'lose' it, because at the point of
-+ * execve the process leaves QEMU's control. So we use the
-+ * safe syscall wrapper to ensure that we either take the
-+ * signal as a guest signal, or else it does not happen
-+ * before the execve completes and makes it the other
-+ * program's problem.
-+ */
-+static abi_long qemu_execve(char *filename, char *argv[],
-+                  char *envp[])
-+{
-+    char *i_arg = NULL, *i_name = NULL;
-+    char **new_argp;
-+    int argc, fd, ret, i, offset = 5;
-+    char *cp;
-+    char buf[BINPRM_BUF_SIZE];
-+
-+    /* normal execve case */
-+    if (qemu_execve_path == NULL || *qemu_execve_path == 0) {
-+        return get_errno(safe_execve(filename, argv, envp));
-+    }
-+
-+    for (argc = 0; argv[argc] != NULL; argc++) {
-+        /* nothing */ ;
-+    }
-+
-+    fd = open(filename, O_RDONLY);
-+    if (fd == -1) {
-+        return get_errno(fd);
-+    }
-+
-+    ret = read(fd, buf, BINPRM_BUF_SIZE);
-+    if (ret == -1) {
-+        close(fd);
-+        return get_errno(ret);
-+    }
-+
-+    /* if we have less than 2 bytes, we can guess it is not executable */
-+    if (ret < 2) {
-+        close(fd);
-+        return -host_to_target_errno(ENOEXEC);
-+    }
-+
-+    close(fd);
-+
-+    /* adapted from the kernel
-+     * https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/fs/binfmt_script.c
-+     */
-+    if ((buf[0] == '#') && (buf[1] == '!')) {
-+        /*
-+         * This section does the #! interpretation.
-+         * Sorta complicated, but hopefully it will work.  -TYT
-+         */
-+
-+        buf[BINPRM_BUF_SIZE - 1] = '\0';
-+        cp = strchr(buf, '\n');
-+        if (cp == NULL) {
-+            cp = buf + BINPRM_BUF_SIZE - 1;
-+        }
-+        *cp = '\0';
-+        while (cp > buf) {
-+            cp--;
-+            if ((*cp == ' ') || (*cp == '\t')) {
-+                *cp = '\0';
-+            } else {
-+                break;
-+            }
-+        }
-+        for (cp = buf + 2; (*cp == ' ') || (*cp == '\t'); cp++) {
-+            /* nothing */ ;
-+        }
-+        if (*cp == '\0') {
-+            return -ENOEXEC; /* No interpreter name found */
-+        }
-+        i_name = cp;
-+        i_arg = NULL;
-+        for ( ; *cp && (*cp != ' ') && (*cp != '\t'); cp++) {
-+            /* nothing */ ;
-+        }
-+        while ((*cp == ' ') || (*cp == '\t')) {
-+            *cp++ = '\0';
-+        }
-+        if (*cp) {
-+            i_arg = cp;
-+        }
-+
-+        if (i_arg) {
-+            offset += 2;
-+        } else {
-+            offset += 1;
-+        }
-+    }
-+
-+    new_argp = alloca((argc + offset + 1) * sizeof(void *));
-+
-+    /* Copy the original arguments with offset */
-+    for (i = 0; i < argc; i++) {
-+        new_argp[i + offset] = argv[i];
-+    }
-+
-+    new_argp[0] = strdup(qemu_execve_path);
-+    new_argp[1] = strdup("--execve");
-+    new_argp[2] = strdup(qemu_execve_path);
-+    new_argp[3] = strdup("-0");
-+    new_argp[offset] = filename;
-+    new_argp[argc + offset] = NULL;
-+
-+    if (i_name) {
-+        new_argp[4] = i_name;
-+        new_argp[5] = i_name;
-+
-+        if (i_arg) {
-+            new_argp[6] = i_arg;
-+        }
-+    } else {
-+        new_argp[4] = argv[0];
-+    }
-+
-+    return get_errno(safe_execve(qemu_execve_path, new_argp, envp));
-+}
-+
- static int target_to_host_cpu_mask(unsigned long *host_mask,
-                                    size_t host_size,
-                                    abi_ulong target_addr,
-@@ -8023,17 +8149,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
-             if (!(p = lock_user_string(arg1)))
-                 goto execve_efault;
--            /* Although execve() is not an interruptible syscall it is
--             * a special case where we must use the safe_syscall wrapper:
--             * if we allow a signal to happen before we make the host
--             * syscall then we will 'lose' it, because at the point of
--             * execve the process leaves QEMU's control. So we use the
--             * safe syscall wrapper to ensure that we either take the
--             * signal as a guest signal, or else it does not happen
--             * before the execve completes and makes it the other
--             * program's problem.
--             */
--            ret = get_errno(safe_execve(p, argp, envp));
-+            ret = qemu_execve(p, argp, envp);
-             unlock_user(p, arg1, 0);
- 
-             goto execve_end;
--- 
-2.27.0
+>  
+>  void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+> -- 
+> 2.26.2
 
 
