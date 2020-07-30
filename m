@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638D523391F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 21:36:52 +0200 (CEST)
-Received: from localhost ([::1]:52332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557A723392F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 21:41:11 +0200 (CEST)
+Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1EMF-0003vC-FD
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 15:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56464)
+	id 1k1EQO-0006wG-4x
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 15:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k1EL3-0002wk-2t
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 15:35:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20702
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k1EKx-0004aF-9D
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 15:35:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596137730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gmhrzzrFt+9+00z9tkBH1hFVeZ+/CoxQ4GyyKANXxGo=;
- b=GM7QsSN4gBxt4jwfnNXfgbbsrokTvRO3UpT6bSK0PGQwi/+jKisg0ewX5Z5J/4wod4sOzU
- Abc0Yia2UOnj771zyeq/qw08xE67lIhltRny2zHaoBfrDeADEJfFRRFSujaps4Yp7Dy+9s
- iuIr5ODgGHdSx5jcIomUQ/ZarGHNdn4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-__xh28DHM06ACeiGiBfOsw-1; Thu, 30 Jul 2020 15:35:25 -0400
-X-MC-Unique: __xh28DHM06ACeiGiBfOsw-1
-Received: by mail-wm1-f72.google.com with SMTP id c124so1562863wme.0
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 12:35:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3ACIjXwYKCs8JFv8K319916z.x97Bz7F-yzGz689818F.9C1@flex--yuanzi.bounces.google.com>)
+ id 1k1EP6-0005zK-5x
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 15:39:48 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:36531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3ACIjXwYKCs8JFv8K319916z.x97Bz7F-yzGz689818F.9C1@flex--yuanzi.bounces.google.com>)
+ id 1k1EP4-0005Rk-C2
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 15:39:47 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id a5so18649485ybh.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 12:39:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=RI06ojqCn92Gvgv71lQNnqCHXVDWRl7OifmYHTUYNc8=;
+ b=DeV6rh9kc10mzWrtj7GluJ/2vbZl7UqjKU+LvLnrYJS3AREg8Kw+Wuu2tM+dV773mG
+ vNxlaXrlQnM2vBiVuKiQr9jyTvjbm8fMQTL1BkG/vlOsDYG8dfbtMiF6Zf5yXuAZxQnj
+ hgysEG2MIlMBm0yEB0Cprdeie3NUWtpeMB4TADKH8OJBX3YN20W0L4idGVGUxklfY0pe
+ rYl2mK1aDtU6aOts5MVfAu/uAsTlVbOVVsLwvBuYSclftxDCGH6L2mgCJgEB6jQCeyp/
+ xhRAYUl9a5iQk3aqDWG3Dh24yN0Y/whQumnUmlzS+liszrXxs9oXX45WBScfGy0MXiI8
+ korg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=umqcSAY0ovyYX/6slBaErJJ00LVM8u2MgN0tR/LIpvA=;
- b=D2QT6g4gIS/IGNu2aFaOknn04f7esCaGWo8ozUtFke8JZGzIFlubJqbb0NjSe9RsjU
- dLSziPyPtTrclVx+0UVQjgeb+Ys9tPKXWENL2E8sYuO/z2oQyyd3Q8fK2nJ61hjy3YLQ
- 7jcDK7OGhTHIFL5V77zroxVzdlN2K5qUH163zTSiszpOeLn7KFEYpjtOtpzsNfQuqfCi
- 4iKdH1QmvanoHjywDOxuJ9hvWCcAPltDE+w3aLkhzN5G/+XiFBoamyVgJoYy32F4p04h
- fdfGksQxWbdtm+kYpsfSjaSzRXa+M0E0Ye4ZGbCB9FZTDB9BwTSfAyt/+VPlW9k8S/Vl
- pnGA==
-X-Gm-Message-State: AOAM530xfipVgAhWVYT4pFdeArvu//6f6v8lRFxN0ClOsDauN7y+QpGg
- yNhWDvL3fGs8ll6zza+8L5ceW2XmS7hMAS+M1SjlDjBWHT+jGO4hUgmwUVg7/bAma3B7Wpq3gv3
- bDJmWOTr+2AOI4ng=
-X-Received: by 2002:a7b:c057:: with SMTP id u23mr583678wmc.167.1596137724449; 
- Thu, 30 Jul 2020 12:35:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxovEHSvPWzklzkn5zjj0APWmAbcet0a+iv5EUm1znB2HHYX/Omz8b3Ih77/qqloSlz9DqVig==
-X-Received: by 2002:a7b:c057:: with SMTP id u23mr583662wmc.167.1596137724196; 
- Thu, 30 Jul 2020 12:35:24 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-105-63.red.bezeqint.net. [79.179.105.63])
- by smtp.gmail.com with ESMTPSA id a10sm11106762wro.35.2020.07.30.12.35.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 12:35:23 -0700 (PDT)
-Date: Thu, 30 Jul 2020 15:35:20 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-Message-ID: <20200730153447-mutt-send-email-mst@kernel.org>
-References: <20200730155755.188845-1-mst@redhat.com>
- <e1759ee7-b167-d69e-99f9-e824e9e3e0b8@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <e1759ee7-b167-d69e-99f9-e824e9e3e0b8@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=RI06ojqCn92Gvgv71lQNnqCHXVDWRl7OifmYHTUYNc8=;
+ b=Xc0hxj7VrRa+VJjET1VAEDAHfFgX0FujcZaGAFyuAOUp6eIgeHAKH7tg20cYAsJyo0
+ EkOjIeOJQ99rFML2oM7NotO+clR718up6eotCgAo7NHkLT9aO/AgLJhScAxXi88QPV+x
+ 9pMglmxC1mzqyGuGw8sSvBTv3Hf+yxx0E+QZP+U+bwAusuWU6rWAmdNf+AXR31XDYX2n
+ hmQNFxlo9gZaJYP5xB8jP4ZxTYxoM8I32lRw7U6i+1CudDyuBio30GPcw2t3Dt335EQJ
+ xUJD8sSvK08AD2xfe3/e9BC/U4k49cfl/LZkDuNv9r43zotaTsyjFSovyuspPSvyoZGq
+ FYYQ==
+X-Gm-Message-State: AOAM5322uSZhswUJrxpZht9Esu/6FnXQgYtPG1bkY3iZq10yvmqAP0y7
+ v0Fryd2rG1I4F8g0uzYTJaY59QxQFR1gBjZi2nIRD1zKiLFn245crFbEfg5D4vnz1bvZiUUfzuD
+ zyu53Yl0u1jrwbJ/oRKFhuQPlcyjQgfZgyHSaGRd9UsNkpgAp7Yc/QLmXFYcT
+X-Google-Smtp-Source: ABdhPJyGF+7ZoKJEgJN02pDiKnX2gYjt/xyZPut8yHkv/l+BPRpjkZg4rc1MavY6LKe+REfd2Hjt06YTeC0=
+X-Received: by 2002:a5b:4ca:: with SMTP id u10mr813175ybp.128.1596137984014;
+ Thu, 30 Jul 2020 12:39:44 -0700 (PDT)
+Date: Thu, 30 Jul 2020 12:39:32 -0700
+Message-Id: <20200730193932.3654677-1-yuanzi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
+Subject: [PATCH] [PATCH v2] gdbstub: add support to Xfer:auxv:read: packet
+From: Lirong Yuan <yuanzi@google.com>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, philmd@redhat.com, Lirong Yuan <yuanzi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3ACIjXwYKCs8JFv8K319916z.x97Bz7F-yzGz689818F.9C1@flex--yuanzi.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -105
+X-Spam_score: -10.6
+X-Spam_bar: ----------
+X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,100 +84,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Laszlo Ersek <lersek@redhat.com>,
- vit9696 <vit9696@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 30, 2020 at 06:11:17PM +0200, Philippe Mathieu-Daudé wrote:
-> On 7/30/20 5:58 PM, Michael S. Tsirkin wrote:
-> > macOS uses ACPI UIDs to build the DevicePath for NVRAM boot options,
-> > while OVMF firmware gets them via an internal channel through QEMU.
-> > Due to a bug in QEMU ACPI currently UEFI firmware and ACPI have
-> > different values, and this makes the underlying operating system
-> > unable to report its boot option.
-> > 
-> > The particular node in question is the primary PciRoot (PCI0 in ACPI),
-> > which for some reason gets assigned 1 in ACPI UID and 0 in the
-> > DevicePath. This is due to the _UID assigned to it by build_dsdt in
-> > hw/i386/acpi-build.c Which does not correspond to the primary PCI
-> > identifier given by pcibus_num in hw/pci/pci.c
-> > 
-> > Reference with the device paths, OVMF startup logs, and ACPI table
-> > dumps (SysReport):
-> > https://github.com/acidanthera/bugtracker/issues/1050
-> > 
-> > In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
-> > the paragraph,
-> > 
-> >     Root PCI bridges will use the plug and play ID of PNP0A03, This will
-> >     be stored in the ACPI Device Path _HID field, or in the Expanded
-> >     ACPI Device Path _CID field to match the ACPI name space. The _UID
-> >     in the ACPI Device Path structure must match the _UID in the ACPI
-> >     name space.
-> > 
-> > (See especially the last sentence.)
-> > 
-> > Considering *extra* root bridges / root buses (with bus number > 0),
-> > QEMU's ACPI generator actually does the right thing; since QEMU commit
-> > c96d9286a6d7 ("i386/acpi-build: more traditional _UID and _HID for PXB
-> > root buses", 2015-06-11).
-> > 
-> > However, the _UID values for root bridge zero (on both i440fx and q35)
-> > have always been "wrong" (from UEFI perspective), going back in QEMU to
-> > commit 74523b850189 ("i386: add ACPI table files from seabios",
-> > 2013-10-14).
-> > 
-> > Even in SeaBIOS, these _UID values have always been 1; see commit
-> > a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008-03-08) for
-> > i440fx, and commit ecbe3fd61511 ("seabios: q35: add dsdt", 2012-12-01)
-> > for q35.
-> > 
-> > Suggested-by: Laszlo Ersek <lersek@redhat.com>
-> > Tested-by: vit9696 <vit9696@protonmail.com>
-> 
-> Vitaly uses his full name on EDK2 mailing list, so I don't think he'll
-> have a problem to use it in QEMU too:
-> Tested-by: Vitaly Cheptsov <vit9696@protonmail.com>
-> 
-> From:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
-> "Please use your real name to sign a patch (not an alias or acronym)."
+This allows gdb to access the target=E2=80=99s auxiliary vector,
+which can be helpful for telling system libraries important details
+about the hardware, operating system, and process.
 
-Right. Tested-by is different though, I don't think we have
-a problem with anonymous testing.
+Signed-off-by: Lirong Yuan <yuanzi@google.com>
+---
+Changelog since v1:
+ - Added a multiarch gdbstub test to verify this is working properly.
+---
+ gdbstub.c                                     | 54 ++++++++++++++++
+ tests/tcg/multiarch/Makefile.target           |  9 ++-
+ .../multiarch/gdbstub/test-qxfer-auxv-read.py | 64 +++++++++++++++++++
+ 3 files changed, 126 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
 
-Anyway, updated.
-
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >  hw/i386/acpi-build.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index b7bcbbbb2a..7a5a8b3521 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          dev = aml_device("PCI0");
-> >          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-> >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> > -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> > +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> >          aml_append(sb_scope, dev);
-> >          aml_append(dsdt, sb_scope);
-> >  
-> > @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-> >          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-> >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> > -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> > +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> >          aml_append(dev, build_q35_osc_method());
-> >          aml_append(sb_scope, dev);
-> >          aml_append(dsdt, sb_scope);
-> > 
+diff --git a/gdbstub.c b/gdbstub.c
+index f3a318cd7f..e1e1a2c1e6 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2124,6 +2124,12 @@ static void handle_query_supported(GdbCmdContext *gd=
+b_ctx, void *user_ctx)
+         g_string_append(gdbserver_state.str_buf, ";qXfer:features:read+");
+     }
+=20
++#ifdef CONFIG_USER_ONLY
++    if (gdbserver_state.c_cpu->opaque) {
++        g_string_append(gdbserver_state.str_buf, ";qXfer:auxv:read+");
++    }
++#endif
++
+     if (gdb_ctx->num_params &&
+         strstr(gdb_ctx->params[0].data, "multiprocess+")) {
+         gdbserver_state.multiprocess =3D true;
+@@ -2185,6 +2191,46 @@ static void handle_query_xfer_features(GdbCmdContext=
+ *gdb_ctx, void *user_ctx)
+                       gdbserver_state.str_buf->len, true);
+ }
+=20
++#ifdef CONFIG_USER_ONLY
++static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
++{
++    TaskState *ts;
++    unsigned long offset, len, saved_auxv, auxv_len;
++    const char *mem;
++
++    if (gdb_ctx->num_params < 2) {
++        put_packet("E22");
++        return;
++    }
++
++    offset =3D gdb_ctx->params[0].val_ul;
++    len =3D gdb_ctx->params[1].val_ul;
++    ts =3D gdbserver_state.c_cpu->opaque;
++    saved_auxv =3D ts->info->saved_auxv;
++    auxv_len =3D ts->info->auxv_len;
++    mem =3D (const char *)(saved_auxv + offset);
++    if (offset > auxv_len) {
++        put_packet("E00");
++        return;
++    }
++
++    if (len > (MAX_PACKET_LENGTH - 5) / 2) {
++        len =3D (MAX_PACKET_LENGTH - 5) / 2;
++    }
++
++    if (len < auxv_len - offset) {
++        g_string_assign(gdbserver_state.str_buf, "m");
++        memtox(gdbserver_state.str_buf, mem, len);
++    } else {
++        g_string_assign(gdbserver_state.str_buf, "l");
++        memtox(gdbserver_state.str_buf, mem, auxv_len - offset);
++    }
++
++    put_packet_binary(gdbserver_state.str_buf->str,
++                      gdbserver_state.str_buf->len, true);
++}
++#endif
++
+ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
+ {
+     put_packet(GDB_ATTACHED);
+@@ -2290,6 +2336,14 @@ static GdbCmdParseEntry gdb_gen_query_table[] =3D {
+         .cmd_startswith =3D 1,
+         .schema =3D "s:l,l0"
+     },
++#ifdef CONFIG_USER_ONLY
++    {
++        .handler =3D handle_query_xfer_auxv,
++        .cmd =3D "Xfer:auxv:read::",
++        .cmd_startswith =3D 1,
++        .schema =3D "l,l0"
++    },
++#endif
+     {
+         .handler =3D handle_query_attached,
+         .cmd =3D "Attached:",
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Make=
+file.target
+index cb49cc9ccb..c8cdb1e04d 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -54,7 +54,14 @@ run-gdbstub-sha1: sha1
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
+ 	"basic gdbstub support")
+=20
+-EXTRA_RUNS +=3D run-gdbstub-sha1
++run-gdbstub-qxfer-auxv-read: sha1
++	$(call run-test, $@, $(GDB_SCRIPT) \
++		--gdb $(HAVE_GDB_BIN) \
++		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
++		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
++	"basic gdbstub qXfer:auxv:read support")
++
++EXTRA_RUNS +=3D run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read
+ endif
+=20
+=20
+diff --git a/tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py b/tests/tc=
+g/multiarch/gdbstub/test-qxfer-auxv-read.py
+new file mode 100644
+index 0000000000..88049dd330
+--- /dev/null
++++ b/tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
+@@ -0,0 +1,64 @@
++from __future__ import print_function
++#
++# Test the SVE ZReg reports the right amount of data. It uses the
++from __future__ import print_function
++#
++# Test auxiliary vector is loaded via gdbstub
++#
++# This is launched via tests/guest-debug/run-test.py
++#
++
++import gdb
++import sys
++
++failcount =3D 0
++
++def report(cond, msg):
++    "Report success/fail of test"
++    if cond:
++        print ("PASS: %s" % (msg))
++    else:
++        print ("FAIL: %s" % (msg))
++        global failcount
++        failcount +=3D 1
++
++def run_test():
++    "Run through the tests one by one"
++
++    cond =3D True
++    try:
++      gdb.execute("info auxv")
++    except (gdb.error, AttributeError):
++      cond =3D False
++
++    report(cond, "Display the auxiliary vector of the inferior.")
++
++#
++# This runs as the script it sourced (via -x, via run-test.py)
++#
++try:
++    inferior =3D gdb.selected_inferior()
++    arch =3D inferior.architecture()
++    print("ATTACHED: %s" % arch.name())
++except (gdb.error, AttributeError):
++    print("SKIPPING (not connected)", file=3Dsys.stderr)
++    exit(0)
++
++if gdb.parse_and_eval('$pc') =3D=3D 0:
++    print("SKIP: PC not set")
++    exit(0)
++
++try:
++    # These are not very useful in scripts
++    gdb.execute("set pagination off")
++    gdb.execute("set confirm off")
++
++    # Run the actual tests
++    run_test()
++except (gdb.error):
++    print ("GDB Exception: %s" % (sys.exc_info()[0]))
++    failcount +=3D 1
++    pass
++
++print("All tests complete: %d failures" % failcount)
++exit(failcount)
+--=20
+2.28.0.163.g6104cc2f0b6-goog
 
 
