@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E8A23345E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:27:35 +0200 (CEST)
-Received: from localhost ([::1]:49816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF20A23343C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:23:45 +0200 (CEST)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k19Ww-0000gl-EV
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:27:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
+	id 1k19TE-0003YQ-TG
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k19Pl-0006ez-VC
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:20:09 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44395
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1k19Rq-00024s-GS
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:22:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58236
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k19Pi-0005bA-Td
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:20:09 -0400
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1k19Rp-0005xJ-1O
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:22:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596118804;
+ s=mimecast20190719; t=1596118935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o+VimS9LqF5IxW0BnvNLwag4qkt0Zv5i66LhsFaP3tw=;
- b=bbN/Zx6YkWvYjPCVDpb/IMKa6iNm4n1I+A6i+jgGqtx7BpwzGrvtrnah9tf8VgmwcGGezs
- wAnmUMTLzSdJv8zUUvTh/eu1opSpSFdqiEwi6WKqUurhzJBKhWopFgwrs3YGICFVhEcfPa
- 9iTqdJWdwC72KJaly7cysFd1A8DGfJ4=
+ bh=pyYlmII1mTRH4uHQuv25eu9MzRPnRzMgsh4S0kIY7G4=;
+ b=ZpJBDoe0OVXPi6Pf4zEveEaKy7ecCv8lDOQ3faRQEkZjCnzvdSzGYaLMO3dqc/GAHUtA1m
+ syb5M2v/HuDKhHn2gIs/3GvQhC+f4Tbt3g27qmLjBtB4acTXN4JQjvM3TFVLfwYJniP8SY
+ jPJB4Q+YI72sJzumLVr8iV3H5CmC2PY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-5Ly6-oqWODu27J0up0f8mg-1; Thu, 30 Jul 2020 10:20:00 -0400
-X-MC-Unique: 5Ly6-oqWODu27J0up0f8mg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-268-1Xdx2EQuOiu4SOG_r3c8bg-1; Thu, 30 Jul 2020 10:22:08 -0400
+X-MC-Unique: 1Xdx2EQuOiu4SOG_r3c8bg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91E83800597;
- Thu, 30 Jul 2020 14:19:59 +0000 (UTC)
-Received: from [10.3.114.255] (ovpn-114-255.phx2.redhat.com [10.3.114.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 117285DA7A;
- Thu, 30 Jul 2020 14:19:59 +0000 (UTC)
-Subject: Re: [PATCH 0/2] qcow2: Release read-only bitmaps when inactivated
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFA1780352A;
+ Thu, 30 Jul 2020 14:22:05 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B37BB1C6;
+ Thu, 30 Jul 2020 14:22:03 +0000 (UTC)
+Date: Thu, 30 Jul 2020 16:22:00 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 1/2] qcow2: Release read-only bitmaps when inactivated
+Message-ID: <20200730142200.GC2101@angien.pipo.sk>
 References: <20200730120234.49288-1-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c6a84a92-d2f2-cdfb-154d-470dbb24ed8e@redhat.com>
-Date: Thu, 30 Jul 2020 09:19:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20200730120234.49288-2-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200730120234.49288-1-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+In-Reply-To: <20200730120234.49288-2-mreitz@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:51:24
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -83,68 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/30/20 7:02 AM, Max Reitz wrote:
-> Hi,
+On Thu, Jul 30, 2020 at 14:02:33 +0200, Max Reitz wrote:
+> During migration, we release all bitmaps after storing them on disk, as
+> long as they are (1) stored on disk, (2) not read-only, and (3)
+> consistent.
 > 
-> When beginning migration, the qcow2 driver syncs all persistent bitmaps
-> to disk and then releases them.  If the user decides to continue on the
-> source after migration, those bitmaps are re-loaded from the qcow2
-> image.
+> (2) seems arbitrary, though.  The reason we do not release them is
+> because we do not write them, as there is no need to; and then we just
+> forget about all bitmaps that we have not written to the file.  However,
+> read-only persistent bitmaps are still in the file and in sync with
+> their in-memory representation, so we may as well release them just like
+> any R/W bitmap that we have updated.
 > 
-> However, we only do this for bitmaps that were actively synced, i.e. R/W
-> bitmaps.  RO bitmaps (those on backing images) are not written and thus
-> not released.  However, we still try to re-load them when continuing,
-> and that will then fail.
-> 
-> To fix this problem, I think we should just consider RO bitmaps to be in
-> sync from the beginning, so we can release them just like bitmaps that
-> we have actively written back to the image.  This is done by patch 1.
-> 
-> However, there’s a catch: Peter Krempa noted that it isn’t in libvirt’s
-> interest for the bitmaps to be released before migration at all, because
-> this makes them disappear from query-named-block-node’s dirty-bitmaps
-> list, but libvirt needs the bitmaps to be there:
-> 
-> https://bugzilla.redhat.com/show_bug.cgi?id=1858739#c3
-
-And that is enough to make me think this series is -rc3 material. 
-Although I'm not yet sure whether the solution is this series as 
-written, or to patch libvirt to look elsewhere for bitmap information, 
-or to patch qemu on incoming migration to not complain when reloading a 
-RO bitmap, or something else.
-
-> 
-> If it’s really not feasible to keep the bitmaps around, then I suppose
-> what might work for libvirt is to query
-> image/format-specific/data/bitmaps in addition to dirty-bitmaps (every
-> bitmap that we released before migration must be a persistent bitmap).
-> 
-> What are your thoughts on this?
-
-I'd really like to hear from Virtuozzo on the topic before committing to 
-this series, but I will at least review it in the meantime.
-
-> 
-> 
-> Max Reitz (2):
->    qcow2: Release read-only bitmaps when inactivated
->    iotests/169: Test source cont with backing bmap
-> 
->   block/qcow2-bitmap.c       | 23 +++++++++++---
->   tests/qemu-iotests/169     | 64 +++++++++++++++++++++++++++++++++++++-
->   tests/qemu-iotests/169.out |  4 +--
->   3 files changed, 84 insertions(+), 7 deletions(-)
+> It leads to actual problems, too: After migration, letting the source
+> continue may result in an error if there were any bitmaps on read-only
+> nodes (such as backing images), because those have not been released by
+> bdrv_inactive_all(), but bdrv_invalidate_cache_all() attempts to reload
+> them (which fails, because they are still present in memory).
 > 
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I've tested it with same commands as I've used before and now the 'cont'
+succeeds and also the bitmaps after the cont call are loaded and active
+at least according to 'query-named-block-nodes'
+
+Tested-by: Peter Krempa <pkrempa@redhat.com>
 
 
