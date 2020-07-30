@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8E3233416
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:15:25 +0200 (CEST)
-Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C11B233421
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 16:17:22 +0200 (CEST)
+Received: from localhost ([::1]:33976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k19LA-0003hj-HO
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:15:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53182)
+	id 1k19N3-0007iO-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 10:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k19Ij-000122-LV
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:12:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21231
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k19Ip-0001E0-QX
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:12:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46990
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k19Ih-0004HN-Td
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:12:53 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k19In-0004I2-25
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 10:12:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596118371;
+ s=mimecast20190719; t=1596118376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1nCUmzxGIbC0kn3/ng/Xf3mTqDwzdByUhgD6JCrp3Ls=;
- b=ejhrHVYaxeksXpCQiQxvTISt1JCy2J4RVSsG7zAl/skB0LalMqY5seX7iIx1m/npAWvYQJ
- x7eueFwELPdxSFt3c8R+XqaPDiaffXAzzyLaKcGZiIRO+edxP1EvfMMgfzGvnLJ/aAkiMI
- RuHMDI2Vs9TCL7nHWE5yGTPXelFETNc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-wMtA9j9GO3iARRrwngURRA-1; Thu, 30 Jul 2020 10:12:49 -0400
-X-MC-Unique: wMtA9j9GO3iARRrwngURRA-1
-Received: by mail-wr1-f70.google.com with SMTP id t3so6954122wrr.5
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 07:12:49 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wzBIF3mB2xmF46OsHhJUcCq/p+2yfCrRkyersC8FDx0=;
+ b=E3DBtdZbP6zVaTEGZOXKH+LM5db26DGsuhVmNVjfkx0fDSAmNnyjIgH9VN2FcARqTXOYWt
+ gZb1OTvOe4zJuOwXfK3ySqu0SSwX/hcGJjKvg2fzOhZqsuZiF92MRUcCnTaSN3A1Jkxfpp
+ tRmNy7/WWFdeT5BG9srkkYu/MhS5SHE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-OyxJi6M7O0iKs1JtEjrpPA-1; Thu, 30 Jul 2020 10:12:55 -0400
+X-MC-Unique: OyxJi6M7O0iKs1JtEjrpPA-1
+Received: by mail-wr1-f69.google.com with SMTP id b13so5239192wrq.19
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 07:12:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1nCUmzxGIbC0kn3/ng/Xf3mTqDwzdByUhgD6JCrp3Ls=;
- b=AdfR63ErJmhc9lPY/VQ9gfHBwq7ya5Rx/sWofWIwUf+GZGAy1IC9nCXZUYktGYxzfa
- kDofSJD2/elWeCuSJHD4ILP1U6fuabtpiEPwxlFzT0+Q2R1GVCYXistnKJX1HfBfYtfy
- Pbj1sW7ISWXWzojZKSiTWtqD8fV29Z1dqj1M1CmjHHM4yg6NtsROMNrQTPBOpGLcrG68
- nsywtBhAu2rGIW88QVMXqMBlvrbS0apjyIFztskH36DkMfEzY/BWmRBJQGdNdTjf1WH/
- XY+qbT/PxAfBKw9MdFi9rSO0yGD0ZCKQrTvuiJspbcG5dZ0ZpTfi3JE4zocToOXor7eN
- 9uuA==
-X-Gm-Message-State: AOAM5320Q7jOHMCTZD1bwBJxps9eqBAUpn23PQUTwh34/hgSXYyOTB1T
- B+QbNRKfpjV4cMHyefuL9ihmxY1U+2jv3U4NTOaXdAznIaqSFM2GXsjt2i2+6lhiNaFJA86s5Zq
- qBr4CC5Kp2yei8tA=
-X-Received: by 2002:adf:e9cd:: with SMTP id l13mr3326748wrn.340.1596118368097; 
- Thu, 30 Jul 2020 07:12:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAWJCTyc1yX9F+GsslaNXx+FdufjDrNeO7osI5iibj6rASK8Lnwmt5G0LLkaV/o05prpzKBQ==
-X-Received: by 2002:adf:e9cd:: with SMTP id l13mr3326725wrn.340.1596118367870; 
- Thu, 30 Jul 2020 07:12:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wzBIF3mB2xmF46OsHhJUcCq/p+2yfCrRkyersC8FDx0=;
+ b=A+U1pmyXEyI6gN0krRyadaGm/OjKlThcZZqDbpKzsUG65XdO8+cRPIvqnVR6n5yFFH
+ ALilKSzGKbffqpDLc4Fijmx2TyXOpLJeNQy8a36Q7XZSPf1PLaO1AKRUpO1bZSTcgf3s
+ 2URW+8IfB11Y9P7KMnA8UfWt+XpqkK5C6Pjma/OrnZVB6iuOqNBTnFfR4LpRaZHYNamQ
+ E/dWcgLMB2TXEwmxeeK7TM0Fpuaie0ogPo11DNpVIXzdJFy6uhHYEuWEMG3nMzLg9X46
+ o8CtTUElrqdVeTufto3m+TDUVG0c8Xq50mMXE3zphfK8jHT4sLRm8tX6ae6EKDHQikgX
+ RgiQ==
+X-Gm-Message-State: AOAM533aJbDsPcDA3lJvtcw8ilsTjiHYQD3227Rb8Wo6ysNGIxWIMvvT
+ O3wp+eS/BXwly0XlaHH+CMT88KtRibFk1vKRnnvma4dwd5TiTfJmt7msrvIhnoyUiZGJgz9TQ2x
+ WBP5UQGqneYc/nOw=
+X-Received: by 2002:a05:6000:12c1:: with SMTP id
+ l1mr2874734wrx.270.1596118373525; 
+ Thu, 30 Jul 2020 07:12:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwT6wwK4v6vGZ6RN86OQz0/t9EYwC/x3YdgMMj4ZYne65BxsiQuJlNPry4tJPmuVKaL5qu6/w==
+X-Received: by 2002:a05:6000:12c1:: with SMTP id
+ l1mr2874704wrx.270.1596118373300; 
+ Thu, 30 Jul 2020 07:12:53 -0700 (PDT)
 Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id x11sm9644402wrl.28.2020.07.30.07.12.46
+ by smtp.gmail.com with ESMTPSA id o10sm9536174wrw.79.2020.07.30.07.12.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 07:12:47 -0700 (PDT)
+ Thu, 30 Jul 2020 07:12:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1? v2 0/2] util/pagesize: Make qemu_real_host_page_size
- of type size_t
-Date: Thu, 30 Jul 2020 16:12:43 +0200
-Message-Id: <20200730141245.21739-1-philmd@redhat.com>
+Subject: [PATCH-for-5.1? v2 1/2] qemu/osdep: Make QEMU_VMALLOC_ALIGN unsigned
+ long
+Date: Thu, 30 Jul 2020 16:12:44 +0200
+Message-Id: <20200730141245.21739-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200730141245.21739-1-philmd@redhat.com>
+References: <20200730141245.21739-1-philmd@redhat.com>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:41:52
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -105,26 +112,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Kaige Li <likaige@loongson.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1:
-Make QEMU_VMALLOC_ALIGN unsigned in a previous patch
+QEMU_VMALLOC_ALIGN is sometimes expanded to signed type,
+other times to unsigned. Unify using unsigned.
 
-Philippe Mathieu-Daudé (2):
-  qemu/osdep: Make QEMU_VMALLOC_ALIGN unsigned long
-  util/pagesize: Make qemu_real_host_page_size of type size_t
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/qemu/osdep.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- include/exec/ram_addr.h  | 4 ++--
- include/qemu/osdep.h     | 6 +++---
- accel/kvm/kvm-all.c      | 3 ++-
- block/qcow2-cache.c      | 2 +-
- exec.c                   | 8 ++++----
- hw/ppc/spapr_pci.c       | 2 +-
- hw/virtio/virtio-mem.c   | 2 +-
- migration/migration.c    | 2 +-
- migration/postcopy-ram.c | 2 +-
- monitor/misc.c           | 2 +-
- util/pagesize.c          | 2 +-
- 11 files changed, 18 insertions(+), 17 deletions(-)
-
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 20872e793e..085df8d508 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -454,10 +454,10 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+    /* Use 2 MiB alignment so transparent hugepages can be used by KVM.
+       Valgrind does not support alignments larger than 1 MiB,
+       therefore we need special code which handles running on Valgrind. */
+-#  define QEMU_VMALLOC_ALIGN (512 * 4096)
++#  define QEMU_VMALLOC_ALIGN (512 * 4096UL)
+ #elif defined(__linux__) && defined(__s390x__)
+    /* Use 1 MiB (segment size) alignment so gmap can be used by KVM. */
+-#  define QEMU_VMALLOC_ALIGN (256 * 4096)
++#  define QEMU_VMALLOC_ALIGN (256 * 4096UL)
+ #elif defined(__linux__) && defined(__sparc__)
+ #include <sys/shm.h>
+ #  define QEMU_VMALLOC_ALIGN MAX(qemu_real_host_page_size, SHMLBA)
 -- 
 2.21.3
 
