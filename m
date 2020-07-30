@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D4A2335C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:43:27 +0200 (CEST)
-Received: from localhost ([::1]:40150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C1D2335C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:43:26 +0200 (CEST)
+Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AiM-0004IL-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
+	id 1k1AiL-0004IC-PR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:43:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Af9-0001Gg-0U
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:11 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:51862)
+ id 1k1AdD-00077X-4t
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:07 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:46092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Af6-0002UV-JE
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:40:06 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXoQC008019;
- Thu, 30 Jul 2020 15:40:01 GMT
+ id 1k1AdB-00026T-9R
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:06 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXQQp152168;
+ Thu, 30 Jul 2020 15:38:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=Q6iOoNWsJ7EJZ/SrWzpci9KqugByM0dkae4gvLigMYc=;
- b=0ZuMsyclxLoMaOJsBoTuEX47Rbk4rqe/Sf42FnCb55kX3MJDI7mFIC/mfQ46UScl4vFy
- jdzniQunw7hLOpIhK29xhzDFYe8W3Zz/VUWB0fA8fL0pAaCAwHVc2md9q91HWmIDsvch
- P7QE2dd8JbHtG2NsvDR3rAmA4MRWRG/mm3MFDAmWKu+00oJuvJ1AwUp1rVIpv2srp/3J
- vwyiSlQqyrMApoJD4T7oYmT15LyNfMosKMQbn6TS9iHckl2mtFrcnlSz2pEpoOG0lpww
- 9Mh2TiCcE3p5hIy889/ihUmXeFRepKlj6cj/vylASixogMHGGi0mTGOMswN+uXfTPeS1 UA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 32hu1jmftp-1
+ bh=b9FFmQWTlGqrcBgCjwNHHJqNdI4vPeyPId0JJEpNZUw=;
+ b=QW1mNHZLrKDI/TyJrxY+XfKmOOCm/o670xc2IK+Uk4v6pGxinNIgtDDfEUu5JbPsVewe
+ u5v1pkp1N5LmEQXSSaGRJKPa2SEoRkUDtMbISHOsufdivMrOZ79nGWzbPcF9DBw1moDO
+ e8589BC9YDDXt9AcsPJcDdhgPCOYcDT87IogVuLQKZts437c6sB2tWEsEclB8rtcxzj6
+ 5icyMQMR9dMGwO3WCSuHEOLd+sIlIBU1NQFQdvJDG65F/CL1KWwLOJS8v3U7+JamxpJQ
+ sZsGzZIPDUv3+ep1lJx78rrK7ivnOg+Uj/+FRfEESvNeOASDyJG6yf+VVfoNab/a6gb8 hg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 32hu1jvdy0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:40:01 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXToC130863;
- Thu, 30 Jul 2020 15:38:01 GMT
+ Thu, 30 Jul 2020 15:38:02 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFYjGo172130;
+ Thu, 30 Jul 2020 15:38:02 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 32hu5wwgqe-1
+ by userp3020.oracle.com with ESMTP id 32hu5x0w82-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jul 2020 15:38:01 +0000
+ Thu, 30 Jul 2020 15:38:02 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc0rN020352;
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFc04Q020369;
  Thu, 30 Jul 2020 15:38:00 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:37:59 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:38:00 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 09/32] savevm: prevent cprsave if memory is volatile
-Date: Thu, 30 Jul 2020 08:14:13 -0700
-Message-Id: <1596122076-341293-10-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 10/32] kvmclock: restore paused KVM clock
+Date: Thu, 30 Jul 2020 08:14:14 -0700
+Message-Id: <1596122076-341293-11-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999 mlxscore=0
- suspectscore=1 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=1 spamscore=0 mlxlogscore=999 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- clxscore=1015
- malwarescore=0 spamscore=0 suspectscore=1 bulkscore=0 priorityscore=1501
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=1 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:38:02
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,87 +110,53 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cprsave and cprload require that guest ram be backed by an externally
-visible shared file.  Check that in cprsave.
+If the VM is paused when the KVM clock is serialized to a file, record
+that the clock is valid, so the value will be reused rather than
+overwritten after cprload with a new call to KVM_GET_CLOCK here:
+
+kvmclock_vm_state_change()
+    if (running)
+        ...
+    else
+        if (s->clock_valid)
+            return;         <-- instead, return here
+
+        kvm_update_clock()
+           kvm_vm_ioctl(kvm_state, KVM_GET_CLOCK, &data)  <-- overwritten
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- exec.c                | 32 ++++++++++++++++++++++++++++++++
- include/exec/memory.h |  2 ++
- migration/savevm.c    |  4 ++++
- 3 files changed, 38 insertions(+)
+ hw/i386/kvm/clock.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/exec.c b/exec.c
-index 6f381f9..02160e0 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2726,6 +2726,38 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
-     return block->offset + offset;
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index 6428335..161991a 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -285,18 +285,22 @@ static int kvmclock_pre_save(void *opaque)
+     if (!s->runstate_paused) {
+         kvm_update_clock(s);
+     }
++    if (!runstate_is_running()) {
++        s->clock_valid = true;
++    }
+ 
+     return 0;
  }
  
-+/*
-+ * Return true if any memory regions are writable and not backed by shared
-+ * memory.  Exclude x86 option rom shadow "pc.rom" by name, even though it is
-+ * writable.
-+ */
-+bool qemu_ram_volatile(Error **errp)
-+{
-+    RAMBlock *block;
-+    MemoryRegion *mr;
-+    bool ret = false;
-+
-+    rcu_read_lock();
-+    QLIST_FOREACH_RCU(block, &ram_list.blocks, next) {
-+        mr = block->mr;
-+        if (mr &&
-+            memory_region_is_ram(mr) &&
-+            !memory_region_is_ram_device(mr) &&
-+            !memory_region_is_rom(mr) &&
-+            (!mr->name || strcmp(mr->name, "pc.rom")) &&
-+            (block->fd == -1 || !qemu_ram_is_shared(block))) {
-+
-+            error_setg(errp, "Memory region %s is volatile",
-+                       memory_region_name(mr));
-+            ret = true;
-+            break;
-+        }
-+    }
-+
-+    rcu_read_unlock();
-+    return ret;
-+}
-+
- /* Generate a debug exception if a watchpoint has been hit.  */
- void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                           MemTxAttrs attrs, int flags, uintptr_t ra)
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 307e527..6aafbb0 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2519,6 +2519,8 @@ bool ram_block_discard_is_disabled(void);
-  */
- bool ram_block_discard_is_required(void);
- 
-+bool qemu_ram_volatile(Error **errp);
-+
- #endif
- 
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 1509173..f101039 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2713,6 +2713,10 @@ void save_cpr_snapshot(const char *file, const char *mode, Error **errp)
-         return;
-     }
- 
-+    if (op == VMS_REBOOT && qemu_ram_volatile(errp)) {
-+        return;
-+    }
-+
-     f = qf_file_open(file, O_CREAT | O_WRONLY | O_TRUNC, 0600, errp);
-     if (!f) {
-         return;
+ static const VMStateDescription kvmclock_vmsd = {
+     .name = "kvmclock",
+-    .version_id = 1,
++    .version_id = 2,
+     .minimum_version_id = 1,
+     .pre_load = kvmclock_pre_load,
+     .pre_save = kvmclock_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64(clock, KVMClockState),
++        VMSTATE_BOOL_V(clock_valid, KVMClockState, 2),
+         VMSTATE_END_OF_LIST()
+     },
+     .subsections = (const VMStateDescription * []) {
 -- 
 1.8.3.1
 
