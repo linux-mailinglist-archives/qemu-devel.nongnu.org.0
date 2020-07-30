@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E222335C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:43:26 +0200 (CEST)
-Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81462335B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 17:40:42 +0200 (CEST)
+Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1AiL-0004Ea-1r
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
+	id 1k1Afg-0000N4-Fc
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 11:40:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Ad9-00074r-4i
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:03 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:49904)
+ id 1k1Ad8-00074l-Tt
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:02 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:36882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Ad6-00024e-Py
+ id 1k1Ad6-00024X-CL
  for qemu-devel@nongnu.org; Thu, 30 Jul 2020 11:38:02 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXQsH007512;
- Thu, 30 Jul 2020 15:37:55 GMT
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXgGG156161;
+ Thu, 30 Jul 2020 15:37:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2020-01-29;
- bh=sNMMA9cIERl8NT3gfsUyrYfWvtpuiyyK5Abgvz03fGY=;
- b=wbnwoCp/D9ZYWWiAUtBZsww3BskBY8+SZrH/Tpk8267ov8r0Ys5GHh4LUgoWcQsqC/SI
- NGckGsRHLtjV1ihvxV/Xssh/b7l+5z+wxGp7JQ9+2N1QxZoi/EquuYGJXT+Sm7V74k/C
- q284HD0AzUDGAoN2rb/L31N9GX85C19/sQsiUQNb0nCc8tSKyKyXbts9gSmB8hrFT+7m
- kfHWotd5PMXHQqvjTelhwkgap9uZEK23L7+oHweHAyz4w36e/jFWC8NBYRycue6Cg3wZ
- p8E1N/gtg+4ZJ/aqUF91NT0EhEIznU9wRye4r7Ed7xdA9ErhbYMd9kXj3WaVVyT0AmvY zw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 32hu1jmfd4-1
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=dijgsEynUNDBNs0kElXjXPqxdC+9Litu30NacqUmQDQ=;
+ b=hPC9FlqWro9zSXaKvl7HVagYvZ0cfce99DJvlCCTEXKsJgPIiQaqM4n/KqpK/Dq5HmPS
+ nD5u0ZWrFqno7CIMd8apHQR1n/sPo3oJT1H+4JIFnO9HLAlONxtMPg3hoo3UcHRxlSow
+ o3QxfeagyGranhO4S/ikXIacg614mrkGznQLLwBv96vwWVhLHkFbcE8wMPWB4x1VYnsp
+ jGfGQEyG2s0THtc5Ys6c6+cVZOIe263YMTX5ktyE+wc14674Vm+DvD/M5lRxhKHlaI02
+ 7FRj47BjxD7etHr+ruTwMctIsR7F1hafaClGHSJwHyjfzD3PBO4JY5ikVUW3eH2L5Bi6 iQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 32hu1jmebr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 Jul 2020 15:37:55 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFWZeI176178;
- Thu, 30 Jul 2020 15:37:54 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 32hu61a0uy-1
+ Thu, 30 Jul 2020 15:37:56 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06UFXSkf130680;
+ Thu, 30 Jul 2020 15:37:55 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 32hu5wwgj4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jul 2020 15:37:54 +0000
+ Thu, 30 Jul 2020 15:37:55 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06UFbq2u001703;
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06UFbr9c020268;
  Thu, 30 Jul 2020 15:37:53 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jul 2020 08:37:51 -0700
+ with ESMTP ; Thu, 30 Jul 2020 08:37:53 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V1 00/32] Live Update
-Date: Thu, 30 Jul 2020 08:14:04 -0700
-Message-Id: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V1 01/32] savevm: add vmstate handler iterators
+Date: Thu, 30 Jul 2020 08:14:05 -0700
+Message-Id: <1596122076-341293-2-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007300111
+In-Reply-To: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- clxscore=1011
- malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=3 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007300111
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:58
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9698
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=3 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007300111
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 11:37:57
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -63
 X-Spam_score: -6.4
@@ -107,211 +109,219 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve and extend the qemu functions that save and restore VM state so a
-guest may be suspended and resumed with minimal pause time.  qemu may be
-updated to a new version in between.
+Provide the SAVEVM_FOREACH and SAVEVM_FORALL macros to loop over all save
+VM state handlers.  The former will filter handlers based on the operation
+in the later patch "savevm: VM handlers mode mask".  The latter loops over
+all handlers.
 
-The first set of patches adds the cprsave and cprload commands to save and
-restore VM state, and allow the host kernel to be updated and rebooted in
-between.  The VM must create guest RAM in a persistent shared memory file,
-such as /dev/dax0.0 or persistant /dev/shm PKRAM as proposed in 
-https://lore.kernel.org/lkml/1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com/
+No functional change.
 
-cprsave stops the VCPUs and saves VM device state in a simple file, and
-thus supports any type of guest image and block device.  The caller must
-not modify the VM's block devices between cprsave and cprload.
+Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+---
+ migration/savevm.c | 57 ++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 38 insertions(+), 19 deletions(-)
 
-cprsave and cprload support guests with vfio devices if the caller first
-suspends the guest by issuing guest-suspend-ram to the qemu guest agent.
-The guest drivers suspend methods flush outstanding requests and re-
-initialize the devices, and thus there is no device state to save and
-restore.
-
-   1 savevm: add vmstate handler iterators
-   2 savevm: VM handlers mode mask
-   3 savevm: QMP command for cprsave
-   4 savevm: HMP Command for cprsave
-   5 savevm: QMP command for cprload
-   6 savevm: HMP Command for cprload
-   7 savevm: QMP command for cprinfo
-   8 savevm: HMP command for cprinfo
-   9 savevm: prevent cprsave if memory is volatile
-  10 kvmclock: restore paused KVM clock
-  11 cpu: disable ticks when suspended
-  12 vl: pause option
-  13 gdbstub: gdb support for suspended state
-
-The next patches add a restart method that eliminates the persistent memory
-constraint, and allows qemu to be updated across the restart, but does not
-allow host reboot.  Anonymous memory segments used by the guest are
-preserved across a re-exec of qemu, mapped at the same VA, via a proposed
-madvise(MADV_DOEXEC) option in the Linux kernel.  See
-https://lore.kernel.org/lkml/1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com/
-
-  14 savevm: VMS_RESTART and cprsave restart
-  15 vl: QEMU_START_FREEZE env var
-  16 oslib: add qemu_clr_cloexec
-  17 util: env var helpers
-  18 osdep: import MADV_DOEXEC
-  19 memory: ram_block_add cosmetic changes
-  20 vl: add helper to request re-exec
-  21 exec, memory: exec(3) to restart
-  22 char: qio_channel_socket_accept reuse fd
-  23 char: save/restore chardev socket fds
-  24 ui: save/restore vnc socket fds
-  25 char: save/restore chardev pty fds
-  26 monitor: save/restore QMP negotiation status
-  27 vhost: reset vhost devices upon cprsave
-  28 char: restore terminal on restart
-
-The next patches extend the restart method to save and restore vfio-pci
-state, eliminating the requirement for a guest agent.  The vfio container,
-group, and device descriptors are preserved across the qemu re-exec.
-
-  29 pci: export pci_update_mappings
-  30 vfio-pci: save and restore
-  31 vfio-pci: trace pci config
-  32 vfio-pci: improved tracing
-
-Here is an example of updating qemu from v4.2.0 to v4.2.1 using 
-"cprload restart".  The software update is performed while the guest is
-running to minimize downtime.
-
-window 1				| window 2
-					|
-# qemu-system-x86_64 ... 		|
-QEMU 4.2.0 monitor - type 'help' ...	|
-(qemu) info status			|
-VM status: running			|
-					| # yum update qemu
-(qemu) cprsave /tmp/qemu.sav restart	|
-QEMU 4.2.1 monitor - type 'help' ...	|
-(qemu) info status			|
-VM status: paused (prelaunch)		|
-(qemu) cprload /tmp/qemu.sav		|
-(qemu) info status			|
-VM status: running			|
-
-
-Here is an example of updating the host kernel using "cprload reboot"
-
-window 1					| window 2
-						|
-# qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
-QEMU 4.2.1 monitor - type 'help' ...		|
-(qemu) info status				|
-VM status: running				|
-						| # yum update kernel-uek
-(qemu) cprsave /tmp/qemu.sav restart		|
-						|
-# systemctl kexec				|
-kexec_core: Starting new kernel			|
-...						|
-						|
-# qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
-QEMU 4.2.1 monitor - type 'help' ...		|
-(qemu) info status				|
-VM status: paused (prelaunch)			|
-(qemu) cprload /tmp/qemu.sav			|
-(qemu) info status				|
-VM status: running				|
-
-
-Mark Kanda (5):
-  char: qio_channel_socket_accept reuse fd
-  char: save/restore chardev socket fds
-  ui: save/restore vnc socket fds
-  monitor: save/restore QMP negotiation status
-  vhost: reset vhost devices upon cprsave
-
-Steve Sistare (27):
-  savevm: add vmstate handler iterators
-  savevm: VM handlers mode mask
-  savevm: QMP command for cprsave
-  savevm: HMP Command for cprsave
-  savevm: QMP command for cprload
-  savevm: HMP Command for cprload
-  savevm: QMP command for cprinfo
-  savevm: HMP command for cprinfo
-  savevm: prevent cprsave if memory is volatile
-  kvmclock: restore paused KVM clock
-  cpu: disable ticks when suspended
-  vl: pause option
-  gdbstub: gdb support for suspended state
-  savevm: VMS_RESTART and cprsave restart
-  vl: QEMU_START_FREEZE env var
-  oslib: add qemu_clr_cloexec
-  util: env var helpers
-  osdep: import MADV_DOEXEC
-  memory: ram_block_add cosmetic changes
-  vl: add helper to request re-exec
-  exec, memory: exec(3) to restart
-  char: save/restore chardev pty fds
-  char: restore terminal on restart
-  pci: export pci_update_mappings
-  vfio-pci: save and restore
-  vfio-pci: trace pci config
-  vfio-pci: improved tracing
-
- MAINTAINERS                    |   7 ++
- accel/kvm/kvm-all.c            |   8 +-
- accel/kvm/trace-events         |   3 +-
- chardev/char-pty.c             |  38 +++++--
- chardev/char-socket.c          |  35 ++++++
- chardev/char-stdio.c           |   7 ++
- chardev/char.c                 |  16 +++
- exec.c                         |  88 +++++++++++++--
- gdbstub.c                      |  11 +-
- hmp-commands.hx                |  46 ++++++++
- hw/i386/kvm/clock.c            |   6 +-
- hw/pci/msix.c                  |   1 +
- hw/pci/pci.c                   |  17 +--
- hw/pci/trace-events            |   5 +-
- hw/vfio/common.c               | 115 ++++++++++++++++----
- hw/vfio/pci.c                  | 179 ++++++++++++++++++++++++++++++-
- hw/vfio/platform.c             |   2 +-
- hw/vfio/trace-events           |  11 +-
- hw/virtio/vhost.c              |  12 +++
- include/chardev/char.h         |   8 ++
- include/exec/memory.h          |   4 +
- include/hw/pci/pci.h           |   2 +
- include/hw/vfio/vfio-common.h  |   4 +-
- include/io/channel-socket.h    |   3 +-
- include/migration/register.h   |   3 +
- include/migration/vmstate.h    |  11 ++
- include/monitor/hmp.h          |   3 +
- include/qemu/cutils.h          |   1 +
- include/qemu/env.h             |  31 ++++++
- include/qemu/osdep.h           |   8 ++
- include/sysemu/sysemu.h        |  10 ++
- io/channel-socket.c            |  12 ++-
- io/net-listener.c              |   4 +-
- migration/block.c              |   1 +
- migration/migration.c          |   4 +-
- migration/ram.c                |   1 +
- migration/savevm.c             | 237 ++++++++++++++++++++++++++++++++++++-----
- migration/savevm.h             |   4 +-
- monitor/hmp-cmds.c             |  28 +++++
- monitor/qmp-cmds.c             |  16 +++
- monitor/qmp.c                  |  42 ++++++++
- qapi/migration.json            |  35 ++++++
- qapi/pragma.json               |   1 +
- qemu-options.hx                |   9 ++
- scsi/qemu-pr-helper.c          |   2 +-
- softmmu/vl.c                   |  65 ++++++++++-
- tests/qtest/tpm-emu.c          |   2 +-
- tests/test-char.c              |   2 +-
- tests/test-io-channel-socket.c |   4 +-
- trace-events                   |   2 +
- ui/vnc.c                       | 153 +++++++++++++++++++++-----
- util/Makefile.objs             |   2 +-
- util/env.c                     | 132 +++++++++++++++++++++++
- util/oslib-posix.c             |   9 ++
- util/oslib-win32.c             |   4 +
- 55 files changed, 1331 insertions(+), 135 deletions(-)
- create mode 100644 include/qemu/env.h
- create mode 100644 util/env.c
-
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 45c9dd9..a07fcad 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -266,6 +266,25 @@ static SaveState savevm_state = {
+     .global_section_id = 0,
+ };
+ 
++/*
++ * The FOREACH macros will filter handlers based on the current operation when
++ * additional conditions are added in a subsequent patch.
++ */
++
++#define SAVEVM_FOREACH(se, entry)                                    \
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry)                \
++
++#define SAVEVM_FOREACH_SAFE(se, entry, new_se)                       \
++    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se)   \
++
++/* The FORALL macros unconditionally loop over all handlers. */
++
++#define SAVEVM_FORALL(se, entry)                                     \
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry)
++
++#define SAVEVM_FORALL_SAFE(se, entry, new_se)                        \
++    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se)
++
+ static bool should_validate_capability(int capability)
+ {
+     assert(capability >= 0 && capability < MIGRATION_CAPABILITY__MAX);
+@@ -673,7 +692,7 @@ static uint32_t calculate_new_instance_id(const char *idstr)
+     SaveStateEntry *se;
+     uint32_t instance_id = 0;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FORALL(se, entry) {
+         if (strcmp(idstr, se->idstr) == 0
+             && instance_id <= se->instance_id) {
+             instance_id = se->instance_id + 1;
+@@ -689,7 +708,7 @@ static int calculate_compat_instance_id(const char *idstr)
+     SaveStateEntry *se;
+     int instance_id = 0;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FORALL(se, entry) {
+         if (!se->compat) {
+             continue;
+         }
+@@ -803,7 +822,7 @@ void unregister_savevm(VMStateIf *obj, const char *idstr, void *opaque)
+     }
+     pstrcat(id, sizeof(id), idstr);
+ 
+-    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
++    SAVEVM_FORALL_SAFE(se, entry, new_se) {
+         if (strcmp(se->idstr, id) == 0 && se->opaque == opaque) {
+             savevm_state_handler_remove(se);
+             g_free(se->compat);
+@@ -867,7 +886,7 @@ void vmstate_unregister(VMStateIf *obj, const VMStateDescription *vmsd,
+ {
+     SaveStateEntry *se, *new_se;
+ 
+-    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
++    SAVEVM_FORALL_SAFE(se, entry, new_se) {
+         if (se->vmsd == vmsd && se->opaque == opaque) {
+             savevm_state_handler_remove(se);
+             g_free(se->compat);
+@@ -1119,7 +1138,7 @@ bool qemu_savevm_state_blocked(Error **errp)
+ {
+     SaveStateEntry *se;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FORALL(se, entry) {
+         if (se->vmsd && se->vmsd->unmigratable) {
+             error_setg(errp, "State blocked by non-migratable device '%s'",
+                        se->idstr);
+@@ -1145,7 +1164,7 @@ bool qemu_savevm_state_guest_unplug_pending(void)
+ {
+     SaveStateEntry *se;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (se->vmsd && se->vmsd->dev_unplug_pending &&
+             se->vmsd->dev_unplug_pending(se->opaque)) {
+             return true;
+@@ -1162,7 +1181,7 @@ void qemu_savevm_state_setup(QEMUFile *f)
+     int ret;
+ 
+     trace_savevm_state_setup();
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops || !se->ops->save_setup) {
+             continue;
+         }
+@@ -1193,7 +1212,7 @@ int qemu_savevm_state_resume_prepare(MigrationState *s)
+ 
+     trace_savevm_state_resume_prepare();
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops || !se->ops->resume_prepare) {
+             continue;
+         }
+@@ -1223,7 +1242,7 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
+     int ret = 1;
+ 
+     trace_savevm_state_iterate();
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops || !se->ops->save_live_iterate) {
+             continue;
+         }
+@@ -1291,7 +1310,7 @@ void qemu_savevm_state_complete_postcopy(QEMUFile *f)
+     SaveStateEntry *se;
+     int ret;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops || !se->ops->save_live_complete_postcopy) {
+             continue;
+         }
+@@ -1324,7 +1343,7 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
+     SaveStateEntry *se;
+     int ret;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops ||
+             (in_postcopy && se->ops->has_postcopy &&
+              se->ops->has_postcopy(se->opaque)) ||
+@@ -1366,7 +1385,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+     vmdesc = qjson_new();
+     json_prop_int(vmdesc, "page_size", qemu_target_page_size());
+     json_start_array(vmdesc, "devices");
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+ 
+         if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
+             continue;
+@@ -1476,7 +1495,7 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
+     *res_postcopy_only = 0;
+ 
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops || !se->ops->save_live_pending) {
+             continue;
+         }
+@@ -1501,7 +1520,7 @@ void qemu_savevm_state_cleanup(void)
+     }
+ 
+     trace_savevm_state_cleanup();
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (se->ops && se->ops->save_cleanup) {
+             se->ops->save_cleanup(se->opaque);
+         }
+@@ -1580,7 +1599,7 @@ int qemu_save_device_state(QEMUFile *f)
+     }
+     cpu_synchronize_all_states();
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         int ret;
+ 
+         if (se->is_ram) {
+@@ -1612,7 +1631,7 @@ static SaveStateEntry *find_se(const char *idstr, uint32_t instance_id)
+ {
+     SaveStateEntry *se;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FORALL(se, entry) {
+         if (!strcmp(se->idstr, idstr) &&
+             (instance_id == se->instance_id ||
+              instance_id == se->alias_id))
+@@ -2334,7 +2353,7 @@ qemu_loadvm_section_part_end(QEMUFile *f, MigrationIncomingState *mis)
+     }
+ 
+     trace_qemu_loadvm_state_section_partend(section_id);
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (se->load_section_id == section_id) {
+             break;
+         }
+@@ -2400,7 +2419,7 @@ static int qemu_loadvm_state_setup(QEMUFile *f)
+     int ret;
+ 
+     trace_loadvm_state_setup();
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (!se->ops || !se->ops->load_setup) {
+             continue;
+         }
+@@ -2425,7 +2444,7 @@ void qemu_loadvm_state_cleanup(void)
+     SaveStateEntry *se;
+ 
+     trace_loadvm_state_cleanup();
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++    SAVEVM_FOREACH(se, entry) {
+         if (se->ops && se->ops->load_cleanup) {
+             se->ops->load_cleanup(se->opaque);
+         }
 -- 
 1.8.3.1
 
