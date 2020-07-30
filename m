@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B642332CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 15:17:04 +0200 (CEST)
-Received: from localhost ([::1]:38634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C582332DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 15:18:31 +0200 (CEST)
+Received: from localhost ([::1]:44090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k18Qh-0004yV-M6
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 09:17:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38468)
+	id 1k18S6-0007EJ-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 09:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k18PC-0003Xe-Pi
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 09:15:30 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56691
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k18Qp-00066T-7E
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 09:17:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30158
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k18PB-0004lV-1y
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 09:15:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k18Qn-0004vn-8g
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 09:17:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596114928;
+ s=mimecast20190719; t=1596115028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SeZf0aDOryz8oEIwi7cYGFtK46KvQ1YiUCO/5R0RNio=;
- b=e9+JI5p10aWdErLT+9tXxDjRmjj8UqZEb+Xe8G25ZYf5/VySLRZv6SwUgNrqLJ8jNvKtUT
- woax80jk3R0vhgu2LUM7wUjhDkJvGtjBFDFK48HPpP0ulAxDZu2X4h3et5qW5fx5jOvdGF
- BpRTq+C2mPTzKH28+CvMTopm4WURU0w=
+ bh=OpLzgsFkNX8PZg8qnS3MlSi1x1A+9qtPsiXmj3np3Zg=;
+ b=OJTtgwZVnLDR5Omb+oCbfJdNPA9hasjgJMpb7IzDQi/ZaH7gjHi5hBdPBeCTelFm/v96H4
+ 3GLkMr9YqxyzsWwtJ56Xd5VuH9N2jGSZTPpQbCpSvJe9qhwOw7js0BIJb76PqI8Aw8/LHS
+ Og75kvw74EBcjaFyIhchNWxniIRHEY8=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-py_4m1gYPFeQsNp40jAqQQ-1; Thu, 30 Jul 2020 09:15:24 -0400
-X-MC-Unique: py_4m1gYPFeQsNp40jAqQQ-1
-Received: by mail-wm1-f71.google.com with SMTP id h205so2235403wmf.0
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 06:15:24 -0700 (PDT)
+ us-mta-392-HdOjaqxqN4C3G9tjpAyo9w-1; Thu, 30 Jul 2020 09:17:06 -0400
+X-MC-Unique: HdOjaqxqN4C3G9tjpAyo9w-1
+Received: by mail-wm1-f71.google.com with SMTP id f74so2236023wmf.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 06:17:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=SeZf0aDOryz8oEIwi7cYGFtK46KvQ1YiUCO/5R0RNio=;
- b=LhaFLvPxIhk7DgSvST30KrekR7dNwM1DjhAXkeuEgEkt3g0909zYmTcL2o+EDyUiM3
- JoUiTEX+DqH3XEXxVl/U+YD8vVSNQaa1xOd1bYoLzj6B9rgwu6WNC7oQIe7qHDOr0z7R
- alkrrmsBzLsrJ1xPbsLI6aWMFbQRgDO0pQtaLCDa/51+WflfaCgZJ0gUgVt+eXngiIyw
- ZZskST8NN6jMDbchvUNyhdJKbMgu6mogIK40LDHX1ssstIYQHxoq0N3JEBh7A8Q2IOSw
- ZFZWD1q+44bH/ptIwpRBp7RB0wZ2dy3+6iUzD9hT726iwpyBGlDT4rxVf2vFmCHkrCIE
- 7nmw==
-X-Gm-Message-State: AOAM531jzHqr/DrFlwOyzOqlmzpllt9qZNrlbM2FTnQJOUrm4RMwejH8
- L04PFbiFfFptBMl9WfDPKDl4w9fOGCcl9HCHHPmOhC2X8WJhdQSKtZ/0k8SmKiKgqPdHQjo6aDd
- 5gaAsJ95sU7nM42c=
-X-Received: by 2002:a1c:ba83:: with SMTP id
- k125mr13483069wmf.160.1596114923380; 
- Thu, 30 Jul 2020 06:15:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFlq0J/Y9ZQkH6DmJ5wvl+qX49N5AfiaRjz+i90teWcKn20Q2FwaCvJPJ2x3rC3TEQts6LUw==
-X-Received: by 2002:a1c:ba83:: with SMTP id
- k125mr13483051wmf.160.1596114923109; 
- Thu, 30 Jul 2020 06:15:23 -0700 (PDT)
+ bh=OpLzgsFkNX8PZg8qnS3MlSi1x1A+9qtPsiXmj3np3Zg=;
+ b=NQrF1saTQVQ1mLIhd62Z0WIeMUbY8fE4ENtI2mfze0nT53I+inVkruyVyCHOu7m4p7
+ FgxmABMR8eDPgp/CJYwlpQMXpM797BM7N5tXMfYpC7JWQw+cqscWJBaOoXDvOVZ7QNlX
+ yNpGMrQAQEg/ClLNj3FTm/CIGHzNUHfNvhyKA5adCzMvSkNoxCIOt5SvYIpVnSuSa8Fm
+ lq01hFbxOCUJTE9UHDGo8ru7w1FWIVMohaggdI4F03HS1SMFVwfz0BJIHSDLXVHlJFAi
+ DMnYnX5ppK8gdX55dlqTlI9wEoqTUQLlrami2qYvT/cRHvOpwYK842c0OK9lTY1cqu2d
+ R7IA==
+X-Gm-Message-State: AOAM530kVLQDjEQheymNoMrCy4j6ltz5HJ8SYrVQtjKBUdX1TZhik/b6
+ 79Xlnimazx3M929pxuXUwbvd9cRCft/D0Dd+8ZB8zI4zszf2UytnhCgtvUelH+4Tt66KDB/ODSs
+ CB5GbJD/VFiBtgMM=
+X-Received: by 2002:a5d:4109:: with SMTP id l9mr2882454wrp.398.1596115025256; 
+ Thu, 30 Jul 2020 06:17:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWiSIJMpjeFdE4iiIp0tol8FhDu4ZB/MdzzZAAeys+9wYcPPUwxGFa8l0hcRJdJMKJftbpkg==
+X-Received: by 2002:a5d:4109:: with SMTP id l9mr2882432wrp.398.1596115025043; 
+ Thu, 30 Jul 2020 06:17:05 -0700 (PDT)
 Received: from [192.168.1.39] (214.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id z6sm10069322wrs.36.2020.07.30.06.15.21
+ by smtp.gmail.com with ESMTPSA id h199sm9111133wme.42.2020.07.30.06.17.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 06:15:22 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] virtio-mem: Change PRIx32 to PRIXPTR to fix
- compile error.
+ Thu, 30 Jul 2020 06:17:04 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] target/arm: Fix compile error.
 To: Kaige Li <likaige@loongson.cn>, "Michael S. Tsirkin" <mst@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <1596110248-7366-1-git-send-email-likaige@loongson.cn>
+ <1596110248-7366-2-git-send-email-likaige@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -91,20 +89,20 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <601c098c-0f39-92be-8800-99f5fe99399f@redhat.com>
-Date: Thu, 30 Jul 2020 15:15:21 +0200
+Message-ID: <43e912f0-4383-93c0-ccd7-204c7eaf9850@redhat.com>
+Date: Thu, 30 Jul 2020 15:17:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1596110248-7366-1-git-send-email-likaige@loongson.cn>
+In-Reply-To: <1596110248-7366-2-git-send-email-likaige@loongson.cn>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 03:41:52
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 23:51:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -112,7 +110,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,43 +137,44 @@ On 7/30/20 1:57 PM, Kaige Li wrote:
 > ./configure
 > make
 
-^ this timeless description is pointless (think at a developer
-who read this in 2 weeks, 3 months, 1 year).
+Again, timeless information is not useful.
 
 > 
 > There is error log:
 > 
-> /home/LiKaige/qemu/hw/virtio/virtio-mem.c: In function ‘virtio_mem_set_block_size’:
-> /home/LiKaige/qemu/hw/virtio/virtio-mem.c:756:9: error: format ‘%x’ expects argument of type ‘unsigned int’, but argument 7 has type ‘uintptr_t’ [-Werror=format=]
-
-What compiler are you using? That is the relevant information to
-include.
-
->          error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
->          ^
+> /home/LiKaige/qemu/target/arm/translate-a64.c: In function ‘disas_ldst’:
+> /home/LiKaige/qemu/target/arm/translate-a64.c:3392:5: error: ‘fn’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>      fn(cpu_reg(s, rt), clean_addr, tcg_rs, get_mem_index(s),
+>      ^
+> /home/LiKaige/qemu/target/arm/translate-a64.c:3318:22: note: ‘fn’ was declared here
+>      AtomicThreeOpFn *fn;
+>                       ^
 > cc1: all warnings being treated as errors
-> /home/LiKaige/qemu/rules.mak:69: recipe for target 'hw/virtio/virtio-mem.o' failed
+
+Again, what compiler / version are you using? My guess is you are
+using an old GCC, and I wonder if it is still supported.
+
 > 
-> So, change PRIx32 to PRIXPTR to fix this.
+> So, add an initiallization value NULL for fn to fix this.
 > 
 > Signed-off-by: Kaige Li <likaige@loongson.cn>
 > ---
->  hw/virtio/virtio-mem.c | 2 +-
+>  target/arm/translate-a64.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index c12e9f7..3dcaf9a 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -753,7 +753,7 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
->      }
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index 8c07649..c98dfb1 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -3315,7 +3315,7 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+>      bool r = extract32(insn, 22, 1);
+>      bool a = extract32(insn, 23, 1);
+>      TCGv_i64 tcg_rs, clean_addr;
+> -    AtomicThreeOpFn *fn;
+> +    AtomicThreeOpFn *fn = NULL;
 >  
->      if (value < VIRTIO_MEM_MIN_BLOCK_SIZE) {
-> -        error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
-> +        error_setg(errp, "'%s' property has to be at least 0x%" PRIXPTR "\n", name,
->                     VIRTIO_MEM_MIN_BLOCK_SIZE);
->          return;
->      } else if (!is_power_of_2(value)) {
+>      if (is_vector || !dc_isar_feature(aa64_atomics, s)) {
+>          unallocated_encoding(s);
 > 
 
 
