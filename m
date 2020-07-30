@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D14232A4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 05:18:38 +0200 (CEST)
-Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BF7232AA2
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jul 2020 05:54:52 +0200 (CEST)
+Received: from localhost ([::1]:38858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0z5Z-0005KQ-5l
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 23:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56110)
+	id 1k0zed-0003IK-8W
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jul 2020 23:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1k0z4f-0004u6-IB
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 23:17:41 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:36819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1k0z4d-0007l3-Tz
- for qemu-devel@nongnu.org; Wed, 29 Jul 2020 23:17:41 -0400
-Received: by mail-il1-x144.google.com with SMTP id z3so11073573ilh.3
- for <qemu-devel@nongnu.org>; Wed, 29 Jul 2020 20:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N5LVw5UVchie848gzodbV6sJN2QWGzfFMkcMmgoXBRg=;
- b=PeaYeefCFOkCs/b4Re3KYdXdqnpU1vS+LpROD9axTLuNPAhaOFtaFzGVw7iNPGhhd+
- XhJHmVRhmyBDjpiO3ju/IjoRXTPJo5hHl7c8bHXXLgv348MHzsyIoG9y+IDZywQpeVLq
- gvftpMIkuIpp4JmMXnlDFjGDNjPuzT6xBUFj8usfSBOOYT2Yj2JyaiAZR1RCOCDiYac0
- LUdgZI0M65Hte8HACz51XTTvkOEaR4YLbpXzD21OS8o3y8/pwvew5IwH9KN5EkhL6Msw
- GOdWfCOAAF1uZqkh1WujmaaBgSuPpFvSjVIVQM2+vf+QPcojDTJzpYTILnafh8Th7vf1
- RyHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N5LVw5UVchie848gzodbV6sJN2QWGzfFMkcMmgoXBRg=;
- b=WHhecG1+9RxlSupkQpZdHDIPGLdeAnCUNAh+YgxQGzRMzw7wet4Kg6Ml7IsAgNA1G6
- pMdRa8dkyFGfpIUCitAJ4wFfZ0G9tzCjrHbLnHQmCaP1RXAcHpaM8sjeMx8Thfp4ZlgW
- a8BsjPhKxlxzHqCqtqB+RRppnuCXgZPXBwhmKCJ9vGkTTmrlEozpT8zlitVXF5P1uwB6
- DuwDoKzHunElYK55e33Kw3GqUxpUf7wQxWZcRHAQCelxd5/AYy+AfyGNppQmJfSziwwq
- sUD7J0p1bC7rGGnh7UveFLbcCE+0s+6TD6+d9cnB0j2fJl+IPe7EMVW8PL6Qw4tRiM/h
- yjbQ==
-X-Gm-Message-State: AOAM532dZIHkirIONW9ljayA5P+Ft8F4R5ovC+JYIeHAYqRRwB1d4MNF
- 3JNZgzikXkVidtwatTWRwX+cYze8vaa3LBpQSGI=
-X-Google-Smtp-Source: ABdhPJxu8LHp+mNv/0+sxjVrGlRk/UcxDZES6OqyWEHY590QOkYyrB3C/sHOirbtUEddm///vL2yKZG5/hgq45oCbqQ=
-X-Received: by 2002:a92:9892:: with SMTP id a18mr34946042ill.60.1596079058535; 
- Wed, 29 Jul 2020 20:17:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <likaige@loongson.cn>)
+ id 1k0xoG-0004fG-Rw; Wed, 29 Jul 2020 21:56:40 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:38550 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <likaige@loongson.cn>)
+ id 1k0xoE-0005kz-Hp; Wed, 29 Jul 2020 21:56:40 -0400
+Received: from bogon.localdomain (unknown [113.200.148.30])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxmMTHKCJffFACAA--.233S2;
+ Thu, 30 Jul 2020 09:56:24 +0800 (CST)
+From: Kaige Li <likaige@loongson.cn>
+To: David Hildenbrand <david@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH 1/2] virtio-mem: Change PRIx32 to PRIXPTR to fix compile error.
+Date: Thu, 30 Jul 2020 09:56:21 +0800
+Message-Id: <1596074182-4920-1-git-send-email-likaige@loongson.cn>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-References: <CAFubqFvm=k0FyELUd=rYK7CO=Dxns-jVxy4UGqfGfXPFNT1cFw@mail.gmail.com>
- <20200729101851-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200729101851-mutt-send-email-mst@kernel.org>
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Wed, 29 Jul 2020 21:17:27 -0600
-Message-ID: <CAFubqFtJLpp0eceOKXkhuTd6Rb2xviymx6hr-qkTc9Bw1ffWtw@mail.gmail.com>
-Subject: Re: Adding VHOST_USER_PROTOCOL_F_CONFIG_MEM_SLOTS to 5.1 release notes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxmMTHKCJffFACAA--.233S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw4ktr4Dtw4rWF4UJw1fZwb_yoW8GFyDpa
+ n7Jrn5uw4UZr17Aan5XFyru34UCwn3GrnrtF4Iq34kWFs8u3sFgr4qkrnYgFW7Zr98Zw43
+ uryfWrWYq3Z8Zw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+ Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij
+ 64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+ c7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbrMaUUUUUU==
+X-CM-SenderInfo: 5olntxtjh6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=likaige@loongson.cn;
+ helo=loongson.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/29 21:56:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 29 Jul 2020 23:53:44 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +70,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Kaige Li <likaige@loongson.cn>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-How about something like:
-"A new feature, VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, has been
-added to the vhost-user protocol which, when negotiated, changes the
-way QEMU transmit memory regions to backend devices. Instead of
-sending all regions in a single VHOST_USER_SET_MEM_TABLE message, QEMU
-will send supporting backends individual VHOST_USER_ADD_MEM_REG and
-VHOST_USER_REM_MEM_REG messages to update the devices memory tables.
-VMs with vhost-user device backends which support this feature will
-not be subject to the max RAM slots limit of 8 and will be able to
-hot-add memory as many times as the target platform supports. Backends
-which do not support VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS are
-unaffected."
+When I compile qemu with such as:
 
-I don't have permission to edit the wiki. How can I get permission? Or
-can someone post it for me?
+git clone https://git.qemu.org/git/qemu.git
+cd qemu
+git submodule init
+git submodule update --recursive
+./configure
+make
 
-On Wed, Jul 29, 2020 at 8:19 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Jul 28, 2020 at 09:16:10PM -0600, Raphael Norwitz wrote:
-> > Hi mst,
-> >
-> > Looking at the current changelog
-> > https://wiki.qemu.org/ChangeLog/5.1#virtio, I don't see any mention of
-> > the VHOST_USER_PROTOCOL_F_CONFIG_MEM_SLOTS protocol feature. It is a
-> > user visible change so shouldn't we add a note?
-> >
-> > Thanks,
-> > Raphael
->
-> I didn't look at updating the changelog yet.
-> Would be great if you could write up new vhost user things.
->
-> --
-> MST
->
+There is error log:
+
+/home/LiKaige/qemu/hw/virtio/virtio-mem.c: In function ‘virtio_mem_set_block_size’:
+/home/LiKaige/qemu/hw/virtio/virtio-mem.c:756:9: error: format ‘%x’ expects argument of type ‘unsigned int’, but argument 7 has type ‘uintptr_t’ [-Werror=format=]
+         error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
+         ^
+cc1: all warnings being treated as errors
+/home/LiKaige/qemu/rules.mak:69: recipe for target 'hw/virtio/virtio-mem.o' failed
+
+So, change PRIx32 to PRIXPTR to fix this.
+
+Signed-off-by: Kaige Li <likaige@loongson.cn>
+---
+ hw/virtio/virtio-mem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index c12e9f7..3dcaf9a 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -753,7 +753,7 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
+     }
+ 
+     if (value < VIRTIO_MEM_MIN_BLOCK_SIZE) {
+-        error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
++        error_setg(errp, "'%s' property has to be at least 0x%" PRIXPTR "\n", name,
+                    VIRTIO_MEM_MIN_BLOCK_SIZE);
+         return;
+     } else if (!is_power_of_2(value)) {
+-- 
+2.1.0
+
 
