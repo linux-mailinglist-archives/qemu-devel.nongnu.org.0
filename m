@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E18F233DD4
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 05:53:17 +0200 (CEST)
-Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBA6233EA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 07:23:52 +0200 (CEST)
+Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1M6e-0004HX-2B
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 23:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41006)
+	id 1k1NWJ-00058x-6z
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 01:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <likaige@loongson.cn>)
- id 1k1M5l-0003m6-OF; Thu, 30 Jul 2020 23:52:21 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34858 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <likaige@loongson.cn>)
- id 1k1M5i-0004vt-TA; Thu, 30 Jul 2020 23:52:21 -0400
-Received: from [10.130.0.69] (unknown [113.200.148.30])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX99ilSNf8dQCAA--.603S3;
- Fri, 31 Jul 2020 11:52:03 +0800 (CST)
-Subject: Re: [PATCH v2 1/2] virtio-mem: Change PRIx32 to PRIXPTR to fix
- compile error.
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <1596110248-7366-1-git-send-email-likaige@loongson.cn>
- <601c098c-0f39-92be-8800-99f5fe99399f@redhat.com>
-From: Kaige Li <likaige@loongson.cn>
-Message-ID: <10b4681c-a129-3735-0395-7439b7d48742@loongson.cn>
-Date: Fri, 31 Jul 2020 11:52:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k1NVR-0004bS-Gg; Fri, 31 Jul 2020 01:22:58 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:36387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k1NVO-0007uN-KW; Fri, 31 Jul 2020 01:22:57 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BHwdz1pX7z9sT6; Fri, 31 Jul 2020 15:22:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1596172967;
+ bh=M4gcUv3vDrXwSxP+7v6sh5RHzwlkiiBvOK9SktiDxsU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oogN39PqbDsyfyki4KeEk0k2S7yJ7u52gH5oSbq43cZif5DbENvmexZFbGeK37FCT
+ mTUD2MznPZvMxOMlwtuTTQEKWlOOGJGlmNv/I7Qhvz2tHtSDLDThgwJinxKdyqs/i5
+ Vg+K9R1pbQr0n/KLP22/qU6RF6n/kwUjduDGKFpI=
+Date: Fri, 31 Jul 2020 13:22:14 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-5.2] spapr: Avoid some integer conversions in
+ spapr_phb_realize()
+Message-ID: <20200731032214.GC12398@yekko.fritz.box>
+References: <159592765385.99837.12059368746532345109.stgit@bahia.lan>
+ <20200729025441.GJ84173@umbus.fritz.box>
+ <20200730185518.774172c9@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <601c098c-0f39-92be-8800-99f5fe99399f@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxX99ilSNf8dQCAA--.603S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7urW8JrWxGw4rJFW8KF13XFb_yoW8CryDpw
- 4xJ3ZYkw4UJr13Aan2q3WrWa4DCwn3GrnrtF4aqr15WFn8ur92gr4jkr4rWFW3Zr1DZw43
- uryIgryYq3Z8ZaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkmb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
- C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
- MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
- 0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
- wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
- W8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcpVbUUUUU
-X-CM-SenderInfo: 5olntxtjh6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=likaige@loongson.cn;
- helo=loongson.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 23:52:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4jXrM3lyYWu4nBt5"
+Content-Disposition: inline
+In-Reply-To: <20200730185518.774172c9@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,59 +63,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--4jXrM3lyYWu4nBt5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 07/30/2020 09:15 PM, Philippe Mathieu-Daudé wrote:
-> On 7/30/20 1:57 PM, Kaige Li wrote:
->> When I compile qemu with such as:
->>
->> git clone https://git.qemu.org/git/qemu.git
->> cd qemu
->> git submodule init
->> git submodule update --recursive
->> ./configure
->> make
-> ^ this timeless description is pointless (think at a developer
-> who read this in 2 weeks, 3 months, 1 year).
-Thanks for your suggestions, I will delete it.
->
->> There is error log:
->>
->> /home/LiKaige/qemu/hw/virtio/virtio-mem.c: In function ‘virtio_mem_set_block_size’:
->> /home/LiKaige/qemu/hw/virtio/virtio-mem.c:756:9: error: format ‘%x’ expects argument of type ‘unsigned int’, but argument 7 has type ‘uintptr_t’ [-Werror=format=]
-> What compiler are you using? That is the relevant information to
-> include.
-Gcc version is 4.9.4.
->
->>           error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
->>           ^
->> cc1: all warnings being treated as errors
->> /home/LiKaige/qemu/rules.mak:69: recipe for target 'hw/virtio/virtio-mem.o' failed
->>
->> So, change PRIx32 to PRIXPTR to fix this.
->>
->> Signed-off-by: Kaige Li <likaige@loongson.cn>
->> ---
->>   hw/virtio/virtio-mem.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
->> index c12e9f7..3dcaf9a 100644
->> --- a/hw/virtio/virtio-mem.c
->> +++ b/hw/virtio/virtio-mem.c
->> @@ -753,7 +753,7 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
->>       }
->>   
->>       if (value < VIRTIO_MEM_MIN_BLOCK_SIZE) {
->> -        error_setg(errp, "'%s' property has to be at least 0x%" PRIx32, name,
->> +        error_setg(errp, "'%s' property has to be at least 0x%" PRIXPTR "\n", name,
->>                      VIRTIO_MEM_MIN_BLOCK_SIZE);
->>           return;
->>       } else if (!is_power_of_2(value)) {
->>
+On Thu, Jul 30, 2020 at 06:55:18PM +0200, Greg Kurz wrote:
+> On Wed, 29 Jul 2020 12:54:41 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Tue, Jul 28, 2020 at 11:14:13AM +0200, Greg Kurz wrote:
+> > > Without this patch, the irq number gets converted uselessly from int
+> > > to int32_t, back and forth.
+> > >=20
+> > > This doesn't fix an actual issue, it's just to make the code neater.
+> > >=20
+> > > Suggested-by: Markus Armbruster <armbru@redhat.com>
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > Applied to ppc-for-5.2, thanks.
+> >=20
+>=20
+> Daniel reported a crash that happens systematically on some systems that
+> don't support KVM XIVE (aka. bostons) since the patch "spapr: Simplify
+> error handling in spapr_phb_realize()" landed in the ppc-for-5.2 tree.
+>=20
+> The patch is good but it uncovered an issue we have in the KVM XIVE code
+> in QEMU (basically we should ignore the absence of KVM XIVE device when
+> claiming IRQ numbers).
+>=20
+> The fix is trivial but to avoid breaking bisect, it should rather go
+> before the patch mentioned above. Also I want to consolidate the error
+> handling a bit more so, in the meantime, for others to be able to use
+> the ppc-for-5.2 branch, I suggest you simply drop:
+>=20
+> spapr: Simplify error handling in spapr_phb_realize()
+>=20
+> and the current patch as well since it's a follow-up.
+>=20
+> I'll send a new patchset later.
 
+Ok, done, I've removed both those patches from ppc-for-5.2, resend the
+new version whenever you're ready.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--4jXrM3lyYWu4nBt5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8jjmUACgkQbDjKyiDZ
+s5IJig//YK3cS7kPF/RcQFZ0YOqsiXg1Z6qKvArcv0n7wjVqO6O5W7RQgNrpk/42
+U7PSPsBWMswXtYCySRwsZ+L2a6LdD8onjcqSlj0YCSTfp2E8xyK8osVE99neFaGq
+Qj3QYSxDgFmQYBOWozQ2FI+tZoMCpADFp74Vag0UKo1WithnkNw4PZKx/JafsMIC
+Lgs/gz2Ex9JpFMaBlRbUvvR2A+jqFq4Bguce/bWJAntiH6r5nPITsZji7f66AxXD
+V8LeHlAYPli1q2O3Xdl1XPZTd0ZCW9nXzwrmLdvBxu6J8EOEifi3tN5Ygp2H6Vw9
+Qb1WwPMWazYom8CeEJ2yxtyzIkqtfVVPvIiaqR2Y2U/PGjmbcXX5fBjb5AKvkKot
+k1tXeh6Ham6nUliJ5lY8eKp5YcoXihTp0KHyf2F9QUv0L5IqVe8vRN5ds7YX6bzd
+BwFAkEw6igoKUyelPSW+SQED5KzXG5x/ZjKEB0nZDW1QQoegHFCguBxyNqu1p9j/
+V3yZAOQC2+iLNNYt+Kvg/S11MWIxjnLWIDnI+v7fTru9H2I/ARizxPNF4hMFwoSk
+QiP7xwUTKUiztJ8URCyY5Nq+jTqJsUqrUyeKNz3Gr9/RlwbVCGFbTbeJheoHDc7P
+CHr4xcq9ypCEV4qg+ZDN5ncByMIH9MaG2REGf9SCcvAnw2KgPJA=
+=Xnbl
+-----END PGP SIGNATURE-----
+
+--4jXrM3lyYWu4nBt5--
 
