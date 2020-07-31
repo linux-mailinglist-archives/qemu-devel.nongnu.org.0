@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42296233E9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 07:10:41 +0200 (CEST)
-Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B2A233F36
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 08:42:29 +0200 (CEST)
+Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1NJX-0002iC-Hv
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 01:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49582)
+	id 1k1Ok8-00076K-Ml
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 02:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1NFc-0002BL-14
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 01:06:36 -0400
-Received: from mout.web.de ([212.227.17.11]:42735)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1NFa-0005zC-4q
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 01:06:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596171981;
- bh=+HpgZT0db2KwCA/cG8ID80eu7YViB6cgJ/ExPSqDfQ4=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=ZuzxNXEDDzPTqoIQnGtSi3NrS+jDWzf56wppOapVRRNeDM8LDQdXr805QQYBwSAHb
- DantqPAgZARs8DQTAxnlwcOqi+ruuX3stLscKsfuZqX23G372MDosggARu0njPYPvO
- ti0gQVHWgN+O7df3W/6V0PIFs/K/5jYx/k82vTf0=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MoecF-1kXx3M1g8f-00ogxM; Fri, 31
- Jul 2020 07:06:21 +0200
-Date: Fri, 31 Jul 2020 07:06:04 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] colo-compare: Remove superfluous NULL-pointer checks for
- s->iothread
-Message-ID: <20200731070604.0c981f41@luklap>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k1OjO-0006gu-D8
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 02:41:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k1OjM-0000Iw-BC
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 02:41:26 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k1OjI-0002dd-K1
+ for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 06:41:20 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 960DB2E8105
+ for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 06:41:20 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/h36TNXkZlwjXUQPaZHiUnKL";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:cCLqMmN0rGoBjfJsVABXnmzYwbaioEBwfSp41Vk/OJsUED3TRAZ
- pC1MUWo+L+IE2Hg9tRU7zJ1HMws4D8wLiUypM8YoEv55D4u6nKu5rmGtdrl4HWr1KMVkGwh
- wTGZ/hCi2J3QincuYU4mbVq1FNA64ePUWSSv4Foj71kLi3Iz06Q1VYJb4AsxdJrhbo/PXTJ
- BRSd2UuL+4v3hnJWf22kw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gCQBrjvsl8g=:z8mH4c7VQgYEQltfmLfAU0
- xD1XOVeb6NP7YN2ZsQ7BzQWg0OMlJlX16+wnBkFjh4XQAEFwXADobMlPY+1moj/RuSCNq6Hv4
- s3PlA9FDyDFzRoPvpenzIbk55fzwHL1dYyfL3getWu9VqBPBbe9gdv+gGMRhXD/WQjlTAiQ5u
- RnMHa4V9nZYS6qPFQ/LEvC0NCOKk/dFSt7aoIGv4cOFKKrsQsrBM8XXuKy6CUtIjJtSiV7lVb
- SafcAXl8A7i0NA1NeQUKjRf/i0RanWz5yMHJR2BGsHrP6fx9aQ/uIS+5umUNTJU/u/EqE3+Nt
- lI4APsE3rfEecaaIPvriLKduKS+oWnxbbWu4FxpB88OUZSF620xX5+fZN57AEJfuDqHfkLd8j
- AjqxmB3vTMdlJ7Lvq+OQkSkuyRFzIew/rC/REyNrksd0xW/JIANf6nHUM7+q0RCBoce7ZWgUX
- ayj90NLxrMVi3oXS19FWkDbL64cQ1M6SO7fInBKgNkWtw8AVjN6hTC3bSXMqrByrpYI92w5Mm
- tPjBoy7oLE5T36Ce8dzgiN2jpvZIoolK4MhF9eyZOC5jbC6QtA3KqmwXrM2Umr9K20HnY/ZJX
- OXCBdawNRLlTqSs7FhOL2gFQZ6++mXj6JnHfXlDy7UEl/r7RD8fXiAW0fR/3LA5nB32mPAPde
- 4m93Yf8BGZ/qiidQuGzG6r/Iovb9a2fNgnQDY/T375xIeBjpITF9hO9FFh+8TRaQ+FlOBGwNP
- +rTudtEumwy1WRTkhP7honPmXaBU9d90iwIt8jLd7CZbZAtw4ONmMVSkjAl++AQns/JUIr/7k
- koms6il3vh4AGX4eL7p9bb2UjP4nTk2R1s4P89gglq4P17tIbZsveuka1p148QDtLdOvzM+Lp
- IUwVxd7Pj14JsJMVwfGwWfUERTBwzpt2CKcTGYHtPbNBrfwaQS5lBencMATuIvTZIC4VoFrKS
- 6+mP2lfD7EzqyxV2sWJ5Egm0dQem7T0ArstAwSU7Au9yck/mxXsxDIDAf+CiMbUly6W9lRwuS
- mHS5LfvcCoRWBbRQZF6EnUuW7eFxLeTj5RiHtyPnpCCssw/skt9m4VawgUzwfxPXnJ/5LwlWG
- TE+XHTGJVkQXLBS02l1+VV/cmJCFHeCexcR2DdA1Ltsr9djBoMoR6kvrEFhKubxVIAylspPm3
- GuYrnxLvwsy4I0Z44eBTDXe9M7cdOFuRUDFyZh26QoxXMAIxt7xeScZjWo/vOQviYCeaAH7eg
- vutfsRajXlEu4JWo/S7q0kdUplHLB/QWYSNF3wg==
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 01:06:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 31 Jul 2020 06:32:31 -0000
+From: Naresh GS <1888971@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek nareshgs
+X-Launchpad-Bug-Reporter: Naresh GS (nareshgs)
+X-Launchpad-Bug-Modifier: Naresh GS (nareshgs)
+References: <159573587135.29737.8295812528041177661.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159617715143.10566.7234051309804107579.malone@chaenomeles.canonical.com>
+Subject: [Bug 1888971] Re: SMI trigger causes hang with multiple cores
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6cd33afe1bcbc8e64eb107877a711f4b49b78e53
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 02:41:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,73 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>
+Reply-To: Bug 1888971 <1888971@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/h36TNXkZlwjXUQPaZHiUnKL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+I tried without specifying -bios parameter still hang is seen. But this
+time it had low memory corruption.
 
-s->iothread is checked for NULL on object creation in colo_compare_complete,
-so it's guaranteed not to be NULL.
-This resolves a false alert from Coverity (CID 1429969).
+And built seabios with more debug logs but seabios doesn't does SMM init
+even when its selected in make menuconfig.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- net/colo-compare.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+I guess fundamentally th issue is writing 0xXX in IO port 0xB2 should
+trigger SMI handler in all possible core but instead it triggers SMI
+only in Core#0.
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index cc15f23dea..2c20de1537 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1442,9 +1442,7 @@ static void colo_compare_finalize(Object *obj)
-         qemu_chr_fe_deinit(&s->chr_notify_dev, false);
-     }
-=20
--    if (s->iothread) {
--        colo_compare_timer_del(s);
--    }
-+    colo_compare_timer_del(s);
-=20
-     qemu_bh_delete(s->event_bh);
-=20
-@@ -1470,9 +1468,7 @@ static void colo_compare_finalize(Object *obj)
-         g_hash_table_destroy(s->connection_track_table);
-     }
-=20
--    if (s->iothread) {
--        object_unref(OBJECT(s->iothread));
--    }
-+    object_unref(OBJECT(s->iothread));
-=20
-     g_free(s->pri_indev);
-     g_free(s->sec_indev);
---=20
-2.20.1
+-- =
 
---Sig_/h36TNXkZlwjXUQPaZHiUnKL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888971
 
------BEGIN PGP SIGNATURE-----
+Title:
+  SMI trigger causes hang with multiple cores
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8jprwACgkQNasLKJxd
-slhY8xAApywTCsSuSGkf9c7MrzOIK4KSZDGohwMR6n9+1+kQrwsr2uB7YF7Ugavu
-lFY5ZM/R4TvsDI/3Y9uVuKfFwn5j2OEY/iOj1ZiTb7vyUwT4FY49ElPEG0StesxZ
-Uf1Y/9vD+F68TWuTkKlcgT2aRVJ90vD8tO6/ZCDueioEQmPs3qrq/jZtA2VqXYIO
-7hAuCaa7Py+i+h3Gcimn6Wj6hZhBDqSq0ZQhg+VGifWdoCpdvH3TiePi2HPKyxjT
-f5hx8t0w5gq9laiv/NvamPkCbpsnJSLlhrfy1MK5XaOPPFp2Ed/P2Nyv/AxtEMdI
-h7aY2OZGdZoXQxCsPj/2lk7EbLMF+5TWKWZPSDWSj9WGrl7+6fHsK/Ms0KIVeP0M
-Xp9hTaFJMOmrJR8UOmmoj97kOqf6lYdroa+g+BjCxYy6vzsTzYqT0IGVCAVys7nV
-gOZVt7JbNo3OgRvX5LDxZwNeoqT8TTQ25ajcQ32pu8nqEr9e7hl7JRFBiajpK0NB
-DEnA8X1T/9gprHSSf+YTx1ads2iXgulEAVp/0ePewZfFaPYd6a0wM74VyUcIhB9t
-OZAwluD5+v+LGvL1Qe+nvjMYokKnEuZLrG6SqQ5kQxHn9wyD0N+/N44HJxIFKSou
-/KKQSt455MbpAo5i2ZnyeyE8wjaTBpM26xOUomSHwZGhFZjKj9c=
-=MJs4
------END PGP SIGNATURE-----
+Status in QEMU:
+  New
 
---Sig_/h36TNXkZlwjXUQPaZHiUnKL--
+Bug description:
+  When using qemu , SMI trigger causes hang/reboot under following
+  conditions:
+
+  1. No KVM but there are more than 1 threads (-smp > 1)
+  2. When using KVM.
+
+  Info:
+  qemu-system-x86_64 --version
+  QEMU emulator version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.29)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  SMI trigger was done by writing 0x00 in IO port 0xB2.
+
+  Command:
+  No failure in SMI trigger when using the below command:
+  qemu-system-x86_64 -M pc-q35-bionic -smp 1 -bios build/coreboot.rom  -ser=
+ial stdio -hda ../linux.img  -m 2048 | tee 1.txt
+
+  Hang/resets with below commands:
+  qemu-system-x86_64 -M pc-q35-bionic -smp 2 -bios build/coreboot.rom  -ser=
+ial stdio -hda ../linux.img  -m 2048 | tee 1.txt
+
+  sudo qemu-system-x86_64 -M pc-q35-bionic,accel=3Dkvm -smp 1 -bios
+  build/coreboot.rom  -serial stdio -hda ../linux.img  -m 2048 | tee
+  1.txt
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888971/+subscriptions
 
