@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD93234A9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 20:04:09 +0200 (CEST)
-Received: from localhost ([::1]:37340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E22234ACF
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 20:23:19 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1ZO5-0007Vv-17
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 14:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55114)
+	id 1k1Zgc-0003UV-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 14:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k1ZMv-0006sT-59
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:02:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31973
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k1ZMq-0003JT-Jm
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:02:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596218571;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BRN/3Wt3ViPal7QMstF/fwN3sKlIzUZO0/oIBlWXA7A=;
- b=K+xf214nPdFoX5zMLHR38S7mjOVuoOFE8PV4BIafcgL/VUNm0CiVYKFDq6KRXs1adbPxey
- 0dfj8+5KAlIkvMaXq8ANEAsrOb/yhOmKp5o3H2oNVVU7dNgeg+NOBy5VmBfJ3mUpWuVmpn
- Z++T0rnZYNoorwY5yT8rWoss40PVssI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-j1fzBf4DPFeJP3zQlDgP3w-1; Fri, 31 Jul 2020 14:02:50 -0400
-X-MC-Unique: j1fzBf4DPFeJP3zQlDgP3w-1
-Received: by mail-wr1-f72.google.com with SMTP id f14so9400742wrm.22
- for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 11:02:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BRN/3Wt3ViPal7QMstF/fwN3sKlIzUZO0/oIBlWXA7A=;
- b=hGrvZgTMbiFC84/EkwpLrUW1/ddP7zegKlrntBsQGkzYP9HkgA+BK5hkVt8xie0oz/
- fMsOTNVNT6P6nJ5YDKI9muvk9o/VlwEFsxjixHOb5dMsgGGXRwWYu7ObBaOgQc3w7QpT
- 4FYwDv7fMlOQdFjM3ntBoFy31vO35RPVWileKKVNYTZEqIGlKB1RxZebSUQ8WPVNpTlA
- hgr27NOK665aF9JWLgNQ7vo67SvqZj5qfulquyLfVioIdbGALddXnN3joJeW2RsPSu5S
- 7QWmjO1mN4hH7seLZFqYffLqGVwfCOY37jCdUCrosxByWQ1pUKAMEQaMkG85Ll9lGZKn
- AARQ==
-X-Gm-Message-State: AOAM532stitZNUJSQqnFtzN1+C59aaOm1PHKYvDLsW7e3Q9jVLWZwMmf
- y2pONh8OMpRxV9b9mC9e7AQgfXbAGXYt4HNBeXP3yR65Y9LaVhqqycBK+Gt4oWWR4cDvSSPs5El
- AmTmtn66/U6FOnrI=
-X-Received: by 2002:a1c:b188:: with SMTP id a130mr4567614wmf.125.1596218568845; 
- Fri, 31 Jul 2020 11:02:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxPjJ+Oyx3PbYhI97AXkkmbD5tZEr5U7l1nrUN68HYIGlsuoWoTNV1byXoWRuzvaoCCattVw==
-X-Received: by 2002:a1c:b188:: with SMTP id a130mr4567598wmf.125.1596218568560; 
- Fri, 31 Jul 2020 11:02:48 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:90a5:f767:5f9f:3445?
- ([2001:b07:6468:f312:90a5:f767:5f9f:3445])
- by smtp.gmail.com with ESMTPSA id f17sm15860029wme.14.2020.07.31.11.02.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Jul 2020 11:02:48 -0700 (PDT)
-Subject: Re: [PATCH 2/2] accel/tcg: interrupt/exception handling uses
- bql_interrupt flag
-To: Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org
-References: <20200731125127.30866-1-robert.foley@linaro.org>
- <20200731125127.30866-3-robert.foley@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <67497c73-d2b9-941e-471d-de0ccd61bb7f@redhat.com>
-Date: Fri, 31 Jul 2020 20:02:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1k1ZeN-0001kz-S9
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:20:59 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:54784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1k1ZeL-0005JY-1v
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:20:59 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VIBpw6069896;
+ Fri, 31 Jul 2020 18:20:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=/HdUmbh/uFpS2vqfh+Za/6q69dGZN5wcnvZ4PjpM6v8=;
+ b=dok2bif7EXPtqqrOvHWrjk2EvPcXvhUmaCN1IL6hS3AARNcwm5GTGjs/HhukKTE4wtc3
+ jJ24h6JII5zvxD7h2J81zVSvDjiIu3kFdACgzPPWAILmSxyw5R2vLDog8fgd+cFvVfQf
+ y3kVjKKgkwb0WRz7V/7bda5zA4PncgARmV9aN5oDDea06mzVsjuPKFF/V45EbuuHOQVn
+ 1YbEs9ZUvO7Q9KDasWlCBXlvlERZ0HlJjqN7Y53ava4U4A4xIS1NbkYF+Gwa5+tLGt62
+ 1QO2FSsiEo2jg4+tr8nmbhuBomRX7PJwnM2EF3LmYztkqyEJfJzS5J2j+uPk1bdRweJH Eg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 32mf702u7q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 31 Jul 2020 18:20:42 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VIHVCT073987;
+ Fri, 31 Jul 2020 18:20:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 32hu606s53-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 31 Jul 2020 18:20:41 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06VIKaoL013127;
+ Fri, 31 Jul 2020 18:20:36 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 31 Jul 2020 11:20:36 -0700
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/20] Initial support for multi-process qemu
+Date: Fri, 31 Jul 2020 14:20:07 -0400
+Message-Id: <cover.1596217462.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200731125127.30866-3-robert.foley@linaro.org>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 12:28:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007310137
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 clxscore=1011 phishscore=0 priorityscore=1501
+ adultscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007310136
+Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
+ helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 14:20:51
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,139 +97,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- rth@twiddle.net
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/07/20 14:51, Robert Foley wrote:
-> This change removes the implied BQL from the cpu_handle_interrupt,
-> and cpu_handle_exception paths. We can now select per-arch if
-> the BQL is needed or not by using the bql_interrupt flag.
-> By default, the core code holds the BQL.
-> One benefit of this change is that it leaves it up to the arch
-> to make the change to remove BQL when it makes sense.
-> 
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Hello
 
-No, please just modify all implementation to do lock/unlock.  It's a
-simpler patch than this on.
+This is the v8 of the patchset. Thank you very much for the
+detailed feedback for v7. We appreciate your time. We believe
+we have address all the comments for v7 in the current series.
 
-Paolo
+The broader items we have addressed in this series are as follows:
+- Removed the main channel / control channel.
+- Enabled 1:1 mapping between irqfd:PCIDevice, moving away from
+  shared interrupt lines to avoid collision between irqfds
+- Defined an object type named “remote-object” that connects the
+  device with its fd in the remote process. This object limits the
+  number of remote devices to 1 per process to alleviate security
+  concerns with multiple devices per process. We are addressing the
+  authentication mechanism for multiple devices in the
+  VFIO-over-socket proposal.
 
-> ---
->  accel/tcg/cpu-exec.c | 34 ++++++++++++++++++++++++++--------
->  1 file changed, 26 insertions(+), 8 deletions(-)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 80d0e649b2..cde27ee0bf 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -517,9 +517,13 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
->  #else
->          if (replay_exception()) {
->              CPUClass *cc = CPU_GET_CLASS(cpu);
-> -            qemu_mutex_lock_iothread();
-> +            if (cc->bql_interrupt) {
-> +                qemu_mutex_lock_iothread();
-> +            }
->              cc->do_interrupt(cpu);
-> -            qemu_mutex_unlock_iothread();
-> +            if (cc->bql_interrupt) {
-> +                qemu_mutex_unlock_iothread();
-> +            }
->              cpu->exception_index = -1;
->  
->              if (unlikely(cpu->singlestep_enabled)) {
-> @@ -558,7 +562,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->      if (unlikely(cpu_interrupt_request(cpu))) {
->          int interrupt_request;
->  
-> -        qemu_mutex_lock_iothread();
-> +        cpu_mutex_lock(cpu);
->          interrupt_request = cpu_interrupt_request(cpu);
->          if (unlikely(cpu->singlestep_enabled & SSTEP_NOIRQ)) {
->              /* Mask out external interrupts for this step. */
-> @@ -567,7 +571,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->          if (interrupt_request & CPU_INTERRUPT_DEBUG) {
->              cpu_reset_interrupt(cpu, CPU_INTERRUPT_DEBUG);
->              cpu->exception_index = EXCP_DEBUG;
-> -            qemu_mutex_unlock_iothread();
-> +            cpu_mutex_unlock(cpu);
->              return true;
->          }
->          if (replay_mode == REPLAY_MODE_PLAY && !replay_has_interrupt()) {
-> @@ -577,13 +581,15 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->              cpu_reset_interrupt(cpu, CPU_INTERRUPT_HALT);
->              cpu_halted_set(cpu, 1);
->              cpu->exception_index = EXCP_HLT;
-> -            qemu_mutex_unlock_iothread();
-> +            cpu_mutex_unlock(cpu);
->              return true;
->          }
->  #if defined(TARGET_I386)
->          else if (interrupt_request & CPU_INTERRUPT_INIT) {
->              X86CPU *x86_cpu = X86_CPU(cpu);
->              CPUArchState *env = &x86_cpu->env;
-> +            cpu_mutex_unlock(cpu);
-> +            qemu_mutex_lock_iothread();
->              replay_interrupt();
->              cpu_svm_check_intercept_param(env, SVM_EXIT_INIT, 0, 0);
->              do_cpu_init(x86_cpu);
-> @@ -595,7 +601,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->          else if (interrupt_request & CPU_INTERRUPT_RESET) {
->              replay_interrupt();
->              cpu_reset(cpu);
-> -            qemu_mutex_unlock_iothread();
-> +            cpu_mutex_unlock(cpu);
->              return true;
->          }
->  #endif
-> @@ -604,7 +610,15 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->             True when it is, and we should restart on a new TB,
->             and via longjmp via cpu_loop_exit.  */
->          else {
-> +            cpu_mutex_unlock(cpu);
-> +            if (cc->bql_interrupt) {
-> +                qemu_mutex_lock_iothread();
-> +            }
->              if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
-> +                if (cc->bql_interrupt) {
-> +                    qemu_mutex_unlock_iothread();
-> +                }
-> +                cpu_mutex_lock(cpu);
->                  replay_interrupt();
->                  /*
->                   * After processing the interrupt, ensure an EXCP_DEBUG is
-> @@ -614,6 +628,11 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->                  cpu->exception_index =
->                      (cpu->singlestep_enabled ? EXCP_DEBUG : -1);
->                  *last_tb = NULL;
-> +            } else {
-> +                if (cc->bql_interrupt) {
-> +                    qemu_mutex_unlock_iothread();
-> +                }
-> +                cpu_mutex_lock(cpu);
->              }
->              /* The target hook may have updated the 'cpu->interrupt_request';
->               * reload the 'interrupt_request' value */
-> @@ -627,7 +646,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->          }
->  
->          /* If we exit via cpu_loop_exit/longjmp it is reset in cpu_exec */
-> -        qemu_mutex_unlock_iothread();
-> +        cpu_mutex_unlock(cpu);
->      }
->  
->      /* Finally, check if we need to exit to the main loop.  */
-> @@ -691,7 +710,6 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
->      }
->  #endif
->  }
-> -
->  /* main execution loop */
->  
->  int cpu_exec(CPUState *cpu)
-> 
+To touch upon the brief history of this project, we posted the
+Proof Of Concept patches before the BoF session in 2018.
+Subsequently, we posted RFC v1 [1], RFC v2 [2], RFC v3 [3],
+RFC v4 [4], v5 [5], v6 [6] and v7 [7] of the patch series.
+Following people contributed to the design and
+implementation of this project:
+
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Jagannathan Raman <jag.raman@oracle.com>
+
+
+We would like to thank QEMU community for your feedback in the
+design and implementation of this project.
+
+For the full concept writeup about QEMU multi-process, please refer to
+docs/devel/qemu-multiprocess.rst. Also see docs/qemu-multiprocess.txt for
+usage information.
+
+
+We welcome all your ideas, concerns, and questions for this patchset.
+
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+
+Elena Ufimtseva (8):
+  multi-process: add qio channel function to transmit
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: add co-routines to communicate with remote
+  multi-process: introduce proxy object
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: heartbeat messages to remote
+  multi-process: perform device reset in the remote process
+  multi-process: add configure and usage information
+
+Jagannathan Raman (11):
+  memory: alloc RAM from file at offset
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ MAINTAINERS                     |  26 ++
+ backends/hostmem-memfd.c        |   2 +-
+ configure                       |  11 +
+ docs/devel/index.rst            |   1 +
+ docs/devel/multi-process.rst    | 966 ++++++++++++++++++++++++++++++++++++++++
+ docs/multi-process.rst          |  67 +++
+ exec.c                          |  11 +-
+ hw/Makefile.objs                |   1 +
+ hw/i386/Makefile.objs           |   4 +
+ hw/i386/remote-memory.c         |  58 +++
+ hw/i386/remote-msg.c            | 266 +++++++++++
+ hw/i386/remote-obj.c            | 127 ++++++
+ hw/i386/remote.c                |  79 ++++
+ hw/misc/ivshmem.c               |   3 +-
+ hw/pci-host/Makefile.objs       |   1 +
+ hw/pci-host/remote.c            |  76 ++++
+ hw/pci/Makefile.objs            |   2 +
+ hw/pci/memory-sync.c            | 211 +++++++++
+ hw/pci/proxy.c                  | 417 +++++++++++++++++
+ hw/remote/Makefile.objs         |   1 +
+ hw/remote/iohub.c               | 123 +++++
+ include/exec/memory.h           |   2 +
+ include/exec/ram_addr.h         |   2 +-
+ include/hw/i386/remote-memory.h |  19 +
+ include/hw/i386/remote-obj.h    |  42 ++
+ include/hw/i386/remote.h        |  35 ++
+ include/hw/pci-host/remote.h    |  31 ++
+ include/hw/pci/memory-sync.h    |  27 ++
+ include/hw/pci/pci_ids.h        |   3 +
+ include/hw/pci/proxy.h          |  48 ++
+ include/hw/remote/iohub.h       |  42 ++
+ include/io/channel.h            |  24 +
+ include/io/mpqemu-link.h        | 123 +++++
+ include/qemu/mmap-alloc.h       |   3 +-
+ io/Makefile.objs                |   2 +
+ io/channel.c                    |  45 ++
+ io/mpqemu-link.c                | 303 +++++++++++++
+ scripts/mpqemu-launcher.py      |  49 ++
+ softmmu/memory.c                |   3 +-
+ util/mmap-alloc.c               |   7 +-
+ util/oslib-posix.c              |   2 +-
+ 41 files changed, 3252 insertions(+), 13 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/i386/remote-memory.c
+ create mode 100644 hw/i386/remote-msg.c
+ create mode 100644 hw/i386/remote-obj.c
+ create mode 100644 hw/i386/remote.c
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/pci/memory-sync.c
+ create mode 100644 hw/pci/proxy.c
+ create mode 100644 hw/remote/Makefile.objs
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 include/hw/i386/remote-memory.h
+ create mode 100644 include/hw/i386/remote-obj.h
+ create mode 100644 include/hw/i386/remote.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/pci/memory-sync.h
+ create mode 100644 include/hw/pci/proxy.h
+ create mode 100644 include/hw/remote/iohub.h
+ create mode 100644 include/io/mpqemu-link.h
+ create mode 100644 io/mpqemu-link.c
+ create mode 100755 scripts/mpqemu-launcher.py
+
+-- 
+1.8.3.1
 
 
