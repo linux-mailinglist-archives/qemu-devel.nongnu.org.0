@@ -2,73 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EA3234164
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 10:42:09 +0200 (CEST)
-Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A8A234146
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 10:34:36 +0200 (CEST)
+Received: from localhost ([::1]:59790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1QcC-0007bI-Qt
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 04:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33112)
+	id 1k1QUt-0004Wm-6B
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 04:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k1Qb9-0007AD-Ki
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 04:41:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k1Qb7-0006Tj-Je
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 04:41:03 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k1Qb5-0003bX-HC
- for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 08:40:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 33C252E80EE
- for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 08:40:59 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2020 08:33:22 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1879672@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange philmd ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158996968484.21371.12685815665992748631.malonedeb@wampee.canonical.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1QTs-00042W-7K
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 04:33:32 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24044
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k1QTq-0005fJ-Dw
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 04:33:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596184409;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BJYipzeIQkr7oClglhK+UEeawJLTkQD93EgPLyDdjao=;
+ b=WRoeRxBLvn4ijpkZiiFJdtvpM5f36RVbEZQSfvDpjyZ63Ai4w0QvEecyXK4BygZQgWCMTi
+ 3+5FcV2kgfFAhcKJ7QJLmlb64bNIhTkoBGlEUPKvAoeVQIex08ZpJ1xprXPPltrTDvDmMj
+ 4PzqLu+q05+alysbarddosjmKlbzJrs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-kiIFaeCYMsmmXIG677C1cQ-1; Fri, 31 Jul 2020 04:33:25 -0400
+X-MC-Unique: kiIFaeCYMsmmXIG677C1cQ-1
+Received: by mail-wr1-f70.google.com with SMTP id w7so8907820wrt.9
+ for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 01:33:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=BJYipzeIQkr7oClglhK+UEeawJLTkQD93EgPLyDdjao=;
+ b=IBcEYha8PkYkHWusAR9NK8Ss+RcR7oJzRnH3VXxjYiIZqz4ShUwuFdMry9D/cmiur4
+ LEPEIxtsUh/9bR3+hK/pQO48eqlaHXK/gj+86Xmdun0Y0IKMZbqBPbEfe0lFPezhkCKc
+ MhgiIthKvgoIi7STpAkuF54HANmW5/YMDmEuATzHSD8rYB7NF/N/vAkm6ftFkcMvRSDL
+ +hR2AXc5L1lYqCNs0J8lYOi1Lta6ois857nIff1gYLXFdA1toHPAs3dR4pzT4tvIilb8
+ Mt6lhbj/lsJwSxx+EbjiUyj2EzMGt90LeQCRoeSonrBx6DVwzuRK7KgsmNynekiUTsJp
+ VIVQ==
+X-Gm-Message-State: AOAM533SP4mQOZD12BmdiuMrZC66oGe+5LvkAM4j9w1QpBhUp9QfT3s4
+ viyh9tpX94eW4N4oZeVVrikLGtItZZW6WqfquJyMdhfUVDAdWSi4r/El2hrLemeBp2RXHLMnQat
+ gVxgfmRTKNym34P8=
+X-Received: by 2002:adf:dcc8:: with SMTP id x8mr2635155wrm.16.1596184404198;
+ Fri, 31 Jul 2020 01:33:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxI1Fv6all2fSja9GzV6ZSbKQnZB6quQinLXE3jrhSXMOHN77piMzg2frWY59pNrzITOJq20g==
+X-Received: by 2002:adf:dcc8:: with SMTP id x8mr2635133wrm.16.1596184403969;
+ Fri, 31 Jul 2020 01:33:23 -0700 (PDT)
+Received: from [192.168.1.39] (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id z63sm13390145wmb.2.2020.07.31.01.33.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Jul 2020 01:33:23 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: "Justin Terry (VM)" <juterry@microsoft.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190920113329.16787-1-philmd@redhat.com>
+ <01f2f0ee-a288-921a-58f4-78aeb4d457e1@redhat.com>
+ <BYAPR21MB1208F0D09B3E5CA80F1B7C3BB6880@BYAPR21MB1208.namprd21.prod.outlook.com>
  <2acf854f-c49a-0811-31af-80e1e958f058@redhat.com>
-Message-Id: <324f5002-be0a-563e-b5a6-e08ee5e1ddad@redhat.com>
-Subject: [Bug 1879672] Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a7617c13ad4a6e2a4944317eb2c6c046c463d513
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 02:41:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <324f5002-be0a-563e-b5a6-e08ee5e1ddad@redhat.com>
+Date: Fri, 31 Jul 2020 10:33:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <2acf854f-c49a-0811-31af-80e1e958f058@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 04:33:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,16 +124,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879672 <1879672@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, 1879672@bugs.launchpad.net,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Justin, Sunil,
 
-On 5/20/20 12:26 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+On 5/20/20 12:26 PM, Philippe Mathieu-Daudé wrote:
 > +launchpad ticket
-> =
-
+> 
 > On 9/20/19 6:53 PM, Justin Terry (VM) wrote:
 >> Hey Phil,
 >>
@@ -111,18 +162,17 @@ Phil.
 >> Justin Terry
 >>
 >>> -----Original Message-----
->>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 >>> Sent: Friday, September 20, 2019 8:18 AM
 >>> To: qemu-devel@nongnu.org; Justin Terry (VM) <juterry@microsoft.com>
->>> Cc: Daniel P . Berrang=C3=A9 <berrange@redhat.com>; Fam Zheng
+>>> Cc: Daniel P . Berrangé <berrange@redhat.com>; Fam Zheng
 >>> <fam@euphon.net>; Thomas Huth <thuth@redhat.com>; Paolo Bonzini
->>> <pbonzini@redhat.com>; Alex Benn=C3=A9e <alex.bennee@linaro.org>; Richa=
-rd
+>>> <pbonzini@redhat.com>; Alex Bennée <alex.bennee@linaro.org>; Richard
 >>> Henderson <rth@twiddle.net>; Eduardo Habkost <ehabkost@redhat.com>;
 >>> Stefan Weil <sw@weilnetz.de>
 >>> Subject: Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
 >>>
->>> On 9/20/19 1:33 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> On 9/20/19 1:33 PM, Philippe Mathieu-Daudé wrote:
 >>>> Add a job to cross-build QEMU with WHPX enabled.
 >>>>
 >>>> Since the WHPX is currently broken, include the patch required to have
@@ -142,51 +192,22 @@ rd
 >>>> build process succeed or failed. So far we do not redistribute the
 >>>> image or built binaries.
 >>>>
->>>> Philippe Mathieu-Daud=C3=A9 (3):
->>>> =C2=A0=C2=A0 target/i386: Fix broken build with WHPX enabled
->>>> =C2=A0=C2=A0 tests/docker: Add fedora-win10sdk-cross image
->>>> =C2=A0=C2=A0 .shippable.yml: Build WHPX enabled binaries
+>>>> Philippe Mathieu-Daudé (3):
+>>>>    target/i386: Fix broken build with WHPX enabled
+>>>>    tests/docker: Add fedora-win10sdk-cross image
+>>>>    .shippable.yml: Build WHPX enabled binaries
 >>>
 >>> FWIW here is the result of this series:
->>> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fapp.
+>>> https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fapp.
 >>> shippable.com%2Fgithub%2Fphilmd%2Fqemu%2Fruns%2F516%2F11%2Fcon
->>> sole&amp;data=3D02%7C01%7Cjuterry%40microsoft.com%7C733a566f3233427
+>>> sole&amp;data=02%7C01%7Cjuterry%40microsoft.com%7C733a566f3233427
 >>> 8ae6f08d73dddb39f%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C6
->>> 37045894733463150&amp;sdata=3D55URgDII5r74QMUpLOD%2FWT5%2B5jbzyv
->>> nfCSdv%2FNaWDAw%3D&amp;reserved=3D0
+>>> 37045894733463150&amp;sdata=55URgDII5r74QMUpLOD%2FWT5%2B5jbzyv
+>>> nfCSdv%2FNaWDAw%3D&amp;reserved=0
 >>> Duration 17 minutes (1076 seconds)
 >>>
 >>> 4m49s building the qemu:fedora-win10sdk-cross docker image, 11m10s
 >>> building WHPX QEMU.
->
+> 
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879672
-
-Title:
-  QEMU installer with WHPX support
-
-Status in QEMU:
-  Opinion
-
-Bug description:
-  People often ask the community to add WHPX support to the QEMU installer =
-for Windows,
-  but it is impossible due to the license limitations of the WHPX SDK.
-
-  The WinHvEmulation.h and WinHvPlatform.h header files needed are "All
-  rights reserved".
-
-  However these headers only contain struct definitions and integer constan=
-ts,
-  no functional code in macros or inline functions. See:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg645815.html
-  It is questionable whether the headers alone can be considered copyrighta=
-ble material.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879672/+subscriptions
 
