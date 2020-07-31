@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3971823435D
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:37:21 +0200 (CEST)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0613234361
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:39:30 +0200 (CEST)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1RTY-00054V-CO
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42086)
+	id 1k1RVh-0008PC-Rm
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJr-0007uo-OI; Fri, 31 Jul 2020 05:27:15 -0400
-Received: from mout.web.de ([212.227.15.3]:45275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJp-0003JR-VH; Fri, 31 Jul 2020 05:27:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596187629;
- bh=nbwft+EOV2AEzRxoXJpN4IeXwIqjDnslmRUPqCBD2B8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=kk87AzeGpwgRR/8HOBfqK0pihi2uHZn/X/RNjHVuYRnmhZflseGHbfzpe6rt2o57X
- GMMH1I60703KGQQvGZmahSYCDXKAjzSfn8PlpimHfNaOrp0MtPiIIALZ6FHYXrAbk5
- CHkFIT/DXqEXu6/d60pRQ1i486nRdFejEMwOryGo=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LwI74-1kqNAh0p4w-017zzk; Fri, 31
- Jul 2020 11:27:09 +0200
-Date: Fri, 31 Jul 2020 11:27:07 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v6 9/9] tests/test-char.c: Wait for the chardev to connect
- in char_socket_client_dupid_test
-Message-ID: <1a011dc69f075b0bc4f9b0b3232573a6007c8dcd.1596184200.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1596184200.git.lukasstraub2@web.de>
-References: <cover.1596184200.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1k1RNY-0002NV-3L
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 05:31:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51340
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1k1RNU-0003m3-Nw
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 05:31:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596187858;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=avUZqf5McAGRwwNjwfZVhZ7w0CW8QQ239W1kTOGToNE=;
+ b=KXiVtf70Rq84lCJJTjxX0wf0AbQSdvQDaiBAzZQK4uZ+bJ3+MX7IpfBQvklvn3naveq8H4
+ 8eK3Ol/WXOR+0cH90kU5p3sPv+A1vQh9YUHz5OV7hB5azyfyCQHOznQecZ7UrLb4KfqUj2
+ Q5ALac99JGH3DaTobWvIJfTtbglox+c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-MSu-KIxsOuGQlJl-Uhj86A-1; Fri, 31 Jul 2020 05:30:54 -0400
+X-MC-Unique: MSu-KIxsOuGQlJl-Uhj86A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30832193F584;
+ Fri, 31 Jul 2020 09:30:52 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2538E261A1;
+ Fri, 31 Jul 2020 09:30:45 +0000 (UTC)
+Date: Fri, 31 Jul 2020 11:30:44 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+Message-ID: <20200731113044.12b5f6ef@redhat.com>
+In-Reply-To: <20200730155755.188845-1-mst@redhat.com>
+References: <20200730155755.188845-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Bwri_CBUeHHdjau8xq9Io3q";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:WhU0El/+ThIpCvz20wnDR7VnoF/0ndY1P+rxcioLO+VT5FRM4ti
- /8ycAgPnvP+7ACOX0fPH1OnSjXKkY0L3XNStyNUjOybTly9PQvx/oVQTJCAMu6ArYqwthw8
- S+gxhqfdzCUDdjqyqW5tJ6PthUR05CPyGpGTOaZr40npXz6vCh7cPzuJ7/NjAvCzvVTMhSS
- 9bgRsRYPVTphiWFCi4t0Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Vcy9lH/q2qM=:UrQEF16YPULQqdbX+alpvd
- ZPl2LMsNGP9fDAKmQg1E2CMmBpXq6KGz7h5H7hBUdD3LDdbUk5+N7XfJz1tSRj7pC0fpzTSEp
- LAGRkcadyKluygFogBJ2iftHipeiQSbotRSufMmCZlzMPBZPW1nJU5RBB/0AQvqI2x3ZGJO0o
- n2UO2JuqhIngxXdNMVScxhG8HKTAhBett4TdCGgrq1PTRBUjOFNuieiIXIivGanPaIWY+R1zP
- 2dLtGRJCAoNqBmSSf3oyfOaeFiltSPkToS0vAZAkF6/QrkbISEmB5ckIH2TIUbui2QVcIAfNf
- mKXg54qEIqHEQYM6XOerzulza8zlURmxTj+kc+ZlXt6kczcKo6zvQr2z931EOtlU8zb0t9kOY
- iVNC1Msc7KiPR8rndWBN4KnyP9dMChDAprpi3UW3RwAjBQp64Vi3cf4ngYHfJrBzQjg5uTKa3
- STDxpza903qRGDkgY9vma+RbzFmU7dad60XtE/Ohp/FBagq9phRMFVhB6UmbhytIo/8K+YhOg
- 401sUZ75aM8JIAYgpcm7uDKZANMeNvNDbRCFY0KS6cowHddXpsLwKw4pqQHy1lh3ddX/eGALF
- wnqLrpS+xSmB1naP8t8UQKH6D/T8Pp4Af5N7i7OqQPfx8iHXBbO2me1ORqVh7HNDl3z3qCp7h
- UUZiJ0UZBDX1o8Q9VY7zdfO13Xs+A0prdb7hTUzNTPm2CjcUZoZACOfs/OOVy+NIx0Cci6eCL
- OYqrlpFgaU+gb55vbW3QxHLz5aqrMDUxNEAe9EsZCkoWKhol2XO/norEnlbj99qJK4eEVwZ0y
- O/VMaED524zFG2s3u8e/QfqUA52Rt7xssstXRQim1lbTmQPoYNhoc92imepGEAYHOZnerOKvo
- gfllneX+ykvm6uIGCXDhdKilNJM7mwwQLh2wBBSKjcN1yKs1OqJUNF76rqhEioaFxpnFweuSz
- ntx10TuiMFwW9tUrrSZ0gWQOteEyRkOeR1UD6Xz4yqwl8wGp8KNWiYur+SSarUlfs8g6NpFz4
- pI3w7MIHPBHTKd9+9ZHZkbA3+PBlq04p+OFsyk/6k7vcS7mJ75CZyMsBIVwz9VA7F5LfIREr/
- w4F/3ti37xuOjCNo+4ents0c6xGul0/DLDXjMM5kA2rsjBRNC5tSbrtvEIXXl1qwhfkicmTka
- dwEhukMqKW5iGw+rpnKVNdw9iek8YTC84NoPFknaZ6xjnA10fuK6G25xUmUV5xiQSE7xLMGzq
- 3QwalmzjJUVZnkqTKF03a7L7jpLo7HeM6SpDB8g==
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 05:10:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 03:06:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,68 +79,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, vit9696 <vit9696@protonmail.com>,
+ Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Bwri_CBUeHHdjau8xq9Io3q
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, 30 Jul 2020 11:58:38 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-A connecting chardev object has an additional reference by the connecting
-thread, so if the chardev is still connecting by the end of the test,
-then the chardev object won't be freed. This in turn means that the yank
-instance won't be unregistered and when running the next test-case
-yank_register_instance will abort, because the yank instance is
-already/still registered.
+> macOS uses ACPI UIDs to build the DevicePath for NVRAM boot options,
+> while OVMF firmware gets them via an internal channel through QEMU.
+> Due to a bug in QEMU ACPI currently UEFI firmware and ACPI have
+> different values, and this makes the underlying operating system
+> unable to report its boot option.
+> 
+> The particular node in question is the primary PciRoot (PCI0 in ACPI),
+> which for some reason gets assigned 1 in ACPI UID and 0 in the
+> DevicePath. This is due to the _UID assigned to it by build_dsdt in
+> hw/i386/acpi-build.c Which does not correspond to the primary PCI
+> identifier given by pcibus_num in hw/pci/pci.c
+> 
+> Reference with the device paths, OVMF startup logs, and ACPI table
+> dumps (SysReport):
+> https://github.com/acidanthera/bugtracker/issues/1050
+> 
+> In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
+> the paragraph,
+> 
+>     Root PCI bridges will use the plug and play ID of PNP0A03, This will
+>     be stored in the ACPI Device Path _HID field, or in the Expanded
+>     ACPI Device Path _CID field to match the ACPI name space. The _UID
+>     in the ACPI Device Path structure must match the _UID in the ACPI
+>     name space.
+> 
+> (See especially the last sentence.)
+> 
+> Considering *extra* root bridges / root buses (with bus number > 0),
+> QEMU's ACPI generator actually does the right thing; since QEMU commit
+> c96d9286a6d7 ("i386/acpi-build: more traditional _UID and _HID for PXB
+> root buses", 2015-06-11).
+> 
+> However, the _UID values for root bridge zero (on both i440fx and q35)
+> have always been "wrong" (from UEFI perspective), going back in QEMU to
+> commit 74523b850189 ("i386: add ACPI table files from seabios",
+> 2013-10-14).
+> 
+> Even in SeaBIOS, these _UID values have always been 1; see commit
+> a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008-03-08) for
+> i440fx, and commit ecbe3fd61511 ("seabios: q35: add dsdt", 2012-12-01)
+> for q35.
+> 
+> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> Tested-by: vit9696 <vit9696@protonmail.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- tests/test-char.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index d35cc839bc..2ced07de69 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
- opaque)
-     g_assert_nonnull(opts);
-     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
-     g_assert_nonnull(chr1);
-+    qemu_chr_wait_connected(chr1, &error_abort);
+> ---
+>  hw/i386/acpi-build.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index b7bcbbbb2a..7a5a8b3521 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>          aml_append(sb_scope, dev);
+>          aml_append(dsdt, sb_scope);
+>  
+> @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+>          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>          aml_append(dev, build_q35_osc_method());
+>          aml_append(sb_scope, dev);
+>          aml_append(dsdt, sb_scope);
 
-     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
-     g_assert_null(chr2);
---
-2.20.1
-
---Sig_/Bwri_CBUeHHdjau8xq9Io3q
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8j4+sACgkQNasLKJxd
-slhfJBAAjHnN2zMfTCUtOdHhw8Ns14YoNpVsMsKzvDwpovl8Ywlnwhm/358JF7mY
-84Ffnbx3zVNajjSJ/403lHiCfv1wwk0+Rt/oz3yvLcIxDHyFkvQ+eV6RQGw2lnPR
-+1w5EySAFBbB2RZxdepJoOy5aeAd5htlKuuM2wjyp87GTAvjeXZVmbtfAfKvnB7c
-EDwoSshydBzXdskW/VerXOkVakBmpOrvbe7WyAK5cmVXfTiTXTZpEFHYoVu1kIot
-cJIB4j4WibVf4+XFTutsulVmri3xAHpjDBPrbGyuFR9RHSyQ1zxSJunyF7YN4YcN
-24/6fD+B2L2Xaf02P6Nc7khSvxUtBfC1q/2EkegMEJHXnC9v2k2W1C3RYGRsAFR+
-jYtBfnpE0yYWVMhpGJ3LCebAcOILLVoZYYVbZWjMFjsr+d/VUYxfRCPlalP3wbdz
-Uf+xpcpw3/wCSFhVP61wxn86DPqZXkc/AX2QWAwZGw+BHWT/CR89fGzUvj2/8bms
-xpX9MdrJ3qQYP1ORoiidan2LxwB9vk8SeVNLkLkx8XhXB4SWO5KfKkAfw9xpIyJ+
-OXxAayD//Mf3uFsdKfa0jx4K9YNQa641TWiaUvo38qH9M7asSFLGIpGJrsj6ZdvJ
-xHH4XizW0FsCShDZBMlY6jpJ9TfghJIU+/RjB5PoKle1gKyOKiQ=
-=ItH7
------END PGP SIGNATURE-----
-
---Sig_/Bwri_CBUeHHdjau8xq9Io3q--
 
