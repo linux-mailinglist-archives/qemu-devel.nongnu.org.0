@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38423234B23
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 20:35:19 +0200 (CEST)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65C9234B52
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 20:52:03 +0200 (CEST)
+Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1ZsE-0003Jv-7t
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 14:35:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60774)
+	id 1k1a8Q-0002Qq-E5
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 14:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1k1Zqq-00022u-JL
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:33:52 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:46856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1k1Zqo-0006op-9B
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:33:51 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VILm7M078206;
- Fri, 31 Jul 2020 18:33:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=mBq1XBdn5dIM7pzboAVesetV/hB9yOlwDfTlUJIKew0=;
- b=PS7uym5+2hBIMAbIQyxaWRzR55YctJeRg8wnw/3nbMQkATb4hlycLSagJxUY+ll+Srr3
- y1OUrNIvbAtqquapa/uL1xoIr0LZTlqezQP63baKNtdZQYWiFYMumFuyPPk2JlKiXFth
- 8l4PFBRDEbUVYYm2Ht+azVgRkhNTm/dZLusSNRdUTP2i9B2Al2YAZ6J0J5z2NMT4Ng5v
- 7Kax9iM/gxCOZmdElQHC45gR8ZsyHoo3teTQQPtBSoaicQ1c35X/PsApg3hi9OXsl9pE
- oRaJd++kqTMD563azDWq0SwTAEoq0fKiCkL+xvxVULYI83fU6IcM2/NJpHv52XC1E6Eu KA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 32mf9g2vm6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 31 Jul 2020 18:33:42 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VIIe51137896;
- Fri, 31 Jul 2020 18:31:42 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 32hu64rhw4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jul 2020 18:31:42 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06VIVeac030021;
- Fri, 31 Jul 2020 18:31:40 GMT
-Received: from dhcp-10-39-209-116.vpn.oracle.com (/10.39.209.116)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 31 Jul 2020 11:31:40 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH v7 12/21] multi-process: Connect Proxy Object with device
- in the remote process
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20200727131829.GD386429@stefanha-x1.localdomain>
-Date: Fri, 31 Jul 2020 14:31:32 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FB0FCC99-E7F6-4F58-BED1-8E7A121E9F56@oracle.com>
-References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
- <20f42fce1b701586a23c9abdb3b53d080845e94a.1593273671.git.elena.ufimtseva@oracle.com>
- <20200701092043.GE126613@stefanha-x1.localdomain>
- <BE91B4AA-7E18-47CE-8747-97152D6462CC@oracle.com>
- <20200727131829.GD386429@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
- adultscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007310137
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 malwarescore=0
- bulkscore=0 adultscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
- suspectscore=3 clxscore=1015 mlxscore=0 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007310137
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 14:20:51
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k1a7h-00020m-Bs
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:51:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21800
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k1a7e-0000UJ-Cu
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:51:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596221473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=imsvRW5yWZy6AQyive/oOZhhd9Y0331pS9i0+Do6C1M=;
+ b=KzYLlkWkYeeZ7dvONS8nTD/jSlV/AlCQ1Rh8NGIgb7orSh878gnLFMFwiQETS6OJ9ilnkb
+ YuSVlAecjag+5uEnwzptfg/8E2FbRUEiGt0ZUlCkNMbYwOi+0ZDRTJ6qsb2KYCiN9BffFX
+ WXsxnUuRX4p7B3ez1jxpGt66koWoDJI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-1bxy9DAGNVaLJ5R7yVBZEQ-1; Fri, 31 Jul 2020 14:50:02 -0400
+X-MC-Unique: 1bxy9DAGNVaLJ5R7yVBZEQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82922100CCC0;
+ Fri, 31 Jul 2020 18:50:01 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.40.192.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 501811001B0B;
+ Fri, 31 Jul 2020 18:49:44 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] target/i386: kvm: Enable KVM_FEATURE_PCI_GO_MMCONFIG
+ CPUID bit
+Date: Fri, 31 Jul 2020 20:49:38 +0200
+Message-Id: <20200731184938.606754-1-jusual@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 12:28:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,118 +77,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
- kraxel@redhat.com, quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, kanth.ghatraju@oracle.com,
- Felipe Franciosi <felipe@nutanix.com>, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
- pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com,
- mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This feature allows MMCONFIG to be used even to access the base PCI
+config space [1]. This means increased performance: one access to
+MMCONFIG instead of two conventional accesses to I/O ports.
 
+Q35 makes no distinction in base or extended PCI config access to
+MMCONFIG, MMCONFIG is always on, and in case it is is not initialized,
+probing of PCI devices will fall back to normal process and use type1
+access.
 
-> On Jul 27, 2020, at 9:18 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->=20
-> On Fri, Jul 24, 2020 at 12:57:22PM -0400, Jag Raman wrote:
->>> On Jul 1, 2020, at 5:20 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->>> On Sat, Jun 27, 2020 at 10:09:34AM -0700, elena.ufimtseva@oracle.com =
-wrote:
->>> In a 1:1 model the CONNECT_DEV message is not necessary because each
->>> socket is already associated with a specific remote device (e.g. =
-qemu -M
->>> remote -object mplink,dev=3Dlsi-scsi-1,sockpath=3D/tmp/lsi-scsi-1.sock=
-).
->>> Connecting to the socket already indicates which device we are =
-talking
->>> to.
->>>=20
->>> The N:1 model will work but it's more complex. There is a main =
-socket
->>> that is used for CONNECT_DEV (anything else?) and we need to worry =
-about
->>> the lifecycle of the per-device sockets that are passed over the =
-main
->>> socket.
->>=20
->> The main socket is only used for CONNECT_DEV. The CONNECT_DEV
->> message sticks a fd to the remote device.
->>=20
->> We are using the following command-line in the remote process:
->> qemu-system-x86_64 -machine remote,fd=3D4 -device lsi53c895a,id=3Dlsi1 =
-...
->>=20
->> The alternative approach would be to let the orchestrator to assign =
-fds for
->> each remote device. In this approach, we would specify an =E2=80=98fd=E2=
-=80=99 for each
->> device object like below:
->> qemu-system-x86_64 -machine remote -device lsi53c895a,id=3Dlsi1,fd=3D4 =
-=E2=80=A6
->>=20
->> The alternative approach would entail changes to the DeviceState =
-struct
->> and qdev_device_add() function, which we thought is not preferable. =
-Could
->> you please share your thoughts on this?
->=20
-> I suggest dropping multi-device support for now. It will be =
-implemented
-> differently with VFIO-over-socket anyway, so it's not worth investing
-> much time into.
->=20
-> The main socket approach needs authentication support if multiple =
-guests
-> share a remote device emulation process. Otherwise guest A can access
-> guest B's devices.
->=20
-> It's simpler if each device has a separate UNIX domain socket. It is =
-not
-> necessary to modify lsi53c895a in order to do this. Either the socket
-> can be associated with the remote PCIe port (although I think the
-> current code implements the older PCI Local Bus instead of PCIe) or a
-> separate -object mpqlink,device=3Dlsi1,fd=3D4 object can be defined (I =
-think
-> that's the syntax I've shared in the past).
->=20
-> For now though, just using the -machine remote,fd=3D4 approach is fine =
--
-> but limited to 1 device.
+Enable the feature unconditionally.
 
-Hi Stefan,
+[1]: https://lore.kernel.org/kvm/20200730193510.578309-1-jusual@redhat.com/
 
-Thanks for your response.
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+The feature is in the review phase.
 
-We didn=E2=80=99t quite get the purpose of the =E2=80=9Cobject=E2=80=9D =
-when you proposed the
-command-line. But we understand it now.
+ include/standard-headers/asm-x86/kvm_para.h | 1 +
+ target/i386/cpu.c                           | 3 ++-
+ target/i386/kvm.c                           | 1 +
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
-We also agree to wait for the authentication protocol before enabling
-multiple devices in the same remote process. Therefore we have limited
-the number of devices to 1.
-
-Even with one device, we still had the problem of attaching the file
-descriptor with a device int the remote end. The object idea you =
-proposed
-seemed to fit well with connecting the fd with device. We have added =
-this
-object in v8, which we just sent out.
-
-We have dropped the main-socket/control-channel as it=E2=80=99s not =
-needed
-anymore.
-
-We look forward to your responses to v8.
-
-Thank you very much!
-
->=20
-> Stefan
+diff --git a/include/standard-headers/asm-x86/kvm_para.h b/include/standard-headers/asm-x86/kvm_para.h
+index 07877d3295..52eeba9067 100644
+--- a/include/standard-headers/asm-x86/kvm_para.h
++++ b/include/standard-headers/asm-x86/kvm_para.h
+@@ -32,6 +32,7 @@
+ #define KVM_FEATURE_POLL_CONTROL	12
+ #define KVM_FEATURE_PV_SCHED_YIELD	13
+ #define KVM_FEATURE_ASYNC_PF_INT	14
++#define KVM_FEATURE_PCI_GO_MMCONFIG	15
+ 
+ #define KVM_HINTS_REALTIME      0
+ 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 588f32e136..5509523bb3 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -810,7 +810,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "kvmclock", "kvm-nopiodelay", "kvm-mmu", "kvmclock",
+             "kvm-asyncpf", "kvm-steal-time", "kvm-pv-eoi", "kvm-pv-unhalt",
+             NULL, "kvm-pv-tlb-flush", NULL, "kvm-pv-ipi",
+-            "kvm-poll-control", "kvm-pv-sched-yield", NULL, NULL,
++            "kvm-poll-control", "kvm-pv-sched-yield", NULL, "kvm-pci-go-mmconfig",
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             "kvmclock-stable-bit", NULL, NULL, NULL,
+@@ -4141,6 +4141,7 @@ static PropValue kvm_default_props[] = {
+     { "acpi", "off" },
+     { "monitor", "off" },
+     { "svm", "off" },
++    { "kvm-pci-go-mmconfig", "on" },
+     { NULL, NULL },
+ };
+ 
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 6f18d940a5..0069e945e6 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -440,6 +440,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         if (!kvm_irqchip_in_kernel()) {
+             ret &= ~(1U << KVM_FEATURE_PV_UNHALT);
+         }
++        ret |= 1U << KVM_FEATURE_PCI_GO_MMCONFIG;
+     } else if (function == KVM_CPUID_FEATURES && reg == R_EDX) {
+         ret |= 1U << KVM_HINTS_REALTIME;
+         found = 1;
+-- 
+2.25.4
 
 
