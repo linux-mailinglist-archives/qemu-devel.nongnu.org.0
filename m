@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93BCD234389
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:46:26 +0200 (CEST)
-Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A2223435E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:37:25 +0200 (CEST)
+Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1RcO-0003iI-Gc
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
+	id 1k1RTg-00059D-KR
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJk-0007oJ-Jd; Fri, 31 Jul 2020 05:27:08 -0400
-Received: from mout.web.de ([212.227.15.3]:36171)
+ id 1k1RJp-0007sF-9J; Fri, 31 Jul 2020 05:27:13 -0400
+Received: from mout.web.de ([217.72.192.78]:44603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJi-0003Iv-Um; Fri, 31 Jul 2020 05:27:08 -0400
+ id 1k1RJn-0003JH-Hp; Fri, 31 Jul 2020 05:27:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596187622;
- bh=EuJZnhDdT/XNOaCKZvdlajlxeYo8brk4aoRtdHhMqZw=;
+ s=dbaedf251592; t=1596187625;
+ bh=NSowfk+zdZfBN/U0N2yBWTJeqtU0sa+7Wn61uH1ecNA=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=c7Oezxlb0shLuK2NvAs1GhGQPamxnyINjMtGmy9O5I8U+z8IdIue9OA2XdoTa03DO
- TDtsaFXcuq3iq5ruB/jXk7PUFFayjwnaw/TnIyQAU/AYMzmT5IaCw0jzbQ7FPnsNSA
- 5zdfUmWnmyYMFfMrbnYlW/669UZfKY8Kc/YMUb+o=
+ b=bxzYYSdxqLVscnidGrbqaUlRaya6/sTI0Bs3sDDqzBb/9fYL+YQqrjFatF4nqQXh5
+ cLONVZP96AI0E0+xn3fLGgijdM1AEOsiTt5HYjZTKTKbQ7+gdA+9LZqZ8GX6OwN2TA
+ B3lx05RyKNtTLUnLpXPfqjRnCXg/+U2l1ahgj9wM=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MVaYi-1kBEvK0QjM-00RWVu; Fri, 31
- Jul 2020 11:27:02 +0200
-Date: Fri, 31 Jul 2020 11:27:00 +0200
+Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M43Kc-1k1RJh30jo-000154; Fri, 31
+ Jul 2020 11:27:05 +0200
+Date: Fri, 31 Jul 2020 11:27:04 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v6 7/9] MAINTAINERS: Add myself as maintainer for yank feature
-Message-ID: <14a7a25d32cb021d9b4f03318dd7ef9bb47133f3.1596184200.git.lukasstraub2@web.de>
+Subject: [PATCH v6 8/9] chardev/char.c: Check for duplicate id before
+ creating chardev
+Message-ID: <b6d4b5712afc095f3d315818723809a20a2de21e.1596184200.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1596184200.git.lukasstraub2@web.de>
 References: <cover.1596184200.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xN8STn.HjHO7F6UZmoX9Ii+";
+Content-Type: multipart/signed; boundary="Sig_/nA=MHDqm8NS91DAd3oM8WUT";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:psJT6U/QISliVQvFy7CpWW6m4Rr19kTOMdoNMIYEexy3xvELOYS
- +O/FHqzaiFgvHKx+w5IbTAP3EHN9cxOlGuWQtPbUhft/cEbXCXNPEYHDW0fX2/aBCmKsJVm
- D01SMRfV3ZWtPDG30bPug1asUa10kzYmMOkIID0XcbuOl8nV6znzSYxUGrEMyZ6YWQIEaId
- jyi8P31Qe4nOwJZAENfCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RU5pCBk1Sow=:OaAO1nLHWxnFEXnSuuSSbn
- v/0qNAIpAyhIg+VzS8QK/Ho40IPpg/rRej8MHSUzR6x6S/+v9URMnKBqAGULYaGdNtun9sR15
- 9L/Nj32wnxzrlkKx0JJOjfHXit64NZinBbnk+hmGbm/cxEhga5NkYLfD3rhwIwMjVpIIkJl8+
- I3r0v8ka5znqQKeeGxXhXVBhzeg7rMYbc0jqRuydfYgLKzH/3skgkkF1IHDzLL+Y/bg1AR1SN
- wfrto5SfrJYkha4q/9F1d+i/gouLmoS5eWoc2UALZeShzbo6rsqymDlcboToHZQ9iH3k7q1ua
- 4RLWxjWORlb3pgC0abdY0ADFN+objj2ld/F28r0e3maLTTkULs4BNsfAtx/HRRneC4Ix9ZMuB
- Xaohm7q7MAvH2+NRco+gpaIrj5nnSkbHsv8pw5pqGnUJkziR/YsszWfG1/WIv+7bw6z7pRjJo
- aklsC24OLthXPsSYZrmpRmYv5ECabkyGLKwlWMGenI4DhI7q2X+TaiY3uj6EvxG8MZdrx8DYw
- U495zjYcOXqv/RQHY6HPrCeUzUnWZgYhHJ28W+X/GNktMEzcUdNds2NGfqXMCeknruJ31NyXU
- 0d6yTZIsz2BXVnqcCS7ZJ5yjNA9eGWjbN18vetNp/oNpKhK+J8xqECydDfajhoWpHRETI0yxK
- tflUj9SL00QCr+deF5dyCO7/K66FEs0NuHqCam8bZ4a0OXGP2t0XhaeyWEevcNLmdBv30/+bw
- rHlLbm9p4wvSfjOJmL36Bnqj5kbkwfLH9eLi6YPq6mfUhrWUlgQnsZw/u1qdX3ay2Y2kEF7R+
- gfBA8nZ6k78WLDJJYHS0dHuc7sBsgu97cUYLkPo+a94g93mVKvamTlPfQlxNgKoZwruGKhUVx
- fktaqVXtsc0SzFg2WnUDETApzhu2I5GlOpwC5SyPLPl/PJGZXtpwOjZR4JPM6NVNikl+C+AP4
- 7LEgjqGuRTsXTZytzeXfZcZvunCro+q2fGiHJHGlM2bwuNfWdK1We09MMl26F7YkXE1kQiFoM
- TFbOFGzROQt1cVksKIio/yQHMbhvzmbor+zPLqOTVo72tLlcjZQOjv2eFCluCfpYcbPUUrimT
- vNNscuRcX+FvawObtF7FQ1Vrx6MGZO/EQ6gWo8pcpl29JRwcc/PibsWbQdbk16Bdo7YtT6wT4
- sFZZtAw3JTrKM80IYuGS55xDnUnBDW54zQKAhLfXImNqoUPHtn6hb8jjIDV9NOcpBsVFL6lYy
- 3myGjY7J+DNiE/UAZaCwganD7YGi+JvgD03MpWw==
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:f1CtYLThf3u08hoLWCEmQjAxIGLMDlS9MedX3jm4SsU3viGlXOd
+ TrvQX0JeM54bfTubYHR2Jbx8cauWxvFY9GXlFFTDiDzVNvd6CnOo3mbqAHFtUqN+t/yE2q+
+ nnflLogIF9STqBbDpUKyKwX6HBVVgKnzsoiWD0E2g2WL8hIQ3W84BBROF77Zaq00diE65Lk
+ zYwSDnm2DUNuCICIF4EOA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zU0f4ePo6I0=:UO0wF9GXwgJpvgm/fexQ0s
+ /BKm8PDWG023Nv1vGdbjXZs9KFxR/vZGK9OkxPlXiktOIyF5rbohx4WVwGGtzeda7RQ77aiaL
+ eAu/i+Tx1nrY9tl592uethasixtBc+6qh30KSOsc2jfqY2YgdfsykSz6s671UDPPNP3pi4qxd
+ SJd7Bc8UPTyvVSOR+3EcrO76tTUta0ULTV8Kif4/my7xjX/SL+65rjudQKzBnylw/S90Urbe0
+ gToGnfOEtv9YOaG0BW+kze7L+HJ7pOr2vZoaMwN0Cs5dlG8zjX3DmmI49yxRqqPLhH9D8TWUc
+ wmWim9k3IwQMFxKd/tmQobphoexV6LINA4YmYCKs6/E+mXmasoZx3Urwmil2Q2D/flh01gGD7
+ VrwYDamwGXjcWy9cZzQQ+sYRaM/Q/2b5zU+3VO0VUAHgXU8gsvWQsWAemk1iF7IHpRcYZRYA6
+ 5ua0iFzM+ppLZh8Gku+Z4I4PQdaXQXTu47NZKTpOXbdlwxeCHdRbt0KafRZOR5hxpaLobEmTH
+ CuBu3gIJlvQwuA1OQW+gkGz2HS/Ujx0YMhfWQx7rEW8nmakk7tCjyqZakLWbH61QCtFyOPIF2
+ lkutlPbAUHQsGATL3fGA7speHA8HlrSYjc68G3fdGIf1t2JO51b5B8zT+CxwooiHPKrmBlQvn
+ Xusf4FD0FQbawOQzDnKsn4h2kFXnFuq7W6fP7rQXd9DnPF57BHDfSVEcypR+/G/j1VmmE/s6c
+ dfu0uryOaUXacxlPzdhLSJpzx056Ttk2HcvmdohTM3zv4eunwxU0FLhJL79NFK6Z/v964MLm3
+ hF6h7Cz8xobWpnOCjXEPuH/lA4XF2bEVAxuxc7YVfZBHSKqkJ28WB4iX/0078o9CPCYvQT+An
+ TrgPShg6neIy9W82R+sm1yAAe+YmyaQ+1xjztNw9ZKF+aNG1D33Wp9AZ763B1yp24OJ8va8GE
+ 8j0yFHkth5pClxfdKaAb87777zcsJ2MmRbXJjmJNYrgBJYkglxWd2MTlLw39FQzeWy4h+0cBv
+ Zaahdn6pj9U4WLaN/nmtiAwuzwKBqK8h7YbH86bBXsXvXjMbSzxddlnIE5xaPRniuy1aYuyG+
+ QtIQCJ08+2v8bJtk/vhO6Y8du9TCrtDppYtWHjej1lhehbKyXWuYR14l45JtDKbxGF8MwonIw
+ MQ55se8RR2TlDev7dyjP1cZasRlZ2PvpC4XVjpgy6jRZP0TTeUV5k7ZV2vinpHpxL09KlE7Ys
+ rf9qDZkFs00XPIHLgtB1CgWFQA2iHsETGc7aJ1w==
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 05:10:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 03:52:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,61 +96,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/xN8STn.HjHO7F6UZmoX9Ii+
-Content-Type: text/plain; charset=UTF-8
+--Sig_/nA=MHDqm8NS91DAd3oM8WUT
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-I'll maintain this for now as the colo usecase is the first user
-of this functionality.
+yank_register_instance (called when creating the new chardev object)
+aborts if the instance already exists. So check for duplicate id before
+creating the new chardev to prevent this.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ chardev/char.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0886eb3d2b..bf5075a637 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2614,6 +2614,12 @@ F: util/uuid.c
- F: include/qemu/uuid.h
- F: tests/test-uuid.c
+diff --git a/chardev/char.c b/chardev/char.c
+index 77e7ec814f..ce041dface 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -951,6 +951,11 @@ static Chardev *chardev_new(const char *id, const char=
+ *typename,
 
-+Yank feature
-+M: Lukas Straub <lukasstraub2@web.de>
-+S: Odd fixes
-+F: util/yank.c
-+F: include/qemu/yank.h
+     assert(g_str_has_prefix(typename, "chardev-"));
+
++    if (id && object_resolve_path_component(get_chardevs_root(), id)) {
++        error_setg(errp, "Chardev '%s' already exists", id);
++        return NULL;
++    }
 +
- COLO Framework
- M: zhanghailiang <zhang.zhanghailiang@huawei.com>
- S: Maintained
+     obj =3D object_new(typename);
+     chr =3D CHARDEV(obj);
+     chr->label =3D g_strdup(id);
+@@ -969,11 +974,7 @@ static Chardev *chardev_new(const char *id, const char=
+ *typename,
+     }
+
+     if (id) {
+-        object_property_try_add_child(get_chardevs_root(), id, obj,
+-                                      &local_err);
+-        if (local_err) {
+-            goto end;
+-        }
++        object_property_add_child(get_chardevs_root(), id, obj);
+         object_unref(obj);
+     }
+
 --
 2.20.1
 
 
---Sig_/xN8STn.HjHO7F6UZmoX9Ii+
+--Sig_/nA=MHDqm8NS91DAd3oM8WUT
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8j4+QACgkQNasLKJxd
-sljG+xAAhAPOcf3+wf04M1DWIMsmL5BIJD13x3fuRbvM9axS91ZSgs13LgtU9NWR
-KJlUrRTUZzs1iDi62r4TlFV7PPssFTaf2X2B8NiK0V7rin3jZJ15wW33tX+VWrIh
-BowjN/J7KeN4eNHAaM5cy0xCbMq7d7AcP49nB05K7b4P16uDZULC6X9w4X1z7Rk/
-6GSblFVe8vBaYZj0eyMqB9LFVJTBWxtfq1XosLeYAvosruuTtT9ihjdo/k/Hb03c
-SuQBGaWttIng7fee4/N+ez7SHLPAfZXCsYDfsoKfRJuAId/IuAsHK0rfm9NzjusL
-vvT2xcXTlfaYIz9kC6scLn1k6lcnHb0F4td1WD9z/6hPwA4zD3TXrqxfC+RnjlNj
-3eJ+SYnbngWtMhDoH+l0B/dyC8nEVvouSj1v3wCq4sb4o/4x6TMOzHQN832jlE2s
-6XMrQZ5QOI/1lgWVB3DJ8GQQyM7WEMwuD7anEMvKTMy2CILO/kFp9IEFONZOpDyh
-ekQZ5eXX9XeYcUN2lSEWtWQZFBWlJtxNg+gTRsBSN3BMBjBYYubePOjJiv5fgQJ2
-uUtlu3gIkOPA+XRl5MkmX1tiwkPu6D6Hq6D9/1NhAELcHIDdjRilX0o23h94nm3z
-NfmtPK52PSZZs/8+5hDiv8xcy/MGSY6XPG9Kd6sVj/E/S3vwywg=
-=w1DH
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8j4+gACgkQNasLKJxd
+slhIKw//dxkS/c0jv6gPWiwrP6/V6WCl+9hKMteMPCRNcqGUo/ybXwt526+Rt/Wg
+NpDi76R/lXnKrYWMZbFOJN0kcyGNudvhRbpXXeOXD0aNimpBLbLJ0Lhg7oHTh7l7
+x7/KkLjIy9fPtlz6bu8kgMTFlLEDdhANyq0rtr+o5AuZ8KzUt2/2c9sp1Z88sVxW
+yZOIhmJ09Z6YzLgy2jOPrG7pv+fM6oY3/i70r9P6oQ6yFVMKefDamsbznbuelXhO
+D5Wpp9aAL0ihHVqbzw8EBFwUpG4a0YFVEU+0d8KUgR9RJiFWNqnQShzd+/I3JX6a
+tPrBwxoDICAFvGpio/zKxn8hIcGNki6hrbJvC8rODt5XkdqAlBXGF8zzxvS/nDRV
+JIalOooAEG+GP0EwHvF1ilfsfdNuxFIOo5BO+QDT4gDSxBJlDkX0lyDGw2CxwBVt
+8/e54gImlUw/dxeIbPsVwT9mXkDm/PAgzHcLxUB0ABpNys/ndCKpbJbCHu57iARi
+LGbgg1lBfh0nTG/1XrN+SLUP3u7w42VDG/Qf1vjjmfsTP1m9E56IW0X7T4v96G+R
+huC//yS90D9Ym2P+GLJgJz5uwfZuq6hRbimGo4UYVbdwxPxjOFm6u87P4bTt5/ex
+afGI2vCckvbgWrCXKwhRTTKpJ7O5gN8Qn+fwU5LCBVt+gXP6rhw=
+=Ia2N
 -----END PGP SIGNATURE-----
 
---Sig_/xN8STn.HjHO7F6UZmoX9Ii+--
+--Sig_/nA=MHDqm8NS91DAd3oM8WUT--
 
