@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C454D233D79
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 04:49:04 +0200 (CEST)
-Received: from localhost ([::1]:48620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C63233D8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 05:06:30 +0200 (CEST)
+Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1L6V-0002LP-Ty
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 22:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59932)
+	id 1k1LNN-0006nP-Ar
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jul 2020 23:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1k1L5V-0001QZ-R7
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 22:48:01 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:34043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1k1L5T-0003sB-VS
- for qemu-devel@nongnu.org; Thu, 30 Jul 2020 22:48:01 -0400
-Received: by mail-pl1-x642.google.com with SMTP id o1so16048818plk.1
- for <qemu-devel@nongnu.org>; Thu, 30 Jul 2020 19:47:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1JnB4YudV1m077cp66xzMnx1Junj30UO75iLbZUf12Y=;
- b=O3VtvxF2kxDrdqYV/12D8cnKeQ1yEDEwKTFLium7I6T2GURjMtrhihwq9xjepTDQwj
- Frgvsp+XMw6EANBKjCR6X5M5unY9Jti39+mRmo+UtKG/Wb0dc5uSapzBnRh5QjQXTT6T
- yKwghLzb6c0m4eaj6EfUuRQaRt3VOSYUcUmChUiY/HkPCEkqX92lGfq9CiXnFKEt++bd
- LdcHHGNmdx35TzpUt13NcGZI3s3FYLRl3S0NCLhnUyM9n06Mq7FN/+lN5ptB5vMNKace
- rY9OGYMYJjy6MhPLwCoGcOk6UUWwSxRHAioOHkBhgby8lx9rEl/XkEmleOvvz4mkn8Hh
- cKbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=1JnB4YudV1m077cp66xzMnx1Junj30UO75iLbZUf12Y=;
- b=s1l/whvTiTGRBcr3XyOYe5tdEYJYnrjpcauSweVE4brJVUK+kETM5hVZZy+oaUUNzW
- W8WmXebU4a2BJKZMaUAPKhjn1XnUh99ot8CqmsvUMWLEO4IhRk62fPwd4amnk3ac5/83
- OvIOhlBhEF9vrPju0aJF4/GEiLnMLNN+fJQrE955xKIqLXEQbmZkhBlFGIXINQY4AQo7
- xDylMX0yy3H818XEz3RT9b63/bpkpbSjoBglUBZ+YBG3cdRKKGu45AqIx6OnkTezVXRA
- MX4g62oImmPwZ39/2yNHCzMx3C8VbMqUt5wMKlN7s3MYJefZqttaKF6c89wV9wYrNW42
- agmg==
-X-Gm-Message-State: AOAM531HWWD6nfSF8TrCNWcU3TwIfwDyoV3vQ9k7Ot0gbfncgHX8qDK3
- gEMcFMhNxGEjz06P1gd/MRkcYA==
-X-Google-Smtp-Source: ABdhPJzxLVssuc0Cm1KqNN+d3BB94LMk9TxwvkPxAGuUUSdXO6Bnk1ft08yLVGq90bruwIqNuV+uog==
-X-Received: by 2002:a17:90a:22a3:: with SMTP id
- s32mr2027720pjc.49.1596163678573; 
- Thu, 30 Jul 2020 19:47:58 -0700 (PDT)
-Received: from localhost.localdomain (111-243-189-249.dynamic-ip.hinet.net.
- [111.243.189.249])
- by smtp.gmail.com with ESMTPSA id c27sm7578483pfj.163.2020.07.30.19.47.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 19:47:58 -0700 (PDT)
-From: Green Wan <green.wan@sifive.com>
-To: 
-Subject: [RFC PATCH v2 2/2] hw/riscv: sifive_u: Add write-once protection.
-Date: Fri, 31 Jul 2020 10:47:08 +0800
-Message-Id: <20200731024708.32725-3-green.wan@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200731024708.32725-1-green.wan@sifive.com>
-References: <20200731024708.32725-1-green.wan@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=green.wan@sifive.com; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ (Exim 4.90_1) (envelope-from <vit9696@protonmail.com>)
+ id 1k1LMM-0006Hg-ME
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 23:05:26 -0400
+Received: from mail-40136.protonmail.ch ([185.70.40.136]:61021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vit9696@protonmail.com>)
+ id 1k1LMJ-0007j6-Ep
+ for qemu-devel@nongnu.org; Thu, 30 Jul 2020 23:05:26 -0400
+Date: Fri, 31 Jul 2020 02:55:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1596164151;
+ bh=M7CgakWJICw+vYXIedT4t384GXVz0amURND25oq04Rg=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=ZBHmquxRQEJUitRVsX9ZgoyOxB4cvTrg+s4Xrz9atdzF9K3hwKGMMKsV9bF93ZQW6
+ /AJUHOizo1ECHVkct1aNB89CIT2cuuMc0AjESOpbuTTHEnrFeLEEVv3Oya95ct5l7U
+ uUmxHlIw6doKvJbNSSvh5WdJsb8TsAWNbE3Vj7/Y=
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+Message-ID: <lE_xyk_1uYzbQKr5tPEMurU_jWzMJ74ZDmC6QZHQx2XTNK1AnZSqw-25RsyO8LMtQRiw_vyFvmjGI7y5SBuJS86yu6ynvDqg8GliBayGYaw=@protonmail.com>
+In-Reply-To: <20200730153447-mutt-send-email-mst@kernel.org>
+References: <20200730155755.188845-1-mst@redhat.com>
+ <e1759ee7-b167-d69e-99f9-e824e9e3e0b8@redhat.com>
+ <20200730153447-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/pgp-signature";
+ micalg=pgp-sha256;
+ boundary="---------------------9256accdabb51ebf06706bfefff4fa69";
+ charset=utf-8
+Received-SPF: pass client-ip=185.70.40.136;
+ envelope-from=vit9696@protonmail.com; helo=mail-40136.protonmail.ch
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/30 22:55:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLYTO_END_DIGIT=0.25, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,81 +69,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- Green Wan <green.wan@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: vit9696 <vit9696@protonmail.com>, vit9696 <vit9696@protonmail.com>
+From: vit9696 via <qemu-devel@nongnu.org>
 
-Add array to store the 'written' status for all bit of OTP to block
-the write operation to the same bit. Ignore the control register
-offset from 0x0 to 0x38 of OTP memory mapping.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+-----------------------9256accdabb51ebf06706bfefff4fa69
+Content-Type: multipart/mixed; boundary="0723013a1a8e2a0676ecfd524f4ae4fabcfcab0d"
 
-Signed-off-by: Green Wan <green.wan@sifive.com>
----
- hw/riscv/sifive_u_otp.c         | 20 ++++++++++++++++++++
- include/hw/riscv/sifive_u_otp.h |  1 +
- 2 files changed, 21 insertions(+)
+--0723013a1a8e2a0676ecfd524f4ae4fabcfcab0d
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
-index e359f30fdb..a793093d47 100644
---- a/hw/riscv/sifive_u_otp.c
-+++ b/hw/riscv/sifive_u_otp.c
-@@ -35,6 +35,11 @@
- 
- #define TRACE_PREFIX            "FU540_OTP: "
- #define SIFIVE_FU540_OTP_SIZE   (SIFIVE_U_OTP_NUM_FUSES * 4)
-+#define SET_WRITTEN_BIT(map, idx, bit)    \
-+    (map[idx] |= (0x1 << bit))
-+
-+#define GET_WRITTEN_BIT(map, idx, bit)    \
-+    ((map[idx] >> bit) & 0x1)
- 
- static int32_t sifive_u_otp_backed_open(const char *filename, int32_t *fd,
-                                         uint32_t **map)
-@@ -195,6 +200,18 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
-         s->ptrim = val32;
-         break;
-     case SIFIVE_U_OTP_PWE:
-+        /* Keep written state for data only and PWE is enabled. Ignore PAS=1 */
-+        if ((s->pa > SIFIVE_U_OTP_PWE) && (val32 & 0x1) && !s->pas) {
-+            if (GET_WRITTEN_BIT(s->fuse_wo, s->pa, s->paio)) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              TRACE_PREFIX "Error: write idx<%u>, bit<%u>\n",
-+                              s->pa, s->paio);
-+                break;
-+            } else {
-+                SET_WRITTEN_BIT(s->fuse_wo, s->pa, s->paio);
-+            }
-+        }
-+
-         /* open and mmap OTP image file */
-         if (0 == sifive_u_otp_backed_open(s->otp_file, &fd, &map)) {
-             /* store value */
-@@ -248,6 +265,9 @@ static void sifive_u_otp_reset(DeviceState *dev)
-     /* Make a valid content of serial number */
-     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
-     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
-+
-+    /* Initialize write-once map */
-+    memset(s->fuse_wo, 0x00, sizeof(s->fuse_wo));
- }
- 
- static void sifive_u_otp_class_init(ObjectClass *klass, void *data)
-diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
-index f3d71ce82d..4c6ac2e75e 100644
---- a/include/hw/riscv/sifive_u_otp.h
-+++ b/include/hw/riscv/sifive_u_otp.h
-@@ -73,6 +73,7 @@ typedef struct SiFiveUOTPState {
-     uint32_t ptrim;
-     uint32_t pwe;
-     uint32_t fuse[SIFIVE_U_OTP_NUM_FUSES];
-+    uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
-     /* config */
-     uint32_t serial;
-     char *otp_file;
--- 
-2.17.1
+  Hi,<div><br></div><div>Thanks a lot! Can confirm the authenticity of both=
+ patches. I also do not mind whether my full name or nickname is used, what=
+ever is easier.</div><div><br></div>Best regards,<div>Vitaly<caret></caret>=
+<br><div><div> <div><br></div><div><br></div>On Thu, Jul 30, 2020 at 22:35,=
+ Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" class=3D"">mst@re=
+dhat.com</a>&gt; wrote:<blockquote class=3D"protonmail_quote" type=3D"cite"=
+>  On Thu, Jul 30, 2020 at 06:11:17PM +0200, Philippe Mathieu-Daud=C3=83=C2=
+=A9 wrote:<br>&gt; On 7/30/20 5:58 PM, Michael S. Tsirkin wrote:<br>&gt; &g=
+t; macOS uses ACPI UIDs to build the DevicePath for NVRAM boot options,<br>=
+&gt; &gt; while OVMF firmware gets them via an internal channel through QEM=
+U.<br>&gt; &gt; Due to a bug in QEMU ACPI currently UEFI firmware and ACPI =
+have<br>&gt; &gt; different values, and this makes the underlying operating=
+ system<br>&gt; &gt; unable to report its boot option.<br>&gt; &gt;<br>&gt;=
+ &gt; The particular node in question is the primary PciRoot (PCI0 in ACPI)=
+,<br>&gt; &gt; which for some reason gets assigned 1 in ACPI UID and 0 in t=
+he<br>&gt; &gt; DevicePath. This is due to the _UID assigned to it by build=
+_dsdt in<br>&gt; &gt; hw/i386/acpi-build.c Which does not correspond to the=
+ primary PCI<br>&gt; &gt; identifier given by pcibus_num in hw/pci/pci.c<br=
+>&gt; &gt;<br>&gt; &gt; Reference with the device paths, OVMF startup logs,=
+ and ACPI table<br>&gt; &gt; dumps (SysReport):<br>&gt; &gt; https://github=
+.com/acidanthera/bugtracker/issues/1050<br>&gt; &gt;<br>&gt; &gt; In UEFI v=
+2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with<br>&gt; &gt; =
+the paragraph,<br>&gt; &gt;<br>&gt; &gt;     Root PCI bridges will use the =
+plug and play ID of PNP0A03, This will<br>&gt; &gt;     be stored in the AC=
+PI Device Path _HID field, or in the Expanded<br>&gt; &gt;     ACPI Device =
+Path _CID field to match the ACPI name space. The _UID<br>&gt; &gt;     in =
+the ACPI Device Path structure must match the _UID in the ACPI<br>&gt; &gt;=
+     name space.<br>&gt; &gt;<br>&gt; &gt; (See especially the last sentenc=
+e.)<br>&gt; &gt;<br>&gt; &gt; Considering *extra* root bridges / root buses=
+ (with bus number &gt; 0),<br>&gt; &gt; QEMU's ACPI generator actually does=
+ the right thing; since QEMU commit<br>&gt; &gt; c96d9286a6d7 ("i386/acpi-b=
+uild: more traditional _UID and _HID for PXB<br>&gt; &gt; root buses", 2015=
+-06-11).<br>&gt; &gt;<br>&gt; &gt; However, the _UID values for root bridge=
+ zero (on both i440fx and q35)<br>&gt; &gt; have always been "wrong" (from =
+UEFI perspective), going back in QEMU to<br>&gt; &gt; commit 74523b850189 (=
+"i386: add ACPI table files from seabios",<br>&gt; &gt; 2013-10-14).<br>&gt=
+; &gt;<br>&gt; &gt; Even in SeaBIOS, these _UID values have always been 1; =
+see commit<br>&gt; &gt; a4d357638c57 ("Port rombios32 code from bochs-bios.=
+", 2008-03-08) for<br>&gt; &gt; i440fx, and commit ecbe3fd61511 ("seabios: =
+q35: add dsdt", 2012-12-01)<br>&gt; &gt; for q35.<br>&gt; &gt;<br>&gt; &gt;=
+ Suggested-by: Laszlo Ersek &lt;lersek@redhat.com&gt;<br>&gt; &gt; Tested-b=
+y: vit9696 &lt;vit9696@protonmail.com&gt;<br>&gt;<br>&gt; Vitaly uses his f=
+ull name on EDK2 mailing list, so I don't think he'll<br>&gt; have a proble=
+m to use it in QEMU too:<br>&gt; Tested-by: Vitaly Cheptsov &lt;vit9696@pro=
+tonmail.com&gt;<br>&gt;<br>&gt; From:<br>&gt; https://wiki.qemu.org/Contrib=
+ute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line<br>&gt; "P=
+lease use your real name to sign a patch (not an alias or acronym)."<br><br=
+>Right. Tested-by is different though, I don't think we have<br>a problem w=
+ith anonymous testing.<br><br>Anyway, updated.<br><br>&gt; &gt; Signed-off-=
+by: Michael S. Tsirkin &lt;mst@redhat.com&gt;<br>&gt; &gt; ---<br>&gt; &gt;=
+  hw/i386/acpi-build.c | 4 ++--<br>&gt; &gt;  1 file changed, 2 insertions(=
++), 2 deletions(-)<br>&gt; &gt;<br>&gt; &gt; diff --git a/hw/i386/acpi-buil=
+d.c b/hw/i386/acpi-build.c<br>&gt; &gt; index b7bcbbbb2a..7a5a8b3521 100644=
+<br>&gt; &gt; --- a/hw/i386/acpi-build.c<br>&gt; &gt; +++ b/hw/i386/acpi-bu=
+ild.c<br>&gt; &gt; @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIO=
+SLinker *linker,<br>&gt; &gt;          dev =3D aml_device("PCI0");<br>&gt; =
+&gt;          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")))=
+;<br>&gt; &gt;          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));=
+<br>&gt; &gt; -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));<=
+br>&gt; &gt; +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));<b=
+r>&gt; &gt;          aml_append(sb_scope, dev);<br>&gt; &gt;          aml_a=
+ppend(dsdt, sb_scope);<br>&gt; &gt;<br>&gt; &gt; @@ -1512,7 +1512,7 @@ buil=
+d_dsdt(GArray *table_data, BIOSLinker *linker,<br>&gt; &gt;          aml_ap=
+pend(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));<br>&gt; &gt;      =
+    aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));<br>&gt; =
+&gt;          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));<br>&gt; &=
+gt; -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));<br>&gt; &g=
+t; +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));<br>&gt; &gt=
+;          aml_append(dev, build_q35_osc_method());<br>&gt; &gt;          a=
+ml_append(sb_scope, dev);<br>&gt; &gt;          aml_append(dsdt, sb_scope);=
+<br>&gt; &gt;<br><br></blockquote><div><br></div><div><br></div></div></div=
+></div>
+
+
+
+--0723013a1a8e2a0676ecfd524f4ae4fabcfcab0d--
+
+-----------------------9256accdabb51ebf06706bfefff4fa69
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wsBmBAEBCAAQBQJfI4gwCRBPsoxt7Hy0xQAKCRBPsoxt7Hy0xa7PB/wPzXH2
+BjzY4gszbZxLdvRVCl2ouUZfw719ZDdC+fWCBnGNJ5ee20vE2OEc//i/lAJH
+J8ZWxmApO1X+QttR9ia8Wy3+f3vA3rbKi7kJVWN0dslSxOSsB7MplIA8vAM5
+0vVhv+C39GcU3to5W/WZl1Xrsx7jUBukdaSqg5v2irsq470Qnbdkq63D9Yk0
+b5hJZ6d1Ty1HR3m3bDlsUMykASm4bQS7DX0qqfuzPVvZ3OX/OYm3wtCMTp6R
+z1yOX1IGVUnE9kpRPFPPTOmuNeCG+k6d9VphPr+EcvpYhR69Cz+H0q5iY49L
+q8uFuZowC81qKcumEDqgElz8phVxUU655omy
+=sM6X
+-----END PGP SIGNATURE-----
+
+
+-----------------------9256accdabb51ebf06706bfefff4fa69--
 
 
