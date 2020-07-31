@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1911234876
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 17:28:46 +0200 (CEST)
-Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1DB23489C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 17:46:36 +0200 (CEST)
+Received: from localhost ([::1]:41086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1Wxh-0005Lb-UL
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 11:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
+	id 1k1XEx-0002pE-ND
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 11:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Wwt-0004dQ-Pr
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 11:27:55 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:33716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k1Wwr-0006fE-Bm
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 11:27:55 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VFM0YW157872;
- Fri, 31 Jul 2020 15:27:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=BV2roAltbLSXf8zNSIOEMLM48ruoPoDDD8rhQ3aRKyM=;
- b=Vfgid9aa0DBjFZhBMFK3dxkNVa8uJnrheUbmx4S4NGabsyMJT/psT6pW63ENAP5C5YHt
- vYWT8NOeQVItd6nYkLS4JHrkM6LaAELiE8gM/2NpgFqjhzyozuKFtxp/QllKdzO9j8BG
- 1H92BFV7+/InWHk5y57cP38N+MsRQInuk5T4eKRFrR2xTtioxoTtojGmo12Us758i08t
- nvD0loL8R5fjFe66D8Lrai8n/lM9S1wMTUKnHol+XnQIo+4YlugJselsLqhgLBM0ffOH
- 2utmqmKIEdmUVm1vHiEgS8PhBShgZJtusynZhiJn8xFIx+a4g1PSpb2rlAookoobsDiL 4w== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 32mf7020an-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 31 Jul 2020 15:27:50 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VFMsUQ023912;
- Fri, 31 Jul 2020 15:27:50 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 32hu6027c4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jul 2020 15:27:49 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06VFRm54024224;
- Fri, 31 Jul 2020 15:27:48 GMT
-Received: from [10.39.235.87] (/10.39.235.87)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 31 Jul 2020 08:27:47 -0700
-Subject: Re: [PATCH V1 00/32] Live Update
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <20200730165249.GR3477223@redhat.com>
- <aa6940d9-7c2a-bdc2-edaf-ea4fea56e61f@oracle.com>
- <20200731085349.GB3518939@redhat.com>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <dcb66c6b-cb2a-1848-d83b-2dc27be400f3@oracle.com>
-Date: Fri, 31 Jul 2020 11:27:45 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k1XDR-0001RU-IO
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 11:45:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50119
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k1XDO-0001iD-G8
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 11:45:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596210296;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=u8AVr8gNzWhd4MgxSu5zSz/iLajKXPiuasHmXJXn8jY=;
+ b=L9/fXd6ovJy8t7tiUiYpQkZCtyZ9WzdznFFba668LjvAFoEYsbthuG//qILz3sucY7zZNK
+ N/GMzpOQJCNrD+j/XyoDnLOGGLI+/jvyeBSQzIkOnocbdWfP65EJrcuAMKUu1DomKtN8fq
+ jMT+cmpA3/wXfh66URE+acoDW0MVO3I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-1sZ9PN98MV2gbf_IF2A8Bw-1; Fri, 31 Jul 2020 11:44:48 -0400
+X-MC-Unique: 1sZ9PN98MV2gbf_IF2A8Bw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3000100CCC2;
+ Fri, 31 Jul 2020 15:44:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8328F5D9F1;
+ Fri, 31 Jul 2020 15:44:32 +0000 (UTC)
+Date: Fri, 31 Jul 2020 16:44:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] schemas: Add vim modeline
+Message-ID: <20200731154429.GD3660103@redhat.com>
+References: <20200729185024.121766-1-abologna@redhat.com>
+ <87ime52wxd.fsf@dusky.pond.sub.org>
+ <20200730093732.GB3477223@redhat.com>
+ <87k0ylz0ep.fsf@dusky.pond.sub.org>
+ <20200730132446.GL3477223@redhat.com>
+ <875za33ku1.fsf@dusky.pond.sub.org>
+ <20200731150738.GB3660103@redhat.com>
+ <03bb7822-20a0-2945-6c86-1d5f1b2a01d9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200731085349.GB3518939@redhat.com>
+In-Reply-To: <03bb7822-20a0-2945-6c86-1d5f1b2a01d9@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- mlxscore=0 adultscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007310115
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 suspectscore=0
- spamscore=0 impostorscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- adultscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007310115
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 11:18:42
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 04:39:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,108 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/31/2020 4:53 AM, Daniel P. Berrangé wrote:
-> On Thu, Jul 30, 2020 at 02:48:44PM -0400, Steven Sistare wrote:
->> On 7/30/2020 12:52 PM, Daniel P. Berrangé wrote:
->>> On Thu, Jul 30, 2020 at 08:14:04AM -0700, Steve Sistare wrote:
->>>> Improve and extend the qemu functions that save and restore VM state so a
->>>> guest may be suspended and resumed with minimal pause time.  qemu may be
->>>> updated to a new version in between.
->>>>
->>>> The first set of patches adds the cprsave and cprload commands to save and
->>>> restore VM state, and allow the host kernel to be updated and rebooted in
->>>> between.  The VM must create guest RAM in a persistent shared memory file,
->>>> such as /dev/dax0.0 or persistant /dev/shm PKRAM as proposed in 
->>>> https://lore.kernel.org/lkml/1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com/
->>>>
->>>> cprsave stops the VCPUs and saves VM device state in a simple file, and
->>>> thus supports any type of guest image and block device.  The caller must
->>>> not modify the VM's block devices between cprsave and cprload.
->>>>
->>>> cprsave and cprload support guests with vfio devices if the caller first
->>>> suspends the guest by issuing guest-suspend-ram to the qemu guest agent.
->>>> The guest drivers suspend methods flush outstanding requests and re-
->>>> initialize the devices, and thus there is no device state to save and
->>>> restore.
->>>>
->>>>    1 savevm: add vmstate handler iterators
->>>>    2 savevm: VM handlers mode mask
->>>>    3 savevm: QMP command for cprsave
->>>>    4 savevm: HMP Command for cprsave
->>>>    5 savevm: QMP command for cprload
->>>>    6 savevm: HMP Command for cprload
->>>>    7 savevm: QMP command for cprinfo
->>>>    8 savevm: HMP command for cprinfo
->>>>    9 savevm: prevent cprsave if memory is volatile
->>>>   10 kvmclock: restore paused KVM clock
->>>>   11 cpu: disable ticks when suspended
->>>>   12 vl: pause option
->>>>   13 gdbstub: gdb support for suspended state
->>>>
->>>> The next patches add a restart method that eliminates the persistent memory
->>>> constraint, and allows qemu to be updated across the restart, but does not
->>>> allow host reboot.  Anonymous memory segments used by the guest are
->>>> preserved across a re-exec of qemu, mapped at the same VA, via a proposed
->>>> madvise(MADV_DOEXEC) option in the Linux kernel.  See
->>>> https://lore.kernel.org/lkml/1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com/
->>>>
->>>>   14 savevm: VMS_RESTART and cprsave restart
->>>>   15 vl: QEMU_START_FREEZE env var
->>>>   16 oslib: add qemu_clr_cloexec
->>>>   17 util: env var helpers
->>>>   18 osdep: import MADV_DOEXEC
->>>>   19 memory: ram_block_add cosmetic changes
->>>>   20 vl: add helper to request re-exec
->>>>   21 exec, memory: exec(3) to restart
->>>>   22 char: qio_channel_socket_accept reuse fd
->>>>   23 char: save/restore chardev socket fds
->>>>   24 ui: save/restore vnc socket fds
->>>>   25 char: save/restore chardev pty fds
->>>
->>> Keeping FDs open across re-exec is a nice trick, but how are you dealing
->>> with the state associated with them, most especially the TLS encryption
->>> state ? AFAIK, there's no way to serialize/deserialize the TLS state that
->>> GNUTLS maintains, and the patches don't show any sign of dealing with
->>> this. IOW it looks like while the FD will be preserved, any TLS session
->>> running on it will fail.
->>
->> I had not considered TLS.  If a non-qemu library maintains connection state, then
->> we won't be able to support it for live update until the library provides interfaces
->> to serialize the state.
->>
->> For qemu objects, so far vmstate has been adequate to represent the devices with
->> descriptors that we preserve.
+On Fri, Jul 31, 2020 at 11:26:28AM -0400, John Snow wrote:
+> > The long answer is that as a general philosophy I'm in favour of agressively
+> > eliminating anything that is custom to a project and isn't offering an
+> > compelling benefit over a functionally equivalent, commonly used / standard
+> > solution.
+> > 
 > 
-> My main concern about this series is that there is an implicit assumption
-> that QEMU is *not* configured with certain features that are not handled
-> If QEMU is using one of the unsupported features, I don't see anything in
-> the series which attempts to prevent the actions.
+> I agree as violently as I know how. The purpose of this is not for us, it's
+> for the ecosystem.
 > 
-> IOW, users can have an arbitrary QEMU config, attempt to use these new features,
-> the commands may well succeed, but the user is silently left with a broken QEMU.
-> Such silent failure modes are really undesirable as they'll lead to a never
-> ending stream of hard to diagnose bug reports for QEMU maintainers.
-> 
-> TLS is one example of this, the live upgrade  will "succeed", but the TLS
-> connections will be totally non-functional.
+> I saw the critique that we still use JSON-ish for the runtime QMP protocol,
+> and moving the QAPI IDL to a standard wouldn't remove all instances of a
+> custom format from our tree.
 
-I agree with all your points and would like to do better in this area.  Other than hunting for 
-every use of a descriptor and either supporting it or blocking cpr, do you have any suggestions?
-Thinking out loud, maybe we can gather all the fds that we support, then look for all fds in the
-process, and block the cpr if we find an unrecognized fd.
+I'd consider the runtime protocol separately. In terms of what's on the
+wire, we use genuine JSON format. The runtime problem is simply that JSON
+standard is useless when it comes to integers, leaving behaviour undefined
+in the standard if you exceed 53 bits of precision. So there's no way to
+reliably parse unsigned 64-bit integers. Given that QEMU needs to pass
+uint64 values, JSON was simply the wrong choice of format for QMP.
 
-- Steve
+There's a 3rd aspect which is our source code that deals with JSON, where
+we defined some JSON extensions to make it easier for C code to construct
+JSON documents for sending over the wire. Back when we did this, it was a
+reasonably good idea as no obvious alternative existed for this problem.
+Today, I would just suggest using GLib's  GVariant feature, which solves
+the same problem for GLib's DBus APIs.
+
+It is a shame we didn't just use DBus back in the day as that's a well
+specified, simple protocol that would have done everything we needed,
+including the ability to actually represent integers reliably. We
+would be able to trivially talk to QEMU from any programming language,
+and use common DBus code-generator tools instead of writing code
+generators ourselves.
+
+
+I wish that libvirt had picked DBus all that time ago too, instead of
+creating our own RPC based on XDR, which is 95% identical to what
+DBus provides but with a massive maint burden for ourselves. Back then
+DBus didn't seem like it was good enough as it didn't offer TLS or
+SASL support and that looked like such a big deal. With hindsight the
+right answer was to add TLS + SASL to DBus, and not invent our own
+protocol. We would have lacked TLS/SASL support in libvirt for 6
+to 12 months or so, but then would have had 10 years benefitting
+from the DBus ecosystem. Life would have been much easier for mgmt
+tools using libvirt too, as they could have used native DBus APIs
+instead of having to use the C libvirt.so client. This is one of my
+biggest regrets with libvirt's architecture, and even ater 10 years
+it is still probably worth fixing this mistake and adopting DBus.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
