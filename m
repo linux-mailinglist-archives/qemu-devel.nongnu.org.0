@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE22234404
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 12:18:50 +0200 (CEST)
-Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD95323440C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 12:24:34 +0200 (CEST)
+Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1S7l-0000M6-Hc
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 06:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
+	id 1k1SDJ-0002Vf-QN
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 06:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k1S71-0008Jx-DI
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 06:18:03 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:36708)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k1SCI-0001Qu-GB; Fri, 31 Jul 2020 06:23:30 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k1S6z-00013d-FS
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 06:18:02 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id l27so15109508oti.3
- for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 03:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YAevHYOMUCxW8wCIyWkQiy80AHfiQ3gSTdimD+dt2uQ=;
- b=jLc9Eb1yxAKSD6i7nVYaNUPc8WVeUEqz4wnF9ZkgGkSSgpjXvs3hqKgR1Ywfvrix/U
- f1+TmOE1sXvcwaks8AZDjt9F4oAgcwmBWLKeoxkxzE9OIjKwVaodF8fLQlH+92SlI7aF
- ZgrtpraECoX34fCraor5ZBjs0toXViHuALzdGmns5roT3Sm+DWOA768jKTh2Rm29vDvm
- SWy5QpeCfjPPubyIztuFjxd7PowpZMZmOPtEmj00js+NK/kG3gLTpD/k5jEclLrCRYzE
- xB8i9zeeHPHKwo/5IVwW5DhxyHy80TqpPc/B7Nm5RlqYgkEyi6oovSV8bjDgHCs+BMni
- PChQ==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k1SCG-0001iH-Ta; Fri, 31 Jul 2020 06:23:30 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 9so8100373wmj.5;
+ Fri, 31 Jul 2020 03:23:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=b3f1ucrTl3HjESEtozvx+z5P+hHzlCJ924m+lTxekg4=;
+ b=eok6fdwZfSMvsjXwQ9fPGlkYRlG4u2l5VH0bqvqb2rAaok1rv+waCnbAVoZqhB80H0
+ qzoEhEfre9KmqeLOy/6YLDCKyAX1xt+1HxsvMKhTZoM3ee16e1p0IOcwbhUGgZypbAtB
+ pvMEQa+UrmwSGsSQ36c/pYHAGV+dH3SchhWRA956w+nzKH6jIT6kDT4ipblwseXDqYeE
+ +FYEytL8KGj1sTCzjSjaaaQx1aSh0aeNTNaf2mhST0rdQo3ARDHvFQbRfd33CjqPGlfM
+ sfUktZcEJtkjyMBtMWzVrNxurO4cd00yrK5I59/R3MIznt8/ePXSUP7Od/jmlxSBh5MF
+ 8x6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YAevHYOMUCxW8wCIyWkQiy80AHfiQ3gSTdimD+dt2uQ=;
- b=E+7AYeAvEWpxeXz9M6+1L4IDzUIcD3ZnmmcNvJ9enrJX+y/5n3COfXaIaYeWqavddI
- TLaxgCrEV5WKZFh0PHAnZWGwi5s6k6Elb8TCmnnvDPIKfBam5YxEYtd4oIKDRzULaWbv
- AqErKeLpWqA65jPZH0G7fPNzvDeASPTMqjONT5KmkpoyDkXxqppbvPi3STblQsBi+7Em
- L6y16zdvYxnsER0YUMC9Ss0p68ogPBIwE32F/86pJNV2wPrPKugG2COqRYLqzyNz6ED3
- 3sueJF6bzd8yTTAUT7K4IBCpNYBIMlbiaBDbtT9Pg7jGKwQJZUzCtQ/LJvfaiQPJKuce
- PE0A==
-X-Gm-Message-State: AOAM532GV9YCzETVHTsrZKZGOCjj36UKtFPTC1akVXhLU00U2Hh8YOfY
- +3DMg2cWlvKHIkSBVfdlbkULuS+n3MFv/lQsov0hGg==
-X-Google-Smtp-Source: ABdhPJx9W5UaJnCOPoCT3osRt38Cjsh0RRNU4ZMcGXZvlLrxQpvHq/MNkgPQagbZikabldrYylRIhEmWlI00czdxMzU=
-X-Received: by 2002:a9d:5f11:: with SMTP id f17mr2426326oti.139.1596190679582; 
- Fri, 31 Jul 2020 03:17:59 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=b3f1ucrTl3HjESEtozvx+z5P+hHzlCJ924m+lTxekg4=;
+ b=nuZu+aLQ+LLNPolKXg+L9ExPpRhQkNUHjPDTI+YhGgIlK4TJ4RGYi+I9+ySvGf43PT
+ ofoFMV0NOOpTBxxkVE0yV7jxTqhYZ9Ki1gOlw9Db9XE1zDTDKhizynZig/u6fz0YgHNb
+ PwjHQR3P9eGBPYUGpUN1Eg7yeeZSApVSk+5jgbudRX1Q+H9wKmmiTLvJOz75ajfOqRfW
+ BctzCDmkBqtsxxFGlyCRl/BTmGql72zG7CiwjiEqoVWx3S+L5WAtLB/ndMon5Og8C4H3
+ Jbq+MFZ6qLuBIp9Y9pdtzPLVXs2TDARaiu5LoTh3oaLFU+BOlnyzzeWwatjPFAG8cz1N
+ qqZQ==
+X-Gm-Message-State: AOAM5328ycOz8N6IlA9XCWGMMdfQEX5RgTG6ybPpw2qqY7KIkc/6ccCO
+ /GDNwsZ3cXcCkg5iZcl3UQ8=
+X-Google-Smtp-Source: ABdhPJw1hHJEK1ncElLSaLuDgJ4yV0n/yvAZjjWyfHVVp1fyiehxcovplkdlHQajQ6UMnq8lSF5cUw==
+X-Received: by 2002:a7b:c150:: with SMTP id z16mr3114550wmi.136.1596191006395; 
+ Fri, 31 Jul 2020 03:23:26 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id b2sm11114620wmj.47.2020.07.31.03.23.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Jul 2020 03:23:25 -0700 (PDT)
+Date: Fri, 31 Jul 2020 11:23:23 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH 2/2] block: add logging facility for long standing IO
+ requests
+Message-ID: <20200731102323.GB177875@stefanha-x1.localdomain>
+References: <20200710172711.8059-1-den@openvz.org>
+ <20200710172711.8059-3-den@openvz.org>
+ <20200729103029.GB37763@stefanha-x1.localdomain>
+ <914c161e-31b6-b7b2-2cc7-788c1e6f8f98@openvz.org>
 MIME-Version: 1.0
-References: <20200722091641.8834-1-frank.chang@sifive.com>
- <20200722091641.8834-44-frank.chang@sifive.com>
- <0b042afa-61e4-d6a4-7fbd-2c359026b8aa@linaro.org>
-In-Reply-To: <0b042afa-61e4-d6a4-7fbd-2c359026b8aa@linaro.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Fri, 31 Jul 2020 18:17:48 +0800
-Message-ID: <CAE_xrPhOJ3nUJJ_9o2m8EcJsBbpdEUz78qEt71mtFoF8gKgtiA@mail.gmail.com>
-Subject: Re: [RFC v2 43/76] target/riscv: rvv-0.9: integer extension
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000073685805abba1aac"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=frank.chang@sifive.com; helo=mail-ot1-x32c.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
+Content-Disposition: inline
+In-Reply-To: <914c161e-31b6-b7b2-2cc7-788c1e6f8f98@openvz.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,126 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000073685805abba1aac
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 31, 2020 at 4:35 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 7/22/20 2:16 AM, frank.chang@sifive.com wrote:
-> > +    static gen_helper_gvec_3_ptr * const fns[6][4] = {
-> > +        {
-> > +            NULL, gen_helper_vzext_vf2_h,
-> > +            gen_helper_vzext_vf2_w, gen_helper_vzext_vf2_d
-> > +        },
-> > +        {
-> > +            NULL, NULL,
-> > +            gen_helper_vzext_vf4_w, gen_helper_vzext_vf4_d,
-> > +        },
-> > +        {
-> > +            NULL, NULL,
-> > +            NULL, gen_helper_vzext_vf8_d
-> > +        },
-> > +        {
-> > +            NULL, gen_helper_vsext_vf2_h,
-> > +            gen_helper_vsext_vf2_w, gen_helper_vsext_vf2_d
-> > +        },
-> > +        {
-> > +            NULL, NULL,
-> > +            gen_helper_vsext_vf4_w, gen_helper_vsext_vf4_d,
-> > +        },
-> > +        {
-> > +            NULL, NULL,
-> > +            NULL, gen_helper_vsext_vf8_d
-> > +        }
-> > +    };
->
-> I don't understand why there aren't more functions in this table.  As far
-> as I
-> can see, the only NULLs should be at [*][0].
->
->
-> r~
->
-
-As source EEW has to be 1/2, 1/4, 1/8 of SEW and the source EEW must be
-a supported width (Section 12.3).
-
-Shouldn't it impossible to have the cases, e.g.
-vzext.vf4 with SEW = 16, i.e. EEW = SEW / 4 = 4 bits
-vzext.vf8 with SEW = 16, i.e. EEW = SEW / 8 = 2 bits
-vzext.vf8 with SEW = 32, i.e. EEW = SEW / 8 = 4 bits
-
-Frank Chang
-
---00000000000073685805abba1aac
-Content-Type: text/html; charset="UTF-8"
+--cvVnyQ+4j833TQvp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Jul 31, 2020 at 4:35 AM Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_bla=
-nk">richard.henderson@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmai=
-l_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 7/22/20 2:16 =
-AM, <a href=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang=
-@sifive.com</a> wrote:<br>
-&gt; +=C2=A0 =C2=A0 static gen_helper_gvec_3_ptr * const fns[6][4] =3D {<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, gen_helper_vzext_vf2_=
-h,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_vzext_vf2_w, gen=
-_helper_vzext_vf2_d<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_vzext_vf4_w, gen=
-_helper_vzext_vf4_d,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, gen_helper_vzext_vf8_=
-d<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, gen_helper_vsext_vf2_=
-h,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_vsext_vf2_w, gen=
-_helper_vsext_vf2_d<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_vsext_vf4_w, gen=
-_helper_vsext_vf4_d,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, gen_helper_vsext_vf8_=
-d<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 };<br>
-<br>
-I don&#39;t understand why there aren&#39;t more functions in this table.=
-=C2=A0 As far as I<br>
-can see, the only NULLs should be at [*][0].<br>
-<br>
-<br>
-r~<br></blockquote><div><br></div><div>As source EEW has to be 1/2, 1/4, 1/=
-8 of SEW and the source EEW must be</div><div>a supported width (Section 12=
-.3).</div><div><br></div><div>Shouldn&#39;t it impossible to have the cases=
-, e.g.</div><div>vzext.vf4 with SEW =3D 16, i.e. EEW =3D SEW / 4 =3D 4 bits=
-</div><div>vzext.vf8 with SEW =3D 16, i.e. EEW =3D SEW / 8 =3D 2 bits</div>=
-<div>vzext.vf8 with SEW =3D 32, i.e. EEW =3D SEW / 8 =3D 4 bits</div><div><=
-br></div><div>Frank Chang</div></div></div>
+On Wed, Jul 29, 2020 at 02:06:43PM +0300, Denis V. Lunev wrote:
+> On 7/29/20 1:30 PM, Stefan Hajnoczi wrote:
+> > On Fri, Jul 10, 2020 at 08:27:11PM +0300, Denis V. Lunev wrote:
+> >> @@ -3740,6 +3741,10 @@ QemuOptsList qemu_common_drive_opts =3D {
+> >>              .type =3D QEMU_OPT_BOOL,
+> >>              .help =3D "whether to account for failed I/O operations "
+> >>                      "in the statistics",
+> >> +        },{
+> >> +            .name =3D "latency-log-threshold",
+> >> +            .type =3D QEMU_OPT_STRING,
+> > QEMU_OPT_NUMBER?
+> good catch! we have this parameter on by default (10 seconds) and never
+> passed it from the command line :)
+>=20
+> Thus should we keep this off be default or on? :)
 
---00000000000073685805abba1aac--
+On by default sounds good. It adds useful information.
+
+Stefan
+
+--cvVnyQ+4j833TQvp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8j8RsACgkQnKSrs4Gr
+c8gWAQf+LOP+R1r1PGrMXXhEiTNRaL2SODCON48kzDY1gQpOvlSMTz3TT/V/sXkm
+rBHHKDPIh4KPcrw3Kx8GyKwb/CXckzV6BqXtwimiLmACWTOxS2iEeeJwozONJB8j
+tJYfD7oK4rpWMfP1j8LTx86NmPh1hMgG9ZVinfjqiaSCDK7qdCNxF7CSjp05amqS
+0k5rjp0kxJQ2WmahN4qg0kUPi8Xb0JAngAmUrMZsueR70K5omxX3DiSnzvxDySTa
+K06/nUFbXJ27/oMF/I4VJKFk5tRcEikPcdvdC9Y3ZnsheNxlzQdpyoB4i3jDGcc+
+dvno+kIR0nqkdDT3n+CPD/buGtg23w==
+=n4zx
+-----END PGP SIGNATURE-----
+
+--cvVnyQ+4j833TQvp--
 
