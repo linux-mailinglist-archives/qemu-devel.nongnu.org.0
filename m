@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264F723434C
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:31:14 +0200 (CEST)
-Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B3323435F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:37:27 +0200 (CEST)
+Received: from localhost ([::1]:55914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1RNh-00014p-07
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41964)
+	id 1k1RTi-0005By-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJP-0007dQ-N5; Fri, 31 Jul 2020 05:26:47 -0400
-Received: from mout.web.de ([212.227.17.11]:44495)
+ id 1k1RJS-0007fq-KP; Fri, 31 Jul 2020 05:26:50 -0400
+Received: from mout.web.de ([212.227.15.3]:53807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJN-0003GW-DB; Fri, 31 Jul 2020 05:26:47 -0400
+ id 1k1RJQ-0003Gk-P7; Fri, 31 Jul 2020 05:26:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596187599;
- bh=MuCNjqd9H4ALndDqG0jP1AQMY+cLODy92P04oBv1UFk=;
+ s=dbaedf251592; t=1596187603;
+ bh=Y55RT1Puo45w6Y+NNfi0kCvRF0dtXGvI+GyKGpQgDuI=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=dtYzHAcYN0AV4R+Z/BMuoq+oC7f9sVdLOSPm01UBLXFGlpcy1kdDrBWJ3eo+gIWij
- vM328TZ3A3RLEjdmv87MNRRxpxuKbVY7Niz2xTOMGepT2I2yoeqCQpHccy5qPeRcNl
- uc38kBmi2IGQsNsOuizWJsHNXo5K81YURucAvw4k=
+ b=mAHkGzuhXofkypUc7/XjNaRg541socihF1WwHU1vRW2jnOMr9bALqbYKdi4fXU1RM
+ FyVVEQe8xcuOSdeZb6r9omX6bOJsTJcvAqC88q2crtNN4fsABOAOJK47UFIWDs5JsJ
+ 4jADwic2bkS4qLyeYiaYKOzwXFsc1X60d0ptjnO8=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M6mTI-1kxYB108iC-00wTn0; Fri, 31
- Jul 2020 11:26:39 +0200
-Date: Fri, 31 Jul 2020 11:26:37 +0200
+Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LfzgJ-1kXSkS0bPP-00peH3; Fri, 31
+ Jul 2020 11:26:43 +0200
+Date: Fri, 31 Jul 2020 11:26:41 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v6 2/9] block/nbd.c: Add yank feature
-Message-ID: <238b513ddef19cf91c8bfd379277f78e00a00f1a.1596184200.git.lukasstraub2@web.de>
+Subject: [PATCH v6 3/9] chardev/char-socket.c: Add yank feature
+Message-ID: <6c504d77050ff2f944349f98c4573f388145969b.1596184200.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1596184200.git.lukasstraub2@web.de>
 References: <cover.1596184200.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Z40XhgjMqFfOfh.kLsZer2n";
+Content-Type: multipart/signed; boundary="Sig_/+zyezhABBCdjSa/VP8F.T=C";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:k1CgawiDO0JIvBgUj19o6QQsJZK6ILIpO+fe3n/VlG7p4fWZfEz
- M9nevYPqr8idVL1Bqn39rcfaOJyDkzEsgAJdVfOVBvAxv+xmm+FIhMzu4SPtS8AJeKh7QvE
- U0g5rXdXEOWHGBFq6tY9Mg2SXE/8B5szKfAW/nACkl2m0pL8TffvTCsldSr5VE62BJVRN0S
- ItYCajJw3NQ7PIYNBvukw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KPHwng5b8tw=:PJksNSFa8Bx50LQS0SsV0A
- PyVCSGwJFbtCdCthNPqUnjvRkEfJOtMHDwQFd1wUbv9+6PPIUxtZB0kJhvuPSWkYGFJFDsIo8
- gu4Pl2JRBLCTux371tynII+aXBua9os0vk+/uw9LQuxWfhHFZpVnDFsCtt3UWPYXC8zIgB1hl
- NrJ3QxanK2t2eTbzU817X3/WGR63P7AqRt9dEccMYqtDjPGBR0vt4UhSFyj2GIvgPv54S6mZb
- +PRkNJbBkovxWXSZaBFmFdtlFMZFugrUmWEdQ0Zam6snANTR7m4CCJ17oCsvLKSJmeDLdwbly
- xlDbSi9x0InYbRHI57l30QX1mit3LIAghLGtkBiFYjDEqv1FKL/XuwzSOLOpEz3qb40jWlNdX
- 3jzh4OVlGdDnf2m2D7ajpdSPiw1mVRXcWADnIrCKoWA8E2GTwsVm5e3De7uT8V3PdTza+jGo5
- pvK3cYfL+bCrl9Gaei0B+evgdeWehpd2Jr6DX77m4pvG3VOVL9GvqNLt/fgRKwJ8eDvGOLCpW
- zIGBM0xCQbSkPdlHo5vswr99Yk68rX8wgJo0ldKc5cYhjZfsKaimM4DKjJZnfE8EwMt7t2hGi
- lc2MhhLQtzr9XjAAewnlN5qE4xmba79Zp++BGhuobjAgDK+nTG+PDllgDjed6yJq+VSxtAN+a
- HKxU7zYLkoI9UJbAyyNkfA0U6OHun8rgdcUkjJZyLS4IuHxBI6LBDegTMmIFBgGj+C8P6AKZ8
- 2IZ/rWWioM/Ato7msL4Zxz+b5+KH27hSZD78ZtriKhYZ8PdalaCNbZg+PpPBlLVJ5GGjrwyF+
- d7SbPeL+S2WO/ji1YM0arZUuS4LCjrhH//hNv3ashf6EB1c2DKSmmeMKkcBFwW4vd5gcFLrTw
- 7IF/YBb5eQOD9ry7fpMUU3sIZxDjYOMOUu03NlJfTeew7vV3jVx+pI5fEF6YPUAX5K/Z4C5Da
- LVCXZtNHZ0NtZCpzYqSHA9RDURoLyw5S4zA2pe+Pesr6wtqd6OUGXasi+Vq1exrtI9JDpR/f3
- ISkBLp4HWt+YImjUnVLGaH/lX6Q2Ca6saYeoD4cCsbqZTXCGoIUO1BiC37tBAFL294QGD1F/X
- jIodKxdgAMqgnjIF2RhQw+WfSl4FdNK4P7A+J5wcymV2NkhCWNYWbqNLmMLx5k0QM8oJ3Izhd
- Q6lBMggfQgpVSMHdUvisPHcBmJOxkuEDJY2IHZbtW1uFuuKMSXMuz0zOG60HHifh5WvhDyl2p
- rkOemMjY2saRtswwU3qEPbVSSuP+z1gEYTBCTVA==
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:yBLacbn3lFKMc3KzTt5HeRK54fyw4cNb+ZqAjqo9WTWV53c42rG
+ ZOmzguwacuRymgJlE71sjCTP/9lJISLSobRhyF4AHdR9R+8drfrUUOgyOagwnQ4c0glMdDU
+ 1bHB/kNUMlJlHX35eB214DIOWuw7R0ibPVoBHgh80N40rMM7aG8LfUIhU2nZ4vdUrivmLwh
+ 4OvR97hgJJ475L9vXM7ZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:h4E64QrEYh0=:a+AM15jRaeJrP+/AlkA37l
+ XITJInmmtOtXrcHVi5moWF6omKBEx/xaEBmzyONtqa71cTqyf0Ikl3cl170cEXagW4XyX1pNo
+ pDwgQ5T02QTM/2HdT/SLpu1aSY0/T2PrJEiwLyKeY4KPOSOLasUve7NJlaLNLbsq0lAW/lV9W
+ nCip4+aoAM525UrUYQdhMqhpRH89lBzZ/sZWjyWdApo+AoP1qZpiDUPbOWm7fh5Bxs+MPZfsp
+ nKbAFX9eM5C0SrWGFsyJb9A1Awp6swmyOMmof14DX+tMFPqdsmvXSmqUKviDMJojdu/DU3MXQ
+ KmlyQClONz6ksg7EDju3hxHpoij01cHI57bAATipF9ngjFcgedKaLDVLaql9+tz0XUk904FF5
+ /R/l98b/f43ibdJX3KKwL99I+X44S1DRM3DuK/E+V0M0CT1uMp0JYEdQzwh29dCoEQRXzpj9v
+ B1MQpPKmMNg+J6GE5JAw7hfwxSF2HDA0MxhZ1IYDb4G3hj7pIAIL0uqikXz/2J/IOJE/qrtzU
+ kyW9FKsJOYscJ2zAV+C2AKC3jYFdLgBaxe/+Mfe5R5wXr+1gUlKtmn81sRO0T4madXDh7ebN2
+ IdKsmOfypdAdXZUtsNW5X6TjQ1pxXvlzEo1/dH+qsWSvpg6/KR38bb1xd4FW7WtNbSvWzrXyI
+ pQf4VSvoC1/gEXoeMcuAQ1p97xFZc4/NFGzZBMjXcKYxoIVA23iKAdZiQJw4MDUUGHN+QgQGD
+ n8Qv5mWMS8Sab1gsNSjT/oFomVsRdFH4kkKv6vdFXrLgJrFtXLixRAC0sIz0LHK5J/qAeV3n4
+ zxjDYwP88WLmkC6TokcuSA5Bf14oCo8l8fOYPVrmqout7jPL+xwWbNO4cpdXnIpgZyZ5Zv6j9
+ 6d6QWpMvcBt0Tk7deuMA2E1oFfaYtJMZxtsqYy0AECaiIDFv3PTVFZPOxGjN/W+Wbsca6DuOs
+ bcWRmlmzJljc4L+usSQJnCk4Kic3drzzMf9yAILhrXF4VCKqWwwiAnw3T1zILNLTY/1AvFNYx
+ GrWAjQRD89XlhkzggO1tzoJM8311bJDP1f2THGQaICW9zoxniuCHCUeoi4ApUok5W8Kdj1idf
+ F0jGQHj5mU82J0wnZAmHnlDmdDtlC1suSQmivJKmTUJy+0dwCEfdWU86c5PQSY7ERqqbvDJ1c
+ jP/Ei6cLBjPz3fuYC9JqDP7Cq/p1bQQpKfGSKlaPVPN6EH3lTROWZd1CynXka3Qt/rjT1UTQu
+ UkBOfTL72UmT66sEUsgUP6q/DIr90HROin59FWQ==
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 05:26:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 05:10:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -72,7 +72,7 @@ X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,434 +95,150 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Z40XhgjMqFfOfh.kLsZer2n
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/+zyezhABBCdjSa/VP8F.T=C
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Register a yank function which shuts down the socket and sets
-s->state =3D NBD_CLIENT_QUIT. This is the same behaviour as if an
-error occured.
+Register a yank function to shutdown the socket on yank.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/nbd.c | 123 +++++++++++++++++++++++++++++++---------------------
- 1 file changed, 74 insertions(+), 49 deletions(-)
+ chardev/char-socket.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 7bb881fef4..e37b0f6ab0 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -35,6 +35,7 @@
- #include "qemu/option.h"
- #include "qemu/cutils.h"
- #include "qemu/main-loop.h"
-+#include "qemu/atomic.h"
-
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index ef62dbf3d7..c0ce4dc606 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -34,6 +34,7 @@
+ #include "qapi/error.h"
+ #include "qapi/clone-visitor.h"
  #include "qapi/qapi-visit-sockets.h"
- #include "qapi/qmp/qstring.h"
-@@ -43,6 +44,8 @@
- #include "block/nbd.h"
- #include "block/block_int.h"
-
 +#include "qemu/yank.h"
-+
- #define EN_OPTSTR ":exportname=3D"
- #define MAX_NBD_REQUESTS    16
 
-@@ -84,6 +87,8 @@ typedef struct BDRVNBDState {
-     NBDReply reply;
-     BlockDriverState *bs;
+ #include "chardev/char-io.h"
 
+@@ -69,6 +70,7 @@ typedef struct {
+     size_t read_msgfds_num;
+     int *write_msgfds;
+     size_t write_msgfds_num;
 +    char *yank_name;
-+
-     /* Connection parameters */
-     uint32_t reconnect_delay;
-     SocketAddress *saddr;
-@@ -93,10 +98,10 @@ typedef struct BDRVNBDState {
-     char *x_dirty_bitmap;
- } BDRVNBDState;
 
--static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
--                                                  Error **errp);
--static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *si=
-oc,
--                                Error **errp);
-+static int nbd_establish_connection(BlockDriverState *bs, SocketAddress *s=
-addr,
-+                                    Error **errp);
-+static int nbd_client_handshake(BlockDriverState *bs, Error **errp);
-+static void nbd_yank(void *opaque);
+     SocketAddress *addr;
+     bool is_listen;
+@@ -413,6 +415,11 @@ static void tcp_chr_free_connection(Chardev *chr)
 
- static void nbd_clear_bdrvstate(BDRVNBDState *s)
- {
-@@ -109,17 +114,19 @@ static void nbd_clear_bdrvstate(BDRVNBDState *s)
-     s->tlscredsid =3D NULL;
-     g_free(s->x_dirty_bitmap);
-     s->x_dirty_bitmap =3D NULL;
-+    g_free(s->yank_name);
-+    s->yank_name =3D NULL;
+     tcp_set_msgfds(chr, NULL, 0);
+     remove_fd_in_watch(chr);
++    if (s->state =3D=3D TCP_CHARDEV_STATE_CONNECTING
++        || s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED) {
++        yank_unregister_function(s->yank_name, yank_generic_iochannel,
++                                 QIO_CHANNEL(s->sioc));
++    }
+     object_unref(OBJECT(s->sioc));
+     s->sioc =3D NULL;
+     object_unref(OBJECT(s->ioc));
+@@ -916,6 +923,8 @@ static int tcp_chr_add_client(Chardev *chr, int fd)
+     }
+     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
+     tcp_chr_set_client_ioc_name(chr, sioc);
++    yank_register_function(s->yank_name, yank_generic_iochannel,
++                           QIO_CHANNEL(sioc));
+     ret =3D tcp_chr_new_client(chr, sioc);
+     object_unref(OBJECT(sioc));
+     return ret;
+@@ -930,6 +939,8 @@ static void tcp_chr_accept(QIONetListener *listener,
+
+     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
+     tcp_chr_set_client_ioc_name(chr, cioc);
++    yank_register_function(s->yank_name, yank_generic_iochannel,
++                           QIO_CHANNEL(cioc));
+     tcp_chr_new_client(chr, cioc);
  }
 
- static void nbd_channel_error(BDRVNBDState *s, int ret)
- {
-     if (ret =3D=3D -EIO) {
--        if (s->state =3D=3D NBD_CLIENT_CONNECTED) {
-+        if (atomic_load_acquire(&s->state) =3D=3D NBD_CLIENT_CONNECTED) {
-             s->state =3D s->reconnect_delay ? NBD_CLIENT_CONNECTING_WAIT :
-                                             NBD_CLIENT_CONNECTING_NOWAIT;
-         }
-     } else {
--        if (s->state =3D=3D NBD_CLIENT_CONNECTED) {
-+        if (atomic_load_acquire(&s->state) =3D=3D NBD_CLIENT_CONNECTED) {
-             qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-         }
-         s->state =3D NBD_CLIENT_QUIT;
-@@ -170,7 +177,7 @@ static void nbd_client_attach_aio_context(BlockDriverSt=
-ate *bs,
-      * s->connection_co is either yielded from nbd_receive_reply or from
-      * nbd_co_reconnect_loop()
-      */
--    if (s->state =3D=3D NBD_CLIENT_CONNECTED) {
-+    if (atomic_load_acquire(&s->state) =3D=3D NBD_CLIENT_CONNECTED) {
-         qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), new_context);
+@@ -945,6 +956,8 @@ static int tcp_chr_connect_client_sync(Chardev *chr, Er=
+ror **errp)
+         object_unref(OBJECT(sioc));
+         return -1;
      }
-
-@@ -237,20 +244,20 @@ static void nbd_teardown_connection(BlockDriverState =
-*bs)
-
- static bool nbd_client_connecting(BDRVNBDState *s)
- {
--    return s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT ||
--        s->state =3D=3D NBD_CLIENT_CONNECTING_NOWAIT;
-+    NBDClientState state =3D atomic_load_acquire(&s->state);
-+    return state =3D=3D NBD_CLIENT_CONNECTING_WAIT ||
-+        state =3D=3D NBD_CLIENT_CONNECTING_NOWAIT;
- }
-
- static bool nbd_client_connecting_wait(BDRVNBDState *s)
- {
--    return s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT;
-+    return atomic_load_acquire(&s->state) =3D=3D NBD_CLIENT_CONNECTING_WAI=
-T;
- }
-
- static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
- {
-     int ret;
-     Error *local_err =3D NULL;
--    QIOChannelSocket *sioc;
-
-     if (!nbd_client_connecting(s)) {
-         return;
-@@ -283,21 +290,21 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNB=
-DState *s)
-     /* Finalize previous connection if any */
-     if (s->ioc) {
-         nbd_client_detach_aio_context(s->bs);
-+        yank_unregister_function(s->yank_name, nbd_yank, s->bs);
-         object_unref(OBJECT(s->sioc));
-         s->sioc =3D NULL;
-         object_unref(OBJECT(s->ioc));
-         s->ioc =3D NULL;
-     }
-
--    sioc =3D nbd_establish_connection(s->saddr, &local_err);
--    if (!sioc) {
-+    if (nbd_establish_connection(s->bs, s->saddr, &local_err) < 0) {
-         ret =3D -ECONNREFUSED;
-         goto out;
-     }
-
-     bdrv_dec_in_flight(s->bs);
-
--    ret =3D nbd_client_handshake(s->bs, sioc, &local_err);
-+    ret =3D nbd_client_handshake(s->bs, &local_err);
-
-     if (s->drained) {
-         s->wait_drained_end =3D true;
-@@ -334,7 +341,7 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDS=
-tate *s)
-     nbd_reconnect_attempt(s);
-
-     while (nbd_client_connecting(s)) {
--        if (s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT &&
-+        if (atomic_load_acquire(&s->state) =3D=3D NBD_CLIENT_CONNECTING_WA=
-IT &&
-             qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - start_time_ns > delay=
-_ns)
-         {
-             s->state =3D NBD_CLIENT_CONNECTING_NOWAIT;
-@@ -371,7 +378,7 @@ static coroutine_fn void nbd_connection_entry(void *opa=
-que)
-     int ret =3D 0;
-     Error *local_err =3D NULL;
-
--    while (s->state !=3D NBD_CLIENT_QUIT) {
-+    while (atomic_load_acquire(&s->state) !=3D NBD_CLIENT_QUIT) {
-         /*
-          * The NBD client can only really be considered idle when it has
-          * yielded from qio_channel_readv_all_eof(), waiting for data. Thi=
-s is
-@@ -386,7 +393,7 @@ static coroutine_fn void nbd_connection_entry(void *opa=
-que)
-             nbd_co_reconnect_loop(s);
-         }
-
--        if (s->state !=3D NBD_CLIENT_CONNECTED) {
-+        if (atomic_load_acquire(&s->state) !=3D NBD_CLIENT_CONNECTED) {
-             continue;
-         }
-
-@@ -441,6 +448,7 @@ static coroutine_fn void nbd_connection_entry(void *opa=
-que)
-     s->connection_co =3D NULL;
-     if (s->ioc) {
-         nbd_client_detach_aio_context(s->bs);
-+        yank_unregister_function(s->yank_name, nbd_yank, s->bs);
-         object_unref(OBJECT(s->sioc));
-         s->sioc =3D NULL;
-         object_unref(OBJECT(s->ioc));
-@@ -465,7 +473,7 @@ static int nbd_co_send_request(BlockDriverState *bs,
-         qemu_co_queue_wait(&s->free_sema, &s->send_mutex);
-     }
-
--    if (s->state !=3D NBD_CLIENT_CONNECTED) {
-+    if (atomic_load_acquire(&s->state) !=3D NBD_CLIENT_CONNECTED) {
-         rc =3D -EIO;
-         goto err;
-     }
-@@ -492,7 +500,7 @@ static int nbd_co_send_request(BlockDriverState *bs,
-     if (qiov) {
-         qio_channel_set_cork(s->ioc, true);
-         rc =3D nbd_send_request(s->ioc, request);
--        if (rc >=3D 0 && s->state =3D=3D NBD_CLIENT_CONNECTED) {
-+        if (rc >=3D 0 && atomic_load_acquire(&s->state) =3D=3D NBD_CLIENT_=
-CONNECTED) {
-             if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
-                                        NULL) < 0) {
-                 rc =3D -EIO;
-@@ -807,7 +815,7 @@ static coroutine_fn int nbd_co_do_receive_one_chunk(
-     s->requests[i].receiving =3D true;
-     qemu_coroutine_yield();
-     s->requests[i].receiving =3D false;
--    if (s->state !=3D NBD_CLIENT_CONNECTED) {
-+    if (atomic_load_acquire(&s->state) !=3D NBD_CLIENT_CONNECTED) {
-         error_setg(errp, "Connection closed");
-         return -EIO;
-     }
-@@ -966,7 +974,7 @@ static bool nbd_reply_chunk_iter_receive(BDRVNBDState *=
-s,
-     NBDReply local_reply;
-     NBDStructuredReplyChunk *chunk;
-     Error *local_err =3D NULL;
--    if (s->state !=3D NBD_CLIENT_CONNECTED) {
-+    if (atomic_load_acquire(&s->state) !=3D NBD_CLIENT_CONNECTED) {
-         error_setg(&local_err, "Connection closed");
-         nbd_iter_channel_error(iter, -EIO, &local_err);
-         goto break_loop;
-@@ -991,7 +999,8 @@ static bool nbd_reply_chunk_iter_receive(BDRVNBDState *=
-s,
-     }
-
-     /* Do not execute the body of NBD_FOREACH_REPLY_CHUNK for simple reply=
-. */
--    if (nbd_reply_is_simple(reply) || s->state !=3D NBD_CLIENT_CONNECTED) {
-+    if (nbd_reply_is_simple(reply) ||
-+        atomic_load_acquire(&s->state) !=3D NBD_CLIENT_CONNECTED) {
-         goto break_loop;
-     }
-
-@@ -1423,6 +1432,15 @@ static int nbd_client_reopen_prepare(BDRVReopenState=
- *state,
++    yank_register_function(s->yank_name, yank_generic_iochannel,
++                           QIO_CHANNEL(sioc));
+     tcp_chr_new_client(chr, sioc);
+     object_unref(OBJECT(sioc));
      return 0;
+@@ -960,6 +973,8 @@ static void tcp_chr_accept_server_sync(Chardev *chr)
+     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
+     sioc =3D qio_net_listener_wait_client(s->listener);
+     tcp_chr_set_client_ioc_name(chr, sioc);
++    yank_register_function(s->yank_name, yank_generic_iochannel,
++                           QIO_CHANNEL(sioc));
+     tcp_chr_new_client(chr, sioc);
+     object_unref(OBJECT(sioc));
  }
-
-+static void nbd_yank(void *opaque)
-+{
-+    BlockDriverState *bs =3D opaque;
-+    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
-+
-+    atomic_store_release(&s->state, NBD_CLIENT_QUIT);
-+    qio_channel_shutdown(QIO_CHANNEL(s->sioc), QIO_CHANNEL_SHUTDOWN_BOTH, =
-NULL);
-+}
-+
- static void nbd_client_close(BlockDriverState *bs)
- {
-     BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
-@@ -1435,52 +1453,53 @@ static void nbd_client_close(BlockDriverState *bs)
-     nbd_teardown_connection(bs);
- }
-
--static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
--                                                  Error **errp)
-+static int nbd_establish_connection(BlockDriverState *bs,
-+                                    SocketAddress *saddr,
-+                                    Error **errp)
- {
-     ERRP_GUARD();
--    QIOChannelSocket *sioc;
-+    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
-
--    sioc =3D qio_channel_socket_new();
--    qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
-+    s->sioc =3D qio_channel_socket_new();
-+    qio_channel_set_name(QIO_CHANNEL(s->sioc), "nbd-client");
-+    yank_register_function(s->yank_name, nbd_yank, bs);
-
--    qio_channel_socket_connect_sync(sioc, saddr, errp);
-+    qio_channel_socket_connect_sync(s->sioc, saddr, errp);
-     if (*errp) {
--        object_unref(OBJECT(sioc));
--        return NULL;
-+        yank_unregister_function(s->yank_name, nbd_yank, bs);
-+        object_unref(OBJECT(s->sioc));
-+        s->sioc =3D NULL;
-+        return -1;
+@@ -1070,6 +1085,8 @@ static void char_socket_finalize(Object *obj)
+         object_unref(OBJECT(s->tls_creds));
      }
-
--    qio_channel_set_delay(QIO_CHANNEL(sioc), false);
-+    qio_channel_set_delay(QIO_CHANNEL(s->sioc), false);
-
--    return sioc;
-+    return 0;
- }
-
--/* nbd_client_handshake takes ownership on sioc. On failure it is unref'ed=
-. */
--static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *si=
-oc,
--                                Error **errp)
-+/* nbd_client_handshake takes ownership on s->sioc. On failure it's unref'=
-ed. */
-+static int nbd_client_handshake(BlockDriverState *bs, Error **errp)
- {
-     BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
-     AioContext *aio_context =3D bdrv_get_aio_context(bs);
-     int ret;
-
-     trace_nbd_client_handshake(s->export);
--
--    s->sioc =3D sioc;
--
--    qio_channel_set_blocking(QIO_CHANNEL(sioc), false, NULL);
--    qio_channel_attach_aio_context(QIO_CHANNEL(sioc), aio_context);
-+    qio_channel_set_blocking(QIO_CHANNEL(s->sioc), false, NULL);
-+    qio_channel_attach_aio_context(QIO_CHANNEL(s->sioc), aio_context);
-
-     s->info.request_sizes =3D true;
-     s->info.structured_reply =3D true;
-     s->info.base_allocation =3D true;
-     s->info.x_dirty_bitmap =3D g_strdup(s->x_dirty_bitmap);
-     s->info.name =3D g_strdup(s->export ?: "");
--    ret =3D nbd_receive_negotiate(aio_context, QIO_CHANNEL(sioc), s->tlscr=
-eds,
-+    ret =3D nbd_receive_negotiate(aio_context, QIO_CHANNEL(s->sioc), s->tl=
-screds,
-                                 s->hostname, &s->ioc, &s->info, errp);
-     g_free(s->info.x_dirty_bitmap);
-     g_free(s->info.name);
-     if (ret < 0) {
--        object_unref(OBJECT(sioc));
-+        yank_unregister_function(s->yank_name, nbd_yank, bs);
-+        object_unref(OBJECT(s->sioc));
-         s->sioc =3D NULL;
-         return ret;
-     }
-@@ -1508,7 +1527,7 @@ static int nbd_client_handshake(BlockDriverState *bs,=
- QIOChannelSocket *sioc,
-     }
-
-     if (!s->ioc) {
--        s->ioc =3D QIO_CHANNEL(sioc);
-+        s->ioc =3D QIO_CHANNEL(s->sioc);
-         object_ref(OBJECT(s->ioc));
-     }
-
-@@ -1524,9 +1543,10 @@ static int nbd_client_handshake(BlockDriverState *bs=
-, QIOChannelSocket *sioc,
-     {
-         NBDRequest request =3D { .type =3D NBD_CMD_DISC };
-
--        nbd_send_request(s->ioc ?: QIO_CHANNEL(sioc), &request);
-+        nbd_send_request(s->ioc ?: QIO_CHANNEL(s->sioc), &request);
-
--        object_unref(OBJECT(sioc));
-+        yank_unregister_function(s->yank_name, nbd_yank, bs);
-+        object_unref(OBJECT(s->sioc));
-         s->sioc =3D NULL;
-
-         return ret;
-@@ -1918,7 +1938,6 @@ static int nbd_open(BlockDriverState *bs, QDict *opti=
-ons, int flags,
- {
-     int ret;
-     BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
--    QIOChannelSocket *sioc;
-
-     ret =3D nbd_process_options(bs, options, errp);
-     if (ret < 0) {
-@@ -1928,18 +1947,23 @@ static int nbd_open(BlockDriverState *bs, QDict *op=
-tions, int flags,
-     s->bs =3D bs;
-     qemu_co_mutex_init(&s->send_mutex);
-     qemu_co_queue_init(&s->free_sema);
-+    s->yank_name =3D g_strconcat("blockdev:", bs->node_name, NULL);
-+    yank_register_instance(s->yank_name);
-
-     /*
-      * establish TCP connection, return error if it fails
-      * TODO: Configurable retry-until-timeout behaviour.
-      */
--    sioc =3D nbd_establish_connection(s->saddr, errp);
--    if (!sioc) {
-+    if (nbd_establish_connection(bs, s->saddr, errp) < 0) {
-+        yank_unregister_instance(s->yank_name);
-+        g_free(s->yank_name);
-+        s->yank_name =3D NULL;
-         return -ECONNREFUSED;
-     }
-
--    ret =3D nbd_client_handshake(bs, sioc, errp);
-+    ret =3D nbd_client_handshake(bs, errp);
-     if (ret < 0) {
-+        yank_unregister_instance(s->yank_name);
-         nbd_clear_bdrvstate(s);
-         return ret;
-     }
-@@ -1997,6 +2021,7 @@ static void nbd_close(BlockDriverState *bs)
-     BDRVNBDState *s =3D bs->opaque;
-
-     nbd_client_close(bs);
+     g_free(s->tls_authz);
 +    yank_unregister_instance(s->yank_name);
-     nbd_clear_bdrvstate(s);
++    g_free(s->yank_name);
+
+     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
  }
+@@ -1085,6 +1102,8 @@ static void qemu_chr_socket_connected(QIOTask *task, =
+void *opaque)
+
+     if (qio_task_propagate_error(task, &err)) {
+         tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
++        yank_unregister_function(s->yank_name, yank_generic_iochannel,
++                                 QIO_CHANNEL(sioc));
+         check_report_connect_error(chr, err);
+         goto cleanup;
+     }
+@@ -1118,6 +1137,8 @@ static void tcp_chr_connect_client_async(Chardev *chr)
+     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
+     sioc =3D qio_channel_socket_new();
+     tcp_chr_set_client_ioc_name(chr, sioc);
++    yank_register_function(s->yank_name, yank_generic_iochannel,
++                           QIO_CHANNEL(sioc));
+     /*
+      * Normally code would use the qio_channel_socket_connect_async
+      * method which uses a QIOTask + qio_task_set_error internally
+@@ -1360,6 +1381,9 @@ static void qmp_chardev_open_socket(Chardev *chr,
+         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
+     }
+
++    s->yank_name =3D g_strconcat("chardev:", chr->label, NULL);
++    yank_register_instance(s->yank_name);
++
+     /* be isn't opened until we get a connection */
+     *be_opened =3D false;
 
 --
 2.20.1
 
 
---Sig_/Z40XhgjMqFfOfh.kLsZer2n
+--Sig_/+zyezhABBCdjSa/VP8F.T=C
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8j480ACgkQNasLKJxd
-slhpjA//XudcoSARbhmPTTtYuqj7Iiluo9J+Ug1BcxJN51kQtVdncKqCQ+20ZlQn
-eR3jintJeJSJwZe5F7Pb6FQ7Mb3C1fJjcGNqtV1AjSyXq6t/slAznKTGIJ8VezGp
-ejRuUUxjSLgwRPTzipzuES6wJy+12Oc7AojSuQE2G9Ou+wfJD38SiE0h9EUx+x7c
-AcZq1BXwPA1fPIvFbf3VpDiqbZzuvmj/X5WxKTXwQeOVf8D0biMPXWjCQ7a8QJhO
-gG6XhLywnOQetW307m2JiMiQR5b1e55fvqBW41/3dZ9KULtZ+aVbLfL4/IOUnKzh
-jHfPBtHFWE3nnsJham+RkT5Cd6XTb9JU3du1Q+qo/W8o2wMiP2Jpc2DfokLvzd5+
-jEYoFgtrFA7oaOkABmYAhpSLo2vCxRhrFwn1eHw9sHY9Ye7Hwuu9XPXx+9ubUS3Q
-ZPssUPdC9u9gVcOG+w8cbJPW7lKygZh2b2KM5K5LQOzbJsDNdTrBCZ314MsVyI2O
-oo25ASc40Z6A5eet/rjoi34iI1OiRE77W+Bjw9rBCiklmjQXrjXwqs4QBIf687bj
-/I28q4fphlrM2YK7lNq6XmG2exe4icGwHT5hscBPB7Rldwjo6RHAhekbERG++GR1
-nHH5rUeXZGvPzpiQHkvIPgWE1PEK8ezYfW801RapCPlg+Sr+8KM=
-=/hTP
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8j49EACgkQNasLKJxd
+slhgXw//YiBxx/GIuAl44nDO28Qt3n3pRPHs5ZPdO1uumpecrWgtLpmAOObbLBi/
+kjXetxguFw+39/C7DLBjMuXq9HsN7v8uA7eLL5pf8iGkSOPMw/0zAfDuOySY1iqs
+A4rA9akeVC62e1eWYg8l5aNNmZFBuGY2LupxmSxMzLTvQBieILYwkDIOOJDG7q1d
+4AUc3r8/KtbyN2ylrt3TImkkA49PP9NBt+6Swdmwwk0r8np+NJDv+plEGNuPRpj0
++XIKjGC47iCZkex/7pwilQEIINqCQDucWBtgEUALS0FDl9xKqIUbDJYYTruRDhAP
+1tA/zJ8MofuC3BxFOm0IRU77i1duk9q1RtSswv0DblA+zGVMLDpA5YtCK9+vvLfF
+1HC66qz9z8pl0gwaqR2joHe30dNHv7GLe5RVFfpfbn89hwkTQn2H9fJAuRo/yNgJ
+2En8hJNdWEdeqGWhKn5J55r087D7GR1qrfnaSbBSt1xvre7i+HQykl7MlkLk9D1j
+xnUd825R296WBt+cNzEJhr13hK0JOuejgGCO3jESu0Pph6FsOUoks03nezFfsBM+
+OCRsJGkAZYA3ut2RusFpWuDbVnN1jwxXENJF2NCvmw1HRBVFI3enAwx1f/HxIsYN
+k8/QPNu94dVdS6pLWCHFsNg5jF1GHu7VA0g5YQUWmLqx1EafS4E=
+=SWXH
 -----END PGP SIGNATURE-----
 
---Sig_/Z40XhgjMqFfOfh.kLsZer2n--
+--Sig_/+zyezhABBCdjSa/VP8F.T=C--
 
