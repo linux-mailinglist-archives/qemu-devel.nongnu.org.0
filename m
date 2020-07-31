@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29692349DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 19:06:43 +0200 (CEST)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F8A2349EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 19:11:17 +0200 (CEST)
+Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1YUU-0000td-TD
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 13:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44574)
+	id 1k1YYu-0002oc-ML
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 13:11:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k1YTL-0008ST-HS
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:05:31 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40948)
+ id 1k1YY8-0002GP-HH
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:10:28 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:56248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k1YTJ-0004xz-OF
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:05:31 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id t15so8155336pjq.5
- for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 10:05:29 -0700 (PDT)
+ id 1k1YY6-0005g5-Vm
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:10:28 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id k1so7710321pjt.5
+ for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 10:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AolTBA6M4oIIOZ6Ux3+wZLzORQvKME0Ssg6A7cfe4Ys=;
- b=Gs/ZHg37gAbmnuXfw3jvbLCzWb23JnC2m4uQlSY9wxDUDZ5kLih18Of4PlGP1oUmNc
- q2z3FAOQdX95RgXMYxjdyGWCyoTfKuLZ398bcRqTsnssCuwv6ahh+VFV8HfOIXWnRwgs
- dE62HpV6Xp2wKDY03E4+eFOiwheFx4le8G0RlF1qzaGfuq+//Je02adc8aZ1mppLm0o1
- 8QKOCXdQ0FFZNq7Df3BxqbQU9vbiDI6wc9phk4EizRwPBnY2ulRaO1ir/xNbkoYjFpOR
- MWmgiV5yEVG8xVAbx2cwJMaqY1YNdye+rEfUDuCSFdh46jqTisdcZn9gHfLqJhjB5q8a
- YujQ==
+ bh=BaLSTqvrAbbIVKZgB0PMhSdfcixJzZBLbsjsxOPCkKk=;
+ b=Bg+iObOtu8KgvEzYel/2I9FBo5q2DM80PcQUKnMNMZgs22w3G0D7xeAXC8oDlxrsxv
+ /ufTMpFKeBddjW+Gk7gOqzQcsU4wlrPzkU5hyaGy/D8DA/0Cn4XHo0ZzMEdmo3lMH9wd
+ xFM+7o2YkN2QJ9oETYI1JShUyN+4XYI52zIiLOmBLI4KKFbb6orNdhtHLVyFw4q5oNjz
+ wbS2KpXj3ghfamD8SE7XTpAlknIWIvJmOYMqtgsiYme8ZSNypnlZu99+PZpaa/SYu2Gz
+ lFGPVB0rxCv9zRHxSEDDw8Tp8+B1HhxqBb2+LGHuTH2Aw3EUqN6SZNooTr23WY5NdqvT
+ Q2FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AolTBA6M4oIIOZ6Ux3+wZLzORQvKME0Ssg6A7cfe4Ys=;
- b=hDFP+ABvq5cczfx6ozLxH1j1Zw+9bMMUNsUk5rba36v5I8IJAM+KKCCC9hNhgZxEJl
- Xd23rmieeGTntjaKx75h/3PqTSxMSOcav6MbScjMx+6NTD03XjipGIrFLKu5NEmOseCF
- 7k2dO0zHiZA4do4lvkC4BAqyPgThP85OWY3eCM1PwQluPlW50pDnPWIwenaObyOByyiE
- rTzocTfb3DCGQmCnAAxb5em1jWLtYufqyKdeBx0kOKbYiW5TJOJueV6rJXxuLeZxGFWW
- RNb9JXRaisvx+9SetzPLUl1dwqliN3tUxs1BEjEIDbvv7x5459BhiZP8kNp1uqRCKRph
- uKdw==
-X-Gm-Message-State: AOAM532C2o2BwiOpcEUDkc0uVwpO/5CW3fuLaGz1MCiqU+ikt9nfCAl8
- 50DgYc84l1IB9v6kSMblhRDlMA==
-X-Google-Smtp-Source: ABdhPJwXnRinfFTBCgInEJFADjkU7D2pqzL/qhyjdEU6IhrD5NM8ROrjqh5c6Mpm8gRg59tdJ52eYw==
-X-Received: by 2002:a17:90b:124c:: with SMTP id
- gx12mr5119002pjb.191.1596215128094; 
- Fri, 31 Jul 2020 10:05:28 -0700 (PDT)
+ bh=BaLSTqvrAbbIVKZgB0PMhSdfcixJzZBLbsjsxOPCkKk=;
+ b=uUXvOze6tpg+7f+pbOh1p6xwgzwJA+WGCjc9ex5fjNGZvYpWTllyI3GL1Pnf7Dg28S
+ xi0RP0e0YlnuHn0I7/vS6McF+32DrOcv2H55aI1zzQPJJ0+WBQrkm7Bxq6YRXxMHaL0c
+ 7v7RGfpd3pBBWx9DT5M+Mn4jxFhUPsZiUZ4fwCilRnIv5jnARk9DwxUGjASdnvINJ+Gc
+ vcPPPx/rmwTAlrwUUAbyj028jmv8RjJh51dyazCSs4NoftIb+SdDHTEe5b9Cj9u0qf88
+ qlHpUpzwHa04OwyB1nWnGWI5swd3FJZGJd9S2jxTwesbFdTSih+okEGJuoptbY1ItjYz
+ eBBA==
+X-Gm-Message-State: AOAM5326IXPLkre8c1PPf7rrMVAWO9y5IB0nezK61HLxyX6xeheGIXzz
+ 3QuGliEEIMJrr765SgLeefBMgA==
+X-Google-Smtp-Source: ABdhPJyPc2PEDOeLTq5M5lA1z7BrBJ76EVxQ9HwonMiWz5UjLYYIXBLw2bHK0AsnGKjVhx5qgefCVg==
+X-Received: by 2002:a17:90b:3d7:: with SMTP id
+ go23mr4609448pjb.44.1596215425145; 
+ Fri, 31 Jul 2020 10:10:25 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id e125sm5376980pfh.69.2020.07.31.10.05.26
+ by smtp.gmail.com with ESMTPSA id z77sm10865806pfc.199.2020.07.31.10.10.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Jul 2020 10:05:27 -0700 (PDT)
-Subject: Re: [RFC v2 67/76] target/riscv: rvv-0.9: remove integer extract
- instruction
+ Fri, 31 Jul 2020 10:10:24 -0700 (PDT)
+Subject: Re: [RFC v2 71/76] target/riscv: rvv-0.9: widening
+ floating-point/integer type-convert
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20200722091641.8834-1-frank.chang@sifive.com>
- <20200722091641.8834-68-frank.chang@sifive.com>
+ <20200722091641.8834-72-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <74776653-55a3-6ffb-c765-3a5382c1a6c5@linaro.org>
-Date: Fri, 31 Jul 2020 10:05:25 -0700
+Message-ID: <4b58f990-5fd6-6528-6554-986c4f849463@linaro.org>
+Date: Fri, 31 Jul 2020 10:10:22 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200722091641.8834-68-frank.chang@sifive.com>
+In-Reply-To: <20200722091641.8834-72-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -103,12 +103,37 @@ On 7/22/20 2:16 AM, frank.chang@sifive.com wrote:
 > 
 > Signed-off-by: Frank Chang <frank.chang@sifive.com>
 > ---
->  target/riscv/insn32.decode              |  1 -
->  target/riscv/insn_trans/trans_rvv.inc.c | 23 -----------------------
->  2 files changed, 24 deletions(-)
+>  target/riscv/helper.h                   |  6 ++++
+>  target/riscv/insn32.decode              | 13 +++++---
+>  target/riscv/insn_trans/trans_rvv.inc.c | 43 +++++++++++++++++++++++--
+>  target/riscv/vector_helper.c            | 29 ++++++++++++++++-
+>  4 files changed, 83 insertions(+), 8 deletions(-)
+> 
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index d74dbffc21..03330fa332 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -977,12 +977,18 @@ DEF_HELPER_5(vfwcvt_xu_f_v_h, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_xu_f_v_w, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_x_f_v_h, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_x_f_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfwcvt_f_xu_v_b, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_f_xu_v_h, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_f_xu_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfwcvt_f_x_v_b, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_f_x_v_h, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_f_x_v_w, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_f_f_v_h, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vfwcvt_f_f_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfwcvt_rtz_xu_f_v_h, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfwcvt_rtz_xu_f_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfwcvt_rtz_x_f_v_h, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfwcvt_rtz_x_f_v_w, void, ptr, ptr, ptr, env, i32)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As before, no rtz helpers.
+
+The rest of it looks ok.
+
 
 r~
-
 
