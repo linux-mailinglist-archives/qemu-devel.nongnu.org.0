@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0613234361
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:39:30 +0200 (CEST)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9686234368
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:40:42 +0200 (CEST)
+Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1RVh-0008PC-Rm
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42732)
+	id 1k1RWr-0001LA-Pl
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:40:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1k1RNY-0002NV-3L
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 05:31:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51340
+ id 1k1RNz-0002jB-5y
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 05:31:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23690
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1k1RNU-0003m3-Nw
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 05:31:03 -0400
+ id 1k1RNx-0003oJ-9U
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 05:31:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596187858;
+ s=mimecast20190719; t=1596187888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=avUZqf5McAGRwwNjwfZVhZ7w0CW8QQ239W1kTOGToNE=;
- b=KXiVtf70Rq84lCJJTjxX0wf0AbQSdvQDaiBAzZQK4uZ+bJ3+MX7IpfBQvklvn3naveq8H4
- 8eK3Ol/WXOR+0cH90kU5p3sPv+A1vQh9YUHz5OV7hB5azyfyCQHOznQecZ7UrLb4KfqUj2
- Q5ALac99JGH3DaTobWvIJfTtbglox+c=
+ bh=4wbVNQOzoIXN8geB73F0yfgzsn0haLtpd4qkPqDXwCs=;
+ b=XUWh+1ERK8dV6ilsw0LKujuZiTLn6qrkwtXS2zrFDwDn65EpxemW7cCQcsLsPImZO0L7H+
+ vovwte09zzuWKMQWJY5/SWWf+EuHjXG0k3/UjRzQCW3r6MQHP670KqvP3SBs7E2eUtUGFb
+ xc2rDYzZIL8t7vsTeN4I9Nab6oEEi0A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-MSu-KIxsOuGQlJl-Uhj86A-1; Fri, 31 Jul 2020 05:30:54 -0400
-X-MC-Unique: MSu-KIxsOuGQlJl-Uhj86A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-118-1Cj6vD9BPqif02YKOYdI8w-1; Fri, 31 Jul 2020 05:31:27 -0400
+X-MC-Unique: 1Cj6vD9BPqif02YKOYdI8w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30832193F584;
- Fri, 31 Jul 2020 09:30:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7D4257;
+ Fri, 31 Jul 2020 09:31:25 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2538E261A1;
- Fri, 31 Jul 2020 09:30:45 +0000 (UTC)
-Date: Fri, 31 Jul 2020 11:30:44 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AC74512FE;
+ Fri, 31 Jul 2020 09:31:18 +0000 (UTC)
+Date: Fri, 31 Jul 2020 11:31:17 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-Message-ID: <20200731113044.12b5f6ef@redhat.com>
-In-Reply-To: <20200730155755.188845-1-mst@redhat.com>
+Subject: Re: [PATCH 2/2] arm/acpi: fix an out of spec _UID for PCI root
+Message-ID: <20200731113117.5df42212@redhat.com>
+In-Reply-To: <20200730155755.188845-2-mst@redhat.com>
 References: <20200730155755.188845-1-mst@redhat.com>
+ <20200730155755.188845-2-mst@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -79,30 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, vit9696 <vit9696@protonmail.com>,
- Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, vit9696 <vit9696@protonmail.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Jul 2020 11:58:38 -0400
+On Thu, 30 Jul 2020 11:58:41 -0400
 "Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> macOS uses ACPI UIDs to build the DevicePath for NVRAM boot options,
-> while OVMF firmware gets them via an internal channel through QEMU.
-> Due to a bug in QEMU ACPI currently UEFI firmware and ACPI have
-> different values, and this makes the underlying operating system
-> unable to report its boot option.
+> On ARM/virt machine type QEMU currently reports an incorrect _UID in
+> ACPI.
 > 
 > The particular node in question is the primary PciRoot (PCI0 in ACPI),
-> which for some reason gets assigned 1 in ACPI UID and 0 in the
+> which gets assigned PCI0 in ACPI UID and 0 in the
 > DevicePath. This is due to the _UID assigned to it by build_dsdt in
-> hw/i386/acpi-build.c Which does not correspond to the primary PCI
+> hw/arm/virt-acpi-build.c Which does not correspond to the primary PCI
 > identifier given by pcibus_num in hw/pci/pci.c
-> 
-> Reference with the device paths, OVMF startup logs, and ACPI table
-> dumps (SysReport):
-> https://github.com/acidanthera/bugtracker/issues/1050
 > 
 > In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
 > the paragraph,
@@ -115,52 +113,37 @@ On Thu, 30 Jul 2020 11:58:38 -0400
 > 
 > (See especially the last sentence.)
 > 
-> Considering *extra* root bridges / root buses (with bus number > 0),
-> QEMU's ACPI generator actually does the right thing; since QEMU commit
-> c96d9286a6d7 ("i386/acpi-build: more traditional _UID and _HID for PXB
-> root buses", 2015-06-11).
+> A similar bug has been reported on i386, on that architecture it has
+> been reported to confuse at least macOS which uses ACPI UIDs to build
+> the DevicePath for NVRAM boot options, while OVMF firmware gets them via
+> an internal channel through QEMU.  When UEFI firmware and ACPI have
+> different values, this makes the underlying operating system unable to
+> report its boot option.
 > 
-> However, the _UID values for root bridge zero (on both i440fx and q35)
-> have always been "wrong" (from UEFI perspective), going back in QEMU to
-> commit 74523b850189 ("i386: add ACPI table files from seabios",
-> 2013-10-14).
-> 
-> Even in SeaBIOS, these _UID values have always been 1; see commit
-> a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008-03-08) for
-> i440fx, and commit ecbe3fd61511 ("seabios: q35: add dsdt", 2012-12-01)
-> for q35.
-> 
-> Suggested-by: Laszlo Ersek <lersek@redhat.com>
-> Tested-by: vit9696 <vit9696@protonmail.com>
+> Reported-by: vit9696 <vit9696@protonmail.com>
 > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  hw/i386/acpi-build.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index b7bcbbbb2a..7a5a8b3521 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          dev = aml_device("PCI0");
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
->          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->          aml_append(sb_scope, dev);
->          aml_append(dsdt, sb_scope);
+> Peter can you either ack or merge this one pls?
+> 
+>  hw/arm/virt-acpi-build.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 91f0df7b13..0a482ff6f7 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -170,7 +170,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+>      aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+>      aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+>      aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+> -    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
+> +    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>      aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
+>      aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
 >  
-> @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
->          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
->          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->          aml_append(dev, build_q35_osc_method());
->          aml_append(sb_scope, dev);
->          aml_append(dsdt, sb_scope);
 
 
