@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A2223435E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:37:25 +0200 (CEST)
-Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E8D2343A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 11:49:08 +0200 (CEST)
+Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1RTg-00059D-KR
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42070)
+	id 1k1Rf1-0007ZK-R5
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 05:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJp-0007sF-9J; Fri, 31 Jul 2020 05:27:13 -0400
-Received: from mout.web.de ([217.72.192.78]:44603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k1RJn-0003JH-Hp; Fri, 31 Jul 2020 05:27:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596187625;
- bh=NSowfk+zdZfBN/U0N2yBWTJeqtU0sa+7Wn61uH1ecNA=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=bxzYYSdxqLVscnidGrbqaUlRaya6/sTI0Bs3sDDqzBb/9fYL+YQqrjFatF4nqQXh5
- cLONVZP96AI0E0+xn3fLGgijdM1AEOsiTt5HYjZTKTKbQ7+gdA+9LZqZ8GX6OwN2TA
- B3lx05RyKNtTLUnLpXPfqjRnCXg/+U2l1ahgj9wM=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.42]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M43Kc-1k1RJh30jo-000154; Fri, 31
- Jul 2020 11:27:05 +0200
-Date: Fri, 31 Jul 2020 11:27:04 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v6 8/9] chardev/char.c: Check for duplicate id before
- creating chardev
-Message-ID: <b6d4b5712afc095f3d315818723809a20a2de21e.1596184200.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1596184200.git.lukasstraub2@web.de>
-References: <cover.1596184200.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <likaige@loongson.cn>)
+ id 1k1RJu-0007xR-KC; Fri, 31 Jul 2020 05:27:18 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:44456 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <likaige@loongson.cn>)
+ id 1k1RJs-0003JA-Fr; Fri, 31 Jul 2020 05:27:18 -0400
+Received: from [10.130.0.69] (unknown [113.200.148.30])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH93p4yNf6fQCAA--.40S3;
+ Fri, 31 Jul 2020 17:27:06 +0800 (CST)
+Subject: Re: [PATCH v3] target/arm: Fix compile error in gcc 4.9.4.
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1596186433-17364-1-git-send-email-likaige@loongson.cn>
+ <CAFEAcA-yTM7=Q0V1_8fSUa7KnsgQawcP=Jnh4J4oCrhFAt3dXg@mail.gmail.com>
+From: Kaige Li <likaige@loongson.cn>
+Message-ID: <998cc5aa-c637-9456-985d-4272a05f18fa@loongson.cn>
+Date: Fri, 31 Jul 2020 17:27:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/nA=MHDqm8NS91DAd3oM8WUT";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:f1CtYLThf3u08hoLWCEmQjAxIGLMDlS9MedX3jm4SsU3viGlXOd
- TrvQX0JeM54bfTubYHR2Jbx8cauWxvFY9GXlFFTDiDzVNvd6CnOo3mbqAHFtUqN+t/yE2q+
- nnflLogIF9STqBbDpUKyKwX6HBVVgKnzsoiWD0E2g2WL8hIQ3W84BBROF77Zaq00diE65Lk
- zYwSDnm2DUNuCICIF4EOA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zU0f4ePo6I0=:UO0wF9GXwgJpvgm/fexQ0s
- /BKm8PDWG023Nv1vGdbjXZs9KFxR/vZGK9OkxPlXiktOIyF5rbohx4WVwGGtzeda7RQ77aiaL
- eAu/i+Tx1nrY9tl592uethasixtBc+6qh30KSOsc2jfqY2YgdfsykSz6s671UDPPNP3pi4qxd
- SJd7Bc8UPTyvVSOR+3EcrO76tTUta0ULTV8Kif4/my7xjX/SL+65rjudQKzBnylw/S90Urbe0
- gToGnfOEtv9YOaG0BW+kze7L+HJ7pOr2vZoaMwN0Cs5dlG8zjX3DmmI49yxRqqPLhH9D8TWUc
- wmWim9k3IwQMFxKd/tmQobphoexV6LINA4YmYCKs6/E+mXmasoZx3Urwmil2Q2D/flh01gGD7
- VrwYDamwGXjcWy9cZzQQ+sYRaM/Q/2b5zU+3VO0VUAHgXU8gsvWQsWAemk1iF7IHpRcYZRYA6
- 5ua0iFzM+ppLZh8Gku+Z4I4PQdaXQXTu47NZKTpOXbdlwxeCHdRbt0KafRZOR5hxpaLobEmTH
- CuBu3gIJlvQwuA1OQW+gkGz2HS/Ujx0YMhfWQx7rEW8nmakk7tCjyqZakLWbH61QCtFyOPIF2
- lkutlPbAUHQsGATL3fGA7speHA8HlrSYjc68G3fdGIf1t2JO51b5B8zT+CxwooiHPKrmBlQvn
- Xusf4FD0FQbawOQzDnKsn4h2kFXnFuq7W6fP7rQXd9DnPF57BHDfSVEcypR+/G/j1VmmE/s6c
- dfu0uryOaUXacxlPzdhLSJpzx056Ttk2HcvmdohTM3zv4eunwxU0FLhJL79NFK6Z/v964MLm3
- hF6h7Cz8xobWpnOCjXEPuH/lA4XF2bEVAxuxc7YVfZBHSKqkJ28WB4iX/0078o9CPCYvQT+An
- TrgPShg6neIy9W82R+sm1yAAe+YmyaQ+1xjztNw9ZKF+aNG1D33Wp9AZ763B1yp24OJ8va8GE
- 8j0yFHkth5pClxfdKaAb87777zcsJ2MmRbXJjmJNYrgBJYkglxWd2MTlLw39FQzeWy4h+0cBv
- Zaahdn6pj9U4WLaN/nmtiAwuzwKBqK8h7YbH86bBXsXvXjMbSzxddlnIE5xaPRniuy1aYuyG+
- QtIQCJ08+2v8bJtk/vhO6Y8du9TCrtDppYtWHjej1lhehbKyXWuYR14l45JtDKbxGF8MwonIw
- MQ55se8RR2TlDev7dyjP1cZasRlZ2PvpC4XVjpgy6jRZP0TTeUV5k7ZV2vinpHpxL09KlE7Ys
- rf9qDZkFs00XPIHLgtB1CgWFQA2iHsETGc7aJ1w==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 03:52:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA-yTM7=Q0V1_8fSUa7KnsgQawcP=Jnh4J4oCrhFAt3dXg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxH93p4yNf6fQCAA--.40S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFyDGr1kXF45Kw47Kw17KFg_yoWfXFcE9F
+ 40ka1kGr1UW3y0qan7uw45tFyIqrZ7ZrW7CFZrGayrWw1kJ3yfG3WkWF1I9Fs8Crnayryr
+ uF1Sgry5G3yj9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbsxYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+ C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Cr0_Gr
+ 1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
+ MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+ 026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+ Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+ vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2
+ jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
+ ZFpf9x07jYfOwUUUUU=
+X-CM-SenderInfo: 5olntxtjh6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=likaige@loongson.cn;
+ helo=loongson.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 05:07:17
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,84 +72,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/nA=MHDqm8NS91DAd3oM8WUT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 07/31/2020 05:20 PM, Peter Maydell wrote:
 
-yank_register_instance (called when creating the new chardev object)
-aborts if the instance already exists. So check for duplicate id before
-creating the new chardev to prevent this.
+> On Fri, 31 Jul 2020 at 10:07, Kaige Li <likaige@loongson.cn> wrote:
+>> Error log:
+>>
+>> /home/LiKaige/qemu/target/arm/translate-a64.c: In function ‘disas_ldst’:
+>> /home/LiKaige/qemu/target/arm/translate-a64.c:3392:5: error: ‘fn’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>       fn(cpu_reg(s, rt), clean_addr, tcg_rs, get_mem_index(s),
+>>       ^
+>> /home/LiKaige/qemu/target/arm/translate-a64.c:3318:22: note: ‘fn’ was declared here
+>>       AtomicThreeOpFn *fn;
+>>                        ^
+>> cc1: all warnings being treated as errors
+>>
+>> Add an initiallization value NULL for fn to fix this.
+> As I said, I've already applied this patch to target-arm.next,
+> so you don't need to do anything further. It'll get into
+> master probably on Monday.
+Ok, Thank you.
+Kaige.
+>
+> thanks
+> -- PMM
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- chardev/char.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/chardev/char.c b/chardev/char.c
-index 77e7ec814f..ce041dface 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -951,6 +951,11 @@ static Chardev *chardev_new(const char *id, const char=
- *typename,
-
-     assert(g_str_has_prefix(typename, "chardev-"));
-
-+    if (id && object_resolve_path_component(get_chardevs_root(), id)) {
-+        error_setg(errp, "Chardev '%s' already exists", id);
-+        return NULL;
-+    }
-+
-     obj =3D object_new(typename);
-     chr =3D CHARDEV(obj);
-     chr->label =3D g_strdup(id);
-@@ -969,11 +974,7 @@ static Chardev *chardev_new(const char *id, const char=
- *typename,
-     }
-
-     if (id) {
--        object_property_try_add_child(get_chardevs_root(), id, obj,
--                                      &local_err);
--        if (local_err) {
--            goto end;
--        }
-+        object_property_add_child(get_chardevs_root(), id, obj);
-         object_unref(obj);
-     }
-
---
-2.20.1
-
-
---Sig_/nA=MHDqm8NS91DAd3oM8WUT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8j4+gACgkQNasLKJxd
-slhIKw//dxkS/c0jv6gPWiwrP6/V6WCl+9hKMteMPCRNcqGUo/ybXwt526+Rt/Wg
-NpDi76R/lXnKrYWMZbFOJN0kcyGNudvhRbpXXeOXD0aNimpBLbLJ0Lhg7oHTh7l7
-x7/KkLjIy9fPtlz6bu8kgMTFlLEDdhANyq0rtr+o5AuZ8KzUt2/2c9sp1Z88sVxW
-yZOIhmJ09Z6YzLgy2jOPrG7pv+fM6oY3/i70r9P6oQ6yFVMKefDamsbznbuelXhO
-D5Wpp9aAL0ihHVqbzw8EBFwUpG4a0YFVEU+0d8KUgR9RJiFWNqnQShzd+/I3JX6a
-tPrBwxoDICAFvGpio/zKxn8hIcGNki6hrbJvC8rODt5XkdqAlBXGF8zzxvS/nDRV
-JIalOooAEG+GP0EwHvF1ilfsfdNuxFIOo5BO+QDT4gDSxBJlDkX0lyDGw2CxwBVt
-8/e54gImlUw/dxeIbPsVwT9mXkDm/PAgzHcLxUB0ABpNys/ndCKpbJbCHu57iARi
-LGbgg1lBfh0nTG/1XrN+SLUP3u7w42VDG/Qf1vjjmfsTP1m9E56IW0X7T4v96G+R
-huC//yS90D9Ym2P+GLJgJz5uwfZuq6hRbimGo4UYVbdwxPxjOFm6u87P4bTt5/ex
-afGI2vCckvbgWrCXKwhRTTKpJ7O5gN8Qn+fwU5LCBVt+gXP6rhw=
-=Ia2N
------END PGP SIGNATURE-----
-
---Sig_/nA=MHDqm8NS91DAd3oM8WUT--
 
