@@ -2,91 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAA1234AF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 20:28:06 +0200 (CEST)
-Received: from localhost ([::1]:33560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE5D234ADF
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 20:25:32 +0200 (CEST)
+Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1ZlF-0002BG-GY
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 14:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58036)
+	id 1k1Zil-0006uB-Iz
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 14:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1k1ZeL-0001hY-OA
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:20:57 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:54838)
+ id 1k1ZeM-0001ir-Fz
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:20:58 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:36562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1k1ZeJ-0005LZ-Hz
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:20:57 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VIBmft069809;
- Fri, 31 Jul 2020 18:20:48 GMT
+ id 1k1ZeK-0005MT-Db
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 14:20:58 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VICNa3055889;
+ Fri, 31 Jul 2020 18:20:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2020-01-29;
- bh=1l67bn+gCumzFGqkgymzvlntK4IEFqBqvaSg3HO6MtE=;
- b=ijBD3K1jNpms2CG0XjRlzRrdvgu8I9A4mDzpDQRNwkDrLQerCR+EM1pR0VU8U/zySSUi
- Vb7tZbkLP6ZeoW5LsJJLfiELJbnK6hbLkRH1bA1qGBeIruwzrBltuByJfqGuJWypE5Wu
- rzmc8XgwiAu5w10CAytqwP4iZiU+RFDHPaDdnR06PikJhmVzOhObjFEuWoIJoXEmyCaE
- Q0vOrsW0zsgAFWZt/gjRFddGSIawtsITITYMMkbV5zlxz4RZ3cwlGOkefs1je0s4Oesp
- YelPIgVJx/z16YzyD4CVo21BCsnWHgFkiphpQrqvtRXvm668BuczXqlw6re6mxGR3cKz jA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 32mf702u7x-1
+ references : mime-version : content-type : content-transfer-encoding;
+ s=corp-2020-01-29; bh=fqZkHL+Lq0OIw+iBNmqKPRMYmFD9NYg+1iNuL7DR8+s=;
+ b=WnR0yxNqnw5tmV+qerUcxEgYk0hGdHQHMKWUcifc8DZFYoVLyvkavyQ0vMBwqZ8lWk4j
+ /98NWNceW87m3rqd9owC5J4clm8mdG3mXL15iqg/TQ+L2tQ2tvzCdskLh+LwO/lZBfSe
+ eEuXkAGc6xu2Q8qZM1YNb7sP5L4MYXOtktnGLxYD/x/5kdIlxn8DZu4wYasTltOcNcvU
+ 6tVcn6lKcKw6rYGLY3pliF8ioZ9uxk+UmeZWmJhNc0jWagRkON4CTToYzKlKxio+AgrE
+ 8n0ngEepRHVxfy2HE0Tc87AamTYCIixwKOl2Rs1e5qrNm9tdQYpceiIBIHcPK0wOSaFN Pw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 32mf9g2tq4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 31 Jul 2020 18:20:48 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VIIi8c080286;
- Fri, 31 Jul 2020 18:20:48 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 32mf70vdwy-1
+ Fri, 31 Jul 2020 18:20:50 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06VIHVlB074002;
+ Fri, 31 Jul 2020 18:20:50 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 32hu606sau-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jul 2020 18:20:48 +0000
+ Fri, 31 Jul 2020 18:20:49 +0000
 Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06VIKldb013260;
- Fri, 31 Jul 2020 18:20:47 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06VIKmjL023526;
+ Fri, 31 Jul 2020 18:20:48 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 31 Jul 2020 11:20:46 -0700
+ with ESMTP ; Fri, 31 Jul 2020 11:20:48 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 07/20] multi-process: add co-routines to communicate with
- remote
-Date: Fri, 31 Jul 2020 14:20:14 -0400
-Message-Id: <b57493752ed0ec04f44df915413e325acf641882.1596217462.git.jag.raman@oracle.com>
+Subject: [PATCH v8 08/20] multi-process: Initialize message handler in remote
+ device
+Date: Fri, 31 Jul 2020 14:20:15 -0400
+Message-Id: <0851c9322a54f6cba2de750529f9ebf21e1ba50e.1596217462.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1596217462.git.jag.raman@oracle.com>
 References: <cover.1596217462.git.jag.raman@oracle.com>
 In-Reply-To: <cover.1596217462.git.jag.raman@oracle.com>
 References: <cover.1596217462.git.jag.raman@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 spamscore=0
- mlxlogscore=999 adultscore=0 malwarescore=0 mlxscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=1 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007310137
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9699
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 suspectscore=0
- spamscore=0 impostorscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- adultscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 malwarescore=0
+ bulkscore=0 adultscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
+ suspectscore=1 clxscore=1015 mlxscore=0 phishscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2007310136
-Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
- helo=userp2120.oracle.com
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 14:20:51
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,159 +112,135 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-
-process to avoid blocking the main loop during the message exchanges.
-To be used by proxy device.
+Initializes the message handler function in the remote process. It is
+called whenever there's an event pending on QIOChannel that registers
+this function.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/io/mpqemu-link.h | 15 +++++++++
- io/mpqemu-link.c         | 82 ++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 97 insertions(+)
+ MAINTAINERS              |  1 +
+ hw/i386/Makefile.objs    |  1 +
+ hw/i386/remote-msg.c     | 64 ++++++++++++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/remote.h |  4 +++
+ 4 files changed, 70 insertions(+)
+ create mode 100644 hw/i386/remote-msg.c
 
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index ae7008e..8591ad2 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -14,6 +14,7 @@
- #include "qom/object.h"
- #include "qemu/thread.h"
- #include "io/channel.h"
-+#include "io/channel-socket.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 41fe809..40e0654 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3046,6 +3046,7 @@ F: hw/i386/remote.c
+ F: include/hw/i386/remote.h
+ F: io/mpqemu-link.c
+ F: include/io/mpqemu-link.h
++F: hw/i386/remote-msg.c
  
- #define REMOTE_MAX_FDS 8
+ Build and test automation
+ -------------------------
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index 5ead266..8396958 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -15,6 +15,7 @@ obj-$(CONFIG_VMPORT) += vmport.o
+ obj-$(CONFIG_VMMOUSE) += vmmouse.o
+ obj-$(CONFIG_PC) += port92.o
+ obj-$(CONFIG_MPQEMU) += remote.o
++obj-$(CONFIG_MPQEMU) += remote-msg.o
  
-@@ -27,6 +28,7 @@
-  */
- typedef enum {
-     INIT = 0,
-+    RET_MSG,
-     MAX = INT_MAX,
- } MPQemuCmd;
- 
-@@ -64,6 +66,19 @@ typedef struct {
-     uint8_t *data2;
- } MPQemuMsg;
- 
-+struct MPQemuRequest {
-+    MPQemuMsg *msg;
-+    QIOChannel *ioc;
-+    Coroutine *co;
-+    bool finished;
-+    int error;
-+    long ret;
-+};
-+
-+typedef struct MPQemuRequest MPQemuRequest;
-+
-+uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, QIOChannel *ioc,
-+                                  Error **errp);
- void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
- void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
- 
-diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index dcefa42..d4dd0fe 100644
---- a/io/mpqemu-link.c
-+++ b/io/mpqemu-link.c
-@@ -16,6 +16,8 @@
- #include "qapi/error.h"
- #include "qemu/iov.h"
- #include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
-+#include "io/channel-socket.h"
- 
- void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
- {
-@@ -132,6 +134,86 @@ void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
-     }
- }
- 
-+/* Use in proxy only as it clobbers fd handlers. */
-+static void coroutine_fn mpqemu_msg_send_co(void *data)
-+{
-+    MPQemuRequest *req = (MPQemuRequest *)data;
-+    MPQemuMsg msg_reply = {0};
-+    Error *local_err = NULL;
-+
-+    if (!req->ioc) {
-+        error_report("No channel available to send command %d",
-+                     req->msg->cmd);
-+        req->finished = true;
-+        req->error = -EINVAL;
-+        return;
-+    }
-+
-+    req->co = qemu_coroutine_self();
-+    mpqemu_msg_send(req->msg, req->ioc, &local_err);
-+    if (local_err) {
-+        error_report("ERROR: failed to send command to remote %d, ",
-+                     req->msg->cmd);
-+        req->finished = true;
-+        req->error = -EINVAL;
-+        return;
-+    }
-+
-+    mpqemu_msg_recv(&msg_reply, req->ioc, &local_err);
-+    if (local_err) {
-+        error_report("ERROR: failed to get a reply for command %d, "
-+                     "errno %s",
-+                     req->msg->cmd, strerror(errno));
-+        req->error = -EIO;
-+    } else {
-+        if (!mpqemu_msg_valid(&msg_reply) || msg_reply.cmd != RET_MSG) {
-+            error_report("ERROR: Invalid reply received for command %d",
-+                         req->msg->cmd);
-+            req->error = -EINVAL;
-+        } else {
-+            req->ret = msg_reply.data1.u64;
-+        }
-+    }
-+    req->finished = true;
-+}
-+
+ obj-y += kvmvapic.o
+ obj-$(CONFIG_ACPI) += acpi-common.o
+diff --git a/hw/i386/remote-msg.c b/hw/i386/remote-msg.c
+new file mode 100644
+index 0000000..4315d2c
+--- /dev/null
++++ b/hw/i386/remote-msg.c
+@@ -0,0 +1,64 @@
 +/*
-+ * Create if needed and enter co-routine to send the message to the
-+ * remote channel ioc and wait for the reply.
-+ * Returns the value from the reply message, sets the error on failure.
++ * Copyright © 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
++ *
++ * See the COPYING file in the top-level directory.
++ *
 + */
 +
-+uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, QIOChannel *ioc,
-+                                  Error **errp)
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "hw/i386/remote.h"
++#include "io/channel.h"
++#include "io/mpqemu-link.h"
++#include "qapi/error.h"
++#include "sysemu/runstate.h"
++
++gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
++                            gpointer opaque)
 +{
-+    MPQemuRequest req = {0};
-+    uint64_t ret = UINT64_MAX;
++    PCIDevice *pci_dev = (PCIDevice *)opaque;
++    Error *local_err = NULL;
++    MPQemuMsg msg = { 0 };
 +
-+    req.ioc = ioc;
-+    if (!req.ioc) {
-+        error_setg(errp, "Channel is set to NULL");
-+        return ret;
++    if (cond & G_IO_HUP) {
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        return FALSE;
 +    }
 +
-+    req.msg = msg;
-+    req.ret = 0;
-+    req.finished = false;
-+
-+    req.co = qemu_coroutine_create(mpqemu_msg_send_co, &req);
-+    qemu_coroutine_enter(req.co);
-+
-+    while (!req.finished) {
-+        aio_poll(qemu_get_aio_context(), true);
++    if (cond & (G_IO_ERR | G_IO_NVAL)) {
++        error_report("Error %d while processing message from proxy \
++                   in remote process pid=%d", errno, getpid());
++        return FALSE;
 +    }
-+    if (req.error) {
-+        error_setg(errp, "Error exchanging message with remote process, "
-+                        "error %d", req.error);
-+    }
-+    ret = req.ret;
 +
-+    return ret;
++    mpqemu_msg_recv(&msg, ioc, &local_err);
++    if (local_err) {
++        goto exit;
++    }
++
++    if (!mpqemu_msg_valid(&msg)) {
++        error_report("Received invalid message from proxy \
++                     in remote process pid=%d", getpid());
++        return FALSE;
++    }
++
++    switch (msg.cmd) {
++    default:
++        error_setg(&local_err,
++                   "Unknown command (%d) received for device %s (pid=%d)",
++                   msg.cmd, DEVICE(pci_dev)->id, getpid());
++    }
++
++    mpqemu_msg_cleanup(&msg);
++
++exit:
++    if (local_err) {
++        error_report_err(local_err);
++        return FALSE;
++    }
++
++    return TRUE;
 +}
+diff --git a/include/hw/i386/remote.h b/include/hw/i386/remote.h
+index 5b36b25..7f9028f 100644
+--- a/include/hw/i386/remote.h
++++ b/include/hw/i386/remote.h
+@@ -14,6 +14,7 @@
+ #include "qom/object.h"
+ #include "hw/boards.h"
+ #include "hw/pci-host/remote.h"
++#include "io/channel.h"
+ 
+ typedef struct RemoteMachineState {
+     MachineState parent_obj;
+@@ -25,4 +26,7 @@ typedef struct RemoteMachineState {
+ #define REMOTE_MACHINE(obj) \
+     OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)
+ 
++gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
++                            gpointer opaque);
 +
- bool mpqemu_msg_valid(MPQemuMsg *msg)
- {
-     if (msg->cmd >= MAX && msg->cmd < 0) {
+ #endif
 -- 
 1.8.3.1
 
