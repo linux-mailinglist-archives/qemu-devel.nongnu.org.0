@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91A2234A2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 19:19:51 +0200 (CEST)
-Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925FC234A32
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jul 2020 19:22:24 +0200 (CEST)
+Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1YhC-0005Pj-TD
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 13:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
+	id 1k1Yjf-0007Xp-MB
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jul 2020 13:22:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k1YgF-0004vm-CE
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:18:51 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:46612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k1YgD-0006XR-KX
- for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:18:51 -0400
-Received: by mail-pl1-x632.google.com with SMTP id k13so9935741plk.13
- for <qemu-devel@nongnu.org>; Fri, 31 Jul 2020 10:18:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BgSLifIsjwZZcBuz8dVhcHgyO9B5S7lmDSsidn38h6Y=;
- b=KpMNnTIRFC4VQ2jgDOJFa1CyIRKpm9+gPvfFlNy8hyNb7XIovyDF1ji7gl2z4hyhWb
- lXH1dysmAFK35JLe17cHnimsH9+xuFR+oa3X2ACPMqXqRsZeIovMHICUAR6tzKKZzv8I
- 3dEU7zYVTLN9OhnI7rW7RZxJu5e+f9lcdVMEP2YkVKLZqeDbKqki0oM1hrZ7korE73U4
- mQF2INr2sb2aKNjtceQ91UYO7geJQwWgG24BnrHKWfWot0i0sszZIkUqc64QZi/ZXaqd
- 9V+AwR6tHKdupsZ2hbBRPydJ9Lz6e0W9wy2M3ZytU/DVJBZno2P9jJ20ArEsDpOmE474
- WLVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BgSLifIsjwZZcBuz8dVhcHgyO9B5S7lmDSsidn38h6Y=;
- b=RqZosMLIewvbVa/5n/xzuubMLwmdlSuHHp+yMvjjFDPxzSjC8DonAX1O/CgwEKkzie
- I/cu8icu16TPtnNc6d1dAv9crUFytnstAuDl9kwlN1uBgYT+kXEPQjhHCGBSjNsi6DoY
- IXDYYpY6eHmPcv+XHJDkZp9WqaWk/kcZ6MqeALo/S997JTm0AYSpnR80m1Tp8w47LiW2
- cKj8xMWXqm/E41ZFQ9iZJkJkewVdMtCRzqAcyOqHEVpwv3FaREGkjRIGjT56s71J1Yuy
- qu5ScPOikEPyFWjwQdZ8ky7ctgaU3qzhI0+3ur5N9x8YTql5D44tEsnvc8XiTjHDtfH7
- XfIw==
-X-Gm-Message-State: AOAM530+lVD6K+qQBAkAVQgkUny6A4Afd5YVN9ZbvTMHuqz5JVs4+wa5
- gFtZixVs+1kVFRPXd3d+XrauLg==
-X-Google-Smtp-Source: ABdhPJwuIsKPhtUV0SIwRy9VJcxrg7vrwbPYr85Go0EQT2KeWOu3GhXKx3LreRTrjDPbARkfsVmXOA==
-X-Received: by 2002:a17:90a:8a90:: with SMTP id
- x16mr4977780pjn.89.1596215928071; 
- Fri, 31 Jul 2020 10:18:48 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id i68sm10140796pgd.32.2020.07.31.10.18.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Jul 2020 10:18:47 -0700 (PDT)
-Subject: Re: [RFC v2 72/76] target/riscv: rvv-0.9: narrowing
- floating-point/integer type-convert
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20200722091641.8834-1-frank.chang@sifive.com>
- <20200722091641.8834-73-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <adbe61bf-45b4-825b-5b27-b9a834493cd1@linaro.org>
-Date: Fri, 31 Jul 2020 10:18:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k1Yhs-000643-Nu
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:20:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35604
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k1Yhq-0006m6-QV
+ for qemu-devel@nongnu.org; Fri, 31 Jul 2020 13:20:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596216030;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=3Mt3n/tM91XPpsvn32E5YcUkFNaOeXdBYEWC24yJvYo=;
+ b=aB72qbpUwzA75WS2+ujOxhCP8pJ1TijuR3C3lt6p3/1E/52TCCVxxaRbq2otae9OVqT79e
+ YzplnRiJ+Dmf8SirHvVmqgGovNjv58XIKgAD1w49HUFQ1sk+UwXKKniXg4z4+/maFK+nvl
+ hehjRYRHrDtrYhps/xW4Uq9/Rp+/wK8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-Rx0y1yPOO0GJeeSuzyJWWw-1; Fri, 31 Jul 2020 13:20:28 -0400
+X-MC-Unique: Rx0y1yPOO0GJeeSuzyJWWw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC0AA8015F3;
+ Fri, 31 Jul 2020 17:20:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 463C874F53;
+ Fri, 31 Jul 2020 17:20:13 +0000 (UTC)
+Date: Fri, 31 Jul 2020 18:20:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] schemas: Add vim modeline
+Message-ID: <20200731172010.GG3660103@redhat.com>
+References: <20200729185024.121766-1-abologna@redhat.com>
+ <87ime52wxd.fsf@dusky.pond.sub.org>
+ <20200730093732.GB3477223@redhat.com>
+ <87k0ylz0ep.fsf@dusky.pond.sub.org>
+ <20200730132446.GL3477223@redhat.com>
+ <875za33ku1.fsf@dusky.pond.sub.org>
+ <20200731150738.GB3660103@redhat.com>
+ <03bb7822-20a0-2945-6c86-1d5f1b2a01d9@redhat.com>
+ <6ceef1ab-5078-d77e-6e6c-4e1bfc01418a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200722091641.8834-73-frank.chang@sifive.com>
+In-Reply-To: <6ceef1ab-5078-d77e-6e6c-4e1bfc01418a@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/31 12:39:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,36 +87,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 2:16 AM, frank.chang@sifive.com wrote:
-> +DEF_HELPER_5(vfncvt_rod_f_f_w_h, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rod_f_f_w_w, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rtz_xu_f_w_b, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rtz_xu_f_w_h, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rtz_xu_f_w_w, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rtz_x_f_w_b, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rtz_x_f_w_h, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfncvt_rtz_x_f_w_w, void, ptr, ptr, ptr, env, i32)
+On Fri, Jul 31, 2020 at 06:35:23PM +0200, Paolo Bonzini wrote:
+> On 31/07/20 17:26, John Snow wrote:
+> > I saw the critique that we still use JSON-ish for the runtime QMP
+> > protocol, and moving the QAPI IDL to a standard wouldn't remove all
+> > instances of a custom format from our tree.
+> 
+> Sorry, but "still using JSON" is not a critique that makes any sense.
+> 
+> 99% of the websites you use daily use JSON as their RPC
+> frontend-to-backend language; OpenAPI is essentially JSON over HTTP.
+> There must be something good in JSON.
 
-Again, no rtz helpers.
+I think it is more about the way we're using JSON to define QMP.
 
-As for rod... I think you'll want a new helper akin to
-helper_set_rounding_mode() that sets float_round_to_odd.  We don't want to
-change helper_set_rounding_mode because that's responsible for SIGILL, and this
-should be an interface private to translation.
+We take a raw socket (or really arbitrary reliable stream no matter
+what its transport), and are defining the full RPC protocol. We define
+the initial QMP handshake, the separation of commands/replies/events
+and of course the data format for the content sent. We've invented
+the whole stack above the raw sockets layer.
 
-You'd probably want to add a private value for to be used only within
-translate.c and insn_trans/*, so that gen_set_rm() can remember the odd setting
-as with all of the others.  E.g.
+In the case of typical REST APIs, HTTP provides the core protocol
+with handshake, and separation of commands/replies. The application
+is merely declaring JSON to be the data format for the messages.
 
-#define QEMU_FRM_ODD 8
+So in the case of REST APIS with JSON, you can use any standard
+HTTP / REST client library, for the protocol part and any standard
+JSON library for the data (de)serialization.
 
+Talking to QEMU you get to build your own client from first
+principals. QMP isn't especially complicated, so this isn't a
+massive burden, but it doesn't exactly give a good first impression
+either. It also means QMP isn't easily extensible. eg if we used
+HTTP as our base, then we'd get remote TLS support for free from
+whatever library we used. We could do TLS with QMP, but again we
+get to build the pieces for this on both client/server side.
+Using a standard like HTTP would open door to other interesting
+ideas, like putting a HTTP proxy on a host, so you can have 1
+HTTP server fronting all 1000 VMs on the host, meaning only need
+a single port instead of 1000 ports in the firewall.  Again you
+can build such an architecture on top of QMP but its all wheel
+reinvention.
 
-r~
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
