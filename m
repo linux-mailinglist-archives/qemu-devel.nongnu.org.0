@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C441235299
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Aug 2020 15:26:22 +0200 (CEST)
-Received: from localhost ([::1]:52886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B781235297
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Aug 2020 15:18:40 +0200 (CEST)
+Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1rWn-0002ss-3M
-	for lists+qemu-devel@lfdr.de; Sat, 01 Aug 2020 09:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38552)
+	id 1k1rPL-00084C-C1
+	for lists+qemu-devel@lfdr.de; Sat, 01 Aug 2020 09:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k1rL7-0006J1-7a
- for qemu-devel@nongnu.org; Sat, 01 Aug 2020 09:14:17 -0400
-Received: from mout.gmx.net ([212.227.15.15]:48675)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k1rKy-0006B9-KU
+ for qemu-devel@nongnu.org; Sat, 01 Aug 2020 09:14:08 -0400
+Received: from mout.gmx.net ([212.227.15.15]:53951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k1rL4-0003wN-KP
- for qemu-devel@nongnu.org; Sat, 01 Aug 2020 09:14:16 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k1rKw-0003uI-Pv
+ for qemu-devel@nongnu.org; Sat, 01 Aug 2020 09:14:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1596287640;
- bh=z/QXmt5sYC3nu5t+U0TkgIU+Re5QzTPu4ajnWt9P04Y=;
+ bh=etFg3+StLqfzOdelI3cESVmOqkDQ4a3cmEicqnLG+gk=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=JsOnwzCMLFubOcJCP/NrCpN3GAqjOCQ+SJV1D9vIlgGfRlRzlO3aWj6GZC92YOg9h
- fHZrbegE9+Xicng7qwIwXFhzK3Mk+gnnnK7ku8udeWazi45e6aNOT0yu4Why/bQ6lC
- oFI2JHi6CD96ty+FpPYTTd5F3R+n+IWcrMtLuGhs=
+ b=I6Plpe41XhT2Ylyk1hTzrboFSkra1t7ozgP08h6+yDEVJaE6PWudDLEpNjRtYP7a8
+ vxjpiquzf8GZ9mHr13qww+DcJ1m2czn5sV0ANJGQihpEfbfvhderG9zyVpDumMbM5a
+ C8QqGsPxgcQ5lV3wlUv3mMB4vYDBZUB7iJ26HRNo=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.162.176]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MwQXH-1krM3e4B2z-00sNtn; Sat, 01
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MGz1V-1jxiTT0jMh-00E4oT; Sat, 01
  Aug 2020 15:14:00 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH v2 3/4] hw/hppa: Implement proper SeaBIOS version check
-Date: Sat,  1 Aug 2020 15:13:56 +0200
-Message-Id: <20200801131357.17379-4-deller@gmx.de>
+Subject: [PATCH v2 4/4] hw/display/artist.c: fix out of bounds check
+Date: Sat,  1 Aug 2020 15:13:57 +0200
+Message-Id: <20200801131357.17379-5-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200801131357.17379-1-deller@gmx.de>
 References: <20200801131357.17379-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6It3oYSTgvBrkeZ0GZ1B+fg3jkiUFwT4B3di5YYXEsEUmd3D8YF
- NJluS06+Et0dl5O6MZoXEb7nKy+kKr8qf8a5+MrmchHBYP5Suy/7GluwwpEly7YP0aCQrGr
- KUO/gmavbdzflyIfK+zxduaUlHIzaynCpDKntNkp7JjGxZ6AKJ1YTEFr/8BljKIfmGCn7F9
- bkacq8st0ej3mTJX2FZKA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lK062rmJkm0=:O5iBlL1FvCaVE0HwwuQxul
- +H9aCtXDu8pvjzEQh/1B49KSQSkZXc+AAEVuvKfjVTu5yc+rvrsi7H+IzatpDk7Tb7TtakLkl
- /WwKQn9T4K6AMgOA7n9Ppv+4uy/zBKNmJtoCIZecwnzEETpW0z0KAwyREdtxftih/JaqLaFXP
- NKdMsnEr7zVxO2WiZAgHWhf5DpdpZmvnB/Z6XVR8NxwjLNGw7sLiydJp6MoYWDyKphgkEYS1b
- fT7SNw9EslZGwhfWeQcwxT5/Gs2UdCP4Er0P5a0wOBLb7+Acxj69TATqRnp4JmdH8M4yDFsut
- LZ1aVuS1EZo2056EjQuiVL8KHbdZclIru3QN9hnFLxOSleq0XvZel4MSzI94uBoW2sJ1LGIt2
- 3ZwxG3WhQfZjXu+biYX1+zHPQV16tRBMQ8KLwqyw2NEGpfRq6VSUaZZI5TWtpbLj0jhqyv0Yk
- OJPYyvkOtXQP0MzeIna5+0HGx4qAYm6jSvcolGXgrtPZzyKK4DWmafPo7I4j3GqvwhNQ3vmgE
- o/d9uBi6WOEQKb0RDiBJfbkmPS1NOVj09FS1745oMyJgPhst2kv8P26WqGIsbHK+urcupqR4F
- Y5xpoM4DvlBg9ngX/mm6nPTKy1EVDWIs5/pWI7LfgvlaZEbMzd4jILFHUNrLRZXDSy6Doszgh
- 8njxWhD6UugFUYWtxcaPKplbUqyqqZjD0qAmEJeWqTp0VMVboTTGwKc9zEq/m5iMJDb8AOCkA
- yXq9U4Msd7WZN9uparlrMk1z5PXVRlputfoMcbOBpEjiQpg8BL6LVvQUsuXuSQ6/ouFg7S7j1
- gsvw9NpTEuFqO9Rb/tKk0ZzbwAjIYPeju+3qKA4x2UiJrPF9R1znVts0OdExH7bZECE8RtrI1
- Mpx45IQkRRuvdBSyoHINvqvcNdsVDQok8GaO8MFKdSNmHYsu6MwN79VUYbE9zLU4yDkjB2m0+
- yrQC/Jx+LqBjuyDtDq5xbkMCe7e6OvEy5ximIRGqeckJdBDN0E9aNAutKnIExTV/9kzDdnK47
- fNGWVxughdTKU4SKZvtMrwCm2a6wD/PlwHfJIeBGDgUiyn+LcnaUJnuooQ0pWRdetqVlHmHLJ
- 6ayghR+FV2S/FhPjQ8u0fADfShmbLP/Zw/OR9aGxuSvt6wE2J5LC3Q9pi89hMGiXc1Pu5mp5T
- U9x34GSMrf4A7PUF6isRYVs2uPOkHW3k2R0blDnpUFxwPLJxbT2uUs0Q7FypZd2v1sURK9MXR
- 2Cbc4qDOyMugxW9z9
+X-Provags-ID: V03:K1:njv7tqexMyNbrMNn86E9YFp9RkiX30uhc2lvd+KK+I3KjEz5ct6
+ Hyk4NdkEsxdXnNUBSOEkSp+g94cdiAY0I6IAnRjQF8FcQwZTWo1fimi52rmNQBSJZVEwRLR
+ El0tU3RCPpwCGGb0NIfgY8DkCgk3Q8tQW/UeNVM2uOHV6KBhpAiBmLSXiMdxG3I2LSwpJhV
+ 5sqPt8EipOM//8Rxu0sZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QvHX9IehykM=:FV43a9TWk/12EKDqGBB0uu
+ H1AWb2JnogT1iJ3eUZBpRJpMHGFHlb9ykYT+bOKp2/sWsO53iC77rX2vGWhAP//L8/IZQBQg2
+ kZyA4dB8xdsFY04faxZIdvXceqUYYSmcZSYnxtrxONx7R/xiAyVK2Blo3YPD5S6ILPLeKSsf4
+ n+B2bLn5VYUzpu4H+yTqk99odSVLZ8yoek+Tk+mpQeAeSMMLaqo0TqTNIlIkNn0faImXq6iWW
+ 9PZgSNJ41sh9Etu35efO+PnvyeXXwGHRXDshMoDIZYjxQSfmQPazLarGzbvu3tIDxGiO3vWPx
+ cXRCnkVU4hMy2pScJS3PNTOCUlMO2mbHtcCMyGAblw3Rd2rEJU1udYqyMyLQ0Y9sCIIuayxQ/
+ lKb3yOzeo8nf7Di4+GAEh5YBWdABRPvgxONFmMf7oNxhqesgPPzGJLnBB3SznMXSlyiKWrehX
+ 073ylA3H0MuejOnq6dw2O/3tKY9yY4Zf/irJLJRhvrCVA4t10SEHAdO/WZl02ncSeB3X9U8zM
+ A0qnKQ/rDZihJFOgdS3NYUJkB05jj7OLMO7lxdlZBCHvZqh52bgEIMrqnLrLyWBgR0YsEUM3E
+ 8CeSkkXIZYWTWtvLU3XLS/wy99QmyqlmjwvHWHPL3fgmaDtK9g11mzb/rGRLkALiLqU5wwaR9
+ HEitB7EPEqbu6N3zJyTH5lTuyc3WCs8jKljPxa4C3lZ5h+gbKAuDhSLYPt7I8iGVxyDJY4ylH
+ M/vBhGXlumfuunHYGrEDgxpm9wrbWTZuGa2TJaQ6989TMuTcdeYW5e+sKL3XSCURLHwKDlGoG
+ 7qbVVyJJqGDlVew7nNKKFr7xQHoRYQ7lyKNIUseT6/U/EFKJplQiZxXNjOyLcKJHFWwSl02e7
+ Dc+hQlLkZkw/zYGeyERpUqj5FJ4iN8eK+5yd8eKxQCdNaPsCSlR28Q0qzisdnlv1Xe+pjJ+uL
+ GLPe67SbLQX35ML/AkPzc/qQokKewSixgIUtQMU/XFmx2z/s3dIi63RRNYzEU8MrlPVRHR+nD
+ Cs2yvyv6W6EhBGmeKLwVXXTboIllj4ywUydRHVhYgqtjiUwsRy2cSDJhAPSDsmat++M3Ysn32
+ vlH9LWhB8hBdmjQgojMTvqLvCBzRISlkI1dWcGfe1Q54DslB3FOYO2FqbzdEBgQPX+KvbsrcI
+ XxMmtoYfjmY5OqhuXONXPqcXRAhtNqaZxM2SXVoqDzs6amoYSZAGYzIdonzepD0VT6K27raaw
+ R2LqXApe1m7Ho0/KP
 Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/01 09:14:03
@@ -85,72 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's important that the SeaBIOS hppa firmware is at least at a minimal
-level to ensure proper interaction between qemu and firmware.
+From: Sven Schnelle <svens@stackframe.org>
 
-Implement a proper firmware version check by telling SeaBIOS via the
-fw_cfg interface which minimal SeaBIOS version is required by this
-running qemu instance. If the firmware detects that it's too old, it
-will stop.
-
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/machine.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ hw/display/artist.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 49155537cd..90aeefe2a4 100644
-=2D-- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -25,6 +25,8 @@
-
- #define MAX_IDE_BUS 2
-
-+#define MIN_SEABIOS_HPPA_VERSION 1 /* require at least this fw version */
-+
- static ISABus *hppa_isa_bus(void)
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 6261bfe65b..de56200dbf 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -340,14 +340,13 @@ static void vram_bit_write(ARTISTState *s, int posx,=
+ int posy, bool incr_x,
  {
-     ISABus *isa_bus;
-@@ -56,6 +58,23 @@ static uint64_t cpu_hppa_to_phys(void *opaque, uint64_t=
- addr)
- static HPPACPU *cpu[HPPA_MAX_CPUS];
- static uint64_t firmware_entry;
+     struct vram_buffer *buf;
+     uint32_t vram_bitmask =3D s->vram_bitmask;
+-    int mask, i, pix_count, pix_length, offset, height, width;
++    int mask, i, pix_count, pix_length, offset, width;
+     uint8_t *data8, *p;
 
-+static FWCfgState *create_fw_cfg(MachineState *ms)
-+{
-+    FWCfgState *fw_cfg;
-+    uint64_t val;
-+
-+    fw_cfg =3D fw_cfg_init_mem(QEMU_FW_CFG_IO_BASE, QEMU_FW_CFG_IO_BASE +=
- 4);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, ms->smp.cpus);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, HPPA_MAX_CPUS);
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, ram_size);
-+
-+    val =3D cpu_to_le64(MIN_SEABIOS_HPPA_VERSION);
-+    fw_cfg_add_file(fw_cfg, "/etc/firmware-min-version",
-+                    g_memdup(&val, sizeof(val)), sizeof(val));
-+
-+    return fw_cfg;
-+}
-+
- static void machine_hppa_init(MachineState *machine)
- {
-     const char *kernel_filename =3D machine->kernel_filename;
-@@ -118,6 +137,9 @@ static void machine_hppa_init(MachineState *machine)
-                        115200, serial_hd(0), DEVICE_BIG_ENDIAN);
+     pix_count =3D vram_write_pix_per_transfer(s);
+     pix_length =3D vram_pixel_length(s);
+
+     buf =3D vram_write_buffer(s);
+-    height =3D buf->height;
+     width =3D buf->width;
+
+     if (s->cmap_bm_access) {
+@@ -367,13 +366,6 @@ static void vram_bit_write(ARTISTState *s, int posx, =
+int posy, bool incr_x,
+         pix_count =3D size * 8;
      }
 
-+    /* fw_cfg configuration interface */
-+    create_fw_cfg(machine);
-+
-     /* SCSI disk setup. */
-     dev =3D DEVICE(pci_create_simple(pci_bus, -1, "lsi53c895a"));
-     lsi53c8xx_handle_legacy_cmdline(dev);
+-    if (posy * width + posx + pix_count > buf->size) {
+-        qemu_log("write outside bounds: wants %dx%d, max size %dx%d\n",
+-                 posx, posy, width, height);
+-        return;
+-    }
+-
+-
+     switch (pix_length) {
+     case 0:
+         if (s->image_bitmap_op & 0x20000000) {
+@@ -381,8 +373,11 @@ static void vram_bit_write(ARTISTState *s, int posx, =
+int posy, bool incr_x,
+         }
+
+         for (i =3D 0; i < pix_count; i++) {
+-            artist_rop8(s, p + offset + pix_count - 1 - i,
+-                        (data & 1) ? (s->plane_mask >> 24) : 0);
++            uint32_t off =3D offset + pix_count - 1 - i;
++            if (off < buf->size) {
++                artist_rop8(s, p + off,
++                            (data & 1) ? (s->plane_mask >> 24) : 0);
++            }
+             data >>=3D 1;
+         }
+         memory_region_set_dirty(&buf->mr, offset, pix_count);
+@@ -398,7 +393,10 @@ static void vram_bit_write(ARTISTState *s, int posx, =
+int posy, bool incr_x,
+         for (i =3D 3; i >=3D 0; i--) {
+             if (!(s->image_bitmap_op & 0x20000000) ||
+                 s->vram_bitmask & (1 << (28 + i))) {
+-                artist_rop8(s, p + offset + 3 - i, data8[ROP8OFF(i)]);
++                uint32_t off =3D offset + 3 - i;
++                if (off < buf->size) {
++                    artist_rop8(s, p + off, data8[ROP8OFF(i)]);
++                }
+             }
+         }
+         memory_region_set_dirty(&buf->mr, offset, 3);
+@@ -420,7 +418,7 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+             break;
+         }
+
+-        for (i =3D 0; i < pix_count; i++) {
++        for (i =3D 0; i < pix_count && offset + i < buf->size; i++) {
+             mask =3D 1 << (pix_count - 1 - i);
+
+             if (!(s->image_bitmap_op & 0x20000000) ||
 =2D-
 2.21.3
 
