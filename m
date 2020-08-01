@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC812353E3
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Aug 2020 19:55:25 +0200 (CEST)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2224323548D
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Aug 2020 00:45:00 +0200 (CEST)
+Received: from localhost ([::1]:59502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k1vj9-0006xB-E6
-	for lists+qemu-devel@lfdr.de; Sat, 01 Aug 2020 13:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33844)
+	id 1k20FO-00051l-JS
+	for lists+qemu-devel@lfdr.de; Sat, 01 Aug 2020 18:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1k1veP-0005bV-UM
- for qemu-devel@nongnu.org; Sat, 01 Aug 2020 13:50:29 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:56503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1k1veN-0003O7-TW
- for qemu-devel@nongnu.org; Sat, 01 Aug 2020 13:50:29 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 68C9B4000B;
- Sat,  1 Aug 2020 20:50:24 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id 85211C3;
- Sat,  1 Aug 2020 20:50:25 +0300 (MSK)
-Subject: Re: [PATCH v2 0/4] target-hppa fixes
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20200801131357.17379-1-deller@gmx.de>
- <21ec077f-b3aa-b755-7191-fc12985714bc@msgid.tls.msk.ru>
- <066e9cd1-9a69-7302-3d8f-0800455b67a7@gmx.de>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <fa97cfa1-a707-bdda-9e03-4de3846ebe6c@msgid.tls.msk.ru>
-Date: Sat, 1 Aug 2020 20:50:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <rkitover@gmail.com>)
+ id 1k20Eh-0004co-Ee
+ for qemu-devel@nongnu.org; Sat, 01 Aug 2020 18:44:15 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rkitover@gmail.com>)
+ id 1k20Ef-0003Wn-PB
+ for qemu-devel@nongnu.org; Sat, 01 Aug 2020 18:44:15 -0400
+Received: by mail-pg1-x544.google.com with SMTP id j19so17881600pgm.11
+ for <qemu-devel@nongnu.org>; Sat, 01 Aug 2020 15:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Og3/zHh0UM89uAeNOcj10IiFsMigQDC9DurLdzeP7BM=;
+ b=Ob04Td5xQid4Ytlgy20+PUcGo+lCanEf4sGqglPKl9u5abL8ZS/plYctWpKxAAxZHO
+ EmE+TLHVqE3uO5kX+USw1+szDFeJFe9zbdOJuHKBBkQzXjPbw4VX65Em7r74R8tAuVBN
+ 6u/tDs74MgGa9wYc1Ir9I+TDSbnKvGRbPfuzBByyq2eYnm8zICvTL18FQcOFNz2BZtpy
+ LUi/bPInpiANyqnJpJhE3RG7kAvuo4OOMCBqeHOpojcXbvxKCblFQzGIEygR3flYx/Yz
+ MlwdVDPwonT9H+SCUHKDKTnLIswALKbot75/n+HIFp4YlUaFVITcYzfxeWyhii7uHb+p
+ rB0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Og3/zHh0UM89uAeNOcj10IiFsMigQDC9DurLdzeP7BM=;
+ b=fdbM4D0fs6NXHL2QptvIY9rjLR1DFFiqNjkkUOh55k9VgpBhe7iZe/Ay+VPdFujucb
+ 9hz96VSLGl+kwgN6QuMdLc0BAQ3MnkmyyIjzVMNSm8ZHMB1b5UTHnQWqaajmca2sK4Kr
+ uadUK+u+zKNjgW8ZK+BAxE3X8l3pE8TybmbZFeqLFTd63qiqz5AuO7KOxPY8cGbyTz+t
+ CtIQqawfI6BUOuFlgK03pOYLXqFvI2W48CCzsxhwFJZji0GTEy4N5QXb8fH6mx087oq9
+ gkM/p6M7NshiNL2mByvXE2Sdl/n2B+XcduR2p1EJ2OnucyoxTUUXmn3UdiEtHrWIZ4Z2
+ DZsQ==
+X-Gm-Message-State: AOAM530BjSvL+xp8HUrluNI59nn9ZeynfwaWtm1o1hlUyFy62FPWkCDs
+ c3sLQvPXX5DFLYFzCI6GK+E=
+X-Google-Smtp-Source: ABdhPJxBNayg9l9ntXIBxJ1BY3tj/aEBgBSRTFTLXtygrWfG+KfsBb3RKVXBBdw3eqHpaq7R8wEnWQ==
+X-Received: by 2002:a63:7357:: with SMTP id d23mr9319617pgn.393.1596321851501; 
+ Sat, 01 Aug 2020 15:44:11 -0700 (PDT)
+Received: from epyc.localdomain (c-24-6-9-54.hsd1.ca.comcast.net. [24.6.9.54])
+ by smtp.gmail.com with ESMTPSA id
+ q24sm14851655pgg.3.2020.08.01.15.44.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Aug 2020 15:44:10 -0700 (PDT)
+Received: by epyc.localdomain (Postfix, from userid 1000)
+ id 1B84912395; Sat,  1 Aug 2020 22:44:10 +0000 (UTC)
+From: Rafael Kitover <rkitover@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: Require pixman for vhost-user-gpu.
+Date: Sat,  1 Aug 2020 22:44:06 +0000
+Message-Id: <20200801224406.315875-1-rkitover@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <066e9cd1-9a69-7302-3d8f-0800455b67a7@gmx.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/01 12:47:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=rkitover@gmail.com; helo=mail-pg1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,28 +85,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>
+Cc: Rafael Kitover <rkitover@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-01.08.2020 20:26, Helge Deller wrote:
-> Hi Michael,
-> 
-> On 01.08.20 18:47, Michael Tokarev wrote:
->> 01.08.2020 16:13, Helge Deller wrote:
->>> A few late fixes for target-hppa:
->>>
->>> * Fix the SeaBIOS-hppa firmware build with gcc-10 on Debian
->>
->> It looks like you forgot the above change somehow.
-> 
-> Actually, no, I did not forgot this patch.
-> It's part of the seabios-hppa repo, see here:
-> https://github.com/hdeller/seabios-hppa/commit/14a26ffb0d9ad1fc510da5d03215b0e36f717fce
+Use the test from Makefile to check if vhost-user-gpu is being built,
+and if so require pixman.
 
-Oh. Yeah, my bad, I thought that patch should be within the 4
-changes of this series, while this series is about qemu, not
-the seabios-hppa sources. N/m :)
+Signed-off-by: Rafael Kitover <rkitover@gmail.com>
+---
+ configure | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-/mjt
+diff --git a/configure b/configure
+index 2acc4d1465..181b465861 100755
+--- a/configure
++++ b/configure
+@@ -4062,20 +4062,6 @@ if test "$modules" = yes; then
+     fi
+ fi
+ 
+-##########################################
+-# pixman support probe
+-
+-if test "$softmmu" = "no"; then
+-  pixman_cflags=
+-  pixman_libs=
+-elif $pkg_config --atleast-version=0.21.8 pixman-1 > /dev/null 2>&1; then
+-  pixman_cflags=$($pkg_config --cflags pixman-1)
+-  pixman_libs=$($pkg_config --libs pixman-1)
+-else
+-  error_exit "pixman >= 0.21.8 not present." \
+-      "Please install the pixman devel package."
+-fi
+-
+ ##########################################
+ # libmpathpersist probe
+ 
+@@ -4491,6 +4477,20 @@ if test "$opengl" = "yes" && test "$have_x11" = "yes"; then
+   done
+ fi
+ 
++##########################################
++# pixman support probe
++
++if test "$softmmu" = "no" && ! ( test "${linux} ${virglrenderer} ${gbm} ${want_tools}" = "yes yes yes yes" );  then
++  pixman_cflags=
++  pixman_libs=
++elif $pkg_config --atleast-version=0.21.8 pixman-1 > /dev/null 2>&1; then
++  pixman_cflags=$($pkg_config --cflags pixman-1)
++  pixman_libs=$($pkg_config --libs pixman-1)
++else
++  error_exit "pixman >= 0.21.8 not present." \
++      "Please install the pixman devel package."
++fi
++
+ ##########################################
+ # libxml2 probe
+ if test "$libxml2" != "no" ; then
+-- 
+2.28.0
+
 
