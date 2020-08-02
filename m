@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7FA2357A6
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Aug 2020 16:44:12 +0200 (CEST)
-Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D035E23584B
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Aug 2020 18:12:10 +0200 (CEST)
+Received: from localhost ([::1]:53386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2FDf-0003vL-9E
-	for lists+qemu-devel@lfdr.de; Sun, 02 Aug 2020 10:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60458)
+	id 1k2Gan-0008E5-Uk
+	for lists+qemu-devel@lfdr.de; Sun, 02 Aug 2020 12:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmitry.fleytman@gmail.com>)
- id 1k2FCy-0003WG-MU
- for qemu-devel@nongnu.org; Sun, 02 Aug 2020 10:43:28 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53807)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2GYc-0006ry-6Y
+ for qemu-devel@nongnu.org; Sun, 02 Aug 2020 12:09:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmitry.fleytman@gmail.com>)
- id 1k2FCx-0006nW-77
- for qemu-devel@nongnu.org; Sun, 02 Aug 2020 10:43:28 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g8so12191467wmk.3
- for <qemu-devel@nongnu.org>; Sun, 02 Aug 2020 07:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=lYQL71sX6J6/Y/YbJMdaGZ52xMj2hAhnKLXedjS6zus=;
- b=PKAE88fx2u1JFwMrbfnlkzFgU6/EQTBqM0LFXsuSexedQ1uNmmzX6ojceTE3bFaCpL
- B2SUQ1DXlGz49px3EkcnHO7lMthWIH7DagrnXpib/BBjGXsrV8K0Nkq1nI0ZqFFhkiK2
- wJ9ZuaMBD4+Z4dS4084lmxh4qOChm4uULbeSXViCXOVXOh3bUOIdVqXdpx7m+plQQ5Mq
- 4pmuHEMd7i3JyC/Jw7zlau6x/wSecvYrzrSy4RfrjaOptZrc/13CcN9GOu9QY3cSaHlQ
- +bO5+ktlUmfQ+oTxbimLdR3Lov5fQZrYXnpDHqoUqy49q3N/OXOiATcH/mPeKxGAq/pZ
- 56ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=lYQL71sX6J6/Y/YbJMdaGZ52xMj2hAhnKLXedjS6zus=;
- b=LyuCOadefFb7j+nH4lCKO5K2RSLPZGDMSIIyftomvmLjFNRynpz2C5r4q2nhHOF2Z0
- C7TBVxsnMr8Tq01Kx1I0KSOiZlJZDgryiQo0rqMRtm6T/8lD+Vn3n0ooeXC+sP5gaOOz
- FfyVmvKXBfventoe3o9u8zMw6SP6h7Fdh5xvneiqJLgeyKJQOBx1affwQYoatSFCgTB6
- u8Tv8U4oK7SQTuDI2JT2L9N9wj6/SDqlZvdI/gqapCMHCGq5dRv0mXheQvTV/uAMvfnN
- bQJop9LRqdDzweb9UahrscmMLXAb/zuoE1SATYIKHqGOHhOKVzajaggcYo/ifwV6hNZy
- iRAA==
-X-Gm-Message-State: AOAM533yu8xpDqnzWFhyfWqhjGPSFCNGf74bY99v/dyVXDncSXLI915l
- 5yFdf+4euNjAPoi7aYKcOHo=
-X-Google-Smtp-Source: ABdhPJzLu8Ry3bQ1k3mLa10mUT5wJSp7wVIWMS1ospO+O/hX0xz528DaHlf7Boz3OFf81kEK9N0UoQ==
-X-Received: by 2002:a1c:26c4:: with SMTP id m187mr11779148wmm.90.1596379404929; 
- Sun, 02 Aug 2020 07:43:24 -0700 (PDT)
-Received: from [192.168.1.90] ([5.102.195.137])
- by smtp.gmail.com with ESMTPSA id f15sm18240825wmj.39.2020.08.02.07.43.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 02 Aug 2020 07:43:24 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH v2] hw/net/net_tx_pkt: fix assertion failure in
- net_tx_pkt_add_raw_fragment()
-From: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-In-Reply-To: <20200801164238.1610609-1-mcascell@redhat.com>
-Date: Sun, 2 Aug 2020 17:43:22 +0300
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2GYZ-00031C-3S
+ for qemu-devel@nongnu.org; Sun, 02 Aug 2020 12:09:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k2GYX-00038S-2V
+ for <qemu-devel@nongnu.org>; Sun, 02 Aug 2020 16:09:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F3B3A2E802E
+ for <qemu-devel@nongnu.org>; Sun,  2 Aug 2020 16:09:48 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <E55CC0D0-FD86-472E-8A7F-F05F39855D7A@gmail.com>
-References: <20200801164238.1610609-1-mcascell@redhat.com>
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=dmitry.fleytman@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sun, 02 Aug 2020 15:59:04 -0000
+From: hakan <1404278@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: 64bit tap windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dhsc19 myersjj prideaux90 stefanha tf-x th-huth
+ tim-tree-of-life wsertz3a
+X-Launchpad-Bug-Reporter: timsoft (tim-tree-of-life)
+X-Launchpad-Bug-Modifier: hakan (tf-x)
+References: <20141219153639.25009.84583.malonedeb@wampee.canonical.com>
+Message-Id: <159638394450.11064.9327137954898121885.malone@chaenomeles.canonical.com>
+Subject: [Bug 1404278] Re: tap connections not working on windows host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ab666ea8531eee7749cb4d3c30c7284778104ec7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/02 12:09:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,56 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, ezrakiez@gmail.com
+Reply-To: Bug 1404278 <1404278@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-> On 1 Aug 2020, at 19:42, Mauro Matteo Cascella <mcascell@redhat.com> =
-wrote:
->=20
-> An assertion failure issue was found in the code that processes =
-network packets
-> while adding data fragments into the packet context. It could be =
-abused by a
-> malicious guest to abort the QEMU process on the host. This patch =
-replaces the
-> affected assert() with a conditional statement, returning false if the =
-current
-> data fragment exceeds max_raw_frags.
->=20
+I want to run u-boot for x86_64 architecture in windows10 and I am using
+qemu-5.0.0, the latest version of qemu. The TAP adapter for Linux (host)
+worked successfully and I communicated between u-boot (guest) and Linux
+(host), but the result for Windows (host) failed.
 
+I installed the Tap Network Adapter for windows and renamed it to "tap0" . =
+when I ran the qemu with the following command without creating a bridge, u=
+-boot was successfully initialized, but I cannot ping Windows (host).
+qemu-system-x86_64.exe -bios u-boot.rom -nographic -device  e1000,netdev=3D=
+mynet0 -netdev tap,id=3Dmynet0,ifname=3Dtap0
 
-Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+When I check (right click> status) for Tap0 it says No Network Connection.
+I terminated qemu and connected tap0 to the internet using the config files=
+ I downloaded for OpenVPN.
+When I checked tap0 again, I saw "Ipv4: Internet" but when I try to run qem=
+u this way, I get an error like this.
 
+tap: Could not open 'tap0'
+qemu-system-x86_64.exe: Device 'tap' could not be initialized
 
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> ---
-> hw/net/net_tx_pkt.c | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-> index 9560e4a49e..da262edc3e 100644
-> --- a/hw/net/net_tx_pkt.c
-> +++ b/hw/net/net_tx_pkt.c
-> @@ -379,7 +379,10 @@ bool net_tx_pkt_add_raw_fragment(struct NetTxPkt =
-*pkt, hwaddr pa,
->     hwaddr mapped_len =3D 0;
->     struct iovec *ventry;
->     assert(pkt);
-> -    assert(pkt->max_raw_frags > pkt->raw_frags);
-> +
-> +    if (pkt->raw_frags >=3D pkt->max_raw_frags) {
-> +        return false;
-> +    }
->=20
->     if (!len) {
->         return true;
-> --=20
-> 2.26.2
->=20
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1404278
+
+Title:
+  tap connections not working on windows host
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  using latest qemu 2.2.0 64bit for windows host (installed from
+  qemu-w64-setup-20141210.exe obtained from http://qemu.weilnetz.de/w64/
+  ),OpenVPN 2.6.3-I601 64bit tap adapter named tap01 and calling qemu
+  using the following.
+
+  qemu-system-x86_64.exe -m 512 -net nic -net tap,ifname=3Dtap01 -hda
+  "c:\\data\\images\\test.img"
+
+  where the image contains a slackware 14.0 64bit install.
+  The tap is bridged with the real network adapter and the bridge is given =
+an ip of 10.1.1.41 (which works as the ip for the windows host). The tap ad=
+apter (in network connections) shows connected when the qemu vm is running.=
+ inside the vm, the network is given an ip of 10.1.1.143 (the netmask and d=
+efault gateway are the same for the virtual and real pc).
+  fault.
+  The vm cannot see the rest of the local network or visa-versa. This used =
+to work in early (0.9 32bit) versions of qemu.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1404278/+subscriptions
 
