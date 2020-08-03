@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B1823AA22
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 18:04:48 +0200 (CEST)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE6323AA5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 18:21:22 +0200 (CEST)
+Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2cxC-0007iS-QN
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 12:04:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40394)
+	id 1k2dDF-0004Y5-Gg
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 12:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2cvz-0006I7-Gu
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:03:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58918
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2cvx-0002Rr-52
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:03:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596470607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MrWj/vtfsnftHu+s+Pcc6mZfxGL2LqGC3Wod97zh/vI=;
- b=XiaoTe8GCA2PXguPDJ0aUntEgUaDKObN7D6q8dVGeU7B7uSf2tzr4/fo0+cxZxzPI3tjUJ
- UZMwsXsFji9mLbbYe4a1pSIkIwc5oUWmhGkCCeRyOXBs0RPxnKP9P0XuSI/I8ebXIFglxT
- ouLrEwcTg++NdST4FeFm7XkrMGoT0bM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-DRJzL5M8MlOBPmrQfkiINw-1; Mon, 03 Aug 2020 12:03:24 -0400
-X-MC-Unique: DRJzL5M8MlOBPmrQfkiINw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C90918C63C7;
- Mon,  3 Aug 2020 16:03:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 495156115F;
- Mon,  3 Aug 2020 16:03:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D2A581132FD2; Mon,  3 Aug 2020 18:03:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: cleanups with long-term benefits (was Re: [PATCH] schemas: Add
- vim modeline)
-References: <20200729185024.121766-1-abologna@redhat.com>
- <87ime52wxd.fsf@dusky.pond.sub.org>
- <20200730093732.GB3477223@redhat.com>
- <87k0ylz0ep.fsf@dusky.pond.sub.org>
- <20200730132446.GL3477223@redhat.com>
- <875za33ku1.fsf@dusky.pond.sub.org>
- <20200731150738.GB3660103@redhat.com>
- <2cf1a431-9d2c-8ad6-446e-f10b36219764@redhat.com>
- <87d048i1m2.fsf@dusky.pond.sub.org>
- <83bbe0b0-c5e0-e3b7-5ba1-5946098370d5@redhat.com>
- <87ft94klyl.fsf@dusky.pond.sub.org>
- <490a0786-73f3-411e-4dfe-8c2ae90de251@redhat.com>
-Date: Mon, 03 Aug 2020 18:03:11 +0200
-In-Reply-To: <490a0786-73f3-411e-4dfe-8c2ae90de251@redhat.com> (Paolo
- Bonzini's message of "Mon, 3 Aug 2020 14:01:57 +0200")
-Message-ID: <87y2mvhg3k.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k2dBz-0003z9-5J
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:20:03 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k2dBx-0004k6-C2
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:20:02 -0400
+Received: by mail-wm1-x343.google.com with SMTP id g8so135779wmk.3
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 09:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tLldRhiZuUDIQWR4Dezuv3wy8y8ie+Yklp9pb5zDPYU=;
+ b=kArTRLvhvEX48jCt3FGfAjBk5q2jKd9B5OHtI2t2LNYcIwOE9g/YdRTu0Qv2/tKSjZ
+ lY/8hKN+3rz/dF3zh17SF08NDzr2v5tDF/bmP2o3etZF2ZPLCzZHQcwvFYvP6duA+NJ3
+ 6za7Y2F5OxqbdFHHrY1qkFYEnEsvOLhqBgPImgSNCH+YWCrqy1GbmClVWNkQttM0crWO
+ C4IQK3mx0BVlHvD4+D5Htf5fo+OiwQlVb3itNqCmv/ZX4igDhj4tmx5+XJdBG4sPULc7
+ qxE59tZVZk2eDk6LpYf2ts74W/NPd1IpRDd0Trdw+2MgpJu1EV4Jsb0p42NlJh7mWqSo
+ Hyng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=tLldRhiZuUDIQWR4Dezuv3wy8y8ie+Yklp9pb5zDPYU=;
+ b=rLX1h4hpTjepAfNH/GMmmcFKAYhCvkwPSR1r2d6FIgjxdqfrD/4981gdPRC3cZHeId
+ LqzsJ9GwcsnCFGOoJcWukJVqOWXTtXS1MaR1+UVpgEMuu9ZYUalOCwI6VGdgN66GtaA7
+ b52TN7hl0hpg/hWXUOnwQwSYQgacNs0i9PtbpvKJ0xO4SzSAdZUQKadosk+bGl5wwItK
+ YT919oe/M0cpqM+0cK4kuPI0tji+Jb9PBpZJPBiTfDArrH/j9UroTap5pOJ3Y3t2544C
+ PkAzMo6+Yyfund6GcyhJRgtXpQ6hfrmbejmTZhmDcupHmuLViUU9qoNLDDeg8372+Cbc
+ i4BA==
+X-Gm-Message-State: AOAM5334Zjekrnm4t/cMakqtfZIyDBbTbpl2okaxk/JtAiBYNLIOiB/a
+ RtdbGorGbWgJ7hMJRGSgUGKoRQ==
+X-Google-Smtp-Source: ABdhPJwr62vqUeTs6iQr9eNHND5kn34UOVopsNwuHjXV/v7cCCABUDW1VP7TMG9bsneq4IGE55YcAg==
+X-Received: by 2002:a7b:c084:: with SMTP id r4mr56952wmh.23.1596471598552;
+ Mon, 03 Aug 2020 09:19:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n24sm50772wmi.36.2020.08.03.09.19.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Aug 2020 09:19:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A8FBE1FF7E;
+ Mon,  3 Aug 2020 17:19:56 +0100 (BST)
+References: <DM6PR11MB4331B490586462DE7353E0B8F9710@DM6PR11MB4331.namprd11.prod.outlook.com>
+ <87ft973d0b.fsf@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Pincus, Josh" <Josh.Pincus@windriver.com>
+Subject: Re: [PATCH v2 0/5] virtio mmio specification enhancement
+In-reply-to: <87ft973d0b.fsf@linaro.org>
+Date: Mon, 03 Aug 2020 17:19:56 +0100
+Message-ID: <87wo2fn1lf.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:09:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,69 +89,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: "virtio-dev@lists.oasis-open.org" <virtio-dev@lists.oasis-open.org>,
+ "zhabin@linux.alibaba.com" <zhabin@linux.alibaba.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 03/08/20 13:28, Markus Armbruster wrote:
->>>> We could remove them from the QAPI schema language.  Flag day, and
->>>> git-blame becomes pretty much useless for a couple of years.
->>> Is that a nack or a "whatever"?
->> It's "is this really worth the trouble?"  I guess that's halfway between
->> NAK and whatever, ready to be moved in either direction by arguments :)
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+
+> Pincus, Josh <Josh.Pincus@windriver.com> writes:
 >
-> In general it seems like a good idea to use a standard file format and
-> not "a standard file format except for two characters". :)  We also
-> wouldn't be having discussions on editors.
-
-No argument.  But towards which standard file format should the schema
-evolve?
-
-* Standard JSON: no comments, no go
-
-* JSON with # comments: need to change strings from ' to "
-
-* JavaScript: need to change comments from # to //
-
-* Python: may want to switch bool literals from true, false to True,
-  False
-
-> That said, after a bit more research I'm skeptical about the possibility
-> of using an off-the-shelf parser because most of them either don't
-> support comments, or are based on YAJL which simply discards comments.
+>> Hi,
+>>
+>>=20=20
+>>
+>> We were looking into a similar enhancement for the Virt I/O MMIO transpo=
+rt and came across this project.
+>>
+>> This enhancement would be perfect for us.
 >
-> Since '//' comments are harder to parse than "#" comments, this would
-> actually _add_ code instead of removing it.  Also since our doc comment
-> syntax uses "##" as a delimiter, we'd have to bikeshed what the doc
-> comments would look like ("//!", "///", etc.).
-
-Doc comments don't have to be comments in the schema language.  They
-could be doc strings.  Requires decent support for long strings, which
-JSON does not provide.
-
-> This means the two parts might be considered separately:
+> So there is certainly an interest in optimising MMIO based virtio and
+> the current read/ack cycle adds additional round trip time for any trap
+> and emulate hypervisor. However I think there is some resistance to
+> making MMIO a re-implementation of what PCI already gives us for "free".
+<snip>
 >
-> - replacing single-quote with double-quote strings
+>   - Quantifying the memory foot-print difference between PCI/MMIO
 >
-> - replacing # comments with //
+>     PCI gives a lot for free including a discovery and IRQ model already
+>     designed to handle MSI/MSI-X. There is a claim that this brings in a
+>     lot of bloat but I think there was some debate around the numbers.
+>     My rough initial experiment with a PCI and non-PCI build with
+>     otherwise identical VIRTIO configs results in the following:
+>
+>     16:40:15 c.282% [alex@zen:~/l/l/builds] review/rpmb|=E2=80=A6 + ls -l=
+ arm64/vmlinux arm64.nopci/vmlinux
+>     -rwxr-xr-x 1 alex alex 83914728 Jul 31 16:39 arm64.nopci/vmlinux*
+>     -rwxr-xr-x 1 alex alex 86368080 Jul 31 16:33 arm64/vmlinux*
+>
+>     which certainly implies there could be a fair amount of headroom for
+>     an MMIO version to implement some features. However I don't know if
+>     it's fully apples to apples as there maybe unneeded PCI bloat that a
+>     virtio-only kernel doesn't need.
 
-If all we want is decent editor support out of the box, then rename to
-.py, and drop the modelines.  No merge conflicts, no git-blame
-pollution.
+Just following up after cutting the Xgene and ThunderX PCI bloat from
+the kernel the margin is a little smaller:
 
-To make the .py files actual Python, additionally rename the bool
-literals.  Much, much less churn than massaging all strings or all
-comments.
+  -rwxr-xr-x 1 alex alex 83914728 Jul 31 16:39 arm64.nopci/vmlinux*
+  -rwxr-xr-x 1 alex alex 85639808 Aug  3 17:12 arm64/vmlinux*
 
+--=20
+Alex Benn=C3=A9e
 
