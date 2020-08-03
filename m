@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CAE23A339
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 13:21:27 +0200 (CEST)
-Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3521F23A347
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 13:26:54 +0200 (CEST)
+Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2YX0-00078I-VF
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 07:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46012)
+	id 1k2YcH-00059y-AI
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 07:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2YUi-0003uU-4s
+ id 1k2YUi-0003vd-LN
  for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:04 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39676)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2YUf-0004tG-NG
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:03 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a5so23863808wrm.6
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 04:19:01 -0700 (PDT)
+ id 1k2YUg-0004tZ-QE
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:04 -0400
+Received: by mail-wm1-x343.google.com with SMTP id p14so14003709wmg.1
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 04:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Jk9fS55Yi0cM18IUj1sLUkIZI7PH5doTh14I0Z0+qSY=;
- b=FdReBHCRxRGw8EVp65mXUCYrSLHaqPIjGXqhfmj7y5tGe35uSPz7fTJME8CnkypRkp
- YXPBizA9JJ5u3U1h6h6xU4IViNAkv0GcpeMjWMUomNAV5946azN3tTws9VnudXTP23zK
- lkpJIpI+ANmei935KcOjjy2GknuxCNM2PmI29ApbANm8mm85ktqaiub98yGljHm8XuX+
- 4i39H5MQlUvC8SWI95eohXafQ8xmsD0CCZ1GtwTg/eubhWSkU1ntGVSz8jQwbYRb2Mhc
- go8nzNOwuR5Z45VO8hDv7kFOSO/vsNzztlCRvPh0UY6IWgNWffbDgItAPKcCpdUW6JmG
- /2UQ==
+ bh=uE/zSzU3YCUj+8keAlvLyFX2oijQycTIyZcK1gVRSqY=;
+ b=yHOeXGR2+tLrevmmLAQBc1pTlblM93sXH20O1UjYNdxnWNyqGEP01d+ghis5QepkBJ
+ nnsaAljk5M7pebS127QbwK0ye2ORk6Y0D5JwiRaf4IZ6KdaA6gAU2+Qm3E9HKh9nlw/i
+ wuetfjcJzJhZlo2DDK0RixvsaxMayGV6+1uemSdZOE08frskmF73uIjGzBttcmtHSQDw
+ t67uCqqtvWejovQsEEgxLeASwbPCIPJIOnQ7/7CsaS/PAdlx3Ih3Uz+HOmnDgkBrDn5K
+ Okv9Ttn7R+eWS2tttQhAYUIezFzJ8Yv6wWT40sldWq13FRzu5zHPbZkVygAoz5VtUyFt
+ FIVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Jk9fS55Yi0cM18IUj1sLUkIZI7PH5doTh14I0Z0+qSY=;
- b=Gp/pcnNatBtdRHfSGGtPiOor6qa0gqaRXJ6D+xQFOgejy2xPqbpx5YAU3SvbzY4M9T
- DVf1o2Utd74vZLCc5oOUoLrmZvtJ5hFMYiimoywBlo6pgMndNo8AiijCwLpt/qlrqfWt
- enE6p1qiXbV9TlU91n7nC3u68vKSfeRCUq2tKi5OCIcHcLjJNnMU8IM0sSxjRxnfBO6H
- 33mrlfkei6nJJJZAR6BQk4GG4AEh8WhrB/0h9XW1MIJD6MI9QV/hDf5io65CgnkQsVbi
- Pq5JEQRqKmeS7b++w2H1vck65hwqOM6sfgZtFuV6B+mNPojHez8kN50qJGDiWGYYuHA8
- 8BNA==
-X-Gm-Message-State: AOAM5301O/ganUT8jeAUWv27hdUE0Kx+ELMoiDUGdNDUWmVg7FYYSR8I
- JBc2vDoNJMI9yUNayEs+YOgtvFgvLwWosQ==
-X-Google-Smtp-Source: ABdhPJwztkgMf9tWnhYV+nV8DvEgL6YeYPO5SRwx5q8z0Q0t+4OByU8d/6v3Q7wvGEIn5rORn7fY4Q==
-X-Received: by 2002:adf:dd01:: with SMTP id a1mr15902499wrm.301.1596453539893; 
- Mon, 03 Aug 2020 04:18:59 -0700 (PDT)
+ bh=uE/zSzU3YCUj+8keAlvLyFX2oijQycTIyZcK1gVRSqY=;
+ b=V5Vqs5WAsSrJ9eYMpRQUplPCy0bwE8WczPHGf50V9EYZPH+Awe3pLBOMJo3XF+LqE/
+ 8CndRZOAX1evBY1VkNaqcWqGsPJViuGy43Gr4oVeEVjQe/WHHTgmQUR3tt5yFIo7AHNd
+ CtBva+w766F2dlh/g/RpCUtEG1pJbRqYfcJSKz3g1vf3lKURIqTWYxaPtReULjnok1l+
+ QruVsROU5rqt0iWGVVwPwjIHvteBXA5z0uiAduKmr/EMSoqIX485DSmYM6Qkp1bP/tko
+ 0Q2fRNrRYe7NdPCxZjh4UZtcO0xo6D55d/s/tF7ng6X6pkdlcVRE5WkGr/ucURi6Rzqj
+ kEQQ==
+X-Gm-Message-State: AOAM530pZrrtbbrqMydtuDUs0qYMse/eAsbnG8rDOabKCav++b6db2im
+ VLvVIWa+w26rtgND0huPjqyFSD3MbeMeMA==
+X-Google-Smtp-Source: ABdhPJwawNq9iOhdFOEY/zisDxsCZTbjPQ7zJOIeG8TGavX85l8wh0rGA3wcvo6NMUpskNGGIxexGg==
+X-Received: by 2002:a7b:c765:: with SMTP id x5mr14994384wmk.14.1596453541230; 
+ Mon, 03 Aug 2020 04:19:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g3sm28013170wrb.59.2020.08.03.04.18.58
+ by smtp.gmail.com with ESMTPSA id g3sm28013170wrb.59.2020.08.03.04.19.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 04:18:59 -0700 (PDT)
+ Mon, 03 Aug 2020 04:19:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 5/7] target/arm: Do M-profile NOCP checks early and via
- decodetree
-Date: Mon,  3 Aug 2020 12:18:47 +0100
-Message-Id: <20200803111849.13368-6-peter.maydell@linaro.org>
+Subject: [PATCH 6/7] target/arm: Convert T32 coprocessor insns to decodetree
+Date: Mon,  3 Aug 2020 12:18:48 +0100
+Message-Id: <20200803111849.13368-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200803111849.13368-1-peter.maydell@linaro.org>
 References: <20200803111849.13368-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +71,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,253 +88,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For M-profile CPUs, the architecture specifies that the NOCP
-exception when a coprocessor is not present or disabled should cover
-the entire wide range of coprocessor-space encodings, and should take
-precedence over UNDEF exceptions.  (This is the opposite of
-A-profile, where checking for a disabled FPU has to happen last.)
-
-Implement this with decodetree patterns that cover the specified
-ranges of the encoding space.  There are a few instructions (VLLDM,
-VLSTM, and in v8.1 also VSCCLRM) which are in copro-space but must
-not be NOCP'd: these must be handled also in the new m-nocp.decode so
-they take precedence.
-
-This is a minor behaviour change: for unallocated insn patterns in
-the VFP area (cp=10,11) we will now NOCP rather than UNDEF when the
-FPU is disabled.
-
-As well as giving us the correct architectural behaviour for v8.1M
-and the recommended behaviour for v8.0M, this refactoring also
-removes the old NOCP handling from the remains of the 'legacy
-decoder' in disas_thumb2_insn(), paving the way for cleaning that up.
-
-Since we don't currently have a v8.1M feature bit or any v8.1M CPUs,
-the minor changes to this logic that we'll need for v8.1M are marked
-up with TODO comments.
+Convert the T32 coprocessor instructions to decodetree.
+As with the A32 conversion, this corrects an underdecoding
+where we did not check that MRRC/MCRR [24:21] were 0b0010
+and so treated some kinds of LDC/STC and MRRC/MCRR rather
+than UNDEFing them.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m-nocp.decode       | 42 +++++++++++++++++++++++++++
- target/arm/vfp.decode          |  2 --
- target/arm/translate-vfp.inc.c | 52 +++++++++++++++++++++++++++-------
- target/arm/translate.c         | 30 ++++++++++----------
- target/arm/Makefile.objs       |  6 ++++
- 5 files changed, 105 insertions(+), 27 deletions(-)
- create mode 100644 target/arm/m-nocp.decode
+ target/arm/t32.decode  | 19 +++++++++++++
+ target/arm/translate.c | 64 ++----------------------------------------
+ 2 files changed, 21 insertions(+), 62 deletions(-)
 
-diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
-new file mode 100644
-index 00000000000..7182d7d1217
---- /dev/null
-+++ b/target/arm/m-nocp.decode
-@@ -0,0 +1,42 @@
-+# M-profile UserFault.NOCP exception handling
-+#
-+#  Copyright (c) 2020 Linaro, Ltd
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2.1 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+
-+#
-+# This file is processed by scripts/decodetree.py
-+#
-+# For M-profile, the architecture specifies that NOCP UsageFaults
-+# should take precedence over UNDEF faults over the whole wide
-+# range of coprocessor-space encodings, with the exception of
-+# VLLDM and VLSTM. (Compare v8.1M IsCPInstruction() pseudocode and
-+# v8M Arm ARM rule R_QLGM.) This isn't mandatory for v8.0M but we choose
-+# to behave the same as v8.1M.
-+# This decode is handled before any others (and in particular before
-+# decoding FP instructions which are in the coprocessor space).
-+# If the coprocessor is not present or disabled then we will generate
-+# the NOCP exception; otherwise we let the insn through to the main decode.
-+
-+{
-+  # Special cases which do not take an early NOCP: VLLDM and VLSTM
-+  VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
-+  # TODO: VSCCLRM (new in v8.1M) is similar:
-+  #VSCCLRM      1110 1100 1-01 1111 ---- 1011 ---- ---0
-+
-+  NOCP         111- 1110 ---- ---- ---- cp:4 ---- ----
-+  NOCP         111- 110- ---- ---- ---- cp:4 ---- ----
-+  # TODO: From v8.1M onwards we will also want this range to NOCP
-+  #NOCP_8_1     111- 1111 ---- ---- ---- ---- ---- ---- cp=10
-+}
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 5fd70f975ae..2c793e3e87f 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -213,5 +213,3 @@ VCVT_sp_int  ---- 1110 1.11 110 s:1 .... 1010 rz:1 1.0 .... \
-              vd=%vd_sp vm=%vm_sp
- VCVT_dp_int  ---- 1110 1.11 110 s:1 .... 1011 rz:1 1.0 .... \
-              vd=%vd_sp vm=%vm_dp
--
--VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index afa8a5f8885..463253de90b 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -95,14 +95,11 @@ static inline long vfp_f16_offset(unsigned reg, bool top)
- static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
- {
-     if (s->fp_excp_el) {
--        if (arm_dc_feature(s, ARM_FEATURE_M)) {
--            gen_exception_insn(s, s->pc_curr, EXCP_NOCP, syn_uncategorized(),
--                               s->fp_excp_el);
--        } else {
--            gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
--                               syn_fp_access_trap(1, 0xe, false),
--                               s->fp_excp_el);
--        }
-+        /* M-profile handled this earlier, in disas_m_profile_nocp() */
-+        assert (!arm_dc_feature(s, ARM_FEATURE_M));
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-+                           syn_fp_access_trap(1, 0xe, false),
-+                           s->fp_excp_el);
-         return false;
-     }
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index c21a988f971..7069d821fde 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -45,6 +45,8 @@
+ &sat             !extern rd rn satimm imm sh
+ &pkh             !extern rd rn rm imm tb
+ &cps             !extern mode imod M A I F
++&mcr             !extern cp opc1 crn crm opc2 rt
++&mcrr            !extern cp opc1 crm rt rt2
  
-@@ -2842,9 +2839,14 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
-         !arm_dc_feature(s, ARM_FEATURE_V8)) {
-         return false;
-     }
--    /* If not secure, UNDEF. */
-+    /*
-+     * If not secure, UNDEF. We must emit code for this
-+     * rather than returning false so that this takes
-+     * precedence over the m-nocp.decode NOCP fallback.
-+     */
-     if (!s->v8m_secure) {
--        return false;
-+        unallocated_encoding(s);
-+        return true;
-     }
-     /* If no fpu, NOP. */
-     if (!dc_isar_feature(aa32_vfp, s)) {
-@@ -2863,3 +2865,33 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
-     s->base.is_jmp = DISAS_UPDATE_EXIT;
-     return true;
- }
+ # Data-processing (register)
+ 
+@@ -621,6 +623,23 @@ RFE              1110 1001 10.1 .... 1100000000000000         @rfe pu=1
+ SRS              1110 1000 00.0 1101 1100 0000 000. ....      @srs pu=2
+ SRS              1110 1001 10.0 1101 1100 0000 000. ....      @srs pu=1
+ 
++# Coprocessor instructions
 +
-+static bool trans_NOCP(DisasContext *s, arg_NOCP *a)
-+{
-+    /*
-+     * Handle M-profile early check for disabled coprocessor:
-+     * all we need to do here is emit the NOCP exception if
-+     * the coprocessor is disabled. Otherwise we return false
-+     * and the real VFP/etc decode will handle the insn.
-+     */
-+    assert(arm_dc_feature(s, ARM_FEATURE_M));
++# We decode MCR, MCR, MRRC and MCRR only, because for QEMU the
++# other coprocessor instructions always UNDEF.
++# The trans_ functions for these will ignore cp values 8..13 for v7 or
++# earlier, and 0..13 for v8 and later, because those areas of the
++# encoding space may be used for other things, such as VFP or Neon.
 +
-+    if (a->cp == 11) {
-+        a->cp = 10;
-+    }
-+    /* TODO: in v8.1M cp 8, 9, 14, 15 also are governed by the cp10 enable */
++@mcr             .... .... opc1:3 . crn:4 rt:4 cp:4 opc2:3 . crm:4
++@mcrr            .... .... .... rt2:4 rt:4 cp:4 opc1:4 crm:4
 +
-+    if (a->cp != 10) {
-+        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-+                           syn_uncategorized(), default_exception_el(s));
-+        return true;
-+    }
++MCRR             1110 1100 0100 .... .... .... .... .... @mcrr
++MRRC             1110 1100 0101 .... .... .... .... .... @mcrr
 +
-+    if (s->fp_excp_el != 0) {
-+        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-+                           syn_uncategorized(), s->fp_excp_el);
-+        return true;
-+    }
++MCR              1110 1110 ... 0 .... .... .... ... 1 .... @mcr
++MRC              1110 1110 ... 1 .... .... .... ... 1 .... @mcr
 +
-+    return false;
-+}
+ # Branches
+ 
+ %imm24           26:s1 13:1 11:1 16:10 0:11 !function=t32_branch24
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 639fe121a2e..adcd2127290 100644
+index adcd2127290..59d6e43611a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1176,6 +1176,7 @@ static TCGv_ptr vfp_reg_ptr(bool dp, int reg)
- #define ARM_CP_RW_BIT   (1 << 20)
+@@ -4791,37 +4791,6 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+     return;
+ }
  
- /* Include the VFP and Neon decoders */
-+#include "decode-m-nocp.inc.c"
- #include "translate-vfp.inc.c"
- #include "translate-neon.inc.c"
- 
-@@ -8433,6 +8434,19 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-         ARCH(6T2);
-     }
- 
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
-+        /*
-+         * NOCP takes precedence over any UNDEF for (almost) the
-+         * entire wide range of coprocessor-space encodings, so check
-+         * for it first before proceeding to actually decode eg VFP
-+         * insns. This decode also handles the few insns which are
-+         * in copro space but do not have NOCP checks (eg VLLDM, VLSTM).
-+         */
-+        if (disas_m_nocp(s, insn)) {
-+            return;
-+        }
-+    }
-+
-     if ((insn & 0xef000000) == 0xef000000) {
-         /*
-          * T32 encodings 0b111p_1111_qqqq_qqqq_qqqq_qqqq_qqqq_qqqq
-@@ -8481,21 +8495,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-         /* Coprocessor.  */
-         if (arm_dc_feature(s, ARM_FEATURE_M)) {
-             /* 0b111x_11xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx */
--            if (extract32(insn, 24, 2) == 3) {
--                goto illegal_op; /* op0 = 0b11 : unallocated */
--            }
+-static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+-{
+-    int cpnum, is64, crn, crm, opc1, opc2, isread, rt, rt2;
 -
--            if (((insn >> 8) & 0xe) == 10 &&
--                dc_isar_feature(aa32_fpsp_v2, s)) {
--                /* FP, and the CPU supports it */
--                goto illegal_op;
--            } else {
--                /* All other insns: NOCP */
--                gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
--                                   syn_uncategorized(),
--                                   default_exception_el(s));
--            }
--            break;
-+            goto illegal_op;
-         }
-         if (((insn >> 24) & 3) == 3) {
-             /* Neon DP, but failed disas_neon_dp() */
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index fa39fd7c831..7abb12868ae 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -43,6 +43,11 @@ target/arm/decode-vfp-uncond.inc.c: $(SRC_PATH)/target/arm/vfp-uncond.decode $(D
- 	  $(PYTHON) $(DECODETREE) --static-decode disas_vfp_uncond -o $@ $<,\
- 	  "GEN", $(TARGET_DIR)$@)
+-    cpnum = (insn >> 8) & 0xf;
+-
+-    is64 = (insn & (1 << 25)) == 0;
+-    if (!is64 && ((insn & (1 << 4)) == 0)) {
+-        /* cdp */
+-        return 1;
+-    }
+-
+-    crm = insn & 0xf;
+-    if (is64) {
+-        crn = 0;
+-        opc1 = (insn >> 4) & 0xf;
+-        opc2 = 0;
+-        rt2 = (insn >> 16) & 0xf;
+-    } else {
+-        crn = (insn >> 16) & 0xf;
+-        opc1 = (insn >> 21) & 7;
+-        opc2 = (insn >> 5) & 7;
+-        rt2 = 0;
+-    }
+-    isread = (insn >> 20) & 1;
+-    rt = (insn >> 12) & 0xf;
+-
+-    do_coproc_insn(s, cpnum, is64, opc1, crn, crm, opc2, isread, rt, rt2);
+-    return 0;
+-}
+-
+ /* Decode XScale DSP or iWMMXt insn (in the copro space, cp=0 or 1) */
+ static void disas_xscale_insn(DisasContext *s, uint32_t insn)
+ {
+@@ -8485,38 +8454,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+         ((insn >> 28) == 0xe && disas_vfp(s, insn))) {
+         return;
+     }
+-    /* fall back to legacy decoder */
  
-+target/arm/decode-m-nocp.inc.c: $(SRC_PATH)/target/arm/m-nocp.decode $(DECODETREE)
-+	$(call quiet-command,\
-+	  $(PYTHON) $(DECODETREE) --static-decode disas_m_nocp -o $@ $<,\
-+	  "GEN", $(TARGET_DIR)$@)
-+
- target/arm/decode-a32.inc.c: $(SRC_PATH)/target/arm/a32.decode $(DECODETREE)
- 	$(call quiet-command,\
- 	  $(PYTHON) $(DECODETREE) --static-decode disas_a32 -o $@ $<,\
-@@ -69,6 +74,7 @@ target/arm/translate.o: target/arm/decode-neon-dp.inc.c
- target/arm/translate.o: target/arm/decode-neon-ls.inc.c
- target/arm/translate.o: target/arm/decode-vfp.inc.c
- target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
-+target/arm/translate.o: target/arm/decode-m-nocp.inc.c
- target/arm/translate.o: target/arm/decode-a32.inc.c
- target/arm/translate.o: target/arm/decode-a32-uncond.inc.c
- target/arm/translate.o: target/arm/decode-t32.inc.c
+-    switch ((insn >> 25) & 0xf) {
+-    case 0: case 1: case 2: case 3:
+-        /* 16-bit instructions.  Should never happen.  */
+-        abort();
+-    case 6: case 7: case 14: case 15:
+-        /* Coprocessor.  */
+-        if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-            /* 0b111x_11xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx */
+-            goto illegal_op;
+-        }
+-        if (((insn >> 24) & 3) == 3) {
+-            /* Neon DP, but failed disas_neon_dp() */
+-            goto illegal_op;
+-        } else if (((insn >> 8) & 0xe) == 10) {
+-            /* VFP, but failed disas_vfp.  */
+-            goto illegal_op;
+-        } else {
+-            if (insn & (1 << 28))
+-                goto illegal_op;
+-            if (disas_coproc_insn(s, insn)) {
+-                goto illegal_op;
+-            }
+-        }
+-        break;
+-    case 12:
+-        goto illegal_op;
+-    default:
+-    illegal_op:
+-        unallocated_encoding(s);
+-    }
++illegal_op:
++    unallocated_encoding(s);
+ }
+ 
+ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
 -- 
 2.20.1
 
