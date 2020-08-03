@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3521F23A347
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 13:26:54 +0200 (CEST)
-Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A157C23A33C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 13:22:41 +0200 (CEST)
+Received: from localhost ([::1]:55558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2YcH-00059y-AI
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 07:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46032)
+	id 1k2YYC-0000Rb-Mx
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 07:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2YUi-0003vd-LN
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:04 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51453)
+ id 1k2YUj-0003yT-Rp
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:05 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2YUg-0004tZ-QE
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:04 -0400
-Received: by mail-wm1-x343.google.com with SMTP id p14so14003709wmg.1
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 04:19:02 -0700 (PDT)
+ id 1k2YUi-0004tv-36
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:19:05 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 3so15074186wmi.1
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 04:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uE/zSzU3YCUj+8keAlvLyFX2oijQycTIyZcK1gVRSqY=;
- b=yHOeXGR2+tLrevmmLAQBc1pTlblM93sXH20O1UjYNdxnWNyqGEP01d+ghis5QepkBJ
- nnsaAljk5M7pebS127QbwK0ye2ORk6Y0D5JwiRaf4IZ6KdaA6gAU2+Qm3E9HKh9nlw/i
- wuetfjcJzJhZlo2DDK0RixvsaxMayGV6+1uemSdZOE08frskmF73uIjGzBttcmtHSQDw
- t67uCqqtvWejovQsEEgxLeASwbPCIPJIOnQ7/7CsaS/PAdlx3Ih3Uz+HOmnDgkBrDn5K
- Okv9Ttn7R+eWS2tttQhAYUIezFzJ8Yv6wWT40sldWq13FRzu5zHPbZkVygAoz5VtUyFt
- FIVQ==
+ bh=rAgcA7IrGXsmYiY0CiUqcWe2vzUpbrPD30xAx0l2H2U=;
+ b=JSIulD2qljKdNgpllREzYB2k/aKvmVbgV/Kpo50YetrD/MYDr9Q9dR/KLb99Zkotzq
+ wvcTxnvypxdtXNP/M0mlJG2jeXwyhXg78f5+exeRaDxYMD9TfESVYRB10pkOrDzm4O+x
+ y0VgVfkfpCXf8jAha0pr6oWkuPeHopGUObKoHPhj6gjUa0nN0EcfYrw+g7hV0EWr3p0W
+ PL4wxsS/J7G6g9wS9OBDwlhJvCTy193FZk1vRVmMP+orCgRPxDSUIcEtJAG29AMKPixE
+ pLJc087zuYnk1/X/qeeH3w16kyog6mCm0ZlTVhcHX2/b9tVwp0kLsIkXPadU9gSt5tCb
+ y5Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uE/zSzU3YCUj+8keAlvLyFX2oijQycTIyZcK1gVRSqY=;
- b=V5Vqs5WAsSrJ9eYMpRQUplPCy0bwE8WczPHGf50V9EYZPH+Awe3pLBOMJo3XF+LqE/
- 8CndRZOAX1evBY1VkNaqcWqGsPJViuGy43Gr4oVeEVjQe/WHHTgmQUR3tt5yFIo7AHNd
- CtBva+w766F2dlh/g/RpCUtEG1pJbRqYfcJSKz3g1vf3lKURIqTWYxaPtReULjnok1l+
- QruVsROU5rqt0iWGVVwPwjIHvteBXA5z0uiAduKmr/EMSoqIX485DSmYM6Qkp1bP/tko
- 0Q2fRNrRYe7NdPCxZjh4UZtcO0xo6D55d/s/tF7ng6X6pkdlcVRE5WkGr/ucURi6Rzqj
- kEQQ==
-X-Gm-Message-State: AOAM530pZrrtbbrqMydtuDUs0qYMse/eAsbnG8rDOabKCav++b6db2im
- VLvVIWa+w26rtgND0huPjqyFSD3MbeMeMA==
-X-Google-Smtp-Source: ABdhPJwawNq9iOhdFOEY/zisDxsCZTbjPQ7zJOIeG8TGavX85l8wh0rGA3wcvo6NMUpskNGGIxexGg==
-X-Received: by 2002:a7b:c765:: with SMTP id x5mr14994384wmk.14.1596453541230; 
- Mon, 03 Aug 2020 04:19:01 -0700 (PDT)
+ bh=rAgcA7IrGXsmYiY0CiUqcWe2vzUpbrPD30xAx0l2H2U=;
+ b=BTBo4Xu0GffBBUYgpKsW9mo5ciJ3/AgXaG8C5L6hnH4NcPrvWe4f1VzXs1+pQwr7xD
+ z+XBDnudu++SD3ntLTKrNe7s/uM9uVrbuRFpHOwYUERL5+Jj6LZkjj6MNeoj6LzhcmL6
+ 3MFdgw/murjeoEo9mIKHZAHzd16uTxLwClVC6EgP653kw0mdvgsoAWY+Pms2cInTt0sp
+ xQ+UcIi8YvKVsM5nKs3TpFZfX2ZZTm4c2FDwHGnIWqTxBuepUgSy1H/WXoW0m9EkTWWY
+ kBPcPv1lT19tkWPa88khArGCLai8WMQWc04xFU/DmYFjxwC3KnDMjj0QtekI3lCWpsiX
+ Iw7g==
+X-Gm-Message-State: AOAM530V6gndu06OuEWA7Km95Broi6cGbldFe5FjWkfmOQuLVTHhhUbz
+ tw+Ip4SvMW/NIAcx0VL9H/n9Npnl9e90Cw==
+X-Google-Smtp-Source: ABdhPJziDo9auco+ziWBzXxAMhgs2Q1+3c9aSgFWWWqM3klSENNMdYjq3XJTtjT9SCZRxp/3zTI4vQ==
+X-Received: by 2002:a1c:bcd6:: with SMTP id m205mr14913867wmf.47.1596453542606; 
+ Mon, 03 Aug 2020 04:19:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g3sm28013170wrb.59.2020.08.03.04.19.00
+ by smtp.gmail.com with ESMTPSA id g3sm28013170wrb.59.2020.08.03.04.19.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 04:19:00 -0700 (PDT)
+ Mon, 03 Aug 2020 04:19:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 6/7] target/arm: Convert T32 coprocessor insns to decodetree
-Date: Mon,  3 Aug 2020 12:18:48 +0100
-Message-Id: <20200803111849.13368-7-peter.maydell@linaro.org>
+Subject: [PATCH 7/7] target/arm: Remove ARCH macro
+Date: Mon,  3 Aug 2020 12:18:49 +0100
+Message-Id: <20200803111849.13368-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200803111849.13368-1-peter.maydell@linaro.org>
 References: <20200803111849.13368-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,138 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the T32 coprocessor instructions to decodetree.
-As with the A32 conversion, this corrects an underdecoding
-where we did not check that MRRC/MCRR [24:21] were 0b0010
-and so treated some kinds of LDC/STC and MRRC/MCRR rather
-than UNDEFing them.
+The ARCH() macro was used a lot in the legacy decoder, but
+there are now just two uses of it left. Since a macro which
+expands out to a goto is liable to be confusing when reading
+code, replace the last two uses with a simple open-coded
+qeuivalent.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/t32.decode  | 19 +++++++++++++
- target/arm/translate.c | 64 ++----------------------------------------
- 2 files changed, 21 insertions(+), 62 deletions(-)
+ target/arm/translate.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index c21a988f971..7069d821fde 100644
---- a/target/arm/t32.decode
-+++ b/target/arm/t32.decode
-@@ -45,6 +45,8 @@
- &sat             !extern rd rn satimm imm sh
- &pkh             !extern rd rn rm imm tb
- &cps             !extern mode imod M A I F
-+&mcr             !extern cp opc1 crn crm opc2 rt
-+&mcrr            !extern cp opc1 crm rt rt2
- 
- # Data-processing (register)
- 
-@@ -621,6 +623,23 @@ RFE              1110 1001 10.1 .... 1100000000000000         @rfe pu=1
- SRS              1110 1000 00.0 1101 1100 0000 000. ....      @srs pu=2
- SRS              1110 1001 10.0 1101 1100 0000 000. ....      @srs pu=1
- 
-+# Coprocessor instructions
-+
-+# We decode MCR, MCR, MRRC and MCRR only, because for QEMU the
-+# other coprocessor instructions always UNDEF.
-+# The trans_ functions for these will ignore cp values 8..13 for v7 or
-+# earlier, and 0..13 for v8 and later, because those areas of the
-+# encoding space may be used for other things, such as VFP or Neon.
-+
-+@mcr             .... .... opc1:3 . crn:4 rt:4 cp:4 opc2:3 . crm:4
-+@mcrr            .... .... .... rt2:4 rt:4 cp:4 opc1:4 crm:4
-+
-+MCRR             1110 1100 0100 .... .... .... .... .... @mcrr
-+MRRC             1110 1100 0101 .... .... .... .... .... @mcrr
-+
-+MCR              1110 1110 ... 0 .... .... .... ... 1 .... @mcr
-+MRC              1110 1110 ... 1 .... .... .... ... 1 .... @mcr
-+
- # Branches
- 
- %imm24           26:s1 13:1 11:1 16:10 0:11 !function=t32_branch24
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index adcd2127290..59d6e43611a 100644
+index 59d6e43611a..37d4985d7e1 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4791,37 +4791,6 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
-     return;
- }
+@@ -49,8 +49,6 @@
+ #define ENABLE_ARCH_7     arm_dc_feature(s, ARM_FEATURE_V7)
+ #define ENABLE_ARCH_8     arm_dc_feature(s, ARM_FEATURE_V8)
  
--static int disas_coproc_insn(DisasContext *s, uint32_t insn)
--{
--    int cpnum, is64, crn, crm, opc1, opc2, isread, rt, rt2;
+-#define ARCH(x) do { if (!ENABLE_ARCH_##x) goto illegal_op; } while(0)
 -
--    cpnum = (insn >> 8) & 0xf;
--
--    is64 = (insn & (1 << 25)) == 0;
--    if (!is64 && ((insn & (1 << 4)) == 0)) {
--        /* cdp */
--        return 1;
--    }
--
--    crm = insn & 0xf;
--    if (is64) {
--        crn = 0;
--        opc1 = (insn >> 4) & 0xf;
--        opc2 = 0;
--        rt2 = (insn >> 16) & 0xf;
--    } else {
--        crn = (insn >> 16) & 0xf;
--        opc1 = (insn >> 21) & 7;
--        opc2 = (insn >> 5) & 7;
--        rt2 = 0;
--    }
--    isread = (insn >> 20) & 1;
--    rt = (insn >> 12) & 0xf;
--
--    do_coproc_insn(s, cpnum, is64, opc1, crn, crm, opc2, isread, rt, rt2);
--    return 0;
--}
--
- /* Decode XScale DSP or iWMMXt insn (in the copro space, cp=0 or 1) */
- static void disas_xscale_insn(DisasContext *s, uint32_t insn)
+ #include "translate.h"
+ 
+ #if defined(CONFIG_USER_ONLY)
+@@ -7909,7 +7907,7 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
  {
-@@ -8485,38 +8454,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-         ((insn >> 28) == 0xe && disas_vfp(s, insn))) {
-         return;
+     TCGv_i32 tmp;
+ 
+-    /* For A32, ARCH(5) is checked near the start of the uncond block. */
++    /* For A32, ARM_FEATURE_V5 is checked near the start of the uncond block. */
+     if (s->thumb && (a->imm & 2)) {
+         return false;
      }
--    /* fall back to legacy decoder */
+@@ -8275,7 +8273,10 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+          * choose to UNDEF. In ARMv5 and above the space is used
+          * for miscellaneous unconditional instructions.
+          */
+-        ARCH(5);
++        if (!arm_dc_feature(s, ARM_FEATURE_V5)) {
++            unallocated_encoding(s);
++            return;
++        }
  
--    switch ((insn >> 25) & 0xf) {
--    case 0: case 1: case 2: case 3:
--        /* 16-bit instructions.  Should never happen.  */
--        abort();
--    case 6: case 7: case 14: case 15:
--        /* Coprocessor.  */
--        if (arm_dc_feature(s, ARM_FEATURE_M)) {
--            /* 0b111x_11xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx */
--            goto illegal_op;
--        }
--        if (((insn >> 24) & 3) == 3) {
--            /* Neon DP, but failed disas_neon_dp() */
--            goto illegal_op;
--        } else if (((insn >> 8) & 0xe) == 10) {
--            /* VFP, but failed disas_vfp.  */
--            goto illegal_op;
--        } else {
--            if (insn & (1 << 28))
--                goto illegal_op;
--            if (disas_coproc_insn(s, insn)) {
--                goto illegal_op;
--            }
--        }
--        break;
--    case 12:
--        goto illegal_op;
--    default:
--    illegal_op:
--        unallocated_encoding(s);
--    }
-+illegal_op:
-+    unallocated_encoding(s);
- }
+         /* Unconditional instructions.  */
+         /* TODO: Perhaps merge these into one decodetree output file.  */
+@@ -8400,7 +8401,10 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+             goto illegal_op;
+         }
+     } else if ((insn & 0xf800e800) != 0xf000e800)  {
+-        ARCH(6T2);
++        if (!arm_dc_feature(s, ARM_FEATURE_THUMB2)) {
++            unallocated_encoding(s);
++            return;
++        }
+     }
  
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     if (arm_dc_feature(s, ARM_FEATURE_M)) {
 -- 
 2.20.1
 
