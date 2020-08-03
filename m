@@ -2,100 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AD923A3EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 14:17:57 +0200 (CEST)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFE523A43A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 14:24:53 +0200 (CEST)
+Received: from localhost ([::1]:49544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2ZPg-00065Q-Sy
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 08:17:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59912)
+	id 1k2ZWO-0008Kv-Be
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 08:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k2ZOF-0005CX-Ke
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 08:16:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22746
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k2ZVF-0007q8-Ra
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 08:23:41 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51993
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k2ZOD-0003f7-VP
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 08:16:27 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k2ZVE-0004M7-5b
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 08:23:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596456985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1596457418;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wKieeyoAx5B+oErIwGDg709YE/sDDlfkuYQwdc4JY3s=;
- b=QzLjFAKPaFT2PMN+lAC2mcLG3CU0hJ1MVggFENSguMj/2PlLH5Q425lAlwcnhAWAJlnDqX
- ePoFZYlncmoT/l4CbyjkhQgZDrU6kC08ISmRdQd+f+vMhylTi186/oHHNiRHZPiwxLxoAz
- O0pEN8uBPTeuTzwxKknlVu+sZjmegFw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-IDqQNJqcO5qgiW3QhmfX7Q-1; Mon, 03 Aug 2020 08:16:23 -0400
-X-MC-Unique: IDqQNJqcO5qgiW3QhmfX7Q-1
-Received: by mail-wr1-f72.google.com with SMTP id e14so8107332wrr.7
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 05:16:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wKieeyoAx5B+oErIwGDg709YE/sDDlfkuYQwdc4JY3s=;
- b=uaHrKwlBkKuqkmaNeRwj54FOLhMuSUq6GwXYZVbW5gykW7gVzdAjGyNpJafnR3EuCG
- XJX0xeZ7xOQfX3QSD4MiwmgLP0bc8YFOa4Gwun8Hlzfs/AeOmPFGpCXxNZRx69GKAgw0
- bra9UdOJJptvsQlwElTYjPjRPpR75wIYAtANwjp10Pi/MsvAqtMG+LNswB2HeF8eWS8S
- F4UNRzQmA13Cz3PrUudnI5I+EjsHUS6m++yJahc1X9gzrBT6K94oSVcyeGyPofb7CSeo
- 24rqL33PLkdyWNg+RBFOVWZBHXCKxiHjwBN3u8tdXYYAj6UDi/u7n01P7gvaEEYjV5t+
- dvpw==
-X-Gm-Message-State: AOAM533K+/b5oUuqsmTpN0di8lyT89/XubdTMEfxHyKumdJodX0EGSn9
- pAgHZaVYdtPWg6rps5SPeWbM/4dL8MUanKT6+SUokdSJOc4G9TBbNwKrsCnB4JuGfZZ+oxcTG1I
- dWXGSjCZM5yhoWFk=
-X-Received: by 2002:a05:6000:1203:: with SMTP id
- e3mr15368812wrx.324.1596456981508; 
- Mon, 03 Aug 2020 05:16:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw5A70RLREWnZOYGugMsVckM/fUfXK/zuZT807WcbX1g2WVoR9O533UCtEYIDPBMwBFUmAtEw==
-X-Received: by 2002:a05:6000:1203:: with SMTP id
- e3mr15368800wrx.324.1596456981273; 
- Mon, 03 Aug 2020 05:16:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
- ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
- by smtp.gmail.com with ESMTPSA id v67sm26189764wma.46.2020.08.03.05.16.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Aug 2020 05:16:20 -0700 (PDT)
+ bh=iJC4enJZXlhiXOaxUTdZok78zjEbK7o8qf8YqP+VnJg=;
+ b=axsUVxJUnD/5/oohLrAb8AA60Qqk2UuaUHjkOn2rWYCo6XUPUtE5WvN7FIJDWIuTsB0e6I
+ vnHSqLYbiikHjPKjKyczFNMWC8IilVOEprLxQt5gIaKntQnxwzjK6skFI8rUO0DViyICRE
+ Nzo5IC0fL3vQ8ju8LBK2jppDwg89iTM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-DjNlfs1xNJeGmRt0bJk82w-1; Mon, 03 Aug 2020 08:23:26 -0400
+X-MC-Unique: DjNlfs1xNJeGmRt0bJk82w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99DB71005504;
+ Mon,  3 Aug 2020 12:23:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D527D19C4F;
+ Mon,  3 Aug 2020 12:23:07 +0000 (UTC)
+Date: Mon, 3 Aug 2020 13:23:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: [PATCH] schemas: Add vim modeline
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200729185024.121766-1-abologna@redhat.com>
- <87ime52wxd.fsf@dusky.pond.sub.org> <20200730093732.GB3477223@redhat.com>
- <87k0ylz0ep.fsf@dusky.pond.sub.org> <20200730132446.GL3477223@redhat.com>
- <875za33ku1.fsf@dusky.pond.sub.org> <20200731150738.GB3660103@redhat.com>
+Message-ID: <20200803122304.GJ3670709@redhat.com>
+References: <20200730093732.GB3477223@redhat.com>
+ <87k0ylz0ep.fsf@dusky.pond.sub.org>
+ <20200730132446.GL3477223@redhat.com>
+ <875za33ku1.fsf@dusky.pond.sub.org>
+ <20200731150738.GB3660103@redhat.com>
  <03bb7822-20a0-2945-6c86-1d5f1b2a01d9@redhat.com>
  <20200731154429.GD3660103@redhat.com>
  <21cda868-85d3-77db-31d8-0248a5029318@redhat.com>
  <20200803113655.GI3670709@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fcc9056d-4d72-5bdb-bd21-2bf6213f5a55@redhat.com>
-Date: Mon, 3 Aug 2020 14:16:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <fcc9056d-4d72-5bdb-bd21-2bf6213f5a55@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200803113655.GI3670709@redhat.com>
-Content-Language: en-US
+In-Reply-To: <fcc9056d-4d72-5bdb-bd21-2bf6213f5a55@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:09:19
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:56:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,39 +91,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
  Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Yuval Shaia <yuval.shaia.ml@gmail.com>, Markus Armbruster <armbru@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/08/20 13:36, Daniel P. Berrangé wrote:
->>> Given that QEMU needs to pass
->>> uint64 values, JSON was simply the wrong choice of format for QMP.
->
-> I wasn't refering to RFC7159. The problem of undefined integer precision
-> with JSON came up right at the very start when QMP was first designed and
-> implemented, and has come up again periodically ever since then. libvirt
-> needed to do workarounds right at the start in 2009, in order to fully
-> handle signed/unsigned 64-bit integers with QMP.
+On Mon, Aug 03, 2020 at 02:16:19PM +0200, Paolo Bonzini wrote:
+> On 03/08/20 13:36, Daniel P. Berrangé wrote:
+> >>> Given that QEMU needs to pass
+> >>> uint64 values, JSON was simply the wrong choice of format for QMP.
+> >
+> > I wasn't refering to RFC7159. The problem of undefined integer precision
+> > with JSON came up right at the very start when QMP was first designed and
+> > implemented, and has come up again periodically ever since then. libvirt
+> > needed to do workarounds right at the start in 2009, in order to fully
+> > handle signed/unsigned 64-bit integers with QMP.
+> 
+> I assume the workaround you refer to is to store the number as a string
+> and converting it lazily to either an integer or a floating-point type
+> in whoever uses the JSON API.  It may not be pretty but probably it
+> would have been the same for any text-based, schema-less protocol.  For
+> example, it didn't require writing your own parser.
 
-I assume the workaround you refer to is to store the number as a string
-and converting it lazily to either an integer or a floating-point type
-in whoever uses the JSON API.  It may not be pretty but probably it
-would have been the same for any text-based, schema-less protocol.  For
-example, it didn't require writing your own parser.
+Yes, we get the raw values as a string, but not all parsers for C
+allow you to do this.  We'd really love to move off YAJL for JSON
+parsing, but the most viable alternatives don't have a way to let
+you get the string before they parse it as an integer and report
+errors.
 
-It could be avoided by using a schema in Libvirt, just like QEMU has no
-problem with it on the other side; it's just a different design choice
-with different trade-offs, I don't think it's enough of an issue to
-declare JSON "the wrong choice of format for QMP".
+> It could be avoided by using a schema in Libvirt, just like QEMU has no
+> problem with it on the other side; it's just a different design choice
+> with different trade-offs, I don't think it's enough of an issue to
+> declare JSON "the wrong choice of format for QMP".
 
-Paolo
+The schema doesn't help - the problem is many JSON parsers don't allow
+use of full uint64 values when parsing - alot will simply report an
+error for anything bigger than LLONG_MAX and offer no workaround.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
