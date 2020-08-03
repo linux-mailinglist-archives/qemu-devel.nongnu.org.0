@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDCD23ACD5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:17:13 +0200 (CEST)
-Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9019F23ACDD
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:19:41 +0200 (CEST)
+Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2fxQ-0003Ls-Gx
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35128)
+	id 1k2fzo-00062p-MH
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k2fvp-0001zP-D7
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:15:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23926
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k2fz0-0005bE-Fi
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:18:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50313
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k2fvn-0001Ir-Gm
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:15:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k2fyy-0001dM-4t
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:18:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596482130;
+ s=mimecast20190719; t=1596482324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DPumnZ/bwZNrMiQqcF7tSFL/9SfKTDkvT5OZGQE3spU=;
- b=RzqhdHnpzv1JOzpPCAb/bAZrZiO/vPIahfkJcsBJCZGZMzPES6iNhObtE+qnL/tp8ygqAR
- 18+ehLrMPbHlzsjNgYDLQLskFFF/5gqlyLiULB5K0jX8lbXiVEZlf28x9kcVlFAUZ6vwes
- QHW83JMku01BD3LOfXOuVJlTHlWurtk=
+ to:to:cc:cc:content-type:content-type;
+ bh=+yt9QATeEJ5XHntrTPRR+DuhRTJE/vmVnKFUZskr0l8=;
+ b=XfoROXJ860uwmqjvaZzNEAvKK2MyyzWjq1aZcsZVfjkj56qkSFFYrzkYYWZG5qEM2ASvAp
+ 65IOq6ljK+XHzcP0vMpZNWlBYBmS5eyqU7sx3UCAU5L2tlJq+4Q56ewPpKW6uyejTcdlvj
+ btKxRXGMTj0HrDltemIFMh/Aml7XnyM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-JuGR5WsFNJiNX0UhsW5rzA-1; Mon, 03 Aug 2020 15:15:27 -0400
-X-MC-Unique: JuGR5WsFNJiNX0UhsW5rzA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-69-laGjP1v_MgWW-xNvXJ2W3g-1; Mon, 03 Aug 2020 15:18:42 -0400
+X-MC-Unique: laGjP1v_MgWW-xNvXJ2W3g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4EEC100CCC1
- for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 19:15:25 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-35.ams2.redhat.com
- [10.36.114.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73AC517150;
- Mon,  3 Aug 2020 19:15:22 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, vgoyal@redhat.com, stefanha@redhat.com,
- virtio-fs@redhat.com
-Subject: [PATCH 3/3] tools/virtiofsd: xattr name mappings: Map host xattr names
-Date: Mon,  3 Aug 2020 20:15:11 +0100
-Message-Id: <20200803191511.45261-4-dgilbert@redhat.com>
-In-Reply-To: <20200803191511.45261-1-dgilbert@redhat.com>
-References: <20200803191511.45261-1-dgilbert@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5A171902EA0;
+ Mon,  3 Aug 2020 19:18:41 +0000 (UTC)
+Received: from thuth.com (ovpn-112-54.ams2.redhat.com [10.36.112.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF6068A19B;
+ Mon,  3 Aug 2020 19:18:40 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] Get rid of the libqemustub.a remainders
+Date: Mon,  3 Aug 2020 21:18:38 +0200
+Message-Id: <20200803191838.14016-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 13:51:25
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:37:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,127 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+libqemustub.a has been removed in commit ebedb37c8d ("Makefile: Remove
+libqemustub.a"). Some remainders have been missed. Remove them now.
 
-Map xattr names coming from the host, i.e. listxattr.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 88 ++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ Makefile                                | 2 +-
+ scripts/coverity-scan/run-coverity-scan | 3 ---
+ tests/test-util-sockets.c               | 3 ++-
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 68d2407a37..3af4cfb0e3 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2195,6 +2195,42 @@ static int xattr_map_client(const char *client_name, char **out_name)
-     abort();
+diff --git a/Makefile b/Makefile
+index c2120d8d48..13dd708c4a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -726,7 +726,7 @@ virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ endif
+ 
+-vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) libqemuutil.a libqemustub.a
++vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) libqemuutil.a
+ 	$(call LINK, $^)
+ 
+ ifdef CONFIG_VHOST_USER_INPUT
+diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
+index 03a791dec9..6eefb4b558 100755
+--- a/scripts/coverity-scan/run-coverity-scan
++++ b/scripts/coverity-scan/run-coverity-scan
+@@ -403,9 +403,6 @@ echo "Configuring..."
+     --enable-mpath --enable-libxml2 --enable-glusterfs \
+     --enable-virtfs --enable-zstd
+ 
+-echo "Making libqemustub.a..."
+-make libqemustub.a
+-
+ echo "Running cov-build..."
+ rm -rf cov-int
+ mkdir cov-int
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index 2ca1e99f17..261dc48c03 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -64,7 +64,8 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp)
+     return dup(mon_fd);
  }
  
+-/* Syms in libqemustub.a are discarded at .o file granularity.
 +/*
-+ * For use with listxattr where the host fs gives us a name and we may need
-+ * to sanitize this for the client.
-+ * Returns a pointer to the result in *out_name
-+ *   This is always the original string or the current string with some prefix
-+ *   removed; no reallocation is done.
-+ * Returns 0 on success
-+ * Can return -ENODATA to indicate the name should be dropped from the list.
-+ */
-+static int xattr_map_host(const char *host_name, const char **out_name)
-+{
-+    const XattrMapEntry *cur_entry;
-+    for (cur_entry = xattr_map_list; ; cur_entry++) {
-+        if ((cur_entry->flags & XATTR_MAP_FLAG_HOST) &&
-+            (!strncmp(cur_entry->prepend,
-+                      host_name,
-+                      strlen(cur_entry->prepend)))) {
-+            if (cur_entry->flags & XATTR_MAP_FLAG_END_BAD) {
-+                return -ENODATA;
-+            }
-+            if (cur_entry->flags & XATTR_MAP_FLAG_END_OK) {
-+                *out_name = host_name;
-+                return 0;
-+            }
-+            if (cur_entry->flags & XATTR_MAP_FLAG_PREFIX) {
-+                /* Remove prefix */
-+                *out_name = host_name + strlen(cur_entry->prepend);
-+                return 0;
-+            }
-+        }
-+    }
-+
-+    /* Shouldn't get here - rules should have an END_* */
-+    abort();
-+}
-+
- static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-                         size_t size)
- {
-@@ -2349,8 +2385,60 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-         if (ret == 0) {
-             goto out;
-         }
-+
-+        if (lo->xattrmap) {
-+            /*
-+             * Map the names back, some attributes might be dropped,
-+             * some shortened, but not increased, so we shouldn't
-+             * run out of room.
-+             */
-+            size_t out_index, in_index;
-+            out_index = 0;
-+            in_index = 0;
-+            while (in_index < ret) {
-+                const char *map_out;
-+                char *in_ptr = value + in_index;
-+                /* Length of current attribute name */
-+                size_t in_len = strlen(value + in_index) + 1;
-+
-+                int mapret = xattr_map_host(in_ptr, &map_out);
-+                if (mapret != -ENODATA && mapret != 0) {
-+                    /* Shouldn't happen */
-+                    saverr = -mapret;
-+                    goto out;
-+                }
-+                if (mapret == 0) {
-+                    /* Either unchanged, or truncated */
-+                    size_t out_len;
-+                    if (map_out != in_ptr) {
-+                        /* +1 copies the NIL */
-+                        out_len = strlen(map_out) + 1;
-+                    } else {
-+                        /* No change */
-+                        out_len = in_len;
-+                    }
-+                    /*
-+                     * Move result along, may still be needed for an unchanged
-+                     * entry if a previous entry was changed.
-+                     */
-+                    memmove(value + out_index, map_out, out_len);
-+
-+                    out_index += out_len;
-+                }
-+                in_index += in_len;
-+            }
-+            ret = out_index;
-+            if (ret == 0) {
-+                goto out;
-+            }
-+        }
-         fuse_reply_buf(req, value, ret);
-     } else {
-+        /*
-+         * xattrmap only ever shortens the result,
-+         * so we don't need to do anything clever with the
-+         * allocation length here.
-+         */
-         fuse_reply_xattr(req, ret);
-     }
- out_free:
++ * Syms of stubs in libqemuutil.a are discarded at .o file granularity.
+  * To replace monitor_get_fd() we must ensure everything in
+  * stubs/monitor.c is defined, to make sure monitor.o is discarded
+  * otherwise we get duplicate syms at link time.
 -- 
-2.26.2
+2.18.1
 
 
