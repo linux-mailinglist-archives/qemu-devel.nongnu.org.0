@@ -2,76 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECE623AC2B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 20:13:11 +0200 (CEST)
-Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE4223AC38
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 20:17:37 +0200 (CEST)
+Received: from localhost ([::1]:45344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2exS-0007C3-64
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 14:13:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
+	id 1k2f1k-0000gt-I8
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 14:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k2ewO-000694-Uh
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 14:12:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49383
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k2f0j-00009N-II
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 14:16:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24867
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k2ewM-0001sY-2k
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 14:12:04 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k2f0h-0002Oq-Nt
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 14:16:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596478320;
+ s=mimecast20190719; t=1596478590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=cRlJpFdBiaFDzjSTtOgiK65KP4Sse3AEnb3/K68SGIs=;
- b=PyLMQrHeV1qCAPcqwNP912tYoE64An+KgaTcvd42dfxy3HVI9PNrEtBnt2mI6QJafx1q3K
- Rfgp28TDMmm1vVkOOpiaEqkHjBgl3CkKzLOVLEApU3NlX/MV4Y+JyBbzF3wZER/7FZGpRf
- QOXf9lF3u4qd4OssdGdhUNI7URf9vCs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-gMAK4MDwN_-bn1e0fHHpJg-1; Mon, 03 Aug 2020 14:11:56 -0400
-X-MC-Unique: gMAK4MDwN_-bn1e0fHHpJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A461559;
- Mon,  3 Aug 2020 18:11:55 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D03658BED8;
- Mon,  3 Aug 2020 18:11:53 +0000 (UTC)
-Subject: Re: [PULL 00/63] riscv-to-apply queue
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>, Alistair Francis <alistair23@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200626214410.3613258-1-alistair.francis@wdc.com>
- <CAFEAcA-8QejH-sFsP_rmKuYdYbQdYRjrHaNz4vLHzfYiSBCKYA@mail.gmail.com>
- <CAKmqyKNo9rPtbtqb1R3OFKH71geYjo0mZONNLxkL0Mg6bnb1Zw@mail.gmail.com>
- <544fb149-c920-b396-7297-f9688a744445@c-sky.com>
- <29f57b2e-7d67-5da2-0ad0-0750e400a91c@redhat.com>
- <67c76bac-2416-9ace-a71b-ab56b864975b@c-sky.com>
- <808d1b49-c03c-6bc7-09e1-7028259bbef6@redhat.com>
- <ff8340c3-7cc2-72aa-8698-8a847ce416b4@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d71bde1a-f5a2-f722-f838-dfe27e83456d@redhat.com>
-Date: Mon, 3 Aug 2020 20:11:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=eJRcaZEa8NCJhD4OYCANZ9DMXc4BusYrGpZyQgwBSPE=;
+ b=MTi3LPTHEWptmsEswbtdG6/tKPnUp7pwGXxYjUUkjF35TBZeVn9cfUFkuQpNaBgk4CRL6E
+ 6+w0PU8GLebIRTU2og5gQevS17qV45gHykDfaXxg3tF7BKBgOd06M/Fx9MxbYRt/mwQ3ce
+ bGvUiUnSe7/Mu/7QJzwMvsxC0O/WAdo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-XObp4MI4ONye0iGnLba6Ew-1; Mon, 03 Aug 2020 14:16:28 -0400
+X-MC-Unique: XObp4MI4ONye0iGnLba6Ew-1
+Received: by mail-wr1-f69.google.com with SMTP id w7so9579737wre.11
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 11:16:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eJRcaZEa8NCJhD4OYCANZ9DMXc4BusYrGpZyQgwBSPE=;
+ b=oGgwiPURsmTCwPSpFPuRR0RKI2SpztsDQvWI2nmHNIS8Dd4azTfQH25MdL7dS83+IU
+ 8QVR+JoXKYrRV3CzIGI5n4JCMr6EbcfOSPqwbbwAYAeK8l8hUR4IYVb9voVp+l2f9uHf
+ tKrO24rrHfx3SWeRyScplSx3Poo9vM1Z+taq7aZpwu4AGUp/VA7pP6fct/lhzmf4Z1oQ
+ az8WKDtLPrIVE+1ieLElpTZzlpKsRCXcdhRBaHwb7vvenyVan13OJqBnxuJSwtnCTyr2
+ zlU1D4FtfWnfFEp1R/4WfZEUIxdjcd4NpPcgV+8dSprXldrULMZn2VUAxwOujwl3Uu0Y
+ MFJA==
+X-Gm-Message-State: AOAM531YlgBkurmo0sputvhKCO/B2VdRQwN0c9w3HuLcRikIt+yu1gSO
+ aJSaqLuwmdu4BrgV7KjLBz2Q8fzTzLRGQZ/IptoaY0oY1XbVjvlr96SWaSIWiuGZ4hg0yjrT2vh
+ dzPfhvR9SZh7LJKI=
+X-Received: by 2002:a1c:4602:: with SMTP id t2mr417215wma.33.1596478584639;
+ Mon, 03 Aug 2020 11:16:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvNhz6rW0up0pJGS/Itn2ZI5yeigl6UujDpezh3O80fGdN20FpStMuFshD/6u0nFBSyAAL3g==
+X-Received: by 2002:a1c:4602:: with SMTP id t2mr417184wma.33.1596478584292;
+ Mon, 03 Aug 2020 11:16:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
+ ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
+ by smtp.gmail.com with ESMTPSA id q5sm25447354wrp.60.2020.08.03.11.16.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Aug 2020 11:16:23 -0700 (PDT)
+Subject: Re: cleanups with long-term benefits (was Re: [PATCH] schemas: Add
+ vim modeline)
+To: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20200729185024.121766-1-abologna@redhat.com>
+ <87ime52wxd.fsf@dusky.pond.sub.org> <20200730093732.GB3477223@redhat.com>
+ <87k0ylz0ep.fsf@dusky.pond.sub.org> <20200730132446.GL3477223@redhat.com>
+ <875za33ku1.fsf@dusky.pond.sub.org> <20200731150738.GB3660103@redhat.com>
+ <2cf1a431-9d2c-8ad6-446e-f10b36219764@redhat.com>
+ <87d048i1m2.fsf@dusky.pond.sub.org>
+ <83bbe0b0-c5e0-e3b7-5ba1-5946098370d5@redhat.com>
+ <87ft94klyl.fsf@dusky.pond.sub.org>
+ <490a0786-73f3-411e-4dfe-8c2ae90de251@redhat.com>
+ <17a92222-2627-4961-b57e-1f1f5c86e14a@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e186e3b5-4aef-42c0-6957-2e5ae430686c@redhat.com>
+Date: Mon, 3 Aug 2020 20:16:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <ff8340c3-7cc2-72aa-8698-8a847ce416b4@redhat.com>
+In-Reply-To: <17a92222-2627-4961-b57e-1f1f5c86e14a@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:09:19
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:37:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -92,115 +109,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/08/2020 20.00, Philippe Mathieu-Daudé wrote:
-> On 8/3/20 7:53 PM, Thomas Huth wrote:
->> On 30/06/2020 10.44, LIU Zhiwei wrote:
->>>
->>>
->>> On 2020/6/30 16:11, Thomas Huth wrote:
->>>> On 30/06/2020 08.56, LIU Zhiwei wrote:
->>>>>
->>>>>
->>>>> On 2020/6/29 6:51, Alistair Francis wrote:
->>>>>> On Sun, Jun 28, 2020 at 7:30 AM Peter Maydell
->>>>>> <peter.maydell@linaro.org> wrote:
->>>>>>> On Fri, 26 Jun 2020 at 22:53, Alistair Francis
->>>>>>> <alistair.francis@wdc.com> wrote:
->>>>>>>> The following changes since commit
->>>>>>>> 553cf5d7c47bee05a3dec9461c1f8430316d516b:
->>>>>>>>
->>>>>>>>    Merge remote-tracking branch
->>>>>>>> 'remotes/pmaydell/tags/pull-target-arm-20200626' into staging
->>>>>>>> (2020-06-26 18:22:36 +0100)
->>>>>>>>
->>>>>>>> are available in the Git repository at:
->>>>>>>>
->>>>>>>>    git@github.com:alistair23/qemu.git
->>>>>>>> tags/pull-riscv-to-apply-20200626-1
->>>>>>>>
->>>>>>>> for you to fetch changes up to
->>>>>>>> b39d59434ea10649fdb9e0a339c30c76e38c5e17:
->>>>>>>>
->>>>>>>>    target/riscv: configure and turn on vector extension from
->>>>>>>> command line (2020-06-26 14:22:15 -0700)
->>>>>>>>
->>>>>>>> ----------------------------------------------------------------
->>>>>>>> This PR contains two patches to improve PLIC support in QEMU.
->>>>>>>>
->>>>>>>> The rest of the PR is adding support for the v0.7.1 RISC-V vector
->>>>>>>> extensions. This is experimental support as the vector extensions are
->>>>>>>> still in a draft state.
->>>>>>>>
->>>>>>> Hi; I'm afraid this fails to build on PPC64 and s390x (ie
->>>>>>> our big-endian hosts):
->>>>> Hi Peter,
->>>>>
->>>>> Do you mean you built the patch set on PPC64 or s390x and got errors
->>>>> in the list? Or just a worry?
->>>>>
->>>>> I have built the patch set on Ubuntu 18.04 X86-64. I don't know which
->>>>> compile option
->>>>> will fails the compilation. If you compiled on Ubuntu x86-64, could
->>>>> you show me the
->>>>> compile option?
->>>>
->>>> The related code in your patch "target/riscv: add vector stride load
->>>> and store instructions" is in a "#ifdef HOST_WORDS_BIGENDIAN" section,
->>>> so of course this bug does not trigger on a x86 host. You could
->>>> temporarily turn the "#ifdef HOST_WORDS_BIGENDIAN" into a "#if 1" to
->>>> see whether you can then also reproduce the error on x86.
->>>>
->>> Yes. I can reproduce it in this way.
->>>>> As a note: I try to find a PPC64 for test, but I'm afraid it will be
->>>>> too later.
->>>>> Is there an available  PPC64  machine in the community?
->>>>
->>>> Maybe the easiest way to test your code on a big endian machine, too,
->>>> is to get a github account, clone the QEMU repository there, and
->>>> enable Travis for that repo. Then your code gets built on some non-x86
->>>> architectures (including a big-endian s390x) as soon as you push it to
->>>> the repo (see .travis.yml for details).
->>>>
->>> Thanks very much. I will have a try.
->>>>>>> /home/ubuntu/qemu/target/riscv/vector_helper.c: In function
->>>>>>> ‘vext_clear’:
->>>>>>> /home/ubuntu/qemu/target/riscv/vector_helper.c: In function
->>>>>>> ‘vext_clear’:
->>>>>>> /home/ubuntu/qemu/target/riscv/vector_helper.c:154:21: error: invalid
->>>>>>> operands to binary & (have ‘void *’ and ‘long long unsigned int’)
->>>>>>>           memset(tail & ~(7ULL), 0, part1);
->>>>
->>>> You obviously must not use "&" with a pointer. I guess you have to
->>>> cast to "uintptr_t" and back, or think of some other smart way to fix
->>>> this.
->>>>
->>> Yes. That's the error. It  build successfully after the cast.
->>
->> I'm sorry, but the new code fails to compile on big endian 32-bit
->> targets, see https://gitlab.com/huth/qemu/-/jobs/667762754#L3434 :
->>
->> /builds/huth/qemu/target/riscv/vector_helper.c: In function 'vext_clear':
->> /builds/huth/qemu/target/riscv/vector_helper.c:154:16: error: cast to
->> pointer from integer of different size [-Werror=int-to-pointer-cast]
->>          memset((void *)((uintptr_t)tail & ~(7ULL)), 0, part1);
->>                 ^
->> /builds/huth/qemu/target/riscv/vector_helper.c:155:16: error: cast to
->> pointer from integer of different size [-Werror=int-to-pointer-cast]
->>         memset((void *)(((uintptr_t)tail + 8) & ~(7ULL)), 0, part2);
->>                 ^
->> cc1: all warnings being treated as errors
->>
->> A quick work-around is maybe to replace "ULL" with simply "UL" ?
+On 03/08/20 20:10, John Snow wrote:
+> Heresy:
 > 
-> Or use QEMU_ALIGN_PTR_DOWN?
+> Docstrings could become part of the data format so they can be parsed,
+> analyzed and validated. Parsers largely treat comments like non-semantic
+> information and discard it. Round-trip parsers that preserve comments in
+> any language are extremely rare.
+> 
+> If the docstrings are relevant to the generator and aren't discardable,
+> they should be fully-fledged data members.
+> 
+> In a prototype I had for a YAML format, I just promoted docstrings
+> directly to fields, so I could allow clients to query help text for
+> individual commands.
 
-Sounds like a good idea! I'll give it a try and send a patch ...
+This would be actually a good idea, but somebody has to write the code.
+ Each field's docstring should be attached to the field, however---no
+parsing needed only looking at the tree.  Take a look at what Nir posted:
 
- Thomas
+> Here is the patch adding schema convertor from qemu "json" format to
+> standard yaml:
+> https://github.com/oVirt/vdsm/commit/e57b69e72987c0929b20306c454835b52b5eb7ee
+> 
+> The current version of the new yaml based schema:
+> https://github.com/oVirt/vdsm/blob/master/lib/vdsm/api/vdsm-api.yml
+
+
+    VmDiskDevice: &VmDiskDevice
+        added: '3.1'
+        description: Properties of a VM disk device.
+        name: VmDiskDevice
+        properties:
+        -   description: Indicates if writes are prohibited for the
+                device
+            name: readonly
+            type: boolean
+
+        -   description: The size of the disk (in bytes)
+            name: apparentsize
+            type: uint
+
+etc.
+
+Paolo
 
 
