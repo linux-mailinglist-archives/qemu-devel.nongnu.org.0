@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5AB23B923
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:54:12 +0200 (CEST)
-Received: from localhost ([::1]:35058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D625F23B94B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 13:15:45 +0200 (CEST)
+Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2uaB-0005af-FQ
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
+	id 1k2uv2-0005nJ-Ka
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 07:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2uZH-0004y8-Cc
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:53:15 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46561)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2uZF-00049s-Ed
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:53:14 -0400
-Received: by mail-oi1-x243.google.com with SMTP id v13so19314189oiv.13
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 03:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lTjIN1QGhmwyhDOOkzujdm+gLrnzQTEmjZKfLlIu/yk=;
- b=kYerZPVmNFvarScYI5P3WTXW3rdM55fHI+X+n8lvEdtNuz2RWa28MpsXoUxTdD74wV
- XEqF4zi0XTveD1yT53ut+PzlCs0gAEIDtPSjuXji6V2Ab8YsJMYR2Fi2uRHHMMb2r8FG
- LlxeMqqBiyem6wL1mF1AX2hfCFZTv7czEn9Aq9LxzP0IPbyPuyt9yFtMURy32xrYKgZ6
- hhqpOwNRfJWxJcjPmHzwJIVVc5o3VGGWk3TRKGyqzMyWLVpYqgNCcoxmpdHPlO0aimbL
- xd9SAo8X14jurv/2o4hC3sOAy+scqBrEUxw1Y3VCCLpByYUFQ/mmy/TucRMtWvT/rhgG
- x4eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lTjIN1QGhmwyhDOOkzujdm+gLrnzQTEmjZKfLlIu/yk=;
- b=W8l/PwaMdKblEqWHTiFkx/Me1BR/n+MCw1t+0H2zDsDeH3n3UJWhfZLoFdcJUUzb+z
- yNsdYdWoDVOXfOrrzWsrDEGjFwy2PZfVqoEhVWgv8sDWJFG8XcL6f6zIyPQSWgJWhzHw
- 5NZ/Tqn7MBGcJSpillZ4PTH/NBRQQrvpYOJBbIXz7KAN1WVzmYX17zQZ3jhorD2IFjHc
- g/hOSuvCOgptl7X8e1B60RVXTcOxJEKXlfE+nkCKTdxv7WmXth+jLurP5ept6QaOQkIk
- euBY+cq4uOmndiLmDz/TGOJKx9Qrd+WNdhCyCSDh44EBv6NTz8O10Rb8z8jqvXp7xrdv
- YFrw==
-X-Gm-Message-State: AOAM532Vtv6V/hEwWNY4tjNHsdEnRRZik1vQU77phOmLA/ymoNPEYUZo
- 1iyVmDjqB2JoKdtnDrlYpIymdZmpeQwjysba4KHQgQ==
-X-Google-Smtp-Source: ABdhPJw8EXT/s7LuWVHple7cQ3ZavTNu232paJNxmJilSdX3VJzjnnPYeI44S5WXj2JaHizBd8bloYBE46IrRmF/pM4=
-X-Received: by 2002:aca:4a96:: with SMTP id x144mr2790357oia.163.1596538392020; 
- Tue, 04 Aug 2020 03:53:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1k2uqB-0002hD-68; Tue, 04 Aug 2020 07:10:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36236)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1k2uq9-0006Ke-80; Tue, 04 Aug 2020 07:10:42 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 074B2tJo122348; Tue, 4 Aug 2020 07:10:39 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32q4hfbmau-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 07:10:39 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 074B3dNH124842;
+ Tue, 4 Aug 2020 07:10:38 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32q4hfbma5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 07:10:38 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 074B6sB4031408;
+ Tue, 4 Aug 2020 11:10:36 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 32mynh38b8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 11:10:36 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 074BAXN125493954
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Aug 2020 11:10:33 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 49A4552050;
+ Tue,  4 Aug 2020 11:10:33 +0000 (GMT)
+Received: from ibm-vm (unknown [9.145.12.119])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C009B52051;
+ Tue,  4 Aug 2020 11:10:32 +0000 (GMT)
+Date: Mon, 3 Aug 2020 10:46:39 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-5.2 3/6] pc-bios/s390-ccw: Move the inner logic of
+ find_subch() to a separate function
+Message-ID: <20200803104639.5946bdd2@ibm-vm>
+In-Reply-To: <20200728183734.7838-4-thuth@redhat.com>
+References: <20200728183734.7838-1-thuth@redhat.com>
+ <20200728183734.7838-4-thuth@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <1596523270-5492-1-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1596523270-5492-1-git-send-email-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Aug 2020 11:53:01 +0100
-Message-ID: <CAFEAcA8+sFuAU+WdtUT4V-SUCk9qeFenXg24FeKzwCTx7bFFtg@mail.gmail.com>
-Subject: Re: [PULL 0/2] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-04_03:2020-08-03,
+ 2020-08-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
+ suspectscore=0 bulkscore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008040083
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 07:10:39
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,48 +98,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Jason J .
+ Herne" <jjherne@linux.ibm.com>, Collin Walling <walling@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Aug 2020 at 07:41, Jason Wang <jasowang@redhat.com> wrote:
->
-> The following changes since commit 5c1c3e4f02e458cf280c677c817ae4fd1ed9bf10:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200803' into staging (2020-08-03 20:34:26 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/jasowang/qemu.git tags/net-pull-request
->
-> for you to fetch changes up to 035e69b063835a5fd23cacabd63690a3d84532a8:
->
->   hw/net/net_tx_pkt: fix assertion failure in net_tx_pkt_add_raw_fragment() (2020-08-04 14:14:48 +0800)
->
-> ----------------------------------------------------------------
->
-> ----------------------------------------------------------------
-> Lukas Straub (1):
->       colo-compare: Remove superfluous NULL-pointer checks for s->iothread
->
-> Mauro Matteo Cascella (1):
->       hw/net/net_tx_pkt: fix assertion failure in net_tx_pkt_add_raw_fragment()
+On Tue, 28 Jul 2020 20:37:31 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-Hi; this pullreq includes a patch where there's mangled UTF-8 in
-one of the commit messages: the "colo-compare: Remove superfluous
-NULL-pointer checks for s->iothread" patch has a mangled version
-of the e-with-acute-accent character in Philippe's surname in his
-Reviewed-by: tag.
+> Move the code to a separate function to be able to re-use it from a
+> different spot later.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/main.c | 99
+> ++++++++++++++++++++++++----------------- 1 file changed, 57
+> insertions(+), 42 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+> index 9b64eb0c24..9477313188 100644
+> --- a/pc-bios/s390-ccw/main.c
+> +++ b/pc-bios/s390-ccw/main.c
+> @@ -51,6 +51,60 @@ unsigned int get_loadparm_index(void)
+>      return atoui(loadparm_str);
+>  }
+>  
+> +static int check_sch_no(int dev_no, int sch_no)
+> +{
+> +    bool is_virtio;
+> +    Schib schib;
+> +    int r;
+> +
+> +    blk_schid.sch_no = sch_no;
+> +    r = stsch_err(blk_schid, &schib);
+> +    if (r == 3 || r == -EIO) {
+> +        return -EIO;
+> +    }
+> +    if (!schib.pmcw.dnv) {
+> +        return false;
+> +    }
+> +
+> +    enable_subchannel(blk_schid);
+> +    cutype = cu_type(blk_schid);
+> +
+> +    /*
+> +     * Note: we always have to run virtio_is_supported() here to make
+> +     * sure that the vdev.senseid data gets pre-initialized correctly
+> +     */
+> +    is_virtio = virtio_is_supported(blk_schid);
+> +
+> +    /* No specific devno given, just return 1st possibly bootable
+> device */
+> +    if (dev_no < 0) {
+> +        switch (cutype) {
+> +        case CU_TYPE_VIRTIO:
+> +            if (is_virtio) {
+> +                /*
+> +                 * Skip net devices since no IPLB is created and
+> therefore
+> +                 * no network bootloader has been loaded
+> +                 */
+> +                if (virtio_get_device_type() != VIRTIO_ID_NET) {
+> +                    return true;
+> +                }
 
-Since this is the day of rc3 and I think you're at a timezone
-offset that would make rerolling the series in time tricky,
-I'm going to let this through. But please can you fix your
-patch-handling workflow to ensure it doesn't corrupt UTF-8 ?
+here it seems you are returning true for any non-network virtio device,
+is this the intended behaviour? (I know it was like this in the old
+code)
 
-Applied, thanks.
+like, non-block devices?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+> +            }
+> +            return false;
+> +        case CU_TYPE_DASD_3990:
+> +        case CU_TYPE_DASD_2107:
+> +            return true;
+> +        default:
+> +            return false;
+> +        }
+> +    }
+> +
+> +    /* Caller asked for a specific devno */
+> +    if (schib.pmcw.dev == dev_no) {
+> +        return true;
+> +    }
+> +
+> +    return false;
+> +}
+> +
+>  /*
+>   * Find the subchannel connected to the given device (dev_no) and
+> fill in the
+>   * subchannel information block (schib) with the connected
+> subchannel's info. @@ -62,53 +116,14 @@ unsigned int
+> get_loadparm_index(void) */
+>  static bool find_subch(int dev_no)
+>  {
+> -    Schib schib;
+>      int i, r;
+> -    bool is_virtio;
+>  
+>      for (i = 0; i < 0x10000; i++) {
+> -        blk_schid.sch_no = i;
+> -        r = stsch_err(blk_schid, &schib);
+> -        if ((r == 3) || (r == -EIO)) {
+> +        r = check_sch_no(dev_no, i);
+> +        if (r < 0) {
+>              break;
+>          }
+> -        if (!schib.pmcw.dnv) {
+> -            continue;
+> -        }
+> -
+> -        enable_subchannel(blk_schid);
+> -        cutype = cu_type(blk_schid);
+> -
+> -        /*
+> -         * Note: we always have to run virtio_is_supported() here to
+> make
+> -         * sure that the vdev.senseid data gets pre-initialized
+> correctly
+> -         */
+> -        is_virtio = virtio_is_supported(blk_schid);
+> -
+> -        /* No specific devno given, just return 1st possibly
+> bootable device */
+> -        if (dev_no < 0) {
+> -            switch (cutype) {
+> -            case CU_TYPE_VIRTIO:
+> -                if (is_virtio) {
+> -                    /*
+> -                     * Skip net devices since no IPLB is created and
+> therefore
+> -                     * no network bootloader has been loaded
+> -                     */
+> -                    if (virtio_get_device_type() != VIRTIO_ID_NET) {
+> -                        return true;
+> -                    }
+> -                }
+> -                continue;
+> -            case CU_TYPE_DASD_3990:
+> -            case CU_TYPE_DASD_2107:
+> -                return true;
+> -            default:
+> -                continue;
+> -            }
+> -        }
+> -
+> -        /* Caller asked for a specific devno */
+> -        if (schib.pmcw.dev == dev_no) {
+> +        if (r == true) {
+>              return true;
+>          }
+>      }
 
--- PMM
 
