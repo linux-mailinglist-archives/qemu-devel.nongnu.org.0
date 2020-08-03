@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE6A23A253
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 11:51:09 +0200 (CEST)
-Received: from localhost ([::1]:49816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F19B23A24B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 11:49:57 +0200 (CEST)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2X7c-0002Sq-OC
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 05:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43890)
+	id 1k2X6S-0000to-65
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 05:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k2X3j-0004A5-8z
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:47:07 -0400
+ id 1k2X3l-0004FM-DW
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:47:09 -0400
 Received: from mail-eopbgr10121.outbound.protection.outlook.com
  ([40.107.1.121]:11844 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k2X3h-0008SR-74
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:47:06 -0400
+ id 1k2X3j-0008SR-JZ
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:47:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F99uyOTnYs/LIFJFoENXza6Ir4wgxtkFjSlqKfQaUzPIBGft0FeQYVOMJjEBsx6UFIi5kbe65jouiQS5c7yVg01iPBaIKaVIdSoA6EPdmjh+UW3DvnWja6RZZalLLj5PQ28TlZMfZVw7a6IU2k2kt7uhwnLG9bK9N8sTI99Ex0NTOoDhs6TH4a2gw8OttfWT8Jcr+OHm0aYPhxZTO/XogtQknUNv8Z+fE4IzJjhd35Kr91lxN2hGBJXP0KwVWLBDtyry3kBvrz5OQmQozMI0bB5zhatlUXUVP9ky1CBTsG1H7ERg9vVxyQYTUDgTjfgSKoDPAeLwKO8jetoyn+sl3w==
+ b=mNXmVyc9q9axkvvtutY533PaP5GjGjP5GyplkrTSIv+Vp3XlJAVs0/WKSgpw4FL5c/kQd5dXUhgMVhioBtmViNegV5nC7Hr6cET1Ip1pOUYqUbMYahq3nOKk7hc0U/2VpNPapl1FOPepzkluuJBl3qsqpMkCSHZ5XuEvktQG+252KhmmWOenG3zhh+ybuNzRRDFKag5p6MPw9Z+V22/DssRMq4Umkaw2yajyYwE6rT8+xlRuigskvTysyaeKDXKff4JoIzwqRT5YcoXC4OAqESYpFfrknA5rFFQ6GmaOuho+I/SFR5xIdGJ+6pm5JqDrvO9T4SYjjKQlOehGCjpJIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lhS1NpwTJxUYP9y/CkbfwRbqip7kOfnpZQJI9dp1vrg=;
- b=WhUIATZlE+suxN3ZV5UN/k+LEHoSdnk6WGrXvsDqhij8g0uQZO5reO1L430paKJyaqzk9pxVM9Friaf6I/48WjVPvhM9oymnMNXrNaxGe6/6TCDtlJeWZmEacxybOmQ0lUCnv3Zo4ruYllqmrA0AjZ8W9v8POxdNtOokOMbqNLgxtMvELMGUCYrM8FGgWDsR110aEQ+IitNkFho4HtyKna64ejqUqWQV7yH48UqFitRpSpGSpVoMhb2Ph6M47rf2mlZqy1oBl41nZRNYpV13RDvb6G0eTV7eNbeMFCWGqPQlRiv3GAIz+pW3Ae/uOukMqj69JMsn9Ttji/oeTSdzuQ==
+ bh=NSPQ2FLhYcVtwwKDZbefsDfQE77C24tJp1oUbO1+OTA=;
+ b=CCHYjVHIrsBNLJoJ5VldqXKdI0lt51A5tlqP0Ns1nJ4R75BKmUDpfjrZHnoA26LRwIPkPvSDMLvW9SQiXOWEJxnCn/Jq1dZLwT+GpTFbQeHNyQAsn3MhA8lJkxSin5ObwLIpgCad8R1TbGkVxqkMZ/0rSQMcgqKoBBUMQqMxS9lWRGY/Uv+6h/ISXXtdOqVSDZQQHs14nOeNyurTVTXr3EgK6VtsgA7VHedeIAlmldypaLoL7bHkhTjn5Scz6DeG6W2Zqre41homTNCrQgGV6emYn6r/Zf1jZ8fNbXiZNl23R5ear6GHUtTcNNRGTnw5TMPVSE8xu2FN758q1wGaeQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lhS1NpwTJxUYP9y/CkbfwRbqip7kOfnpZQJI9dp1vrg=;
- b=VWM+WPSosrS8OctS2LqtfVnDf2wOKcXIQcNJ53gvF5PM1zqEpzvbuhQBEVVv4mTrUJkr6nWUCz3f6n5Em1uZQIjt+xmGzCYCg1Mln95Sl6TRc6PGa7lxHtKMykywUUMVZXVPr/UUR1r8xL0Fgh0y/cUd6hOkdq7XsrLNL8PsVg8=
+ bh=NSPQ2FLhYcVtwwKDZbefsDfQE77C24tJp1oUbO1+OTA=;
+ b=WDqIH1jiQ7O3xqVOKSVcCH+WxoINvQ3iYuairWoLvb2CquXOzDG+RX5MFaPswzBDYyf71XmmCOMEBwjPF4jKnx04vkQZc813g2iUuGcK3H+L3q4TDNuYfnYX+iRXsUrxEqM8v2c2JPCMcXyTMPoqB0gUl2caI18ML/ekUKjcBHc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
@@ -48,10 +48,10 @@ Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  09:46:50 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/8] linux-user: Add support for btrfs ioctls used to
- manage quota
-Date: Mon,  3 Aug 2020 11:46:28 +0200
-Message-Id: <20200803094629.21898-8-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v2 8/8] linux-user: Add support for btrfs ioctls used to scrub
+ a filesystem
+Date: Mon,  3 Aug 2020 11:46:29 +0200
+Message-Id: <20200803094629.21898-9-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200803094629.21898-1-Filip.Bozuta@syrmia.com>
 References: <20200803094629.21898-1-Filip.Bozuta@syrmia.com>
@@ -65,33 +65,33 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.238) by
  GV0P278CA0051.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:29::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3239.19 via Frontend Transport; Mon, 3 Aug 2020 09:46:49 +0000
+ 15.20.3239.19 via Frontend Transport; Mon, 3 Aug 2020 09:46:50 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.238]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 44e1ef88-e9c6-4560-5b2b-08d8379224f2
+X-MS-Office365-Filtering-Correlation-Id: 7342bd56-3838-4b66-9cd8-08d837922572
 X-MS-TrafficTypeDiagnostic: AM6PR03MB5457:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR03MB5457256398832E3430B4D0D6EB4D0@AM6PR03MB5457.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB5457D7FAC4F0305D684A714CEB4D0@AM6PR03MB5457.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wcT1GxrivVBHbGWCLQe8XNTSQ2bRIL6Cs+bC47vpsqjCvf1OuPV1HiwH2wmy+iyy32oqcOLtolhsHdjAM1Pc/CdD/NSvbSRkenwD+B/GjbSCi7DkPzjVEUKXjZpV1ufHDDD/Zq8hp0bY1kbXo2X/aujZe97FBSIWTIqNhCvVpFKofuRfMmYIPQOBm8nV2cKosWNFOHtTWce9kPbWDIpuE7Ahezw9WO/rm5SwRBCGMOYyIZmoLfQQ7EIUnDT5CQXjRm6kr1HqJxz9/LjsXfbQ+6tZfImvtzav9DlWUEPOsbJ/Fuo6xgX8W6q4oojrWHptF8hWLNbmSRvMjIGYjDma3Y2XWSlvcZkUx3RKUnIY9rmMDLmcBsGtSGH7SC+ax4+cgO1tLNyL0J3gRLBTTiBp6uSG975H1YYbP41lFukK08hNrPLg/BVl+f/6cIPl1sN2WxTPJBJRhWX6xnNjwBiomg==
+X-Microsoft-Antispam-Message-Info: mG0tN+IOYZpibfNpUoFqhTReeYlHZFTABY56fwuuzUu/H19wgW/jnLSPSsfqjHpmPs/V3gE98rzDWfnpfYYYV2xK+cU7pJ4qerOXBXxR2yfd9EXI6EhSww5mxpS12sjDGevSwdRRkshzrrqOrjhIFI038AZnMKhKhLf+lXa80U6NcGugGQRNfWsDNYKuq1s3Qh3j+SV9GA+HfLHV+ujKg5g69L3aU5+FPRwCHfM+kbXE5h1dEoWBF/dg/rMnHPDl1bcRCf3w691ly9KS/I8BL/4Ke0b78ASQXMAZION6hwTip/JOFL3xbrauUrv8CNtOOS5Wcmriqqdb7Su7dyxJvPgQQVsXFhOKjJBnD6SeRpbztD8qT1C3V2S8yS1zLdkRtEATGBeM0kdkVGHu3rztKpgUh8lH9LATRC4mnEsfyepim88DhvXvM6OhzFIT/zGCFli8JTIp0dKN8IExZLZNZQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(396003)(376002)(39830400003)(346002)(136003)(366004)(66946007)(6486002)(6512007)(6506007)(66556008)(66476007)(1076003)(6916009)(86362001)(186003)(8676002)(2906002)(316002)(26005)(15650500001)(69590400007)(8936002)(16526019)(36756003)(107886003)(956004)(2616005)(52116002)(83380400001)(54906003)(966005)(6666004)(4326008)(5660300002)(508600001);
+ SFS:(396003)(376002)(39830400003)(346002)(136003)(366004)(66946007)(6486002)(6512007)(6506007)(66556008)(66476007)(1076003)(6916009)(86362001)(186003)(8676002)(2906002)(316002)(26005)(69590400007)(8936002)(16526019)(36756003)(107886003)(956004)(2616005)(52116002)(83380400001)(54906003)(966005)(6666004)(4326008)(5660300002)(508600001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: dlXAw9RoGnMeOAlL+pPmclPvpavSU4onWCIr7CepZGe9mUzC0o2hoCSSqdNzSn3QMnvm6KU+d/R4fKjCUHg4XllDsFX1Zf5OpOBlvF18zepPq/O5f4QbnxyIFbiLxUNqNkJ8VHo/euv33EpKnFcEdVMAtEEjyn/DM2w4pNspQ5jg5l6swO4AECDKyT99pAJFuH5576OiOV6Da87JofZQ1mxHti6e7Rb+FPl0/CiIhSGyt/+NDrMiX4bOSdO5Aw4/X5F3tOXloI/YZpUN7faOaQaZiyOp3gL4a+j4xMRvMajoUvL0JiIeJ/fElx0r7G3pCYp4xhQhuDigHj7Szo6yyizeVY95/CPt99brY5rrnEevJ1fepklOPV68w+C1xx1aqMXHPt085EKtBcMT7LhDyY3jgzzn7cJb79DVqhd260r5yEqHGP/OVCDhtyFfmG4RJsp9DS0eM6dCN+KkyyNyJ6cQ1AbuECmoJT32s3Y8OHuTvHlWyXwgCW8bvWJRrpQVEo/c17I92tpFOdWRkbgv9c/F5sx9K21qiYKa9Sm3Z4bx38VbHQwnWX9x/pDD/NsQtS7ENyxDsv4MrAhNaNKks0M21N1g7GfaE3Hiqh3au/Paw8okgPkY+aHM/T89Ifq0KbjrXGvbrlgp7vzj+zirCA==
+X-MS-Exchange-AntiSpam-MessageData: qP3qBFvYFl9sCshxw2DknwQfRF0lJE2BsH1unXQJF18YywXiy4CXc8ZDmVdIH4uDBqK4Xaeo7XKRs5E7now/qUoA5l/ukj63D6OGSAreSXp93TrZJBHQGaw4c0K6Vh2jvnK7EFJrHmKPk5IDXrS/HVr3WXdR/4VgyC0u3DhdNlIwAMO45gIQQZnbe8G8C8Ga1QjigtqB+vlD0TS/cA2iY92EbCE0jN53wqb3MWOOLF2nW7OuyODKWZlsZbM+FYJORLdn+Mkt3o4iaZryopZrIAUgf/6vdbSmAsFiSBuX+cKxK2jU8h9JBfGWGa5bilYejyn9A29uTlipWPypotmUiUr8ZuZOdUkGMxnYOnc4UxzD/oqXuYV1x+vRe1LARTMNzh3o+nUMfZy/6NKfaP9idOb7sIhuETA89FOUR+DeOSTE4jDE5mPLPmGOwbqBo757RoF1Fb+D+szBBUqUX//cbXA5HN1GDqHrxjqBA2CulFXOMkTQWnAHNAGO7qEF7gyvEsFW1G7NoNRVWnZcIJXUPoQcqHGUG9kUmEVe/DnAd87CCY1o2YxxHPWTgrX6aKj1w2Db0imyzcFb1e++kALSaovHCCPcJLG25tleqEh/SnEWpr3XcYoHbuzDxibERIh1bSLEPE0u2lodKGF+VPI5Gg==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44e1ef88-e9c6-4560-5b2b-08d8379224f2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7342bd56-3838-4b66-9cd8-08d837922572
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2020 09:46:49.9180 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2020 09:46:50.7745 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h9YWidtC1XIwdEnar4XkirQaMz0HxLGXTlFIQZxrE59S2Sg7dp5JQetPUhxtJY3HzxAxOZQSmQqb2a5Ad8spCg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: iVPje5e0uqAMKghN0nU+shdh/9IlQW98J8bcmErvRiU9RzT4jEgOAec+ed6ZYv1r7/1AHH/5Z+w7gBAa4QLOuQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB5457
 Received-SPF: pass client-ip=40.107.1.121;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -125,225 +125,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch implements functionality for following ioctls:
 
-BTRFS_IOC_QUOTA_CTL - Enabling/Disabling quota support
+BTRFS_IOC_SCRUB - Starting a btrfs filesystem scrub
 
-    Enable or disable quota support for a btrfs filesystem. Quota
-    support is enabled or disabled using the ioctls third argument
-    which represents a pointer to a following type:
+    Start a btrfs filesystem scrub. The third ioctls argument
+    is a pointer to a following type:
 
-    struct btrfs_ioctl_quota_ctl_args {
-	__u64 cmd;
-	__u64 status;
+    struct btrfs_ioctl_scrub_args {
+	__u64 devid;				/* in */
+	__u64 start;				/* in */
+	__u64 end;				/* in */
+	__u64 flags;				/* in */
+	struct btrfs_scrub_progress progress;	/* out */
+	/* pad to 1k */
+	__u64 unused[(1024-32-sizeof(struct btrfs_scrub_progress))/8];
     };
 
-    Before calling this ioctl, the 'cmd' field should be filled
-    with one of the values 'BTRFS_QUOTA_CTL_ENABLE' (enabling quota)
-    'BTRFS_QUOTA_CTL_DISABLE' (disabling quota).
+    Before calling this ioctl, field 'devid' should be filled
+    with value that represents the device id of the btrfs filesystem
+    for which the scrub is to be started.
 
-BTRFS_IOC_QGROUP_CREATE - Creating/Removing a subvolume quota group
+BTRFS_IOC_SCRUB_CANCEL - Canceling scrub of a btrfs filesystem
 
-    Create or remove a subvolume quota group. The subvolume quota
-    group is created or removed using the ioctl's third argument which
-    represents a pointer to a following type:
+    Cancel a btrfs filesystem scrub if it is running. The third
+    ioctls argument is ignored.
 
-    struct btrfs_ioctl_qgroup_create_args {
-	__u64 create;
-	__u64 qgroupid;
-    };
+BTRFS_IOC_SCRUB_PROGRESS - Getting status of a running scrub
 
-    Before calling this ioctl, the 'create' field should be filled
-    with the aproppriate value depending on if the user wants to
-    create or remove a quota group (0 for removing, everything else
-    for creating). Also, the 'qgroupid' field should be filled with
-    the value for the quota group id that is to be created.
+    Read the status of a running btrfs filesystem scrub. The third
+    ioctls argument is a pointer to the above mentioned
+    'struct btrfs_ioctl_scrub_args'. Similarly as with 'BTRFS_IOC_SCRUB',
+    the 'devid' field should be filled with value that represents the
+    id of the btrfs device for which the scrub has started. The status
+    of a running scrub is returned in the field 'progress' which is
+    of type 'struct btrfs_scrub_progress' and its definition can be
+    found at:
+    https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/btrfs.h#L150
 
-BTRFS_IOC_QGROUP_ASSIGN - Asigning or removing a quota group as child group
+Implementation nots:
 
-    Asign or remove a quota group as child quota group of another
-    group in the btrfs filesystem. The asignment is done using the
-    ioctl's third argument which represents a pointert to a following type:
-
-    struct btrfs_ioctl_qgroup_assign_args {
-	__u64 assign;
-	__u64 src;
-	__u64 dst;
-    };
-
-    Before calling this ioctl, the 'assign' field should be filled with
-    the aproppriate value depending on if the user wants to asign or remove
-    a quota group as a child quota group of another group (0 for removing,
-    everythin else for asigning). Also, the 'src' and 'dst' fields should
-    be filled with the aproppriate quota group id values depending on which
-    quota group needs to asigned or removed as child quota group of another
-    group ('src' gets asigned or removed as child group of 'dst').
-
-BTRFS_IOC_QGROUP_LIMIT - Limiting the size of a quota group
-
-    Limit the size of a quota group. The size of the quota group is limited
-    with the ioctls third argument which represents a pointer to a following
-    type:
-
-    struct btrfs_ioctl_qgroup_limit_args {
-	__u64	qgroupid;
-	struct btrfs_qgroup_limit lim;
-    };
-
-    Before calling this ioctl, the 'qgroup' id field should be filled with
-    aproppriate value of the quota group id for which the size is to be
-    limited. The second field is of following type:
-
-    struct btrfs_qgroup_limit {
-	__u64	flags;
-	__u64	max_rfer;
-	__u64	max_excl;
-	__u64	rsv_rfer;
-	__u64	rsv_excl;
-    };
-
-    The 'max_rfer' field should be filled with the size to which the quota
-    group should be limited. The 'flags' field can be used for passing
-    additional options and can have values which can be found on:
-    https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/btrfs.h#L67
-
-BTRFS_IOC_QUOTA_RESCAN_STATUS - Checking status of running rescan operation
-
-    Check status of a running rescan operation. The status is checked using
-    the ioctl's third argument which represents a pointer to a following type:
-
-    struct btrfs_ioctl_quota_rescan_args {
-        __u64   flags;
-        __u64   progress;
-        __u64   reserved[6];
-    };
-
-    If there is a rescan operation running, 'flags' field is set to 1, and
-    'progress' field is set to aproppriate value which represents the progress
-    of the operation.
-
-BTRFS_IOC_QUOTA_RESCAN - Starting a rescan operation
-
-    Start ar rescan operation to Trash all quota groups and scan the metadata
-    again with the current config. Before calling this ioctl,
-    BTRFS_IOC_QUOTA_RESCAN_STATUS sould be run to check if there is already a
-    rescan operation runing. After that ioctl call, the received
-    'struct btrfs_ioctl_quota_rescan_args' should be than passed as this ioctls
-    third argument.
-
-BTRFS_IOC_QUOTA_RESCAN_WAIT - Waiting for a rescan operation to finish
-
-    Wait until a rescan operation is finished (if there is a rescan operation
-    running). The third ioctls argument is ignored.
-
-Implementation notes:
-
-    Almost all of the ioctls in this patch use structure types as third arguments.
-    That is the reason why aproppriate thunk definitions were added in file
-    'syscall_types.h'.
+    Ioctls in this patch use type 'struct btrfs_ioctl_scrub_args' as their
+    third argument. That is the reason why an aproppriate thunk type
+    definition is added in file 'syscall_types.h'.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h        | 27 +++++++++++++++++++++++++++
- linux-user/syscall_defs.h  |  7 +++++++
- linux-user/syscall_types.h | 29 +++++++++++++++++++++++++++++
- 3 files changed, 63 insertions(+)
+ linux-user/ioctls.h        | 11 +++++++++++
+ linux-user/syscall_defs.h  |  3 +++
+ linux-user/syscall_types.h | 27 +++++++++++++++++++++++++++
+ 3 files changed, 41 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 2c553103e6..8665f504bf 100644
+index 8665f504bf..bf80615438 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -227,6 +227,33 @@
-      IOCTL(BTRFS_IOC_LOGICAL_INO, IOC_RW,
-            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_logical_ino_args)))
+@@ -215,6 +215,17 @@
+ #ifdef BTRFS_IOC_SUBVOL_SETFLAGS
+      IOCTL(BTRFS_IOC_SUBVOL_SETFLAGS, IOC_W, MK_PTR(TYPE_ULONGLONG))
  #endif
-+#ifdef BTRFS_IOC_QUOTA_CTL
-+     IOCTL(BTRFS_IOC_QUOTA_CTL, IOC_RW,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_quota_ctl_args)))
++#ifdef BTRFS_IOC_SCRUB
++     IOCTL(BTRFS_IOC_SCRUB, IOC_RW,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_scrub_args)))
 +#endif
-+#ifdef BTRFS_IOC_QGROUP_ASSIGN
-+     IOCTL(BTRFS_IOC_QGROUP_ASSIGN, IOC_W,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_qgroup_assign_args)))
++#ifdef BTRFS_IOC_SCRUB_CANCEL
++     IOCTL(BTRFS_IOC_SCRUB_CANCEL, 0, TYPE_NULL)
 +#endif
-+#ifdef BTRFS_IOC_QGROUP_CREATE
-+     IOCTL(BTRFS_IOC_QGROUP_CREATE, IOC_W,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_qgroup_create_args)))
++#ifdef BTRFS_IOC_SCRUB_PROGRESS
++     IOCTL(BTRFS_IOC_SCRUB_PROGRESS, IOC_RW,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_scrub_args)))
 +#endif
-+#ifdef BTRFS_IOC_QGROUP_LIMIT
-+     IOCTL(BTRFS_IOC_QGROUP_LIMIT, IOC_R,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_qgroup_limit_args)))
-+#endif
-+#ifdef BTRFS_IOC_QUOTA_RESCAN
-+     IOCTL(BTRFS_IOC_QUOTA_RESCAN, IOC_W,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_quota_rescan_args)))
-+#endif
-+#ifdef BTRFS_IOC_QUOTA_RESCAN_STATUS
-+     IOCTL(BTRFS_IOC_QUOTA_RESCAN_STATUS, IOC_R,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_quota_rescan_args)))
-+#endif
-+#ifdef BTRFS_IOC_QUOTA_RESCAN_WAIT
-+     IOCTL(BTRFS_IOC_QUOTA_RESCAN_WAIT, 0, TYPE_NULL)
-+#endif
- #ifdef BTRFS_IOC_GET_DEV_STATS
-      IOCTL(BTRFS_IOC_GET_DEV_STATS, IOC_RW,
-            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_dev_stats)))
+ #ifdef BTRFS_IOC_DEV_INFO
+      IOCTL(BTRFS_IOC_DEV_INFO, IOC_RW,
+            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_dev_info_args)))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index f1718ac521..1b1b2c2d96 100644
+index 1b1b2c2d96..83c291f2d3 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -985,6 +985,13 @@ struct target_rtc_pll_info {
+@@ -982,6 +982,9 @@ struct target_rtc_pll_info {
+                                                            abi_ullong)
+ #define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, 26,\
+                                                            abi_ullong)
++#define TARGET_BTRFS_IOC_SCRUB                  TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 27)
++#define TARGET_BTRFS_IOC_SCRUB_CANCEL           TARGET_IO(BTRFS_IOCTL_MAGIC, 28)
++#define TARGET_BTRFS_IOC_SCRUB_PROGRESS         TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 29)
  #define TARGET_BTRFS_IOC_DEV_INFO               TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 30)
  #define TARGET_BTRFS_IOC_INO_PATHS              TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 35)
  #define TARGET_BTRFS_IOC_LOGICAL_INO            TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 36)
-+#define TARGET_BTRFS_IOC_QUOTA_CTL              TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 40)
-+#define TARGET_BTRFS_IOC_QGROUP_ASSIGN          TARGET_IOWU(BTRFS_IOCTL_MAGIC, 41)
-+#define TARGET_BTRFS_IOC_QGROUP_CREATE          TARGET_IOWU(BTRFS_IOCTL_MAGIC, 42)
-+#define TARGET_BTRFS_IOC_QGROUP_LIMIT           TARGET_IORU(BTRFS_IOCTL_MAGIC, 43)
-+#define TARGET_BTRFS_IOC_QUOTA_RESCAN           TARGET_IOWU(BTRFS_IOCTL_MAGIC, 44)
-+#define TARGET_BTRFS_IOC_QUOTA_RESCAN_STATUS    TARGET_IORU(BTRFS_IOCTL_MAGIC, 45)
-+#define TARGET_BTRFS_IOC_QUOTA_RESCAN_WAIT      TARGET_IO(BTRFS_IOCTL_MAGIC, 46)
- #define TARGET_BTRFS_IOC_GET_DEV_STATS          TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 52)
- #define TARGET_BTRFS_IOC_GET_FEATURES           TARGET_IORU(BTRFS_IOCTL_MAGIC, 57)
- #define TARGET_BTRFS_IOC_SET_FEATURES           TARGET_IOWU(BTRFS_IOCTL_MAGIC, 57)
 diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 6bac8f46bb..2f5bad808e 100644
+index 2f5bad808e..fd6a91a309 100644
 --- a/linux-user/syscall_types.h
 +++ b/linux-user/syscall_types.h
-@@ -400,6 +400,35 @@ STRUCT(btrfs_ioctl_get_dev_stats,
-        MK_ARRAY(TYPE_ULONGLONG,
-                 128 - 2 - BTRFS_DEV_STAT_VALUES_MAX)) /* unused */
+@@ -373,6 +373,33 @@ STRUCT(btrfs_ioctl_ino_lookup_user_args,
+        MK_ARRAY(TYPE_CHAR, BTRFS_VOL_NAME_MAX + 1), /* name */
+        MK_ARRAY(TYPE_CHAR, BTRFS_INO_LOOKUP_USER_PATH_MAX)) /* path */
  
-+STRUCT(btrfs_ioctl_quota_ctl_args,
-+       TYPE_ULONGLONG, /* cmd */
-+       TYPE_ULONGLONG) /* status */
++STRUCT(btrfs_scrub_progress,
++       TYPE_ULONGLONG, /* data_extents_scrubbed */
++       TYPE_ULONGLONG, /* tree_extents_scrubbed */
++       TYPE_ULONGLONG, /* data_bytes_scrubbed */
++       TYPE_ULONGLONG, /* tree_bytes_scrubbed */
++       TYPE_ULONGLONG, /* read_errors */
++       TYPE_ULONGLONG, /* csum_errors */
++       TYPE_ULONGLONG, /* verify_errors */
++       TYPE_ULONGLONG, /* no_csum */
++       TYPE_ULONGLONG, /* csum_discards */
++       TYPE_ULONGLONG, /* super_errors */
++       TYPE_ULONGLONG, /* malloc_errors */
++       TYPE_ULONGLONG, /* uncorrectable_errors */
++       TYPE_ULONGLONG, /* corrected_er */
++       TYPE_ULONGLONG, /* last_physical */
++       TYPE_ULONGLONG) /* unverified_errors */
 +
-+STRUCT(btrfs_ioctl_quota_rescan_args,
++STRUCT(btrfs_ioctl_scrub_args,
++       TYPE_ULONGLONG, /* devid */
++       TYPE_ULONGLONG, /* start */
++       TYPE_ULONGLONG, /* end */
 +       TYPE_ULONGLONG, /* flags */
-+       TYPE_ULONGLONG, /* progress */
-+       MK_ARRAY(TYPE_ULONGLONG, 6)) /* reserved */
++       MK_STRUCT(STRUCT_btrfs_scrub_progress), /* progress */
++       MK_ARRAY(TYPE_ULONGLONG,
++                (1024 - 32 -
++                 sizeof(struct btrfs_scrub_progress)) / 8)) /* unused */
 +
-+STRUCT(btrfs_ioctl_qgroup_assign_args,
-+       TYPE_ULONGLONG, /* assign */
-+       TYPE_ULONGLONG, /* src */
-+       TYPE_ULONGLONG) /* dst */
-+
-+STRUCT(btrfs_ioctl_qgroup_create_args,
-+       TYPE_ULONGLONG, /* create */
-+       TYPE_ULONGLONG) /* qgroupid */
-+
-+STRUCT(btrfs_qgroup_limit,
-+       TYPE_ULONGLONG, /* flags */
-+       TYPE_ULONGLONG, /* max_rfer */
-+       TYPE_ULONGLONG, /* max_excl */
-+       TYPE_ULONGLONG, /* rsv_rfer */
-+       TYPE_ULONGLONG) /* rsv_excl */
-+
-+STRUCT(btrfs_ioctl_qgroup_limit_args,
-+       TYPE_ULONGLONG, /* qgroupid */
-+       MK_STRUCT(STRUCT_btrfs_qgroup_limit)) /* lim */
-+
- STRUCT(btrfs_ioctl_feature_flags,
-        TYPE_ULONGLONG, /* compat_flags */
-        TYPE_ULONGLONG, /* compat_ro_flags */
+ STRUCT(btrfs_ioctl_dev_info_args,
+        TYPE_ULONGLONG, /* devid */
+        MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* uuid */
 -- 
 2.25.1
 
