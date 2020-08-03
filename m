@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8CC23AA9D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 18:37:50 +0200 (CEST)
-Received: from localhost ([::1]:33088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4FA23AADC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 18:48:38 +0200 (CEST)
+Received: from localhost ([::1]:36130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2dTB-000832-BU
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 12:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49776)
+	id 1k2ddc-0001aN-TY
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 12:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k2dSG-0007Wk-HT
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:36:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55390
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k2dSE-0006qO-0E
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:36:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596472607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CqZGcYJ0kE821PavH6SlYAQZiXfzDXTGaWlLJ3Reamo=;
- b=AHfQ9j/KYU+35qawWo7IEud2sUFEmi5A/WZxMbdAVfOn7elTFS092vbPA/7yXFCHiPe9uI
- bxIjsCFHNBdDZRIOEVAC6Z/yFl9UdYCZWG1ZI4Wnkrle2y3I75kuYopRfEnX6EmH7IXyBo
- g4AKfOevwGwDOggM3mOmveUbDIIXHV0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-XIGucIf0O8qktGhp7NaPZg-1; Mon, 03 Aug 2020 12:36:46 -0400
-X-MC-Unique: XIGucIf0O8qktGhp7NaPZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6385B1940932;
- Mon,  3 Aug 2020 16:36:45 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-125.ams2.redhat.com [10.36.113.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2685287E3D;
- Mon,  3 Aug 2020 16:36:30 +0000 (UTC)
-Date: Mon, 3 Aug 2020 18:36:29 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: cleanups with long-term benefits (was Re: [PATCH] schemas: Add
- vim modeline)
-Message-ID: <20200803163629.GA4187@linux.fritz.box>
-References: <87k0ylz0ep.fsf@dusky.pond.sub.org>
- <20200730132446.GL3477223@redhat.com>
- <875za33ku1.fsf@dusky.pond.sub.org>
- <20200731150738.GB3660103@redhat.com>
- <2cf1a431-9d2c-8ad6-446e-f10b36219764@redhat.com>
- <87d048i1m2.fsf@dusky.pond.sub.org>
- <83bbe0b0-c5e0-e3b7-5ba1-5946098370d5@redhat.com>
- <87ft94klyl.fsf@dusky.pond.sub.org>
- <490a0786-73f3-411e-4dfe-8c2ae90de251@redhat.com>
- <87y2mvhg3k.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2dcb-0000uy-Dv
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:47:33 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35194)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2dcZ-0007zi-P4
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:47:33 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 93so18235767otx.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 09:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Usm/6h7N16x/wxM5TKQj5tj8P/i4BtTOOcp5csWYt4E=;
+ b=Jtau3XcM89LL3xC7TEe3GAnS7qK4+9cw0OpAxEnX7eHGqhKSVKHxv0ZFe1n4UocDiA
+ mW0JPWncTOEo2yO35nkxh4aFn+zGw2+aA4W/ReCP+h2fpz95V0mGkSoe9+AGG6RNt4ch
+ Jwreu92lFF2+ySGmCXMOAecee4CVLUmQkNR1yDr1NqMMb3Fg6XX4+bmy2fH+dTx1wY+v
+ TzPBygU05qkqPaKHH/lHj1kz20jXTapGgQ0iNov7HTY+sv7HLw7LbiCaMPlXdU4dPNK+
+ ZloEswYISPKAZjCx7GJJBFVR6+KTg8gK9eNt3s8ELOQq+2DbPNembJz0OX6ZR/Lit81t
+ zS3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Usm/6h7N16x/wxM5TKQj5tj8P/i4BtTOOcp5csWYt4E=;
+ b=QkrXmZQWRQJZQ56qHXYnnbm22IVEZ1JzypT0dqSFRC+cVtt/np5B7nN5AlSgWavUT1
+ nXeFQPicbimtUMIAl7xy+N0XifDUeX1Uh6gdTwmK7MUZcV8na9R0lyl+glrMCRjViiOG
+ cPxIaIAavV/6Q0Uyq+Ty/CHTMPNQcxUccjoOfQ/Wq3d8VRl5pEoHzUmWE/9llHojQVAO
+ +ylxs3ECxeTsRG9YezOR+LGtMtvoV6YXnnYxD8BS9YSoc4E9DlvgimSfHemVP7NGQ/Vv
+ pp79JGDSPljtaEeMK9vqcbASpAQFAJmZ94PRApfGLbmSeM3jJg5rHQwA6dC6gVcLTjg7
+ KZIg==
+X-Gm-Message-State: AOAM531Y4bAsC6XvrHz4dqO8ZK7siQVDCaSnzk4awUrDQ9F7aaLtsD68
+ d+K2sWCla2PycQ1R0LB775VsO8Wghhr4tJPx509KMw==
+X-Google-Smtp-Source: ABdhPJwL8bSuuMVu8QUpkQn41wKe+w9UJyQ8uUsj7OLcjzkDx+JlDczU0zS8LbPssRy+Hp1/anGlBwmjDitZlITg0E4=
+X-Received: by 2002:a9d:39c2:: with SMTP id y60mr14280078otb.91.1596473250307; 
+ Mon, 03 Aug 2020 09:47:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87y2mvhg3k.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:09:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200728100925.10454-1-philmd@redhat.com>
+ <20200803163515.GD2866@perard.uk.xensource.com>
+In-Reply-To: <20200803163515.GD2866@perard.uk.xensource.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 3 Aug 2020 17:47:19 +0100
+Message-ID: <CAFEAcA9a-7uXwS2TcCH7nNGb0QAPaBu5sA=Ncox4c+6yMxe61Q@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1] accel/xen: Fix xen_enabled() behavior on
+ target-agnostic objects
+To: Anthony PERARD <anthony.perard@citrix.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,46 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Paul Durrant <pdurrant@amazon.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.08.2020 um 18:03 hat Markus Armbruster geschrieben:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> > This means the two parts might be considered separately:
+On Mon, 3 Aug 2020 at 17:35, Anthony PERARD <anthony.perard@citrix.com> wro=
+te:
+>
+> On Tue, Jul 28, 2020 at 12:09:25PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > CONFIG_XEN is generated by configure and stored in "config-target.h",
+> > which is (obviously) only include for target-specific objects.
+> > This is a problem for target-agnostic objects as CONFIG_XEN is never
+> > defined and xen_enabled() is always inlined as 'false'.
 > >
-> > - replacing single-quote with double-quote strings
+> > Fix by following the KVM schema, defining CONFIG_XEN_IS_POSSIBLE
+> > when we don't know to force the call of the non-inlined function,
+> > returning the xen_allowed boolean.
 > >
-> > - replacing # comments with //
-> 
-> If all we want is decent editor support out of the box, then rename to
-> .py, and drop the modelines.  No merge conflicts, no git-blame
-> pollution.
-> 
-> To make the .py files actual Python, additionally rename the bool
-> literals.  Much, much less churn than massaging all strings or all
-> comments.
+> > Fixes: da278d58a092 ("accel: Move Xen accelerator code under accel/xen/=
+")
+> > Reported-by: Paul Durrant <pdurrant@amazon.com>
+> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
-I guess I could get behind this one. File renames still have a cost, but
-it feels like it wouldn't be absurdly high at least.
+Note that rc3 is tomorrow so if you want this in 5.1 it would
+be a good idea to send a pullreq with it today...
 
-And that you actually occasionally paste schema parts into real Python
-code suggests that there would be even a small benefit in addition to
-the good syntax highlighting out of the box.
-
-I fully expect that we'd keep our existing parser instead of using an
-actual Python parser, because the existing code (a) exists and (b) is
-probably simpler than the resulting code.
-
-Kevin
-
+thanks
+-- PMM
 
