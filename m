@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6162823A864
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:28:36 +0200 (CEST)
-Received: from localhost ([::1]:60370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C387523A871
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:31:40 +0200 (CEST)
+Received: from localhost ([::1]:34396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2bS7-0004lp-6b
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
+	id 1k2bV5-0005te-SA
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1k2bRC-0004Md-2p
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:27:38 -0400
-Received: from do158-143.mg.gitlab.com ([192.237.158.143]:25400)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2bUF-0005Rj-Mw
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:30:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1k2bR3-0004IR-Gl
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:27:37 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
- q=dns/txt; 
- s=mailo; t=1596464855; h=List-Id: Content-Transfer-Encoding:
- Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
- Sender; bh=AlSyKTngFKN2XARMOWVSZgeoGFnt3Q3UVLjga6n33n8=;
- b=lFInRY4XcU49Q5VFbWqKg6QZg1XD3fV7vK4D99NFnM5vD3aqtShWDjKGIFnxK/bc/HrKie9J
- bwbDIVKLO6xZ8hwRbxgc5tijZIN327VBatfL2SHzAGKnIcZ/8ehzleP6K7aX5b75YBKZi68y
- /6MYB/xwKJ0VAvJOJKwwWKdxBM8=
-X-Mailgun-Sending-Ip: 192.237.158.143
-X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
-Received: from mg.gitlab.com (66.90.74.34.bc.googleusercontent.com
- [34.74.90.66]) by smtp-out-n12.prod.us-west-2.postgun.com with SMTP id
- 5f281eb8eb556d49a6e7dae6 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Mon, 03 Aug 2020 14:27:04 GMT
-Date: Mon, 03 Aug 2020 14:27:02 +0000
-Message-ID: <5f281eb6542ca_5b633fa0f0fb0fec133446@sidekiq-catchall-02-sv-gprd.mail>
-Subject: QEMU | Pipeline #173720789 has failed for master | 6c5dfc9c
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--==_mimepart_5f281eb61e691_5b633fa0f0fb0fec1333ca";
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitLab-Project: QEMU
-X-GitLab-Project-Id: 11167699
-X-GitLab-Project-Path: qemu-project/qemu
-X-GitLab-Pipeline-Id: 173720789
-X-GitLab-Pipeline-Ref: master
-X-GitLab-Pipeline-Status: failed
-Auto-Submitted: auto-generated
-X-Auto-Response-Suppress: All
-Received-SPF: pass client-ip=192.237.158.143;
- envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
- helo=do158-143.mg.gitlab.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:02:15
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2bUD-0004h5-BI
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:30:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k2bUA-0008J8-Hg
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 14:30:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 82E462E80DC
+ for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 14:30:42 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Aug 2020 14:23:19 -0000
+From: Alexander Bulekov <1890155@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <159646459931.15346.8925027856621311713.malonedeb@wampee.canonical.com>
+Subject: [Bug 1890155] [NEW] Abort in vmxnet3_validate_interrupt_idx
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 66abf3bbca6c57fdcc77b3f158f0e9281288eaaa
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 07:00:58
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, REPLYTO_WITHOUT_TO_CC=1.552,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,570 +70,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1890155 <1890155@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
-From: GitLab via <qemu-devel@nongnu.org>
+
+Public bug reported:
+
+Hello,
+Reproducer:
+
+cat << EOF | ./i386-softmmu/qemu-system-i386 \
+-device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
+outl 0xcf8 0x80001014
+outl 0xcfc 0xe0001000
+outl 0xcf8 0x80001018
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
+write 0x0 0x1 0xe1
+write 0x1 0x1 0xfe
+write 0x2 0x1 0xbe
+write 0x3 0x1 0xba
+write 0x52 0x1 0x61
+writeq 0xe0001020 0xef0bff5ecafe0000
+EOF
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ #7 0x55b271a89b67 in hw_error /home/alxndr/Development/qemu/general-fuzz/s=
+oftmmu/cpus.c:927:5
+ #8 0x55b272fc6433 in vmxnet3_validate_interrupt_idx /home/alxndr/Developme=
+nt/qemu/general-fuzz/hw/net/vmxnet3.c:1355:9
+ #9 0x55b272fc4e6d in vmxnet3_validate_interrupts /home/alxndr/Development/=
+qemu/general-fuzz/hw/net/vmxnet3.c:1364:5
+ #10 0x55b272fbe723 in vmxnet3_activate_device /home/alxndr/Development/qem=
+u/general-fuzz/hw/net/vmxnet3.c:1546:5
+ #11 0x55b272fb6fba in vmxnet3_handle_command /home/alxndr/Development/qemu=
+/general-fuzz/hw/net/vmxnet3.c:1576:9
+ #12 0x55b272fb410f in vmxnet3_io_bar1_write /home/alxndr/Development/qemu/=
+general-fuzz/hw/net/vmxnet3.c:1772:9
+ #13 0x55b271ac4193 in memory_region_write_accessor /home/alxndr/Developmen=
+t/qemu/general-fuzz/softmmu/memory.c:483:5
+ #14 0x55b271ac3637 in access_with_adjusted_size /home/alxndr/Development/q=
+emu/general-fuzz/softmmu/memory.c:544:18
+ #15 0x55b271ac1256 in memory_region_dispatch_write /home/alxndr/Developmen=
+t/qemu/general-fuzz/softmmu/memory.c:1466:16
+ #16 0x55b270e724a6 in flatview_write_continue /home/alxndr/Development/qem=
+u/general-fuzz/exec.c:3176:23
+ #17 0x55b270e5acc6 in flatview_write /home/alxndr/Development/qemu/general=
+-fuzz/exec.c:3216:14
 
 
-----==_mimepart_5f281eb61e691_5b633fa0f0fb0fec1333ca
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+qemu: hardware error: Bad interrupt index: 97
+Aborted
 
+-Alex
 
-
-Your pipeline has failed.
-
-Project: QEMU ( https://gitlab.com/qemu-project/qemu )
-Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
-
-Commit: 6c5dfc9c ( https://gitlab.com/qemu-project/qemu/-/commit/6c5dfc9c=
-cb643a0d50fdec9f10806b14960571d1 )
-Commit Message: Merge remote-tracking branch 'remotes/armbru/ta...
-Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
-
-Pipeline #173720789 ( https://gitlab.com/qemu-project/qemu/-/pipelines/17=
-3720789 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
-had 1 failed build.
-
-Job #668409119 ( https://gitlab.com/qemu-project/qemu/-/jobs/668409119/ra=
-w )
-
-Stage: test
-Name: acceptance-system-fedora-alt
-Trace:     self.wait_for_console_pattern('QEMU advent calendar')
-
-14:11:51 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
-boot_linux_console.py", line 51, in wait_for_console_pattern
-    wait_for_console_pattern(self, success_message,
-
-14:11:51 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
-avocado_qemu/__init__.py", line 131, in wait_for_console_pattern
-    _console_interaction(test, success_message, failure_message, None, vm=
-=3Dvm)
-
-14:11:51 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
-avocado_qemu/__init__.py", line 83, in _console_interaction
-    msg =3D console.readline().strip()
-
-14:11:51 ERROR|   File "/usr/lib64/python3.8/socket.py", line 669, in rea=
-dinto
-    return self._sock.recv_into(b)
-
-14:11:51 ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/=
-python3.8/site-packages/avocado/plugins/runner.py", line 89, in sigterm_h=
-andler
-    raise RuntimeError("Test interrupted by SIGTERM")
-
-14:11:51 ERROR| RuntimeError: Test interrupted by SIGTERM
-
-14:11:51 ERROR| ERROR 10-tests/acceptance/boot_linux_console.py:BootLinux=
-Console.test_microblaze_s3adsp1800 -> RuntimeError: Test interrupted by S=
-IGTERM
-14:11:51 INFO | =
-
-
-Runner error occurred: Timeout reached
-Original status: ERROR
-{'name': '10-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test=
-_microblaze_s3adsp1800', 'logdir': '/builds/qemu-project/qemu/build/tests=
-/results/job-2020-08-03T14.01-f7bf296/test-results/10-tests_acceptance_bo=
-ot_linux_console.py_BootLinuxConsole.test_microblaze_s3adsp1800', 'logfil=
-e': '/builds/qemu-project/qemu/build/tests/results/job-2020-08-03T14.01-f=
-7bf296/test-results/10-tests_acceptance_boot_linux_console.py_BootLinuxCo=
-nsole.test_microblaze_s3adsp1800/debug.log', 'status': 'ERROR', 'running'=
-: False, 'paused': False, 'time_start': 1596463820.738055, 'time_elapsed'=
-: 90.76783561706543, 'time_end': 1596463911.5058906, 'fail_reason': 'Test=
- interrupted by SIGTERM', 'fail_class': 'RuntimeError', 'traceback': 'Tra=
-ceback (most recent call last):\n  File "/builds/qemu-project/qemu/build/=
-tests/venv/lib64/python3.8/site-packages/avocado/core/test.py", line 955,=
- in _run_avocado\n    raise test_exception\n  File "/builds/qemu-project/=
-qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py"=
-, line 855, in _run_avocado\n    testMethod()\n  File "/builds/qemu-proje=
-ct/qemu/build/tests/acceptance/boot_linux_console.py", line 917, in test_=
-microblaze_s3adsp1800\n    self.do_test_advcal_2018(\'17\', tar_hash, \'b=
-allerina.bin\')\n  File "/builds/qemu-project/qemu/build/tests/acceptance=
-/boot_linux_console.py", line 892, in do_test_advcal_2018\n    self.wait_=
-for_console_pattern(\'QEMU advent calendar\')\n  File "/builds/qemu-proje=
-ct/qemu/build/tests/acceptance/boot_linux_console.py", line 51, in wait_f=
-or_console_pattern\n    wait_for_console_pattern(self, success_message,\n=
-  File "/builds/qemu-project/qemu/build/tests/acceptance/avocado_qemu/__i=
-nit__.py", line 131, in wait_for_console_pattern\n    _console_interactio=
-n(test, success_message, failure_message, None, vm=3Dvm)\n  File "/builds=
-/qemu-project/qemu/build/tests/acceptance/avocado_qemu/__init__.py", line=
- 83, in _console_interaction\n    msg =3D console.readline().strip()\n  F=
-ile "/usr/lib64/python3.8/socket.py", line 669, in readinto\n    return s=
-elf._sock.recv_into(b)\n  File "/builds/qemu-project/qemu/build/tests/ven=
-v/lib64/python3.8/site-packages/avocado/plugins/runner.py", line 89, in s=
-igterm_handler\n    raise RuntimeError("Test interrupted by SIGTERM")\nRu=
-ntimeError: Test interrupted by SIGTERM\n', 'timeout': 90, 'whiteboard': =
-'', 'phase': 'FINISHED', 'class_name': 'BootLinuxConsole', 'job_logdir': =
-'/builds/qemu-project/qemu/build/tests/results/job-2020-08-03T14.01-f7bf2=
-96', 'job_unique_id': 'f7bf296a6d0d420ed8329016b4dfcb63dba009ff', 'params=
-': []}
-=1B[32;1m$ du -chs $HOME/avocado/data/cache=1B[0;m
-du: cannot access '/root/avocado/data/cache': No such file or directory
-0	total
-section_end:1596463981:after_script
-=1B[0K=1B[31;1mERROR: Job failed: exit code 1
-=1B[0;m
-
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
-You're receiving this email because of your account on gitlab.com.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890155
 
+Title:
+  Abort in vmxnet3_validate_interrupt_idx
 
+Status in QEMU:
+  New
 
+Bug description:
+  Hello,
+  Reproducer:
 
-----==_mimepart_5f281eb61e691_5b633fa0f0fb0fec1333ca
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  cat << EOF | ./i386-softmmu/qemu-system-i386 \
+  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
+  outl 0xcf8 0x80001014
+  outl 0xcfc 0xe0001000
+  outl 0xcf8 0x80001018
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  write 0x52 0x1 0x61
+  writeq 0xe0001020 0xef0bff5ecafe0000
+  EOF
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
-w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   #7 0x55b271a89b67 in hw_error /home/alxndr/Development/qemu/general-fuzz=
+/softmmu/cpus.c:927:5
+   #8 0x55b272fc6433 in vmxnet3_validate_interrupt_idx /home/alxndr/Develop=
+ment/qemu/general-fuzz/hw/net/vmxnet3.c:1355:9
+   #9 0x55b272fc4e6d in vmxnet3_validate_interrupts /home/alxndr/Developmen=
+t/qemu/general-fuzz/hw/net/vmxnet3.c:1364:5
+   #10 0x55b272fbe723 in vmxnet3_activate_device /home/alxndr/Development/q=
+emu/general-fuzz/hw/net/vmxnet3.c:1546:5
+   #11 0x55b272fb6fba in vmxnet3_handle_command /home/alxndr/Development/qe=
+mu/general-fuzz/hw/net/vmxnet3.c:1576:9
+   #12 0x55b272fb410f in vmxnet3_io_bar1_write /home/alxndr/Development/qem=
+u/general-fuzz/hw/net/vmxnet3.c:1772:9
+   #13 0x55b271ac4193 in memory_region_write_accessor /home/alxndr/Developm=
+ent/qemu/general-fuzz/softmmu/memory.c:483:5
+   #14 0x55b271ac3637 in access_with_adjusted_size /home/alxndr/Development=
+/qemu/general-fuzz/softmmu/memory.c:544:18
+   #15 0x55b271ac1256 in memory_region_dispatch_write /home/alxndr/Developm=
+ent/qemu/general-fuzz/softmmu/memory.c:1466:16
+   #16 0x55b270e724a6 in flatview_write_continue /home/alxndr/Development/q=
+emu/general-fuzz/exec.c:3176:23
+   #17 0x55b270e5acc6 in flatview_write /home/alxndr/Development/qemu/gener=
+al-fuzz/exec.c:3216:14
 
-<head>
-<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
-/>
-<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
-t" />
-<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
-<title>QEMU | Pipeline #173720789 has failed for master | 6c5dfc9c</title=
->
-<style data-premailer=3D"ignore" type=3D"text/css">
-body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
-able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
-ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
-a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
-important;font-size:inherit !important;font-family:inherit !important;fon=
-t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
-margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
-39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
-ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
-ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
-ing-left:10px !important;padding-right:10px !important}}
+  =
 
-</style>
+  qemu: hardware error: Bad interrupt index: 97
+  Aborted
 
-<style>body {
-margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
-center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
-ica Neue", Helvetica, Arial, sans-serif;
-}
-</style></head>
-<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
- 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
-rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
-=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
-: 0;" bgcolor=3D"#fafafa">
-<tbody>
-<tr class=3D"line">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
-4fbb"></td>
-</tr>
-<tr class=3D"header">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
+  -Alex
 
-<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
-r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
-if" width=3D"55" height=3D"50" />
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
- style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
-gin: 0 auto;">
-<tbody>
-<tr>
-<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
-t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
-adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
-#fff">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
- style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
-<tbody>
-<tr class=3D"alert">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
-lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
-n=3D"middle">
-<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
-175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
-=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff;" align=3D"center" valign=3D"middle">
-Your pipeline has failed.
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
-deded;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
-fo" style=3D"width: 100%;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
-: 0; padding: 14px 0;">Project</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; margin: 0; padding: 14px 0 14px 5px;">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
-r: #333333; text-decoration: none;">
-QEMU
-</a>
-/
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
-"color: #333333; text-decoration: none;">
-QEMU
-</a>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Branch</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
-9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
-/master" style=3D"color: #333333; text-decoration: none;">
-master
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
-506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/6c5dfc9ccb643a0d=
-50fdec9f10806b14960571d1" style=3D"color: #3777b0; text-decoration: none;=
-">
-6c5dfc9c
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
-Merge remote-tracking branch 'remotes/armbru/ta...
-</div>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit Author</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
-333; text-decoration: none;">
-Peter Maydell
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"pre-section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
-g: 15px 5px 0;" align=3D"center">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-Pipeline
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/173720789" st=
-yle=3D"color: #3777b0; text-decoration: none;">
-#173720789
-</a>
-triggered by
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
-width=3D"24" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
-33333; text-decoration: none;">
-Alex Benn&#233;e
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
-t: 1.4; padding: 0 8px 16px;" align=3D"center">
-had
-1
-failed
-build.
-</td>
-</tr>
-<tr class=3D"table-warning">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
-px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
-yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
-">
-Logs may contain sensitive data. Please consider before forwarding this e=
-mail.
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
-erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
-: #ededed; border-style: solid; border-width: 0 1px 1px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
-style=3D"width: 100%; border-collapse: collapse;">
-<tbody>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
->
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/668409119" style=3D=
-"color: #3777b0; text-decoration: none;">
-acceptance-system-fedora-alt
-</a>
-
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>    self.=
-wait_for_console_pattern('QEMU advent calendar')<br /><br />14:11:51 ERRO=
-R|   File "/builds/qemu-project/qemu/build/tests/acceptance/boot_linux_co=
-nsole.py", line 51, in wait_for_console_pattern<br />    wait_for_console=
-_pattern(self, success_message,<br /><br />14:11:51 ERROR|   File "/build=
-s/qemu-project/qemu/build/tests/acceptance/avocado_qemu/__init__.py", lin=
-e 131, in wait_for_console_pattern<br />    _console_interaction(test, su=
-ccess_message, failure_message, None, vm=3Dvm)<br /><br />14:11:51 ERROR|=
-   File "/builds/qemu-project/qemu/build/tests/acceptance/avocado_qemu/__=
-init__.py", line 83, in _console_interaction<br />    msg =3D console.rea=
-dline().strip()<br /><br />14:11:51 ERROR|   File "/usr/lib64/python3.8/s=
-ocket.py", line 669, in readinto<br />    return self._sock.recv_into(b)<=
-br /><br />14:11:51 ERROR|   File "/builds/qemu-project/qemu/build/tests/=
-venv/lib64/python3.8/site-packages/avocado/plugins/runner.py", line 89, i=
-n sigterm_handler<br />    raise RuntimeError("Test interrupted by SIGTER=
-M")<br /><br />14:11:51 ERROR| RuntimeError: Test interrupted by SIGTERM<=
-br /><br />14:11:51 ERROR| ERROR 10-tests/acceptance/boot_linux_console.p=
-y:BootLinuxConsole.test_microblaze_s3adsp1800 -&gt; RuntimeError: Test in=
-terrupted by SIGTERM<br />14:11:51 INFO | <br /><br />Runner error occurr=
-ed: Timeout reached<br />Original status: ERROR<br />{'name': '10-tests/a=
-cceptance/boot_linux_console.py:BootLinuxConsole.test_microblaze_s3adsp18=
-00', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2020-08=
--03T14.01-f7bf296/test-results/10-tests_acceptance_boot_linux_console.py_=
-BootLinuxConsole.test_microblaze_s3adsp1800', 'logfile': '/builds/qemu-pr=
-oject/qemu/build/tests/results/job-2020-08-03T14.01-f7bf296/test-results/=
-10-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_microblaz=
-e_s3adsp1800/debug.log', 'status': 'ERROR', 'running': False, 'paused': F=
-alse, 'time_start': 1596463820.738055, 'time_elapsed': 90.76783561706543,=
- 'time_end': 1596463911.5058906, 'fail_reason': 'Test interrupted by SIGT=
-ERM', 'fail_class': 'RuntimeError', 'traceback': 'Traceback (most recent =
-call last):\n  File "/builds/qemu-project/qemu/build/tests/venv/lib64/pyt=
-hon3.8/site-packages/avocado/core/test.py", line 955, in _run_avocado\n  =
-  raise test_exception\n  File "/builds/qemu-project/qemu/build/tests/ven=
-v/lib64/python3.8/site-packages/avocado/core/test.py", line 855, in _run_=
-avocado\n    testMethod()\n  File "/builds/qemu-project/qemu/build/tests/=
-acceptance/boot_linux_console.py", line 917, in test_microblaze_s3adsp180=
-0\n    self.do_test_advcal_2018(\'17\', tar_hash, \'ballerina.bin\')\n  F=
-ile "/builds/qemu-project/qemu/build/tests/acceptance/boot_linux_console.=
-py", line 892, in do_test_advcal_2018\n    self.wait_for_console_pattern(=
-\'QEMU advent calendar\')\n  File "/builds/qemu-project/qemu/build/tests/=
-acceptance/boot_linux_console.py", line 51, in wait_for_console_pattern\n=
-    wait_for_console_pattern(self, success_message,\n  File "/builds/qemu=
--project/qemu/build/tests/acceptance/avocado_qemu/__init__.py", line 131,=
- in wait_for_console_pattern\n    _console_interaction(test, success_mess=
-age, failure_message, None, vm=3Dvm)\n  File "/builds/qemu-project/qemu/b=
-uild/tests/acceptance/avocado_qemu/__init__.py", line 83, in _console_int=
-eraction\n    msg =3D console.readline().strip()\n  File "/usr/lib64/pyth=
-on3.8/socket.py", line 669, in readinto\n    return self._sock.recv_into(=
-b)\n  File "/builds/qemu-project/qemu/build/tests/venv/lib64/python3.8/si=
-te-packages/avocado/plugins/runner.py", line 89, in sigterm_handler\n    =
-raise RuntimeError("Test interrupted by SIGTERM")\nRuntimeError: Test int=
-errupted by SIGTERM\n', 'timeout': 90, 'whiteboard': '', 'phase': 'FINISH=
-ED', 'class_name': 'BootLinuxConsole', 'job_logdir': '/builds/qemu-projec=
-t/qemu/build/tests/results/job-2020-08-03T14.01-f7bf296', 'job_unique_id'=
-: 'f7bf296a6d0d420ed8329016b4dfcb63dba009ff', 'params': []}<br /></span><=
-span class=3D"term-fg-l-green term-bold">$ du -chs $HOME/avocado/data/cac=
-he</span><span><br />du: cannot access '/root/avocado/data/cache': No suc=
-h file or directory<br />0	total<br /></span><span class=3D"term-fg-l-red=
- term-bold">ERROR: Job failed: exit code 1<br /></span></pre>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-<tr class=3D"footer">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
-s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
-414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
-m;" />
-<div>
-You're receiving this email because of your account on gitlab.com. <a cla=
-ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
-tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
-/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
-"color: #3777b0; text-decoration: none;">Help</a>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
-uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
-lor: #5c5c5c; padding: 25px 0;">
-
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
-----==_mimepart_5f281eb61e691_5b633fa0f0fb0fec1333ca--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890155/+subscriptions
 
