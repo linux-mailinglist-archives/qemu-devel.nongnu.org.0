@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AF723A8B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:41:57 +0200 (CEST)
-Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC4D23A8C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:46:47 +0200 (CEST)
+Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2bf1-0001Bu-S2
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40594)
+	id 1k2bji-0003vb-RD
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k2be2-0000lW-Bv
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:40:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49118)
+ id 1k2bii-0003RS-BY
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:45:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k2be0-0005uY-AB
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:40:54 -0400
+ id 1k2bid-0006Y9-6x
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:45:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k2bdy-0001BC-8U
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 14:40:50 +0000
+ id 1k2bib-00020g-QQ
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 14:45:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 351FC2E802E
- for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 14:40:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C67982E80E7
+ for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 14:45:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Aug 2020 14:33:40 -0000
-From: Alexander Bulekov <1890159@bugs.launchpad.net>
+Date: Mon, 03 Aug 2020 14:37:52 -0000
+From: Alexander Bulekov <1890160@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,16 +40,15 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <159646522011.3204.4947256792028563402.malonedeb@gac.canonical.com>
-Subject: [Bug 1890159] [NEW] Assertion failure in net_tx_pkt_add_raw_fragment
- through vmxnet3
+Message-Id: <159646547209.2548.10551566895698007373.malonedeb@gac.canonical.com>
+Subject: [Bug 1890160] [NEW] Abort in vmxnet3_validate_queues
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 12f0eb8ab9a40f992c453d6f746abc99258ae9cb
+X-Launchpad-Hash: 1c5143d806603c41045a9fead39a62bce0586a99
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 07:00:58
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890159 <1890159@bugs.launchpad.net>
+Reply-To: Bug 1890160 <1890160@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,47 +81,42 @@ Reproducer:
 
 cat << EOF | ./i386-softmmu/qemu-system-i386 \
 -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
 outl 0xcf8 0x80001014
 outl 0xcfc 0xe0001000
 outl 0xcf8 0x80001018
-outl 0xcf8 0x80001001
-outl 0xcfc 0x3fff3fff
-outl 0xcf8 0x80001016
-outl 0xcfc 0x5c84ff00
-outl 0xcf8 0x800010ff
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
 write 0x0 0x1 0xe1
 write 0x1 0x1 0xfe
 write 0x2 0x1 0xbe
 write 0x3 0x1 0xba
-writeq 0xff001020 0xef0bff5ecafe0000
-writel 0xe0000605 0xa7ff845e
+write 0x3e 0x1 0xe1
+writeq 0xe0001020 0xef0bff5ecafe0000
 EOF
 
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-qemu-system-i386: hw/net/net_tx_pkt.c:382: _Bool net_tx_pkt_add_raw_fragmen=
-t(struct NetTxPkt *, hwaddr, size_t): Assertion `pkt->max_raw_frags > pkt->=
-raw_frags' failed.
-Aborted
+qemu: hardware error: Bad TX queues number: 225
 
-
-#9 0x5607db7efdc0 in net_tx_pkt_add_raw_fragment /home/alxndr/Development/q=
-emu/general-fuzz/hw/net/net_tx_pkt.c:382:5
-#10 0x5607db902ef0 in vmxnet3_process_tx_queue /home/alxndr/Development/qem=
-u/general-fuzz/hw/net/vmxnet3.c:653:18
-#11 0x5607db9021db in vmxnet3_io_bar0_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/hw/net/vmxnet3.c:1097:9
-#12 0x5607da41f193 in memory_region_write_accessor /home/alxndr/Development=
-/qemu/general-fuzz/softmmu/memory.c:483:5
-#13 0x5607da41e637 in access_with_adjusted_size /home/alxndr/Development/qe=
-mu/general-fuzz/softmmu/memory.c:544:18
-#14 0x5607da41c256 in memory_region_dispatch_write /home/alxndr/Development=
-/qemu/general-fuzz/softmmu/memory.c:1466:16
-#15 0x5607d97cd4a6 in flatview_write_continue /home/alxndr/Development/qemu=
-/general-fuzz/exec.c:3176:23
+    #6 0x7f04b89d455a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abort.=
+c:79:7
+    #7 0x558f5be89b67 in hw_error /home/alxndr/Development/qemu/general-fuz=
+z/softmmu/cpus.c:927:5
+    #8 0x558f5d3c3968 in vmxnet3_validate_queues /home/alxndr/Development/q=
+emu/general-fuzz/hw/net/vmxnet3.c:1388:9
+    #9 0x558f5d3bb716 in vmxnet3_activate_device /home/alxndr/Development/q=
+emu/general-fuzz/hw/net/vmxnet3.c:1449:5
+    #10 0x558f5d3b6fba in vmxnet3_handle_command /home/alxndr/Development/q=
+emu/general-fuzz/hw/net/vmxnet3.c:1576:9
+    #11 0x558f5d3b410f in vmxnet3_io_bar1_write /home/alxndr/Development/qe=
+mu/general-fuzz/hw/net/vmxnet3.c:1772:9
+    #12 0x558f5bec4193 in memory_region_write_accessor /home/alxndr/Develop=
+ment/qemu/general-fuzz/softmmu/memory.c:483:5
+    #13 0x558f5bec3637 in access_with_adjusted_size /home/alxndr/Developmen=
+t/qemu/general-fuzz/softmmu/memory.c:544:18
+    #14 0x558f5bec1256 in memory_region_dispatch_write /home/alxndr/Develop=
+ment/qemu/general-fuzz/softmmu/memory.c:1466:16
 
 -Alex
 
@@ -134,10 +128,10 @@ mu/general-fuzz/softmmu/memory.c:544:18
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890159
+https://bugs.launchpad.net/bugs/1890160
 
 Title:
-  Assertion failure in net_tx_pkt_add_raw_fragment through vmxnet3
+  Abort in vmxnet3_validate_queues
 
 Status in QEMU:
   New
@@ -148,51 +142,45 @@ Bug description:
 
   cat << EOF | ./i386-softmmu/qemu-system-i386 \
   -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001010
-  outl 0xcfc 0xe0000000
   outl 0xcf8 0x80001014
   outl 0xcfc 0xe0001000
   outl 0xcf8 0x80001018
-  outl 0xcf8 0x80001001
-  outl 0xcfc 0x3fff3fff
-  outl 0xcf8 0x80001016
-  outl 0xcfc 0x5c84ff00
-  outl 0xcf8 0x800010ff
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
   write 0x0 0x1 0xe1
   write 0x1 0x1 0xfe
   write 0x2 0x1 0xbe
   write 0x3 0x1 0xba
-  writeq 0xff001020 0xef0bff5ecafe0000
-  writel 0xe0000605 0xa7ff845e
+  write 0x3e 0x1 0xe1
+  writeq 0xe0001020 0xef0bff5ecafe0000
   EOF
 
   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  qemu-system-i386: hw/net/net_tx_pkt.c:382: _Bool net_tx_pkt_add_raw_fragm=
-ent(struct NetTxPkt *, hwaddr, size_t): Assertion `pkt->max_raw_frags > pkt=
-->raw_frags' failed.
-  Aborted
+  qemu: hardware error: Bad TX queues number: 225
 
-  =
-
-  #9 0x5607db7efdc0 in net_tx_pkt_add_raw_fragment /home/alxndr/Development=
-/qemu/general-fuzz/hw/net/net_tx_pkt.c:382:5
-  #10 0x5607db902ef0 in vmxnet3_process_tx_queue /home/alxndr/Development/q=
-emu/general-fuzz/hw/net/vmxnet3.c:653:18
-  #11 0x5607db9021db in vmxnet3_io_bar0_write /home/alxndr/Development/qemu=
-/general-fuzz/hw/net/vmxnet3.c:1097:9
-  #12 0x5607da41f193 in memory_region_write_accessor /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:483:5
-  #13 0x5607da41e637 in access_with_adjusted_size /home/alxndr/Development/=
-qemu/general-fuzz/softmmu/memory.c:544:18
-  #14 0x5607da41c256 in memory_region_dispatch_write /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:1466:16
-  #15 0x5607d97cd4a6 in flatview_write_continue /home/alxndr/Development/qe=
-mu/general-fuzz/exec.c:3176:23
+      #6 0x7f04b89d455a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abor=
+t.c:79:7
+      #7 0x558f5be89b67 in hw_error /home/alxndr/Development/qemu/general-f=
+uzz/softmmu/cpus.c:927:5
+      #8 0x558f5d3c3968 in vmxnet3_validate_queues /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/vmxnet3.c:1388:9
+      #9 0x558f5d3bb716 in vmxnet3_activate_device /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/vmxnet3.c:1449:5
+      #10 0x558f5d3b6fba in vmxnet3_handle_command /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/vmxnet3.c:1576:9
+      #11 0x558f5d3b410f in vmxnet3_io_bar1_write /home/alxndr/Development/=
+qemu/general-fuzz/hw/net/vmxnet3.c:1772:9
+      #12 0x558f5bec4193 in memory_region_write_accessor /home/alxndr/Devel=
+opment/qemu/general-fuzz/softmmu/memory.c:483:5
+      #13 0x558f5bec3637 in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/general-fuzz/softmmu/memory.c:544:18
+      #14 0x558f5bec1256 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/general-fuzz/softmmu/memory.c:1466:16
 
   -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890159/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1890160/+subscriptions
 
