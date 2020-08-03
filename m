@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B823A848
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:21:38 +0200 (CEST)
-Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F43A23A825
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:13:11 +0200 (CEST)
+Received: from localhost ([::1]:35688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2bLN-0000CR-Bd
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1k2bDB-0002LZ-SI
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k2bKZ-0008Bd-Bn
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k2bKW-0003KO-TC
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:20:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k2bKU-0006Mu-Vg
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 14:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E655B2E8106
- for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 14:20:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Aug 2020 14:09:55 -0000
-From: Alexander Bulekov <1890152@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k2bC6-0001QI-WD
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:12:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50144
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k2bC4-0002AY-Gb
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:12:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596463919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=k84u7jVWYWXgn0pEoMmrFajwfMrJgZHWJv3zxJqt6G0=;
+ b=XjE6fkjX+KNooVRopKd32/kUH5+rEou/Gj1qkkf3H4uR8TcutIwYfjhS4FlCeAPdZRejgD
+ n1H0TIyL22lgAKp0kCjPDSDsQNwkDEwBkvDI8uv69mHsHowSFyyJNAP+hLEybIoLKDGPdo
+ Ep4XCZpn8Y2fUgzuVtekSiHu2C7/Se0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-3zjNinnVOu-osu3ULeHieg-1; Mon, 03 Aug 2020 10:11:51 -0400
+X-MC-Unique: 3zjNinnVOu-osu3ULeHieg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AB66102C80A
+ for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 14:11:50 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-122.phx2.redhat.com [10.3.113.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47BEE1001B0B
+ for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 14:11:50 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <159646379529.16612.17835122305375886153.malonedeb@wampee.canonical.com>
-Subject: [Bug 1890152] [NEW] malloc 0xff0000030 bytes with vmxnet3
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: bf32f519d561ae74cba142913a456d0f3539dac7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 07:00:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PULL 0/2] bitmaps patches for -rc3, 2020-08-03
+Date: Mon,  3 Aug 2020 09:11:45 -0500
+Message-Id: <20200803141147.88923-1-eblake@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 01:24:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,182 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890152 <1890152@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+The following changes since commit 6c5dfc9ccb643a0d50fdec9f10806b14960571d1:
 
-Hello,
-This reproducer causes vmxnet3 to malloc 0xff0000030 bytes
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-08-03' into staging (2020-08-03 12:21:57 +0100)
 
-cat << EOF | ./i386-softmmu/qemu-system-i386 \
--device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic =
+are available in the Git repository at:
 
-outl 0xcf8 0x80001014
-outl 0xcfc 0xe0001000
-outl 0xcf8 0x80001018
-outl 0xcf8 0x80001004
-outw 0xcfc 0x7
-write 0x0 0x1 0xe1
-write 0x1 0x1 0xfe
-write 0x2 0x1 0xbe
-write 0x3 0x1 0xba
-write 0x3e 0x1 0x05
-write 0x28 0x1 0xe1
-write 0x29 0x1 0xfe
-write 0x2a 0x1 0xff
-write 0x2b 0x1 0xff
-write 0x2c 0x1 0xff
-write 0x2d 0x1 0xff
-write 0x2e 0x1 0xff
-write 0x2f 0x1 0xff
-write 0x31c 0x1 0xff
-writeq 0xe0001020 0xef0bff5ecafe0000
-EOF
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-08-03
 
+for you to fetch changes up to edadc99a2ee90daeaaf4fba21d623ec8efe7c8e6:
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=3D=3D25727=3D=3DERROR: AddressSanitizer: allocator is out of memory trying=
- to allocate 0xff0000030 bytes
-    #0 0x56476a43731d in malloc (/home/alxndr/Development/qemu/general-fuzz=
-/build/i386-softmmu/qemu-system-i386+0x2bba31d)
-    #1 0x7fca345a8500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.so=
-.0+0x54500)
-    #2 0x56476c616312 in vmxnet3_activate_device /home/alxndr/Development/q=
-emu/general-fuzz/hw/net/vmxnet3.c:1504:5
-    #3 0x56476c6101ba in vmxnet3_handle_command /home/alxndr/Development/qe=
-mu/general-fuzz/hw/net/vmxnet3.c:1576:9
-    #4 0x56476c60d30f in vmxnet3_io_bar1_write /home/alxndr/Development/qem=
-u/general-fuzz/hw/net/vmxnet3.c:1772:9
-    #5 0x56476b11d383 in memory_region_write_accessor /home/alxndr/Developm=
-ent/qemu/general-fuzz/softmmu/memory.c:483:5
-    #6 0x56476b11c827 in access_with_adjusted_size /home/alxndr/Development=
-/qemu/general-fuzz/softmmu/memory.c:544:18
-    #7 0x56476b11a446 in memory_region_dispatch_write /home/alxndr/Developm=
-ent/qemu/general-fuzz/softmmu/memory.c:1466:16
-    #8 0x56476a4cb696 in flatview_write_continue /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:3176:23
-    #9 0x56476a4b3eb6 in flatview_write /home/alxndr/Development/qemu/gener=
-al-fuzz/exec.c:3216:14
-    #10 0x56476a4b39d7 in address_space_write /home/alxndr/Development/qemu=
-/general-fuzz/exec.c:3308:18
-    #11 0x56476b1c4614 in qtest_process_command /home/alxndr/Development/qe=
-mu/general-fuzz/softmmu/qtest.c:452:13
-    #12 0x56476b1bbc18 in qtest_process_inbuf /home/alxndr/Development/qemu=
-/general-fuzz/softmmu/qtest.c:710:9
-    #13 0x56476b1ba8a5 in qtest_read /home/alxndr/Development/qemu/general-=
-fuzz/softmmu/qtest.c:722:5
-    #14 0x56476e063f03 in qemu_chr_be_write_impl /home/alxndr/Development/q=
-emu/general-fuzz/chardev/char.c:188:9
-    #15 0x56476e064087 in qemu_chr_be_write /home/alxndr/Development/qemu/g=
-eneral-fuzz/chardev/char.c:200:9
-    #16 0x56476e078373 in fd_chr_read /home/alxndr/Development/qemu/general=
--fuzz/chardev/char-fd.c:68:9
-    #17 0x56476e1cc734 in qio_channel_fd_source_dispatch /home/alxndr/Devel=
-opment/qemu/general-fuzz/io/channel-watch.c:84:12
-    #18 0x7fca345a2897 in g_main_context_dispatch (/usr/lib/x86_64-linux-gn=
-u/libglib-2.0.so.0+0x4e897)
+  iotests/169: Test source cont with backing bmap (2020-08-03 08:59:37 -0500)
 
+----------------------------------------------------------------
+bitmaps patches for 2020-08-03
 
--Alex
+- fix bitmap migration involving read-only bitmap from backing chain
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+----------------------------------------------------------------
+Max Reitz (2):
+      qcow2: Release read-only bitmaps when inactivated
+      iotests/169: Test source cont with backing bmap
 
--- =
+ block/qcow2-bitmap.c       | 23 ++++++++++++++---
+ tests/qemu-iotests/169     | 64 +++++++++++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/169.out |  4 +--
+ 3 files changed, 84 insertions(+), 7 deletions(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890152
+-- 
+2.28.0
 
-Title:
-  malloc 0xff0000030 bytes with vmxnet3
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  This reproducer causes vmxnet3 to malloc 0xff0000030 bytes
-
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic =
-
-  outl 0xcf8 0x80001014
-  outl 0xcfc 0xe0001000
-  outl 0xcf8 0x80001018
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  write 0x0 0x1 0xe1
-  write 0x1 0x1 0xfe
-  write 0x2 0x1 0xbe
-  write 0x3 0x1 0xba
-  write 0x3e 0x1 0x05
-  write 0x28 0x1 0xe1
-  write 0x29 0x1 0xfe
-  write 0x2a 0x1 0xff
-  write 0x2b 0x1 0xff
-  write 0x2c 0x1 0xff
-  write 0x2d 0x1 0xff
-  write 0x2e 0x1 0xff
-  write 0x2f 0x1 0xff
-  write 0x31c 0x1 0xff
-  writeq 0xe0001020 0xef0bff5ecafe0000
-  EOF
-
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D25727=3D=3DERROR: AddressSanitizer: allocator is out of memory tryi=
-ng to allocate 0xff0000030 bytes
-      #0 0x56476a43731d in malloc (/home/alxndr/Development/qemu/general-fu=
-zz/build/i386-softmmu/qemu-system-i386+0x2bba31d)
-      #1 0x7fca345a8500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x54500)
-      #2 0x56476c616312 in vmxnet3_activate_device /home/alxndr/Development=
-/qemu/general-fuzz/hw/net/vmxnet3.c:1504:5
-      #3 0x56476c6101ba in vmxnet3_handle_command /home/alxndr/Development/=
-qemu/general-fuzz/hw/net/vmxnet3.c:1576:9
-      #4 0x56476c60d30f in vmxnet3_io_bar1_write /home/alxndr/Development/q=
-emu/general-fuzz/hw/net/vmxnet3.c:1772:9
-      #5 0x56476b11d383 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:483:5
-      #6 0x56476b11c827 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #7 0x56476b11a446 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1466:16
-      #8 0x56476a4cb696 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #9 0x56476a4b3eb6 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #10 0x56476a4b39d7 in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/exec.c:3308:18
-      #11 0x56476b1c4614 in qtest_process_command /home/alxndr/Development/=
-qemu/general-fuzz/softmmu/qtest.c:452:13
-      #12 0x56476b1bbc18 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/general-fuzz/softmmu/qtest.c:710:9
-      #13 0x56476b1ba8a5 in qtest_read /home/alxndr/Development/qemu/genera=
-l-fuzz/softmmu/qtest.c:722:5
-      #14 0x56476e063f03 in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/general-fuzz/chardev/char.c:188:9
-      #15 0x56476e064087 in qemu_chr_be_write /home/alxndr/Development/qemu=
-/general-fuzz/chardev/char.c:200:9
-      #16 0x56476e078373 in fd_chr_read /home/alxndr/Development/qemu/gener=
-al-fuzz/chardev/char-fd.c:68:9
-      #17 0x56476e1cc734 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/general-fuzz/io/channel-watch.c:84:12
-      #18 0x7fca345a2897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-
-  =
-
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890152/+subscriptions
 
