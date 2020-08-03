@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0097C23A828
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:14:31 +0200 (CEST)
-Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79EB23A826
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 16:13:19 +0200 (CEST)
+Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2bEU-0004B7-21
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60896)
+	id 1k2bDK-0002SW-Vo
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 10:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k2bC6-0001Pf-0C
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:12:02 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37083
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k2bC5-0001PX-H7
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:12:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20300
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k2bC4-0002AQ-3d
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k2bC1-0002A0-SW
  for qemu-devel@nongnu.org; Mon, 03 Aug 2020 10:12:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596463919;
+ s=mimecast20190719; t=1596463915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JKVaH4iitGhZ1jGWvR2pPj2wNhsixYETeJkPx4ExBn4=;
- b=L3FluIbaKv/ZWWkthIC8Y8d9ud7xbN5SYuuLjHRAY08nCAITeoMRAkrbXMXqKQDYpSMwbk
- /+F8G75teRYyO3jqxBhc8PiPFQFtOssxJ66Ljux/AMsch8wtekfkEYZeL41XBlGf9IAXt4
- 7qTtOrbrOPF1tMjt6kgO5KjTa4sJTV0=
+ bh=N7NzRUh3wMADSPDBipY/Sj34+XJSftfHkOvwRG/nfbM=;
+ b=Cdlf/pPnL43/wWmaCcEcNi6t/+nMudKHcosaF/8zkxN3NOYUN879TgwCE+TE2dw7/M3V6K
+ fYiXAHJLOz7Qb8gOJuICQMitgj7dht4NNj7O/qP2duPZuCdlzAmaookfIE3D3OqV04DuQ7
+ lbXOuk2WLTZ8TWW89G9SbDyRErgvOIA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-X0Ch1yYnNSqDaH5evhlWeQ-1; Mon, 03 Aug 2020 10:11:52 -0400
-X-MC-Unique: X0Ch1yYnNSqDaH5evhlWeQ-1
+ us-mta-459-cu1FoHqzOti7bkvR_oFnhA-1; Mon, 03 Aug 2020 10:11:53 -0400
+X-MC-Unique: cu1FoHqzOti7bkvR_oFnhA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85D7018C63CD;
- Mon,  3 Aug 2020 14:11:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21C9D1DE4;
+ Mon,  3 Aug 2020 14:11:52 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-122.phx2.redhat.com [10.3.113.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC8C51001B0B;
- Mon,  3 Aug 2020 14:11:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B643D10027A6;
+ Mon,  3 Aug 2020 14:11:51 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] qcow2: Release read-only bitmaps when inactivated
-Date: Mon,  3 Aug 2020 09:11:46 -0500
-Message-Id: <20200803141147.88923-2-eblake@redhat.com>
+Subject: [PULL 2/2] iotests/169: Test source cont with backing bmap
+Date: Mon,  3 Aug 2020 09:11:47 -0500
+Message-Id: <20200803141147.88923-3-eblake@redhat.com>
 In-Reply-To: <20200803141147.88923-1-eblake@redhat.com>
 References: <20200803141147.88923-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:37:52
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:09:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -77,105 +77,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- "open list:qcow2" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-During migration, we release all bitmaps after storing them on disk, as
-long as they are (1) stored on disk, (2) not read-only, and (3)
-consistent.
-
-(2) seems arbitrary, though.  The reason we do not release them is
-because we do not write them, as there is no need to; and then we just
-forget about all bitmaps that we have not written to the file.  However,
-read-only persistent bitmaps are still in the file and in sync with
-their in-memory representation, so we may as well release them just like
-any R/W bitmap that we have updated.
-
-It leads to actual problems, too: After migration, letting the source
-continue may result in an error if there were any bitmaps on read-only
-nodes (such as backing images), because those have not been released by
-bdrv_inactive_all(), but bdrv_invalidate_cache_all() attempts to reload
-them (which fails, because they are still present in memory).
+Test migrating from a VM with a persistent bitmap in the backing chain,
+and then continuing that VM after the migration
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200730120234.49288-2-mreitz@redhat.com>
-Tested-by: Peter Krempa <pkrempa@redhat.com>
+Message-Id: <20200730120234.49288-3-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2-bitmap.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/169     | 64 +++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/169.out |  4 +--
+ 2 files changed, 65 insertions(+), 3 deletions(-)
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 1f38806ca6ea..8c34b2aef7cd 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1562,11 +1562,22 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
-         Qcow2Bitmap *bm;
+diff --git a/tests/qemu-iotests/169 b/tests/qemu-iotests/169
+index 2c5a132aa315..40afb1529986 100755
+--- a/tests/qemu-iotests/169
++++ b/tests/qemu-iotests/169
+@@ -24,11 +24,12 @@ import time
+ import itertools
+ import operator
+ import re
+-from iotests import qemu_img
++from iotests import qemu_img, qemu_img_create, Timeout
 
-         if (!bdrv_dirty_bitmap_get_persistence(bitmap) ||
--            bdrv_dirty_bitmap_readonly(bitmap) ||
-             bdrv_dirty_bitmap_inconsistent(bitmap)) {
-             continue;
-         }
 
-+        if (bdrv_dirty_bitmap_readonly(bitmap)) {
-+            /*
-+             * Store the bitmap in the associated Qcow2Bitmap so it
-+             * can be released later
-+             */
-+            bm = find_bitmap_by_name(bm_list, name);
-+            if (bm) {
-+                bm->dirty_bitmap = bitmap;
+ disk_a = os.path.join(iotests.test_dir, 'disk_a')
+ disk_b = os.path.join(iotests.test_dir, 'disk_b')
++base_a = os.path.join(iotests.test_dir, 'base_a')
+ size = '1M'
+ mig_file = os.path.join(iotests.test_dir, 'mig_file')
+ mig_cmd = 'exec: cat > ' + mig_file
+@@ -234,6 +235,67 @@ for cmb in list(itertools.product((True, False), repeat=2)):
+     inject_test_case(TestDirtyBitmapMigration, name,
+                      'do_test_migration_resume_source', *list(cmb))
+
++
++class TestDirtyBitmapBackingMigration(iotests.QMPTestCase):
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, base_a, size)
++        qemu_img_create('-f', iotests.imgfmt, '-F', iotests.imgfmt,
++                        '-b', base_a, disk_a, size)
++
++        for f in (disk_a, base_a):
++            qemu_img('bitmap', '--add', f, 'bmap0')
++
++        blockdev = {
++            'node-name': 'node0',
++            'driver': iotests.imgfmt,
++            'file': {
++                'driver': 'file',
++                'filename': disk_a
++            },
++            'backing': {
++                'node-name': 'node0-base',
++                'driver': iotests.imgfmt,
++                'file': {
++                    'driver': 'file',
++                    'filename': base_a
++                }
 +            }
-+            continue;
 +        }
 +
-         need_write = true;
-
-         if (check_constraints_on_bitmap(bs, name, granularity, errp) < 0) {
-@@ -1618,7 +1629,9 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
-
-     /* allocate clusters and store bitmaps */
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
--        if (bm->dirty_bitmap == NULL) {
-+        BdrvDirtyBitmap *bitmap = bm->dirty_bitmap;
++        self.vm = iotests.VM()
++        self.vm.launch()
 +
-+        if (bitmap == NULL || bdrv_dirty_bitmap_readonly(bitmap)) {
-             continue;
-         }
++        result = self.vm.qmp('blockdev-add', **blockdev)
++        self.assert_qmp(result, 'return', {})
++
++        # Check that the bitmaps are there
++        for node in self.vm.qmp('query-named-block-nodes', flat=True)['return']:
++            if 'node0' in node['node-name']:
++                self.assert_qmp(node, 'dirty-bitmaps[0]/name', 'bmap0')
++
++        caps = [{'capability': 'events', 'state': True}]
++        result = self.vm.qmp('migrate-set-capabilities', capabilities=caps)
++        self.assert_qmp(result, 'return', {})
++
++    def tearDown(self):
++        self.vm.shutdown()
++        for f in (disk_a, base_a):
++            os.remove(f)
++
++    def test_cont_on_source(self):
++        """
++        Continue the source after migration.
++        """
++        result = self.vm.qmp('migrate', uri=f'exec: cat > /dev/null')
++        self.assert_qmp(result, 'return', {})
++
++        with Timeout(10, 'Migration timeout'):
++            self.vm.wait_migration('postmigrate')
++
++        result = self.vm.qmp('cont')
++        self.assert_qmp(result, 'return', {})
++
++
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+                  supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/169.out b/tests/qemu-iotests/169.out
+index 5c26d15c0d06..cafb8161f7b1 100644
+--- a/tests/qemu-iotests/169.out
++++ b/tests/qemu-iotests/169.out
+@@ -1,5 +1,5 @@
+-....................................
++.....................................
+ ----------------------------------------------------------------------
+-Ran 36 tests
++Ran 37 tests
 
-@@ -1641,6 +1654,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
-         g_free(tb);
-     }
-
-+success:
-     if (release_stored) {
-         QSIMPLEQ_FOREACH(bm, bm_list, entry) {
-             if (bm->dirty_bitmap == NULL) {
-@@ -1651,13 +1665,14 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
-         }
-     }
-
--success:
-     bitmap_list_free(bm_list);
-     return;
-
- fail:
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
--        if (bm->dirty_bitmap == NULL || bm->table.offset == 0) {
-+        if (bm->dirty_bitmap == NULL || bm->table.offset == 0 ||
-+            bdrv_dirty_bitmap_readonly(bm->dirty_bitmap))
-+        {
-             continue;
-         }
-
+ OK
 -- 
 2.28.0
 
