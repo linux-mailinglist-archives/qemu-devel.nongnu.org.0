@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6751A239FCF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 08:52:04 +0200 (CEST)
-Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15786239FE6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 08:57:08 +0200 (CEST)
+Received: from localhost ([::1]:52826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2UKI-00045A-UE
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 02:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1k2UPC-0006SE-S6
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 02:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k2UJ8-0003ct-QR
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 02:50:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48832)
+ id 1k2UO1-0005pf-EG
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 02:55:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k2UJ6-00017J-RM
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 02:50:50 -0400
+ id 1k2UNz-0001qZ-Cl
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 02:55:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k2UJ3-0002VX-IN
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 06:50:45 +0000
+ id 1k2UNw-0002yg-8X
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 06:55:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 836002E80ED
- for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 06:50:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 314FC2E80D2
+ for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 06:55:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Aug 2020 06:40:56 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1883984@bugs.launchpad.net>
+Date: Mon, 03 Aug 2020 06:45:58 -0000
+From: Launchpad Bug Tracker <1883984@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
@@ -38,15 +38,17 @@ X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
 X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
  status=In Progress; importance=Undecided;
  assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bruno-clisp nhfbeebe rth
 X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159643685687.3412.1466891468489360303.launchpad@gac.canonical.com>
+Message-Id: <159643715925.31566.1262855032723653174.launchpad@ackee.canonical.com>
 Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
  crashes qemu-system-s390x
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -55,7 +57,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d4bcfa50d34e64271b4488bbbfeba4e5e38573d2
+X-Launchpad-Hash: 3ee793ef2c229d78862e2fdce89c63f0783023f7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:50:46
@@ -81,15 +83,9 @@ Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: qemu (Ubuntu)
-   Importance: Undecided
-       Status: New
-
-** Changed in: qemu (Ubuntu)
-       Status: New =3D> In Progress
-
-** Changed in: qemu (Ubuntu)
-     Assignee: (unassigned) =3D> Christian Ehrhardt =EE=83=BF (paelzer)
+** Merge proposal linked:
+   https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+merge=
+/388545
 
 -- =
 
@@ -105,6 +101,8 @@ Status in QEMU:
   Fix Committed
 Status in qemu package in Ubuntu:
   In Progress
+Status in qemu source package in Focal:
+  Triaged
 
 Bug description:
   In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
