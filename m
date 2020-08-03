@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FE223AD61
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:37:44 +0200 (CEST)
-Received: from localhost ([::1]:47750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B7623AD6F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:40:40 +0200 (CEST)
+Received: from localhost ([::1]:57000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2gHI-0004dL-0B
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
+	id 1k2gK7-00004s-KY
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2gDt-0001S8-HE
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:13 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54921)
+ id 1k2gDw-0001X8-5i
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:16 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2gDr-0003Zq-Ka
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:13 -0400
-Received: by mail-wm1-x344.google.com with SMTP id d190so600737wmd.4
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 12:34:11 -0700 (PDT)
+ id 1k2gDu-0003aG-D6
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:15 -0400
+Received: by mail-wm1-x331.google.com with SMTP id p14so617122wmg.1
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 12:34:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=40piShayyQWcskVekKLi2etxoD3Oho/QcZJcKds9zsk=;
- b=XJXsfYgJS/ElZbXx4mdZM1ymgEQ1107Y2Vb7TTETqIJE2fyx5IFGOkrPEMB3BJtRMX
- Qj8OIfOk/afLBBzkdg3Zd/bunc8nTejEkVLyKC8SK3snAZXRLiC3BtRm7DP8KebvaJC1
- uHnFjrmNpi0Ack6dTrCillZYl1luWCp1ppNS7+zGPM+UMA1pIkxbpOhVCx3mvtdU3/Hi
- emKo6/9Ozq95Uf1v1v3OGX0KMlijCWzRw4RzsQoeFCk3XsHohPSmMqaqzPj9Jv7DitTx
- 1jK9A704ygVJQ6rA8tX5caST+8HrWqObudjoQxK6BI78KV5GYE1EflOzI8oiAn1DQW2+
- Kpxg==
+ bh=+x86j1nJrSJr/whqOt2lTLFOKpP51a1MJPUQH0taM0Q=;
+ b=hbC4wh87oMNGJ5bjEWJdWrbeq4uYGls/z5u3D9cunMcNwQW2sJrOlVD/cNixowzqeY
+ ZzD5rfYAr8GgIcjeBK6ZUH0sFp0+1IDiF3tkmiJEoAor7JW/KgDK6dqueQflKZmFDgzw
+ GddAqhnx07FwwZqh6UqEMLg9yzRZMeuUmz0nRqj/hf5KDLj5gittGSox9CVxnuVm5IPX
+ tjRVBeCOH5CM9Ny0t5iFi/gUi7Kc9QRpuwcw2wMm0xV0vW3Z6tHQ5eUXQj6FM9/IdlFg
+ Gh5LG7axxX3Tj8rlWAugskBQjZArAzo4fD7q2ir2xo4wxQuRb0qxDM49NrVrrKZX6ESp
+ HDcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=40piShayyQWcskVekKLi2etxoD3Oho/QcZJcKds9zsk=;
- b=X+mU1CiB5zO8z/ydpaTggImx/GqNO2bnfF459Dvr5x/lIQ6z8AJKRf/WiM4a5Y/ymK
- iyi2hUnxzH8kIJVD/oKRV1qdPCBnmrx+wT1UWkUb5yQ5HNdhMJ7vi23t+Dd2l0eBfwH3
- joC6o+DODkY9ca7jhecoY+SzgrR1/boIJB0+edRunrsj6lbtPNi/nz8mDAVqo53Azh+c
- dE4VUKB+IDKvRsPvekjW5SkPOtr4wM4oS2YqKEmBbj7uNrIwqZ+I19i74z/gDoDqxrD3
- 2ZjkrcqJhN/HRJ2OXd5NUpjzvf9hl9Oj99UG8EsZDo4vqjv/l1+I+9yM2fk1sylmLSCj
- Qufw==
-X-Gm-Message-State: AOAM531pBc8N4qFyD5hkdyXh1ALKnxk6m1BPZQwELXae8W4i4UVm0zDu
- V3peEY3U9bjVaTj7trGaXch7grsYpty6/Q==
-X-Google-Smtp-Source: ABdhPJwERxrkhg/LHEBTsidoRmqEHmqkFy9hJBvHB2R5rRdUJIx5CVm2oh4XoOHAFyxwaZZtklCzfQ==
-X-Received: by 2002:a1c:7204:: with SMTP id n4mr610126wmc.161.1596483249471;
- Mon, 03 Aug 2020 12:34:09 -0700 (PDT)
+ bh=+x86j1nJrSJr/whqOt2lTLFOKpP51a1MJPUQH0taM0Q=;
+ b=XKW24OIDuCyj4UVZ0H5IqwL3205VLSTlhUpfx57rhOwzA+2cocB/cz+HZDjRCJuwyL
+ QLGPjXmtl3Xzv0KZL4Ccg/vurRCJlHPMFH+VJX7BXQ1E+mdyaZpbbbqk/xq0esQcFvBV
+ Bbc8YTvmdOu6zTyTdvQ0cVvaORqThyuoq/QHDhcWxiw1EJEKtnHEV9cKo5yVxQT+b7uh
+ N4M8G6qX8Xf9T7bMNtDAaMCdBD2sIwYrOC4ZzNs0YU5rD2Wl+1XOXQBiCK+nMtEt6YNT
+ qDGXFhakbmlfm20fHzNgFNyb5aX/ztAiV+gZDgDYTIyCQNJQ+RALWLUnEFOhmbb/3dnS
+ L2Jw==
+X-Gm-Message-State: AOAM531y7X1ctH1DF3X5omkJjcxPMnquapi7MT4Kl5GVyRrLbkRb6/TN
+ UNfOvZRxR2q1S6SLWRclxc2WbIUDYvzw5A==
+X-Google-Smtp-Source: ABdhPJzGwkzdF0bb/NhbEUduUbrviOZ4KXBxNOY78UNrroaYp87PSzvJbaypocN5D6cY3iO+GqmV1w==
+X-Received: by 2002:a1c:a7d1:: with SMTP id q200mr604191wme.131.1596483251719; 
+ Mon, 03 Aug 2020 12:34:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r206sm985565wma.6.2020.08.03.12.34.07
+ by smtp.gmail.com with ESMTPSA id r206sm985565wma.6.2020.08.03.12.34.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 12:34:08 -0700 (PDT)
+ Mon, 03 Aug 2020 12:34:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] msf2-soc, stellaris: Don't wire up SYSRESETREQ
-Date: Mon,  3 Aug 2020 20:33:55 +0100
-Message-Id: <20200803193359.12936-5-peter.maydell@linaro.org>
+Subject: [PULL 5/8] target/arm: Fix AddPAC error indication
+Date: Mon,  3 Aug 2020 20:33:56 +0100
+Message-Id: <20200803193359.12936-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200803193359.12936-1-peter.maydell@linaro.org>
 References: <20200803193359.12936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +71,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,94 +88,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MSF2 SoC model and the Stellaris board code both wire
-SYSRESETREQ up to a function that just invokes
-    qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-This is now the default action that the NVIC does if the line is
-not connected, so we can delete the handling code.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+The definition of top_bit used in this function is one higher
+than that used in the Arm ARM psuedo-code, which put the error
+indication at top_bit - 1 at the wrong place, which meant that
+it wasn't visible to Auth.
+
+Fixing the definition of top_bit requires more changes, because
+its most common use is for the count of bits in top_bit:bot_bit,
+which would then need to be computed as top_bit - bot_bit + 1.
+
+For now, prefer the minimal fix to the error indication alone.
+
+Fixes: 63ff0ca94cb
+Reported-by: Derrick McKee <derrick.mckee@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200728195706.11087-1-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+[PMM: added comment about the divergence from the pseudocode]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200728103744.6909-4-peter.maydell@linaro.org
 ---
- hw/arm/msf2-soc.c  | 11 -----------
- hw/arm/stellaris.c | 12 ------------
- 2 files changed, 23 deletions(-)
+ target/arm/pauth_helper.c         |  6 +++++-
+ tests/tcg/aarch64/pauth-5.c       | 33 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  2 +-
+ 3 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/aarch64/pauth-5.c
 
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 33ea7df342c..d2c29e82d13 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -30,7 +30,6 @@
- #include "hw/irq.h"
- #include "hw/arm/msf2-soc.h"
- #include "hw/misc/unimp.h"
--#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- 
- #define MSF2_TIMER_BASE       0x40004000
-@@ -59,13 +58,6 @@ static const int spi_irq[MSF2_NUM_SPIS] = { 2, 3 };
- static const int uart_irq[MSF2_NUM_UARTS] = { 10, 11 };
- static const int timer_irq[MSF2_NUM_TIMERS] = { 14, 15 };
- 
--static void do_sys_reset(void *opaque, int n, int level)
--{
--    if (level) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
- static void m2sxxx_soc_initfn(Object *obj)
- {
-     MSF2State *s = MSF2_SOC(obj);
-@@ -130,9 +122,6 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-         return;
+diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
+index b909630317e..6dbab037683 100644
+--- a/target/arm/pauth_helper.c
++++ b/target/arm/pauth_helper.c
+@@ -300,7 +300,11 @@ static uint64_t pauth_addpac(CPUARMState *env, uint64_t ptr, uint64_t modifier,
+      */
+     test = sextract64(ptr, bot_bit, top_bit - bot_bit);
+     if (test != 0 && test != -1) {
+-        pac ^= MAKE_64BIT_MASK(top_bit - 1, 1);
++        /*
++         * Note that our top_bit is one greater than the pseudocode's
++         * version, hence "- 2" here.
++         */
++        pac ^= MAKE_64BIT_MASK(top_bit - 2, 1);
      }
  
--    qdev_connect_gpio_out_named(DEVICE(&s->armv7m.nvic), "SYSRESETREQ", 0,
--                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
--
-     system_clock_scale = NANOSECONDS_PER_SECOND / s->m3clk;
+     /*
+diff --git a/tests/tcg/aarch64/pauth-5.c b/tests/tcg/aarch64/pauth-5.c
+new file mode 100644
+index 00000000000..67c257918b9
+--- /dev/null
++++ b/tests/tcg/aarch64/pauth-5.c
+@@ -0,0 +1,33 @@
++#include <assert.h>
++
++static int x;
++
++int main()
++{
++    int *p0 = &x, *p1, *p2, *p3;
++    unsigned long salt = 0;
++
++    /*
++     * With TBI enabled and a 48-bit VA, there are 7 bits of auth, and so
++     * a 1/128 chance of auth = pac(ptr,key,salt) producing zero.
++     * Find a salt that creates auth != 0.
++     */
++    do {
++        salt++;
++        asm("pacda %0, %1" : "=r"(p1) : "r"(salt), "0"(p0));
++    } while (p0 == p1);
++
++    /*
++     * This pac must fail, because the input pointer bears an encryption,
++     * and so is not properly extended within bits [55:47].  This will
++     * toggle bit 54 in the output...
++     */
++    asm("pacda %0, %1" : "=r"(p2) : "r"(salt), "0"(p1));
++
++    /* ... so that the aut must fail, setting bit 53 in the output ... */
++    asm("autda %0, %1" : "=r"(p3) : "r"(salt), "0"(p2));
++
++    /* ... which means this equality must not hold. */
++    assert(p3 != p0);
++    return 0;
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index b617f2ac7e0..e7249915e7e 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -19,7 +19,7 @@ run-fcvt: fcvt
  
-     for (i = 0; i < MSF2_NUM_UARTS; i++) {
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 28eb15c76ca..5f9d0801807 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -18,7 +18,6 @@
- #include "hw/boards.h"
- #include "qemu/log.h"
- #include "exec/address-spaces.h"
--#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "hw/arm/armv7m.h"
- #include "hw/char/pl011.h"
-@@ -1206,14 +1205,6 @@ static void stellaris_adc_init(Object *obj)
-     qdev_init_gpio_in(dev, stellaris_adc_trigger, 1);
- }
- 
--static
--void do_sys_reset(void *opaque, int n, int level)
--{
--    if (level) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
- /* Board init.  */
- static stellaris_board_info stellaris_boards[] = {
-   { "LM3S811EVB",
-@@ -1317,9 +1308,6 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-     /* This will exit with an error if the user passed us a bad cpu_type */
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(nvic), &error_fatal);
- 
--    qdev_connect_gpio_out_named(nvic, "SYSRESETREQ", 0,
--                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
--
-     if (board->dc1 & (1 << 16)) {
-         dev = sysbus_create_varargs(TYPE_STELLARIS_ADC, 0x40038000,
-                                     qdev_get_gpio_in(nvic, 14),
+ # Pauth Tests
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
+-AARCH64_TESTS += pauth-1 pauth-2 pauth-4
++AARCH64_TESTS += pauth-1 pauth-2 pauth-4 pauth-5
+ pauth-%: CFLAGS += -march=armv8.3-a
+ run-pauth-%: QEMU_OPTS += -cpu max
+ run-plugin-pauth-%: QEMU_OPTS += -cpu max
 -- 
 2.20.1
 
