@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A5923A197
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 11:09:45 +0200 (CEST)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B825323A19E
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 11:12:36 +0200 (CEST)
+Received: from localhost ([::1]:34290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2WTY-00032m-27
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 05:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33572)
+	id 1k2WWJ-0006zr-PG
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 05:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WSA-0001XN-5B
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:08:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29707
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WUb-0005cs-Pi
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:10:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55187
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WS6-0003GW-Nn
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:08:17 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WUZ-0003rC-TU
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:10:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596445692;
+ s=mimecast20190719; t=1596445846;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lfec+xwTu7KrIb4hCgBIsmzKJRTtU4FfH+EPTDE2JOw=;
- b=RSiwQBKWcahtgtw+whV4UdLUESPXuLAotv2rRhOk+Ps6AUtFcv9/8nVL6caNn9U5hDsMUq
- J6rnRVaIGXbDY2lJBaSroXG4MsYjvYPA5M/shomdbp9QhT9dbk2r6I+72Efuf0yee0ETKV
- QDuxu787wNRp8Vt/gyKC+7MmjuSMWLo=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OfUHSlTcHolMaYh22V4ZRK2yc8Uir+jB1rcXe6FnHBA=;
+ b=XAC50EfN5UzM59iYRENCWHNKF/Dswr7QrpZGcpjFr89Bo5ZbTL/lG9OgiIGPdJpAHKuTNd
+ wt39xr1IQTc3Gh5WBIOb42wdQYvPa/OMOnxYPdDEJ4pUE7+mMrxGkRL7/dSdWpMDSljmXm
+ yYm1WFr0FzO2ugNhAsaEKZTaOMBbvA4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-inIUWHx9PVWZlTX2bHSGhA-1; Mon, 03 Aug 2020 05:08:11 -0400
-X-MC-Unique: inIUWHx9PVWZlTX2bHSGhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-399-CyrhCNhhMx6xRjTeD9XvwQ-1; Mon, 03 Aug 2020 05:10:45 -0400
+X-MC-Unique: CyrhCNhhMx6xRjTeD9XvwQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8D89101C8A9;
- Mon,  3 Aug 2020 09:08:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8208064AC;
+ Mon,  3 Aug 2020 09:10:44 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BF581001B2C;
- Mon,  3 Aug 2020 09:08:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1055574F58;
+ Mon,  3 Aug 2020 09:10:44 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 217761132FD2; Mon,  3 Aug 2020 11:08:08 +0200 (CEST)
+ id 9BF621132FD2; Mon,  3 Aug 2020 11:10:42 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Josh DuBois <josh@joshdubois.com>
-Subject: Re: [PATCH] trace/simple: Allow enabling simple traces from command
- line
-References: <20200723053359.256928-1-josh@joshdubois.com>
- <20200729130535.GI37763@stefanha-x1.localdomain>
- <e08651bd-f775-eb85-817c-44d27ff072dc@joshdubois.com>
-Date: Mon, 03 Aug 2020 11:08:08 +0200
-In-Reply-To: <e08651bd-f775-eb85-817c-44d27ff072dc@joshdubois.com> (Josh
- DuBois's message of "Thu, 30 Jul 2020 17:50:09 -0500")
-Message-ID: <87h7tkm70n.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] QAPI patches patches for 2020-08-03
+Date: Mon,  3 Aug 2020 11:10:39 +0200
+Message-Id: <20200803091042.2920218-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:56:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:37:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,63 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>,
- Josh DuBois <duboisj@gmail.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Josh DuBois <josh@joshdubois.com> writes:
+The following changes since commit d74824cf7c8b352f9045e949dc636c7207a41eee:
 
-> Well, this is a bit embarrassing.=C3=82=C2=A0 The patch below simply
-> re-introduced the bug which the Fixes: line was trying to fix in the
-> first place.
->
-> I.e, :
->
-> - with my patch (just committed as
-> 1b7157be3a8c4300fc8044d40f4b2e64a152a1b4) applied, a QEMU built with
-> simple tracing will always produce a trace-<pid> file, regardless of
-> whether traces were asked for.
->
-> - after db25d56c014aa1a96319c663e0a60346a223b31e, which my patch was
-> supposed to "fix," QEMU will not produce a trace file unless asked, I
-> believe, via the monitor.=C3=82=C2=A0 Enabling traces is, near as I can t=
-ell,
-> simply impossible via the command-line in that case.
->
-> - prior to db25d56c014aa1a96319c663e0a60346a223b31e, just like today,
-> QEMU built with simple tracing will always produce a trace-<pid> file,
-> regardless of whether the user asks for traces at runtime.
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200731' into staging (2020-07-31 10:28:13 +0100)
 
-When you send a patch with a Fixes: tag, consider cc'ing people involved
-in the commit being fixed.  I might have spotted the regression.
+are available in the Git repository at:
 
-> I'm sorry for the mess.=C3=82=C2=A0 Having stepped in it already, I'm=C3=
-=82=C2=A0 open to
-> trying to track it down and fix it properly.=C3=82=C2=A0 I imagine perhap=
-s few
-> people truly care, since traces require a special build and are
-> probably only being done by developers anyway.=C3=82=C2=A0 (And the origi=
-nal
-> message for db25d56c014aa1a96319c663e0a60346a223b31e said it had been
-> "broken" for an unknown period of time).
->
-> I'm brand new around here so I'll leave it to others whether it's
-> better to revert and have traces impossible to enable from the cli (as
-> I say, I think they're only possible from the monitor prior to my
-> "fix" ) or to leave it be.
->
-> If I resubmit, I'll try to test a little more next time.=C3=82=C2=A0 I ju=
-st
-> wanted my traces to work. ;)
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-08-03
 
-I missed the CLI issue.  I just wanted my directories not littered with
-trace files ;)
+for you to fetch changes up to f7160f32186b4ae1e1327e3bd05060fffec8f9ae:
 
-Stefan, what shall we do for 5.1?
+  schemas: Add vim modeline (2020-08-03 08:28:08 +0200)
 
-If we keep littering, the annoyance will make me drop the trace backend
-"simple" from my build tests.  I might even remember to put it back when
-the fix arrives.
+----------------------------------------------------------------
+QAPI patches patches for 2020-08-03
+
+----------------------------------------------------------------
+Andrea Bolognani (1):
+      schemas: Add vim modeline
+
+Markus Armbruster (1):
+      qapi: Delete unwanted indentation of top-level expressions
+
+Peter Maydell (1):
+      qapi/machine.json: Fix missing newline in doc comment
+
+ docs/interop/firmware.json                |  1 +
+ docs/interop/vhost-user.json              |  1 +
+ qapi/authz.json                           |  1 +
+ qapi/block-core.json                      | 27 ++++++++++++++-------------
+ qapi/block.json                           |  1 +
+ qapi/char.json                            |  1 +
+ qapi/common.json                          |  1 +
+ qapi/control.json                         |  1 +
+ qapi/crypto.json                          |  1 +
+ qapi/dump.json                            |  1 +
+ qapi/error.json                           |  1 +
+ qapi/introspect.json                      |  1 +
+ qapi/job.json                             |  1 +
+ qapi/machine-target.json                  |  1 +
+ qapi/machine.json                         |  4 +++-
+ qapi/migration.json                       |  1 +
+ qapi/misc-target.json                     |  1 +
+ qapi/misc.json                            |  1 +
+ qapi/net.json                             |  1 +
+ qapi/qapi-schema.json                     |  1 +
+ qapi/qdev.json                            |  1 +
+ qapi/qom.json                             |  1 +
+ qapi/rdma.json                            |  1 +
+ qapi/rocker.json                          |  1 +
+ qapi/run-state.json                       |  1 +
+ qapi/sockets.json                         |  1 +
+ qapi/tpm.json                             |  1 +
+ qapi/transaction.json                     |  1 +
+ qapi/ui.json                              |  5 +++--
+ qga/qapi-schema.json                      |  1 +
+ storage-daemon/qapi/qapi-schema.json      |  1 +
+ tests/qapi-schema/doc-good.json           |  2 ++
+ tests/qapi-schema/include/sub-module.json |  1 +
+ tests/qapi-schema/qapi-schema-test.json   |  1 +
+ tests/qapi-schema/sub-sub-module.json     |  1 +
+ 35 files changed, 53 insertions(+), 16 deletions(-)
+
+-- 
+2.26.2
 
 
