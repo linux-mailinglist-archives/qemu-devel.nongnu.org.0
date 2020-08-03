@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4600723AD60
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:37:42 +0200 (CEST)
-Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC1D23AD6B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:39:18 +0200 (CEST)
+Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2gHF-0004Xr-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39536)
+	id 1k2gIn-0006kC-RC
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2gDr-0001Ou-Ts
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:11 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37110)
+ id 1k2gDs-0001Pc-7x
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:12 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2gDo-0003ZK-PV
+ id 1k2gDq-0003Zb-Fw
  for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:11 -0400
-Received: by mail-wm1-x342.google.com with SMTP id k8so685743wma.2
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 12:34:08 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id 184so696656wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 12:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4vDGqZ2ldUksfvaG7R4N/0YfoKdcIGpfPr3KnIZ9SRY=;
- b=Ugy0lGItCz3Nm6a3O/KpSLAhDFACL8+BtOQZ5re6E/LR9EM0fObTM4gz5QGNn+/Dss
- LT314GOx3WqTCIV41akU5UFovcU0Uot0sKcGuD64Z11CGajsNor2Rlawe0vNDJ7YfYL4
- ErN/OoBKKSxRehStevX6EI5VeEGkbbv76QzKEeZn7NLnvzT7SyUbgN4nJsLziXcvh0dE
- jW/qi/FrzuzRQ4X0wLjW3Jm5KUk6XdxXVS8I37iAqzmbiiP0PHopS17t3M9mMXAuLgwU
- 9OhbemoxOFplTu/KlcJNLlffe1SYLtvrbNel39+gmUH/9lB9tMXgav8i7JCnzlFyx1xn
- gY6g==
+ bh=3dVcMoMLCTb5XdSyz5C0L7sWyDj1NgAifJ97Hu5p/DY=;
+ b=MjqwgFh1A97KaIwja73fCeOs6g21gNpsa25tCy5HsvIriATT6tl5M+WtZEwg3bHOBt
+ zb6JlD3FdxvbzT9vrCO8s6MDfbhlYuFmIRDf/Xx/To6Vd6RPgB4DwbcQPJ2mnyLhkFH8
+ AEniiuBQK6bMOWYZCCFGCrtMb83FKOFMWW1edUlLMc0EVWzI/f6EdhPmGgp2ta0BpwRG
+ 1RSpVYBj+Zcg05s48ZUv1f4Ud+7Ws8pnztQeL/Bf/VlBm2eo2yuO22TUsLaBkADRwlzF
+ VjikOrPz0OzxodD8Jh6yOkkz+UhVxMwvgfN1YAq48vPgOweyXz5na9zEdb64OISn/dlR
+ iJnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4vDGqZ2ldUksfvaG7R4N/0YfoKdcIGpfPr3KnIZ9SRY=;
- b=gRGUTEs/BlBi3zdQnh5LlwotBzmC2g9xjwG+XS0Xsh1ixAfM0NZobTsZnudbgzZOnR
- HT6Ba36VR+h3Wabc7wY39pWd/UxXsTDkhza3Xg2RcpsQlCNxLHcbNsWjUUEEopUxPx5q
- CC+oQkRQFnNS398B4CMUk/Mg+yFQqAIA1wO8alwOA0hMgxP2tf6z6JFc2pyqD3EHNXeZ
- P+AW27OGvkaO/tJcxGlF3/UNS3izyxOaxEovnF8WI41Od27OpxKN/WSQ1XbDgpXqE212
- ipVite7k1prTJqFM8VpGgXYv7CHJqE6+bojNT67DNuZnl3eS68mZyjMfGKGlicrJ66aL
- Ji1g==
-X-Gm-Message-State: AOAM533XG7d9FeoPMbh98mGldM2hENIlZTfycgCK2VmCGYYSbbETP9Ge
- QVzMNypuNCtRu/KPuT+xx0YA03EWkHTuiA==
-X-Google-Smtp-Source: ABdhPJydnLk7uj5DcidOAm072wFtsVKMEul6iuuy2pwYGAssaOKcMO8V9v1rYtMynLT3GECC3RSJww==
-X-Received: by 2002:a1c:e008:: with SMTP id x8mr626549wmg.75.1596483246200;
- Mon, 03 Aug 2020 12:34:06 -0700 (PDT)
+ bh=3dVcMoMLCTb5XdSyz5C0L7sWyDj1NgAifJ97Hu5p/DY=;
+ b=JHru02RTX+A5sVZQjpQRDhMNPx8SxL0RETi5LJBWc9uOzCVsG40erR7DQ0yuLmhsBE
+ v4th5zVDLFBl6T/1jtQO60LKozA6Z5mElgp1dBTXQDCcngIbgdOqk7i4QsJJR27uAu5J
+ eVu/JJRUqIJ8reSrfzLUYE+yq59ZVvou/PjlwrwTOdMIJ9DJiI9Xddm+IwCCGAr6qhWE
+ N5KtplhHjYsReR7iG82PVmNHjO8b/wM2wlDB4rE5OMNZ3yHqT+DV7VW+Unan4jclisdW
+ 0CXxQqTcUr7i9oVQLjbG5z83Tx5FFwTiTE2mMgoE3ErVYY23kSmIqQUiOVMXclhhbvQz
+ 33nw==
+X-Gm-Message-State: AOAM530Z1JRDO/hm0m7WdNuSL4V84Q3DFIFTNJX/jJ9tasAuV5QtlZ0p
+ x77xgP3Qr8dF/nhlpRAJE1vgs34pxskTKg==
+X-Google-Smtp-Source: ABdhPJyxFo5yaoU0JY9MGZfhVvC1/6ltiVum6h0k9O88gDsBph39dVs2WWJIMpPJBoMOpXc0HLqCIg==
+X-Received: by 2002:a1c:ba83:: with SMTP id k125mr655825wmf.160.1596483247770; 
+ Mon, 03 Aug 2020 12:34:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r206sm985565wma.6.2020.08.03.12.34.04
+ by smtp.gmail.com with ESMTPSA id r206sm985565wma.6.2020.08.03.12.34.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 12:34:04 -0700 (PDT)
+ Mon, 03 Aug 2020 12:34:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] include/hw/irq.h: New function qemu_irq_is_connected()
-Date: Mon,  3 Aug 2020 20:33:53 +0100
-Message-Id: <20200803193359.12936-3-peter.maydell@linaro.org>
+Subject: [PULL 3/8] hw/intc/armv7m_nvic: Provide default "reset the system"
+ behaviour for SYSRESETREQ
+Date: Mon,  3 Aug 2020 20:33:54 +0100
+Message-Id: <20200803193359.12936-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200803193359.12936-1-peter.maydell@linaro.org>
 References: <20200803193359.12936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +73,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,52 +90,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly devices don't need to care whether one of their output
-qemu_irq lines is connected, because functions like qemu_set_irq()
-silently do nothing if there is nothing on the other end.  However
-sometimes a device might want to implement default behaviour for the
-case where the machine hasn't wired the line up to anywhere.
+The NVIC provides an outbound qemu_irq "SYSRESETREQ" which it signals
+when the guest sets the SYSRESETREQ bit in the AIRCR register.  This
+matches the hardware design (where the CPU has a signal of this name
+and it is up to the SoC to connect that up to an actual reset
+mechanism), but in QEMU it mostly results in duplicated code in SoC
+objects and bugs where SoC model implementors forget to wire up the
+SYSRESETREQ line.
 
-Provide a function qemu_irq_is_connected() that devices can use for
-this purpose.  (The test is trivial but encapsulating it in a
-function makes it easier to see where we're doing it in case we need
-to change the implementation later.)
+Provide a default behaviour for the case where SYSRESETREQ is not
+actually connected to anything: use qemu_system_reset_request() to
+perform a system reset.  This will allow us to remove the
+implementations of SYSRESETREQ handling from the boards where that's
+exactly what it does, and also fixes the bugs in the board models
+which forgot to wire up the signal:
+
+ * microbit
+ * mps2-an385
+ * mps2-an505
+ * mps2-an511
+ * mps2-an521
+ * musca-a
+ * musca-b1
+ * netduino
+ * netduinoplus2
+
+We still allow the board to wire up the signal if it needs to, in case
+we need to model more complicated reset controller logic or to model
+buggy SoC hardware which forgot to wire up the line itself. But
+defaulting to "reset the system" is more often going to be correct
+than defaulting to "do nothing".
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200728103744.6909-2-peter.maydell@linaro.org
+Message-id: 20200728103744.6909-3-peter.maydell@linaro.org
 ---
- include/hw/irq.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ include/hw/arm/armv7m.h |  4 +++-
+ hw/intc/armv7m_nvic.c   | 17 ++++++++++++++++-
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/irq.h b/include/hw/irq.h
-index 24ba0ece116..dc7abf199e3 100644
---- a/include/hw/irq.h
-+++ b/include/hw/irq.h
-@@ -55,4 +55,22 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
-    on an existing vector of qemu_irq.  */
- void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n);
+diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
+index d2c74d3872a..a30e3c64715 100644
+--- a/include/hw/arm/armv7m.h
++++ b/include/hw/arm/armv7m.h
+@@ -35,7 +35,9 @@ typedef struct {
  
-+/**
-+ * qemu_irq_is_connected: Return true if IRQ line is wired up
-+ *
-+ * If a qemu_irq has a device on the other (receiving) end of it,
-+ * return true; otherwise return false.
-+ *
-+ * Usually device models don't need to care whether the machine model
-+ * has wired up their outbound qemu_irq lines, because functions like
-+ * qemu_set_irq() silently do nothing if there is nothing on the other
-+ * end of the line. However occasionally a device model will want to
-+ * provide default behaviour if its output is left floating, and
-+ * it can use this function to identify when that is the case.
-+ */
-+static inline bool qemu_irq_is_connected(qemu_irq irq)
+ /* ARMv7M container object.
+  * + Unnamed GPIO input lines: external IRQ lines for the NVIC
+- * + Named GPIO output SYSRESETREQ: signalled for guest AIRCR.SYSRESETREQ
++ * + Named GPIO output SYSRESETREQ: signalled for guest AIRCR.SYSRESETREQ.
++ *   If this GPIO is not wired up then the NVIC will default to performing
++ *   a qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET).
+  * + Property "cpu-type": CPU type to instantiate
+  * + Property "num-irq": number of external IRQ lines
+  * + Property "memory": MemoryRegion defining the physical address space
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 3c4b6e6d701..277a98b87b9 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -19,6 +19,7 @@
+ #include "hw/intc/armv7m_nvic.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "sysemu/runstate.h"
+ #include "target/arm/cpu.h"
+ #include "exec/exec-all.h"
+ #include "exec/memop.h"
+@@ -64,6 +65,20 @@ static const uint8_t nvic_id[] = {
+     0x00, 0xb0, 0x1b, 0x00, 0x0d, 0xe0, 0x05, 0xb1
+ };
+ 
++static void signal_sysresetreq(NVICState *s)
 +{
-+    return irq != NULL;
++    if (qemu_irq_is_connected(s->sysresetreq)) {
++        qemu_irq_pulse(s->sysresetreq);
++    } else {
++        /*
++         * Default behaviour if the SoC doesn't need to wire up
++         * SYSRESETREQ (eg to a system reset controller of some kind):
++         * perform a system reset via the usual QEMU API.
++         */
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++    }
 +}
 +
- #endif
+ static int nvic_pending_prio(NVICState *s)
+ {
+     /* return the group priority of the current pending interrupt,
+@@ -1524,7 +1539,7 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+             if (value & R_V7M_AIRCR_SYSRESETREQ_MASK) {
+                 if (attrs.secure ||
+                     !(cpu->env.v7m.aircr & R_V7M_AIRCR_SYSRESETREQS_MASK)) {
+-                    qemu_irq_pulse(s->sysresetreq);
++                    signal_sysresetreq(s);
+                 }
+             }
+             if (value & R_V7M_AIRCR_VECTCLRACTIVE_MASK) {
 -- 
 2.20.1
 
