@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52D823AD1B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:35:31 +0200 (CEST)
-Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4600723AD60
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 21:37:42 +0200 (CEST)
+Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2gF8-0002HT-EB
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39522)
+	id 1k2gHF-0004Xr-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 15:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2gDq-0001Oe-PX
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:10 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55871)
+ id 1k2gDr-0001Ou-Ts
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:11 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2gDm-0003Z8-JE
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:10 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id 9so594600wmj.5
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 12:34:06 -0700 (PDT)
+ id 1k2gDo-0003ZK-PV
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 15:34:11 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k8so685743wma.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 12:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=u2p6IyQ9jI8fq1z/3i+bly/o4Cwa7bYMinoZHh/imvg=;
- b=QuQN4YZ5aI45iJpZLOpXQRYzBsZbInYXUWnprGAR5T+WX4t3xfc+92QD9b87EGy7vD
- P1eZwCfZu8UH4DZmcH+r0OE2grJ7DdkvL9eLjdjllb0LOLry3ezpBM04wwN1nERSwL7E
- ILJuV+Balnji9JWjLFOwcKooGyFR/MbkqqUtc6Eluk79EH9IDk0oH6mj91Ko+tRHCRIn
- BPbxEOvmjwW3CuQiqWONsz6pzd+N2n/qFFo0Kw5hZSI8d99WuEgEpLZf5wEZTX/ZD9KT
- AbJL4hJYyyI65KNOC4Ri4aIEoCsV59WRTWhm3kMbQE5DiurUu+3QHzrpIsJI2ljf7v7M
- 8O5A==
+ bh=4vDGqZ2ldUksfvaG7R4N/0YfoKdcIGpfPr3KnIZ9SRY=;
+ b=Ugy0lGItCz3Nm6a3O/KpSLAhDFACL8+BtOQZ5re6E/LR9EM0fObTM4gz5QGNn+/Dss
+ LT314GOx3WqTCIV41akU5UFovcU0Uot0sKcGuD64Z11CGajsNor2Rlawe0vNDJ7YfYL4
+ ErN/OoBKKSxRehStevX6EI5VeEGkbbv76QzKEeZn7NLnvzT7SyUbgN4nJsLziXcvh0dE
+ jW/qi/FrzuzRQ4X0wLjW3Jm5KUk6XdxXVS8I37iAqzmbiiP0PHopS17t3M9mMXAuLgwU
+ 9OhbemoxOFplTu/KlcJNLlffe1SYLtvrbNel39+gmUH/9lB9tMXgav8i7JCnzlFyx1xn
+ gY6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u2p6IyQ9jI8fq1z/3i+bly/o4Cwa7bYMinoZHh/imvg=;
- b=XrNQbXhn6rEADMTZuaXRNbub+a1rzjxunqG1QN5Mmos5W5APmv3D13rKKtklJOnbG5
- kV3SZAjlU7lh1gPRArFY+TCijVMRA9mOXlQDJ6i9QhHa659K7eb7d96SRcdWZJgVL5Xn
- WBFZRTKvd64aGxw9q33H/xH8NIgk0Gn4TosgnGGo1wCryAdrOxEMYMcrcz0AhMs+eXa8
- OVNxp6d4wxgqH4InkwCe+wwPk6wwoeUeqcCm0dpgh82mchECX1Jcv8V82hUAbY37vs/b
- VTTYKuhYQ1+mqd3QNbl68Fc4gM8QAyQtAaV4N9JWCgUEn/YKrN/mVwcXTK1yJHwnZxna
- CUdA==
-X-Gm-Message-State: AOAM531ge+0PZ4EocoGNn1GEuDNBabcBO1FcqXpahP1u+CtstS7Z9Kdd
- ec0da7f5X7DEQC332KdkgpBA5S/7XmqsNw==
-X-Google-Smtp-Source: ABdhPJzqjNxjLcBY4qTkrR5ZiEEMhuB23EaX6PdOyiFSYLDF/7xnUmFTXiZadlCMo6irUeHUxZX3Wg==
-X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr660693wmj.92.1596483244402;
- Mon, 03 Aug 2020 12:34:04 -0700 (PDT)
+ bh=4vDGqZ2ldUksfvaG7R4N/0YfoKdcIGpfPr3KnIZ9SRY=;
+ b=gRGUTEs/BlBi3zdQnh5LlwotBzmC2g9xjwG+XS0Xsh1ixAfM0NZobTsZnudbgzZOnR
+ HT6Ba36VR+h3Wabc7wY39pWd/UxXsTDkhza3Xg2RcpsQlCNxLHcbNsWjUUEEopUxPx5q
+ CC+oQkRQFnNS398B4CMUk/Mg+yFQqAIA1wO8alwOA0hMgxP2tf6z6JFc2pyqD3EHNXeZ
+ P+AW27OGvkaO/tJcxGlF3/UNS3izyxOaxEovnF8WI41Od27OpxKN/WSQ1XbDgpXqE212
+ ipVite7k1prTJqFM8VpGgXYv7CHJqE6+bojNT67DNuZnl3eS68mZyjMfGKGlicrJ66aL
+ Ji1g==
+X-Gm-Message-State: AOAM533XG7d9FeoPMbh98mGldM2hENIlZTfycgCK2VmCGYYSbbETP9Ge
+ QVzMNypuNCtRu/KPuT+xx0YA03EWkHTuiA==
+X-Google-Smtp-Source: ABdhPJydnLk7uj5DcidOAm072wFtsVKMEul6iuuy2pwYGAssaOKcMO8V9v1rYtMynLT3GECC3RSJww==
+X-Received: by 2002:a1c:e008:: with SMTP id x8mr626549wmg.75.1596483246200;
+ Mon, 03 Aug 2020 12:34:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r206sm985565wma.6.2020.08.03.12.34.03
+ by smtp.gmail.com with ESMTPSA id r206sm985565wma.6.2020.08.03.12.34.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 12:34:03 -0700 (PDT)
+ Mon, 03 Aug 2020 12:34:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] hw/arm/netduino2, netduinoplus2: Set system_clock_scale
-Date: Mon,  3 Aug 2020 20:33:52 +0100
-Message-Id: <20200803193359.12936-2-peter.maydell@linaro.org>
+Subject: [PULL 2/8] include/hw/irq.h: New function qemu_irq_is_connected()
+Date: Mon,  3 Aug 2020 20:33:53 +0100
+Message-Id: <20200803193359.12936-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200803193359.12936-1-peter.maydell@linaro.org>
 References: <20200803193359.12936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,74 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The netduino2 and netduinoplus2 boards forgot to set the system_clock_scale
-global, which meant that if guest code used the systick timer in "use
-the processor clock" mode it would hang because time never advances.
+Mostly devices don't need to care whether one of their output
+qemu_irq lines is connected, because functions like qemu_set_irq()
+silently do nothing if there is nothing on the other end.  However
+sometimes a device might want to implement default behaviour for the
+case where the machine hasn't wired the line up to anywhere.
 
-Set the global to match the documented CPU clock speed of these boards.
-Judging by the data sheet this is slightly simplistic because the
-SoC allows configuration of the SYSCLK source and frequency via the
-RCC (reset and clock control) module, but we don't model that.
+Provide a function qemu_irq_is_connected() that devices can use for
+this purpose.  (The test is trivial but encapsulating it in a
+function makes it easier to see where we're doing it in case we need
+to change the implementation later.)
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1876187
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200727162617.26227-1-peter.maydell@linaro.org
+Message-id: 20200728103744.6909-2-peter.maydell@linaro.org
 ---
- hw/arm/netduino2.c     | 10 ++++++++++
- hw/arm/netduinoplus2.c | 10 ++++++++++
- 2 files changed, 20 insertions(+)
+ include/hw/irq.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-index 79e19392b56..8f103341443 100644
---- a/hw/arm/netduino2.c
-+++ b/hw/arm/netduino2.c
-@@ -30,10 +30,20 @@
- #include "hw/arm/stm32f205_soc.h"
- #include "hw/arm/boot.h"
+diff --git a/include/hw/irq.h b/include/hw/irq.h
+index 24ba0ece116..dc7abf199e3 100644
+--- a/include/hw/irq.h
++++ b/include/hw/irq.h
+@@ -55,4 +55,22 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
+    on an existing vector of qemu_irq.  */
+ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n);
  
-+/* Main SYSCLK frequency in Hz (120MHz) */
-+#define SYSCLK_FRQ 120000000ULL
++/**
++ * qemu_irq_is_connected: Return true if IRQ line is wired up
++ *
++ * If a qemu_irq has a device on the other (receiving) end of it,
++ * return true; otherwise return false.
++ *
++ * Usually device models don't need to care whether the machine model
++ * has wired up their outbound qemu_irq lines, because functions like
++ * qemu_set_irq() silently do nothing if there is nothing on the other
++ * end of the line. However occasionally a device model will want to
++ * provide default behaviour if its output is left floating, and
++ * it can use this function to identify when that is the case.
++ */
++static inline bool qemu_irq_is_connected(qemu_irq irq)
++{
++    return irq != NULL;
++}
 +
- static void netduino2_init(MachineState *machine)
- {
-     DeviceState *dev;
- 
-+    /*
-+     * TODO: ideally we would model the SoC RCC and let it handle
-+     * system_clock_scale, including its ability to define different
-+     * possible SYSCLK sources.
-+     */
-+    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
-+
-     dev = qdev_new(TYPE_STM32F205_SOC);
-     qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-index 958d21dd9f9..68abd3ec69d 100644
---- a/hw/arm/netduinoplus2.c
-+++ b/hw/arm/netduinoplus2.c
-@@ -30,10 +30,20 @@
- #include "hw/arm/stm32f405_soc.h"
- #include "hw/arm/boot.h"
- 
-+/* Main SYSCLK frequency in Hz (168MHz) */
-+#define SYSCLK_FRQ 168000000ULL
-+
- static void netduinoplus2_init(MachineState *machine)
- {
-     DeviceState *dev;
- 
-+    /*
-+     * TODO: ideally we would model the SoC RCC and let it handle
-+     * system_clock_scale, including its ability to define different
-+     * possible SYSCLK sources.
-+     */
-+    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
-+
-     dev = qdev_new(TYPE_STM32F405_SOC);
-     qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+ #endif
 -- 
 2.20.1
 
