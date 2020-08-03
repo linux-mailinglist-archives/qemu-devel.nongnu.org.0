@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC2D23AAE6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 18:51:09 +0200 (CEST)
-Received: from localhost ([::1]:42730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0007823AAF2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 18:54:04 +0200 (CEST)
+Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2dg4-0004Mu-HM
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 12:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
+	id 1k2dit-0005xn-WF
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 12:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1k2den-0003Rw-8q
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:49:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43863
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1k2del-0008Ci-15
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:49:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596473384;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Zv8LBIcMW0GyDhLA3Sp195wmw5zSC0/Eoz97WeXlaaw=;
- b=RuDde3d2NRQZm6UwHRa1kRoAV5xtONzKeKMB5BKTZpYCmjl051UZHezR+7/4Gt3L+2gs5J
- yEM5zeWgRulnUnZAHZZWGkiUaKE1hDFTQmQzSyKU9BgLUCYkr1WzZHer7Y35+p5eCDbaT4
- 5B/H+c7lRf4n9pxdUwNgGvR7X8iPq2U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-8ddcLcMRNPmYGPjHUbCvgw-1; Mon, 03 Aug 2020 12:49:40 -0400
-X-MC-Unique: 8ddcLcMRNPmYGPjHUbCvgw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85D5B1005504
- for <qemu-devel@nongnu.org>; Mon,  3 Aug 2020 16:49:39 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com (unknown
- [10.10.115.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2891E8BED8;
- Mon,  3 Aug 2020 16:49:39 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Subject: qapi-schema esotera
-Message-ID: <5bfa3895-304d-8372-c0db-fda4c1a1ba59@redhat.com>
-Date: Mon, 3 Aug 2020 12:49:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1k2di0-00058r-Rt
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:53:08 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:15259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1k2dhy-0000HG-TU
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 12:53:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1596473587;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qUEzT/sythxNJ9sGpLp+qH5wmPU56dvfrIxZ3Qy2z3c=;
+ b=AVDwyuCv2zxXsIvRxwgL7ao2XNB69TBsSf8zEW5bbmdvjeoMQNslBx3f
+ JoivP0xzQD2SJlugINJ8r9QLyXh16qTE1L4um/nwx+XC4cJ5OOkFr0wfj
+ 3SQOBUnBddjMVwjs0RND+jn4ixCeqtO03qGd5i/A41ax++DF/EQUVOVQy c=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: Hs8xDfMQ8nyk+/4NscBbN7hK37UarIUXmgFSJxkAi2tcwAHYMYp0cMsfQwhouMF5pAnfi1xWv1
+ dOG1ygyAZdGvaL5BcbMAeVBkVY3OqVTXE5R+/r6tP19JlyXRUPvBT0E8HZSHdCLXMMpAyHBhYu
+ 6GaPljbE5m3QcoAlEmh66MNNzO2R5dD99GvpB000qX0zt3k/e3XveVApjzhwMOL1ahkOeLwh4i
+ fAbtOfz7Xo741x4nrVNSn0S1RaIR1shXFDHO9GbHMZ8nAzoerHiXpZB2RIoVzXfCmAVCLRa8Ah
+ 6Hc=
+X-SBRS: 3.7
+X-MesageID: 23750296
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.75,430,1589256000"; d="scan'208";a="23750296"
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PULL 0/1] xen queue 2020-08-03
+Date: Mon, 3 Aug 2020 17:52:50 +0100
+Message-ID: <20200803165251.907213-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:09:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 12:35:21
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,47 +73,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Anthony PERARD <anthony.perard@citrix.com>,
+ Peter Maydell <peter.maydell@linaro.org>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UNION is split into two primary forms:
+The following changes since commit 45a150aa2b3492acf6691c7bdbeb25a8545d8345:
 
-1. Simple (No discriminator nor base)
-2. Flat (Discriminator and base)
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-bitmaps-2020-08-03' into staging (2020-08-03 15:13:49 +0100)
 
-In expr.py, I notice that we modify the perceived type of the 'type' 
-expression based on the two union forms.
+are available in the Git repository at:
 
-1a. Simple unions allow Array[T]
-1b. Flat unions disallow Array[T]
+  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20200803
 
- From the docs:
+for you to fetch changes up to b3fcc98f391e9a60a369d825333b852871cf67b0:
 
-Syntax:
-     UNION = { 'union': STRING,
-               'data': BRANCHES,
-               '*if': COND,
-               '*features': FEATURES }
-           | { 'union': STRING,
-               'data': BRANCHES,
-               'base': ( MEMBERS | STRING ),
-               'discriminator': STRING,
-               '*if': COND,
-               '*features': FEATURES }
-     BRANCHES = { BRANCH, ... }
-     BRANCH = STRING : TYPE-REF
-            | STRING : { 'type': TYPE-REF, '*if': COND }
+  accel/xen: Fix xen_enabled() behavior on target-agnostic objects (2020-08-03 17:39:38 +0100)
 
-Both arms use the same "BRANCHES" grammar production, which both use 
-TYPE-REF.
+----------------------------------------------------------------
+xen patches
 
-     TYPE-REF = STRING | ARRAY-TYPE
-     ARRAY-TYPE = [ STRING ]
+bug fix
 
-Implying that List[T] should be allowed for both productions.
-Can I ask for a ruling from the judges?
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (1):
+      accel/xen: Fix xen_enabled() behavior on target-agnostic objects
 
---js
-
+ include/sysemu/xen.h | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
