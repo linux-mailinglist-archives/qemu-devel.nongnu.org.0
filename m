@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56E223A345
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 13:26:22 +0200 (CEST)
-Received: from localhost ([::1]:36192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAAE23A349
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 13:27:52 +0200 (CEST)
+Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2Ybl-0004Cq-SR
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 07:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
+	id 1k2YdD-0006Bp-Jv
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 07:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2YaV-0003CC-NO
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:25:03 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21125
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2YaS-0005jE-TQ
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:25:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596453899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eCndamxCg5Er1Eqf1yYE2PkaSpc9LohO2q6jxr6CIh4=;
- b=THF+ShGtlimU9s+HgoPTfl3SPx7nwM4rgprhO2vMd647mq+dVi0ueGBHxZpCDyOu+Kap2b
- 7bz+ypVzePLNm/+NvwGk01epJw6pa8JuWDZG4dIDJT2xMcG1bT8eUrzq0T6W8xgAvwyJlV
- KvN4+DcYmPYpzwQvYezVeDC58knk8TE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-1NKJt8_nNlGwkwP7tKpmag-1; Mon, 03 Aug 2020 07:24:56 -0400
-X-MC-Unique: 1NKJt8_nNlGwkwP7tKpmag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA836106B242;
- Mon,  3 Aug 2020 11:24:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8DB217150;
- Mon,  3 Aug 2020 11:24:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5DA0A1132FD2; Mon,  3 Aug 2020 13:24:44 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] schemas: Add vim modeline
-References: <20200729185024.121766-1-abologna@redhat.com>
- <87ime52wxd.fsf@dusky.pond.sub.org>
- <20200730093732.GB3477223@redhat.com>
- <87k0ylz0ep.fsf@dusky.pond.sub.org>
- <20200730132446.GL3477223@redhat.com>
- <875za33ku1.fsf@dusky.pond.sub.org>
- <20200731150738.GB3660103@redhat.com>
- <03bb7822-20a0-2945-6c86-1d5f1b2a01d9@redhat.com>
- <20200731154429.GD3660103@redhat.com>
- <21cda868-85d3-77db-31d8-0248a5029318@redhat.com>
-Date: Mon, 03 Aug 2020 13:24:44 +0200
-In-Reply-To: <21cda868-85d3-77db-31d8-0248a5029318@redhat.com> (Paolo
- Bonzini's message of "Mon, 3 Aug 2020 10:41:22 +0200")
-Message-ID: <87k0ygkm4j.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k2YcS-0005fg-Mq
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:27:04 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k2YcQ-00065M-Up
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 07:27:04 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f7so33886189wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 04:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=bIca3G4w02Pb4vz1h9G48iMfKF6O/OhMhUC0oktLOgY=;
+ b=M5DCWZ3a7Q7tmuNNG2Gc376blLVvuTLCXVzpTZzuhxZVWwBf7BFLqZEs4gLKSP7Evy
+ g2iMsKqRw46a/denypxwsK+n1vepmN+mODxEBXZv3o3DMwfBSLQpV5rayG8b6jwA8csA
+ YwulaOY9icT4OuWNSFjjxMvlslaLQRqcYjn4PDkGqVcrDexTOWCTiJLCQExdEWVTVfEH
+ Qiuu7Rzk7b0MJR6y1eu6OdlJQdxExsBRGZTmjrwHHHjhbsn1qOByEGOxwvbAu3cRAkzy
+ vKptjj3pYvdYAAf8WxHO5w7HJCrOscLUCHbr6bpXyYRDaJcdIuOJIpET4bdNTQ7Yfxdg
+ LtbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=bIca3G4w02Pb4vz1h9G48iMfKF6O/OhMhUC0oktLOgY=;
+ b=kRYSE+g09Y3AIBL4i7is5O7hSDh0YFhMnVWnMFWXN0JlTAjd9glmuANunxBHr/fVvH
+ cHGmayoG2S78bOq7tkbuI7jLqSQkKs+2aEQGUOxlJYm0rD8ED/t/RWwNmJkRxf7HKTBU
+ swz5Z3kSI/DtbPr+asw5PkUeuuw5NcmFO7JRALfWSRQlEceR/f+GWGpxIyeiPrdC1wvN
+ b2i2VOo8YYU7XOFtSftDzUHBMyqOxE8mx4zT2L9fErb+kLMM8IaogbD5ubDrOJ/OA+41
+ mJtBN0KzSNiBV+vcNzbNR7+Fm4tLSRyZ0FS2zTJp1KGlKRalxZuy7OeO82bMM7iUUx07
+ zupw==
+X-Gm-Message-State: AOAM530EQIE8GZUJz0SiEfcVQvh+5BAmGCUTV2l3NPp4uobQaIA2Rr64
+ mhf+yLwdrDetPNYEa6WKr54ERQ==
+X-Google-Smtp-Source: ABdhPJw7nkRLvdjaY2gE5zT35ialNJHIbTBDOnYOr49EKsqrbbXIQi/9Gq7AOwjWlxIw8BCivLALGg==
+X-Received: by 2002:adf:e704:: with SMTP id c4mr16078042wrm.81.1596454020548; 
+ Mon, 03 Aug 2020 04:27:00 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p6sm24252083wmg.0.2020.08.03.04.26.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Aug 2020 04:26:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A7B061FF7E;
+ Mon,  3 Aug 2020 12:26:58 +0100 (BST)
+References: <20200730193932.3654677-1-yuanzi@google.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Lirong Yuan <yuanzi@google.com>
+Subject: Re: [PATCH] [PATCH v2] gdbstub: add support to Xfer:auxv:read: packet
+In-reply-to: <20200730193932.3654677-1-yuanzi@google.com>
+Date: Mon, 03 Aug 2020 12:26:58 +0100
+Message-ID: <87bljsnf5p.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:56:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,94 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 31/07/20 17:44, Daniel P. Berrang=C3=A9 wrote:
->> I'd consider the runtime protocol separately. In terms of what's on the
->> wire, we use genuine JSON format. The runtime problem is simply that JSO=
-N
->> standard is useless when it comes to integers, leaving behaviour undefin=
-ed
->> in the standard if you exceed 53 bits of precision. So there's no way to
->> reliably parse unsigned 64-bit integers. Given that QEMU needs to pass
->> uint64 values, JSON was simply the wrong choice of format for QMP.
+Lirong Yuan <yuanzi@google.com> writes:
+
+> This allows gdb to access the target=E2=80=99s auxiliary vector,
+> which can be helpful for telling system libraries important details
+> about the hardware, operating system, and process.
 >
-> JSON's 53-bit precision was not part of RFC4627, which was the JSON
-> specification in 2010.  They say hindsight is 20/20, but referring to
-> RFC7159 which would come 4 years later is rewriting history, not hindsigh=
-t.
+> Signed-off-by: Lirong Yuan <yuanzi@google.com>
 
-RFC 4627's original sin:
+I cleaned up the test a little:
 
-    4.  Parsers
-    [...]
-    An implementation may set limits on the size of texts that it
-    accepts.  An implementation may set limits on the maximum depth of
-    nesting.  An implementation may set limits on the range of numbers.
-    An implementation may set limits on the length and character contents
-    of strings.
+modified   tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
+@@ -22,13 +22,9 @@ def report(cond, msg):
+ def run_test():
+     "Run through the tests one by one"
+=20
+-    cond =3D True
+-    try:
+-      gdb.execute("info auxv")
+-    except (gdb.error, AttributeError):
+-      cond =3D False
+-
+-    report(cond, "Display the auxiliary vector of the inferior.")
++    auxv =3D gdb.execute("info auxv", False, True)
++    report(isinstance(auxv, str), "Fetched auxv from inferior")
++    report(auxv.find("sha1"), "Found test binary name in auxv")
+=20
+ #
+ # This runs as the script it sourced (via -x, via run-test.py)
 
-Giving license to set limits is not a sin, absence of minimal limits is.
 
-Became an actual problem only when many implementations followed the
-early JavaScript implementation(s), which had inherited JavaScript's
-quick-and-dirty approach to numerical towers: double should be enough
-for anybody.
+Queued to gdbstub/next, thanks.
 
->> There's a 3rd aspect which is our source code that deals with JSON, wher=
-e
->> we defined some JSON extensions to make it easier for C code to construc=
-t
->> JSON documents for sending over the wire. Back when we did this, it was =
-a
->> reasonably good idea as no obvious alternative existed for this problem.
->> Today, I would just suggest using GLib's  GVariant feature, which solves
->> the same problem for GLib's DBus APIs.
->
-> Many years ago actually I tried replacing QObject with GVariant.  I'm
-> pretty sure the code for that experiment is lost but it took me just a
-> couple days so it could be redone.  The only issue was that QObjects are
-> mutable so some instances of QString had to be replaced with GString.
->
-> (A small part of it was merged as commit
-> 9bada8971173345ceb37ed1a47b00a01a4dd48cf for unrelated reasons).
->
->> It is a shame we didn't just use DBus back in the day as that's a well
->> specified, simple protocol that would have done everything we needed,
->> including the ability to actually represent integers reliably. We
->> would be able to trivially talk to QEMU from any programming language,
->> and use common DBus code-generator tools instead of writing code
->> generators ourselves.
->
-> Not really, DBus doesn't provide the extensibility that we get from
-> optional arguments in commands and optional fields in structs.
-
-Enables compatible evolution of interfaces, which has been a massive win
-for us.
-
->                                                                 Again,
-> we may discuss the QMP protocol itself,
-
-We can discuss everything, but please not everything in the same thread.
-This one is / tries to be about the QAPI schema language.
-
->                                         but JSON *was chosen for a reason=
-*.
-
-In our field, dissing prior technical choices without making an effort
-to understand the tradeoffs that led to them is an ancient tradition :)
-
+--=20
+Alex Benn=C3=A9e
 
