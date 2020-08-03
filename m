@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFA823A718
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 15:00:44 +0200 (CEST)
-Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A8E23A74D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 15:11:43 +0200 (CEST)
+Received: from localhost ([::1]:53286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2a55-0004ni-Co
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 09:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42092)
+	id 1k2aFi-0007fm-Ep
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 09:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2a46-0004GB-Ed
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 08:59:42 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34252)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k2aEb-00078b-Fw; Mon, 03 Aug 2020 09:10:33 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2a43-0000VX-Vc
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 08:59:42 -0400
-Received: by mail-oi1-x243.google.com with SMTP id z22so2544495oid.1
- for <qemu-devel@nongnu.org>; Mon, 03 Aug 2020 05:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WMkPv524TMCtOkvZkDg1hPuO82j6khrPl0gMImT+GBM=;
- b=Pcz8fYhmh6KwiAichv+SYbRPjOknz9dIuqJ2+le9ZXc7ncdT0eIYu0chLaDgCyiIEB
- /thVcpzlyGBRG3hbGVICC48RnWMcGKuuVMOaLzxwa4iQyoLJ5gfm/3yDzjXIcYZZZs5I
- j12fwBniMlZn/PMybt0Q3lM5WKSwy0k4QX4Lfve0aEjjbP5Gs1Vka8udlKGy1UjcgKpk
- rsdYnCHX6kUZoxef67zpiND310cCw4Qfbgi3Fm6H6JBVvl7D/ZI/WmvnkVzxdWYLGOca
- klWHO3uR0KdQy3pqrxqfPVUr1EMmykT39yttOfn54j8vi7LKkXjNm/kbus3uktAVqTPK
- EPrA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k2aEZ-0002CA-TG; Mon, 03 Aug 2020 09:10:33 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 184so15399337wmb.0;
+ Mon, 03 Aug 2020 06:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eCLkG5qkWXpvBdaB3idlwHIh2QxIGVXjsXJOi0ojj8o=;
+ b=FCfDOSffhAr7u5tudHx1ScjC5vgEWd9iTHW1yGYIw2TK9TT2jiXGupTf9HwN4dhwEH
+ yAHzwx6tarYxz7Uc5YNJmzTqvScudeSf95898h+48AsLlVPkgBq/mah/G7oGJ3FYCRhg
+ QArXjUKBNfpbC9iNtRjPod9HdgY3Yy79J4GijzBy3oUlHFWhRuKLa7FcpAtzHF4qmJc5
+ gTrYRZoAaV0Ldz8l2yG8q6QC+bLOjB/IKfFaDrryWCoLZeJi2w9/08sLA12igUsSFRoJ
+ fuzTXFpJCOp8A3JkayiBKNIXigHc/vzcyX4UD6W2P+DLlbBsckJuPwE7dsdRQAsgChv9
+ v/zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WMkPv524TMCtOkvZkDg1hPuO82j6khrPl0gMImT+GBM=;
- b=rzuw2gcCzk6KhHI0Ew0UA99DDtXZHhNLcP8YyoGDvsJcMUcWIvk2BJVdg0CRrl6h0q
- 1J5ftp46Z1Sw7KTMDy/Gie4vlly6kvlLmHOSGhhiOPwP6BuiWbf/ayVq5fxGjZIZuhP+
- QA4Yh01fP6Dqg+j4GJO4br9FhpzgGqfCcSYpcQDsgMpy4CG+pcmyIkP2ZzYP9TfGKwNU
- o0n4eZwrWcEWuz8RCiZR5mENk/oW3CTbsYmhG36ClX24JkDrbkGOJQvvAIhXHopT897V
- EsTQApcoKmSG6OUiuIcb5GX8TvF7MZM72JbdHjtokjJEpucN37Fg2k/gPTQYa1qRr8li
- 6X2w==
-X-Gm-Message-State: AOAM532rK4PKskRiup3AfZV5Do5UlvPXiLMiazWtRrBTuQAoP9EiXb/L
- JdW25PUOdHQw+3A91Obc3ldwAufUOHFe3ea8z9ujhw==
-X-Google-Smtp-Source: ABdhPJyB4gsm10oNC4/1J//GtTfCjeTCf1UIssP8JbFwrYzgX/1+3x2NXvBAQPgz+6ioDpxne3QnFdt5k6d/hN7uJNA=
-X-Received: by 2002:aca:4a96:: with SMTP id
- x144mr12463571oia.163.1596459578358; 
- Mon, 03 Aug 2020 05:59:38 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eCLkG5qkWXpvBdaB3idlwHIh2QxIGVXjsXJOi0ojj8o=;
+ b=e6bwun+fRQEX2fV1HEvw3B+fSlDpxCkLxpOPE/BHV+5v5vrZlB0zdfBVfXUg8IopOr
+ P1vXkZy31ZTAxNKPwgDXq7DM9XfEf1Uvx+QNDAAPGJOZ7cKi1DTxFAUw+uHr4bcV9Xj1
+ RgmPO4e2ukFMRZX3aw/o/NDpBHRIpWcdfeDDybu+8/m9wc2YuM1TWASDG14wrSLUMMj2
+ FCpCm8JEvyQzWB1nhdZnEvFxvMM4lFt+He9wW4/VqkA3Jaz2Vj77LDI80QNmhTfn/5mG
+ YfzerHGNpFxB6M7cB+15MLoUiY7CBEf1DrRiObFpeAeX5HsoApQ9rTpF8mMrHdG2Exa9
+ wmTA==
+X-Gm-Message-State: AOAM531RDUtHMQiK94NmxhnGGMsW+QwkrrnezDCP39w9XxtSwWXZAQiD
+ DawO5qh6jNBrKkgRNYTb9TWwKiu7
+X-Google-Smtp-Source: ABdhPJzTnLGBVL24AsvvWW44EaU1VKt4n51iOt5lKLR7CSPQZ6yvip7afE2atkAbZg9cd8EFMZNogg==
+X-Received: by 2002:a7b:c219:: with SMTP id x25mr53014wmi.101.1596460229670;
+ Mon, 03 Aug 2020 06:10:29 -0700 (PDT)
+Received: from [192.168.1.43] (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id g7sm25066321wrv.82.2020.08.03.06.10.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Aug 2020 06:10:29 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Delete unused VFP_DREG macros
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200803124848.18295-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <956d6416-8c78-05e2-9566-26288d9a7b76@amsat.org>
+Date: Mon, 3 Aug 2020 15:10:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200729125756.224846-1-danielhb413@gmail.com>
- <20200730005852.GN84173@umbus.fritz.box> <20200803134917.48c5e7a5@bahia.lan>
- <8985209a-427b-1ec5-7d90-6a760e58f1cd@gmail.com>
-In-Reply-To: <8985209a-427b-1ec5-7d90-6a760e58f1cd@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Aug 2020 13:59:25 +0100
-Message-ID: <CAFEAcA9hV4+kKO1gggzNjNjMHxt3WiDac2KivjZzLAGExdN7Kw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: adding NUMA documentation for pseries
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+In-Reply-To: <20200803124848.18295-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,29 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Aug 2020 at 13:15, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
-> On 8/3/20 8:49 AM, Greg Kurz wrote:
-> > I'm now hitting this:
-> >
-> > Warning, treated as error:
-> > docs/specs/ppc-spapr-numa.rst:document isn't included in any toctree
->
-> How are you hitting this? I can't reproduce this error. Tried running
-> ./autogen.sh and 'make' and didn't see it.
+On 8/3/20 2:48 PM, Peter Maydell wrote:
+> As part of the Neon decodetree conversion we removed all
+> the uses of the VFP_DREG macros, but forgot to remove the
+> macro definitions. Do so now.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate.c | 15 ---------------
+>  1 file changed, 15 deletions(-)
+> 
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index c39a929b938..27bf6cd8b51 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -2471,21 +2471,6 @@ static int disas_dsp_insn(DisasContext *s, uint32_t insn)
+>      return 1;
+>  }
+>  
+> -#define VFP_REG_SHR(x, n) (((n) > 0) ? (x) >> (n) : (x) << -(n))
+> -#define VFP_DREG(reg, insn, bigbit, smallbit) do { \
+> -    if (dc_isar_feature(aa32_simd_r32, s)) { \
+> -        reg = (((insn) >> (bigbit)) & 0x0f) \
+> -              | (((insn) >> ((smallbit) - 4)) & 0x10); \
+> -    } else { \
+> -        if (insn & (1 << (smallbit))) \
+> -            return 1; \
+> -        reg = ((insn) >> (bigbit)) & 0x0f; \
+> -    }} while (0)
+> -
+> -#define VFP_DREG_D(reg, insn) VFP_DREG(reg, insn, 12, 22)
+> -#define VFP_DREG_N(reg, insn) VFP_DREG(reg, insn, 16,  7)
+> -#define VFP_DREG_M(reg, insn) VFP_DREG(reg, insn,  0,  5)
+> -
+>  static inline bool use_goto_tb(DisasContext *s, target_ulong dest)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+> 
 
-We don't have an autogen.sh...
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Anyway, 'make' will build the documentation, but only if you have
-the necessary tools installed. If you pass '--enable-docs' to configure
-then it will error out if you're missing something rather than
-its default of quietly not building the docs.
-
-thanks
--- PMM
 
