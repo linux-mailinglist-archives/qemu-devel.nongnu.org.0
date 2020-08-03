@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B825323A19E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 11:12:36 +0200 (CEST)
-Received: from localhost ([::1]:34290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA11023A1A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Aug 2020 11:14:12 +0200 (CEST)
+Received: from localhost ([::1]:40856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2WWJ-0006zr-PG
-	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 05:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34822)
+	id 1k2WXr-0001KA-Tj
+	for lists+qemu-devel@lfdr.de; Mon, 03 Aug 2020 05:14:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WUb-0005cs-Pi
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:10:49 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55187
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WUe-0005gY-BJ
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:10:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51244
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WUZ-0003rC-TU
- for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:10:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2WUc-0003sC-GH
+ for qemu-devel@nongnu.org; Mon, 03 Aug 2020 05:10:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596445846;
+ s=mimecast20190719; t=1596445849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OfUHSlTcHolMaYh22V4ZRK2yc8Uir+jB1rcXe6FnHBA=;
- b=XAC50EfN5UzM59iYRENCWHNKF/Dswr7QrpZGcpjFr89Bo5ZbTL/lG9OgiIGPdJpAHKuTNd
- wt39xr1IQTc3Gh5WBIOb42wdQYvPa/OMOnxYPdDEJ4pUE7+mMrxGkRL7/dSdWpMDSljmXm
- yYm1WFr0FzO2ugNhAsaEKZTaOMBbvA4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wtnr2H4Of/V470GKi1MzOiFj9IlFWITEKpHRVULWbmU=;
+ b=ZguPHPAxdV4C0+dgp4detCs10FmB/DxQCjWwsWsDu9vSUDcmjy6Ooz2914YVu1xAuGas4r
+ Q139fEuJrOEb9Z+UKbGlv8vlEYtZnLJrBi3FYPL6IcEU+WtKU7ELA3UEIlRvMSPbPz/7Ov
+ BXWtgdC+rW1Yc1CxaZ4Ud/NrrNswUAc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-CyrhCNhhMx6xRjTeD9XvwQ-1; Mon, 03 Aug 2020 05:10:45 -0400
-X-MC-Unique: CyrhCNhhMx6xRjTeD9XvwQ-1
+ us-mta-382-t29u3lwmNf2VVjtY76rygA-1; Mon, 03 Aug 2020 05:10:45 -0400
+X-MC-Unique: t29u3lwmNf2VVjtY76rygA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8208064AC;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 430B919057A1;
  Mon,  3 Aug 2020 09:10:44 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1055574F58;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 150AE7B41F;
  Mon,  3 Aug 2020 09:10:44 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9BF621132FD2; Mon,  3 Aug 2020 11:10:42 +0200 (CEST)
+ id 9E5F81132921; Mon,  3 Aug 2020 11:10:42 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] QAPI patches patches for 2020-08-03
-Date: Mon,  3 Aug 2020 11:10:39 +0200
-Message-Id: <20200803091042.2920218-1-armbru@redhat.com>
+Subject: [PULL 1/3] qapi/machine.json: Fix missing newline in doc comment
+Date: Mon,  3 Aug 2020 11:10:40 +0200
+Message-Id: <20200803091042.2920218-2-armbru@redhat.com>
+In-Reply-To: <20200803091042.2920218-1-armbru@redhat.com>
+References: <20200803091042.2920218-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 02:37:52
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/03 01:24:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,72 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d74824cf7c8b352f9045e949dc636c7207a41eee:
+From: Peter Maydell <peter.maydell@linaro.org>
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200731' into staging (2020-07-31 10:28:13 +0100)
+In commit 176d2cda0dee9f4 we added the @die-id field
+to the CpuInstanceProperties struct, but in the process
+accidentally removed the newline between the doc-comment
+lines for @core-id and @thread-id.
 
-are available in the Git repository at:
+Put the newline back in; this fixes a misformatting in the
+generated HTML QMP reference manual.
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-08-03
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200729191019.19168-1-peter.maydell@linaro.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/machine.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to f7160f32186b4ae1e1327e3bd05060fffec8f9ae:
-
-  schemas: Add vim modeline (2020-08-03 08:28:08 +0200)
-
-----------------------------------------------------------------
-QAPI patches patches for 2020-08-03
-
-----------------------------------------------------------------
-Andrea Bolognani (1):
-      schemas: Add vim modeline
-
-Markus Armbruster (1):
-      qapi: Delete unwanted indentation of top-level expressions
-
-Peter Maydell (1):
-      qapi/machine.json: Fix missing newline in doc comment
-
- docs/interop/firmware.json                |  1 +
- docs/interop/vhost-user.json              |  1 +
- qapi/authz.json                           |  1 +
- qapi/block-core.json                      | 27 ++++++++++++++-------------
- qapi/block.json                           |  1 +
- qapi/char.json                            |  1 +
- qapi/common.json                          |  1 +
- qapi/control.json                         |  1 +
- qapi/crypto.json                          |  1 +
- qapi/dump.json                            |  1 +
- qapi/error.json                           |  1 +
- qapi/introspect.json                      |  1 +
- qapi/job.json                             |  1 +
- qapi/machine-target.json                  |  1 +
- qapi/machine.json                         |  4 +++-
- qapi/migration.json                       |  1 +
- qapi/misc-target.json                     |  1 +
- qapi/misc.json                            |  1 +
- qapi/net.json                             |  1 +
- qapi/qapi-schema.json                     |  1 +
- qapi/qdev.json                            |  1 +
- qapi/qom.json                             |  1 +
- qapi/rdma.json                            |  1 +
- qapi/rocker.json                          |  1 +
- qapi/run-state.json                       |  1 +
- qapi/sockets.json                         |  1 +
- qapi/tpm.json                             |  1 +
- qapi/transaction.json                     |  1 +
- qapi/ui.json                              |  5 +++--
- qga/qapi-schema.json                      |  1 +
- storage-daemon/qapi/qapi-schema.json      |  1 +
- tests/qapi-schema/doc-good.json           |  2 ++
- tests/qapi-schema/include/sub-module.json |  1 +
- tests/qapi-schema/qapi-schema-test.json   |  1 +
- tests/qapi-schema/sub-sub-module.json     |  1 +
- 35 files changed, 53 insertions(+), 16 deletions(-)
-
+diff --git a/qapi/machine.json b/qapi/machine.json
+index f59144023c..daede5ab14 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -825,7 +825,8 @@
+ # @node-id: NUMA node ID the CPU belongs to
+ # @socket-id: socket number within node/board the CPU belongs to
+ # @die-id: die number within node/board the CPU belongs to (Since 4.1)
+-# @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
++# @core-id: core number within die the CPU belongs to
++# @thread-id: thread number within core the CPU belongs to
+ #
+ # Note: currently there are 5 properties that could be present
+ #       but management should be prepared to pass through other
 -- 
 2.26.2
 
