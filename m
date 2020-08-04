@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18B923B918
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:51:25 +0200 (CEST)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7979123B927
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:56:37 +0200 (CEST)
+Received: from localhost ([::1]:36622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2uXU-0002vE-JW
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
+	id 1k2ucW-0006Gw-Cu
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k2uTU-0000pu-PG
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:47:16 -0400
-Received: from mout.web.de ([212.227.15.3]:52061)
+ id 1k2uTT-0000pZ-Lw
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:47:15 -0400
+Received: from mout.web.de ([212.227.17.12]:44291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k2uTS-0003Zi-PQ
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:47:16 -0400
+ id 1k2uTR-0003Zf-U4
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:47:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596538005;
- bh=4+fu4YF7JnIr5t2XhnLwYWVOhDFdULGoP3KaQ0BaBYs=;
+ s=dbaedf251592; t=1596538009;
+ bh=qv/5xayjAYXqpeYnwgPYY0OgvSh+N7XscqU3e7q3x5c=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=GsWGlf/UMH1GQyEzvOyZuH13zh3zyGIA9ZCzeTYka/g4xO7P3blCrr5bbyEofCjeP
- yk3GKk/2GNBqAepwbwhUXMlBKoV1WP7elKCZZEdn1qAW9M1PY7QE11Rbec+dFzOctx
- MNue1RwJABzuYZdde9HtsEX8tkAMgjubVrYr0+BU=
+ b=lAJ2Und+grdyffvxSbOKGq4imtyCr6byGkY+dkmckGNF4IQPh/P+Im+19zC52T67r
+ veGF0tckBOMn9AG8oedRT3mlXJ17+ADgsPldV97u+ch+h6ixlCoZ4/AjrMLZjOnfjz
+ EoBOk7XHhlTTbKoxH/KDcVIY2/dsHgzjqMjEKbgI=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.220]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N62yi-1knFjJ15j6-016NQ7; Tue, 04
- Aug 2020 12:46:45 +0200
-Date: Tue, 4 Aug 2020 12:46:42 +0200
+Received: from luklap ([89.247.255.220]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MgOCo-1kQbkd0sdC-00Nk32; Tue, 04
+ Aug 2020 12:46:49 +0200
+Date: Tue, 4 Aug 2020 12:46:48 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v3 1/7] block/quorum.c: stable children names
-Message-ID: <5d5f930424c1c770754041aa8ad6421dc4e2b58e.1596536719.git.lukasstraub2@web.de>
+Subject: [PATCH v3 2/7] avocado_qemu: Introduce pick_qemu_util to pick qemu
+ utility binaries
+Message-ID: <a61e4eebe323ddfdd7e0a0ee7c52461f2e6a97ab.1596536719.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1596536719.git.lukasstraub2@web.de>
 References: <cover.1596536719.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/9FVHlSd+ztW880nGUir=JAT";
+Content-Type: multipart/signed; boundary="Sig_/yEZ=uCjxRHhoWEs1uasGeqc";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:ZUIWubNMRMn3fQD4t3xE6/tLITlKvRmaOvCQQXcjzL/dxBzdaO5
- /EkrjbrX6o72wT0bChtH8UVyztSPyxwzI7PLpxqZ++o7Y7Q+fZq4IyATqjxNCZTUQrHDH6s
- NInDEEm9QY50PBRP7UAfCCpxyTAp/94i1+cQMdkQYq6uj4hqS+qkQ4FEBKMy3sz4l9H8a/T
- JspvVCppH2EDVxhNbnU1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dibcz/EU/NU=:MCNU3EN/nqqeHasMecoFFL
- uU0BJHXZ+rk+uoLfbqGRCkdri3r52S2x7ajupLWnSm3InsDGdFR+iGM9i32eeeaudBk9MEEDM
- EXkOeHoe4U5/IH6anLm5g4l/0NgxSEDIrXiULBBJHMT49ys1GL2OYSGX/zh9z9NYlVWc8VdbH
- tDnL9+t5zh1QpbDFOBgKVWzzzV22r6h9SQzOGbzrbTwjDNyksZ9MC54EptZ/GMA0VH02wxgLy
- /RrSHzLgqvM3+amD/du93qKBa7xNeOkVJG+8BljdlIw518RtD+jm7UMwrZREcXIHwNRieqoAi
- 8uQ+bK9V7HBxOnV+AwLdgVFlbc6odoY0iVcHx2J5o59NXEy6pbamfWI4Ty2fmq2uWp9bcAYdQ
- aEuRMVxzcC0Rc1IIAEiRZIsPtV8W+Jizzz7zxsh1u23is73AfjNU3QkiL9HBC9J8ZjgfWW088
- 0Wx5zLE2AnzQMAKvNCYdiWov04zmMHMLNsr7mrZjlpQWCRNJXrRnDVU3Bz0NxcC8K6htzdZqg
- +AHJ0fjW7tM425UqhCYXnuvY/JtNdS+mGmZ4ki3ieCYBzYXhb0c824mHS1MK7XDt6BO+93B0x
- Lx2bD8rBY2q15gYIomS9G6fPqrthg2DEhfMaJo1azi6XiTVoF9w46g1djcc7Pb6cqUSm/wTGC
- C8Fbhc9u0qajZhUZCLc1wbRLqNSsuo4NSaf8w4MO0pFubGDXS8csjOhd16xfv5Ca6M9s4yPCg
- 3gaFnfHNqPuMtxzFub4zVcTbahbTqv4QbJdkZ6tuYJUYzTbA9+7Re+8f+CRnjZSDT5EFgFaDo
- k38+ibFiZd/N7cRFsDHRbmm9FerOl1yEWQLg5+hzVlOWQiZ00Dn/wGOCTf7CMYo9mB1Cmd5qV
- RZt9JLHw9NkjLzF4mq7sUS1UI/tPWUjEMBZ+vUUZ+1WC8Sk7HvJIQcIiB5BTm+5GgC3b3h4u/
- ai65BLY3CIKVnvoOK/yWXgSiUkBl4H4g3fW+hcbcO9DkE5pS3Xif5qZKzQM469G7t2gQ8aKSa
- Lr1QAQKMzU25+VlGE/ZhRmdojfhkGP9eJqYVRGa4sigCTSJsGVYMt7k+86b3EgCWoUbfwRS7z
- mkgDmF3HOMiLzvAnAlEYQpNhBKltztlBOM8hgY0myqjTdnqFzVBqfJR1mnL6uIelH38uY86UM
- 88xz9QrvZctdu5qZQnoyGpYcQMdHV0Eu4cZeO5Cic+3ydmc51ZDRjDCi1wRsEe1reWqhM1fCF
- 1VUjGNEYvMc2UMIkpF0U3wiNKdhEv5oHBLKwQ6A==
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:v+8x6PHYu/0EInerpsZm7Y9E779xUOy0Ra3svE6DvdeH1mfOE4d
+ GnMcnp5rn5CXXsFv1giuk/HqdXkQ5Tij1MxSTwaVwZ97VnQe8l4Q2dl3E3I1s+rOvB7knTb
+ j3ScdzWCcBwgCLobuDlfiNa3lMHi+ge3s2df6hOOkT/GIFcxrQE2NNc9ui7eUrCjHCRDZsO
+ AQlCcD+8ZfvPojCldBdpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+cLejGJF30c=:XDYbSLDZixBctgzeF2i9ty
+ 38vSjGf6Dg1iAG5L5jrfrhpWD6AvdqxPNO/F4bezq21l5HqNkawEzbjODDFX+PHCGPl3FwJQG
+ +mw5I49BcXwuZnX3EGWUK6EJpIz04+JoJUEvvK1DvthbpWXtlVZ8XUEAviseHNRwgjmHPILXh
+ uCH66DxcFqv/akE54YZ4Nclw8kAXYl+rZuifG12WBlW3v1ZpyUgQ4Qz9giG4AmG4I6ePRU27O
+ uOYCun/JEt1b2CqoZFRdpvD5wU2LSVN+nPQv5wWnmqoDs8cf+0V6EnLtwLTXVdQmy+/SdvXq+
+ XXJUuTIBCjXxyftrImrO+Q39eYW3HJd5c6ymgv3nIiaQ7fHxlMh7CfyxBc7qMI65WCBG2XCbk
+ ol6h7Nx4XJnxo/vAqOkOnRNNn14wIQ1mUgQFUNRIIukT7pfSrlskeZ+IelRXNcUazCV30Yr/R
+ ovR8vAuaDkMlydF6BWwkkSkclxrIWEeo2mXL84Qrs73mxnK/agjL+C38Dz9Qcp5efmN2BTApd
+ DIk+O7uHrGd3TEVWAHO6KJZtH0bgdhB7kLSbn8ePMGIGD6Eo6hZWa/hf9Mouyomhfv1j9xVhI
+ Q5bAGYZvXwofh8rb1+CwovlmndtjoD5ElLaz2lnfMpyX3LbvFKexipNq+Brm45PK75ZmLN9c5
+ LaJuKXl9bJ0oBzBAgzV9QnHoHbHcbXGxrlkWEs6qJ1263m0AEL9GUWrcUdk4iEOr9LsNclmP+
+ 3wPJxZWFU/QUM/C08OzzjnFKm2hVO6dDmFhn3Ahb/v3qvP+JTPRe2x/OIfAOKoQVehXiqX0sr
+ /bbvlBvUTQOZIsocG3nxxXYPuL8W8/zC2ggnyyslhQiPDYkDGuZmSOq0Fkyay60XBEd0vXxgF
+ jTL0xiFUgtzDe4tK7/3tSGNWLb9vaQiAPwud0HP+5+u4kjus98+1G0i27o47/zoEJQiG9mYZN
+ +9AZ3pi7JZHllkPdIASR1bhMz8FwTC6v4N3vL6Q83LCqJ9OKv+ZROJ/46OFXcaI5Tqs3hnozX
+ 19Tpb7+bKboF5DwwI7M+bpYm4qincA33UzUDhMOS3RZb75cSCp81QLgMZESHS5tai71YBQTUZ
+ 8qUMDXiYM1gUZFc1i3OTxGnIUlzHqaqMXidpE12S7+kbATrnFKWS6VWPWKQWx812q3udtNgmK
+ 3kCPO7c7rbg033FR3oa/BjQR/GsKuDMxFmAllHfcpQXeanC9o7nbtow7Uc7G5MBJoMPcy4qtO
+ Vb1BfNXE+TUWltQidqWwc8aSuxpoGl+6QzZJWtw==
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 06:47:13
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 06:47:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -96,121 +97,77 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/9FVHlSd+ztW880nGUir=JAT
+--Sig_/yEZ=uCjxRHhoWEs1uasGeqc
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-If we remove the child with the highest index from the quorum,
-decrement s->next_child_index. This way we get stable children
-names as long as we only remove the last child.
+This introduces a generic function to pick qemu utility binaries
+from the build dir, system or via test parameter.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Fixes: https://bugs.launchpad.net/bugs/1881231
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
 ---
- block/quorum.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/block/quorum.c b/block/quorum.c
-index 6df9449fc2..e846a7e892 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -29,6 +29,8 @@
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
+vocado_qemu/__init__.py
+index 77d1c1d9ff..fbc47ccb3d 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -15,6 +15,7 @@ import uuid
+ import tempfile
 
- #define HASH_LENGTH 32
+ import avocado
++from avocado.utils.path import find_command
 
-+#define INDEXSTR_LEN 32
+ #: The QEMU build root directory.  It may also be the source directory
+ #: if building from the source dir, but it's safer to use BUILD_DIR for
+@@ -147,6 +148,20 @@ def exec_command_and_wait_for_pattern(test, command,
+     _console_interaction(test, success_message, failure_message, command +=
+ '\r')
+
+ class Test(avocado.Test):
++    def pick_qemu_util(self, util):
++        default =3D os.path.join(BUILD_DIR, util)
++        if not os.path.exists(default):
++            default =3D find_command(default, False)
++            if not default:
++                default =3D None
 +
- #define QUORUM_OPT_VOTE_THRESHOLD "vote-threshold"
- #define QUORUM_OPT_BLKVERIFY      "blkverify"
- #define QUORUM_OPT_REWRITE        "rewrite-corrupted"
-@@ -970,9 +972,9 @@ static int quorum_open(BlockDriverState *bs, QDict *opt=
-ions, int flags,
-     opened =3D g_new0(bool, s->num_children);
-
-     for (i =3D 0; i < s->num_children; i++) {
--        char indexstr[32];
--        ret =3D snprintf(indexstr, 32, "children.%d", i);
--        assert(ret < 32);
-+        char indexstr[INDEXSTR_LEN];
-+        ret =3D snprintf(indexstr, INDEXSTR_LEN, "children.%d", i);
-+        assert(ret < INDEXSTR_LEN);
-
-         s->children[i] =3D bdrv_open_child(NULL, options, indexstr, bs,
-                                          &child_of_bds, BDRV_CHILD_DATA, f=
-alse,
-@@ -1024,7 +1026,7 @@ static void quorum_add_child(BlockDriverState *bs, Bl=
-ockDriverState *child_bs,
- {
-     BDRVQuorumState *s =3D bs->opaque;
-     BdrvChild *child;
--    char indexstr[32];
-+    char indexstr[INDEXSTR_LEN];
-     int ret;
-
-     if (s->is_blkverify) {
-@@ -1039,8 +1041,8 @@ static void quorum_add_child(BlockDriverState *bs, Bl=
-ockDriverState *child_bs,
-         return;
-     }
-
--    ret =3D snprintf(indexstr, 32, "children.%u", s->next_child_index);
--    if (ret < 0 || ret >=3D 32) {
-+    ret =3D snprintf(indexstr, INDEXSTR_LEN, "children.%u", s->next_child_=
-index);
-+    if (ret < 0 || ret >=3D INDEXSTR_LEN) {
-         error_setg(errp, "cannot generate child name");
-         return;
-     }
-@@ -1068,6 +1070,7 @@ static void quorum_del_child(BlockDriverState *bs, Bd=
-rvChild *child,
-                              Error **errp)
- {
-     BDRVQuorumState *s =3D bs->opaque;
-+    char indexstr[INDEXSTR_LEN];
-     int i;
-
-     for (i =3D 0; i < s->num_children; i++) {
-@@ -1089,6 +1092,11 @@ static void quorum_del_child(BlockDriverState *bs, B=
-drvChild *child,
-     /* We know now that num_children > threshold, so blkverify must be fal=
-se */
-     assert(!s->is_blkverify);
-
-+    snprintf(indexstr, INDEXSTR_LEN, "children.%u", s->next_child_index - =
-1);
-+    if (!strncmp(child->name, indexstr, INDEXSTR_LEN)) {
-+        s->next_child_index--;
-+    }
++        ret =3D self.params.get(util, default=3Ddefault)
 +
-     bdrv_drained_begin(bs);
-
-     /* We can safely remove this child now */
++        if ret is None:
++            self.cancel("Could not find \"%s\"" % util)
++
++        return ret
++
+     def _get_unique_tag_val(self, tag_name):
+         """
+         Gets a tag value, if unique for a key
 --
 2.20.1
 
 
---Sig_/9FVHlSd+ztW880nGUir=JAT
+--Sig_/yEZ=uCjxRHhoWEs1uasGeqc
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8pPJIACgkQNasLKJxd
-slgdSw//W2oYDyDLbU45jDNYrwMYXTAuUJSCDUVWMLEOsML3nl/LEc/6tVeRjBBm
-grYlGRoVvE18dt0nQzc+S3z4l0896pxL23PCt86Ba5O4ReKwvPn07OkyIWAfRYyX
-fwr28NQ+ohp5mAm8R6M+rCt+iVW9AXlBojvVMoBvo2a6y877RjqvtUPErxFVg3Xk
-oF3OaP9cxdfy8gCN15aAM+J1kvxUkncpUTbWrl2cTcOqRkHkRxZSY6hIhJZ0/QRw
-zmfD6gcgg+g9dbYIjBQnrdD8NGfWO7eT7nfMpvWm0hNF/JwepnChsBfjq/xTZSYW
-jd61yaTOP0IDm1kX4etziXyM57Zq/BK7Gli77JtWImYCF416F4qz1OB97mMZfjKq
-MNjACavRQLhSIvBAvH3ppgdQXpM1U5gZdRMs8+JBT3/B8j0h321k/jaGuYuZzwDV
-7cNIPKvipbtTUk1iMWrYFlPi6RUKiBxpmBLrWlUj+IOAzucENJ3yOn0RvfSI5W6w
-tC4VJLgsunOPcU2pWnNLQaDH3PbNnDHKwY8lovXlncmr3DvOx/Ni7z3kFLq4Xx3K
-FXiMjFrY1eGcTEVjsnBwU2tzOTkslXJ7LbYAmSIx8JatbBIA8piwSsHzMBzXnUUL
-TI0lrIlmnY3rkgOeEcYw4XUrl8nnLpB6Byhob9dtjus1HVlgoNw=
-=g0jb
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8pPJgACgkQNasLKJxd
+slj3ig//bYph2vQwohz2vbXziNs1fMmC0pI1K3Xyc6IIUxbUiXV3FsxBwvV8ztkE
+fom7raUqAVbV5Q8CJjXvwartY4xykYvDUE0ZrlHHaWIrRfx6aZoD+DNdVRS6x7S7
+md48BwFekjkNEKQge0/k6dUBRWvZTfflIAitCobQ7ro9gPU2JgPlsCbdpEwQojUE
+xmPfxV9aDqiwQwnUDmTQnBcfflpojzUVLjRcn9DvP05DPfyxQQggTHUHvaidDktJ
+eMIVKc9DrwZTspIAn1YyrE0M48prGx2mc/XGEkYQen5j2PpTIo15HHhblnEvW6ke
+5DLf6qYDFMQIXNW3aUC8VMb5KELF7/vz8I626fbDMtbVtv+0nHqPrthWzMXTDoH3
+1iB9+ErDNtaAtPYikbcVcZ3+Z6cYMqGEN10tJHwyE+CYsEm8VMDxJA9F2dJJ2GQH
+98LYdcA7jfK+4B1WX/5NiTgS3QZAjKqlujSxsr9pJhLpKwu1C9VLg1j5JCiEtbEW
+2nAzg5wm/dhziS7kfLxFCoFfImvdtEJaq+ngFTlxKLEI75GexLy53Vbg+pMD7IeZ
+62hlS1cT2bEToEzclK82Gs6wFd77EMB4LQYXf2kdnf/A8gT6ASiCHBU7eHH1koA6
+Yj0oNj2XIZBv8asphsHuoZFMaSPLLw2IHEAsHVZTBP5bBTI6sCA=
+=b5+F
 -----END PGP SIGNATURE-----
 
---Sig_/9FVHlSd+ztW880nGUir=JAT--
+--Sig_/yEZ=uCjxRHhoWEs1uasGeqc--
 
