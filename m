@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A5123B8BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:27:03 +0200 (CEST)
-Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695F423B8AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:19:20 +0200 (CEST)
+Received: from localhost ([::1]:45810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2u9u-0004jH-KT
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:27:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
+	id 1k2u2R-0001G1-HB
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k2u8a-0003nG-NJ; Tue, 04 Aug 2020 06:25:40 -0400
-Received: from ozlabs.org ([203.11.71.1]:55951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k2u8W-0000jy-RB; Tue, 04 Aug 2020 06:25:40 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BLW9K5yzQz9sTH; Tue,  4 Aug 2020 20:25:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1596536725;
- bh=EimDIT5LvWScAqM93OgtR67oBXtvUWt9nlJvoygSTo8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cddrCz4XmLX7DBnGjiA7VdzYeeuC5mTUjrQGQVHkLjx/IUYYBpWluq2mxmGfU3GXe
- wVp6R2Il3rn7508vSKlr7RDjiNHq2r46L1aoxAUa5aqmFKeuqgIOAtu3HkPJenwKI/
- ntEU9tKXiasVGGw+/QDZd7qE9TekbKu/G53zsWM4=
-Date: Tue, 4 Aug 2020 20:16:36 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 1/1] docs: adding NUMA documentation for pseries
-Message-ID: <20200804101636.GA2178@yekko.fritz.box>
-References: <20200803133440.825276-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k2u1k-0000qz-EL
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:18:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38832
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k2u1i-00081M-VL
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:18:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596536313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=92DR/mqsC2c6GKY57LMZDKCkykGG6P0veZQXZlBvqBc=;
+ b=gxbxh0vNqJ0+jdrPsWq1HG4MJXdlF3v+YsHGSX34TZ7y0XiKVaMmtBeWyeWx+QoTtaflqM
+ QVnd5w57vFZkwfckgyyUpR/ACW02G7AzblyyIS1X26iksmeRrLcMZ/I0eImubDfhGhoTYy
+ MGien98JTYwJOzJXiHF0otshckqVzJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-m9X-JF2GMgOF0TDMwHspag-1; Tue, 04 Aug 2020 06:18:31 -0400
+X-MC-Unique: m9X-JF2GMgOF0TDMwHspag-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD2588064DE;
+ Tue,  4 Aug 2020 10:18:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9A417178F;
+ Tue,  4 Aug 2020 10:18:21 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0BDFD16E0A; Tue,  4 Aug 2020 12:18:21 +0200 (CEST)
+Date: Tue, 4 Aug 2020 12:18:21 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Christophe de Dinechin <dinechin@redhat.com>
+Subject: Re: [PATCH 7/7] spice: Call qemu spice functions indirectly
+Message-ID: <20200804101821.dufg7fqeuodoiswf@sirius.home.kraxel.org>
+References: <20200723174615.2370096-1-dinechin@redhat.com>
+ <20200723174615.2370096-8-dinechin@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
+In-Reply-To: <20200723174615.2370096-8-dinechin@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200803133440.825276-1-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 06:25:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,301 +80,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
---8t9RHnE3ZwKMSgU+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These stubs (picked two examples) ...
 
-On Mon, Aug 03, 2020 at 10:34:40AM -0300, Daniel Henrique Barboza wrote:
-> This patch adds a new documentation file, ppc-spapr-numa.rst,
-> informing what developers and user can expect of the NUMA distance
-> support for the pseries machine, up to QEMU 5.1.
->=20
-> In the (hopefully soon) future, when we rework the NUMA mechanics
-> of the pseries machine to at least attempt to contemplate user
-> choice, this doc will be extended to inform about the new
-> support.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->=20
-> Changes in v2:
-> - added 'index.rst' entry to fix a build error
->=20
->  docs/specs/index.rst          |   1 +
->  docs/specs/ppc-spapr-numa.rst | 191 ++++++++++++++++++++++++++++++++++
->  2 files changed, 192 insertions(+)
->  create mode 100644 docs/specs/ppc-spapr-numa.rst
+> -static inline int qemu_spice_set_passwd(const char *passwd,
+> -                                        bool fail_if_connected,
+> -                                        bool disconnect_if_connected)
+> -{
+> -    return -1;
+> -}
 
-Applied to ppc-for-5.2, replacing the old version, thanks
+> -static inline void qemu_spice_display_init(void)
+> -{
+> -    /* This must never be called if CONFIG_SPICE is disabled */
+> -    error_report("spice support is disabled");
+> -    abort();
+> -}
 
->=20
-> diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-> index 426632a475..1b0eb979d5 100644
-> --- a/docs/specs/index.rst
-> +++ b/docs/specs/index.rst
-> @@ -12,6 +12,7 @@ Contents:
-> =20
->     ppc-xive
->     ppc-spapr-xive
-> +   ppc-spapr-numa
->     acpi_hw_reduced_hotplug
->     tpm
->     acpi_hest_ghes
-> diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
-> new file mode 100644
-> index 0000000000..e762038022
-> --- /dev/null
-> +++ b/docs/specs/ppc-spapr-numa.rst
-> @@ -0,0 +1,191 @@
-> +
-> +NUMA mechanics for sPAPR (pseries machines)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +NUMA in sPAPR works different than the System Locality Distance
-> +Information Table (SLIT) in ACPI. The logic is explained in the LOPAPR
-> +1.1 chapter 15, "Non Uniform Memory Access (NUMA) Option". This
-> +document aims to complement this specification, providing details
-> +of the elements that impacts how QEMU views NUMA in pseries.
-> +
-> +Associativity and ibm,associativity property
-> +--------------------------------------------
-> +
-> +Associativity is defined as a group of platform resources that has
-> +similar mean performance (or in our context here, distance) relative to
-> +everyone else outside of the group.
-> +
-> +The format of the ibm,associativity property varies with the value of
-> +bit 0 of byte 5 of the ibm,architecture-vec-5 property. The format with
-> +bit 0 equal to zero is deprecated. The current format, with the bit 0
-> +with the value of one, makes ibm,associativity property represent the
-> +physical hierarchy of the platform, as one or more lists that starts
-> +with the highest level grouping up to the smallest. Considering the
-> +following topology:
-> +
-> +::
-> +
-> +    Mem M1 ---- Proc P1    |
-> +    -----------------      | Socket S1  ---|
-> +          chip C1          |               |
-> +                                           | HW module 1 (MOD1)
-> +    Mem M2 ---- Proc P2    |               |
-> +    -----------------      | Socket S2  ---|
-> +          chip C2          |
-> +
-> +The ibm,associativity property for the processors would be:
-> +
-> +* P1: {MOD1, S1, C1, P1}
-> +* P2: {MOD1, S2, C2, P2}
-> +
-> +Each allocable resource has an ibm,associativity property. The LOPAPR
-> +specification allows multiple lists to be present in this property,
-> +considering that the same resource can have multiple connections to the
-> +platform.
-> +
-> +Relative Performance Distance and ibm,associativity-reference-points
-> +--------------------------------------------------------------------
-> +
-> +The ibm,associativity-reference-points property is an array that is used
-> +to define the relevant performance/distance  related boundaries, defining
-> +the NUMA levels for the platform.
-> +
-> +The definition of its elements also varies with the value of bit 0 of by=
-te 5
-> +of the ibm,architecture-vec-5 property. The format with bit 0 equal to z=
-ero
-> +is also deprecated. With the current format, each integer of the
-> +ibm,associativity-reference-points represents an 1 based ordinal index (=
-i.e.
-> +the first element is 1) of the ibm,associativity array. The first
-> +boundary is the most significant to application performance, followed by
-> +less significant boundaries. Allocated resources that belongs to the
-> +same performance boundaries are expected to have relative NUMA distance
-> +that matches the relevancy of the boundary itself. Resources that belongs
-> +to the same first boundary will have the shortest distance from each
-> +other. Subsequent boundaries represents greater distances and degraded
-> +performance.
-> +
-> +Using the previous example, the following setting reference points defin=
-es
-> +three NUMA levels:
-> +
-> +* ibm,associativity-reference-points =3D {0x3, 0x2, 0x1}
-> +
-> +The first NUMA level (0x3) is interpreted as the third element of each
-> +ibm,associativity array, the second level is the second element and
-> +the third level is the first element. Let's also consider that elements
-> +belonging to the first NUMA level have distance equal to 10 from each
-> +other, and each NUMA level doubles the distance from the previous. This
-> +means that the second would be 20 and the third level 40. For the P1 and
-> +P2 processors, we would have the following NUMA levels:
-> +
-> +::
-> +
-> +  * ibm,associativity-reference-points =3D {0x3, 0x2, 0x1}
-> +
-> +  * P1: associativity{MOD1, S1, C1, P1}
-> +
-> +  First NUMA level (0x3) =3D> associativity[2] =3D C1
-> +  Second NUMA level (0x2) =3D> associativity[1] =3D S1
-> +  Third NUMA level (0x1) =3D> associativity[0] =3D MOD1
-> +
-> +  * P2: associativity{MOD1, S2, C2, P2}
-> +
-> +  First NUMA level (0x3) =3D> associativity[2] =3D C2
-> +  Second NUMA level (0x2) =3D> associativity[1] =3D S2
-> +  Third NUMA level (0x1) =3D> associativity[0] =3D MOD1
-> +
-> +  P1 and P2 have the same third NUMA level, MOD1: Distance between them =
-=3D 40
-> +
-> +Changing the ibm,associativity-reference-points array changes the perfor=
-mance
-> +distance attributes for the same associativity arrays, as the following
-> +example illustrates:
-> +
-> +::
-> +
-> +  * ibm,associativity-reference-points =3D {0x2}
-> +
-> +  * P1: associativity{MOD1, S1, C1, P1}
-> +
-> +  First NUMA level (0x2) =3D> associativity[1] =3D S1
-> +
-> +  * P2: associativity{MOD1, S2, C2, P2}
-> +
-> +  First NUMA level (0x2) =3D> associativity[1] =3D S2
-> +
-> +  P1 and P2 does not have a common performance boundary. Since this is a=
- one level
-> +  NUMA configuration, distance between them is one boundary above the fi=
-rst
-> +  level, 20.
-> +
-> +
-> +In a hypothetical platform where all resources inside the same hardware =
-module
-> +is considered to be on the same performance boundary:
-> +
-> +::
-> +
-> +  * ibm,associativity-reference-points =3D {0x1}
-> +
-> +  * P1: associativity{MOD1, S1, C1, P1}
-> +
-> +  First NUMA level (0x1) =3D> associativity[0] =3D MOD0
-> +
-> +  * P2: associativity{MOD1, S2, C2, P2}
-> +
-> +  First NUMA level (0x1) =3D> associativity[0] =3D MOD0
-> +
-> +  P1 and P2 belongs to the same first order boundary. The distance betwe=
-en then
-> +  is 10.
-> +
-> +
-> +How the pseries Linux guest calculates NUMA distances
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +Another key difference between ACPI SLIT and the LOPAPR regarding NUMA is
-> +how the distances are expressed. The SLIT table provides the NUMA distan=
-ce
-> +value between the relevant resources. LOPAPR does not provide a standard
-> +way to calculate it. We have the ibm,associativity for each resource, wh=
-ich
-> +provides a common-performance hierarchy,  and the ibm,associativity-refe=
-rence-points
-> +array that tells which level of associativity is considered to be releva=
-nt
-> +or not.
-> +
-> +The result is that each OS is free to implement and to interpret the dis=
-tance
-> +as it sees fit. For the pseries Linux guest, each level of NUMA duplicat=
-es
-> +the distance of the previous level, and the maximum amount of levels is
-> +limited to MAX_DISTANCE_REF_POINTS =3D 4 (from arch/powerpc/mm/numa.c in=
- the
-> +kernel tree). This results in the following distances:
-> +
-> +* both resources in the first NUMA level: 10
-> +* resources one NUMA level apart: 20
-> +* resources two NUMA levels apart: 40
-> +* resources three NUMA levels apart: 80
-> +* resources four NUMA levels apart: 160
-> +
-> +
-> +Consequences for QEMU NUMA tuning
-> +---------------------------------
-> +
-> +The way the pseries Linux guest calculates NUMA distances has a direct e=
-ffect
-> +on what QEMU users can expect when doing NUMA tuning. As of QEMU 5.1, th=
-is is
-> +the default ibm,associativity-reference-points being used in the pseries
-> +machine:
-> +
-> +ibm,associativity-reference-points =3D {0x4, 0x4, 0x2}
-> +
-> +The first and second level are equal, 0x4, and a third one was added in
-> +commit a6030d7e0b35 exclusively for NVLink GPUs support. This means that
-> +regardless of how the ibm,associativity properties are being created in
-> +the device tree, the pseries Linux guest will only recognize three scena=
-rios
-> +as far as NUMA distance goes:
-> +
-> +* if the resources belongs to the same first NUMA level =3D 10
-> +* second level is skipped since it's equal to the first
-> +* all resources that aren't a NVLink GPU, it is guaranteed that they wil=
-l belong
-> +  to the same third NUMA level, having distance =3D 40
-> +* for NVLink GPUs, distance =3D 80 from everything else
-> +
-> +In short, we can summarize the NUMA distances seem in pseries Linux gues=
-ts, using
-> +QEMU up to 5.1, as follows:
-> +
-> +* local distance, i.e. the distance of the resource to its own NUMA node=
-: 10
-> +* if it's a NVLink GPU device, distance: 80
-> +* every other resource, distance: 40
-> +
-> +This also means that user input in QEMU command line does not change the
-> +NUMA distancing inside the guest for the pseries machine.
+... can simply be moved to this place ...
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -173,6 +173,30 @@ int icount_align_option;
+>  QemuUUID qemu_uuid;
+>  bool qemu_uuid_set;
+>  
+> +static bool qemu_is_not_using_spice(void)
+> +{
+> +    return 0;
+> +}
+> +
+> +static void qemu_spice_init_no_op(void)
+> +{
+> +}
 
---8t9RHnE3ZwKMSgU+
-Content-Type: application/pgp-signature; name="signature.asc"
+(I'd suggest to name this qemu_spice_display_init_stub)
 
------BEGIN PGP SIGNATURE-----
+> +
+> +/*
+> + * Only two fields are initialized, that can be used even when SPICE
+> + * is not configured or not loaded. Other functions are protected by
+> + * checking if using_spice.
+> + */
+> +QemuSpiceOps qemu_spice = {
+> +    .in_use             = qemu_is_not_using_spice,
+> +    .init               = qemu_spice_init_no_op,
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8pNYEACgkQbDjKyiDZ
-s5LbcA//VjaQadOlG+MtzDdrxMdHzwZ0T9qeTayTAiflu1z2OoCzs5Ti+pu2zdbp
-Udgd0/f9S4FCsM7ipT6YE1cecI9aHSQMc41YkU957hqKAdKp1qemMBDgZA9B2osN
-MZpeBUr/I9QSbOkM0jX7GNVS5POl0bMy6Mt2vE5BTx4h6xdB2iOsASvAywoRiRzD
-G701um2qFhuJuC/w/Fy74RYgYvPGXKUdRzI28a9Q+cY+KYHOz4OsnneyDI32oPw9
-nqHxy6ljkFtK8dPDjYhr0K9Lo7hQLkT0I3ryz+YeD/J1nM2Bfls4kMtoXG76nmsA
-fxBw3Y2oQe78cecgNIKnSwWSPpcWGU2joUjrC2pPEpWzWZmXXuDL5u34KAxdulLC
-CtBWUYGz9QyHWBq5Oin7HHsRxsFecG7Ng0t0WqajWqeeHigMEF9yYTEWmHghky0L
-QXfgfiUPscLmSNMEMe4RrnOEt0vvWIERUDYXG4kPySzU1H1kZHBI+8s6oHeDAlWv
-l0/r4VJ7+oB2J+6+WYS619Fks0wo1RqjpfL9wVuuT2yi8b4f6Py9vx0GTsbjdOA+
-kKqHz65qD4GnBNzcNHAiaViayHI46NWI/8RzQxllv6m/atcLt8Bp2G8aURo+JKsA
-yx3Tm414x+hwclquUu5cjh5b0RfBnZ+I0VJzv6j27ciDgvBkc4E=
-=qXOv
------END PGP SIGNATURE-----
+... and hooked up here, i.e.
 
---8t9RHnE3ZwKMSgU+--
+       .init               = qemu_spice_display_init_stub,
+       .set_passwd         = qemu_spice_set_passwd_stub,
+       [ ... ]
+
+Also I'd suggest to place the code in a new file (maybe named
+ui/spice-ops.c, or ui/spice-stubs.c) which is compiled into qemu
+unconditionally.
+
+take care,
+  Gerd
+
 
