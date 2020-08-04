@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58FF23B90F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:48:57 +0200 (CEST)
-Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5AB23B923
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:54:12 +0200 (CEST)
+Received: from localhost ([::1]:35058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2uV6-0001x3-Po
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43976)
+	id 1k2uaB-0005af-FQ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k2uUH-0001Fa-At
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:48:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42196
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k2uUE-0003eV-Qu
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:48:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596538081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E22JtWMQsT+/b9ALET6YJFPimFU4ZE3pjf9PPszShCc=;
- b=YCpfC45jg7vfQsBnhYlqiaV1wbJq9zZL4FxByBhK1zkmS3P6x/anb5xmWtVa5H6tV0GFZ3
- Dr9/ueoBPz6TRVZ3cbXWScLiN1Dyc7FusmRMKMDKWtuYGLBSpELaC8rC+xEUQMRyStVhm5
- vZ3n6Y4eiOTQWVFZ70QXvLkGSSP+6JY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-w27KCv5-OxGvKlrxH8_D4Q-1; Tue, 04 Aug 2020 06:47:59 -0400
-X-MC-Unique: w27KCv5-OxGvKlrxH8_D4Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6E0D80183C;
- Tue,  4 Aug 2020 10:47:57 +0000 (UTC)
-Received: from localhost (ovpn-112-116.ams2.redhat.com [10.36.112.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3C1810013C4;
- Tue,  4 Aug 2020 10:47:47 +0000 (UTC)
-Date: Tue, 4 Aug 2020 11:47:46 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 03/20] multi-process: setup PCI host bridge for remote
- device
-Message-ID: <20200804104746.GA1284674@stefanha-x1.localdomain>
-References: <cover.1596217462.git.jag.raman@oracle.com>
- <cd3a20960062081d7c911879f509c26aedee89b4.1596217462.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2uZH-0004y8-Cc
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:53:15 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2uZF-00049s-Ed
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 06:53:14 -0400
+Received: by mail-oi1-x243.google.com with SMTP id v13so19314189oiv.13
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 03:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lTjIN1QGhmwyhDOOkzujdm+gLrnzQTEmjZKfLlIu/yk=;
+ b=kYerZPVmNFvarScYI5P3WTXW3rdM55fHI+X+n8lvEdtNuz2RWa28MpsXoUxTdD74wV
+ XEqF4zi0XTveD1yT53ut+PzlCs0gAEIDtPSjuXji6V2Ab8YsJMYR2Fi2uRHHMMb2r8FG
+ LlxeMqqBiyem6wL1mF1AX2hfCFZTv7czEn9Aq9LxzP0IPbyPuyt9yFtMURy32xrYKgZ6
+ hhqpOwNRfJWxJcjPmHzwJIVVc5o3VGGWk3TRKGyqzMyWLVpYqgNCcoxmpdHPlO0aimbL
+ xd9SAo8X14jurv/2o4hC3sOAy+scqBrEUxw1Y3VCCLpByYUFQ/mmy/TucRMtWvT/rhgG
+ x4eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lTjIN1QGhmwyhDOOkzujdm+gLrnzQTEmjZKfLlIu/yk=;
+ b=W8l/PwaMdKblEqWHTiFkx/Me1BR/n+MCw1t+0H2zDsDeH3n3UJWhfZLoFdcJUUzb+z
+ yNsdYdWoDVOXfOrrzWsrDEGjFwy2PZfVqoEhVWgv8sDWJFG8XcL6f6zIyPQSWgJWhzHw
+ 5NZ/Tqn7MBGcJSpillZ4PTH/NBRQQrvpYOJBbIXz7KAN1WVzmYX17zQZ3jhorD2IFjHc
+ g/hOSuvCOgptl7X8e1B60RVXTcOxJEKXlfE+nkCKTdxv7WmXth+jLurP5ept6QaOQkIk
+ euBY+cq4uOmndiLmDz/TGOJKx9Qrd+WNdhCyCSDh44EBv6NTz8O10Rb8z8jqvXp7xrdv
+ YFrw==
+X-Gm-Message-State: AOAM532Vtv6V/hEwWNY4tjNHsdEnRRZik1vQU77phOmLA/ymoNPEYUZo
+ 1iyVmDjqB2JoKdtnDrlYpIymdZmpeQwjysba4KHQgQ==
+X-Google-Smtp-Source: ABdhPJw8EXT/s7LuWVHple7cQ3ZavTNu232paJNxmJilSdX3VJzjnnPYeI44S5WXj2JaHizBd8bloYBE46IrRmF/pM4=
+X-Received: by 2002:aca:4a96:: with SMTP id x144mr2790357oia.163.1596538392020; 
+ Tue, 04 Aug 2020 03:53:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cd3a20960062081d7c911879f509c26aedee89b4.1596217462.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:01:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1596523270-5492-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1596523270-5492-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 4 Aug 2020 11:53:01 +0100
+Message-ID: <CAFEAcA8+sFuAU+WdtUT4V-SUCk9qeFenXg24FeKzwCTx7bFFtg@mail.gmail.com>
+Subject: Re: [PULL 0/2] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---WIyZ46R2i8wDzkSu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Tue, 4 Aug 2020 at 07:41, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit 5c1c3e4f02e458cf280c677c817ae4fd1ed9bf10:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200803' into staging (2020-08-03 20:34:26 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to 035e69b063835a5fd23cacabd63690a3d84532a8:
+>
+>   hw/net/net_tx_pkt: fix assertion failure in net_tx_pkt_add_raw_fragment() (2020-08-04 14:14:48 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ----------------------------------------------------------------
+> Lukas Straub (1):
+>       colo-compare: Remove superfluous NULL-pointer checks for s->iothread
+>
+> Mauro Matteo Cascella (1):
+>       hw/net/net_tx_pkt: fix assertion failure in net_tx_pkt_add_raw_fragment()
 
-On Fri, Jul 31, 2020 at 02:20:10PM -0400, Jagannathan Raman wrote:
-> + * This PCI host is purely a container for PCI devices. It's fake in the
-> + * sense that the guest never sees this PCI host and has no way of
-> + * accessing it. It's job is just to provide the environment that QEMU
+Hi; this pullreq includes a patch where there's mangled UTF-8 in
+one of the commit messages: the "colo-compare: Remove superfluous
+NULL-pointer checks for s->iothread" patch has a mangled version
+of the e-with-acute-accent character in Philippe's surname in his
+Reviewed-by: tag.
 
-s/It's/Its/ :)
+Since this is the day of rc3 and I think you're at a timezone
+offset that would make rerolling the series in time tricky,
+I'm going to let this through. But please can you fix your
+patch-handling workflow to ensure it doesn't corrupt UTF-8 ?
 
-> +static void remote_pcihost_realize(DeviceState *dev, Error **errp)
-> +{
-> +    char *busname = g_strdup_printf("remote-pci-%ld", (unsigned long)getpid());
+Applied, thanks.
 
-Why is the pid used here? I don't understand why this helps. If
-additional instances are created in this process then the name won't be
-unique. The name isn't exposed outside the process, so there is no need
-to uniquely identify the process either.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-g_free(busname) is missing. A nice way to fix this is:
-
-  g_autofree char *busname = ...
-
-This avoids the need to manually call g_free().
-
---WIyZ46R2i8wDzkSu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8pPNIACgkQnKSrs4Gr
-c8ierQf+I5qMXzWopddSnB/Prw8ulh3v8u7uKt7s1cdmPUjJ4bMNH+5bC6bzRSjM
-4Pf8yw6v5rzL+eiUHtsdKyQsqxLQTaXQexMojxxO0XsO9t7JbMduyKxP4eI2OYdh
-oVxdRft9KBkQM4NWDG5WnYwEkx8iRqERX2moXBl2JoYtIUtrx3pVbvjfuPVxweks
-KJa5aWIlqMA/a7riKVc8cECA/++UyS6GChReBZdJe8STp3fzbXGPRoUUNWNvYSta
-+NYOqKBaj3fwwF9niaW1fFdbS3ZN+ZvlLFVlXcz4g83XNn1JrvZ0Fq1zWG9hkGwR
-PLNhyMJTbhKN/NxWyTWYy9Sv4Q+PJQ==
-=wKeR
------END PGP SIGNATURE-----
-
---WIyZ46R2i8wDzkSu--
-
+-- PMM
 
