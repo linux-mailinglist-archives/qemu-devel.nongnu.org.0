@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A86723B8F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:41:48 +0200 (CEST)
-Received: from localhost ([::1]:45128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8F023B8E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 12:40:07 +0200 (CEST)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2uOB-0005yz-MP
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
+	id 1k2uMY-0002oS-DE
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 06:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1k2uKL-0000wb-Na; Tue, 04 Aug 2020 06:37:49 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:48142)
+ id 1k2uKN-0000ww-H3; Tue, 04 Aug 2020 06:37:51 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:36446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1k2uKF-0002KQ-7W; Tue, 04 Aug 2020 06:37:48 -0400
+ id 1k2uKL-0002L8-80; Tue, 04 Aug 2020 06:37:51 -0400
 Received: from iva8-d077482f1536.qloud-c.yandex.net
  (iva8-d077482f1536.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 87DC92E1651;
- Tue,  4 Aug 2020 13:37:35 +0300 (MSK)
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 11D242E1637;
+ Tue,  4 Aug 2020 13:37:45 +0300 (MSK)
 Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
  (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
  by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Ote9oNWC2p-bUtu0maj; Tue, 04 Aug 2020 13:37:35 +0300
+ zQBziKgDuh-bgtuGKno; Tue, 04 Aug 2020 13:37:45 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1596537455; bh=byWalZzlV6Kc9WQLv0XUfukdkc8FtZimav1r3Wx+JfY=;
+ t=1596537464; bh=w4HAjC+uPauCS+4y5UQZrU0FI/SIeVh9OnDJmAmUQsg=;
  h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
  Subject:To:From:Cc;
- b=TmmHyScBiFdXsCttXeMDslB+26hTyyxoyPV7xU/hsaS0qt4S2+YZkU1j0iei4poHD
- Zty7zEpwM+tUFr8hrwKCHibudKsnn2Ej6hnnrr2UIZkpcLs/1AzRVQUGeRys0zSrhB
- KjVJP6ru+0TD97x4RkM7sWYZ22+tUy7Xr/ctcufY=
+ b=FIBM6gcfK4+uCgYIDSX/DPUIumXleoS+Afw7F/RaEaw7WjvqgjszIwDJt3C9/G3+y
+ txxe94V+rq/R/YLDkLE0be/JiNfNA00zb8D7WkB8N3ByQekOUTkmqmDNQjjXBBNEHv
+ 2XYn8vesEbVqSTr0lLQK/ay2R6l5E6FcrUMrcLmQ=
 Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:2::1:a])
  by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ZZLKBSFEhl-bUiW9ggY; Tue, 04 Aug 2020 13:37:30 +0300
+ ZZLKBSFEhl-bfiWw1ux; Tue, 04 Aug 2020 13:37:42 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/7] vhost: recheck dev state in the vhost_migration_log
+Subject: [PATCH v1 2/7] vhost: check queue state in the vhost_dev_set_log
  routine
-Date: Tue,  4 Aug 2020 13:36:46 +0300
-Message-Id: <723bde710a16a24f4d684d05abf4e61e1ee4138c.1596536559.git.dimastep@yandex-team.ru>
+Date: Tue,  4 Aug 2020 13:36:47 +0300
+Message-Id: <ad74b7dd5f58e8ac68918b6ddc5a1e203bb2d77c.1596536559.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1596536559.git.dimastep@yandex-team.ru>
 References: <cover.1596536559.git.dimastep@yandex-team.ru>
 In-Reply-To: <cover.1596536559.git.dimastep@yandex-team.ru>
 References: <cover.1596536559.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=5.45.199.163;
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
  envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 06:37:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,154 +82,47 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost-user devices can get a disconnect in the middle of the VHOST-USER
-handshake on the migration start. If disconnect event happened right
-before sending next VHOST-USER command, then the vhost_dev_set_log()
-call in the vhost_migration_log() function will return error. This error
-will lead to the assert() and close the QEMU migration source process.
-For the vhost-user devices the disconnect event should not break the
-migration process, because:
-  - the device will be in the stopped state, so it will not be changed
-    during migration
-  - if reconnect will be made the migration log will be reinitialized as
-    part of reconnect/init process:
-    #0  vhost_log_global_start (listener=0x563989cf7be0)
-    at hw/virtio/vhost.c:920
-    #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
-        as=0x563986ea4340 <address_space_memory>)
-    at softmmu/memory.c:2664
-    #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
-        as=0x563986ea4340 <address_space_memory>)
-    at softmmu/memory.c:2740
-    #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
-        opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
-        busyloop_timeout=0)
-    at hw/virtio/vhost.c:1385
-    #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
-    at hw/block/vhost-user-blk.c:315
-    #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
-        event=CHR_EVENT_OPENED)
-    at hw/block/vhost-user-blk.c:379
-Update the vhost-user-blk device with the internal started field which
-will be used for initialization and clean up. The disconnect event will
-set the overall VHOST device to the stopped state, so it can be used by
-the vhost_migration_log routine.
-Such approach could be propogated to the other vhost-user devices, but
-better idea is just to make the same connect/disconnect code for all the
-vhost-user devices.
-
-This migration issue was slightly discussed earlier:
-  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
-  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
+If the vhost-user-blk daemon provides only one virtqueue, but device was
+added with several queues, then QEMU will send more VHOST-USER command
+than expected by daemon side. The vhost_virtqueue_start() routine
+handles such case by checking the return value from the
+virtio_queue_get_desc_addr() function call. Add the same check to the
+vhost_dev_set_log() routine.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
 ---
- hw/block/vhost-user-blk.c          | 13 ++++++++++++-
- hw/virtio/vhost.c                  | 27 ++++++++++++++++++++++++---
- include/hw/virtio/vhost-user-blk.h |  1 +
- 3 files changed, 37 insertions(+), 4 deletions(-)
+ hw/virtio/vhost.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index a00b854..9da08ec 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -150,6 +150,7 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
-         error_report("Error starting vhost: %d", -ret);
-         goto err_guest_notifiers;
-     }
-+    s->started = true;
- 
-     /* guest_notifier_mask/pending not used yet, so just unmask
-      * everything here. virtio-pci will do the right thing by
-@@ -341,8 +342,9 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     }
-     s->connected = false;
- 
--    if (s->dev.started) {
-+    if (s->started) {
-         vhost_user_blk_stop(vdev);
-+        s->started = false;
-     }
- 
-     vhost_dev_cleanup(&s->dev);
-@@ -399,6 +401,15 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-                     NULL, NULL, false);
-             aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
-         }
-+
-+        /*
-+         * Move vhost device to the stopped state. The vhost-user device
-+         * will be clean up and disconnected in BH. This can be useful in
-+         * the vhost migration code. If disconnect was caught there is an
-+         * option for the general vhost code to get the dev state without
-+         * knowing its type (in this case vhost-user).
-+         */
-+        s->dev.started = false;
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
 diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 1a1384e..ffef7ab 100644
+index ffef7ab..a33ffd4 100644
 --- a/hw/virtio/vhost.c
 +++ b/hw/virtio/vhost.c
-@@ -861,21 +861,42 @@ static int vhost_migration_log(MemoryListener *listener, bool enable)
-         dev->log_enabled = enable;
-         return 0;
+@@ -825,12 +825,24 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
+ static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
+ {
+     int r, i, idx;
++    hwaddr addr;
++
+     r = vhost_dev_set_features(dev, enable_log);
+     if (r < 0) {
+         goto err_features;
      }
-+
-+    r = 0;
-     if (!enable) {
-         r = vhost_dev_set_log(dev, false);
+     for (i = 0; i < dev->nvqs; ++i) {
+         idx = dev->vhost_ops->vhost_get_vq_index(dev, dev->vq_index + i);
++        addr = virtio_queue_get_desc_addr(dev->vdev, idx);
++        if (!addr) {
++            /*
++             * The queue might not be ready for start. If this
++             * is the case there is no reason to continue the process.
++             * The similar logic is used by the vhost_virtqueue_start()
++             * routine.
++             */
++            break;
++        }
+         r = vhost_virtqueue_set_addr(dev, dev->vqs + i, idx,
+                                      enable_log);
          if (r < 0) {
--            return r;
-+            goto check_dev_state;
-         }
-         vhost_log_put(dev, false);
-     } else {
-         vhost_dev_log_resize(dev, vhost_get_log_size(dev));
-         r = vhost_dev_set_log(dev, true);
-         if (r < 0) {
--            return r;
-+            goto check_dev_state;
-         }
-     }
-+
-+check_dev_state:
-     dev->log_enabled = enable;
--    return 0;
-+    /*
-+     * vhost-user-* devices could change their state during log
-+     * initialization due to disconnect. So check dev state after
-+     * vhost communication.
-+     */
-+    if (!dev->started) {
-+        /*
-+         * Since device is in the stopped state, it is okay for
-+         * migration. Return success.
-+         */
-+        r = 0;
-+    }
-+    if (r) {
-+        /* An error is occured. */
-+        dev->log_enabled = false;
-+    }
-+
-+    return r;
- }
- 
- static void vhost_log_global_start(MemoryListener *listener)
-diff --git a/include/hw/virtio/vhost-user-blk.h b/include/hw/virtio/vhost-user-blk.h
-index 34ad6f0..2112a48 100644
---- a/include/hw/virtio/vhost-user-blk.h
-+++ b/include/hw/virtio/vhost-user-blk.h
-@@ -39,6 +39,7 @@ typedef struct VHostUserBlk {
-     struct vhost_virtqueue *vhost_vqs;
-     VirtQueue **virtqs;
-     bool connected;
-+    bool started;
- } VHostUserBlk;
- 
- #endif
 -- 
 2.7.4
 
