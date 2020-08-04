@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4CF23B5BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 09:30:23 +0200 (CEST)
-Received: from localhost ([::1]:60256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BD323B5C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 09:32:47 +0200 (CEST)
+Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2rOw-0002ST-S3
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 03:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40244)
+	id 1k2rRG-0004SX-18
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 03:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2rNj-0001hz-1o
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 03:29:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32507
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k2rNh-00016i-EW
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 03:29:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596526144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iy14qF5x56oU4UwGRLG16d2B0g8YnSZZ5Yr4ec0eL0I=;
- b=WAgxJdT28S+453Z5FPsXxNDwyVBYCVk5zcG4SwMIiqaWIOe3l/Hixd8WH+NPJTgNyiBHAo
- JgH2/xgIfkUyyuBLYr9DogCaQksc6bVOlLlPp86WhpMXdkfJjZOJaGDLFV1GUBeKeT1/x5
- CzM+OW0QTgra+OVm/ergkiOiCEsQFZI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-HXaYK5LiOdmMApowdHw4aA-1; Tue, 04 Aug 2020 03:29:01 -0400
-X-MC-Unique: HXaYK5LiOdmMApowdHw4aA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEDC2102C887;
- Tue,  4 Aug 2020 07:28:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E755A8A19E;
- Tue,  4 Aug 2020 07:28:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7EFAB1132FD2; Tue,  4 Aug 2020 09:28:49 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] schemas: Add vim modeline
-References: <20200729185024.121766-1-abologna@redhat.com>
- <87ime52wxd.fsf@dusky.pond.sub.org>
- <20200730093732.GB3477223@redhat.com>
- <CAMRbyysFSFKSOXvYbxAvyf_pqzAxA0KpEgcoJ+5bwa3DbA3x6g@mail.gmail.com>
- <e3a83020-99d8-32b5-fa99-3bc154b01a38@redhat.com>
-Date: Tue, 04 Aug 2020 09:28:49 +0200
-In-Reply-To: <e3a83020-99d8-32b5-fa99-3bc154b01a38@redhat.com> (Paolo
- Bonzini's message of "Mon, 3 Aug 2020 14:16:17 +0200")
-Message-ID: <87r1smg98u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2rPe-0003Lc-FH
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 03:31:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2rPb-0001TG-6A
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 03:31:06 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k2rPY-0004Lw-An
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:31:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 491A82E80EE
+ for <qemu-devel@nongnu.org>; Tue,  4 Aug 2020 07:31:00 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 Aug 2020 07:23:08 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1879672@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange philmd ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158996968484.21371.12685815665992748631.malonedeb@wampee.canonical.com>
+Message-Id: <1eae7ba1-47a2-29f3-9425-aa9d8f617106@redhat.com>
+Subject: [Bug 1879672] Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7a912e3a1fdb5fddbf93ccc3383c1c13d5271aca
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 03:31:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,31 +76,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Nir Soffer <nsoffer@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Reply-To: Bug 1879672 <1879672@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 8/4/20 8:55 AM, Stefan Weil wrote:
+> Am 04.08.20 um 08:43 schrieb Thomas Huth:
+> =
 
-> On 01/08/20 01:12, Nir Soffer wrote:
->> I think inventing DSLs and developing tools is wrong. Use standard 
->> format and tools and spend time on the core of the project.
+>> On 03/08/2020 22.25, Stefan Weil wrote:
+>>> We can add a CI pipeline on Microsoft infrastructure by using a GitHub
+>>> action.
+>> Sorry for being ignorant, but how does that solve the legal questions
+>> just because it is running on GitHub instead of a different CI?
+>>
+>>  Thomas
+>>
+> =
+
+> Sorry, I though that would be clear by looking at the included shell scri=
+pt.
+> =
+
+> The build does not use the Microsoft SDK. It gets the required header
+> files from Mingw-w64. They added them in git master.
+
+Oh, so we can do that with GitLab too now, we don't need to rely on the
+GitHub 'Actions' CI in particular, right?
+
+> =
+
+> See
+> https://github.com/stweil/qemu/blob/master/.github/workflows/build.sh#L50
+> for code details.
+> =
+
+> It's still shameful that MS is forcing developers to waste time
+> rewriting API headers, just because the MS legal departments are not
+> able to understand the needs of Open Source development.
+
+There has be a big switch from Microsoft toward Open Source, I attended
+some of there talk at the Open Source Summit in 2018. Maybe we simply
+haven't contacted the right persons to make the changes...?
+
+> =
+
+> Stefan
+> =
+
+> =
+
 >
-> Please don't apply 2020 standards to choices that were made in 2009.  Or
-> if you do, be ready to contribute code.
 
-Is it still a good choice today?
+-- =
 
-For that question, we'd have to look beyond syntax.  Syntax has been the
-most boring and least expensive part of QAPI.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1879672
 
+Title:
+  QEMU installer with WHPX support
+
+Status in QEMU:
+  Opinion
+
+Bug description:
+  People often ask the community to add WHPX support to the QEMU installer =
+for Windows,
+  but it is impossible due to the license limitations of the WHPX SDK.
+
+  The WinHvEmulation.h and WinHvPlatform.h header files needed are "All
+  rights reserved".
+
+  However these headers only contain struct definitions and integer constan=
+ts,
+  no functional code in macros or inline functions. See:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg645815.html
+  It is questionable whether the headers alone can be considered copyrighta=
+ble material.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1879672/+subscriptions
 
