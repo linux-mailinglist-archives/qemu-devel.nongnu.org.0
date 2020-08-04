@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8E623BDB5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:07:38 +0200 (CEST)
-Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB64023BDE0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:14:38 +0200 (CEST)
+Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2zTV-0001yN-AF
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44384)
+	id 1k2zaH-0000yK-Eo
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k2zSA-0001Xb-TD
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:06:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45380
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k2zS7-0005PA-GW
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:06:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596557169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FQCkHYX73tpJr2tg7afty40KNkPF9iElNypw/ReEaGo=;
- b=FPn/YJ2muRsGQdf9+X7ziWpRSYVdl8iPqopU8bGYO4ULh1yzzANkxvye52xIO/VdK7krD3
- fa1pDc6TWLoG67o14uOuS8fu8pLxd4nQQW4VBAfsljPn9ekZJLXFJCIlIxxfjygksbMXYP
- SfjuGNOsciI0tFLunzPbyGdzdkD9cmo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-2YsCrO06MDqs1pOK0wOjJw-1; Tue, 04 Aug 2020 12:06:08 -0400
-X-MC-Unique: 2YsCrO06MDqs1pOK0wOjJw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4B8D800475;
- Tue,  4 Aug 2020 16:06:06 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-165.ams2.redhat.com [10.36.113.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3E275C1D2;
- Tue,  4 Aug 2020 16:06:05 +0000 (UTC)
-Date: Tue, 4 Aug 2020 18:06:04 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6 06/12] monitor: Make current monitor a per-coroutine
- property
-Message-ID: <20200804160604.GB4860@linux.fritz.box>
-References: <20200528153742.274164-1-kwolf@redhat.com>
- <20200528153742.274164-7-kwolf@redhat.com>
- <87tuxia5a9.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k2zTy-00033a-Lm
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:06 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k2zTw-0005ho-EW
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:06 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x5so3192535wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:08:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=L2N/WqWUgl2HvNqOngwopEC6v4bzgjEi7G14T0l1LKY=;
+ b=xfs/QwZGmD8pWMEBGUi7joyN5DWp05emQ7rYgZwk1uyROUAjdsTgNPLoeP3SOxm3f6
+ 3+sUXh/SqzTsZep+avZ5qLMyE7ec+pb/W0eRzHIjagIaICVB90RLDc1pnl5q6re+O9FN
+ yuZ5P+EHAhfK7DlGTxcXtSWvJ31H9wtUjCMmBsTnUzcDXLjy/yxZUNXZgr+WBXftSZzA
+ wJNJIrMUNbSvGrv9bfK2kYf/Gjn9U7iIL5dqJFhxkVSBHnaX9Ue+doZCkPf1xMEA6IPC
+ wltOcQRD5bZxPXJ+bc5wLr4m15oitu+r3/aInNQsfPVltP3AwfAxv64GNAmoob73Y1Nb
+ 7G/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=L2N/WqWUgl2HvNqOngwopEC6v4bzgjEi7G14T0l1LKY=;
+ b=W3SyTB+yNlE5LD250hd7xq+VrlXK4jfrHrcirGq9bNkwQMT1WMUougcGslLj7x1taD
+ iTIXH9KsOhdTUmR3L3YQvyWHL/CbBBYuN+fhDCHo6L5HMhWKjAK/5LL1Kb/yz6JlvMTh
+ U+kQyR8ulVXK5VsrMPkgw22feWSFD8cvNQUc4qQUmWFo1KK84ZZkDvX9wAqsqsPSAfMS
+ Lq/7vuaUU/POnUChKoAQstDgXOFFJZiFDQ4+Ck/wZGh+JgpVDMLouS5cr9zaBje1k0aJ
+ tKLbcI7cVQZr0vt8EPrs3paZ3ibYGwGXAORsHUJOU9LgW3JzCOHyIDMFrLp7DZIoNvhR
+ ns/Q==
+X-Gm-Message-State: AOAM5305l6cwNmkaYN9hVYoklNUwy6X8yR416G/5T66NB1e7rrWGqMew
+ KWwF3PGmfQYhpX/k0lwjLEN99A==
+X-Google-Smtp-Source: ABdhPJxksVwPpSAp+F4AgM0Y7J32EECMX6BlYmx7S/nu06KO0OkgNgEqNOq+LxG3HxtubNVUcXQCIA==
+X-Received: by 2002:a1c:9a81:: with SMTP id c123mr4543053wme.46.1596557282094; 
+ Tue, 04 Aug 2020 09:08:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i82sm5518928wmi.10.2020.08.04.09.08.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Aug 2020 09:08:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D3D141FF7E;
+ Tue,  4 Aug 2020 17:07:59 +0100 (BST)
+References: <20200730141326.8260-1-thuth@redhat.com>
+ <20200730141326.8260-2-thuth@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 1/4] tests/docker: Add python3-venv and netcat to the
+ debian-amd64 container
+In-reply-to: <20200730141326.8260-2-thuth@redhat.com>
+Date: Tue, 04 Aug 2020 17:07:59 +0100
+Message-ID: <87ft92mm1s.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87tuxia5a9.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,154 +90,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.08.2020 um 15:50 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> 
-> > This way, a monitor command handler will still be able to access the
-> > current monitor, but when it yields, all other code code will correctly
-> > get NULL from monitor_cur().
-> >
-> > Outside of coroutine context, qemu_coroutine_self() returns the leader
-> > coroutine of the current thread.
-> 
-> Unsaid: you use it as a hash table key to map from coroutine to monitor,
-> and for that you need it to return a value unique to the coroutine in
-> coroutine context, and a value unique to the thread outside coroutine
-> context.  Which qemu_coroutine_self() does.  Correct?
 
-Correct.
+Thomas Huth <thuth@redhat.com> writes:
 
-> The hash table works, but I hate it just as much as I hate
-> pthread_getspecific() / pthread_setspecific().
-> 
-> What we have here is a need for coroutine-local data.  Feels like a
-> perfectly natural concept to me.
+> Without python3-venv, I get the following message when trying to
+> run the acceptance tests within the debian container:
+>
+>  The virtual environment was not created successfully because ensurepip i=
+s not
+>  available.  On Debian/Ubuntu systems, you need to install the python3-ve=
+nv
+>  package using the following command.
+>     apt-get install python3-venv
+>  You may need to use sudo with that command.  After installing the python=
+3-venv
+>  package, recreate your virtual environment.
+>
+> Let's do it as the message suggests.
+>
+> And while we're at it, also add netcat here since it is required for
+> some of the acceptance tests.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-If you have a good concept how to implement this in a generic way that
-doesn't impact the I/O fast path, feel free to implement it and I'll
-happily use it.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-But the hash table is simple and works for this use case, so I see
-little reason to invest a lot of time in something that we haven't ever
-had another user for.
+> ---
+>  tests/docker/dockerfiles/debian-amd64.docker | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/=
+dockerfiles/debian-amd64.docker
+> index 8fdfd6a6b0..d2500dcff1 100644
+> --- a/tests/docker/dockerfiles/debian-amd64.docker
+> +++ b/tests/docker/dockerfiles/debian-amd64.docker
+> @@ -20,7 +20,9 @@ RUN apt update && \
+>          librdmacm-dev \
+>          libsasl2-dev \
+>          libsnappy-dev \
+> -        libvte-dev
+> +        libvte-dev \
+> +        netcat-openbsd \
+> +        python3-venv
+>=20=20
+>  # virgl
+>  RUN apt update && \
 
-> Are we going to create another hash table whenever we need another piece
-> of coroutine-local data?  Or shall we reuse the hash table, suitably
-> renamed and moved to another file?
 
-I think I would vote for separate hash tables rather than having a hash
-table containing a struct that mixes values from all subsystems, but
-this can be discussed when (if) the need arises.
-
-> Why not simply associate an opaque pointer with each coroutine?  All it
-> takes is one more member of struct Coroutine.  Whatever creates the
-> coroutine decides what to use it for.  The monitor coroutine would use
-> it to point to the monitor.
-
-This doesn't work. error_report() is called from all kinds of
-coroutines, not just from coroutines created from the monitor, and it
-wants to know the current monitor.
-
-> At least, discuss the design alternatives in the commit message.
-
-*sigh* Fine. Tell me which set of alternatives to discuss.
-
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  include/monitor/monitor.h |  2 +-
-> >  monitor/hmp.c             |  4 ++--
-> >  monitor/monitor.c         | 27 +++++++++++++++++++++------
-> >  qapi/qmp-dispatch.c       |  4 ++--
-> >  stubs/monitor-core.c      |  2 +-
-> >  5 files changed, 27 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-> > index 43cc746078..16072e325c 100644
-> > --- a/include/monitor/monitor.h
-> > +++ b/include/monitor/monitor.h
-> > @@ -13,7 +13,7 @@ typedef struct MonitorOptions MonitorOptions;
-> >  extern QemuOptsList qemu_mon_opts;
-> >  
-> >  Monitor *monitor_cur(void);
-> > -void monitor_set_cur(Monitor *mon);
-> > +void monitor_set_cur(Coroutine *co, Monitor *mon);
-> >  bool monitor_cur_is_qmp(void);
-> >  
-> >  void monitor_init_globals(void);
-> > diff --git a/monitor/hmp.c b/monitor/hmp.c
-> > index 79be6f26de..3e73a4c3ce 100644
-> > --- a/monitor/hmp.c
-> > +++ b/monitor/hmp.c
-> > @@ -1082,9 +1082,9 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
-> >  
-> >      /* old_mon is non-NULL when called from qmp_human_monitor_command() */
-> >      old_mon = monitor_cur();
-> > -    monitor_set_cur(&mon->common);
-> > +    monitor_set_cur(qemu_coroutine_self(), &mon->common);
-> >      cmd->cmd(&mon->common, qdict);
-> > -    monitor_set_cur(old_mon);
-> > +    monitor_set_cur(qemu_coroutine_self(), old_mon);
-> >  
-> >      qobject_unref(qdict);
-> >  }
-> > diff --git a/monitor/monitor.c b/monitor/monitor.c
-> > index 182ba136b4..35003bb486 100644
-> > --- a/monitor/monitor.c
-> > +++ b/monitor/monitor.c
-> > @@ -58,24 +58,38 @@ IOThread *mon_iothread;
-> >  /* Bottom half to dispatch the requests received from I/O thread */
-> >  QEMUBH *qmp_dispatcher_bh;
-> >  
-> > -/* Protects mon_list, monitor_qapi_event_state, monitor_destroyed.  */
-> > +/*
-> > + * Protects mon_list, monitor_qapi_event_state, coroutine_mon,
-> > + * monitor_destroyed.
-> > + */
-> >  QemuMutex monitor_lock;
-> >  static GHashTable *monitor_qapi_event_state;
-> > +static GHashTable *coroutine_mon; /* Maps Coroutine* to Monitor* */
-> >  
-> >  MonitorList mon_list;
-> >  int mon_refcount;
-> >  static bool monitor_destroyed;
-> >  
-> > -static __thread Monitor *cur_monitor;
-> > -
-> >  Monitor *monitor_cur(void)
-> >  {
-> > -    return cur_monitor;
-> > +    Monitor *mon;
-> > +
-> > +    qemu_mutex_lock(&monitor_lock);
-> > +    mon = g_hash_table_lookup(coroutine_mon, qemu_coroutine_self());
-> > +    qemu_mutex_unlock(&monitor_lock);
-> > +
-> > +    return mon;
-> >  }
-> >  
-> > -void monitor_set_cur(Monitor *mon)
-> > +void monitor_set_cur(Coroutine *co, Monitor *mon)
-> >  {
-> > -    cur_monitor = mon;
-> > +    qemu_mutex_lock(&monitor_lock);
-> > +    if (mon) {
-> > +        g_hash_table_replace(coroutine_mon, co, mon);
-> > +    } else {
-> > +        g_hash_table_remove(coroutine_mon, co);
-> > +    }
-> > +    qemu_mutex_unlock(&monitor_lock);
-> >  }
-> 
-> You really need a contract now: any call to monitor_set_cur() with a
-> non-null @mon must be followed by a call with a null @mon.
-
-Why? g_hash_table_replace() removes the old value and replaces it with
-the new one.
-
-Kevin
-
+--=20
+Alex Benn=C3=A9e
 
