@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA5323BBE4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:19:45 +0200 (CEST)
-Received: from localhost ([::1]:44210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3433F23BBFC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:24:54 +0200 (CEST)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2xn6-0003ka-6P
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44504)
+	id 1k2xs5-0008C0-9l
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xko-0001no-3x
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:17:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52497
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xms-0003v9-L4
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:19:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26710
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xkl-00058i-PU
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:17:21 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xmq-0005Ka-P5
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:19:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596550639;
+ s=mimecast20190719; t=1596550768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=H5XVaHyiT/w+3pFr6N+Pkk1Oj8m4LHUScdYK0rWmxkQ=;
- b=LKMuEnQWuZpOFaXqAbKPUpHTgYdi0cy0jnSRyh1uwdkaMKMRrhUmWsc3zSpcsuyhGXSlJI
- SBiDKf4UDM1M43N1MV4pq2qWZlGp6LZ+ez469p/Pq3GXrCrmLJIS8vs7QWTocchpw4uo8j
- mvgIZxwcmkjaVzCxfLFltSCYcaCeM7E=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-dslwCg4TOmGadTAbN589_g-1; Tue, 04 Aug 2020 10:17:17 -0400
-X-MC-Unique: dslwCg4TOmGadTAbN589_g-1
-Received: by mail-qv1-f70.google.com with SMTP id x37so28575868qvf.4
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:17:17 -0700 (PDT)
+ bh=a9SbY9auShf4q9Q15pGhvpVRHE1I1RNPvox++Y+hYFk=;
+ b=CfA7KUqUOMgyPZQJdWhcXxc+hFtOQld9c5Yp3M2zJ53aRqOsTyUwZpgk2toAdbVSk547Bf
+ P2bZxL1wxxva+PFpg2+tadUHRb3iOKQ6jJhb4Pt/qPVPwMAvoTFmRkOSzL6Fca5W0AZ+Ns
+ OH/7pcexx/nvgJHuH5l6xJcK2kv/t84=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-6Tii61BFMaaO_7Fzbgf6WQ-1; Tue, 04 Aug 2020 10:19:24 -0400
+X-MC-Unique: 6Tii61BFMaaO_7Fzbgf6WQ-1
+Received: by mail-qv1-f69.google.com with SMTP id j8so26082821qvu.3
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:19:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=H5XVaHyiT/w+3pFr6N+Pkk1Oj8m4LHUScdYK0rWmxkQ=;
- b=dkhroqSay5PBpRW95UsoqD0R31Fa8sdhWn8REMeQbuajcJkPkc+RoEdrEeIYpXceSc
- VucnSeYnr2yUKhi7WAtbiQZhlcztb8nrpHU56KppG7PAWLdtyc+6/zEZAMwMAUvEo7gj
- VR1k/ncPQXRRK65ofACwAoHEXxXwsdbb5jhQayEsjiKnjTSWr2IZGRy0OS4lS88yCsP7
- tBnS1R509P4WtlMqL3jf6Wm7iuTzaGv/84OR0vaYfbg3ZKG4l5YvLhOKbf+y70C9IQ3v
- yG611q8OQWpHf08hBpbu2AM6otS6gZdVy2AOpO/OOSmTnZNrq1B0wWKCjVj7hp0pe1qE
- 7wTw==
-X-Gm-Message-State: AOAM533WCNQKW1Lnlhf1Y+RfFX5Vb/MMcfAaBI/PF3LeaS9j/Cg2m9lv
- J0VX4RjmO9zAV8Oas0uHpOo7A8wmqIYxWktbCGZvacqPyevQhbCuJYl4jjctordIT7PfkuqEPBm
- Vv2ADaPuTymUFiQo=
-X-Received: by 2002:aed:24f2:: with SMTP id u47mr15030292qtc.137.1596550636464; 
- Tue, 04 Aug 2020 07:17:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMvmT3T8A/n/YaNuL4t79eihBlrkxCNLz1+rYmOKwv4AAhEbpVooNGysdnKIF8Bvupk55SzA==
-X-Received: by 2002:aed:24f2:: with SMTP id u47mr15030268qtc.137.1596550636217; 
- Tue, 04 Aug 2020 07:17:16 -0700 (PDT)
+ bh=a9SbY9auShf4q9Q15pGhvpVRHE1I1RNPvox++Y+hYFk=;
+ b=uEMHLNHIJERt4bfGFbes/6T/3rgW+4XmfTf7kiCE3br8SbBynziw98+OfWKC4v4+qk
+ 59w9aautHtJUxPPd+TF5Kw5LjQeM7na8iaAilc7wvk96q852p8KZSCshoBAaPSAgczjD
+ pzhWlYlf222Ig3HT67e38MHrN+LO0DpP4sbs9jZVxVE7qEO2YBRgokLR01pQnk3Jo1tJ
+ /ZVf8I8MwtZ5ob78JTJ9IIP0CPhUkssYiE+7XNBa4UMdxXVNjAxDL5kNCrjgq7IZQHbS
+ 2FXryQRti2fB3E63WaonJ67rccnpQiZ0CUzNFmIBt/dq4ELDotiAgprIgnt8CiQUwApy
+ vbHA==
+X-Gm-Message-State: AOAM533oDn5QG7xYbTemySZnuR+eIf3fAIjvimjrkjQ9u/Cv8WGOKNg3
+ FH+I4Z4NTLmqjLBk9lgOUnacFp9PAwtD0scCOz390QjjQ6cxwpUkN6d5KHXkSqKWC+CnEtLgG3u
+ ZAahgdUC9YfsNOM8=
+X-Received: by 2002:aed:2a82:: with SMTP id t2mr21857060qtd.280.1596550763902; 
+ Tue, 04 Aug 2020 07:19:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzfs2ZCLc1G5Of9Qe9WkPrzjDFBgibDKyI9NAc/CqSC6o+JZLVRZRtGchagSauDwNmHeQ/7Q==
+X-Received: by 2002:aed:2a82:: with SMTP id t2mr21857026qtd.280.1596550763611; 
+ Tue, 04 Aug 2020 07:19:23 -0700 (PDT)
 Received: from redhat.com (bzq-79-177-102-128.red.bezeqint.net.
  [79.177.102.128])
- by smtp.gmail.com with ESMTPSA id u39sm12976492qtc.54.2020.08.04.07.17.14
+ by smtp.gmail.com with ESMTPSA id g4sm21567898qka.25.2020.08.04.07.19.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 07:17:15 -0700 (PDT)
-Date: Tue, 4 Aug 2020 10:17:12 -0400
+ Tue, 04 Aug 2020 07:19:23 -0700 (PDT)
+Date: Tue, 4 Aug 2020 10:19:17 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] virtio-mem: Correct format specifier mismatch for RISC-V
-Message-ID: <20200804141640.591031-4-mst@redhat.com>
-References: <20200804141640.591031-1-mst@redhat.com>
+To: Dima Stepanov <dimastep@yandex-team.ru>
+Subject: Re: [PATCH v1 0/7] vhost-user-blk: fix the migration issue and
+ enhance qtests
+Message-ID: <20200804101820-mutt-send-email-mst@kernel.org>
+References: <cover.1596536559.git.dimastep@yandex-team.ru>
 MIME-Version: 1.0
-In-Reply-To: <20200804141640.591031-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+In-Reply-To: <cover.1596536559.git.dimastep@yandex-team.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:01:15
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,46 +95,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bruce Rogers <brogers@suse.com>
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
+ qemu-block@nongnu.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, fengli@smartx.com, yc-core@yandex-team.ru,
+ pbonzini@redhat.com, raphael.norwitz@nutanix.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bruce Rogers <brogers@suse.com>
+On Tue, Aug 04, 2020 at 01:36:45PM +0300, Dima Stepanov wrote:
+> Reference e-mail threads:
+>   - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
+>   - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
+> 
+> If vhost-user daemon is used as a backend for the vhost device, then we
+> should consider a possibility of disconnect at any moment. There was a general
+> question here: should we consider it as an error or okay state for the vhost-user
+> devices during migration process?
+> I think the disconnect event for the vhost-user devices should not break the
+> migration process, because:
+>   - the device will be in the stopped state, so it will not be changed
+>     during migration
+>   - if reconnect will be made the migration log will be reinitialized as
+>     part of reconnect/init process:
+>     #0  vhost_log_global_start (listener=0x563989cf7be0)
+>     at hw/virtio/vhost.c:920
+>     #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
+>         as=0x563986ea4340 <address_space_memory>)
+>     at softmmu/memory.c:2664
+>     #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
+>         as=0x563986ea4340 <address_space_memory>)
+>     at softmmu/memory.c:2740
+>     #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
+>         opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
+>         busyloop_timeout=0)
+>     at hw/virtio/vhost.c:1385
+>     #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
+>     at hw/block/vhost-user-blk.c:315
+>     #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
+>         event=CHR_EVENT_OPENED)
+>     at hw/block/vhost-user-blk.c:379
+> The first patch in the patchset fixes this issue by setting vhost device to the
+> stopped state in the disconnect handler and check it the vhost_migration_log()
+> routine before returning from the function.
 
-This likely affects other, less popular host architectures as well.
-Less common host architectures under linux get QEMU_VMALLOC_ALIGN (from
-which VIRTIO_MEM_MIN_BLOCK_SIZE is derived) define to a variable of
-type uintptr, which isn't compatible with the format specifier used to
-print a user message. Since this particular usage of the underlying data
-seems unique to this file, the simple fix is to just cast
-QEMU_VMALLOC_ALIGN to uint32_t, which corresponds to the format specifier
-used.
+So I'm a bit confused. Isn't the connected state sufficient for this?
+If not, adding some code comments explaining when is each flag
+set would be helpful.
+Thanks!
 
-Signed-off-by: Bruce Rogers <brogers@suse.com>
-Message-Id: <20200730130519.168475-1-brogers@suse.com>
-Acked-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
----
- hw/virtio/virtio-mem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index c12e9f79b0..7740fc613f 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -36,7 +36,7 @@
-  * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
-  * memory (e.g., 2MB on x86_64).
-  */
--#define VIRTIO_MEM_MIN_BLOCK_SIZE QEMU_VMALLOC_ALIGN
-+#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
- /*
-  * Size the usable region bigger than the requested size if possible. Esp.
-  * Linux guests will only add (aligned) memory blocks in case they fully
--- 
-MST
+> qtest framework was updated to test vhost-user-blk functionality. The
+> vhost-user-blk/vhost-user-blk-tests/migrate_reconnect test was added to reproduce
+> the original issue found.
+> 
+> Dima Stepanov (7):
+>   vhost: recheck dev state in the vhost_migration_log routine
+>   vhost: check queue state in the vhost_dev_set_log routine
+>   tests/qtest/vhost-user-test: prepare the tests for adding new dev
+>     class
+>   tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
+>   tests/qtest/vhost-user-test: add support for the vhost-user-blk device
+>   tests/qtest/vhost-user-test: add migrate_reconnect test
+>   tests/qtest/vhost-user-test: enable the reconnect tests
+> 
+>  hw/block/vhost-user-blk.c          |  13 +-
+>  hw/virtio/vhost.c                  |  39 ++++-
+>  include/hw/virtio/vhost-user-blk.h |   1 +
+>  tests/qtest/libqos/virtio-blk.c    |  14 ++
+>  tests/qtest/vhost-user-test.c      | 291 +++++++++++++++++++++++++++++++------
+>  5 files changed, 311 insertions(+), 47 deletions(-)
+> 
+> -- 
+> 2.7.4
 
 
