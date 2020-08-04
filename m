@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB64023BDE0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:14:38 +0200 (CEST)
-Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3CF23BDC9
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:10:09 +0200 (CEST)
+Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2zaH-0000yK-Eo
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
+	id 1k2zVw-0004Nj-Ht
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k2zTy-00033a-Lm
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:06 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52300)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2zUi-0003DA-Ez
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:52 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k2zTw-0005ho-EW
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x5so3192535wmi.2
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:08:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2zUg-0005lq-Ot
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:52 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id 3so3477751wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=L2N/WqWUgl2HvNqOngwopEC6v4bzgjEi7G14T0l1LKY=;
- b=xfs/QwZGmD8pWMEBGUi7joyN5DWp05emQ7rYgZwk1uyROUAjdsTgNPLoeP3SOxm3f6
- 3+sUXh/SqzTsZep+avZ5qLMyE7ec+pb/W0eRzHIjagIaICVB90RLDc1pnl5q6re+O9FN
- yuZ5P+EHAhfK7DlGTxcXtSWvJ31H9wtUjCMmBsTnUzcDXLjy/yxZUNXZgr+WBXftSZzA
- wJNJIrMUNbSvGrv9bfK2kYf/Gjn9U7iIL5dqJFhxkVSBHnaX9Ue+doZCkPf1xMEA6IPC
- wltOcQRD5bZxPXJ+bc5wLr4m15oitu+r3/aInNQsfPVltP3AwfAxv64GNAmoob73Y1Nb
- 7G/w==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A4xGsM0zmyMEO3RL8fJrZLaRnxp2eZLyZdA++cojGtY=;
+ b=njKRZocW/VklWQs5Fncu8Lo17cRDLvwf+pOiKdMGUfKJfH/SQ2ZCbQSMa3sqJH3gB2
+ FVe062m/I7MNZnFZxOsiaQq0yazYjeihY9YtDDqExAqespjBkXwwJb/UnI1CUIy4YOhJ
+ YgVWzWLC6wWrqZM9HFAmBvMEtdZjCW5Wb+gw5DCB5i8D+Wm4bKDqflMqiFEkBPWLl0Gt
+ 7cV4LJN4TDNudXMdPp21JrMRiBzfpIJEFXP+KIVtwQX5yxvXtnR72dlZUn0+aPSTXayz
+ OgWn3jVYB/eqwEXS02QvcBMc+tpwPBtMLTV2GQO5PllcmLiEUV5t7e68SoDWqcGSUhsp
+ Ew+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=L2N/WqWUgl2HvNqOngwopEC6v4bzgjEi7G14T0l1LKY=;
- b=W3SyTB+yNlE5LD250hd7xq+VrlXK4jfrHrcirGq9bNkwQMT1WMUougcGslLj7x1taD
- iTIXH9KsOhdTUmR3L3YQvyWHL/CbBBYuN+fhDCHo6L5HMhWKjAK/5LL1Kb/yz6JlvMTh
- U+kQyR8ulVXK5VsrMPkgw22feWSFD8cvNQUc4qQUmWFo1KK84ZZkDvX9wAqsqsPSAfMS
- Lq/7vuaUU/POnUChKoAQstDgXOFFJZiFDQ4+Ck/wZGh+JgpVDMLouS5cr9zaBje1k0aJ
- tKLbcI7cVQZr0vt8EPrs3paZ3ibYGwGXAORsHUJOU9LgW3JzCOHyIDMFrLp7DZIoNvhR
- ns/Q==
-X-Gm-Message-State: AOAM5305l6cwNmkaYN9hVYoklNUwy6X8yR416G/5T66NB1e7rrWGqMew
- KWwF3PGmfQYhpX/k0lwjLEN99A==
-X-Google-Smtp-Source: ABdhPJxksVwPpSAp+F4AgM0Y7J32EECMX6BlYmx7S/nu06KO0OkgNgEqNOq+LxG3HxtubNVUcXQCIA==
-X-Received: by 2002:a1c:9a81:: with SMTP id c123mr4543053wme.46.1596557282094; 
- Tue, 04 Aug 2020 09:08:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i82sm5518928wmi.10.2020.08.04.09.08.00
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A4xGsM0zmyMEO3RL8fJrZLaRnxp2eZLyZdA++cojGtY=;
+ b=XCI3VhNhSQJBvgOmpQIUesjLVUb5OrgPyyCBHIvMjWhSMB2D9zqbDuda9vcdYuWXyA
+ ThW1SJQQk9R6iugqPNMglYPTGERy8fu7bpOg0V1/ycmGb4FfIxB0HIV2Nd6NStABBzDr
+ czhSI3EWj2jBwdolg+jtrNz5Ebd880E9b4WOnwNhPVn5RwnDOEF7JnhC6ZCJKqCAmN+V
+ eiTVwxp82Vf97ong8n7d0eTbuYrSTp12qpqPgPejYXFAq2DOImSl27VsIgtclNYt+u1P
+ E4ehAfHs/k8BGGmyx0cfNJDuQztEdt4EmvBbQqpsa8/6JNgzHCdhbHwOTwKyB7naQJK6
+ tHEw==
+X-Gm-Message-State: AOAM532yOwR+Wv6wbjytNvt1+1a0GNkTPadGN7Qq4+yGo+R1iiH/J/RB
+ Iy7jnj4f+Qk16a5HnaAyB+p6xp7zaIbCsw==
+X-Google-Smtp-Source: ABdhPJzBBsYU+aoG2CJg+FyNlE3xreQtL6nGR0C/vlQGNmtEyYc/zrtbi+9iq0wy4HmdVLSQqcv+tg==
+X-Received: by 2002:a1c:1f0d:: with SMTP id f13mr4942928wmf.53.1596557327625; 
+ Tue, 04 Aug 2020 09:08:47 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id b186sm5625928wme.1.2020.08.04.09.08.45
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 09:08:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D3D141FF7E;
- Tue,  4 Aug 2020 17:07:59 +0100 (BST)
-References: <20200730141326.8260-1-thuth@redhat.com>
- <20200730141326.8260-2-thuth@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 1/4] tests/docker: Add python3-venv and netcat to the
- debian-amd64 container
-In-reply-to: <20200730141326.8260-2-thuth@redhat.com>
-Date: Tue, 04 Aug 2020 17:07:59 +0100
-Message-ID: <87ft92mm1s.fsf@linaro.org>
+ Tue, 04 Aug 2020 09:08:45 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] target-arm queue
+Date: Tue,  4 Aug 2020 17:08:41 +0100
+Message-Id: <20200804160843.30245-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,61 +83,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Couple of last-minute things for rc3...
 
-Thomas Huth <thuth@redhat.com> writes:
+-- PMM
 
-> Without python3-venv, I get the following message when trying to
-> run the acceptance tests within the debian container:
->
->  The virtual environment was not created successfully because ensurepip i=
-s not
->  available.  On Debian/Ubuntu systems, you need to install the python3-ve=
-nv
->  package using the following command.
->     apt-get install python3-venv
->  You may need to use sudo with that command.  After installing the python=
-3-venv
->  package, recreate your virtual environment.
->
-> Let's do it as the message suggests.
->
-> And while we're at it, also add netcat here since it is required for
-> some of the acceptance tests.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+The following changes since commit d15532d91be177e7528310e0110e39f915779a99:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20200804' into staging (2020-08-04 11:53:20 +0100)
 
-> ---
->  tests/docker/dockerfiles/debian-amd64.docker | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/=
-dockerfiles/debian-amd64.docker
-> index 8fdfd6a6b0..d2500dcff1 100644
-> --- a/tests/docker/dockerfiles/debian-amd64.docker
-> +++ b/tests/docker/dockerfiles/debian-amd64.docker
-> @@ -20,7 +20,9 @@ RUN apt update && \
->          librdmacm-dev \
->          libsasl2-dev \
->          libsnappy-dev \
-> -        libvte-dev
-> +        libvte-dev \
-> +        netcat-openbsd \
-> +        python3-venv
->=20=20
->  # virgl
->  RUN apt update && \
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200804
 
---=20
-Alex Benn=C3=A9e
+for you to fetch changes up to d250bb19ced3b702c7c37731855f6876d0cc7995:
+
+  target/arm: Fix decode of LDRA[AB] instructions (2020-08-04 16:40:19 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Fix decode of LDRA[AB] instructions
+ * docs/devel: Document decodetree no-overlap groups
+
+----------------------------------------------------------------
+Peter Collingbourne (1):
+      target/arm: Fix decode of LDRA[AB] instructions
+
+Richard Henderson (1):
+      docs/devel: Document decodetree no-overlap groups
+
+ docs/devel/decodetree.rst  | 29 ++++++++++++++++++-----------
+ target/arm/translate-a64.c |  6 ++++--
+ 2 files changed, 22 insertions(+), 13 deletions(-)
 
