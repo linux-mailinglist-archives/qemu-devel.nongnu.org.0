@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFCB23B5C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 09:31:49 +0200 (CEST)
-Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B7723B5D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 09:38:40 +0200 (CEST)
+Received: from localhost ([::1]:40232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2rQK-0003VW-Gg
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 03:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
+	id 1k2rWw-0006ZP-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 03:38:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k2rOV-0002YN-T5
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 03:29:56 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54816)
+ (Exim 4.90_1) (envelope-from <jwsu1986@gmail.com>)
+ id 1k2rW2-0005jc-HB; Tue, 04 Aug 2020 03:37:42 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:33721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k2rOT-0001Ag-LB
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 03:29:55 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d190so1698367wmd.4
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 00:29:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jwsu1986@gmail.com>)
+ id 1k2rW0-0002Ds-J8; Tue, 04 Aug 2020 03:37:42 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id p191so5253233ybg.0;
+ Tue, 04 Aug 2020 00:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C2KdyQOxedA9bLlMRbqpEFb3kNUly4/ATOb9RLKOmfg=;
- b=gAIy+6oMB61fifgG0oMGTxy5isRQm8KaMqYV7cm1VRWbBPWNktfvSEASbC5q2dqbwE
- seOmr0K1xN4a2rKxn3jOF7EYOuYhU12BC3rOmEZ/0bOKmY+sDKjiJh4UEQ9C6fkTpP3b
- haaYqZj30pwqHvB+oQ7P5WtmOdqNoIiGXOjmeIVGRmNZhtKX69Nr51t2pd+w6k8YK/jR
- lzaZEXgRDRrFgen7mzN65cEWQeaaGV9ecw4SNVY/jTzP4BuOdgkk0Be2ads0KWMHKm+K
- DN13wxh7nXebMjUDF7NV1DZ1R46xETiPkqI0xlGz8FRTpeA/X6CDWMy6AATh6QWvD7ZV
- olYw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=N016jYxqycH4EFoWdJ7RPWxS/v26Q+yXklavvpLDJq0=;
+ b=ne7cdE0l/HKRKiFt2ioDKcW67a/Xirn9lnkcmn22u/JpKu989fXfXaeESoZaSa0lzd
+ uyzWeyfs8URQfr1Qf4zdCILyxp/3NZIurkqULsJPQdzPnC9HMFrx8SW2yPpIYZFGAtfa
+ gSagX8J6KUiDTSqRO0/SxxRCjmJ9WULN6DQTAI4NTwFNbXqIgSl7Ph6rEeAd7/LB8/iX
+ eo/6Xauh+wNrZSsJVxLIcdkO3oYuhp2vc56fisfU+HSjZ4ZgrcMnfVKBlQf0i+F3PSO0
+ CKdjgtj86NRYaIA6dD7gntnNC2O4fFEd7+iafN40nSp0uIAKioZWh5t5ZxQMkUukNo+6
+ XQEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C2KdyQOxedA9bLlMRbqpEFb3kNUly4/ATOb9RLKOmfg=;
- b=Oc2iQVvij0ocdOcd/TrSGznTK7Qi9ZK7UojSp02neq8IUnKVxaPejzTh3dUwdGnxoJ
- AcxnTNA0jGN3Nhh74psykL/crAY1MtPaiLfHu+sgtwj/UIycO8VsGi1XjYtkD6l4OjAd
- QGcO8Q/ueQfI2nqOYVaEwrgHrnnX+AkXgZyKXHMyJayNuVl6fiDAV9kw2KRl6t+NPizV
- Yz+NWjZ2qFD9ALcK53fjs4XwH6NZ9x0Y0+H4643Gxj05XeBnxvrTHoVGc6TBGqtoWhQ4
- 8fgPpUQGrDlv4lFv56dGDG44zQ0Su/+g462HbTe8Qrvy6Zb4BiPn1IFY7pb8swzIlGxn
- fD5g==
-X-Gm-Message-State: AOAM531uZdNUXlS2thIcIoApDcBDKiqXyT7KlENcJdMk+cDn2+9XsElB
- hvOzgQZBISfUeACb+lxYxrU=
-X-Google-Smtp-Source: ABdhPJyOJ1ApBpxcOuuaqmvLRXnaalcv7qdKXTXgGhV0xAhUbnwolAZjxQkCYmBwgpI3QFx8bIuADg==
-X-Received: by 2002:a1c:6007:: with SMTP id u7mr2853806wmb.32.1596526191533;
- Tue, 04 Aug 2020 00:29:51 -0700 (PDT)
-Received: from [192.168.1.43] (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id h13sm29996767wrx.17.2020.08.04.00.29.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Aug 2020 00:29:50 -0700 (PDT)
-Subject: Re: [PATCH for-5.1] Add GitHub action for Windows build
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200803202042.1869013-1-sw@weilnetz.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5373338e-0be6-83f4-e370-d693a06ce26b@amsat.org>
-Date: Tue, 4 Aug 2020 09:29:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=N016jYxqycH4EFoWdJ7RPWxS/v26Q+yXklavvpLDJq0=;
+ b=t31AIX6/cI2zUpOwXZL69N3lIfn24ISMvyecr8G7/7ajDVEqkpE+iJu/B7aSrWT2/x
+ HYkfPWffId/UkDM4QHWUxDV2yLnoATrWYk26O8sCfKJfnbr+7K8/dv7s/3BdyeJ9EAeh
+ xPItWENZ+W8LPeihb3dDdIFRLq0PqKlVhQxoLJ0r24GNMAWm6UdKCrEKtOIktEBlTW7F
+ OqwTKv1TsegOYPAHpw6snQci8+YVpHSFWeHLheRrXIY2NgKigKWlJDi3A3Qj3/9fmXLd
+ n9AH2HxDQLC4AjDvj52cUHEx6z9HnWaYMEViLAD6FCvQEkO2IvKzScQiD7JNFUymACBe
+ 1ZNQ==
+X-Gm-Message-State: AOAM532+1lRRYCf7U+Ak2AQHuYKwWbKzB8M1opExTdu5TigdZv0Ow4L2
+ qcyDsucp5S12UXgCdskYIXWf78NmmMudlj25bOI=
+X-Google-Smtp-Source: ABdhPJwTFWoi2fu4faDChQPsvQW+n2OgB5epsgFeGsQWF61pN2HcwjhS/0i17f9RenLWD+FLGYKEQzUMb5B2FvuxPXU=
+X-Received: by 2002:a25:ba41:: with SMTP id z1mr32583238ybj.84.1596526657806; 
+ Tue, 04 Aug 2020 00:37:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200803202042.1869013-1-sw@weilnetz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+References: <CAFKS8hWbckrE_cyJCf0pgFresD-JQk66wo-6uJA=Gu2MhReHVw@mail.gmail.com>
+ <20200728134936.GA21660@stefanha-x1.localdomain>
+In-Reply-To: <20200728134936.GA21660@stefanha-x1.localdomain>
+From: Derek Su <jwsu1986@gmail.com>
+Date: Tue, 4 Aug 2020 15:37:26 +0800
+Message-ID: <CAFKS8hVwajyBFrVSURs1bS0F+ig8PSUAi1+YPUpe6=KYH8TjmA@mail.gmail.com>
+Subject: Re: virtio-fs performance
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
+ envelope-from=jwsu1986@gmail.com; helo=mail-yb1-xb41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,279 +80,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/20 10:20 PM, Stefan Weil wrote:
-> The GitHub action is restricted to https://github.com/qemu/qemu.
-> 
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
-> 
-> This patch adds a GitHub action for continuous integration builds
-> of QEMU for Windows.
+Hello,
 
-Thanks for this!
+Set the cache=3Dnone in virtiofsd and direct=3D1 in fio,
+here are the results and kvm-exit count in 5 seconds.
 
-> 
-> The CI builds run on GitHub and include the WHPX code.
-> The action rules avoid unnecessary waste of resources by
-> limiting the GitHub action to the official mirror.
-> 
-> Peter, maybe this can still be added to 5.1.
-> There should be no risk as it only adds the GitHub action.
-> 
-> Regards,
+--thread-pool-size=3D64 (default)
+    seq read: 307 MB/s (kvm-exit count=3D1076463)
+    seq write: 430 MB/s (kvm-exit count=3D1302493)
+    rand 4KB read: 65.2k IOPS (kvm-exit count=3D1322899)
+    rand 4KB write: 97.2k IOPS (kvm-exit count=3D1568618)
+
+--thread-pool-size=3D1
+    seq read: 303 MB/s (kvm-exit count=3D1034614)
+    seq write: 358 MB/s. (kvm-exit count=3D1537735)
+    rand 4KB read: 7995 IOPS (kvm-exit count=3D438348)
+    rand 4KB write: 97.7k IOPS (kvm-exit count=3D1907585)
+
+The thread-pool-size=3D64 improves the rand 4KB read performance largely,
+but doesn't increases the kvm-exit count too much.
+
+In addition, the fio avg. clat of rand 4K write are 960us for
+thread-pool-size=3D64 and 7700us for thread-pool-size=3D1.
+
+Regards,
+Derek
+
+Stefan Hajnoczi <stefanha@redhat.com> =E6=96=BC 2020=E5=B9=B47=E6=9C=8828=
+=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=889:49=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> > I'm trying and testing the virtio-fs feature in QEMU v5.0.0.
+> > My host and guest OS are both ubuntu 18.04 with kernel 5.4, and the
+> > underlying storage is one single SSD.
+> >
+> > The configuations are:
+> > (1) virtiofsd
+> > ./virtiofsd -o
+> > source=3D/mnt/ssd/virtiofs,cache=3Dauto,flock,posix_lock,writeback,xatt=
+r
+> > --thread-pool-size=3D1 --socket-path=3D/tmp/vhostqemu
+> >
+> > (2) qemu
+> > qemu-system-x86_64 \
+> > -enable-kvm \
+> > -name ubuntu \
+> > -cpu Westmere \
+> > -m 4096 \
+> > -global kvm-apic.vapic=3Dfalse \
+> > -netdev tap,id=3Dhn0,vhost=3Doff,br=3Dbr0,helper=3D/usr/local/libexec/q=
+emu-bridge-helper
+> > \
+> > -device e1000,id=3De0,netdev=3Dhn0 \
+> > -blockdev '{"node-name": "disk0", "driver": "qcow2",
+> > "refcount-cache-size": 1638400, "l2-cache-size": 6553600, "file": {
+> > "driver": "file", "filename": "'${imagefolder}\/ubuntu.qcow2'"}}' \
+> > -device virtio-blk,drive=3Ddisk0,id=3Ddisk0 \
+> > -chardev socket,id=3Dch0,path=3D/tmp/vhostqemu \
+> > -device vhost-user-fs-pci,chardev=3Dch0,tag=3Dmyfs \
+> > -object memory-backend-memfd,id=3Dmem,size=3D4G,share=3Don \
+> > -numa node,memdev=3Dmem \
+> > -qmp stdio \
+> > -vnc :0
+> >
+> > (3) guest
+> > mount -t virtiofs myfs /mnt/virtiofs
+> >
+> > I tried to change virtiofsd's --thread-pool-size value and test the
+> > storage performance by fio.
+> > Before each read/write/randread/randwrite test, the pagecaches of
+> > guest and host are dropped.
+> >
+> > ```
+> > RW=3D"read" # or write/randread/randwrite
+> > fio --name=3Dtest --rw=3D$RW --bs=3D4k --numjobs=3D1 --ioengine=3Dlibai=
+o
+> > --runtime=3D60 --direct=3D0 --iodepth=3D64 --size=3D10g
+> > --filename=3D/mnt/virtiofs/testfile
+> > done
+> > ```
+> >
+> > --thread-pool-size=3D64 (default)
+> >     seq read: 305 MB/s
+> >     seq write: 118 MB/s
+> >     rand 4KB read: 2222 IOPS
+> >     rand 4KB write: 21100 IOPS
+> >
+> > --thread-pool-size=3D1
+> >     seq read: 387 MB/s
+> >     seq write: 160 MB/s
+> >     rand 4KB read: 2622 IOPS
+> >     rand 4KB write: 30400 IOPS
+> >
+> > The results show the performance using default-pool-size (64) is
+> > poorer than using single thread.
+> > Is it due to the lock contention of the multiple threads?
+> > When can virtio-fs get better performance using multiple threads?
+> >
+> >
+> > I also tested the performance that guest accesses host's files via
+> > NFSv4/CIFS network filesystem.
+> > The "seq read" and "randread" performance of virtio-fs are also worse
+> > than the NFSv4 and CIFS.
+> >
+> > NFSv4:
+> >   seq write: 244 MB/s
+> >   rand 4K read: 4086 IOPS
+> >
+> > I cannot figure out why the perf of NFSv4/CIFS with the network stack
+> > is better than virtio-fs.
+> > Is it expected? Or, do I have an incorrect configuration?
+>
+> No, I remember benchmarking the thread pool and did not see such a big
+> difference.
+>
+> Please use direct=3D1 so that each I/O results in a virtio-fs request.
+> Otherwise the I/O pattern is not directly controlled by the benchmark
+> but by the page cache (readahead, etc).
+>
+> Using numactl(8) or taskset(1) to launch virtiofsd allows you to control
+> NUMA and CPU scheduling properties. For example, you could force all 64
+> threads to run on the same host CPU using taskset to see if that helps
+> this I/O bound workload.
+>
+> fio can collect detailed statistics on queue depths and a latency
+> histogram. It would be interesting to compare the --thread-pool-size=3D64
+> and --thread-pool-size=3D1 numbers.
+>
+> Comparing the "perf record -e kvm:kvm_exit" counts between the two might
+> also be interesting.
+>
 > Stefan
-> 
-> 
->  .github/workflows/build.sh                | 112 ++++++++++++++++++++++
->  .github/workflows/pkg-config-crosswrapper |  37 +++++++
->  .github/workflows/win.yml                 |  34 +++++++
-
-This misses the MAINTAINERS entry:
-
--- >8 --
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0886eb3d2b..e64315265e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3068,6 +3068,12 @@ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
- S: Maintained
- F: .gitlab-ci.yml
-
-+GitHub actions (Windows installer)
-+M: Stefan Weil <sw@weilnetz.de>
-+M: Sunil Muthuswamy <sunilmut@microsoft.com>
-+S: Maintained
-+F: .github/workflows/
-+
- Guest Test Compilation Support
- M: Alex Bennée <alex.bennee@linaro.org>
- R: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
->  3 files changed, 183 insertions(+)
->  create mode 100755 .github/workflows/build.sh
->  create mode 100755 .github/workflows/pkg-config-crosswrapper
->  create mode 100644 .github/workflows/win.yml
-> 
-> diff --git a/.github/workflows/build.sh b/.github/workflows/build.sh
-> new file mode 100755
-> index 0000000000..c430a367be
-> --- /dev/null
-> +++ b/.github/workflows/build.sh
-> @@ -0,0 +1,112 @@
-> +#!/bin/bash
-> +
-> +# GitHub actions - Create QEMU installer for Windows
-> +
-> +# Author: Stefan Weil (2020)
-> +
-> +#~ set -e
-> +set -x
-> +
-> +ARCH=$1
-> +DLLS="libgcc_s_sjlj-1.dll libgomp-1.dll libstdc++-6.dll"
-> +
-> +if test "$ARCH" != "i686"; then
-> +  ARCH=x86_64
-> +  DLLS="libgcc_s_seh-1.dll libgomp-1.dll libstdc++-6.dll"
-> +fi
-> +
-> +ROOTDIR=$PWD
-> +DISTDIR=$ROOTDIR/dist
-> +HOST=$ARCH-w64-mingw32
-> +BUILDDIR=bin/ndebug/$HOST
-> +PKG_ARCH=mingw64-${ARCH/_/-}
-> +
-> +# Install cygwin key and add cygwin sources.
-> +curl -s https://qemu.weilnetz.de/debian/gpg.key | sudo apt-key add -
-> +echo deb https://qemu.weilnetz.de/debian/ testing contrib | \
-> +  sudo tee /etc/apt/sources.list.d/cygwin.list
-> +
-> +# Install packages.
-> +sudo apt-get update
-> +sudo apt-get install --no-install-recommends \
-> +  mingw-w64-tools nsis \
-> +  gcc libc6-dev \
-> +  g++-mingw-w64-${ARCH/_/-} gcc-mingw-w64-${ARCH/_/-} \
-> +  bison flex gettext python3-sphinx texinfo \
-> +  $PKG_ARCH-adwaita-icon-theme $PKG_ARCH-cogl $PKG_ARCH-curl \
-> +  $PKG_ARCH-gmp $PKG_ARCH-gnutls $PKG_ARCH-gtk3 $PKG_ARCH-icu \
-> +  $PKG_ARCH-libxml2 $PKG_ARCH-ncurses $PKG_ARCH-sdl2 $PKG_ARCH-usbredir
-> +
-> +# Workaround for buggy cross pkg-config.
-> +sudo ln -sf $PWD/.github/workflows/pkg-config-crosswrapper \
-> +  /usr/bin/$HOST-pkg-config
-> +
-> +# Get header files for WHPX API from Mingw-w64 git master.
-> +(
-> +sudo mkdir -p /usr/$HOST/sys-include
-> +cd /usr/$HOST/sys-include
-> +SF_URLBASE=https://sourceforge.net
-> +URL=$SF_URLBASE/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include
-> +sudo curl -s -o winhvemulation.h $URL/winhvemulation.h?format=raw
-> +sudo curl -s -o winhvplatform.h $URL/winhvplatform.h?format=raw
-> +sudo curl -s -o winhvplatformdefs.h $URL/winhvplatformdefs.h?format=raw
-> +sudo ln -s winhvemulation.h WinHvEmulation.h
-> +sudo ln -s winhvplatform.h WinHvPlatform.h
-> +sudo ln -s winhvplatformdefs.h WinHvPlatformDefs.h
-> +)
-> +
-> +DLL_PATH=$PWD/dll/$HOST
-> +
-> +mkdir -p $DISTDIR
-> +mkdir -p $DLL_PATH
-> +
-> +for dll in $DLLS; do
-> +  ln -sf /usr/lib/gcc/$HOST/*-win32/$dll $DLL_PATH
-> +done
-> +
-> +DLLS="iconv.dll libatk-1.0-0.dll libbz2-1.dll"
-> +DLLS="$DLLS libcairo-2.dll libcairo-gobject-2.dll libcurl-4.dll"
-> +DLLS="$DLLS libeay32.dll libepoxy-0.dll libexpat-1.dll"
-> +DLLS="$DLLS libffi-6.dll libfontconfig-1.dll libfreetype-6.dll"
-> +DLLS="$DLLS libgdk-3-0.dll libgdk_pixbuf-2.0-0.dll"
-> +DLLS="$DLLS libgio-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll"
-> +DLLS="$DLLS libgmp-10.dll libgnutls-30.dll libgobject-2.0-0.dll libgtk-3-0.dll"
-> +DLLS="$DLLS libharfbuzz-0.dll libhogweed-4.dll libidn2-0.dll libintl-8.dll"
-> +DLLS="$DLLS libjpeg-8.dll liblzo2-2.dll"
-> +DLLS="$DLLS libncursesw6.dll libnettle-6.dll libnghttp2-14.dll"
-> +DLLS="$DLLS libp11-kit-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll"
-> +DLLS="$DLLS libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll libpcre-1.dll"
-> +DLLS="$DLLS libpixman-1-0.dll libpng16-16.dll libssh2-1.dll libtasn1-6.dll"
-> +DLLS="$DLLS libunistring-2.dll libusb-1.0.dll libusbredirparser-1.dll"
-> +DLLS="$DLLS SDL2.dll ssleay32.dll zlib1.dll"
-> +
-> +for dll in $DLLS; do
-> +  ln -sf /usr/$HOST/sys-root/mingw/bin/$dll $DLL_PATH
-> +done
-> +
-> +ln -sf /usr/$HOST/lib/libwinpthread-1.dll $DLL_PATH
-> +
-> +# Build QEMU installer.
-> +
-> +echo Building $HOST...
-> +mingw=/usr/$HOST/sys-root/mingw
-> +mkdir -p $BUILDDIR && cd $BUILDDIR
-> +
-> +# Run configure.
-> +../../../configure --cross-prefix=$HOST- --disable-guest-agent-msi \
-> +    --disable-werror --enable-whpx \
-> +    --extra-cflags="-I $mingw/include" \
-> +    --extra-ldflags="-L $mingw/lib"
-> +
-> +# Add config.log to build artifacts.
-> +cp config.log $DISTDIR/
-> +
-> +make
-> +
-> +echo Building installers...
-> +date=$(date +%Y%m%d)
-> +INSTALLER=$DISTDIR/qemu-$ARCH-setup-$date.exe
-> +make installer DLL_PATH=$DLL_PATH SIGNCODE=true INSTALLER=$INSTALLER
-> +
-> +echo Calculate SHA-512 checksum...
-> +(cd $DISTDIR; exe=$(basename $INSTALLER); sha512sum $exe >${exe/exe/sha512})
-> diff --git a/.github/workflows/pkg-config-crosswrapper b/.github/workflows/pkg-config-crosswrapper
-> new file mode 100755
-> index 0000000000..768e554194
-> --- /dev/null
-> +++ b/.github/workflows/pkg-config-crosswrapper
-> @@ -0,0 +1,37 @@
-> +#! /bin/sh
-> +# pkg-config wrapper for cross-building
-> +# Sets pkg-config search path to search multiarch and historical cross-compiling paths.
-> +
-> +# If the user has already set PKG_CONFIG_LIBDIR, believe it (even if empty):
-> +# it's documented to be an override
-> +if [ x"${PKG_CONFIG_LIBDIR+set}" = x ]; then
-> +  # GNU triplet for the compiler, e.g. i486-linux-gnu for Debian i386,
-> +  # i686-linux-gnu for Ubuntu i386
-> +  basename="${0##*/}"
-> +  triplet="${basename%-pkg-config}"
-> +  # Normalized multiarch path if any, e.g. i386-linux-gnu for i386
-> +  multiarch="`dpkg-architecture -t"${triplet}" -qDEB_HOST_MULTIARCH 2>/dev/null`"
-> +
-> +  PKG_CONFIG_LIBDIR="/usr/local/${triplet}/lib/pkgconfig"
-> +  # For a native build we would also want to append /usr/local/lib/pkgconfig
-> +  # at this point; but this is a cross-building script, so don't
-> +  PKG_CONFIG_LIBDIR="$PKG_CONFIG_LIBDIR:/usr/local/share/pkgconfig"
-> +
-> +  if [ -n "$multiarch" ]; then
-> +    PKG_CONFIG_LIBDIR="/usr/local/lib/${multiarch}/pkgconfig:$PKG_CONFIG_LIBDIR"
-> +    PKG_CONFIG_LIBDIR="$PKG_CONFIG_LIBDIR:/usr/lib/${multiarch}/pkgconfig"
-> +  fi
-> +
-> +  PKG_CONFIG_LIBDIR="$PKG_CONFIG_LIBDIR:/usr/${triplet}/lib/pkgconfig"
-> +  # For a native build we would also want to append /usr/lib/pkgconfig
-> +  # at this point; but this is a cross-building script, so don't
-> +  # If you want to allow use of un-multiarched -dev packages for crossing
-> +  # (at the risk of finding build-arch stuff you didn't want, if not in a clean chroot)
-> +  # Uncomment the next line:
-> +  # PKG_CONFIG_LIBDIR="$PKG_CONFIG_LIBDIR:/usr/lib/pkgconfig"
-> +  PKG_CONFIG_LIBDIR="$PKG_CONFIG_LIBDIR:/usr/share/pkgconfig"
-> +
-> +  export PKG_CONFIG_LIBDIR
-> +fi
-> +
-> +exec pkg-config "$@"
-> diff --git a/.github/workflows/win.yml b/.github/workflows/win.yml
-> new file mode 100644
-> index 0000000000..81cf48530f
-> --- /dev/null
-> +++ b/.github/workflows/win.yml
-> @@ -0,0 +1,34 @@
-> +# GitHub actions - Create QEMU installers for Windows
-> +
-> +# The action is restricted to https://github.com/qemu/qemu.
-> +# That avoids an unnecessary waste of resources when each fork
-> +# runs the action, too.
-> +
-> +name: Cross build for Windows
-> +
-> +on: [push]
-> +
-> +jobs:
-> +  build32:
-> +    if: github.repository == 'qemu/qemu'
-> +    runs-on: [ubuntu-20.04]
-
-Since it is based on Ubuntu, we should be able to run it on GitLab
-directly (and simplifies our CI). Also we could drop the Shippable
-docker images too.
-
-This works, so:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-But I'm not keen on not using GitLab instead.
-
-The only point I see of using GitHub/Azureus is if we then install
-and run testing in the Windows Server 2019 environment:
-
-https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
-> +    steps:
-> +    - uses: actions/checkout@v2
-> +    - name: Build QEMU installer (32 bit)
-> +      run: .github/workflows/build.sh i686
-> +    - uses: actions/upload-artifact@v1
-> +      with:
-> +        name: QEMU Installer Windows 32 bit
-> +        path: dist
-> +
-> +  build64:
-> +    if: github.repository == 'qemu/qemu'
-> +    runs-on: [ubuntu-20.04]
-> +    steps:
-> +    - uses: actions/checkout@v2
-> +    - name: Build QEMU installer (64 bit)
-> +      run: .github/workflows/build.sh x86_64
-> +    - uses: actions/upload-artifact@v1
-> +      with:
-> +        name: QEMU Installer Windows 64 bit
-> +        path: dist
-> 
-
 
