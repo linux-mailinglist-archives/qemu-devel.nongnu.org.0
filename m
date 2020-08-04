@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144EA23B6BF
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 10:28:06 +0200 (CEST)
-Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4311223B6D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 10:33:15 +0200 (CEST)
+Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2sIm-0003RF-V4
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 04:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51226)
+	id 1k2sNm-0004uh-50
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 04:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k2s3J-0003m4-BK; Tue, 04 Aug 2020 04:12:05 -0400
-Received: from mout.web.de ([212.227.15.4]:50781)
+ id 1k2s3P-0003rX-LV; Tue, 04 Aug 2020 04:12:11 -0400
+Received: from mout.web.de ([212.227.17.11]:34305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k2s3H-0006cP-KX; Tue, 04 Aug 2020 04:12:05 -0400
+ id 1k2s3N-0006d0-Vd; Tue, 04 Aug 2020 04:12:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1596528718;
- bh=jJiANSLgv/H5Do6WJz6D84z5O0+cbPoWlrgPB0cClfg=;
+ s=dbaedf251592; t=1596528722;
+ bh=KEmy6YMSKvjy+8JKgUemriIQsd+cq5JBtEE6CKfv37Q=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=d+dsyFmuFysBCHX+4mb9NpoOFqiX/HsMmRCHVuflWOrjFlsDw5sL4g7UDTOaqMutg
- 5egFcsoYQGzD0sP++bFpmhfl37dPb80ZvSxB4dRZWQQAXp6vmY4XFB2qsinBGYsNzy
- QWRlGl3Zy+9JZEkRyVRpxRvkHmi2A8Y8mojdPITQ=
+ b=a5L+4sC7DiSQXw34/iZxuKfBD8qIi8JAtgpWVqsaZv1TAgM1DHjtX/qUPK7+ILCSD
+ aeIJZxeVnOV36rFO1WjdBBAboGkSPri5Z1XhsDFXIOodkFGa82B4TaAiStLkUP7PZG
+ 2yxEf/trElAMJgotGD4uRERmgTAEuVlG8MERtBcc=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.220]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MJWsm-1kIKV41SBs-00Jnta; Tue, 04
- Aug 2020 10:11:58 +0200
-Date: Tue, 4 Aug 2020 10:11:57 +0200
+Received: from luklap ([89.247.255.220]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LtnvF-1klwIh2v8X-0118Xe; Tue, 04
+ Aug 2020 10:12:02 +0200
+Date: Tue, 4 Aug 2020 10:12:01 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v7 7/8] MAINTAINERS: Add myself as maintainer for yank feature
-Message-ID: <5562d48f00ccebc3694cb2bd332b56441c64bebe.1596528468.git.lukasstraub2@web.de>
+Subject: [PATCH v7 8/8] tests/test-char.c: Wait for the chardev to connect
+ in char_socket_client_dupid_test
+Message-ID: <0c2f168afb1f66ccadef7ed623808aabf604fb65.1596528468.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1596528468.git.lukasstraub2@web.de>
 References: <cover.1596528468.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//Fon2fwJf+XS0Jau.Rg2Tyr";
+Content-Type: multipart/signed; boundary="Sig_/vnawgVI_5XO5eiA54j4_/4D";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:xEIHEBr1PXfi7MuijFwo8/qUx8Grn3ynlzFbrnDhUdIqk04iPDA
- DdCaou4cHN+kUK+SVUkbT5Tfvy/Yk7R31rgJm5lKenSmx5yKt7QikDgRa208TGBwgln1pbo
- i8KGdZ9yCtFsNudrrx0ylG8c8zjsyPzGmXCyIHTB8s9NrvLrz6TyebTzFgtIcvlcVPCR3A1
- 7uKJBxdRnjexXMHy4b5hg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JvKbVnyzl7Q=:WB9fjBumrOB8l7W/Dx0MHr
- mrQLs9+URj7WOLDr+7A9GqKkZMsgMnkURNY5yXtsVFz1PdroVzjYzDa+3fSA7msUH+FCzIbCt
- 9Y/OpX08osbvC2RDKYzIdOOi+405dUG9GuEaBkEReAtvE3Ao2QP8c4L+2k5ZQs4EJI/Nw8iJ2
- hkrwFK4GrFwNRZNPZ6dKxF+ra02d6fPhTakWY8bHSPnbviJzz19yBVTeXRLfvAZ36zMWsyYno
- pU5Jb5Yn2KMsBiv0UIv08XjAMR3QOz1Ez9L0DaWQIWNacR357iYOVYECttkhVyEm1aj8kOcSm
- qASSMhTZqlPlGHf/cbAQ+GHatu60YNO+Jt14rIln61lfUHr/WihoogwUIIlcdj/2o7LAEE7DW
- /qw9ONTUQcQ0LXmjgcIlB7cUMrKtQVzXfNJrVIveL59LywJO+VtoVdUDxRwmC4JEF65bvH1JB
- osqLO3Bq0zUJdDs89mWK7W8Fo63VjYMpdVMLrcvWPTA+Ye7yVJ+L1T+FQrO8+35lx+lxMSrC8
- Jze0o9If3Mt+cmawJSX+bofQ7DpH5AIKGg6TLB9lS1/ydwg70Ee7u7ln1UvcpESjKIP8iPNgH
- ONwAG3tPdqr85iNesus+jNoKXfAzw6cW9pNDgED6glmYerwvtbaSiHddE5I0ip1KgguSh79G1
- xV+I7Fu/BmWktIuOHX7G7Pufa3Au+dmLvnbG1W1HsbVMyzefjHN4R8JmGNMd113YUYbWD9ra4
- Ne/xSNI67MZ3hMP8b8r96R+LiNdVr4hkEPZMoOGzKDU5dwwdxVYsXUrjHV9Yb9UcFoACfqY8c
- d4/JXkYc4tZL65URZZ9jnQu5rvqJMQAKzQm+yf1hTjz8/Sx2+ZTQcee+Lo61cOlROgC59S8fI
- 5XEEGNvAhxfje5OwnmzFgGfLDe8k5QYUjC4UYE9q6tdNTx0xljHVXtWk1z9QmcHzxaoHV5247
- 4nx8GROlw4YDeItg8kSRkHBY/u/1YdjphXOmszxYNCog9qBEcFSwcc14FJ6vnDJvjjHA5iOBo
- w0cmceIqM8qZtB9t7SXGZCAJ9omFpIktmhjTRYwHCbX5DhNZKVYwSzOJeMsrFGiPJAGcbXU59
- CPxWgPh9LLQj5nhpoiHycWnZu3jiknuYTDHjFFbzBB4hulmWi/pWoUpjk8AnDcD2YfpLfckyt
- dc7ZszcxD7w9tfoREpH/Ozd4Jqjg8An1YVuak3NFdxQBBfW8EPt8rVwo/ksEZDu4jNwPUyzTL
- W2hLLaZrCJD3zNL82sJQLMOcG2SHhfrHtF3czKA==
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:JqlhMxM2Wvc+dVPQauu08XY9qCHu6PE/2EtCxKJ310dLgS6sEgY
+ cwyE9Lf0TfT6H7JBJDIeaR06uyXQbe3Xg9iDQtSgya2OmfSRWxBh5dFpbhqMfW/SMG7VTNN
+ IVzKToF7CiNaGsTwYzBc2cG47qH8gmeAEiTTytIqP0gj0Z5QuZ8pOP86l5bcAHaFv+Gp+Rv
+ FImbvexy8AU/bks2ABcyQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aiL4tHeHjFo=:o77J2CB86xrPXyE84PJmrL
+ TU/1LocODEVls1CFSYDGouVtSfrba2L9pRDs74ADMCCfY0Q/kjQl+B3MTuG4d1X8Uw5OhQ+4M
+ OR2ctlg1YzfNpF5r1hlHxeDOY5wFboe+EfowB18NglNACgWrLDhX0BVkd4oPk+rhFewIA0lzS
+ W4b1v0e4KLY7hJRK+m+zWWzl5I+NpAJZWuHPol2eL2m5XJMYpD2YHV/VCxrKkZeVQgFB0zVOu
+ DpDUzvY+l4Uw1LOOK7mIFAP5lnWBRHvbeIuob2WG84+F12RpagcrQdn0g/nGIBEHwRIWV0RY0
+ hYLYyKGsuS4JaLZyMp2pnXIs7M+JFN7LLo1g8gaWspJiaaPEqxt1L9bmvgVJ+YawecrSoZvA8
+ rrHEdFkgWX2bgGqGx6gOy7ECG7LIuyZoxBodm/493KDMhkA6Y28M+srNWHqeTCFVa/gFvwPhO
+ KTX1L2gMsMvl3rtpSVFWFzNYSuJZ4ZLDDbxACSH14bFGVT4EqkSapbqGI6rxphXn17bqCf0zM
+ 6U68S3hwObf/sd/ZB2aNHcXmPIOerh9ZJZS45SigGkon32+vtaLVM8AmpFxkPq2D7R+sEPuJn
+ PLQPTS3hRCApwbYA2bXnKKjKUvV7gYPpkmT+JR55e+K+ptAAoUK9mticok0FzNt+65wSpRQwD
+ 2xMOLcsF003mY5jEw8J7BMQUqdhp0DsgTwJ/GSpb3ktSdHNk05pTGXtEz1jESdaid3aigryxr
+ yL6eTW/TbbgWV92+1SKWsiabkA04uVBtxpRP7Hs4v3T39C52EVJHaSM9SoMSQRwe+hWro8Eu+
+ HW6Q5JAPxK4Wy9OJH0OueiE8C2/hI+jihM8KXrYWdcLMwdNBm6R/XpP/WUd7YqtSFHKAkqxfn
+ 11Fg8oemU80rzasu/FI2wF1iNeKStiJkbroH3xkWvVKlcrZCb1ufHPuA+JvHs0GdiEBw5lkQn
+ 0rYTqjOXIcVgLjEO2FQfKT1kUa6zr2qBEhZXInnOmiSiAoEnp3RY0gdT5EcN8SYMDc1QIfA+e
+ 5scZjQsEIdA2pOye+2jMOjZfuEo5amtq0gqfAEOEE1I/PgifKA6kzoypQjnIGn61G7k9kkNzr
+ WOIGQWkgK9V/jPd9D4AJnadO2/IaPHaUHDeWepRzFWOwQ9SvdPzqeaVrS1VZ8MKnbVmg1z0bp
+ kldbWeyQ7MjV4AohZNpG4KTre+e6SXqH0jK06bAPg30Nl1AtV8BmkBVp8/uFHbhr3BZu689K8
+ P1NtaiIdKMjHZNstfdc8iQK7P16q9Zna2llp12w==
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 04:12:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 04:11:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -95,61 +96,58 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_//Fon2fwJf+XS0Jau.Rg2Tyr
-Content-Type: text/plain; charset=UTF-8
+--Sig_/vnawgVI_5XO5eiA54j4_/4D
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-I'll maintain this for now as the colo usecase is the first user
-of this functionality.
+A connecting chardev object has an additional reference by the connecting
+thread, so if the chardev is still connecting by the end of the test,
+then the chardev object won't be freed. This in turn means that the yank
+instance won't be unregistered and when running the next test-case
+yank_register_instance will abort, because the yank instance is
+already/still registered.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/test-char.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0886eb3d2b..bf5075a637 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2614,6 +2614,12 @@ F: util/uuid.c
- F: include/qemu/uuid.h
- F: tests/test-uuid.c
+diff --git a/tests/test-char.c b/tests/test-char.c
+index d35cc839bc..2ced07de69 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
+ opaque)
+     g_assert_nonnull(opts);
+     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
+     g_assert_nonnull(chr1);
++    qemu_chr_wait_connected(chr1, &error_abort);
 
-+Yank feature
-+M: Lukas Straub <lukasstraub2@web.de>
-+S: Odd fixes
-+F: util/yank.c
-+F: include/qemu/yank.h
-+
- COLO Framework
- M: zhanghailiang <zhang.zhanghailiang@huawei.com>
- S: Maintained
+     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
+     g_assert_null(chr2);
 --
 2.20.1
 
-
---Sig_//Fon2fwJf+XS0Jau.Rg2Tyr
+--Sig_/vnawgVI_5XO5eiA54j4_/4D
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8pGE0ACgkQNasLKJxd
-sljFmg//TtBCNOnsmRx4+t3oQv4sBv6zrw0kEZy4hJY5xBrpRvFhs4guhJjkxmKF
-FInnIOKymXVsrmWEVBatIF7kFvset3tG+V0q02zaispYia2ciglWGeovEY5BrrmJ
-wuii+EJxwJWiRUHGCT4z2DZlqtaWj2uDUnDWTtouSv//48AIhMumsfUUqu8aYGP5
-XVVBW1zOm5SqyDt6zSOFGfaUw53CZd9PONI5xGTkaZY6wMDS8mCeg4QfzliWPsjM
-uXYc/FodlJBTnK8RmBF3d6EIGmgYDwvY30bou/YQbU3DYeNyKaSJ7ttbOw7DV8ym
-hRk2DIsMD5K9HaQ12RdYtMJMch3Kcbn72PfEMugutW0dah6Mdey/JgQFyuuxZLY8
-30cnMmgzKMc/BVwEzeVv74qKExraV8QebacF/iNImaBIadqlsFw88WxPMg2mibZc
-rGsIIaws8BahZByIMu5Fge93PFiL8kOA0VS3yPW6Us5DA3bpU219Mbu3FI9sG1ag
-ncpd6coVjC3sa+jsmJIMwGWq++hTUJZhWCAjyf+xZ5fMVTDLyGXO+H4KT7ZH/RnF
-xHipuTV8ELTf/+BuSQZMvUX9Tf9Pk2p9FLVNAEuspS7PpJnQYQWh2DzrP+e5ZfBl
-AfN27vx8xKrQFWTTwPq/iHfMRiACzWEZt4MwcnnjMWQmiZPkm4w=
-=8Kpr
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl8pGFEACgkQNasLKJxd
+slgBgQ/9HA7xBYHAxskNGWj+W+tNsqzx5dJAyPjb0qnA5fxpV9vSJwGMbJ5tGOJo
+ZzL+HuGN0WhAIbFO/Q6c4lhH2aaZdFr9+Csx1CxZBELKMDj7mjLO+Ml8ZfDB0gOi
+5O1/B5eagZsX8hmhhhHc5cvNvELj7c8tvHC/MhFT764+1uORUODZBSEYBlrMsytv
+B0m2vpFkk8dCjE9f7hNUPQSP9qpOciiOlr0dpVqLRzEVm0/MjtL84om6a0ybE9KT
+6BvCz0kq4BtncJM3sArSUDMS9d7I/CdhqQpozzR7Y+HVN8bGGMUKHRFqKrzxxUKP
+u5ZJps0V06iTJQsozen0574drxBTtLZnhwWfKrp9X3n5Jp5evfKBTuFCGLSZ5/E8
+o0HDLcsyMbIhYmH5b9k9uW1knnWy6frs6H7Yqz91S16L2MHywwXEk4M6/rNnnXz2
+R+nYrMQDNI7hW7AYvVpJmG95/xPp7tKLlUYQ/rvzEqKrYjYj9K+T8HP7/s6iX7/D
+oIpOiq2aLpReJB9VUwTfZr8K92ubJLGvh8toBJ7/bNSJ2b8aF7DzS29j3sJaUg9c
+slQvALJax1Ki9TpMzVFyNKVtwZNcPAYO1jx1HpKjSmVvBT9kbJMj4g3xoNFrF6jY
+PsakuEwTmGz7YL80X/NI0F4RtCcoraUnfWUss4UMdwaXuTkBfCM=
+=ntmX
 -----END PGP SIGNATURE-----
 
---Sig_//Fon2fwJf+XS0Jau.Rg2Tyr--
+--Sig_/vnawgVI_5XO5eiA54j4_/4D--
 
