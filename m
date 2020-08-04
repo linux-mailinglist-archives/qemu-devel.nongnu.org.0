@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CAD23BE88
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 19:06:02 +0200 (CEST)
-Received: from localhost ([::1]:45614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2F923BEA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 19:09:20 +0200 (CEST)
+Received: from localhost ([::1]:33470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k30O1-0003gW-PA
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 13:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60882)
+	id 1k30RD-0001p9-N5
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 13:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k30Jz-0007JM-3f
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 13:01:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55263
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k30K2-0007Ov-JV
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 13:01:54 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20305
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k30Jx-0005Uc-86
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 13:01:50 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k30K0-0005VJ-Gy
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 13:01:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596560508;
+ s=mimecast20190719; t=1596560511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=c3ezaShaxxZkE+7RjTgmNbZcq3vheU1/lTb21lxDjE4=;
- b=jUduSGYDYxzazXRcJAotmW3hQGYj+g9k4N/9eBBdR2lcl6BuEanm9Zosvk5YIMratkvWx8
- 8k6E+w00Aa9VEOfjP0Lx6UiPmcZMyQpV/6MOjJ/0scmmmeHoClRlIkaQ7p53gYg+qzyh2e
- 45ST45xOrt1cREJSkwkMVsdTuBMGuV4=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Aa9bXWXZtVMBQqv1Ik2hcEgY5s63pjYkVIapNPkplRk=;
+ b=ZxwuYhCJLU7x15MhmE7DLQeOYZUg43KCh38msGGw45r9aTH0TQz9ohgunsHilL7YBsb3WJ
+ ePsfdDrwJGQgpyQLL5x6Mw8mWsZbPMvDXHSUY44YHQkMHfhm0eibImIeXQJbXmp1KyLa+7
+ GuJP4vQ/o9HlDaO5nYghFfX0Z34v4H4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-lxK0fOj0PTeKGNQLPmZNcg-1; Tue, 04 Aug 2020 13:01:44 -0400
-X-MC-Unique: lxK0fOj0PTeKGNQLPmZNcg-1
+ us-mta-115-y9MXpcUAOkavRyz9bZA3kw-1; Tue, 04 Aug 2020 13:01:47 -0400
+X-MC-Unique: y9MXpcUAOkavRyz9bZA3kw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F7BB800469;
- Tue,  4 Aug 2020 17:01:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A007100AA23;
+ Tue,  4 Aug 2020 17:01:46 +0000 (UTC)
 Received: from thuth.com (ovpn-112-162.ams2.redhat.com [10.36.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0BBC10013D0;
- Tue,  4 Aug 2020 17:01:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C969610013D0;
+ Tue,  4 Aug 2020 17:01:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 08/11] stubs/notify-event: Mark qemu_notify_event() stub as
- "weak"
-Date: Tue,  4 Aug 2020 19:00:52 +0200
-Message-Id: <20200804170055.2851-9-thuth@redhat.com>
+Subject: [PATCH 09/11] gitlab-ci: Add cross-compiling build tests
+Date: Tue,  4 Aug 2020 19:00:53 +0200
+Message-Id: <20200804170055.2851-10-thuth@redhat.com>
 In-Reply-To: <20200804170055.2851-1-thuth@redhat.com>
 References: <20200804170055.2851-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:16
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:01:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,35 +87,164 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise there is a linker error with MinGW while compiling the tests:
-
-  LINK    tests/test-timed-average.exe
- libqemuutil.a(main-loop.o): In function `qemu_notify_event':
- /builds/huth/qemu/util/main-loop.c:139: multiple definition of
-  `qemu_notify_event'
- tests/test-timed-average.o:/builds/huth/qemu/tests/../stubs/notify-event.c:5:
-  first defined here
- collect2: error: ld returned 1 exit status
- /builds/huth/qemu/rules.mak:124: recipe for target
-  'tests/test-timed-average.exe' failed
+Now that we can use all our QEMU test containers in the gitlab-CI, we can
+easily add some jobs that test cross-compilation for various architectures.
+There is just only small ugliness: Since the shared runners on gitlab.com
+are single-threaded, we have to split each compilation job into two parts
+(--disable-user and --disable-system), and exclude some additional targets,
+to avoid that the jobs are running too long and hitting the timeout of 1 h.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- stubs/notify-event.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.d/crossbuilds.yml | 113 +++++++++++++++++++++++++++++++++++
+ .gitlab-ci.yml               |   1 +
+ MAINTAINERS                  |   1 +
+ 3 files changed, 115 insertions(+)
+ create mode 100644 .gitlab-ci.d/crossbuilds.yml
 
-diff --git a/stubs/notify-event.c b/stubs/notify-event.c
-index 827bb52d1a..75d98f4a79 100644
---- a/stubs/notify-event.c
-+++ b/stubs/notify-event.c
-@@ -1,6 +1,6 @@
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+new file mode 100644
+index 0000000000..4ec7226b5c
+--- /dev/null
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -0,0 +1,113 @@
++
++.cross_system_build_job_template: &cross_system_build_job_definition
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  script:
++    - mkdir build
++    - cd build
++    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
++      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-user
++        --target-list-exclude="aarch64-softmmu i386-softmmu microblaze-softmmu
++          mips-softmmu mipsel-softmmu mips64-softmmu ppc64-softmmu sh4-softmmu
++          xtensa-softmmu"
++    - make -j$(expr $(nproc) + 1) all check-build
++
++.cross_user_build_job_template: &cross_user_build_job_definition
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  script:
++    - mkdir build
++    - cd build
++    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
++      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
++    - make -j$(expr $(nproc) + 1) all check-build
++
++cross-armel-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-armel-cross
++
++cross-armel-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-armel-cross
++
++cross-armhf-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-armhf-cross
++
++cross-armhf-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-armhf-cross
++
++cross-arm64-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-arm64-cross
++
++cross-arm64-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-arm64-cross
++
++cross-mips-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-mips-cross
++
++cross-mips-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-mips-cross
++
++cross-mipsel-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-mipsel-cross
++
++cross-mipsel-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-mipsel-cross
++
++cross-mips64el-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-mips64el-cross
++
++cross-mips64el-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-mips64el-cross
++
++cross-ppc64el-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-ppc64el-cross
++
++cross-ppc64el-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-ppc64el-cross
++
++cross-s390x-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-s390x-cross
++
++cross-s390x-user:
++  <<: *cross_user_build_job_definition
++  variables:
++    IMAGE: debian-s390x-cross
++
++cross-win32-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-win32-cross
++
++cross-win64-system:
++  <<: *cross_system_build_job_definition
++  variables:
++    IMAGE: debian-win64-cross
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 362e5ee755..8f748237f8 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -18,6 +18,7 @@ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
+   - local: '/.gitlab-ci.d/containers.yml'
++  - local: '/.gitlab-ci.d/crossbuilds.yml'
  
--void qemu_notify_event(void)
-+void __attribute__((weak)) qemu_notify_event(void)
- {
- }
+ .native_build_job_template: &native_build_job_definition
+   stage: build
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0886eb3d2b..2731f7a594 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3067,6 +3067,7 @@ M: Alex Bennée <alex.bennee@linaro.org>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+ S: Maintained
+ F: .gitlab-ci.yml
++F: .gitlab-ci.d/crossbuilds.yml
+ 
+ Guest Test Compilation Support
+ M: Alex Bennée <alex.bennee@linaro.org>
 -- 
 2.18.1
 
