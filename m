@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF41123BBB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:06:00 +0200 (CEST)
-Received: from localhost ([::1]:50464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC6323BC08
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:26:37 +0200 (CEST)
+Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2xZn-0002Wg-LK
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40538)
+	id 1k2xtk-0001Aa-Qq
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k2xVS-0000r7-5T
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:01:30 -0400
-Received: from mout.gmx.net ([212.227.15.18]:54969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k2xVP-00039S-SJ
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:01:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1596549660;
- bh=fd53MIvF+mI/863INqxQ4nfU2W+adUWDkO8VnWiY+Kk=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=g7MMXjMvEDbguZfA/glP49DAPweyB+bukS71vXxYzNJrPXszM3z/uVnnQpHxgdwzz
- +npyEpmv6ECltKYCXVaSa8ykITOXrWa/TF596V8VhL+RQuYev+I0XdVkNb5Gdt2Yiq
- Rln6veA/VgK479M0otRDDO/SKrptuLObxtG8dvd0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.144.148]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MJVHe-1kIHSO0mV6-00JsQv; Tue, 04
- Aug 2020 16:01:00 +0200
-From: Helge Deller <deller@gmx.de>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 8/8] hw/display/artist: Prevent out of VRAM buffer accesses
-Date: Tue,  4 Aug 2020 16:00:56 +0200
-Message-Id: <20200804140056.7690-9-deller@gmx.de>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200804140056.7690-1-deller@gmx.de>
-References: <20200804140056.7690-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2xsr-0000a8-J9
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k2xso-00067R-Ps
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:25:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k2xsm-0006Y0-0g
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 14:25:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EC0172E802A
+ for <qemu-devel@nongnu.org>; Tue,  4 Aug 2020 14:25:35 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5dpQW0TdgCJ1RbRHLwuxpRBvMklZq+kB4FJLMznKdzp99tAejdT
- S9Krfkxo46p2IOEeqBCFqbdBd5m5FL7/WCJFbbY2ShrS2mXc6tCImH3iJ7eN9ZZ0EXRO14B
- GCk5oi4z7Bq7lPgKesrgeTgHOpFq8ucWu3wsmf3SNQmAytuJmIFuU7u0OVDDDMzLLBX3Vo8
- RPTFUG3igIZhQ3g7x0/9w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:63HyxUxLTlQ=:xupcuFGHwi+Otc8TTBYbbo
- sv6kHf7pHHtyaN1RuqeDzJG3eovy7Jg6xijTTC6x314bfHGlYOU3r/VZZgeDzCBX7pDxjw1Dp
- JGk6mjMunSkYDtGIrH4FnK1qrszvGoZX05jV5CjPDemZF8IKmJ4Opgn9noT6EfjyH6Bje2SL6
- Udvy87BwPXZNf9Nt2WjcssJ2Yzbf5gI6uUpxAf28WhRprOgIuRE0j5KThKTyKs/1a8tX3tF+C
- 8mBMUHgFvE3pIVcy7Ao7+YfWJcgVysSbsjuOHP31DgmlBI2eeAH7iVd+Mo7u63d5OEKCGNdu8
- Gas7R6sc3gZnUESXD3fxnWH55cOD8SipAJYiMcB7YCEJ/tlU6ghjv7PN+RgffZbz4x4vGHLN+
- c2jTd+NK5kqlmGF/mjVl9AosS3rQspyiQz3IDOxHc0Up3kq3GkwWJGBm+fP5sft9PtlVm0GrI
- OXSNbCqICWH7GAZ5rtZd8JBRdmX6gCnJd2+DXK9FsvxVu9tXXRhnMjqz2JIcG9sDlRM+iWXV+
- jhcmianVEZQlPkmvbVTccp0JVU66r4HkwVuu4VZZiALbcSQurjD9okIHtTF4blbWsGrejnoEn
- X3UT+YvJ9CoJ06xLlh8URV+fFUuZkTr1BDX9xg1B1WJHPGSgrYBtmYz6WRSpgOzOJaR+O1cSV
- y6BCR8gqBUwGRxLtiCUQrr2NyqCAkiNNHolSsPpfUd67ZctzDX+lIX25nARsPkp/YDpanbwwr
- vThGkSuwWmmUz3NrKrlJk9iXGbJOkUHdxdCi+CCEwAzVRPvj4wzJC5oOKio/+ZzOT1zJC8+kt
- UsKGWR6oWqCiEYYrXL7NyXCzLeXNbcBs1J4n6UtwXnp3pvHytwsIeKKYVZ/qAE+Q7fRxY8zlQ
- 1ihgLiPQm6oOthQURt8Jj6VHww3fGLc0K3Hg0atFhANONDvhYsh8hc9OYaiVAzsas+KVdZESN
- Ej22bpL1EGi0oGO7g+TTlGQsZQU0V4A3JWahbngCgKqanv/vQMMvYpHIBWOSW73yPD8c1kjhP
- R5e+Fe5KbnL2kvCaLFgmmCMiUFI17nXkrGduSllY2SLu/XyzIIM7R3bec9xxNgOCtYf+gnA5u
- uR3MQ6DEWAA3HXPmdi7ewBzhhu4Bx0zV5/yb08jNlpEpKBll0VSZ7wGx50+hXeb/QAgZrbF+u
- aFHxprWKoIk7URkupdN17QWSQkqMEoGOcPCLT7jka2AaIjMrT28jY+ZqyOpFA//Kz9/TTAe3F
- mwNyrQNtAeGoCxQ2y
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 09:08:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Tue, 04 Aug 2020 14:16:33 -0000
+From: Satheesh Rajendran <1890290@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: nested powerpc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sathnaga
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
+Message-Id: <159655059319.10948.7356744312155765003.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1890290] [NEW] PowerPC L2(nested virt) kvm guest fails to boot
+ with ic-mode=dual, kernel-irqchip=on - `KVM is too old to support ic-mode=dual,
+ kernel-irqchip=on`
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9dfba4e537984d2ee3ba54c0c15c98a189ff3e8d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 08:50:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,184 +73,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1890290 <1890290@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify bounds checks by changing some parameters like row or column
-numbers to become unsigned instead of signed.
-With that we can check if the calculated offset is bigger than the size
-of the VRAM region and bail out if not.
+Public bug reported:
 
-Reported-by: LLVM libFuzzer
-Buglink: https://bugs.launchpad.net/qemu/+bug/1880326
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/display/artist.c | 59 +++++++++++++++++++++++++++------------------
- 1 file changed, 36 insertions(+), 23 deletions(-)
+Env:
+HW: Power 9 DD2.3
+Host L0: 5.8.0-rc5-g8ba4ffcd8
+Qemu: 5.0.50 (v5.0.0-533-gdebe78ce14)
+Libvirt: 6.4.0
+L1: 5.8.0-rc5-ge9919e11e
+qemu_version': '5.0.50 (v5.1.0-rc2-dirty)
+libvirt_version': '6.4.0'
+L2: 5.8.0-rc7-g6ba1b005f
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 47de17b9e9..c2fa097020 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -203,12 +203,12 @@ static int16_t artist_get_y(uint32_t reg)
- }
 
- static void artist_invalidate_lines(struct vram_buffer *buf,
--                                    int starty, int height)
-+                                    unsigned int starty, unsigned int hei=
-ght)
- {
--    int start =3D starty * buf->width;
--    int size =3D height * buf->width;
-+    unsigned int start =3D starty * buf->width;
-+    unsigned int size =3D height * buf->width;
+1. boot a L2 KVM guest with `ic-mode=3Ddual,kernel-irqchip=3Don`
 
--    if (start + size <=3D buf->size) {
-+    if (start + size < buf->size) {
-         memory_region_set_dirty(&buf->mr, start, size);
-     }
- }
-@@ -274,15 +274,15 @@ static artist_rop_t artist_get_op(ARTISTState *s)
- }
+/usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate --name =
+'vm1' --machine pseries --memory=3D8192 --vcpu=3D8,maxvcpus=3D8,sockets=3D1=
+,cores=3D2,t
+hreads=3D4 --import --nographics --serial pty --memballoon model=3Dvirtio -=
+-disk path=3D/home/tests/data/avocado-vt/images/f31-ppc64le.qcow2,bus=3Dvir=
+tio,size=3D10,format=3Dqcow2 --network
+=3Dbridge=3Dvirbr0,model=3Dvirtio,mac=3D52:54:00:e6:fe:f6 --mac=3D52:54:00:=
+e6:fe:f6 --boot emulator=3D/usr/share/avocado-plugins-vt/bin/qemu,kernel=3D=
+/tmp/linux/vmlinux,kernel_args=3D"root=3D/de
+v/vda2 rw console=3Dtty0 console=3DttyS0,115200 init=3D/sbin/init initcall_=
+debug selinux=3D0" --noautoconsole --qemu-commandline=3D" -M pseries,ic-mod=
+e=3Ddual,kernel-irqchip=3Don"
 
- static void artist_rop8(ARTISTState *s, struct vram_buffer *buf,
--                        int offset, uint8_t val)
-+                        unsigned int offset, uint8_t val)
- {
-     const artist_rop_t op =3D artist_get_op(s);
-     uint8_t plane_mask;
-     uint8_t *dst;
 
--    if (offset < 0 || offset >=3D buf->size) {
-+    if (offset >=3D buf->size) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "rop8 offset:%d bufsize:%u\n", offset, buf->size);
-+                      "rop8 offset:%u bufsize:%u\n", offset, buf->size);
-         return;
-     }
-     dst =3D buf->data + offset;
-@@ -464,12 +464,14 @@ static void vram_bit_write(ARTISTState *s, int posx,=
- int posy, bool incr_x,
-     }
- }
+ERROR    internal error: process exited while connecting to monitor: 2020-0=
+8-04T11:12:53.304482Z qemu: KVM is too old to support ic-mode=3Ddual,kernel=
+-irqchip=3Don
 
--static void block_move(ARTISTState *s, int source_x, int source_y, int de=
-st_x,
--                       int dest_y, int width, int height)
-+static void block_move(ARTISTState *s,
-+                       unsigned int source_x, unsigned int source_y,
-+                       unsigned int dest_x,   unsigned int dest_y,
-+                       unsigned int width,    unsigned int height)
- {
-     struct vram_buffer *buf;
-     int line, endline, lineincr, startcolumn, endcolumn, columnincr, colu=
-mn;
--    uint32_t dst, src;
-+    unsigned int dst, src;
 
-     trace_artist_block_move(source_x, source_y, dest_x, dest_y, width, he=
-ight);
+Qemu Log:
+```
+/usr/share/avocado-plugins-vt/bin/qemu \
+-name guest=3Dvm1,debug-threads=3Don \
+-S \
+-object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/do=
+main-5-vm1/master-key.aes \
+-machine pseries-5.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+-cpu POWER9 \
+-m 8192 \
+-overcommit mem-lock=3Doff \
+-smp 8,sockets=3D1,dies=3D1,cores=3D2,threads=3D4 \
+-uuid 20a3351b-2776-4e75-9059-c070fe3dd44b \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=3Dcharmonitor,fd=3D34,server,nowait \
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+-rtc base=3Dutc \
+-no-shutdown \
+-boot strict=3Don \
+-kernel /tmp/linux/vmlinux \
+-append 'root=3D/dev/vda2 rw console=3Dtty0 console=3DttyS0,115200 init=3D/=
+sbin/init initcall_debug selinux=3D0' \
+-device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.0,addr=3D0x2 \
+-device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 \
+-blockdev '{"driver":"file","filename":"/home/tests/data/avocado-vt/images/=
+f31-ppc64le.qcow2","node-name":"libvirt-1-storage","auto-read-only":true,"d=
+iscard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-1-format","read-only":false,"driver":"qcow=
+2","file":"libvirt-1-storage","backing":null}' \
+-device virtio-blk-pci,bus=3Dpci.0,addr=3D0x4,drive=3Dlibvirt-1-format,id=
+=3Dvirtio-disk0,bootindex=3D1 \
+-netdev tap,fd=3D37,id=3Dhostnet0,vhost=3Don,vhostfd=3D38 \
+-device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:fe:f6,=
+bus=3Dpci.0,addr=3D0x1 \
+-chardev pty,id=3Dcharserial0 \
+-device spapr-vty,chardev=3Dcharserial0,id=3Dserial0,reg=3D0x30000000 \
+-chardev socket,id=3Dcharchannel0,fd=3D39,server,nowait \
+-device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0=
+,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+-device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+-M pseries,ic-mode=3Ddual,kernel-irqchip=3Don \
+-msg timestamp=3Don
+2020-08-04 11:12:53.169+0000: Domain id=3D5 is tainted: custom-argv
+2020-08-04 11:12:53.179+0000: 11120: info : libvirt version: 6.4.0, package=
+: 1.fc31 (Unknown, 2020-06-02-05:09:40, ltc-wspoon4.aus.stglabs.ibm.com)
+2020-08-04 11:12:53.179+0000: 11120: info : hostname: atest-guest
+2020-08-04 11:12:53.179+0000: 11120: info : virObjectUnref:347 : OBJECT_UNR=
+EF: obj=3D0x7fff0c117c40
+char device redirected to /dev/pts/0 (label charserial0)
+2020-08-04T11:12:53.304482Z qemu: KVM is too old to support ic-mode=3Ddual,=
+kernel-irqchip=3Don
+2020-08-04 11:12:53.694+0000: shutting down, reason=3Dfailed
+```
 
-@@ -481,6 +483,12 @@ static void block_move(ARTISTState *s, int source_x, =
-int source_y, int dest_x,
-     }
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
-+    if (height > buf->height) {
-+        height =3D buf->height;
-+    }
-+    if (width > buf->width) {
-+        width =3D buf->width;
-+    }
 
-     if (dest_y > source_y) {
-         /* move down */
-@@ -507,24 +515,27 @@ static void block_move(ARTISTState *s, int source_x,=
- int source_y, int dest_x,
-     }
+** Tags: nested powerpc
 
-     for ( ; line !=3D endline; line +=3D lineincr) {
--        src =3D source_x + ((line + source_y) * buf->width);
--        dst =3D dest_x + ((line + dest_y) * buf->width);
-+        src =3D source_x + ((line + source_y) * buf->width) + startcolumn=
-;
-+        dst =3D dest_x + ((line + dest_y) * buf->width) + startcolumn;
+** Summary changed:
 
-         for (column =3D startcolumn; column !=3D endcolumn; column +=3D c=
-olumnincr) {
--            if (dst + column > buf->size || src + column > buf->size) {
-+            if (dst > buf->size || src > buf->size) {
-                 continue;
-             }
--            artist_rop8(s, buf, dst + column, buf->data[src + column]);
-+            artist_rop8(s, buf, dst, buf->data[src]);
-+            src +=3D columnincr;
-+            dst +=3D columnincr;
-         }
-     }
+- PowerPC L2(nested virt) kvm guest fails to boot with ic-mode=3Ddual,kerne=
+l-irqchip=3Don
++ PowerPC L2(nested virt) kvm guest fails to boot with ic-mode=3Ddual,kerne=
+l-irqchip=3Don - `KVM is too old to support ic-mode=3Ddual,kernel-irqchip=
+=3Don`
 
-     artist_invalidate_lines(buf, dest_y, height);
- }
+-- =
 
--static void fill_window(ARTISTState *s, int startx, int starty,
--                        int width, int height)
-+static void fill_window(ARTISTState *s,
-+                        unsigned int startx, unsigned int starty,
-+                        unsigned int width,  unsigned int height)
- {
--    uint32_t offset;
-+    unsigned int offset;
-     uint8_t color =3D artist_get_color(s);
-     struct vram_buffer *buf;
-     int x, y;
-@@ -561,7 +572,9 @@ static void fill_window(ARTISTState *s, int startx, in=
-t starty,
-     artist_invalidate_lines(buf, starty, height);
- }
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890290
 
--static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
-+static void draw_line(ARTISTState *s,
-+                      unsigned int x1, unsigned int y1,
-+                      unsigned int x2, unsigned int y2,
-                       bool update_start, int skip_pix, int max_pix)
- {
-     struct vram_buffer *buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
-@@ -636,7 +649,7 @@ static void draw_line(ARTISTState *s, int x1, int y1, =
-int x2, int y2,
-     color =3D artist_get_color(s);
+Title:
+  PowerPC L2(nested virt) kvm guest fails to boot with ic-mode=3Ddual
+  ,kernel-irqchip=3Don - `KVM is too old to support ic-mode=3Ddual,kernel-
+  irqchip=3Don`
 
-     do {
--        int ofs;
-+        unsigned int ofs;
+Status in QEMU:
+  New
 
-         if (c1) {
-             ofs =3D x * s->width + y;
-@@ -768,9 +781,9 @@ static void font_write16(ARTISTState *s, uint16_t val)
-     uint16_t mask;
-     int i;
+Bug description:
+  Env:
+  HW: Power 9 DD2.3
+  Host L0: 5.8.0-rc5-g8ba4ffcd8
+  Qemu: 5.0.50 (v5.0.0-533-gdebe78ce14)
+  Libvirt: 6.4.0
+  L1: 5.8.0-rc5-ge9919e11e
+  qemu_version': '5.0.50 (v5.1.0-rc2-dirty)
+  libvirt_version': '6.4.0'
+  L2: 5.8.0-rc7-g6ba1b005f
 
--    int startx =3D artist_get_x(s->vram_start);
--    int starty =3D artist_get_y(s->vram_start) + s->font_write_pos_y;
--    int offset =3D starty * s->width + startx;
-+    unsigned int startx =3D artist_get_x(s->vram_start);
-+    unsigned int starty =3D artist_get_y(s->vram_start) + s->font_write_p=
-os_y;
-+    unsigned int offset =3D starty * s->width + startx;
+  =
 
-     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+  1. boot a L2 KVM guest with `ic-mode=3Ddual,kernel-irqchip=3Don`
 
-@@ -1138,7 +1151,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-     struct vram_buffer *buf;
-     int posy =3D (addr >> 11) & 0x3ff;
-     int posx =3D addr & 0x7ff;
--    uint32_t offset;
-+    unsigned int offset;
-     trace_artist_vram_write(size, addr, val);
+  /usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate --nam=
+e 'vm1' --machine pseries --memory=3D8192 --vcpu=3D8,maxvcpus=3D8,sockets=
+=3D1,cores=3D2,t
+  hreads=3D4 --import --nographics --serial pty --memballoon model=3Dvirtio=
+ --disk path=3D/home/tests/data/avocado-vt/images/f31-ppc64le.qcow2,bus=3Dv=
+irtio,size=3D10,format=3Dqcow2 --network
+  =3Dbridge=3Dvirbr0,model=3Dvirtio,mac=3D52:54:00:e6:fe:f6 --mac=3D52:54:0=
+0:e6:fe:f6 --boot emulator=3D/usr/share/avocado-plugins-vt/bin/qemu,kernel=
+=3D/tmp/linux/vmlinux,kernel_args=3D"root=3D/de
+  v/vda2 rw console=3Dtty0 console=3DttyS0,115200 init=3D/sbin/init initcal=
+l_debug selinux=3D0" --noautoconsole --qemu-commandline=3D" -M pseries,ic-m=
+ode=3Ddual,kernel-irqchip=3Don"
 
-     if (s->cmap_bm_access) {
-=2D-
-2.21.3
+  =
 
+  ERROR    internal error: process exited while connecting to monitor: 2020=
+-08-04T11:12:53.304482Z qemu: KVM is too old to support ic-mode=3Ddual,kern=
+el-irqchip=3Don
+
+
+  =
+
+  Qemu Log:
+  ```
+  /usr/share/avocado-plugins-vt/bin/qemu \
+  -name guest=3Dvm1,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-5-vm1/master-key.aes \
+  -machine pseries-5.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+  -cpu POWER9 \
+  -m 8192 \
+  -overcommit mem-lock=3Doff \
+  -smp 8,sockets=3D1,dies=3D1,cores=3D2,threads=3D4 \
+  -uuid 20a3351b-2776-4e75-9059-c070fe3dd44b \
+  -display none \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D34,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-shutdown \
+  -boot strict=3Don \
+  -kernel /tmp/linux/vmlinux \
+  -append 'root=3D/dev/vda2 rw console=3Dtty0 console=3DttyS0,115200 init=
+=3D/sbin/init initcall_debug selinux=3D0' \
+  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.0,addr=3D0x2 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 \
+  -blockdev '{"driver":"file","filename":"/home/tests/data/avocado-vt/image=
+s/f31-ppc64le.qcow2","node-name":"libvirt-1-storage","auto-read-only":true,=
+"discard":"unmap"}' \
+  -blockdev '{"node-name":"libvirt-1-format","read-only":false,"driver":"qc=
+ow2","file":"libvirt-1-storage","backing":null}' \
+  -device virtio-blk-pci,bus=3Dpci.0,addr=3D0x4,drive=3Dlibvirt-1-format,id=
+=3Dvirtio-disk0,bootindex=3D1 \
+  -netdev tap,fd=3D37,id=3Dhostnet0,vhost=3Don,vhostfd=3D38 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:fe:f=
+6,bus=3Dpci.0,addr=3D0x1 \
+  -chardev pty,id=3Dcharserial0 \
+  -device spapr-vty,chardev=3Dcharserial0,id=3Dserial0,reg=3D0x30000000 \
+  -chardev socket,id=3Dcharchannel0,fd=3D39,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+  -M pseries,ic-mode=3Ddual,kernel-irqchip=3Don \
+  -msg timestamp=3Don
+  2020-08-04 11:12:53.169+0000: Domain id=3D5 is tainted: custom-argv
+  2020-08-04 11:12:53.179+0000: 11120: info : libvirt version: 6.4.0, packa=
+ge: 1.fc31 (Unknown, 2020-06-02-05:09:40, ltc-wspoon4.aus.stglabs.ibm.com)
+  2020-08-04 11:12:53.179+0000: 11120: info : hostname: atest-guest
+  2020-08-04 11:12:53.179+0000: 11120: info : virObjectUnref:347 : OBJECT_U=
+NREF: obj=3D0x7fff0c117c40
+  char device redirected to /dev/pts/0 (label charserial0)
+  2020-08-04T11:12:53.304482Z qemu: KVM is too old to support ic-mode=3Ddua=
+l,kernel-irqchip=3Don
+  2020-08-04 11:12:53.694+0000: shutting down, reason=3Dfailed
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890290/+subscriptions
 
