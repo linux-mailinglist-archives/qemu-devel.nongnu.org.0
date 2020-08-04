@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C266323BBAF
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:05:36 +0200 (CEST)
-Received: from localhost ([::1]:49954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C2323BC18
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:27:34 +0200 (CEST)
+Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2xZP-0002Jx-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
+	id 1k2xuf-0000Z2-CT
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k2xV6-0000kE-8f
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:01:08 -0400
-Received: from mout.gmx.net ([212.227.15.18]:42905)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k2xVV-0000v3-Qd
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:01:33 -0400
+Received: from mout.gmx.net ([212.227.15.19]:52565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k2xV4-000383-A4
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:01:07 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k2xVT-0003Ao-MU
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:01:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1596549659;
- bh=2t00/wToPXdci/sCMNt4gNmLdt2OOd+Fs0qy1+SNfwk=;
+ s=badeba3b8450; t=1596549660;
+ bh=yi/ZvGbDbrIWKgg46+4OlOrFcTrRqKN6hBd0HkJl3lk=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=cWVXHol1mx9oz21RpXiTpcVwOsuUpYgjApfP8ti1JDEMclhP3PauaGhfrdKnCbiP4
- j7JbbtkP2HEA4DTrZiKEGb3kEuASP+cauyseKcFNV5Q3kye6if9l7ozoCpLEhDKHtQ
- Vgilmc4aMfvsyT8Yng00lzSGlxErVpo5+kbizFpQ=
+ b=Y+fI5Rl87pyQCVEWX2znhKFXA2Czc1AwdTpS4EOoI6TDyUJdTvlioC+h+lseVxXrM
+ H4kUrCMuJGYKJ5L/9foPgJkai4ee4cMMMtXS8dDPcd2EE/TP9vZTVJcR4OS6eOwBNx
+ 8Q3mjy4noyvx0ExpbilG5LWJFqICAIIH9IbgRy10=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.144.148]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MN5eR-1kLJra2nhd-00J2xE; Tue, 04
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5QF5-1k3myk3Xlt-001NXs; Tue, 04
  Aug 2020 16:00:59 +0200
 From: Helge Deller <deller@gmx.de>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 5/8] hw/hppa/lasi: Don't abort on invalid IMR value
-Date: Tue,  4 Aug 2020 16:00:53 +0200
-Message-Id: <20200804140056.7690-6-deller@gmx.de>
+Subject: [PATCH v3 6/8] hw/display/artist: Check offset in draw_line to avoid
+ buffer over-run
+Date: Tue,  4 Aug 2020 16:00:54 +0200
+Message-Id: <20200804140056.7690-7-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200804140056.7690-1-deller@gmx.de>
 References: <20200804140056.7690-1-deller@gmx.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2Rl3PMapyfvrI/et7avVNtw3KKpxJ48Fgn/ai0em8/Jvuf/fH8l
- SIHWKHAQX+4pnLqt6qtapLU8xfM/mJOY6zBlBQg8+KWN2zmBZ4PXX3okGw38aAESySJ323r
- 8fQtiaG6yIPH1sMAEIpZ1akZHIxKJe4npag2oeKeoQZpdP2dNYnmTQIVIZokal9seKD6I29
- +on5d2vaqN1dmCeyfyauw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pWyls6/Nt1Y=:Pi8aC16AabB1sa91WrLrpf
- bjjKbkIYhGevGM+sqtPdqM+Un2YVjH+DMlgbMwAbDlFNVutIlCpr6fXsvAZp5oeHMJFyvfC0z
- G4E6JMj9iPN1YQP8/m2VYCoiYbvi/7w66NJEBuLuh2p/YkRn5xCEiqSkW1sr8wIyosAaSl5TN
- gEBRpxT7jmIHKzZZP/49JJKog0l8YyeV9EMZDSH46gjAteOYm8wU+DVL4YvLsQpfFtTxv3Ck6
- cVugv18Bhr4Dk3BALVqk/lDDgfdoQpFrpCh49Z07ecBhM5q7v8R2ER+vQ6XJxrDXjI1JbsaIy
- ynyQOhdGyhMxFgWSJiDBKvy2K5Q5S7Wyg1uxSYj2p924FnvV+6W7e8qM9Tao8cogMeJ8iTvQ0
- vyB/Q9/iIL6atba0Yd7BU+MT/O7/UrvKuMRGUQx/3AB5Xv59pEvq7CT6OFFX5Qk9qwzcyFJ3C
- oTTK6gJgPfRlWwHYPaHbcRr7o32r2aTl2HDUjnFB7azYQjDKfw0/FTL0+Rm4/KsT01Ap2hX8t
- aw0cJdzlTzTYB2aLZpW6TLLfoS5yDeyo1s+wtw6q4UJLjAnP/duwJrg8hu5SZ2UG1X49ayffy
- zOBwBPFxhzyTr1IehYML+BnehbsJyjOY/FSoyBYAZXUxVUa/PagYLG/Z1Iqh4wixbFvgSzgzS
- VBEixbsIYV7RkBfvgUurHFOz+cI58QtfcDV2pB5naM2fTDYsOCHdI+XLS+uxym+qovVRIYa3p
- g0jEu0u18kXrhZ4R71MUxGRNjovj9sDQmVvYaEAHsWVzD55/XP9JBO8t962Mn8PI850IhW/Kh
- Ye35QptL5ySM4+AonxHa022hepf0U/U23vWFPWd/8geQ9rq3AnOIziftwlaqLsIp9vQxKs21e
- DmO4lUzccrTSC3KxIbm2gfeHu1cNepJaiUU+U5JquJUeYe8PmWDh0wa2aYR7rDmh85t4dIdTn
- n4w9kLplX9luQwVP0RgN9UP7lVWrQqqSaFadIo0GufwPe69iI7fiL7gECp9/1vDhhwdQ/h8MB
- GZFO1jQOt3meM6A9bl85UcAH/bdng2D/Y7N4cmTvG5p7wWnZoO6PzXA1DN9R+LriUNIFre/8f
- PJh/REwejD1Lfh0n1PB42xsdnYK5efokSFk48z9fTig5brEtVQMBYuQjQ8o8poSSlscRFE6FY
- QfNeYQK/T7HAlgXD7Zy0GaStJ/Quu6j4QwYkfn0Q5q+eddl7iNhb/pGpV2MIXqg76bEZiV5hB
- sI6sCjMlwLSb8tnaB
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:3RUhxfg8BVSAOOK7oGVqe8lfZ5ETiQvbvhUzD60aTvUziIpFNXk
+ /dcpHuBqQhg8TC7i4bgJ1gTkHFWzWK/WdDH4DSRgw8MRb20to3J+CYdwXT5u+waiVb5UcR8
+ akHhwg9AYFQyKfZ/D9f1YU+NBH+tAsKTgfCo0iu7cT7d7OPJOSouaSI3u63rE+ZPOoGbf90
+ hx3yCOpFEZ2Kp3zsy06gg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SMXB6POInEM=:v9NJrjwUvyj2r5uqNGyYvE
+ rIkRuuZ6A198aOO74Dv6UnGLtaiWmOVdkty7WmPYMVOzEVelHO2gdo/y3biO+KXMe+lEvnWRj
+ OxehxdqnCCjrLT5aW9dnCdk1y12r4mU4re82DEgHVzXKNGy57N3YUz+mp1twj7bGTj0QhnlOC
+ xKKuQuO+XZZ3w7fpXZtWEOAAdp8FqwfskoeaXE+G1nWELCxo3BETy09mOR+CQ3qwtgDQqhgVM
+ yI6JG7QFjDbDTmmnQxfpBe80Ivwwueuqj8zkIBfmEqnsmWZHvsu4o8c54NAp9UwX+WW6CZzAk
+ EEmie2kzF1/+ObEkrhzWzYHFyDhI2SiWZiOJg8luncwF6E+WPEqv6cGKgrozUeTWonxqKNilh
+ mPa1v/uIPi6uSAk73zQOP5+gIPzP92oH5Yf5OdxvBkkvz2yebGVr7k8+SigllvndgG/N4jzx9
+ 6qGKeG4g0zT8KcUJOO/wwWyjTmVsDu2cef91tbbKcS3Q70XWjSMXjs+ODOAczfyzHtGkpf5oe
+ ziIL8IV8GOWSbYiozqtRTi/jw48n/1oQOXYW/7l9uRZ1ptFcycKTX7+w4832MZvK56GNk0wlS
+ 2PzVjBg3qi2flkcg86nN6OWfOOVDTvxWyQNpzUNEo/QP0RIG8DEqu5YgGEY9XrRw4lnLwV9P5
+ 7V2SARb1VD+wF6bO1tw3htA93nfbkMNH53LRn6c2HAInTMHwTXXBQks1MC88B/jjXas2bz2gq
+ sZ6Ftm3q9W/NyjGlU87QsblFNWIS+6Q6TmYmEa6WK9XYJxqZAi3DwztDeBTS7gCmkXNqtGtnO
+ jnu02IN+9NBlR7nLBytlkCwrQ4xiLRDmZTotW+I6KotFFKQR3dqE0Yjus0fhVr0ziXNHKNcSF
+ TEX9+40wmFGsnZAUMsYwfk1Hm00X8Lu5hl/6EA0TL9WKIHb2S+HIrJlxw9ImdEhbRuWrCpyR6
+ +lKYoVl/HNp61AAJJM3guz8lrAgR321/C5KyXZNHbMWPTY/opbWpkBI6tYVa1qfT8eBeVIvXL
+ gFPQua1HM8DbtYBUyglqY5UHuaqG4iCj3HgYPcHyV3YXgfsRDluQnhaS7cKW1FtNgfGBVwbZc
+ g5FRXfRa409Lw026dXCATAQlDu2zbL7GSJ62TKZwCP+bZsiZiAeuLQQ093fkHtNZPwLfFcGTK
+ KBqJTn0Q2ItOlcFSkPHBnIhk95dEPsM4YAk8aHeg5sChim23n6uSIs9d8Ygm/1tt8/rTK7n6b
+ 47Z3KquaA0mjiRmM8
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 09:08:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 10:01:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -85,47 +87,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
+Cc: Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NetBSD initializes the LASI IMR value with 0xffffffff to disable all LASI
-interrupts. This triggered an assert() and stopped the emulation.  By repl=
-acing
-the check with a warning in the guest log we now allow NetBSD to boot agai=
-n.
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
+Invalid I/O writes can craft an offset out of the vram_buffer range.
+
+We avoid:
+
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  284             *dst &=3D ~plane_mask;
+  (gdb) bt
+  #0  0x000055d5dccdc5c0 in artist_rop8 (s=3D0x55d5defee510, dst=3D0x7f8e8=
+4ed8216 <error: Cannot access memory at address 0x7f8e84ed8216>, val=3D0 '=
+\000') at hw/display/artist.c:284
+  #1  0x000055d5dccdcf83 in fill_window (s=3D0x55d5defee510, startx=3D22, =
+starty=3D5674, width=3D65, height=3D5697) at hw/display/artist.c:551
+  #2  0x000055d5dccddfb9 in artist_reg_write (opaque=3D0x55d5defee510, add=
+r=3D1051140, val=3D4265537, size=3D4) at hw/display/artist.c:902
+  #3  0x000055d5dcb42a7c in memory_region_write_accessor (mr=3D0x55d5defee=
+a10, addr=3D1051140, value=3D0x7ffe57db08c8, size=3D4, shift=3D0, mask=3D4=
+294967295, attrs=3D...) at memory.c:483
+
+Reported-by: LLVM libFuzzer
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/lasi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/display/artist.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
-index ffcbb988b8..7b4a168468 100644
-=2D-- a/hw/hppa/lasi.c
-+++ b/hw/hppa/lasi.c
-@@ -11,6 +11,7 @@
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index de56200dbf..a206afe641 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -555,7 +555,7 @@ static void fill_window(ARTISTState *s, int startx, in=
+t starty,
+ static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
+                       bool update_start, int skip_pix, int max_pix)
+ {
+-    struct vram_buffer *buf;
++    struct vram_buffer *buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+     uint8_t color;
+     int dx, dy, t, e, x, y, incy, diago, horiz;
+     bool c1;
+@@ -563,6 +563,12 @@ static void draw_line(ARTISTState *s, int x1, int y1,=
+ int x2, int y2,
 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/log.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "trace.h"
-@@ -170,8 +171,10 @@ static MemTxResult lasi_chip_write_with_attrs(void *o=
-paque, hwaddr addr,
-         /* read-only.  */
-         break;
-     case LASI_IMR:
--        s->imr =3D val;  /* 0x20 ?? */
--        assert((val & LASI_IRQ_BITS) =3D=3D val);
-+        s->imr =3D val;
-+        if (((val & LASI_IRQ_BITS) !=3D val) && (val !=3D 0xffffffff))
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                "LASI: tried to set invalid %lx IMR value.\n", val);
-         break;
-     case LASI_IPR:
-         /* Any write to IPR clears the register. */
+     trace_artist_draw_line(x1, y1, x2, y2);
+
++    if (x1 * y1 >=3D buf->size || x2 * y2 >=3D buf->size) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "draw_line (%d,%d) (%d,%d)\n", x1, y1, x2, y2);
++        return;
++    }
++
+     if (update_start) {
+         s->vram_start =3D (x2 << 16) | y2;
+     }
+@@ -620,7 +626,6 @@ static void draw_line(ARTISTState *s, int x1, int y1, =
+int x2, int y2,
+     x =3D x1;
+     y =3D y1;
+     color =3D artist_get_color(s);
+-    buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+
+     do {
+         if (c1) {
 =2D-
 2.21.3
 
