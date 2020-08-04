@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A389623B705
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 10:49:26 +0200 (CEST)
-Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168F023B6E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 10:38:37 +0200 (CEST)
+Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2sdR-000758-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 04:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33196)
+	id 1k2sSy-0002PR-4i
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 04:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1k2scS-0006Ap-BC
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:48:24 -0400
-Received: from mga17.intel.com ([192.55.52.151]:6113)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1k2scM-0003Ps-Ok
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:48:23 -0400
-IronPort-SDR: Qk64R7wKVCBGScT0MyHS2wGEBr9db/HcrOAwqKfLiSNKzXSPYrtozQyj6TR7lmvmjMqaCdjRSe
- rsdTohxUu+iQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9702"; a="132334457"
-X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; d="scan'208";a="132334457"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2020 01:48:14 -0700
-IronPort-SDR: irc5RID6ULqLZNetmbd2upm83OlouI5asaiOG3qd3M8sRHo28+PjSLXy2Sis8HfsZ5nGDWBkND
- 2wytEYurr0ZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; d="scan'208";a="330538296"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by FMSMGA003.fm.intel.com with ESMTP; 04 Aug 2020 01:48:09 -0700
-Date: Tue, 4 Aug 2020 16:37:08 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200804083708.GA30485@joy-OptiPlex-7040>
-References: <20200716083230.GA25316@joy-OptiPlex-7040>
- <20200717101258.65555978@x1.home>
- <20200721005113.GA10502@joy-OptiPlex-7040>
- <20200727072440.GA28676@joy-OptiPlex-7040>
- <20200727162321.7097070e@x1.home>
- <20200729080503.GB28676@joy-OptiPlex-7040>
- <e8a973ea0bb2bc3eb15649fb1c44599ae3509e84.camel@redhat.com>
- <20200729131255.68730f68@x1.home>
- <20200730034104.GB32327@joy-OptiPlex-7040>
- <20200730112930.6f4c5762@x1.home>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1k2sRl-0001Wx-9g
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:37:21 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:56222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1k2sRj-00020f-Ay
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:37:21 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 9so1861165wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 01:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:content-language
+ :thread-index; bh=/nPyjZI9KV5I3szUDlWxSRO5+QFYlS+dHOy2SDtIKYI=;
+ b=oXCdsQSipocZ1Yj1Isdzk6UckuRU8rqJ8m72XxMh7ClA1lkM7ZZ/YtrcvF+wSV2JA9
+ tfvYAPBB3QCV1swMVvJcTmH4pzwPi3u1IL57yvrfuyBPhK7Atgx9l2DQCs5+67gy+yax
+ MQqyOHDHEHyP1Eb1GfsYWjNqYl2rwQaBKpCdoxmLIv5Fy+RZ56CHnEnlY3EIa9nYuG0j
+ xMISVEuZSlfzMjwK0R2+Vw19VyTukis4CZWYA9LTofVUwOEhYSFqTV129ahtxQoBe+dZ
+ hOPA0SdI8aPTbYTO6vGyI766ZsiKzSXkuz3KjohPfirrSRvh7nb3Wnbgq//oIVc5jUbt
+ k0Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :content-language:thread-index;
+ bh=/nPyjZI9KV5I3szUDlWxSRO5+QFYlS+dHOy2SDtIKYI=;
+ b=hbw2KojMDN9T5Wd3bI1SnqmvijQnALiAznY1g+qoCfRx6Kuw/ThhbZfm2Blu50Yyq6
+ 7BArB+FU4ZU1o9I7R01aZinPb7Hp1v3mE6crYZvkVhv24ftKChcPrT/H24P+UT8vg1LX
+ 7x00fNiCO94Mn6YZfMoeijGFpoPk4fCQG45xYQazCjT3+sMWv/jfCpL2Z/ONK5lVkclt
+ Ky+U7VDSLP2tfvH/nuJy4FanpCb5wuhLilX6CpWZZP2T3iwrDShgYi6lN0Kaj3I7nGAF
+ iATudb8L/uylTd4JvY2ppFToZBkhIKA/33L93pKtq6PpT92Af9zz/XG+Fl+yHVEOz3oK
+ CBJg==
+X-Gm-Message-State: AOAM530fuyrLP3zol2ToNlBzgw5fA2t/GlgEW0xSjW/9ez6SFhbI/W1a
+ ugqrSFq8XbZFtUz9uWIM2fI=
+X-Google-Smtp-Source: ABdhPJzDapD/UdsRWGR4kmZkbCsJ5WPWtzEotAYMzUckkcs3AVBwHialxx4/CVNRuy1BJy6inh5O0Q==
+X-Received: by 2002:a1c:80c1:: with SMTP id b184mr3197422wmd.121.1596530237540; 
+ Tue, 04 Aug 2020 01:37:17 -0700 (PDT)
+Received: from CBGR90WXYV0 ([2a00:23c5:5785:9a01:ad9a:ab78:5748:a7ec])
+ by smtp.gmail.com with ESMTPSA id r22sm3644644wmh.45.2020.08.04.01.37.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 04 Aug 2020 01:37:17 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20200804074930.13104-1-philmd@redhat.com>
+ <20200804074930.13104-2-philmd@redhat.com>
+ <001201d66a34$e82ec070$b88c4150$@xen.org>
+ <56c70b44-2d5f-44fc-5d9a-535c3c5fca71@redhat.com>
+In-Reply-To: <56c70b44-2d5f-44fc-5d9a-535c3c5fca71@redhat.com>
+Subject: RE: [PATCH-for-5.1 v2 1/1] accel/xen: Fix xen_enabled() behavior on
+ target-agnostic objects
+Date: Tue, 4 Aug 2020 09:37:16 +0100
+Message-ID: <001301d66a3a$75ac6c90$610545b0$@xen.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200730112930.6f4c5762@x1.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yan.y.zhao@intel.com;
- helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 04:48:14
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQM/xXTZtf+c9Zv1otz4aIX099Jj8gDx5jXAAVRtvfwA7Pf4CaY7T1ag
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,163 +95,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
- openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, eskultet@redhat.com, jian-feng.ding@intel.com,
- dgilbert@redhat.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
- bao.yumeng@zte.com.cn, Sean Mooney <smooney@redhat.com>,
- intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com, cohuck@redhat.com,
- dinechin@redhat.com, devel@ovirt.org
+Reply-To: paul@xen.org
+Cc: 'Peter Maydell' <peter.maydell@linaro.org>,
+ 'Stefano Stabellini' <sstabellini@kernel.org>,
+ 'Paul Durrant' <pdurrant@amazon.com>, 'Paolo Bonzini' <pbonzini@redhat.com>,
+ 'Anthony Perard' <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > yes, include a device_api field is better.
-> > for mdev, "device_type=vfio-mdev", is it right?
-> 
-> No, vfio-mdev is not a device API, it's the driver that attaches to the
-> mdev bus device to expose it through vfio.  The device_api exposes the
-> actual interface of the vfio device, it's also vfio-pci for typical
-> mdev devices found on x86, but may be vfio-ccw, vfio-ap, etc...  See
-> VFIO_DEVICE_API_PCI_STRING and friends.
-> 
-ok. got it.
+> -----Original Message-----
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Sent: 04 August 2020 09:35
+> To: paul@xen.org; qemu-devel@nongnu.org
+> Cc: 'Peter Maydell' <peter.maydell@linaro.org>; 'Anthony Perard' =
+<anthony.perard@citrix.com>; 'Paolo
+> Bonzini' <pbonzini@redhat.com>; 'Stefano Stabellini' =
+<sstabellini@kernel.org>; xen-
+> devel@lists.xenproject.org; 'Paul Durrant' <pdurrant@amazon.com>
+> Subject: Re: [PATCH-for-5.1 v2 1/1] accel/xen: Fix xen_enabled() =
+behavior on target-agnostic objects
+>=20
+> Hi Paul,
+>=20
+> On 8/4/20 9:57 AM, Paul Durrant wrote:
+> >> -----Original Message-----
+> >> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> Sent: 04 August 2020 08:50
+> >> To: qemu-devel@nongnu.org
+> >> Cc: Peter Maydell <peter.maydell@linaro.org>; Anthony Perard =
+<anthony.perard@citrix.com>; Paolo
+> >> Bonzini <pbonzini@redhat.com>; Stefano Stabellini =
+<sstabellini@kernel.org>; xen-
+> >> devel@lists.xenproject.org; Paul Durrant <paul@xen.org>; Philippe =
+Mathieu-Daud=C3=A9
+> <philmd@redhat.com>;
+> >> Paul Durrant <pdurrant@amazon.com>
+> >> Subject: [PATCH-for-5.1 v2 1/1] accel/xen: Fix xen_enabled() =
+behavior on target-agnostic objects
+> >>
+> >> CONFIG_XEN is generated by configure and stored in =
+"config-target.h",
+> >> which is (obviously) only include for target-specific objects.
+> >> This is a problem for target-agnostic objects as CONFIG_XEN is =
+never
+> >> defined and xen_enabled() is always inlined as 'false'.
+> >>
+> >> Fix by following the KVM schema, defining CONFIG_XEN_IS_POSSIBLE
+> >> when we don't know to force the call of the non-inlined function,
+> >> returning the xen_allowed boolean.
+> >>
+> >> Fixes: da278d58a092 ("accel: Move Xen accelerator code under =
+accel/xen/")
+> >> Reported-by: Paul Durrant <pdurrant@amazon.com>
+> >> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> ---
+> >>  include/sysemu/xen.h   | 18 ++++++++++++++----
+> >>  accel/stubs/xen-stub.c |  2 ++
+> >>  accel/xen/xen-all.c    |  7 +------
+> >>  3 files changed, 17 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
+> >> index 1ca292715e..2c2c429ea8 100644
+> >> --- a/include/sysemu/xen.h
+> >> +++ b/include/sysemu/xen.h
+> >> @@ -8,9 +8,19 @@
+> >>  #ifndef SYSEMU_XEN_H
+> >>  #define SYSEMU_XEN_H
+> >>
+> >> -#ifdef CONFIG_XEN
+> >> +#ifdef NEED_CPU_H
+> >> +# ifdef CONFIG_XEN
+> >> +#  define CONFIG_XEN_IS_POSSIBLE
+> >> +# endif
+> >> +#else
+> >> +# define CONFIG_XEN_IS_POSSIBLE
+> >> +#endif
+> >>
+> >> -bool xen_enabled(void);
+> >> +#ifdef CONFIG_XEN_IS_POSSIBLE
+> >> +
+> >> +extern bool xen_allowed;
+> >> +
+> >> +#define xen_enabled()           (xen_allowed)
+> >
+> > Can this not move ahead of the #ifdef now (since xen_allowed is =
+present in both xen-stub and xen-
+> all)? I think this is what Peter was saying in his option '(2)'.
+>=20
+> I think I respected Peter's option '(2)', following how KVM does, this
+> is the case with stub,
 
-> > > > > 	device_id=8086591d  
-> > > 
-> > > Is device_id interpreted relative to device_type?  How does this
-> > > relate to mdev_type?  If we have an mdev_type, doesn't that fully
-> > > defined the software API?
-> > >   
-> > it's parent pci id for mdev actually.
->
-> If we need to specify the parent PCI ID then something is fundamentally
-> wrong with the mdev_type.  The mdev_type should define a unique,
-> software compatible interface, regardless of the parent device IDs.  If
-> a i915-GVTg_V5_2 means different things based on the parent device IDs,
-> then then different mdev_types should be reported for those parent
-> devices.
->
-hmm, then do we allow vendor specific fields?
-or is it a must that a vendor specific field should have corresponding
-vendor attribute?
+Ok, if it follows the KVM pattern then that's fine.
 
-another thing is that the definition of mdev_type in GVT only corresponds
-to vGPU computing ability currently,
-e.g. i915-GVTg_V5_2, is 1/2 of a gen9 IGD, i915-GVTg_V4_2 is 1/2 of a
-gen8 IGD.
-It is too coarse-grained to live migration compatibility.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-Do you think we need to update GVT's definition of mdev_type?
-And is there any guide in mdev_type definition?
-
-> > > > > 	mdev_type=i915-GVTg_V5_2  
-> > > 
-> > > And how are non-mdev devices represented?
-> > >   
-> > non-mdev can opt to not include this field, or as you said below, a
-> > vendor signature. 
-> > 
-> > > > > 	aggregator=1
-> > > > > 	pv_mode="none+ppgtt+context"  
-> > > 
-> > > These are meaningless vendor specific matches afaict.
-> > >   
-> > yes, pv_mode and aggregator are vendor specific fields.
-> > but they are important to decide whether two devices are compatible.
-> > pv_mode means whether a vGPU supports guest paravirtualized api.
-> > "none+ppgtt+context" means guest can not use pv, or use ppgtt mode pv or
-> > use context mode pv.
-> > 
-> > > > > 	interface_version=3  
-> > > 
-> > > Not much granularity here, I prefer Sean's previous
-> > > <major>.<minor>[.bugfix] scheme.
-> > >   
-> > yes, <major>.<minor>[.bugfix] scheme may be better, but I'm not sure if
-> > it works for a complicated scenario.
-> > e.g for pv_mode,
-> > (1) initially,  pv_mode is not supported, so it's pv_mode=none, it's 0.0.0,
-> > (2) then, pv_mode=ppgtt is supported, pv_mode="none+ppgtt", it's 0.1.0,
-> > indicating pv_mode=none can migrate to pv_mode="none+ppgtt", but not vice versa.
-> > (3) later, pv_mode=context is also supported,
-> > pv_mode="none+ppgtt+context", so it's 0.2.0.
-> > 
-> > But if later, pv_mode=ppgtt is removed. pv_mode="none+context", how to
-> > name its version? "none+ppgtt" (0.1.0) is not compatible to
-> > "none+context", but "none+ppgtt+context" (0.2.0) is compatible to
-> > "none+context".
-> 
-> If pv_mode=ppgtt is removed, then the compatible versions would be
-> 0.0.0 or 1.0.0, ie. the major version would be incremented due to
-> feature removal.
->  
-> > Maintain such scheme is painful to vendor driver.
-> 
-> Migration compatibility is painful, there's no way around that.  I
-> think the version scheme is an attempt to push some of that low level
-> burden on the vendor driver, otherwise the management tools need to
-> work on an ever growing matrix of vendor specific features which is
-> going to become unwieldy and is largely meaningless outside of the
-> vendor driver.  Instead, the vendor driver can make strategic decisions
-> about where to continue to maintain a support burden and make explicit
-> decisions to maintain or break compatibility.  The version scheme is a
-> simplification and abstraction of vendor driver features in order to
-> create a small, logical compatibility matrix.  Compromises necessarily
-> need to be made for that to occur.
->
-ok. got it.
-
-> > > > > COMPATIBLE:
-> > > > > 	device_type=pci
-> > > > > 	device_id=8086591d
-> > > > > 	mdev_type=i915-GVTg_V5_{val1:int:1,2,4,8}    
-> > > > this mixed notation will be hard to parse so i would avoid that.  
-> > > 
-> > > Some background, Intel has been proposing aggregation as a solution to
-> > > how we scale mdev devices when hardware exposes large numbers of
-> > > assignable objects that can be composed in essentially arbitrary ways.
-> > > So for instance, if we have a workqueue (wq), we might have an mdev
-> > > type for 1wq, 2wq, 3wq,... Nwq.  It's not really practical to expose a
-> > > discrete mdev type for each of those, so they want to define a base
-> > > type which is composable to other types via this aggregation.  This is
-> > > what this substitution and tagging is attempting to accomplish.  So
-> > > imagine this set of values for cases where it's not practical to unroll
-> > > the values for N discrete types.
-> > >   
-> > > > > 	aggregator={val1}/2  
-> > > 
-> > > So the {val1} above would be substituted here, though an aggregation
-> > > factor of 1/2 is a head scratcher...
-> > >   
-> > > > > 	pv_mode={val2:string:"none+ppgtt","none+context","none+ppgtt+context"}  
-> > > 
-> > > I'm lost on this one though.  I think maybe it's indicating that it's
-> > > compatible with any of these, so do we need to list it?  Couldn't this
-> > > be handled by Sean's version proposal where the minor version
-> > > represents feature compatibility?  
-> > yes, it's indicating that it's compatible with any of these.
-> > Sean's version proposal may also work, but it would be painful for
-> > vendor driver to maintain the versions when multiple similar features
-> > are involved.
-> 
-> This is something vendor drivers need to consider when adding and
-> removing features.
-> 
-> > > > > 	interface_version={val3:int:2,3}  
-> > > 
-> > > What does this turn into in a few years, 2,7,12,23,75,96,...
-> > >   
-> > is a range better?
-> 
-> I was really trying to point out that sparseness becomes an issue if
-> the vendor driver is largely disconnected from how their feature
-> addition and deprecation affects migration support.  Thanks,
->
-ok. we'll use the x.y.z scheme then.
-
-Thanks
-Yan
 
