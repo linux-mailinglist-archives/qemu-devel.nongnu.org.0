@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C6223BDCC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:10:47 +0200 (CEST)
-Received: from localhost ([::1]:39336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30FE23BDE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:17:13 +0200 (CEST)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2zWY-0005S4-TI
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45358)
+	id 1k2zcm-0003Ok-E4
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:17:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k2zVK-000453-2u
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:09:30 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k2zVI-0005qC-6m
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:09:29 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f18so2508599wmc.0
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=NPaszI0hRO09gzQUK790XM8Dh34iLZrv5p/Y2wvINak=;
- b=kFB0HPJnPCGmy7JeF/blIVDtHQ8VC2suv1Vmg6ti3SdaBI8JXuvLjkyU7jMJZbcchQ
- oR4BrQmjIBA4tvpjKbWwFV8zd2pIEP/IWbiWbkFXtHkfWfQ+vAAx2/lPq8RX7AnVvm8t
- s706WxUjTrf2zD2QXAHAkJ1GMZ0VgW5d+fHxZdx29cvMuHRO6pViQRBbq3ujLa+eipdp
- LwxjENh0+Dk+CkPMAlCtqIKt/ZVFcKiVIBMB5wAn+DFDvPxGLDL19dp3CqZ9VQJjxI7x
- +z+lRU++yhNwwRBCXgw6Y57r0fhvWoqSeGTtQLSq87NNlgUVtZ/60EpAsjWhFsitQyog
- edzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=NPaszI0hRO09gzQUK790XM8Dh34iLZrv5p/Y2wvINak=;
- b=ETbJyimLRpGITphtVkjKKypfax6Gy0pah47JQbSFfsWUwbsH3hdrdN2rs09shLrMmE
- rjoBA9LIKlUVHw9i14oYuq2pLu+fcEFmGJOzkV1O4YfnGgMcVijqhJywRFuM+IdNcoXY
- gWLQ8FbizHoKb2D9BdFcAY9ADAGuWr6M0qjPLM6Srmgg6RiCenapC9HfRg9ZHMtQNXnJ
- Xb9K27fzAd7vIDaYSrWxjHWQuKPCebV2hNuMHPtbUXALKI4MNkBfAFgD4bKZn+QiLQHV
- mOXif1+DRlLaDLyTLy92c4WOazxzdaqoPXx/yo/x+XOUXWFqExsu2IiMC0af5rYtU1J/
- RI4A==
-X-Gm-Message-State: AOAM532JLTz+Mo+xR8wdB6SZ8pni0/L8/Ur2/+YiXOc6OFkUEudqh2HC
- s+5Thye/lRzjW9ZjH6lAQ4b43w==
-X-Google-Smtp-Source: ABdhPJxU6svNQ2TUI9XOLWQuVZBTr/JLgwyoYPSoe1IavYGF3e7XAU8lhAtiVUesBGNb6JJS/hb9Xg==
-X-Received: by 2002:a7b:c05a:: with SMTP id u26mr4607476wmc.134.1596557365516; 
- Tue, 04 Aug 2020 09:09:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c15sm4904814wme.23.2020.08.04.09.09.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 09:09:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4C6171FF7E;
- Tue,  4 Aug 2020 17:09:23 +0100 (BST)
-References: <20200730141326.8260-1-thuth@redhat.com>
- <20200730141326.8260-3-thuth@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/4] tests/acceptance: Disable the rx sash and arm
- cubieboard replay test on Gitlab
-In-reply-to: <20200730141326.8260-3-thuth@redhat.com>
-Date: Tue, 04 Aug 2020 17:09:23 +0100
-Message-ID: <87d046mlzg.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k2zal-0001ps-CI
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:15:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33035
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k2zai-0006ow-EF
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:15:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596557702;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hmGfLtaylIexV9EvIeQXsVF0B8rZQCaFPLhongqJi64=;
+ b=IMRZHK3QLD4dUWeybN3VtSiwU4fVh9Yq0S+m1jREYmHRiIbLoyla7LCRDTP3uKfsphgcJC
+ omIcouMZPAKX5Lf9960Kukkx99Gzu/JhymPuRNPfNEcm6/CGaClRPqdz6Mdp29BSBz21xe
+ gp8x46znnEgZGtxtB4j0NiSmnnDHYW4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-Jzu56AO_NNCygZumQh5HCg-1; Tue, 04 Aug 2020 12:14:57 -0400
+X-MC-Unique: Jzu56AO_NNCygZumQh5HCg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45D481800D42;
+ Tue,  4 Aug 2020 16:14:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC4E919D7E;
+ Tue,  4 Aug 2020 16:14:54 +0000 (UTC)
+Date: Tue, 4 Aug 2020 17:14:52 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v6 06/12] monitor: Make current monitor a per-coroutine
+ property
+Message-ID: <20200804161440.GL4020825@redhat.com>
+References: <20200528153742.274164-1-kwolf@redhat.com>
+ <20200528153742.274164-7-kwolf@redhat.com>
+ <87tuxia5a9.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87tuxia5a9.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,71 +85,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, marcandre.lureau@gmail.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 04, 2020 at 03:50:54PM +0200, Markus Armbruster wrote:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > This way, a monitor command handler will still be able to access the
+> > current monitor, but when it yields, all other code code will correctly
+> > get NULL from monitor_cur().
+> >
+> > Outside of coroutine context, qemu_coroutine_self() returns the leader
+> > coroutine of the current thread.
+> 
+> Unsaid: you use it as a hash table key to map from coroutine to monitor,
+> and for that you need it to return a value unique to the coroutine in
+> coroutine context, and a value unique to the thread outside coroutine
+> context.  Which qemu_coroutine_self() does.  Correct?
+> 
+> The hash table works, but I hate it just as much as I hate
+> pthread_getspecific() / pthread_setspecific().
+> 
+> What we have here is a need for coroutine-local data.  Feels like a
+> perfectly natural concept to me.
+> 
+> Are we going to create another hash table whenever we need another piece
+> of coroutine-local data?  Or shall we reuse the hash table, suitably
+> renamed and moved to another file?
+> 
+> Why not simply associate an opaque pointer with each coroutine?  All it
+> takes is one more member of struct Coroutine.  Whatever creates the
+> coroutine decides what to use it for.  The monitor coroutine would use
+> it to point to the monitor.
 
-Thomas Huth <thuth@redhat.com> writes:
+Possible benefit of having the coroutine-local data stored in the
+coroutine stack is that we can probably make it lock-less. Using
+the hash table in monitor.c results in a serialization of across
+all coroutines & threads.
 
-> These tests always time out on Gitlab, not sure what's happening here.
-> Let's disable them until somebody has enough spare time to debug the
-> issues.
->
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Also, by providing a GDestroyNotify against the coroutine-local
+data we can easily guarantee cleanup with the coroutine is freed.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Since we'll have a limited number of data items, we could make do
+with a simple array in the coroutine struct, instead of a hashtable.
+eg
 
-> ---
->  tests/acceptance/machine_rx_gdbsim.py | 4 ++++
->  tests/acceptance/replay_kernel.py     | 1 +
->  2 files changed, 5 insertions(+)
->
-> diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/mac=
-hine_rx_gdbsim.py
-> index bff63e421d..0c72506028 100644
-> --- a/tests/acceptance/machine_rx_gdbsim.py
-> +++ b/tests/acceptance/machine_rx_gdbsim.py
-> @@ -8,6 +8,9 @@
->  # This work is licensed under the terms of the GNU GPL, version 2 or
->  # later.  See the COPYING file in the top-level directory.
->=20=20
-> +import os
-> +
-> +from avocado import skipIf
->  from avocado_qemu import Test
->  from avocado_qemu import exec_command_and_wait_for_pattern
->  from avocado_qemu import wait_for_console_pattern
-> @@ -42,6 +45,7 @@ class RxGdbSimMachine(Test):
->          # FIXME limit baudrate on chardev, else we type too fast
->          #exec_command_and_wait_for_pattern(self, 'version', gcc_version)
->=20=20
-> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->      def test_linux_sash(self):
->          """
->          Boots a Linux kernel and checks that the console is operational.
-> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_=
-kernel.py
-> index 62d2db8c64..b79fc8daf8 100644
-> --- a/tests/acceptance/replay_kernel.py
-> +++ b/tests/acceptance/replay_kernel.py
-> @@ -126,6 +126,7 @@ class ReplayKernel(LinuxKernelTest):
->=20=20
->          self.run_rr(kernel_path, kernel_command_line, console_pattern, s=
-hift=3D1)
->=20=20
-> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->      def test_arm_cubieboard_initrd(self):
->          """
->          :avocado: tags=3Darch:arm
+  enum CoroutineLocalKeys {
+     CO_LOCAL_CUR_MONITOR = 0,
+
+     CO_LOCAL_LAST,
+  };
+
+  struct Coroutine {
+    ...
+    gpointer localData[CO_LOCAL_LAST];
+    GDestroyNotify localDataFree[CO_LOCAL_LAST];
+  };
 
 
---=20
-Alex Benn=C3=A9e
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
