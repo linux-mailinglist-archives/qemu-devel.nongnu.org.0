@@ -2,84 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAA323B6CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 10:32:00 +0200 (CEST)
-Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EE323B6D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 10:36:07 +0200 (CEST)
+Received: from localhost ([::1]:40698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2sMZ-0005BK-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 04:31:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
+	id 1k2sQY-0007s1-Cn
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 04:36:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k2sLQ-0004eg-A9
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:30:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38859
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k2sPK-0006yh-RE
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:34:50 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k2sLO-0000tA-Iu
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:30:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k2sPI-0001Ph-TL
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 04:34:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596529845;
+ s=mimecast20190719; t=1596530087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qJyLfH0SE7cELoGLuVcpGHeOCoHxxtifd6T1uceBMKY=;
- b=NqJXKxQ3xiZCe/Cd8PTqstOackP+rq7+/L2rbLkLeQ0ilpZnLYCWmXZ5ojMjKTlBDBfsKn
- sQUT/oay3+1UW/1/DMDLA8BVaKX5lmtdDpYUU4tjgyO/t34i68eJFa5qSjJlUXh8xCxIbP
- saRJCyqvA5E1hzww43SpF67T8S9HxIU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-i1gseuDFNO6JqQUG2OAr6w-1; Tue, 04 Aug 2020 04:30:43 -0400
-X-MC-Unique: i1gseuDFNO6JqQUG2OAr6w-1
-Received: by mail-ej1-f69.google.com with SMTP id i4so293385ejk.9
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 01:30:43 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qD/CeeZrbqIkgE83qE1EJDNBaCSUEFE64uJULaVnxnU=;
+ b=RZkzyaBdijr00rxtgew8M5LaYVAkcSlxXWxdQPUxnNFsA6wmKuK+yEImkfXzmprmbMC2Iz
+ 4yz1IoVbetErX1kgJ6pb0ucNdH9xLaG8Wf3Z9cYCWrMd9YTRHrQx4iMmv1CKm/Lz5o3HEk
+ c111twLwRMgfLsPIZoCkwL1URe8aBWA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-3CZHUtljNvyOFI2bX3zaLQ-1; Tue, 04 Aug 2020 04:34:46 -0400
+X-MC-Unique: 3CZHUtljNvyOFI2bX3zaLQ-1
+Received: by mail-ej1-f71.google.com with SMTP id d24so8662647ejb.3
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 01:34:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qJyLfH0SE7cELoGLuVcpGHeOCoHxxtifd6T1uceBMKY=;
- b=VIvFwgBpvxOkwXLTP1YhUytgooDxeiqELZiqicTThSvEiyDtSYX7BGcgivZ4gY+5Kt
- FXILrtmhqA7cl7kFSMD4OfkaFB7HR+s6fstKV9aIEpxnLB46GmJVi7DXbm+R2ZXMn5GR
- C1v13TDibTSt85YvKqO94/BN58ihzR7NGjUoBLJrAiPO2npXdu7hpTc51d5W8vpsW3v7
- FVGK9IywFYtEAk0Tg8ohI1B5RLr4G8YSg2dhZIWouzHRY3KYYfSIOI4ko23k4AnBi6k3
- Oj6erRbsJuQy/CbV0NNH8NZ7UE+dolAEV4qeicu3/E8AkG9uhg5MGOamOEAv9nKB46sS
- aABg==
-X-Gm-Message-State: AOAM531AMP93Gvarouvpku6MschvKSzkkmBt1ZbZR6bwKEDV8paGISDm
- cYXj2XicNp5KeF8spnsKYuha5TY/RW1Fy/OxVUxTZAf7Izlrjb1Z9bmj+MaEnx3VuRp6p4WUpGq
- CFPKZrw78sSB9cd8=
-X-Received: by 2002:a50:eb92:: with SMTP id y18mr4314831edr.51.1596529842266; 
- Tue, 04 Aug 2020 01:30:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzklrTU9ocjqU1aaApeNStMv2k33YbmiAjdYneQJaMIY6qgfqe/jDCgnYvVYREFzoNafbvH1A==
-X-Received: by 2002:a50:eb92:: with SMTP id y18mr4314812edr.51.1596529842060; 
- Tue, 04 Aug 2020 01:30:42 -0700 (PDT)
-Received: from x1w.redhat.com (214.red-88-21-68.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=qD/CeeZrbqIkgE83qE1EJDNBaCSUEFE64uJULaVnxnU=;
+ b=hU2coZTm8RUc5Ssbb6RvdO2LleEzVmVsPRc5GTIlPEBH0tKX2eeBTmTu+3ReabWOwJ
+ w6oTKJD46iIRzghXWjrbSuZb7SPIdpF9fYgxTBvK/idlwas3yj1GtEorpnhcaZnk6gHq
+ NFo9VTVZ9KY64NnM05DfAzRHDpdmH0AIHpZPgDcdzVm6yPGwrJODv/aBPe1pLoFTDZk1
+ 3wIkFRUR6mFEsMXONZiThUg0wkYrAzG0SRAnuQLQnvpk3X3281lMQbK1y0EhDP9uftdG
+ zvuQnfANDnXL0v6TSNGoFMf4nMuk5L0Un2Tf0sAn3SIqKnhOcRntkoc3OAqjy5OX/HXs
+ 4AZg==
+X-Gm-Message-State: AOAM530zBQ100FdxsUqk0nolfVDsZVeVtosBYFvI4HRDu7RSsFLZ3TQd
+ VvWWBOeVPUEV36bE8THGyOxTe4OSDq2bI0YutH9fcp2ia5eMqwbDYIicoYGMIhO0owV1TPqN0xx
+ vWMSvXcZTaIoZ0E0=
+X-Received: by 2002:a05:6402:1a54:: with SMTP id
+ bf20mr19573312edb.217.1596530085185; 
+ Tue, 04 Aug 2020 01:34:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcPFG6nWYYGYKd1IYh4XRaBTvM1zmuSGq2bzNjsP1QuA5gXXRyHlNYGm5sTx/gM2BJ1aCXoA==
+X-Received: by 2002:a05:6402:1a54:: with SMTP id
+ bf20mr19573296edb.217.1596530084967; 
+ Tue, 04 Aug 2020 01:34:44 -0700 (PDT)
+Received: from [192.168.1.43] (214.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id a16sm17705852ejy.78.2020.08.04.01.30.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 01:30:41 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1] .travis.yml: Deprecate it in favor of GitLab CI
-Date: Tue,  4 Aug 2020 10:30:40 +0200
-Message-Id: <20200804083040.24659-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ by smtp.gmail.com with ESMTPSA id dk28sm18329770edb.90.2020.08.04.01.34.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Aug 2020 01:34:44 -0700 (PDT)
+Subject: Re: [PATCH-for-5.1 v2 1/1] accel/xen: Fix xen_enabled() behavior on
+ target-agnostic objects
+To: paul@xen.org, qemu-devel@nongnu.org
+References: <20200804074930.13104-1-philmd@redhat.com>
+ <20200804074930.13104-2-philmd@redhat.com>
+ <001201d66a34$e82ec070$b88c4150$@xen.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <56c70b44-2d5f-44fc-5d9a-535c3c5fca71@redhat.com>
+Date: Tue, 4 Aug 2020 10:34:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <001201d66a34$e82ec070$b88c4150$@xen.org>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,60 +126,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: 'Peter Maydell' <peter.maydell@linaro.org>,
+ 'Stefano Stabellini' <sstabellini@kernel.org>,
+ 'Paul Durrant' <pdurrant@amazon.com>, 'Paolo Bonzini' <pbonzini@redhat.com>,
+ 'Anthony Perard' <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of QEMU 5.2 we prefer to focus our CI development on GitLab.
-Mark Travis-CI as deprecated (adding a big warning).
+Hi Paul,
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- docs/system/deprecated.rst | 11 +++++++++++
- .travis.yml                |  7 +++++++
- 2 files changed, 18 insertions(+)
+On 8/4/20 9:57 AM, Paul Durrant wrote:
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Sent: 04 August 2020 08:50
+>> To: qemu-devel@nongnu.org
+>> Cc: Peter Maydell <peter.maydell@linaro.org>; Anthony Perard <anthony.perard@citrix.com>; Paolo
+>> Bonzini <pbonzini@redhat.com>; Stefano Stabellini <sstabellini@kernel.org>; xen-
+>> devel@lists.xenproject.org; Paul Durrant <paul@xen.org>; Philippe Mathieu-Daudé <philmd@redhat.com>;
+>> Paul Durrant <pdurrant@amazon.com>
+>> Subject: [PATCH-for-5.1 v2 1/1] accel/xen: Fix xen_enabled() behavior on target-agnostic objects
+>>
+>> CONFIG_XEN is generated by configure and stored in "config-target.h",
+>> which is (obviously) only include for target-specific objects.
+>> This is a problem for target-agnostic objects as CONFIG_XEN is never
+>> defined and xen_enabled() is always inlined as 'false'.
+>>
+>> Fix by following the KVM schema, defining CONFIG_XEN_IS_POSSIBLE
+>> when we don't know to force the call of the non-inlined function,
+>> returning the xen_allowed boolean.
+>>
+>> Fixes: da278d58a092 ("accel: Move Xen accelerator code under accel/xen/")
+>> Reported-by: Paul Durrant <pdurrant@amazon.com>
+>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  include/sysemu/xen.h   | 18 ++++++++++++++----
+>>  accel/stubs/xen-stub.c |  2 ++
+>>  accel/xen/xen-all.c    |  7 +------
+>>  3 files changed, 17 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
+>> index 1ca292715e..2c2c429ea8 100644
+>> --- a/include/sysemu/xen.h
+>> +++ b/include/sysemu/xen.h
+>> @@ -8,9 +8,19 @@
+>>  #ifndef SYSEMU_XEN_H
+>>  #define SYSEMU_XEN_H
+>>
+>> -#ifdef CONFIG_XEN
+>> +#ifdef NEED_CPU_H
+>> +# ifdef CONFIG_XEN
+>> +#  define CONFIG_XEN_IS_POSSIBLE
+>> +# endif
+>> +#else
+>> +# define CONFIG_XEN_IS_POSSIBLE
+>> +#endif
+>>
+>> -bool xen_enabled(void);
+>> +#ifdef CONFIG_XEN_IS_POSSIBLE
+>> +
+>> +extern bool xen_allowed;
+>> +
+>> +#define xen_enabled()           (xen_allowed)
+> 
+> Can this not move ahead of the #ifdef now (since xen_allowed is present in both xen-stub and xen-all)? I think this is what Peter was saying in his option '(2)'.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 851dbdeb8a..c17a5b0896 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -17,6 +17,17 @@ they were first deprecated in the 2.10.0 release.
- What follows is a list of all features currently marked as
- deprecated.
- 
-+Build and test automation
-+-------------------------
-+
-+``Travis-CI`` (Since 5.2)
-+'''''''''''''''''''''''''
-+
-+``Travis-CI`` is deprecated in favor of GitLab-CI.
-+
-+The '.travis.yml' configuration should only be modified to remove jobs
-+when equivalent exist on GitLab-CI. Adding new jobs is not allowed.
-+
- System emulator command line arguments
- --------------------------------------
- 
-diff --git a/.travis.yml b/.travis.yml
-index 6695c0620f..4ad243f511 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -1,3 +1,10 @@
-+#  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING
-+#
-+#  As of QEMU 5.2, this file is now deprecated in favor of GitLab CI.
-+#  Do not modify, except to remove jobs ported to GitLab CI.
-+#
-+#  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING
-+
- # The current Travis default is a VM based 16.04 Xenial on GCE
- # Additional builds with specific requirements for a full VM need to
- # be added as additional matrix: entries later on
--- 
-2.21.3
+I think I respected Peter's option '(2)', following how KVM does, this
+is the case with stub,
+
+> 
+>   Paul
+> 
+>>
+>>  #ifndef CONFIG_USER_ONLY
+>>  void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length);
+>> @@ -18,7 +28,7 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
+>>                     struct MemoryRegion *mr, Error **errp);
+>>  #endif
+>>
+>> -#else /* !CONFIG_XEN */
+>> +#else /* !CONFIG_XEN_IS_POSSIBLE */
+>>
+>>  #define xen_enabled() 0
+
+    ^^^ here is the other case,
+
+>>  #ifndef CONFIG_USER_ONLY
+>> @@ -33,6 +43,6 @@ static inline void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
+>>  }
+>>  #endif
+>>
+>> -#endif /* CONFIG_XEN */
+>> +#endif /* CONFIG_XEN_IS_POSSIBLE */
+>>
+>>  #endif
+>> diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
+>> index dcca4e678a..8ae658acff 100644
+>> --- a/accel/stubs/xen-stub.c
+>> +++ b/accel/stubs/xen-stub.c
+>> @@ -9,6 +9,8 @@
+>>  #include "hw/xen/xen.h"
+>>  #include "qapi/qapi-commands-misc.h"
+>>
+>> +bool xen_allowed;
+
+here is the stub,
+
+>> +
+>>  void xenstore_store_pv_console_info(int i, Chardev *chr)
+>>  {
+>>  }
+>> diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+>> index 0c24d4b191..60b971d0a8 100644
+>> --- a/accel/xen/xen-all.c
+>> +++ b/accel/xen/xen-all.c
+>> @@ -32,12 +32,7 @@
+>>      do { } while (0)
+>>  #endif
+>>
+>> -static bool xen_allowed;
+>> -
+>> -bool xen_enabled(void)
+>> -{
+>> -    return xen_allowed;
+>> -}
+>> +bool xen_allowed;
+
+here is the real variable.
+
+>>
+>>  xc_interface *xen_xc;
+>>  xenforeignmemory_handle *xen_fmem;
+>> --
+>> 2.21.3
+> 
+> 
 
 
