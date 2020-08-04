@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CD023BDE9
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:17:18 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5A023BDFA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:19:30 +0200 (CEST)
+Received: from localhost ([::1]:32992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2zcq-0003Qa-Sy
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
+	id 1k2zez-0006MJ-8x
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k2zam-0001rQ-M0
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:15:08 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40597)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2zbs-00033F-HF
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:16:16 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:37078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k2zak-0006pK-Dq
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:15:08 -0400
-Received: by mail-wm1-x342.google.com with SMTP id k20so3480876wmi.5
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:15:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k2zbq-00078O-KQ
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:16:16 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id e11so6782176otk.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=367oMtrM0LWp250z5gAKy1NqmlciNQn2qzt3sI9J+Hw=;
- b=IoY20AyPcIucOGRoQfTPSiThLqzyzrD+UXPmMJ3nf9rb6KBtTpfYxdaMaiCJ161ouF
- WrmOokwNSRaTTgAlbPvTNgsVGy1kbJG6sJPtnrSliQKXKOxodFd0zu3m/DO0A3bVSgoC
- 7eIOFtI7EXCZbtbFWRMxH7hO66f+l+2ok0ILtAEGu89RRDbOvOKHnCkO+fPD7KHrMZ2q
- A3oxfbIGy0/C3lYziA6FrT+scic0hrNz/1EwrDaiF58P5cnHqDiw3yGNOJUQpYbCUCKv
- 6uXM6nwN4JlwqScjsahnZiUSvMBZ3l1Xip6m7ykKZaEBS1ID+3E01bac1Fx1ve0EvKj0
- YORQ==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=w706G/FpohUDnXgtwAPE9htdkbTZIRUDZrlQXTOzK1c=;
+ b=XTxswDgxdvnSlbLWurP3ncLTErrGMlEJe9ASVrdOEShAlcja6REUhxDpteLlTzqpC4
+ 6f0wABtSOYFZlmmjSDrUTI8jFoK/ecrMiAkxvS105i3XPkYAeihMkMEDxQXzfjWrp7QK
+ pRtZDafY/Yhsg1uTK3uNNP/FZO2UW0iJ4rlO6IWstUNLVMguHQiWm4oaN9OSSUxVgvRH
+ 6S9icTJdJguuIzjmoMuua8wpjK8ZOI+x2MLtWrfz3Uc7OWtYSphmZfMfIJo6sJN+rfpk
+ XJ+tDsjhxcvOj4/JG/P1drU1HtLef8ZM1aElfqiu8ZWjXV/YdMCvap16+PjqYES7/OIk
+ evbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=367oMtrM0LWp250z5gAKy1NqmlciNQn2qzt3sI9J+Hw=;
- b=QnDLJB+IfiuL8SRexv5Aj4hx69I4Zl/4KaajkTkg4OJUXmjjSxRsbOvlDomTvW2cJ0
- TYpmisJ8FCh4x+c8AVBh3DLt0z7JhGAMdCv90UIy6wtuVesAhtuq+dynimEWGm5fCgXM
- SfoZMAV/7+qWsY4CLxesBmOTUXRnHEcZJJECTXwFKP/CTwllLPLROY77mwJzn7SVRJBo
- fb4hv7MdOL4DCkP3G8cqDfNi/p2a3/Dc9+gVM51e790V76YS6EXphRjIw3nlcoccc4pG
- tu5AzS4NL85Ol4rDtIF55difpj87SFIvBuvyTwvZnmE5Jv4n1C5bSi68jzct06QOhyYG
- rKmA==
-X-Gm-Message-State: AOAM530yGdSILA+4qCmcrT7WdxpSVkyIKqJ8ugiqYtrPkc7In9GylrAv
- Ieowky9RumNWg8sL3LzPyh0Q9w==
-X-Google-Smtp-Source: ABdhPJxolubboifvZRASzi6sQKNg3l9sXb8pCJaB/yE9S1kBhXYBsF58Td6cjzabbwhUOEfEL+zPlg==
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr4870524wmm.71.1596557704254; 
- Tue, 04 Aug 2020 09:15:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q4sm5077473wme.31.2020.08.04.09.15.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 09:15:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3837D1FF7E;
- Tue,  4 Aug 2020 17:15:02 +0100 (BST)
-References: <20200730141326.8260-1-thuth@redhat.com>
- <20200730141326.8260-4-thuth@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 3/4] gitlab-ci.yml: Add build-system-debian and
- build-system-centos jobs
-In-reply-to: <20200730141326.8260-4-thuth@redhat.com>
-Date: Tue, 04 Aug 2020 17:15:02 +0100
-Message-ID: <87a6zamlq1.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=w706G/FpohUDnXgtwAPE9htdkbTZIRUDZrlQXTOzK1c=;
+ b=DyyitzEkGaiOI1XtP0mG7QZxEoSuRQXTpiKoij2VK7xzVeEJQta6dn7nsEEyXeIT3h
+ 3p8FOFDJbyBQ1Bj/blla/E0u4tivGn4PTWufAwqU9vSqbLi/+j9mE7MiyVBnlJ26Y4qd
+ PyMUktEPiyyvVsXPDq/BoRmImVFiYsRU8Xe0iXXrxVwNibMTzzfKgqgBpSTbmBhZ8trY
+ Y2nM5M4+efrLg4HBuCXJs4dAx+vquIh8eVQOEFoYgWWRY/FQO+H5oeMhTSnLtXMUQ3KH
+ dOhRLn6FRoYmHx4AiBZ30K8DDuL1x2VH5v8CKbGIm2Nw05Z8kje+TTX17B2rxpzJWxLA
+ ylQg==
+X-Gm-Message-State: AOAM533XbrKt94WU5dwZixvArlZQBe3SNzVn0rRxx9WkurEmpMIHAaxp
+ DCqo2ZC3KGPd1FvPAja0j0GjHg7sLfRdUzyD5SGyJlXP4vYCtw==
+X-Google-Smtp-Source: ABdhPJykLqc60g29QdmhG3WCZf6SvcFyJMW60m0o/J96NlJ02S9Xn9DJhRoDwTxGlfHzcW22wVEaU2qVSKG3HZdJVSA=
+X-Received: by 2002:a9d:3b61:: with SMTP id z88mr19053691otb.135.1596557772676; 
+ Tue, 04 Aug 2020 09:16:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 4 Aug 2020 17:16:01 +0100
+Message-ID: <CAFEAcA_QCv_=fz6x+O9FcM1K5fRkES2mHSXH7vdEwVH4VL4+tA@mail.gmail.com>
+Subject: last call for things that need fixing for 5.1
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,31 +75,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If there's anything else that needs fixing for 5.1, please
+make sure it's listed at:
+https://wiki.qemu.org/Planning/5.1#Known_issues
 
-Thomas Huth <thuth@redhat.com> writes:
+I'm probably going to delay rc3 til tomorrow (MST has a fix he
+wants to put in but needs more time to debug a problem with it),
+but in an ideal world rc3 will be the last rc before the final
+release and no more changes will go in after rc3.
 
-> We were missing the two new targets avr-softmmu and rx-softmmu in the
-> gitlab-CI so far, and did not add some of the "other endianess" targets
-> like sh4eb-softmmu yet.
-> Since the current build-system-* jobs run already for a very long time,
-> let's do not add these missing targets there, but introduce two new
-> additional build jobs, one running with Debian and one running with
-> CentOS, and add the new targets there. Also move some targets from
-> the old build-system-* jobs to these new targets, to distribute the
-> load and reduce the runtime of the CI.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
