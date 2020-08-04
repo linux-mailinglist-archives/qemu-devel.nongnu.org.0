@@ -2,120 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA64223C138
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 23:14:16 +0200 (CEST)
-Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BA323C165
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 23:25:28 +0200 (CEST)
+Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k34GF-0007a7-Ce
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 17:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36036)
+	id 1k34R4-0003Fz-U4
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 17:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1k34EM-00067G-79
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 17:12:18 -0400
-Received: from mail-bn8nam12on2087.outbound.protection.outlook.com
- ([40.107.237.87]:9312 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k34MZ-0002VD-Qc
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 17:20:47 -0400
+Received: from mout.gmx.net ([212.227.17.20]:39111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1k34EH-0002Og-QQ
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 17:12:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J4cxmBgKu3E5WZ4soW8IO9CVhHd61t3g2JdEswr2IwSIeQ/p7ZmH9hwK3i8wLuJjV6Bo6bzHIF7jPqS6cnOmOM61EYBpcJFEpDjhKtDX18MWdemA2P8yaTsiL+ePKUd+RkLNsAhaRRc54MewNE7mM0wS1ocyTU2Q9dtCZmf5FoBeNd+364XnPGZxMFbmBCvaFL1t2cXSGBTNMb4mJJDWdag31gSoGNfNwhqYTIaTo+JJh4cIaplCp+22UQKVDOLZzrGOKw7PYSE7i7ZXNQqzKrA8bN2eYu8PPzLHsxK7+413Sd8Q5hWH7qmuGfBHf0kOwG8At3nGyDeyq6aZCLGArw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tg+VtIAic2RCbeXl4dagvpFW0us4uFp3G96+zLHZX4E=;
- b=CipvfU0FZjVOIhqV8oEXcqch6Xs4wHaXCMEQRAB7RNmxfJhUHLNPrPnazempXO6IiQzlY1+7IzO8nHosn7EBE1b4F3IUx+usD2YwoJJeOiOPx6EGHauXJnsSZ1K1oPESpaNqpzasdeKmyocIy5WUuOFiqOU9yluB0UCSeizuolUpTKcwpM8tCxPE2maGzTV3hyzCEKFIv5kFvFFy1nist5Lx0UiVG3G57ga+xU8qAlDwcSQwllo7GsorkTjeto691fsfETlDZInTKXrhUGRMi94tmi/DLpVllr4ufyMB8GkjjHO3qC+GAc40gsvKJq8Ttzp/dZWoMr8l7bfIkAiIKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tg+VtIAic2RCbeXl4dagvpFW0us4uFp3G96+zLHZX4E=;
- b=b5p5lx9d39v3qijEzstzStji8KBg5rsvkFMJx3wx85HahB3GkMJb1CgSC+gFZeC/j5M4lUK+gF+bcjxKCPwTXGglQFSAbz/XDmAeQi/5HsdsKxIku6wC/+IhAUMAYf4J3ncN5SonpEr7RAI/qmPNDFVuAhvq+eBCLVqCrNsifzg=
-Received: from MN2PR01CA0009.prod.exchangelabs.com (2603:10b6:208:10c::22) by
- CH2PR02MB7095.namprd02.prod.outlook.com (2603:10b6:610:8b::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3239.18; Tue, 4 Aug 2020 21:12:11 +0000
-Received: from BL2NAM02FT037.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:10c:cafe::4f) by MN2PR01CA0009.outlook.office365.com
- (2603:10b6:208:10c::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
- Transport; Tue, 4 Aug 2020 21:12:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT037.mail.protection.outlook.com (10.152.77.11) with Microsoft SMTP
- Server id 15.20.3239.17 via Frontend Transport; Tue, 4 Aug 2020 21:12:11
- +0000
-Received: from [149.199.38.66] (port=46997 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>) id 1k34EA-0007xr-Rw
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 14:12:06 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>) id 1k34EF-0008Qe-2d
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 14:12:11 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1k34EC-0008KU-MA; Tue, 04 Aug 2020 14:12:08 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP
- CAN controller
-Date: Tue,  4 Aug 2020 14:11:45 -0700
-Message-Id: <1596575505-163040-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596575505-163040-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1596575505-163040-1-git-send-email-fnu.vikram@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k34MW-0003FB-F5
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 17:20:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1596576022;
+ bh=kX2r0RHOt/eUy3H4Z96xMoQ52HQB8dJj9ZLu5DI0mpU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=CnEBirUUH4YqPY32vTQJ1FC/SkskXrcfAmJXHvl6m7Qn0aCHu6R51UEsp8PLkV+I8
+ oSo+HzNW/DkDSBorohBAuhJc6YVi34KX9j+5welyV/Lo/0r7BVpTcJMgSlANnroIuR
+ AqB9C34TNI7VaTerk/k7XfMDXuxuwEOjSq6Fi6ko=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530.fritz.box ([92.116.144.148]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M59GG-1k4Aok0xnw-001Bsd; Tue, 04
+ Aug 2020 23:20:22 +0200
+Date: Tue, 4 Aug 2020 23:20:19 +0200
+From: Helge Deller <deller@gmx.de>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH v3 7/8] hw/display/artist: Refactor artist_rop8() to
+ avoid buffer over-run
+Message-ID: <20200804212019.GA876@ls3530.fritz.box>
+References: <20200804140056.7690-1-deller@gmx.de>
+ <20200804140056.7690-8-deller@gmx.de>
+ <20200804163954.4dzistybjwby7pzx@mozz.bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 32d51872-b4f7-4363-e879-08d838bb0dc7
-X-MS-TrafficTypeDiagnostic: CH2PR02MB7095:
-X-Microsoft-Antispam-PRVS: <CH2PR02MB70955FF2E00D60F89FC29F5ABC4A0@CH2PR02MB7095.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NXkVE3IQhsjH2NX3irdHXbf50+PLKYleXZNuiP4lEcDOSTRlBCbjMZoWztrpnidTtoEWh6UCPvwBS5jdWCYGYjYS1tFKMNVSqxaWYRV6XsI8DXMdDae7ZScoDXXOFNkbdDH2NVQV6CMMJTRsipR+VhWZ6GwoBdOPz8p5siMiKJc5ucIZTvSELf6cxJU+XFXa4h9qGqT4MlAYDn8NEHEoiX2C7kr3zpxBQ+qe/LvNVh7ApL5Mt/K5gbS0XJMNINqvHVHijjFPG7faXFFY/JeVZHRqdoP0OdFYmJvSytjLRbzSMZyIdDGFJBKR8zQBzxAxUKrvIouRYNJEobhFhgbusgbAj1UoPSKx/rt/IDISsvWjvrszUJjVZVjT9mm7re/c5uqjJ+wxvOix8Bw3kBvofQ==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(136003)(396003)(376002)(346002)(39830400003)(46966005)(186003)(7696005)(426003)(478600001)(5660300002)(4744005)(2906002)(336012)(26005)(2616005)(9786002)(107886003)(6916009)(70206006)(316002)(81166007)(36756003)(4326008)(82310400002)(8936002)(70586007)(8676002)(356005)(6666004)(47076004);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2020 21:12:11.4149 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32d51872-b4f7-4363-e879-08d838bb0dc7
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT037.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB7095
-Received-SPF: pass client-ip=40.107.237.87; envelope-from=fnuv@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 17:12:12
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200804163954.4dzistybjwby7pzx@mozz.bu.edu>
+X-Provags-ID: V03:K1:7xkno99Ih4kjX65eDnrWbYWR6zrpSH3w+ROz/p0sO2PL5JCBXDY
+ Bc5EPknCSOr2a1dyRkYaY8XG+Jav7m2JNuDm93Q/FBfMs7NXrA6mbXdLbWJvHd7rrGv1O1D
+ frQCKFgwOs6hYUO3cUcperNmZ5LNNbr87A0A8IkhXXamqcdUCjTb2HKIZVvoCqZjmQHkRc/
+ L5rKElMfZX9IT8HgWeWRA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BQBlOJDiDKc=:6luLTSQB3COLfx5l1pclCt
+ OxBZzNEAYBvcaPXx7BYL2pxeYF8pwpSSAHBjDJOg3XQtd/oVZiIw1ovhCyl1vBphjxex8RVk9
+ Fjxr9EFtz0I3Q7x1IA+PbaDlgHrs5HvcGFkcito8vT0eUuyzH5/2OKC7cO9eRb6OwKz5iBD+2
+ C2SAuYC4wA7STtsQAlgccLsVr9Mc1nNRHXa2oFsnpNkRx7SC6oOTJcd/i5aYE1H1k1p9eTxwH
+ 1ZEz6vcIymD5sDTGgZm7nQ0buvTf6QyX4lQPSTZ6NTHA7+viU88enBXx+ncZmJjvULoLdrtTE
+ yCgE0CP0bjy3AUpl8ktW48+xN3E+DO/50LHrdQIBWxY4w4LJ3CO+gxTiGv7h0GnYOWPgbgfEr
+ lV7KGJ781Q22cE7HWhrtPWqpV+QK3TqX1mXu/PZdmKsVVjmBLsQhQSkVcuT/5GpDcbwtCVYxX
+ MhON46VVXuUiey16n85XzrT8DWN0T7H4mI3JvYw4aHAuuYI6feZtg/s+XD+2h32PUnXlalk+v
+ DU9tI4rQ1H5Af1cdGrFmLXcWC6eYGRHlGnVsBUm49x4n6wH3L2Mk/PnD3HQgsc9r49PoikDkc
+ DPwm/+5W03WCk2IEOL8BkAzRRmmhX5x8AIjcy9RPM5a5eKnB3piilAdZwXfdThULufFU/BmQU
+ quPH3Oa8EX+CUCzkvPhs0nQd+va9rpRn9hbqDNr0Ga1HnDdXD4EMOV96wF/n7oJ8aNWEpal30
+ bygj2VbtI27ZwUsBrCKYynw3FNxqxj+yqWgazByKOEufJNbT16VKv4bleZpn+R4uN2qJ1yiqO
+ n71c/0GGVC8qWEG5qzow9ChDjq1ljA9/nMuFiqsRHH1ms3IyrDEbwPFLEKW9cfGba5CZAffMD
+ ywh8utwTGEy3GymxmI/e67HcpvEe2f2SruCyj5EVI8LMPeMHINsGTxGTWjF7LwdHhP5ak2LGG
+ P2MwJkSRCrAvCctSf8Vk8JHY87WWaMPfQj2vWNymX8vdxWRrWcLq9AuhFZzymKxx0lliN+Ld1
+ JsvlqK4916H94NcvVTKLeIKbhJ29ER2/4tNjGA6DtqsjtaHGT5j4kW6z9l7QYP5oVSx3B0nzU
+ wAcqHP4ernYa2jCNWKnPz/AOzKrhiKoZL05zPju6p4/sEB5SMZBe2tNFTYouw5X1Y0K04kurl
+ Hsd9rCpFmuVl4gIpnCJ3g4HwDLfuQC38NaqKko6A8t88D/IBi3trw3h5OXMcKct+tRVPeM0uM
+ fV5Rj90K43xaLGa5T
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 17:20:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,37 +88,298 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hi Alexander,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0886eb3..14d9b73 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1536,6 +1536,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
+* Alexander Bulekov <alxndr@bu.edu>:
+> I applied this series and it fixes most of the problems I saw before.
+> I still see a few crashes - I made issues for them on launchpad:
+> https://bugs.launchpad.net/qemu/+bug/1890310
+> https://bugs.launchpad.net/qemu/+bug/1890311
+> https://bugs.launchpad.net/qemu/+bug/1890312
+
+Thanks for testing!
+Below is the updated patch which fixes all of the issues you reported so
+far. Can you please test again?
+If you like you can pull all changes from
+https://github.com/hdeller/qemu-hppa/commits/target-hppa
+
+Thanks!
+Helge
+
+=2D--------------
+
+=46rom ee31d3aa9dd91cde3a4df8fce97239a0ff26f7cc Mon Sep 17 00:00:00 2001
+From: Helge Deller <deller@gmx.de>
+Date: Tue, 4 Aug 2020 15:35:38 +0200
+Subject: [PATCH] hw/display/artist: Prevent out of VRAM buffer accesses
+
+Simplify bounds checks by changing some parameters like row or column
+numbers to become unsigned instead of signed.
+With that we can check if the calculated offset is bigger than the size
+of the VRAM region and bail out if not.
+
+Reported-by: LLVM libFuzzer
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1880326
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890310
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890311
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890312
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 47de17b9e9..66a230bbd5 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -35,9 +35,9 @@
+ struct vram_buffer {
+     MemoryRegion mr;
+     uint8_t *data;
+-    int size;
+-    int width;
+-    int height;
++    unsigned int size;
++    unsigned int width;
++    unsigned int height;
+ };
+
+ typedef struct ARTISTState {
+@@ -203,14 +203,18 @@ static int16_t artist_get_y(uint32_t reg)
+ }
+
+ static void artist_invalidate_lines(struct vram_buffer *buf,
+-                                    int starty, int height)
++                                    unsigned int starty, unsigned int hei=
+ght)
+ {
+-    int start =3D starty * buf->width;
+-    int size =3D height * buf->width;
++    unsigned int start, size;
+
+-    if (start + size <=3D buf->size) {
+-        memory_region_set_dirty(&buf->mr, start, size);
++    if (starty >=3D buf->height) {
++        return;
+     }
 +
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
--- 
-2.7.4
++    start =3D starty * buf->width;
++    size =3D MIN(height * buf->width, buf->size - start);
++
++    memory_region_set_dirty(&buf->mr, start, size);
+ }
 
+ static int vram_write_pix_per_transfer(ARTISTState *s)
+@@ -274,15 +278,15 @@ static artist_rop_t artist_get_op(ARTISTState *s)
+ }
+
+ static void artist_rop8(ARTISTState *s, struct vram_buffer *buf,
+-                        int offset, uint8_t val)
++                        unsigned int offset, uint8_t val)
+ {
+     const artist_rop_t op =3D artist_get_op(s);
+     uint8_t plane_mask;
+     uint8_t *dst;
+
+-    if (offset < 0 || offset >=3D buf->size) {
++    if (offset >=3D buf->size) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "rop8 offset:%d bufsize:%u\n", offset, buf->size);
++                      "rop8 offset:%u bufsize:%u\n", offset, buf->size);
+         return;
+     }
+     dst =3D buf->data + offset;
+@@ -294,8 +298,7 @@ static void artist_rop8(ARTISTState *s, struct vram_bu=
+ffer *buf,
+         break;
+
+     case ARTIST_ROP_COPY:
+-        *dst &=3D ~plane_mask;
+-        *dst |=3D val & plane_mask;
++        *dst =3D (*dst & ~plane_mask) | (val & plane_mask);
+         break;
+
+     case ARTIST_ROP_XOR:
+@@ -349,7 +352,8 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+ {
+     struct vram_buffer *buf;
+     uint32_t vram_bitmask =3D s->vram_bitmask;
+-    int mask, i, pix_count, pix_length, offset, width;
++    int mask, i, pix_count, pix_length;
++    unsigned int offset, width;
+     uint8_t *data8, *p;
+
+     pix_count =3D vram_write_pix_per_transfer(s);
+@@ -394,7 +398,9 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+
+     case 3:
+         if (s->cmap_bm_access) {
+-            *(uint32_t *)(p + offset) =3D data;
++            if (offset + 3 < buf->size) {
++                *(uint32_t *)(p + offset) =3D data;
++            }
+             break;
+         }
+         data8 =3D (uint8_t *)&data;
+@@ -464,12 +470,14 @@ static void vram_bit_write(ARTISTState *s, int posx,=
+ int posy, bool incr_x,
+     }
+ }
+
+-static void block_move(ARTISTState *s, int source_x, int source_y, int de=
+st_x,
+-                       int dest_y, int width, int height)
++static void block_move(ARTISTState *s,
++                       unsigned int source_x, unsigned int source_y,
++                       unsigned int dest_x,   unsigned int dest_y,
++                       unsigned int width,    unsigned int height)
+ {
+     struct vram_buffer *buf;
+     int line, endline, lineincr, startcolumn, endcolumn, columnincr, colu=
+mn;
+-    uint32_t dst, src;
++    unsigned int dst, src;
+
+     trace_artist_block_move(source_x, source_y, dest_x, dest_y, width, he=
+ight);
+
+@@ -481,6 +489,12 @@ static void block_move(ARTISTState *s, int source_x, =
+int source_y, int dest_x,
+     }
+
+     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
++    if (height > buf->height) {
++        height =3D buf->height;
++    }
++    if (width > buf->width) {
++        width =3D buf->width;
++    }
+
+     if (dest_y > source_y) {
+         /* move down */
+@@ -507,24 +521,27 @@ static void block_move(ARTISTState *s, int source_x,=
+ int source_y, int dest_x,
+     }
+
+     for ( ; line !=3D endline; line +=3D lineincr) {
+-        src =3D source_x + ((line + source_y) * buf->width);
+-        dst =3D dest_x + ((line + dest_y) * buf->width);
++        src =3D source_x + ((line + source_y) * buf->width) + startcolumn=
+;
++        dst =3D dest_x + ((line + dest_y) * buf->width) + startcolumn;
+
+         for (column =3D startcolumn; column !=3D endcolumn; column +=3D c=
+olumnincr) {
+-            if (dst + column > buf->size || src + column > buf->size) {
++            if (dst >=3D buf->size || src >=3D buf->size) {
+                 continue;
+             }
+-            artist_rop8(s, buf, dst + column, buf->data[src + column]);
++            artist_rop8(s, buf, dst, buf->data[src]);
++            src +=3D columnincr;
++            dst +=3D columnincr;
+         }
+     }
+
+     artist_invalidate_lines(buf, dest_y, height);
+ }
+
+-static void fill_window(ARTISTState *s, int startx, int starty,
+-                        int width, int height)
++static void fill_window(ARTISTState *s,
++                        unsigned int startx, unsigned int starty,
++                        unsigned int width,  unsigned int height)
+ {
+-    uint32_t offset;
++    unsigned int offset;
+     uint8_t color =3D artist_get_color(s);
+     struct vram_buffer *buf;
+     int x, y;
+@@ -561,7 +578,9 @@ static void fill_window(ARTISTState *s, int startx, in=
+t starty,
+     artist_invalidate_lines(buf, starty, height);
+ }
+
+-static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
++static void draw_line(ARTISTState *s,
++                      unsigned int x1, unsigned int y1,
++                      unsigned int x2, unsigned int y2,
+                       bool update_start, int skip_pix, int max_pix)
+ {
+     struct vram_buffer *buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+@@ -636,7 +655,7 @@ static void draw_line(ARTISTState *s, int x1, int y1, =
+int x2, int y2,
+     color =3D artist_get_color(s);
+
+     do {
+-        int ofs;
++        unsigned int ofs;
+
+         if (c1) {
+             ofs =3D x * s->width + y;
+@@ -768,13 +787,13 @@ static void font_write16(ARTISTState *s, uint16_t va=
+l)
+     uint16_t mask;
+     int i;
+
+-    int startx =3D artist_get_x(s->vram_start);
+-    int starty =3D artist_get_y(s->vram_start) + s->font_write_pos_y;
+-    int offset =3D starty * s->width + startx;
++    unsigned int startx =3D artist_get_x(s->vram_start);
++    unsigned int starty =3D artist_get_y(s->vram_start) + s->font_write_p=
+os_y;
++    unsigned int offset =3D starty * s->width + startx;
+
+     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+
+-    if (offset + 16 > buf->size) {
++    if (offset + 16 >=3D buf->size) {
+         return;
+     }
+
+@@ -1138,7 +1157,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
+ddr, uint64_t val,
+     struct vram_buffer *buf;
+     int posy =3D (addr >> 11) & 0x3ff;
+     int posx =3D addr & 0x7ff;
+-    uint32_t offset;
++    unsigned int offset;
+     trace_artist_vram_write(size, addr, val);
+
+     if (s->cmap_bm_access) {
+@@ -1161,16 +1180,22 @@ static void artist_vram_write(void *opaque, hwaddr=
+ addr, uint64_t val,
+     offset =3D posy * buf->width + posx;
+     switch (size) {
+     case 4:
+-        *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
+-        memory_region_set_dirty(&buf->mr, offset, 4);
++        if (offset + 3 < buf->size) {
++            *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
++            memory_region_set_dirty(&buf->mr, offset, 4);
++        }
+         break;
+     case 2:
+-        *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
+-        memory_region_set_dirty(&buf->mr, offset, 2);
++        if (offset + 1 < buf->size) {
++            *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
++            memory_region_set_dirty(&buf->mr, offset, 2);
++        }
+         break;
+     case 1:
+-        *(uint8_t *)(buf->data + offset) =3D val;
+-        memory_region_set_dirty(&buf->mr, offset, 1);
++        if (offset < buf->size) {
++            *(uint8_t *)(buf->data + offset) =3D val;
++            memory_region_set_dirty(&buf->mr, offset, 1);
++        }
+         break;
+     default:
+         break;
 
