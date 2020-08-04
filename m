@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3CF23BDC9
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:10:09 +0200 (CEST)
-Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F4223BDCA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 18:10:16 +0200 (CEST)
+Received: from localhost ([::1]:37034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2zVw-0004Nj-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
+	id 1k2zW3-0004X7-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 12:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2zUi-0003DA-Ez
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:52 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36821)
+ id 1k2zUl-0003FH-6w
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:55 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2zUg-0005lq-Ot
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:52 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id 3so3477751wmi.1
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:08:50 -0700 (PDT)
+ id 1k2zUj-0005m3-I9
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 12:08:54 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id p20so3037190wrf.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 09:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=A4xGsM0zmyMEO3RL8fJrZLaRnxp2eZLyZdA++cojGtY=;
- b=njKRZocW/VklWQs5Fncu8Lo17cRDLvwf+pOiKdMGUfKJfH/SQ2ZCbQSMa3sqJH3gB2
- FVe062m/I7MNZnFZxOsiaQq0yazYjeihY9YtDDqExAqespjBkXwwJb/UnI1CUIy4YOhJ
- YgVWzWLC6wWrqZM9HFAmBvMEtdZjCW5Wb+gw5DCB5i8D+Wm4bKDqflMqiFEkBPWLl0Gt
- 7cV4LJN4TDNudXMdPp21JrMRiBzfpIJEFXP+KIVtwQX5yxvXtnR72dlZUn0+aPSTXayz
- OgWn3jVYB/eqwEXS02QvcBMc+tpwPBtMLTV2GQO5PllcmLiEUV5t7e68SoDWqcGSUhsp
- Ew+g==
+ bh=e9h1dxfcHunD8hLi5hAFgkUxc0WZaXDSQ3fg/GVRuNw=;
+ b=oRU5agBGMx3vpPU2okvvejkn6JQ1UfOyFHwt6y6S7xpybG4v8MMS8r16soCxGewGvJ
+ AQHPCqgTLHkps+4bDj3oxLZvQFzVFKEUdX/GhAp89BmAnc/bkQ3wK7GOPlnQi0PGMqc3
+ jk5YlZ+y04/aG+N1ZpKetBl0I+FkcQLAp6MnpPxcBLVHJ78fBuxn/eJSsg81m6V/uIhQ
+ O9gbVFAcPSFU1p5mDz5/9DmLXYWjTlkM8bb338AudD+jFPPgaJI9lr1exWBFb/ay8PC9
+ rwUzg8zWq800zinpag3juCjPQyMgYXPfVl2jnV8g1480r4cyrnIJCnaZzm0Reen8QKZI
+ BpGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A4xGsM0zmyMEO3RL8fJrZLaRnxp2eZLyZdA++cojGtY=;
- b=XCI3VhNhSQJBvgOmpQIUesjLVUb5OrgPyyCBHIvMjWhSMB2D9zqbDuda9vcdYuWXyA
- ThW1SJQQk9R6iugqPNMglYPTGERy8fu7bpOg0V1/ycmGb4FfIxB0HIV2Nd6NStABBzDr
- czhSI3EWj2jBwdolg+jtrNz5Ebd880E9b4WOnwNhPVn5RwnDOEF7JnhC6ZCJKqCAmN+V
- eiTVwxp82Vf97ong8n7d0eTbuYrSTp12qpqPgPejYXFAq2DOImSl27VsIgtclNYt+u1P
- E4ehAfHs/k8BGGmyx0cfNJDuQztEdt4EmvBbQqpsa8/6JNgzHCdhbHwOTwKyB7naQJK6
- tHEw==
-X-Gm-Message-State: AOAM532yOwR+Wv6wbjytNvt1+1a0GNkTPadGN7Qq4+yGo+R1iiH/J/RB
- Iy7jnj4f+Qk16a5HnaAyB+p6xp7zaIbCsw==
-X-Google-Smtp-Source: ABdhPJzBBsYU+aoG2CJg+FyNlE3xreQtL6nGR0C/vlQGNmtEyYc/zrtbi+9iq0wy4HmdVLSQqcv+tg==
-X-Received: by 2002:a1c:1f0d:: with SMTP id f13mr4942928wmf.53.1596557327625; 
- Tue, 04 Aug 2020 09:08:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=e9h1dxfcHunD8hLi5hAFgkUxc0WZaXDSQ3fg/GVRuNw=;
+ b=dRb6JNGJpq/xSa+Sqc0hkbPfZWF5iTHF14ghlIWBW5wP0aEv+8NfW5fQoFV6lx+2tz
+ JGi1xRXhGIMbhJtrWZophRTpGx/ISKJy2Mw0OVuawzbrT9NiIp8iBznIwl1OKDZbbPMK
+ Fh7zNaMfv3g2/L9Sq9VTNSDl2hkhMiIPT68XemPW/8FUWZKrn+UJBz0JKWJpiHEmC3UG
+ WfZ8oOncUjUDtRmVBnlE7tndD4QjOX5FKxkHh0Rl8HpBjqif7HaqASuFbppy8KB2wrdf
+ tu/QWQCJ1C+NSFqM+D9o+1yJOp7QMhjAepTdDXPbCzF/2qVA4ZKRx1no52n/yG+wvYb0
+ he+Q==
+X-Gm-Message-State: AOAM532sk4fWxMkoxr+e7cnRWU+DqwWl87YxU0Bv9aap7BCerFi8fV5H
+ YgL4Yf4C040OWQ6rx/OncoPf79/A3AD0JQ==
+X-Google-Smtp-Source: ABdhPJwmr7dQlZNHnks+5wV7SapB2KOb7dnH6kJofDfjbpze0vTqj0HL2/EKZet6MZ+B+/K99xOyDg==
+X-Received: by 2002:a5d:4c46:: with SMTP id n6mr21680545wrt.73.1596557330884; 
+ Tue, 04 Aug 2020 09:08:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b186sm5625928wme.1.2020.08.04.09.08.45
+ by smtp.gmail.com with ESMTPSA id b186sm5625928wme.1.2020.08.04.09.08.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 09:08:45 -0700 (PDT)
+ Tue, 04 Aug 2020 09:08:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] target-arm queue
-Date: Tue,  4 Aug 2020 17:08:41 +0100
-Message-Id: <20200804160843.30245-1-peter.maydell@linaro.org>
+Subject: [PULL 1/2] docs/devel: Document decodetree no-overlap groups
+Date: Tue,  4 Aug 2020 17:08:42 +0100
+Message-Id: <20200804160843.30245-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200804160843.30245-1-peter.maydell@linaro.org>
+References: <20200804160843.30245-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,35 +88,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Couple of last-minute things for rc3...
+From: Richard Henderson <richard.henderson@linaro.org>
 
--- PMM
+When support for this feature went in, the update to the
+documentation was forgotten.
 
-The following changes since commit d15532d91be177e7528310e0110e39f915779a99:
+Fixes: 067e8b0f45d6
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200803205708.315829-1-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/devel/decodetree.rst | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20200804' into staging (2020-08-04 11:53:20 +0100)
+diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
+index ce7f52308ff..74f66bf46e2 100644
+--- a/docs/devel/decodetree.rst
++++ b/docs/devel/decodetree.rst
+@@ -173,18 +173,25 @@ Pattern Groups
+ 
+ Syntax::
+ 
+-  group    := '{' ( pat_def | group )+ '}'
++  group            := overlap_group | no_overlap_group
++  overlap_group    := '{' ( pat_def | group )+ '}'
++  no_overlap_group := '[' ( pat_def | group )+ ']'
+ 
+-A *group* begins with a lone open-brace, with all subsequent lines
+-indented two spaces, and ending with a lone close-brace.  Groups
+-may be nested, increasing the required indentation of the lines
+-within the nested group to two spaces per nesting level.
++A *group* begins with a lone open-brace or open-bracket, with all
++subsequent lines indented two spaces, and ending with a lone
++close-brace or close-bracket.  Groups may be nested, increasing the
++required indentation of the lines within the nested group to two
++spaces per nesting level.
+ 
+-Unlike ungrouped patterns, grouped patterns are allowed to overlap.
+-Conflicts are resolved by selecting the patterns in order.  If all
+-of the fixedbits for a pattern match, its translate function will
+-be called.  If the translate function returns false, then subsequent
+-patterns within the group will be matched.
++Patterns within overlap groups are allowed to overlap.  Conflicts are
++resolved by selecting the patterns in order.  If all of the fixedbits
++for a pattern match, its translate function will be called.  If the
++translate function returns false, then subsequent patterns within the
++group will be matched.
++
++Patterns within no-overlap groups are not allowed to overlap, just
++the same as ungrouped patterns.  Thus no-overlap groups are intended
++to be nested inside overlap groups.
+ 
+ The following example from PA-RISC shows specialization of the *or*
+ instruction::
+@@ -200,7 +207,7 @@ instruction::
+ When the *cf* field is zero, the instruction has no side effects,
+ and may be specialized.  When the *rt* field is zero, the output
+ is discarded and so the instruction has no effect.  When the *rt2*
+-field is zero, the operation is ``reg[rt] | 0`` and so encodes
++field is zero, the operation is ``reg[r1] | 0`` and so encodes
+ the canonical register copy operation.
+ 
+ The output from the generator might look like::
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200804
-
-for you to fetch changes up to d250bb19ced3b702c7c37731855f6876d0cc7995:
-
-  target/arm: Fix decode of LDRA[AB] instructions (2020-08-04 16:40:19 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Fix decode of LDRA[AB] instructions
- * docs/devel: Document decodetree no-overlap groups
-
-----------------------------------------------------------------
-Peter Collingbourne (1):
-      target/arm: Fix decode of LDRA[AB] instructions
-
-Richard Henderson (1):
-      docs/devel: Document decodetree no-overlap groups
-
- docs/devel/decodetree.rst  | 29 ++++++++++++++++++-----------
- target/arm/translate-a64.c |  6 ++++--
- 2 files changed, 22 insertions(+), 13 deletions(-)
 
