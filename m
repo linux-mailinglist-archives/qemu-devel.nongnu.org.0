@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD78323BCAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:51:16 +0200 (CEST)
-Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1C423BCB5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:54:24 +0200 (CEST)
+Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2yHb-0000b0-Sf
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:51:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53680)
+	id 1k2yKd-0002KZ-NQ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k2yGW-0007z6-Ch
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:50:08 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38993)
+ id 1k2yJk-0001m5-1f
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:53:28 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k2yGT-0000xO-21
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:50:08 -0400
-Received: by mail-pf1-x441.google.com with SMTP id z188so12563817pfc.6
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:50:04 -0700 (PDT)
+ id 1k2yJg-0001PU-I0
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:53:26 -0400
+Received: by mail-pl1-x641.google.com with SMTP id u10so13541275plr.7
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=u3g8bUxJKgAkATBFWfijZJ6uapdTpyKvTAtXKaUMi2w=;
- b=dsSIUQq5brqYLlo7daCDbSB2hH/FA5DEH5PetwA3nzdt+SgWzRwtgvXsyLcOOEuHxs
- sjMOijdcQImphUOtn5TKGpVxTaB+ZdGxKXOMNHuBgh7g9XcDk8i/Fdw/WNm7EaSHGls/
- +rchmoyScO/O/8/vcb4X+1yVmUzzPtuFBPvEVfZR/nWWVQwneSE4iLX6hPvIMSc+8Fpm
- 8qP4Av9kSpnD1f4fJ4cTQs2xOv1dgjKfSg30qaoRthVZyphdouJkW/5402SCoF0HPW6e
- H2du9P33crLMY7iiQA5K9AniUBGnj3UnsK3UUZp5jtI9JSYJODFYZWfmL0reZKQlLtK3
- Y7GQ==
+ bh=G8iK6Ss606ZM/B4U+kopOI9YHb2G6ZZxhPAcDenrYw0=;
+ b=L6YgYEP8rBrg5lgOmnUQEU4E8dT8N3UFG6D0w3S2dG+E+qg6Q3+SZd9I27MCZfBp8O
+ zGxaN2WHE6ZXI6zn84Yu/3UyfhG9fh9P32fUJ1nivXaLaSUl92m5VaXDseuWzvD700Ih
+ 0f081TUZTa/zrNsPa6J+uOCHorhICBJ1Px3UlKhm2GzmWYQ1uUCEaZMjCW3gVWaqOKvJ
+ s4imOtaiCuswq/cl2UF96EYppDf3m9QkppR6lK1pZf1dTkWXeJbK/aaaTnVIP1HwIu/R
+ KkhyECx1MZ6Js49HXRhogbPVNje9MQYz01AdPHGDIMXSQ/C3gySNshmY9fiHda7ULNoq
+ kOtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=u3g8bUxJKgAkATBFWfijZJ6uapdTpyKvTAtXKaUMi2w=;
- b=om0LtAMWi2rv3lOyjlTiKz9hjHgglz+O8O3nObmTbVhkElBufjDNfV1WpoEfCTgKxB
- +8wGP6eaAlX9/pY2LAK7c1BfGbTnPSrZ/UQ5u0SFWszypYN1XTaA5A6c3ikB5l1rc2kH
- yoo53dD+q/k1uTTGylf1qNbfQMbCdB1kcMpQz6+G0CCjgJZSIIlrDr4RlnnFdKXSq0mL
- zwJZhj67s/9keGFfCG6C12QzoqNoMCGaqqwCDDgJ7g8JCX9SwI2bynE+m2YMP4mGR64m
- 7ucarFAacNZsSPj3XVkiAjFQrH1SLZ1RUUFIO5eQUr93iHyMxOaIQhjWB3+sWSeyRmmh
- 0bQA==
-X-Gm-Message-State: AOAM531TEdhL20upGqMOcu0wXSXthOv7sLuUWfHjCdWTjUyk0+/a157x
- P+tIUtt0YIwkf+rF1iaWM+qogR3LOgY=
-X-Google-Smtp-Source: ABdhPJwy932Y2Bx48JRqQfzy+tGfzgtN64Hl0X0BZ6yvUylah+NRRgAEwPSlNI0R57ANbDqOd4898w==
-X-Received: by 2002:a63:6cd:: with SMTP id 196mr19314989pgg.169.1596552602952; 
- Tue, 04 Aug 2020 07:50:02 -0700 (PDT)
+ bh=G8iK6Ss606ZM/B4U+kopOI9YHb2G6ZZxhPAcDenrYw0=;
+ b=g95EVtPOnISmH45vrXN9YtoYaMo9jPCVCJexq8AkJ1gfLZ/25OoGhOCSwWRAufEtux
+ m2KjT8f04JBRmYkUo4PArh7Sg1S5ILWQ5Ma7Hts00OuJs6YnK6WTsbh/2XwBZtm2GNnn
+ gJQ4Zeo6RPBKKPipUvGeHs+Tp6qpE+jXIV67YrNIARrAuDXsAcYc+SKNTUz8hYveeXAN
+ yk/2R71CviokUSlcuVw9HZsPhxQTX21bEHOuH5dFm+8lsDz+kQi48LMRlDIm2SMKBYH5
+ G5Qbd0uh20LzkfRWryL/WA2RgX+bHTwMOZ+fu0YrHVnbrq5wJ3bemVTlcTk+KcUWmLoJ
+ Yl3Q==
+X-Gm-Message-State: AOAM532A3HiAoaXOfGByJRwWUktXEP/q2KPRUyV9kov2aSfVK2o9XRy7
+ ZCzde8/NhNi2KcfccyV6rEQpJStLIIw=
+X-Google-Smtp-Source: ABdhPJygGaQS5mCh2JdMgQfk0/i/BKnIduGJ9hItKSETb30GkhwyfQWTWDTt8zdbv2y7SR4vID+W5Q==
+X-Received: by 2002:a17:90b:1287:: with SMTP id
+ fw7mr4662828pjb.218.1596552802173; 
+ Tue, 04 Aug 2020 07:53:22 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id n9sm2942824pjo.53.2020.08.04.07.50.00
+ by smtp.gmail.com with ESMTPSA id v128sm22279409pfc.14.2020.08.04.07.53.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Aug 2020 07:50:01 -0700 (PDT)
-Subject: Re: [PATCH 1/7] target/arm: Pull handling of XScale insns out of
- disas_coproc_insn()
+ Tue, 04 Aug 2020 07:53:21 -0700 (PDT)
+Subject: Re: [PATCH 2/7] target/arm: Separate decode from handling of coproc
+ insns
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200803111849.13368-1-peter.maydell@linaro.org>
- <20200803111849.13368-2-peter.maydell@linaro.org>
+ <20200803111849.13368-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <715e215c-9cad-ae8e-4f90-b81fdf2ad22b@linaro.org>
-Date: Tue, 4 Aug 2020 07:49:59 -0700
+Message-ID: <96aa534f-4892-1084-7899-de9c76f5b8a8@linaro.org>
+Date: Tue, 4 Aug 2020 07:53:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200803111849.13368-2-peter.maydell@linaro.org>
+In-Reply-To: <20200803111849.13368-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,24 +96,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/3/20 4:18 AM, Peter Maydell wrote:
-> At the moment we check for XScale/iwMMXt insns inside
-> disas_coproc_insn(): for CPUs with ARM_FEATURE_XSCALE all copro insns
-> with cp 0 or 1 are handled specially.  This works, but is an odd
-> place for this check, because disas_coproc_insn() is called from both
-> the Arm and Thumb decoders but the XScale case never applies for
-> Thumb (all the XScale CPUs were ARMv5, which has only Thumb1, not
-> Thumb2 with the 32-bit coprocessor insn encodings).  It also makes it
-> awkward to convert the real copro access insns to decodetree.
-> 
-> Move the identification of XScale out to its own function
-> which is only called from disas_arm_insn().
+> As a prelude to making coproc insns use decodetree, split out the
+> part of disas_coproc_insn() which does instruction decoding from the
+> part which does the actual work, and make do_coproc_insn() handle the
+> UNDEF-on-bad-permissions and similar cases itself rather than
+> returning 1 to eventually percolate up to a callsite that calls
+> unallocated_encoding() for it.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/translate.c | 44 ++++++++++++++++++++++++++++--------------
->  1 file changed, 29 insertions(+), 15 deletions(-)
+>  target/arm/translate.c | 76 ++++++++++++++++++++++++------------------
+>  1 file changed, 44 insertions(+), 32 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
