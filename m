@@ -2,86 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3433F23BBFC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:24:54 +0200 (CEST)
-Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDC023BCAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:51:07 +0200 (CEST)
+Received: from localhost ([::1]:44438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2xs5-0008C0-9l
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45050)
+	id 1k2yHR-0000Ik-M5
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xms-0003v9-L4
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:19:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26710
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xmq-0005Ka-P5
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:19:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596550768;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=a9SbY9auShf4q9Q15pGhvpVRHE1I1RNPvox++Y+hYFk=;
- b=CfA7KUqUOMgyPZQJdWhcXxc+hFtOQld9c5Yp3M2zJ53aRqOsTyUwZpgk2toAdbVSk547Bf
- P2bZxL1wxxva+PFpg2+tadUHRb3iOKQ6jJhb4Pt/qPVPwMAvoTFmRkOSzL6Fca5W0AZ+Ns
- OH/7pcexx/nvgJHuH5l6xJcK2kv/t84=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-6Tii61BFMaaO_7Fzbgf6WQ-1; Tue, 04 Aug 2020 10:19:24 -0400
-X-MC-Unique: 6Tii61BFMaaO_7Fzbgf6WQ-1
-Received: by mail-qv1-f69.google.com with SMTP id j8so26082821qvu.3
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:19:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=a9SbY9auShf4q9Q15pGhvpVRHE1I1RNPvox++Y+hYFk=;
- b=uEMHLNHIJERt4bfGFbes/6T/3rgW+4XmfTf7kiCE3br8SbBynziw98+OfWKC4v4+qk
- 59w9aautHtJUxPPd+TF5Kw5LjQeM7na8iaAilc7wvk96q852p8KZSCshoBAaPSAgczjD
- pzhWlYlf222Ig3HT67e38MHrN+LO0DpP4sbs9jZVxVE7qEO2YBRgokLR01pQnk3Jo1tJ
- /ZVf8I8MwtZ5ob78JTJ9IIP0CPhUkssYiE+7XNBa4UMdxXVNjAxDL5kNCrjgq7IZQHbS
- 2FXryQRti2fB3E63WaonJ67rccnpQiZ0CUzNFmIBt/dq4ELDotiAgprIgnt8CiQUwApy
- vbHA==
-X-Gm-Message-State: AOAM533oDn5QG7xYbTemySZnuR+eIf3fAIjvimjrkjQ9u/Cv8WGOKNg3
- FH+I4Z4NTLmqjLBk9lgOUnacFp9PAwtD0scCOz390QjjQ6cxwpUkN6d5KHXkSqKWC+CnEtLgG3u
- ZAahgdUC9YfsNOM8=
-X-Received: by 2002:aed:2a82:: with SMTP id t2mr21857060qtd.280.1596550763902; 
- Tue, 04 Aug 2020 07:19:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzfs2ZCLc1G5Of9Qe9WkPrzjDFBgibDKyI9NAc/CqSC6o+JZLVRZRtGchagSauDwNmHeQ/7Q==
-X-Received: by 2002:aed:2a82:: with SMTP id t2mr21857026qtd.280.1596550763611; 
- Tue, 04 Aug 2020 07:19:23 -0700 (PDT)
-Received: from redhat.com (bzq-79-177-102-128.red.bezeqint.net.
- [79.177.102.128])
- by smtp.gmail.com with ESMTPSA id g4sm21567898qka.25.2020.08.04.07.19.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 07:19:23 -0700 (PDT)
-Date: Tue, 4 Aug 2020 10:19:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Dima Stepanov <dimastep@yandex-team.ru>
-Subject: Re: [PATCH v1 0/7] vhost-user-blk: fix the migration issue and
- enhance qtests
-Message-ID: <20200804101820-mutt-send-email-mst@kernel.org>
-References: <cover.1596536559.git.dimastep@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1k2yGH-0007mr-QA; Tue, 04 Aug 2020 10:49:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17592
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1k2yGF-0000vv-Sm; Tue, 04 Aug 2020 10:49:53 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 074EVGQa124436; Tue, 4 Aug 2020 10:49:49 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32q8463trx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 10:49:49 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 074EVRbc125211;
+ Tue, 4 Aug 2020 10:49:49 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32q8463tr5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 10:49:48 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 074Ej7gv028241;
+ Tue, 4 Aug 2020 14:49:47 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma02fra.de.ibm.com with ESMTP id 32n018a372-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 14:49:47 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 074EniAo24248606
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Aug 2020 14:49:44 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 550AAA4053;
+ Tue,  4 Aug 2020 14:49:44 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE340A4040;
+ Tue,  4 Aug 2020 14:49:43 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.95.69])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  4 Aug 2020 14:49:43 +0000 (GMT)
+Subject: Re: [PATCH for-5.2 0/6] Continue booting in case the first device is
+ not bootable
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200728183734.7838-1-thuth@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <8875c71e-4203-2342-2460-29e2079c8a51@linux.ibm.com>
+Date: Tue, 4 Aug 2020 16:49:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1596536559.git.dimastep@yandex-team.ru>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200728183734.7838-1-thuth@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JQRTJzKvNOxZSrCBBqDNTXXRpsJAMLfj8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-04_04:2020-08-03,
+ 2020-08-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=999 impostorscore=0 malwarescore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008040106
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 07:10:36
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,76 +145,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
- qemu-block@nongnu.org, jasowang@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, fengli@smartx.com, yc-core@yandex-team.ru,
- pbonzini@redhat.com, raphael.norwitz@nutanix.com, dgilbert@redhat.com
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Collin Walling <walling@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 04, 2020 at 01:36:45PM +0300, Dima Stepanov wrote:
-> Reference e-mail threads:
->   - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
->   - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
-> 
-> If vhost-user daemon is used as a backend for the vhost device, then we
-> should consider a possibility of disconnect at any moment. There was a general
-> question here: should we consider it as an error or okay state for the vhost-user
-> devices during migration process?
-> I think the disconnect event for the vhost-user devices should not break the
-> migration process, because:
->   - the device will be in the stopped state, so it will not be changed
->     during migration
->   - if reconnect will be made the migration log will be reinitialized as
->     part of reconnect/init process:
->     #0  vhost_log_global_start (listener=0x563989cf7be0)
->     at hw/virtio/vhost.c:920
->     #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
->         as=0x563986ea4340 <address_space_memory>)
->     at softmmu/memory.c:2664
->     #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
->         as=0x563986ea4340 <address_space_memory>)
->     at softmmu/memory.c:2740
->     #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
->         opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
->         busyloop_timeout=0)
->     at hw/virtio/vhost.c:1385
->     #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
->     at hw/block/vhost-user-blk.c:315
->     #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
->         event=CHR_EVENT_OPENED)
->     at hw/block/vhost-user-blk.c:379
-> The first patch in the patchset fixes this issue by setting vhost device to the
-> stopped state in the disconnect handler and check it the vhost_migration_log()
-> routine before returning from the function.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JQRTJzKvNOxZSrCBBqDNTXXRpsJAMLfj8
+Content-Type: multipart/mixed; boundary="tRlAh9pXFX0z7KjJkDUufx2tGu5JegEAU"
 
-So I'm a bit confused. Isn't the connected state sufficient for this?
-If not, adding some code comments explaining when is each flag
-set would be helpful.
-Thanks!
+--tRlAh9pXFX0z7KjJkDUufx2tGu5JegEAU
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> qtest framework was updated to test vhost-user-blk functionality. The
-> vhost-user-blk/vhost-user-blk-tests/migrate_reconnect test was added to reproduce
-> the original issue found.
-> 
-> Dima Stepanov (7):
->   vhost: recheck dev state in the vhost_migration_log routine
->   vhost: check queue state in the vhost_dev_set_log routine
->   tests/qtest/vhost-user-test: prepare the tests for adding new dev
->     class
->   tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
->   tests/qtest/vhost-user-test: add support for the vhost-user-blk device
->   tests/qtest/vhost-user-test: add migrate_reconnect test
->   tests/qtest/vhost-user-test: enable the reconnect tests
-> 
->  hw/block/vhost-user-blk.c          |  13 +-
->  hw/virtio/vhost.c                  |  39 ++++-
->  include/hw/virtio/vhost-user-blk.h |   1 +
->  tests/qtest/libqos/virtio-blk.c    |  14 ++
->  tests/qtest/vhost-user-test.c      | 291 +++++++++++++++++++++++++++++++------
->  5 files changed, 311 insertions(+), 47 deletions(-)
-> 
-> -- 
-> 2.7.4
+On 7/28/20 8:37 PM, Thomas Huth wrote:
+> If the user did not specify a "bootindex" property, the s390-ccw bios
+> tries to find a bootable device on its own. Unfortunately, it alwasy
+> stops at the very first device that it can find, no matter whether it's=
+
+> bootable or not. That causes some weird behavior, for example while
+>=20
+>  qemu-system-s390x -hda bootable.qcow2
+>=20
+> boots perfectly fine, the bios refuses to work if you just specify
+> a virtio-scsi controller in front of it:
+>=20
+>  qemu-system-s390x -device virtio-scsi -hda bootable.qcow2
+>=20
+> Since this is quite uncomfortable and confusing for the users, and
+> all major firmwares on other architectures correctly boot in such
+> cases, too, let's also try to teach the s390-ccw bios how to boot
+> in such cases.
+>=20
+> For this, we have to get rid of the various panic()s and IPL_assert()
+> statements at the "low-level" function and let the main code handle
+> the decision instead whether a boot from a device should fail or not,
+> so that the main code can continue searching in case it wants to.
+
+Are you planning to add a/re-use an existing test for this?
+The PXE test already helped me quite a lot to find my mistakes for the
+bios cleanup series.
+
+>=20
+>  Thomas
+>=20
+> Thomas Huth (6):
+>   pc-bios/s390-ccw/Makefile: Compile with -std=3Dgnu99, -fwrapv and
+>     -fno-common
+>   pc-bios/s390-ccw: Move ipl-related code from main() into a separate
+>     function
+>   pc-bios/s390-ccw: Move the inner logic of find_subch() to a separate
+>     function
+>   pc-bios/s390-ccw: Do not bail out early if not finding a SCSI disk
+>   pc-bios/s390-ccw: Scan through all boot devices if none has been
+>     specified
+>   pc-bios/s390-ccw: Allow booting in case the first virtio-blk disk is
+>     bad
+>=20
+>  pc-bios/s390-ccw/Makefile        |   7 +-
+>  pc-bios/s390-ccw/bootmap.c       |  34 ++++--
+>  pc-bios/s390-ccw/main.c          | 172 +++++++++++++++++++------------=
+
+>  pc-bios/s390-ccw/s390-ccw.h      |   2 +-
+>  pc-bios/s390-ccw/virtio-blkdev.c |   7 +-
+>  pc-bios/s390-ccw/virtio-scsi.c   |  25 +++--
+>  pc-bios/s390-ccw/virtio-scsi.h   |   2 +-
+>  7 files changed, 157 insertions(+), 92 deletions(-)
+>=20
+
+
+
+--tRlAh9pXFX0z7KjJkDUufx2tGu5JegEAU--
+
+--JQRTJzKvNOxZSrCBBqDNTXXRpsJAMLfj8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl8pdYcACgkQ41TmuOI4
+ufjEgw/5AT6nq7dU0iNZbPNMB02bypQbdsFHXNfl8X248LxQ+AhmUqkDZ2cAUdod
+oUZvyn296grOHkoWjIva/erJnb0U3i4yVLpGdFXayhjezRxYz4npSwCS4CjyPCPc
+I9Kn3QyqmBliyViSFe0gXI5yOfFHUpVKqP1rw8Zx1j6PjlE5I/9qvKvse1ruN6VH
+HENArikY7OUG1A8beVEj0XgJXbZQPfWSJN5ZO6/RFucNV9+tzOVNwgC1q+7BZQ1Q
+uM4K49XF2JLbl+86XxWws2VTAUPBr1zjXhVjkVMEXAZHFWarR0ZueiP9XfJEzgLD
+kM3D9wzl1FYB/ka46t/OItHEFU8LK9q477fK0nHdCMlmCdPTF9BpQscv0qEf5X0Q
+PRc4qbDCR2IbBxijHVEECHyYznZ/dMLdALho3VLvKMHObCFatKK+0gnM7bIBdELz
+U3mUGWh9Hc7DSkAXZdUsxgUbn6munJrRLqOWuDMmo9vaeqtpgU57m2arGX9wf+cN
+KutIUsFkF7ATWBOv8wf5sktZjjZqo3Cq3/B42hGM9AGAHqmc5pk/uB1IX4EfJzqG
+reDbz/1gneErbXiubeZOJjGqzs6BKzOyd8XW6/LCRrb9b5DDU0flqhi4ErrzM5UY
+HatrHGclbVrXv8DsnDHjysDzyLZbq1QBT/fvbYYDza5oQv4P8wg=
+=Wn29
+-----END PGP SIGNATURE-----
+
+--JQRTJzKvNOxZSrCBBqDNTXXRpsJAMLfj8--
 
 
