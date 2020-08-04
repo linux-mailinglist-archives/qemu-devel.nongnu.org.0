@@ -2,88 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADBF23BBEB
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:22:40 +0200 (CEST)
-Received: from localhost ([::1]:48626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA5323BBE4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 16:19:45 +0200 (CEST)
+Received: from localhost ([::1]:44210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2xpw-0005i2-0A
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:22:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
+	id 1k2xn6-0003ka-6P
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 10:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xkl-0001mK-Lg
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:17:19 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30540
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xko-0001no-3x
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:17:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52497
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xkj-000585-4a
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:17:18 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k2xkl-00058i-PU
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 10:17:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596550634;
+ s=mimecast20190719; t=1596550639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O+Jdn5rlTkIqQs4IBOaacsbGO+yrRT0GNqOf9hAByzs=;
- b=frakTYAO69THPOXiijP67/wnNAP/d6dz6+0KyY5zRbtmA9qT8xSEvDeeXCXxUHosl6bPd4
- nvVstuHB3Ng6M3vsKkMPAyTFUyNyknhxKur5yqtHfqEDuQgdijyJTcOpKTGg68oKLjarqT
- 2rSVdUxn3ig28AdRFtvMqKgQ157qZCM=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-dy2NtZSqM52UhRRSSOoFbQ-1; Tue, 04 Aug 2020 10:17:12 -0400
-X-MC-Unique: dy2NtZSqM52UhRRSSOoFbQ-1
-Received: by mail-qt1-f198.google.com with SMTP id k1so15487771qtp.20
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:17:12 -0700 (PDT)
+ bh=H5XVaHyiT/w+3pFr6N+Pkk1Oj8m4LHUScdYK0rWmxkQ=;
+ b=LKMuEnQWuZpOFaXqAbKPUpHTgYdi0cy0jnSRyh1uwdkaMKMRrhUmWsc3zSpcsuyhGXSlJI
+ SBiDKf4UDM1M43N1MV4pq2qWZlGp6LZ+ez469p/Pq3GXrCrmLJIS8vs7QWTocchpw4uo8j
+ mvgIZxwcmkjaVzCxfLFltSCYcaCeM7E=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-133-dslwCg4TOmGadTAbN589_g-1; Tue, 04 Aug 2020 10:17:17 -0400
+X-MC-Unique: dslwCg4TOmGadTAbN589_g-1
+Received: by mail-qv1-f70.google.com with SMTP id x37so28575868qvf.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 07:17:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=O+Jdn5rlTkIqQs4IBOaacsbGO+yrRT0GNqOf9hAByzs=;
- b=fYudTqyDg041LVoWfISabkhhrP8rludspEsk4JELGd/1ZsuMTVtcfK+gFdL2AEHS8w
- 1B1RCuqqgvAw6eBhYmI/4TnP4r2Ry4tFzRRUlYSpMvkHEBw1QEAyPKPDw5n5YYuLr36u
- XT5Rk7FNQlDW6ExIt7YzBz3gzDjHDs9lX4FS88mPCCNelTp8+V1WO4QLNnTf7l8BSMj6
- qaYXCQyUGnN6hxiSkAjsU8OgxS5ES+XyUMj/a/ULmrwmP0KyZUKVRnP6CDHfe2USUcpN
- fjSemUoMb/ST/3Ji9ttdigI2cK2ncWtYbsKDpK9Df8GPhxWvIw0Cyc3R6RISiWoxFn18
- XooA==
-X-Gm-Message-State: AOAM533aU3Sv55eeIlrWxitZRwho6Bsj1uwlTKjoHYJl61smzdKeSZhN
- oH1O+leVCOIHrCtEXxZp/zufi3uaSbYwkFFdJYSiq+9ckSZTfapFB4ihEnAKckkJjbmJgnV8lAu
- tcpdYHnAycq2lCWc=
-X-Received: by 2002:ac8:7b94:: with SMTP id p20mr20512138qtu.312.1596550631979; 
- Tue, 04 Aug 2020 07:17:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYh1LDiSPGfNHYx7WdfTNpsu2V9uzw8u5oBlOoTS0HrJpDFiv+OX3N4YWnvrvxD2n/fadl6Q==
-X-Received: by 2002:ac8:7b94:: with SMTP id p20mr20512114qtu.312.1596550631745; 
- Tue, 04 Aug 2020 07:17:11 -0700 (PDT)
+ bh=H5XVaHyiT/w+3pFr6N+Pkk1Oj8m4LHUScdYK0rWmxkQ=;
+ b=dkhroqSay5PBpRW95UsoqD0R31Fa8sdhWn8REMeQbuajcJkPkc+RoEdrEeIYpXceSc
+ VucnSeYnr2yUKhi7WAtbiQZhlcztb8nrpHU56KppG7PAWLdtyc+6/zEZAMwMAUvEo7gj
+ VR1k/ncPQXRRK65ofACwAoHEXxXwsdbb5jhQayEsjiKnjTSWr2IZGRy0OS4lS88yCsP7
+ tBnS1R509P4WtlMqL3jf6Wm7iuTzaGv/84OR0vaYfbg3ZKG4l5YvLhOKbf+y70C9IQ3v
+ yG611q8OQWpHf08hBpbu2AM6otS6gZdVy2AOpO/OOSmTnZNrq1B0wWKCjVj7hp0pe1qE
+ 7wTw==
+X-Gm-Message-State: AOAM533WCNQKW1Lnlhf1Y+RfFX5Vb/MMcfAaBI/PF3LeaS9j/Cg2m9lv
+ J0VX4RjmO9zAV8Oas0uHpOo7A8wmqIYxWktbCGZvacqPyevQhbCuJYl4jjctordIT7PfkuqEPBm
+ Vv2ADaPuTymUFiQo=
+X-Received: by 2002:aed:24f2:: with SMTP id u47mr15030292qtc.137.1596550636464; 
+ Tue, 04 Aug 2020 07:17:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMvmT3T8A/n/YaNuL4t79eihBlrkxCNLz1+rYmOKwv4AAhEbpVooNGysdnKIF8Bvupk55SzA==
+X-Received: by 2002:aed:24f2:: with SMTP id u47mr15030268qtc.137.1596550636217; 
+ Tue, 04 Aug 2020 07:17:16 -0700 (PDT)
 Received: from redhat.com (bzq-79-177-102-128.red.bezeqint.net.
  [79.177.102.128])
- by smtp.gmail.com with ESMTPSA id y14sm10353782qtc.84.2020.08.04.07.17.08
+ by smtp.gmail.com with ESMTPSA id u39sm12976492qtc.54.2020.08.04.07.17.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 07:17:11 -0700 (PDT)
-Date: Tue, 4 Aug 2020 10:17:07 -0400
+ Tue, 04 Aug 2020 07:17:15 -0700 (PDT)
+Date: Tue, 4 Aug 2020 10:17:12 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] arm/acpi: fix an out of spec _UID for PCI root
-Message-ID: <20200804141640.591031-3-mst@redhat.com>
+Subject: [PULL 3/3] virtio-mem: Correct format specifier mismatch for RISC-V
+Message-ID: <20200804141640.591031-4-mst@redhat.com>
 References: <20200804141640.591031-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200804141640.591031-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:28:16
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 01:01:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,60 +95,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vitaly Cheptsov <vit9696@protonmail.com>, qemu-stable@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+ David Hildenbrand <david@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On ARM/virt machine type QEMU currently reports an incorrect _UID in
-ACPI.
+From: Bruce Rogers <brogers@suse.com>
 
-The particular node in question is the primary PciRoot (PCI0 in ACPI),
-which gets assigned PCI0 in ACPI UID and 0 in the
-DevicePath. This is due to the _UID assigned to it by build_dsdt in
-hw/arm/virt-acpi-build.c Which does not correspond to the primary PCI
-identifier given by pcibus_num in hw/pci/pci.c
+This likely affects other, less popular host architectures as well.
+Less common host architectures under linux get QEMU_VMALLOC_ALIGN (from
+which VIRTIO_MEM_MIN_BLOCK_SIZE is derived) define to a variable of
+type uintptr, which isn't compatible with the format specifier used to
+print a user message. Since this particular usage of the underlying data
+seems unique to this file, the simple fix is to just cast
+QEMU_VMALLOC_ALIGN to uint32_t, which corresponds to the format specifier
+used.
 
-In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
-the paragraph,
-
-    Root PCI bridges will use the plug and play ID of PNP0A03, This will
-    be stored in the ACPI Device Path _HID field, or in the Expanded
-    ACPI Device Path _CID field to match the ACPI name space. The _UID
-    in the ACPI Device Path structure must match the _UID in the ACPI
-    name space.
-
-(See especially the last sentence.)
-
-A similar bug has been reported on i386, on that architecture it has
-been reported to confuse at least macOS which uses ACPI UIDs to build
-the DevicePath for NVRAM boot options, while OVMF firmware gets them via
-an internal channel through QEMU.  When UEFI firmware and ACPI have
-different values, this makes the underlying operating system unable to
-report its boot option.
-
-Cc: qemu-stable@nongnu.org
-Reported-by: Vitaly Cheptsov <vit9696@protonmail.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Bruce Rogers <brogers@suse.com>
+Message-Id: <20200730130519.168475-1-brogers@suse.com>
+Acked-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 ---
- hw/arm/virt-acpi-build.c | 2 +-
+ hw/virtio/virtio-mem.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 91f0df7b13..0a482ff6f7 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -170,7 +170,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-     aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
-     aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-     aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
--    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-     aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
-     aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
- 
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index c12e9f79b0..7740fc613f 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -36,7 +36,7 @@
+  * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
+  * memory (e.g., 2MB on x86_64).
+  */
+-#define VIRTIO_MEM_MIN_BLOCK_SIZE QEMU_VMALLOC_ALIGN
++#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
+ /*
+  * Size the usable region bigger than the requested size if possible. Esp.
+  * Linux guests will only add (aligned) memory blocks in case they fully
 -- 
 MST
 
