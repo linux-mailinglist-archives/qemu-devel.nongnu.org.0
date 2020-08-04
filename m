@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AE123BD19
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 17:20:43 +0200 (CEST)
-Received: from localhost ([::1]:41702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF2823BD36
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 17:31:56 +0200 (CEST)
+Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2yk6-0004YM-NO
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 11:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60892)
+	id 1k2yux-0000aK-FW
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 11:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2yiz-0003eY-0V
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 11:19:33 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39075)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2yiw-0005Y2-RF
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 11:19:32 -0400
-Received: by mail-ot1-x344.google.com with SMTP id z18so10362082otk.6
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 08:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HjWGT6xwCEg7T9/pJEP1aflDEKtb9JWAZmrkeggYvEo=;
- b=YgxHX0SgWa/CHjL+F6ZEZB7OtJI7OLJbN7Tsivynx86/Rt2HN5gYBj+wMYw4dIOXLm
- IP+ZSITIHzFxIXwuRgZ9BC58c1nE2dmI21k/XWuIaOYoRLdZnt0J8PuubFk+ntvFihxR
- JGMYrfhtzMt/OrhhBNijRyFyDT0PCJpU2j8hMoCigWQhTCCmD+FGrOxrXLdnaOxbTMCz
- x+6GsptrPH+jGgBSReTjMGJMA5kxV8w5D2LO3hA3/NitHTfoqx0Fq9f4wlUNXqKQsO0U
- C9Yq7gs43L5vPkuHLcu4Bfrd8UutbL6R1biyzy94jiir7xZarRQVi6idXdFxQJ1N2Iqd
- AKRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HjWGT6xwCEg7T9/pJEP1aflDEKtb9JWAZmrkeggYvEo=;
- b=KrjJJRH4iERJ9HQd/T9GUkHmCo2mzbafkO3b3/AA3/69d4V/XITK87hdXvRLKDrGRF
- eMfLX8kbMhg5JgvtXm9Kzr+K/eR81MrSVxEJHbjiJqH1CG1iMizgAMNx7XvkfnUFhmZE
- oLZ4cAvemGXjOciNjp/O+6PAKn9cwo2ib8WJrjpCsKITZAakGuCrt615a1flIz+yv0qE
- K6coUkj2hr4KtkeL3UPFWTOTus5TBBQJ2hawDyxr5i+KLqeWGg49hV8QtMjESC+6z2f6
- orvrf/wtbQeI0AOPhZrlRSxn+RCq9uv4q209nNJxiDTiUPAy6T/wfJys2V3oE9wSy9d3
- TGBQ==
-X-Gm-Message-State: AOAM532IiIsofOapm3xRRZqrOj/30XVPsT/dudFPVXe9AwBiVbpJ9y1y
- bvchMKcEE2ueGj02cb1357sNO9X8nrcywNJNfuaOJg==
-X-Google-Smtp-Source: ABdhPJwX0QfMO+C47HL+QgYHOjASJCqpLYoZIJFXQYsreWGEDF7dcKafqWHx25iKuE4FprmDe2dnvLdN9CU5Ar8KQS0=
-X-Received: by 2002:a9d:3b61:: with SMTP id z88mr18815702otb.135.1596554369046; 
- Tue, 04 Aug 2020 08:19:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1k2ytk-00007x-Kh; Tue, 04 Aug 2020 11:30:41 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6772
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1k2yti-000742-00; Tue, 04 Aug 2020 11:30:40 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 074F1TH8040461; Tue, 4 Aug 2020 11:30:36 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32q9vah26e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 11:30:36 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 074F25Xv043796;
+ Tue, 4 Aug 2020 11:30:35 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32q9vah25h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 11:30:35 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 074FJgtN026062;
+ Tue, 4 Aug 2020 15:30:34 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 32n0183f58-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Aug 2020 15:30:33 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 074FUVYG24903990
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Aug 2020 15:30:31 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1DF41A4051;
+ Tue,  4 Aug 2020 15:30:31 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 884D0A4055;
+ Tue,  4 Aug 2020 15:30:30 +0000 (GMT)
+Received: from ibm-vm (unknown [9.145.12.119])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  4 Aug 2020 15:30:30 +0000 (GMT)
+Date: Tue, 4 Aug 2020 17:30:28 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-5.2 3/6] pc-bios/s390-ccw: Move the inner logic of
+ find_subch() to a separate function
+Message-ID: <20200804173028.0a85b484@ibm-vm>
+In-Reply-To: <44398bdc-6b72-8aff-ad25-bc0110fcfd7f@redhat.com>
+References: <20200728183734.7838-1-thuth@redhat.com>
+ <20200728183734.7838-4-thuth@redhat.com>
+ <20200803104639.5946bdd2@ibm-vm>
+ <44398bdc-6b72-8aff-ad25-bc0110fcfd7f@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200804141640.591031-1-mst@redhat.com>
-In-Reply-To: <20200804141640.591031-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Aug 2020 16:19:15 +0100
-Message-ID: <CAFEAcA-LJU1aqv1LQmQW5bAKScxV0g-vdR8PLSNAXHCuCO2BbQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] virtio,acpi: bugfixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-04_04:2020-08-03,
+ 2020-08-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ malwarescore=0 spamscore=0 adultscore=0 suspectscore=0 mlxscore=0
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008040110
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 07:10:36
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,35 +104,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Jason J .
+ Herne" <jjherne@linux.ibm.com>, Collin Walling <walling@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Aug 2020 at 15:17, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 5c1c3e4f02e458cf280c677c817ae4fd1ed9bf10:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200803' into staging (2020-08-03 20:34:26 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 5957b49b423fe456896e10f7e4a6c69be07f9407:
->
->   virtio-mem: Correct format specifier mismatch for RISC-V (2020-08-04 09:13:34 -0400)
->
-> ----------------------------------------------------------------
-> virtio,acpi: bugfixes
->
-> A couple of last minute bugfixes.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
+On Tue, 4 Aug 2020 15:24:09 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-(as noted on irc, fails 'make check' due to DSDT mismatch).
+> On 03/08/2020 10.46, Claudio Imbrenda wrote:
+> > On Tue, 28 Jul 2020 20:37:31 +0200
+> > Thomas Huth <thuth@redhat.com> wrote:
+> >   
+> >> Move the code to a separate function to be able to re-use it from a
+> >> different spot later.
+> >>
+> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >>  pc-bios/s390-ccw/main.c | 99
+> >> ++++++++++++++++++++++++----------------- 1 file changed, 57
+> >> insertions(+), 42 deletions(-)
+> >>
+> >> diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+> >> index 9b64eb0c24..9477313188 100644
+> >> --- a/pc-bios/s390-ccw/main.c
+> >> +++ b/pc-bios/s390-ccw/main.c
+> >> @@ -51,6 +51,60 @@ unsigned int get_loadparm_index(void)
+> >>      return atoui(loadparm_str);
+> >>  }
+> >>  
+> >> +static int check_sch_no(int dev_no, int sch_no)
+> >> +{
+> >> +    bool is_virtio;
+> >> +    Schib schib;
+> >> +    int r;
+> >> +
+> >> +    blk_schid.sch_no = sch_no;
+> >> +    r = stsch_err(blk_schid, &schib);
+> >> +    if (r == 3 || r == -EIO) {
+> >> +        return -EIO;
+> >> +    }
+> >> +    if (!schib.pmcw.dnv) {
+> >> +        return false;
+> >> +    }
+> >> +
+> >> +    enable_subchannel(blk_schid);
+> >> +    cutype = cu_type(blk_schid);
+> >> +
+> >> +    /*
+> >> +     * Note: we always have to run virtio_is_supported() here to
+> >> make
+> >> +     * sure that the vdev.senseid data gets pre-initialized
+> >> correctly
+> >> +     */
+> >> +    is_virtio = virtio_is_supported(blk_schid);
+> >> +
+> >> +    /* No specific devno given, just return 1st possibly bootable
+> >> device */
+> >> +    if (dev_no < 0) {
+> >> +        switch (cutype) {
+> >> +        case CU_TYPE_VIRTIO:
+> >> +            if (is_virtio) {
+> >> +                /*
+> >> +                 * Skip net devices since no IPLB is created and
+> >> therefore
+> >> +                 * no network bootloader has been loaded
+> >> +                 */
+> >> +                if (virtio_get_device_type() != VIRTIO_ID_NET) {
+> >> +                    return true;
+> >> +                }  
+> > 
+> > here it seems you are returning true for any non-network virtio
+> > device, is this the intended behaviour? (I know it was like this in
+> > the old code) like, non-block devices?  
+> 
+> Yes. Other devices are already ignored by the virtio_is_supported()
+> call some lines earlier in this function.
 
-thanks
--- PMM
+ah, that makes sense
+
+
+Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+
 
