@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABB623B7CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 11:35:56 +0200 (CEST)
-Received: from localhost ([::1]:44776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E41F23B7E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Aug 2020 11:39:59 +0200 (CEST)
+Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k2tMR-0003T7-R2
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 05:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50130)
+	id 1k2tQM-0005zS-LP
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 05:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2tLC-0002US-Sv
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 05:34:38 -0400
-Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:34468)
+ id 1k2tPa-0005YG-0N
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 05:39:10 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k2tLA-0001no-Cm
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 05:34:38 -0400
-Received: by mail-oo1-xc42.google.com with SMTP id k63so5023241oob.1
- for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 02:34:35 -0700 (PDT)
+ id 1k2tPY-0002lT-DI
+ for qemu-devel@nongnu.org; Tue, 04 Aug 2020 05:39:09 -0400
+Received: by mail-oi1-x242.google.com with SMTP id z22so5196309oid.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 02:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5DUf40pCQbFYHkc1Tbjm8GFzA5xVuUuNQGJWNbYvNNQ=;
- b=byNs4VdQTamo4mjc8HwudHHCP2ZNIYvdCUzYaPRJPXVuCobLoRbt/go0jiFzfY8VXG
- hZw5U5qPKt+D20+2pcT8SM5GbJ8YuOKKBB6YGSmd3GoytiPb+5/dmxGn8dgVhCfondWp
- hvje1humQM4iFm1YAdWLNpRCd+/BYvku/jmNU0f7SxzwdpXCzyHBvN+v8GUjz+WAjf4c
- Hfm2uU28538y+Xly+nMg+IXEIw2k1cel4ytxDCqhsagHLsDSjbIqHkIH2OSosHJDy+3s
- Z8VWg85JYDNiTHJN29HFzi6s9Aljgxb8hv0d2mr1rK4qy1P32lyyWZ/LZP6qyN1JTP+c
- L8wg==
+ :cc; bh=VOF0rmEQJMA+3LXgLXhs/k6HmHhcuaMx71amM82cLO4=;
+ b=eku4wYHTjfUav4ALzjqD1its+rFYIdhz6dsaKk3hTFrUgVew20XuNYHYO9weH1Bmus
+ M3N15W20SGKdqUPNHgj+/F0WOPOW4dVXauBHKorNEl57+h0ElO6PJbXqAUEijQpPdyAh
+ 59q4K52+ju+E+1vCSyK9O5k7SkJxwR0Z6JWajuopSNWBXP8YTJOPA5RXAhG3BHEZkUTd
+ EIH4WsdRd2L/HtmkAiPcN4CruNSLNWcWvFNJsbTVhAiA/rq9jhBAYN+GGUU3mX9rmrJT
+ KbxmRuuM/ptrvE9JG+Xq7cnNuRViLGfsJ68x9zJNCa5Ss/q0lu4E056ygw5DWy8FvbT9
+ 43kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5DUf40pCQbFYHkc1Tbjm8GFzA5xVuUuNQGJWNbYvNNQ=;
- b=UYvXQO8z+Z08+z7wnPi7mao5PYeCAyf+9gs0lUY3lSUrD9mcelHwFz84NjkEGi+mU3
- EHq+yxNvajNVn8/x88hQ12+3Chu0RwJmxueeNyHnm7h6H8wgG9P32LNwMJynECj4sLOc
- h+37tAuCwPmAvnzKzf/i0r8/zKj6eqBCVMSqpNo7NhHOSiv81+y3lBCfSOSV4vBQzL1G
- 9v1rslOAioTdlzTqGmA0uNI45CumnYBIg8g8AQXkpA5wECNCeuJ/sRgZsfu+UXKkJEWK
- 5mbveN599nQzLpafL3zH7T4I1rI8BvhApt7YT6cBA8VZz3kTAfoHIY/uKcNxR28mj/z8
- DrxA==
-X-Gm-Message-State: AOAM530cEpLy5B7YLZC5luNzkwBpxNfRAa0vWf/mP9g4qwLgCOCoe9CP
- mDYPY08ahlaG00hxpiP7pnc1ryW78QdtfYNiULiyTQ==
-X-Google-Smtp-Source: ABdhPJxD5puDKTMsyqTMmkdzAhfQ+1ela99Uti8Hlulk7i9X/IjBCrHNOimSomMJgvPmJ1SXQsGLk4/+iLyIH/yNAUM=
-X-Received: by 2002:a4a:8dc1:: with SMTP id a1mr17802438ool.69.1596533674960; 
- Tue, 04 Aug 2020 02:34:34 -0700 (PDT)
+ bh=VOF0rmEQJMA+3LXgLXhs/k6HmHhcuaMx71amM82cLO4=;
+ b=cTcLK/d8ERGzI4C9MnQiTkqkXkk3xS8Q/e1B6X6CbbA2grZDAyoU+HQ62OkgSFmKqi
+ vF0d0w63uJkmalghR9pg1r1xjy4hGGdqZL2XMqvrRb3/DwwaaOE4maTyfhFghcyxiKFs
+ o5Bod8gzOMNxHq3zSJ7idEjRwREM41WK9733962cUDbPxF0mIGe2iX7zfAIpzdQ+gOlP
+ kSZ0ivSJBxu6oRABUFxOJovev/rDNXnH5SRkID3ye1Fk2ulJPmMmeYBNt3tBL0zl6Ozb
+ 9Qmw7Pa6YjZLRKRy1OWAjiPOx3DAZhlvl1YzKFzPd1xbs0blUmVzjR+o+Ihq75DGbW6x
+ KHqA==
+X-Gm-Message-State: AOAM5317i9xmdoJj2p9u8sJRnkqoPr6QJ4/4xy4v9VDLWcjFW2+MZCtD
+ V1KHpENTf9O5h8ZFZCbGh260g2uztI0pFgldlX1bqxFa4gg=
+X-Google-Smtp-Source: ABdhPJykJMN6UQCFC2k8Iee1cRLEG5c+uOUk1jkKQmkmLjEJ1GZ2VFFkenl7PdkmsFsDRitItRS9M8tjsgblpXfoWVU=
+X-Received: by 2002:aca:50c4:: with SMTP id e187mr2518264oib.146.1596533946945; 
+ Tue, 04 Aug 2020 02:39:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200804002712.27733-1-pcc@google.com>
-In-Reply-To: <20200804002712.27733-1-pcc@google.com>
+References: <20200803205708.315829-1-richard.henderson@linaro.org>
+In-Reply-To: <20200803205708.315829-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Aug 2020 10:34:23 +0100
-Message-ID: <CAFEAcA_TGmk+YMkc=5OF9rarQT_4cwrRBFLZsmkeDSgnmu0P5w@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Rename function disas_ldst_pac to disas_ld_pac
-To: Peter Collingbourne <pcc@google.com>
+Date: Tue, 4 Aug 2020 10:38:56 +0100
+Message-ID: <CAFEAcA9tuO-3EMGk1Yggi_bRE75+0ro=g2r11VKUR9SNAvaPUw@mail.gmail.com>
+Subject: Re: [PATCH for-5.1] docs/devel: Document decodetree no-overlap groups
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,23 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Aug 2020 at 01:27, Peter Collingbourne <pcc@google.com> wrote:
+On Mon, 3 Aug 2020 at 21:57, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The name disas_ldst_pac is misleading as it implies the existence
-> of authenticating store instructions, so rename it to avoid that
-> implication.
+> When support for this feature went in, the update to the
+> documentation was forgotten.
 >
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> Fixes: 067e8b0f45d6
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  docs/devel/decodetree.rst | 29 ++++++++++++++++++-----------
+>  1 file changed, 18 insertions(+), 11 deletions(-)
 
-The use of ldst here matches the name of this group of instructions
-in the Arm ARM (DDI0487F.c page C4-308, "Load/store register (pac)"),
-I think.
+> @@ -200,7 +207,7 @@ instruction::
+>  When the *cf* field is zero, the instruction has no side effects,
+>  and may be specialized.  When the *rt* field is zero, the output
+>  is discarded and so the instruction has no effect.  When the *rt2*
+> -field is zero, the operation is ``reg[rt] | 0`` and so encodes
+> +field is zero, the operation is ``reg[r1] | 0`` and so encodes
+>  the canonical register copy operation.
+
+Technically a separate change, but a very small one...
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
