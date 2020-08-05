@@ -2,43 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1684423C9CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:13:25 +0200 (CEST)
-Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BB423C9CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:11:46 +0200 (CEST)
+Received: from localhost ([::1]:44802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3GQG-0005Os-6r
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39740)
+	id 1k3GOf-0003GX-Bq
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1k3GLZ-0007p5-7L; Wed, 05 Aug 2020 06:08:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:59672 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1k3GLV-0001JR-Pz; Wed, 05 Aug 2020 06:08:32 -0400
-Received: from [192.168.15.207] (helo=iris.lishka.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <den@openvz.org>)
- id 1k3GLQ-0004tP-7i; Wed, 05 Aug 2020 13:08:24 +0300
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 3/3] block: enable long IO requests report by default
-Date: Wed,  5 Aug 2020 13:08:24 +0300
-Message-Id: <20200805100824.16817-4-den@openvz.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200805100824.16817-1-den@openvz.org>
-References: <20200805100824.16817-1-den@openvz.org>
-Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
- helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 06:08:25
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3GMA-0000VI-Qr
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:09:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47165
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3GM8-0001NT-TS
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:09:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596622148;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=owIIgW76pNzQpJdG7wD1/IysGWIzVM2HXD2xJXbP2ww=;
+ b=Btj33DsoNQY9r6l5E9LU85Fb2Z+gtQ3HeqgfCxfsgTCEOtV0Aca8gRuO7C8v42MZ1OfVRr
+ pk7TvpCjWjst9sTHfFpjYvwbUxBfE2j7rLzlPdIDV8H2ITwGLgS0cMI5jR0RBcTOCSMUQG
+ oSMDlAFsMIOSs4iZwbAcLO1GPIz5G68=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-0WC4j0ROPh2Ht-qfDbmgtg-1; Wed, 05 Aug 2020 06:09:06 -0400
+X-MC-Unique: 0WC4j0ROPh2Ht-qfDbmgtg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0515757;
+ Wed,  5 Aug 2020 10:09:05 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-142.ams2.redhat.com [10.36.112.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95B6C60BF3;
+ Wed,  5 Aug 2020 10:09:01 +0000 (UTC)
+Subject: Re: [PATCH for-5.2 6/6] pc-bios/s390-ccw: Allow booting in case the
+ first virtio-blk disk is bad
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200728183734.7838-1-thuth@redhat.com>
+ <20200728183734.7838-7-thuth@redhat.com>
+ <20200805120418.072042c8.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <7810397f-4199-ffab-1bc2-9b7513133aff@redhat.com>
+Date: Wed, 5 Aug 2020 12:08:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200805120418.072042c8.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:45:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,39 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+ Collin Walling <walling@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Latency threshold is set to 10 seconds following guest request timeout
-on legacy storage controller.
+On 05/08/2020 12.04, Cornelia Huck wrote:
+> On Tue, 28 Jul 2020 20:37:34 +0200
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> If you try to boot with two virtio-blk disks (without bootindex), and
+>> only the second one is bootable, the s390-ccw bios currently stops at
+>> the first disk and does not continue booting from the second one. This
+>> is annoying - and all other major QEMU firmwares succeed to boot from
+>> the second disk in this case, so we should do the same in the s390-ccw
+>> bios, too.
+> 
+> Does it make sense to do something like that for other device types as
+> well?
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Max Reitz <mreitz@redhat.com>
----
- blockdev.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It would be nice if we could do the same for virtio-scsi disks, but the
+code is written in a way here that it will need much more thinking,
+cleanups and time to get this done right...
 
-diff --git a/blockdev.c b/blockdev.c
-index 66158d1292..9eb58efc2b 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -623,7 +623,8 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-         bs->detect_zeroes = detect_zeroes;
- 
-         block_acct_setup(blk_get_stats(blk), account_invalid, account_failed,
--                qemu_opt_get_number(opts, "latency-log-threshold", 0));
-+                qemu_opt_get_number(opts, "latency-log-threshold",
-+                                    10000 /* ms */));
- 
-         if (!parse_stats_intervals(blk_get_stats(blk), interval_list, errp)) {
-             blk_unref(blk);
--- 
-2.17.1
+ Thomas
 
 
