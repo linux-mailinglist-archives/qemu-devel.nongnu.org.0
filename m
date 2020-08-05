@@ -2,77 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA78823CAC5
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 14:56:24 +0200 (CEST)
-Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2025923CADE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 15:10:16 +0200 (CEST)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3Ixz-0005gp-7T
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 08:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57646)
+	id 1k3JBP-0003KV-7M
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 09:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1k3Iwk-0004kc-MQ
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 08:55:06 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:36611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1k3Iwi-0007AJ-77
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 08:55:06 -0400
-Received: by mail-lf1-x144.google.com with SMTP id c15so6902765lfi.3
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 05:55:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=NwSrvaVUQtHqn6Xhysf1L61XAmkuRccG/I8g5yNgps0=;
- b=IscuB6N6CoT46qBXohrEtbiLa/3+37pp1c+q4cSnsZGwsvlmrv5hutVgAE9lRvgWQk
- 99ObjNSlAy09yVIPPyJ75Q9SaxPLvt5/34tn0wzkKvb+4d0FQnGDeMJd4JcbdVfBf4f3
- KYpRgpygbMf0fdY4CIg+iRCx0yiXcNwebmX2Ub4zl2jRDbeZ5tYpfXXbHexICralNTAD
- fqq3R1w4IUZYQQ8rsxDJGb9obBvvxGltBO1Kw16gp51DR0i8J+zWTTRcE82uv9yoD9FE
- w2Z2HaFCTKzyycy1Eav2fNRQKSlU5jhV2gsK6C+dWHmspwxHTawkbb2VU38EJKWTMY+0
- FZDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=NwSrvaVUQtHqn6Xhysf1L61XAmkuRccG/I8g5yNgps0=;
- b=A0jEoSn1mred6VOPxOnBTt99zzPVwsPftBybwmYIfdoF9nUtx8dBa23D+5DIkN+nzb
- rGPa5NpGWA9oePeGX72mIICOguAG5IhhZysMQMfjmbtr8ZnoZrjtzm6lM4SUr+23ZXRi
- MXE+iVcVwNYMt9IK8ebezLFiz4KWZQbhb2ngvQUZHCqMIbbDp6TF0JTMVb+Bi6kYgfyS
- mbapDI63PElL3UiN55WJ9lA4/0KkDCdWmThstLpRhPNeAhCQQRmGpBnIJtKZdxjAnk9w
- G+AZWKQHrc5W07e6YEe7e7Ptu5VGriE+SuQBFWhJbQHT0Vsj5NRQyWs9OoSMEuiiX7x7
- Hv0g==
-X-Gm-Message-State: AOAM532oktyX7bVAs7nSJeesK45sxxCLyhXAsPH2NaE2IpnLT1xMm6S9
- jNN9opxsBNxSGleAti3C9S8MDqrk2WXLxO45A+Y=
-X-Google-Smtp-Source: ABdhPJwmk26LAdIIdmuUfpAnaSDj+SU/osuKanlC9wL0mUBLQr7mf21QbZrqGn9gbktoV1AuDOfySUeTWJSggSnDWjc=
-X-Received: by 2002:a05:6512:1182:: with SMTP id
- g2mr1552043lfr.126.1596632100445; 
- Wed, 05 Aug 2020 05:55:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiri@mellanox.com>) id 1k3EWr-0002qD-Qs
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 04:12:05 -0400
+Received: from mail-eopbgr80087.outbound.protection.outlook.com
+ ([40.107.8.87]:34369 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiri@mellanox.com>) id 1k3EWo-0004RD-QG
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 04:12:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L5ZXAqUVbQZGaRwyYWJEuvD3kj+MdBEQcot6O3nWhD2HVEF5H8xU8AGGHfnXukHI9Rsa9bmNI19Mhj5Am1fLEnTcA/IG6Cv/QQwbPIXe/c/fAzSNWFaLrXd5P35TnA8wTlo2FpqChwRT6PDLp+setKg5A1stY9fiKqTRK2G0obZlVmOEPxTeWy0tPjVvIeh7WbhCBrInDjTTpfgnl5do7cICZPbV1wGmgeaWP/V8IUWhfsyDRXgKNETpNfO+/btbIWv91HubmGMLAzhu/wTBVi3xmXNyHNMHHhYELCC0kRGGXcw2DzhoKNBRpCZ4BplAs1bhJfJBFUHBtzqP2hMSOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EbNPv1R+k2nbLYPV+shm9GIPARgusFUsHOINDiQiyy4=;
+ b=JCQK8adGovbwXCPiVKpY2Jds12bTt0AkzF/ehIG1iCbrNuRCn/8mysVYT9bchKW2Bb1h4daaJ683pFiX0DXAU/873ZROsNACzXIbvnMFSXaDAIRFqHyMPKTAnHVNkS0c+olnNs236msOqRJrv9PoyOGYr8oYDUBlal8pz1qmTMcTeF0zVJhZOhGawf54+X21BB7WWHU2DNv3TlUTqwQpSHBoYjOx16ZkWl50I1pWkI1pCY0J/xXkqDd+oyvsMVu7V038OSy+ghOM7TxHCm84f6oR8dXFUPlVDLNHwr41c84cg+BTd/zT2xw0iFsG99B3ao6zLO/wuO3FeNN9ko3y6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EbNPv1R+k2nbLYPV+shm9GIPARgusFUsHOINDiQiyy4=;
+ b=Z9iyLLK8mfy6YafufrIqaHUYJtPy8fFSYlj2UbBKdBZBZbI9ULD7zGm7YkZG0SQMRu4dzkBbPaZhg+mZXLSKwKkf1UKFxZOflCO5FUdj8hZvRMMQN/EZO8cI4MKTWTU/qY1yC2El1TWhC6pGuiaDxQ6ztaJKFWOBAGr0HqL3NxQ=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=mellanox.com;
+Received: from DBBPR05MB6364.eurprd05.prod.outlook.com (2603:10a6:10:cc::22)
+ by DB6PR05MB3175.eurprd05.prod.outlook.com (2603:10a6:6:1a::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.21; Wed, 5 Aug
+ 2020 07:56:50 +0000
+Received: from DBBPR05MB6364.eurprd05.prod.outlook.com
+ ([fe80::6510:4e88:1d64:18ae]) by DBBPR05MB6364.eurprd05.prod.outlook.com
+ ([fe80::6510:4e88:1d64:18ae%6]) with mapi id 15.20.3239.022; Wed, 5 Aug 2020
+ 07:56:50 +0000
+Date: Wed, 5 Aug 2020 09:56:47 +0200
+From: Jiri Pirko <jiri@mellanox.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200805075647.GB2177@nanopsycho>
+References: <20200716083230.GA25316@joy-OptiPlex-7040>
+ <20200717101258.65555978@x1.home>
+ <20200721005113.GA10502@joy-OptiPlex-7040>
+ <20200727072440.GA28676@joy-OptiPlex-7040>
+ <20200727162321.7097070e@x1.home>
+ <20200729080503.GB28676@joy-OptiPlex-7040>
+ <20200804183503.39f56516.cohuck@redhat.com>
+ <c178a0d3-269d-1620-22b1-9010f602d8ff@redhat.com>
+ <20200805021654.GB30485@joy-OptiPlex-7040>
+ <2624b12f-3788-7e2b-2cb7-93534960bcb7@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2624b12f-3788-7e2b-2cb7-93534960bcb7@redhat.com>
+X-ClientProxiedBy: AM3PR05CA0111.eurprd05.prod.outlook.com
+ (2603:10a6:207:2::13) To DBBPR05MB6364.eurprd05.prod.outlook.com
+ (2603:10a6:10:cc::22)
 MIME-Version: 1.0
-References: <20200804170055.2851-1-thuth@redhat.com>
- <20200804170055.2851-12-thuth@redhat.com>
- <4cdba8c7-c6a1-e561-9e84-1dae8cf4cd04@weilnetz.de>
- <20200805091154.GD4127670@redhat.com>
-In-Reply-To: <20200805091154.GD4127670@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 5 Aug 2020 20:54:48 +0800
-Message-ID: <CAE2XoE_CsJ4nn+0Hurf+DacFqHzdsP-cQbZyX4pz8Hwv2LzsaA@mail.gmail.com>
-Subject: Re: [PATCH 11/11] dockerfiles/debian-win64-cross: Download WHPX MinGW
- headers
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002f21af05ac20e107"
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from nanopsycho (85.163.43.78) by
+ AM3PR05CA0111.eurprd05.prod.outlook.com (2603:10a6:207:2::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.18 via Frontend Transport; Wed, 5 Aug 2020 07:56:48 +0000
+X-Originating-IP: [85.163.43.78]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a0f298bf-b4dd-480f-3113-08d839151c24
+X-MS-TrafficTypeDiagnostic: DB6PR05MB3175:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DB6PR05MB3175BD23467E065328E83AB6BD4B0@DB6PR05MB3175.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lDvHMIHpv7EzsvyTJFYjdzyFCSe5U4rMCmPH3+sO9MB6RNO0rU6neBKGygKTlLEkqREIsqXo0ocLBwHHm/Dp2yInyswCjBFYq+Ja/U1eM6fooyp3OJKjFCTnnNWOsVPBqoRnWJLke8y4GT5zyG00QclXVVo8Q/K01V2cNEHyWROoBc1ijPbGnWkvK16Uo/MEKNq4ObTF4YXy9ZJnsWJzyL4BJIyf+yYnCu6f0awahZ4dfhMmaPxVxHPBUdij3GeKK6xrrp/fw0mb45nD+zC8+F40nAwPlsxIqRZywUA/RIo2zFME/Nor5RFIRHSmOKbqD78FTGAgccVAXnLP2donBA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBPR05MB6364.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(52116002)(1076003)(6496006)(33656002)(186003)(6916009)(16526019)(83380400001)(33716001)(4326008)(7416002)(8676002)(66946007)(107886003)(66556008)(9686003)(316002)(55016002)(956004)(54906003)(9576002)(26005)(66476007)(8936002)(478600001)(2906002)(5660300002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 6S3J6wgGvb7OcvIZ6WtR8asRmOocJVJf7f7lxACv4LrrxUXoif1AQhIgmUbMgrlwxHQHBJGuTVlM++1PF9excntvpyjzPqLi0kUYwS9YZRjpmI8aEafAt03IguZcSn5QkcjAIAVySUDDJbc5X8G1QcAtyPcPxjwfflX+aL8dz5lNhSIUiglEwS2f0FNuzcwddkUgUiU3t5Zemf8ZS7bVWW6TpdPAzOoq7kcysyxs7UNVpIbmqNuac0lMVnsuHwE73VdPGgvk11dRNtmYd1kadsgsN02V4YiFZTaQs9R1Y7KNNLe+rXcV9GZ2fwu1bCY9utyL1MC+q1UP78aDwzGPCQ6xvnFy7q/Mruhagy4j2LO5PjWsxEGuuhAuVccFwMfNATizNmbBWUVvBAROZZdfmSS7JKw/+yaEY22hfVBWW+76NJXytPnBq8bDxWJajrfZrhUwf0YJj6iqEc/JwXg3tg9arooqa3uVXSpR42nQrwnmfGIcg2qpcINV/zUhiZkJkIB8zxCJBA16S8dIOHP8LL9TLaNI3lx51Mol7Cy0Y9l5nH916s8MHPfrO7zCWss1MW85qFgYPmmVTWguNjkY/JSnF18nyKQWtrSNM2YDz0ZaYoANj3wgSweXMQw3Uc3fGIyD3qiVDDvmNRyX9ZB3Gw==
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0f298bf-b4dd-480f-3113-08d839151c24
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR05MB6364.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2020 07:56:50.5503 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VYLNiFI0+SasNmxGipEiqY1WF4rX7pS5y+aEjtjG/X6ZHAdtg0JLUE/s+YgPCW80yyGti26ruNiFV1hibH6V0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR05MB3175
+Received-SPF: pass client-ip=40.107.8.87; envelope-from=jiri@mellanox.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 04:11:57
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 05 Aug 2020 09:09:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,248 +125,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-level <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, kwankhede@nvidia.com,
+ eauger@redhat.com, xin-ran.wang@intel.com, eskultet@redhat.com,
+ openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
+ kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
+ Parav Pandit <parav@mellanox.com>, jian-feng.ding@intel.com,
+ dgilbert@redhat.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
+ bao.yumeng@zte.com.cn, Alex Williamson <alex.williamson@redhat.com>,
+ smooney@redhat.com, intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com,
+ corbet@lwn.net, dinechin@redhat.com, devel@ovirt.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002f21af05ac20e107
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Wed, Aug 05, 2020 at 04:41:54AM CEST, jasowang@redhat.com wrote:
+>
+>On 2020/8/5 上午10:16, Yan Zhao wrote:
+>> On Wed, Aug 05, 2020 at 10:22:15AM +0800, Jason Wang wrote:
+>> > On 2020/8/5 上午12:35, Cornelia Huck wrote:
+>> > > [sorry about not chiming in earlier]
+>> > > 
+>> > > On Wed, 29 Jul 2020 16:05:03 +0800
+>> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+>> > > 
+>> > > > On Mon, Jul 27, 2020 at 04:23:21PM -0600, Alex Williamson wrote:
+>> > > (...)
+>> > > 
+>> > > > > Based on the feedback we've received, the previously proposed interface
+>> > > > > is not viable.  I think there's agreement that the user needs to be
+>> > > > > able to parse and interpret the version information.  Using json seems
+>> > > > > viable, but I don't know if it's the best option.  Is there any
+>> > > > > precedent of markup strings returned via sysfs we could follow?
+>> > > I don't think encoding complex information in a sysfs file is a viable
+>> > > approach. Quoting Documentation/filesystems/sysfs.rst:
+>> > > 
+>> > > "Attributes should be ASCII text files, preferably with only one value
+>> > > per file. It is noted that it may not be efficient to contain only one
+>> > > value per file, so it is socially acceptable to express an array of
+>> > > values of the same type.
+>> > > Mixing types, expressing multiple lines of data, and doing fancy
+>> > > formatting of data is heavily frowned upon."
+>> > > 
+>> > > Even though this is an older file, I think these restrictions still
+>> > > apply.
+>> > 
+>> > +1, that's another reason why devlink(netlink) is better.
+>> > 
+>> hi Jason,
+>> do you have any materials or sample code about devlink, so we can have a good
+>> study of it?
+>> I found some kernel docs about it but my preliminary study didn't show me the
+>> advantage of devlink.
+>
+>
+>CC Jiri and Parav for a better answer for this.
+>
+>My understanding is that the following advantages are obvious (as I replied
+>in another thread):
+>
+>- existing users (NIC, crypto, SCSI, ib), mature and stable
+>- much better error reporting (ext_ack other than string or errno)
+>- namespace aware
+>- do not couple with kobject
 
-Fixes in mingw seems not possible and would broken lots of things, the
-better way may change all include of Windows API headers to lowercase,
+Jason, what is your use case?
 
 
-On Wed, Aug 5, 2020 at 5:12 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
->
-wrote:
 
-> On Tue, Aug 04, 2020 at 08:32:18PM +0200, Stefan Weil wrote:
-> > Am 04.08.20 um 19:00 schrieb Thomas Huth:
-> >
-> > > To compile-test the WHPX accelerator, we need to download these syste=
-m
-> > > headers first (they are unfortunately not part of any released and
-> > > packaged MinGW toolchain yet).
-> > >
-> > > Idea taken from another patch by Stefan Weil.
-> > >
-> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > ---
-> > >  tests/docker/dockerfiles/debian-win64-cross.docker | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker
-> b/tests/docker/dockerfiles/debian-win64-cross.docker
-> > > index 2fc9cfcbc6..4cc4a3f365 100644
-> > > --- a/tests/docker/dockerfiles/debian-win64-cross.docker
-> > > +++ b/tests/docker/dockerfiles/debian-win64-cross.docker
-> > > @@ -32,7 +32,14 @@ RUN apt-get update && \
-> > >          mxe-$TARGET-w64-mingw32.shared-sdl2 \
-> > >          mxe-$TARGET-w64-mingw32.shared-sdl2-mixer \
-> > >          mxe-$TARGET-w64-mingw32.shared-sdl2-gfx \
-> > > -        mxe-$TARGET-w64-mingw32.shared-zlib
-> > > +        mxe-$TARGET-w64-mingw32.shared-zlib \
-> > > +        curl && \
-> > > +    curl -s -S -o
-> /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvEmulation.h \
-> > > +        "
-> https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-he=
-aders/include/winhvemulation.h?format=3Draw"
-> && \
-> > > +    curl -s -S -o
-> /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvPlatform.h \
-> > > +        "
-> https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-he=
-aders/include/winhvplatform.h?format=3Draw"
-> && \
-> > > +    curl -s -S -o
-> /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/winhvplatformdefs.h \
-> > > +        "
-> https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-he=
-aders/include/winhvplatformdefs.h?format=3Draw
-> "
-> > >
-> > >  # Specify the cross prefix for this image (see tests/docker/common.r=
-c)
-> > >  ENV QEMU_CONFIGURE_OPTS --cross-prefix=3Dx86_64-w64-mingw32.shared-
-> >
-> >
-> > I expect a build failure: Mingw-w64 decided to use lower case filenames=
-,
-> > and those header files include each other.
-> >
-> > We need both lower case filenames (for Mingw-w64) and camel case
-> > filenames (for QEMU). That's why I used additional symlinks.
 >
-> Hmm, this feels wrong. Either QEMU or Mingw-w64 is broken here.
->
-> Mingw-w64 needs to match whatever upper/lower case scheme that Windows
-> has used for these headers. QEMU also needs to match whatever Windows
-> used.
->
-> Mingw originally commited the files with mixed case, and then later
-> renamed then to lower case, but the commit doing the rename gives
-> zero information about why it did that.
->
-> The microsoft docs appear to show that camel case is required:
+>Thanks
 >
 >
-> https://docs.microsoft.com/en-us/virtualization/api/hypervisor-platform/h=
-ypervisor-platform
+>> 
+>> Thanks
+>> Yan
+>> 
 >
-> so I think mingw just needs fixing to revert that broken commit
-> the changed to lowercase.
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
->
-
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---0000000000002f21af05ac20e107
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Fixes in mingw seems not possible and would broken lots of=
- things, the better way may change all include of Windows API headers to lo=
-wercase,<div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Wed, Aug 5, 2020 at 5:12 PM Daniel P. Berrang=C3=
-=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, A=
-ug 04, 2020 at 08:32:18PM +0200, Stefan Weil wrote:<br>
-&gt; Am 04.08.20 um 19:00 schrieb Thomas Huth:<br>
-&gt; <br>
-&gt; &gt; To compile-test the WHPX accelerator, we need to download these s=
-ystem<br>
-&gt; &gt; headers first (they are unfortunately not part of any released an=
-d<br>
-&gt; &gt; packaged MinGW toolchain yet).<br>
-&gt; &gt;<br>
-&gt; &gt; Idea taken from another patch by Stefan Weil.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com=
-" target=3D"_blank">thuth@redhat.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 tests/docker/dockerfiles/debian-win64-cross.docker | 9 ++++=
-++++-<br>
-&gt; &gt;=C2=A0 1 file changed, 8 insertions(+), 1 deletion(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b=
-/tests/docker/dockerfiles/debian-win64-cross.docker<br>
-&gt; &gt; index 2fc9cfcbc6..4cc4a3f365 100644<br>
-&gt; &gt; --- a/tests/docker/dockerfiles/debian-win64-cross.docker<br>
-&gt; &gt; +++ b/tests/docker/dockerfiles/debian-win64-cross.docker<br>
-&gt; &gt; @@ -32,7 +32,14 @@ RUN apt-get update &amp;&amp; \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mxe-$TARGET-w64-mingw32.shared-=
-sdl2 \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mxe-$TARGET-w64-mingw32.shared-=
-sdl2-mixer \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mxe-$TARGET-w64-mingw32.shared-=
-sdl2-gfx \<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mxe-$TARGET-w64-mingw32.shared-zlib<=
-br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mxe-$TARGET-w64-mingw32.shared-zlib =
-\<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 curl &amp;&amp; \<br>
-&gt; &gt; +=C2=A0 =C2=A0 curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.=
-shared/include/WinHvEmulation.h \<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://sourceforge=
-.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvem=
-ulation.h?format=3Draw" rel=3D"noreferrer" target=3D"_blank">https://source=
-forge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/wi=
-nhvemulation.h?format=3Draw</a>&quot; &amp;&amp; \<br>
-&gt; &gt; +=C2=A0 =C2=A0 curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.=
-shared/include/WinHvPlatform.h \<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://sourceforge=
-.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvpl=
-atform.h?format=3Draw" rel=3D"noreferrer" target=3D"_blank">https://sourcef=
-orge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/win=
-hvplatform.h?format=3Draw</a>&quot; &amp;&amp; \<br>
-&gt; &gt; +=C2=A0 =C2=A0 curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.=
-shared/include/winhvplatformdefs.h \<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://sourceforge=
-.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvpl=
-atformdefs.h?format=3Draw" rel=3D"noreferrer" target=3D"_blank">https://sou=
-rceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include=
-/winhvplatformdefs.h?format=3Draw</a>&quot;<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 # Specify the cross prefix for this image (see tests/docker=
-/common.rc)<br>
-&gt; &gt;=C2=A0 ENV QEMU_CONFIGURE_OPTS --cross-prefix=3Dx86_64-w64-mingw32=
-.shared-<br>
-&gt; <br>
-&gt; <br>
-&gt; I expect a build failure: Mingw-w64 decided to use lower case filename=
-s,<br>
-&gt; and those header files include each other.<br>
-&gt; <br>
-&gt; We need both lower case filenames (for Mingw-w64) and camel case<br>
-&gt; filenames (for QEMU). That&#39;s why I used additional symlinks.<br>
-<br>
-Hmm, this feels wrong. Either QEMU or Mingw-w64 is broken here.<br>
-<br>
-Mingw-w64 needs to match whatever upper/lower case scheme that Windows<br>
-has used for these headers. QEMU also needs to match whatever Windows<br>
-used.<br>
-<br>
-Mingw originally commited the files with mixed case, and then later<br>
-renamed then to lower case, but the commit doing the rename gives<br>
-zero information about why it did that.<br>
-<br>
-The microsoft docs appear to show that camel case is required:<br>
-<br>
-=C2=A0 <a href=3D"https://docs.microsoft.com/en-us/virtualization/api/hyper=
-visor-platform/hypervisor-platform" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://docs.microsoft.com/en-us/virtualization/api/hypervisor-platform/hyper=
-visor-platform</a><br>
-<br>
-so I think mingw just needs fixing to revert that broken commit<br>
-the changed to lowercase.<br>
-<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div>
-
---0000000000002f21af05ac20e107--
 
