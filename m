@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0A423CE75
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:26:38 +0200 (CEST)
-Received: from localhost ([::1]:52344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B0F23CE95
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:30:01 +0200 (CEST)
+Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3O7Z-0002IC-SK
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:26:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50228)
+	id 1k3OAq-0006Er-54
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nz9-0004tr-H0
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:55 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:37759)
+ id 1k3NzB-0004zb-RM
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:57 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nz7-0006Wv-M6
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:55 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id mw10so1079426pjb.2
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:53 -0700 (PDT)
+ id 1k3Nz9-0006XG-Ub
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:57 -0400
+Received: by mail-pl1-x641.google.com with SMTP id f10so830885plj.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BjiLVDDEqoIBJt1y3HRzPMRPdgMoMf8GueSFlFqkhhc=;
- b=MBm7lEitcGCY7AbHi6skbhjWbJ/rDY+d8AUujZEUhFJ8g19yEdbJIoVDsPDn6k6fEz
- 5oE5FQGhaA3JmmjbA3LNwzd6R3PCZcho9Lfb20LqUmUWp7f9lkOofRe96DwyU2SwkxfP
- GlcNfoVRXZCamvXErM63U6dD3Fsl+PV+cC5qOKoYp7UuNFbmmSSPlYUpXaVtxHnnYmGt
- eU7aK7VUeJvV+4LYVekRDiGmP6t03D75lEnnTDPYGQUbMarPhNfOeVeJL+pkHgJFSFko
- WWAjrJeQ/fol9wpFzihe09Rn9OOW1N1YVgSxbMJAqPLPldqkjbjt+P9EjLFQCnk2+0U3
- XO9A==
+ bh=f4dp87j0JbOgZeF9Q5qKD4L3G1MqZ8pb/SPlrQlUp44=;
+ b=ppsj5mQYzg/Kr8tUEwM3tmcuTjfMRCrWF4RrbFmBPoemT/+eavST4FAzusKdk2UUAI
+ bIfBxQRoMLAgPliH+m1CrXTBld+ILPMjtZkOkw3LwwDHYdWPGlPvRsqMg3yBy/Y/5B5v
+ 6foe2wskP6azX/c+GclfKEOTZ+QDlKCxgHhSJ9ZryXg6nX0zUo6m66BjGAYWQcbcVYnj
+ VlhTt0K8b/nnkg+FCSsVNIwfkVqNMfiE4kLTlQY0qEK3euuNZz+fIIvylURCsF9ItYDf
+ /zt/sqEC3+Sq8CzrYnJlGW626qVn5JhjZWiQB6SXvbQotfp0GWo5jFQON1pDjvD2A2q/
+ 7L6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=BjiLVDDEqoIBJt1y3HRzPMRPdgMoMf8GueSFlFqkhhc=;
- b=KA3a/xFvPfiznAf2Sl3BgbKUgyEDxnng0fN08o1Ta9Fc5lWWFmTWomR+bhyojy3Za8
- MjS5dOfuRJwZM+aUfOI5ByqgxclGNxOo6uLmgUR/mCOJkYoanb6p4XTNoLrwa+SpDQjm
- CTCijVqurgK/xEDGFK351u6fBSsqcL/DNRdE0Es4j7FAbMeSTMvCrU/A0qlWF8KokrWq
- kd/O3iYwHzALwpsKrbxbN60mhYE44OFBgi6Gl2RY0gDjURbvlyCSx5w3j1df1w0sMcgw
- 33PQND2YvHTGfc0sfwcq/yZ8KCaRHBOUUroEiDp6v/d02Ft/RVpa9JMGxzQNBPYvpXIx
- FzXA==
-X-Gm-Message-State: AOAM5301nTUPfw9num3q1qB/4Cp4Any9POHuTU2oHDmuwpTyNFDWiyBT
- MWzfiQM6RnzPUBepuHxk6pvUkqbumDo=
-X-Google-Smtp-Source: ABdhPJx8Il7vymRVwkEW2ud1RveHV9WNsGO5GpPmEm2CjdPywxgfoLQzXwmAylcakI9hvrhBvM5fgw==
-X-Received: by 2002:a17:90b:1287:: with SMTP id
- fw7mr4323117pjb.218.1596651472139; 
- Wed, 05 Aug 2020 11:17:52 -0700 (PDT)
+ bh=f4dp87j0JbOgZeF9Q5qKD4L3G1MqZ8pb/SPlrQlUp44=;
+ b=GiZ2LE3AZ+6uLliPTgb4RA7sXN3cHWe2O08c6BMrv+REOzMk5Nq6ul+/jH9LcZ+iMN
+ uRLHdh6c0zXvuxcE5LaZgzlad91A1LfBh2HrlwlmUk0aii57DOhLJe/A2dGaoIZeUW02
+ 0xpQuxGB5UoNl9yooXwzcdvzFxxKI+ETDVKm8c9QQbVN4rs6Kx0Zrz2tVV0Lu3/xQEiV
+ lLVVoXFxMjzPCT0NNU68wxUfvckrXFFwSK0/7dVLtamdkJ22C+k5At1Oqt0agjyDsLlz
+ pdMhTU7YpqTznaTeiIZqUz0RuV1t7tQ1xhHuRYtehFDJBVgGQr9ru0TIC0LTre1GQqYm
+ nsJw==
+X-Gm-Message-State: AOAM531RfA2MloInkold5lBcSRnA5IvYvtGYY3H7bN6FOfqFgxTcfa1I
+ +wd2e5WXz8/+TbzolrvAqEVwwpNV8x8=
+X-Google-Smtp-Source: ABdhPJwS1OZeyatJagggET6+gLKyYY5uNtT278Rqy94M+Vb+2QkJSIHtUyrEiVlQJrhsHVleqfPKeA==
+X-Received: by 2002:a17:90b:14d1:: with SMTP id
+ jz17mr33704pjb.98.1596651474313; 
+ Wed, 05 Aug 2020 11:17:54 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:38ab:50b1:ff8a:26ef])
- by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.50
+ by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:17:51 -0700 (PDT)
+ Wed, 05 Aug 2020 11:17:53 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 20/21] target/unicore32: add BQL to do_interrupt and
+Subject: [PATCH v1 21/21] target/xtensa: add BQL to do_interrupt and
  cpu_exec_interrupt
-Date: Wed,  5 Aug 2020 14:13:02 -0400
-Message-Id: <20200805181303.7822-21-robert.foley@linaro.org>
+Date: Wed,  5 Aug 2020 14:13:03 -0400
+Message-Id: <20200805181303.7822-22-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200805181303.7822-1-robert.foley@linaro.org>
 References: <20200805181303.7822-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=robert.foley@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=robert.foley@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,8 +84,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, cota@braap.org, peter.puhov@linaro.org,
- pbonzini@redhat.com, Guan Xuetao <gxt@mprc.pku.edu.cn>, alex.bennee@linaro.org
+Cc: robert.foley@linaro.org, Max Filippov <jcmvbkbc@gmail.com>, cota@braap.org,
+ peter.puhov@linaro.org, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,58 +108,29 @@ https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/unicore32/helper.c  | 3 +++
- target/unicore32/softmmu.c | 7 +++++++
- 2 files changed, 10 insertions(+)
+ target/xtensa/exc_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-index 54c26871fe..d79284d224 100644
---- a/target/unicore32/helper.c
-+++ b/target/unicore32/helper.c
-@@ -169,6 +169,7 @@ void helper_cp1_putc(target_ulong regval)
+diff --git a/target/xtensa/exc_helper.c b/target/xtensa/exc_helper.c
+index 01d1e56feb..fd33a56847 100644
+--- a/target/xtensa/exc_helper.c
++++ b/target/xtensa/exc_helper.c
+@@ -200,6 +200,7 @@ void xtensa_cpu_do_interrupt(CPUState *cs)
+     XtensaCPU *cpu = XTENSA_CPU(cs);
+     CPUXtensaState *env = &cpu->env;
  
- bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
 +    qemu_mutex_lock_iothread();
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-         UniCore32CPU *cpu = UNICORE32_CPU(cs);
-         CPUUniCore32State *env = &cpu->env;
-@@ -176,8 +177,10 @@ bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         if (!(env->uncached_asr & ASR_I)) {
-             cs->exception_index = UC32_EXCP_INTR;
-             uc32_cpu_do_interrupt(cs);
-+            qemu_mutex_unlock_iothread();
-             return true;
-         }
+     if (cs->exception_index == EXC_IRQ) {
+         qemu_log_mask(CPU_LOG_INT,
+                       "%s(EXC_IRQ) level = %d, cintlevel = %d, "
+@@ -252,6 +253,7 @@ void xtensa_cpu_do_interrupt(CPUState *cs)
+         break;
      }
+     check_interrupts(env);
 +    qemu_mutex_unlock_iothread();
-     return false;
  }
-diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
-index 9660bd2a27..ca9b92aad0 100644
---- a/target/unicore32/softmmu.c
-+++ b/target/unicore32/softmmu.c
-@@ -81,6 +81,10 @@ void uc32_cpu_do_interrupt(CPUState *cs)
-     CPUUniCore32State *env = &cpu->env;
-     uint32_t addr;
-     int new_mode;
-+    bool bql = !qemu_mutex_iothread_locked();
-+    if (bql) {
-+        qemu_mutex_lock_iothread();
-+    }
- 
-     switch (cs->exception_index) {
-     case UC32_EXCP_PRIV:
-@@ -118,6 +122,9 @@ void uc32_cpu_do_interrupt(CPUState *cs)
-     env->regs[30] = env->regs[31];
-     env->regs[31] = addr;
-     cpu_interrupt_request_or(cs, CPU_INTERRUPT_EXITTB);
-+    if (bql) {
-+        qemu_mutex_unlock_iothread();
-+    }
- }
- 
- static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
+ #else
+ void xtensa_cpu_do_interrupt(CPUState *cs)
 -- 
 2.17.1
 
