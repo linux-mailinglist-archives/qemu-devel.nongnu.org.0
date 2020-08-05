@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A5823C9BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:05:53 +0200 (CEST)
-Received: from localhost ([::1]:55026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E703923C9C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:08:05 +0200 (CEST)
+Received: from localhost ([::1]:34214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3GIy-0003yk-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
+	id 1k3GL7-00076p-1F
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3GEu-0006Nj-Q2
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:01:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43339
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3GF0-0006RH-0v
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:01:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60731
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3GEs-0000W6-Kd
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:01:40 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3GEx-0000Wk-UY
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:01:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596621697;
+ s=mimecast20190719; t=1596621703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M46m4CKnd0h2fnbiaQwpYocPzWV6Ty9hunqocvBwXyI=;
- b=XF9mPqNQXOnUd309tLBMB2w8GGcrc7c7Rm46LHXXTpQN+CvTGfMPZVj4gwx9Dm5ugLaqa3
- m7Y4awWfylGOk0ijWLPEUjp/8mCiVB8UN90RQmhf9T0Nr4OvVb+TG7XXP85//WcTGkSHQE
- tyIdu5buc3s4xVtjx5LVOxLIJ03onD0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-CYKpt7L1O5qeTrOlAZzefw-1; Wed, 05 Aug 2020 06:01:36 -0400
-X-MC-Unique: CYKpt7L1O5qeTrOlAZzefw-1
-Received: by mail-wm1-f72.google.com with SMTP id t26so2523450wmn.4
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 03:01:35 -0700 (PDT)
+ bh=hLGUCPzB2NCSpVTvR3653iI6lwL6bempAHIge/kknyw=;
+ b=CIiwL/4lf0kgEOygNquZPf2gilLQ/s/8LrEOsknr2QEXbL4XuipXnWSfh9FjrmccwQ1MeR
+ UJyYFhGdRZy/RfwquCxYxenaaTsp68fowK/rQgAc1b58/qSPC2N96dpRZ4PfHkvqmlocR/
+ 5YRkhqlI7xiT0V8FyaIx/yU+z7qmvgA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-VKpoifDLOr6rAW4sH5LcjQ-1; Wed, 05 Aug 2020 06:01:41 -0400
+X-MC-Unique: VKpoifDLOr6rAW4sH5LcjQ-1
+Received: by mail-wr1-f69.google.com with SMTP id z12so13453113wrl.16
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 03:01:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M46m4CKnd0h2fnbiaQwpYocPzWV6Ty9hunqocvBwXyI=;
- b=fF3k8abBNg+eoa+gToQP9lsmmox0/BMzzJz1ekdE4RZBXt4eq0OUDvANZkreqNFRtA
- +Gf1wRibwBxW5cEqLF7GlQMR98UB8DD92D8i+78utniXDnDAGvSOCIY2l0eYf7rlnrA2
- QadwP0ZJWRNNpS0a/n7VaKknoVJBjO/MVBn02lpELpBvacbcnzohJATfTLCt596LfkGJ
- YuV+SUDNbQCkE6PuQEaniUJx5mFbamS06Mn9hueBFrgBX6aG6hbgt1pI33Rk3G5XXGuI
- p8vfXoap1rvXkNSPQlg86MVU3yrBpXM3dp+NN7TQ7hXOss+riuYRbmtqQ6kbEA1mrTwz
- 3t8g==
-X-Gm-Message-State: AOAM5312LDIoUcdP3PtUW5YOYeoNvYIs4D7pS1brc0WDkex0cWPRnm5d
- bu/sHvvj7R5QmkHmZbgANrXIxlw1aLlkzvmk1x7c1b+7hsWBiyhgGBxKEjYr74iZHejzT1X11on
- nfz9UL/N2VSD+P50=
-X-Received: by 2002:a1c:9c0b:: with SMTP id f11mr2528992wme.0.1596621694578;
- Wed, 05 Aug 2020 03:01:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbeQHObhqTa9jGSblN270zrEuTO6JHwmSt4e+3vPHNIUpFcXoaN3s6xQsCr3ZQVCin5T2+zg==
-X-Received: by 2002:a1c:9c0b:: with SMTP id f11mr2528963wme.0.1596621694332;
- Wed, 05 Aug 2020 03:01:34 -0700 (PDT)
+ bh=hLGUCPzB2NCSpVTvR3653iI6lwL6bempAHIge/kknyw=;
+ b=A8kimYYHmuY2G8oEmUPm2nwBnu+zyCUh7tTJCUbADP8oUMvst7NZQRflV2mj/6hx57
+ dHqJ3X2me4EO3Zh4fjmawIyF4TAAEvcIkC5r4w5Ah363Eu+DRJ5nZbS8uIDFDJRySO/K
+ OViW4NX7f57m388hOUzSoR7/Vr4Qxln7+iRgIQuQfWn3r3ZAeokPLY4hnD8RiFf7fCAV
+ 7HFOwVVvFlYEMWN38q+Chsc2k+QDKFWiCr9E6W5gdpSb7DEaZhvRMMNRM5toGRPAtw08
+ 8BAzhvaYGpOgJCSQvYRaHmrte0x6r588EM3UlwO+KkGQoGLbZH/hx2Yin0rZsJ8lIHWA
+ 3ANA==
+X-Gm-Message-State: AOAM530s+2FBGgq3sZRCsur90U6GqQmSRo+fPOShwDQjss28Ec3C5I4v
+ C3SzoGafO9Uci0nfT6tp8TEUehBSKxJsgJThdG64jSqtS2hxHTRYPuVXzotvMtsUK1abhujraIl
+ v5yKnUE2YnaNDQFY=
+X-Received: by 2002:a1c:9d53:: with SMTP id g80mr2573421wme.70.1596621699764; 
+ Wed, 05 Aug 2020 03:01:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyf2ELNKrJ9YYUTqNwfgXFZMpR+PVoY/AkCppcowenHs2T1ThBe+w3Tbe+Oa+JbDwcVhiCcFQ==
+X-Received: by 2002:a1c:9d53:: with SMTP id g80mr2573399wme.70.1596621699588; 
+ Wed, 05 Aug 2020 03:01:39 -0700 (PDT)
 Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id j4sm2037950wmi.48.2020.08.05.03.01.33
+ by smtp.gmail.com with ESMTPSA id z67sm2062698wmg.28.2020.08.05.03.01.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 03:01:33 -0700 (PDT)
+ Wed, 05 Aug 2020 03:01:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 v3 1/2] exec: Restrict icount to softmmu
-Date: Wed,  5 Aug 2020 12:01:25 +0200
-Message-Id: <20200805100126.25583-2-philmd@redhat.com>
+Subject: [PATCH-for-5.1 v3 2/2] stubs: Remove qemu_notify_event()
+Date: Wed,  5 Aug 2020 12:01:26 +0200
+Message-Id: <20200805100126.25583-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200805100126.25583-1-philmd@redhat.com>
 References: <20200805100126.25583-1-philmd@redhat.com>
@@ -72,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 04:10:11
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:45:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,68 +104,51 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'icount' feature is only meaningful when using softmmu.
-Move it out of the globally used exec.c, and define it as
-'false' in user-mode emulation.
+We don't need the qemu_notify_event() stub anymore.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/sysemu/cpus.h | 4 ++++
- exec.c                | 4 ----
- softmmu/cpus.c        | 7 +++++++
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ stubs/cpu-get-icount.c | 2 +-
+ stubs/notify-event.c   | 6 ------
+ stubs/Makefile.objs    | 1 -
+ 3 files changed, 1 insertion(+), 8 deletions(-)
+ delete mode 100644 stubs/notify-event.c
 
-diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-index 3c1da6a018..d8442aa9f0 100644
---- a/include/sysemu/cpus.h
-+++ b/include/sysemu/cpus.h
-@@ -11,9 +11,13 @@ void pause_all_vcpus(void);
- void cpu_stop_current(void);
- void cpu_ticks_init(void);
+diff --git a/stubs/cpu-get-icount.c b/stubs/cpu-get-icount.c
+index b35f844638..4578217fe2 100644
+--- a/stubs/cpu-get-icount.c
++++ b/stubs/cpu-get-icount.c
+@@ -17,5 +17,5 @@ int64_t cpu_get_icount_raw(void)
  
-+#if !defined(CONFIG_USER_ONLY)
- void configure_icount(QemuOpts *opts, Error **errp);
- extern int use_icount;
- extern int icount_align_option;
-+#else
-+#define use_icount false
-+#endif
- 
- /* drift information for info jit command */
- extern int64_t max_delay;
-diff --git a/exec.c b/exec.c
-index 6f381f98e2..a89ffa93c1 100644
---- a/exec.c
-+++ b/exec.c
-@@ -102,10 +102,6 @@ uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
- 
- #if !defined(CONFIG_USER_ONLY)
--/* 0 = Do not count executed instructions.
--   1 = Precise instruction counting.
--   2 = Adaptive rate instruction counting.  */
--int use_icount;
- 
- typedef struct PhysPageEntry PhysPageEntry;
- 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index a802e899ab..a4772034c0 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -81,6 +81,13 @@
- 
- #endif /* CONFIG_LINUX */
- 
-+/*
-+ * 0 = Do not count executed instructions.
-+ * 1 = Precise instruction counting.
-+ * 2 = Adaptive rate instruction counting.
-+ */
-+int use_icount;
-+
- static QemuMutex qemu_global_mutex;
- 
- int64_t max_delay;
+ void qemu_timer_notify_cb(void *opaque, QEMUClockType type)
+ {
+-    qemu_notify_event();
++    /* Nothing to do. */
+ }
+diff --git a/stubs/notify-event.c b/stubs/notify-event.c
+deleted file mode 100644
+index 827bb52d1a..0000000000
+--- a/stubs/notify-event.c
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+-
+-void qemu_notify_event(void)
+-{
+-}
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index d42046afe4..cb374c96db 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -12,7 +12,6 @@ stub-obj-y += isa-bus.o
+ stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
+ stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
+ stub-obj-y += monitor-core.o
+-stub-obj-y += notify-event.o
+ stub-obj-y += pci-bus.o
+ stub-obj-y += qmp_memory_device.o
+ stub-obj-y += qtest.o
 -- 
 2.21.3
 
