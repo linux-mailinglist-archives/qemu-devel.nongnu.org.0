@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887E323C4E7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 07:06:29 +0200 (CEST)
-Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E20223C4E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 07:07:26 +0200 (CEST)
+Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3BdE-0001AS-2R
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 01:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38288)
+	id 1k3Be9-00023J-Aw
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 01:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3BcU-0000kO-Jw
+ id 1k3BcU-0000kQ-PA
  for qemu-devel@nongnu.org; Wed, 05 Aug 2020 01:05:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38498)
+Received: from indium.canonical.com ([91.189.90.7]:38514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3BcS-0007PQ-G2
+ id 1k3BcS-0007Pm-JB
  for qemu-devel@nongnu.org; Wed, 05 Aug 2020 01:05:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3BcQ-0008Id-LK
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 05:05:38 +0000
+ id 1k3BcR-0008MS-GN
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 05:05:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9FF312E806D
- for <qemu-devel@nongnu.org>; Wed,  5 Aug 2020 05:05:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7756A2E806D
+ for <qemu-devel@nongnu.org>; Wed,  5 Aug 2020 05:05:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 Aug 2020 04:53:59 -0000
+Date: Wed, 05 Aug 2020 04:55:51 -0000
 From: Satheesh Rajendran <1890290@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: gkurz sathnaga
 X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
 X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
 References: <159655059319.10948.7356744312155765003.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159660323943.15395.18203706315591527414.malone@wampee.canonical.com>
+Message-Id: <159660335224.4373.14157656057421998528.malone@soybean.canonical.com>
 Subject: [Bug 1890290] Re: PowerPC L2(nested virt) kvm guest fails to boot
  with ic-mode=dual, kernel-irqchip=on - `KVM is too old to support ic-mode=dual,
  kernel-irqchip=on`
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9390ac6697175316743b0002754e88a4da9406ef
+X-Launchpad-Hash: 8fa600469f2c4714eb31226d6467a30ef71d8517
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:25:36
@@ -78,28 +78,9 @@ Reply-To: Bug 1890290 <1890290@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per this the table https://www.qemu.org/docs/master/specs/ppc-spapr-
-xive.html#kvm-negotiation
-
-reported qemu error msg "KVM is too old to support ic-mode=3Ddual,kernel-ir=
-qchip=3Don" indicates the
-guest os is legacy, but that's not the case here, whereas kernel levels are=
- near upstream which has support for xive.
-
-My understanding of the env I used as below
-
-Level | XIVE KVM support | XIVE support(in kernel or emulation)
---------------------------------------------------
- L0 | Yes | Yes
- L1 | No  | Yes(booted with irqchip: in-kernel)
- L2 | No  | Yes
-
-So, ideally when a L2 guest is started with ic-mode=3Ddual,kernel-irqchip=
-=3Don, we should have seen below error
-(2) QEMU fails with ``kernel_irqchip requested but unavailable:
-    IRQ_XIVE capability must be present for KVM``
-
-but we actually saw the reported one, which is misleading.
+this section of table in particular,
+https://www.qemu.org/docs/master/specs/ppc-spapr-xive.html#no-xive-
+support-in-kvm
 
 -- =
 
