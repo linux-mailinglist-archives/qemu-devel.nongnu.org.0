@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2560823C971
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:46:08 +0200 (CEST)
-Received: from localhost ([::1]:52444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846E223C946
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:35:55 +0200 (CEST)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3Fzr-00079V-7c
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:46:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34668)
+	id 1k3Fpy-0001vz-2E
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1k3Fye-0006Du-CH
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:44:52 -0400
-Received: from mga03.intel.com ([134.134.136.65]:51396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1k3Fyb-00070u-4V
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:44:51 -0400
-IronPort-SDR: kMOrjC0g5Pgjs6xSycX5MIz0crsHQqqGO1tZ+QIPbw+5M6uunILqhndCJT/M9HIGsPt5eWf83Z
- t8a9sMpGxMJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9703"; a="152468804"
-X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; d="scan'208";a="152468804"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2020 02:44:45 -0700
-IronPort-SDR: 7Rw+vlspXpYML9a63JeRkfX1j4VXbBA2Z/iOaMJP+a5uvKx+EoK1iNGHobBPgV7qCukX+dxwb7
- aq0Z2D68P5yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; d="scan'208";a="492766035"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga006.fm.intel.com with ESMTP; 05 Aug 2020 02:44:40 -0700
-Date: Wed, 5 Aug 2020 17:33:38 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200805093338.GC30485@joy-OptiPlex-7040>
-References: <20200721005113.GA10502@joy-OptiPlex-7040>
- <20200727072440.GA28676@joy-OptiPlex-7040>
- <20200727162321.7097070e@x1.home>
- <20200729080503.GB28676@joy-OptiPlex-7040>
- <20200804183503.39f56516.cohuck@redhat.com>
- <c178a0d3-269d-1620-22b1-9010f602d8ff@redhat.com>
- <20200805021654.GB30485@joy-OptiPlex-7040>
- <2624b12f-3788-7e2b-2cb7-93534960bcb7@redhat.com>
- <20200805075647.GB2177@nanopsycho>
- <eb1d01c2-fbad-36b6-10cf-9e03483a736b@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3Fow-0000qk-4M
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:34:50 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36388)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3Fou-0005m0-ET
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:34:49 -0400
+Received: by mail-oi1-x242.google.com with SMTP id l204so10261203oib.3
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 02:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=St1YfYYWsh60Fl2sbgBwDYlw7o9AnBMBdVT1RxVRkfY=;
+ b=vHJ0eXp9GszrjJPzaejUsmw+xnUNpDEOAD7EDOArvUY86nfFf693HFMVACX2t3uen7
+ N8U02nxIG0Gjwmm+DdjMPtb7GZdrVU30M/b1GQwU560vzg4nlAFOnsk5pIdTw/4pPBac
+ aIeihbUyvLpIz5uUDW77gY9cxt8OJmFNgoEvhYf5Xks5txgRrGJ4lX7GzZoDxSOc62Qp
+ 2Z5cKLecg0PLI51rW+794HJ3ooKrgWI41pX5k4cpTyRD5V1qsM+lv8/Bq5H2LA6kSVpF
+ jGX8gMFY2zCcGyoyJzttdzOkGmiMv207KNmxlA6OUrUqUwO01kLIYMypWgCVaVoXxnf5
+ MZTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=St1YfYYWsh60Fl2sbgBwDYlw7o9AnBMBdVT1RxVRkfY=;
+ b=qWr2WO8xStgaS8vO2KFuPtszWbQyAPRYOGnwLt3bWlcxXQ+/XvK40iFZLgPMym4vMn
+ LYg7ezZ6wTJFPGv9S7JgVUkAIkrd5Ir2EBoNgZeajnRB+4Iu3xa4iywOTgpj/ycWsRpF
+ 7vw9Bpi15IHjOpNVe7y3DOak7y5KyAYtelRjBcvoKwxzJGNPc9QQpN6jiCPqGP3z5inp
+ tdDGd53mYNUdVW80DVy/M0if4axXZ2mF86g74b05INNxBU+A49bL90qrozjxF/Um37HH
+ TXisHotOug1yGitU7wzvgblGXQrxcZXt229DezkL6TDdm5mPiCsO7C04Zviu5nxjYUz0
+ LY8w==
+X-Gm-Message-State: AOAM532c+ywifSCcyDnJPq0Oi9MyPf6fobSMiUZ8MgFoWTde3u2gfILQ
+ WqefFzrCZvbCOuxcJy5rutABUDw6r8t683s7xsgLkQ==
+X-Google-Smtp-Source: ABdhPJxvJnzxfRRmm/8cpEUBFSbuAdn0dgj9qMUummw8E4O4nusYuptGLq051GpWm6YCjaq4g61iD84d3EpD1h+Zwtk=
+X-Received: by 2002:aca:50c4:: with SMTP id e187mr1899266oib.146.1596620087012; 
+ Wed, 05 Aug 2020 02:34:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eb1d01c2-fbad-36b6-10cf-9e03483a736b@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=yan.y.zhao@intel.com;
- helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 05:44:45
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200803165409.15099-1-peter.maydell@linaro.org>
+ <6b9b926a-0a46-1660-9a85-bae29cd56cf9@linaro.org>
+In-Reply-To: <6b9b926a-0a46-1660-9a85-bae29cd56cf9@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 5 Aug 2020 10:34:35 +0100
+Message-ID: <CAFEAcA_HPkO7w7LJH1GoqPGPy-7hLUcCmZpDBjLzDcKUCmpaVQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Fix Rt/Rt2 in ESR_ELx for copro traps from
+ AArch32 to 64
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,172 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
- libvir-list@redhat.com, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, xin-ran.wang@intel.com, eskultet@redhat.com,
- openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, Parav Pandit <parav@mellanox.com>,
- jian-feng.ding@intel.com, dgilbert@redhat.com, zhenyuw@linux.intel.com,
- hejie.xu@intel.com, bao.yumeng@zte.com.cn,
- Alex Williamson <alex.williamson@redhat.com>, smooney@redhat.com,
- intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com, corbet@lwn.net,
- Jiri Pirko <jiri@mellanox.com>, dinechin@redhat.com, devel@ovirt.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 05, 2020 at 04:02:48PM +0800, Jason Wang wrote:
-> 
-> On 2020/8/5 下午3:56, Jiri Pirko wrote:
-> > Wed, Aug 05, 2020 at 04:41:54AM CEST, jasowang@redhat.com wrote:
-> > > On 2020/8/5 上午10:16, Yan Zhao wrote:
-> > > > On Wed, Aug 05, 2020 at 10:22:15AM +0800, Jason Wang wrote:
-> > > > > On 2020/8/5 上午12:35, Cornelia Huck wrote:
-> > > > > > [sorry about not chiming in earlier]
-> > > > > > 
-> > > > > > On Wed, 29 Jul 2020 16:05:03 +0800
-> > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > 
-> > > > > > > On Mon, Jul 27, 2020 at 04:23:21PM -0600, Alex Williamson wrote:
-> > > > > > (...)
-> > > > > > 
-> > > > > > > > Based on the feedback we've received, the previously proposed interface
-> > > > > > > > is not viable.  I think there's agreement that the user needs to be
-> > > > > > > > able to parse and interpret the version information.  Using json seems
-> > > > > > > > viable, but I don't know if it's the best option.  Is there any
-> > > > > > > > precedent of markup strings returned via sysfs we could follow?
-> > > > > > I don't think encoding complex information in a sysfs file is a viable
-> > > > > > approach. Quoting Documentation/filesystems/sysfs.rst:
-> > > > > > 
-> > > > > > "Attributes should be ASCII text files, preferably with only one value
-> > > > > > per file. It is noted that it may not be efficient to contain only one
-> > > > > > value per file, so it is socially acceptable to express an array of
-> > > > > > values of the same type.
-> > > > > > Mixing types, expressing multiple lines of data, and doing fancy
-> > > > > > formatting of data is heavily frowned upon."
-> > > > > > 
-> > > > > > Even though this is an older file, I think these restrictions still
-> > > > > > apply.
-> > > > > +1, that's another reason why devlink(netlink) is better.
-> > > > > 
-> > > > hi Jason,
-> > > > do you have any materials or sample code about devlink, so we can have a good
-> > > > study of it?
-> > > > I found some kernel docs about it but my preliminary study didn't show me the
-> > > > advantage of devlink.
-> > > 
-> > > CC Jiri and Parav for a better answer for this.
-> > > 
-> > > My understanding is that the following advantages are obvious (as I replied
-> > > in another thread):
-> > > 
-> > > - existing users (NIC, crypto, SCSI, ib), mature and stable
-> > > - much better error reporting (ext_ack other than string or errno)
-> > > - namespace aware
-> > > - do not couple with kobject
-> > Jason, what is your use case?
-> 
-> 
-> I think the use case is to report device compatibility for live migration.
-> Yan proposed a simple sysfs based migration version first, but it looks not
-> sufficient and something based on JSON is discussed.
-> 
-> Yan, can you help to summarize the discussion so far for Jiri as a
-> reference?
-> 
-yes.
-we are currently defining an device live migration compatibility
-interface in order to let user space like openstack and libvirt knows
-which two devices are live migration compatible.
-currently the devices include mdev (a kernel emulated virtual device)
-and physical devices (e.g.  a VF of a PCI SRIOV device).
+On Tue, 4 Aug 2020 at 21:38, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/3/20 9:54 AM, Peter Maydell wrote:
+> > +    case 14:
+> > +        switch (mode) {
+> > +        case ARM_CPU_MODE_USR:
+> > +        case ARM_CPU_MODE_SYS:
+> > +            return 14;
+> > +        case ARM_CPU_MODE_HYP:
+> > +            return 16;
+>
+> Hyp uses LR_usr...
+>
+> > +        case ARM_CPU_MODE_IRQ:
+> > +            return 18;
+> > +        case ARM_CPU_MODE_SVC:
+> > +            return 20;
+> > +        case ARM_CPU_MODE_ABT:
+> > +            return 22;
+> > +        case ARM_CPU_MODE_UND:
+> > +            return 24;
+>
+> ... making all of these off-by-2.
 
-the attributes we want user space to compare including
-common attribues:
-    device_api: vfio-pci, vfio-ccw...
-    mdev_type: mdev type of mdev or similar signature for physical device
-               It specifies a device's hardware capability. e.g.
-	       i915-GVTg_V5_4 means it's of 1/4 of a gen9 Intel graphics
-	       device.
-    software_version: device driver's version.
-               in <major>.<minor>[.bugfix] scheme, where there is no
-	       compatibility across major versions, minor versions have
-	       forward compatibility (ex. 1-> 2 is ok, 2 -> 1 is not) and
-	       bugfix version number indicates some degree of internal
-	       improvement that is not visible to the user in terms of
-	       features or compatibility,
+Yeah, this is the bug fixed in v2.
 
-vendor specific attributes: each vendor may define different attributes
-   device id : device id of a physical devices or mdev's parent pci device.
-               it could be equal to pci id for pci devices
-   aggregator: used together with mdev_type. e.g. aggregator=2 together
-               with i915-GVTg_V5_4 means 2*1/4=1/2 of a gen9 Intel
-	       graphics device.
-   remote_url: for a local NVMe VF, it may be configured with a remote
-               url of a remote storage and all data is stored in the
-	       remote side specified by the remote url.
-   ...
+> > +        case ARM_CPU_MODE_FIQ:
+> > +            return 30;
+> > +        default:
+> > +            g_assert_not_reached();
+> > +        }
+> > +    case 15:
+> > +        return 31;
+>
+> I don't see that R15 is mapped at all.  Is this really reachable?
 
-Comparing those attributes by user space alone is not an easy job, as it
-can't simply assume an equal relationship between source attributes and
-target attributes. e.g.
-for a source device of mdev_type=i915-GVTg_V5_4,aggregator=2, (1/2 of
-gen9), it actually could find a compatible device of
-mdev_type=i915-GVTg_V5_8,aggregator=4 (also 1/2 of gen9),
-if mdev_type of i915-GVTg_V5_4 is not available in the target machine.
+It is -- you can get Rt=0b1111 for MRC to APSR_nzcv (as well
+as for various UNPREDICTABLE MCR etc cases that will get trapped
+here that we have to do something sensible for). Rt=0b1111
+is mapped to 0b11111 in the pseudocode (see
+AArch64.AArch32SystemAccessTrapSyndrome()); it's just not
+documented in the text (yet) that this is the required behaviour.
 
-So, in our current proposal, we want to create two sysfs attributes
-under a device sysfs node.
-/sys/<path to device>/migration/self
-/sys/<path to device>/migration/compatible
-
-#cat /sys/<path to device>/migration/self
-device_type=vfio_pci
-mdev_type=i915-GVTg_V5_4
-device_id=8086591d
-aggregator=2
-software_version=1.0.0
-
-#cat /sys/<path to device>/migration/compatible
-device_type=vfio_pci
-mdev_type=i915-GVTg_V5_{val1:int:2,4,8}
-device_id=8086591d
-aggregator={val1}/2
-software_version=1.0.0
-
-The /sys/<path to device>/migration/self specifies self attributes of
-a device.
-The /sys/<path to device>/migration/compatible specifies the list of
-compatible devices of a device. as in the example, compatible devices
-could have
-	device_type == vfio_pci &&
-	device_id == 8086591d   &&
-	software_version == 1.0.0 &&
-        (
-	(mdev_type of i915-GVTg_V5_2 && aggregator==1) ||
-	(mdev_type of i915-GVTg_V5_4 && aggregator==2) ||
-	(mdev_type of i915-GVTg_V5_8 && aggregator=4)
-	)
-
-by comparing whether a target device is in compatible list of source
-device, the user space can know whether a two devices are live migration
-compatible.
-
-Additional notes:
-1)software_version in the compatible list may not be necessary as it
-already has a major.minor.bugfix scheme.
-2)for vendor attribute like remote_url, it may not be statically
-assigned and could be changed with a device interface.
-
-So, as Cornelia pointed that it's not good to use complex format in
-a sysfs attribute, we'd like to know whether there're other good ways to
-our use case, e.g. splitting a single attribute to multiple simple sysfs
-attributes as what Cornelia suggested or devlink that Jason has strongly
-recommended.
-
-Thanks
-Yan
-
-
-
+thanks
+-- PMM
 
