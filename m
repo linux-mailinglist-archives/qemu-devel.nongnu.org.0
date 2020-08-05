@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB61B23CC84
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 18:50:44 +0200 (CEST)
-Received: from localhost ([::1]:48738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1986D23CC93
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 18:53:14 +0200 (CEST)
+Received: from localhost ([::1]:53300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3Mcl-0008Ou-Tb
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 12:50:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57522)
+	id 1k3MfB-0002I4-5G
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 12:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k3Mb8-000739-Ri
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:49:02 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:40522)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3MeM-0001lS-6Y
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:52:22 -0400
+Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36]:40963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k3Mb7-0004MQ-0t
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:49:02 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id d4so4589088pjx.5
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 09:49:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3MeJ-0004nh-SU
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:52:21 -0400
+Received: by mail-oo1-xc36.google.com with SMTP id x6so2207125ooe.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 09:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2jkOLs2Fczrz+WeSwz9LcNBM209XPoRACV7oi+7U/TU=;
- b=Sv/nT8UtC1YzA1aHmoS35NwUydAHOa9cqhv9e32WO1wH3BBk9/zuGKExOfcc0tPGyv
- GhoT6I/xyle1TM74gqr69wkVIDLVcWPXcGdo6uRkYnVYxto++8mRS2TUIpqrzYRwdPYa
- AkWtXoc+nVIqpSh2smcAYnK3KBu+Oxd/ZZDVrTlX6Vq8snJIo6viBvXGF0kn7pC2R4Yu
- /WC7VcCcAuzNkwBPp+bS4XAvcqdMW9A9GgrF4Z54YMLhZsht7bOUQfIJGJb+jhl/0Kvc
- htDnJ51gSnmXk5ri1qUd89Up1Gg/sifr4iQwugZJosxkkAQXUnpZVIvtpTAWPH+/ybCl
- rRUg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wQZEdO6IRmBkW9gAD+QQA+Rxogg7RwJiDbXkcomON+A=;
+ b=PO/mKelEWXE/0m6tUMD1Nx0Qucvx9Rd/0E7vI9ZylOlCcAl0OS9fm2Qowph1/UQ23C
+ G/hPoaqPzVLiHl2fAtw5kA/ycdVunMy7UqrmpbGGNbuPcHVW6QFAMXF3MJW43NgKMCpx
+ nr08TVfOB4TI4Nc/HptDG7Am2G1TiOJnV/3Vz2286eNwX213Ru2bx4MbToKm2UFcAVHJ
+ i53P7BPjvNnHjI0fmrrWLEoKuQ9rYHSLi/gcmTz/sI4SoERw4tWpZKKLO6qn2RZCEcch
+ 6l1NCDsU7+hiP5rx6ZnzaJHrxVmNigBkvs8vHfy2hCvHBMPn+/kjQbXZq2GpsV0NyGqv
+ KPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2jkOLs2Fczrz+WeSwz9LcNBM209XPoRACV7oi+7U/TU=;
- b=CfYaB5Cp6hswz/Gygd0yd2SmzJzBAi/BcbeictjClJSvuYlJnNjCVGaTnu0yZtnlws
- 7vbtFhchUKimhKP/utI9btwMKd7R8+BBw1ULPWHE1x7EVKPQY9VGmXXnzz2mwoN3h/0W
- HpUAXLrb2nIHh19y8IpFJe9zJ5GRGzf2CZx5XrAmzdlvxYyiYeB5n7p8CKbikX1FgWbt
- vD3vsXOvIolLLmQ/HqhJmI2u3ZBC3vo3XEljF4MW8vwWxKnhR/uih9DK5Lwpc140qoKn
- u5zaC3ACJJ6p0RrBYLyN3rqqLD8QSAZRUbq7p4ncNP6QQoupIhqJasxYQJZRUPH7dJID
- jHqg==
-X-Gm-Message-State: AOAM533xpwuNOEMn4UFbVQpdMWjhchINNhcpiL5t2LLE1O4l84e522PR
- Ko6kcpT7KgO0s02rfaursCEAPQ==
-X-Google-Smtp-Source: ABdhPJwtnjFlbSNWyTmA2pscs9aUd5J286fWFCMlgTRyFurNZt6JibGWZXv5IyfyKfK1Vm6Wo65Xrw==
-X-Received: by 2002:a17:90b:94c:: with SMTP id
- dw12mr4175111pjb.214.1596646139414; 
- Wed, 05 Aug 2020 09:48:59 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q73sm3845350pjc.11.2020.08.05.09.48.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Aug 2020 09:48:58 -0700 (PDT)
-Subject: Re: [RFC v2 50/76] target/riscv: rvv-0.9: single-width saturating add
- and subtract instructions
-To: Frank Chang <frank.chang@sifive.com>
-References: <20200722091641.8834-1-frank.chang@sifive.com>
- <20200722091641.8834-51-frank.chang@sifive.com>
- <a9b14055-1e84-e8da-6901-4e3e863e121d@linaro.org>
- <CAE_xrPjg=AAeDVT5GbT0mQsxVQ-O6DaYnCzgaxxor6nMZWENEA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f89bc990-5458-05ec-b135-2cd0c6b1eb38@linaro.org>
-Date: Wed, 5 Aug 2020 09:48:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wQZEdO6IRmBkW9gAD+QQA+Rxogg7RwJiDbXkcomON+A=;
+ b=B1E+htCvchynNQMwa2Oza1o5wAjW/pcnYcPmPnaR/ngvysv4N4/HQbkp7yxcE4qPF3
+ ZZ9gqzUlPf5i59/Eg+d2LdQ2cANyewqSUdzcteJEQJjiGXozy39ZOgtCPVze2YSJ9Eh5
+ 1MaHoGwsnjfm1HAdd3sQKm01J3jQRPJ8RdIpcG6IKxn5J+4gbzwu2VuCqs9vMwJSx2LA
+ FlBws13e1vPoYu6EcYtj5otpLovBFPvmR2ADkGKxYhfRA2mdbf+anqFEBjw0wGfJSR5m
+ o/6+J4F/so/vWWpMUXIfV+IqzJWVP+U725d/vXos0db6O+S+MDUcDh9c5lMw2Kk4RJsr
+ ATdg==
+X-Gm-Message-State: AOAM532Lwo/bxyfvAzQUZ1W3NcO1NWzNiSvaYrInfSls6wlRgx9ZTqvf
+ LaoRU8SgAhjeE0qMx3wzEMmt1y5dlFH91HWmj34b9A==
+X-Google-Smtp-Source: ABdhPJzYcgspKiWF/vBeQhRU+5YCSCJ60GUsn6XpwXQJTOfPrVjsOpsKR5V3OvO9ynMOJ8XbAAjPELz5wrD9deUk6mM=
+X-Received: by 2002:a4a:8dc1:: with SMTP id a1mr3728104ool.69.1596646338406;
+ Wed, 05 Aug 2020 09:52:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAE_xrPjg=AAeDVT5GbT0mQsxVQ-O6DaYnCzgaxxor6nMZWENEA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+References: <CAFEAcA_6zbOfdVi+Tp18seaEy4don1GurVya+E+QXRGrZ_WVLg@mail.gmail.com>
+ <2c5ed9d8-6d79-1b53-5588-8fb9efebf0fa@linaro.org> <87tuxhkpo2.fsf@linaro.org>
+In-Reply-To: <87tuxhkpo2.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 5 Aug 2020 17:52:07 +0100
+Message-ID: <CAFEAcA8+acTg6KoBDW5-7FvnrW=vDMXohWfTAXtTFv6BDqyuRQ@mail.gmail.com>
+Subject: Re: v8.1M cpu emulation and target-arm feature-identification strategy
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc36.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,8 +67,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,26 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/20 7:40 PM, Frank Chang wrote:
->     This isn't what spike does.
-> 
->     The manual could really stand to be more specific here...
-> 
-> Isn't Spike's vsaddu.vi <http://vsaddu.vi> immediate value also signed-extended? 
-> /riscv/insns/vsaddu_vi.h:/
-> /vd = vs2 + (insn.v_simm5() & (UINT64_MAX >> (64 - P.VU.vsew))); /
+On Wed, 5 Aug 2020 at 17:45, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+> I wouldn't test other feature bits but what stopping us adding:
+>
+>     struct ARMISARegisters {
+>         uint32_t id_isar0;
+>         ...
+>         uint64_t id_aa64dfr1;
+>         /*
+>          * The following are synthetic flags for features not exposed to
+>          * the directly exposed to the guest but needed by QEMU's
+>          * feature detection.
+>          */
+>         bool v81m_lob;
+>     } isar;
 
-Whoops, quite right.  Masking to SEW, not (u)imm5.
+Nothing, except we already have a set of synthetic flags, that's
+what the ARM_FEATURE_* are...
 
+> That said we still seem to have a number of ARM_FEATURE flags, are we
+> hoping they all go away eventually?
 
-r~
+I think that they're a mixed bag. Some represent cleanups we
+haven't got round to doing yet (eg ARM_FEATURE_NEON, which would
+be a fair chunk of work, or ARM_FEATURE_PXN which would be pretty
+trivial to change to looking at ID_MMFR0.VMSA >=3D4). Some are
+features that pre-date the ID feature bit scheme and so might
+be awkward to convert (eg ARM_FEATURE_XSCALE). One or two
+we've already converted and just forgot to take out of the
+enum (eg ARM_FEATURE_CRC)...
+
+thanks
+-- PMM
 
