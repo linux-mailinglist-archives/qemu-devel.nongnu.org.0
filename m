@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5645723C970
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:46:05 +0200 (CEST)
-Received: from localhost ([::1]:52152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9057823C9AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:59:57 +0200 (CEST)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3Fzo-00071Y-DK
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34636)
+	id 1k3GDE-0002iD-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k3Fya-0006Am-3l
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:44:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36322
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3GBV-00019m-JA
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:58:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54952
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k3FyY-00070o-2u
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:44:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3GBS-0008St-7A
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:58:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596620685;
+ s=mimecast20190719; t=1596621484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zb5KxUrGvImBssm2BT3ZVy2Vf0v+WxPnapjazE+JgIo=;
- b=hHi169MXworZg67nFX7z85MiVphXZ71qSQ8DOg3m8PPUUB47CDj4GA8JIctPVkfCsuk+pq
- 5Z0xJbTYiGwqEobutuqwc+GRFW/A65u6XZFYBpPGxmycxKH5zqNbKAqbUrEoMpMAM5OICt
- qnfcElLQXL96WK+rRpWWKcpjOmui9uw=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Fc569LUqMn8GM7EcFsQCJVWEf24o3nz4h4YQ0E7RVws=;
+ b=Ql5TG0mvLElmWokKcDwDaDOvr4aK4zDzS42zacgLXnbzfPvplKmmaSsosYoxboCDGWg8wr
+ c0ejdrMrdh8FkVeZWViIdzxcdMVBuxoiFU4S4UTynwwHThLaJElbmH5kO0qJE5G/jnIzI4
+ vAOcX6Z5lvfahghd2wwloGp+/JHcids=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-nZZ3dcD_N1SEgD8P21T3kw-1; Wed, 05 Aug 2020 05:44:41 -0400
-X-MC-Unique: nZZ3dcD_N1SEgD8P21T3kw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-39-Iut4aMXwMcuPJ3BQjv_YaQ-1; Wed, 05 Aug 2020 05:58:00 -0400
+X-MC-Unique: Iut4aMXwMcuPJ3BQjv_YaQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48726101C8A0;
- Wed,  5 Aug 2020 09:44:39 +0000 (UTC)
-Received: from work-vm (ovpn-114-87.ams2.redhat.com [10.36.114.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDBE760BF3;
- Wed,  5 Aug 2020 09:44:25 +0000 (UTC)
-Date: Wed, 5 Aug 2020 10:44:23 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200805094423.GB3004@work-vm>
-References: <20200717101258.65555978@x1.home>
- <20200721005113.GA10502@joy-OptiPlex-7040>
- <20200727072440.GA28676@joy-OptiPlex-7040>
- <20200727162321.7097070e@x1.home>
- <20200729080503.GB28676@joy-OptiPlex-7040>
- <e8a973ea0bb2bc3eb15649fb1c44599ae3509e84.camel@redhat.com>
- <20200729131255.68730f68@x1.home>
- <20200730034104.GB32327@joy-OptiPlex-7040>
- <20200730112930.6f4c5762@x1.home>
- <20200804083708.GA30485@joy-OptiPlex-7040>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D87D1009639;
+ Wed,  5 Aug 2020 09:57:59 +0000 (UTC)
+Received: from thuth.com (ovpn-112-142.ams2.redhat.com [10.36.112.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B15802DE77;
+ Wed,  5 Aug 2020 09:57:57 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/6] Improve gitlab-CI and fix a compiler warning
+Date: Wed,  5 Aug 2020 11:57:49 +0200
+Message-Id: <20200805095755.16414-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200804083708.GA30485@joy-OptiPlex-7040>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 01:46:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -87,175 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
- openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, eskultet@redhat.com, jian-feng.ding@intel.com,
- zhenyuw@linux.intel.com, hejie.xu@intel.com, bao.yumeng@zte.com.cn,
- Alex Williamson <alex.williamson@redhat.com>, Sean Mooney <smooney@redhat.com>,
- intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com, cohuck@redhat.com,
- dinechin@redhat.com, devel@ovirt.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Yan Zhao (yan.y.zhao@intel.com) wrote:
-> > > yes, include a device_api field is better.
-> > > for mdev, "device_type=vfio-mdev", is it right?
-> > 
-> > No, vfio-mdev is not a device API, it's the driver that attaches to the
-> > mdev bus device to expose it through vfio.  The device_api exposes the
-> > actual interface of the vfio device, it's also vfio-pci for typical
-> > mdev devices found on x86, but may be vfio-ccw, vfio-ap, etc...  See
-> > VFIO_DEVICE_API_PCI_STRING and friends.
-> > 
-> ok. got it.
-> 
-> > > > > > 	device_id=8086591d  
-> > > > 
-> > > > Is device_id interpreted relative to device_type?  How does this
-> > > > relate to mdev_type?  If we have an mdev_type, doesn't that fully
-> > > > defined the software API?
-> > > >   
-> > > it's parent pci id for mdev actually.
-> >
-> > If we need to specify the parent PCI ID then something is fundamentally
-> > wrong with the mdev_type.  The mdev_type should define a unique,
-> > software compatible interface, regardless of the parent device IDs.  If
-> > a i915-GVTg_V5_2 means different things based on the parent device IDs,
-> > then then different mdev_types should be reported for those parent
-> > devices.
-> >
-> hmm, then do we allow vendor specific fields?
-> or is it a must that a vendor specific field should have corresponding
-> vendor attribute?
-> 
-> another thing is that the definition of mdev_type in GVT only corresponds
-> to vGPU computing ability currently,
-> e.g. i915-GVTg_V5_2, is 1/2 of a gen9 IGD, i915-GVTg_V4_2 is 1/2 of a
-> gen8 IGD.
-> It is too coarse-grained to live migration compatibility.
+ Hi Peter,
 
-Can you explain why that's too coarse?
+the following changes since commit fd3cd581f9dcd11286daacaa5272e721c65aece8:
 
-Is this because it's too specific (i.e. that a i915-GVTg_V4_2 could be
-migrated to a newer device?), or that it's too specific on the exact
-sizings (i.e. that there may be multiple different sizes of a gen9)?
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200804' into staging (2020-08-04 18:20:32 +0100)
 
-Dave
+are available in the Git repository at:
 
-> Do you think we need to update GVT's definition of mdev_type?
-> And is there any guide in mdev_type definition?
-> 
-> > > > > > 	mdev_type=i915-GVTg_V5_2  
-> > > > 
-> > > > And how are non-mdev devices represented?
-> > > >   
-> > > non-mdev can opt to not include this field, or as you said below, a
-> > > vendor signature. 
-> > > 
-> > > > > > 	aggregator=1
-> > > > > > 	pv_mode="none+ppgtt+context"  
-> > > > 
-> > > > These are meaningless vendor specific matches afaict.
-> > > >   
-> > > yes, pv_mode and aggregator are vendor specific fields.
-> > > but they are important to decide whether two devices are compatible.
-> > > pv_mode means whether a vGPU supports guest paravirtualized api.
-> > > "none+ppgtt+context" means guest can not use pv, or use ppgtt mode pv or
-> > > use context mode pv.
-> > > 
-> > > > > > 	interface_version=3  
-> > > > 
-> > > > Not much granularity here, I prefer Sean's previous
-> > > > <major>.<minor>[.bugfix] scheme.
-> > > >   
-> > > yes, <major>.<minor>[.bugfix] scheme may be better, but I'm not sure if
-> > > it works for a complicated scenario.
-> > > e.g for pv_mode,
-> > > (1) initially,  pv_mode is not supported, so it's pv_mode=none, it's 0.0.0,
-> > > (2) then, pv_mode=ppgtt is supported, pv_mode="none+ppgtt", it's 0.1.0,
-> > > indicating pv_mode=none can migrate to pv_mode="none+ppgtt", but not vice versa.
-> > > (3) later, pv_mode=context is also supported,
-> > > pv_mode="none+ppgtt+context", so it's 0.2.0.
-> > > 
-> > > But if later, pv_mode=ppgtt is removed. pv_mode="none+context", how to
-> > > name its version? "none+ppgtt" (0.1.0) is not compatible to
-> > > "none+context", but "none+ppgtt+context" (0.2.0) is compatible to
-> > > "none+context".
-> > 
-> > If pv_mode=ppgtt is removed, then the compatible versions would be
-> > 0.0.0 or 1.0.0, ie. the major version would be incremented due to
-> > feature removal.
-> >  
-> > > Maintain such scheme is painful to vendor driver.
-> > 
-> > Migration compatibility is painful, there's no way around that.  I
-> > think the version scheme is an attempt to push some of that low level
-> > burden on the vendor driver, otherwise the management tools need to
-> > work on an ever growing matrix of vendor specific features which is
-> > going to become unwieldy and is largely meaningless outside of the
-> > vendor driver.  Instead, the vendor driver can make strategic decisions
-> > about where to continue to maintain a support burden and make explicit
-> > decisions to maintain or break compatibility.  The version scheme is a
-> > simplification and abstraction of vendor driver features in order to
-> > create a small, logical compatibility matrix.  Compromises necessarily
-> > need to be made for that to occur.
-> >
-> ok. got it.
-> 
-> > > > > > COMPATIBLE:
-> > > > > > 	device_type=pci
-> > > > > > 	device_id=8086591d
-> > > > > > 	mdev_type=i915-GVTg_V5_{val1:int:1,2,4,8}    
-> > > > > this mixed notation will be hard to parse so i would avoid that.  
-> > > > 
-> > > > Some background, Intel has been proposing aggregation as a solution to
-> > > > how we scale mdev devices when hardware exposes large numbers of
-> > > > assignable objects that can be composed in essentially arbitrary ways.
-> > > > So for instance, if we have a workqueue (wq), we might have an mdev
-> > > > type for 1wq, 2wq, 3wq,... Nwq.  It's not really practical to expose a
-> > > > discrete mdev type for each of those, so they want to define a base
-> > > > type which is composable to other types via this aggregation.  This is
-> > > > what this substitution and tagging is attempting to accomplish.  So
-> > > > imagine this set of values for cases where it's not practical to unroll
-> > > > the values for N discrete types.
-> > > >   
-> > > > > > 	aggregator={val1}/2  
-> > > > 
-> > > > So the {val1} above would be substituted here, though an aggregation
-> > > > factor of 1/2 is a head scratcher...
-> > > >   
-> > > > > > 	pv_mode={val2:string:"none+ppgtt","none+context","none+ppgtt+context"}  
-> > > > 
-> > > > I'm lost on this one though.  I think maybe it's indicating that it's
-> > > > compatible with any of these, so do we need to list it?  Couldn't this
-> > > > be handled by Sean's version proposal where the minor version
-> > > > represents feature compatibility?  
-> > > yes, it's indicating that it's compatible with any of these.
-> > > Sean's version proposal may also work, but it would be painful for
-> > > vendor driver to maintain the versions when multiple similar features
-> > > are involved.
-> > 
-> > This is something vendor drivers need to consider when adding and
-> > removing features.
-> > 
-> > > > > > 	interface_version={val3:int:2,3}  
-> > > > 
-> > > > What does this turn into in a few years, 2,7,12,23,75,96,...
-> > > >   
-> > > is a range better?
-> > 
-> > I was really trying to point out that sparseness becomes an issue if
-> > the vendor driver is largely disconnected from how their feature
-> > addition and deprecation affects migration support.  Thanks,
-> >
-> ok. we'll use the x.y.z scheme then.
-> 
-> Thanks
-> Yan
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-08-05
+
+for you to fetch changes up to d2a71d7474d4649eabe554994a3fcba75244cce3:
+
+  Get rid of the libqemustub.a remainders (2020-08-05 11:45:43 +0200)
+
+(I know it's late in the 5.1 cycle, feel free to ignore this if it's
+too much for 5.1)
+
+----------------------------------------------------------------
+* Test rx-softmmu, avr-softmmu, Centos7 and Debian on gitlab-CI
+* Fix compiler warning on 32-bit big endian systems
+* Remove remainders of libqemustub.a
+----------------------------------------------------------------
+
+Thomas Huth (6):
+      tests/docker: Add python3-venv and netcat to the debian-amd64 container
+      tests/acceptance: Disable the rx sash and arm cubieboard replay test on Gitlab
+      gitlab-ci.yml: Add build-system-debian and build-system-centos jobs
+      gitlab-ci: Fix Avocado cache usage
+      target/riscv/vector_helper: Fix build on 32-bit big endian hosts
+      Get rid of the libqemustub.a remainders
+
+ .gitlab-ci.yml                               | 109 ++++++++++++++++++++++-----
+ Makefile                                     |   2 +-
+ scripts/coverity-scan/run-coverity-scan      |   3 -
+ target/riscv/vector_helper.c                 |   4 +-
+ tests/acceptance/machine_rx_gdbsim.py        |   4 +
+ tests/acceptance/replay_kernel.py            |   1 +
+ tests/docker/dockerfiles/debian-amd64.docker |   4 +-
+ tests/test-util-sockets.c                    |   3 +-
+ 8 files changed, 103 insertions(+), 27 deletions(-)
 
 
