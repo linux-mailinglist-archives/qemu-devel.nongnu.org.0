@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4B323CBB2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 17:22:10 +0200 (CEST)
-Received: from localhost ([::1]:45024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F1323CBB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 17:28:18 +0200 (CEST)
+Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3LF2-0006SD-V6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 11:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
+	id 1k3LKz-0001Aj-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 11:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3LED-0005eW-Bm
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 11:21:17 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37463)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k3LJN-0000O0-6D
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 11:26:37 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3LEB-0000qj-Ac
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 11:21:17 -0400
-Received: by mail-ot1-x343.google.com with SMTP id e11so9417135otk.4
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 08:21:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k3LJI-0001qC-Ae
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 11:26:36 -0400
+Received: by mail-pg1-x542.google.com with SMTP id p3so24619994pgh.3
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 08:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nQKTQ2ldAmHgZgOMUMVEFx96SpQ5qa7tphPMc7pv7zU=;
- b=NMDOHAR5bLxiwla3TjfnBmCVMnymEvRReycPKgHrhwTijpgKfsR+77RsmPfdS6XNfs
- jvX3aPYWGyjAHRhzJTxohnTZXzI7Lrd6Q2qMcSXREzF1A6rly3Ld5prD13cXykzHJvJX
- e9KzW7Rf0VZZRWCGDB7p+UyjMGOa33MwcJq5X82sKlA34sMU45WUsvrzDWQBOkBSwxM6
- cPO/lw3J5bIQ6upkksiZCaMklvvgML7fIR/ms22jbm4wQj1F5Cc2XjTH8Vqaz0cf2YaJ
- QOeJi5vmskwtIq6FGVMn+/GnB5VLeMTDqtNE9wYgfCsaRPFG0EOHIIbMmr0t1LkviO1Y
- zSwg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FzwtIdvDao/Wvsd9e4q80GAM7pBf7kP6S9fuZyiSD+c=;
+ b=RA7jsveZyKVivvn/CSv7ZEGTYu5DvJ+2Vr4wcD7UbQ9XJCu5vCJyCu+vf6KlCbxQms
+ Ch3U5PHAC8dz5/+ZdzDj2hJryJ3qiScMrcFtm6N+ScxqpIMmlvcWUwFNvNUsjtjSlf/W
+ M88R+dTGB4g2ZXHJelTUqygjMTdjW+ttpIn5D5E3QonMy+AW/brXB9eO7rnHFOyp1iNJ
+ Bp42Qd4NWUEz5ZKFjNnWO50vbSTOIt3HeVFE+mZnVG048CHCt5mPjPVRWMRuH7aik4Pz
+ 4JBli1iI9AoL2n6cjZ3hj2Ko8PB2uA6zgdi7PU1q8QKcaVV54TpmpjvzzDuKDjYZwlhP
+ A11g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nQKTQ2ldAmHgZgOMUMVEFx96SpQ5qa7tphPMc7pv7zU=;
- b=bNE4YBUjrwv23RlExMn4yYNqEfko1k4EUjGePgfkFaMipcmR6CKoN0P8Xt+KnVAP49
- BQqJqTbntASeOB2gUJkA1kOArXCOMIZHu8YmQbZjwxdLA1CtX8FoWOA5BmTEn60hzGeJ
- yHdmGmVPLZ2U2CetvTYq9dA5M9u9QajZRTn8Ld3me+jTd7J2rvBxEm1mOmkXws2IlbkA
- 9XyECtMQgaNc8QejPcwZOaNN3JesYjlNDxgbyW42+AJ9Sbo2lxmUu+XEF0+8KQZ/Fa1W
- 1eP+G+P+dRGqCYZc4GPfNGyKOpoD+MwxET7SxVyE5y7/LAyn0+Hlo7nN9CkV0HaAm59A
- rtDw==
-X-Gm-Message-State: AOAM531YrSJJkwCKAKTQONgvzsziVcc4zGZFCD0auu+8gwHwJgI13dwd
- rTqY5MvLYlGckVIgEGvwUcS+LiklhzO+PcrAcnfqmw==
-X-Google-Smtp-Source: ABdhPJyJq53MsdWIrlA8SSxqdejIr72Q1x8edMxb+S2dnhx9qzP6f9BdAnS+SYoxsDBqk8MqGP8d2w7LmvatDHsgPto=
-X-Received: by 2002:a9d:39c2:: with SMTP id y60mr3099162otb.91.1596640874106; 
- Wed, 05 Aug 2020 08:21:14 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FzwtIdvDao/Wvsd9e4q80GAM7pBf7kP6S9fuZyiSD+c=;
+ b=T3jTDimoo+pCy/5YAOb06vZG1zbr3nAcV48+TzSF2k3bet5wXmVQcvyoRcNtOWeuD3
+ H7pxxYxr/7RC233xsxVzrjpjfoplbYptUNJiy/KbXkamO9vr6VcaMYBn39z57Q5BBlf7
+ /tqoCPJp7Fw8wV+xX0ASgF/AfBOnTavLBCjuhIuNuoOe7I1aKThE6YZWH1E0tMavsCmI
+ YliCJj3Aik12hz8QX0Pe87fwYBH+Q098A2m3bxpDRI/7PRIdmpcRhVGbQS2SW92WZnEB
+ KQByxd23QJkZFjnylmuTXB3+H2KVaSVoyxJDbGQjhUJukEj5Iw0WmHvPWYGhXkVQHkrg
+ GMNw==
+X-Gm-Message-State: AOAM532qMHU7GfGVeNeXmbqRRbMNeHxdYuS1tpMU6IXJLaCq6q/tYVLi
+ +9mZgmT03knrwxsRSG9srmQuCw==
+X-Google-Smtp-Source: ABdhPJyYkBlpsT+XdjumtReobUGBQh/vG7KEcEVIWWHPJ5qnyfC0aoguimYT2rfPhe08KwQQFA2oGQ==
+X-Received: by 2002:a63:9246:: with SMTP id s6mr3350195pgn.22.1596641190676;
+ Wed, 05 Aug 2020 08:26:30 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id mh14sm3396545pjb.23.2020.08.05.08.26.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Aug 2020 08:26:29 -0700 (PDT)
+Subject: Re: [PATCH v2 for-5.1?] target/arm: Fix Rt/Rt2 in ESR_ELx for copro
+ traps from AArch32 to 64
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200804193903.31240-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e710d6bb-564d-88bb-aa60-894ddc1280c8@linaro.org>
+Date: Wed, 5 Aug 2020 08:26:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <81ba90fe0c014f269621c283269b42ad@h3c.com>
-In-Reply-To: <81ba90fe0c014f269621c283269b42ad@h3c.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 5 Aug 2020 16:21:02 +0100
-Message-ID: <CAFEAcA_kTE3eS6wR+ccywTVajSTkgTksZ=YtbNK0znq5btwOHg@mail.gmail.com>
-Subject: Re: [PATCH] qcow2-cluster: Fix integer left shift error in
- qcow2_alloc_cluster_link_l2()
-To: Tuguoyi <tu.guoyi@h3c.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+In-Reply-To: <20200804193903.31240-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -66,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Chengchiwen <chengchiwen@h3c.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>, Gaoliang <liang_gao@h3c.com>,
- Wangyong <wang.yongD@h3c.com>
+Cc: Marc Zyngier <maz@kernel.org>, Julien Freche <julien@bedrocksystems.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 Aug 2020 at 10:24, Tuguoyi <tu.guoyi@h3c.com> wrote:
->
-> When calculating the offset, the result of left shift operation will be promoted
-> to type int64 automatically because the left operand of + operator is uint64_t.
-> but the result after integer promotion may be produce an error value for us and
-> trigger the following asserting error.
->
-> For example, consider i=0x2000, cluster_bits=18, the result of left shift
-> operation will be 0x80000000. Cause argument i is of signed integer type,
-> the result is automatically promoted to 0xffffffff80000000 which is not
-> we expected
->
-> The way to trigger the assertion error:
->   qemu-img create -f qcow2 -o preallocation=full,cluster_size=256k tmpdisk 10G
->
-> This patch fix it by casting @i to uint64_t before doing left shift operation
->
-> Signed-off-by: Guoyi Tu <tu.guoyi@h3c.com>
+On 8/4/20 12:39 PM, Peter Maydell wrote:
+> When a coprocessor instruction in an  AArch32 guest traps to AArch32
+> Hyp mode, the syndrome register (HSR) includes Rt and Rt2 fields
+> which are simply copies of the Rt and Rt2 fields from the trapped
+> instruction.  However, if the instruction is trapped from AArch32 to
+> an AArch64 higher exception level, the Rt and Rt2 fields in the
+> syndrome register (ESR_ELx) must be the AArch64 view of the register.
+> This makes a difference if the AArch32 guest was in a mode other than
+> User or System and it was using r13 or r14, or if it was in FIQ mode
+> and using r8-r14.
+> 
+> We don't know at translate time which AArch32 CPU mode we are in, so
+> we leave the values we generate in our prototype syndrome register
+> value at translate time as the raw Rt/Rt2 from the instruction, and
+> instead correct them to the AArch64 view when we find we need to take
+> an exception from AArch32 to AArch64 with one of these syndrome
+> values.
+> 
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1879587
+> Reported-by: Julien Freche <julien@bedrocksystems.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
 
-Applied to master, thanks.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- PMM
+
+r~
 
