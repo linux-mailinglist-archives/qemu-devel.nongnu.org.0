@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6F923CE7F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:26:54 +0200 (CEST)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E73423CE40
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:22:31 +0200 (CEST)
+Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3O7p-0002ip-VS
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49860)
+	id 1k3O3a-0003vQ-40
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nyh-0004F7-39
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:27 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35710)
+ id 1k3Nyj-0004KP-Fn
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:29 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nyf-0006TU-2K
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:26 -0400
-Received: by mail-pl1-x644.google.com with SMTP id r4so15134267pls.2
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:24 -0700 (PDT)
+ id 1k3Nyh-0006Tj-JI
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:29 -0400
+Received: by mail-pl1-x642.google.com with SMTP id g19so13194188plq.0
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sPSOE7FlbJqSNOCq29FKQeTA9v1eH7Mn/6Yq8WOQ91Q=;
- b=kXpbP+C2n9auaXiYPp+Eepc+/rRmw8U+C30wKtE2ujwOqJQ42A5YToUA29b835eoOm
- NlCqlIgtLVJ9DkqYSuGUaUlQfKH8pCwTkvKrRX2CvNXpH26YOsMSDtzvJ4f+rdthJkeQ
- w91ZUKT0reTrfrDWByWFl/Fmgu+xGROindsnV1xOI1B/aIWeXGwU5L/kMGEyd7lv/jCl
- TAyRCW99BtjAWsMnEoavx3aoHZfPvBttjDEc34wa5nR+cbpB4Drxv+2uJjGVhc64cXNr
- Q0v587VqLJj8Zk5Lo203XbczOIUpjEruNmb97Nwxb+jeHXjvhBfg/YA1XKwXiLMMtJ7D
- Lf9w==
+ bh=sAMCBrWOlvhWHRQfoPG7nat7D/DsWHPnezgCzgjj800=;
+ b=pgFeFCV28gv4EmomjDuouj08WrzlGGVyl4HrPVq1A3OBVWQzCKx+H0SQ2lKMKrK4qB
+ iYDKiZEQZyN+dAjIVCioY7q3XGkOccA7zxrTa6Ja65AOxlrmsc5OL/tjdRMEp9v3GVT0
+ WuSLnKaAEzF08yAqcEH4H9lnkDmoEOznYUMkkpbvBphq/d+/Rs1s55MVY8dea7f7GgoB
+ Fmr9G3RH4BoP9n2JxESNitGRDzFpmBz1kktdOYn+r/Q6X1ycGAnwoMrKmXJdPvGhx+FD
+ /SqQeV2GwaYLI6bDeG6luXUT56l7fT4xHIv0eTPhUr8WPaW4+iY2brd7k0A1RGXQ+6ee
+ ViGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=sPSOE7FlbJqSNOCq29FKQeTA9v1eH7Mn/6Yq8WOQ91Q=;
- b=sg0DwxdiQLWqyR1LF5A4MNttmeXVP/tlcNHNsQJI1MrXxjTcM0sAQoKY22Ze9qgSUz
- xOPD3PuY1xrkEWHz1p5ciw/C66repThQ5miwXjRpbvK6gRYdSZmHyWUhIazsj7TBJFnA
- yTuTJ2elZfwu5Rb8iw9FQsvsixc7kwFU5APCKATiVbKMsBSiVOoeCRoKxRHS4562me3G
- 97A+mVTV2dqOle/k8VuWqeNnzLGtG3+GKbjVyfaY30aIKTmSLsmev0KF9yjnoPNetPbg
- lwkJuP6s8g/RlLJOCH1HRpebXnmG5nHpH5hWWBijacfsfE3Krq5306ET9jPzl9ksBAgy
- qQFQ==
-X-Gm-Message-State: AOAM533ox/ymzTXZQdwsYzvjfTYDFx1VHpqLsPKgXdVNhbrEdsn+0iC0
- HD64c7c+zEPuQLMwuqpn8klhVy52xA4=
-X-Google-Smtp-Source: ABdhPJw57bBafTcrbeEn9KTju0Fby9+jOLCrQjaT0w6KEmbO2yygSwn+uonyHxDc68CyPrMYV9U/Jw==
-X-Received: by 2002:a17:902:a607:: with SMTP id
- u7mr4360104plq.45.1596651443512; 
- Wed, 05 Aug 2020 11:17:23 -0700 (PDT)
+ bh=sAMCBrWOlvhWHRQfoPG7nat7D/DsWHPnezgCzgjj800=;
+ b=mQBpVQu6GB491I14rxRgY7M0kYi3IlbnNGy8s7/Fom/lHfB7Et9+Rl48/sQLvrgMIj
+ YSYEF5yt1xSxG2bgt3B+DsmUyqkmuVwShuu0XIBLHiBDSLItV3z36dxOboUoh9xydBQl
+ ZMq8/IsXcO+UtSsu6CQ7cZpRIiqerEqRVBZHjojv+BnzxKcYM2+qv1hr+ZUm74sM/Ho0
+ JtkTgENo/EvzZBMkHFGHEveUJL4l/30red/hnkYrbO+PcUcGCU62hctrfdmaCIHOsUVr
+ YTXJj8paEC+vDHiYgnImUcnkgRVdOaHB4GiWdC29ZnQIxLwv8FhaIbbTDql1uyX9jzu3
+ JRvg==
+X-Gm-Message-State: AOAM532wOidjrJM3tV1erUAHb6dovTY9kyRLn3QYiqoSB9ZIP/24caol
+ QTtZwVarLpy//viGcBESynvdUoj00s8=
+X-Google-Smtp-Source: ABdhPJzDneRVJGQlpi0AXr3Q4Oqc1LhHMlOzGzmZ8ep7wXdXwe09mymA12VoEfGNS62OZGhR6C8+vg==
+X-Received: by 2002:a17:902:7d84:: with SMTP id
+ a4mr4286651plm.44.1596651445773; 
+ Wed, 05 Aug 2020 11:17:25 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:38ab:50b1:ff8a:26ef])
- by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.21
+ by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:17:22 -0700 (PDT)
+ Wed, 05 Aug 2020 11:17:25 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 08/21] target/lm32: add BQL to do_interrupt and
+Subject: [PATCH v1 09/21] target/m68k: add BQL to do_interrupt and
  cpu_exec_interrupt
-Date: Wed,  5 Aug 2020 14:12:50 -0400
-Message-Id: <20200805181303.7822-9-robert.foley@linaro.org>
+Date: Wed,  5 Aug 2020 14:12:51 -0400
+Message-Id: <20200805181303.7822-10-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200805181303.7822-1-robert.foley@linaro.org>
 References: <20200805181303.7822-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=robert.foley@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=robert.foley@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,7 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Michael Walle <michael@walle.cc>, cota@braap.org,
+Cc: robert.foley@linaro.org, Laurent Vivier <laurent@vivier.eu>, cota@braap.org,
  peter.puhov@linaro.org, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -108,42 +108,35 @@ https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/lm32/helper.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/m68k/op_helper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/lm32/helper.c b/target/lm32/helper.c
-index 1130fc8884..4439b06ecc 100644
---- a/target/lm32/helper.c
-+++ b/target/lm32/helper.c
-@@ -152,6 +152,10 @@ void lm32_cpu_do_interrupt(CPUState *cs)
- {
-     LM32CPU *cpu = LM32_CPU(cs);
-     CPULM32State *env = &cpu->env;
-+    bool bql = !qemu_mutex_iothread_locked();
-+    if (bql) {
-+        qemu_mutex_lock_iothread();
-+    }
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 4a032a150e..0c3333476a 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -448,7 +448,9 @@ void m68k_cpu_do_interrupt(CPUState *cs)
+     M68kCPU *cpu = M68K_CPU(cs);
+     CPUM68KState *env = &cpu->env;
  
-     qemu_log_mask(CPU_LOG_INT,
-             "exception at pc=%x type=%x\n", env->pc, cs->exception_index);
-@@ -196,18 +200,24 @@ void lm32_cpu_do_interrupt(CPUState *cs)
-                   cs->exception_index);
-         break;
-     }
-+    if (bql) {
-+        qemu_mutex_unlock_iothread();
-+    }
++    qemu_mutex_lock_iothread();
+     do_interrupt_all(env, 0);
++    qemu_mutex_unlock_iothread();
  }
  
- bool lm32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ static inline void do_interrupt_m68k_hardirq(CPUM68KState *env)
+@@ -508,6 +510,7 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
-     LM32CPU *cpu = LM32_CPU(cs);
-     CPULM32State *env = &cpu->env;
+     M68kCPU *cpu = M68K_CPU(cs);
+     CPUM68KState *env = &cpu->env;
 +    qemu_mutex_lock_iothread();
  
-     if ((interrupt_request & CPU_INTERRUPT_HARD) && (env->ie & IE_IE)) {
-         cs->exception_index = EXCP_IRQ;
-         lm32_cpu_do_interrupt(cs);
+     if (interrupt_request & CPU_INTERRUPT_HARD
+         && ((env->sr & SR_I) >> SR_I_SHIFT) < env->pending_level) {
+@@ -519,8 +522,10 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+          */
+         cs->exception_index = env->pending_vector;
+         do_interrupt_m68k_hardirq(env);
 +        qemu_mutex_unlock_iothread();
          return true;
      }
