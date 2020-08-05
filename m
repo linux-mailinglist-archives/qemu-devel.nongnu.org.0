@@ -2,79 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277AA23C36C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 04:23:36 +0200 (CEST)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3932723C38A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 04:40:15 +0200 (CEST)
+Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k395a-0000sb-M6
-	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 22:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
+	id 1k39Lh-0005dS-P1
+	for lists+qemu-devel@lfdr.de; Tue, 04 Aug 2020 22:40:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k394q-0000SX-2U
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 22:22:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60142
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k394n-0001lP-Sh
- for qemu-devel@nongnu.org; Tue, 04 Aug 2020 22:22:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596594164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=brvuOtXy+L7Dz9s43GrQwnnfbEFFwpeLPvBNMPPwy+g=;
- b=GB6WUGVhJjdI7TRgj8AkYgGnnkIAVip5MHgKqRM3azGgeLCkKAMSlJKTimVLN5R8E8JjiG
- SeU80d+nS2fRiAnJACAFjkUiz9LQyoIIMN+huujIjdMPEWTz++4iEkJ9y8r8iYH+OcWgz2
- fY9w/lM9j8R57DPWDk/hshyM6hZfsFc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-s2FpGy-zML-YABoViCCMlQ-1; Tue, 04 Aug 2020 22:22:40 -0400
-X-MC-Unique: s2FpGy-zML-YABoViCCMlQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E19518FF662;
- Wed,  5 Aug 2020 02:22:38 +0000 (UTC)
-Received: from [10.72.13.71] (ovpn-13-71.pek2.redhat.com [10.72.13.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA2238AC05;
- Wed,  5 Aug 2020 02:22:16 +0000 (UTC)
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-To: Cornelia Huck <cohuck@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>
-References: <20200713232957.GD5955@joy-OptiPlex-7040>
- <9bfa8700-91f5-ebb4-3977-6321f0487a63@redhat.com>
- <20200716083230.GA25316@joy-OptiPlex-7040> <20200717101258.65555978@x1.home>
- <20200721005113.GA10502@joy-OptiPlex-7040>
- <20200727072440.GA28676@joy-OptiPlex-7040> <20200727162321.7097070e@x1.home>
- <20200729080503.GB28676@joy-OptiPlex-7040>
- <20200804183503.39f56516.cohuck@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <c178a0d3-269d-1620-22b1-9010f602d8ff@redhat.com>
-Date: Wed, 5 Aug 2020 10:22:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1k39Kx-00058M-BT; Tue, 04 Aug 2020 22:39:27 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38428 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1k39Ku-0004Jl-2x; Tue, 04 Aug 2020 22:39:27 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 9D0F57869BB57C9B5EE2;
+ Wed,  5 Aug 2020 10:39:09 +0800 (CST)
+Received: from localhost (10.174.185.104) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Wed, 5 Aug 2020
+ 10:38:59 +0800
+From: Ying Fang <fangying1@huawei.com>
+To: <qemu-devel@nongnu.org>, <kwolf@redhat.com>, <mreitz@redhat.com>
+Subject: [PATCH] qcow2: flush qcow2 l2 meta for new allocated clusters
+Date: Wed, 5 Aug 2020 10:38:26 +0800
+Message-ID: <20200805023826.184-1-fangying1@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20200804183503.39f56516.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 22:22:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.104]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/04 22:39:10
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,49 +56,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- kwankhede@nvidia.com, eauger@redhat.com, xin-ran.wang@intel.com,
- devel@ovirt.org, openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, eskultet@redhat.com, jian-feng.ding@intel.com,
- dgilbert@redhat.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
- bao.yumeng@zte.com.cn, Alex Williamson <alex.williamson@redhat.com>,
- smooney@redhat.com, intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com,
- corbet@lwn.net, dinechin@redhat.com
+Cc: alex.chen@huawei.com, fangying <fangying1@huawei.com>,
+ zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: fangying <fangying1@huawei.com>
 
-On 2020/8/5 上午12:35, Cornelia Huck wrote:
-> [sorry about not chiming in earlier]
->
-> On Wed, 29 Jul 2020 16:05:03 +0800
-> Yan Zhao <yan.y.zhao@intel.com> wrote:
->
->> On Mon, Jul 27, 2020 at 04:23:21PM -0600, Alex Williamson wrote:
-> (...)
->
->>> Based on the feedback we've received, the previously proposed interface
->>> is not viable.  I think there's agreement that the user needs to be
->>> able to parse and interpret the version information.  Using json seems
->>> viable, but I don't know if it's the best option.  Is there any
->>> precedent of markup strings returned via sysfs we could follow?
-> I don't think encoding complex information in a sysfs file is a viable
-> approach. Quoting Documentation/filesystems/sysfs.rst:
->
-> "Attributes should be ASCII text files, preferably with only one value
-> per file. It is noted that it may not be efficient to contain only one
-> value per file, so it is socially acceptable to express an array of
-> values of the same type.
->                                                                                   
-> Mixing types, expressing multiple lines of data, and doing fancy
-> formatting of data is heavily frowned upon."
->
-> Even though this is an older file, I think these restrictions still
-> apply.
+When qemu or qemu-nbd process uses a qcow2 image and configured with
+'cache = none', it will write to the qcow2 image with a cache to cache
+L2 tables, however the process will not use L2 tables without explicitly
+calling the flush command or closing the mirror flash into the disk.
+Which may cause the disk data inconsistent with the written data for
+a long time. If an abnormal process exit occurs here, the issued written
+data will be lost.
 
+Therefore, in order to keep data consistency we need to flush the changes
+to the L2 entry to the disk in time for the newly allocated cluster.
 
-+1, that's another reason why devlink(netlink) is better.
+Signed-off-by: Ying Fang <fangying1@huawei.com>
 
-Thanks
+diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+index 7444b9c..ab6e812 100644
+--- a/block/qcow2-cache.c
++++ b/block/qcow2-cache.c
+@@ -266,6 +266,22 @@ int qcow2_cache_flush(BlockDriverState *bs, Qcow2Cache *c)
+     return result;
+ }
+ 
++#define L2_ENTRIES_PER_SECTOR 64
++int qcow2_cache_l2_write_entry(BlockDriverState *bs, Qcow2Cache *c,
++                               void *table, int index, int num)
++{
++    int ret;
++    int i = qcow2_cache_get_table_idx(c, table);
++    int start_sector = index / L2_ENTRIES_PER_SECTOR;
++    int end_sector = (index + num - 1) / L2_ENTRIES_PER_SECTOR;
++    int nr_sectors = end_sector - start_sector + 1;
++    ret = bdrv_pwrite(bs->file,
++                      c->entries[i].offset + start_sector * BDRV_SECTOR_SIZE,
++                      table + start_sector * BDRV_SECTOR_SIZE,
++                      nr_sectors * BDRV_SECTOR_SIZE);
++    return ret;
++}
++
+ int qcow2_cache_set_dependency(BlockDriverState *bs, Qcow2Cache *c,
+     Qcow2Cache *dependency)
+ {
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index a677ba9..ae49a83 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -998,6 +998,9 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
+      }
+ 
+ 
++    ret = qcow2_cache_l2_write_entry(bs, s->l2_table_cache, l2_slice,
++                                     l2_index, m->nb_clusters);
++
+     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+ 
+     /*
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 7ce2c23..168ab59 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -748,6 +748,8 @@ int qcow2_cache_destroy(Qcow2Cache *c);
+ void qcow2_cache_entry_mark_dirty(Qcow2Cache *c, void *table);
+ int qcow2_cache_flush(BlockDriverState *bs, Qcow2Cache *c);
+ int qcow2_cache_write(BlockDriverState *bs, Qcow2Cache *c);
++int qcow2_cache_l2_write_entry(BlockDriverState *bs, Qcow2Cache *c,
++                               void *table, int index, int num);
+ int qcow2_cache_set_dependency(BlockDriverState *bs, Qcow2Cache *c,
+     Qcow2Cache *dependency);
+ void qcow2_cache_depends_on_flush(Qcow2Cache *c);
+-- 
+1.8.3.1
 
 
