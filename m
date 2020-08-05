@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA7123CC87
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 18:51:32 +0200 (CEST)
-Received: from localhost ([::1]:50906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78A023CC71
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 18:46:21 +0200 (CEST)
+Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3MdX-00014P-8h
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 12:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57978)
+	id 1k3MYW-0005GD-KI
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 12:46:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3Mcn-0000NM-9Z
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:50:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35762)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k3MXO-0004O7-Qr
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:45:11 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3Mck-0004h8-VE
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:50:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3Mci-0004NF-EJ
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 16:50:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B5E62E80EE
- for <qemu-devel@nongnu.org>; Wed,  5 Aug 2020 16:50:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k3MXL-0003uM-Lw
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 12:45:09 -0400
+Received: by mail-wr1-x433.google.com with SMTP id 88so41313482wrh.3
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 09:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3NW94LMPzCnDG/PqclW9ZM0ecyFoJ5qStb8X/NxQc6w=;
+ b=vYUZbhQ+NPbaBW0byaP/kTVaXo1tHOha1TFUAacRj/kAgIL16XwG5JrvTqL0ujv7BL
+ tRQgcqX1XsNAph3bRzpZaHoNsxsjipKugy3sWhcHI18wI4qEWBMgTeq6LtCwjOyM5gsD
+ 1Fff0w5tOCkpaWom+J3QeA97qCvfe3a62TS3x5HundVzrneBl6bzChpPo0phsZ+wjLgT
+ ASQP2HhItMpQe9KvzsB95YL/uxyfWss6kan0bLSEMWIJJv1iuSvZR8+X26duDO61EG/R
+ e6lF9peJ6T6RlvYjUjrDuk8GTsXhQ+QHsXy00m+WkQwNxsH06/zOutgeyNdPbQUa8bXS
+ q57Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3NW94LMPzCnDG/PqclW9ZM0ecyFoJ5qStb8X/NxQc6w=;
+ b=IwkgF7mVHlz/zgvf4ERDrbvnvG60jaLeXxKeKZ5EA23l8Nq2W9G/fVOyEh7qVdulUA
+ MCWUnFNAUShJR6IKWe1hOB/OvqwyOfgbYtIetpuwgSEsNhqxlul0NIu582M2fR313SsO
+ rM7XNiypti6+WOTWSaVcBJs+1Ps9M5la8/zUXTANbJXU+YwkzSuYAKFiGC3zrK0kZto+
+ 4NXCGPiDcPIBCE21u4sPkAckZsedbxPr3ZJg1CtOgW1mvkGBkfLwxmfGeLFz05z9CZcX
+ D3i9GyN8zXS7t2QgjR2jQIz2ZnzEI1Kfcmc41vLaCd8xejoMqG0plM4XcddNGLyHNvSm
+ dZzw==
+X-Gm-Message-State: AOAM532+Pgr7Fo0aLmNuuoy49F7o/Qlvt5LyxNS2lcyIB/wz2C/fC9ps
+ X/Syfrf/AFSybvBF3ltkNIJeeg==
+X-Google-Smtp-Source: ABdhPJw3lG3jSo8QZK3iQ1akH9vocsUhKGqwpkhfMwWTDr287fNUjuFZah7JXpvZ3l0emF/V2kRrrw==
+X-Received: by 2002:adf:f247:: with SMTP id b7mr3773403wrp.128.1596645904043; 
+ Wed, 05 Aug 2020 09:45:04 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i4sm3396892wrw.26.2020.08.05.09.45.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Aug 2020 09:45:02 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F02B41FF7E;
+ Wed,  5 Aug 2020 17:45:01 +0100 (BST)
+References: <CAFEAcA_6zbOfdVi+Tp18seaEy4don1GurVya+E+QXRGrZ_WVLg@mail.gmail.com>
+ <2c5ed9d8-6d79-1b53-5588-8fb9efebf0fa@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: v8.1M cpu emulation and target-arm feature-identification strategy
+In-reply-to: <2c5ed9d8-6d79-1b53-5588-8fb9efebf0fa@linaro.org>
+Date: Wed, 05 Aug 2020 17:45:01 +0100
+Message-ID: <87tuxhkpo2.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 Aug 2020 16:42:17 -0000
-From: Peter Maydell <1879587@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jfreche philmd pmaydell
-X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <158993429952.22373.5947926664408541430.malonedeb@wampee.canonical.com>
-Message-Id: <159664573824.4683.9708270154606966310.launchpad@soybean.canonical.com>
-Subject: [Bug 1879587] Re: Register number in ESR is incorrect for certain
- banked registers when switching from AA32 to AA64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5c834d610147c354aab68c57d04ad8dc087d26ba
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 10:30:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,54 +89,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879587 <1879587@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
 
--- =
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879587
+> On 8/5/20 4:08 AM, Peter Maydell wrote:
+>> Mostly recently we've been aiming for QEMU emulation code in
+>> target/arm to use ID register fields to determine whether a
+>> feature is present or not (the isar_feature_* functions) rather
+>> than the old style of defining ARM_FEATURE_* flags. This seems to
+>> be working out well for A-profile. However, for v8.1M there are
+>> a small handful of minor behaviour differences which don't have an
+>> associated ID register field, but which are instead in the spec
+>> and pseudocode just called out as "if this is a v8.1M CPU".
+>> (The major v8.1M new features do have ID register fields.)
+>>=20
+>> I can think of two ways to handle this:
+>>  (1) define an ARM_FEATURE_V81M flag
+>>  (2) define an isar_feature_aa32_v81m() function which under the
+>>      hood is actually testing for a specific feature which happens
+>>      to be known to be always present in v8.1M, like low-overhead-branch=
+es
+>>      (ie ID_ISAR0.CmpBranch >=3D3)
+>
+> I think (2) has the potential to be confusing in odd ways.  If there real=
+ly is
+> no official flag for this, I think we should use (1).
 
-Title:
-  Register number in ESR is incorrect for certain banked registers when
-  switching from AA32 to AA64
+I wouldn't test other feature bits but what stopping us adding:
 
-Status in QEMU:
-  Fix Committed
+    struct ARMISARegisters {
+        uint32_t id_isar0;
+        ...
+        uint64_t id_aa64dfr1;
+        /*
+         * The following are synthetic flags for features not exposed to
+         * the directly exposed to the guest but needed by QEMU's
+         * feature detection.
+         */
+        bool v81m_lob;
+    } isar;
+=20=20
 
-Bug description:
-  I am running into a situation where I have:
-  - A hypervisor running in EL2, AA64
-  - A guest running in EL1, AA32
+And having the normal:
 
-  We trap certain accesses to special registers such as DACR (via
-  HCR.TVM). One instruction that is trapped is:
+    static inline bool isar_feature_aa32_v81m_lob(const ARMISARegisters *id)
+    {
+        return id->v81m_lob;
+    }
 
-  ee03ef10  ->    mcr     15, 0, lr, cr3, cr0, {0}
+That said we still seem to have a number of ARM_FEATURE flags, are we
+hoping they all go away eventually?
 
-  The guest is running in SVC mode. So, LR should refer to LR_svc there.
-  LR_svc is mapped to X18 in AA64. So, ESR should reflect that. However,
-  the actual ESR value is: 0xfe00dc0
+>
+>
+> r~
 
-  If we decode the 'rt':
-  >>> (0xfe00dc0 >> 5) & 0x1f
-  14
 
-  My understanding is that 14 is incorrect in the context of AA64. rt
-  should be set to 18. The current mode being SVC, LR refers to LR_svc
-  not LR_usr. In other words, the mapping between registers in AA64 and
-  AA32 doesn't seem to be accounted for. I've tested this with Qemu
-  5.0.0
-
-  Let me know if that makes sense and if you would like more info. I am als=
-o happy to test patches.
-  Thanks for all the great work on Qemu!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879587/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
