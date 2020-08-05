@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E2023CE57
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:24:45 +0200 (CEST)
-Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6F923CE7F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:26:54 +0200 (CEST)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3O5k-0007yy-6D
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49838)
+	id 1k3O7p-0002ip-VS
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nyf-0004AC-1Q
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:25 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36642)
+ id 1k3Nyh-0004F7-39
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:27 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nyd-0006TM-1L
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:24 -0400
-Received: by mail-pl1-x644.google.com with SMTP id w19so12780409plq.3
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:22 -0700 (PDT)
+ id 1k3Nyf-0006TU-2K
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:26 -0400
+Received: by mail-pl1-x644.google.com with SMTP id r4so15134267pls.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7mh5d9hE+bxonA2bwtaQKP+LmgXiTqiWTHlCBZ977OU=;
- b=SQMq/9we4q+19/caWZFngtndjaN0uOziOTM4wIAbC/vnTqznC1Y3Gu/CGYE8A0GMqr
- NHEEPK+UnbNGEJgzFYXzCrrjrNtRXcTU0vkY4voIgj2BZMWKQtOXoTdu5pKF4l4g4bmH
- KMg1V+4sK8VRBcK+t5+vPaT6k0Ym2u2t2H+8/Cazx2c65T+xY1z1YL2uX/UpJBzBlW4i
- mqeUoSg3McCf0BCSUEfRnH7FBGyVwLvtFoqQ9REFw4seq6WdwTyphGQwsWQzdXETSUwf
- wfkzY9cKaTqYUshbYV5SjqSRtI5vKd57gkXacfTtyqxX7qzhcstDLr/qy9moLXrekVZq
- Nuww==
+ bh=sPSOE7FlbJqSNOCq29FKQeTA9v1eH7Mn/6Yq8WOQ91Q=;
+ b=kXpbP+C2n9auaXiYPp+Eepc+/rRmw8U+C30wKtE2ujwOqJQ42A5YToUA29b835eoOm
+ NlCqlIgtLVJ9DkqYSuGUaUlQfKH8pCwTkvKrRX2CvNXpH26YOsMSDtzvJ4f+rdthJkeQ
+ w91ZUKT0reTrfrDWByWFl/Fmgu+xGROindsnV1xOI1B/aIWeXGwU5L/kMGEyd7lv/jCl
+ TAyRCW99BtjAWsMnEoavx3aoHZfPvBttjDEc34wa5nR+cbpB4Drxv+2uJjGVhc64cXNr
+ Q0v587VqLJj8Zk5Lo203XbczOIUpjEruNmb97Nwxb+jeHXjvhBfg/YA1XKwXiLMMtJ7D
+ Lf9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7mh5d9hE+bxonA2bwtaQKP+LmgXiTqiWTHlCBZ977OU=;
- b=JZUFpftpqNn1Kqn+4XHizndbv8SW8EqCsHJbgWkJzpz/t7TcBnxn9h4sLU/nYmjOXn
- RBGmU2cK+uyGvkTbdqnJpSH26tMAxBKz3ALhh+DbtOissa9lEaHqgR+DNl6Au0wTk3tf
- 8nY1YMu3g6gDhIKFHzEPEfcPufoqhlXPVWPumYbGgj2fVF0z3+gwipW3l1WaGt8tHA3B
- bQZI0+2z2KMxZN1kCBc5kR8bXJVFu1yq7p9n9kepRa9nOzSKXMHxNUtWx6xxgqJzGhyx
- ro1zt4Kcg+o8lSl+0K/maTcWuVaVQjlTxhkQhMRqG7Oe0/H0ilNipXm9T6pKcvHU+Jvo
- 7hag==
-X-Gm-Message-State: AOAM5336hSYjEabgPY6YCTsRl5jwdbPmwrsLlmZ7yLf3Mos8N+g66HUP
- +wL1KL5rVNMawROFri4I1Es/E/0IpFk=
-X-Google-Smtp-Source: ABdhPJz/wt6vOGXTf2OfCyYAFBAwV+q5kpCK3msmxcBKx/QaGLSXMKiqIAswp3UYnOfTOjM/uRc0Zw==
-X-Received: by 2002:a17:90a:5a01:: with SMTP id
- b1mr4072906pjd.27.1596651441319; 
- Wed, 05 Aug 2020 11:17:21 -0700 (PDT)
+ bh=sPSOE7FlbJqSNOCq29FKQeTA9v1eH7Mn/6Yq8WOQ91Q=;
+ b=sg0DwxdiQLWqyR1LF5A4MNttmeXVP/tlcNHNsQJI1MrXxjTcM0sAQoKY22Ze9qgSUz
+ xOPD3PuY1xrkEWHz1p5ciw/C66repThQ5miwXjRpbvK6gRYdSZmHyWUhIazsj7TBJFnA
+ yTuTJ2elZfwu5Rb8iw9FQsvsixc7kwFU5APCKATiVbKMsBSiVOoeCRoKxRHS4562me3G
+ 97A+mVTV2dqOle/k8VuWqeNnzLGtG3+GKbjVyfaY30aIKTmSLsmev0KF9yjnoPNetPbg
+ lwkJuP6s8g/RlLJOCH1HRpebXnmG5nHpH5hWWBijacfsfE3Krq5306ET9jPzl9ksBAgy
+ qQFQ==
+X-Gm-Message-State: AOAM533ox/ymzTXZQdwsYzvjfTYDFx1VHpqLsPKgXdVNhbrEdsn+0iC0
+ HD64c7c+zEPuQLMwuqpn8klhVy52xA4=
+X-Google-Smtp-Source: ABdhPJw57bBafTcrbeEn9KTju0Fby9+jOLCrQjaT0w6KEmbO2yygSwn+uonyHxDc68CyPrMYV9U/Jw==
+X-Received: by 2002:a17:902:a607:: with SMTP id
+ u7mr4360104plq.45.1596651443512; 
+ Wed, 05 Aug 2020 11:17:23 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:38ab:50b1:ff8a:26ef])
- by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.19
+ by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:17:20 -0700 (PDT)
+ Wed, 05 Aug 2020 11:17:22 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/21] target/i386: add BQL to do_interrupt and
+Subject: [PATCH v1 08/21] target/lm32: add BQL to do_interrupt and
  cpu_exec_interrupt
-Date: Wed,  5 Aug 2020 14:12:49 -0400
-Message-Id: <20200805181303.7822-8-robert.foley@linaro.org>
+Date: Wed,  5 Aug 2020 14:12:50 -0400
+Message-Id: <20200805181303.7822-9-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200805181303.7822-1-robert.foley@linaro.org>
 References: <20200805181303.7822-1-robert.foley@linaro.org>
@@ -84,9 +84,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
- cota@braap.org, peter.puhov@linaro.org, pbonzini@redhat.com,
- alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
+Cc: robert.foley@linaro.org, Michael Walle <michael@walle.cc>, cota@braap.org,
+ peter.puhov@linaro.org, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -109,48 +108,47 @@ https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/i386/seg_helper.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ target/lm32/helper.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
-index 818f65f35f..114d4a0d24 100644
---- a/target/i386/seg_helper.c
-+++ b/target/i386/seg_helper.c
-@@ -1284,7 +1284,7 @@ void x86_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/lm32/helper.c b/target/lm32/helper.c
+index 1130fc8884..4439b06ecc 100644
+--- a/target/lm32/helper.c
++++ b/target/lm32/helper.c
+@@ -152,6 +152,10 @@ void lm32_cpu_do_interrupt(CPUState *cs)
  {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--
-+    qemu_mutex_lock_iothread();
- #if defined(CONFIG_USER_ONLY)
-     /* if user mode only, we simulate a fake exception
-        which will be handled outside the cpu execution
-@@ -1308,6 +1308,7 @@ void x86_cpu_do_interrupt(CPUState *cs)
-         env->old_exception = -1;
+     LM32CPU *cpu = LM32_CPU(cs);
+     CPULM32State *env = &cpu->env;
++    bool bql = !qemu_mutex_iothread_locked();
++    if (bql) {
++        qemu_mutex_lock_iothread();
++    }
+ 
+     qemu_log_mask(CPU_LOG_INT,
+             "exception at pc=%x type=%x\n", env->pc, cs->exception_index);
+@@ -196,18 +200,24 @@ void lm32_cpu_do_interrupt(CPUState *cs)
+                   cs->exception_index);
+         break;
      }
- #endif
-+    qemu_mutex_unlock_iothread();
++    if (bql) {
++        qemu_mutex_unlock_iothread();
++    }
  }
  
- void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw)
-@@ -1320,9 +1321,10 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-     int intno;
--
+ bool lm32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+     LM32CPU *cpu = LM32_CPU(cs);
+     CPULM32State *env = &cpu->env;
 +    qemu_mutex_lock_iothread();
-     interrupt_request = x86_cpu_pending_interrupt(cs, interrupt_request);
-     if (!interrupt_request) {
+ 
+     if ((interrupt_request & CPU_INTERRUPT_HARD) && (env->ie & IE_IE)) {
+         cs->exception_index = EXCP_IRQ;
+         lm32_cpu_do_interrupt(cs);
 +        qemu_mutex_unlock_iothread();
-         return false;
+         return true;
      }
- 
-@@ -1377,6 +1379,7 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     }
- 
-     /* Ensure that no TB jump will be modified as the program flow was changed.  */
 +    qemu_mutex_unlock_iothread();
-     return true;
+     return false;
  }
  
 -- 
