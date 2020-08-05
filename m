@@ -2,76 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BB423C9CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:11:46 +0200 (CEST)
-Received: from localhost ([::1]:44802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F32823C9D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:15:10 +0200 (CEST)
+Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3GOf-0003GX-Bq
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39866)
+	id 1k3GRx-0007Gc-IM
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3GMA-0000VI-Qr
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:09:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47165
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3GM8-0001NT-TS
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:09:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596622148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=owIIgW76pNzQpJdG7wD1/IysGWIzVM2HXD2xJXbP2ww=;
- b=Btj33DsoNQY9r6l5E9LU85Fb2Z+gtQ3HeqgfCxfsgTCEOtV0Aca8gRuO7C8v42MZ1OfVRr
- pk7TvpCjWjst9sTHfFpjYvwbUxBfE2j7rLzlPdIDV8H2ITwGLgS0cMI5jR0RBcTOCSMUQG
- oSMDlAFsMIOSs4iZwbAcLO1GPIz5G68=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-0WC4j0ROPh2Ht-qfDbmgtg-1; Wed, 05 Aug 2020 06:09:06 -0400
-X-MC-Unique: 0WC4j0ROPh2Ht-qfDbmgtg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0515757;
- Wed,  5 Aug 2020 10:09:05 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-142.ams2.redhat.com [10.36.112.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95B6C60BF3;
- Wed,  5 Aug 2020 10:09:01 +0000 (UTC)
-Subject: Re: [PATCH for-5.2 6/6] pc-bios/s390-ccw: Allow booting in case the
- first virtio-blk disk is bad
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200728183734.7838-1-thuth@redhat.com>
- <20200728183734.7838-7-thuth@redhat.com>
- <20200805120418.072042c8.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <7810397f-4199-ffab-1bc2-9b7513133aff@redhat.com>
-Date: Wed, 5 Aug 2020 12:08:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k3GPf-00052U-Ao
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:12:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k3GPd-0001mU-9r
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:12:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3599EB07B;
+ Wed,  5 Aug 2020 10:13:00 +0000 (UTC)
+Subject: Re: [PATCH-for-5.1 v3 1/2] exec: Restrict icount to softmmu
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200805100126.25583-1-philmd@redhat.com>
+ <20200805100126.25583-2-philmd@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f29544ab-d583-d6ed-48da-aa49c05ab966@suse.de>
+Date: Wed, 5 Aug 2020 12:12:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200805120418.072042c8.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200805100126.25583-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:45:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:43:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,31 +57,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/08/2020 12.04, Cornelia Huck wrote:
-> On Tue, 28 Jul 2020 20:37:34 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> If you try to boot with two virtio-blk disks (without bootindex), and
->> only the second one is bootable, the s390-ccw bios currently stops at
->> the first disk and does not continue booting from the second one. This
->> is annoying - and all other major QEMU firmwares succeed to boot from
->> the second disk in this case, so we should do the same in the s390-ccw
->> bios, too.
-> 
-> Does it make sense to do something like that for other device types as
-> well?
+Hi Philippe,
 
-It would be nice if we could do the same for virtio-scsi disks, but the
-code is written in a way here that it will need much more thinking,
-cleanups and time to get this done right...
+could you take a look if this series already addresses the issue?
 
- Thomas
+https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00067.html
+
+Everything icount related is already moved to softmmu and made TCG only.
+
+I will post a new version of the series today with a couple changes;
+
+the series could then be ready if HVF is already ready with its synchronize_state implementation? Otherwise we'd have to hold back the HVF patch.
+
+Thanks!
+
+Claudio
+
+
+On 8/5/20 12:01 PM, Philippe Mathieu-Daudé wrote:
+> 'icount' feature is only meaningful when using softmmu.
+> Move it out of the globally used exec.c, and define it as
+> 'false' in user-mode emulation.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/sysemu/cpus.h | 4 ++++
+>  exec.c                | 4 ----
+>  softmmu/cpus.c        | 7 +++++++
+>  3 files changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+> index 3c1da6a018..d8442aa9f0 100644
+> --- a/include/sysemu/cpus.h
+> +++ b/include/sysemu/cpus.h
+> @@ -11,9 +11,13 @@ void pause_all_vcpus(void);
+>  void cpu_stop_current(void);
+>  void cpu_ticks_init(void);
+>  
+> +#if !defined(CONFIG_USER_ONLY)
+>  void configure_icount(QemuOpts *opts, Error **errp);
+>  extern int use_icount;
+>  extern int icount_align_option;
+> +#else
+> +#define use_icount false
+> +#endif
+>  
+>  /* drift information for info jit command */
+>  extern int64_t max_delay;
+> diff --git a/exec.c b/exec.c
+> index 6f381f98e2..a89ffa93c1 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -102,10 +102,6 @@ uintptr_t qemu_host_page_size;
+>  intptr_t qemu_host_page_mask;
+>  
+>  #if !defined(CONFIG_USER_ONLY)
+> -/* 0 = Do not count executed instructions.
+> -   1 = Precise instruction counting.
+> -   2 = Adaptive rate instruction counting.  */
+> -int use_icount;
+>  
+>  typedef struct PhysPageEntry PhysPageEntry;
+>  
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index a802e899ab..a4772034c0 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -81,6 +81,13 @@
+>  
+>  #endif /* CONFIG_LINUX */
+>  
+> +/*
+> + * 0 = Do not count executed instructions.
+> + * 1 = Precise instruction counting.
+> + * 2 = Adaptive rate instruction counting.
+> + */
+> +int use_icount;
+> +
+>  static QemuMutex qemu_global_mutex;
+>  
+>  int64_t max_delay;
+> 
 
 
