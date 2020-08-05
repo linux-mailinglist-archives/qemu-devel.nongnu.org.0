@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8583C23CE32
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:20:37 +0200 (CEST)
-Received: from localhost ([::1]:55498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF6A23CE3F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:22:29 +0200 (CEST)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3O1k-0000KL-Hk
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49904)
+	id 1k3O3Y-0003rW-Dd
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nym-0004PB-Ep
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:32 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39054)
+ id 1k3Nyo-0004Qw-9S
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:34 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:51543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nyj-0006Tx-Qh
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:32 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id f9so4779659pju.4
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:29 -0700 (PDT)
+ id 1k3Nym-0006U5-91
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:33 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id c6so5024195pje.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AeDpfxqkdAEXeD0Us9Svn7h86jElbTJX/muq5WTwNbc=;
- b=sowj/PvItMmu8NBwvfGGeqmrW1OX1jqRjIyWgAzoKIwV8FNfxYd9wnclVR70+vRkRS
- Jon4BlDzbt/dVJrbMcTyBJM/GxzmidudqoS8DBKBj2D9S6LhTPZGFCUogaJ4DZH5xhFf
- aj4lbeqK3fz6cN5ycfFqTveISpgW1AldVb/uiWyO09TA3TP2HKOsCApmdKKEtHLSKXW8
- iVBqwbgp2ZbD5hFrxwyvq/n2/uqhrcT7xtsyE4mgXX2bZSa4sbpUuJVyP/61w7oKwKlU
- INCQMjkh5+/HLoqEGQRtlRnpaOdRcdFLWrIKzzlihL5KoJ0hJaGH1+9IBlJtObXZNI/7
- S0IA==
+ bh=TQf+kUTKaJ/snZqXoVWLiq9osz3e4ZNpxcetm6dWt8I=;
+ b=xTjpRxu7HKdV2Bz9nOANpvgfUs9av4+RyFPXe/KiNgkf7fgIrqz9/1F52zNNifoO5f
+ 82J3UKbwrNjZUAa3+jG7R6TK2xl1OPijHaBNqyZGNb+oBoZQMR+rSVNYhGasTOkAmB6h
+ UZcx2UZJWcXND+tXFwFmlkOjU4VfohT24F+Vs4MmWuZFq34ldRn/JSjO+zAvcKl83rCm
+ u99vaeu/IrDe2qTMOyIGKnneHTo25v/7F2af1L/V15i5RVW4hjMyHosssy4LNpPFuvcx
+ 0lbHALvPRUHLpSotwcs5eDXV3pPmC8mYunvhI1d+RUIFmxP8eZQJ91cSreFrZ7xiJPJ4
+ fX1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=AeDpfxqkdAEXeD0Us9Svn7h86jElbTJX/muq5WTwNbc=;
- b=gqeNYMF7zIpzZ2AiRRyywkjpWUzzF4+2wVOIN2wQN7n994QHOFMSb9aOrIx6QZswmW
- owxKqd6KIjr/TaVyDgp9Uu27yAESwRTrqpvEM8ONmfJFuVg90gmr0GTQDsTW/w6SiZux
- 7ZhIo+yb1PbAQgyr59sntIVcob1FjRYWTOJx78jiBv+Re9knTEK4mfyEcQGHH8dBCyDc
- iiOqfbzmQtrrPBXzo6GWOHPsv9/Nn/WHocLrdP/ymFaoJE1QFiPYMaYloUYp5p1nRMg8
- ceEEm7OMTc/Fs1qN3dXo084BAKJC4827fhyFuu01u7jVfSEUnAysJwL86Gc2+ul1Uub5
- 0/OQ==
-X-Gm-Message-State: AOAM5312AF1EGsRX0ZRCHjtIj5wQEbNswvVfMYT1SgdVGyV2bn0MeCim
- OltNB0xPTOJCXKJ6ZBWahtfbgCPrztY=
-X-Google-Smtp-Source: ABdhPJwrPV0yaoOViRhr+N22GpjgeRHLeBaXFKz2BBst8GXbBUNPCJ1Mx0DgOJbpq3oxBIeKtTIu6A==
-X-Received: by 2002:a17:902:40a:: with SMTP id
- 10mr4238883ple.180.1596651448072; 
- Wed, 05 Aug 2020 11:17:28 -0700 (PDT)
+ bh=TQf+kUTKaJ/snZqXoVWLiq9osz3e4ZNpxcetm6dWt8I=;
+ b=MWosaawdH3GfZ84Ma3jf4+IBirjZ0itduZq8qx6J+FMP30mim8PAQv6D93MgvBLubd
+ zoQtnY6KVW85Ip1gAlR82Kf6SWQA6YQQtqvsR26gU3emEON5Xw/VOsQspgtkLNK88Pjr
+ oF4A6NkNx28FpXLliWbhHJJt849VkFcXD9yqV7d5ynouJGE9hE0NYSs4CXo9F6c736oU
+ pF5VFx8ZT6+ZyidauIeqkIKZfpP+fh+xVBwXiJ1zMaYFM9W4NPS1yva7J3eqv20dUl9w
+ VLWSFInS+xOCpIU2XKR/KcMfHLVKKQp0nMkF3vYUgH/JzU4B40tU+cwPjuc9EQ5FzPTR
+ FotA==
+X-Gm-Message-State: AOAM531Zn7+QxSpB63DTYrG+KUI5Yew2ivskWzMEGM78HgE/EPgrA6KF
+ AwiLs+RuMiuGwQ8v9ld6KOB3ovb8uXQ=
+X-Google-Smtp-Source: ABdhPJzdfsJfzIWCvPO81S1GWX9CY4ctiQoHANbdnrz/V3t2SAGln5dbhnt7dYemgn/sw22nZid5gw==
+X-Received: by 2002:a17:90a:3488:: with SMTP id
+ p8mr4695488pjb.211.1596651450623; 
+ Wed, 05 Aug 2020 11:17:30 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:38ab:50b1:ff8a:26ef])
- by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.26
+ by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:17:27 -0700 (PDT)
+ Wed, 05 Aug 2020 11:17:29 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 10/21] target/microblaze: add BQL to do_interrupt and
+Subject: [PATCH v1 11/21] target/mips: add BQL to do_interrupt and
  cpu_exec_interrupt
-Date: Wed,  5 Aug 2020 14:12:52 -0400
-Message-Id: <20200805181303.7822-11-robert.foley@linaro.org>
+Date: Wed,  5 Aug 2020 14:12:53 -0400
+Message-Id: <20200805181303.7822-12-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200805181303.7822-1-robert.foley@linaro.org>
 References: <20200805181303.7822-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=robert.foley@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=robert.foley@linaro.org; helo=mail-pj1-x102d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,9 +84,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, peter.puhov@linaro.org, cota@braap.org,
- pbonzini@redhat.com, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- alex.bennee@linaro.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, robert.foley@linaro.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, cota@braap.org,
+ peter.puhov@linaro.org, pbonzini@redhat.com, alex.bennee@linaro.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -109,80 +110,51 @@ https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/microblaze/helper.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ target/mips/helper.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index ab2ceeb055..ae8ff2bea4 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -32,10 +32,17 @@ void mb_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index afd78b1990..6595d18702 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -1085,6 +1085,10 @@ static inline void set_badinstr_registers(CPUMIPSState *env)
+ 
+ void mips_cpu_do_interrupt(CPUState *cs)
  {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
 +    bool bql = !qemu_mutex_iothread_locked();
 +    if (bql) {
 +        qemu_mutex_lock_iothread();
 +    }
- 
-     cs->exception_index = -1;
-     env->res_addr = RES_ADDR_NONE;
-     env->regs[14] = env->sregs[SR_PC];
-+    if (bql) {
-+        qemu_mutex_unlock_iothread();
-+    }
- }
- 
- bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-@@ -113,6 +120,10 @@ void mb_cpu_do_interrupt(CPUState *cs)
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
-     uint32_t t;
-+    bool bql = !qemu_mutex_iothread_locked();
-+    if (bql) {
-+        qemu_mutex_lock_iothread();
-+    }
- 
-     /* IMM flag cannot propagate across a branch and into the dslot.  */
-     assert(!((env->iflags & D_FLAG) && (env->iflags & IMM_FLAG)));
-@@ -123,6 +134,9 @@ void mb_cpu_do_interrupt(CPUState *cs)
-         case EXCP_HW_EXCP:
-             if (!(env->pvr.regs[0] & PVR0_USE_EXC_MASK)) {
-                 qemu_log_mask(LOG_GUEST_ERROR, "Exception raised on system without exceptions!\n");
-+                if (bql) {
-+                    qemu_mutex_unlock_iothread();
-+                }
-                 return;
-             }
- 
-@@ -262,6 +276,9 @@ void mb_cpu_do_interrupt(CPUState *cs)
-                       cs->exception_index);
-             break;
+ #if !defined(CONFIG_USER_ONLY)
+     MIPSCPU *cpu = MIPS_CPU(cs);
+     CPUMIPSState *env = &cpu->env;
+@@ -1396,10 +1400,14 @@ void mips_cpu_do_interrupt(CPUState *cs)
      }
+ #endif
+     cs->exception_index = EXCP_NONE;
 +    if (bql) {
 +        qemu_mutex_unlock_iothread();
 +    }
  }
  
- hwaddr mb_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-@@ -291,6 +308,7 @@ bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
 +    qemu_mutex_lock_iothread();
- 
-     if ((interrupt_request & CPU_INTERRUPT_HARD)
-         && (env->sregs[SR_MSR] & MSR_IE)
-@@ -298,7 +316,9 @@ bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         && !(env->iflags & (D_FLAG | IMM_FLAG))) {
-         cs->exception_index = EXCP_IRQ;
-         mb_cpu_do_interrupt(cs);
-+        qemu_mutex_unlock_iothread();
-         return true;
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+         MIPSCPU *cpu = MIPS_CPU(cs);
+         CPUMIPSState *env = &cpu->env;
+@@ -1410,9 +1418,11 @@ bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+             cs->exception_index = EXCP_EXT_INTERRUPT;
+             env->error_code = 0;
+             mips_cpu_do_interrupt(cs);
++            qemu_mutex_unlock_iothread();
+             return true;
+         }
      }
 +    qemu_mutex_unlock_iothread();
      return false;
  }
+ 
 -- 
 2.17.1
 
