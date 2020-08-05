@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BECF23C903
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:19:39 +0200 (CEST)
-Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C24323C908
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:21:41 +0200 (CEST)
+Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3FaE-0002Lk-98
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57320)
+	id 1k3FcC-0004u8-J4
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k3FXX-0007Dg-Qy
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:16:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51255
+ id 1k3FYi-0000Rs-EW
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:18:04 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47872
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k3FXV-0003im-44
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:16:51 -0400
+ id 1k3FYg-0003pE-QT
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:18:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596619007;
+ s=mimecast20190719; t=1596619081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l9MiLHEL0ZusiqXXJdZN9mvCOzvDNMq7vWBxDe63SLg=;
- b=Zuk+qMARTeKFSVBUTVNStKu/65Cir1jvSLWUmUK6BqHZBzp1qUUwRG6wtbTARhcKJN9p42
- WDDD2Ryv+iP8UaQuLOYJXXYterUksy5ctDe562+uTfu3IEL2vloX4Q0NrePlXIf0Zi0zkE
- TFv2WQ3AbGjXiGaxJnvDdisrpHEe4Fo=
+ bh=RaBgmbtPTVZPc9Dfy2dHqvHe+ifm4ZctTlglyls1p9k=;
+ b=QlD3L0cFtWKYYobgeIWh+fANQb0ool5LVO8XeZ3tdyy5u4VGTLWjKz0E4p9M5a6Phay30c
+ DYXkEtscCoHwi7CFo22Fx6tIH7rgjD/pCnzOCw+WDoxtkYdrPwyLWiGtopsD1ngZKl+w6S
+ mQb9aB1wuDrMRyPRw/GzENqW3QfoZdI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-hHurUTLGNS2Ix1xfwAtT6Q-1; Wed, 05 Aug 2020 05:16:45 -0400
-X-MC-Unique: hHurUTLGNS2Ix1xfwAtT6Q-1
+ us-mta-485-HPfPi3m4OBK3opOw05WMGg-1; Wed, 05 Aug 2020 05:16:47 -0400
+X-MC-Unique: HPfPi3m4OBK3opOw05WMGg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ABA7100CCC0;
- Wed,  5 Aug 2020 09:16:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33258E918;
+ Wed,  5 Aug 2020 09:16:46 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.192.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D4072DE66;
- Wed,  5 Aug 2020 09:16:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E935E2DE66;
+ Wed,  5 Aug 2020 09:16:44 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 1/5] hw: add compat machines for 5.2
-Date: Wed,  5 Aug 2020 11:16:36 +0200
-Message-Id: <20200805091640.11134-2-drjones@redhat.com>
+Subject: [PATCH v2 2/5] target/arm/kvm: Make uncalled stubs explicitly
+ unreachable
+Date: Wed,  5 Aug 2020 11:16:37 +0200
+Message-Id: <20200805091640.11134-3-drjones@redhat.com>
 In-Reply-To: <20200805091640.11134-1-drjones@redhat.com>
 References: <20200805091640.11134-1-drjones@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 03:37:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 04:10:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,233 +85,96 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+When we compile without KVM support !defined(CONFIG_KVM) we generate
+stubs for functions that the linker will still encounter. Sometimes
+these stubs can be executed safely and are placed in paths where they
+get executed with or without KVM. Other functions should never be
+called without KVM. Those functions should be guarded by kvm_enabled(),
+but should also be robust to refactoring mistakes. Putting a
+g_assert_not_reached() in the function should help. Additionally,
+the g_assert_not_reached() calls may actually help the linker remove
+some code.
 
-Add 5.2 machine types for arm/i440fx/q35/s390x/spapr.
+We remove the stubs for kvm_arm_get/put_virtual_time(), as they aren't
+necessary at all - the only caller is in kvm.c
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- hw/arm/virt.c              |  9 ++++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  6 ++++--
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- 9 files changed, 72 insertions(+), 8 deletions(-)
+ target/arm/kvm_arm.h | 44 +++++++++++++++++++++++++++-----------------
+ 1 file changed, 27 insertions(+), 17 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ecfee362a182..acf9bfbeceaf 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2546,10 +2546,17 @@ static void machvirt_machine_init(void)
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index adb38514bf20..0da00eb6b20c 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -344,16 +344,10 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+ 
+ #else
+ 
+-static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
+-{
+-    /*
+-     * This should never actually be called in the "not KVM" case,
+-     * but set up the fields to indicate an error anyway.
+-     */
+-    cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
+-    cpu->host_cpu_probe_failed = true;
+-}
+-
++/*
++ * It's safe to call these functions without KVM support.
++ * They should either do nothing or return "not supported".
++ */
+ static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
+ 
+ static inline bool kvm_arm_aarch32_supported(void)
+@@ -371,23 +365,39 @@ static inline bool kvm_arm_sve_supported(void)
+     return false;
  }
- type_init(machvirt_machine_init);
- 
-+static void virt_machine_5_2_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
-+
- static void virt_machine_5_1_options(MachineClass *mc)
- {
-+    virt_machine_5_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
-+DEFINE_VIRT_MACHINE(5, 1)
- 
- static void virt_machine_5_0_options(MachineClass *mc)
- {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 8d1a90c6cf45..cf5f2dfaeb34 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -28,6 +28,9 @@
- #include "hw/mem/nvdimm.h"
- #include "migration/vmstate.h"
- 
-+GlobalProperty hw_compat_5_1[] = {};
-+const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
-+
- GlobalProperty hw_compat_5_0[] = {
-     { "pci-host-bridge", "x-config-reg-migration-enabled", "off" },
-     { "virtio-balloon-device", "page-poison", "false" },
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 47c5ca3e342b..1733b5341a62 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -97,8 +97,10 @@
- #include "fw_cfg.h"
- #include "trace.h"
- 
--GlobalProperty pc_compat_5_0[] = {
--};
-+GlobalProperty pc_compat_5_1[] = {};
-+const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
-+
-+GlobalProperty pc_compat_5_0[] = {};
- const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
- 
- GlobalProperty pc_compat_4_2[] = {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b789e83f9acb..c5ba70ca17cb 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -426,7 +426,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
- }
- 
--static void pc_i440fx_5_1_machine_options(MachineClass *m)
-+static void pc_i440fx_5_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -435,6 +435,18 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
-+                      pc_i440fx_5_2_machine_options);
-+
-+static void pc_i440fx_5_1_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_5_2_machine_options(m);
-+    m->alias = NULL;
-+    m->is_default = false;
-+    compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-+    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
-                       pc_i440fx_5_1_machine_options);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index a3e607a544a5..0cb9c18cd44d 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -353,7 +353,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_5_1_machine_options(MachineClass *m)
-+static void pc_q35_5_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -361,6 +361,17 @@ static void pc_q35_5_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
-+                   pc_q35_5_2_machine_options);
-+
-+static void pc_q35_5_1_machine_options(MachineClass *m)
-+{
-+    pc_q35_5_2_machine_options(m);
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-+    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-+}
-+
- DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
-                    pc_q35_5_1_machine_options);
- 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 0ae293ec9431..1c8d0981b382 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4579,15 +4579,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
-     }                                                                \
-     type_init(spapr_machine_register_##suffix)
  
 +/*
-+ * pseries-5.2
++ * These functions should never actually be called without KVM support.
 + */
-+static void spapr_machine_5_2_class_options(MachineClass *mc)
++static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
 +{
-+    /* Defaults for the latest behaviour inherited from the base class */
++    g_assert_not_reached();
 +}
 +
-+DEFINE_SPAPR_MACHINE(5_2, "5.2", true);
-+
- /*
-  * pseries-5.1
-  */
- static void spapr_machine_5_1_class_options(MachineClass *mc)
+ static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
  {
--    /* Defaults for the latest behaviour inherited from the base class */
-+    spapr_machine_5_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+-    return -ENOENT;
++    g_assert_not_reached();
  }
  
--DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
-+DEFINE_SPAPR_MACHINE(5_1, "5.1", false);
+ static inline int kvm_arm_vgic_probe(void)
+ {
+-    return 0;
++    g_assert_not_reached();
+ }
  
- /*
-  * pseries-5.0
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index e72c61d2eae0..f4ea6a954597 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -801,14 +801,26 @@ bool css_migration_enabled(void)
-     }                                                                         \
-     type_init(ccw_machine_register_##suffix)
- 
-+static void ccw_machine_5_2_instance_options(MachineState *machine)
+-static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq) {}
+-static inline void kvm_arm_pmu_init(CPUState *cs) {}
++static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
 +{
++    g_assert_not_reached();
++}
+ 
+-static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map) {}
++static inline void kvm_arm_pmu_init(CPUState *cs)
++{
++    g_assert_not_reached();
 +}
 +
-+static void ccw_machine_5_2_class_options(MachineClass *mc)
++static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
 +{
++    g_assert_not_reached();
 +}
-+DEFINE_CCW_MACHINE(5_2, "5.2", true);
-+
- static void ccw_machine_5_1_instance_options(MachineState *machine)
- {
-+    ccw_machine_5_2_instance_options(machine);
- }
  
- static void ccw_machine_5_1_class_options(MachineClass *mc)
- {
-+    ccw_machine_5_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
- }
--DEFINE_CCW_MACHINE(5_1, "5.1", true);
-+DEFINE_CCW_MACHINE(5_1, "5.1", false);
+-static inline void kvm_arm_get_virtual_time(CPUState *cs) {}
+-static inline void kvm_arm_put_virtual_time(CPUState *cs) {}
+ #endif
  
- static void ccw_machine_5_0_instance_options(MachineState *machine)
- {
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 426ce5f625a4..bc5b82ad209e 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -319,6 +319,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
- 
-+extern GlobalProperty hw_compat_5_1[];
-+extern const size_t hw_compat_5_1_len;
-+
- extern GlobalProperty hw_compat_5_0[];
- extern const size_t hw_compat_5_0_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 3d7ed3a55e30..fe52e165b27c 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -193,6 +193,9 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
- 
-+extern GlobalProperty pc_compat_5_1[];
-+extern const size_t pc_compat_5_1_len;
-+
- extern GlobalProperty pc_compat_5_0[];
- extern const size_t pc_compat_5_0_len;
- 
+ static inline const char *gic_class_name(void)
 -- 
 2.25.4
 
