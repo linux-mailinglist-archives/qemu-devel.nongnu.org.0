@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5858723CE58
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:24:47 +0200 (CEST)
-Received: from localhost ([::1]:46056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C8723CE54
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 20:24:28 +0200 (CEST)
+Received: from localhost ([::1]:44516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3O5m-00082o-Dh
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
+	id 1k3O5T-0007R3-2E
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 14:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nz7-0004oi-Jb
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:53 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41044)
+ id 1k3Nz8-0004rG-Gn
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:54 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:39350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3Nz3-0006WX-DL
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:53 -0400
-Received: by mail-pl1-x642.google.com with SMTP id f10so830593plj.8
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:48 -0700 (PDT)
+ id 1k3Nz6-0006Wk-Fc
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 14:17:54 -0400
+Received: by mail-pf1-x429.google.com with SMTP id z188so15373864pfc.6
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 11:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=eY79OI2NziyEJvuRHl1nh9tYXBtyJDeusaPNFa05tj8=;
- b=wej9GzQVC8LKvXsuCL2CxODp85b71XEKPDifhMVNT67NbQ+2Z9k5hnv+WVaFSv32mq
- thIhWIGJ0vgsECpMSD6yp/gBy/pMdnj+wdvdOGoS0hKk9vA5Az3HgnJtkqRUNC2XYJSl
- lm27BcNFgFC+9/K5H89eEmTY+uTTbvTJm/RMEFp14uv6sstlHBN70ueZsQv+HTrUvnsC
- T6TO27dbHpibU5Uv7pFgUZ4BYDu9danOngbv1KU9na4gJwMMaVW2MphempSv7dZooCKL
- KbZe0s8GFjzEkE6Ta0/gQxb4nn3UaWkievFiEKaukStJTNUnokcQPiD69wQK/XRCLotN
- 91oQ==
+ bh=8sH61aMZL0itQ+WBV8wzY8AM/bADwemnnaBh5BIpH6g=;
+ b=fCz3LSojL/mhv5v3nckhBGWRUG7cyv9P8hKllNSQNhq8f9Xv6dxbBwSEWCKsgs4kPJ
+ vY8LnZA2mEUhRIsytLFG+XaPY1P+1sGKasspAqdbIgH1MCP2slmtPiZTv28xTr8k9Q0W
+ JFBNABFtTbIaveWNu20Tki6ptKy32MySBRw9QKR/xhbT3ZZPno/rGbH7R138sUfKUd4+
+ wTYx2qWNAjGoy15zIOsf0j5MtOXw59FpU0SePvcpPR0wm4PZygbg9eKNXLC9dg0NXKHq
+ 0IX5A8qXPLLwEVXmxbMy/HLeCm5Uum6dMc/VYS36mlAbvzL2yZqZLfBb3qpF+y0yxPCI
+ bKSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=eY79OI2NziyEJvuRHl1nh9tYXBtyJDeusaPNFa05tj8=;
- b=Jpc247q5vsIBaLVDroICMDE2Dn7d7KJ30N347CttRWAYLZm7NLg8LuUBf+bxx096Bp
- XXznSaDmeLq2qWrI/Vt29EllqXv9aGrneqDgn6pop7fkxOZii51SfUJsSMYzQYGsC6W6
- jkUVhWxESO39JIttESKp78y1aMlBuFUb3psD0PNbEq1aisBK9/zMwSaM2hxXm4WKGi0e
- UthRdbbv4ZDuEfGCrpOVJzAetdmG0mLCqKURIF5aUtqfflsUR7WgmTJa2bpAtjw+gT0x
- ykEVxrw1ff0QZuatkbEBIv70eOdHpzGF/EIYKflGMNUYsqukLADZN+yWb4mraCwMdaZ7
- SHbQ==
-X-Gm-Message-State: AOAM531oyh9euUQ/urECIGQVCI6nRFoeviktDXL//oo4ahsSyTCyMzoE
- VPWOw/2CJyEp8tigSiuLQfNJU7Kqiyw=
-X-Google-Smtp-Source: ABdhPJxkiEjJhtwDrsP26RCPB8iIiTN7NUGYU4YxbtjeUSuZhcjXcBEjfPVDwmbg3bOkNSQGhmyBMg==
-X-Received: by 2002:a17:90b:285:: with SMTP id
- az5mr4509628pjb.118.1596651467681; 
- Wed, 05 Aug 2020 11:17:47 -0700 (PDT)
+ bh=8sH61aMZL0itQ+WBV8wzY8AM/bADwemnnaBh5BIpH6g=;
+ b=Vfr2sY6hsz69kH+BMdOMA0Jt36xVw0vRpFCayjyHMmC+kZRiGattdOuCIIAZ/9hiJQ
+ 15o8iUjvdVd95sCwW+Ftii7tsjRLzpu4c0sgu853bKjM1dkBJQD6EZKbRhdEfz7OKpyK
+ Ms/MmshAZgIes4N6slxUut2U258EWMqlrpcJwdPSldhCZl6az7/2feovF/P/xn02Necw
+ Fgv05Zl/v49owqOkfPzfL+0yDpp6qYS0+g4WuWMfgxUCS+tgQfVP+AoResrXvTMdNcAQ
+ Ol9nA3Hn9X6c0g+kigd/8hqxlaPbQrn7/ExtasT9g7ZV6BP7p7HJjMjjgHSS3EGUgSBn
+ lLzw==
+X-Gm-Message-State: AOAM530KRmwCQeAAs98OQX07YRdRDZJiausuycAGpPjPYTV9UrNSQFrd
+ Jb62/8Q8/AP+EvrmgVUweHVRh0LQXAk=
+X-Google-Smtp-Source: ABdhPJyZkc+7cxW/eMG/ca8UQi+8pgPeqbH3eG9XzMYMbweOA+4eRNvBmHrhiTYzmS6FiLU5p0cm9g==
+X-Received: by 2002:a63:4281:: with SMTP id p123mr3853501pga.94.1596651469963; 
+ Wed, 05 Aug 2020 11:17:49 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:38ab:50b1:ff8a:26ef])
- by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.45
+ by smtp.gmail.com with ESMTPSA id a15sm3670196pfo.185.2020.08.05.11.17.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:17:46 -0700 (PDT)
+ Wed, 05 Aug 2020 11:17:49 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 18/21] target/sh4: add BQL to do_interrupt and
+Subject: [PATCH v1 19/21] target/sparc: add BQL to do_interrupt and
  cpu_exec_interrupt
-Date: Wed,  5 Aug 2020 14:13:00 -0400
-Message-Id: <20200805181303.7822-19-robert.foley@linaro.org>
+Date: Wed,  5 Aug 2020 14:13:01 -0400
+Message-Id: <20200805181303.7822-20-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200805181303.7822-1-robert.foley@linaro.org>
 References: <20200805181303.7822-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=robert.foley@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=robert.foley@linaro.org; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,9 +83,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+Cc: robert.foley@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  cota@braap.org, peter.puhov@linaro.org, pbonzini@redhat.com,
- alex.bennee@linaro.org
+ alex.bennee@linaro.org, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -109,65 +108,73 @@ https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/sh4/helper.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ target/sparc/cpu.c          |  3 +++
+ target/sparc/int32_helper.c | 13 ++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index 1e32365c75..c4d5b9a374 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -62,8 +62,11 @@ void superh_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 20c7c0c434..13b5a038e8 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -79,6 +79,7 @@ static void sparc_cpu_reset(DeviceState *dev)
+ 
+ static bool sparc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
-     CPUSH4State *env = &cpu->env;
--    int do_irq = cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
--    int do_exp, irq_vector = cs->exception_index;
-+    int do_irq;
-+    int do_exp, irq_vector;
 +    qemu_mutex_lock_iothread();
-+    do_irq = cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
-+    irq_vector = cs->exception_index;
- 
-     /* prioritize exceptions over interrupts */
- 
-@@ -79,9 +82,11 @@ void superh_cpu_do_interrupt(CPUState *cs)
-                should be loaded with the kernel entry point.
-                qemu_system_reset_request takes care of that.  */
-             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+            qemu_mutex_unlock_iothread();
-             return;
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+         SPARCCPU *cpu = SPARC_CPU(cs);
+         CPUSPARCState *env = &cpu->env;
+@@ -90,10 +91,12 @@ static bool sparc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+             if (type != TT_EXTINT || cpu_pil_allowed(env, pil)) {
+                 cs->exception_index = env->interrupt_index;
+                 sparc_cpu_do_interrupt(cs);
++                qemu_mutex_unlock_iothread();
+                 return true;
+             }
          }
-         if (do_irq && !env->in_sleep) {
-+            qemu_mutex_unlock_iothread();
-             return; /* masked */
-         }
-     }
-@@ -91,6 +96,7 @@ void superh_cpu_do_interrupt(CPUState *cs)
-         irq_vector = sh_intc_get_pending_vector(env->intc_handle,
- 						(env->sr >> 4) & 0xf);
-         if (irq_vector == -1) {
-+            qemu_mutex_unlock_iothread();
-             return; /* masked */
- 	}
-     }
-@@ -180,14 +186,17 @@ void superh_cpu_do_interrupt(CPUState *cs)
-             env->pc = env->vbr + 0x100;
-             break;
-         }
-+        qemu_mutex_unlock_iothread();
-         return;
-     }
- 
-     if (do_irq) {
-         env->intevt = irq_vector;
-         env->pc = env->vbr + 0x600;
-+        qemu_mutex_unlock_iothread();
-         return;
      }
 +    qemu_mutex_unlock_iothread();
+     return false;
  }
  
- static void update_itlb_use(CPUSH4State * env, int itlbnb)
+diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
+index 9a71e1abd8..3940e945ed 100644
+--- a/target/sparc/int32_helper.c
++++ b/target/sparc/int32_helper.c
+@@ -69,7 +69,12 @@ void sparc_cpu_do_interrupt(CPUState *cs)
+ {
+     SPARCCPU *cpu = SPARC_CPU(cs);
+     CPUSPARCState *env = &cpu->env;
+-    int cwp, intno = cs->exception_index;
++    int cwp, intno;
++    bool bql = !qemu_mutex_iothread_locked();
++    if (bql) {
++        qemu_mutex_lock_iothread();
++    }
++    intno = cs->exception_index;
+ 
+     /* Compute PSR before exposing state.  */
+     if (env->cc_op != CC_OP_FLAGS) {
+@@ -115,6 +120,9 @@ void sparc_cpu_do_interrupt(CPUState *cs)
+                           "Error state",
+                       cs->exception_index, excp_name_str(cs->exception_index));
+         }
++        if (bql) {
++            qemu_mutex_unlock_iothread();
++        }
+         return;
+     }
+ #endif
+@@ -136,6 +144,9 @@ void sparc_cpu_do_interrupt(CPUState *cs)
+         env->qemu_irq_ack(env, env->irq_manager, intno);
+     }
+ #endif
++    if (bql) {
++        qemu_mutex_unlock_iothread();
++    }
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY)
 -- 
 2.17.1
 
