@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E703923C9C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:08:05 +0200 (CEST)
-Received: from localhost ([::1]:34214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248A223C9C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 12:06:14 +0200 (CEST)
+Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3GL7-00076p-1F
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37742)
+	id 1k3GJJ-0004kR-83
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 06:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3GF0-0006RH-0v
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:01:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60731
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1k3GGX-0000Ra-UG
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:03:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22613
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3GEx-0000Wk-UY
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:01:45 -0400
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1k3GGW-0000g3-1N
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 06:03:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596621703;
+ s=mimecast20190719; t=1596621799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hLGUCPzB2NCSpVTvR3653iI6lwL6bempAHIge/kknyw=;
- b=CIiwL/4lf0kgEOygNquZPf2gilLQ/s/8LrEOsknr2QEXbL4XuipXnWSfh9FjrmccwQ1MeR
- UJyYFhGdRZy/RfwquCxYxenaaTsp68fowK/rQgAc1b58/qSPC2N96dpRZ4PfHkvqmlocR/
- 5YRkhqlI7xiT0V8FyaIx/yU+z7qmvgA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-VKpoifDLOr6rAW4sH5LcjQ-1; Wed, 05 Aug 2020 06:01:41 -0400
-X-MC-Unique: VKpoifDLOr6rAW4sH5LcjQ-1
-Received: by mail-wr1-f69.google.com with SMTP id z12so13453113wrl.16
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 03:01:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hLGUCPzB2NCSpVTvR3653iI6lwL6bempAHIge/kknyw=;
- b=A8kimYYHmuY2G8oEmUPm2nwBnu+zyCUh7tTJCUbADP8oUMvst7NZQRflV2mj/6hx57
- dHqJ3X2me4EO3Zh4fjmawIyF4TAAEvcIkC5r4w5Ah363Eu+DRJ5nZbS8uIDFDJRySO/K
- OViW4NX7f57m388hOUzSoR7/Vr4Qxln7+iRgIQuQfWn3r3ZAeokPLY4hnD8RiFf7fCAV
- 7HFOwVVvFlYEMWN38q+Chsc2k+QDKFWiCr9E6W5gdpSb7DEaZhvRMMNRM5toGRPAtw08
- 8BAzhvaYGpOgJCSQvYRaHmrte0x6r588EM3UlwO+KkGQoGLbZH/hx2Yin0rZsJ8lIHWA
- 3ANA==
-X-Gm-Message-State: AOAM530s+2FBGgq3sZRCsur90U6GqQmSRo+fPOShwDQjss28Ec3C5I4v
- C3SzoGafO9Uci0nfT6tp8TEUehBSKxJsgJThdG64jSqtS2hxHTRYPuVXzotvMtsUK1abhujraIl
- v5yKnUE2YnaNDQFY=
-X-Received: by 2002:a1c:9d53:: with SMTP id g80mr2573421wme.70.1596621699764; 
- Wed, 05 Aug 2020 03:01:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyf2ELNKrJ9YYUTqNwfgXFZMpR+PVoY/AkCppcowenHs2T1ThBe+w3Tbe+Oa+JbDwcVhiCcFQ==
-X-Received: by 2002:a1c:9d53:: with SMTP id g80mr2573399wme.70.1596621699588; 
- Wed, 05 Aug 2020 03:01:39 -0700 (PDT)
-Received: from localhost.localdomain (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id z67sm2062698wmg.28.2020.08.05.03.01.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 03:01:39 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MJRWeHC3x8EoLCj1Ajq4OxdqrZrNkiz6n/EGwCnTICw=;
+ b=WLroXpcMynLwn4z9uplzbkH7j+0RUL9yivKWcSpQFbbGd+y+29TRK1CUuIYGkmB5oMqdB3
+ r/8mbiddDiobqLsbH5BhW1PxZT3SoE5JU6k6/dtAP0zIuvZVg2LNRkwZuBlEyXwhYo4AWM
+ hp0k/Q4uHxWdcEJezCx/KSyUU25LpFg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-M-7W3XvVO2WHqo61SXs-pg-1; Wed, 05 Aug 2020 06:02:02 -0400
+X-MC-Unique: M-7W3XvVO2WHqo61SXs-pg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF87479EC8
+ for <qemu-devel@nongnu.org>; Wed,  5 Aug 2020 10:02:01 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-114-75.ams2.redhat.com [10.36.114.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C415C67138;
+ Wed,  5 Aug 2020 10:01:59 +0000 (UTC)
+From: Kashyap Chamarthy <kchamart@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 v3 2/2] stubs: Remove qemu_notify_event()
-Date: Wed,  5 Aug 2020 12:01:26 +0200
-Message-Id: <20200805100126.25583-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200805100126.25583-1-philmd@redhat.com>
-References: <20200805100126.25583-1-philmd@redhat.com>
+Subject: [PATCH v2] qapi/block-core.json: Remove stale description of
+ 'blockdev-add'
+Date: Wed,  5 Aug 2020 12:01:58 +0200
+Message-Id: <20200805100158.1239390-1-kchamart@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kchamart@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:45:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -95,61 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need the qemu_notify_event() stub anymore.
+On a 'qemu-discuss' thread[1], Kevin identifies that the current doc
+blurb for @blockdev-add is stale:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+    This is actually a documentation bug. @id doesn't exist,
+    blockdev-add never creates a BlockBackend. This was different in the
+    very first versions of the patches to add blockdev-add and we
+    probably just forgot to update the documentation after removing it.
+
+So remove the stale bits.
+
+And the requirement for 'node-name' is already mentioned in the
+documentation of @BlockdevOptions:
+
+    [...]
+    # @node-name: the node name of the new node (Since 2.0).
+    #             This option is required on the top level of blockdev-add.
+    #             Valid node names start with an alphabetic character and may
+    #             contain only alphanumeric characters, '-', '.' and '_'. Their
+    #             maximum length is 31 characters.
+    [...]
+
+[1] https://lists.nongnu.org/archive/html/qemu-discuss/2020-07/msg00071.html
+    -- equivalent to "-drive if=ide,id=disk0....."
+
+Fixes: be4b67bc7d ("blockdev: Allow creation of BDS trees without BB")
+
+Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
 ---
- stubs/cpu-get-icount.c | 2 +-
- stubs/notify-event.c   | 6 ------
- stubs/Makefile.objs    | 1 -
- 3 files changed, 1 insertion(+), 8 deletions(-)
- delete mode 100644 stubs/notify-event.c
+v2: Address Eric Blake's feedback --
+    https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg08081.html
+---
+ qapi/block-core.json | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/stubs/cpu-get-icount.c b/stubs/cpu-get-icount.c
-index b35f844638..4578217fe2 100644
---- a/stubs/cpu-get-icount.c
-+++ b/stubs/cpu-get-icount.c
-@@ -17,5 +17,5 @@ int64_t cpu_get_icount_raw(void)
- 
- void qemu_timer_notify_cb(void *opaque, QEMUClockType type)
- {
--    qemu_notify_event();
-+    /* Nothing to do. */
- }
-diff --git a/stubs/notify-event.c b/stubs/notify-event.c
-deleted file mode 100644
-index 827bb52d1a..0000000000
---- a/stubs/notify-event.c
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#include "qemu/osdep.h"
--#include "qemu/main-loop.h"
--
--void qemu_notify_event(void)
--{
--}
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index d42046afe4..cb374c96db 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -12,7 +12,6 @@ stub-obj-y += isa-bus.o
- stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
- stub-obj-y += monitor-core.o
--stub-obj-y += notify-event.o
- stub-obj-y += pci-bus.o
- stub-obj-y += qmp_memory_device.o
- stub-obj-y += qtest.o
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 463ffd83da..3575d73ebf 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4049,9 +4049,7 @@
+ ##
+ # @blockdev-add:
+ #
+-# Creates a new block device. If the @id option is given at the top level, a
+-# BlockBackend will be created; otherwise, @node-name is mandatory at the top
+-# level and no BlockBackend will be created.
++# Creates a new block device.
+ #
+ # Since: 2.9
+ #
 -- 
-2.21.3
+2.26.2
 
 
