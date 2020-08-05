@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEF123C7F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 10:40:47 +0200 (CEST)
-Received: from localhost ([::1]:55060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5BE23C7FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 10:41:54 +0200 (CEST)
+Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3EyZ-0003en-G7
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 04:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
+	id 1k3Ezh-0005KS-K1
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 04:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3ExW-0002mq-CK
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 04:39:38 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3ExT-0007VM-Si
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 04:39:37 -0400
-Received: by mail-wm1-x334.google.com with SMTP id t14so5474670wmi.3
- for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 01:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=xe1k233ApD8d6nMoBhc3DkyMmYn711JgFc93nVFkxSs=;
- b=G/UU5vdRu3BHTzNdyUz0Wl08v10hal+81QdG3rfnNbQ0m1H6OmBFyVIZggOsx/RuA+
- 2W9/SM9QzH4wXwNfaDc7mGfOhsulPjjVMNXFOKNNnJSB3eR84zEEC1r/CIbRN7n6LylB
- Zeq4A05Xs+joyKSjlj8QDMPx6cJ2jKBIbiV0VqQ40VVD/Zh8iWWWtU9NBM/ZL9Mq/2fV
- f71IZQmOlNUYB4BoAXcn6oxGm1pfaUk4puGGZIcdxH6uUoNVh8vwUbeD3wFVIFpFMUvi
- MuYSboXBRP/Qw+jSn6qWohHRMsNFSZaGZtnj5pmg9KjXH8r/irg/X+X7erpvHIzOJZCX
- tWMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=xe1k233ApD8d6nMoBhc3DkyMmYn711JgFc93nVFkxSs=;
- b=j6XM4yL9270OrtdaODxWR6cIN6BE7rP8WtktPHXOi2PYkzUa8Ox3ZmB4FTsloWOA/C
- wB2z7cfxtD06T8Tiu14ahLZdUon5yOeHHMQwok6woCvDHjLg4/FF2G09vK+aJq5nP0vs
- Zzl66T7VHW45ppqDRhHS5vW9Nxk4l+xjAzQuOeINoGOEeRE2HXTp38Bd/1gSGH9W2VT9
- W52RNqDA0cA+lAJck4F+NPoyiraS6jNqfJ+AWgjiHG6T40esviWrAshgWawba92rERGn
- 0SnrUdU1tZ2RJZc1BqqdrbHfXJi1biGapsIpOhW1vNPd1z6CWSbpvvNx2bcPPtAnFIxL
- 858A==
-X-Gm-Message-State: AOAM533UWqQnRi9737Z67OIVmSw5pIi1DLCct/RZrNE0och0TJiZWrBE
- onw8mkiakDOhbFtreLoxxwIW+A==
-X-Google-Smtp-Source: ABdhPJwm0wEGnkrcy0YqOgb1YzhkEgQ/PsIbAb8Gefe5VNEaYVNv2zVHtbTQlyxSwcXmUe5lpXPcTg==
-X-Received: by 2002:a1c:b487:: with SMTP id d129mr2388667wmf.185.1596616773073; 
- Wed, 05 Aug 2020 01:39:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p3sm1753579wma.44.2020.08.05.01.39.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 01:39:30 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0006E1FF7E;
- Wed,  5 Aug 2020 09:39:28 +0100 (BST)
-References: <tencent_61ECB8BB3639D7BF2284FBDC@qq.com>
- <tencent_3C5D583315945B14647C946B@qq.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: lrwei <lrwei@bupt.edu.cn>
-Subject: Re: Question on implementation detail of `temp_sync`
-In-reply-to: <tencent_3C5D583315945B14647C946B@qq.com>
-Date: Wed, 05 Aug 2020 09:39:28 +0100
-Message-ID: <874kphmqpr.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k3Ey4-0003Qn-RQ
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 04:40:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41976
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k3Ey2-0007Zx-Tv
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 04:40:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596616809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aNMzaooPGz2hu69zKppqp3rcjRFKC7F58yZzRVmM0Uc=;
+ b=KS5WyaRSDaOYTAaD30o4srCq5fzDl280NxV+7oFtaMAvjkfGWXkdFdFxEfy+xNieXgiNUY
+ 267QXB1Igh+hUlnM8sspB8r0OtgffZHfv73v0pS3RqeX4+2yP1ez1HrIR/VASxm0mF5tM+
+ ZEPKzaUR6bn2QgX46L5XM7/8E8EDNTM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-nIyoz6wGNb22lRBM5tTwtg-1; Wed, 05 Aug 2020 04:40:06 -0400
+X-MC-Unique: nIyoz6wGNb22lRBM5tTwtg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB6C18014D7;
+ Wed,  5 Aug 2020 08:40:04 +0000 (UTC)
+Received: from work-vm (ovpn-114-87.ams2.redhat.com [10.36.114.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DD3D10013D0;
+ Wed,  5 Aug 2020 08:39:51 +0000 (UTC)
+Date: Wed, 5 Aug 2020 09:39:49 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: cleanups with long-term benefits (was Re: [PATCH] schemas: Add
+ vim modeline)
+Message-ID: <20200805083949.GA3004@work-vm>
+References: <87d048i1m2.fsf@dusky.pond.sub.org>
+ <83bbe0b0-c5e0-e3b7-5ba1-5946098370d5@redhat.com>
+ <87ft94klyl.fsf@dusky.pond.sub.org>
+ <490a0786-73f3-411e-4dfe-8c2ae90de251@redhat.com>
+ <87y2mvhg3k.fsf@dusky.pond.sub.org>
+ <facfef76-d880-82dd-f862-a64f8f487ba2@redhat.com>
+ <87k0yeg7mc.fsf@dusky.pond.sub.org>
+ <6e5df5fc-94f8-ee8e-0c14-f56135de25e4@redhat.com>
+ <87o8np5ysp.fsf@dusky.pond.sub.org>
+ <9f83eb93-5389-7aad-3031-0777de0c35b0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <9f83eb93-5389-7aad-3031-0777de0c35b0@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:45:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,97 +91,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 05/08/20 09:36, Markus Armbruster wrote:
+> > There's also the longer term pain of having to work around git-blame
+> > unable to see beyond the flag day.
+>=20
+> Do you really use "git blame" that much?  "git log -S" does more or less
+> the same function (in a different way) and is not affected as much by
+> large code movement and transformation patches.
 
-lrwei <lrwei@bupt.edu.cn> writes:
+I use it a lot!   Following stuff back to find where a change came
+from and then asking people.
 
-> Sorry for the unintentional sending of an uncompleted message.
+Dave
 
-Questions about the internals of the TCG are very much in the remit of
-qemu-devel so are likely to get missed on qemu-discuss which is more
-aimed at user questions.
+> Paolo
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
->
-<re-pasted to fix html noise>
-
-> I understands that the current code works, but gets confused on why `ts` =
-needs to be loaded in to a register when `free_or_dead` is not
-> set.
-
-It isn't, the break leaves the switch statement once it stores the
-constant to memory.
-
-> For example in the following scenario:
-> movi_i32    r0, 0x1
-> add_i32      r1, r1, r0
-> ...
-> (where r0 is not used any more, and both r0 and r1 are globals)
-
-> If I am not mistaken, the code gen procedure of the first IR will call `t=
-emp_sync` with `free_or_dead` not set, which load the constant in to
-> a register and store it back to memory. At this time, `r0` will be `TEMP_=
-VAL_REG` instead of `TEMP_VAL_CONST`, so the following IR can't
-> embed this constant operand in the assembly instruction it produces. Also=
-, this results in a seemingly useless register allocation (, why
-> don't the further use of r0 use the constant directly?)
-
-Is this what you are actually seeing generated? If you run with -d
-in_asm,op,op_opt,out_asm it should be clear what actually happened.
-
-> So I wonder whether there is any reason for this loading a constant into =
-register, I'll be very appreciated if someone can point out the
-> reason for me.
-
-<snip>
->
->
-> Thanks in advance.
-> lrwei&nbsp;=20
-> &nbsp;
-> ------------------&nbsp;Original&nbsp;------------------
-> From: &nbsp;"lrwei"<lrwei@bupt.edu.cn&gt;;
-> Date: &nbsp;Tue, Aug 4, 2020 12:06 PM
-> To: &nbsp;"qemu-discuss"<qemu-discuss@nongnu.org&gt;;=20
-> Subject: &nbsp;Question on implementation detail of `temp_sync`
->
-<re-pasted fixing html noise>
-
-> Hello to the list,
-> Recently I have been studying the code of TCG, and get confused by the fo=
-llowing detail in function `temp_sync` in tcg/tcg.c:
-
->     case TEMP_VAL_CONST:
->         /* If we're going to free the temp immediately, then we won't
->            require it later in a register, so attempt to store the
->            constant to memory directly.  */
->         if (free_or_dead
->            && tcg_out_sti(s, ts->type, ts->val,
->                            ts->mem_base->reg, ts->mem_offset)) {
->            break;
->         }
->         temp_load(s, ts, tcg_target_available_regs[ts->type],
->                   allocated_regs, preferred_regs);
->         /* fallthrough */
-
-> movi_i32
-
-> Would it be better to remove the `free_or_dead` in the if statement, i.e.=
- turn the function to be:
-
->     case TEMP_VAL_CONST:
->         if (tcg_out_sti(s, ts->type, ts->val,
->                            ts->mem_base->reg, ts->mem_offset)) {
->            break;
->         }
->         temp_load(s, ts, tcg_target_available_regs[ts->type],
->                   allocated_regs, preferred_regs);
->         /* fallthrough */
-
-
---=20
-Alex Benn=C3=A9e
 
