@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C1D23C907
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:21:31 +0200 (CEST)
-Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BA923C918
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 11:24:31 +0200 (CEST)
+Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3Fc2-0004ex-71
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57824)
+	id 1k3Fex-0007BI-0I
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 05:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3FaR-0003JS-Ht
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:19:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54378
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3FaP-0003wY-Rm
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 05:19:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596619189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EpRzZ4Ta339Ht5fQqx98DteyzbCaSnpT3Xf70fqQbRY=;
- b=Ut509OuYDKT3mCfjUt1UdEcSwAm/ZALaPcjQZXsI3BWeXO1vyOI/lRWTBSVwvMDd9IBV4y
- COUIm3XDQLHno/18Dwf1zcJmEGRShzMnDweD4zRX4CTMZdcRMe7X6GP3UuNgikLP0AI5Fm
- ECzYEUxD6H1PdtE2drGxjka0lMXx68o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-N_4m5D2XM5C9CtuArl57eQ-1; Wed, 05 Aug 2020 05:19:47 -0400
-X-MC-Unique: N_4m5D2XM5C9CtuArl57eQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FD36100AA22;
- Wed,  5 Aug 2020 09:19:46 +0000 (UTC)
-Received: from gondolin (ovpn-113-4.ams2.redhat.com [10.36.113.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A9A969314;
- Wed,  5 Aug 2020 09:19:44 +0000 (UTC)
-Date: Wed, 5 Aug 2020 11:19:42 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-5.2 3/6] pc-bios/s390-ccw: Move the inner logic of
- find_subch() to a separate function
-Message-ID: <20200805111942.2a38b64e.cohuck@redhat.com>
-In-Reply-To: <667365fe-b46b-f425-bf67-a6af2b4114fe@redhat.com>
-References: <20200728183734.7838-1-thuth@redhat.com>
- <20200728183734.7838-4-thuth@redhat.com>
- <20200729105426.6d8a5a61.cohuck@redhat.com>
- <667365fe-b46b-f425-bf67-a6af2b4114fe@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>)
+ id 1k3Fe5-0006gj-7n; Wed, 05 Aug 2020 05:23:37 -0400
+Received: from smtp.h3c.com ([60.191.123.50]:43822 helo=h3cspam02-ex.h3c.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>)
+ id 1k3Fe1-0004Y9-JK; Wed, 05 Aug 2020 05:23:36 -0400
+Received: from DAG2EX09-IDC.srv.huawei-3com.com ([10.8.0.72])
+ by h3cspam02-ex.h3c.com with ESMTPS id 0759Mt4a003231
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 5 Aug 2020 17:22:55 +0800 (GMT-8)
+ (envelope-from tu.guoyi@h3c.com)
+Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
+ DAG2EX09-IDC.srv.huawei-3com.com (10.8.0.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 5 Aug 2020 17:22:58 +0800
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
+ by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
+ with mapi id 15.01.1713.004; Wed, 5 Aug 2020 17:22:58 +0800
+From: Tuguoyi <tu.guoyi@h3c.com>
+To: "kwolf@redhat.com" <kwolf@redhat.com>, "mreitz@redhat.com"
+ <mreitz@redhat.com>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: [PATCH] qcow2-cluster: Fix integer left shift error in
+ qcow2_alloc_cluster_link_l2()
+Thread-Topic: [PATCH] qcow2-cluster: Fix integer left shift error in
+ qcow2_alloc_cluster_link_l2()
+Thread-Index: AdZrCV/0aSDyco1VQNa8/fefsiaORg==
+Date: Wed, 5 Aug 2020 09:22:58 +0000
+Message-ID: <81ba90fe0c014f269621c283269b42ad@h3c.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.125.108.131]
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 00:45:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+X-DNSRBL: 
+X-MAIL: h3cspam02-ex.h3c.com 0759Mt4a003231
+Received-SPF: pass client-ip=60.191.123.50; envelope-from=tu.guoyi@h3c.com;
+ helo=h3cspam02-ex.h3c.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 05:23:21
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,60 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Gaoliang <liang_gao@h3c.com>, Chengchiwen <chengchiwen@h3c.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Wangyong <wang.yongD@h3c.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Jul 2020 13:13:17 +0200
-Thomas Huth <thuth@redhat.com> wrote:
-
-> On 29/07/2020 10.54, Cornelia Huck wrote:
-> > On Tue, 28 Jul 2020 20:37:31 +0200
-> > Thomas Huth <thuth@redhat.com> wrote:
-> >   
-> >> Move the code to a separate function to be able to re-use it from a
-> >> different spot later.
-> >>
-> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> >> ---
-> >>  pc-bios/s390-ccw/main.c | 99 ++++++++++++++++++++++++-----------------
-> >>  1 file changed, 57 insertions(+), 42 deletions(-)
-> >>
-> >> diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
-> >> index 9b64eb0c24..9477313188 100644
-> >> --- a/pc-bios/s390-ccw/main.c
-> >> +++ b/pc-bios/s390-ccw/main.c
-> >> @@ -51,6 +51,60 @@ unsigned int get_loadparm_index(void)
-> >>      return atoui(loadparm_str);
-> >>  }
-> >>  
-> >> +static int check_sch_no(int dev_no, int sch_no)  
-> > 
-> > check_subchannel()? You verify dev_no as well, if supplied.  
-> 
-> Ok.
-> 
-> >> +{
-> >> +    bool is_virtio;
-> >> +    Schib schib;
-> >> +    int r;
-> >> +
-> >> +    blk_schid.sch_no = sch_no;
-> >> +    r = stsch_err(blk_schid, &schib);
-> >> +    if (r == 3 || r == -EIO) {
-> >> +        return -EIO;  
-> > 
-> > -ENODEV? It means that you either have no devices, or an invalid
-> > subchannel set.  
-> 
-> We don't have ENODEV in the s390-ccw bios... but I could introduce it, I
-> guess :-)
-
-I always forget that we have only a subset of error codes here :)
-
-ENODEV looks like a reasonable value to have, though.
-
+V2hlbiBjYWxjdWxhdGluZyB0aGUgb2Zmc2V0LCB0aGUgcmVzdWx0IG9mIGxlZnQgc2hpZnQgb3Bl
+cmF0aW9uIHdpbGwgYmUgcHJvbW90ZWQNCnRvIHR5cGUgaW50NjQgYXV0b21hdGljYWxseSBiZWNh
+dXNlIHRoZSBsZWZ0IG9wZXJhbmQgb2YgKyBvcGVyYXRvciBpcyB1aW50NjRfdC4NCmJ1dCB0aGUg
+cmVzdWx0IGFmdGVyIGludGVnZXIgcHJvbW90aW9uIG1heSBiZSBwcm9kdWNlIGFuIGVycm9yIHZh
+bHVlIGZvciB1cyBhbmQNCnRyaWdnZXIgdGhlIGZvbGxvd2luZyBhc3NlcnRpbmcgZXJyb3IuDQoN
+CkZvciBleGFtcGxlLCBjb25zaWRlciBpPTB4MjAwMCwgY2x1c3Rlcl9iaXRzPTE4LCB0aGUgcmVz
+dWx0IG9mIGxlZnQgc2hpZnQNCm9wZXJhdGlvbiB3aWxsIGJlIDB4ODAwMDAwMDAuIENhdXNlIGFy
+Z3VtZW50IGkgaXMgb2Ygc2lnbmVkIGludGVnZXIgdHlwZSwNCnRoZSByZXN1bHQgaXMgYXV0b21h
+dGljYWxseSBwcm9tb3RlZCB0byAweGZmZmZmZmZmODAwMDAwMDAgd2hpY2ggaXMgbm90DQp3ZSBl
+eHBlY3RlZA0KDQpUaGUgd2F5IHRvIHRyaWdnZXIgdGhlIGFzc2VydGlvbiBlcnJvcjoNCiAgcWVt
+dS1pbWcgY3JlYXRlIC1mIHFjb3cyIC1vIHByZWFsbG9jYXRpb249ZnVsbCxjbHVzdGVyX3NpemU9
+MjU2ayB0bXBkaXNrIDEwRw0KDQpUaGlzIHBhdGNoIGZpeCBpdCBieSBjYXN0aW5nIEBpIHRvIHVp
+bnQ2NF90IGJlZm9yZSBkb2luZyBsZWZ0IHNoaWZ0IG9wZXJhdGlvbg0KDQpTaWduZWQtb2ZmLWJ5
+OiBHdW95aSBUdSA8dHUuZ3VveWlAaDNjLmNvbT4NCi0tLQ0KIGJsb2NrL3Fjb3cyLWNsdXN0ZXIu
+YyB8IDIgKy0NCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkN
+Cg0KZGlmZiAtLWdpdCBhL2Jsb2NrL3Fjb3cyLWNsdXN0ZXIuYyBiL2Jsb2NrL3Fjb3cyLWNsdXN0
+ZXIuYw0KaW5kZXggYTY3N2JhOS4uNTUwODUwYiAxMDA2NDQNCi0tLSBhL2Jsb2NrL3Fjb3cyLWNs
+dXN0ZXIuYw0KKysrIGIvYmxvY2svcWNvdzItY2x1c3Rlci5jDQpAQCAtOTgwLDcgKzk4MCw3IEBA
+IGludCBxY293Ml9hbGxvY19jbHVzdGVyX2xpbmtfbDIoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIFFD
+b3dMMk1ldGEgKm0pDQogDQogICAgIGFzc2VydChsMl9pbmRleCArIG0tPm5iX2NsdXN0ZXJzIDw9
+IHMtPmwyX3NsaWNlX3NpemUpOw0KICAgICBmb3IgKGkgPSAwOyBpIDwgbS0+bmJfY2x1c3RlcnM7
+IGkrKykgew0KLSAgICAgICAgdWludDY0X3Qgb2Zmc2V0ID0gY2x1c3Rlcl9vZmZzZXQgKyAoaSA8
+PCBzLT5jbHVzdGVyX2JpdHMpOw0KKyAgICAgICAgdWludDY0X3Qgb2Zmc2V0ID0gY2x1c3Rlcl9v
+ZmZzZXQgKyAoKHVpbnQ2NF90KWkgPDwgcy0+Y2x1c3Rlcl9iaXRzKTsNCiAgICAgICAgIC8qIGlm
+IHR3byBjb25jdXJyZW50IHdyaXRlcyBoYXBwZW4gdG8gdGhlIHNhbWUgdW5hbGxvY2F0ZWQgY2x1
+c3Rlcg0KICAgICAgICAgICogZWFjaCB3cml0ZSBhbGxvY2F0ZXMgc2VwYXJhdGUgY2x1c3RlciBh
+bmQgd3JpdGVzIGRhdGEgY29uY3VycmVudGx5Lg0KICAgICAgICAgICogVGhlIGZpcnN0IG9uZSB0
+byBjb21wbGV0ZSB1cGRhdGVzIGwyIHRhYmxlIHdpdGggcG9pbnRlciB0byBpdHMNCi0tIA0KMi43
+LjQNCg0KLS0NCkJlc3QgcmVnYXJkcywNCkd1b3lpDQoNCg==
 
