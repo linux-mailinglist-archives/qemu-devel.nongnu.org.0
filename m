@@ -2,76 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5B723C536
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 07:46:57 +0200 (CEST)
-Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F331123C55B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Aug 2020 07:57:49 +0200 (CEST)
+Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3CGN-0000FF-NE
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 01:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
+	id 1k3CQu-0003Eu-Na
+	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 01:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k3CFb-0008F9-D1
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 01:46:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35878
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3CPt-0002oq-F2
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 01:56:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32323
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k3CFY-0003yJ-AB
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 01:46:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3CPr-0005Bf-F0
+ for qemu-devel@nongnu.org; Wed, 05 Aug 2020 01:56:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596606362;
+ s=mimecast20190719; t=1596607002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dyk5hH2VIXAEWhnUjhF98siVkjaTdDCzw3x1EcpTeQo=;
- b=DcmFDsidnV1arlnve2AVYKIm+En0eUkdW4zSL+m+PUQ394LH5k3J4ax7lPSlKjY7mqCXV6
- azV/FfBlWPi5Rq8tSmZGOTxAMpOjWbxIFtE+Y2cT/p92n0CqcnElAz3W0dchiAgLqWFovT
- tMGAcVSCV15Qj7VZetjaI6IA1eeHWe0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-4HhS1IxDN16pzUlRJFLU0A-1; Wed, 05 Aug 2020 01:45:58 -0400
-X-MC-Unique: 4HhS1IxDN16pzUlRJFLU0A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5399D91271;
- Wed,  5 Aug 2020 05:45:57 +0000 (UTC)
-Received: from [10.72.12.225] (ovpn-12-225.pek2.redhat.com [10.72.12.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD9D88D76;
- Wed,  5 Aug 2020 05:45:41 +0000 (UTC)
-Subject: Re: [RFC v2 1/1] memory: Delete assertion in
- memory_region_unregister_iommu_notifier
-To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
- <eperezma@redhat.com>
-References: <20200628144746.GA239443@xz-x1>
- <54d2cdfd-97b8-9e1d-a607-d7a5e96be3a1@redhat.com>
- <20200629133403.GA266532@xz-x1>
- <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
- <20200630153911.GD3138@xz-x1>
- <69f6d6e7-a0b1-abae-894e-4e81b7e0cc90@redhat.com>
- <ff9e7af0-18c4-57e8-fc94-904fdce1123a@redhat.com>
- <20200702154540.GI40675@xz-x1>
- <34fe0e55-c0ae-8e56-462b-6281b6cca4f5@redhat.com>
- <7c17ff0c1be07c3e490fb02abb2b39a1d9f269b8.camel@redhat.com>
- <20200804203018.GD90726@xz-x1>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <901112b8-c275-987b-d391-658cb3cf5988@redhat.com>
-Date: Wed, 5 Aug 2020 13:45:39 +0800
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=adLVADmC68qrBB2RkdqJUn5Lhcto93xBfuhZYRbEgmk=;
+ b=F7Fx9s32dfyP8d8cRXauqSXELvxhn9oXY59Rz8lV1fojCu3fkA9qnoPwpg6kBWBP8Fohcb
+ unt3IEzYFCVmwuOuLuav137q31hRPduwaqS8s+lHDYB3mnPhMhnvt/PEfHBjAuZWzuQ+Zk
+ sE9a+RnDHXpjBRpspUhTEIQ+tEqdqIw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-h8QtI3nIOwa-KsnT__IsIg-1; Wed, 05 Aug 2020 01:56:40 -0400
+X-MC-Unique: h8QtI3nIOwa-KsnT__IsIg-1
+Received: by mail-wm1-f72.google.com with SMTP id i15so2034968wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Aug 2020 22:56:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=adLVADmC68qrBB2RkdqJUn5Lhcto93xBfuhZYRbEgmk=;
+ b=nrd1xx+xXaD51zs7VCn12Fkj/gVXmwY2mbyEiGW/+47oMkcGj4EVuJG72phGxZDk7W
+ p151AVUOS3RPTWnR+mc6J9d+mUPhi0pLzJB/AQapc3Ikw1qRfO7ATom96wE1JSqv3vEU
+ VrYQhEX/ldmjNE+t61H6GQROnVRDhwkrLNGVcZTnOgbjXZduE2cvhO+AGgis1KIuGTA4
+ SQ7xQ3AgBuP5LM7DHxxk4KTqGfIwq18QasRFUgP4kMpqBFAS5q7PY6/Rn3uGSwbRbYRk
+ /W/c7kU8sSRHM4lzwrspCdY1mzNZ1LxuRHnH/jIUIHeF+hz+18XKjnqnKgquuXdI6igp
+ WOtg==
+X-Gm-Message-State: AOAM53200ajiXAvw1PUAcLQKCqK4Oz11hMeeML2Iuf75MD3w5i21APwJ
+ inZe7gzdCKiMnBy9gFERv7s7GIN6sQo4D5p2jwnIJGVUs7Hq5I+ltiVsPIheV0UeLiECdfMQIHi
+ 2ZJDV7tSaAowd3so=
+X-Received: by 2002:a5d:5641:: with SMTP id j1mr1202168wrw.399.1596606999370; 
+ Tue, 04 Aug 2020 22:56:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzP3KmQpQN1k5dslHM6Ag7kCYAvPbZg2UeFvp7yvMCkcXO1djNbMDxDvyhdsPU6FD0BWLuERA==
+X-Received: by 2002:a5d:5641:: with SMTP id j1mr1202142wrw.399.1596606999144; 
+ Tue, 04 Aug 2020 22:56:39 -0700 (PDT)
+Received: from [192.168.1.43] (214.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.214])
+ by smtp.gmail.com with ESMTPSA id o7sm1217659wrv.50.2020.08.04.22.56.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Aug 2020 22:56:38 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0 1/2] hw/acpi/piix4: Add 'system-hotplug-support'
+ property
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200318221531.22910-1-philmd@redhat.com>
+ <20200318221531.22910-2-philmd@redhat.com>
+ <3ac0d8f1-15d8-51d3-b40e-8975ec1353ad@redhat.com>
+ <1b61a51a-0419-1bd3-2728-e5c11606f99e@redhat.com>
+ <c0ea77ce-bd5f-aa3b-2dd0-e4793800208a@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <fabf9f04-fbc8-79e5-4ae7-beb9a2a05f16@redhat.com>
+Date: Wed, 5 Aug 2020 07:56:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200804203018.GD90726@xz-x1>
+In-Reply-To: <c0ea77ce-bd5f-aa3b-2dd0-e4793800208a@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 01:46:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -94,83 +127,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/8/5 上午4:30, Peter Xu wrote:
-> On Mon, Aug 03, 2020 at 06:00:34PM +0200, Eugenio Pérez wrote:
->> On Fri, 2020-07-03 at 15:24 +0800, Jason Wang wrote:
->>> On 2020/7/2 下午11:45, Peter Xu wrote:
->>>> On Thu, Jul 02, 2020 at 11:01:54AM +0800, Jason Wang wrote:
->>>>> So I think we agree that a new notifier is needed?
->>>> Good to me, or a new flag should be easier (IOMMU_NOTIFIER_DEV_IOTLB)?
->>> That should work but I wonder something as following is better.
+On 3/19/20 11:02 AM, Paolo Bonzini wrote:
+> On 19/03/20 10:42, Philippe Mathieu-Daudé wrote:
+>> On 3/19/20 10:36 AM, Paolo Bonzini wrote:
+>>> On 18/03/20 23:15, Philippe Mathieu-Daudé wrote:
+>>>> The I/O ranges registered by the piix4_acpi_system_hot_add_init()
+>>>> function are not documented in the PIIX4 datasheet.
+>>>> This appears to be a PC-only feature added in commit 5e3cb5347e
+>>>> ("initialize hot add system / acpi gpe") which was then moved
+>>>> to the PIIX4 device model in commit 9d5e77a22f ("make
+>>>> qemu_system_device_hot_add piix independent")
+>>>> Add a property (default enabled, to not modify the current
+>>>> behavior) to allow machines wanting to model a simple PIIX4
+>>>> to disable this feature.
 >>>
->>> Instead of introducing new flags, how about carry the type of event in
->>> the notifier then the device (vhost) can choose the message it want to
->>> process like:
+>>> Yes, all hotplug stuff (PCI/memory/CPU) are custom additions by QEMU.
 >>>
->>> static vhost_iommu_event(IOMMUNotifier *n, IOMMUTLBEvent *event)
+>>>> +    DEFINE_PROP_BOOL("system-hotplug-support", PIIX4PMState,
+>>>> +                     use_acpi_system_hotplug, true),
 >>>
->>> {
->>>
->>> switch (event->type) {
->>>
->>> case IOMMU_MAP:
->>> case IOMMU_UNMAP:
->>> case IOMMU_DEV_IOTLB_UNMAP:
->>> ...
->>>
->>> }
->>>
->>> Thanks
->>>
->>>
->> Hi!
+>>> Why not cpu-hotplug-support?
 >>
->> Sorry, I thought I had this clear but now it seems not so clear to me. Do you mean to add that switch to the current
->> vhost_iommu_unmap_notify, and then the "type" field to the IOMMUTLBEntry? Is that the scope of the changes, or there is
->> something I'm missing?
+>> Because I have no idea what this code is about, and it seems more than
+>> cpu (pci, memory):
+> 
+> Right, I should have been more verbose.  You mentioned I/O port 0xaf00
+> which is CPU hotplug.  Perhaps unless you can also crash with PCI
+> hotplug (0xae00-0xae0f) it's worth removing only CPU hotplug from MIPS
+> machines, and keep PCI hotplug.
+
+I am sorry I don't understand what PCI hotplug has to do with PIIX which
+is a PCI-slave southbridge... If MIPS or other arch is interested in PCI
+hotplug feature, that would be managed by the northbridge or another PCI
+bridge.
+
+> 
+> Paolo
+> 
+>> static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+>>                                            PCIBus *bus, PIIX4PMState *s)
+>> {
+>>     memory_region_init_io(&s->io_gpe, OBJECT(s), &piix4_gpe_ops, s,
+>>                           "acpi-gpe0", GPE_LEN);
+>>     memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
 >>
->> If that is correct, what is the advantage for vhost or other notifiers? I understand that move the IOMMUTLBEntry (addr,
->> len) -> (iova, mask) split/transformation to the different notifiers implementation could pollute them, but this is even a deeper change and vhost is not insterested in other events but IOMMU_UNMAP, isn't?
+>>     acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+>>                     s->use_acpi_pci_hotplug);
 >>
->> On the other hand, who decide what type of event is? If I follow the backtrace of the assert in
->> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg01015.html, it seems to me that it should be
->> vtd_process_device_iotlb_desc. How do I know if it should be IOMMU_UNMAP or IOMMU_DEV_IOTLB_UNMAP? If I set it in some
->> function of memory.c, I should decide the type looking the actual notifier, isn't?
-> (Since Jason didn't reply yesterday, I'll try to; Jason, feel free to correct
->   me...)
->
-> IMHO whether to put the type into the IOMMUTLBEntry is not important.  The
-> important change should be that we introduce IOMMU_DEV_IOTLB_UNMAP (or I'd
-> rather call it IOMMU_DEV_IOTLB directly which is shorter and cleaner).  With
-> that information we can make the failing assertion conditional for MAP/UNMAP
-> only.
-
-
-Or having another dedicated device IOTLB notifier.
-
-
->    We can also allow dev-iotlb messages to take arbitrary addr_mask (so it
-> becomes a length of address range; imho we can keep using addr_mask for
-> simplicity, but we can comment for addr_mask that for dev-iotlb it can be not a
-> real mask).
-
-
-Yes.
-
-Thanks
-
-
->
-> Thanks,
->
+>>     s->cpu_hotplug_legacy = true;
+>>     object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+>>                              piix4_get_cpu_hotplug_legacy,
+>>                              piix4_set_cpu_hotplug_legacy,
+>>                              NULL);
+>>     legacy_acpi_cpu_hotplug_init(parent, OBJECT(s), &s->gpe_cpu,
+>>                                  PIIX4_CPU_HOTPLUG_IO_BASE);
+>>
+>>     if (s->acpi_memory_hotplug.is_enabled) {
+>>         acpi_memory_hotplug_init(parent, OBJECT(s),
+>> &s->acpi_memory_hotplug,
+>>                                  ACPI_MEMORY_HOTPLUG_BASE);
+>>     }
+>> }
+>>
+> 
 
 
