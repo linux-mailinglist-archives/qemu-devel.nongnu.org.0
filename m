@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4B523D7E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:13:27 +0200 (CEST)
-Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E0023D7E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:15:32 +0200 (CEST)
+Received: from localhost ([::1]:46010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3b1i-00029O-GM
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34658)
+	id 1k3b3j-0005ZB-3W
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:15:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3b0I-0000TW-N4
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:11:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20890
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3b0J-0000UM-Rt
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:12:00 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51180
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3b0G-0006AV-6n
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:11:58 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3b0H-0006Am-Ke
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:11:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596701515;
+ s=mimecast20190719; t=1596701516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y0barxTYUSvJ2TwDPT7a4rxHIHf5wsrh45pkC4a/134=;
- b=iWyvPIur/oCG//GbVA5F6UY1UvZcj+JsZOOLRC8vSaMxaSB2S9CNNsh8JEIWtY67z7s1CN
- JPeTP2rk5owahJGEKg9WlI79/B5KuV28CsHDblPCgnQt+d8mPyVsYuYP7Gr3f/IWgo6fES
- rjA7baiYsvU1TYUNBTV05iIoSimD15A=
+ bh=i+vkL/rWmSLNgGXHOv1NU1qrwCDKsI4zH1RF4xW5wW4=;
+ b=GT4APYdCrAKr4tIS79aUkLjQN9hykyVYT8J6JG0gFyP3H4F6iPMC8khNSZuoRTXgleEqKS
+ +62CbPq9tB9Of5RuBtGJh/A0l7BhRClVo2t0ccygnlO0GFoGTnKAP4xxXko9pFkmBbTI9n
+ LYyDP1aWteT4HBqTa3IIUE/DvCiBvh8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-wN0BBGeuPOWzJ7UAjG1vZw-1; Thu, 06 Aug 2020 04:11:53 -0400
-X-MC-Unique: wN0BBGeuPOWzJ7UAjG1vZw-1
+ us-mta-388-eUb1pmDNONaY8-4wc5fJPg-1; Thu, 06 Aug 2020 04:11:53 -0400
+X-MC-Unique: eUb1pmDNONaY8-4wc5fJPg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CA4580183C;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7059458;
  Thu,  6 Aug 2020 08:11:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19B625FC36;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B5D96179D;
  Thu,  6 Aug 2020 08:11:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A58F010FDD9D; Thu,  6 Aug 2020 10:11:47 +0200 (CEST)
+ id A633010FDD9E; Thu,  6 Aug 2020 10:11:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] qapi: Document event VSERPORT_CHANGE is rate-limited
-Date: Thu,  6 Aug 2020 10:11:46 +0200
-Message-Id: <20200806081147.3123652-3-armbru@redhat.com>
+Subject: [PATCH 3/3] docs/qdev-device-use: Don't suggest -drive and -net can
+ do USB
+Date: Thu,  6 Aug 2020 10:11:47 +0200
+Message-Id: <20200806081147.3123652-4-armbru@redhat.com>
 In-Reply-To: <20200806081147.3123652-1-armbru@redhat.com>
 References: <20200806081147.3123652-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +58,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -82,35 +83,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit e2ae6159de "virtio-serial: report frontend connection state via
-monitor" neglected to document the new event is rate-limited.  Fix
-that.
+Commit 480324ec8d "docs/qdev-device-use: Clean up the sentences
+related to -usbdevice" deleted the information on syntax that no
+longer works.  Unfortunately, the resulting text suggests you can
+configure USB block devices with -drive, and USB network devices with
+-net, which is misleading.
 
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>
+Instead of rephrasing the now misleading text, I'm putting the
+information back, and just make clear it's about old versions of QEMU.
+
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/char.json | 2 ++
- 1 file changed, 2 insertions(+)
+ docs/qdev-device-use.txt | 34 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/char.json b/qapi/char.json
-index 8aeedf96b2..b4d66ec90b 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -562,6 +562,8 @@
- #
- # @open: true if the guest has opened the virtio-serial port
- #
-+# Note: This event is rate-limited.
-+#
- # Since: 2.1
- #
- # Example:
+diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+index f8d0d2fe29..8532ba5224 100644
+--- a/docs/qdev-device-use.txt
++++ b/docs/qdev-device-use.txt
+@@ -125,7 +125,14 @@ The -device argument differs in detail for each type of drive:
+ 
+ * if=pflash, if=mtd, if=sd, if=xen are not yet available with -device
+ 
+-For USB storage devices, you can use something like:
++For USB devices, the old way was actually different:
++
++    -usbdevice disk:format=FMT:FILENAME
++
++"Was" because "disk:" is gone since v2.12.0.
++
++The old way provided much less control than -drive's OPTS...  The new
++way fixes that:
+ 
+     -device usb-storage,drive=DRIVE-ID,removable=RMB
+ 
+@@ -178,6 +185,9 @@ The appropriate DEVNAME depends on the machine type.  For type "pc":
+ 
+   -device usb-braille,chardev=braille -chardev braille,id=braille
+ 
++* -usbdevice serial::chardev is gone since v2.12.0.  It became
++  -device usb-serial,chardev=dev.
++
+ LEGACY-CHARDEV translates to -chardev HOST-OPTS... as follows:
+ 
+ * null becomes -chardev null
+@@ -231,6 +241,12 @@ The old way to define the guest part looks like this:
+ 
+     -net nic,netdev=NET-ID,macaddr=MACADDR,model=MODEL,name=ID,addr=STR,vectors=V
+ 
++Except for USB it looked like this:
++
++    -usbdevice net:netdev=NET-ID,macaddr=MACADDR,name=ID
++
++"Looked" because "net:" is gone since v2.12.0.
++
+ The new way is -device:
+ 
+     -device DEVNAME,netdev=NET-ID,mac=MACADDR,DEV-OPTS...
+@@ -327,6 +343,13 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
+ * wacom-tablet    -device usb-wacom-tablet
+ * braille         See "Character Devices"
+ 
++Until v2.12.0, we additionally had
++
++* host:...        See "Host Device Assignment"
++* disk:...        See "Block Devices"
++* serial:...      See "Character Devices"
++* net:...         See "Network Devices"
++
+ === Watchdog Devices ===
+ 
+ Host and guest part of watchdog devices have always been separate.
+@@ -342,7 +365,14 @@ and host USB devices.  PCI devices can only be assigned with -device:
+ 
+     -device vfio-pci,host=ADDR,id=ID
+ 
+-To assign a host USB device use:
++The old way to assign a USB host device
++
++    -usbdevice host:auto:BUS.ADDR:VID:PRID
++
++was removed in v2.12.0.  Any of BUS, ADDR, VID, PRID could be the
++wildcard *.
++
++The new way is
+ 
+     -device usb-host,hostbus=BUS,hostaddr=ADDR,vendorid=VID,productid=PRID
+ 
 -- 
 2.26.2
 
