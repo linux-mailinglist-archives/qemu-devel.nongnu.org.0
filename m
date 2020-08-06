@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A107523E208
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:23:22 +0200 (CEST)
-Received: from localhost ([::1]:57202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55D123E20E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:24:54 +0200 (CEST)
+Received: from localhost ([::1]:37218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lU1-0007s4-N7
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
+	id 1k3lVV-0002l1-Jv
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lNl-0003kU-Ce
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:16:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55140
- helo=us-smtp-1.mimecast.com)
+ id 1k3lNn-0003pe-Vf
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:16:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52661
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lNj-0006O4-G4
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:16:53 -0400
+ id 1k3lNl-0006OM-SG
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:16:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741410;
+ s=mimecast20190719; t=1596741413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sLitUbpbM6irG8a+7TtGiqB3QI3hJzEWoxne18gjXGA=;
- b=EWmVHRbMATk2oeRCNjXaDhf0UC4EYWy+5ignb3BZArQmoPXydqV8F00uou4l6OcRP2N2M+
- q1aDX+OIBWCZU/1JF+celund+QjkJto9Ec4JREDJDE3RTyvVEwTi0n5BqvFPkESsXZ5xqk
- Y1WrPnjwgcUoF0zz4qSsWSa1s3f/qVQ=
+ bh=5WIPWQa3/vbwLs70BJ9v/rXKDF6Elcew8UvMNUfoovA=;
+ b=h7NlphrEkMRkywKShH97LI8PMAWvuXYMGYSrSNCaaJelc5FeCHherndTiMt3zA+ZaNyGWp
+ VPtl5OVAZmUy7/cbaG+lqc5hl/xg3m8QKPtKbIxIQuBA9VE666M3eyIOrEJACRTaRNcQVO
+ MnyBSMoUrDZ9+M5hK9ePbe6Dx2vQBjo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-G-Px03K8OwGJg4idPReV3A-1; Thu, 06 Aug 2020 15:16:49 -0400
-X-MC-Unique: G-Px03K8OwGJg4idPReV3A-1
+ us-mta-205-N0ooJQ_xMvK0Ux3SANRVbA-1; Thu, 06 Aug 2020 15:16:50 -0400
+X-MC-Unique: N0ooJQ_xMvK0Ux3SANRVbA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D8091DE1
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:16:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B4919200C2
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:16:49 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EEE01D3;
- Thu,  6 Aug 2020 19:16:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 888185FC3B;
+ Thu,  6 Aug 2020 19:16:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 014/143] build-sys hack: link with whole .fa archives
-Date: Thu,  6 Aug 2020 21:14:10 +0200
-Message-Id: <1596741379-12902-15-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 015/143] build-sys: add meson submodule
+Date: Thu,  6 Aug 2020 21:14:11 +0200
+Message-Id: <1596741379-12902-16-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +68,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,69 +88,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-In order to link the *-obj-y files into tests, we will make static
-libraries of them in Meson, and then link them as whole archives
-into the tests.  To separate regular static libraries from link-whole
-libraries, give them a different file extension.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- rules.mak | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ .gitmodules               |  3 +++
+ configure                 | 44 +++++++++++++++++++++++++++++++++++++++++---
+ meson                     |  1 +
+ scripts/archive-source.sh |  3 ++-
+ 4 files changed, 47 insertions(+), 4 deletions(-)
+ create mode 160000 meson
 
-diff --git a/rules.mak b/rules.mak
-index e79a400..5ab42de 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -39,6 +39,13 @@ find-symbols = $(if $1, $(sort $(shell $(NM) -P -g $1 | $2)))
- defined-symbols = $(call find-symbols,$1,awk '$$2!="U"{print $$1}')
- undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
+diff --git a/.gitmodules b/.gitmodules
+index 9c0501a..ce97939 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -58,3 +58,6 @@
+ [submodule "roms/qboot"]
+ 	path = roms/qboot
+ 	url = https://github.com/bonzini/qboot
++[submodule "meson"]
++	path = meson
++	url = https://github.com/mesonbuild/meson/
+diff --git a/configure b/configure
+index 13db149..d87d544 100755
+--- a/configure
++++ b/configure
+@@ -174,6 +174,25 @@ path_of() {
+     return 1
+ }
  
-+WL := -Wl,
-+ifdef CONFIG_DARWIN
-+whole-archive = $(WL)-force_load,$1
-+else
-+whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
-+endif
++version_ge () {
++    local_ver1=`echo $1 | tr . ' '`
++    local_ver2=`echo $2 | tr . ' '`
++    while true; do
++        set x $local_ver1
++        local_first=${2-0}
++        # shift 2 does nothing if there are less than 2 arguments
++        shift; shift
++        local_ver1=$*
++        set x $local_ver2
++        # the second argument finished, the first must be greater or equal
++        test $# = 1 && return 0
++        test $local_first -lt $2 && return 1
++        test $local_first -gt $2 && return 0
++        shift; shift
++        local_ver2=$*
++    done
++}
 +
- # All the .mo objects in -m variables are also added into corresponding -y
- # variable in unnest-vars, but filtered out here, when LINK is called.
- #
-@@ -54,11 +61,12 @@ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
- # This is necessary because the exectuable itself may not use the function, in
- # which case the function would not be linked in. Then the DSO loading will
- # fail because of the missing symbol.
--process-archive-undefs = $(filter-out %.a %.mo,$1) \
-+process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
-                 $(addprefix $(WL_U), \
--                     $(filter $(call defined-symbols,$(filter %.a, $1)), \
-+                     $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
-                               $(call undefined-symbols,$(filter %.mo,$1)))) \
--                $(filter %.a,$1)
-+		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
-+		$(filter %.a,$1)
+ have_backend () {
+     echo "$trace_backends" | grep "$1" >/dev/null
+ }
+@@ -1965,9 +1984,28 @@ then
+     error_exit "Python not found. Use --python=/path/to/python"
+ fi
  
- extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
- expand-objs = $(strip $(sort $(filter %.o,$1)) \
-@@ -122,7 +130,7 @@ LD_REL := $(CC) -nostdlib $(LD_REL_FLAGS)
- modules:
+-if ! has "$meson"
+-then
+-    error_exit "Meson not found. Use --meson=/path/to/meson"
++if test -z "$meson" ; then
++    if has meson && version_ge "$(meson --version)" 0.55.0; then
++        meson=meson
++    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
++        meson=git
++    elif test -e "${source_path}/meson/meson.py" ; then
++        meson=internal
++    fi
++fi
++
++case "$meson" in
++    git | internal)
++        if test "$meson" = git; then
++            git_submodules="${git_submodules} meson"
++            (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update meson)
++        fi
++        meson="${source_path}/meson/meson.py"
++        ;;
++esac
++
++if ! has "$meson" ; then
++    error_exit "Meson not found. Use --meson=/path/to/meson|git|internal"
+ fi
+ meson=$(command -v $meson)
  
- %$(EXESUF): %.o
--	$(call LINK,$(filter %.o %.a %.mo, $^))
-+	$(call LINK,$(filter %.o %.a %.mo %.fa, $^))
+diff --git a/meson b/meson
+new file mode 160000
+index 0000000..d0c68dc
+--- /dev/null
++++ b/meson
+@@ -0,0 +1 @@
++Subproject commit d0c68dc11507a47b9b85de508e023d9590d60565
+diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
+index fb5d6b3..c6169db 100755
+--- a/scripts/archive-source.sh
++++ b/scripts/archive-source.sh
+@@ -26,7 +26,8 @@ sub_file="${sub_tdir}/submodule.tar"
+ # independent of what the developer currently has initialized
+ # in their checkout, because the build environment is completely
+ # different to the host OS.
+-submodules="dtc slirp ui/keycodemapdb tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
++submodules="dtc slirp meson ui/keycodemapdb"
++submodules="$submodules tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
+ sub_deinit=""
  
- %.a:
- 	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
-@@ -378,7 +386,7 @@ define unnest-vars
-                 $(error $o added in $v but $o-objs is not set)))
-         $(shell mkdir -p ./ $(sort $(dir $($v))))
-         # Include all the .d files
--        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$($v))))
-+        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
-         $(eval $v := $(filter-out %/,$($v))))
- endef
- 
+ function cleanup() {
 -- 
 1.8.3.1
 
