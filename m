@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A4423E43B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 01:01:20 +0200 (CEST)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3504023E45B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 01:27:10 +0200 (CEST)
+Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3osx-0000xh-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 19:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
+	id 1k3pHw-00085I-JD
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 19:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k3orq-0008Vw-7Q
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 19:00:10 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44683)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1k3pEz-00076k-Po; Thu, 06 Aug 2020 19:24:06 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k3oro-0007vQ-HB
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 19:00:09 -0400
-Received: by mail-pg1-x536.google.com with SMTP id m34so1386074pgl.11
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 16:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tDvdeLoqAS5o0vI6v0zz99GNsMFN8hc10UgJPe7JNWM=;
- b=BvQEKXWEF1vSYxlCCYQZsiRfBDFlOS1GtfvTdzAfNbkRqvMSfyeGmJF6CInZ0NhiyY
- Q1YOJOiU9q1wSzEAwc0hR9gesDYJ9qqZNqJ4I3NpGLeM/OpbtNumrmKAPDIqQ+mpXTo1
- 1rORAMDkARoSEktXJajSouCdMg0x9uHxELEkWHqqKNhqYEKM7pnJ/VCuWtV9w+VO8/nT
- QE0DxcPGLeEPvL09pR/3zvlS205cp7JhQ03mvZQgE2r3HuhW86nD735uot2eRbjAuAN6
- urTKOsz1MxVnMYc6Ux74VfXF+CRYzEH/q67wXTKNRNF91Tp5o+Kz3PBmHlsuEL2QFvZI
- xK8Q==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1k3pEx-0001u6-OW; Thu, 06 Aug 2020 19:24:05 -0400
+Received: by mail-ej1-x644.google.com with SMTP id bo3so96111ejb.11;
+ Thu, 06 Aug 2020 16:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ns+VUHIhkunqh3gb5/0BaCpY+0iYgc0OmBiyxFo4YW4=;
+ b=jQd2fDDzYrAKWnVjw6T2imkW6kN9vx4TJ7iEstR7yY5Fe9sQRHyKFT1yx2XWBelFQu
+ mnQ/XJMT/S+2p4ff3gS1qZBN1GfRIrfaPNW1atoMWBNy/moegAhzN07/Dp4PiNsFBBVY
+ nbWVYpw0NKNJPraTeNOgTUClFwITzOlLlbBP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tDvdeLoqAS5o0vI6v0zz99GNsMFN8hc10UgJPe7JNWM=;
- b=Zfaz5gJFKef+UU5mia0iIyQYbrAsZfPiRQtAvmp5rX9G9X4snozMocKUDyhdy8x3uW
- +NRNwCegUacc968JLmWm1YM/opkOUXNJc35qUNAl9LOy7jX37RDpc5PLX65wD3zp2STd
- B2V0zZldJYf/KOSVJ6yTQEYX6FiVcKri5RfbxMynpEVZavLaT7nD7qvxoAmy1W+VZYKr
- 0ET8q0bNHeSUCS/bLJyIXv4l30cdoR8Rr8I8aoDlQ88VSL8n9a0iNVtrIjOOhGvT41v7
- b7rDoTyFHfh1RLWFaROKgM4NrL+l2h1JRc5SPpuX9WD3Q3Z8mjiBStVmwkX0GLq7/L5V
- xNaw==
-X-Gm-Message-State: AOAM5326iDDRMQQJK3nR7i/RAw2/duGZe5k2RGiVKkxJJ5RnDK4dtrYz
- +bPVkGNHhkkfpq5NEy07d98gIw==
-X-Google-Smtp-Source: ABdhPJw6cR4/m5UZ1a6qFPQtdAj1bPwE7bDCziYhmEPMsyEx/jQIOD18PEWwtCYLzgRe5e9c75LmbQ==
-X-Received: by 2002:a62:e202:: with SMTP id a2mr10214279pfi.140.1596754807066; 
- Thu, 06 Aug 2020 16:00:07 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id t25sm10794494pfl.198.2020.08.06.16.00.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 16:00:06 -0700 (PDT)
-Subject: Re: [RFC v3 18/71] target/riscv: rvv-1.0: apply nanbox helper in
- opfvf_trans
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20200806104709.13235-1-frank.chang@sifive.com>
- <20200806104709.13235-19-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fe616a74-adb3-0357-dae4-d6f2c7139385@linaro.org>
-Date: Thu, 6 Aug 2020 16:00:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ns+VUHIhkunqh3gb5/0BaCpY+0iYgc0OmBiyxFo4YW4=;
+ b=hZy6EMiu0fKDwLB9ZuTRM4NOIv+rDVGFyH3YUAutEPEGEzr7IPG185vTUc9hz7sZ0g
+ yNm2+pqae4JPKsCv7MkVxXl+PhPtJDMWJJChMjwZW0athSbFCnupmv3IsBNdVx5zIRkS
+ 88fatbWe6xRZV7n5n7AjZmeTwk14xJ+FHznDOFptaY1y3jL3NaR0rDwunwo4MsliCa46
+ VYWC1HysEvwvVBA1INdvu44LPB3GcVUPJImzXbTneuVJzTQMjW7+Z04IceHi8gOEGjg9
+ mV7/kbKHGsuY8z94r9pRGzFq7qTDWejTmbyawiTWY4pLrpZiG6ZbSxRWQAzOU/8USFE/
+ 7hTw==
+X-Gm-Message-State: AOAM531UwJTzI0zzKYZqWUxgzrjFCs7t4ot78jplHSE6ZncOpFe/fDhE
+ KSR2+fTla9V8SOfnjpSBeFDMHcnFSNcXAUxMsCc=
+X-Google-Smtp-Source: ABdhPJxhQLdnuB2Uoi/YQwnjGJpy6P8ribD//OL6FUl5VNjj7flWQlGVN3BudDOjUIIeX+9rZxK673OhlcRPmecfglo=
+X-Received: by 2002:a17:906:7790:: with SMTP id
+ s16mr7125793ejm.254.1596756240334; 
+ Thu, 06 Aug 2020 16:24:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200806104709.13235-19-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+References: <20200806132106.747414-1-clg@kaod.org>
+ <20200806132106.747414-6-clg@kaod.org>
+In-Reply-To: <20200806132106.747414-6-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 6 Aug 2020 23:23:47 +0000
+Message-ID: <CACPK8Xc2A+FX4tz-mXy0eH8-SkOn3=_9zQ5xzMynMgLYBckAcw@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 05/19] hw/arm/aspeed: Add board model for
+ Supermicro X11 BMC
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +79,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ erik-smit <erik.lucas.smit@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 3:46 AM, frank.chang@sifive.com wrote:
-> From: Frank Chang <frank.chang@sifive.com>
-> 
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+On Thu, 6 Aug 2020 at 13:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> From: erik-smit <erik.lucas.smit@gmail.com>
+>
+> The BMC Firmware can be downloaded from :
+>
+>   https://www.supermicro.com/en/products/motherboard/X11SSL-F
+>
+> Signed-off-by: erik-smit <erik.lucas.smit@gmail.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> [ clg: Modified commit log ]
+> Message-Id: <20200715173418.186-1-erik.lucas.smit@gmail.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  target/riscv/insn_trans/trans_rvv.inc.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  hw/arm/aspeed.c | 35 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+>
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index fcb1a7cd8729..d17a4885a03c 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -57,6 +57,20 @@ struct AspeedMachineState {
+>          SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       =
+\
+>          SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
+>
+> +/* TODO: Find the actual hardware value */
 
-With patches 16 and 17 merged into here,
+I've asked some bmc people if they could provide this.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+> +#define SUPERMICROX11_BMC_HW_STRAP1 (                                   =
+\
+> +        SCU_AST2400_HW_STRAP_DRAM_SIZE(DRAM_SIZE_128MB) |               =
+\
+> +        SCU_AST2400_HW_STRAP_DRAM_CONFIG(2) |                           =
+\
+> +        SCU_AST2400_HW_STRAP_ACPI_DIS |                                 =
+\
+> +        SCU_AST2400_HW_STRAP_SET_CLK_SOURCE(AST2400_CLK_48M_IN) |       =
+\
+> +        SCU_HW_STRAP_VGA_CLASS_CODE |                                   =
+\
+> +        SCU_HW_STRAP_LPC_RESET_PIN |                                    =
+\
+> +        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_M_S_EN) |                =
+\
+> +        SCU_AST2400_HW_STRAP_SET_CPU_AHB_RATIO(AST2400_CPU_AHB_RATIO_2_1=
+) | \
+> +        SCU_HW_STRAP_SPI_WIDTH |                                        =
+\
+> +        SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       =
+\
+> +        SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
+> +
+>  /* AST2500 evb hardware value: 0xF100C2E6 */
+>  #define AST2500_EVB_HW_STRAP1 ((                                        =
+\
+>          AST2500_HW_STRAP1_DEFAULTS |                                    =
+\
+> @@ -603,6 +617,23 @@ static void aspeed_machine_palmetto_class_init(Objec=
+tClass *oc, void *data)
+>          aspeed_soc_num_cpus(amc->soc_name);
+>  };
+>
+> +static void aspeed_machine_supermicrox11_bmc_class_init(ObjectClass *oc,
+> +                                                        void *data)
+> +{
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> +    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
+> +
+> +    mc->desc       =3D "Supermicro X11 BMC (ARM926EJ-S)";
+> +    amc->soc_name  =3D "ast2400-a1";
+> +    amc->hw_strap1 =3D SUPERMICROX11_BMC_HW_STRAP1;
+> +    amc->fmc_model =3D "mx25l25635e";
+> +    amc->spi_model =3D "mx25l25635e";
+> +    amc->num_cs    =3D 1;
+> +    amc->macs_mask =3D ASPEED_MAC0_ON | ASPEED_MAC1_ON;
+> +    amc->i2c_init  =3D palmetto_bmc_i2c_init;
+> +    mc->default_ram_size =3D 256 * MiB;
+> +}
+> +
+>  static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void =
+*data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+> @@ -731,6 +762,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
+>          .name          =3D MACHINE_TYPE_NAME("palmetto-bmc"),
+>          .parent        =3D TYPE_ASPEED_MACHINE,
+>          .class_init    =3D aspeed_machine_palmetto_class_init,
+> +    }, {
+> +        .name          =3D MACHINE_TYPE_NAME("supermicrox11-bmc"),
+> +        .parent        =3D TYPE_ASPEED_MACHINE,
+> +        .class_init    =3D aspeed_machine_supermicrox11_bmc_class_init,
+>      }, {
+>          .name          =3D MACHINE_TYPE_NAME("ast2500-evb"),
+>          .parent        =3D TYPE_ASPEED_MACHINE,
+> --
+> 2.25.4
+>
 
