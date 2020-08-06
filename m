@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021D523E27F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:46:46 +0200 (CEST)
-Received: from localhost ([::1]:38484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF39E23E28A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:49:07 +0200 (CEST)
+Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lqe-0007FU-Uk
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43500)
+	id 1k3lsw-0002vy-MP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:49:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPO-0006zc-3I
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32911
+ id 1k3lPP-00073F-H8
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:35 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32183
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPM-0006eO-58
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:33 -0400
+ id 1k3lPN-0006ea-OM
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741511;
+ s=mimecast20190719; t=1596741513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=k+ESF/7nvgzZElmvnRWFs4/TVzz/2//KfRqAckpl/Ys=;
- b=PwhWr5rSvLSYW55ZkAJg8AMEwuRZcU4lX/FLaswR2ZntRUdMHjRolX1zGWxaQFLWYDQ1l1
- Zl+o2zcj8lvbToP/fXeMYhh91/5GVNKIHrp7NW81MGCd/YzvwqyCrsdb0UVx+Xvdtxo3L2
- ZxNgTXxWpKajzAUHYjY8h2R/AZY7HqE=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t/BkKF3IuFX7t+/khBwbH7uKOv0bkDuacFqnSU2zWCQ=;
+ b=hvstUa71CHtYN+WUjU/8rSua6xdrXECYB1399kXZW+8cOAGxq142lIqvKXLy06Tu+QKFr7
+ 8TJj7ibucFshmfDyRRg7yPpcUh3StcykuDbZ6vb2VnZZVu1TvExauCebstdtp9i1v/x+RT
+ 6k3QGRuWtoPiVM4iT7uZEdgIiBGspEQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-6r_RZt8GNlmcIq0mA6fFrQ-1; Thu, 06 Aug 2020 15:18:29 -0400
-X-MC-Unique: 6r_RZt8GNlmcIq0mA6fFrQ-1
+ us-mta-235-trL8VVIiNtCDXnOrVzggCA-1; Thu, 06 Aug 2020 15:18:30 -0400
+X-MC-Unique: trL8VVIiNtCDXnOrVzggCA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB5E19200C2
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FBC107BEF5
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:30 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5DBC69316
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 127CC5F9DC;
+ Thu,  6 Aug 2020 19:18:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 073/143] meson: convert qemu-storage-daemon
-Date: Thu,  6 Aug 2020 21:15:09 +0200
-Message-Id: <1596741379-12902-74-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 074/143] meson: convert replay directory to Meson
+Date: Thu,  6 Aug 2020 21:15:10 +0200
+Message-Id: <1596741379-12902-75-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
@@ -78,137 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                                                     |  5 -----
- Makefile.objs                                                | 10 ----------
- meson.build                                                  |  2 +-
- storage-daemon/Makefile.objs                                 |  3 ---
- storage-daemon/meson.build                                   | 12 ++++++++++++
- storage-daemon/qapi/meson.build                              |  5 +----
- .../qemu-storage-daemon.c                                    |  0
- 7 files changed, 14 insertions(+), 23 deletions(-)
- delete mode 100644 storage-daemon/Makefile.objs
- rename qemu-storage-daemon.c => storage-daemon/qemu-storage-daemon.c (100%)
+ Makefile.objs        |  1 -
+ meson.build          |  1 +
+ replay/Makefile.objs | 10 ----------
+ replay/meson.build   | 12 ++++++++++++
+ 4 files changed, 13 insertions(+), 11 deletions(-)
+ delete mode 100644 replay/Makefile.objs
+ create mode 100644 replay/meson.build
 
-diff --git a/Makefile b/Makefile
-index 6e8e541..d9d6b59 100644
---- a/Makefile
-+++ b/Makefile
-@@ -164,8 +164,6 @@ include $(SRC_PATH)/Makefile.objs
- endif
- 
- dummy := $(call unnest-vars,, \
--                storage-daemon-obj-y \
--                storage-daemon-obj-m \
-                 common-obj-y \
-                 common-obj-m)
- 
-@@ -181,7 +179,6 @@ TARGET_DIRS_RULES := $(foreach t, all fuzz clean install, $(addsuffix /$(t), $(T
- SOFTMMU_ALL_RULES=$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
- $(SOFTMMU_ALL_RULES): $(authz-obj-y)
- $(SOFTMMU_ALL_RULES): $(block-obj-y)
--$(SOFTMMU_ALL_RULES): $(storage-daemon-obj-y)
- $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
- $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
-@@ -272,8 +269,6 @@ Makefile: $(version-obj-y)
- 
- COMMON_LDADDS = libqemuutil.a
- 
--qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
--
- clean: recurse-clean
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
 diff --git a/Makefile.objs b/Makefile.objs
-index 9b9bb40..bbb6f8c 100644
+index bbb6f8c..544877a 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -32,16 +32,6 @@ io-obj-y = io/libio.fa
+@@ -67,7 +67,6 @@ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF
+ common-obj-y += hw/
+ common-obj-m += hw/
  
- endif # CONFIG_SOFTMMU or CONFIG_TOOLS
+-common-obj-y += replay/
+ common-obj-y += backends/
  
--#######################################################################
--# storage-daemon-obj-y is code used by qemu-storage-daemon (these objects are
--# used for system emulation, too, but specified separately there)
--
--storage-daemon-obj-y = block/ qapi/ qom/ storage-daemon/
--storage-daemon-obj-y += blockdev.o blockdev-nbd.o iothread.o job-qmp.o
--storage-daemon-obj-$(CONFIG_WIN32) += os-win32.o
--storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
--storage-daemon-obj-y += libqmp.fa
--
- ######################################################################
- # Target independent part of system emulation. The long term path is to
- # suppress *all* target specific code in case of system emulation, i.e. a
+ common-obj-y += qapi/
 diff --git a/meson.build b/meson.build
-index cfc57f8..2071686 100644
+index 2071686..c592241 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -566,7 +566,6 @@ subdir('util')
- subdir('qom')
- subdir('authz')
- subdir('crypto')
--subdir('storage-daemon')
- subdir('ui')
+@@ -629,6 +629,7 @@ common_ss.add(files('cpus-common.c'))
  
+ subdir('softmmu')
+ subdir('monitor')
++subdir('replay')
  
-@@ -773,6 +772,7 @@ if have_tools
-   qemu_io = executable('qemu-io', files('qemu-io.c'),
-              dependencies: [block, qemuutil], install: true)
- 
-+  subdir('storage-daemon')
-   subdir('contrib/rdmacm-mux')
-   subdir('contrib/elf2dmp')
- 
-diff --git a/storage-daemon/Makefile.objs b/storage-daemon/Makefile.objs
+ # needed for fuzzing binaries
+ subdir('tests/qtest/libqos')
+diff --git a/replay/Makefile.objs b/replay/Makefile.objs
 deleted file mode 100644
-index 41c0d02..0000000
---- a/storage-daemon/Makefile.objs
+index 939be96..0000000
+--- a/replay/Makefile.objs
 +++ /dev/null
-@@ -1,3 +0,0 @@
--storage-daemon-obj-y = qapi/libqsd-qapi.fa
--
--qemu-storage-daemon.o: storage-daemon/qapi/qapi-commands.h storage-daemon/qapi/qapi-init-commands.h
-diff --git a/storage-daemon/meson.build b/storage-daemon/meson.build
-index 35f8949..ab2aa87 100644
---- a/storage-daemon/meson.build
-+++ b/storage-daemon/meson.build
-@@ -1 +1,13 @@
-+qsd_ss = ss.source_set()
-+qsd_ss.add(files('qemu-storage-daemon.c'))
-+qsd_ss.add(block, chardev, qmp, qom, qemuutil)
-+qsd_ss.add_all(blockdev_ss)
-+
- subdir('qapi')
-+
-+if have_tools
-+  qsd_ss = qsd_ss.apply(config_host, strict: false)
-+  executable('qemu-storage-daemon',
-+             qsd_ss.sources(),
-+             dependencies: qsd_ss.dependencies())
-+endif
-diff --git a/storage-daemon/qapi/meson.build b/storage-daemon/qapi/meson.build
-index a4e24f3..cd064ac 100644
---- a/storage-daemon/qapi/meson.build
-+++ b/storage-daemon/qapi/meson.build
-@@ -4,7 +4,4 @@ qsd_qapi_files = custom_target('QAPI files for qemu-storage-daemon',
-                                command: [ qapi_gen, '-o', 'storage-daemon/qapi', '@INPUT@' ],
-                                depend_files: [ qapi_inputs, qapi_gen_depends ])
- 
--static_library('qsd-qapi',
--               qsd_qapi_files.to_list(),
--               name_suffix: 'fa',
--               build_by_default: false)
-+qsd_ss.add(qsd_qapi_files.to_list())
-diff --git a/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-similarity index 100%
-rename from qemu-storage-daemon.c
-rename to storage-daemon/qemu-storage-daemon.c
+@@ -1,10 +0,0 @@
+-common-obj-y += replay.o
+-common-obj-y += replay-internal.o
+-common-obj-y += replay-events.o
+-common-obj-y += replay-time.o
+-common-obj-y += replay-input.o
+-common-obj-y += replay-char.o
+-common-obj-y += replay-snapshot.o
+-common-obj-y += replay-net.o
+-common-obj-y += replay-audio.o
+-common-obj-y += replay-random.o
+diff --git a/replay/meson.build b/replay/meson.build
+new file mode 100644
+index 0000000..8783aea
+--- /dev/null
++++ b/replay/meson.build
+@@ -0,0 +1,12 @@
++softmmu_ss.add(files(
++  'replay.c',
++  'replay-internal.c',
++  'replay-events.c',
++  'replay-time.c',
++  'replay-input.c',
++  'replay-char.c',
++  'replay-snapshot.c',
++  'replay-net.c',
++  'replay-audio.c',
++  'replay-random.c',
++))
 -- 
 1.8.3.1
 
