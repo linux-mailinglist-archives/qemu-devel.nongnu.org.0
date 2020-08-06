@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A455E23D8EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:50:26 +0200 (CEST)
-Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332CD23D907
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:01:27 +0200 (CEST)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3cXZ-0004Ow-3P
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55100)
+	id 1k3ciD-0007qi-Kx
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:01:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k3cWi-0003xW-Qi
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:49:32 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26178
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3cgY-0006xY-Vw
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:59:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30501
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k3cWf-0000aQ-Ik
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:49:31 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3cgT-0001XU-NK
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:59:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596707367;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uRXqjSTJguqkJgZ6GjdgmssHqoMjhP+xFdyXktR2E4I=;
- b=H2hPibe/vE5Y1qRIQxVcMvujBoU5BM7bxq0D/sF/6gaYIlmZrUGBzh2pkE/SGzOxvXi40p
- DBZCz5yEMRMCJqQzywh4ettAusgr43csKOvDjiRDhewJaBh1OFCcDVHmNi1u+U4bV629b+
- ctg4USg+YF/d28WadvQ9atTngr0KiC0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-aVDo9asBNMeUR7gYIs4mgg-1; Thu, 06 Aug 2020 05:49:18 -0400
-X-MC-Unique: aVDo9asBNMeUR7gYIs4mgg-1
-Received: by mail-wr1-f70.google.com with SMTP id w1so12592205wro.4
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 02:49:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uRXqjSTJguqkJgZ6GjdgmssHqoMjhP+xFdyXktR2E4I=;
- b=cZ3A5FQvuw9PT5QHO7jxfOM98aKGpGxs9MGd4NzJqjHY6yVpk7obyxwwxIp/WrCjBF
- 38Lj45z6vz11IKUjFEwFs1DobiZsFVfO2H0QwOUNCRaWRsz/uPtOvZhJSNHZABHrmq+T
- c10HA2K7UL+05Qypv33gobr3396vHD5Zy6U4g/fZcDdYkbhwiqyVEvA75NfwARxFDNud
- uLINkUQfzduocJ4xGG/4VExh96Hbfva11gO6GvYLEe6ICE2d5isKRhK1Ug3Lc7neA45G
- 7PA1OL/ETjS5hxf2lVTvHNaw7c1mwJIocGC0SQ3CUE84+l3NFmCpgKJaA8ih+2oK4OsR
- sjAQ==
-X-Gm-Message-State: AOAM530OoGwcxfrq7gGLbL84THxQmmOME/aTJsKRnqOw9yuf8l8ZZva9
- dQ3yyw0G4f94MuFsJGxM6LSiaAVdfGcFs4fiZmEDWTf9vbWNcamOotnJ9TPVvDuj7RwkX+0KbJS
- MLc/OIwO5Q3w1ZbM=
-X-Received: by 2002:a1c:f605:: with SMTP id w5mr6977600wmc.26.1596707357392;
- Thu, 06 Aug 2020 02:49:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+bnyy+GxLSleWZG55fjT23rrPNEi9E1Tlg7YgLh6vruM8ZeHg+yhMqgdi5x76fqkK3uXyTQ==
-X-Received: by 2002:a1c:f605:: with SMTP id w5mr6977572wmc.26.1596707357108;
- Thu, 06 Aug 2020 02:49:17 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-123-8.red.bezeqint.net. [79.178.123.8])
- by smtp.gmail.com with ESMTPSA id
- i6sm5677889wrp.92.2020.08.06.02.49.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 02:49:16 -0700 (PDT)
-Date: Thu, 6 Aug 2020 05:49:14 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alyssa Ross <hi@alyssa.is>
-Subject: Re: vhost-user protocol feature negotiation
-Message-ID: <20200806054622-mutt-send-email-mst@kernel.org>
-References: <87sgd1ktx9.fsf@alyssa.is>
- <20200805181352-mutt-send-email-mst@kernel.org>
- <87lfis2lr6.fsf@alyssa.is>
+ s=mimecast20190719; t=1596707975;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=BzBBRkTJmDxX/OyyT2yMKFtBeBJLV2HKxiETMMsqdFE=;
+ b=InwW8W9+18ES4kGq6/9TFJ4p6NuLCpnE5GUu/P6sWfeiitUR+RPECeB9Q8wL+GEqRwNE2u
+ Im0SN80Tj3y+7OLy410k5vPYFPHRJm0FxclX82JDKeIYpbGX08NPJASQO/z2useGwcaj3b
+ V0vOzjWf72pz5OWJPAaKa6g+9S0xwwA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-XCRDzJQPME-eV2ixkj9Szg-1; Thu, 06 Aug 2020 05:59:26 -0400
+X-MC-Unique: XCRDzJQPME-eV2ixkj9Szg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF60758;
+ Thu,  6 Aug 2020 09:59:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C69491A4D9;
+ Thu,  6 Aug 2020 09:59:22 +0000 (UTC)
+Date: Thu, 6 Aug 2020 10:59:19 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peng Liang <liangpeng10@huawei.com>
+Subject: Re: [PATCH 0/5] log: Add logs for some modules
+Message-ID: <20200806095919.GE4159383@redhat.com>
+References: <20200806093720.2355692-1-liangpeng10@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <87lfis2lr6.fsf@alyssa.is>
+In-Reply-To: <20200806093720.2355692-1-liangpeng10@huawei.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -83,7 +68,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,118 +81,435 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 06, 2020 at 08:59:09AM +0000, Alyssa Ross wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Wed, Aug 05, 2020 at 03:13:06PM +0000, Alyssa Ross wrote:
-> >> Quoting from the definition of VHOST_USER_SET_PROTOCOL_FEATURES in
-> >> vhost-user.rst:
-> >> 
-> >> >   Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
-> >> >   ``VHOST_USER_GET_FEATURES``.
-> >> > 
-> >> > .. Note::
-> >> >    Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
-> >> >    this message even before ``VHOST_USER_SET_FEATURES`` was called.
-> >> 
-> >> To me, this could mean either of two things:
-> >> 
-> >> (1) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
-> >>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should enable the
-> >>     protocol features immediately.
-> >> 
-> >> (2) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
-> >>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should store those
-> >>     feature bits, but not actually consider them to be enabled until
-> >>     after VHOST_USER_SET_FEATURES has been received (presumably
-> >>     containing VHOST_USER_F_PROTOCOL_FEATURES).
-> >> 
-> >> The reason I bring this up is that QEMU appears to interpret it as (1),
-> >> while the vhost-user-net backend in Intel's cloud-hypervisor[1]
-> >> interprets it as (2).  So I'm looking for a clarification.
-> >> 
-> >> [1]: https://github.com/cloud-hypervisor/cloud-hypervisor
-> >> 
-> >> Thanks in advance.
-> >
-> >
-> > IMHO the intent was this: VHOST_USER_F_PROTOCOL_FEATURES bit in
-> > VHOST_USER_GET_FEATURES means that qemu can send
-> > VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
-> >
-> > With most feature bits in VHOST_USER_GET_FEATURES, the
-> > specific functionality needs to only be enabled after
-> > VHOST_USER_SET_FEATURES.
-> >
-> > However, this is for functionality dealing with guest activity.
-> > VHOST_USER_SET_PROTOCOL_FEATURES has nothing to do with guest directly,
-> > it's about negotiation between qemu and backend: it is only in
-> > VHOST_USER_GET_FEATURES for the reason that this is the only message
-> > (very) old backends reported.  Thus, the backend should not check
-> > whether VHOST_USER_SET_FEATURES sets VHOST_USER_F_PROTOCOL_FEATURES,
-> > instead it should simply always be ready to receive
-> > VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
-> >
-> > Backend that isn't always ready to handle
-> > VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES
-> > should not set VHOST_USER_F_PROTOCOL_FEATURES in
-> > VHOST_USER_GET_FEATURES.
-> 
-> Thanks for the explanation.  That matches what I had in mind with (1).
-> 
-> > This appears to be closer to (1), but if qemu can't distinguish
-> > then we don't care, right? For example, VHOST_USER_PROTOCOL_F_REPLY_ACK
-> > enables acks on arbitrary messages. Does the backend in question
-> > ignore the affected bit until SET_FEATURES? If yes won't this
-> > make qemu hang?
-> 
-> Yes.  That was my motivation for asking what the correct behaviour was,
-> so that I could fix the incorrect one. :)  I suspect that up to this point,
-> the cloud-hypervisor vhost-user-net backend has only been used with
-> cloud-hypervisor, and so this incompatibilty with QEMU was not noticed.
-> 
-> > How would you suggest clarifying the wording?
-> 
-> Do you think this communicates everything required?
-> 
-> ---
-> diff --git i/docs/interop/vhost-user.rst w/docs/interop/vhost-user.rst
-> index 10e3e3475e..72724d292a 100644
-> --- i/docs/interop/vhost-user.rst
-> +++ w/docs/interop/vhost-user.rst
-> @@ -854,9 +854,8 @@ Master message types
->    ``VHOST_USER_GET_FEATURES``.
->  
->  .. Note::
-> -   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must
-> -   support this message even before ``VHOST_USER_SET_FEATURES`` was
-> -   called.
-> +   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
-> +   with ``VHOST_USER_SET_FEATURES``.
->  
->  ``VHOST_USER_SET_PROTOCOL_FEATURES``
->    :id: 16
+On Thu, Aug 06, 2020 at 05:37:15PM +0800, Peng Liang wrote:
+> This path serial add some logs for some modeuls to make it easier to debug.
 
-Hmm I find this confusing. I think it's a good policy to ask qemu to
-acknowledge it. It's just that the client should not wait for
-VHOST_USER_SET_FEATURES before handling VHOST_USER_SET_PROTOCOL_FEATURES
-or VHOST_USER_GET_PROTOCOL_FEATURES.
+I appreciate the sentiment, but the use of 'info_report' means this
+debug info is unconditionally printed to stderr. I'm not convinced
+users in general will be happy with this approach of having stderr
+filled with debug info every time QEMU is launched.
+
+For example launching a random QEMU guest I have currently with your
+patches applied results in many 100's lines of debug output spewed
+to stderr.
+
+Much of this I think should be done as trace points so it is possible
+opt-in to acquiring debug information instead of it being unconditionally
+emitted.
+
+qemu-system-x86_64: info: qemu pid is 4174203, options parsing start
+qemu-system-x86_64: -m 2048: info: memory options parse start
+char device redirected to /dev/pts/14 (label charserial0)
+2020-08-06T09:54:56.002249Z qemu-system-x86_64: info: Finish drive init.
+2020-08-06T09:54:56.002335Z qemu-system-x86_64: info: configure accelerator pc-i440fx-3.1 start
+2020-08-06T09:54:56.002997Z qemu-system-x86_64: info: machine init start
+2020-08-06T09:54:56.003063Z qemu-system-x86_64: info: qemu enter main_loop
+2020-08-06T09:54:56.028256Z qemu-system-x86_64: info: device init start
+2020-08-06T09:54:56.032942Z qemu-system-x86_64: -device qemu-xhci,p2=15,p3=15,id=usb,bus=pci.0,addr=0x3: info: add qdev qemu-xhci:usb success
+2020-08-06T09:54:56.033952Z qemu-system-x86_64: -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x4: info: add qdev virtio-serial-pci:virtio-serial0 success
+2020-08-06T09:54:56.034915Z qemu-system-x86_64: -device virtio-blk-pci,bus=pci.0,addr=0x5,drive=libvirt-1-format,id=virtio-disk0,bootindex=1: info: add qdev virtio-blk-pci:virtio-disk0 success
+2020-08-06T09:54:56.035829Z qemu-system-x86_64: -device virtio-net-pci,netdev=hostnet0,id=net0,mac=52:54:00:ba:40:93,bus=pci.0,addr=0x2: info: add rom file: virtio-net-pci.rom
+2020-08-06T09:54:56.035981Z qemu-system-x86_64: -device virtio-net-pci,netdev=hostnet0,id=net0,mac=52:54:00:ba:40:93,bus=pci.0,addr=0x2: info: add qdev virtio-net-pci:net0 success
+2020-08-06T09:54:56.036161Z qemu-system-x86_64: -device isa-serial,chardev=charserial0,id=serial0: info: add qdev isa-serial:serial0 success
+2020-08-06T09:54:56.036214Z qemu-system-x86_64: -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=org.qemu.guest_agent.0: info: add qdev virtserialport:channel0 success
+2020-08-06T09:54:56.036806Z qemu-system-x86_64: -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x6: info: add qdev virtio-balloon-pci:balloon0 success
+2020-08-06T09:54:56.037728Z qemu-system-x86_64: -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.0,addr=0x7: info: add qdev virtio-rng-pci:rng0 success
+2020-08-06T09:54:56.046939Z qemu-system-x86_64: info: reset all devices
+2020-08-06T09:54:56.048999Z qemu-system-x86_64: info: qemu enter main_loop
+info: qmp_cmd_name: qmp_capabilities, arguments: {}
+info: qmp_cmd_name: query-migrate-capabilities, arguments: {}
+info: qmp_cmd_name: migrate-set-capabilities, arguments: {"capabilities": [{"state": true, "capability": "events"}]}
+info: qmp_cmd_name: query-chardev, arguments: {}
+info: qmp_cmd_name: qom-list, arguments: {"path": "/machine/unattached/device[0]"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "realized"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hotplugged"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hotpluggable"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fill-mtrr-mask"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "x-force-features"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-vpindex"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "enforce"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-runtime"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-tlbflush"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-crash"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-reset"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pmu"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-relaxed"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tcg-cpuid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmware-cpuid-freq"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-stimer"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "legacy-cache"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "x-migrate-smi-count"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-reenlightenment"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "x-hv-synic-kvm-only"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "l3-cache"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "lmce"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-passthrough"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-no-smi-migration"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-stimer-direct"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "host-phys-bits"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "check"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-time"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "full-cpuid-auto-level"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-synic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-evmcs"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-ipi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-vapic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cpuid-0xb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hv-frequencies"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "x-intel-pt-auto-level"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invept-single-context"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "core-capability"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "popcnt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_mmu"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "dtes64"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4_1"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invvpid-single-addr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xstore"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-vmfunc"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pse36"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512-4vnniw"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fma4"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512-vp2intersect"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-poll-control"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_nopiodelay"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "amd-stibp"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pclmuldq"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-store-lma"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "erms"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vaes"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-activity-wait-sipi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-flexpriority"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rdrand"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ept-advanced-exitinfo"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-pause-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-shadow-vmcs"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512-vpopcntdq"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tbm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xcrypt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "lm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-pv-eoi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-monitor-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-eptad"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pae"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ssse3"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-unrestricted-guest"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "phe"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "movdiri"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "taa-no"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "full-width-write"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "perfctr_nb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "arat"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512vbmi2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "perfctr_core"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_asyncpf"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "x2apic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "npt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512ifma"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_poll_control"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-vnmi-pending"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invpcid-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-io-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pmm-en"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsc"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ins-outs"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "dca"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-apicv-x2apic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ia64"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "perfctr-core"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-cr3-load-noexit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvmclock"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-noload-debugctl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "invtsc"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pn"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512cd"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "md-clear"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cmp-legacy"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cx16"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512dq"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "abm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-activity-shutdown"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-pv-ipi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-apicv-register"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fxsr-opt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "skip-l1dfl-vmentry"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pcid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rdpid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "wbnoinvd"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "syscall"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pse"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsc_scale"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mce"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xsaves"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-load-pat"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ibpb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-apicv-xapic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cldemote"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rtm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "lwp"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-steal-time"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-hlt-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-load-efer"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "nrip_save"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invlpg-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-save-efer"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-eptp-switching"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vme"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-pv-unhalt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-desc-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_pv_unhalt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "svm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "lahf-lm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invvpid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-hint-dedicated"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mca"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mtrr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmcb_clean"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pfthreshold"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pmm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pbe"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-ia32e-mode"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-rdpmc-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "split-lock-detect"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fpu"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "skinit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sep"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512-bf16"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-rdtscp-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "nx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invvpid-all-context"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ds-cpl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pause-filter"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fsrm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pause_filter"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-vmwrite-vmexit-fields"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ept"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "nodeid-msr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "smap"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-io-bitmap"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-intr-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fxsr_opt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cr8legacy"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cmp_legacy"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-zero-len-inject"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "virt-ssbd"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pschange-mc-no"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "umip"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512er"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-vpid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xstore-en"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512vl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invept-single-context-noglobals"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cmov"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rsba"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-posted-intr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xcrypt-en"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tm2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-clear-bndcfgs"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ept-execonly"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-load-efer"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xsaveerptr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fsgsbase"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512bw"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-vintr-pending"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "smx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-secondary-ctls"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "lbrv"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hle"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "monitor"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tce"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4a"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vpclmulqdq"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsc-scale"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-pv-tlb-flush"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mds-no"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-cr8-load-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-activity-hlt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "i64"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "adx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invept-all-context"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ffxsr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "amd-no-ssb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-load-bndcfgs"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "svm_lock"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "msr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pclmulqdq"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-preemption-timer"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "clflush"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ssb-no"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mpx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "extapic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-vnmi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xop"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-rdseed-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "smep"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-mwait-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-rdtsc-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "cx8"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4-2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xsavec"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pku"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsx-ldtrk"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-mtf"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmcb-clean"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-load-pat"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "stibp"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-cr3-store-noexit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsx-ctrl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "svm-lock"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4-1"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "lahf_lm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_pv_eoi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "clzero"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ds"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "osvw"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm_steal_time"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-true-ctls"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "movdir64b"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-invept"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "acpi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xd"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "nodeid_msr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ds_cpl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ept-1gb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "nrip-save"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "gfni"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-mmu"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse3"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "serialize"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512bitalg"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rdseed"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sha-ni"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ace2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "waitpkg"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-rdrand-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "f16c"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "3dnowprefetch"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-encls-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "topoext"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rdctl-no"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mmx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512-4fmaps"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-cr8-store-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512vnni"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pni"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "movbe"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "mmxext"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ple"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-apicv-vid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "flushbyasid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "rdtscp"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "clwb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-asyncpf"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-pv-sched-yield"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "decodeassists"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pat"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "invpcid"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pdpe1gb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-save-pat"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsc-adjust"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-load-rtit-ctl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ht"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xtpr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsc_adjust"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-tsc-offset"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ssbd"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-clear-rtit-ctl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "3dnowext"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "clflushopt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pdcm"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xsave"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "est"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pge"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "pcommit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ibs"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "tsc-deadline"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvmclock-stable-bit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "misalignsse"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-msr-bitmap"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "perfctr-nb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "apic"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512vbmi"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-nosave-debugctl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512f"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-save-preemption-timer"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "arch-capabilities"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "bmi2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-pml"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-nmi-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "intel-pt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "wdt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ace2-en"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "avx512pf"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "bmi1"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-page-walk-5"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "kvm-nopiodelay"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4.2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-ept-2mb"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-load-perf-global-ctrl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "3dnow"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-wbinvd-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "la57"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-page-walk-4"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4.1"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ibrs-all"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xgetbv1"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "xsaveopt"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "spec-ctrl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-entry-load-perf-global-ctrl"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-exit-ack-intr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-xsaves"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "phe-en"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fxsr"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "hypervisor"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "aes"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "amd-ssbd"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "sse4_2"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "de"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "ss"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "vmx-movdr-exit"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "fma"}
+info: qmp_cmd_name: qom-get, arguments: {"path": "/machine/unattached/device[0]", "property": "unavailable-features"}
+info: qmp_cmd_name: query-hotpluggable-cpus, arguments: {}
+info: qmp_cmd_name: query-cpus-fast, arguments: {}
+info: qmp_cmd_name: query-iothreads, arguments: {}
+info: qmp_cmd_name: balloon, arguments: {"value": 2147483648}
+info: qmp_cmd_name: qom-list, arguments: {"path": "/machine/peripheral"}
+info: qmp_cmd_name: query-block, arguments: {}
+info: qmp_cmd_name: cont, arguments: {}
+info: qmp cont is received and vm is started
+info: {"timestamp": {"seconds": 1596707696, "microseconds": 348455}, "event": "RESUME"}
+2020-08-06T09:54:57.800270Z qemu-system-x86_64: info: virtio-rng device status is 1 that means ACKNOWLEDGE
+2020-08-06T09:54:57.800301Z qemu-system-x86_64: info: virtio-rng device status is 3 that means DRIVER
+2020-08-06T09:54:57.800361Z qemu-system-x86_64: info: virtio-rng device status is 7 that means DRIVER OK
+2020-08-06T09:54:57.986059Z qemu-system-x86_64: info: virtio-blk device status is 1 that means ACKNOWLEDGE
+2020-08-06T09:54:57.986089Z qemu-system-x86_64: info: virtio-blk device status is 3 that means DRIVER
+2020-08-06T09:54:57.986177Z qemu-system-x86_64: info: virtio-blk device status is 7 that means DRIVER OK
+2020-08-06T09:55:06.599507Z qemu-system-x86_64: terminating on signal 15 from pid 4173713 (/usr/sbin/libvirtd)
+2020-08-06T09:55:06.599580Z qemu-system-x86_64: info: {"timestamp": {"seconds": 1596707706, "microseconds": 599541}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-signal"}}
+2020-08-06T09:55:06.599977Z qemu-system-x86_64: info: virtio-rng device status is 7 that means DRIVER OK
+2020-08-06T09:55:06.600085Z qemu-system-x86_64: info: virtio-blk device status is 7 that means DRIVER OK
+2020-08-06 09:55:06.800+0000: shutting down, reason=destroyed
 
 
-> @@ -869,8 +868,8 @@ Master message types
->    ``VHOST_USER_GET_FEATURES``.
->  
->  .. Note::
-> -   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
-> -   this message even before ``VHOST_USER_SET_FEATURES`` was called.
-> +   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
-> +   with ``VHOST_USER_SET_FEATURES``.
->  
->  ``VHOST_USER_SET_OWNER``
->    :id: 3
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
