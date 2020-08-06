@@ -2,52 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD9523D5E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 05:59:01 +0200 (CEST)
-Received: from localhost ([::1]:33676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D295D23D63A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 07:00:07 +0200 (CEST)
+Received: from localhost ([::1]:41562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3X3U-0000N0-Ot
-	for lists+qemu-devel@lfdr.de; Wed, 05 Aug 2020 23:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36930)
+	id 1k3Y0c-0007c4-BP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 01:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1k3X2M-0007Zw-5X
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 23:57:50 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4225 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1k3X2K-0001RP-8l
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 23:57:49 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 5EB811B8F1C5E96A95DB;
- Thu,  6 Aug 2020 11:57:44 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 6 Aug 2020
- 11:57:38 +0800
-From: Ying Fang <fangying1@huawei.com>
-To: <qemu-devel@nongnu.org>, <imammedo@redhat.com>, <mst@redhat.com>
-Subject: [PATCH v5 2/2] tests/bios-tables-test: add smbios cpu speed test
-Date: Thu, 6 Aug 2020 11:56:34 +0800
-Message-ID: <20200806035634.376-3-fangying1@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20200806035634.376-1-fangying1@huawei.com>
-References: <20200806035634.376-1-fangying1@huawei.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3Xzq-00076E-Gt
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 00:59:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30202
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3Xzo-0008WF-EN
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 00:59:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596689955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9H2sWurs7qvgmg+995i0t8adhxofUEjhuOEZOc2fKYo=;
+ b=PLCk+qrm+Yrpmwa6ENzWHJykBfMr42cgJy3uwy0rNEbMJvZvaNPpJdcK9doifI27ZQ6RK9
+ ev4BFHJM51YCIZmdO0rCCqHaTImc6i8JuDeeXdUGqgx5GcsPPNp7po34frNesjTbuVzTrr
+ rKmUvF3E9NVaQ0OCMbQ6jFZXTeKlgA4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-FPcBWZFQMraHkiH99PxXuQ-1; Thu, 06 Aug 2020 00:59:11 -0400
+X-MC-Unique: FPcBWZFQMraHkiH99PxXuQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9433458;
+ Thu,  6 Aug 2020 04:59:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 010C17B913;
+ Thu,  6 Aug 2020 04:59:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8CDE01132801; Thu,  6 Aug 2020 06:58:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: cleanups with long-term benefits (was Re: [PATCH] schemas: Add
+ vim modeline)
+References: <20200729185024.121766-1-abologna@redhat.com>
+ <87ime52wxd.fsf@dusky.pond.sub.org>
+ <20200730093732.GB3477223@redhat.com>
+ <87k0ylz0ep.fsf@dusky.pond.sub.org>
+ <20200730132446.GL3477223@redhat.com>
+ <875za33ku1.fsf@dusky.pond.sub.org>
+ <20200731150738.GB3660103@redhat.com>
+ <2cf1a431-9d2c-8ad6-446e-f10b36219764@redhat.com>
+ <87d048i1m2.fsf@dusky.pond.sub.org>
+ <83bbe0b0-c5e0-e3b7-5ba1-5946098370d5@redhat.com>
+ <87ft94klyl.fsf@dusky.pond.sub.org>
+ <490a0786-73f3-411e-4dfe-8c2ae90de251@redhat.com>
+ <87y2mvhg3k.fsf@dusky.pond.sub.org>
+ <facfef76-d880-82dd-f862-a64f8f487ba2@redhat.com>
+ <87k0yeg7mc.fsf@dusky.pond.sub.org>
+ <6e5df5fc-94f8-ee8e-0c14-f56135de25e4@redhat.com>
+ <87o8np5ysp.fsf@dusky.pond.sub.org>
+ <90445173-cc5c-e725-5782-5b1095af6e53@redhat.com>
+Date: Thu, 06 Aug 2020 06:58:58 +0200
+In-Reply-To: <90445173-cc5c-e725-5782-5b1095af6e53@redhat.com> (John Snow's
+ message of "Wed, 5 Aug 2020 12:04:16 -0400")
+Message-ID: <87lfis5q0d.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.174.185.104]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 23:57:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,109 +100,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, zhang.zhanghailiang@huawei.com, alex.chen@huawei.com,
- Ying Fang <fangying1@huawei.com>, Heyi Guo <guoheyi@huawei.com>,
- philmd@redhat.com
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add smbios type 4 CPU speed check for we added new options to set
-smbios type 4 "max speed" and "current speed". The default value
-should be 2000 when no option is specified, just as the old version
-did.
+John Snow <jsnow@redhat.com> writes:
 
-We add the test case to one machine of each architecture, though it
-doesn't really run on aarch64 platform for smbios test can't run on
-uefi only platform yet.
+> On 8/5/20 3:36 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>>
+>>> On 8/4/20 4:03 AM, Markus Armbruster wrote:
+>>>> The pain of tweaking the parser is likely dwarved several times over by
+>>>> the pain of the flag day.
+>>>
+>>> You mention this often; I wonder if I misunderstand the critique,
+>>> because the pain of a "flag day" for a new file format seems
+>>> negligible to me.
+>>>
+>>> I don't think we edit these .json files very often. Generally, we add
+>>> a new command when we need one. The edits are usually one or two lines
+>>> plus docstrings.
+>>>
+>>> If anyone has patches in-flight, I genuinely doubt it will take more
+>>> than a few minutes to rewrite for the new file format.
+>>>
+>>> No?
+>>
+>> You describe the the flag day's one-time pain.
+>>
+>> There's also the longer term pain of having to work around git-blame
+>> unable to see beyond the flag day.
+>>
+>
+> So it's not really the "flag day" we're worried about anymore, it's
+> the ongoing ease-of-use for vcs history.
 
-Signed-off-by: Ying Fang <fangying1@huawei.com>
-Signed-off-by: Heyi Guo <guoheyi@huawei.com>
----
- tests/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+Feel free to call that pain however you want.  I'm going to call it
+"lasting aftereffects of the flag day" :)
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index a356ac3489..6bd165021b 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -37,6 +37,8 @@ typedef struct {
-     GArray *tables;
-     uint32_t smbios_ep_addr;
-     struct smbios_21_entry_point smbios_ep_table;
-+    uint16_t smbios_cpu_max_speed;
-+    uint16_t smbios_cpu_curr_speed;
-     uint8_t *required_struct_types;
-     int required_struct_types_len;
-     QTestState *qts;
-@@ -516,6 +518,31 @@ static inline bool smbios_single_instance(uint8_t type)
-     }
- }
- 
-+static bool smbios_cpu_test(test_data *data, uint32_t addr)
-+{
-+    uint16_t expect_speed[2];
-+    uint16_t real;
-+    int offset[2];
-+    int i;
-+
-+    /* Check CPU speed for backward compatibility */
-+    offset[0] = offsetof(struct smbios_type_4, max_speed);
-+    offset[1] = offsetof(struct smbios_type_4, current_speed);
-+    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
-+    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
-+
-+    for (i = 0; i < 2; i++) {
-+        real = qtest_readw(data->qts, addr + offset[i]);
-+        if (real != expect_speed[i]) {
-+            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
-+                    real, expect_speed[i]);
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
- static void test_smbios_structs(test_data *data)
- {
-     DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) = { 0 };
-@@ -538,6 +565,10 @@ static void test_smbios_structs(test_data *data)
-         }
-         set_bit(type, struct_bitmap);
- 
-+        if (type == 4) {
-+            g_assert(smbios_cpu_test(data, addr));
-+        }
-+
-         /* seek to end of unformatted string area of this struct ("\0\0") */
-         prv = crt = 1;
-         while (prv || crt) {
-@@ -673,6 +704,11 @@ static void test_acpi_q35_tcg(void)
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-     test_acpi_one(NULL, &data);
-     free_test_data(&data);
-+
-+    data.smbios_cpu_max_speed = 3000;
-+    data.smbios_cpu_curr_speed = 2600;
-+    test_acpi_one("-smbios type=4,max-speed=3000,current-speed=2600", &data);
-+    free_test_data(&data);
- }
- 
- static void test_acpi_q35_tcg_bridge(void)
-@@ -885,6 +921,12 @@ static void test_acpi_virt_tcg(void)
- 
-     test_acpi_one("-cpu cortex-a57", &data);
-     free_test_data(&data);
-+
-+    data.smbios_cpu_max_speed = 2900;
-+    data.smbios_cpu_curr_speed = 2700;
-+    test_acpi_one("-cpu cortex-a57 "
-+                  "-smbios type=4,max-speed=2900,current-speed=2700", &data);
-+    free_test_data(&data);
- }
- 
- int main(int argc, char *argv[])
--- 
-2.23.0
+>> I'm not claiming the pain is prohibitive (if I thought it was, I
+>> would've tried to strange this thread in its crib), I am claiming it'll
+>> be much more painful (read: expensive) than a parser tweak.
+>>
+>
+> I do use `git blame` quite a lot, but with a project as old as QEMU,
+> most of my trips through history do involve jumping across a few
+> refactor gaps as a normal part of that process.
+>
+> As Dan points out, I often have to back out and add refactorSHA^ to my
+> invocation, and just keep hopping backwards until I find what I am
+> truly after. It just feels like a fact of programmer life for me at
+> this point.
+
+The fact that we all need to cope with this class of issue doesn't mean
+we should create more instances unthinkingly.
+
+We should only when we believe the benefits are worth it, and can't find
+a cheaper way to get them.
+
+We've discussed "is it really that bad" at some length.  What I'm
+missing so far is a clear writeup of the benefits beyond "editor works
+out of the box" (which is quite a desirable benefit, but can also be had
+without a flag day).
+
+> I've not used Paolo's invocation before, but it looks like it might be
+> useful. I'll try to remember to try it out.
 
 
