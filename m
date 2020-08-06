@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA68D23D9EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:28:49 +0200 (CEST)
-Received: from localhost ([::1]:55124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5046423D9E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:27:06 +0200 (CEST)
+Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3e4m-0007H2-Ul
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
+	id 1k3e37-0003JU-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3dXf-0005Cq-35
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:54:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35411
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3dXo-0005Qs-2g
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:54:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34336
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3dXd-0000Mo-3O
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:54:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3dXj-0000Ns-6Y
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:54:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596711272;
+ s=mimecast20190719; t=1596711278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=4BmZ5R/B5KF+JC5CuMlI6vsCTV8fruRdJKUwCMQH7+E=;
- b=B+wfnzsCOSErMyryXzLfOc/Kqi4/G7uNdrjMOuTbkcKHOx0KgjZ7P3qJoJl7tPRfX5M9xD
- ooiXA1orsOzS8HDEhwQ9xLK4hgkgUqSGIZRBXk2pd2jJLMb1CykSDPZDsghPwhHBErKtzb
- gQ7sUeFcXm6piCxj5VxVnJfIfTnPF/0=
+ references:references; bh=5qakGv2SRjWkcEgBZWP7EefV+cPuJFE+yK79HsvsXaI=;
+ b=Un1COuSzxK+nUTr6PwOyN990sN+j6OJ6Ft50ouELbSKqnqKUuD0gbx3hRtt0KbVLpKk7UK
+ pog6ctsHseoN8R9rAkWHGwKhoppXZLuFD8uVb5IrjlXWAaAOFYrykVhCxAJdWnvn0+jNsR
+ UBklWxrHrbgiLdmnMMtTpRvZ/4IzqZY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-XBrdwAbkP4CYIxmaq3YqZA-1; Thu, 06 Aug 2020 06:54:28 -0400
-X-MC-Unique: XBrdwAbkP4CYIxmaq3YqZA-1
+ us-mta-17-PMISKduCMiWaWw81A95dgA-1; Thu, 06 Aug 2020 06:54:37 -0400
+X-MC-Unique: PMISKduCMiWaWw81A95dgA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 419F4100AA23;
- Thu,  6 Aug 2020 10:54:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BFEF800404;
+ Thu,  6 Aug 2020 10:54:35 +0000 (UTC)
 Received: from thuth.com (ovpn-112-229.ams2.redhat.com [10.36.112.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A8BA65C82;
- Thu,  6 Aug 2020 10:54:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 233685F202;
+ Thu,  6 Aug 2020 10:54:31 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 v2 7/9] pc-bios/s390-ccw: Allow booting in case the
- first virtio-blk disk is bad
-Date: Thu,  6 Aug 2020 12:53:47 +0200
-Message-Id: <20200806105349.632-8-thuth@redhat.com>
+Subject: [PATCH for-5.2 v2 9/9] tests/qtest/cdrom: Add more s390x-related boot
+ tests
+Date: Thu,  6 Aug 2020 12:53:49 +0200
+Message-Id: <20200806105349.632-10-thuth@redhat.com>
 In-Reply-To: <20200806105349.632-1-thuth@redhat.com>
 References: <20200806105349.632-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,97 +85,45 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you try to boot with two virtio-blk disks (without bootindex), and
-only the second one is bootable, the s390-ccw bios currently stops at
-the first disk and does not continue booting from the second one. This
-is annoying - and all other major QEMU firmwares succeed to boot from
-the second disk in this case, so we should do the same in the s390-ccw
-bios, too.
+Let's add two new tests:
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+1) Booting with "bootindex" is the architected default behavior on the
+s390x target, so we should have at least one test that is using the
+"bootindex" property.
+
+2) The s390-ccw bios used to fail when other unbootable devices have
+been specified before the bootable device (without "bootindex"). Now
+that the s390-ccw bios is a little bit smarter here, we should test
+this scenario, too, to avoid regressions.
+
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/bootmap.c | 34 +++++++++++++++++++++++-----------
- pc-bios/s390-ccw/main.c    |  2 +-
- 2 files changed, 24 insertions(+), 12 deletions(-)
+ tests/qtest/cdrom-test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index 97205674e5..0ef6b851f3 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -289,11 +289,18 @@ static void ipl_eckd_cdl(void)
-     read_block(1, ipl2, "Cannot read IPL2 record at block 1");
- 
-     mbr = &ipl2->mbr;
--    IPL_assert(magic_match(mbr, ZIPL_MAGIC), "No zIPL section in IPL2 record.");
--    IPL_assert(block_size_ok(mbr->blockptr.xeckd.bptr.size),
--               "Bad block size in zIPL section of IPL2 record.");
--    IPL_assert(mbr->dev_type == DEV_TYPE_ECKD,
--               "Non-ECKD device type in zIPL section of IPL2 record.");
-+    if (!magic_match(mbr, ZIPL_MAGIC)) {
-+        sclp_print("No zIPL section in IPL2 record.\n");
-+        return;
-+    }
-+    if (!block_size_ok(mbr->blockptr.xeckd.bptr.size)) {
-+        sclp_print("Bad block size in zIPL section of IPL2 record.\n");
-+        return;
-+    }
-+    if (!mbr->dev_type == DEV_TYPE_ECKD) {
-+        sclp_print("Non-ECKD device type in zIPL section of IPL2 record.\n");
-+        return;
-+    }
- 
-     /* save pointer to Boot Map Table */
-     bmt_block_nr = eckd_block_num(&mbr->blockptr.xeckd.bptr.chs);
-@@ -303,10 +310,14 @@ static void ipl_eckd_cdl(void)
- 
-     memset(sec, FREE_SPACE_FILLER, sizeof(sec));
-     read_block(2, vlbl, "Cannot read Volume Label at block 2");
--    IPL_assert(magic_match(vlbl->key, VOL1_MAGIC),
--               "Invalid magic of volume label block");
--    IPL_assert(magic_match(vlbl->f.key, VOL1_MAGIC),
--               "Invalid magic of volser block");
-+    if (!magic_match(vlbl->key, VOL1_MAGIC)) {
-+        sclp_print("Invalid magic of volume label block.\n");
-+        return;
-+    }
-+    if (!magic_match(vlbl->f.key, VOL1_MAGIC)) {
-+        sclp_print("Invalid magic of volser block.\n");
-+        return;
-+    }
-     print_volser(vlbl->f.volser);
- 
-     run_eckd_boot_script(bmt_block_nr, s1b_block_nr);
-@@ -398,7 +409,8 @@ static void ipl_eckd(void)
-     read_block(0, mbr, "Cannot read block 0 on DASD");
- 
-     if (magic_match(mbr->magic, IPL1_MAGIC)) {
--        ipl_eckd_cdl(); /* no return */
-+        ipl_eckd_cdl();         /* only returns in case of error */
-+        return;
-     }
- 
-     /* LDL/CMS? */
-@@ -825,5 +837,5 @@ void zipl_load(void)
-         panic("\n! Unknown IPL device type !\n");
-     }
- 
--    panic("\n* this can never happen *\n");
-+    sclp_print("zIPL load failed.\n");
+diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+index 833a0508a1..13e22f57c1 100644
+--- a/tests/qtest/cdrom-test.c
++++ b/tests/qtest/cdrom-test.c
+@@ -163,6 +163,18 @@ static void add_s390x_tests(void)
+     qtest_add_data_func("cdrom/boot/virtio-scsi",
+                         "-device virtio-scsi -device scsi-cd,drive=cdr "
+                         "-blockdev file,node-name=cdr,filename=", test_cdboot);
++    qtest_add_data_func("cdrom/boot/with-bootindex",
++                        "-device virtio-serial -device virtio-scsi "
++                        "-device virtio-blk,drive=d1 "
++                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
++                        "-device virtio-blk,drive=d2,bootindex=1 "
++                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
++    qtest_add_data_func("cdrom/boot/without-bootindex",
++                        "-device virtio-scsi -device virtio-serial "
++                        "-device x-terminal3270 -device virtio-blk,drive=d1 "
++                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
++                        "-device virtio-blk,drive=d2 "
++                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
  }
-diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
-index 9b581074a1..fc17e6ab83 100644
---- a/pc-bios/s390-ccw/main.c
-+++ b/pc-bios/s390-ccw/main.c
-@@ -240,7 +240,7 @@ static void ipl_boot_device(void)
-         break;
-     case CU_TYPE_VIRTIO:
-         if (virtio_setup() == 0) {
--            zipl_load(); /* no return */
-+            zipl_load();             /* Only returns in case of errors */
-         }
-         break;
-     default:
+ 
+ int main(int argc, char **argv)
 -- 
 2.18.1
 
