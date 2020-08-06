@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DC323E22D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:29:38 +0200 (CEST)
-Received: from localhost ([::1]:33796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7E523E23C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:32:24 +0200 (CEST)
+Received: from localhost ([::1]:46274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3la5-0004Oq-Jl
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42822)
+	id 1k3lck-0001AS-Vx
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lON-0004aI-T4
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43414
- helo=us-smtp-1.mimecast.com)
+ id 1k3lO4-0004B3-Fi
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58694
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lOL-0006Sw-M5
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:31 -0400
+ id 1k3lO1-0006Pu-SH
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741448;
+ s=mimecast20190719; t=1596741428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FWzeLdA7AjO9LbE9ZvfOW7pkv/2p9dgjl+PlSuJV4KU=;
- b=FQALa2K9PdUWEEeRJWbG/6oN/U6qV34JptYfczlSlwcMjmMzV+wACXoWJp2CpOSTq2zrcV
- YdCC6qy0q2wsBrMm97LkG05oQvGb+SV9cR2ceDtfLHvKkFvbTGrZFM2zUE7u7bUAFetliZ
- egxRW6AuWBUexgkjwx+C44ym/WZ9NGU=
+ bh=hNE0EeXeqTUqWELP3c57g12zOF3p00FeWrnLwjK6UQk=;
+ b=f9ea2eVTGK/FojpnSARYHLF/sxUedHOdT5ELNL9TtQG3Ivj7rXQTLCzXfdHqP3tiJqJHoH
+ f55OBtn2vIXmlWq5dQ8KJv3NK5BBplLx1X6FsrxEwCf8rqr6L3N97sX6v3eS1lfUhRK6cc
+ IRN2Nv2fcF3HRaLo7t3bG2YXCcHffJY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-4NbhU9TAMJu2iMkkU8t32w-1; Thu, 06 Aug 2020 15:17:27 -0400
-X-MC-Unique: 4NbhU9TAMJu2iMkkU8t32w-1
+ us-mta-504-bA6VQC9QMRGYku9vm4vEfA-1; Thu, 06 Aug 2020 15:17:06 -0400
+X-MC-Unique: bA6VQC9QMRGYku9vm4vEfA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 358F08014C1
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3600800404
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:05 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 459EB5FC30;
- Thu,  6 Aug 2020 19:17:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B44365FC30;
+ Thu,  6 Aug 2020 19:17:04 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 034/143] meson: convert vss-win32
-Date: Thu,  6 Aug 2020 21:14:30 +0200
-Message-Id: <1596741379-12902-35-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 022/143] meson: add remaining generated tcg trace helpers
+Date: Thu,  6 Aug 2020 21:14:18 +0200
+Message-Id: <1596741379-12902-23-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,18 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,134 +90,101 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                    |  1 -
- Makefile.objs               |  8 --------
- qga/Makefile.objs           |  1 -
- qga/meson.build             |  6 ++++++
- qga/vss-win32/Makefile.objs | 23 -----------------------
- qga/vss-win32/meson.build   | 33 +++++++++++++++++++++++++++++++++
- 6 files changed, 39 insertions(+), 33 deletions(-)
- delete mode 100644 qga/Makefile.objs
- delete mode 100644 qga/vss-win32/Makefile.objs
- create mode 100644 qga/vss-win32/meson.build
+ Makefile          | 51 ---------------------------------------------------
+ trace/meson.build | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 51 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 05f774d..3451981 100644
+index 5209d17..3f902a2 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -285,7 +285,6 @@ endif
- dummy := $(call unnest-vars,, \
-                 authz-obj-y \
-                 chardev-obj-y \
--                qga-vss-dll-obj-y \
-                 block-obj-y \
-                 block-obj-m \
-                 storage-daemon-obj-y \
-diff --git a/Makefile.objs b/Makefile.objs
-index 259f993..baf1565 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -91,11 +91,3 @@ common-obj-y += disas/
- ######################################################################
- # Resource file for Windows executables
- version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
+@@ -121,61 +121,10 @@ FULL_VERSION := $(if $(QEMU_PKGVERSION),$(VERSION) ($(QEMU_PKGVERSION)),$(VERSIO
+ 
+ generated-files-y = qemu-version.h config-host.h qemu-options.def
+ 
+-generated-files-y += trace/generated-tcg-tracers.h
 -
--######################################################################
--# guest agent
+-generated-files-y += trace/generated-helpers-wrappers.h
+-generated-files-y += trace/generated-helpers.h
+-generated-files-y += trace/generated-helpers.c
 -
--# FIXME: a few definitions from qapi/qapi-types.o and
--# qapi/qapi-visit.o are needed by libqemuutil.a.  These should be
--# extracted into a QAPI schema module, or perhaps a separate schema.
--qga-vss-dll-obj-y = qga/
-diff --git a/qga/Makefile.objs b/qga/Makefile.objs
-deleted file mode 100644
-index 9ecf249..0000000
---- a/qga/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--qga-vss-dll-obj-$(CONFIG_QGA_VSS) += vss-win32/
-diff --git a/qga/meson.build b/qga/meson.build
-index e963e43..7dc031f 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -43,3 +43,9 @@ qga_ss = qga_ss.apply(config_host, strict: false)
- qga = executable('qemu-ga', qga_ss.sources(),
-                  link_args: config_host['LIBS_QGA'].split(),
-                  dependencies: [qemuutil, libudev])
+ generated-files-y += module_block.h
+ 
+ generated-files-y += .git-submodule-status
+ 
+-tracetool-y = $(SRC_PATH)/scripts/tracetool.py
+-tracetool-y += $(shell find $(SRC_PATH)/scripts/tracetool -name "*.py")
+-
+-trace/generated-helpers-wrappers.h: trace/generated-helpers-wrappers.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace/generated-helpers-wrappers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-helper-wrapper-h \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-trace/generated-helpers.h: trace/generated-helpers.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace/generated-helpers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-helper-h \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-trace/generated-helpers.c: trace/generated-helpers.c-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace/generated-helpers.c-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-helper-c \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-trace/generated-helpers.o: trace/generated-helpers.c
+-
+-trace/generated-tcg-tracers.h: trace/generated-tcg-tracers.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace/generated-tcg-tracers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-h \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+ KEYCODEMAP_GEN = $(SRC_PATH)/ui/keycodemapdb/tools/keymap-gen
+ KEYCODEMAP_CSV = $(SRC_PATH)/ui/keycodemapdb/data/keymaps.csv
+ 
+diff --git a/trace/meson.build b/trace/meson.build
+index d0e5d17..8ea8db7 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -61,6 +61,20 @@ custom_target('trace-events-all',
+               install: true,
+               install_dir: config_host['qemu_datadir'])
+ 
++foreach d : [
++  ['generated-tcg-tracers.h', 'tcg-h'],
++  ['generated-helpers.c', 'tcg-helper-c'],
++  ['generated-helpers.h', 'tcg-helper-h'],
++  ['generated-helpers-wrappers.h', 'tcg-helper-wrapper-h'],
++]
++  custom_target(d[0],
++                output: d[0],
++                input: meson.source_root() / 'trace-events',
++                command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
++                build_by_default: true, # to be removed when added to a target
++                capture: true)
++endforeach
 +
-+if host_machine.system() == 'windows'
-+  if 'CONFIG_QGA_VSS' in config_host
-+    subdir('vss-win32')
-+  endif
-+endif
-diff --git a/qga/vss-win32/Makefile.objs b/qga/vss-win32/Makefile.objs
-deleted file mode 100644
-index c82676a..0000000
---- a/qga/vss-win32/Makefile.objs
-+++ /dev/null
-@@ -1,23 +0,0 @@
--# rules to build qga-vss.dll
--
--qga-vss-dll-obj-y += requester.o provider.o install.o
--
--obj-qga-vss-dll-obj-y = $(addprefix $(obj)/, $(qga-vss-dll-obj-y))
--$(obj-qga-vss-dll-obj-y): QEMU_CXXFLAGS := $(filter-out -fstack-protector-all -fstack-protector-strong, $(QEMU_CXXFLAGS)) -Wno-unknown-pragmas -Wno-delete-non-virtual-dtor
--
--QGA_VSS_LDFLAGS = -shared -Wl,--add-stdcall-alias,--enable-stdcall-fixup -lglib-2.0 -lole32 -loleaut32 -lshlwapi -luuid -lintl -lws2_32 -static
--$(obj)/qga-vss.dll: $(obj-qga-vss-dll-obj-y) $(SRC_PATH)/$(obj)/qga-vss.def
--	$(call quiet-command,$(CXX) -o $@ $(qga-vss-dll-obj-y) $(SRC_PATH)/qga/vss-win32/qga-vss.def $(CXXFLAGS) $(QGA_VSS_LDFLAGS),"LINK","$(TARGET_DIR)$@")
--
--
--# rules to build qga-provider.tlb
--# Currently, only native build is supported because building .tlb
--# (TypeLibrary) from .idl requires WindowsSDK and MIDL (and cl.exe in VC++).
--MIDL=$(WIN_SDK)/Bin/midl
--
--$(obj)/qga-vss.tlb: $(SRC_PATH)/$(obj)/qga-vss.idl
--ifeq ($(WIN_SDK),"")
--	$(call quiet-command,cp $(dir $<)qga-vss.tlb $@,"COPY","$(TARGET_DIR)$@")
--else
--	$(call quiet-command,$(MIDL) -tlb $@ -I $(WIN_SDK)/Include $<,"MIDL","$(TARGET_DIR)$@")
--endif
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-new file mode 100644
-index 0000000..42c8d31
---- /dev/null
-+++ b/qga/vss-win32/meson.build
-@@ -0,0 +1,33 @@
-+if add_languages('cpp', required: false)
-+  glib_static = dependency('glib-2.0', static: true)
-+  link_args = cc.get_supported_link_arguments(['-fstack-protector-all', '-fstack-protector-strong',
-+                                               '-Wl,--add-stdcall-alias', '-Wl,--enable-stdcall-fixup'])
-+  shared_module('qga-vss', ['requester.cpp', 'provider.cpp', 'install.cpp'],
-+                name_prefix: '',
-+                cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
-+                link_args: link_args,
-+                vs_module_defs: 'qga-vss.def',
-+                dependencies: [glib_static, socket,
-+                               cc.find_library('ole32'),
-+                               cc.find_library('oleaut32'),
-+                               cc.find_library('shlwapi'),
-+                               cc.find_library('uuid'),
-+                               cc.find_library('intl')])
-+endif
-+
-+# rules to build qga-vss.tlb
-+# Currently, only native build is supported because building .tlb
-+# (TypeLibrary) from .idl requires WindowsSDK and MIDL (and cl.exe in VC++).
-+midl = find_program('midl', required: false)
-+if midl.found()
-+  gen_tlb = custom_target('gen-tlb',
-+                          input: 'qga-vss.idl',
-+                          output: 'qga-vss.tlb',
-+                          command: [midl, '-tlb', '-I' + config_host['WIN_SDK'],
-+                                     '@INPUT@', '@OUTPUT@'])
-+else
-+  gen_tlb = custom_target('gen-tlb',
-+                          input: 'qga-vss.tlb',
-+                          output: 'qga-vss.tlb',
-+                          command: ['cp', '@INPUT@', '@OUTPUT@'])
-+endif
+ if 'CONFIG_TRACE_UST' in config_host
+   trace_ust_all_h = custom_target('trace-ust-all.h',
+                                   output: 'trace-ust-all.h',
 -- 
 1.8.3.1
 
