@@ -2,89 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028DE23D933
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:17:39 +0200 (CEST)
-Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC1523D93C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:24:08 +0200 (CEST)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3cxt-0005QC-QP
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:17:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
+	id 1k3d4B-0007Ua-5Y
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1k3cwS-0004wq-RX
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:16:08 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34796
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1k3cwQ-0003qX-Vw
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:16:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596708964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cFKrUjjkOFZiBV5Z+F6A64nK9xVU4UrzxL3BD+g+SMc=;
- b=SIdReF5B79TCw2ToWNic26urylYmw5DrPHcFSocGDzkybk3E4I5xsDegPqJbaGSMOsNQ59
- lGfrqHJOUu2gpVL+HMsYiTGAbVzz60yvsmeSgzaewMSF6/oQrBC5VuorMAd+kTgObkvP+e
- Iv9FCf424n7FEPUWYKsRqGRzd+uouKo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-hbFX-Tk_NWGEcwLCh8vnRQ-1; Thu, 06 Aug 2020 06:14:55 -0400
-X-MC-Unique: hbFX-Tk_NWGEcwLCh8vnRQ-1
-Received: by mail-wr1-f72.google.com with SMTP id b13so11857016wrq.19
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:14:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:content-transfer-encoding:mime-version
- :subject:message-id:date:cc:to;
- bh=tjhzc3DZAJOCSB2tramfpoH4PDygFrsd3e9qQTU8hrA=;
- b=Tf7iBgGJHpADIQuxenoZICUHsVvolxzc1lSM4/Ih1FSk9+3Bq/GvfTMzTKoeKDqNbF
- 63UeuveTbyHczwUYAXNb0Z0fw12gHE8ZVihQIXduzKD9A8Yv62WCvJAFqVz6knnQAi0k
- httEQIUdIVqayrt17TIhaSHEgxy61IBLp7ROQMHxqII16H+zBCnTbD/kkE4Z4WM5whx+
- BnaTe4r3+l3liDIOAoUn3G+50aj5di8o6EerVRS0NeG4H3rzNTqhgkOsgT+V0EZTJaVJ
- oTCVOKG+G7VRLoJGDUsqIT+QfqxTGt7OUwRMK2luK9Fn1yazPAiRek5Ik7PSmPfLFdCk
- id2g==
-X-Gm-Message-State: AOAM533BhE31Y81NnoIRZPcJF+/4UIhkT4tXCLFhLWEpCLvqVwdO7w6N
- pVd8hLnc6zkkfm06wRZ7IQcJiu7ztF1FtT+ot4JtruX6pj3sRpjQ3cAEGL2BPaYo2ihEt6FJOmw
- EDtOpDNhIYd3rv2I=
-X-Received: by 2002:adf:f4ca:: with SMTP id h10mr6582896wrp.355.1596708894551; 
- Thu, 06 Aug 2020 03:14:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpZDbLTvTkdUsFaVMxY0730u1E4zKAWjthEP+hX2v8qGoILa86CNX31m7CqvUJ2m0JfUnkpA==
-X-Received: by 2002:adf:f4ca:: with SMTP id h10mr6582877wrp.355.1596708894241; 
- Thu, 06 Aug 2020 03:14:54 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:466:71c0:d0c5:70f6:7493:1710?
- ([2a01:e0a:466:71c0:d0c5:70f6:7493:1710])
- by smtp.gmail.com with ESMTPSA id x82sm6049798wmb.30.2020.08.06.03.14.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 06 Aug 2020 03:14:53 -0700 (PDT)
-From: Christophe de Dinechin <dinechin@redhat.com>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Qemu web site down?
-Message-Id: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
-Date: Thu, 6 Aug 2020 12:14:51 +0200
-To: Stefan Weil <sw@weilnetz.de>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jason.zeng@linux.intel.com>)
+ id 1k3d3S-00073q-NW
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:23:22 -0400
+Received: from mga17.intel.com ([192.55.52.151]:49270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jason.zeng@linux.intel.com>)
+ id 1k3d3Q-0004c5-CI
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:23:22 -0400
+IronPort-SDR: swiz2Su6UrkIhmevIG1JpkDJpW/eBKBOSp98ylCTfPKBvG8Y61ukslKfv7It6pWRNsr98b2YZF
+ M+gl3lOxl2UQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9704"; a="132850649"
+X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; d="scan'208";a="132850649"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2020 03:23:16 -0700
+IronPort-SDR: mxdXF4IRNkqO+zPZ45zbgSEaJA6MU+Y/skm4qEvhx4o9KQjsXjiMwkWy/xzND0vJ2ihVuDlfim
+ JI8eWqmJu3bw==
+X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; d="scan'208";a="467798831"
+Received: from x48.bj.intel.com (HELO x48) ([10.238.157.64])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2020 03:23:12 -0700
+Date: Thu, 6 Aug 2020 18:22:59 +0800
+From: Jason Zeng <jason.zeng@linux.intel.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V1 30/32] vfio-pci: save and restore
+Message-ID: <20200806102259.GA25634@x48>
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+ <1596122076-341293-31-git-send-email-steven.sistare@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1596122076-341293-31-git-send-email-steven.sistare@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: none client-ip=192.55.52.151;
+ envelope-from=jason.zeng@linux.intel.com; helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 06:23:16
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,19 +67,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+Hi Steve,
+
+On Thu, Jul 30, 2020 at 08:14:34AM -0700, Steve Sistare wrote:
+> @@ -3182,6 +3207,51 @@ static Property vfio_pci_dev_properties[] = {
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> +static int vfio_pci_post_load(void *opaque, int version_id)
+> +{
+> +    int vector;
+> +    MSIMessage msg;
+> +    Error *err = 0;
+> +    VFIOPCIDevice *vdev = opaque;
+> +    PCIDevice *pdev = &vdev->pdev;
+> +
+> +    if (msix_enabled(pdev)) {
+> +        vfio_msix_enable(vdev);
+> +        pdev->msix_function_masked = false;
+> +
+> +        for (vector = 0; vector < vdev->pdev.msix_entries_nr; vector++) {
+> +            if (!msix_is_masked(pdev, vector)) {
+> +                msg = msix_get_message(pdev, vector);
+> +                vfio_msix_vector_use(pdev, vector, msg);
+> +            }
+> +        }
+
+It looks to me MSIX re-init here may lose device IRQs and impact
+device hardware state?
+
+The re-init will cause the kernel vfio driver to connect the device
+MSIX vectors to new eventfds and KVM instance. But before that, device
+IRQs will be routed to previous eventfd. Looks these IRQs will be lost.
+
+And the re-init will make the device go through the procedure of
+disabling MSIX, enabling INTX, and re-enabling MSIX and vectors.
+So if the device is active, its hardware state will be impacted?
 
 
-The link from https://wiki.qemu.org/Documentation pointing to https://qemu.=
-weilnetz.de/doc/qemu-doc.html seems to be dead. Is the problem on your web =
-site, or should the wiki be updated?
+Thanks,
+Jason
 
-
-Thanks
-Christophe
-
+> +
+> +    } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
+> +        vfio_intx_enable(vdev, &err);
+> +        if (err) {
+> +            error_report_err(err);
+> +        }
+> +    }
+> +
+> +    vdev->vbasedev.group->container->reused = false;
+> +    vdev->pdev.reused = false;
+> +
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription vfio_pci_vmstate = {
+> +    .name = "vfio-pci",
+> +    .unmigratable = 1,
+> +    .mode_mask = VMS_RESTART,
+> +    .version_id = 0,
+> +    .minimum_version_id = 0,
+> +    .post_load = vfio_pci_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_MSIX(pdev, VFIOPCIDevice),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -3189,6 +3259,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+>  
+>      dc->reset = vfio_pci_reset;
+>      device_class_set_props(dc, vfio_pci_dev_properties);
+> +    dc->vmsd = &vfio_pci_vmstate;
+>      dc->desc = "VFIO-based PCI device assignment";
+>      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>      pdc->realize = vfio_realize;
+> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+> index ac2cefc..e6e1a5d 100644
+> --- a/hw/vfio/platform.c
+> +++ b/hw/vfio/platform.c
+> @@ -592,7 +592,7 @@ static int vfio_base_device_init(VFIODevice *vbasedev, Error **errp)
+>              return -EBUSY;
+>          }
+>      }
+> -    ret = vfio_get_device(group, vbasedev->name, vbasedev, errp);
+> +    ret = vfio_get_device(group, vbasedev->name, vbasedev, 0, errp);
+>      if (ret) {
+>          vfio_put_group(group);
+>          return ret;
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index bd07c86..c926a24 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -358,6 +358,7 @@ struct PCIDevice {
+>  
+>      /* ID of standby device in net_failover pair */
+>      char *failover_pair_id;
+> +    bool reused;
+>  };
+>  
+>  void pci_register_bar(PCIDevice *pci_dev, int region_num,
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index c78f3ff..4e2a332 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -73,6 +73,8 @@ typedef struct VFIOContainer {
+>      unsigned iommu_type;
+>      Error *error;
+>      bool initialized;
+> +    bool reused;
+> +    int cid;
+>      unsigned long pgsizes;
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+>      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+> @@ -177,7 +179,7 @@ void vfio_reset_handler(void *opaque);
+>  VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
+>  void vfio_put_group(VFIOGroup *group);
+>  int vfio_get_device(VFIOGroup *group, const char *name,
+> -                    VFIODevice *vbasedev, Error **errp);
+> +                    VFIODevice *vbasedev, bool *reused, Error **errp);
+>  
+>  extern const MemoryRegionOps vfio_region_ops;
+>  typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 881dc13..2606cf0 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1568,7 +1568,7 @@ static int qemu_savevm_state(QEMUFile *f, VMStateMode mode, Error **errp)
+>          return -EINVAL;
+>      }
+>  
+> -    if (migrate_use_block()) {
+> +    if ((mode & (VMS_SNAPSHOT | VMS_MIGRATE)) && migrate_use_block()) {
+>          error_setg(errp, "Block migration and snapshots are incompatible");
+>          return -EINVAL;
+>      }
+> -- 
+> 1.8.3.1
+> 
+> 
 
