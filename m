@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BFC23DAC5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:33:34 +0200 (CEST)
-Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E4523DAC9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:35:10 +0200 (CEST)
+Received: from localhost ([::1]:51410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3g1V-0006oa-RS
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51438)
+	id 1k3g33-0000oU-S7
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3g0S-0005X4-RX; Thu, 06 Aug 2020 09:32:28 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53270)
+ id 1k3g1v-000802-O1; Thu, 06 Aug 2020 09:33:59 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3g0R-0002Iu-38; Thu, 06 Aug 2020 09:32:28 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g8so8867549wmk.3;
- Thu, 06 Aug 2020 06:32:26 -0700 (PDT)
+ id 1k3g1u-0002Nr-2a; Thu, 06 Aug 2020 09:33:59 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f1so43484499wro.2;
+ Thu, 06 Aug 2020 06:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9aaer6B+l6r0/2j30kyoaXbrV/oJL88UAt/4vG+WnQg=;
- b=ukR4yQGBmgzWl28her50cmlzvRqE9MtjqnIdLyS1eg/2Rez9+IDRwn97SnFD8xEQhX
- NpbnNozNBI/dBv+0mJYnK6poUOaZfvrIWPTLy2qwZJov6BlaBL7Ddeh0n+DEoDSklOut
- hwz2IF7LC7y8Mx11PxhRgFxPQ5IgRcMFZgnFMFLf1qdVCZ3e4HLY68ZefbDwNZxg21r6
- n+PXX9Zsh5rA/kYGWLF7ca68YDeJnYRuIMfnu1uRXS08MFsotrr2ZaEBikFbvD2JjjeP
- UTAZB324CtNo7EPwbzPVv5BVwMqkpF3bxjcyx6SkBx/8+ZwXInuQ1WdrhjSXqhNktnyj
- 9dFQ==
+ bh=D9NfrfC0Ig01+bi+8DPpUem5HnxjvhzhF8q23cyqaA0=;
+ b=QZPwcpg6ozffs4LvP8E3MOi2QTuk4e7khLtUzxKDhiNCpC3vuPFEmOoHwdHmJ4ZSrC
+ qXGlbMbj0fRmbK8UmyAlccDoP7Rnw2zljPCKS0cQ/sWomCdLuIWsgzdyA3L2cXUCSHHr
+ gZiUi/jxtkq+CQp1lguApZOxkm3dHg2sq/W914extDkCM7q7JJ4CZX1RhLOPhv3pYMhy
+ pE5blyKl0ZJ3bxZONCvlYTXmRlMxTGfCa/8awTau/d0lvJDPsbd8vtufyJKGlvvdPmlo
+ mMUhdswiK5wKdvTxv0piSWAiHNfT1q2qE7s/P2+4hP7k7js9m3bqd1xmh1uA0RSeU++Y
+ /5Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9aaer6B+l6r0/2j30kyoaXbrV/oJL88UAt/4vG+WnQg=;
- b=FeutYJlWWs6fLyYcyG0lYsHvaIe933RPK2vSsncJ9zbL5D1c+rK7i3kG/ch+UU4fFU
- UOFliI2U5bVIMhX8X26p1YEPUO7jzim/SZ8Gc82AqUphoUmwMw1LPCgPX1oENuKBkZr+
- R7dWFhcCmmBfYLJz/TLf16e4JT85+t4YRr9JNLl9lyI5TyN8XAeyRtJpvYLRjN/1fSyA
- YMxJF4zvXLKSvzeGXNXuc3qxr9jLre9AZCuGpdqb17rn+ubCxVylqMar/05MdibiM6Zt
- 3PQ/yS/00KoOXS/9RsR9jHLPYvwL41I4yb3bvmBIhy+7GHfXWZALpNPgSOvxfhyW3aUC
- eOUQ==
-X-Gm-Message-State: AOAM53296c47tcDThasLQGsLF/naEQVtIxR6MRVjXZewTn8zAzZwDCOh
- MwqKM2PBfyctPmKyu7argTE=
-X-Google-Smtp-Source: ABdhPJzsZEqGB6xQKx5MSTA6qgT3dSLVgHPhwspXZ3yEtltWr6NUXKVnY1MI8E3zrGbDIIgjvgLbnQ==
-X-Received: by 2002:a1c:49c6:: with SMTP id w189mr7620397wma.97.1596720744960; 
- Thu, 06 Aug 2020 06:32:24 -0700 (PDT)
+ bh=D9NfrfC0Ig01+bi+8DPpUem5HnxjvhzhF8q23cyqaA0=;
+ b=rszWVy6RNU13YRZBAaYDhAXeQDc5QVfOzGNiWyGe4E9DPk6BwGr6xsqkGT3ONgNNnu
+ hkQnowYSTud+ZZOeiSNVt5WK8rJ26ZOEXIZ5dS+5ty7c+d9Gh1qqqra4ZM/6y7//hMID
+ /AkuC4ZgD15niF5sPyuCuMtjsycxV2MxL0JZM/3HP/R9jmT4F/x2QkltbgN/nCPY4C8a
+ mDg3LMoZFtGzTCbsz5eIjpYM1Fb2oyWBjLlwb3+XLCk+lEE1xWktmsfJZ9zH2rxn1Glw
+ iu8yFtAkgK05HZl6usr74y2eQjKxi4Y93DCbbJX6ojWYD9Q3oIuOrRMFm4J5+7W4R/5N
+ VP9g==
+X-Gm-Message-State: AOAM533+OwWZT5i4bDco2LGjJqlJW702n6v845RAd+ppyCZ3yjzV3HBj
+ PctK6T9JDD4H6I0J1PlY5R0=
+X-Google-Smtp-Source: ABdhPJwcXTAlXHwMA+eRT4PgbXcn6gLnWKwpHw7rGkh6l9kocZ9NGX3IlS/mrELYQuyF4UaKH1P7Mg==
+X-Received: by 2002:adf:a3d0:: with SMTP id m16mr7095362wrb.232.1596720835989; 
+ Thu, 06 Aug 2020 06:33:55 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id d14sm6664783wre.44.2020.08.06.06.32.23
+ by smtp.gmail.com with ESMTPSA id 69sm6914842wmb.8.2020.08.06.06.33.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 06:32:24 -0700 (PDT)
-Subject: Re: [PATCH for-5.2 04/19] aspeed/scu: Fix valid access size on AST2400
+ Thu, 06 Aug 2020 06:33:55 -0700 (PDT)
+Subject: Re: [PATCH for-5.2 09/19] ftgmac100: Fix registers that can be read
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-5-clg@kaod.org>
+ <20200806132106.747414-10-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4a41f234-ab81-d078-0fcd-c1b20fceb1e9@amsat.org>
-Date: Thu, 6 Aug 2020 15:32:23 +0200
+Message-ID: <ac8565d5-07ee-c8e1-88bd-be5e19135489@amsat.org>
+Date: Thu, 6 Aug 2020 15:33:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200806132106.747414-5-clg@kaod.org>
+In-Reply-To: <20200806132106.747414-10-clg@kaod.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,47 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, erik-smit <erik.lucas.smit@gmail.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org,
+ Frederic Konrad <konrad.frederic@yahoo.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/6/20 3:20 PM, Cédric Le Goater wrote:
-> The read access size of the SCU registers can be 1/2/4 bytes and write
-> is 4 bytes. Set the min access size to 1 byte to cover both read and
-> write operations on the AST2400 but keep the min access size of the
-> other SoCs to 4 bytes as this is an unusual access size.
+> Receive Ring Base Address Register (RXR_BADR) and the Normal Priority
+> Transmit Receive Ring Base Address Register (NPTXR_BADR) can als be
 
-From your description it seems you need to implement .valid.accepts().
+typo "also"
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> read.
 > 
-> This fixes support for some old firmware doing 2 bytes reads on the
-> AST2400 SoC.
-> 
-> Reported-by: erik-smit <erik.lucas.smit@gmail.com>
+> Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/misc/aspeed_scu.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  hw/net/ftgmac100.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-> index ec4fef900e27..764222404bef 100644
-> --- a/hw/misc/aspeed_scu.c
-> +++ b/hw/misc/aspeed_scu.c
-> @@ -328,9 +328,10 @@ static const MemoryRegionOps aspeed_ast2400_scu_ops = {
->      .read = aspeed_scu_read,
->      .write = aspeed_ast2400_scu_write,
->      .endianness = DEVICE_LITTLE_ENDIAN,
-> -    .valid.min_access_size = 4,
-> -    .valid.max_access_size = 4,
-> -    .valid.unaligned = false,
-> +    .valid = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 4,
-> +    },
->  };
->  
->  static const MemoryRegionOps aspeed_ast2500_scu_ops = {
+> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+> index 5f4b26fc5f3c..0348fcf45676 100644
+> --- a/hw/net/ftgmac100.c
+> +++ b/hw/net/ftgmac100.c
+> @@ -669,6 +669,10 @@ static uint64_t ftgmac100_read(void *opaque, hwaddr addr, unsigned size)
+>          return s->math[0];
+>      case FTGMAC100_MATH1:
+>          return s->math[1];
+> +    case FTGMAC100_RXR_BADR:
+> +        return s->rx_ring;
+> +    case FTGMAC100_NPTXR_BADR:
+> +        return s->tx_ring;
+>      case FTGMAC100_ITC:
+>          return s->itc;
+>      case FTGMAC100_DBLAC:
 > 
 
 
