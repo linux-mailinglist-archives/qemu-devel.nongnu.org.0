@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB08923D8C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:38:29 +0200 (CEST)
-Received: from localhost ([::1]:59866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F63F23D8C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:38:33 +0200 (CEST)
+Received: from localhost ([::1]:60312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3cM0-0006ml-Ib
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52348)
+	id 1k3cM4-0006y4-DI
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k3cKc-0005Am-6U; Thu, 06 Aug 2020 05:37:02 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:41088 helo=huawei.com)
+ id 1k3cKd-0005BJ-Rz; Thu, 06 Aug 2020 05:37:03 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:41182 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k3cKa-0007WK-4P; Thu, 06 Aug 2020 05:37:01 -0400
+ id 1k3cKb-0007WY-W8; Thu, 06 Aug 2020 05:37:03 -0400
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 47DD27A2981179D8D588;
- Thu,  6 Aug 2020 17:36:51 +0800 (CST)
+ by Forcepoint Email with ESMTP id 538FFD02B17AFD7DA90E;
+ Thu,  6 Aug 2020 17:36:56 +0800 (CST)
 Received: from localhost.localdomain (10.175.101.6) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 6 Aug 2020 17:36:45 +0800
+ 14.3.487.0; Thu, 6 Aug 2020 17:36:47 +0800
 From: Peng Liang <liangpeng10@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH 3/5] log: Add more details to virtio_report in virtqueue_pop
-Date: Thu, 6 Aug 2020 17:37:18 +0800
-Message-ID: <20200806093720.2355692-4-liangpeng10@huawei.com>
+Subject: [PATCH 4/5] log: Add log at boot & cpu init for aarch64
+Date: Thu, 6 Aug 2020 17:37:19 +0800
+Message-ID: <20200806093720.2355692-5-liangpeng10@huawei.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200806093720.2355692-1-liangpeng10@huawei.com>
 References: <20200806093720.2355692-1-liangpeng10@huawei.com>
@@ -62,30 +62,47 @@ Cc: Peng Liang <liangpeng10@huawei.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add virtio device name and virtqueue info to virtio_report in
-virtqueue_pop so that we can find out which device's virtqueue is
-broken.
+Add log at boot & cpu init for aarch64.
 
 Signed-off-by: Peng Liang <liangpeng10@huawei.com>
 ---
- hw/virtio/virtio.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/arm/boot.c | 2 ++
+ hw/arm/virt.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index f3568f5267..6b35bed1d7 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -1439,7 +1439,9 @@ static void *virtqueue_split_pop(VirtQueue *vq, size_t sz)
-     max = vq->vring.num;
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 3e9816af80..a2d5787807 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -1292,6 +1292,8 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
+      * doesn't support secure.
+      */
+     assert(!(info->secure_board_setup && kvm_enabled()));
++    info_report("load the kernel");
++
+     info->kernel_filename = ms->kernel_filename;
+     info->kernel_cmdline = ms->kernel_cmdline;
+     info->initrd_filename = ms->initrd_filename;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ecfee362a1..ae2fb7a14d 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -820,6 +820,7 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
+ {
+     VirtMachineState *s = container_of(n, VirtMachineState, powerdown_notifier);
  
-     if (vq->inuse >= vq->vring.num) {
--        virtio_error(vdev, "Virtqueue size exceeded");
-+        virtio_error(vdev, "Virtio device %s vq->inuse=%d vq->vring.num=%d, "
-+                     "virtqueue size exceeded",
-+                     vdev->name, vq->inuse, vq->vring.num);
-         goto done;
++    info_report("send powerdown to vm.");
+     if (s->acpi_dev) {
+         acpi_send_event(s->acpi_dev, ACPI_POWER_DOWN_STATUS);
+     } else {
+@@ -1780,6 +1781,7 @@ static void machvirt_init(MachineState *machine)
      }
  
+     create_fdt(vms);
++    info_report("cpu init start");
+ 
+     possible_cpus = mc->possible_cpu_arch_ids(machine);
+     for (n = 0; n < possible_cpus->len; n++) {
 -- 
 2.18.4
 
