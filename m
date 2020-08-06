@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B29E23D7D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:09:52 +0200 (CEST)
-Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A88F23D7E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:14:20 +0200 (CEST)
+Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ayF-00048N-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:09:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33804)
+	id 1k3b2Z-0004AD-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3ax4-0002Rd-6g; Thu, 06 Aug 2020 04:08:38 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33003)
+ id 1k3ax4-0002SL-Go; Thu, 06 Aug 2020 04:08:38 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3ax1-0005gW-8w; Thu, 06 Aug 2020 04:08:37 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id p20so8172512wrf.0;
- Thu, 06 Aug 2020 01:08:34 -0700 (PDT)
+ id 1k3ax2-0005gn-Hh; Thu, 06 Aug 2020 04:08:38 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f18so6010740wmc.0;
+ Thu, 06 Aug 2020 01:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Jz0WDn0HteYxXs7mrN9I12dBppq/lF1r2frSPkCB9xM=;
- b=Ldy2CiQiR4hg0J5ePsfDdxpmqS4ktlMVnziOHNwPTC6Kz19sUtDV1UVgRhnjzycVdE
- kJSqL7/rEuAoLvH7yQlyE2UecAc/2fErsv0LwLK0XRl+Noa6+nlGfxoGxBKHQ7N4XzMn
- FkQZRBlvfZwmt16hh0/VKtfs8Lfz+Dlkgou7B2a921qXBuxvuhpr53RS9KakV7HaOaom
- uYJDXfs+1Eq2g7EaCl35SSebhCOZDIokHiTDYtLHbQuAZgogUlA/5RMZQ4p9rOEX644A
- qwiFlU0xSqWOPH5SV0wx3Hw9Mf6hq5fvchI1zRrS1M1tRUy09HLxCo7BZXOax+ErMqNB
- 6rvw==
+ bh=OOTPgo4khN8yFS6+N1vBA/0RT1rnYM2M5KZls9TsuCE=;
+ b=iSXZ0WtFI7B5lfFyIX5uhGvbcJ19xsOUClRvsinoOL5lNvhWfznHqHMXneREsl/MZX
+ YVWh64SDX36P8EP3zCvJiMJ8jCAMOQQvwRJfG4OZuKQhVpkGVNXixGqJUfRY6Bx9LWc4
+ 3eBZ3M/2SaYrRZ7/c+tXi++EJDGujUV+ySteCAxfT6sQVnLo1sXGKu4NmzFlHPnke8OQ
+ 2na23Qmwt4EKYvq8N1BX2E5y6DrVfElOCKOxVzFUc81/PzwMdSgedE0BNCqq/p7UlkQc
+ TXZEjvucfIo+8w7/vLWCxHASweIeVmVU43ApMjC3U050LpcjW6T9yVTlxH6M+WMdKFMW
+ CKCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Jz0WDn0HteYxXs7mrN9I12dBppq/lF1r2frSPkCB9xM=;
- b=XQYZ3I+SFNEOW/rMkTkn7wI2rigyX9+YhssLhbHNBtCKvPTDgAhK06e3qvDxXL1mSb
- li+p3OOeFVSCd8N5ATRLjCWfP5rFLRiZtMST+ITpoF809RiDTASn1M9uHnWFQcwp/zhj
- uhus6OmWJPCZqDUu4gD6Zk7vhghzA6LHBtWKwO5RzU3CzM+u1/9knUwPwlJ1oY8yNrgH
- P0r867do2B19D6Wsk5w9s2/PQi8gfCfa7PSVNdHAW/48jK/5SU9JAHYXU5myc7RwzSBF
- ej4RI9Vj3zQ7iEtNqjxMPxlkt4Ab9IE6oPmeK0rAlgJP+alHvWw0MC8DmEqhm0pc5jpS
- sZEA==
-X-Gm-Message-State: AOAM531BxmhjIQSytohZ9433UNUMN3+V7aIJnvhKX4H38/1lWOG7oX8I
- NWihcMviMn6fu1hSXAwr9Dhv+eIx
-X-Google-Smtp-Source: ABdhPJyAWuwofRGqutjHXh+I76xWr1LqPcbju6RKVxiCJEcnSwabQJhJ/qFk0p2HYvFw6aOJEgxbsg==
-X-Received: by 2002:adf:ea92:: with SMTP id s18mr6288388wrm.269.1596701313036; 
- Thu, 06 Aug 2020 01:08:33 -0700 (PDT)
+ bh=OOTPgo4khN8yFS6+N1vBA/0RT1rnYM2M5KZls9TsuCE=;
+ b=f2XJ4eNUlDC/nNVsMxw14aD2AnwEbdcicQnpyw1QV3iAqthAvFonGGKjjTddTrKa0F
+ 1EkMCSeDT8BSGCPJ/EzBSwuGXf8ZpHW9yK7n0E+fFCjTUT5R5uebxZ7KEK3TZVpUsLiN
+ R3P/UqPNn7Yhuai7KOlWkqIBmLDD+aP1aN+uYDgRpGS7vPT/YonMHUhk+i73Tw8WR2aJ
+ aHgunERHiVS4zXVxXxWvJtXF3e3Q1RF6dtx525R7PzAi9EjjG+6NMRdYBkILqtgHeaOb
+ h0/uHxyxgxcIoqng8fXG238h4M74HHnLUb/TllzxZzRYE1peGK6sAhUteXaMTrjItlWU
+ M7Sg==
+X-Gm-Message-State: AOAM533Nfy3oHLIs7OCUQ8Ipq3IQvqTxETD8v/PU99XklCRhaj0/D9Ig
+ P/55tJ04sdw8DMhLKRjBZUXvH/Zf
+X-Google-Smtp-Source: ABdhPJwyvdSLMcAjmlc5DQxwKNrfKQltf9a62bTU8j7hl3JxTF9eBbMGtS2XfWimxPxSKd5QjOBW3A==
+X-Received: by 2002:a1c:23c2:: with SMTP id j185mr6635342wmj.84.1596701314345; 
+ Thu, 06 Aug 2020 01:08:34 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.32
+ by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 01:08:32 -0700 (PDT)
+ Thu, 06 Aug 2020 01:08:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 5/7] hw/block/fdc: Drop pointless FLOPPY_DPRINTF() call
-Date: Thu,  6 Aug 2020 10:08:22 +0200
-Message-Id: <20200806080824.21567-6-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 6/7] hw/block/fdc: Use more descriptive TypeInfo names
+Date: Thu,  6 Aug 2020 10:08:23 +0200
+Message-Id: <20200806080824.21567-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200806080824.21567-1-f4bug@amsat.org>
 References: <20200806080824.21567-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,25 +91,75 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove not very helpful debug call.
+Better name TypeInfo structures:
+
+- ISA bus
+- Common floppy controller
+- Intel 82078 floppy controller
+- SUN floppy controller
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/fdc.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/block/fdc.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index f9f3f3c079..278220ed29 100644
+index 278220ed29..6944b06e4b 100644
 --- a/hw/block/fdc.c
 +++ b/hw/block/fdc.c
-@@ -2636,7 +2636,6 @@ static void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl,
-         }
-     }
+@@ -2930,7 +2930,7 @@ static void isabus_fdc_instance_init(Object *obj)
+                                   DEVICE(obj));
+ }
  
--    FLOPPY_DPRINTF("init controller\n");
-     fdctrl->fifo = qemu_memalign(512, FD_SECTOR_LEN);
-     memset(fdctrl->fifo, 0, FD_SECTOR_LEN);
-     fdctrl->fifo_size = 512;
+-static const TypeInfo isa_fdc_info = {
++static const TypeInfo isabus_fdc_info = {
+     .name          = TYPE_ISA_FDC,
+     .parent        = TYPE_ISA_DEVICE,
+     .instance_size = sizeof(FDCtrlISABus),
+@@ -2971,7 +2971,7 @@ static void sysbus_fdc_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+-static const TypeInfo sysbus_fdc_info = {
++static const TypeInfo sysbus_fdc_i82078_info = {
+     .name          = "sysbus-fdc",
+     .parent        = TYPE_SYSBUS_FDC,
+     .instance_init = sysbus_fdc_initfn,
+@@ -2997,7 +2997,7 @@ static void sun4m_fdc_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+-static const TypeInfo sun4m_fdc_info = {
++static const TypeInfo sysbus_fdc_sun4m_info = {
+     .name          = "SUNW,fdtwo",
+     .parent        = TYPE_SYSBUS_FDC,
+     .instance_init = sun4m_fdc_initfn,
+@@ -3013,7 +3013,7 @@ static void sysbus_fdc_common_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_sysbus_fdc;
+ }
+ 
+-static const TypeInfo sysbus_fdc_type_info = {
++static const TypeInfo sysbus_fdc_common_info = {
+     .name          = TYPE_SYSBUS_FDC,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(FDCtrlSysBus),
+@@ -3024,10 +3024,12 @@ static const TypeInfo sysbus_fdc_type_info = {
+ 
+ static void fdc_register_types(void)
+ {
+-    type_register_static(&isa_fdc_info);
+-    type_register_static(&sysbus_fdc_type_info);
+-    type_register_static(&sysbus_fdc_info);
+-    type_register_static(&sun4m_fdc_info);
++    type_register_static(&isabus_fdc_info);
++
++    type_register_static(&sysbus_fdc_common_info);
++    type_register_static(&sysbus_fdc_i82078_info);
++    type_register_static(&sysbus_fdc_sun4m_info);
++
+     type_register_static(&floppy_bus_info);
+     type_register_static(&floppy_drive_info);
+ }
 -- 
 2.21.3
 
