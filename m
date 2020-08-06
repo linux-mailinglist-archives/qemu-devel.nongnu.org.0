@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8C823E275
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:44:56 +0200 (CEST)
-Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B6B23E27E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:46:42 +0200 (CEST)
+Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lot-0003Vz-3W
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
+	id 1k3lqb-00074E-LG
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:46:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPL-0006tz-Qd
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52384
+ id 1k3lPN-0006yD-IC
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58023
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPJ-0006dv-RQ
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:31 -0400
+ id 1k3lPL-0006eH-Fl
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741509;
+ s=mimecast20190719; t=1596741510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rr/LgwSgNZuSLNWpjkcROHHTZWCCwpODrA59c3LBhW4=;
- b=iOZ03RBjrsALZ66AcMEUUNx/x8teOkvELPiD128IaH4G+k6UMrcysJ4o7xO/z5WMTPRd8y
- QSk7BYzG6gvL9RvVPGTOVugZ3pDBzqFSjqZAm/xUBdjeeBls7KpRYdkwuP6BsqAMoQ0iBz
- 7ReufmwDzG5XBsdqHGxyr1wlZzoM6js=
+ bh=9dML5eCovLgLX7NmYqgD15Mx8pEcIi5cjKd7b0sYFUU=;
+ b=X7VuHdv/cJD8s7pY8QkNrmnSisYU1Dr/uE9lzqDMzVwyQkHMivPdrg+a8Z1gNi6phi4L0H
+ hidGCaXYXmduA9omD9s+NVP7mDK3aQYUEqD9PnpFwqmlgRwA4vxX61dH+defpm+iwFDp5X
+ tn1R9fuvgsrgsy481+tr5Fhz/g4QxZ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-5Fb9rtE6MAKckq4IQOeVgQ-1; Thu, 06 Aug 2020 15:18:26 -0400
-X-MC-Unique: 5Fb9rtE6MAKckq4IQOeVgQ-1
+ us-mta-502-3Y-OfsmoOOSHeW_91DzExg-1; Thu, 06 Aug 2020 15:18:28 -0400
+X-MC-Unique: 3Y-OfsmoOOSHeW_91DzExg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 232D5107BEF6
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C4A3100AA22
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:27 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 344BA5F9DC;
- Thu,  6 Aug 2020 19:18:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D8D95F9DC;
+ Thu,  6 Aug 2020 19:18:26 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 071/143] meson: convert dump/
-Date: Thu,  6 Aug 2020 21:15:07 +0200
-Message-Id: <1596741379-12902-72-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 072/143] meson: convert common QMP bits for qemu and
+ qemu-storage-daemon
+Date: Thu,  6 Aug 2020 21:15:08 +0200
+Message-Id: <1596741379-12902-73-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,126 +87,153 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs      | 3 +--
- Makefile.target    | 1 -
- configure          | 4 ++++
- dump/Makefile.objs | 3 ---
- dump/meson.build   | 4 ++++
- meson.build        | 9 +++++++++
- 6 files changed, 18 insertions(+), 6 deletions(-)
- delete mode 100644 dump/Makefile.objs
- create mode 100644 dump/meson.build
+ Makefile.objs         |  8 +++++---
+ Makefile.target       |  1 -
+ meson.build           | 10 ++++++++++
+ monitor/Makefile.objs |  6 ------
+ monitor/meson.build   |  9 +++++++++
+ qom/Makefile.objs     |  2 --
+ qom/meson.build       |  3 +++
+ 7 files changed, 27 insertions(+), 12 deletions(-)
+ delete mode 100644 monitor/Makefile.objs
+ create mode 100644 monitor/meson.build
+ delete mode 100644 qom/Makefile.objs
 
 diff --git a/Makefile.objs b/Makefile.objs
-index 0f3074b..11ca458 100644
+index 11ca458..9b9bb40 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -47,8 +47,7 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
+@@ -36,10 +36,11 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
+ # storage-daemon-obj-y is code used by qemu-storage-daemon (these objects are
+ # used for system emulation, too, but specified separately there)
+ 
+-storage-daemon-obj-y = block/ monitor/ qapi/ qom/ storage-daemon/
++storage-daemon-obj-y = block/ qapi/ qom/ storage-daemon/
+ storage-daemon-obj-y += blockdev.o blockdev-nbd.o iothread.o job-qmp.o
+ storage-daemon-obj-$(CONFIG_WIN32) += os-win32.o
+ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
++storage-daemon-obj-y += libqmp.fa
+ 
+ ######################################################################
+ # Target independent part of system emulation. The long term path is to
+@@ -47,8 +48,7 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
  # single QEMU executable should support all CPUs and machines.
  
  ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = dump/
--common-obj-y += monitor/
-+common-obj-y = monitor/
- common-obj-y += net/
+-common-obj-y = monitor/
+-common-obj-y += net/
++common-obj-y = net/
  common-obj-$(CONFIG_LINUX) += fsdev/
  
+ common-obj-y += accel/
+@@ -82,6 +82,8 @@ common-obj-y += backends/
+ 
+ common-obj-y += qapi/
+ 
++common-obj-y += libqmp.fa
++
+ endif # CONFIG_SOFTMMU
+ 
+ #######################################################################
 diff --git a/Makefile.target b/Makefile.target
-index 5f926e5..c8f7a6c 100644
+index c8f7a6c..54a9ef1 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -156,7 +156,6 @@ endif #CONFIG_BSD_USER
- ifdef CONFIG_SOFTMMU
+@@ -157,7 +157,6 @@ ifdef CONFIG_SOFTMMU
  obj-y += softmmu/
  obj-y += gdbstub.o
--obj-y += dump/
  obj-y += hw/
- obj-y += monitor/
+-obj-y += monitor/
  obj-y += qapi/
-diff --git a/configure b/configure
-index 508aa60..e99af16 100755
---- a/configure
-+++ b/configure
-@@ -2551,6 +2551,7 @@ int main(void) { lzo_version(); return 0; }
- EOF
-     if compile_prog "" "-llzo2" ; then
-         libs_softmmu="$libs_softmmu -llzo2"
-+        lzo_libs="-llzo2"
-         lzo="yes"
-     else
-         if test "$lzo" = "yes"; then
-@@ -2570,6 +2571,7 @@ int main(void) { snappy_max_compressed_length(4096); return 0; }
- EOF
-     if compile_prog "" "-lsnappy" ; then
-         libs_softmmu="$libs_softmmu -lsnappy"
-+        snappy_libs='-lsnappy'
-         snappy="yes"
-     else
-         if test "$snappy" = "yes"; then
-@@ -7393,10 +7395,12 @@ fi
- 
- if test "$lzo" = "yes" ; then
-   echo "CONFIG_LZO=y" >> $config_host_mak
-+  echo "LZO_LIBS=$lzo_libs" >> $config_host_mak
- fi
- 
- if test "$snappy" = "yes" ; then
-   echo "CONFIG_SNAPPY=y" >> $config_host_mak
-+  echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
- fi
- 
- if test "$bzip2" = "yes" ; then
-diff --git a/dump/Makefile.objs b/dump/Makefile.objs
-deleted file mode 100644
-index d2a5db3..0000000
---- a/dump/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += dump.o
--common-obj-y += dump-hmp-cmds.o
--obj-$(TARGET_X86_64) += win_dump.o
-diff --git a/dump/meson.build b/dump/meson.build
-new file mode 100644
-index 0000000..2eff29c
---- /dev/null
-+++ b/dump/meson.build
-@@ -0,0 +1,4 @@
-+softmmu_ss.add(files('dump-hmp-cmds.c'))
-+
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'], if_true: files('win_dump.c'))
+ obj-y += migration/ram.o
+ LIBS := $(libs_softmmu) $(LIBS)
 diff --git a/meson.build b/meson.build
-index bab875e..f025ac5 100644
+index f025ac5..cfc57f8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -283,6 +283,14 @@ if 'CONFIG_FDT' in config_host
-   fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
-                            link_args: config_host['FDT_LIBS'].split())
- endif
-+snappy = not_found
-+if 'CONFIG_SNAPPY' in config_host
-+  snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
-+endif
-+lzo = not_found
-+if 'CONFIG_LZO' in config_host
-+  lzo = declare_dependency(link_args: config_host['LZO_LIBS'].split())
-+endif
+@@ -451,6 +451,7 @@ stub_ss = ss.source_set()
+ trace_ss = ss.source_set()
+ block_ss = ss.source_set()
+ blockdev_ss = ss.source_set()
++qmp_ss = ss.source_set()
+ common_ss = ss.source_set()
+ softmmu_ss = ss.source_set()
+ user_ss = ss.source_set()
+@@ -628,6 +629,7 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ common_ss.add(files('cpus-common.c'))
  
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -583,6 +591,7 @@ subdir('io')
- subdir('chardev')
- subdir('fsdev')
- subdir('target')
-+subdir('dump')
+ subdir('softmmu')
++subdir('monitor')
  
- block_ss.add(files(
-   'block.c',
+ # needed for fuzzing binaries
+ subdir('tests/qtest/libqos')
+@@ -677,6 +679,14 @@ block = declare_dependency(link_whole: [libblock],
+                            link_args: '@block.syms',
+                            dependencies: [crypto, io])
+ 
++qmp_ss = qmp_ss.apply(config_host, strict: false)
++libqmp = static_library('qmp', qmp_ss.sources(),
++                        dependencies: qmp_ss.dependencies(),
++                        name_suffix: 'fa',
++                        build_by_default: false)
++
++qmp = declare_dependency(link_whole: [libqmp])
++
+ foreach m : mods
+   shared_module(m['dir'] + '-' + m['name'],
+                 name_prefix: '',
+diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
+deleted file mode 100644
+index a8533c9..0000000
+--- a/monitor/Makefile.objs
++++ /dev/null
+@@ -1,6 +0,0 @@
+-obj-y += misc.o
+-common-obj-y += monitor.o qmp.o hmp.o
+-common-obj-y += qmp-cmds.o qmp-cmds-control.o
+-common-obj-y += hmp-cmds.o
+-
+-storage-daemon-obj-y += monitor.o qmp.o qmp-cmds-control.o
+diff --git a/monitor/meson.build b/monitor/meson.build
+new file mode 100644
+index 0000000..0484a64
+--- /dev/null
++++ b/monitor/meson.build
+@@ -0,0 +1,9 @@
++qmp_ss.add(files('monitor.c', 'qmp.c', 'qmp-cmds-control.c'))
++
++softmmu_ss.add(files(
++  'hmp-cmds.c',
++  'hmp.c',
++  'qmp-cmds.c',
++))
++
++specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('misc.c'))
+diff --git a/qom/Makefile.objs b/qom/Makefile.objs
+deleted file mode 100644
+index b962904..0000000
+--- a/qom/Makefile.objs
++++ /dev/null
+@@ -1,2 +0,0 @@
+-common-obj-$(CONFIG_SOFTMMU) += qom-hmp-cmds.o qom-qmp-cmds.o
+-storage-daemon-obj-y += qom-qmp-cmds.o
+diff --git a/qom/meson.build b/qom/meson.build
+index 4af044d..35815f6 100644
+--- a/qom/meson.build
++++ b/qom/meson.build
+@@ -7,6 +7,9 @@ qom_ss.add(files(
+   'qom-qobject.c',
+ ))
+ 
++qmp_ss.add(files('qom-qmp-cmds.c'))
++softmmu_ss.add(files('qom-hmp-cmds.c'))
++
+ qom_ss = qom_ss.apply(config_host, strict: false)
+ libqom = static_library('qom', qom_ss.sources(),
+                         dependencies: [qom_ss.dependencies()],
 -- 
 1.8.3.1
 
