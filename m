@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F08B23D97A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:56:25 +0200 (CEST)
-Received: from localhost ([::1]:59912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBC423D983
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:58:54 +0200 (CEST)
+Received: from localhost ([::1]:43168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dZQ-0006kl-HV
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40194)
+	id 1k3dbp-00037y-Bf
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3dR4-000183-Aa
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:47:46 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3dR2-0007in-6s
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:47:46 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id 9so8393685wmj.5
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DpFloc4F+NrzNfX/APleLAoGihUtSc9ljTfDQuKF5RM=;
- b=Spyf5auDC3SRCeZWuxIXLutacux6aNMILeN1EMQQGY3XqQ02DuaTYVsz+1eBZ0rvRZ
- Wi2VWrRhD3I2kdg4C674t8ZTZmSsVGIsg8qv5jCFe5cia2JfL8Or9vDOfgUSKxHjzEBp
- aVHlT5YCPHnWwEK3wy5rXkTKFjkO42/z5AVXoOqA4oQ5YHhnRfY66HxUfNC6C18aIaMN
- VA4a+dZWF1stdu451Ymu5Sd6DZcE3924gcim2HtNZd8JR4l9YcCtPFHLkcOGMx8V2ddI
- FV5Nruz1fd2tDwxT5whuLe2+ZLQNcvZe0e+nVDUHzbhgitG9LQwMpykRqoRdv+6q99f3
- Vpeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DpFloc4F+NrzNfX/APleLAoGihUtSc9ljTfDQuKF5RM=;
- b=I+AVUck6GaTcG+dOi4rpgNPaL7YxzuT96gkxgcW1KSBSvP4tO1HNJ2YsEZpCc6lim7
- KF7My/YgqbOacvCLJZOlcBAFEE9WaAsuorvFKIsaosLCt1zahr1vkmMYxt8ozufeCa80
- HPiLVPkfIEBAxoDmS2VN/yKoGPDzKLV2TEpRg+QGmGVZZYPMHDcEefT+a1kngKaCHBH2
- 1C9JWll1v3rLUC2pUlyIQW1QfhBNVEL89zyBd9+H4Kce9ARB7JeniKNda2+Os4RTe+p+
- E7a5qkf3kk4+ymCKYv4YdRmp7EColOJOds0nU/Ie5Lf1iUiS89oA8kYONTRr+TIrFB9p
- u/1w==
-X-Gm-Message-State: AOAM533c/HIVZl45vkawvR8bxyhLOs5cwJh8NakIV8MWjucr/Q1yRrlU
- XIufwHI7jgD9oj+X4SEaVTW9sH93j4c=
-X-Google-Smtp-Source: ABdhPJwvPbtPgA2xSpiPY7pD0Rlyqij58IduCZXFJq0WsIHa06r/RmLGOCexyZ7olOurVRCN3trO6w==
-X-Received: by 2002:a1c:62d6:: with SMTP id w205mr7955973wmb.154.1596710860007; 
- Thu, 06 Aug 2020 03:47:40 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g8sm5783248wme.13.2020.08.06.03.47.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:47:38 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EECD81FF7E;
- Thu,  6 Aug 2020 11:47:37 +0100 (BST)
-References: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3dRY-00024z-8G
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42960
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3dRW-0007mq-25
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596710891;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=DTTxQHZ3l2RR/xfIJyzOWqYPwNwYOGvnmDaudMOh2Vc=;
+ b=ESoZUONRG8KO7z4ssjcjQ4ss0gkDQO39lrjH7LPGtf7oZSyenZSVVoRs0n8/8VPk9C8cOV
+ m5dVTBEHJVJh/ByVMPNIc69/yQUdwgJVigllfCH5ImlNEFq+6aJLuz4SUk6R/9siRBKaDK
+ 80IQYIcX5MQvLM4z60XwXB4opmyGBBs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-3ZqTgO0pOVOTODzy66r28w-1; Thu, 06 Aug 2020 06:48:01 -0400
+X-MC-Unique: 3ZqTgO0pOVOTODzy66r28w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7B43800473;
+ Thu,  6 Aug 2020 10:48:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 964901002388;
+ Thu,  6 Aug 2020 10:47:55 +0000 (UTC)
+Date: Thu, 6 Aug 2020 11:47:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Christophe de Dinechin <dinechin@redhat.com>
 Subject: Re: Qemu web site down?
-In-reply-to: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
-Date: Thu, 06 Aug 2020 11:47:37 +0100
-Message-ID: <87o8nokq46.fsf@linaro.org>
+Message-ID: <20200806104753.GG4159383@redhat.com>
+References: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,32 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Christophe de Dinechin <dinechin@redhat.com> writes:
-
+On Thu, Aug 06, 2020 at 12:14:51PM +0200, Christophe de Dinechin wrote:
 > Hi Stefan,
->
->
+> 
+> 
 > The link from https://wiki.qemu.org/Documentation pointing to
-> https://qemu.weilnetz.de/doc/qemu-doc.html seems to be dead. Is the
-> problem on your web site, or should the wiki be updated?
+> https://qemu.weilnetz.de/doc/qemu-doc.html seems to be dead.
+> Is the problem on your web site, or should the wiki be updated?
 
-It should be pointing at:
+Those linked docs are all hosted on www.qemu.org now see
 
-  https://www.qemu.org/documentation/
+   https://www.qemu.org/documentation/
 
-now.
+the wiki page needs fixing.
 
->
->
-> Thanks
-> Christophe
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-
---=20
-Alex Benn=C3=A9e
 
