@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A5A23D9A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:08:45 +0200 (CEST)
-Received: from localhost ([::1]:60338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3494223D998
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:04:35 +0200 (CEST)
+Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dlM-0004rX-LY
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
+	id 1k3dhK-0004Bs-0o
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dRT-000211-D8
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:11 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45705)
+ id 1k3dRU-00021w-LJ
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:13 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:40571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dRQ-0007mF-IN
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:11 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id bh1so14210316plb.12
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:48:07 -0700 (PDT)
+ id 1k3dRS-0007mX-Ew
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:12 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id d4so6277644pjx.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FGOh+A6IVpmY/plCM7TtdvaB7Halabe2EZ+P5FsPKfw=;
- b=dOAlFjYdOyh1yqGbOHNJn0JUtzch5/HEHGD2QQZsm3/HCTwvCXhPTRB+fzdhbTYsB/
- inn/7/fTymhDXAoHykgwSSqn71COBD/Fug+Z/OOxhWIxd+7yeuVLnrHcaYjqjGIb7hq9
- OBLfyLr0HOeKT7HxX/qRBSaVnnquB93ej0gAUaNrIbYUKcQNOgS2M89yUaQu76enmxIc
- sEjYf0jAQCJCvXQN9aTnHsZfltckUTwe/qBQTWmEsYvYCRQ99/6jaPbZZQNRvqRbo6Ll
- Y0WUsjuVf6rcUoSXvGvUN2uPCBxT6NJnotvvNPMR8BxESnFPptZTXOIssAga6hPrx/rE
- K9Jw==
+ bh=mr6lKxcFjeA/8F/C56chBLmqe7HS/SBJkMcoiQ9aYYI=;
+ b=HzVN5o22yo5mpuM47TveYxgH/WlUQnudmJL1k8dnxWS/frpOP2LYX+CIEsxJgC4ND7
+ t4W0W0mxxAVZG59Hi4xNWWIH+sue2UiheQlqzGY+HxnU6eWKsHHlreMNvLOSOgXOCbM3
+ QhT99uAPII+Uts+h4H6NSKhQHh52hK8i5Q7NgHSWtDQc03rDwfNRG2II+jREbMub8fzJ
+ QjtQTRUNK1n1HLPW7M9au5PiJFxG6Z2wtSRi86WBIhDCXgQ+bV8OVv5Hnex0io3aE9w5
+ O0tT38SDEsx20UycmCQ0OsAWsdcMrQWfYX4+QZ+rp7ORSjVY1zvM4psdF31+y+/WbrZw
+ 8Wwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=FGOh+A6IVpmY/plCM7TtdvaB7Halabe2EZ+P5FsPKfw=;
- b=eNDnHsWMofiApgJJVT+79fUoQhWic5hMgtqCUGqpzEkZhdSizLy+SXAm9ftsLArOCd
- YbpGmUFbxD3bLB7D1CKGI3MhUJlOVNiElVFnQ1lQzE6ajj5RPlBhfX3Q87JLZMVxSm+X
- HY7WMxZgHlou/22ozp0C4OAbOZpBnNHI3GG8J0LcEndFkik5J1uUarO2L7DASGnI298N
- xl6NvI0KMmb7gBcgE7L44kb+FytL8LsKCASUYzYpmrGJpJjrZ/2ycQnZzNUlAb0LOwfe
- ZXpGuZ6uXoAcAiRW8oSU7uTjLiJQpALLlBNUEVv9wMkmPgFJXBhQcX5jM9+yKf0YpGjd
- rEEg==
-X-Gm-Message-State: AOAM533qRHlX95qBSrDDEz6ar6xE7rNypzRMCXx0UCI+aJ5fvPr0G+6r
- 1acw3XUYLLOcJPgV2IIJBxrjw1eCQdA=
-X-Google-Smtp-Source: ABdhPJwbaFlpC5O91Xz5GM5vCZPUj1L31VJcPeHEb1AUuC8Wbsh1xTt/A/TFmdPuP86X16BPDscZbQ==
-X-Received: by 2002:a17:90b:4acd:: with SMTP id
- mh13mr8060142pjb.147.1596710886460; 
- Thu, 06 Aug 2020 03:48:06 -0700 (PDT)
+ bh=mr6lKxcFjeA/8F/C56chBLmqe7HS/SBJkMcoiQ9aYYI=;
+ b=XEPbD7KuWm8ch8jRxg6Wp2d9zNHQjAixcpAGWJ2eTN00IXq43rOtB+LiZ0+tizu6Hp
+ sPoAgaGGwfhfO8ki1Inzqqts7gDX/5cOGb4b7hOMTDoFs2uR5kKReZ2QKevgCxQ17byt
+ YIZveofYLdV7AdEIRg4DZ3Gwg3Nz/sK5pYMQ4drUqyXsxdwdICFM83kFcBW6Xgf8VpHG
+ SZ2600DA12VXh7S1NKIz6XjoAW5Ciyb4EOq6XXOxev93DdrIzROh4AhHmu6Orj2BjJRm
+ ILmeZV2DcUNUMTnSs7XtBcmIcJJwLLPxs7e32Zwfp58+6Tj7zhOdkx1UgSWPojTQJBuJ
+ ydgg==
+X-Gm-Message-State: AOAM5331KIRkkFBC88zMh5PQf8yvfQn+255IUQOddnfkj3aHtzqmkzvy
+ 0y2fb7stmRu9nrb89M8PLqlWbyY7xvU=
+X-Google-Smtp-Source: ABdhPJyrsNvNqzeezNZ0qwRXtrfzIIbcpQ3ptn4Ol3fKZABF+4lbowX9hqIxw2l0DJQLW93VsKYCUQ==
+X-Received: by 2002:a17:90a:c208:: with SMTP id
+ e8mr7630392pjt.73.1596710888730; 
+ Thu, 06 Aug 2020 03:48:08 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.48.04
+ by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.48.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:48:06 -0700 (PDT)
+ Thu, 06 Aug 2020 03:48:08 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v3 18/71] target/riscv: rvv-1.0: apply nanbox helper in
- opfvf_trans
-Date: Thu,  6 Aug 2020 18:46:15 +0800
-Message-Id: <20200806104709.13235-19-frank.chang@sifive.com>
+Subject: [RFC v3 19/71] target/riscv: rvv-1.0: configure instructions
+Date: Thu,  6 Aug 2020 18:46:16 +0800
+Message-Id: <20200806104709.13235-20-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
 References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,40 +96,70 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 12 ++++++++----
+ target/riscv/vector_helper.c            | 14 +++++++++++++-
+ 2 files changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 525aff06815..8a6050f6b32 100644
+index 8a6050f6b32..2f87f2482c3 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2156,6 +2156,7 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
+@@ -98,8 +98,10 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
+     s2 = tcg_temp_new();
+     dst = tcg_temp_new();
+ 
+-    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+-    if (a->rs1 == 0) {
++    if (a->rd == 0 && a->rs1 == 0) {
++        s1 = tcg_temp_new();
++        tcg_gen_mov_tl(s1, cpu_vl);
++    } else if (a->rs1 == 0) {
+         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+         s1 = tcg_const_tl(RV_VLEN_MAX);
+     } else {
+@@ -131,8 +133,10 @@ static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
+     s2 = tcg_const_tl(a->zimm);
+     dst = tcg_temp_new();
+ 
+-    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+-    if (a->rs1 == 0) {
++    if (a->rd == 0 && a->rs1 == 0) {
++        s1 = tcg_temp_new();
++        tcg_gen_mov_tl(s1, cpu_vl);
++    } else if (a->rs1 == 0) {
+         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+         s1 = tcg_const_tl(RV_VLEN_MAX);
+     } else {
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 5653d6dad56..6df282cbca7 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -31,12 +31,24 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
  {
-     TCGv_ptr dest, src2, mask;
-     TCGv_i32 desc;
-+    TCGv_i64 t1;
+     int vlmax, vl;
+     RISCVCPU *cpu = env_archcpu(env);
++    uint64_t lmul = FIELD_EX64(s2, VTYPE, VLMUL);
+     uint16_t sew = 8 << FIELD_EX64(s2, VTYPE, VSEW);
+     uint8_t ediv = FIELD_EX64(s2, VTYPE, VEDIV);
+     bool vill = FIELD_EX64(s2, VTYPE, VILL);
+     target_ulong reserved = FIELD_EX64(s2, VTYPE, RESERVED);
  
-     TCGLabel *over = gen_new_label();
-     tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-@@ -2169,12 +2170,17 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
--    fn(dest, mask, cpu_fpr[rs1], src2, cpu_env, desc);
-+    /* NaN-box f[rs1] */
-+    t1 = tcg_temp_new_i64();
-+    do_nanbox(s, t1, cpu_fpr[rs1]);
+-    if ((sew > cpu->cfg.elen) || vill || (ediv != 0) || (reserved != 0)) {
++    if (lmul & 4) {
++        /* Fractional LMUL. */
++        if (lmul == 4 ||
++            cpu->cfg.elen >> (8 - lmul) < sew) {
++            vill = true;
++        }
++    }
 +
-+    fn(dest, mask, t1, src2, cpu_env, desc);
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(src2);
-     tcg_temp_free_i32(desc);
-+    tcg_temp_free_i64(t1);
-     mark_vs_dirty(s);
-     gen_set_label(over);
-     return true;
++    if ((sew > cpu->cfg.elen)
++        || vill
++        || (ediv != 0)
++        || (reserved != 0)) {
+         /* only set vill bit. */
+         env->vtype = FIELD_DP64(0, VTYPE, VILL, 1);
+         env->vl = 0;
 -- 
 2.17.1
 
