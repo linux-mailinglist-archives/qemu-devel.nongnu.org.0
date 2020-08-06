@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3DE23D9B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:12:06 +0200 (CEST)
-Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A717123D9D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:20:35 +0200 (CEST)
+Received: from localhost ([::1]:34938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dob-0002tf-PF
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
+	id 1k3dwo-0003em-OO
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dSd-0003rM-9g
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:23 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:42656)
+ id 1k3dSg-0003tQ-LQ
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:26 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:37187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dSa-0007zR-5W
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:22 -0400
-Received: by mail-pf1-x434.google.com with SMTP id 17so4356512pfw.9
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:49:19 -0700 (PDT)
+ id 1k3dSc-00080h-Cu
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:25 -0400
+Received: by mail-pl1-x632.google.com with SMTP id p1so27310073pls.4
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=g540KLJVzFqwXVWR5auVqNRh56S6RWf5SYstzOvk0N0=;
- b=a9SO1PEbN5UUj4TZdIOmNjq6NyNjVMdDTfmtoSJg5mYdUuFPqUfLy+I3TLcySj0RD3
- JPRcdHAh08QNRwMgAMHzOeE80d8k5CdD/fuhH2ReK88pl+4KRxhmlvJA9Bl2oPeUrIZc
- btYyk2UBee06dSH2NmEoYhq7bVyU5Rfv7snl77k2cRlSjHH+x0eP9DliuOJOwR1uU02P
- IH+qRlFAYAz6NPsGsHC9SaiAIDdBeEvZnHFyzaGLVNmXAa/7OapV8oRFZbXAjyPhU9qs
- Om4d8waVR9A3f0HMKauRDXg5GcW3sGsewC002Ybg7I/9sgjGs5sj3F6qP8YVMALeL9NP
- wMAA==
+ bh=rAe65mQIx6pZoNM/rbKMGrIY0zLbjlJXMGbPmJEv2dg=;
+ b=PpDMDk3cJ9ht/ukl1BFiD+aWvRNFw4c3gI0NaizdncvPXstc5dq6vUVok6o8gKnylH
+ 4Nl3I1o5fY4Ybvck7/+kQ7ad82kmWg/CGbKMwkIe6B5NlV924T5tybQfy/1wVhmnEq1G
+ hHcHJWk+p+G+2blp+l9QnB1loJVuL+N9CGk0zSDqDXkOqG8R11R6ec1ke4uD6qh1eRIp
+ HyFJxCR8YeJxMaJXvB11fwEZGF7H2YXDfs1kBIzoJ5I5pqCKYloW2mtVxZ8V9MM6DFDc
+ bw9weKlddHF4PLRvzzg2PZM/B8t5R1Whr2+oBE4L4dUvc2rr/mLSmmIDlaRRKzF1YaYo
+ wbMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=g540KLJVzFqwXVWR5auVqNRh56S6RWf5SYstzOvk0N0=;
- b=OrO/5y+324+9bhxk2TLyPDyB+57JlUMWRWPRTNwDxQdoiCy9I6mI6mphDJBt+iLvsN
- K9Vye+k30/+VtIzGQX22SVLh3fLnvhnzZ+hDGP3lL3w4HIEkFMhQlwzIULko2NKbPFhC
- q1qWY0YkeP6Kt20WZnlgzq6cA3UzBhVkCxgZ6e4iVOT7XknjcgxDXMkS0nQEeFjxvWQM
- qPswL2BvjUKRAPcP8pmyWji8VO24/f6C0/2z1U8fiLHREcC4lGYw8ZE+bM2jInaxYMLX
- T9XmelozpQ0ychqZ1Y6i7udcxQeDaTfhodYO5ABsoPDXPnudzjEVXZL1pV+OXV/p4FK3
- mbeA==
-X-Gm-Message-State: AOAM532zZrPgpFo4B0efCFFjm4DGyewSkAuGUCIP7A6j1nKidc6/kW/7
- Sh0YVNKaG3nyznBuibaSLbn3OK8vEGw=
-X-Google-Smtp-Source: ABdhPJxD2TC/qRbvwDLxr2ElmRFqv0SCeJrUHPlJZViQXl/Rf70rdBsBhQ9kaQFFX7p+iYXH1NI0hw==
-X-Received: by 2002:a65:5c0b:: with SMTP id u11mr6811870pgr.191.1596710958584; 
- Thu, 06 Aug 2020 03:49:18 -0700 (PDT)
+ bh=rAe65mQIx6pZoNM/rbKMGrIY0zLbjlJXMGbPmJEv2dg=;
+ b=IK19i3OtvLeC0hDi0afmpSNUUgw+XuKIfOax9DGjAILDnry2EHT1t6EuilOiSUGeNh
+ +M1+DP6CmS3Xpwpx3udYudPPPb4CEBfVXMn8pxDdFtt0Fi+9U9IwCy9oMFxX4+MRRVfu
+ uxaJaWlPcXtQmkWvq4MzR+MEAl54QydA1DWBb+yGmjYJPA3WjEaPOTUZEzqRtcv7ToCD
+ G7lozsUrZJUWBKu6smrTY5Y/KypH8LEqf7FW1xG1PPYfZGDnddQqq8vdEWgwaDTWV0HS
+ gXsTYlUY2EHDIkT7rUox99B+u+Puazh+TVLe59S2oIHksqPxuCigiq5J9TyaoIIehuyr
+ 8SFg==
+X-Gm-Message-State: AOAM533AGJjvMvQu3m6ANrEMqWM3pq+hlfX6pxM+dHsfiQBGZFMhgipf
+ 63MTLReuEPcokaqnih3berjFwbKV1hI=
+X-Google-Smtp-Source: ABdhPJyyiOt4I0jkYGagOyc0gnQoZWh0jhPsi+c3ByPRuG989v1XGT997lLCLh80biVkVQ6W7DtrgA==
+X-Received: by 2002:a17:90b:4d0f:: with SMTP id
+ mw15mr7593385pjb.174.1596710960900; 
+ Thu, 06 Aug 2020 03:49:20 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.49.16
+ by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.49.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:49:18 -0700 (PDT)
+ Thu, 06 Aug 2020 03:49:20 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v3 48/71] target/riscv: rvv-1.0: quad-widening integer
- multiply-add instructions
-Date: Thu,  6 Aug 2020 18:46:45 +0800
-Message-Id: <20200806104709.13235-49-frank.chang@sifive.com>
+Subject: [RFC v3 49/71] target/riscv: rvv-1.0: single-width saturating add and
+ subtract instructions
+Date: Thu,  6 Aug 2020 18:46:46 +0800
+Message-Id: <20200806104709.13235-50-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
 References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x632.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,252 +95,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Add the following instructions:
-
-* vqmaccu.vv
-* vqmaccu.vx
-* vqmacc.vv
-* vqmacc.vx
-* vqmaccsu.vv
-* vqmaccsu.vx
-* vqmaccus.vx
+Sign-extend vsaddu.vi immediate value.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   |  15 ++++
- target/riscv/insn32.decode              |   7 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 108 ++++++++++++++++++++++++
- target/riscv/vector_helper.c            |  40 +++++++++
- 4 files changed, 170 insertions(+)
+ target/riscv/insn_trans/trans_rvv.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index fe37bd2f4af..6825c15e025 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -640,6 +640,21 @@ DEF_HELPER_6(vwmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vwmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vwmaccus_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- 
-+DEF_HELPER_6(vqmaccu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+
- DEF_HELPER_6(vmerge_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmerge_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmerge_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 2e305d492d8..b2ecc8dd4d1 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -441,6 +441,13 @@ vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
- vwmaccsu_vv     111111 . ..... ..... 010 ..... 1010111 @r_vm
- vwmaccsu_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
- vwmaccus_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
-+vqmaccu_vv      111100 . ..... ..... 000 ..... 1010111 @r_vm
-+vqmaccu_vx      111100 . ..... ..... 100 ..... 1010111 @r_vm
-+vqmacc_vv       111101 . ..... ..... 000 ..... 1010111 @r_vm
-+vqmacc_vx       111101 . ..... ..... 100 ..... 1010111 @r_vm
-+vqmaccsu_vv     111111 . ..... ..... 000 ..... 1010111 @r_vm
-+vqmaccsu_vx     111111 . ..... ..... 100 ..... 1010111 @r_vm
-+vqmaccus_vx     111110 . ..... ..... 100 ..... 1010111 @r_vm
- vmv_v_v         010111 1 00000 ..... 000 ..... 1010111 @r2
- vmv_v_x         010111 1 00000 ..... 100 ..... 1010111 @r2
- vmv_v_i         010111 1 00000 ..... 011 ..... 1010111 @r2
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 196f1858465..263f2535d8c 100644
+index 263f2535d8c..c2eda17c0ce 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -64,6 +64,11 @@ static bool require_rvv(DisasContext *s)
-     return true;
- }
+@@ -2329,7 +2329,7 @@ GEN_OPIVX_TRANS(vsaddu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vsadd_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
+-GEN_OPIVI_TRANS(vsaddu_vi, IMM_ZX, vsaddu_vx, opivx_check)
++GEN_OPIVI_TRANS(vsaddu_vi, IMM_SX, vsaddu_vx, opivx_check)
+ GEN_OPIVI_TRANS(vsadd_vi, IMM_SX, vsadd_vx, opivx_check)
  
-+static bool require_ext_vqmac(DisasContext *s)
-+{
-+    return s->ext_vqmac;
-+}
-+
- /* Destination vector register group cannot overlap source mask register. */
- static bool require_vm(int vm, int rd)
- {
-@@ -460,6 +465,52 @@ static bool vext_check_dss(DisasContext *s, int vd, int vs1, int vs2,
-     return ret;
- }
- 
-+/*
-+ * Check function for vector instruction with format:
-+ * quad-width result and single-width sources (4*SEW = SEW op SEW)
-+ *
-+ * is_vs1: indicates whether insn[19:15] is a vs1 field or not.
-+ *
-+ * Rules to be checked here:
-+ *   1. The largest vector register group used by an instruction
-+ *      can not be greater than 8 vector registers (Section 5.2):
-+ *      => LMUL < 4.
-+ *      => SEW < 32.
-+ *   2. Destination vector register number is multiples of 4 * LMUL.
-+ *      (Section 3.3.2)
-+ *   3. Source (vs2, vs1) vector register number are multiples of LMUL.
-+ *      (Section 3.3.2)
-+ *   4. Destination vector register cannot overlap a source vector
-+ *      register (vs2, vs1) group.
-+ *      (Section 5.2)
-+ *   5. Destination vector register group for a masked vector
-+ *      instruction cannot overlap the source mask register (v0).
-+ *      (Section 5.3)
-+ */
-+static bool vext_check_qss(DisasContext *s, int vd, int vs1, int vs2,
-+                           int vm, bool is_vs1)
-+{
-+    bool ret = (s->flmul <= 2) &&
-+               (s->sew < 2) &&
-+               require_align(vd, s->flmul * 4) &&
-+               require_align(vs2, s->flmul) &&
-+               require_vm(vm, vd);
-+    if (s->flmul < 1) {
-+        ret &= require_noover(vd, s->flmul * 4, vs2, s->flmul);
-+    } else {
-+        ret &= require_noover_widen(vd, s->flmul * 4, vs2, s->flmul);
-+    }
-+    if (is_vs1) {
-+        ret &= require_align(vs1, s->flmul);
-+        if (s->flmul < 1) {
-+            ret &= require_noover(vd, s->flmul * 4, vs1, s->flmul);
-+        } else {
-+            ret &= require_noover_widen(vd, s->flmul * 4, vs1, s->flmul);
-+        }
-+    }
-+    return ret;
-+}
-+
- /*
-  * Check function for vector instruction with format:
-  * double-width result and double-width source1 and single-width
-@@ -2086,6 +2137,63 @@ GEN_OPIVX_WIDEN_TRANS(vwmacc_vx)
- GEN_OPIVX_WIDEN_TRANS(vwmaccsu_vx)
- GEN_OPIVX_WIDEN_TRANS(vwmaccus_vx)
- 
-+/* Vector Quad-Widening Integer Multiply-Add Instructions (Extension Zvqmac) */
-+/* OPIVV with QUAD-WIDEN */
-+static bool opivv_quad_widen_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return require_rvv(s) &&
-+           require_ext_vqmac(s) &&
-+           vext_check_isa_ill(s) &&
-+           vext_check_qss(s, a->rd, a->rs1, a->rs2, a->vm, true);
-+}
-+
-+#define GEN_OPIVV_QUAD_WIDEN_TRANS(NAME, CHECK)        \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a) \
-+{                                                      \
-+    static gen_helper_gvec_4_ptr * const fns[2] = {    \
-+        gen_helper_##NAME##_b,                         \
-+        gen_helper_##NAME##_h                          \
-+    };                                                 \
-+    return do_opivv_widen(s, a, fns[s->sew], CHECK);   \
-+}
-+
-+GEN_OPIVV_QUAD_WIDEN_TRANS(vqmaccu_vv, opivv_quad_widen_check)
-+GEN_OPIVV_QUAD_WIDEN_TRANS(vqmacc_vv, opivv_quad_widen_check)
-+GEN_OPIVV_QUAD_WIDEN_TRANS(vqmaccsu_vv, opivv_quad_widen_check)
-+
-+/* OPIVX with QUAD-WIDEN */
-+static bool opivx_quad_widen_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return require_rvv(s) &&
-+           require_ext_vqmac(s) &&
-+           vext_check_isa_ill(s) &&
-+           vext_check_qss(s, a->rd, a->rs1, a->rs2, a->vm, false);
-+}
-+
-+static bool do_opivx_quad_widen(DisasContext *s, arg_rmrr *a,
-+                                gen_helper_opivx *fn)
-+{
-+    if (opivx_quad_widen_check(s, a)) {
-+        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-+    }
-+    return false;
-+}
-+
-+#define GEN_OPIVX_QUAD_WIDEN_TRANS(NAME)               \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a) \
-+{                                                      \
-+    static gen_helper_opivx * const fns[3] = {         \
-+        gen_helper_##NAME##_b,                         \
-+        gen_helper_##NAME##_h                          \
-+    };                                                 \
-+    return do_opivx_quad_widen(s, a, fns[s->sew]);     \
-+}
-+
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccu_vx)
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmacc_vx)
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccsu_vx)
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccus_vx)
-+
- /* Vector Integer Merge and Move Instructions */
- static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
- {
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 0bed365c8f0..5add464933c 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -2001,6 +2001,46 @@ GEN_VEXT_VX(vwmaccus_vx_b, 1, 2)
- GEN_VEXT_VX(vwmaccus_vx_h, 2, 4)
- GEN_VEXT_VX(vwmaccus_vx_w, 4, 8)
- 
-+/* Vector Quad-Widening Integer Multiply-Add Instructions */
-+#define QOP_UUU_B uint32_t, uint8_t, uint8_t, uint32_t, uint32_t
-+#define QOP_UUU_H uint64_t, uint16_t, uint16_t, uint64_t, uint64_t
-+#define QOP_SSS_B int32_t, int8_t, int8_t, int32_t, int32_t
-+#define QOP_SSS_H int64_t, int16_t, int16_t, int64_t, int64_t
-+#define QOP_SUS_B int32_t, uint8_t, int8_t, uint32_t, int32_t
-+#define QOP_SUS_H int64_t, uint16_t, int16_t, uint64_t, int64_t
-+#define QOP_SSU_B int32_t, int8_t, uint8_t, int32_t, uint32_t
-+#define QOP_SSU_H int64_t, int16_t, uint16_t, int64_t, uint64_t
-+
-+RVVCALL(OPIVV3, vqmaccu_vv_b,  QOP_UUU_B, H4, H1, H1, DO_MACC)
-+RVVCALL(OPIVV3, vqmaccu_vv_h,  QOP_UUU_H, H8, H2, H2, DO_MACC)
-+RVVCALL(OPIVV3, vqmacc_vv_b,   QOP_SSS_B, H4, H1, H1, DO_MACC)
-+RVVCALL(OPIVV3, vqmacc_vv_h,   QOP_SSS_H, H8, H2, H2, DO_MACC)
-+RVVCALL(OPIVV3, vqmaccsu_vv_b, QOP_SSU_B, H4, H1, H1, DO_MACC)
-+RVVCALL(OPIVV3, vqmaccsu_vv_h, QOP_SSU_H, H8, H2, H2, DO_MACC)
-+GEN_VEXT_VV(vqmaccu_vv_b,  1, 4)
-+GEN_VEXT_VV(vqmaccu_vv_h,  2, 8)
-+GEN_VEXT_VV(vqmacc_vv_b,   1, 4)
-+GEN_VEXT_VV(vqmacc_vv_h,   2, 8)
-+GEN_VEXT_VV(vqmaccsu_vv_b, 1, 4)
-+GEN_VEXT_VV(vqmaccsu_vv_h, 2, 8)
-+
-+RVVCALL(OPIVX3, vqmaccu_vx_b,  QOP_UUU_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccu_vx_h,  QOP_UUU_H, H8, H2, DO_MACC)
-+RVVCALL(OPIVX3, vqmacc_vx_b,   QOP_SSS_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmacc_vx_h,   QOP_SSS_H, H8, H2, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccsu_vx_b, QOP_SSU_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccsu_vx_h, QOP_SSU_H, H8, H2, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccus_vx_b, QOP_SUS_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccus_vx_h, QOP_SUS_H, H8, H2, DO_MACC)
-+GEN_VEXT_VX(vqmaccu_vx_b,  1, 4)
-+GEN_VEXT_VX(vqmaccu_vx_h,  2, 8)
-+GEN_VEXT_VX(vqmacc_vx_b,   1, 4)
-+GEN_VEXT_VX(vqmacc_vx_h,   2, 8)
-+GEN_VEXT_VX(vqmaccsu_vx_b, 1, 4)
-+GEN_VEXT_VX(vqmaccsu_vx_h, 2, 8)
-+GEN_VEXT_VX(vqmaccus_vx_b, 1, 4)
-+GEN_VEXT_VX(vqmaccus_vx_h, 2, 8)
-+
- /* Vector Integer Merge and Move Instructions */
- #define GEN_VEXT_VMV_VV(NAME, ETYPE, H)                              \
- void HELPER(NAME)(void *vd, void *vs1, CPURISCVState *env,           \
+ /* Vector Single-Width Averaging Add and Subtract */
 -- 
 2.17.1
 
