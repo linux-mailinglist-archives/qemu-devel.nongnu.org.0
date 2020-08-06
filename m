@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D0B23DAE9
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:39:01 +0200 (CEST)
-Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CA223DAF2
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:41:23 +0200 (CEST)
+Received: from localhost ([::1]:39236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3g6m-0004PR-Sb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52462)
+	id 1k3g94-0007Yv-2y
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3g61-0003tg-MN; Thu, 06 Aug 2020 09:38:13 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3g60-0002t0-2D; Thu, 06 Aug 2020 09:38:13 -0400
-Received: by mail-wr1-x444.google.com with SMTP id y3so44044830wrl.4;
- Thu, 06 Aug 2020 06:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OjcdhDLucSRT8FFIZv176pPKfHlgD06Q4at/uUFwg18=;
- b=R8stUgv6aD/HW5lP2fgPJMR4Pdb5o6g5P/BeSR4cCF1GcClUdqR+u3AUN7MTkzp4rf
- 64SjaeNYNVEinfZCWE6D7fGK4+QrOjmc7+keyz0+IZ51gwOqflqvlRI1kwYhWmcb0mDL
- jCr7Iem/pfUPlSIaNk78u7wBDL3FTaQNjJ6Gq8F+Qo1doQqH2zHl3q0NLVuIcyj0dlNs
- 0UfDln8+Ojd8+ZWWmXJd4YgEW2h8gL8ZBfA6yXB0FEQXBzNguz6pG9ojHs55EupUXvro
- OMFR3cXIDJbV/Ljrm4pl1MuDLai8qjHaXt7JfANnvapQoONNuquIJwR1ZcQLbFW3K1n2
- WhsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OjcdhDLucSRT8FFIZv176pPKfHlgD06Q4at/uUFwg18=;
- b=c6uC2ji970tOKLO+/cJrJz/qrlIxEQjUWtYJMkPd3YN1NytB8+q8NCr4YR/VjmROJy
- 35+8FDaFXaglCpkcoXkMCgnCwutw96o7/qP337F6QMh6gLLgZ6U6EOR3KMRtNI6XLQDS
- 3N4eIp7ICbAHKhdlpbT95NoVXO1P232qWASNXg2BdjQnuu6RX+Wh8VrKovBranVdt+/L
- WvQi7m9Ugpu7QVs2fsx2oVzf8abeu9JiYNV3eq/MQLIAa4HoFEaZ0y2O86V2HXxygHoH
- 9dxF25aFQR2ioPiPmGaBk1pQGwgyHvxnkIf2wNuT5G6rcoMQiwFWUC4XtvBPx8UuiCFe
- nw8w==
-X-Gm-Message-State: AOAM530XJA+y3EKd7+P3gr+vJ45PnA9Zh2T5UJYeHhRg4sfSdNzKb8Ud
- ERomoyakqPbCocgdl+Up8HrhSwEy
-X-Google-Smtp-Source: ABdhPJxQFVDAxOK2L5UcMVG3/RWN+q7JtafbotGzZ3ui+581Z04m3XrGDVhuiP5lm831Ug4KSYQqDA==
-X-Received: by 2002:adf:a45d:: with SMTP id e29mr7578761wra.107.1596721089900; 
- Thu, 06 Aug 2020 06:38:09 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id c15sm6311768wme.23.2020.08.06.06.38.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 06:38:08 -0700 (PDT)
-Subject: Re: [PATCH for-5.2 16/19] aspeed/sdmc: Perform memory training
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-17-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <56f83c0b-b5eb-241e-c848-56f038633398@amsat.org>
-Date: Thu, 6 Aug 2020 15:38:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1k3g7k-0005qX-Dv
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:40:00 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54577
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1k3g7h-00031V-ES
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:39:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596721195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lZ2xO/r9/lY7GLup8/HvCICtkmbVo2XLDZC5dlGcfGY=;
+ b=QQZZNSlNgRCLwefyW/wepUq0PCQd89raw8+rmwNc5fEtOlOQxuEm71ggxaRXcZtzBtJhtK
+ SCQIc4lKVafkvTtXbBKIIJ3Qm7YCzDF/SFGDVjUX2Dc8oeMoaziS6QGzTuQru5fm1vmf0l
+ WlDYn71pKyfTbHyOlJ+yAjC2dSfMZmE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-vM8LUwXPPoW2RjFNdA4LYQ-1; Thu, 06 Aug 2020 09:38:49 -0400
+X-MC-Unique: vM8LUwXPPoW2RjFNdA4LYQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A25CE10932E0;
+ Thu,  6 Aug 2020 13:38:47 +0000 (UTC)
+Received: from localhost (ovpn-112-129.rdu2.redhat.com [10.10.112.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 124DF6931B;
+ Thu,  6 Aug 2020 13:38:46 +0000 (UTC)
+Date: Thu, 6 Aug 2020 15:38:45 +0200
+From: Sergio Lopez <slp@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
+Message-ID: <20200806133845.maouiwnazkjtpklr@mhamilton>
+References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
+ <20200806115148.7lz32dro645a3wv6@mhamilton>
+ <20200806120130.GK4159383@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200806132106.747414-17-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200806120130.GK4159383@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="eucklqdevqpgjtwc"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,121 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, "Oleinik, Alexander" <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Dave Gilbert <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 3:21 PM, Cédric Le Goater wrote:
-> From: Joel Stanley <joel@jms.id.au>
-> 
-> This allows qemu to run the "normal" power on reset boot path through
-> u-boot, where the DDR is trained.
-> 
-> An enhancement would be to have the SCU bit stick across qemu reboots,
-> but be unset on initial boot.
-> 
-> Proper modelling would be to discard all writes to the phy setting regs
-> at offset 0x100 - 0x400 and to model the phy status regs at offset
-> 0x400.
-> 
-> The status regs model would only need to account for offets 0x00,
-> 0x50, 0x68 and 0x7c.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> [ clg: checkpatch fixes ]
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  include/hw/misc/aspeed_sdmc.h | 13 ++++++++++++-
->  hw/misc/aspeed_scu.c          |  2 +-
->  hw/misc/aspeed_sdmc.c         | 19 +++++++++++++++++--
->  3 files changed, 30 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
-> index cea1e67fe365..c6226957dd3d 100644
-> --- a/include/hw/misc/aspeed_sdmc.h
-> +++ b/include/hw/misc/aspeed_sdmc.h
-> @@ -17,7 +17,18 @@
->  #define TYPE_ASPEED_2500_SDMC TYPE_ASPEED_SDMC "-ast2500"
->  #define TYPE_ASPEED_2600_SDMC TYPE_ASPEED_SDMC "-ast2600"
->  
-> -#define ASPEED_SDMC_NR_REGS (0x174 >> 2)
-> +/*
-> + * SDMC has 174 documented registers. In addition the u-boot device tree
-> + * describes the following regions:
-> + *  - PHY status regs at offset 0x400, length 0x200
-> + *  - PHY setting regs at offset 0x100, length 0x300
-> + *
-> + * There are two sets of MRS (Mode Registers) configuration in ast2600 memory
-> + * system: one is in the SDRAM MC (memory controller) which is used in run
-> + * time, and the other is in the DDR-PHY IP which is used during DDR-PHY
-> + * training.
-> + */
-> +#define ASPEED_SDMC_NR_REGS (0x500 >> 2)
->  
->  typedef struct AspeedSDMCState {
->      /*< private >*/
-> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-> index 764222404bef..dc6dd87c22f4 100644
-> --- a/hw/misc/aspeed_scu.c
-> +++ b/hw/misc/aspeed_scu.c
-> @@ -656,7 +656,7 @@ static const uint32_t ast2600_a1_resets[ASPEED_AST2600_SCU_NR_REGS] = {
->      [AST2600_SYS_RST_CTRL2]     = 0xFFFFFFFC,
->      [AST2600_CLK_STOP_CTRL]     = 0xFFFF7F8A,
->      [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
-> -    [AST2600_SDRAM_HANDSHAKE]   = 0x00000040,  /* SoC completed DRAM init */
-> +    [AST2600_SDRAM_HANDSHAKE]   = 0x00000000,
->      [AST2600_HPLL_PARAM]        = 0x1000405F,
->      [AST2600_CHIP_ID0]          = 0x1234ABCD,
->      [AST2600_CHIP_ID1]          = 0x88884444,
-> diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-> index 855848b7d23a..ff2809a09965 100644
-> --- a/hw/misc/aspeed_sdmc.c
-> +++ b/hw/misc/aspeed_sdmc.c
-> @@ -113,7 +113,7 @@ static uint64_t aspeed_sdmc_read(void *opaque, hwaddr addr, unsigned size)
->      if (addr >= ARRAY_SIZE(s->regs)) {
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
-> -                      __func__, addr);
-> +                      __func__, addr * 4);
->          return 0;
->      }
->  
-> @@ -206,6 +206,19 @@ static void aspeed_sdmc_reset(DeviceState *dev)
->  
->      /* Set ram size bit and defaults values */
->      s->regs[R_CONF] = asc->compute_conf(s, 0);
-> +
-> +    /*
-> +     * PHY status:
-> +     *  - set phy status ok (set bit 1)
-> +     *  - initial PVT calibration ok (clear bit 3)
-> +     *  - runtime calibration ok (clear bit 5)
-> +     */
-> +    s->regs[0x100] = BIT(1);
+--eucklqdevqpgjtwc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is usually implemented with a one-shot timer, see
-sd_ocr_powerup() in hw/sd/sd.c (migration is handled).
+On Thu, Aug 06, 2020 at 01:01:30PM +0100, Daniel P. Berrang=E9 wrote:
+> On Thu, Aug 06, 2020 at 01:51:48PM +0200, Sergio Lopez wrote:
+> > On Thu, Aug 06, 2020 at 11:24:13AM +0100, Stefan Hajnoczi wrote:
+> > <snip>
+> > > Conclusion
+> > > ---------------
+> > > Most security bugs in QEMU today are C programming bugs. Switching to
+> > > a safer programming language will significantly reduce security bugs
+> > > in QEMU. Rust is now mature and proven enough to use as the language
+> > > for device emulation code. Thanks to vhost-user and vfio-user using
+> > > Rust for device emulation does not require a big conversion of QEMU
+> > > code, it can simply be done in a separate program. This way attack
+> > > surfaces can be written in Rust to make them less susceptible to
+> > > security bugs going forward.
+> > >=20
+> >=20
+> > Having worked on Rust implementations for vhost-user-fs and
+> > vhost-user-blk, I'm 100% sold on this idea.
+> >=20
+> > That said, there are a couple things that I think may help getting
+> > more people into implementing vhost-user devices in Rust.
+> >=20
+> >  1. Having a reference implementation for a simple device somewhere
+> >  close or inside the QEMU source tree. I'd say vhost-user-blk is a
+> >  clear candidate, given that a naive implementation for raw files
+> >  without any I/O optimization is quite easy to read and understand.
+> >=20
+> >  2. Integrating the ability to start-up vhost-user daemons from QEMU,
+> >  in an easy and portable way. I know we can always rely on daemons
+> >  like libvirt to do this for us, but I think it'd be nicer to be able
+> >  to define a vhost-user device from the command line and have QEMU
+> >  execute it with the proper parameters (BTW, Cloud-Hypervisor already
+> >  does that). This would probably require some kind of configuration
+> >  file, to be able to define which binary provides each vhost-user
+> >  device personality, but could also be a way for "sanctioning"
+> >  daemons (through the configuration defaults), and to have them adhere
+> >  to a standardized command line format.
+>=20
+> This second point is such a good idea that we already have defined
+> how todo this in QEMU - see the docs/interop/vhost-user.json file.
+> This specifies metadata files that should be installed into a
+> defined location such that QEMU/libvirt/other mgmt app can locate
+> vhost-user impls for each type of device, and priortize between
+> different impls.
 
-> +
-> +    /* PHY eye window: set all as passing */
-> +    s->regs[0x100 | (0x68 / 4)] = 0xff;
-> +    s->regs[0x100 | (0x7c / 4)] = 0xff;
-> +    s->regs[0x100 | (0x50 / 4)] = 0xfffffff;
->  }
->  
->  static void aspeed_sdmc_get_ram_size(Object *obj, Visitor *v, const char *name,
-> @@ -443,7 +456,9 @@ static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
->      }
->  
->      if (reg != R_PROT && s->regs[R_PROT] == PROT_SOFTLOCKED) {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked!\n", __func__);
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: SDMC is locked! (write to MCR%02x blocked)\n",
-> +                      __func__, reg * 4);
->          return;
->      }
->  
-> 
+Nice, but AFAIK QEMU still lacks the ability to process those files
+and run the vhost-user device providers by itself. Or perhaps I just
+can't find it (?).
+
+Sergio.
+
+--eucklqdevqpgjtwc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl8sB+UACgkQ9GknjS8M
+AjV20hAAo9fiFrmnv8ajYRY11F8Y4O7CmFJzf/FCOzJtON8UHSpKNOeNqyDXzkN7
+jo8eE4aFfzqOUn2cxQe9yAjWi3eSHG/AKHNREMM8Ne2J4ZBdXuQZhaSv/7sLwltN
+H8ozV6NNaY2200Zy9GO/vgOhaHfhBMsEjR3zzmHlsT9SKQP1ioXDTdgyX2bs6WuN
+NU9aV3o7vo2sQe/hqPFyE+Nb8A3d5te5n2M4RyrpYFu7WLN0loyoIonzjxKmDcSe
+cyCEOJtZTC8IV5QAjsi2Oub0Fd4G6dMfzXh4/U2R+2y+4IGdwVDnFxyJjrKRrhow
+ZQfzgYhkCf94dZw0vUD3LYA+eFJI6+Dzd3I2OgDUf4E1erWJ+y2uHYO5TPIEl/du
+JfM4e5Zi+91dDatDGPcWIwl/femhrHga8yltDFdMSIVWt6FG/PoCB44P90vDZdcb
+0BWYBYvj4fM5gFdd+gIRruqu6fh7qJGRTi+LXOYxm/RODVOihMnTrWhyBgB3/w7N
+NiRutgTWrVeWT6ODxqVRvwC+3ZftYuE3mDZZzde+s+eqt1JOFkuZcfoFLe2KpEw4
+PQxZM+DhqF1x7JGUKyFddCNhcvk02sB16gejXlRw7MP5YyShT9WOwtJTbYvzvlGT
+QMMFzr54HkKwII6yKhFbXYPbS7jjuuBVYzXtMYxVkPGNfkG41ks=
+=eeCG
+-----END PGP SIGNATURE-----
+
+--eucklqdevqpgjtwc--
 
 
