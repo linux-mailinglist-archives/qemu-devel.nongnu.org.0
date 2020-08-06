@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE75323D826
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:50:06 +0200 (CEST)
-Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE77923D836
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:58:09 +0200 (CEST)
+Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3bbC-0002GX-0j
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42256)
+	id 1k3biz-0004HX-2I
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1k3baS-0001q1-TT
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:49:20 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34916)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1k3baR-00021D-3U
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:49:20 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 184so8888749wmb.0
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 01:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PKkq8xYRKOtLz5Mb8kMdvtrgQ88Mie7GXc8zOkR1xHw=;
- b=lVtdltBEVnaP0bzcj9Df4Kglfj58lQ9jA87pGbfgkor0uRbfowvk+az3Qm41PlKWTL
- kDQbTe1015o5Ro1u7fFMPvkBCgdYvOISRCOgpNAh7+xUvOcJu2Q6FoUjEH0uZ+pDC4jn
- P/qbuSz+r0YTJjPOyFWr2H6lwMa21U3T8p0nvrpuW4Fs7PWp65qesMjyizpfwljW0gC9
- Dj5vUffpWcMZnu96U/XYDcC+M7aRYjt9F4Y83BtsUsGlz19cIVLzHYAkz4CXe+vI/37L
- FO2tcIHz3qWjqc2u03agRYWsvNP2R2yJ9sU7Mw2m5r/dh+XmwyvkMVJa3ml9C90loSwY
- fvyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PKkq8xYRKOtLz5Mb8kMdvtrgQ88Mie7GXc8zOkR1xHw=;
- b=TXEWaRjo5WR26kReapq2M9DCGaHT6fyUSCKBYR0GQA+BosSFph2PPF2l0OPsw7xcGC
- wFXAmA7uQPyhE+AEHapilt6Rgw8GvCV2YEikmszyXW6jchYQQzCnrtPf5eiZjfIJCZXS
- +zH4Ufg1gaEyt0FU3TM6SHMFSPmNiB+n07riNWUMJIokKw1gJfNEdH2yh0s4jQOuAfpb
- /cSkcSkRqqQR/HjJXWV1wFKj1CfOgqO1zIItkY7ZlZWckcTkEVfdusuP1TPULjY9glut
- 0o1AHghUr1hNqsj98KTPoI82PYQ0At8ud8XoaUlTDtaguDvoJSXP6NDUrf8+yDoF7wza
- TEIg==
-X-Gm-Message-State: AOAM532eifhuU6MKhBmFYu2H5sC4/YZ76tllRLF4SzlZRosWONsXPp/z
- 1wN9XQM2Bo3WY8vH5lSVA15IKVxOjNWeSofLG+fa/jQoENg=
-X-Google-Smtp-Source: ABdhPJx3lfNqycb/I1HxJ3OZDekkoQipJOov4QoNaCcFn+amoNUbpSMNhsgAmY2GkCJzz3CQ2DN0Qs9VNLTZ6KshP14=
-X-Received: by 2002:a7b:c0c8:: with SMTP id s8mr7243239wmh.4.1596703756910;
- Thu, 06 Aug 2020 01:49:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k3bi9-0003mN-TN
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:57:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42253
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k3bi5-000393-Mj
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:57:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596704231;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rygDcFkPh9b5lp96EJXFEnfH08ddcfG6TXX8jNBtxCs=;
+ b=fUZD3nZjlQGP17kl4T4RERvkyYZJs8JgP2zXtunA+/BCQGsqr0l9of/ORwBcZgxsxU9cDm
+ YNMZI7g4/9+b2poJfnw+dhMiF5hOb1uH2//20O21Y8UE/RPe+XNLXpWVIPf/Y+CRBA/ZMG
+ 18htpoxH5Ticr/F4rpN2pFE17g1J1h8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-LO_1xVg1M6KvW2YyL8-q9Q-1; Thu, 06 Aug 2020 04:57:10 -0400
+X-MC-Unique: LO_1xVg1M6KvW2YyL8-q9Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F3B810CE782;
+ Thu,  6 Aug 2020 08:57:09 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-19.ams2.redhat.com [10.36.114.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDA6C87A44;
+ Thu,  6 Aug 2020 08:57:07 +0000 (UTC)
+Date: Thu, 6 Aug 2020 10:57:06 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-5.2 7/7] hw/block/fdc: Add ASCII art schema of QOM
+ relations
+Message-ID: <20200806085706.GB17753@linux.fritz.box>
+References: <20200806080824.21567-1-f4bug@amsat.org>
+ <20200806080824.21567-8-f4bug@amsat.org>
 MIME-Version: 1.0
-References: <20200806081147.3123652-1-armbru@redhat.com>
- <20200806081147.3123652-2-armbru@redhat.com>
-In-Reply-To: <20200806081147.3123652-2-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 6 Aug 2020 12:49:05 +0400
-Message-ID: <CAJ+F1CJvsJ6zvLSXu1CoW+Q=vvw-zrS9PX_7GExTd6DoX9RxwQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs/interop/qmp-spec: Point to the QEMU QMP
- reference manual
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003e07f305ac3190b9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200806080824.21567-8-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,146 +82,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003e07f305ac3190b9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Am 06.08.2020 um 10:08 hat Philippe Mathieu-Daudé geschrieben:
+> Without knowing the QEMU history, it is hard to relate QEMU objects
+> with the hardware datasheet.
+> 
+> For example, one naively expects:
+> 
+> * a floppy disk is plugged / unplugged on the bus
+> 
+>   Wrong! QEMU floppy disks always sit on the bus. The block drives
+>   are plugged / unplugged on the disks, and the disks magically
+>   re-adapt their proprieties to match the block drive.
 
-On Thu, Aug 6, 2020 at 12:12 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+This is because what sits on the bus is not a floppy disk, but a floppy
+drive. FloppyDrive is also what the type is called.
 
-> Commit 4d8bb958fa0..231aaf3a821 integrated the contents of
-> docs/qmp-events.txt into QAPI schema doc comments.  It left dangling
-> references to qmp-events.txt behind.  Fix to point to the QEMU QMP
-> reference manual generated from the QAPI schema.
->
-> Add a similar reference for commands.
->
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+The disk is represented by the BlockDriverState (the actual image file)
+that is inserted in the BlockBackend (which is logically part of the
+drive).
+
+> * a floppy controller has a fixed number of disks pluggable on the bus
+> 
+>   Wrong! QEMU floppy controllers have as much slots as the number of
+>   floppy drive provided when a machine is created. Then the ACPI table
+>   are generated and the number of slots can not be modified. So if you
+>   expect a dual slot controller being created with slot A and B, if
+>   the machine is created with a single drive attached, the controller
+>   will only have slot A created, and you will never be able to plug
+>   drive B without risking a mismatch in the ACPI tables.
+
+Hm... I guess hotplugging floppy drives might actually have worked,
+though I have never tried it on real hardware. I'm pretty sure it wasn't
+an official feature, though, and ACPI tables certainly won't magically
+change if you do this because (apart from polling, I guess) software has
+no way to detect that you tinkered with the floppy cable. :-)
+
+> * a floppy controller supporting 4 disks uses 2 buses
+> 
+>   Wrong! QEMU uses a single bus to plug the 4 disks.
+
+But we don't even emulate floppy controllers that can have more than two
+floppy drives:
+
+    $ x86_64-softmmu/qemu-system-x86_64 -device floppy -device floppy -device floppy
+    qemu-system-x86_64: -device floppy: Can't create floppy unit 2, bus supports only 2 units
+
+This is checked in floppy_drive_realize(), so it applies to all
+variants of the controller.
+
+If you want more floppy drives, you have to create a second controller
+(with a different iobase). Though I don't think I actually got this
+working when I tried. I wasn't sure if the problem was the emulation or
+the guest OSes (or SeaBIOS actually for DOS).
+
+> As all these false assumptions are not obvious (we don't plug a disk,
+> we plug a block drive into a disk, etc...), start documenting the QOM
+> relationships with a simple ASCII schema.
+
+Maybe be more specific to have: "floppy (drive)" and "blk (disk)".
+Because the ASCII schema is actually true, though you seem to have
+misunderstood what each item in it is supposed to represent.
+
+Actually "blk (disk)" is not 100% accurate either because the drive
+always has a BlockBackend present. It's really the BlockDriverState
+inserted into the BlockBackend that is the disk.
+
+In summary, to be honest, I believe since its qdevification, floppy is
+one of the block devices that is modelled the best on the QOM + block
+backend level. Only SCSI might be comparable, but IDE, virtio-blk and
+usb-storage are a mess in comparison.
+
+Kevin
+
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  docs/interop/qmp-spec.txt | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
->
-sure,
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
-> index adcf86754d..cdf5842555 100644
-> --- a/docs/interop/qmp-spec.txt
-> +++ b/docs/interop/qmp-spec.txt
-> @@ -110,6 +110,9 @@ or
->    if provided.  The "id" member can be any json-value.  A json-number
->    incremented for each successive command works fine.
->
-> +The actual commands are documented in the QEMU QMP reference manual
-> +docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.
+>  hw/block/fdc.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+> index 6944b06e4b..b109f37050 100644
+> --- a/hw/block/fdc.c
+> +++ b/hw/block/fdc.c
+> @@ -47,6 +47,28 @@
+>  #include "qemu/module.h"
+>  #include "trace.h"
+>  
+> +/*
+> + * QOM relationship:
+> + * =================
+> + *
+> + *                  +-------------------+
+> + *                  |                   |
+> + * isa/sysbus  <--->|                   |
+> + *                  |                   |
+> + *  irq/dma    <----|        fdc        |
+> + *                  |
+> + *      clk    ---->|                   |        +-+------+-+    +-+------+-+
+> + *                  |                   |        | | blk  | |    | | blk  | |
+> + *                  +--------+----------+        | |      | |    | |      | |
+> + *                           |                   | +------+ |    | +------+ |
+> + *                           |                   |          |    |          |
+> + *                           |                   |  floppy  |    |  floppy  |
+> + *                           |                   +----+-----+    +----+-----+
+> + *                           |   floppy-bus           |               |
+> + *                           +------------------------v---------------v---
+> + *
+> + */
 > +
->  2.3.1 Out-of-band execution
->  ---------------------------
->
-> @@ -207,13 +210,13 @@ The format of asynchronous events is:
->    there is a failure to retrieve host time, both members of the
->    timestamp will be set to -1.
->
-> -For a listing of supported asynchronous events, please, refer to the
-> -qmp-events.txt file.
-> +The actual asynchronous events are documented in the QEMU QMP
-> +reference manual docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.
->
->  Some events are rate-limited to at most one per second.  If additional
->  "similar" events arrive within one second, all but the last one are
->  dropped, and the last one is delayed.  "Similar" normally means same
-> -event type.  See qmp-events.txt for details.
-> +event type.
->
->  2.6 Forcing the JSON parser into known-good state
->  -------------------------------------------------
-> --
-> 2.26.2
->
->
->
+>  /********************************************************/
+>  /* debug Floppy devices */
+>  
+> -- 
+> 2.21.3
+> 
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000003e07f305ac3190b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 6, 2020 at 12:12 PM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Comm=
-it 4d8bb958fa0..231aaf3a821 integrated the contents of<br>
-docs/qmp-events.txt into QAPI schema doc comments.=C2=A0 It left dangling<b=
-r>
-references to qmp-events.txt behind.=C2=A0 Fix to point to the QEMU QMP<br>
-reference manual generated from the QAPI schema.<br>
-<br>
-Add a similar reference for commands.<br>
-<br>
-Cc: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
-arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
----<br>
-=C2=A0docs/interop/qmp-spec.txt | 9 ++++++---<br>
-=C2=A01 file changed, 6 insertions(+), 3 deletions(-)<br>
-<br></blockquote><div><br></div><div>sure,</div><div><div>Reviewed-by: Marc=
--Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" targe=
-t=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><div>=
-<br></div> </div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt<br>
-index adcf86754d..cdf5842555 100644<br>
---- a/docs/interop/qmp-spec.txt<br>
-+++ b/docs/interop/qmp-spec.txt<br>
-@@ -110,6 +110,9 @@ or<br>
-=C2=A0 =C2=A0if provided.=C2=A0 The &quot;id&quot; member can be any json-v=
-alue.=C2=A0 A json-number<br>
-=C2=A0 =C2=A0incremented for each successive command works fine.<br>
-<br>
-+The actual commands are documented in the QEMU QMP reference manual<br>
-+docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.<br>
-+<br>
-=C2=A02.3.1 Out-of-band execution<br>
-=C2=A0---------------------------<br>
-<br>
-@@ -207,13 +210,13 @@ The format of asynchronous events is:<br>
-=C2=A0 =C2=A0there is a failure to retrieve host time, both members of the<=
-br>
-=C2=A0 =C2=A0timestamp will be set to -1.<br>
-<br>
--For a listing of supported asynchronous events, please, refer to the<br>
--qmp-events.txt file.<br>
-+The actual asynchronous events are documented in the QEMU QMP<br>
-+reference manual docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.<br>
-<br>
-=C2=A0Some events are rate-limited to at most one per second.=C2=A0 If addi=
-tional<br>
-=C2=A0&quot;similar&quot; events arrive within one second, all but the last=
- one are<br>
-=C2=A0dropped, and the last one is delayed.=C2=A0 &quot;Similar&quot; norma=
-lly means same<br>
--event type.=C2=A0 See qmp-events.txt for details.<br>
-+event type.<br>
-<br>
-=C2=A02.6 Forcing the JSON parser into known-good state<br>
-=C2=A0-------------------------------------------------<br>
--- <br>
-2.26.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000003e07f305ac3190b9--
 
