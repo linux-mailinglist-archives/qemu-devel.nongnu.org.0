@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A2A23E433
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 00:58:39 +0200 (CEST)
-Received: from localhost ([::1]:36944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE4023E437
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 01:00:29 +0200 (CEST)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3oqM-000679-EM
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 18:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
+	id 1k3os8-0007BT-78
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 19:00:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1k3onT-0004fd-OD; Thu, 06 Aug 2020 18:55:39 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34319)
+ id 1k3op7-00062H-FL; Thu, 06 Aug 2020 18:57:21 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1k3onR-0007WR-8o; Thu, 06 Aug 2020 18:55:39 -0400
-Received: by mail-ej1-x642.google.com with SMTP id o23so83072ejr.1;
- Thu, 06 Aug 2020 15:55:36 -0700 (PDT)
+ id 1k3op5-0007iO-VM; Thu, 06 Aug 2020 18:57:21 -0400
+Received: by mail-ej1-x642.google.com with SMTP id a26so80594ejc.2;
+ Thu, 06 Aug 2020 15:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=7Kv3tbuiDOZTDYkzw3VcpO73XHlPN/u3caV0G6GNCJQ=;
- b=XKMR4sb2pzeZuvD0YRbHJ7lYjBiw8qOk5ZXDl9VCrTnDQuY8ZjhvWV5ebCCQKM2RGs
- PXoi8SScqkKLvJZCdv3hKUkEbBUfENyhJJxWZyt34ZnDQoJTOQMz3txOyGm1zxnsogUR
- IRuUKDGrBVnnNpsl/v+N8jQauVhDHiw+nOE/k=
+ bh=X+IxDrTb6WKRXsCWuzJFD3rPRYDnU0xSRi/GSEo8MoA=;
+ b=mFedqXKUmOHwRIYhMtDBCVnB8CaJM2tMYiAlaGRdTPB5Ak6v/c3CdZVtQ8YqD2qu+L
+ Ld6hupFm3t7zuJ96ZktIZ9Mr1BiqxMWuFxgrBmWqPw7N/kqecp1xNoewtwzixu5Y5jJg
+ ahRZ45EZK8We1hdxD62AgrbkNAyKqX2cDl/go=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7Kv3tbuiDOZTDYkzw3VcpO73XHlPN/u3caV0G6GNCJQ=;
- b=uZ7acwfiwDpmlctnc5BVWErUz5ZSXBit4z53h7pH/Ywh63cKkqjCqylpZrQE4tfcbS
- C8n/4XofBQJ/ZZg6HtrSroQjUEjt46EN67RTPB1JMvunssnjDesKIV27VxOiyEGOMm34
- 701f9h5zI9gkx84qAaiJZe4Y8C/WTDH3M1teK+A8MtgRcaPpUNrtxc85ngGp5Fseh7RD
- 6OHIXdcwqDBaSpreZ9qOJblrJ48ejvdUJufcd5eJqDQi3icuqGUpzWo3EnWdWWn3uCR3
- txFtb9gj7mhEFnFgq0N3ArehKa4z04vTmPfij26hjTrAVWaklJPc5NXXGvYKqNcLqxeX
- J2/g==
-X-Gm-Message-State: AOAM530Qd7xjXSG48Y6c9wMnj7iVTtc3/+1FbZOshZkdDSDccHJlnPJ9
- aYoiJfZYihW/aOO8ufWNa6x5k2lxerH7SwuHsZQ=
-X-Google-Smtp-Source: ABdhPJxYjIUkSlmKi7VD7m09X0VgbEfRc9CHFNOCsc36UnPHM4EnKm/XZzQUagGgN31G7cTRRzUtWek3YOpTq7Qip+E=
-X-Received: by 2002:a17:906:c143:: with SMTP id
- dp3mr6504715ejc.504.1596754534905; 
- Thu, 06 Aug 2020 15:55:34 -0700 (PDT)
+ bh=X+IxDrTb6WKRXsCWuzJFD3rPRYDnU0xSRi/GSEo8MoA=;
+ b=IqagjM5xDIjrL3wQwLQAd4v8wYVjfNTBNnmlliOEd++9Bi9G8WYQMPxB+EvA4tt69X
+ m+oz5hHv8EmPfxcIOSJ0bno1gz9l/CMZZim1xD1Qgz3fDxEpWQxydTt+LIz+EdYjfSPM
+ dCnQzbCu3hjuhiChH/bM+rboaO8n5YWGa8sHpJi36b48LmdftQBVBS7DtRQEgOJfVA1U
+ XvsqtVd9FPbrIjT7gwVUNecNLETEDzKn8OCXTmefi7VzjDMcSx1xF0VGzaeZrcLgL+fd
+ kjWDvsvA4i54j4yv2cDjF1/lvqzWxL5MXg9bulDYqg8Om/bxhwxknlaYsjWBzB26mRv9
+ mczw==
+X-Gm-Message-State: AOAM530+FPJySjGUxYMV+IuRkFmvwam/tLdy1M51iUYx/msRDPdMCOR5
+ PaPyyV4J6qdp+QXrMJrc13lB7DK073J8agHNKtcT0QyzbUU=
+X-Google-Smtp-Source: ABdhPJynF3ombZ79DhQ8/Mj2povDNr1LJlFpigjOD9zvZ3fnliCrnWUjRfPlRP1M3SlqaM9g1XXVwZzrqDAdHkXisrI=
+X-Received: by 2002:a17:906:1ed3:: with SMTP id
+ m19mr6350906ejj.396.1596754637999; 
+ Thu, 06 Aug 2020 15:57:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-3-clg@kaod.org>
-In-Reply-To: <20200806132106.747414-3-clg@kaod.org>
+ <20200806132106.747414-5-clg@kaod.org>
+In-Reply-To: <20200806132106.747414-5-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 6 Aug 2020 22:55:22 +0000
-Message-ID: <CACPK8XddhjsdTF2tiiuFoDZ9L+LqOSJLydE-YUAqkbGs4OvquA@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 02/19] m25p80: Add support for mx25l25635f
+Date: Thu, 6 Aug 2020 22:57:05 +0000
+Message-ID: <CACPK8XeWDDL0L=FKho+aXe4cx1CLB2BSq-=ERGBc1X6L76ZryQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 04/19] aspeed/scu: Fix valid access size on AST2400
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,51 +79,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+ erik-smit <erik.lucas.smit@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 6 Aug 2020 at 13:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The mx25l25635f is an extenstion of the mx25l25635e. It includes QPI
-> support, 4-Byte Address Command Set and faster transfers. See this
-> document for more details :
+> The read access size of the SCU registers can be 1/2/4 bytes and write
+> is 4 bytes. Set the min access size to 1 byte to cover both read and
+> write operations on the AST2400 but keep the min access size of the
+> other SoCs to 4 bytes as this is an unusual access size.
 >
-> https://www.macronix.com/Lists/ApplicationNote/Attachments/1892/AN0200V1_=
-MGRT_MX25L25635E_25735E%20to%20MX25L25635F_25735F.pdf
+> This fixes support for some old firmware doing 2 bytes reads on the
+> AST2400 SoC.
 >
-> Both devices have the same 3bytes JEDEC ID: 0xc22019. They can be
-> distinguished with the QPIID command which is only available on
-> mx25l25635f. The mx25l25635f also has a longer JEDEC ID that we can
-> use for the model.
->
+> Reported-by: erik-smit <erik.lucas.smit@gmail.com>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-We don't have support for this one in upstream Linux. It's the one
-that Alexander tried to get merged by renaming the mysterious
-mx66l51235l.
-
-
 > ---
->  hw/block/m25p80.c | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/misc/aspeed_scu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 605ff55c6756..1696ab1f7821 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -218,6 +218,7 @@ static const FlashPartInfo known_devices[] =3D {
->      { INFO("mx25l12805d", 0xc22018,      0,  64 << 10, 256, 0) },
->      { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
->      { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10, 512, 0) },
-> +    { INFO("mx25l25635f", 0xc22019,      0xc200,  64 << 10, 512, 0) },
->      { INFO("mx25l25655e", 0xc22619,      0,  64 << 10, 512, 0) },
->      { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_=
-32K) },
->      { INFO("mx66u1g45g",  0xc2253b,      0,  64 << 10, 2048, ER_4K | ER_=
-32K) },
+> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+> index ec4fef900e27..764222404bef 100644
+> --- a/hw/misc/aspeed_scu.c
+> +++ b/hw/misc/aspeed_scu.c
+> @@ -328,9 +328,10 @@ static const MemoryRegionOps aspeed_ast2400_scu_ops =
+=3D {
+>      .read =3D aspeed_scu_read,
+>      .write =3D aspeed_ast2400_scu_write,
+>      .endianness =3D DEVICE_LITTLE_ENDIAN,
+> -    .valid.min_access_size =3D 4,
+> -    .valid.max_access_size =3D 4,
+> -    .valid.unaligned =3D false,
+> +    .valid =3D {
+> +        .min_access_size =3D 1,
+> +        .max_access_size =3D 4,
+> +    },
+>  };
+>
+>  static const MemoryRegionOps aspeed_ast2500_scu_ops =3D {
 > --
 > 2.25.4
 >
