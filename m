@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A8B23E36B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 23:13:36 +0200 (CEST)
-Received: from localhost ([::1]:45916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9980A23E36A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 23:12:28 +0200 (CEST)
+Received: from localhost ([::1]:42682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3nCh-0000SL-RV
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 17:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41324)
+	id 1k3nBb-0007KS-NT
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 17:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3nAW-0006V1-87
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:11:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59948)
+ id 1k3nAX-0006VK-Hi
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:11:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3nAU-0004fG-AE
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:11:19 -0400
+ id 1k3nAU-0004fM-PQ
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:11:21 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3nAS-0000rN-Q4
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 21:11:16 +0000
+ id 1k3nAT-0000t7-Me
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 21:11:17 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C3CA12E8076
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 21:11:16 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A339C2E804F
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 21:11:17 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 Aug 2020 20:54:51 -0000
+Date: Thu, 06 Aug 2020 20:56:59 -0000
 From: Steve Dodd <1594394@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: anarchetic jrtc27 kb9vqf laurent-vivier legoll
 X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
 X-Launchpad-Bug-Modifier: Steve Dodd (anarchetic)
 References: <20160620140124.12349.60184.malonedeb@wampee.canonical.com>
-Message-Id: <159674729160.15346.5688514516601264387.malone@wampee.canonical.com>
+Message-Id: <159674741963.2765.5161675414779468250.malone@gac.canonical.com>
 Subject: [Bug 1594394] Re: Using setreuid / setegid crashes x86_64 user-mode
  target
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d4d2868669af8f9fe80b16ae84dba343ecabba78
+X-Launchpad-Hash: 2849adeda94056d627404cf7ff091ceca9275aef
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 17:11:16
@@ -78,7 +78,8 @@ Reply-To: Bug 1594394 <1594394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Need a "cd .." after the tar, doh.)
+Actually, this is possibly not the same bug. I will add to the list to
+investigate further..
 
 -- =
 
