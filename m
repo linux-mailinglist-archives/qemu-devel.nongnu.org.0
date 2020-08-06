@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F284C23E2AF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:57:44 +0200 (CEST)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EBA23E29A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:54:08 +0200 (CEST)
+Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3m1H-0003Yg-Ih
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43706)
+	id 1k3lxn-0004SQ-3X
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPk-0007tk-7E
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52336)
+ id 1k3lPm-0007xu-7b
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36640
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPi-0006hC-EF
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:55 -0400
+ id 1k3lPk-0006hN-7N
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741533;
+ s=mimecast20190719; t=1596741535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f5KGNQlzJDQX8oGUtnF2vtSjG4aFUlN5WQeZ7PqZBqY=;
- b=PMJIlOE/iTV/MFf6hArKBL9qgQh3+KhfYn4paODzPGUjbQ4KA17aFROvFZ0glV4ViBDctM
- xuJnmuaOijBKuu6lNptFKl6Xt+qLuiQp7Vp26rH6QDNZFVmlvksjoq+thZdSLcvwdo1DRQ
- x375/mZogu5w3zEE8XlRUYecQWN781A=
+ bh=bAdpJ6uFzac1e0yweaVtIrh6BZyTsNYsf8fXcvTvDxc=;
+ b=TlbTYpgRMIc+/tHybd3xlRQ9jgNc5Vqv6ILLRtVRumKvUiwzz2ApE6mjtBHIadoT4N+V/P
+ xaN++mfYD2AHE+RafBIbc9t191GOdDdPLTHvw+N1YlN8V8MIofIRJhBuPci+Qe0Iu6j195
+ UmUD9cOzRByPO8RVnMM9ml2sRvybEC4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-3QT7xChrNCGhiLPfrpmNtw-1; Thu, 06 Aug 2020 15:18:51 -0400
-X-MC-Unique: 3QT7xChrNCGhiLPfrpmNtw-1
+ us-mta-449-laOir9_hM2W0fbwuqMIWLQ-1; Thu, 06 Aug 2020 15:18:53 -0400
+X-MC-Unique: laOir9_hM2W0fbwuqMIWLQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 133DB800685
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CA5119200C1
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:52 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 250445F9DC;
- Thu,  6 Aug 2020 19:18:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D88A5F9DC;
+ Thu,  6 Aug 2020 19:18:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 087/143] meson: convert hw/watchdog
-Date: Thu,  6 Aug 2020 21:15:23 +0200
-Message-Id: <1596741379-12902-88-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 088/143] meson: convert hw/virtio
+Date: Thu,  6 Aug 2020 21:15:24 +0200
+Message-Id: <1596741379-12902-89-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 13:48:01
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,62 +91,148 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs          | 1 -
- hw/meson.build            | 1 +
- hw/watchdog/Makefile.objs | 7 -------
- hw/watchdog/meson.build   | 7 +++++++
- 4 files changed, 8 insertions(+), 8 deletions(-)
- delete mode 100644 hw/watchdog/Makefile.objs
- create mode 100644 hw/watchdog/meson.build
+ hw/Makefile.objs        |  1 -
+ hw/meson.build          |  1 +
+ hw/virtio/Makefile.objs | 48 ----------------------------------------------
+ hw/virtio/meson.build   | 51 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 52 insertions(+), 49 deletions(-)
+ delete mode 100644 hw/virtio/Makefile.objs
+ create mode 100644 hw/virtio/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index df72b25..9ebd13d 100644
+index 9ebd13d..a1cfb99 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -33,7 +33,6 @@ devices-dirs-$(CONFIG_TPM) += tpm/
+@@ -32,7 +32,6 @@ devices-dirs-y += timer/
+ devices-dirs-$(CONFIG_TPM) += tpm/
  devices-dirs-y += usb/
  devices-dirs-$(CONFIG_VFIO) += vfio/
- devices-dirs-y += virtio/
--devices-dirs-y += watchdog/
+-devices-dirs-y += virtio/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 542d675..f2209d9 100644
+index f2209d9..8338fc4 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -3,4 +3,5 @@ subdir('mem')
+@@ -3,5 +3,6 @@ subdir('mem')
  subdir('nubus')
  subdir('semihosting')
  subdir('smbios')
-+subdir('watchdog')
++subdir('virtio')
+ subdir('watchdog')
  subdir('xen')
-diff --git a/hw/watchdog/Makefile.objs b/hw/watchdog/Makefile.objs
+diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
 deleted file mode 100644
-index 631b711..0000000
---- a/hw/watchdog/Makefile.objs
+index fc91719..0000000
+--- a/hw/virtio/Makefile.objs
 +++ /dev/null
-@@ -1,7 +0,0 @@
--common-obj-y += watchdog.o
--common-obj-$(CONFIG_CMSDK_APB_WATCHDOG) += cmsdk-apb-watchdog.o
--common-obj-$(CONFIG_WDT_IB6300ESB) += wdt_i6300esb.o
--common-obj-$(CONFIG_WDT_IB700) += wdt_ib700.o
--common-obj-$(CONFIG_WDT_DIAG288) += wdt_diag288.o
--common-obj-$(CONFIG_ASPEED_SOC) += wdt_aspeed.o
--common-obj-$(CONFIG_WDT_IMX2) += wdt_imx2.o
-diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
+@@ -1,48 +0,0 @@
+-ifeq ($(CONFIG_VIRTIO),y)
+-common-obj-y += virtio-bus.o
+-obj-y += virtio.o
+-
+-obj-$(CONFIG_VHOST) += vhost.o vhost-backend.o
+-common-obj-$(call lnot,$(CONFIG_VHOST)) += vhost-stub.o
+-obj-$(CONFIG_VHOST_USER) += vhost-user.o
+-obj-$(CONFIG_VHOST_VDPA) += vhost-vdpa.o
+-
+-common-obj-$(CONFIG_VIRTIO_RNG) += virtio-rng.o
+-common-obj-$(CONFIG_VIRTIO_PCI) += virtio-pci.o
+-common-obj-$(CONFIG_VIRTIO_MMIO) += virtio-mmio.o
+-obj-$(CONFIG_VIRTIO_BALLOON) += virtio-balloon.o
+-obj-$(CONFIG_VIRTIO_CRYPTO) += virtio-crypto.o
+-obj-$(CONFIG_VHOST_USER_FS) += vhost-user-fs.o
+-obj-$(call land,$(CONFIG_VIRTIO_CRYPTO),$(CONFIG_VIRTIO_PCI)) += virtio-crypto-pci.o
+-obj-$(CONFIG_VIRTIO_PMEM) += virtio-pmem.o
+-common-obj-$(call land,$(CONFIG_VIRTIO_PMEM),$(CONFIG_VIRTIO_PCI)) += virtio-pmem-pci.o
+-obj-$(call land,$(CONFIG_VHOST_USER_FS),$(CONFIG_VIRTIO_PCI)) += vhost-user-fs-pci.o
+-obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu.o
+-obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-common.o vhost-vsock.o
+-obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-vsock-common.o vhost-user-vsock.o
+-obj-$(CONFIG_VIRTIO_MEM) += virtio-mem.o
+-common-obj-$(call land,$(CONFIG_VIRTIO_MEM),$(CONFIG_VIRTIO_PCI)) += virtio-mem-pci.o
+-
+-ifeq ($(CONFIG_VIRTIO_PCI),y)
+-obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-pci.o
+-obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-user-vsock-pci.o
+-obj-$(CONFIG_VHOST_USER_BLK) += vhost-user-blk-pci.o
+-obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input-pci.o
+-obj-$(CONFIG_VHOST_USER_SCSI) += vhost-user-scsi-pci.o
+-obj-$(CONFIG_VHOST_SCSI) += vhost-scsi-pci.o
+-obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host-pci.o
+-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-pci.o
+-obj-$(CONFIG_VIRTIO_RNG) += virtio-rng-pci.o
+-obj-$(CONFIG_VIRTIO_BALLOON) += virtio-balloon-pci.o
+-obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu-pci.o
+-obj-$(CONFIG_VIRTIO_9P) += virtio-9p-pci.o
+-obj-$(CONFIG_VIRTIO_SCSI) += virtio-scsi-pci.o
+-obj-$(CONFIG_VIRTIO_BLK) += virtio-blk-pci.o
+-obj-$(CONFIG_VIRTIO_NET) += virtio-net-pci.o
+-obj-$(CONFIG_VIRTIO_SERIAL) += virtio-serial-pci.o
+-endif
+-else
+-common-obj-y += vhost-stub.o
+-endif
+-
+-common-obj-$(CONFIG_ALL) += vhost-stub.o
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
 new file mode 100644
-index 0000000..9b8725e
+index 0000000..fbff9bc
 --- /dev/null
-+++ b/hw/watchdog/meson.build
-@@ -0,0 +1,7 @@
-+softmmu_ss.add(files('watchdog.c'))
-+softmmu_ss.add(when: 'CONFIG_CMSDK_APB_WATCHDOG', if_true: files('cmsdk-apb-watchdog.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_IB6300ESB', if_true: files('wdt_i6300esb.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_IB700', if_true: files('wdt_ib700.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_DIAG288', if_true: files('wdt_diag288.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('wdt_aspeed.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_IMX2', if_true: files('wdt_imx2.c'))
++++ b/hw/virtio/meson.build
+@@ -0,0 +1,51 @@
++softmmu_virtio_ss = ss.source_set()
++softmmu_virtio_ss.add(files('virtio-bus.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('virtio-pci.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
++
++softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
++softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
++
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
++
++virtio_ss = ss.source_set()
++virtio_ss.add(files('virtio.c'))
++virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
++virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-crypto-pci.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
++virtio_ss.add(when: ['CONFIG_VHOST_USER_FS', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-fs-pci.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
++
++virtio_pci_ss = ss.source_set()
++virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio-scsi-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
++
++virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
++
++specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: virtio_ss)
 -- 
 1.8.3.1
 
