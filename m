@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6461423D9A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:08:17 +0200 (CEST)
-Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94A123D9AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:10:17 +0200 (CEST)
+Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dku-0003pi-EU
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40798)
+	id 1k3dmq-0007OR-PE
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:10:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dRn-0002dy-Ck
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:31 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:42684)
+ id 1k3dRv-0002mL-1p
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:39 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:39023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dRl-0007rU-P0
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:31 -0400
-Received: by mail-pl1-x635.google.com with SMTP id q17so27288841pls.9
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:48:29 -0700 (PDT)
+ id 1k3dRt-0007ss-A6
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:38 -0400
+Received: by mail-pl1-x636.google.com with SMTP id z20so6559941plo.6
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=nX6MJ9PYiWQKpC5zQpm1pvFGgxZuOcYLJio0AUt2XK8=;
- b=Nqee0zeVycSdmGnb/QA/jFgJ2oLQya+RO1oTsv0A3UhlsOCmVA0C4YlEJ1aRr2e1MZ
- yDLXMFps6HZMUk/MoKtssYkwCRE/gIovOzy7d2N5i0OM0vMb/cbPtObewR4G811WOymQ
- kfLcfEuLRDIzU5wjgxhmBYyfFFMB21EyGcpjg43Po2MWm9eUDl/tDAMi/kRfMm+e9o1q
- aLyKqSv3YDuOz0AOvPVNko7itnTy0shpAtS8LHm+m4D9ObQcxM7AGWccihloDhExd0OI
- vFibhUSRk1pi9Don+bKaH/XfpFhec1lfXXjSMrRMRe3MsaWYkt2kJcBOuOwah6uGwHZd
- dC9A==
+ bh=TQUW5yEXaSqtuF8JpWOtroDX50qPmyztu1PCtMnroQQ=;
+ b=DPc5i97WRA81UrNHjQ9AGyNEf0P9rkttV+tu4U9tlh1EjMRp2Qjxa25BZDgcgZ1Qbw
+ uXG+C+r1pbEXZUpqMhb7qHK+tRT4PMoCuK7k0BWJDtICbdS6xeOsgcgGzoeWUPrT4V75
+ jeLnMjqMbZFMxvUO6gpMtFKgaWSa+dj+xwZ2K0EZyTHWYhcUTi5gGq115U74nBQorH4c
+ 8Vcd5Nd0jlLkFN4nQgiqoGrGUgUFmLdzIVJFEpWLjZFJI1ho8kgP4s4RzQPbtbkKz+vl
+ 1vq2RkBdY0HdMQ0OURswhN3zZ8gSqCMq3Rn+PienemO7QjpFkFc9t8OzkCgCMY5gQ5oc
+ eY8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=nX6MJ9PYiWQKpC5zQpm1pvFGgxZuOcYLJio0AUt2XK8=;
- b=ac7FJt9+V2s417qsF+Fe2C0cla1+pKuPShBxr36h5hrYyTWvDE6JQAZy93QDbbryRQ
- ArkuptsfHFzM22BKCO+DygAeqpfkYvz72FS4OJp6h4duhZsrLTyw8gWir9wLP4G+ueAw
- XiTXdehdvFjz3noQFOP4UYTfZBYxUrtAkGKyKtRebqNbukKjVYALWKmdqE8LoCfhCwNe
- mYD7h3tM7fHPJ1sOpCFZ3M7PL/xTw0yMAz59ciq0sg08TpWisyJrtntlA5VJMcJvJAxA
- gF64nCWamJTOFl2DIL0iEFcf4Cv+PoB7KBepceADQQSmlvn+nizHelJ7tK0S2ItMAy+1
- zNGw==
-X-Gm-Message-State: AOAM532GU7tj0Iq5JNT/G+vwE5REJvrWL5VCadsOoBvOHnvSZg5C7+pE
- B1QTH9S4fT45piA9YwXFDEGhNBHfZOg=
-X-Google-Smtp-Source: ABdhPJzh4qsQ2Uc/uwOz6+xvIpv3WuDLqHwNASnpaKpX9obRlkusvSCsxZCIFjhCS8T/KNMMpw+hLg==
-X-Received: by 2002:a17:902:368:: with SMTP id
- 95mr7355581pld.279.1596710908164; 
- Thu, 06 Aug 2020 03:48:28 -0700 (PDT)
+ bh=TQUW5yEXaSqtuF8JpWOtroDX50qPmyztu1PCtMnroQQ=;
+ b=ousF+WwDDKOqiWTZ2qxm60szWgoomZXU3AiULcSzK7AxtVVykTGEboDHCsE5yr2VLP
+ i7inx/6pQ1S4e/tYLrDNZRQnrv1wrrgG9QpFhkteGTBmfY2GPvtrasFi6m19dWL0Wafj
+ SbU5T27tNn3E07g+BgpJUUIJDvuOAKIL6KrrWUhQyfBEn8OGJADl0xW3tioPhLWQcWMX
+ phtCYSnA69hzdTz+sHEklybPNW+u4q1P3Zz6a4aaLjWxlE4GjCDhNGkPGesvE+9lPvCa
+ +cAhXm2yQsIRfGNEc0Rgua40Siv+z2wiZjyg+ryRBjJgd09uaDCm5jrs4KI9JMidgAna
+ 0oTg==
+X-Gm-Message-State: AOAM533wFT0sQBxUbBtwWY5uLLjJZgoO4RoI+HATruCEZBvYFWmg8gq4
+ nq9NBwjfnH8MxCfrX2fMp4vNTmcbdgM=
+X-Google-Smtp-Source: ABdhPJyzJIDjwYVBkIPowcxss3TtYiyKRfJxWN1SRNaYzM2pfGVQzNUyjRgvTBmO9MLCjKFyjNbNiQ==
+X-Received: by 2002:a17:902:ab83:: with SMTP id
+ f3mr7307058plr.125.1596710915388; 
+ Thu, 06 Aug 2020 03:48:35 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.48.26
+ by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.48.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:48:27 -0700 (PDT)
+ Thu, 06 Aug 2020 03:48:35 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v3 27/71] target/riscv: rvv-1.0: take fractional LMUL into
- vector max elements calculation
-Date: Thu,  6 Aug 2020 18:46:24 +0800
-Message-Id: <20200806104709.13235-28-frank.chang@sifive.com>
+Subject: [RFC v3 30/71] target/riscv: rvv-1.0: mask population count
+ instruction
+Date: Thu,  6 Aug 2020 18:46:27 +0800
+Message-Id: <20200806104709.13235-31-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
 References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,105 +95,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Update vext_get_vlmax() and MAXSZ() to take fractional LMUL into
-calculation for RVV 1.0.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.h                      | 44 ++++++++++++++++++-------
- target/riscv/insn_trans/trans_rvv.inc.c | 11 ++++++-
- 2 files changed, 42 insertions(+), 13 deletions(-)
+ target/riscv/helper.h                   | 2 +-
+ target/riscv/insn32.decode              | 2 +-
+ target/riscv/insn_trans/trans_rvv.inc.c | 7 ++++---
+ target/riscv/vector_helper.c            | 6 +++---
+ 4 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 8b5e6429015..78264d6ffc4 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -376,18 +376,28 @@ FIELD(TB_FLAGS, SEW, 6, 3)
- FIELD(TB_FLAGS, VILL, 11, 1)
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 25d076d71a8..0a1179370b1 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1066,7 +1066,7 @@ DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
  
- /*
-- * A simplification for VLMAX
-- * = (1 << LMUL) * VLEN / (8 * (1 << SEW))
-- * = (VLEN << LMUL) / (8 << SEW)
-- * = (VLEN << LMUL) >> (SEW + 3)
-- * = VLEN >> (SEW + 3 - LMUL)
-+ * Encode LMUL to lmul as following:
-+ *     LMUL    vlmul    lmul
-+ *      1       000       0
-+ *      2       001       1
-+ *      4       010       2
-+ *      8       011       3
-+ *      -       100       -
-+ *     1/8      101      -3
-+ *     1/4      110      -2
-+ *     1/2      111      -1
-+ *
-+ * then, we can calculate VLMAX = vlen >> (vsew + 3 - lmul)
-+ * e.g. vlen = 256 bits, SEW = 16, LMUL = 1/8
-+ *      => VLMAX = vlen >> (1 + 3 - (-3))
-+ *               = 256 >> 7
-+ *               = 2
-  */
- static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
- {
--    uint8_t sew, lmul;
--
--    sew = FIELD_EX64(vtype, VTYPE, VSEW);
--    lmul = FIELD_EX64(vtype, VTYPE, VLMUL);
-+    uint8_t sew = FIELD_EX64(vtype, VTYPE, VSEW);
-+    uint8_t vlmul = FIELD_EX64(vtype, VTYPE, VLMUL);
-+    int8_t lmul = (int8_t)(vlmul << 5) >> 5;
-     return cpu->cfg.vlen >> (sew + 3 - lmul);
- }
+-DEF_HELPER_4(vmpopc_m, tl, ptr, ptr, env, i32)
++DEF_HELPER_4(vpopc_m, tl, ptr, ptr, env, i32)
  
-@@ -400,12 +410,22 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-     *cs_base = 0;
+ DEF_HELPER_4(vmfirst_m, tl, ptr, ptr, env, i32)
  
-     if (riscv_has_ext(env, RVV)) {
-+        /*
-+         * If env->vl equals to VLMAX, we can use generic vector operation
-+         * expanders (GVEC) to accerlate the vector operations.
-+         * However, as LMUL could be a fractional number. The maximum
-+         * vector size can be operated might be less than 8 bytes,
-+         * which is not supported by GVEC. So we set vl_eq_vlmax flag to true
-+         * only when maxsz >= 8 bytes.
-+         */
-         uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
--        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
-+        uint32_t sew = FIELD_EX64(env->vtype, VTYPE, VSEW);
-+        uint32_t maxsz = vlmax * (1 << sew);
-+        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl)
-+                           && (maxsz >= 8);
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL,
-                     FIELD_EX64(env->vtype, VTYPE, VILL));
--        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
--                    FIELD_EX64(env->vtype, VTYPE, VSEW));
-+        flags = FIELD_DP32(flags, TB_FLAGS, SEW, sew);
-         flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
-                     FIELD_EX64(env->vtype, VTYPE, VLMUL));
-         flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index a800c989050..3d2d43ebd8a 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -591,7 +591,7 @@ vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
+ vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
+ vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
+ vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
+-vmpopc_m        010100 . ..... ----- 010 ..... 1010111 @r2_vm
++vpopc_m         010000 . ..... 10000 010 ..... 1010111 @r2_vm
+ vmfirst_m       010101 . ..... ----- 010 ..... 1010111 @r2_vm
+ vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
+ vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 725f36fcfcc..82403dff4b9 100644
+index 82403dff4b9..e6ec5d24012 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1255,7 +1255,16 @@ GEN_VEXT_TRANS(vamomaxuei64_v, 64, 35, rwdvm, amo_op, amo_check)
- /*
-  *** Vector Integer Arithmetic Instructions
-  */
--#define MAXSZ(s) (s->vlen >> (3 - s->lmul))
-+
-+/*
-+ * MAXSZ returns the maximum vector size can be operated in bytes,
-+ * which is used in GVEC IR when vl_eq_vlmax flag is set to true
-+ * to accerlate vector operation.
-+ */
-+static inline uint32_t MAXSZ(DisasContext *s)
-+{
-+    return (s->vlen >> 3) * s->flmul;
-+}
+@@ -2884,8 +2884,8 @@ GEN_MM_TRANS(vmnor_mm)
+ GEN_MM_TRANS(vmornot_mm)
+ GEN_MM_TRANS(vmxnor_mm)
  
- static bool opivv_check(DisasContext *s, arg_rmrr *a)
+-/* Vector mask population count vmpopc */
+-static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
++/* Vector mask population count vpopc */
++static bool trans_vpopc_m(DisasContext *s, arg_rmr *a)
  {
+     if (require_rvv(s) &&
+         vext_check_isa_ill(s)) {
+@@ -2904,13 +2904,14 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
+         tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
+         tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
+ 
+-        gen_helper_vmpopc_m(dst, mask, src2, cpu_env, desc);
++        gen_helper_vpopc_m(dst, mask, src2, cpu_env, desc);
+         gen_set_gpr(a->rd, dst);
+ 
+         tcg_temp_free_ptr(mask);
+         tcg_temp_free_ptr(src2);
+         tcg_temp_free(dst);
+         tcg_temp_free_i32(desc);
++
+         return true;
+     }
+     return false;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 77f62c86e02..a18c02eb124 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4465,9 +4465,9 @@ GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
+ GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
+ GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
+ 
+-/* Vector mask population count vmpopc */
+-target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
+-                              uint32_t desc)
++/* Vector mask population count vpopc */
++target_ulong HELPER(vpopc_m)(void *v0, void *vs2, CPURISCVState *env,
++                             uint32_t desc)
+ {
+     target_ulong cnt = 0;
+     uint32_t vm = vext_vm(desc);
 -- 
 2.17.1
 
