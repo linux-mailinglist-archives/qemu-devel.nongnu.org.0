@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9369823E242
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:33:18 +0200 (CEST)
-Received: from localhost ([::1]:50646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D2A23E251
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:35:37 +0200 (CEST)
+Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ldd-0002u6-Lj
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42988)
+	id 1k3lfs-0008PW-OF
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lOe-0005HE-PT
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48473
+ id 1k3lOf-0005JY-Ja
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43059
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lOc-0006V5-KF
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:48 -0400
+ id 1k3lOd-0006VG-PJ
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741465;
+ s=mimecast20190719; t=1596741467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dpg0CJumR86PkkeY1Gf1cjU4KFPvEBJI2ORd8lBQyNw=;
- b=Sy8mPHzOKiMdzpOumBbdw/aPy3tn4jsC8fWgDyRNwiKH0VY52Q2fx5gZUGkEvGJBorYYIt
- nCtZyPXVAY3GycvoCwb1+59CKFxoB27vjxM4P0Kurounua9SCir90Eu7+YU9guklAr1xT2
- mG4kyOKpkldaklTyt/32nO60+OaZFGo=
+ bh=8YqaMLtGfOgB3dU4xVatVkX2maMcVKw80//hZqF7h2U=;
+ b=WGe/sACc/O/3cZAN3NHExnu6lxDJtsQvOGMMy5l+brriuEV9OopoN3b2DdjgzgMwEny5AD
+ 5VPOOluVLOCUX9JlTLpYOe4QNCA3Wj2Io7Et7gWIvvlmEJXoiRyHkxB13htARwK1zj+L/Z
+ 3mFq4bKApBsY7BWrd6VV0b0bhVySJW8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-sIGt4aQpPZmVMp2ffTABwg-1; Thu, 06 Aug 2020 15:17:44 -0400
-X-MC-Unique: sIGt4aQpPZmVMp2ffTABwg-1
+ us-mta-394-FNHCbfCiOpyNHES5A8Ni_g-1; Thu, 06 Aug 2020 15:17:45 -0400
+X-MC-Unique: FNHCbfCiOpyNHES5A8Ni_g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 360398064AB
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E567100AA21
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:44 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 473955F9DC;
- Thu,  6 Aug 2020 19:17:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A03CB5FC3B;
+ Thu,  6 Aug 2020 19:17:43 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 044/143] meson: generate hxtool files
-Date: Thu,  6 Aug 2020 21:14:40 +0200
-Message-Id: <1596741379-12902-45-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 045/143] meson: uncompress edk2 bios
+Date: Thu,  6 Aug 2020 21:14:41 +0200
+Message-Id: <1596741379-12902-46-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -91,123 +91,85 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile        |  8 +-------
- Makefile.target |  6 ------
- meson.build     | 21 +++++++++++++++++++++
- scripts/hxtool  |  2 +-
- 4 files changed, 23 insertions(+), 14 deletions(-)
- mode change 100644 => 100755 scripts/hxtool
+ Makefile            |  7 -------
+ meson.build         |  1 +
+ pc-bios/meson.build | 23 +++++++++++++++++++++++
+ 3 files changed, 24 insertions(+), 7 deletions(-)
+ create mode 100644 pc-bios/meson.build
 
 diff --git a/Makefile b/Makefile
-index 3fafc89..984f784 100644
+index 984f784..d277681 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -105,7 +105,7 @@ include $(SRC_PATH)/rules.mak
- # lor is defined in rules.mak
- CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
+@@ -112,9 +112,6 @@ generated-files-y += module_block.h
+ generated-files-y += .git-submodule-status
  
--generated-files-y = config-host.h qemu-options.def
-+generated-files-y = config-host.h
- 
- generated-files-y += module_block.h
- 
-@@ -247,8 +247,6 @@ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all mo
- 
- config-host.h: config-host.h-timestamp
- config-host.h-timestamp: config-host.mak
--qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
--	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
- 
- TARGET_DIRS_RULES := $(foreach t, all fuzz clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
- 
-@@ -355,9 +353,6 @@ ifdef CONFIG_MPATH
- scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
- endif
- 
--qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
--	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+ edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
+-pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
+-	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
 -
- module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
- 	$(call quiet-command,$(PYTHON) $< $@ \
- 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
-@@ -375,7 +370,6 @@ clean: recurse-clean
- 	rm -f $(edk2-decompressed)
+ # Don't try to regenerate Makefile or configure
+ # We don't generate any of them
+ Makefile: ;
+@@ -258,9 +255,6 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
+-ifdef DECOMPRESS_EDK2_BLOBS
+-$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+-endif
+ 
+ SOFTMMU_FUZZ_RULES=$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
+ $(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
+@@ -367,7 +361,6 @@ clean: recurse-clean
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+-	rm -f $(edk2-decompressed)
  	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
  	rm -f fsdev/*.pod scsi/*.pod
--	rm -f qemu-img-cmds.h
  	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
- 	rm -f config-all-devices.mak
- 	rm -f $(SUBDIR_DEVICES_MAK)
-diff --git a/Makefile.target b/Makefile.target
-index 0b32364..257afc2 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -225,12 +225,6 @@ endif
- gdbstub-xml.c: $(TARGET_XML_FILES) $(SRC_PATH)/scripts/feature_to_c.sh
- 	$(call quiet-command,rm -f $@ && $(SHELL) $(SRC_PATH)/scripts/feature_to_c.sh $@ $(TARGET_XML_FILES),"GEN","$(TARGET_DIR)$@")
- 
--hmp-commands.h: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
--	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$(TARGET_DIR)$@")
--
--hmp-commands-info.h: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
--	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$(TARGET_DIR)$@")
--
- clean: clean-target
- 	rm -f *.a *~ $(PROGS)
- 	rm -f $(shell find . -name '*.[od]')
 diff --git a/meson.build b/meson.build
-index fe2be8f..892bb62 100644
+index 892bb62..d287e06 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -138,6 +138,7 @@ have_block = have_system or have_tools
- # Generators
+@@ -354,6 +354,7 @@ if have_tools
+ endif
  
- genh = []
-+hxtool = find_program('scripts/hxtool')
- shaderinclude = find_program('scripts/shaderinclude.pl')
- qapi_gen = find_program('scripts/qapi-gen.py')
- qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
-@@ -169,6 +170,26 @@ qemu_version = custom_target('qemu-version.h',
-                              build_always_stale: true)
- genh += qemu_version
+ subdir('tools')
++subdir('pc-bios')
  
-+hxdep = []
-+hx_headers = [
-+  ['qemu-options.hx', 'qemu-options.def'],
-+  ['qemu-img-cmds.hx', 'qemu-img-cmds.h'],
-+]
-+if have_system
-+  hx_headers += [
-+    ['hmp-commands.hx', 'hmp-commands.h'],
-+    ['hmp-commands-info.hx', 'hmp-commands-info.h'],
-+  ]
-+endif
-+foreach d : hx_headers
-+  custom_target(d[1],
-+                input: files(d[0]),
-+                output: d[1],
-+                capture: true,
-+                build_by_default: true, # to be removed when added to a target
-+                command: [hxtool, '-h', '@INPUT0@'])
-+endforeach
+ summary_info = {}
+ summary_info += {'Install prefix':    config_host['prefix']}
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+new file mode 100644
+index 0000000..8a3d335
+--- /dev/null
++++ b/pc-bios/meson.build
+@@ -0,0 +1,23 @@
++bzip2 = find_program('bzip2')
 +
- # Collect sourcesets.
- 
- util_ss = ss.source_set()
-diff --git a/scripts/hxtool b/scripts/hxtool
-old mode 100644
-new mode 100755
-index 7b1452f..80516b9
---- a/scripts/hxtool
-+++ b/scripts/hxtool
-@@ -19,6 +19,6 @@ hxtoh()
- case "$1" in
- "-h") hxtoh ;;
- *) exit 1 ;;
--esac
-+esac < "$2"
- 
- exit 0
++if 'DECOMPRESS_EDK2_BLOBS' in config_host
++  fds = [
++    'edk2-aarch64-code.fd',
++    'edk2-arm-code.fd',
++    'edk2-arm-vars.fd',
++    'edk2-i386-code.fd',
++    'edk2-i386-secure-code.fd',
++    'edk2-i386-vars.fd',
++    'edk2-x86_64-code.fd',
++    'edk2-x86_64-secure-code.fd',
++  ]
++
++  foreach f : fds
++    custom_target(f,
++                  output: f,
++                  input: '@0@.bz2'.format(f),
++                  capture: true,
++                  build_by_default: true,
++                  command: [ bzip2, '-dc', '@INPUT0@' ])
++  endforeach
++endif
 -- 
 1.8.3.1
 
