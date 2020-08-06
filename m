@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7789D23D83B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:00:28 +0200 (CEST)
-Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0C123D850
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:08:14 +0200 (CEST)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3blD-0006By-IR
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:00:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
+	id 1k3bsj-0002rl-Bm
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1k3bk7-0005S9-Hj
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:59:19 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:45631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1k3bk3-0003Ex-SW
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:59:19 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 7557D1209;
- Thu,  6 Aug 2020 04:59:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 06 Aug 2020 04:59:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=
- from:to:cc:subject:in-reply-to:references:date:message-id
- :mime-version:content-type; s=fm3; bh=3B07XIgM4In9ExDKqLo4LYy9nl
- 4PxSTOmVQaZgccA9w=; b=e+Jvyd4wbAZIq7Oxz/YBqhjlks4AT2lONr3vFWFuEc
- wTMYwmCBTwzUgCo+WJ6xTR55U/+qpZdVLlIEyw9K8hbKt2kglcbZNPRbzXZqIp1k
- xqH0r9oZ4k1e/zrXz7dcRY3z+joxTDQzaYkE08lFzL/YD6W4XjP969YUE6Clk2hB
- VVpvk7Cj1hy756NU2ZtMC+SzVFvoRX+ua2Gyit9G6hJOQ+u2MQGZYaoFKHsPbZF2
- D+Ijizo4GlBcyWxCFbniRKIFyqyThbeuQB+35iA8mlM5UAOdcZFtMF+8yjkb3b6f
- UoWlw95c62woRQKnzRo4dUo9/chmghZziuVoE8Ik/shg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3B07XI
- gM4In9ExDKqLo4LYy9nl4PxSTOmVQaZgccA9w=; b=sZlBmHZ3BKseAmcDnGSsTo
- FVAfYCyjfVYbtWJaGzck2xC692XMH9+UOtnKFea8HPYimDoGjTv3LmoNDIccq0hy
- fVE0rYVw1McLRx4Qthc6v7yQuw0hgvYwwmXhbf/HTOV0kLAH+2qpRuJwilDjHfW2
- 6H3ifqVPkiQh83FCNOcNNWsvOV42jA7sOaoCZOS4m0e8PUEDl/uxlzHIN20+r/7a
- W9VuzNlnGV6YpKkKoZyb47tOT7pUMlJBTDGdNBcqVkX66l6eDkOu8fUL0Cbm8oND
- 0vNop1Rokxl5QndwrqZwG4HyN9Ooc+zhmHW5Wds0XTHakmy6kdzYXEqlZ4rjreQQ
- ==
-X-ME-Sender: <xms:X8YrX1QhX4OzSFEyKaeIGBDnLVKOVhhqeHgRBvsHQAsJNmWZWaGo7g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdduudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufgjfhffkfggtgesthdtredttd
- dttdenucfhrhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhisheq
- necuggftrfgrthhtvghrnhephfetudeftdejveegudejhfeuiefgjeehuddvtddvhfejte
- dufeelhfelhfeghfetnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepkeeg
- rddukeegrddvvdelrddvgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhs
-X-ME-Proxy: <xmx:X8YrX-zE2EC3FsbAOOGWtRD2k06tzFBEIMDwzq72DR3wuYh4cLe6Qg>
- <xmx:X8YrX604KIYqZ52evslM69ACIVx782PrVZpHFt56wEVJRHmmydb3nA>
- <xmx:X8YrX9D7aswtIFGo0zKKP46HkLbmDZ7uD0Kme4LaKRO7B5VQI7CcMA>
- <xmx:YMYrX5viao62s7mGafV-J3cl3_uxMYRyGGKkmGzefOJLDNFZmbjV8A>
-Received: from x220.qyliss.net (p54b8e5f4.dip0.t-ipconnect.de [84.184.229.244])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8B4703280065;
- Thu,  6 Aug 2020 04:59:11 -0400 (EDT)
-Received: by x220.qyliss.net (Postfix, from userid 1000)
- id BF33FE3; Thu,  6 Aug 2020 08:59:09 +0000 (UTC)
-From: Alyssa Ross <hi@alyssa.is>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: vhost-user protocol feature negotiation
-In-Reply-To: <20200805181352-mutt-send-email-mst@kernel.org>
-References: <87sgd1ktx9.fsf@alyssa.is>
- <20200805181352-mutt-send-email-mst@kernel.org>
-Date: Thu, 06 Aug 2020 08:59:09 +0000
-Message-ID: <87lfis2lr6.fsf@alyssa.is>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3brd-00021H-2u
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:07:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21179
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3brb-00044H-CM
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:07:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596704822;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lWtbWQXwtrF5BvfNrGo8OzLCBd63XVozopD1jBzPNd4=;
+ b=V3zSatZ/U4cDmN0OcvjQ9ehqvmPxh8dLwcHFwQbbyfrAGTKwPFNh/jpyKAN0yOkNmIVyII
+ kqJkA0O9ksNm7fdP9y0XUL9ioyu252f30aVZu0sLleKTodr+OxlgmmICll8EbfYqeJCwRN
+ UlFpF+8JTFZu3+3ThRKg0au61Wvq1y0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-3Yu_RB3GNJK-m4lzUTQBtw-1; Thu, 06 Aug 2020 04:59:34 -0400
+X-MC-Unique: 3Yu_RB3GNJK-m4lzUTQBtw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2F16100AA21;
+ Thu,  6 Aug 2020 08:59:32 +0000 (UTC)
+Received: from gondolin (ovpn-113-2.ams2.redhat.com [10.36.113.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8C5B5C6D9;
+ Thu,  6 Aug 2020 08:59:25 +0000 (UTC)
+Date: Thu, 6 Aug 2020 10:59:23 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH v1 17/21] target/s390x: add BQL to do_interrupt and
+ cpu_exec_interrupt
+Message-ID: <20200806105923.2bd2b0de.cohuck@redhat.com>
+In-Reply-To: <20200805181303.7822-18-robert.foley@linaro.org>
+References: <20200805181303.7822-1-robert.foley@linaro.org>
+ <20200805181303.7822-18-robert.foley@linaro.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=hi@alyssa.is;
- helo=wout3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 04:59:13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,109 +82,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ cota@braap.org, peter.puhov@linaro.org, pbonzini@redhat.com,
+ alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+On Wed,  5 Aug 2020 14:12:59 -0400
+Robert Foley <robert.foley@linaro.org> wrote:
 
-> On Wed, Aug 05, 2020 at 03:13:06PM +0000, Alyssa Ross wrote:
->> Quoting from the definition of VHOST_USER_SET_PROTOCOL_FEATURES in
->> vhost-user.rst:
->> 
->> >   Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
->> >   ``VHOST_USER_GET_FEATURES``.
->> > 
->> > .. Note::
->> >    Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
->> >    this message even before ``VHOST_USER_SET_FEATURES`` was called.
->> 
->> To me, this could mean either of two things:
->> 
->> (1) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
->>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should enable the
->>     protocol features immediately.
->> 
->> (2) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
->>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should store those
->>     feature bits, but not actually consider them to be enabled until
->>     after VHOST_USER_SET_FEATURES has been received (presumably
->>     containing VHOST_USER_F_PROTOCOL_FEATURES).
->> 
->> The reason I bring this up is that QEMU appears to interpret it as (1),
->> while the vhost-user-net backend in Intel's cloud-hypervisor[1]
->> interprets it as (2).  So I'm looking for a clarification.
->> 
->> [1]: https://github.com/cloud-hypervisor/cloud-hypervisor
->> 
->> Thanks in advance.
->
->
-> IMHO the intent was this: VHOST_USER_F_PROTOCOL_FEATURES bit in
-> VHOST_USER_GET_FEATURES means that qemu can send
-> VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
->
-> With most feature bits in VHOST_USER_GET_FEATURES, the
-> specific functionality needs to only be enabled after
-> VHOST_USER_SET_FEATURES.
->
-> However, this is for functionality dealing with guest activity.
-> VHOST_USER_SET_PROTOCOL_FEATURES has nothing to do with guest directly,
-> it's about negotiation between qemu and backend: it is only in
-> VHOST_USER_GET_FEATURES for the reason that this is the only message
-> (very) old backends reported.  Thus, the backend should not check
-> whether VHOST_USER_SET_FEATURES sets VHOST_USER_F_PROTOCOL_FEATURES,
-> instead it should simply always be ready to receive
-> VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
->
-> Backend that isn't always ready to handle
-> VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES
-> should not set VHOST_USER_F_PROTOCOL_FEATURES in
-> VHOST_USER_GET_FEATURES.
+> This is part of a series of changes to remove the implied BQL
+> from the common code of cpu_handle_interrupt and
+> cpu_handle_exception.  As part of removing the implied BQL
+> from the common code, we are pushing the BQL holding
+> down into the per-arch implementation functions of
+> do_interrupt and cpu_exec_interrupt.
+> 
+> The purpose of this set of changes is to set the groundwork
+> so that an arch could move towards removing
+> the BQL from the cpu_handle_interrupt/exception paths.
+> 
+> This approach was suggested by Paolo Bonzini.
+> For reference, here are two key posts in the discussion, explaining
+> the reasoning/benefits of this approach.
+> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg08731.html
+> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
+> 
+> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> ---
+>  target/s390x/excp_helper.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+> index dde7afc2f0..b215b4a4a7 100644
+> --- a/target/s390x/excp_helper.c
+> +++ b/target/s390x/excp_helper.c
+> @@ -470,7 +470,10 @@ void s390_cpu_do_interrupt(CPUState *cs)
+>      S390CPU *cpu = S390_CPU(cs);
+>      CPUS390XState *env = &cpu->env;
+>      bool stopped = false;
+> -
+> +    bool bql = !qemu_mutex_iothread_locked();
+> +    if (bql) {
+> +        qemu_mutex_lock_iothread();
+> +    }
 
-Thanks for the explanation.  That matches what I had in mind with (1).
+I'm not sure I like that conditional locking. Can we instead create
+__s390_cpu_do_interrupt() or so, move the meat of this function there,
+take the bql unconditionally here, and...
 
-> This appears to be closer to (1), but if qemu can't distinguish
-> then we don't care, right? For example, VHOST_USER_PROTOCOL_F_REPLY_ACK
-> enables acks on arbitrary messages. Does the backend in question
-> ignore the affected bit until SET_FEATURES? If yes won't this
-> make qemu hang?
+>      qemu_log_mask(CPU_LOG_INT, "%s: %d at psw=%" PRIx64 ":%" PRIx64 "\n",
+>                    __func__, cs->exception_index, env->psw.mask, env->psw.addr);
+>  
+> @@ -541,10 +544,14 @@ try_deliver:
+>          /* unhalt if we had a WAIT PSW somehwere in our injection chain */
+>          s390_cpu_unhalt(cpu);
+>      }
+> +    if (bql) {
+> +        qemu_mutex_unlock_iothread();
+> +    }
+>  }
+>  
+>  bool s390_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>  {
+> +    qemu_mutex_lock_iothread();
+>      if (interrupt_request & CPU_INTERRUPT_HARD) {
+>          S390CPU *cpu = S390_CPU(cs);
+>          CPUS390XState *env = &cpu->env;
+> @@ -552,10 +559,12 @@ bool s390_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>          if (env->ex_value) {
+>              /* Execution of the target insn is indivisible from
+>                 the parent EXECUTE insn.  */
+> +            qemu_mutex_unlock_iothread();
+>              return false;
+>          }
+>          if (s390_cpu_has_int(cpu)) {
+>              s390_cpu_do_interrupt(cs);
 
-Yes.  That was my motivation for asking what the correct behaviour was,
-so that I could fix the incorrect one. :)  I suspect that up to this point,
-the cloud-hypervisor vhost-user-net backend has only been used with
-cloud-hypervisor, and so this incompatibilty with QEMU was not noticed.
+...call __s390_cpu_do_interrupt() here?
 
-> How would you suggest clarifying the wording?
+> +            qemu_mutex_unlock_iothread();
+>              return true;
+>          }
+>          if (env->psw.mask & PSW_MASK_WAIT) {
+> @@ -564,6 +573,7 @@ bool s390_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>              cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HALT);
+>          }
+>      }
+> +    qemu_mutex_unlock_iothread();
+>      return false;
+>  }
+>  
 
-Do you think this communicates everything required?
-
----
-diff --git i/docs/interop/vhost-user.rst w/docs/interop/vhost-user.rst
-index 10e3e3475e..72724d292a 100644
---- i/docs/interop/vhost-user.rst
-+++ w/docs/interop/vhost-user.rst
-@@ -854,9 +854,8 @@ Master message types
-   ``VHOST_USER_GET_FEATURES``.
- 
- .. Note::
--   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must
--   support this message even before ``VHOST_USER_SET_FEATURES`` was
--   called.
-+   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
-+   with ``VHOST_USER_SET_FEATURES``.
- 
- ``VHOST_USER_SET_PROTOCOL_FEATURES``
-   :id: 16
-@@ -869,8 +868,8 @@ Master message types
-   ``VHOST_USER_GET_FEATURES``.
- 
- .. Note::
--   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
--   this message even before ``VHOST_USER_SET_FEATURES`` was called.
-+   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
-+   with ``VHOST_USER_SET_FEATURES``.
- 
- ``VHOST_USER_SET_OWNER``
-   :id: 3
 
