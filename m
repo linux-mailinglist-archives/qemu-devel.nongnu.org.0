@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16C523DA2B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:59:50 +0200 (CEST)
-Received: from localhost ([::1]:47916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44A923DA2F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 14:02:47 +0200 (CEST)
+Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3eYn-0003fE-OA
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
+	id 1k3ebe-0005Gl-TZ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 08:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3eY2-0003DJ-5X
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:59:02 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20516
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3ead-0004pY-MV
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:01:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29672
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3eXy-0008EQ-Bu
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:59:01 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3eab-0000JZ-Oc
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:01:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596715137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=CCq/+yAMxF7E+Rr55HOBl8bdnV26i/+2GG//rZ190Ls=;
- b=Zmqo1aWvYsk3ukOpeU1gxhGcnvfNJ+eBUzN5aMBoFxaUfYAngqJnrhRW/WywYlJZ65hrFC
- 71SIbyE0NXnhB9EYFhnmKhItJl+BkK+HaW9WsRsbqcmeOAJzOODQatxGppjpNbGGCiOI7y
- J8J50M78C5cp6WZZAZwJELKPt1gf2EQ=
+ s=mimecast20190719; t=1596715301;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=mItRYPhFtMMr5kBHdHM+rdFezl+mPVxvR1f9SlYpKQ0=;
+ b=bxXqU+DtVgOfQkOMqsYJ20IyLsfEWw7f7P9brisqq3yclXTXYvC2IoqXhjcobzZHfFcYJ4
+ wEhk9ZsQOXUMTbyATZs+byNu39WfzaIj6dpMhFBBIWj8W2dPE/ztahHX2mRkgxetOBkbZY
+ tx19UL5aZ0ebron8nYoxhnH2cVLKn9E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-hIfiXKw4P_uHlkHa9KIPig-1; Thu, 06 Aug 2020 07:58:53 -0400
-X-MC-Unique: hIfiXKw4P_uHlkHa9KIPig-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-407-uoLp5ThoM7qa_yWkEKlEfQ-1; Thu, 06 Aug 2020 08:01:37 -0400
+X-MC-Unique: uoLp5ThoM7qa_yWkEKlEfQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C9ED18C63E0;
- Thu,  6 Aug 2020 11:58:52 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-229.ams2.redhat.com [10.36.112.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 783495C6D9;
- Thu,  6 Aug 2020 11:58:49 +0000 (UTC)
-Subject: Re: [PATCH for-5.2 v2 9/9] tests/qtest/cdrom: Add more s390x-related
- boot tests
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200806105349.632-1-thuth@redhat.com>
- <20200806105349.632-10-thuth@redhat.com>
- <20200806132344.4a34178e.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <51c2b736-4b30-84d7-492d-a7963d79ec27@redhat.com>
-Date: Thu, 6 Aug 2020 13:58:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37F1F80046B;
+ Thu,  6 Aug 2020 12:01:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB44319C4F;
+ Thu,  6 Aug 2020 12:01:33 +0000 (UTC)
+Date: Thu, 6 Aug 2020 13:01:30 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
+Message-ID: <20200806120130.GK4159383@redhat.com>
+References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
+ <20200806115148.7lz32dro645a3wv6@mhamilton>
 MIME-Version: 1.0
-In-Reply-To: <20200806132344.4a34178e.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200806115148.7lz32dro645a3wv6@mhamilton>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -73,7 +69,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,61 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, "Oleinik, Alexander" <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Dave Gilbert <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/2020 13.23, Cornelia Huck wrote:
-> On Thu,  6 Aug 2020 12:53:49 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
+On Thu, Aug 06, 2020 at 01:51:48PM +0200, Sergio Lopez wrote:
+> On Thu, Aug 06, 2020 at 11:24:13AM +0100, Stefan Hajnoczi wrote:
+> <snip>
+> > Conclusion
+> > ---------------
+> > Most security bugs in QEMU today are C programming bugs. Switching to
+> > a safer programming language will significantly reduce security bugs
+> > in QEMU. Rust is now mature and proven enough to use as the language
+> > for device emulation code. Thanks to vhost-user and vfio-user using
+> > Rust for device emulation does not require a big conversion of QEMU
+> > code, it can simply be done in a separate program. This way attack
+> > surfaces can be written in Rust to make them less susceptible to
+> > security bugs going forward.
+> > 
 > 
->> Let's add two new tests:
->>
->> 1) Booting with "bootindex" is the architected default behavior on the
->> s390x target, so we should have at least one test that is using the
->> "bootindex" property.
->>
->> 2) The s390-ccw bios used to fail when other unbootable devices have
->> been specified before the bootable device (without "bootindex"). Now
->> that the s390-ccw bios is a little bit smarter here, we should test
->> this scenario, too, to avoid regressions.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  tests/qtest/cdrom-test.c | 12 ++++++++++++
->>  1 file changed, 12 insertions(+)
->>
->> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
->> index 833a0508a1..13e22f57c1 100644
->> --- a/tests/qtest/cdrom-test.c
->> +++ b/tests/qtest/cdrom-test.c
->> @@ -163,6 +163,18 @@ static void add_s390x_tests(void)
->>      qtest_add_data_func("cdrom/boot/virtio-scsi",
->>                          "-device virtio-scsi -device scsi-cd,drive=cdr "
->>                          "-blockdev file,node-name=cdr,filename=", test_cdboot);
->> +    qtest_add_data_func("cdrom/boot/with-bootindex",
->> +                        "-device virtio-serial -device virtio-scsi "
->> +                        "-device virtio-blk,drive=d1 "
->> +                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
->> +                        "-device virtio-blk,drive=d2,bootindex=1 "
->> +                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
->> +    qtest_add_data_func("cdrom/boot/without-bootindex",
->> +                        "-device virtio-scsi -device virtio-serial "
->> +                        "-device x-terminal3270 -device virtio-blk,drive=d1 "
+> Having worked on Rust implementations for vhost-user-fs and
+> vhost-user-blk, I'm 100% sold on this idea.
 > 
-> Any special reason for that 3270 device here? Or just to add more
-> variety? :)
+> That said, there are a couple things that I think may help getting
+> more people into implementing vhost-user devices in Rust.
+> 
+>  1. Having a reference implementation for a simple device somewhere
+>  close or inside the QEMU source tree. I'd say vhost-user-blk is a
+>  clear candidate, given that a naive implementation for raw files
+>  without any I/O optimization is quite easy to read and understand.
+> 
+>  2. Integrating the ability to start-up vhost-user daemons from QEMU,
+>  in an easy and portable way. I know we can always rely on daemons
+>  like libvirt to do this for us, but I think it'd be nicer to be able
+>  to define a vhost-user device from the command line and have QEMU
+>  execute it with the proper parameters (BTW, Cloud-Hypervisor already
+>  does that). This would probably require some kind of configuration
+>  file, to be able to define which binary provides each vhost-user
+>  device personality, but could also be a way for "sanctioning"
+>  daemons (through the configuration defaults), and to have them adhere
+>  to a standardized command line format.
 
-Yes, there is a reason:
+This second point is such a good idea that we already have defined
+how todo this in QEMU - see the docs/interop/vhost-user.json file.
+This specifies metadata files that should be installed into a
+defined location such that QEMU/libvirt/other mgmt app can locate
+vhost-user impls for each type of device, and priortize between
+different impls.
 
- https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg07231.html
 
-... so this is a check that this does not happen again.
-
- Thomas
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
