@@ -2,49 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0521423D76C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:19 +0200 (CEST)
-Received: from localhost ([::1]:56518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB1523D79D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:42:48 +0200 (CEST)
+Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3aUg-00017j-2p
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56550)
+	id 1k3aY3-0004Tp-74
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k3aTL-0008Hy-4d
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:37:55 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:54288 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1k3aWD-0002Kz-Jh
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:40:53 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:58116 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k3aTJ-0002Qy-6l
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:37:54 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 6A89CB99EB3660DD4481;
- Thu,  6 Aug 2020 15:37:49 +0800 (CST)
-Received: from [127.0.0.1] (10.174.186.4) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Thu, 6 Aug 2020
- 15:37:36 +0800
-From: Zheng Chuan <zhengchuan@huawei.com>
-Subject: Re: [RFC PATCH 8/8] migration/dirtyrate: Implement
- qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
-To: Eric Blake <eblake@redhat.com>, <quintela@redhat.com>,
- <dgilbert@redhat.com>
-References: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
- <1595646669-109310-9-git-send-email-zhengchuan@huawei.com>
- <b413e8ac-fc4f-aa76-c1d4-332343122302@redhat.com>
-Message-ID: <1da4a1ca-99e1-d8f9-b6d4-5419d3f57cae@huawei.com>
-Date: Thu, 6 Aug 2020 15:37:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1k3aWA-0002na-Tp
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:40:53 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 2E4DE7ABCF2F6EB79BFC;
+ Thu,  6 Aug 2020 15:40:43 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.151.115) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 6 Aug 2020 15:40:32 +0800
+From: "Longpeng(Mike)" <longpeng2@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH 0/2] migration: add vsock channel support
+Date: Thu, 6 Aug 2020 15:40:28 +0800
+Message-ID: <20200806074030.174-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <b413e8ac-fc4f-aa76-c1d4-332343122302@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.186.4]
+Content-Type: text/plain
+X-Originating-IP: [10.174.151.115]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=longpeng2@huawei.com;
  helo=huawei.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:37:49
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
@@ -66,95 +58,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
- alex.chen@huawei.com, ann.zhuangyanying@huawei.com, fangying1@huawei.com
+Cc: longpeng2@huawei.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Longpeng (Mike) (2):
+  migration: unify the framework of socket-type channel
+  migration: add vsock as data channel support
 
+ migration/migration.c | 20 +++++++-------
+ migration/socket.c    | 72 +++++++++++----------------------------------------
+ migration/socket.h    | 11 +++-----
+ 3 files changed, 28 insertions(+), 75 deletions(-)
 
-On 2020/8/5 0:28, Eric Blake wrote:
-> On 7/24/20 10:11 PM, Chuan Zheng wrote:
->> From: Zheng Chuan <zhengchuan@huawei.com>
->>
->> Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
->> by libvirt api.
->>
->> Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
->> Signed-off-by: YanYing Zhang <ann.zhuangyanying@huawei.com>
->> ---
-> 
->> +++ b/qapi/migration.json
->> @@ -1621,3 +1621,27 @@
->>   ##
->>   { 'event': 'UNPLUG_PRIMARY',
->>     'data': { 'device-id': 'str' } }
->> +
->> +##
->> +# @cal_dirty_rate:
-> 
-> New QMP commands should be named favoring '-' over '_'; also, it doesn't hurt to spell it out:
-> 
-> calculate-dirty-rate
-> 
-Hi, Eric.
-Thank you for your review.
-I'll fix that in V2.
-
->> +#
->> +# start calculating dirty rate for vm
->> +#
->> +# @value: time for sample dirty pages
-> 
-> In what unit?
-> 
-The unit is second, i'll make comments in V2:)
-
->> +#
->> +# Since: 5.1
-> 
-> We've missed 5.1; this will need to be updated to 5.2.
-> 
->> +#
->> +# Example:
->> +#   {"command": "cal_dirty_rate", "data": {"value": 1} }
->> +#
->> +##
->> +{ 'command': 'cal_dirty_rate', 'data': {'value': 'int64'} }
->> +
->> +##
->> +# @get_dirty_rate:
-> 
-> get-dirty-rate, except that we tend to use 'query-' as the prefix for commands that read values.
-> 
->> +#
->> +# get dirty rate for vm
->> +#
->> +# Since: 5.1
-> 
-> 5.2
-> 
-> What units is the rate expressed in?
-> 
-The unit is MB/s, i'll make comments in V2:)
-> 
->> +##
->> +{ 'command': 'get_dirty_rate', 'returns': 'int64' }
->> diff --git a/qapi/pragma.json b/qapi/pragma.json
->> index cffae27..ecd294b 100644
->> --- a/qapi/pragma.json
->> +++ b/qapi/pragma.json
->> @@ -10,7 +10,8 @@
->>           'query-migrate-cache-size',
->>           'query-tpm-models',
->>           'query-tpm-types',
->> -        'ringbuf-read' ],
->> +        'ringbuf-read',
->> +        'get_dirty_rate' ],
->>       'name-case-whitelist': [
->>           'ACPISlotType',             # DIMM, visible through query-acpi-ospm-status
->>           'CpuInfoMIPS',              # PC, visible through query-cpu
->>
-> 
+-- 
+1.8.3.1
 
 
