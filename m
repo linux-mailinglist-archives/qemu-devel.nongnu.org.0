@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F63F23D8C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:38:33 +0200 (CEST)
-Received: from localhost ([::1]:60312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC2223D8D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:39:47 +0200 (CEST)
+Received: from localhost ([::1]:38878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3cM4-0006y4-DI
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52390)
+	id 1k3cNG-0001KA-Pv
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:39:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k3cKd-0005BJ-Rz; Thu, 06 Aug 2020 05:37:03 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:41182 helo=huawei.com)
+ id 1k3cKe-0005BM-1M; Thu, 06 Aug 2020 05:37:04 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:41184 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k3cKb-0007WY-W8; Thu, 06 Aug 2020 05:37:03 -0400
+ id 1k3cKb-0007Wa-W2; Thu, 06 Aug 2020 05:37:03 -0400
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 538FFD02B17AFD7DA90E;
+ by Forcepoint Email with ESMTP id 575B5283BBFFE51F18CF;
  Thu,  6 Aug 2020 17:36:56 +0800 (CST)
 Received: from localhost.localdomain (10.175.101.6) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 6 Aug 2020 17:36:47 +0800
+ 14.3.487.0; Thu, 6 Aug 2020 17:36:50 +0800
 From: Peng Liang <liangpeng10@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH 4/5] log: Add log at boot & cpu init for aarch64
-Date: Thu, 6 Aug 2020 17:37:19 +0800
-Message-ID: <20200806093720.2355692-5-liangpeng10@huawei.com>
+Subject: [PATCH 5/5] log: Add logs during qemu start
+Date: Thu, 6 Aug 2020 17:37:20 +0800
+Message-ID: <20200806093720.2355692-6-liangpeng10@huawei.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200806093720.2355692-1-liangpeng10@huawei.com>
 References: <20200806093720.2355692-1-liangpeng10@huawei.com>
@@ -62,47 +62,63 @@ Cc: Peng Liang <liangpeng10@huawei.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add log at boot & cpu init for aarch64.
+Add logs during qemu start.
 
 Signed-off-by: Peng Liang <liangpeng10@huawei.com>
 ---
- hw/arm/boot.c | 2 ++
- hw/arm/virt.c | 2 ++
- 2 files changed, 4 insertions(+)
+ blockdev.c         | 2 ++
+ softmmu/vl.c       | 2 ++
+ util/oslib-posix.c | 3 +--
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 3e9816af80..a2d5787807 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -1292,6 +1292,8 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
-      * doesn't support secure.
-      */
-     assert(!(info->secure_board_setup && kvm_enabled()));
-+    info_report("load the kernel");
-+
-     info->kernel_filename = ms->kernel_filename;
-     info->kernel_cmdline = ms->kernel_cmdline;
-     info->initrd_filename = ms->initrd_filename;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ecfee362a1..ae2fb7a14d 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -820,6 +820,7 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
- {
-     VirtMachineState *s = container_of(n, VirtMachineState, powerdown_notifier);
- 
-+    info_report("send powerdown to vm.");
-     if (s->acpi_dev) {
-         acpi_send_event(s->acpi_dev, ACPI_POWER_DOWN_STATUS);
-     } else {
-@@ -1780,6 +1781,7 @@ static void machvirt_init(MachineState *machine)
+diff --git a/blockdev.c b/blockdev.c
+index 3848a9c8ab..8e3ab8a9b2 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1001,6 +1001,8 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
+         qdict_put_str(bs_opts, "rerror", rerror);
      }
  
-     create_fdt(vms);
-+    info_report("cpu init start");
++    info_report("blockdev init(%s).", filename ? filename : "");
++
+     /* Actual block device init: Functionality shared with blockdev-add */
+     blk = blockdev_init(filename, bs_opts, errp);
+     bs_opts = NULL;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index a9f06111b3..493518de66 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1070,6 +1070,8 @@ static void configure_blockdev(BlockdevOptionsQueue *bdo_queue,
+         exit(0);
+     }
  
-     possible_cpus = mc->possible_cpu_arch_ids(machine);
-     for (n = 0; n < possible_cpus->len; n++) {
++    info_report("Finish drive init.");
++
+     default_drive(default_cdrom, snapshot, machine_class->block_default_type, 2,
+                   CDROM_OPTS);
+     default_drive(default_floppy, snapshot, IF_FLOPPY, 0, FD_OPTS);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index ad8001a4ad..87c1c8569e 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -66,9 +66,7 @@
+ 
+ #include "qemu/mmap-alloc.h"
+ 
+-#ifdef CONFIG_DEBUG_STACK_USAGE
+ #include "qemu/error-report.h"
+-#endif
+ 
+ #define MAX_MEM_PREALLOC_THREAD_COUNT 16
+ 
+@@ -558,6 +556,7 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+     g_free(memset_thread);
+     memset_thread = NULL;
+ 
++    info_report("Finish touching all pages.");
+     return memset_thread_failed;
+ }
+ 
 -- 
 2.18.4
 
