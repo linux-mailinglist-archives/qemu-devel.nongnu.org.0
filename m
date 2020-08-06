@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB6F23D6B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 08:15:51 +0200 (CEST)
-Received: from localhost ([::1]:56804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A65623D6C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 08:25:37 +0200 (CEST)
+Received: from localhost ([::1]:59884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ZBu-0005aJ-GG
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 02:15:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37382)
+	id 1k3ZLL-0007hF-QA
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 02:25:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k3ZAv-00052Y-Pm; Thu, 06 Aug 2020 02:14:49 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50661 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k3ZAs-0000sp-8M; Thu, 06 Aug 2020 02:14:49 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BMdW4287Fz9sTM; Thu,  6 Aug 2020 16:14:40 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1596694480;
- bh=E94wXZ2GlavC447zASL2IKC3b3NumERC58sX0/K4mZ8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pPDsnCojqRzYzDke8RrPxvCY7sjGhqwIe3fqjbqo7m6td53TSr+KpXsutxC4HWqhb
- dPhixOHwAnpOWa8kB0wYDdjIgI5K5MPvxUHz0GMpFGKv7K3bOXq6b/MujvdmdSTQS7
- A+KZt/WzZlYhb+zGKJWcAFwUcRcwRgVhqLPptdr4=
-Date: Thu, 6 Aug 2020 16:14:12 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [for-5.2 v4 10/10] s390: Recognize host-trust-limitation option
-Message-ID: <20200806061412.GB157233@yekko.fritz.box>
-References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
- <20200724025744.69644-11-david@gibson.dropbear.id.au>
- <20200727175040.7beca3dd.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
+ id 1k3ZK8-00075I-5g
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 02:24:20 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:35332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
+ id 1k3ZK6-00024y-6y
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 02:24:19 -0400
+Received: by mail-io1-xd43.google.com with SMTP id s189so41227661iod.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Aug 2020 23:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hafr8k9YOgdf5KgqdQie/z85p/Ia5bt7WDCDxUBdvdg=;
+ b=ZBcNKliwxZMR5CwNl76Wp2MBF+d0mCTiEHLWCbnihmHspuuIycm0JRhajxmIqIqjD5
+ LIcVcQv7YsIPKMD/3us2JiqENp6e163Vo3Vd/jm1IDEbv0OzeKx9jUjtZ+pOrEBAloMQ
+ hUd0CRqvTG/EyGCz/SELWi0QunfTNmL75FoHyN0j9HajqPjv1o7QhZmz7GoHW24OReNW
+ 1/JJ8qgIAaQA+RfogiacEoiLGyjp9i1qhp6DI1qC65DBU4FOjfpnEaaiClibpsLQS8c4
+ NkqwVmN7GJQ4fJjguFYOOHdOpfFxdw52CF+OZyTYwzeVxANFDhtONbsljvWgMdGrKSkH
+ UBrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hafr8k9YOgdf5KgqdQie/z85p/Ia5bt7WDCDxUBdvdg=;
+ b=qNSBiCD+rZGhQcc/KmSNfG1VzhvBv/N3sTRMAGfw5x+ww0CeJ0ZYGYs38C9Y5k/EEC
+ 7W6dXZH0Whty/NTgCdY1cOM++01qwTn3vix8ICq7zyyBqoHvXPAvS6TZX0EOK2EleGyr
+ fCmaUht310+E7glCl76osTtWQBQcPH+JL1URBskz7y28RTftqdczi9F+v8Z+r/b6ELQ0
+ wFCF/5y++U0t1QQR5toiQuq85zAuh418+2j921JNO6RthbDoif7stJfFtZ6WRjyaib51
+ iJX279pmOpo1j3olCF8KumfLyyoUYiZKZJ9H2y+rZTAfApFgLZliiW2iyJDSi1hPijvj
+ b/Pg==
+X-Gm-Message-State: AOAM531wvEKL7gUL51sBfpxZCDVGwJjib1Uzs6jwu9iuiD0VtJeRJ8D6
+ wyYqeL0nOh3GP273SP99rFLH5BM78/nR6P0vXCCrUQ==
+X-Google-Smtp-Source: ABdhPJz2LgU4WegSavfCTiM5F1hAmXbq54wUcw3akGtW5IbEFgOmUWBOwsb1yTNcpvGgGZvYx4gXv3+4RydYcinzXJk=
+X-Received: by 2002:a6b:f911:: with SMTP id j17mr7631181iog.96.1596695053544; 
+ Wed, 05 Aug 2020 23:24:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/WwmFnJnmDyWGHa4"
-Content-Disposition: inline
-In-Reply-To: <20200727175040.7beca3dd.cohuck@redhat.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20200724002807.441147-1-richard.henderson@linaro.org>
+ <20200724002807.441147-3-richard.henderson@linaro.org>
+In-Reply-To: <20200724002807.441147-3-richard.henderson@linaro.org>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Thu, 6 Aug 2020 14:24:02 +0800
+Message-ID: <CAEiOBXWCULxgcJwme=cvS1iHpogubtTE72a5LN38WfLGKqbrjA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] target/riscv: Generalize gen_nanbox_fpr to
+ gen_nanbox_s
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000007b454f05ac2f8969"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=chihmin.chao@sifive.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,156 +80,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, pbonzini@redhat.com,
- Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
- ehabkost@redhat.com
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000007b454f05ac2f8969
+Content-Type: text/plain; charset="UTF-8"
 
---/WwmFnJnmDyWGHa4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Jul 24, 2020 at 8:28 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> Do not depend on the RVD extension, take input and output via
+> TCGv_i64 instead of fpu regno.  Move the function to translate.c
+> so that it can be used in multiple trans_*.inc.c files.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/riscv/insn_trans/trans_rvf.inc.c | 16 +---------------
+>  target/riscv/translate.c                | 11 +++++++++++
+>  2 files changed, 12 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvf.inc.c
+> b/target/riscv/insn_trans/trans_rvf.inc.c
+> index 3bfd8881e7..c7057482e8 100644
+> --- a/target/riscv/insn_trans/trans_rvf.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvf.inc.c
+> @@ -23,20 +23,6 @@
+>          return false;                       \
+>  } while (0)
+>
+> -/*
+> - * RISC-V requires NaN-boxing of narrower width floating
+> - * point values.  This applies when a 32-bit value is
+> - * assigned to a 64-bit FP register.  Thus this does not
+> - * apply when the RVD extension is not present.
+> - */
+> -static void gen_nanbox_fpr(DisasContext *ctx, int regno)
+> -{
+> -    if (has_ext(ctx, RVD)) {
+> -        tcg_gen_ori_i64(cpu_fpr[regno], cpu_fpr[regno],
+> -                        MAKE_64BIT_MASK(32, 32));
+> -    }
+> -}
+> -
+>  static bool trans_flw(DisasContext *ctx, arg_flw *a)
+>  {
+>      TCGv t0 = tcg_temp_new();
+> @@ -46,7 +32,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+>      tcg_gen_addi_tl(t0, t0, a->imm);
+>
+>      tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
+> -    gen_nanbox_fpr(ctx, a->rd);
+> +    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
+>
+>      tcg_temp_free(t0);
+>      mark_fs_dirty(ctx);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 9632e79cf3..12a746da97 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -90,6 +90,17 @@ static inline bool has_ext(DisasContext *ctx, uint32_t
+> ext)
+>      return ctx->misa & ext;
+>  }
+>
+> +/*
+> + * RISC-V requires NaN-boxing of narrower width floating point values.
+> + * This applies when a 32-bit value is assigned to a 64-bit FP register.
+> + * For consistency and simplicity, we nanbox results even when the RVD
+> + * extension is not present.
+> + */
+> +static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+> +{
+> +    tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
+> +}
+> +
+>  static void generate_exception(DisasContext *ctx, int excp)
+>  {
+>      tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+> --
+> 2.25.1
+>
+>
+>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+
+--0000000000007b454f05ac2f8969
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 27, 2020 at 05:50:40PM +0200, Cornelia Huck wrote:
-> On Fri, 24 Jul 2020 12:57:44 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > At least some s390 cpu models support "Protected Virtualization" (PV),
-> > a mechanism to protect guests from eavesdropping by a compromised
-> > hypervisor.
-> >=20
-> > This is similar in function to other mechanisms like AMD's SEV and
-> > POWER's PEF, which are controlled bythe "host-trust-limitation"
-> > machine option.  s390 is a slightly special case, because we already
-> > supported PV, simply by using a CPU model with the required feature
-> > (S390_FEAT_UNPACK).
-> >=20
-> > To integrate this with the option used by other platforms, we
-> > implement the following compromise:
-> >=20
-> >  - When the host-trust-limitation option is set, s390 will recognize
-> >    it, verify that the CPU can support PV (failing if not) and set
-> >    virtio default options necessary for encrypted or protected guests,
-> >    as on other platforms.  i.e. if host-trust-limitation is set, we
-> >    will either create a guest capable of entering PV mode, or fail
-> >    outright
-> >=20
-> >  - If host-trust-limitation is not set, guest's might still be able to
-> >    enter PV mode, if the CPU has the right model.  This may be a
-> >    little surprising, but shouldn't actually be harmful.
->=20
-> This could be workable, I guess. Would like a second opinion, though.
->=20
-> >=20
-> > To start a guest supporting Protected Virtualization using the new
-> > option use the command line arguments:
-> >     -object s390-pv-guest,id=3Dpv0 -machine host-trust-limitation=3Dpv0
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/s390x/pv.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 61 insertions(+)
-> >=20
-> > diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-> > index ab3a2482aa..4bf3b345b6 100644
-> > --- a/hw/s390x/pv.c
-> > +++ b/hw/s390x/pv.c
-> > @@ -14,8 +14,11 @@
-> >  #include <linux/kvm.h>
-> > =20
-> >  #include "cpu.h"
-> > +#include "qapi/error.h"
-> >  #include "qemu/error-report.h"
-> >  #include "sysemu/kvm.h"
-> > +#include "qom/object_interfaces.h"
-> > +#include "exec/host-trust-limitation.h"
-> >  #include "hw/s390x/ipl.h"
-> >  #include "hw/s390x/pv.h"
-> > =20
-> > @@ -111,3 +114,61 @@ void s390_pv_inject_reset_error(CPUState *cs)
-> >      /* Report that we are unable to enter protected mode */
-> >      env->regs[r1 + 1] =3D DIAG_308_RC_INVAL_FOR_PV;
-> >  }
-> > +
-> > +#define TYPE_S390_PV_GUEST "s390-pv-guest"
-> > +#define S390_PV_GUEST(obj)                              \
-> > +    OBJECT_CHECK(S390PVGuestState, (obj), TYPE_S390_PV_GUEST)
-> > +
-> > +typedef struct S390PVGuestState S390PVGuestState;
-> > +
-> > +/**
-> > + * S390PVGuestState:
-> > + *
-> > + * The S390PVGuestState object is basically a dummy used to tell the
-> > + * host trust limitation system to use s390's PV mechanism.  guest.
-> > + *
-> > + * # $QEMU \
-> > + *         -object s390-pv-guest,id=3Dpv0 \
-> > + *         -machine ...,host-trust-limitation=3Dpv0
-> > + */
-> > +struct S390PVGuestState {
-> > +    Object parent_obj;
-> > +};
-> > +
-> > +static int s390_pv_kvm_init(HostTrustLimitation *gmpo, Error **errp)
-> > +{
-> > +    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-> > +        error_setg(errp,
-> > +                   "CPU model does not support Protected Virtualizatio=
-n");
-> > +        return -1;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
->=20
-> So here's where I'm confused: If I follow the code correctly, the
-> ->kvm_init callback is invoked before kvm_arch_init() is called. The
-> kvm_arch_init() implementation for s390x checks whether
-> KVM_CAP_S390_PROTECTED is available, which is a pre-req for
-> S390_FEAT_UNPACK. Am I missing something? Can someone with access to PV
-> hardware check whether this works as intended?
+<div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr" class=3D"gmail_sign=
+ature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><br></div></div>=
+</div></div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Fri, Jul 24, 2020 at 8:28 AM Richard Henderson &lt;<a href=3D"mailto:r=
+ichard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">Do not depend on t=
+he RVD extension, take input and output via<br>
+TCGv_i64 instead of fpu regno.=C2=A0 Move the function to translate.c<br>
+so that it can be used in multiple trans_*.inc.c files.<br>
+<br>
+Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/insn_trans/trans_rvf.inc.c | 16 +---------------<br>
+=C2=A0target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 11 +++++++++++<br>
+=C2=A02 files changed, 12 insertions(+), 15 deletions(-)<br>
+<br>
+diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_tr=
+ans/trans_rvf.inc.c<br>
+index 3bfd8881e7..c7057482e8 100644<br>
+--- a/target/riscv/insn_trans/trans_rvf.inc.c<br>
++++ b/target/riscv/insn_trans/trans_rvf.inc.c<br>
+@@ -23,20 +23,6 @@<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+=C2=A0} while (0)<br>
+<br>
+-/*<br>
+- * RISC-V requires NaN-boxing of narrower width floating<br>
+- * point values.=C2=A0 This applies when a 32-bit value is<br>
+- * assigned to a 64-bit FP register.=C2=A0 Thus this does not<br>
+- * apply when the RVD extension is not present.<br>
+- */<br>
+-static void gen_nanbox_fpr(DisasContext *ctx, int regno)<br>
+-{<br>
+-=C2=A0 =C2=A0 if (has_ext(ctx, RVD)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ori_i64(cpu_fpr[regno], cpu_fpr[regno]=
+,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 MAKE_64BIT_MASK(32, 32));<br>
+-=C2=A0 =C2=A0 }<br>
+-}<br>
+-<br>
+=C2=A0static bool trans_flw(DisasContext *ctx, arg_flw *a)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0TCGv t0 =3D tcg_temp_new();<br>
+@@ -46,7 +32,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)<br>
+=C2=A0 =C2=A0 =C2=A0tcg_gen_addi_tl(t0, t0, a-&gt;imm);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0tcg_gen_qemu_ld_i64(cpu_fpr[a-&gt;rd], t0, ctx-&gt;mem_=
+idx, MO_TEUL);<br>
+-=C2=A0 =C2=A0 gen_nanbox_fpr(ctx, a-&gt;rd);<br>
++=C2=A0 =C2=A0 gen_nanbox_s(cpu_fpr[a-&gt;rd], cpu_fpr[a-&gt;rd]);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0tcg_temp_free(t0);<br>
+=C2=A0 =C2=A0 =C2=A0mark_fs_dirty(ctx);<br>
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c<br>
+index 9632e79cf3..12a746da97 100644<br>
+--- a/target/riscv/translate.c<br>
++++ b/target/riscv/translate.c<br>
+@@ -90,6 +90,17 @@ static inline bool has_ext(DisasContext *ctx, uint32_t e=
+xt)<br>
+=C2=A0 =C2=A0 =C2=A0return ctx-&gt;misa &amp; ext;<br>
+=C2=A0}<br>
+<br>
++/*<br>
++ * RISC-V requires NaN-boxing of narrower width floating point values.<br>
++ * This applies when a 32-bit value is assigned to a 64-bit FP register.<b=
+r>
++ * For consistency and simplicity, we nanbox results even when the RVD<br>
++ * extension is not present.<br>
++ */<br>
++static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)<br>
++{<br>
++=C2=A0 =C2=A0 tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));<br>
++}<br>
++<br>
+=C2=A0static void generate_exception(DisasContext *ctx, int excp)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0tcg_gen_movi_tl(cpu_pc, ctx-&gt;base.pc_next);<br>
+-- <br>
+2.25.1<br>
+<br>
+<br></blockquote><div><br></div><div>Reviewed-by: Chih-Min Chao &lt;<a href=
+=3D"mailto:chihmin.chao@sifive.com">chihmin.chao@sifive.com</a>&gt;<br></di=
+v></div></div>
 
-Ah, yes, I need to rethink this.  kvm_arch_init() happens
-substantially earlier than I realized.  Plus the setup of s390 cpu
-models is confusing to me, it seems to set up the model after the cpu
-instance is created, rather than having cpu models correspond to cpu
-classes and thus existing before the cpus are actually instantiated.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---/WwmFnJnmDyWGHa4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8rn7IACgkQbDjKyiDZ
-s5IjZxAAk1TG+FWxo6+7eJ2SPBjkDNS+NfsIKnPsEQkZ3wTEc1YzXH/9Jb0M1CHX
-FNBBF4U+WtDiPpsRonouzEcXpclXmRZ/bz/WfN+rWi/o18sahgqZJohx5xQpKEhM
-hWfXUcw9izpX7syLU+ss0DviRV8ngPibpWhE4Bz34Fpcb2pHc4BeIoF40ylX0R/d
-oLag20XQy5XknpfKN5Zo6AmTyGWBNGPzGmH6wNMu0q+RZ8wvmZA8O4CociE5x32P
-v/UePLQxX84+FWKTGZLi04Dmv5sYipPBWIrBXdoARDwM6sOzo40WtkRAoPtka/CM
-I6DgWNZGGCtAJirTP9lsJYkvCsWyTH+O6KkGSLu4Zof18/dgT2IP9cKwSHf4dQ0X
-5cnmPOlHedudfmHIT2px9XTynnu/Gwt8xubZRWsYlC3FsYhdlgXW1SCeIeRXUI7+
-LC9CfnuDqX787au66KtORWM7J15Q5/dE8RwvCoQ55M/7vriPIXkR8Wqb1t+rhU75
-1Apo2YITmWORQW4VMvtnOO3reGNZv++04yxLGCWNZNrCIR9M1tFG9j8sYEwidElk
-p6AAnWrc9oV/V66GFUp0yO+z8xLxdkbw+zWjSVXqGiat92GgKGRCTfNG8xB96Lu2
-9xN8xl++gLa3s3e2mzzip2s5zyaA7V2y/NsSczpWFr+7H1EVvbM=
-=+kII
------END PGP SIGNATURE-----
-
---/WwmFnJnmDyWGHa4--
+--0000000000007b454f05ac2f8969--
 
