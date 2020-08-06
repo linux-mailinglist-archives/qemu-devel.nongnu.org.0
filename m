@@ -2,52 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7508523D840
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:03:13 +0200 (CEST)
-Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258B723D848
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:05:49 +0200 (CEST)
+Received: from localhost ([::1]:57448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3bns-0007KQ-JH
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45388)
+	id 1k3bqO-0000FX-6d
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1k3bn2-0006ph-MW; Thu, 06 Aug 2020 05:02:20 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:54504 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1k3bn0-0003bN-8R; Thu, 06 Aug 2020 05:02:20 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 94D6A26FA6178419FBCD;
- Thu,  6 Aug 2020 17:02:11 +0800 (CST)
-Received: from [10.174.185.104] (10.174.185.104) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 6 Aug 2020 17:02:02 +0800
-Subject: Re: [PATCH] qcow2: flush qcow2 l2 meta for new allocated clusters
-To: <qemu-devel@nongnu.org>, <kwolf@redhat.com>, <mreitz@redhat.com>
-References: <159659539087.12210.2061753185498913487@66eaa9a8a123>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <6239531a-08d8-e538-30ac-ee58fef77aec@huawei.com>
-Date: Thu, 6 Aug 2020 17:01:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <tgolembi@redhat.com>)
+ id 1k3bp3-0007ov-5e
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:04:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29793
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tgolembi@redhat.com>)
+ id 1k3bp1-0003lK-F9
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:04:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596704662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vMKYD/ey/VzMfZzMSwjJNZwByZEeIBL4APJJ9Zwl/pI=;
+ b=SAOy+vqbGwMgjkFzdHlH84mlvhDu/5WYnVHRa9BS6VyVRSI2nUdoGldk3gufvZ3Y99GI4y
+ mh/zw47SPuEnLmVgFc5N8EY7DuOjkOmjr0RP+9tnOiA69GrFFmZfjPzczr+yachN2mQfDV
+ BYBUnat2a2MhJ3ysjDMpQgRho+TcJxY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-32PAdu7UM3e5ddcRWMAsLA-1; Thu, 06 Aug 2020 05:03:12 -0400
+X-MC-Unique: 32PAdu7UM3e5ddcRWMAsLA-1
+Received: by mail-ed1-f69.google.com with SMTP id c16so1888439edt.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 02:03:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vMKYD/ey/VzMfZzMSwjJNZwByZEeIBL4APJJ9Zwl/pI=;
+ b=CgQdMhiTBE73dY1YvVkDII1EIgtc4gY7JQnTCCLj3RfAjtOY0Pleck5xCDIvBlV4RX
+ 8l/WQgCUYcvYbN3RQqRatJntm0Zvlj63oyRmR4mAOxKUYkq5BhKZaBTcTlT945rgnHUC
+ vy05relunp6V62YKBRUTZqA6WZsRg3+t1rYFTzN9lDz1FyhUdvHzwo0OkG8bPSYoWdaH
+ pP/uyd/ztFltVdMQ1i9gVAPHw6Lj/z2uRyacnPbOhLmvPJwXQO7ggM4Ujzu9E1wiwgIc
+ wNai1DsraysSdqjxF8gNBoctvA0n3QehMY72wukLiUS0/DtKIu3ZB11mQQa0bTIBP4U4
+ 721w==
+X-Gm-Message-State: AOAM531AcDdSwIBys7xSe1lvkT/GDPq0D8Jpwpk28+ti9JrIQU8z61a4
+ 7LonmFUrEoLrLJKqs5etDynWDerCULIEM4YDluxNGKWRR6oaYKr6dfkoSYhZbAqj2lEGPElNyTu
+ 0vy3X2VGyti/Q7CQ=
+X-Received: by 2002:a50:e719:: with SMTP id a25mr2976828edn.15.1596704588461; 
+ Thu, 06 Aug 2020 02:03:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw91ZM9+8ciIm+RqcuymMQWmhYIGWDLd56btEjhTTglUq9py3XkzHGfxfmYBFbFaOXs0QEthg==
+X-Received: by 2002:a50:e719:: with SMTP id a25mr2976811edn.15.1596704588287; 
+ Thu, 06 Aug 2020 02:03:08 -0700 (PDT)
+Received: from auriga.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ g24sm3035681eds.42.2020.08.06.02.03.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Aug 2020 02:03:07 -0700 (PDT)
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH 0/1] qga: add command guest-get-disk
+Date: Thu,  6 Aug 2020 11:03:05 +0200
+Message-Id: <cover.1596704579.git.tgolembi@redhat.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <159659539087.12210.2061753185498913487@66eaa9a8a123>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.104]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:36:23
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tgolembi@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=tgolembi@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,54 +96,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org
+Cc: =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Adds command to list root disks of the VM.
 
+The patch does compile on master but to work properly it requires changes to
+qemu-ga by Thomas Huth in series: Allow guest-get-fsinfo also for non-PCI
+devices.
 
-On 8/5/2020 10:43 AM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200805023826.184-1-fangying1@huawei.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the docker-quick@centos7 build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> I see some error message which says ** No space left on device **
-However I do not know what is wrong with this build test.
-Could you give me some help here?
+Tomáš Golembiovský (1):
+  qga: add command guest-get-disks
 
-Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
-error: copy-fd: write returned No space left on device
-fatal: failed to copy file to 
-'/var/tmp/patchew-tester-tmp-wtnwtuq5/src/.git/objects/pack/pack-518a8ad92e3ce11d2627a7221e2d360b337cb27d.pack': 
-No space left on device
-fatal: The remote end hung up unexpectedly
-Traceback (most recent call last):
-   File "patchew-tester/src/patchew-cli", line 521, in test_one
-     git_clone_repo(clone, r["repo"], r["head"], logf, True)
-   File "patchew-tester/src/patchew-cli", line 53, in git_clone_repo
-     subprocess.check_call(clone_cmd, stderr=logf, stdout=logf)
-   File "/opt/rh/rh-python36/root/usr/lib64/python3.6/subprocess.py", 
-line 291, in check_call
-     raise CalledProcessError(retcode, cmd)
-subprocess.CalledProcessError: Command '['git', 'clone', '-q', 
-'/home/patchew/.cache/patchew-git-cache/httpsgithubcompatchewprojectqemu-3c8cf5a9c21ff8782164d1def7f44bd888713384', 
-'/var/tmp/patchew-tester-tmp-wtnwtuq5/src']' returned non-zero exit 
-status 128.
+ qga/commands-posix.c | 91 +++++++++++++++++++++++++++++++++++++++++++-
+ qga/commands-win32.c | 83 ++++++++++++++++++++++++++++++++++++++++
+ qga/qapi-schema.json | 13 +++++++
+ 3 files changed, 186 insertions(+), 1 deletion(-)
 
-> 
-> 
-> 
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/20200805023826.184-1-fangying1@huawei.com/testing.docker-quick@centos7/?type=message.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
-> 
+-- 
+2.25.0
+
 
