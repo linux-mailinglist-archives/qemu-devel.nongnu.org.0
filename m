@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1805323DCE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 18:57:57 +0200 (CEST)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701EF23DD07
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 18:59:39 +0200 (CEST)
+Received: from localhost ([::1]:49128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3jDI-000320-3H
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 12:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
+	id 1k3jEw-0006HS-H5
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 12:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k3jC9-0001Ld-VV
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:56:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52506
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k3jDq-0004zz-Ep
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:58:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48998
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k3jC8-00079D-2z
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:56:45 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k3jDn-0007Ha-HR
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:58:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596733106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oJEGpt/XFsQ5fCnZXRPplmTss6R05W5+6SFCaCxFgto=;
+ b=dnF3WODOAHBksZikdjOFRqsZx3H6296AstXAGYymKqkJHjca8yZAzyl/Y26dHw4miX1WSj
+ Pg00DFlhQX+a0G4y44lIQLFLtG4YTmYssCmyv9KThm6nZtVhKuRURGvgkBbwiFS/Sv3Pe9
+ 3UCwEFQsxaXOT+Tj2SsJnnU3v+fLoC0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-ZytX8LsQMHOVkxGryd5kbQ-1; Thu, 06 Aug 2020 12:56:37 -0400
-X-MC-Unique: ZytX8LsQMHOVkxGryd5kbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-257-0B6wmFyRN9SMAArfvy_zQg-1; Thu, 06 Aug 2020 12:58:24 -0400
+X-MC-Unique: 0B6wmFyRN9SMAArfvy_zQg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6024C58;
- Thu,  6 Aug 2020 16:56:36 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-38.ams2.redhat.com [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6401887A61;
- Thu,  6 Aug 2020 16:56:35 +0000 (UTC)
-Subject: [PATCH v2 for-5.2 5/5] spapr: Simplify error handling in
- spapr_phb_realize()
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 06 Aug 2020 18:56:34 +0200
-Message-ID: <159673299447.766512.1951478231673831450.stgit@bahia.lan>
-In-Reply-To: <159673295739.766512.2950380687630225803.stgit@bahia.lan>
-References: <159673295739.766512.2950380687630225803.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E55388017FB;
+ Thu,  6 Aug 2020 16:58:15 +0000 (UTC)
+Received: from work-vm (ovpn-114-105.ams2.redhat.com [10.36.114.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 078E37B904;
+ Thu,  6 Aug 2020 16:58:13 +0000 (UTC)
+Date: Thu, 6 Aug 2020 17:58:11 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Zheng Chuan <zhengchuan@huawei.com>
+Subject: Re: [RFC PATCH 0/8] *** A Method for evaluating dirty page rate ***
+Message-ID: <20200806165811.GI2711@work-vm>
+References: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
+ <20200804161902.GC2659@work-vm>
+ <fdb4afcb-8c99-1a97-a211-5eaa0573398d@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <fdb4afcb-8c99-1a97-a211-5eaa0573398d@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.31.81; envelope-from=groug@kaod.org;
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,96 +83,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, linyilu@huawei.com,
+ qemu-devel@nongnu.org, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The spapr_phb_realize() function has a local_err variable which
-is used to:
+* Zheng Chuan (zhengchuan@huawei.com) wrote:
+> 
+> 
+> On 2020/8/5 0:19, Dr. David Alan Gilbert wrote:
+> > * Chuan Zheng (zhengchuan@huawei.com) wrote:
+> >> From: Zheng Chuan <zhengchuan@huawei.com>
+> > 
+> > Hi,
+> > 
+> >> Sometimes it is neccessary to evaluate dirty page rate before migration.
+> >> Users could decide whether to proceed migration based on the evaluation
+> >> in case of vm performance loss due to heavy workload.
+> >> Unlikey simulating dirtylog sync which could do harm on runnning vm,
+> >> we provide a sample-hash method to compare hash results for samping page.
+> >> In this way, it would have hardly no impact on vm performance.
+> >>
+> >> We evaluate the dirtypage rate on running vm.
+> >> The VM specifications for migration are as follows:
+> >> - VM use 4-K page;
+> >> - the number of VCPU is 32;
+> >> - the total memory is 32Gigabit;
+> >> - use 'mempress' tool to pressurize VM(mempress 4096 1024);
+> >>
+> >> ++++++++++++++++++++++++++++++++++++++++++
+> >> |                      |    dirtyrate    |
+> >> ++++++++++++++++++++++++++++++++++++++++++
+> >> | no mempress          |     4MB/s       |
+> >> ------------------------------------------
+> >> | mempress 4096 1024   |    1204MB/s     |
+> >> ++++++++++++++++++++++++++++++++++++++++++
+> >> | mempress 4096 4096   |    4000Mb/s     |
+> >> ++++++++++++++++++++++++++++++++++++++++++
+> > 
+> > This is quite neat; I know we've got other people who have asked
+> > for a similar feature!
+> > Have you tried to validate these numbers against a real migration - e.g.
+> > try setting mempress to dirty just under 1GByte/s and see if you can
+> > migrate it over a 10Gbps link?
+> > 
+> > Dave
+> > 
+> Hi, Dave.
+> Thank you for your review.
+> 
+> Note that, the original intention is evaluating dirty rate before migration.
 
-1) check failures of spapr_irq_findone() and spapr_irq_claim()
+Right, but the reason you want to evaluate the dirty rate is, I guess,
+to figure out whether a migration is likely to coverge?
 
-2) prepend extra information to the error message
+> However, I test dirty rate against a real migration over a bandwidth of 10Gps with various mempress, which shows as below:
+> ++++++++++++++++++++++++++++++++++++++++++
+> |                      |    dirtyrate    |
+> ++++++++++++++++++++++++++++++++++++++++++
+> | no mempress          |     8MB/s       |
+> ------------------------------------------
+> | mempress 4096 1024   |    1188MB/s     |
+> ++++++++++++++++++++++++++++++++++++++++++
+> 
+> It looks still close to actual dirty rate:)
 
-Recent work from Markus Armbruster highlighted we get better
-code when testing the return value of a function, rather than
-setting up all the local_err boiler plate. For similar reasons,
-it is now preferred to use ERRP_GUARD() and error_prepend()
-rather than error_propagate_prepend().
+I don't quite understand that comparison you just gave.
+But what I was expecting was that a mempress that
+just fits teh ~1100MB/s is just the limit of what you can get down
+a 10Gbps link.
 
-Since spapr_irq_findone() and spapr_irq_claim() return negative
-values in case of failure, do both changes.
+Dave
 
-This is just cleanup, no functional impact.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_pci.c |   16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 363cdb3f7b8d..0a418f1e6711 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
-=20
- static void spapr_phb_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_GUARD();
-     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the use=
-r
-      * tries to add a sPAPR PHB to a non-pseries machine.
-      */
-@@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, Error=
- **errp)
-     uint64_t msi_window_size =3D 4096;
-     SpaprTceTable *tcet;
-     const unsigned windows_supported =3D spapr_phb_windows_supported(sphb)=
-;
--    Error *local_err =3D NULL;
-=20
-     if (!spapr) {
-         error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries mach=
-ine");
-@@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev, Err=
-or **errp)
-=20
-     /* Initialize the LSI table */
-     for (i =3D 0; i < PCI_NUM_PINS; i++) {
--        uint32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + =
-i;
-+        int irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
-=20
-         if (smc->legacy_irq_allocation) {
--            irq =3D spapr_irq_findone(spapr, &local_err);
--            if (local_err) {
--                error_propagate_prepend(errp, local_err,
--                                        "can't allocate LSIs: ");
-+            irq =3D spapr_irq_findone(spapr, errp);
-+            if (irq < 0) {
-+                error_prepend(errp, "can't allocate LSIs: ");
-                 /*
-                  * Older machines will never support PHB hotplug, ie, this=
- is an
-                  * init only path and QEMU will terminate. No need to roll=
-back.
-@@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, Error=
- **errp)
-             }
-         }
-=20
--        spapr_irq_claim(spapr, irq, true, &local_err);
--        if (local_err) {
--            error_propagate_prepend(errp, local_err, "can't allocate LSIs:=
- ");
-+        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
-+            error_prepend(errp, "can't allocate LSIs: ");
-             goto unrealize;
-         }
-=20
-
+> Test results against a real migration will be posted in V2.
+> 
+> >> Test dirtyrate by qmp command like this:
+> >> 1.  virsh qemu-monitor-command [vmname] '{"execute":"cal_dirty_rate", "arguments": {"value": [sampletime]}}'
+> >> 2.  virsh qemu-monitor-command [vmname] '{"execute":"get_dirty_rate"}'
+> >>
+> >> Further test dirtyrate by libvirt api like this:
+> >> virsh getdirtyrate [vmname] [sampletime]
+> >>
+> >> Zheng Chuan (8):
+> >>   migration/dirtyrate: Add get_dirtyrate_thread() function
+> >>   migration/dirtyrate: Add block_dirty_info to store dirtypage info
+> >>   migration/dirtyrate: Add dirtyrate statistics series functions
+> >>   migration/dirtyrate: Record hash results for each ramblock
+> >>   migration/dirtyrate: Compare hash results for recorded ramblock
+> >>   migration/dirtyrate: Implement get_sample_gap_period() and
+> >>     block_sample_gap_period()
+> >>   migration/dirtyrate: Implement calculate_dirtyrate() function
+> >>   migration/dirtyrate: Implement
+> >>     qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+> >>
+> >>  migration/Makefile.objs |   1 +
+> >>  migration/dirtyrate.c   | 424 ++++++++++++++++++++++++++++++++++++++++++++++++
+> >>  migration/dirtyrate.h   |  67 ++++++++
+> >>  qapi/migration.json     |  24 +++
+> >>  qapi/pragma.json        |   3 +-
+> >>  5 files changed, 518 insertions(+), 1 deletion(-)
+> >>  create mode 100644 migration/dirtyrate.c
+> >>  create mode 100644 migration/dirtyrate.h
+> >>
+> >> -- 
+> >> 1.8.3.1
+> >>
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > 
+> > 
+> > .
+> > 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
