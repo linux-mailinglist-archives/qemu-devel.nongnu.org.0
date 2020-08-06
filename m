@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF3623DA01
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:35:40 +0200 (CEST)
-Received: from localhost ([::1]:48456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2071223DA07
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:37:21 +0200 (CEST)
+Received: from localhost ([::1]:52686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3eBP-0007p3-4K
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45906)
+	id 1k3eD2-0001BL-7M
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1k3dfh-00027r-Bb
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:02:53 -0400
-Received: from mgwym02.jp.fujitsu.com ([211.128.242.41]:57109)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1k3dfc-0001dk-SO
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:02:52 -0400
-Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
- mgwym02.jp.fujitsu.com with smtp
- id 6f58_3687_cd414405_856c_4d70_8b74_62aa8e587821;
- Thu, 06 Aug 2020 20:02:35 +0900
-Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
- (g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
- by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 73CD9AC00CE
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 20:02:34 +0900 (JST)
-Received: from g01jpexchyt33.g01.fujitsu.local (unknown [10.128.193.4])
- by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id AC6E646E7E7;
- Thu,  6 Aug 2020 20:02:33 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- g01jpexchyt33.g01.fujitsu.local (10.128.193.36) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 6 Aug 2020 20:02:33 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <virtio-fs@redhat.com>
-Subject: [PATCH] virtiofsd: Cleanup norace option description
-Date: Thu, 6 Aug 2020 20:11:29 +0900
-Message-ID: <20200806111129.22055-1-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3dwu-0005B7-Fv
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:20:40 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26818
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3dwr-0003aQ-G1
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:20:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596712836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pt4sn0IFHYYIi0tx1BQ5JODQemWdLxBjk0Yp6eucqjA=;
+ b=G1dPb9L0cxZ17eI5fasUODgx09iI+DyTbGmJm2EOkk69uF3QrQKYAyd/21w13fVMUvyROx
+ 8nKOV6+lDr98HVGYyAhO/VEnbKz/qfZsJXmfZ38L85NX97AQgalfJj7lOwpwIJadVjx92J
+ GG78FNi6L8F/im3sZqPm+ijKP1OkN9Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-nlM3YCtRObuyK7rrB8Q4jA-1; Thu, 06 Aug 2020 07:20:34 -0400
+X-MC-Unique: nlM3YCtRObuyK7rrB8Q4jA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 406428017FB;
+ Thu,  6 Aug 2020 11:20:33 +0000 (UTC)
+Received: from gondolin (ovpn-113-2.ams2.redhat.com [10.36.113.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 576367B904;
+ Thu,  6 Aug 2020 11:20:31 +0000 (UTC)
+Date: Thu, 6 Aug 2020 13:20:28 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-5.2 v2 5/9] pc-bios/s390-ccw: Do not bail out early
+ if not finding a SCSI disk
+Message-ID: <20200806132028.6a534f96.cohuck@redhat.com>
+In-Reply-To: <20200806105349.632-6-thuth@redhat.com>
+References: <20200806105349.632-1-thuth@redhat.com>
+ <20200806105349.632-6-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-Received-SPF: pass client-ip=211.128.242.41;
- envelope-from=misono.tomohiro@fujitsu.com; helo=mgwym02.jp.fujitsu.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 07:02:41
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,47 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+ Collin Walling <walling@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleanup norace option as the feature was removed by below commit:
+On Thu,  6 Aug 2020 12:53:45 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-Fixes: 93bb3d8d4cda("virtiofsd: remove symlink fallbacks")
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
----
- docs/tools/virtiofsd.rst | 3 ---
- tools/virtiofsd/helper.c | 2 --
- 2 files changed, 5 deletions(-)
+> In case the user did not specify a boot device, we want to continue
+> looking for other devices if there are no valid SCSI disks on a virtio-
+> scsi controller. As a first step, do not panic in this case and let
+> the control flow carry the error to the upper functions instead.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/main.c          | 14 ++++++++++----
+>  pc-bios/s390-ccw/s390-ccw.h      |  2 +-
+>  pc-bios/s390-ccw/virtio-blkdev.c |  7 +++++--
+>  pc-bios/s390-ccw/virtio-scsi.c   | 28 ++++++++++++++++++++--------
+>  pc-bios/s390-ccw/virtio-scsi.h   |  2 +-
+>  5 files changed, 37 insertions(+), 16 deletions(-)
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 824e713491..58666a4495 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -63,9 +63,6 @@ Options
-     Print only log messages matching LEVEL or more severe.  LEVEL is one of
-     ``err``, ``warn``, ``info``, or ``debug``.  The default is ``info``.
- 
--  * norace -
--    Disable racy fallback.  The default is false.
--
-   * posix_lock|no_posix_lock -
-     Enable/disable remote POSIX locks.  The default is ``posix_lock``.
- 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 2e4cdb4f49..4ded1d588a 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -159,8 +159,6 @@ void fuse_cmdline_help(void)
-            "    -o max_idle_threads        the maximum number of idle worker "
-            "threads\n"
-            "                               allowed (default: 10)\n"
--           "    -o norace                  disable racy fallback\n"
--           "                               default: false\n"
-            "    -o posix_lock|no_posix_lock\n"
-            "                               enable/disable remote posix lock\n"
-            "                               default: posix_lock\n"
--- 
-2.21.3
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
