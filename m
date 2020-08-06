@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0643E23E299
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:53:36 +0200 (CEST)
-Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E845E23E2A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:55:54 +0200 (CEST)
+Received: from localhost ([::1]:53334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lxG-0003Ba-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43678)
+	id 1k3lzV-0008Sz-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPg-0007kU-Ii
+ id 1k3lPf-0007j4-UC
  for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:52 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38643
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41939
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPe-0006gl-PU
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:52 -0400
+ id 1k3lPe-0006gf-7E
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741530;
+ s=mimecast20190719; t=1596741529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XJ9OVokfJnGAhtD/lxsDsJtm9yPBxnkQ0IWINN8PfuI=;
- b=APvAxMewVqJkmFu+9CdQcaC4mGSigtqA8YXsXZ8mnh1nyIg4LC3giMXq+QM8MqHwyBBEYb
- AppHAkC6jlNH/sjuNl/L3QPysRnBuOQJyuMV/3LnJZLmm8oTRaTy78byKrvrMVbT1oopmk
- f00+tA758r8vaK7XbB5+JDaWj6Ef+b4=
+ to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=+QoBbRmjf8OdxvDcrGW1+5fPl77Do9tYK7VCqwlKR3Q=;
+ b=CQV1cVCrwGCa1WL7Yg9sK103iJlwaba6xTGCN7g30pg4hnSPOIAl+10kStbMDQ4pwX40aQ
+ TGUJOnYFfAdCHagFPbKtVPprKKVEBwpnD+SNPnMq4qMOaqupy0MaJOhCZHMu5czfmQbsx+
+ 4LrvndNYgmqrcLFtiisYs08aqdUvVLg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-v_5Q0BRqPamrTBbpNP3L2w-1; Thu, 06 Aug 2020 15:18:46 -0400
-X-MC-Unique: v_5Q0BRqPamrTBbpNP3L2w-1
+ us-mta-472-wxZhvNz6MBO2LJlfti4mfQ-1; Thu, 06 Aug 2020 15:18:47 -0400
+X-MC-Unique: wxZhvNz6MBO2LJlfti4mfQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2F7B100AA21
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0038D800404
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:47 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3C745FC3B;
- Thu,  6 Aug 2020 19:18:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 486D15F9DC
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 083/143] meson: convert hw/semihosting
-Date: Thu,  6 Aug 2020 21:15:19 +0200
-Message-Id: <1596741379-12902-84-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 084/143] meson: convert hw/nubus
+Date: Thu,  6 Aug 2020 21:15:20 +0200
+Message-Id: <1596741379-12902-85-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
@@ -81,60 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs             | 1 -
- hw/meson.build               | 1 +
- hw/semihosting/Makefile.objs | 2 --
- hw/semihosting/meson.build   | 4 ++++
- 4 files changed, 5 insertions(+), 3 deletions(-)
- delete mode 100644 hw/semihosting/Makefile.objs
- create mode 100644 hw/semihosting/meson.build
+ hw/Makefile.objs       | 1 -
+ hw/meson.build         | 1 +
+ hw/nubus/Makefile.objs | 4 ----
+ hw/nubus/meson.build   | 7 +++++++
+ 4 files changed, 8 insertions(+), 5 deletions(-)
+ delete mode 100644 hw/nubus/Makefile.objs
+ create mode 100644 hw/nubus/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index bdf8bdf..6a7ca0f 100644
+index 6a7ca0f..86bc201 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -36,7 +36,6 @@ devices-dirs-y += virtio/
+@@ -35,7 +35,6 @@ devices-dirs-$(CONFIG_VFIO) += vfio/
+ devices-dirs-y += virtio/
  devices-dirs-y += watchdog/
  devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
- devices-dirs-$(CONFIG_NUBUS) += nubus/
--devices-dirs-y += semihosting/
+-devices-dirs-$(CONFIG_NUBUS) += nubus/
  devices-dirs-y += smbios/
  endif
  
 diff --git a/hw/meson.build b/hw/meson.build
-index fe7c466..66a2f6c 100644
+index 66a2f6c..03ef302 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,2 +1,3 @@
+@@ -1,3 +1,4 @@
  subdir('core')
-+subdir('semihosting')
++subdir('nubus')
+ subdir('semihosting')
  subdir('xen')
-diff --git a/hw/semihosting/Makefile.objs b/hw/semihosting/Makefile.objs
+diff --git a/hw/nubus/Makefile.objs b/hw/nubus/Makefile.objs
 deleted file mode 100644
-index 4ad47c0..0000000
---- a/hw/semihosting/Makefile.objs
+index 135ba78..0000000
+--- a/hw/nubus/Makefile.objs
 +++ /dev/null
-@@ -1,2 +0,0 @@
--obj-$(CONFIG_SEMIHOSTING) += config.o
--obj-$(CONFIG_SEMIHOSTING) += console.o
-diff --git a/hw/semihosting/meson.build b/hw/semihosting/meson.build
+@@ -1,4 +0,0 @@
+-common-obj-y += nubus-device.o
+-common-obj-y += nubus-bus.o
+-common-obj-y += nubus-bridge.o
+-common-obj-$(CONFIG_Q800) += mac-nubus-bridge.o
+diff --git a/hw/nubus/meson.build b/hw/nubus/meson.build
 new file mode 100644
-index 0000000..f40ac57
+index 0000000..9287c63
 --- /dev/null
-+++ b/hw/semihosting/meson.build
-@@ -0,0 +1,4 @@
-+specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
-+  'config.c',
-+  'console.c',
-+))
++++ b/hw/nubus/meson.build
+@@ -0,0 +1,7 @@
++nubus_ss = ss.source_set()
++nubus_ss.add(files('nubus-device.c'))
++nubus_ss.add(files('nubus-bus.c'))
++nubus_ss.add(files('nubus-bridge.c'))
++nubus_ss.add(when: 'CONFIG_Q800', if_true: files('mac-nubus-bridge.c'))
++
++softmmu_ss.add_all(when: 'CONFIG_NUBUS', if_true: nubus_ss)
 -- 
 1.8.3.1
 
