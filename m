@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354FF23D7D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:11:11 +0200 (CEST)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDD623D7DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:13:01 +0200 (CEST)
+Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3azW-0007J8-82
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
+	id 1k3b1I-00019g-T0
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3ax0-0002Il-IV; Thu, 06 Aug 2020 04:08:34 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39162)
+ id 1k3ax3-0002Pd-49; Thu, 06 Aug 2020 04:08:37 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3awy-0005gD-S3; Thu, 06 Aug 2020 04:08:34 -0400
-Received: by mail-wr1-x430.google.com with SMTP id a5so33116377wrm.6;
- Thu, 06 Aug 2020 01:08:32 -0700 (PDT)
+ id 1k3ax1-0005gU-2Y; Thu, 06 Aug 2020 04:08:36 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id 9so7995508wmj.5;
+ Thu, 06 Aug 2020 01:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aNqGoj9XEuK6FXLTe1Hk7gTK5CIz55oFAjsctzZx5hc=;
- b=YwoTuFlWhAhJ1u06Ry7qUkbdpDuuky9kAz6KS7zMs1BIw6Sb19k4aAcd9sbZXqXVJ7
- IoTPR42VSGyi0GHH/CzCwstaBTuWAR52Cd/88iyqTZjCUIs5g0UM4BKsJlggWBfqDjTL
- lkksyd1wRvDf6elv3HqBhTS6df7FH1eDdosoKqT+XhaMKjvoCVYzB80mxeNyr4pr+HWl
- ggYVMf8cnMKGa7MfndxljT9IdGD9kxUzQsq9IrOKC7gtSR9cHmjDtROpe72j5VULcBKm
- /XZbtGEw4xMgq5LtQEz6sAygMTK/kau3N3GAjNyHJvT6Kv8AEN33E91SaG/1uEUUmMMr
- Xtsw==
+ bh=9LYhTPA+0RjAHP6HLE9QxoCa5EB+fRF80ZAoq1URUGk=;
+ b=LHljM23t/K8o4aLlCm8bBXh/r7b8prEa7Q4epFhBb3l+jMN4VT/fy1kN/gp43iCv05
+ nl1wVdkC+ZtpiG0qolkkUYEOVv/SgbLUgyOGvuWMd0RBmGghVkeK97JFvndM7bQsFi4G
+ yRkHR8hTsGp6f6FIj8E85YxmPJ9iPHkgMfLIL/DXypFR7W5pPt9ag+k1qKqyuJk3X9PQ
+ /6noB0QhKUO4fZHjk8jUfSWlInYNi9wjIRfO/NGn+NyikLD9rY+7A2rz8AwwTcFxOX3j
+ PkdjsnQjxCmLSQMN7qrd8ypKkX223H6Gyft0SSXxb0JVmz+6e2gVdO4OWmt+jgbY8UbR
+ Ytww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aNqGoj9XEuK6FXLTe1Hk7gTK5CIz55oFAjsctzZx5hc=;
- b=EfuUZaaJO0ajoNlJUz22wOYdwGrYDcklFQljOpINvR1q7AflMzU9jv4oBbRMNB+p1D
- 6zOM8tgVaTm/HB3kPqbsHvVyrHz/eBuGQ9THMpyoreeQkePdv+35rwmfwj+AYYEpTVqM
- FnLaYYDZ1Gku+l+pUm7seRD6b/NoGJic01467FAlusNnv16v+JRNJRbn1N59yCNDG4ip
- sdeNHw67S4vfxGh2O/SbhXfJwlzZi5sW5jOTWCZZI9droygvdpa3LXm5fXWnSMC6xB7I
- HJ93mYmNDnSVbRf1yAvViGmQo5yDh9RAMxB93QzR6BHx5SJZSFLC2zZVHtcJ8olU6PZH
- NSXQ==
-X-Gm-Message-State: AOAM532o7bVs5TnCUFOckglPjNTlBC4ysAf71GqMGW/Vjj8DPyO/TgVP
- DB2XBKYzx5Nr3+yZy7/IAlXY53Ef
-X-Google-Smtp-Source: ABdhPJy8uhbLGRzwvC20F0yyO8FoOirgX8AyP2EB1JUr8RoP52AwKxS5ooSCWR2kHcPNGk1QSw1iXw==
-X-Received: by 2002:a5d:68cf:: with SMTP id p15mr6378477wrw.148.1596701310699; 
- Thu, 06 Aug 2020 01:08:30 -0700 (PDT)
+ bh=9LYhTPA+0RjAHP6HLE9QxoCa5EB+fRF80ZAoq1URUGk=;
+ b=KSRBX7x4pE60wykdkfN02LXyZ3YM2x9yPdnvc4up/xr5jQJ163A9vg5PvLc1YwS+yy
+ 6eEws8JM3iENOoK7NHxdDcww4g2orljeImJ9I5nKCNCL8drwAoTQcbNMLlwOeSmrDCbq
+ WJrgZSZITR/C2kkN5WJVKzE3Rja1tDMxE6JpG2x+88rhuBWmWl2DvVGiqwtXdK7yhpKs
+ wIzm5z2D2eIhTAYe84Jc8rV6jZIOOZJs+2xd/GVxjuM7KTHRUO5JDF9yCazrk80ze4F3
+ SyS1Ig+1a7GzVqPYeFJjiE0uIiHBciNRytA3NUOSOx6JeaOsUQcbJheHujfsT46xR5On
+ a6sw==
+X-Gm-Message-State: AOAM533pSq6+ECTbvdSToa27JHHydd/Fll1nGInByIT5noYb5fW3CW23
+ WVWmpXe5WwLsWvejO+WfEeNPUrX7
+X-Google-Smtp-Source: ABdhPJzIyY9HchRIJ6VPScs9HjqlQ8LZSVbgcAbPbn2020qrAokAiOVcnAEMTHQU981JcEY05Uulvg==
+X-Received: by 2002:a7b:c011:: with SMTP id c17mr6697267wmb.63.1596701312026; 
+ Thu, 06 Aug 2020 01:08:32 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.29
+ by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 01:08:30 -0700 (PDT)
+ Thu, 06 Aug 2020 01:08:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 3/7] hw/block/fdc: Use warn_report() instead of debug
- FLOPPY_DPRINTF() calls
-Date: Thu,  6 Aug 2020 10:08:20 +0200
-Message-Id: <20200806080824.21567-4-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 4/7] hw/block/fdc: Convert debug FLOPPY_DPRINTF() to
+ trace events
+Date: Thu,  6 Aug 2020 10:08:21 +0200
+Message-Id: <20200806080824.21567-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200806080824.21567-1-f4bug@amsat.org>
 References: <20200806080824.21567-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,94 +92,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use warn_report() instead of debug FLOPPY_DPRINTF() calls.
+Convert debug FLOPPY_DPRINTF() to trace events.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/fdc.c | 32 +++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 17 deletions(-)
+ hw/block/fdc.c        | 6 +++---
+ hw/block/trace-events | 3 +++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index c91ed7ee2d..ee45ec0b27 100644
+index ee45ec0b27..f9f3f3c079 100644
 --- a/hw/block/fdc.c
 +++ b/hw/block/fdc.c
-@@ -395,12 +395,10 @@ static int pick_geometry(FDrive *drv)
-     if (match == -1) {
-         if (size_match != -1) {
-             parse = &fd_formats[size_match];
--            FLOPPY_DPRINTF("User requested floppy drive type '%s', "
--                           "but inserted medium appears to be a "
--                           "%"PRId64" sector '%s' type\n",
--                           FloppyDriveType_str(drv->drive),
--                           nb_sectors,
--                           FloppyDriveType_str(parse->drive));
-+            warn_report("User requested floppy drive type '%s', but inserted "
-+                        "medium appears to be a %"PRId64" sector '%s' type",
-+                        FloppyDriveType_str(drv->drive), nb_sectors,
-+                        FloppyDriveType_str(parse->drive));
-         }
-         assert(type_match != -1 && "misconfigured fd_format");
-         match = type_match;
-@@ -1805,8 +1803,8 @@ static int fdctrl_transfer_handler (void *opaque, int nchan,
-             /* READ & SCAN commands and realign to a sector for WRITE */
-             if (blk_pread(cur_drv->blk, fd_offset(cur_drv),
-                           fdctrl->fifo, BDRV_SECTOR_SIZE) < 0) {
--                FLOPPY_DPRINTF("Floppy: error getting sector %d\n",
--                               fd_sector(cur_drv));
-+                warn_report("Floppy: error getting sector %" PRIu32,
-+                            fd_sector(cur_drv));
-                 /* Sure, image size is too small... */
-                 memset(fdctrl->fifo, 0, FD_SECTOR_LEN);
-             }
-@@ -1833,8 +1831,8 @@ static int fdctrl_transfer_handler (void *opaque, int nchan,
-                            fdctrl->data_pos, len);
-             if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv),
-                            fdctrl->fifo, BDRV_SECTOR_SIZE, 0) < 0) {
--                FLOPPY_DPRINTF("error writing sector %d\n",
--                               fd_sector(cur_drv));
-+                warn_report("error writing sector %" PRIu32,
-+                            fd_sector(cur_drv));
-                 fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM | FD_SR0_SEEK, 0x00, 0x00);
-                 goto transfer_error;
-             }
-@@ -1911,8 +1909,8 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
-         if (pos == 0) {
-             if (fdctrl->data_pos != 0)
-                 if (!fdctrl_seek_to_next_sect(fdctrl, cur_drv)) {
--                    FLOPPY_DPRINTF("error seeking to next sector %d\n",
--                                   fd_sector(cur_drv));
-+                    warn_report("error seeking to next sector %" PRIu32,
-+                                fd_sector(cur_drv));
-                     return 0;
-                 }
-             if (blk_pread(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
-@@ -1997,7 +1995,7 @@ static void fdctrl_format_sector(FDCtrl *fdctrl)
-     if (cur_drv->blk == NULL ||
-         blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
-                    BDRV_SECTOR_SIZE, 0) < 0) {
--        FLOPPY_DPRINTF("error formatting sector %d\n", fd_sector(cur_drv));
-+        warn_report("error formatting sector %" PRIu32, fd_sector(cur_drv));
-         fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM | FD_SR0_SEEK, 0x00, 0x00);
-     } else {
-         if (cur_drv->sect == cur_drv->last_sect) {
-@@ -2421,13 +2419,13 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
-             cur_drv = get_cur_drv(fdctrl);
-             if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
-                            BDRV_SECTOR_SIZE, 0) < 0) {
--                FLOPPY_DPRINTF("error writing sector %d\n",
--                               fd_sector(cur_drv));
-+                warn_report("error writing sector %" PRIu32,
-+                            fd_sector(cur_drv));
-                 break;
-             }
-             if (!fdctrl_seek_to_next_sect(fdctrl, cur_drv)) {
--                FLOPPY_DPRINTF("error seeking to next sector %d\n",
--                               fd_sector(cur_drv));
-+                warn_report("error seeking to next sector %" PRIu32,
-+                            fd_sector(cur_drv));
-                 break;
-             }
-         }
+@@ -326,7 +326,7 @@ static int fd_seek(FDrive *drv, uint8_t head, uint8_t track, uint8_t sect,
+ /* Set drive back to track 0 */
+ static void fd_recalibrate(FDrive *drv)
+ {
+-    FLOPPY_DPRINTF("recalibrate\n");
++    trace_floppy_recalibrate();
+     fd_seek(drv, 0, 0, 1, 1);
+ }
+ 
+@@ -438,7 +438,7 @@ static void fd_revalidate(FDrive *drv)
+ {
+     int rc;
+ 
+-    FLOPPY_DPRINTF("revalidate\n");
++    trace_floppy_revalidate();
+     if (drv->blk != NULL) {
+         drv->ro = blk_is_read_only(drv->blk);
+         if (!blk_is_inserted(drv->blk)) {
+@@ -1283,7 +1283,7 @@ static void fdctrl_reset(FDCtrl *fdctrl, int do_irq)
+ {
+     int i;
+ 
+-    FLOPPY_DPRINTF("reset controller\n");
++    trace_fdc_reset();
+     fdctrl_reset_irq(fdctrl);
+     /* Initialise controller */
+     fdctrl->sra = 0;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 958fcc5508..9f7caf9b17 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -1,8 +1,11 @@
+ # See docs/devel/tracing.txt for syntax documentation.
+ 
+ # fdc.c
++fdc_reset(void) ""
+ fdc_ioport_read(uint8_t reg, uint8_t value) "read reg 0x%02x val 0x%02x"
+ fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
++floppy_recalibrate(void) ""
++floppy_revalidate(void) ""
+ 
+ # pflash_cfi02.c
+ # pflash_cfi01.c
 -- 
 2.21.3
 
