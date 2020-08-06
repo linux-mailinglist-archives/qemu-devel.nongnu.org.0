@@ -2,82 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE7023D94A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:34:40 +0200 (CEST)
-Received: from localhost ([::1]:41664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB27323D95F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:46:47 +0200 (CEST)
+Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dEN-0002Lf-Oy
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36542)
+	id 1k3dQ6-0006vJ-66
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3dDZ-0001rD-G2; Thu, 06 Aug 2020 06:33:49 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:47090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3dDX-0005sc-L6; Thu, 06 Aug 2020 06:33:49 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f12so7649343wru.13;
- Thu, 06 Aug 2020 03:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2ngCmUgzTkVnHJM+hkMCLWY0argmW1kgruJykM0JrLg=;
- b=pVwzo/mTwuzEkVr83CKB58Xz8hwOMlqn5DaBRWkwdZN6PtWdKw3ZZBiXf9+mHcipyo
- 1GcZlwmKbzr0DsC0E/qu4EvlOeilVhAOdFTdOBzX6jOya3I+DQgJqpCN2lC9sN0HrfS5
- itZUd9OCXVKcEIi7o+8iwJoRR3NDcsZw9iFOPEJXBqNUgU0H0I3uDUb3f/12+lsr4lAV
- ZWYYMxA+d/oiA/GJO5cgkYawDJCPOtvXwe/zq4BmeoftYqU3FGmGEfFOISRAsVb86dkq
- fs2kqZ5otDGtZXEV2EODfX3GnFACY4v+vmZL8Uo6axyVXDGC1TrXQnHSvkzxnjctou/s
- d3gw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3dOJ-0005MH-HR
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:44:55 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31870
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3dOG-0007Hk-Su
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:44:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596710691;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qGlc93/gOoQJE0NHjYFr0HLC7OORJMHDTpVrqjUMGUY=;
+ b=CFaHPmozG/eA0syT/M6it7ievs3/cYu+Oe8VlpjiWjv3yx/lb7W5flluX41L7yNcUXAbpj
+ vQhtyEtqWp0iYXfQASkl3WDTbTPtOua5yJtRTzUCCONOfvTPdMvPjfANxEOvS/RJZphLXz
+ 2fdJL5w93rdIJyVy39iVA2tSELwJ678=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-bbdJQzQ6MBWM7xwAE1i7nQ-1; Thu, 06 Aug 2020 06:44:49 -0400
+X-MC-Unique: bbdJQzQ6MBWM7xwAE1i7nQ-1
+Received: by mail-wr1-f72.google.com with SMTP id e12so14647689wra.13
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:44:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2ngCmUgzTkVnHJM+hkMCLWY0argmW1kgruJykM0JrLg=;
- b=ahNSQtSe4E2bUcb6z7IL8Qdujx/hef92xAcMAW4GwPUEY+5/Av/pzzLGVwK6tGilVH
- 2GagTZ5KCqd4mdh+v7CLCDzpE7UVm4M8iUhnVW/jySqywvt5MjbKoVtq8PtlBFVXzcE0
- sTBDaouYAKAkRnWx2FrNxsj6ipVJclFQbkW57IU//Gg+39Z/p8zOyQAUMAvoN2dKReW5
- mv7gGGp47nFOH/tjZ9pfpIcX7wcnIuQiRcO51M89Yyk/VsYAUy3shu0n2yV34MAx4qh5
- /zfawnsQCucCh5FKeOtqvQVvjN61PJe+xAmcYpUcGZVo3hTNvCrKHi6jKYfvGKMIyZi3
- 9JuA==
-X-Gm-Message-State: AOAM532H7z3SheGFk6rEplD13aseTPUjlWSMw+a5ubTXVvsktbvALx7n
- SdcfPmd2E334WDbXV75o6sw=
-X-Google-Smtp-Source: ABdhPJxSVNoOzN9t9TGo1L1VtEbAtF0Wm21qRsWzKpPXDsxrT6uNRHcV0wBsNMjQfhPPdvrHUjSOfA==
-X-Received: by 2002:adf:bc07:: with SMTP id s7mr7355913wrg.254.1596710025339; 
- Thu, 06 Aug 2020 03:33:45 -0700 (PDT)
+ bh=qGlc93/gOoQJE0NHjYFr0HLC7OORJMHDTpVrqjUMGUY=;
+ b=b2zPNJJxmdymxEyU5r+u/cZIB3vAenlQhRidhjCeI6JOz//26XfgDJRIRtWcWPqCSP
+ 6wPJC9cWAFemHyYhVx7lESqzfCasKKm0YGhqjKkYlY+jYw0TFJVtFAR+tAd6fL0s2UdH
+ Xy27WVCheqAhDfR2mJynnNmJDBZe3B9oj4FJq3/MGeoSi+XpvmAcV2my/K0Nsnihycd2
+ V60COBMSrmPOI/+0j5c3u6niuk9gHypZJ9dFd2J9vFwApczFndaXrVkcAtaaFjmppJ+7
+ MjbZHPk5sugP0Pc8IealQwsbpjz8jUzjBRtUGhCgpd7MsaURMjB28VjLqCtcKogh5Fff
+ wZkQ==
+X-Gm-Message-State: AOAM533Fr5ufPg0iNQxwQclIbPLjnYENwNpGYJ5NXhxlNaWj5yZh3rrY
+ V/E0R+V1LQnD2Xh/jS6LOpCanW0MJDn+J5xxYqdX2nQ30PhMNAhdUidCtr/RIf6X1VwvBHYqkv0
+ bQVniDtpplxrUXl4=
+X-Received: by 2002:a7b:c401:: with SMTP id k1mr7210077wmi.18.1596710686958;
+ Thu, 06 Aug 2020 03:44:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXoW3yXCRWYxydr8l4LttUu5UiGb8jRUAfphhfpD43IbdUd5JdJ6v7/N9ECWGIk9S+owyIAg==
+X-Received: by 2002:a7b:c401:: with SMTP id k1mr7210059wmi.18.1596710686719;
+ Thu, 06 Aug 2020 03:44:46 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id b77sm4912952wmb.3.2020.08.06.03.33.43
+ by smtp.gmail.com with ESMTPSA id i14sm7095032wrc.19.2020.08.06.03.44.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 03:33:44 -0700 (PDT)
-Subject: Re: [PATCH-for-5.2 7/7] hw/block/fdc: Add ASCII art schema of QOM
- relations
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200806080824.21567-1-f4bug@amsat.org>
- <20200806080824.21567-8-f4bug@amsat.org>
- <20200806085706.GB17753@linux.fritz.box>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <71fc8f3f-97fb-a1de-a85c-fa6ef4b420bb@amsat.org>
-Date: Thu, 6 Aug 2020 12:33:43 +0200
+ Thu, 06 Aug 2020 03:44:45 -0700 (PDT)
+Subject: Re: [PATCH 1/1] qga: add command guest-get-disks
+To: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org
+References: <cover.1596704579.git.tgolembi@redhat.com>
+ <c6994b4db0f59b487f235aca692ca3430317ea2b.1596704579.git.tgolembi@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <bd4987e4-606b-6d52-4d59-602df71f6fb0@redhat.com>
+Date: Thu, 6 Aug 2020 12:44:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200806085706.GB17753@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c6994b4db0f59b487f235aca692ca3430317ea2b.1596704579.git.tgolembi@redhat.com>
 Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,201 +125,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 10:57 AM, Kevin Wolf wrote:
-> Am 06.08.2020 um 10:08 hat Philippe Mathieu-DaudÃƒÆ’Ã‚Â© geschrieben:
->> Without knowing the QEMU history, it is hard to relate QEMU objects
->> with the hardware datasheet.
->>
->> For example, one naively expects:
->>
->> * a floppy disk is plugged / unplugged on the bus
->>
->>   Wrong! QEMU floppy disks always sit on the bus. The block drives
->>   are plugged / unplugged on the disks, and the disks magically
->>   re-adapt their proprieties to match the block drive.
+On 8/6/20 11:03 AM, Tomáš Golembiovský wrote:
+> The command guest-get-fsinfo can be used to list information about disks and
+> partitions but it is limited only to mounted disks with filesystem. This new
+> command allows listing information about attached root disks of the VM. This is
+> usefull for management applications for mapping virtualized devices or
+> pass-through devices to device names in the guest OS.
 > 
-> This is because what sits on the bus is not a floppy disk, but a floppy
-> drive. FloppyDrive is also what the type is called.
+> Output is similar to the list of partitions of guest-get-fsinfo, except that
+> the disks are mapped instead of partitions.
 > 
-> The disk is represented by the BlockDriverState (the actual image file)
-> that is inserted in the BlockBackend (which is logically part of the
-> drive).
+> Example output:
 > 
->> * a floppy controller has a fixed number of disks pluggable on the bus
->>
->>   Wrong! QEMU floppy controllers have as much slots as the number of
->>   floppy drive provided when a machine is created. Then the ACPI table
->>   are generated and the number of slots can not be modified. So if you
->>   expect a dual slot controller being created with slot A and B, if
->>   the machine is created with a single drive attached, the controller
->>   will only have slot A created, and you will never be able to plug
->>   drive B without risking a mismatch in the ACPI tables.
+> {
+>   "return": [
+>     {
+>       "serial": "SAMSUNG_123456789",
+>       "bus-type": "sata",
+>       "bus": 0,
+>       "unit": 0,
+>       "pci-controller": {
+>         "bus": 0,
+>         "slot": 31,
+>         "domain": 0,
+>         "function": 2
+>       },
+>       "dev": "/dev/sda",
+>       "target": 0
+>     },
+>     ...
+>   ]
+> }
 > 
-> Hm... I guess hotplugging floppy drives might actually have worked,
-> though I have never tried it on real hardware. I'm pretty sure it wasn't
-> an official feature, though, and ACPI tables certainly won't magically
-> change if you do this because (apart from polling, I guess) software has
-> no way to detect that you tinkered with the floppy cable. :-)
-> 
->> * a floppy controller supporting 4 disks uses 2 buses
->>
->>   Wrong! QEMU uses a single bus to plug the 4 disks.
-> 
-> But we don't even emulate floppy controllers that can have more than two
-> floppy drives:
-> 
->     $ x86_64-softmmu/qemu-system-x86_64 -device floppy -device floppy -device floppy
->     qemu-system-x86_64: -device floppy: Can't create floppy unit 2, bus supports only 2 units
+> Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+> ---
+>  qga/commands-posix.c | 91 +++++++++++++++++++++++++++++++++++++++++++-
+>  qga/commands-win32.c | 83 ++++++++++++++++++++++++++++++++++++++++
+>  qga/qapi-schema.json | 13 +++++++
+>  3 files changed, 186 insertions(+), 1 deletion(-)
 
-This comment is for developers, the warning is for user.
+Not sure this is better, but splitting this in 3 could help different
+people reviewing (developers not familiar with the Windows API might
+feel not comfortable adding a R-b tag for the POSIX part, and
+reciprocally).
 
-It comes from:
+1/ qapi + stubs
+2/ POSIX implementation
+3/ Win32 implementation
 
-    if (dev->unit >= MAX_FD) {
-        error_setg(errp, "Can't create floppy unit %d, bus supports "
-                   "only %d units", dev->unit, MAX_FD);
-        return;
-    }
-
-But you can compile QEMU with MAX_FD=4:
-
-static FDrive *get_drv(FDCtrl *fdctrl, int unit)
-{
-    switch (unit) {
-        case 0: return drv0(fdctrl);
-        case 1: return drv1(fdctrl);
-#if MAX_FD == 4
-        case 2: return drv2(fdctrl);
-        case 3: return drv3(fdctrl);
-#endif
-        default: return NULL;
-    }
-}
-
-ACPI also handles 4 slots:
-
-static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
-{
-    Aml *dev;
-    Aml *crs;
-    int i;
-
-#define ACPI_FDE_MAX_FD 4
-    uint32_t fde_buf[5] = {
-        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
-        cpu_to_le32(2)  /* tape presence (2 == never present) */
-    };
-
-    crs = aml_resource_template();
-    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
-    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
-    aml_append(crs, aml_irq_no_flags(6));
-    aml_append(crs,
-        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
-
-    dev = aml_device("FDC0");
-    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
-    aml_append(dev, aml_name_decl("_CRS", crs));
-
-    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
-        FloppyDriveType type = isa_fdc_get_drive_type(isadev, i);
-
-        if (type < FLOPPY_DRIVE_TYPE_NONE) {
-            fde_buf[i] = cpu_to_le32(1);  /* drive present */
-            aml_append(dev, build_fdinfo_aml(i, type));
-        }
-    }
-    aml_append(dev, aml_name_decl("_FDE",
-               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
-
-    aml_append(scope, dev);
-}
-
-
-> 
-> This is checked in floppy_drive_realize(), so it applies to all
-> variants of the controller.
-> 
-> If you want more floppy drives, you have to create a second controller
-> (with a different iobase). Though I don't think I actually got this
-> working when I tried. I wasn't sure if the problem was the emulation or
-> the guest OSes (or SeaBIOS actually for DOS).
-> 
->> As all these false assumptions are not obvious (we don't plug a disk,
->> we plug a block drive into a disk, etc...), start documenting the QOM
->> relationships with a simple ASCII schema.
-> 
-> Maybe be more specific to have: "floppy (drive)" and "blk (disk)".
-> Because the ASCII schema is actually true, though you seem to have
-> misunderstood what each item in it is supposed to represent.
-> 
-> Actually "blk (disk)" is not 100% accurate either because the drive
-> always has a BlockBackend present. It's really the BlockDriverState
-> inserted into the BlockBackend that is the disk.
-> 
-> In summary, to be honest, I believe since its qdevification, floppy is
-> one of the block devices that is modelled the best on the QOM + block
-> backend level. Only SCSI might be comparable, but IDE, virtio-blk and
-> usb-storage are a mess in comparison.
-
-I'm sorry I didn't want to criticize the model or hurt you, I just want
-to note the differences between how the controller is described in the
-Intel 82078 datasheet and how the QEMU model works. Maybe I'm wrong
-assuming there would be a 1:1 match.
-
-I'll repost with the name updated in the schema and removing my
-assumptions from the commit description that appears as simple
-critics.
-
-> 
-> Kevin
-> 
->> Signed-off-by: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
->> ---
->>  hw/block/fdc.c | 22 ++++++++++++++++++++++
->>  1 file changed, 22 insertions(+)
->>
->> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
->> index 6944b06e4b..b109f37050 100644
->> --- a/hw/block/fdc.c
->> +++ b/hw/block/fdc.c
->> @@ -47,6 +47,28 @@
->>  #include "qemu/module.h"
->>  #include "trace.h"
->>  
->> +/*
->> + * QOM relationship:
->> + * =================
->> + *
->> + *                  +-------------------+
->> + *                  |                   |
->> + * isa/sysbus  <--->|                   |
->> + *                  |                   |
->> + *  irq/dma    <----|        fdc        |
->> + *                  |
->> + *      clk    ---->|                   |        +-+------+-+    +-+------+-+
->> + *                  |                   |        | | blk  | |    | | blk  | |
->> + *                  +--------+----------+        | |      | |    | |      | |
->> + *                           |                   | +------+ |    | +------+ |
->> + *                           |                   |          |    |          |
->> + *                           |                   |  floppy  |    |  floppy  |
->> + *                           |                   +----+-----+    +----+-----+
->> + *                           |   floppy-bus           |               |
->> + *                           +------------------------v---------------v---
->> + *
->> + */
->> +
->>  /********************************************************/
->>  /* debug Floppy devices */
->>  
->> -- 
->> 2.21.3
->>
-> 
-> 
 
