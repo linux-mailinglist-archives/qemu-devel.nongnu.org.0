@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A92B23D659
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 07:12:10 +0200 (CEST)
-Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0802123D65A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 07:12:17 +0200 (CEST)
+Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3YCG-0002Ye-LY
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 01:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
+	id 1k3YCO-0002nt-2N
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 01:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k3YBA-0001CJ-Ip; Thu, 06 Aug 2020 01:11:00 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:51685)
+ id 1k3YBA-0001CI-IY; Thu, 06 Aug 2020 01:11:00 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:45991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k3YB7-0001cr-Kv; Thu, 06 Aug 2020 01:11:00 -0400
+ id 1k3YB7-0001cn-IE; Thu, 06 Aug 2020 01:11:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BMc5N2h4zz9sTX; Thu,  6 Aug 2020 15:10:48 +1000 (AEST)
+ id 4BMc5N1pZHz9sTM; Thu,  6 Aug 2020 15:10:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1596690648;
- bh=nWpjYeSYIhvsczyLi1mlr+SkuLAzmYJhsMjiou4X5N4=;
+ bh=/y7WujPLDY1+dO9HAXuEz0GqjljGQITR4r5hB6JMqW8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iT4I3SUvE6LQKVbbvkyR5ypRnssjJq5fqphNx1b25p5CNV04Igcwq7YAnJXsgZaPh
- /3/7m9c5wLEkHun6DNEkAlf7vRevMoWutCY2ltTquen3TruO8SgsebpBXzwiPsYnZ1
- YUirIVnwS+6XBf4R0Hi3gUsyRf+6V0dBWvaR+daY=
-Date: Thu, 6 Aug 2020 15:09:08 +1000
+ b=TIupF7BC5aIYPSFqLdGTmEvXxlJn155b4PbO72KXUe7OqXAgHQBqad+ey3S3au/Le
+ euBBH9umpSN/sz7N1fUMQVytzysPfphQV6ZKEKuxQu40ZIWDaCmIl+7VMjO4kfS5Xs
+ UJn6iuPYM6luxxrYZ3B2fYSmkxdN3NxNiyHNSu+o=
+Date: Thu, 6 Aug 2020 15:10:42 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-5.2 4/5] spapr/xive: Convert KVM device fd checks to
- assert()
-Message-ID: <20200806050908.GD100968@yekko.fritz.box>
+Subject: Re: [PATCH for-5.2 5/5] spapr: Simplify error handling in
+ spapr_phb_realize()
+Message-ID: <20200806051042.GE100968@yekko.fritz.box>
 References: <159664891296.638781.18417631893299150932.stgit@bahia.lan>
- <159664894478.638781.7802223440952803421.stgit@bahia.lan>
+ <159664895189.638781.16853044840437361763.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mSxgbZZZvrAyzONB"
+ protocol="application/pgp-signature"; boundary="VdOwlNaOFKGAtAAV"
 Content-Disposition: inline
-In-Reply-To: <159664894478.638781.7802223440952803421.stgit@bahia.lan>
+In-Reply-To: <159664895189.638781.16853044840437361763.stgit@bahia.lan>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -68,122 +68,103 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---mSxgbZZZvrAyzONB
+--VdOwlNaOFKGAtAAV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 05, 2020 at 07:35:44PM +0200, Greg Kurz wrote:
-> All callers guard these functions with kvmppc_xive_in_kernel() or one
-> of its variants. Make it clear that these functions are only to be
-> called when the KVM XIVE device is active.
+On Wed, Aug 05, 2020 at 07:35:51PM +0200, Greg Kurz wrote:
+> The spapr_phb_realize() function has a local_err variable which
+> is used to:
 >=20
-> Note that the check on xive is dropped in kvmppc_xive_disconnect(). It
-> really cannot be NULL since it comes from set_active_intc() which only
-> passes pointers to allocated objects.
+> 1) check failures of spapr_irq_findone() and spapr_irq_claim()
+>=20
+> 2) prepend extra information to the error message
+>=20
+> Recent work from Markus Armbruster highlighted we get better
+> code when testing the return value of a function, rather than
+> setting up all the local_err boiler plate. For similar reasons,
+> it is now preferred to use ERRP_GUARD() and error_prepend()
+> rather than error_propagate_prepend().
+>=20
+> Since spapr_irq_findone() and spapr_irq_claim() return negative
+> values in case of failure, do both changes.
+>=20
+> This is just cleanup, no functional impact.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/intc/spapr_xive_kvm.c |   35 +++++++----------------------------
->  1 file changed, 7 insertions(+), 28 deletions(-)
+> Note that the int32_t=3D>int followup change suggested by Markus was squa=
+shed
+> into this patch.
+> ---
+>  hw/ppc/spapr_pci.c |   16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
 >=20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index a9657e2b0cda..3364832de83a 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -79,10 +79,7 @@ void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error *=
-*errp)
->      uint64_t state[2];
->      int ret;
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 363cdb3f7b8d..0a418f1e6711 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
 > =20
-> -    /* The KVM XIVE device is not in use yet */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* word0 and word1 of the OS ring. */
->      state[0] =3D *((uint64_t *) &tctx->regs[TM_QW1_OS]);
-> @@ -101,10 +98,7 @@ void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error =
-**errp)
->      uint64_t state[2] =3D { 0 };
->      int ret;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      ret =3D kvm_get_one_reg(tctx->cs, KVM_REG_PPC_VP_STATE, state);
->      if (ret !=3D 0) {
-> @@ -156,10 +150,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error *=
-*errp)
->      unsigned long vcpu_id;
->      int ret;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* Check if CPU was hot unplugged and replugged. */
->      if (kvm_cpu_is_enabled(tctx->cs)) {
-> @@ -245,10 +236,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, i=
-nt srcno, Error **errp)
->      SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
->      uint64_t state =3D 0;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return -ENODEV;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      if (xive_source_irq_is_lsi(xsrc, srcno)) {
->          state |=3D KVM_XIVE_LEVEL_SENSITIVE;
-> @@ -592,10 +580,7 @@ static void kvmppc_xive_change_state_handler(void *o=
-paque, int running,
-> =20
->  void kvmppc_xive_synchronize_state(SpaprXive *xive, Error **errp)
+>  static void spapr_phb_realize(DeviceState *dev, Error **errp)
 >  {
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
+> +    ERRP_GUARD();
+>      /* We don't use SPAPR_MACHINE() in order to exit gracefully if the u=
+ser
+>       * tries to add a sPAPR PHB to a non-pseries machine.
+>       */
+> @@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, Err=
+or **errp)
+>      uint64_t msi_window_size =3D 4096;
+>      SpaprTceTable *tcet;
+>      const unsigned windows_supported =3D spapr_phb_windows_supported(sph=
+b);
+> -    Error *local_err =3D NULL;
 > =20
->      /*
->       * When the VM is stopped, the sources are masked and the previous
-> @@ -622,10 +607,7 @@ int kvmppc_xive_pre_save(SpaprXive *xive)
->  {
->      Error *local_err =3D NULL;
+>      if (!spapr) {
+>          error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries ma=
+chine");
+> @@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev, E=
+rror **errp)
 > =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return 0;
-> -    }
-> +    assert(xive->fd !=3D -1);
+>      /* Initialize the LSI table */
+>      for (i =3D 0; i < PCI_NUM_PINS; i++) {
+> -        uint32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS =
++ i;
+> +        int irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
 > =20
->      /* EAT: there is no extra state to query from KVM */
+>          if (smc->legacy_irq_allocation) {
+> -            irq =3D spapr_irq_findone(spapr, &local_err);
+> -            if (local_err) {
+> -                error_propagate_prepend(errp, local_err,
+> -                                        "can't allocate LSIs: ");
+> +            irq =3D spapr_irq_findone(spapr, errp);
+> +            if (irq < 0) {
+> +                error_prepend(errp, "can't allocate LSIs: ");
+>                  /*
+>                   * Older machines will never support PHB hotplug, ie, th=
+is is an
+>                   * init only path and QEMU will terminate. No need to ro=
+llback.
+> @@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, Err=
+or **errp)
+>              }
+>          }
 > =20
-> @@ -845,10 +827,7 @@ void kvmppc_xive_disconnect(SpaprInterruptController=
- *intc)
->      XiveSource *xsrc;
->      size_t esb_len;
+> -        spapr_irq_claim(spapr, irq, true, &local_err);
+> -        if (local_err) {
+> -            error_propagate_prepend(errp, local_err, "can't allocate LSI=
+s: ");
+> +        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
+> +            error_prepend(errp, "can't allocate LSIs: ");
+>              goto unrealize;
+>          }
 > =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (!xive || xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* Clear the KVM mapping */
->      xsrc =3D &xive->source;
 >=20
 >=20
 
@@ -193,25 +174,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---mSxgbZZZvrAyzONB
+--VdOwlNaOFKGAtAAV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8rkHMACgkQbDjKyiDZ
-s5IrMg/+P1IouHHEJleRxI7pzhvJPZtM6+kd/0+TveMEabFkQEMMEgeI9LNNWatE
-1sHunSxi8kAzeGE7ZuR6M0hz+5vrW/s9Y6mGhIctnbPtxg8OC11PcGH3yvqGHPBj
-aXoV+00FXbuOJg9XBqt7yCJYavkPOtfYKH39FKB+GaUV5BmtW91vw2KHKmRTQj85
-U7od1ET3VDeeeIALRW+aQl6+gFcbMxO0YjBetvxQfIjD/UNzpMcgXPmGnhVKLc/+
-A+I0MhcEWdNpN4jWXxW7auwiWgBJDC+liXljEVHPoI2kaJp2iNZZdDSNKEVz2Mpv
-AygGFJYN+eADXerknuybG6ztaEe1oVvawIRJLjsAu6eKXf5JEd4ZpaqLX3lp+JBY
-Cl0p0zqhwLlouioVTqRCM6pOxDhZNHUhbayV6EX6jF1z9g1XFt4kpce1WygwtXLe
-Q0PSoTHDlFAj6KtdausclJmkRMlbVt6EaN4Tuxkl8GrHGJpESS3zl3tFDbmO3iQp
-hawzn+XUF/KbWTWfdVEyjlihdkHdpmQFLZzj4hmwxdmm/NPGcssFxg0ERuU4Bju5
-Kuy02abvftx0ZrrtrYTg/hKivnYoUzTMEjkibX8ruxqYyn7OjaDxhL6zvp50f5JE
-enN9svC3cQAsac22RQN9dOAdbU7b29ShRyvFf+89RII4TuhE+d4=
-=XAg+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8rkNIACgkQbDjKyiDZ
+s5Krdw//Q+AzUCBU0bibV74P6q4T8oEw8cUTOBfSDzDGvU/9GvfvGBBHfenB3msO
+KDIHc34uR3HzRK7hhoZSiqgCzzbcN8HTx5pWtrSwsiASzxEyrjAWUISJtF+eCYwP
+pDIDk+k1JvCafCzBNcUXp+9AON2SU8RpROU7lvPWCW7LnXiP9uyYl3KJjS2Q7Cn4
+jBRKoOwK8xTamAm2Sm4Gi7GxQFjT1kcGRABO6nNozV4yyiufZ2ouDOBk9HCFbV8c
+xEr7meJPokjkNaq43sqc+XkzOIELRsWzkCRqQfrXLjJWGkEJNUr6GqByTB6wABQ/
+WIxZw279lCOw+4pE4PJV594Ci3PsxLzvl3kuSyFFRpgeD8ReIM9R9GUMALL7TcuU
+D4XkqxxGOJwP1a168Pd9UuwNO5S481s4kUzN+wRUgRodX842eL9F1tz2PFLvdsnv
+HvgM50C89vuq6B1lVJRpYlHX7VzsxJNET0iLD5TDAT5Ra41fgGBDTCa91lw6rwnL
+7DUu0KDs9eEuyTt1zma5s9IoB8XQ8IVymNgWH3juXTyc3L4SRcLyelbNMfXv7M70
+dHUQ9V8GiqA10dSShcWoKEoo/MRZFI5ZomT8s/zFQnDuEKrZ1sOrFj0m06a5wior
+v5rCxMdLoKQYsCM6+MoSFFVVWO9Ppr48A5SDQo6hdURjsw5FFlQ=
+=FWKe
 -----END PGP SIGNATURE-----
 
---mSxgbZZZvrAyzONB--
+--VdOwlNaOFKGAtAAV--
 
