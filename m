@@ -2,71 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EDE23E351
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:52:21 +0200 (CEST)
-Received: from localhost ([::1]:41746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0489C23E331
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:30:59 +0200 (CEST)
+Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ms8-0001aZ-C1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
+	id 1k3mXS-0006Ms-1m
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <louisc363@gmail.com>)
- id 1k3jXH-00030K-SU
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 13:18:35 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:46266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <louisc363@gmail.com>)
- id 1k3jXG-000114-3X
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 13:18:35 -0400
-Received: by mail-ot1-x332.google.com with SMTP id v6so25977575ota.13
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 10:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=jiKhGRX52re3eIJjnsi7RVpixiQqbIrGIKUj9n8s1Zg=;
- b=ZW7SufAprcszuG7/a2+vmjOu5LMKMGHVDWGKLHR5FYYaBa96CvIqZqL69wtdE2M+26
- pxonoZGp3oekifSkTzPvNGVNa/NnqCYV8HK+3ZFreTk9ftBzfxWuML2N/oQFyFcVEmVT
- cEGHPN6hVs00uxhMHFDdRDyNIH5d0Byd786sWNsS8SQkumudrn4lCBjAAUgKE3n6rRFL
- kPo3kd/Y1AzTyoywQMrnq/Qaz/c+ySr+yP2YnFfXG5L8FnKjLWK4+LfrteK4UU2ykzhC
- nTZDMI58vy/SJXXOIIszDNqx1adMckYe8oLiucxWuIQttNpWKhxbTCKfv4E5wFHKID5Y
- tHGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=jiKhGRX52re3eIJjnsi7RVpixiQqbIrGIKUj9n8s1Zg=;
- b=pTOnD3Y0hcFcHtgeCNg7bBSOruj+LLbnqewKueppwDr3bV4y848th9RnMYe3/zjEYv
- 7NWQy+I5xW/bZ5m+ONKdCsP3JblnjVZGVCqGZu9VnFko2HJjiiGYi9De8DhBHcu3M4PG
- ycAC7CAkm4AEI6Gh8Ixvj7y4Xs554EgfQ9m4/0mvocrBpGFTHrjAgn6I1auOHv2DPDEw
- +kAbG9YxIuC77lvyNY5B/PjlrJUMwyL/M4DlBxBvkM5ktIoVulTUfeQcEtDb/WQoDVDR
- u9yFgyCV521W3/1ky999dJKTaztQT1HIDw3HogsMmchCZKvJkhj0Cy1tfAw5foK1uxWl
- mgSA==
-X-Gm-Message-State: AOAM530WMiw4LORty9ngNHi4wsMThZx7VAbSN0wxpe3AiOzk6o7eU7Y6
- +zrIVcVaRxSczqyYyddgU/L6jKFa4a+0VvK3UKiFVaI7PA8=
-X-Google-Smtp-Source: ABdhPJynxpefn3OLKetlDuI7EDw0B4sDpvUolxqO9jDlSnIWTcF7KujpGkfygnhEIW3l1wlIe3bjk6aH/iWQ1c5UV3I=
-X-Received: by 2002:a05:6830:2119:: with SMTP id
- i25mr8483708otc.131.1596734311860; 
- Thu, 06 Aug 2020 10:18:31 -0700 (PDT)
-MIME-Version: 1.0
-From: Louis Cloete <louisc363@gmail.com>
-Date: Thu, 6 Aug 2020 19:18:11 +0200
-Message-ID: <CA+BhqPZP8BCefVJi554ZfvC5zK_Tkz6yWiLQZ1Hw9b96Fmp1fQ@mail.gmail.com>
-Subject: Small error in blog post
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000075913b05ac38ade5"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=louisc363@gmail.com; helo=mail-ot1-x332.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k3lgf-00038t-D9; Thu, 06 Aug 2020 15:36:25 -0400
+Received: from relay.sw.ru ([185.231.240.75]:56456 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k3lgd-0000Kl-4N; Thu, 06 Aug 2020 15:36:25 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k3lgB-0003k9-Pg; Thu, 06 Aug 2020 22:35:55 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v13 04/11] qcow2_format.py: dump bitmap flags in human
+ readable way.
+Date: Thu,  6 Aug 2020 22:35:50 +0300
+Message-Id: <1596742557-320265-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 15:35:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 06 Aug 2020 16:51:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +51,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@gmail.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000075913b05ac38ade5
-Content-Type: text/plain; charset="UTF-8"
+Introduce the class BitmapFlags that parses a bitmap flags mask.
 
-Hi!
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/qcow2_format.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-I read your blog post
-http://blog.vmsplice.net/2020/08/why-qemu-should-move-from-c-to-rust.html
+diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
+index d4a9974..b447344 100644
+--- a/tests/qemu-iotests/qcow2_format.py
++++ b/tests/qemu-iotests/qcow2_format.py
+@@ -40,6 +40,22 @@ class Flags64(Qcow2Field):
+         return str(bits)
+ 
+ 
++class BitmapFlags(Qcow2Field):
++
++    flags = {
++        0x1: 'in-use',
++        0x2: 'auto'
++    }
++
++    def __str__(self):
++        bits = []
++        for bit in range(64):
++            flag = self.value & (1 << bit)
++            if flag:
++                bits.append(self.flags.get(flag, f'bit-{bit}'))
++        return f'{self.value:#x} ({bits})'
++
++
+ class Enum(Qcow2Field):
+ 
+     def __str__(self):
+-- 
+1.8.3.1
 
-I thought it was a well thought out exposition of the topic of "what shall
-we do to security vulnerabilities due to C bugs. Is Rust the answer".
-
-However, one small inaccuracy caught my eye. Rust doesn't prevent memory
-leaks. Memory leaks aren't considered memory unsafe by Rust's definition.
-It is possible to leak memory in safe Rust. I believe memory leaks are not
-prevented, because trying to prove their absence at compile time boils down
-to the halting problem.
-
-Regards
-Louis Cloete
-
---00000000000075913b05ac38ade5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi!</div><div><br></div><div>I read your blog post <a=
- href=3D"http://blog.vmsplice.net/2020/08/why-qemu-should-move-from-c-to-ru=
-st.html">http://blog.vmsplice.net/2020/08/why-qemu-should-move-from-c-to-ru=
-st.html</a></div><div><br></div><div>I thought it was a well thought out ex=
-position of the topic of &quot;what shall we do to security vulnerabilities=
- due to C bugs. Is Rust the answer&quot;.</div><div><br></div><div>However,=
- one small inaccuracy caught my eye. Rust doesn&#39;t prevent memory leaks.=
- Memory leaks aren&#39;t considered memory unsafe by Rust&#39;s definition.=
- It is possible to leak memory in safe Rust. I believe memory leaks are not=
- prevented, because trying to prove their absence at compile time boils dow=
-n to the halting problem.</div><div><br></div><div>Regards</div><div>Louis =
-Cloete<br></div></div>
-
---00000000000075913b05ac38ade5--
 
