@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C45923E263
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:41:57 +0200 (CEST)
-Received: from localhost ([::1]:41142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F84323E289
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:49:03 +0200 (CEST)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lm0-0005Ch-EP
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43368)
+	id 1k3lss-0002ku-5D
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPF-0006ef-FP
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36202
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k3lPG-0006h2-HD
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38757
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPD-0006bF-6Q
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:25 -0400
+ id 1k3lPE-0006bb-LB
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741502;
+ s=mimecast20190719; t=1596741503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t/k3UkNGT9Wot5ElY3TeJZALJgra5Hl7re5NpJ/VnXo=;
- b=SnbphKaoGb1MuT52jC04ro/rTaL2WBuoXpkuOR+Nd9R69wrpVWH3afGf9xnHEbujMKVRsc
- N5SaQpTBAJli3C59UwBvcQclFefmRqLgZe2yX6VxfzUHbj/GG99GzxfXf5GwAaU5kGXbLH
- aXOIbiweIeSMH7BHjRf2hrutHgl38wA=
+ to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=Tj1KWSH7qE4tC4PDfz6aCpuVUDkFTXqkXYs3G2LNzQA=;
+ b=FrbiYqb3G7kEbrdpOoC4jU7z0Ag4xDVbTKDvNV4taFo34fillNVvV0i6eU2X9DAaT8RV0U
+ g2WLyrTWf9b3QTM4sUHln2BbhL05HH0zxPPJw7OpBVTwd3MEhWsQhfMCNUaam2NNDepGa/
+ fa/aNTFUbRhRe7UlLLJ8AhOLXmJO4Rs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-XqH4nGJwPJW6JswQ5YB1uw-1; Thu, 06 Aug 2020 15:18:20 -0400
-X-MC-Unique: XqH4nGJwPJW6JswQ5YB1uw-1
+ us-mta-134-Wj7OVUO4PHWq85EHCPqKHw-1; Thu, 06 Aug 2020 15:18:21 -0400
+X-MC-Unique: Wj7OVUO4PHWq85EHCPqKHw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1013100AA25
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CEE3107BEF6
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:21 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F20C069314;
- Thu,  6 Aug 2020 19:18:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55D5C5F9DC
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:20 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 066/143] meson: convert root directory to Meson
-Date: Thu,  6 Aug 2020 21:15:02 +0200
-Message-Id: <1596741379-12902-67-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 067/143] meson: convert most of softmmu/
+Date: Thu,  6 Aug 2020 21:15:03 +0200
+Message-Id: <1596741379-12902-68-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,164 +78,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Leave out main.c and vl.c, they're special due to fuzzing.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs   | 21 ++-------------------
- Makefile.target |  2 +-
- configure       |  2 ++
- meson.build     | 30 ++++++++++++++++++++++++++++++
- 4 files changed, 35 insertions(+), 20 deletions(-)
+ meson.build           |  2 ++
+ softmmu/Makefile.objs | 11 -----------
+ softmmu/meson.build   |  9 +++++++++
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+ create mode 100644 softmmu/meson.build
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 2463df8..a5c919d 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -47,17 +47,10 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
- # single QEMU executable should support all CPUs and machines.
- 
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = blockdev.o blockdev-nbd.o block/
--
--common-obj-y += bootdevice.o iothread.o
-+common-obj-y = block/
- common-obj-y += dump/
--common-obj-y += job-qmp.o
- common-obj-y += monitor/
- common-obj-y += net/
--common-obj-y += qdev-monitor.o
--common-obj-$(CONFIG_WIN32) += os-win32.o
--common-obj-$(CONFIG_POSIX) += os-posix.o
--
- common-obj-$(CONFIG_LINUX) += fsdev/
- 
- common-obj-y += accel/
-@@ -87,25 +80,15 @@ common-obj-y += hw/
- common-obj-m += hw/
- 
- common-obj-y += replay/
--
--common-obj-y += dma-helpers.o
--common-obj-$(CONFIG_TPM) += tpm.o
--
- common-obj-y += backends/
- 
--common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
--qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
--qemu-seccomp.o-libs := $(SECCOMP_LIBS)
--
--common-obj-$(CONFIG_FDT) += device_tree.o
--
- common-obj-y += qapi/
- 
- endif # CONFIG_SOFTMMU
- 
- #######################################################################
- # Target-independent parts used in system and user emulation
--common-obj-y += cpus-common.o
-+
- common-obj-y += hw/
- common-obj-y += qom/
- common-obj-y += disas/
-diff --git a/Makefile.target b/Makefile.target
-index 16f1e78..5f926e5 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -169,7 +169,7 @@ ifneq ($(CONFIG_MODULES),y)
- LIBS := $(LIBS) $(ALSA_LIBS) $(OSS_LIBS) $(PULSE_LIBS) $(SDL_LIBS)
- LIBS := $(LIBS) $(GTK_LIBS) $(VTE_LIBS) $(X11_LIBS) $(CURSES_LIBS) $(ICONV_LIBS) $(GIO_LIBS)
- endif
--LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS)
-+LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOMP_LIBS)
- LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
- 
- # Hardware support
-diff --git a/configure b/configure
-index c1bc16b..508aa60 100755
---- a/configure
-+++ b/configure
-@@ -7305,6 +7305,8 @@ if test "$preadv" = "yes" ; then
- fi
- if test "$fdt" != "no" ; then
-   echo "CONFIG_FDT=y" >> $config_host_mak
-+  echo "FDT_CFLAGS=$fdt_cflags" >> $config_host_mak
-+  echo "FDT_LIBS=$fdt_ldflags $fdt_libs" >> $config_host_mak
- fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 9b0aa18..266ff64 100644
+index 266ff64..bab875e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -47,6 +47,7 @@ targetos = host_machine.system()
+@@ -618,6 +618,8 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
  
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
-+winmm = []
- socket = []
- version_res = []
- coref = []
-@@ -55,6 +56,7 @@ cocoa = []
- hvf = []
- if host_machine.system() == 'windows'
-   socket = cc.find_library('ws2_32')
-+  winmm = cc.find_library('winmm')
+ common_ss.add(files('cpus-common.c'))
  
-   win = import('windows')
-   version_res = win.compile_resources('version.rc',
-@@ -276,6 +278,11 @@ if 'CONFIG_VNC_SASL' in config_host
-   sasl = declare_dependency(compile_args: config_host['SASL_CFLAGS'].split(),
-                             link_args: config_host['SASL_LIBS'].split())
- endif
-+fdt = not_found
-+if 'CONFIG_FDT' in config_host
-+  fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
-+                           link_args: config_host['FDT_LIBS'].split())
-+endif
- 
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -435,6 +442,7 @@ util_ss = ss.source_set()
- stub_ss = ss.source_set()
- trace_ss = ss.source_set()
- block_ss = ss.source_set()
-+blockdev_ss = ss.source_set()
- common_ss = ss.source_set()
- softmmu_ss = ss.source_set()
- user_ss = ss.source_set()
-@@ -588,6 +596,28 @@ subdir('nbd')
- subdir('scsi')
- subdir('block')
- 
-+blockdev_ss.add(files(
-+  'blockdev.c',
-+  'blockdev-nbd.c',
-+  'iothread.c',
-+  'job-qmp.c',
-+), sdl)
-+blockdev_ss.add(when: 'CONFIG_WIN32', if_true: [files('os-win32.c')])
-+blockdev_ss.add(when: 'CONFIG_POSIX', if_true: files('os-posix.c'))
-+
-+softmmu_ss.add_all(blockdev_ss)
-+softmmu_ss.add(files(
-+  'bootdevice.c',
-+  'dma-helpers.c',
-+  'qdev-monitor.c',
-+), sdl)
-+
-+softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-+softmmu_ss.add(when: 'CONFIG_SECCOMP', if_true: [files('qemu-seccomp.c'), seccomp])
-+softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
-+
-+common_ss.add(files('cpus-common.c'))
++subdir('softmmu')
 +
  # needed for fuzzing binaries
  subdir('tests/qtest/libqos')
  
+diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
+index a414a74..dd15c24 100644
+--- a/softmmu/Makefile.objs
++++ b/softmmu/Makefile.objs
+@@ -1,14 +1,3 @@
+ softmmu-main-y = softmmu/main.o
+-
+-obj-y += arch_init.o
+-obj-y += cpus.o
+-obj-y += cpu-throttle.o
+-obj-y += balloon.o
+-obj-y += ioport.o
+-obj-y += memory.o
+-obj-y += memory_mapping.o
+-
+-obj-y += qtest.o
+-
+ obj-y += vl.o
+ vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+new file mode 100644
+index 0000000..d4ac51b
+--- /dev/null
++++ b/softmmu/meson.build
+@@ -0,0 +1,9 @@
++specific_ss.add(files(
++  'arch_init.c',
++  'balloon.c',
++  'cpus.c',
++  'cpu-throttle.c',
++  'ioport.c',
++  'memory.c',
++  'memory_mapping.c',
++  'qtest.c'))
 -- 
 1.8.3.1
 
