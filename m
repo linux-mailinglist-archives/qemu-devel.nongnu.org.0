@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF0C23D9ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:28:58 +0200 (CEST)
-Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BEA23D9F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:31:27 +0200 (CEST)
+Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3e4v-0007UF-4d
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50630)
+	id 1k3e7L-0003pH-1s
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:31:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1k3e1D-0008CI-0k
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:25:07 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:57963)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1k3e1A-0004AL-1k
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:25:06 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 1FEFE14CF;
- Thu,  6 Aug 2020 07:25:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 06 Aug 2020 07:25:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=
- from:to:cc:subject:in-reply-to:references:date:message-id
- :mime-version:content-type; s=fm3; bh=C7eSJoYZZFo7E7Ab8D47pp5OnV
- uwmbmagBFpNXRDV2U=; b=rV09P/9a2muknLcPeMyI4D9wE3bjnTniRuE6c+wDRB
- puNoJtzjyqIObh4C6sIX0gWG6jXR9yEgPnj0J02i6Wx6LL6YX6wjxTBNcxwQKJIT
- 5rBD9nwhfDELDzBjR7dUNaMRp0Qfjscg9fE/e+xXT4NiuXl6IMMIdqwK5gF1sOfY
- k0EcH+e/Vn8K8IHoawJ00CDY8ZNqMCXntb0wpQQJcGUQjsrSOe5vdtItvA92LLIZ
- QBvX6O0XsVFsQwetTcbIMHcquroAAo4nyliYiSZ8oKKB6I9wQb8lTxoPI08K2ShY
- xdTvaz0QrU6IH0NbefBIWsaYxafDvGDuAMb/MZ28t1ag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=C7eSJo
- YZZFo7E7Ab8D47pp5OnVuwmbmagBFpNXRDV2U=; b=Eq2C3JeeKHFYh6ZoVBpTSo
- bWYcuEnqzHnTa3yK5H6YZ2dNPQdl6POx7GND4ld8Z3QUCYaMCVqClcbkEzaBfuPy
- WH0nJZaL0LtlzJeZZxugboIkkdaM7wQWbaFUXpLhirf+Xu+5reChd4VB1e4moKUb
- yU58pc4ycuUcFVWous26HynGAB2ntTzmVGeIsGeIspsEY5uzEbmk41YPCqk2V4Oh
- 4dNj+QW4bWQ7Xp4/ZtBhnIWVsmh4aHDgRGPV+8RmlcYnRPK4phfcp/oP8xc7iOVe
- ShVmDav8tIlHUpt3+VXolkpqqmz5jWmIU/Z5Im9mswpmR1y/AFHqqiTyHg+m+dEw
- ==
-X-ME-Sender: <xms:jegrX7e5R2CHuEYmIUpsQlI2h8884cZdxhYHWxLYdZeFd6rtf7GgVg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdegudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufgjfhffkfggtgesthdtredttd
- dttdenucfhrhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhisheq
- necuggftrfgrthhtvghrnhephfetudeftdejveegudejhfeuiefgjeehuddvtddvhfejte
- dufeelhfelhfeghfetnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepkeeg
- rddukeegrddvvdelrddvgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhs
-X-ME-Proxy: <xmx:jegrXxOZDp6ovz5dGuXaLqvBlQeMaAOxezMowqk4HzBWcTz_NZMYjg>
- <xmx:jegrX0iXoviHi0zAEjsV8_Hmy6UbLtNa1XSn_9FqonNPtkk4k21nfA>
- <xmx:jegrX8-FaBzlIY8b1r2MAJKOfA6UkqQCBYfZqWio1OC0RWVsau3BcA>
- <xmx:jegrX14EWwJDD0ByWzHfj-qyLIee2qwuc1jNrF10QSF1ppJaceRqCg>
-Received: from x220.qyliss.net (p54b8e5f4.dip0.t-ipconnect.de [84.184.229.244])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2B8E030600A6;
- Thu,  6 Aug 2020 07:25:01 -0400 (EDT)
-Received: by x220.qyliss.net (Postfix, from userid 1000)
- id 4058F39B; Thu,  6 Aug 2020 11:24:59 +0000 (UTC)
-From: Alyssa Ross <hi@alyssa.is>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: vhost-user protocol feature negotiation
-In-Reply-To: <20200806054622-mutt-send-email-mst@kernel.org>
-References: <87sgd1ktx9.fsf@alyssa.is>
- <20200805181352-mutt-send-email-mst@kernel.org> <87lfis2lr6.fsf@alyssa.is>
- <20200806054622-mutt-send-email-mst@kernel.org>
-Date: Thu, 06 Aug 2020 11:24:59 +0000
-Message-ID: <87zh7810fo.fsf@alyssa.is>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k3dVy-0001r5-Pf
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:52:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47339
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k3dVx-000078-0k
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:52:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596711168;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X9RzPaxnRJzpU4jyAEBv4ovkhnjF/0CGzpCT/YB8Uc0=;
+ b=dJedPtDCyepaRSnIsU64reBL9mZ6Z22+K9D5f8YLz3wB3/hz5TNF8Dm4gFELWNLQD4xzNc
+ ctZWMDpz+PJo83MMOm7Y4jGAJRllOssVM3hq2y/zvJLPd88husFqO+zlr67CoQQ7viPVjK
+ 2BPruev3XRUy1kjB14oIc/f36kM5EAY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-ArfAj5R_OZijEH2zvTHANg-1; Thu, 06 Aug 2020 06:52:44 -0400
+X-MC-Unique: ArfAj5R_OZijEH2zvTHANg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15A5B8015F0;
+ Thu,  6 Aug 2020 10:52:43 +0000 (UTC)
+Received: from localhost (ovpn-114-7.ams2.redhat.com [10.36.114.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E98D60C47;
+ Thu,  6 Aug 2020 10:52:42 +0000 (UTC)
+Date: Thu, 6 Aug 2020 11:52:41 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 3/3] aio-posix: keep aio_notify_me disabled during
+ polling
+Message-ID: <20200806105241.GA379937@stefanha-x1.localdomain>
+References: <20200805100051.361547-1-stefanha@redhat.com>
+ <20200805100051.361547-4-stefanha@redhat.com>
+ <8e066cf0-e5f9-283c-eedd-47974bf4bbac@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=hi@alyssa.is;
- helo=wout4-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 07:25:02
+In-Reply-To: <8e066cf0-e5f9-283c-eedd-47974bf4bbac@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,150 +84,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+--5mCyUwZo2JvN/JJP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Thu, Aug 06, 2020 at 08:59:09AM +0000, Alyssa Ross wrote:
->> "Michael S. Tsirkin" <mst@redhat.com> writes:
->> 
->> > On Wed, Aug 05, 2020 at 03:13:06PM +0000, Alyssa Ross wrote:
->> >> Quoting from the definition of VHOST_USER_SET_PROTOCOL_FEATURES in
->> >> vhost-user.rst:
->> >> 
->> >> >   Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
->> >> >   ``VHOST_USER_GET_FEATURES``.
->> >> > 
->> >> > .. Note::
->> >> >    Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
->> >> >    this message even before ``VHOST_USER_SET_FEATURES`` was called.
->> >> 
->> >> To me, this could mean either of two things:
->> >> 
->> >> (1) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
->> >>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should enable the
->> >>     protocol features immediately.
->> >> 
->> >> (2) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
->> >>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should store those
->> >>     feature bits, but not actually consider them to be enabled until
->> >>     after VHOST_USER_SET_FEATURES has been received (presumably
->> >>     containing VHOST_USER_F_PROTOCOL_FEATURES).
->> >> 
->> >> The reason I bring this up is that QEMU appears to interpret it as (1),
->> >> while the vhost-user-net backend in Intel's cloud-hypervisor[1]
->> >> interprets it as (2).  So I'm looking for a clarification.
->> >> 
->> >> [1]: https://github.com/cloud-hypervisor/cloud-hypervisor
->> >> 
->> >> Thanks in advance.
->> >
->> >
->> > IMHO the intent was this: VHOST_USER_F_PROTOCOL_FEATURES bit in
->> > VHOST_USER_GET_FEATURES means that qemu can send
->> > VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
->> >
->> > With most feature bits in VHOST_USER_GET_FEATURES, the
->> > specific functionality needs to only be enabled after
->> > VHOST_USER_SET_FEATURES.
->> >
->> > However, this is for functionality dealing with guest activity.
->> > VHOST_USER_SET_PROTOCOL_FEATURES has nothing to do with guest directly,
->> > it's about negotiation between qemu and backend: it is only in
->> > VHOST_USER_GET_FEATURES for the reason that this is the only message
->> > (very) old backends reported.  Thus, the backend should not check
->> > whether VHOST_USER_SET_FEATURES sets VHOST_USER_F_PROTOCOL_FEATURES,
->> > instead it should simply always be ready to receive
->> > VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
->> >
->> > Backend that isn't always ready to handle
->> > VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES
->> > should not set VHOST_USER_F_PROTOCOL_FEATURES in
->> > VHOST_USER_GET_FEATURES.
->> 
->> Thanks for the explanation.  That matches what I had in mind with (1).
->> 
->> > This appears to be closer to (1), but if qemu can't distinguish
->> > then we don't care, right? For example, VHOST_USER_PROTOCOL_F_REPLY_ACK
->> > enables acks on arbitrary messages. Does the backend in question
->> > ignore the affected bit until SET_FEATURES? If yes won't this
->> > make qemu hang?
->> 
->> Yes.  That was my motivation for asking what the correct behaviour was,
->> so that I could fix the incorrect one. :)  I suspect that up to this point,
->> the cloud-hypervisor vhost-user-net backend has only been used with
->> cloud-hypervisor, and so this incompatibilty with QEMU was not noticed.
->> 
->> > How would you suggest clarifying the wording?
->> 
->> Do you think this communicates everything required?
->> 
->> ---
->> diff --git i/docs/interop/vhost-user.rst w/docs/interop/vhost-user.rst
->> index 10e3e3475e..72724d292a 100644
->> --- i/docs/interop/vhost-user.rst
->> +++ w/docs/interop/vhost-user.rst
->> @@ -854,9 +854,8 @@ Master message types
->>    ``VHOST_USER_GET_FEATURES``.
->>  
->>  .. Note::
->> -   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must
->> -   support this message even before ``VHOST_USER_SET_FEATURES`` was
->> -   called.
->> +   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
->> +   with ``VHOST_USER_SET_FEATURES``.
->>  
->>  ``VHOST_USER_SET_PROTOCOL_FEATURES``
->>    :id: 16
->
-> Hmm I find this confusing. I think it's a good policy to ask qemu to
-> acknowledge it. It's just that the client should not wait for
-> VHOST_USER_SET_FEATURES before handling VHOST_USER_SET_PROTOCOL_FEATURES
-> or VHOST_USER_GET_PROTOCOL_FEATURES.
+On Wed, Aug 05, 2020 at 06:37:45PM +0200, Paolo Bonzini wrote:
+> On 05/08/20 12:00, Stefan Hajnoczi wrote:
+> > +
+> > +        /*
+> > +         * aio_notify can avoid the expensive event_notifier_set if
+> > +         * everything (file descriptors, bottom halves, timers) will
+> > +         * be re-evaluated before the next blocking poll().  This is
+> > +         * already true when aio_poll is called with blocking =3D=3D f=
+alse;
+> > +         * if blocking =3D=3D true, it is only true after poll() retur=
+ns,
+> > +         * so disable the optimization now.
+> > +         */
+> > +        if (use_notify_me) {
+> > +            atomic_set(&ctx->notify_me, atomic_read(&ctx->notify_me) +=
+ 2);
+> > +            /*
+> > +             * Write ctx->notify_me before reading ctx->notified.  Pai=
+rs with
+> > +             * smp_mb in aio_notify().
+> > +             */
+> > +            smp_mb();
+> > +
+> > +            /* Don't block if aio_notify() was called */
+> > +            if (atomic_read(&ctx->notified)) {
+> > +                timeout =3D 0;
+> > +            }
+>=20
+> Aha, this is the trick: "timeout =3D 0" also applies if a timer was moved=
+=20
+> early.  In this case you uselessly keep notify_me set for a bit, but=20
+> it's okay. Nice!
+>=20
+> The code can be simplified a bit more, since the use_notify_me variable=
+=20
+> is just "timeout":
 
-To me, it's confusing that a frontend is expected to ack
-VHOST_USER_F_PROTOCOL_FEATURES even though the ack can't have any effect
-(because VHOST_USER_GET_PROTOCOL_FEATURES and
-VHOST_USER_SET_PROTOCOL_FEATURES both have to work even if the ack
-hasn't been received yet).
+Good point. I'll send another revision.
 
-But, if the frontend is supposed to ack anyway, how about:
+Stefan
 
-Signed-off-by: Alyssa Ross <hi@alysas.is>
+--5mCyUwZo2JvN/JJP
+Content-Type: application/pgp-signature; name="signature.asc"
 
----
-diff --git i/docs/interop/vhost-user.rst w/docs/interop/vhost-user.rst
-index 10e3e3475e..bc78c9947f 100644
---- i/docs/interop/vhost-user.rst
-+++ w/docs/interop/vhost-user.rst
-@@ -854,9 +854,9 @@ Master message types
-   ``VHOST_USER_GET_FEATURES``.
- 
- .. Note::
--   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must
--   support this message even before ``VHOST_USER_SET_FEATURES`` was
--   called.
-+   While QEMU should acknowledge ``VHOST_USER_F_PROTOCOL_FEATURES``, a
-+   backend must allow ``VHOST_USER_GET_PROTOCOL_FEATURES`` even if
-+   ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been acknowledged yet.
- 
- ``VHOST_USER_SET_PROTOCOL_FEATURES``
-   :id: 16
-@@ -869,8 +869,12 @@ Master message types
-   ``VHOST_USER_GET_FEATURES``.
- 
- .. Note::
--   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
--   this message even before ``VHOST_USER_SET_FEATURES`` was called.
-+   While QEMU should acknowledge ``VHOST_USER_F_PROTOCOL_FEATURES``, a
-+   backend must allow ``VHOST_USER_SET_PROTOCOL_FEATURES`` even if
-+   ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been acknowledged yet.
-+   The backend must not wait for ``VHOST_USER_SET_FEATURES`` before
-+   enabling protocol features requested with
-+   ``VHOST_USER_SET_PROTOCOL_FEATURES``.
- 
- ``VHOST_USER_SET_OWNER``
-   :id: 3
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8r4PgACgkQnKSrs4Gr
+c8jzowf/W9SXMevLAUhOTEubZ8vtANwRdpwPkRTL1i582gQzBeJMffId4ouY2rN+
+tfh86e+hzY0VqEPfsOAA9DvLUwvUbwINhSzcqWuDDaCjkhN1fgYhyH+iw+2EK7Bw
+Af8xuzoCqZLoXblcT9HZzD0SykLJ8Iq6xcUf+I8VTp1741kh/daDJX8D1BQGCkb+
+npDhU96i1yXd8OIPysddQ+9NWe5IQvGYcNDRq4vS7Mv99jGtDB0qwpVu7+NjMMAA
+he6Sbw82hj9tym99XfaUUS2sL5NIgQL+c2H4x9agIycF3OvZFM/tJm9PeC5isz6S
+brmnoTPLsC4sEcd3np1TnUuDCSdo7A==
+=rIhj
+-----END PGP SIGNATURE-----
+
+--5mCyUwZo2JvN/JJP--
+
 
