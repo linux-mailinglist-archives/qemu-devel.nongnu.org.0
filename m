@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF39E23E28A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:49:07 +0200 (CEST)
-Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086B423E288
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:48:40 +0200 (CEST)
+Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lsw-0002vy-MP
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:49:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43524)
+	id 1k3lsV-0002EN-2h
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:48:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPP-00073F-H8
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:35 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32183
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k3lPR-00077r-F4
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPN-0006ea-OM
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:35 -0400
+ id 1k3lPO-0006en-Ub
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741513;
+ s=mimecast20190719; t=1596741514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t/BkKF3IuFX7t+/khBwbH7uKOv0bkDuacFqnSU2zWCQ=;
- b=hvstUa71CHtYN+WUjU/8rSua6xdrXECYB1399kXZW+8cOAGxq142lIqvKXLy06Tu+QKFr7
- 8TJj7ibucFshmfDyRRg7yPpcUh3StcykuDbZ6vb2VnZZVu1TvExauCebstdtp9i1v/x+RT
- 6k3QGRuWtoPiVM4iT7uZEdgIiBGspEQ=
+ bh=vj2wqYxMQOwvyhwWO2LqIwrgRniIYHgXgAT6Vo3UcsA=;
+ b=KrmLRueEkXArWhQrd9IuHQyNLhrukr3rREQi0M23hHTU9SuBrCohdThhkqPDcakYIZKsd2
+ yDMfVkN4NnTMsWhYdSRN6S1tOr/okvZo9psa1zr9ncN4MCiJ0V+LIZpGT/6ckL8Jw4wm9i
+ vgDe4jzZJQTXB/gOGXUVg37RtgA23ck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-trL8VVIiNtCDXnOrVzggCA-1; Thu, 06 Aug 2020 15:18:30 -0400
-X-MC-Unique: trL8VVIiNtCDXnOrVzggCA-1
+ us-mta-41-8y7a_oPrNjWxl0BtoR141A-1; Thu, 06 Aug 2020 15:18:32 -0400
+X-MC-Unique: 8y7a_oPrNjWxl0BtoR141A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FBC107BEF5
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 593D7800404
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:31 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 127CC5F9DC;
- Thu,  6 Aug 2020 19:18:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AB9D5F9DC;
+ Thu,  6 Aug 2020 19:18:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 074/143] meson: convert replay directory to Meson
-Date: Thu,  6 Aug 2020 21:15:10 +0200
-Message-Id: <1596741379-12902-75-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 075/143] meson: convert migration directory to Meson
+Date: Thu,  6 Aug 2020 21:15:11 +0200
+Message-Id: <1596741379-12902-76-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 12:59:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,72 +89,121 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs        |  1 -
- meson.build          |  1 +
- replay/Makefile.objs | 10 ----------
- replay/meson.build   | 12 ++++++++++++
- 4 files changed, 13 insertions(+), 11 deletions(-)
- delete mode 100644 replay/Makefile.objs
- create mode 100644 replay/meson.build
+ Makefile.objs           |  1 -
+ Makefile.target         |  1 -
+ meson.build             |  5 +++++
+ migration/Makefile.objs | 18 ------------------
+ migration/meson.build   | 29 +++++++++++++++++++++++++++++
+ 5 files changed, 34 insertions(+), 20 deletions(-)
+ delete mode 100644 migration/Makefile.objs
+ create mode 100644 migration/meson.build
 
 diff --git a/Makefile.objs b/Makefile.objs
-index bbb6f8c..544877a 100644
+index 544877a..aabf709 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -67,7 +67,6 @@ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF
- common-obj-y += hw/
- common-obj-m += hw/
+@@ -42,7 +42,6 @@ common-obj-y = net/
+ common-obj-$(CONFIG_LINUX) += fsdev/
  
--common-obj-y += replay/
- common-obj-y += backends/
+ common-obj-y += accel/
+-common-obj-y += migration/
  
- common-obj-y += qapi/
+ common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
+ common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
+diff --git a/Makefile.target b/Makefile.target
+index 54a9ef1..4d912df 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -158,7 +158,6 @@ obj-y += softmmu/
+ obj-y += gdbstub.o
+ obj-y += hw/
+ obj-y += qapi/
+-obj-y += migration/ram.o
+ LIBS := $(libs_softmmu) $(LIBS)
+ 
+ # Temporary until emulators are linked by Meson
 diff --git a/meson.build b/meson.build
-index 2071686..c592241 100644
+index c592241..f0af36f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -629,6 +629,7 @@ common_ss.add(files('cpus-common.c'))
+@@ -291,6 +291,10 @@ lzo = not_found
+ if 'CONFIG_LZO' in config_host
+   lzo = declare_dependency(link_args: config_host['LZO_LIBS'].split())
+ endif
++rdma = not_found
++if 'CONFIG_RDMA' in config_host
++  rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
++endif
+ 
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+@@ -628,6 +632,7 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ common_ss.add(files('cpus-common.c'))
  
  subdir('softmmu')
++subdir('migration')
  subdir('monitor')
-+subdir('replay')
+ subdir('replay')
  
- # needed for fuzzing binaries
- subdir('tests/qtest/libqos')
-diff --git a/replay/Makefile.objs b/replay/Makefile.objs
+diff --git a/migration/Makefile.objs b/migration/Makefile.objs
 deleted file mode 100644
-index 939be96..0000000
---- a/replay/Makefile.objs
+index 0fc619e..0000000
+--- a/migration/Makefile.objs
 +++ /dev/null
-@@ -1,10 +0,0 @@
--common-obj-y += replay.o
--common-obj-y += replay-internal.o
--common-obj-y += replay-events.o
--common-obj-y += replay-time.o
--common-obj-y += replay-input.o
--common-obj-y += replay-char.o
--common-obj-y += replay-snapshot.o
--common-obj-y += replay-net.o
--common-obj-y += replay-audio.o
--common-obj-y += replay-random.o
-diff --git a/replay/meson.build b/replay/meson.build
+@@ -1,18 +0,0 @@
+-common-obj-y += migration.o socket.o fd.o exec.o
+-common-obj-y += tls.o channel.o savevm.o
+-common-obj-y += colo.o colo-failover.o
+-common-obj-y += vmstate.o vmstate-types.o page_cache.o
+-common-obj-y += qemu-file.o global_state.o
+-common-obj-y += qemu-file-channel.o
+-common-obj-y += xbzrle.o postcopy-ram.o
+-common-obj-y += qjson.o
+-common-obj-y += block-dirty-bitmap.o
+-common-obj-y += multifd.o
+-common-obj-y += multifd-zlib.o
+-common-obj-$(CONFIG_ZSTD) += multifd-zstd.o
+-
+-common-obj-$(CONFIG_RDMA) += rdma.o
+-
+-common-obj-$(CONFIG_LIVE_BLOCK_MIGRATION) += block.o
+-
+-rdma.o-libs := $(RDMA_LIBS)
+diff --git a/migration/meson.build b/migration/meson.build
 new file mode 100644
-index 0000000..8783aea
+index 0000000..99afbac
 --- /dev/null
-+++ b/replay/meson.build
-@@ -0,0 +1,12 @@
++++ b/migration/meson.build
+@@ -0,0 +1,29 @@
 +softmmu_ss.add(files(
-+  'replay.c',
-+  'replay-internal.c',
-+  'replay-events.c',
-+  'replay-time.c',
-+  'replay-input.c',
-+  'replay-char.c',
-+  'replay-snapshot.c',
-+  'replay-net.c',
-+  'replay-audio.c',
-+  'replay-random.c',
++  'block-dirty-bitmap.c',
++  'channel.c',
++  'colo-failover.c',
++  'colo.c',
++  'exec.c',
++  'fd.c',
++  'global_state.c',
++  'migration.c',
++  'multifd.c',
++  'multifd-zlib.c',
++  'page_cache.c',
++  'postcopy-ram.c',
++  'qemu-file-channel.c',
++  'qemu-file.c',
++  'qjson.c',
++  'savevm.c',
++  'socket.c',
++  'tls.c',
++  'vmstate-types.c',
++  'vmstate.c',
++  'xbzrle.c',
 +))
++
++softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
++softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
++softmmu_ss.add(when: 'CONFIG_ZSTD', if_true: files('multifd-zstd.c'))
++
++specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('ram.c')])
 -- 
 1.8.3.1
 
