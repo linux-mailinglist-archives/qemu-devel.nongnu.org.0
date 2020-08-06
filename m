@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38D223DA47
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 14:23:04 +0200 (CEST)
-Received: from localhost ([::1]:32866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD36523DA4B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 14:27:11 +0200 (CEST)
+Received: from localhost ([::1]:36330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3evH-0001wH-6N
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 08:23:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1k3ezG-0003sZ-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 08:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3euZ-0001Vs-7E
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:22:19 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:36761)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3eyR-0003S9-B5
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:26:19 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3euX-0002Q8-Ge
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:22:18 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id x24so11858090otp.3
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 05:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vofTkXNCIB+MzLrKaqJX/yuQ5xQTKXXr/nZs/+pIscU=;
- b=VDLk25qUH5DTRl3x6E1kCyzAk+1OypYaPqIytNN+mextpSTKmcKrBGsAmVq6umSkW7
- uTeTOXJ3a6fHPTVuZWAPNNEo/AU16NE/8U4YSjj9W/n0rzsOkhH4BXbjtywC7pEsJ0wN
- ob/SVEwpu1oKb7JMIvzBddQcxHoJ3Q5BE9Ik8/DpMj4fsgQQhrL3lVqxmOd93YwXfhje
- fhQ3rwcqWU5XJvCnxrGfouYFpoE3V0jz43pXgYft10CwIie1u71ygMpywKt+MOxNEXzF
- M683kaZZJcEnmN747Z/sugF91gLZXFqwYqLzuRwMzWlVYC0Sdt3h3+SCY5uGMa4DtNBA
- 5fCQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3eyP-0002yA-Kv
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:26:19 -0400
+Received: by mail-wr1-x434.google.com with SMTP id r4so40835422wrx.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 05:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CE7vTZN+AndL4BTmKCQ7EENl2Y0h1Hx36qm6L0uk2NY=;
+ b=arXxml7YMIgFlrz5KUg/o0GokHhH96Fpkqd4/QzOzg01dCtflo70k6wgfKkipMEUpq
+ w55T/vpS4sJQJywMkdkZdG4G1nI0vnVrzAYROiQHkYiVRNcKD3Bg3QGMu8/60wEAEwDC
+ TcGlTlfJ9I2SsyuCNwP4cRWkY7cTQmnJvBKqO/088U4L5GVO1MmZqZEXk3WKesJW67wv
+ wf+V25+xH0N97PDCofXdvrCNWRvWVntQhZl8+KscfeKZQxPGWCuoq3EiEREgoV2IcBNR
+ zGk1QnGGoKKC/S+z+ZenhtHMzUC79S00v29Vfw0drgAFIORY5FxKpoca5MkUupu81hl5
+ d5yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vofTkXNCIB+MzLrKaqJX/yuQ5xQTKXXr/nZs/+pIscU=;
- b=ueRLrBfahJ1vtWVlgj84oOoiJwW7mzq9hzSYmtvBlvKEH1iSEwSJZOQj8pQvMQCrDS
- 2ZBQTkVB3Sdvlk8Jprs1a0Lln35Wxjv7/6vbtfrhgg+IY6tsrdzLwAeKaQJoM0Be6Gk4
- j8t8OE943ICAb306aa0LYO6lLvlpj+Ryqpg4LKGLv0gfhm0x3FTfIpefKNrAH39ifINu
- qGhu5qo/WLBQFMl9f7THJXoBddLp4FBfhfmqKrYgL8DfL/CrJRxLXr9stBNKONAFhYYV
- 747gJQe3B1sYB7hImIDm6Yx/tUlTqLp9AuIq5CxOayUrCCu0W+4awvs0iDuVvJcnjW8W
- 6/zw==
-X-Gm-Message-State: AOAM532W+LhHVvlTIFME2r2HLyRZBVbpLTad+8Nsk9Dl4qFkb+aeYKz0
- WtAUpfGc6gfRcBhjJVuLhBsTpmivCJ3gq4xHKKmlXQ==
-X-Google-Smtp-Source: ABdhPJx/mP20P9uOBgPAHfVk3a4YMfRaYCCXDhNAssYOCVbbcTWo/NgFl/YVIvLAUWt1YMhPf0GDlfg6hS/doUxbvjw=
-X-Received: by 2002:a9d:39c2:: with SMTP id y60mr6899082otb.91.1596716536064; 
- Thu, 06 Aug 2020 05:22:16 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CE7vTZN+AndL4BTmKCQ7EENl2Y0h1Hx36qm6L0uk2NY=;
+ b=npZxha2xxZV6BVCayBR3yQuIsWAyWWR0hB4PVWpFexHYvgl9Sh0Uxcfyntylde4kEM
+ 7AEKY7cuoEE3+i27fQB8G1iaPJ+O0/khyETrGeVi0s4tVbrHrYlpzfV4BCy4oMccULQA
+ BYgLBlag6coAyYQWNLvSVzA7SVmgsLWt2KumohPrqlsSIOChYRN1mZ8dQZX7BV8oYgGe
+ gUHyKJE5Qons4NmvYMFtO6EKWtUsUme2w2MHhyQ/NEzdnUKYrdRes2YCJGmIfJjJCuiE
+ T9OIQ50aR3LnjAGr4P7mopkXqbfe6Ydb2rK4mLNVxQC5HNAetRyPclTHpuu8cCDYTZp0
+ rA5w==
+X-Gm-Message-State: AOAM533eAbL8EqCMvoyQq8YqVcDbvliglW2g+Bc8xavkfF+I2F3qcrIP
+ 2DEAo9Rodp8Pna4p1CtAtlilncjU
+X-Google-Smtp-Source: ABdhPJxCfm65B9QymBuSYl0uWUhWv26VccEjbI0Zx7MFMpy9vC0qnImnJ8dukWA3Z5FXlCBzXTMDVQ==
+X-Received: by 2002:adf:de91:: with SMTP id w17mr7186608wrl.108.1596716775331; 
+ Thu, 06 Aug 2020 05:26:15 -0700 (PDT)
+Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id m14sm6596426wrx.76.2020.08.06.05.26.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Aug 2020 05:26:14 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2] target/mips: Report unimplemented cache() operations
+Date: Thu,  6 Aug 2020 14:26:12 +0200
+Message-Id: <20200806122612.17167-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <CAFubqFvm=k0FyELUd=rYK7CO=Dxns-jVxy4UGqfGfXPFNT1cFw@mail.gmail.com>
- <20200729101851-mutt-send-email-mst@kernel.org>
- <CAFubqFtJLpp0eceOKXkhuTd6Rb2xviymx6hr-qkTc9Bw1ffWtw@mail.gmail.com>
- <20200806014525-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200806014525-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Aug 2020 13:22:04 +0100
-Message-ID: <CAFEAcA_+GN8acwnHkEixLS6d-pQePSZBzp1PiXYV3ZXLE9Rxcw@mail.gmail.com>
-Subject: Re: Adding VHOST_USER_PROTOCOL_F_CONFIG_MEM_SLOTS to 5.1 release notes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32f.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,21 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Raphael Norwitz <raphael.s.norwitz@gmail.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Aug 2020 at 06:50, Michael S. Tsirkin <mst@redhat.com> wrote:
-> Peter, can you pls allow Raphael wiki access? I don't remember how it's done ...
+We only implement the Index[Store/Load]Tag from the 'cache' opcode.
+Instead of ignoring the other cache operations, report them as
+unimplemented.
 
-Anybody with an account can create a new account for somebody
-else via the https://en.wikipedia.org/wiki/Special:CreateAccount
-page. (It's only not self-sign-up because we were bombarded
-with spam accounts.)
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/op_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Raphael, what username would you like?
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 9552b280e0..7f87e57c8e 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -1583,6 +1583,8 @@ void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
+         /* Index Load Tag */
+         memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
+                                     MO_64, MEMTXATTRS_UNSPECIFIED);
++    } else {
++        qemu_log_mask(LOG_UNIMP, "cache %u\n", op);
+     }
+ #endif
+ }
+-- 
+2.21.3
 
-thanks
--- PMM
 
