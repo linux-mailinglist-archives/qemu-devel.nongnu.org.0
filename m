@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A073A23E33B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:34:22 +0200 (CEST)
-Received: from localhost ([::1]:57038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB44C23E336
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:31:35 +0200 (CEST)
+Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3maj-0003Xk-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51866)
+	id 1k3mY2-0007PX-DA
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3m7Y-0000Bo-SI
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 16:04:12 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:41718)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3mEw-0006H0-38
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 16:11:50 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1k3m7W-0003EM-TH
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 16:04:12 -0400
-Received: by mail-lf1-x143.google.com with SMTP id i19so26746373lfj.8
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 13:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hsoeGUdxWFh6vi9rrbfC7qJTPAg5ExZDCEGBLOBlaok=;
- b=cCJd3j7NbQ1Prv1w/8ZgBN3YIGF3x5bj+l99J+9zGz6mHCMQCGe3G92S2HbluetnUu
- gzmd1rAJc21O68JEY6KpwNzn+LChRPujJ88fpwMX0BJgrhspbi0GBjXQsafRAOdH2TK2
- E5b520A820BbvMjR+93vdpjcvXWZpBNRz4Z09dZyp1aXCjW9iPt3mulPyyZI5Ts+Ytdh
- FHM18fNdaWJ2a6BymbcqqkCVfDl7PXP7BaGpslEfT3kmvIFRPwkyXuilVerBzbg06woI
- Zf4tyhGZkHNSBp8J2ioBD8npSmccXT+zLh/XGlYTDy/Zlvf00MPPWwg/Vzf6O1MVE2V1
- zSCA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3mEu-0004Bh-Hi
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 16:11:49 -0400
+Received: by mail-wr1-x443.google.com with SMTP id z18so41605893wrm.12
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 13:11:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yGznpTt9hNOsMnxk5jyKH9aLtAcYOTWPD2BmiJHoX8g=;
+ b=UyxtZzsb4an5A/RvDO0Y35juCnxDQQxR1eUEA1F4wNHbTaRMGvJdIU2mISnUWhZL6J
+ pq8aIqCUQhmr80lHupJwOtWyoWjcftt2pYbL2/llqdG+D6an2HUVc1c8g0THTIOokisq
+ 6OPxM0wWNuGH54OyperJfjAmThijop9A5xWRijCMhwvudmVCHKlo0zwopaCmxwrsnoDd
+ vsuDqVOk4RpeyuDfHOfKCgFzkLApXa9MUgORQVCKkT++ZyjhgCFOnasaNfaoQHT9pCdg
+ OCuhzjgPQmxG6Uv/uWNulfhxS2Y1Kr2A6G87XIoRetJgpwBiLCuefTYtdwD3ttCUYL6b
+ p8Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hsoeGUdxWFh6vi9rrbfC7qJTPAg5ExZDCEGBLOBlaok=;
- b=cgZUeDqhjoEU/QN9r/8i/s7ZnEPx/SQQLRN2AlX5KBS3drTAWWGDVlWbf5/6HQi2MN
- ugzRQBNpT+PoW9CSlRFghC69z84FA3OqFAH54DrP2uEPbnxbDCXch/UyV769RxTqnjhR
- yQ3ppaQi9cF23RSyEhExjLHkkt3EG9LoiUYwJlYIejRsLJ6BrN07Vj2k5g9pNIMYXH2Z
- pt763EMZCJTSLOLAUxmZ6rm/JYND0WuIigqOzO7vToQaqYcy8/iU+JeACTnPkHUS7djE
- Ut9xE+kCGZrsQzJozH/KSV04ugBUe1WY4wivmY8dSa3jmfa8LnUVbCOZs3e2BblFTJs1
- uqEw==
-X-Gm-Message-State: AOAM533hIotYgdy+xzCadAvQHMGGjATxDTAo8hMOGqq+uheOerW8wCab
- uYSBPmHkmlTasP9lJDJx0LmtvoWuR8ayvlv8E4s+3Q==
-X-Google-Smtp-Source: ABdhPJxxrXxNrrIKkVFcE1SnYTx3fAJmpt33svWX3pJDVbbI3N2cJajpEF/CKEHjwDEOpG28dd/7Ink3cM8+FTioCsg=
-X-Received: by 2002:a19:189:: with SMTP id 131mr4732745lfb.128.1596744248362; 
- Thu, 06 Aug 2020 13:04:08 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yGznpTt9hNOsMnxk5jyKH9aLtAcYOTWPD2BmiJHoX8g=;
+ b=qYJjZEaePlA4zPE3Uh7izFxgWaILDJ+qYfv0bNHFrgHpdGgkK8zDYs39uU5NVAsWm3
+ 5oKFCcE0GXJvBN1H4/kR7KcFNZqTMwuHZXbBcPc0vGpA1/YjQ0XbM/2MCc+gDRkw+QBs
+ hK8t6IHva5lNMj7nRXVf5Fes0GJySs0mWAUPLi/HCEnAYe+kig5Nujb4pk/KowmkzO9S
+ aCToxJphpeUKi/bQthBgZ3N9ZB4P61IYSJW5v/7gSEGm8urFgjg7/X3rIs8GUeGWbnqP
+ jwKuEU3ApZxTZzfLxI68HD/ALY4FGaNm6WxsqEfXoWjBvkhxY3SWxTv2KJl7dsrKRDKP
+ 0Jug==
+X-Gm-Message-State: AOAM531auxEVEc8CgPke+3Ax8uUNW4VUZ4uHMxjim1c9SRTl2jnknsEk
+ bBwGbRG63QzTM1WQFtvQC2g=
+X-Google-Smtp-Source: ABdhPJxzQt5ablqWdzfoAhNNxZ+7S/K4ahux7pA/Fl/qH+ifxxJUF2+LcXMqh+iUsaAInSQOpsRRNA==
+X-Received: by 2002:adf:ded0:: with SMTP id i16mr8792100wrn.389.1596744706587; 
+ Thu, 06 Aug 2020 13:11:46 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id o125sm8586969wma.27.2020.08.06.13.11.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Aug 2020 13:11:44 -0700 (PDT)
+Subject: Re: [PATCH-for-5.2] target/mips: Report unimplemented cache()
+ operations
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20200806122612.17167-1-f4bug@amsat.org>
+ <e55da0ff-e88c-f2f4-0430-32255f7e58fe@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ec0ff553-a5e7-6c93-5ab3-093721b044a6@amsat.org>
+Date: Thu, 6 Aug 2020 22:11:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200805181303.7822-1-robert.foley@linaro.org>
- <20200805181303.7822-2-robert.foley@linaro.org>
- <ca24d2c5-2c5e-eace-4cf2-90011e684485@linaro.org>
- <4e678ed7-fc36-7918-ce9e-7a7e309c56df@redhat.com>
- <CAEyhzFvveC=nhpo4uyJ_89J8Wi4+9NEc2T2Mk9mg6Y9ZMQjNSA@mail.gmail.com>
-In-Reply-To: <CAEyhzFvveC=nhpo4uyJ_89J8Wi4+9NEc2T2Mk9mg6Y9ZMQjNSA@mail.gmail.com>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Thu, 6 Aug 2020 16:04:29 -0400
-Message-ID: <CAEyhzFvh79ViuXYLYyihTBS3d5dviGpOXjntAt95yyuwE+HwLA@mail.gmail.com>
-Subject: Re: [PATCH v1 01/21] accel/tcg: Change interrupt/exception handling
- to remove implied BQL
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=robert.foley@linaro.org; helo=mail-lf1-x143.google.com
+In-Reply-To: <e55da0ff-e88c-f2f4-0430-32255f7e58fe@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,97 +91,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
- Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The comment around documenting the cpu_mutex fields and critical sections
-got us thinking and revisiting our locking assumptions in cpu_handle_interrupt.
+On 8/6/20 8:01 PM, Jiaxun Yang wrote:
+> 在 2020/8/6 下午8:26, Philippe Mathieu-Daudé 写道:
+>> We only implement the Index[Store/Load]Tag from the 'cache' opcode.
+>> Instead of ignoring the other cache operations, report them as
+>> unimplemented.
+> 
+> Hmm, I don't think we have anything to do with Invalidate/Writeback etc.
+> opcodes
+> in QEMU. Why do we log this?
 
-Initially we were thinking that removing the BQL from cpu_handle_interrupt
-meant that we needed to replace it with the cpu mutex to protect the per cpu
-data that is accessed like interrupt_request.  We are reconsidering this and
-now thinking that the cpu mutex might not be needed here.
+I'm noticed this code is run on Linux 3.3.8 (4KEc):
 
-BQL is clearly needed to protect the critical section around the call to
-->cpu_exec_interrupt.  What else is the BQL protecting in cpu_handle_interrupt
-that we need to consider?  Are we missing anything here?
+    8880:       3082000f        andi    v0,a0,0xf
+    8884:       10800008        beqz    a0,88a8
+    8888:       00a21021        addu    v0,a1,v0
+    888c:       08002227        j       889c
+    8890:       00001821        move    v1,zero
+    8894:       bcf90000        cache   0x19,0(a3)
+    8898:       24630010        addiu   v1,v1,16
+    889c:       0062302b        sltu    a2,v1,v0
+    88a0:       14c0fffc        bnez    a2,8894
+    88a4:       00833821        addu    a3,a0,v1
+    88a8:       03e00008        jr      ra
+    88ac:       00000000        nop
 
-It's also worth mentioning that we did give this approach a try.
-We tried out changes to cpu_handle_interrupt(),
-dropping the BQL from all but around ->cpu_exec_interrupt, and not using the
-cpu_mutex at all.  It seemed to be functional, passing all the tests that
-we tried (so far). :)
+Why silently ignore the opcode is not implemented instead of logging it?
 
-Thanks,
--Rob
-
-On Thu, 6 Aug 2020 at 12:11, Robert Foley <robert.foley@linaro.org> wrote:
->
-> On Thu, 6 Aug 2020 at 05:22, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > On 05/08/20 21:18, Richard Henderson wrote:
-> > > On 8/5/20 11:12 AM, Robert Foley wrote:
-> > >> This change removes the implied BQL from the cpu_handle_interrupt,
-> > >> and cpu_handle_exception paths. This BQL acquire is being pushed
-> > >> down into the per arch implementation.
-> > >>
-> > >> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> > >> ---
-> > >>  accel/tcg/cpu-exec.c | 19 +++++++++++--------
-> > >>  1 file changed, 11 insertions(+), 8 deletions(-)
-> > >>
-> > >> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> > >> index 80d0e649b2..8e2bfd97a1 100644
-> > >> --- a/accel/tcg/cpu-exec.c
-> > >> +++ b/accel/tcg/cpu-exec.c
-> > >> @@ -517,9 +517,7 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-> > >>  #else
-> > >>          if (replay_exception()) {
-> > >>              CPUClass *cc = CPU_GET_CLASS(cpu);
-> > >> -            qemu_mutex_lock_iothread();
-> > >>              cc->do_interrupt(cpu);
-> > >> -            qemu_mutex_unlock_iothread();
-> > >>              cpu->exception_index = -1;
-> > >>
-> > >
-> > > This patch is not bisectable.  The removal of the lock here needs to happen at
-> > > the end, or something.
-> >
-> > Indeed the series should be structured like this:
-> >
-> > 1) rename all *_do_interrupt functions to *_do_interrupt_locked
-> >
-> > 2) add back *_do_interrupt that takes the BQL and calls
-> > *_do_interrupt_locked, point ->do_interrupt to it, remove the BQL from
-> > cpu-exec.c
-> >
-> > 3) modify the cpu_mutex and BQL critical sections around
-> > ->cpu_exec_interrupt, so that the BQL critical section covers just the
-> > call to ->cpu_exec_interrupt.  Document which fields are now covered by
-> > cpu_mutex.
-> >
-> > 4/5) same as 1/2 for ->cpu_exec_interrupt
-> >
-> > Patches 1/2 would be pretty large, but they're trivial to review just by
-> > grepping for "->do_interrupt\s*=", and likewise for 4/5.
-> >
->
-> Thanks for the details !
->
-> It seems like we will have 3 separate patches for this series, 1/2, 3, and 4/5.
->
-> We will go in this direction.
->
-> Thanks,
-> -Rob
->
-> > Thanks,
-> >
-> > Paolo
-> >
+> 
+> Thanks.
+> 
+> - Jiaxun
+> 
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   target/mips/op_helper.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+>> index 9552b280e0..7f87e57c8e 100644
+>> --- a/target/mips/op_helper.c
+>> +++ b/target/mips/op_helper.c
+>> @@ -1583,6 +1583,8 @@ void helper_cache(CPUMIPSState *env,
+>> target_ulong addr, uint32_t op)
+>>           /* Index Load Tag */
+>>           memory_region_dispatch_read(env->itc_tag, index,
+>> &env->CP0_TagLo,
+>>                                       MO_64, MEMTXATTRS_UNSPECIFIED);
+>> +    } else {
+>> +        qemu_log_mask(LOG_UNIMP, "cache %u\n", op);
+>>       }
+>>   #endif
+>>   }
+> 
 
