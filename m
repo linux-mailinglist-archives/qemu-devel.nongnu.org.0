@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A7E23D85C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:14:42 +0200 (CEST)
-Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9B323D86C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:18:56 +0200 (CEST)
+Received: from localhost ([::1]:45486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3byz-0005Tj-JN
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:14:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47698)
+	id 1k3c35-0007jB-57
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k3bxv-0004yM-87
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:13:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55490
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k3bxt-0004p6-Ig
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:13:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596705212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yKGIh8y6QwPIQgxqaDk8Mo2904QCSrmps4tz+L5wPXw=;
- b=JH7x405mLseuQoUc3nuvU210mIzKJbgZgBMWQ1EQtuje79oV/YZmPxy+vYjp97Y5SpOwhP
- myUlCzIGAOGdW8sE4RpP/yB7Z2n/GXo10lwNAmfnzAlldE940MrzIyYJ2eZkmgOnBISpdB
- 9I7uT1Vxvnz1rj8ytZ0c4l2eAP0wK7Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-tXndaqyZNL6gozeSzfNMfw-1; Thu, 06 Aug 2020 05:13:31 -0400
-X-MC-Unique: tXndaqyZNL6gozeSzfNMfw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAB44800685;
- Thu,  6 Aug 2020 09:13:29 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-19.ams2.redhat.com [10.36.114.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4ADE75DA60;
- Thu,  6 Aug 2020 09:13:28 +0000 (UTC)
-Date: Thu, 6 Aug 2020 11:13:26 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [PATCH] qcow2: flush qcow2 l2 meta for new allocated clusters
-Message-ID: <20200806091326.GC17753@linux.fritz.box>
-References: <20200805023826.184-1-fangying1@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3c2F-00074S-Cf
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:18:03 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3c2C-0005Hi-H3
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:18:03 -0400
+Received: by mail-oi1-x241.google.com with SMTP id l204so13496087oib.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 02:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DxTvDL4aYr6D+jUsHru3iFLI0rDaYdAdjro4hzMumMI=;
+ b=B7PaQlgEmTjVw+R+tSAGSQA6WSKPWuIZVdeSqrTTuZRTszE1qHwwJZEzosW1Wo2qtn
+ PQLBO/PMSRQ7nJosivTrxuJkiULmwTmImV/CDQ2ag7cSLhYE/UC8uUw+hfyw0KF7Va5q
+ pIn1gt5pHu7vdhlvtZFnHkX3Y4eaLMIRtLKqDhzTdSjNdiWCq/PJw3R8JxcxILA8U2gy
+ SHWbBPOZvndMbQURuWp6l/twtf1LLJAsf0arBrOhmf0+DLgNoXvxF1lEMnOxBhqboTHh
+ JECWv6RGCBgGgZFzaE9LapH1O+yDL7YWWhs38dcnrvgqfuc3OWUD8hy7M6aDE32gJCKo
+ Homw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DxTvDL4aYr6D+jUsHru3iFLI0rDaYdAdjro4hzMumMI=;
+ b=MBsEwY1e0KQZpu6mWdJnS2QlsYaufVim+ZDM2bInWt08gs+xZUguZ9uJcMKbWBFqW3
+ VfZfttEyTSIn4PSwYkYOSVpGg7xCscZDWIGm/xehGL3NNipIiOG9dUl4HrkGYa17YWhZ
+ wEyjt8aXcyld7dSnlH0Eogk4T8U4UjzEwBQOTBo0b2K4Ja1IsisEoqHp4OULJ9JYoL3t
+ d/nvCjVEjTXx0/GOkAgMU35JORI5q0CWJqfvr9roF00TmLRywc3TyvxxWStayRtHhT4I
+ faPB+DR9iE5iPAkQXjywsIhOiO1ji6SZte69DO02VCsxxKVammTWoN70E+o/uYM2RPjG
+ dT5g==
+X-Gm-Message-State: AOAM531cSG885On8XhkZMMPoDWGs27JrD9R2eEkLL1PUTEEzeBwWprnC
+ VfAF39QdNOhlVAuUDznvyjzqCL3G/miZ3vxyroMAsg==
+X-Google-Smtp-Source: ABdhPJx3/CYlFos9/ffQERP9btXsVMCOg5fTXXiGoBYsL3C6dTwJfVh+tIDbfmAu7bnf3XixUiYO9xEiBDPw2m0tbl0=
+X-Received: by 2002:aca:50c4:: with SMTP id e187mr5875121oib.146.1596705478947; 
+ Thu, 06 Aug 2020 02:17:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200805023826.184-1-fangying1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200723025657.644724-1-bauerman@linux.ibm.com>
+ <878sf3uojf.fsf@morokweng.localdomain>
+ <20200730005947.GO84173@umbus.fritz.box>
+ <CAAdtpL5Mtaf7Xwu74U33eGTCAiFZNNXeCST8COwQeW8S9j8ZVQ@mail.gmail.com>
+ <87a6zh3uyv.fsf@morokweng.localdomain> <874kph58o5.fsf@morokweng.localdomain>
+ <CAFEAcA-Yi754zyxHd+bggjny5vXw=rrs5fm6SZCcxwVUeoTtOg@mail.gmail.com>
+ <20200806051355.GA157233@yekko.fritz.box>
+In-Reply-To: <20200806051355.GA157233@yekko.fritz.box>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Aug 2020 10:17:47 +0100
+Message-ID: <CAFEAcA8fg8b-Z_fd9mK6QPurNhQYNGMhRc_r9RizYndrFC2DMA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] Generalize start-powered-off property from ARM
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,35 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.08.2020 um 04:38 hat Ying Fang geschrieben:
-> From: fangying <fangying1@huawei.com>
-> 
-> When qemu or qemu-nbd process uses a qcow2 image and configured with
-> 'cache = none', it will write to the qcow2 image with a cache to cache
-> L2 tables, however the process will not use L2 tables without explicitly
-> calling the flush command or closing the mirror flash into the disk.
-> Which may cause the disk data inconsistent with the written data for
-> a long time. If an abnormal process exit occurs here, the issued written
-> data will be lost.
-> 
-> Therefore, in order to keep data consistency we need to flush the changes
-> to the L2 entry to the disk in time for the newly allocated cluster.
-> 
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
+On Thu, 6 Aug 2020 at 06:53, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> On Wed, Aug 05, 2020 at 08:04:11PM +0100, Peter Maydell wrote:
+> > On Wed, 5 Aug 2020 at 18:01, Thiago Jung Bauermann
+> > <bauerman@linux.ibm.com> wrote:
+> > > Any news on this? Is there something I should be doing? I saw -rc3 today
+> > > but not these patches.
+> >
+> > Sorry, you've missed the bus for 5.1 at this point. I'd assumed
+> > that the relevant bits of the patchset would go into a PPC pullreq
+> > if it was important for 5.1.
+>
+> Ah, bother.  Meanwhile I assumed that since it was cross-target it was
+> going in separately, so I didn't take it through my tree.
 
-If you want to have data safely written to the disk after each write
-request, you need to use cache=writethrough/directsync (in other words,
-aliases that are equivalent to setting -device ...,write-cache=off).
-Note that this will have a major impact on write performance.
+This kind of confusion is why it's a good idea to list "this ought
+to be fixed for the release" issues on the Planning wiki page. That
+way I will see them when I'm looking for patches that might have
+been forgotten or that I need to wait for a pullreq for before tagging...
 
-cache=none means bypassing the kernel page cache (O_DIRECT), but not
-flushing after each write request.
-
-Kevin
-
+-- PMM
 
