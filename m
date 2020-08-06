@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2255E23D71D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 08:59:40 +0200 (CEST)
-Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2D823D726
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:06:54 +0200 (CEST)
+Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ZsI-0002mP-L4
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 02:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47232)
+	id 1k3ZzJ-0004hb-4x
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1k3ZrF-0002LE-Rt
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 02:58:33 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4226 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1k3ZyX-0004DJ-2A; Thu, 06 Aug 2020 03:06:05 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:57247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1k3ZrD-00060h-Jf
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 02:58:33 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 43A97FCE6B0BE3ED15BA;
- Thu,  6 Aug 2020 14:58:22 +0800 (CST)
-Received: from [10.174.185.104] (10.174.185.104) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 6 Aug 2020 14:58:14 +0800
-Subject: Re: [PATCH v5 0/2] add new options to set smbios type 4 fields
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200806035634.376-1-fangying1@huawei.com>
- <20200806020034-mutt-send-email-mst@kernel.org>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <3a945e72-bf77-23a5-f3bc-c4cb3e42f8ed@huawei.com>
-Date: Thu, 6 Aug 2020 14:58:14 +0800
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1k3ZyR-0006zj-GS; Thu, 06 Aug 2020 03:06:04 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07735255|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.025566-0.000491407-0.973943;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01a16378; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=6; RT=6; SR=0; TI=SMTPD_---.IDGOXO8_1596697544; 
+Received: from 30.225.208.44(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.IDGOXO8_1596697544)
+ by smtp.aliyun-inc.com(10.147.42.22); Thu, 06 Aug 2020 15:05:45 +0800
+Subject: Re: [PATCH v2 1/7] target/riscv: Generate nanboxed results from fp
+ helpers
+To: Chih-Min Chao <chihmin.chao@sifive.com>
+References: <20200724002807.441147-1-richard.henderson@linaro.org>
+ <20200724002807.441147-2-richard.henderson@linaro.org>
+ <1aa6cb56-2f41-45c1-2d32-ec8b3b10780b@c-sky.com>
+ <9e10c17c-7a9e-5f7f-b1e3-c195d4e30b32@linaro.org>
+ <ccc72223-d98e-6dd4-6c44-ca30f4e687d5@c-sky.com>
+ <CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <4183e2c5-9a9b-2416-301d-95e62ac53a6c@c-sky.com>
+Date: Thu, 6 Aug 2020 15:05:44 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200806020034-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------4A744EF9BA97243CD4F85E41"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.104]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 02:58:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:05:47
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,75 +65,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- alex.chen@huawei.com, imammedo@redhat.com, philmd@redhat.com
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------4A744EF9BA97243CD4F85E41
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-On 8/6/2020 2:01 PM, Michael S. Tsirkin wrote:
-> On Thu, Aug 06, 2020 at 11:56:32AM +0800, Ying Fang wrote:
->> From: fangying <fangying1@huawei.com>
->>
->> Hi, this patchset was previously posted by my teamate Heyi Guo several
->> months ago, however we missed the merge window. It is reposted here to
->> make it an end. Thanks.
-> 
-> 
-> Thanks, I will tag it for after the release.
-> Pls ping me after the release to make sure I don't drop it by mistake.
 
-Yes, I will do that. Hope it won't be missed this time.
-Thanks.
-> 
->> Patch description:
->>   
->> Common VM users sometimes care about CPU speed, so we add two new
->> options to allow VM vendors to present CPU speed to their users.
->> Normally these information can be fetched from host smbios.
->>
->> Strictly speaking, the "max speed" and "current speed" in type 4
->> are not really for the max speed and current speed of processor, for
->> "max speed" identifies a capability of the system, and "current speed"
->> identifies the processor's speed at boot (see smbios spec), but some
->> applications do not tell the differences.
->>
->> Changelog:
->>
->> v4 -> v5:
->> - Rebase patch for lastest upstream
->>
->> v3 -> v4:
->> - Fix the default value when not specifying "-smbios type=4" option;
->> it would be 0 instead of 2000 in previous versions
->> - Use uint64_t type to check value overflow
->> - Add test case to check smbios type 4 CPU speed
->> - v4 https://patchwork.kernel.org/cover/11444635/
->>
->> v2 -> v3:
->> - Refine comments per Igor's suggestion.
->>
->> v1 -> v2:
->> - change "_" in option names to "-"
->> - check if option value is too large to fit in SMBIOS type 4 speed
->> fields.
->>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->>
->> Ying Fang (2):
->>    hw/smbios: add options for type 4 max-speed and current-speed
->>    tests/bios-tables-test: add smbios cpu speed test
->>
->>   hw/smbios/smbios.c       | 36 ++++++++++++++++++++++++++++++----
->>   qemu-options.hx          |  2 +-
->>   tests/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 75 insertions(+), 5 deletions(-)
->>
->> -- 
->> 2.23.0
-> 
-> .
-> 
+On 2020/8/6 14:09, Chih-Min Chao wrote:
+> On Fri, Jul 24, 2020 at 2:06 PM LIU Zhiwei <zhiwei_liu@c-sky.com 
+> <mailto:zhiwei_liu@c-sky.com>> wrote:
+>
+>
+>
+>     On 2020/7/24 11:55, Richard Henderson wrote:
+>     > On 7/23/20 7:35 PM, LIU Zhiwei wrote:
+>     >>
+>     >> On 2020/7/24 8:28, Richard Henderson wrote:
+>     >>> Make sure that all results from single-precision scalar helpers
+>     >>> are properly nan-boxed to 64-bits.
+>     >>>
+>     >>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org
+>     <mailto:richard.henderson@linaro.org>>
+>     >>> ---
+>     >>>    target/riscv/internals.h  |  5 +++++
+>     >>>    target/riscv/fpu_helper.c | 42
+>     +++++++++++++++++++++------------------
+>     >>>    2 files changed, 28 insertions(+), 19 deletions(-)
+>     >>>
+>     >>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+>     >>> index 37d33820ad..9f4ba7d617 100644
+>     >>> --- a/target/riscv/internals.h
+>     >>> +++ b/target/riscv/internals.h
+>     >>> @@ -38,4 +38,9 @@ target_ulong fclass_d(uint64_t frs1);
+>     >>>    #define SEW32 2
+>     >>>    #define SEW64 3
+>     >>>    +static inline uint64_t nanbox_s(float32 f)
+>     >>> +{
+>     >>> +    return f | MAKE_64BIT_MASK(32, 32);
+>     >>> +}
+>     >>> +
+>     >> If define it here,  we can also define a more general  function
+>     with flen.
+>     >>
+>     >> +static inline uint64_t nanbox_s(float32 f, uint32_t flen)
+>     >> +{
+>     >> +    return f | MAKE_64BIT_MASK(flen, 64 - flen);
+>     >> +}
+>     >> +
+>     >>
+>     >> So we can reuse it in fp16 or bf16 scalar instruction and in
+>     vector instructions.
+>     > While we could do that, we will not encounter all possible
+>     lengths.  In the
+>     > cover letter, I mentioned defining a second function,
+>     >
+>     > static inline uint64_t nanbox_h(float16 f)
+>     > {
+>     >     return f | MAKE_64BIT_MASK(16, 48);
+>     > }
+>     >
+>     > Having two separate functions will, I believe, be easier to use
+>     in practice.
+>     >
+>     Get  it. Thanks.
+>
+>     Zhiwei
+>     >
+>     > r~
+>
+>
+>
+> That is what has been implemented in spike.  It fills up the Nan-Box 
+> when value is stored back internal structure and
+> unbox the value with difference floating type (half/single/double/quad).
+Hi Chih-Min,
+
+Has half-precision been a part of RVV? Or do you know the ISA 
+abbreviation of half-precision?
+
+Thanks very much.
+
+Best Regards,
+Zhiwei
+>
+> By the way,  I prefer to keeping the suffix to tell different floating 
+> type rather than pass arbitrary
+> since each floating type belong to each extension.
+>
+> Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com 
+> <mailto:chihmin.chao@sifive.com>>
+
+
+--------------4A744EF9BA97243CD4F85E41
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020/8/6 14:09, Chih-Min Chao wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr">
+          <div>
+            <div dir="ltr" class="gmail_signature"
+              data-smartmail="gmail_signature">
+              <div dir="ltr">On Fri, Jul 24, 2020 at 2:06 PM LIU Zhiwei
+                &lt;<a href="mailto:zhiwei_liu@c-sky.com"
+                  moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                wrote:<br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex"><br>
+            <br>
+            On 2020/7/24 11:55, Richard Henderson wrote:<br>
+            &gt; On 7/23/20 7:35 PM, LIU Zhiwei wrote:<br>
+            &gt;&gt;<br>
+            &gt;&gt; On 2020/7/24 8:28, Richard Henderson wrote:<br>
+            &gt;&gt;&gt; Make sure that all results from
+            single-precision scalar helpers<br>
+            &gt;&gt;&gt; are properly nan-boxed to 64-bits.<br>
+            &gt;&gt;&gt;<br>
+            &gt;&gt;&gt; Signed-off-by: Richard Henderson &lt;<a
+              href="mailto:richard.henderson@linaro.org" target="_blank"
+              moz-do-not-send="true">richard.henderson@linaro.org</a>&gt;<br>
+            &gt;&gt;&gt; ---<br>
+            &gt;&gt;&gt;    target/riscv/internals.h  |  5 +++++<br>
+            &gt;&gt;&gt;    target/riscv/fpu_helper.c | 42
+            +++++++++++++++++++++------------------<br>
+            &gt;&gt;&gt;    2 files changed, 28 insertions(+), 19
+            deletions(-)<br>
+            &gt;&gt;&gt;<br>
+            &gt;&gt;&gt; diff --git a/target/riscv/internals.h
+            b/target/riscv/internals.h<br>
+            &gt;&gt;&gt; index 37d33820ad..9f4ba7d617 100644<br>
+            &gt;&gt;&gt; --- a/target/riscv/internals.h<br>
+            &gt;&gt;&gt; +++ b/target/riscv/internals.h<br>
+            &gt;&gt;&gt; @@ -38,4 +38,9 @@ target_ulong
+            fclass_d(uint64_t frs1);<br>
+            &gt;&gt;&gt;    #define SEW32 2<br>
+            &gt;&gt;&gt;    #define SEW64 3<br>
+            &gt;&gt;&gt;    +static inline uint64_t nanbox_s(float32 f)<br>
+            &gt;&gt;&gt; +{<br>
+            &gt;&gt;&gt; +    return f | MAKE_64BIT_MASK(32, 32);<br>
+            &gt;&gt;&gt; +}<br>
+            &gt;&gt;&gt; +<br>
+            &gt;&gt; If define it here,  we can also define a more
+            general  function with flen.<br>
+            &gt;&gt;<br>
+            &gt;&gt; +static inline uint64_t nanbox_s(float32 f,
+            uint32_t flen)<br>
+            &gt;&gt; +{<br>
+            &gt;&gt; +    return f | MAKE_64BIT_MASK(flen, 64 - flen);<br>
+            &gt;&gt; +}<br>
+            &gt;&gt; +<br>
+            &gt;&gt;<br>
+            &gt;&gt; So we can reuse it in fp16 or bf16 scalar
+            instruction and in vector instructions.<br>
+            &gt; While we could do that, we will not encounter all
+            possible lengths.  In the<br>
+            &gt; cover letter, I mentioned defining a second function,<br>
+            &gt;<br>
+            &gt; static inline uint64_t nanbox_h(float16 f)<br>
+            &gt; {<br>
+            &gt;     return f | MAKE_64BIT_MASK(16, 48);<br>
+            &gt; }<br>
+            &gt;<br>
+            &gt; Having two separate functions will, I believe, be
+            easier to use in practice.<br>
+            &gt;<br>
+            Get  it. Thanks.<br>
+            <br>
+            Zhiwei<br>
+            &gt;<br>
+            &gt; r~<br>
+            <br>
+            <br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>That is what has been implemented in spike.  It fills up
+            the Nan-Box when value is stored back internal structure
+            and </div>
+          <div>unbox the value with difference floating type
+            (half/single/double/quad).<br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    Hi Chih-Min,<br>
+    <br>
+    Has half-precision been a part of RVV? Or do you know the ISA
+    abbreviation of half-precision?<br>
+    <br>
+    Thanks very much.<br>
+    <br>
+    Best Regards,<br>
+    Zhiwei <br>
+    <blockquote type="cite"
+cite="mid:CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div><br>
+          </div>
+          <div>By the way,  I prefer to keeping the suffix to tell
+            different floating type rather than pass arbitrary </div>
+          <div>since each floating type belong to each extension.<br>
+            <br>
+            Reviewed-by: Chih-Min Chao &lt;<a
+              href="mailto:chihmin.chao@sifive.com"
+              moz-do-not-send="true">chihmin.chao@sifive.com</a>&gt;<br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------4A744EF9BA97243CD4F85E41--
 
