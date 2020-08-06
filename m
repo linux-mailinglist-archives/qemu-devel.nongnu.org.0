@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F24F23E262
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:41:47 +0200 (CEST)
-Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9369823E242
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:33:18 +0200 (CEST)
+Received: from localhost ([::1]:50646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3llq-0004mq-CX
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
+	id 1k3ldd-0002u6-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lOc-0005Ca-Uw
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48580
+ id 1k3lOe-0005HE-PT
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48473
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lOb-0006Uw-0c
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:46 -0400
+ id 1k3lOc-0006V5-KF
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741464;
+ s=mimecast20190719; t=1596741465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6wO8raEgHBnlFflJAwvU3qxSsZ5hDYhpF9l/u5QiqSg=;
- b=IZSs09pL00F0Wt+lRiBPd95UlueSjOhFN1REUfAJ3H0q7R7RgeEN8O5tYCuzeI4xPiOid5
- soiu+2ouvRX459QT87DHzqQGOP9kCf9hltJLxwO1Hcm/xGd/MIDi5n+HzeFwgDKDs+0BqN
- Yr3E6tfdpJfz7a3GWVnn7O8T8AcE7k0=
+ bh=dpg0CJumR86PkkeY1Gf1cjU4KFPvEBJI2ORd8lBQyNw=;
+ b=Sy8mPHzOKiMdzpOumBbdw/aPy3tn4jsC8fWgDyRNwiKH0VY52Q2fx5gZUGkEvGJBorYYIt
+ nCtZyPXVAY3GycvoCwb1+59CKFxoB27vjxM4P0Kurounua9SCir90Eu7+YU9guklAr1xT2
+ mG4kyOKpkldaklTyt/32nO60+OaZFGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-ZqZaqlBeMou2BQoQd1AmRw-1; Thu, 06 Aug 2020 15:17:42 -0400
-X-MC-Unique: ZqZaqlBeMou2BQoQd1AmRw-1
+ us-mta-230-sIGt4aQpPZmVMp2ffTABwg-1; Thu, 06 Aug 2020 15:17:44 -0400
+X-MC-Unique: sIGt4aQpPZmVMp2ffTABwg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0C60107BEF5
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 360398064AB
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:43 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E21D16179B;
- Thu,  6 Aug 2020 19:17:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 473955F9DC;
+ Thu,  6 Aug 2020 19:17:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 043/143] meson: generate shader headers
-Date: Thu,  6 Aug 2020 21:14:39 +0200
-Message-Id: <1596741379-12902-44-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 044/143] meson: generate hxtool files
+Date: Thu,  6 Aug 2020 21:14:40 +0200
+Message-Id: <1596741379-12902-45-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,93 +91,123 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile              | 19 -------------------
- meson.build           |  1 +
- ui/meson.build        |  2 ++
- ui/shader/meson.build | 15 +++++++++++++++
- 4 files changed, 18 insertions(+), 19 deletions(-)
- create mode 100644 ui/shader/meson.build
+ Makefile        |  8 +-------
+ Makefile.target |  6 ------
+ meson.build     | 21 +++++++++++++++++++++
+ scripts/hxtool  |  2 +-
+ 4 files changed, 23 insertions(+), 14 deletions(-)
+ mode change 100644 => 100755 scripts/hxtool
 
 diff --git a/Makefile b/Makefile
-index d9a8633..3fafc89 100644
+index 3fafc89..984f784 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -376,7 +376,6 @@ clean: recurse-clean
+@@ -105,7 +105,7 @@ include $(SRC_PATH)/rules.mak
+ # lor is defined in rules.mak
+ CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
+ 
+-generated-files-y = config-host.h qemu-options.def
++generated-files-y = config-host.h
+ 
+ generated-files-y += module_block.h
+ 
+@@ -247,8 +247,6 @@ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all mo
+ 
+ config-host.h: config-host.h-timestamp
+ config-host.h-timestamp: config-host.mak
+-qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+ 
+ TARGET_DIRS_RULES := $(foreach t, all fuzz clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
+ 
+@@ -355,9 +353,6 @@ ifdef CONFIG_MPATH
+ scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
+ endif
+ 
+-qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+-
+ module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
+ 	$(call quiet-command,$(PYTHON) $< $@ \
+ 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
+@@ -375,7 +370,6 @@ clean: recurse-clean
+ 	rm -f $(edk2-decompressed)
  	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
  	rm -f fsdev/*.pod scsi/*.pod
- 	rm -f qemu-img-cmds.h
--	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+-	rm -f qemu-img-cmds.h
  	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
  	rm -f config-all-devices.mak
  	rm -f $(SUBDIR_DEVICES_MAK)
-@@ -598,24 +597,6 @@ endif
- 	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
-         done
+diff --git a/Makefile.target b/Makefile.target
+index 0b32364..257afc2 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -225,12 +225,6 @@ endif
+ gdbstub-xml.c: $(TARGET_XML_FILES) $(SRC_PATH)/scripts/feature_to_c.sh
+ 	$(call quiet-command,rm -f $@ && $(SHELL) $(SRC_PATH)/scripts/feature_to_c.sh $@ $(TARGET_XML_FILES),"GEN","$(TARGET_DIR)$@")
  
--# opengl shader programs
--ui/shader/%-vert.h: $(SRC_PATH)/ui/shader/%.vert $(SRC_PATH)/scripts/shaderinclude.pl
--	@mkdir -p $(dir $@)
--	$(call quiet-command,\
--		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
--		"VERT","$@")
+-hmp-commands.h: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$(TARGET_DIR)$@")
 -
--ui/shader/%-frag.h: $(SRC_PATH)/ui/shader/%.frag $(SRC_PATH)/scripts/shaderinclude.pl
--	@mkdir -p $(dir $@)
--	$(call quiet-command,\
--		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
--		"FRAG","$@")
+-hmp-commands-info.h: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$(TARGET_DIR)$@")
 -
--ui/shader.o: $(SRC_PATH)/ui/shader.c \
--	ui/shader/texture-blit-vert.h \
--	ui/shader/texture-blit-flip-vert.h \
--	ui/shader/texture-blit-frag.h
--
- # documentation
- MAKEINFO=makeinfo
- MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
+ clean: clean-target
+ 	rm -f *.a *~ $(PROGS)
+ 	rm -f $(shell find . -name '*.[od]')
 diff --git a/meson.build b/meson.build
-index f90bc23..fe2be8f 100644
+index fe2be8f..892bb62 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -138,6 +138,7 @@ have_block = have_system or have_tools
  # Generators
  
  genh = []
-+shaderinclude = find_program('scripts/shaderinclude.pl')
++hxtool = find_program('scripts/hxtool')
+ shaderinclude = find_program('scripts/shaderinclude.pl')
  qapi_gen = find_program('scripts/qapi-gen.py')
  qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
-                      meson.source_root() / 'scripts/qapi/commands.py',
-diff --git a/ui/meson.build b/ui/meson.build
-index cad9763..8157754 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -32,3 +32,5 @@ foreach e : keymaps
-                           '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
-                           'code-map', '@INPUT0@', e[0], e[1]])
- endforeach
-+
-+subdir('shader')
-diff --git a/ui/shader/meson.build b/ui/shader/meson.build
-new file mode 100644
-index 0000000..f69e44e
---- /dev/null
-+++ b/ui/shader/meson.build
-@@ -0,0 +1,15 @@
-+shaders = [
-+  ['texture-blit', 'frag'],
-+  ['texture-blit', 'vert'],
-+  ['texture-blit-flip', 'vert'],
+@@ -169,6 +170,26 @@ qemu_version = custom_target('qemu-version.h',
+                              build_always_stale: true)
+ genh += qemu_version
+ 
++hxdep = []
++hx_headers = [
++  ['qemu-options.hx', 'qemu-options.def'],
++  ['qemu-img-cmds.hx', 'qemu-img-cmds.h'],
 +]
-+
-+foreach e : shaders
-+  output = '@0@-@1@.h'.format(e[0], e[1])
-+  genh += custom_target(output,
-+                output: output,
++if have_system
++  hx_headers += [
++    ['hmp-commands.hx', 'hmp-commands.h'],
++    ['hmp-commands-info.hx', 'hmp-commands-info.h'],
++  ]
++endif
++foreach d : hx_headers
++  custom_target(d[1],
++                input: files(d[0]),
++                output: d[1],
 +                capture: true,
 +                build_by_default: true, # to be removed when added to a target
-+                input: files('@0@.@1@'.format(e[0], e[1])),
-+                command: [shaderinclude, '@INPUT0@'])
++                command: [hxtool, '-h', '@INPUT0@'])
 +endforeach
++
+ # Collect sourcesets.
+ 
+ util_ss = ss.source_set()
+diff --git a/scripts/hxtool b/scripts/hxtool
+old mode 100644
+new mode 100755
+index 7b1452f..80516b9
+--- a/scripts/hxtool
++++ b/scripts/hxtool
+@@ -19,6 +19,6 @@ hxtoh()
+ case "$1" in
+ "-h") hxtoh ;;
+ *) exit 1 ;;
+-esac
++esac < "$2"
+ 
+ exit 0
 -- 
 1.8.3.1
 
