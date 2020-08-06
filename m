@@ -2,61 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2D623D6DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 08:34:42 +0200 (CEST)
-Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2255E23D71D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 08:59:40 +0200 (CEST)
+Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ZU8-0007vY-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 02:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47400)
+	id 1k3ZsI-0002mP-L4
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 02:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ouyangxuan10@163.com>)
- id 1k3VR8-0003O4-2J
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 22:15:18 -0400
-Received: from m13132.mail.163.com ([220.181.13.132]:57396)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ouyangxuan10@163.com>)
- id 1k3VR1-0007nu-Ou
- for qemu-devel@nongnu.org; Wed, 05 Aug 2020 22:15:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=OHWPM
- YvQUEmcGGrIT6bMSLY46yF+oKgxTKsRuX6LK3U=; b=ToYuG3XPdgKjYFaLavsf4
- mdpkPqzvGzBajh21yhHkd7o5K9U2+8GwYKXnBOGnnGI35Z18AyjTsUBk9M9h78w3
- tzbB3Yhrx2onpq8fgv+etdJCv1FopSoryQtslXaYuPgoA5gv7Uuee5QYk3Mohfco
- UFFnP5rnGDzadxWzEWFJ5Y=
-Received: from ouyangxuan10$163.com ( [106.120.127.15] ) by
- ajax-webmail-wmsvr132 (Coremail) ; Thu, 6 Aug 2020 09:58:51 +0800 (CST)
-X-Originating-IP: [106.120.127.15]
-Date: Thu, 6 Aug 2020 09:58:51 +0800 (CST)
-From: www <ouyangxuan10@163.com>
-To: andrew@aj.id.au, joel@jms.id.au, clg@kaod.org, qemu-devel@nongnu.org
-Subject: [qemu]: How to use qemu to run 64MB bmc image?
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190724(ac680a23)
- Copyright (c) 2002-2020 www.mailtech.cn 163com
-X-CM-CTRLDATA: PdypCGZvb3Rlcl9odG09NTIzOjU2
-Content-Type: multipart/alternative; 
- boundary="----=_Part_25373_832287398.1596679131485"
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1k3ZrF-0002LE-Rt
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 02:58:33 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4226 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1k3ZrD-00060h-Jf
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 02:58:33 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 43A97FCE6B0BE3ED15BA;
+ Thu,  6 Aug 2020 14:58:22 +0800 (CST)
+Received: from [10.174.185.104] (10.174.185.104) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 6 Aug 2020 14:58:14 +0800
+Subject: Re: [PATCH v5 0/2] add new options to set smbios type 4 fields
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200806035634.376-1-fangying1@huawei.com>
+ <20200806020034-mutt-send-email-mst@kernel.org>
+From: Ying Fang <fangying1@huawei.com>
+Message-ID: <3a945e72-bf77-23a5-f3bc-c4cb3e42f8ed@huawei.com>
+Date: Thu, 6 Aug 2020 14:58:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Message-ID: <7c834989.1a25.173c17e115d.Coremail.ouyangxuan10@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: hMGowAC3x6PbYytftvxLAA--.13327W
-X-CM-SenderInfo: prx1t0pj0xt0irq6il2tof0z/1tbitxJ42laEE-ll+AACsg
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.132; envelope-from=ouyangxuan10@163.com;
- helo=m13132.mail.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/05 21:59:42
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200806020034-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.104]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 02:58:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 06 Aug 2020 02:33:24 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,32 +63,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lvivier@redhat.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, imammedo@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_25373_832287398.1596679131485
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
 
-SGkgSm9lbCBTdGFubGV5LCBBbmRyZXcgSmVmZmVyeSwgQ6imZHJpYyBMZSBHb2F0ZXIsCgoKSG93
-IHRvIG1vZGlmeSBpdCBzbyB0aGF0IFFFTVUgY2FuIHJ1biA2NE1CIEJNQyBpbWFnZT8KSW4gYWRk
-aXRpb24sIGhvdyB0byBsZWFybiB0aGUgc291cmNlIGNvZGUgb2YgUUVNVT8gQXJlIHRoZXJlIGFu
-eSBndWlkZWxpbmVzIGFuZCByZWZlcmVuY2UgZG9jdW1lbnRzPwoKCnRoYW5rc6OsCkJ5cm9u
-------=_Part_25373_832287398.1596679131485
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SGkmbmJzcDtKb2VsIFN0
-YW5sZXksJm5ic3A7QW5kcmV3IEplZmZlcnksJm5ic3A7Q6imZHJpYyBMZSBHb2F0ZXIsPC9kaXY+
-PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5I
-b3cgdG8gbW9kaWZ5IGl0IHNvIHRoYXQgUUVNVSBjYW4gcnVuIDY0TUIgQk1DIGltYWdlPzwvZGl2
-PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SW4gYWRkaXRpb24sIGhvdyB0byBsZWFybiB0aGUgc291
-cmNlIGNvZGUgb2YgUUVNVT8gQXJlIHRoZXJlIGFueSBndWlkZWxpbmVzIGFuZCByZWZlcmVuY2Ug
-ZG9jdW1lbnRzPzwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+PGJyPjwvZGl2PjxkaXYgc3R5
-bGU9Im1hcmdpbjowOyI+dGhhbmtzo6w8L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPkJ5cm9u
-PC9kaXY+PC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0ZWFzZWZvb3RlciI+PHA+Jm5ic3A7
-PC9wPjwvc3Bhbj4=
-------=_Part_25373_832287398.1596679131485--
+On 8/6/2020 2:01 PM, Michael S. Tsirkin wrote:
+> On Thu, Aug 06, 2020 at 11:56:32AM +0800, Ying Fang wrote:
+>> From: fangying <fangying1@huawei.com>
+>>
+>> Hi, this patchset was previously posted by my teamate Heyi Guo several
+>> months ago, however we missed the merge window. It is reposted here to
+>> make it an end. Thanks.
+> 
+> 
+> Thanks, I will tag it for after the release.
+> Pls ping me after the release to make sure I don't drop it by mistake.
 
+Yes, I will do that. Hope it won't be missed this time.
+Thanks.
+> 
+>> Patch description:
+>>   
+>> Common VM users sometimes care about CPU speed, so we add two new
+>> options to allow VM vendors to present CPU speed to their users.
+>> Normally these information can be fetched from host smbios.
+>>
+>> Strictly speaking, the "max speed" and "current speed" in type 4
+>> are not really for the max speed and current speed of processor, for
+>> "max speed" identifies a capability of the system, and "current speed"
+>> identifies the processor's speed at boot (see smbios spec), but some
+>> applications do not tell the differences.
+>>
+>> Changelog:
+>>
+>> v4 -> v5:
+>> - Rebase patch for lastest upstream
+>>
+>> v3 -> v4:
+>> - Fix the default value when not specifying "-smbios type=4" option;
+>> it would be 0 instead of 2000 in previous versions
+>> - Use uint64_t type to check value overflow
+>> - Add test case to check smbios type 4 CPU speed
+>> - v4 https://patchwork.kernel.org/cover/11444635/
+>>
+>> v2 -> v3:
+>> - Refine comments per Igor's suggestion.
+>>
+>> v1 -> v2:
+>> - change "_" in option names to "-"
+>> - check if option value is too large to fit in SMBIOS type 4 speed
+>> fields.
+>>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>
+>> Ying Fang (2):
+>>    hw/smbios: add options for type 4 max-speed and current-speed
+>>    tests/bios-tables-test: add smbios cpu speed test
+>>
+>>   hw/smbios/smbios.c       | 36 ++++++++++++++++++++++++++++++----
+>>   qemu-options.hx          |  2 +-
+>>   tests/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 75 insertions(+), 5 deletions(-)
+>>
+>> -- 
+>> 2.23.0
+> 
+> .
+> 
 
