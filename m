@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B29523E2A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:57:30 +0200 (CEST)
-Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1ECC23E2B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:59:19 +0200 (CEST)
+Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3m13-000305-2w
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43940)
+	id 1k3m2o-0006Nk-Rq
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lQG-0000oL-J5
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:19:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58559
- helo=us-smtp-1.mimecast.com)
+ id 1k3lQT-0001NL-Oq
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:19:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lQE-0006lW-NH
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:19:28 -0400
+ id 1k3lQS-0006mi-1C
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:19:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741566;
+ s=mimecast20190719; t=1596741579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fDOD9pY4H4z+pzypGKM2Fu9H3SMyzg1wdFQ1al2nrOc=;
- b=dooq0zpdw6ojvmd2ielOU8eTQ1CLP9ZcOwtHfrVTaXZcKcmovImz2CpezHXpWaSt4HURoH
- VZCGhFj9Wa6p0acEK/iLoGpe1UJxuz1PXbb2zFnLDcN5ziDsEhg5L2ne8vu0ydBy+2N//4
- EQvtChYYBXZnPbzZLTbVxYDHRFTlDbs=
+ bh=/Ws839GXkHo0pgCx+WvKMCFqme1u/aoxjR4dtBjX32A=;
+ b=QL8TDeuaPFDyPEnhcOb5DMktN0KyhBGbsWA9YiV3BrbJJ7a54vR9KRM9IjsVxV7JyL6W2b
+ ZoCfhWSRbhU3U1ZwNrSjeLRYWnPlxT3S37WfnsTRSJiBcWTBWW9GXDU+2ZzFDxFoPQO98b
+ VQljpjqFZbtf2WxqwUMRhFgOlqtclSI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-hlFZqe3qM82vx2Ary-LIDA-1; Thu, 06 Aug 2020 15:19:24 -0400
-X-MC-Unique: hlFZqe3qM82vx2Ary-LIDA-1
+ us-mta-190-e2Kt9YLKNvK8wJdyYMe4lw-1; Thu, 06 Aug 2020 15:19:37 -0400
+X-MC-Unique: e2Kt9YLKNvK8wJdyYMe4lw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9269C107BEF6
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:19:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2CF0800468
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:19:36 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 003F35F9DC;
- Thu,  6 Aug 2020 19:19:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B40F5FC3B;
+ Thu,  6 Aug 2020 19:19:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 102/143] meson: convert hw/rdma
-Date: Thu,  6 Aug 2020 21:15:38 +0200
-Message-Id: <1596741379-12902-103-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 107/143] meson: convert hw/ipack
+Date: Thu,  6 Aug 2020 21:15:43 +0200
+Message-Id: <1596741379-12902-108-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 13:48:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,63 +89,51 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/meson.build        |  1 +
- hw/rdma/Makefile.objs |  3 ---
- hw/rdma/meson.build   | 10 ++++++++++
- 4 files changed, 11 insertions(+), 4 deletions(-)
- delete mode 100644 hw/rdma/Makefile.objs
- create mode 100644 hw/rdma/meson.build
+ hw/Makefile.objs       | 1 -
+ hw/ipack/Makefile.objs | 2 --
+ hw/ipack/meson.build   | 1 +
+ hw/meson.build         | 1 +
+ 4 files changed, 2 insertions(+), 3 deletions(-)
+ delete mode 100644 hw/ipack/Makefile.objs
+ create mode 100644 hw/ipack/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 78860ae..748a718 100644
+index f136377..76d9305 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -19,7 +19,6 @@ devices-dirs-$(CONFIG_IPMI) += ipmi/
- devices-dirs-y += isa/
- devices-dirs-y += misc/
- devices-dirs-y += net/
--devices-dirs-y += rdma/
+@@ -14,7 +14,6 @@ devices-dirs-$(CONFIG_I2C) += i2c/
+ devices-dirs-y += ide/
+ devices-dirs-y += input/
+ devices-dirs-y += intc/
+-devices-dirs-$(CONFIG_IPACK) += ipack/
  endif
  
  common-obj-y += $(devices-dirs-y)
+diff --git a/hw/ipack/Makefile.objs b/hw/ipack/Makefile.objs
+deleted file mode 100644
+index 8b9bdcb..0000000
+--- a/hw/ipack/Makefile.objs
++++ /dev/null
+@@ -1,2 +0,0 @@
+-common-obj-$(CONFIG_IPACK) += ipack.o
+-common-obj-$(CONFIG_IPACK) += tpci200.o
+diff --git a/hw/ipack/meson.build b/hw/ipack/meson.build
+new file mode 100644
+index 0000000..3f8138b
+--- /dev/null
++++ b/hw/ipack/meson.build
+@@ -0,0 +1 @@
++softmmu_ss.add(when: 'CONFIG_IPACK', if_true: files('ipack.c', 'tpci200.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 0bdd6a2..f704e51 100644
+index 9796f95..ec4bb48 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -6,6 +6,7 @@ subdir('pci')
- subdir('pci-bridge')
- subdir('pci-host')
- subdir('pcmcia')
-+subdir('rdma')
- subdir('rtc')
- subdir('scsi')
- subdir('sd')
-diff --git a/hw/rdma/Makefile.objs b/hw/rdma/Makefile.objs
-deleted file mode 100644
-index 819bb12..0000000
---- a/hw/rdma/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--obj-$(CONFIG_VMW_PVRDMA) += rdma_utils.o rdma_backend.o rdma_rm.o rdma.o
--obj-$(CONFIG_VMW_PVRDMA) += vmw/pvrdma_dev_ring.o vmw/pvrdma_cmd.o \
--                     vmw/pvrdma_qp_ops.o vmw/pvrdma_main.o
-diff --git a/hw/rdma/meson.build b/hw/rdma/meson.build
-new file mode 100644
-index 0000000..7325f40
---- /dev/null
-+++ b/hw/rdma/meson.build
-@@ -0,0 +1,10 @@
-+specific_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
-+  'rdma.c',
-+  'rdma_backend.c',
-+  'rdma_rm.c',
-+  'rdma_utils.c',
-+  'vmw/pvrdma_cmd.c',
-+  'vmw/pvrdma_dev_ring.c',
-+  'vmw/pvrdma_main.c',
-+  'vmw/pvrdma_qp_ops.c',
-+))
+@@ -1,4 +1,5 @@
+ subdir('core')
++subdir('ipack')
+ subdir('ipmi')
+ subdir('isa')
+ subdir('mem')
 -- 
 1.8.3.1
 
