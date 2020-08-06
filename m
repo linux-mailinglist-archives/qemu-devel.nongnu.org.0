@@ -2,43 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9903F23DCDE
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8FA23DCDF
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 18:57:38 +0200 (CEST)
-Received: from localhost ([::1]:38766 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3jCz-000285-0q
+	id 1k3jCz-0002AZ-S2
 	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 12:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k3jBj-0000Wm-Jv
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:56:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51732
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k3jBm-0000YG-WC
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:56:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58857
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k3jBi-00075a-1R
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:56:19 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k3jBl-00075i-Jg
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 12:56:22 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-0Kn2oGHeOJCwInXqhz6keA-1; Thu, 06 Aug 2020 12:56:02 -0400
-X-MC-Unique: 0Kn2oGHeOJCwInXqhz6keA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-19-R_HECKsNOGydOJ88y0zoAg-1; Thu, 06 Aug 2020 12:56:08 -0400
+X-MC-Unique: R_HECKsNOGydOJ88y0zoAg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99FB98014C1;
- Thu,  6 Aug 2020 16:56:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B57091DE5;
+ Thu,  6 Aug 2020 16:56:07 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-38.ams2.redhat.com [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8115B5D9DC;
- Thu,  6 Aug 2020 16:55:58 +0000 (UTC)
-Subject: [PATCH v2 for-5.2 0/5] papr: Cleanups for XIVE and PHB
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B865C5F9DC;
+ Thu,  6 Aug 2020 16:56:06 +0000 (UTC)
+Subject: [PATCH v2 for-5.2 1/5] spapr/xive: Fix xive->fd if
+ kvm_create_device() fails
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 06 Aug 2020 18:55:57 +0200
-Message-ID: <159673295739.766512.2950380687630225803.stgit@bahia.lan>
+Date: Thu, 06 Aug 2020 18:56:05 +0200
+Message-ID: <159673296585.766512.15404407281299745442.stgit@bahia.lan>
+In-Reply-To: <159673295739.766512.2950380687630225803.stgit@bahia.lan>
+References: <159673295739.766512.2950380687630225803.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
@@ -70,49 +75,54 @@ Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent cleanup patch "spapr: Simplify error handling in spapr_phb_realize"
-had to be dropped from ppc-for-5.2 because it would cause QEMU to crash
-at init time on some POWER9 setups (eg. Boston systems), as reported by
-Daniel.
+If the creation of the KVM XIVE device fails for some reasons, the
+negative errno ends up in xive->fd, but the rest of the code assumes
+that xive->fd either contains an open fd, ie. positive value, or -1.
 
-The crash was happening because the kvmppc_xive_source_reset_one() function
-would get called at some point (eg. initializing the LSI table of PHB0) and
-fail (because XIVE KVM isn't supported on Bostons) without calling
-error_setg(), which the caller doesn't expect when the patch above is appli=
-ed.
+This doesn't cause any misbehavior except kvmppc_xive_disconnect()
+that will try to close(xive->fd) during rollback and likely be
+rewarded with an EBADF.
 
-The issue isn't really about a missing call to error_setg() but why do
-we end up trying to claim an IRQ number in a XIVE KVM device that doesn't
-exist ? The root cause for this is that we guard calls to the XIVE KVM
-code with kvm_irqchip_in_kernel(), which might return true when the XICS
-KVM device is active, even though the XIVE one is not. This series
-upgrade the guarding code to also check if the device is actually open.
+Only set xive->fd with a open fd.
 
-A similar cleanup could be performed on XICS.
-
-v2: - patch 1 and 2 already applied but not yet visible on github
-    - new approach with abstract methods in the base XIVE classes
-
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
+v2: Already applied to ppc-for-5.2 but not yet visible on github
+---
+ hw/intc/spapr_xive_kvm.c |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Greg Kurz (5):
-      spapr/xive: Fix xive->fd if kvm_create_device() fails
-      spapr/xive: Simplify kvmppc_xive_disconnect()
-      ppc/xive: Introduce dedicated kvm_irqchip_in_kernel() wrappers
-      spapr/xive: Convert KVM device fd checks to assert()
-      spapr: Simplify error handling in spapr_phb_realize()
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index edb7ee0e74f1..d55ea4670e0e 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -745,6 +745,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc,=
+ uint32_t nr_servers,
+     size_t esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+     size_t tima_len =3D 4ull << TM_SHIFT;
+     CPUState *cs;
++    int fd;
+=20
+     /*
+      * The KVM XIVE device already in use. This is the case when
+@@ -760,11 +761,12 @@ int kvmppc_xive_connect(SpaprInterruptController *int=
+c, uint32_t nr_servers,
+     }
+=20
+     /* First, create the KVM XIVE device */
+-    xive->fd =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XIVE, false);
+-    if (xive->fd < 0) {
+-        error_setg_errno(errp, -xive->fd, "XIVE: error creating KVM device=
+");
++    fd =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XIVE, false);
++    if (fd < 0) {
++        error_setg_errno(errp, -fd, "XIVE: error creating KVM device");
+         return -1;
+     }
++    xive->fd =3D fd;
+=20
+     /* Tell KVM about the # of VCPUs we may have */
+     if (kvm_device_check_attr(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
 
-
- hw/intc/spapr_xive.c     |   53 ++++++++++++++++++++++++++++++++++--------=
-----
- hw/intc/spapr_xive_kvm.c |   49 ++++++++++++------------------------------=
--
- hw/intc/xive.c           |   28 ++++++++++++++++++------
- hw/ppc/spapr_pci.c       |   16 ++++++--------
- include/hw/ppc/xive.h    |    2 ++
- 5 files changed, 83 insertions(+), 65 deletions(-)
-
---
-Greg
 
 
