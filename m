@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A2223D839
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:59:34 +0200 (CEST)
-Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7789D23D83B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:00:28 +0200 (CEST)
+Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3bkL-0005GV-ES
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44588)
+	id 1k3blD-0006By-IR
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:00:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3bjE-0004km-L4
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:58:24 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3bjD-0003DI-2E
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:58:24 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h16so15547838oti.7
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 01:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cg6jSMb7vDuKaL/CKUZ0NdxBSQtv5YO3adOjMHcH7gE=;
- b=pT+TcdVVCG3wm1AZKZJ3RImvkNEzoRhDsVJGwKdrErAqUAse6VG+mJ1aUsAOBgrMin
- PYmzhCotxXI1tQ6oxq93Imt2MZx70fqiQW9byFozR9NOFVE2+zcRAg5MBkL3YHgER/U/
- cUtR7qM7lqPgC1ss979ZmJxhEvCfQwUZgbpbBy4WIiVxpstHldDYYT6J982wCDSoQ6t6
- B411FgbMMMijvrnZXG3ai6LVmNG7OoXI3MFkOzBxo2gQFxCA85qbi8KzU2+5y5f28Pus
- PC58sNR2UKpc811EJNwZpF+CtJTIQBGzHGQGsoLQGzZwFF1xNkbIEIV5EWNsgk+WiBSO
- Pkcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cg6jSMb7vDuKaL/CKUZ0NdxBSQtv5YO3adOjMHcH7gE=;
- b=Fjq4/vmCq4C/Ska9quiP3mDDrU9jmWG7oeY542QMoP4TwWPuWhH2IFqO0b8JrX+F2K
- AXziak+TJQAqY0jp8K34Hyjxmi0kPb5AhbAkPloLwK/Zoy5T+pK6UgP87/FcF5AjsUE4
- 7nP13Nkh3AymFE8AbH5ApMsnZ+aVsb7aUjsOeXR6R/uU8W+xlOzCbQ46v31Zlcipaxo5
- 0wjxraaQffiUWmvMXIjkt9O1+I2+XlLSPMBjdw5oINvGz/7BbwpiRwxsRyYdqjaNrj8v
- SmcIyOfZ+z2jBRiTgluYbFcbMtoUebgtB0x1NHhY3rrXWZzV6qrjtZm0JxQPyF7i6JrY
- Bfnw==
-X-Gm-Message-State: AOAM530JIuxWh+0bEilZazsTv44mzjXbTKyxBxRxKI4Hs/boutcPxrV0
- nzdQnGTWKYu0F3zlvSQJ2ISvwjPnr5A20Dk4YgcYvg==
-X-Google-Smtp-Source: ABdhPJzaG2hogC1f0lNihIRtueU7B82vAAMB8Ru+X66P/vuwMKiJpjcmkvs0zvQbB1bpAz5TXBygqqrvbYQD0156FK0=
-X-Received: by 2002:a9d:3b61:: with SMTP id z88mr6429883otb.135.1596704301838; 
- Thu, 06 Aug 2020 01:58:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1k3bk7-0005S9-Hj
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:59:19 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:45631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1k3bk3-0003Ex-SW
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:59:19 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id 7557D1209;
+ Thu,  6 Aug 2020 04:59:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 06 Aug 2020 04:59:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=
+ from:to:cc:subject:in-reply-to:references:date:message-id
+ :mime-version:content-type; s=fm3; bh=3B07XIgM4In9ExDKqLo4LYy9nl
+ 4PxSTOmVQaZgccA9w=; b=e+Jvyd4wbAZIq7Oxz/YBqhjlks4AT2lONr3vFWFuEc
+ wTMYwmCBTwzUgCo+WJ6xTR55U/+qpZdVLlIEyw9K8hbKt2kglcbZNPRbzXZqIp1k
+ xqH0r9oZ4k1e/zrXz7dcRY3z+joxTDQzaYkE08lFzL/YD6W4XjP969YUE6Clk2hB
+ VVpvk7Cj1hy756NU2ZtMC+SzVFvoRX+ua2Gyit9G6hJOQ+u2MQGZYaoFKHsPbZF2
+ D+Ijizo4GlBcyWxCFbniRKIFyqyThbeuQB+35iA8mlM5UAOdcZFtMF+8yjkb3b6f
+ UoWlw95c62woRQKnzRo4dUo9/chmghZziuVoE8Ik/shg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3B07XI
+ gM4In9ExDKqLo4LYy9nl4PxSTOmVQaZgccA9w=; b=sZlBmHZ3BKseAmcDnGSsTo
+ FVAfYCyjfVYbtWJaGzck2xC692XMH9+UOtnKFea8HPYimDoGjTv3LmoNDIccq0hy
+ fVE0rYVw1McLRx4Qthc6v7yQuw0hgvYwwmXhbf/HTOV0kLAH+2qpRuJwilDjHfW2
+ 6H3ifqVPkiQh83FCNOcNNWsvOV42jA7sOaoCZOS4m0e8PUEDl/uxlzHIN20+r/7a
+ W9VuzNlnGV6YpKkKoZyb47tOT7pUMlJBTDGdNBcqVkX66l6eDkOu8fUL0Cbm8oND
+ 0vNop1Rokxl5QndwrqZwG4HyN9Ooc+zhmHW5Wds0XTHakmy6kdzYXEqlZ4rjreQQ
+ ==
+X-ME-Sender: <xms:X8YrX1QhX4OzSFEyKaeIGBDnLVKOVhhqeHgRBvsHQAsJNmWZWaGo7g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdduudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufgjfhffkfggtgesthdtredttd
+ dttdenucfhrhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhisheq
+ necuggftrfgrthhtvghrnhephfetudeftdejveegudejhfeuiefgjeehuddvtddvhfejte
+ dufeelhfelhfeghfetnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepkeeg
+ rddukeegrddvvdelrddvgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhs
+X-ME-Proxy: <xmx:X8YrX-zE2EC3FsbAOOGWtRD2k06tzFBEIMDwzq72DR3wuYh4cLe6Qg>
+ <xmx:X8YrX604KIYqZ52evslM69ACIVx782PrVZpHFt56wEVJRHmmydb3nA>
+ <xmx:X8YrX9D7aswtIFGo0zKKP46HkLbmDZ7uD0Kme4LaKRO7B5VQI7CcMA>
+ <xmx:YMYrX5viao62s7mGafV-J3cl3_uxMYRyGGKkmGzefOJLDNFZmbjV8A>
+Received: from x220.qyliss.net (p54b8e5f4.dip0.t-ipconnect.de [84.184.229.244])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8B4703280065;
+ Thu,  6 Aug 2020 04:59:11 -0400 (EDT)
+Received: by x220.qyliss.net (Postfix, from userid 1000)
+ id BF33FE3; Thu,  6 Aug 2020 08:59:09 +0000 (UTC)
+From: Alyssa Ross <hi@alyssa.is>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: vhost-user protocol feature negotiation
+In-Reply-To: <20200805181352-mutt-send-email-mst@kernel.org>
+References: <87sgd1ktx9.fsf@alyssa.is>
+ <20200805181352-mutt-send-email-mst@kernel.org>
+Date: Thu, 06 Aug 2020 08:59:09 +0000
+Message-ID: <87lfis2lr6.fsf@alyssa.is>
 MIME-Version: 1.0
-References: <20200805194812.1735218-1-ehabkost@redhat.com>
- <CAFEAcA8-REfRgq=713Tq9PfSNmRPZVzBKmLzoWLauZjqF5q5eQ@mail.gmail.com>
- <20200805221417.GC1700540@habkost.net>
-In-Reply-To: <20200805221417.GC1700540@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Aug 2020 09:58:10 +0100
-Message-ID: <CAFEAcA8YW8OX2y1ms==0Fyu-bE3eXPKb_sayUNhFoeEUN0gaBw@mail.gmail.com>
-Subject: Re: [PATCH] ide: Get rid of IDEDrive struct
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=hi@alyssa.is;
+ helo=wout3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 04:59:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,39 +94,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 Aug 2020 at 23:14, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> On Wed, Aug 05, 2020 at 09:41:25PM +0100, Peter Maydell wrote:
-> > This is one of those areas where this change works and reduces
-> > amount of code, but on the other hand it means the QOM type
-> > doesn't follow the common pattern for a leaf type of:
-> >  * it has a struct
-> >  * it has cast macros that cast to that struct
-> >  * the typeinfo instance_size is the size of that struct
-> > (it wasn't exactly following this pattern before, of course).
+"Michael S. Tsirkin" <mst@redhat.com> writes:
+
+> On Wed, Aug 05, 2020 at 03:13:06PM +0000, Alyssa Ross wrote:
+>> Quoting from the definition of VHOST_USER_SET_PROTOCOL_FEATURES in
+>> vhost-user.rst:
+>> 
+>> >   Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is present in
+>> >   ``VHOST_USER_GET_FEATURES``.
+>> > 
+>> > .. Note::
+>> >    Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
+>> >    this message even before ``VHOST_USER_SET_FEATURES`` was called.
+>> 
+>> To me, this could mean either of two things:
+>> 
+>> (1) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
+>>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should enable the
+>>     protocol features immediately.
+>> 
+>> (2) If VHOST_USER_F_PROTOCOL_FEATURES hasn't been set, upon receiving
+>>     VHOST_USER_SET_PROTOCOL_FEATURES, a backend should store those
+>>     feature bits, but not actually consider them to be enabled until
+>>     after VHOST_USER_SET_FEATURES has been received (presumably
+>>     containing VHOST_USER_F_PROTOCOL_FEATURES).
+>> 
+>> The reason I bring this up is that QEMU appears to interpret it as (1),
+>> while the vhost-user-net backend in Intel's cloud-hypervisor[1]
+>> interprets it as (2).  So I'm looking for a clarification.
+>> 
+>> [1]: https://github.com/cloud-hypervisor/cloud-hypervisor
+>> 
+>> Thanks in advance.
 >
-> Is this really a pattern that exists and we want to follow?
-> I don't see why that pattern would be useful for simple leaf
-> types.
+>
+> IMHO the intent was this: VHOST_USER_F_PROTOCOL_FEATURES bit in
+> VHOST_USER_GET_FEATURES means that qemu can send
+> VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
+>
+> With most feature bits in VHOST_USER_GET_FEATURES, the
+> specific functionality needs to only be enabled after
+> VHOST_USER_SET_FEATURES.
+>
+> However, this is for functionality dealing with guest activity.
+> VHOST_USER_SET_PROTOCOL_FEATURES has nothing to do with guest directly,
+> it's about negotiation between qemu and backend: it is only in
+> VHOST_USER_GET_FEATURES for the reason that this is the only message
+> (very) old backends reported.  Thus, the backend should not check
+> whether VHOST_USER_SET_FEATURES sets VHOST_USER_F_PROTOCOL_FEATURES,
+> instead it should simply always be ready to receive
+> VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES.
+>
+> Backend that isn't always ready to handle
+> VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES
+> should not set VHOST_USER_F_PROTOCOL_FEATURES in
+> VHOST_USER_GET_FEATURES.
 
-Most leaf types need this. Consider a simple device type
-like TYPE_CMSDK_APB_UART. It has a TYPE_* name so that
-users of it can instantiate it; it has a CMSDKAPBUART struct
-that holds all the device state; it has the CMSDK_APB_UART()
-cast macro so that code that gets a Device* or Object* can
-get at the struct. Leaf types like ide-hd which have no
-actual state of their own are I think the less common case:
-most leaf types do have at least some member variables.
+Thanks for the explanation.  That matches what I had in mind with (1).
 
-As Markus says, we can have a couple of standard patterns
-if we want to (as we do for the class-macro conventions);
-I just wanted to explain that lots of leaf types work the
-way I outline above.
+> This appears to be closer to (1), but if qemu can't distinguish
+> then we don't care, right? For example, VHOST_USER_PROTOCOL_F_REPLY_ACK
+> enables acks on arbitrary messages. Does the backend in question
+> ignore the affected bit until SET_FEATURES? If yes won't this
+> make qemu hang?
 
-thanks
--- PMM
+Yes.  That was my motivation for asking what the correct behaviour was,
+so that I could fix the incorrect one. :)  I suspect that up to this point,
+the cloud-hypervisor vhost-user-net backend has only been used with
+cloud-hypervisor, and so this incompatibilty with QEMU was not noticed.
+
+> How would you suggest clarifying the wording?
+
+Do you think this communicates everything required?
+
+---
+diff --git i/docs/interop/vhost-user.rst w/docs/interop/vhost-user.rst
+index 10e3e3475e..72724d292a 100644
+--- i/docs/interop/vhost-user.rst
++++ w/docs/interop/vhost-user.rst
+@@ -854,9 +854,8 @@ Master message types
+   ``VHOST_USER_GET_FEATURES``.
+ 
+ .. Note::
+-   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must
+-   support this message even before ``VHOST_USER_SET_FEATURES`` was
+-   called.
++   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
++   with ``VHOST_USER_SET_FEATURES``.
+ 
+ ``VHOST_USER_SET_PROTOCOL_FEATURES``
+   :id: 16
+@@ -869,8 +868,8 @@ Master message types
+   ``VHOST_USER_GET_FEATURES``.
+ 
+ .. Note::
+-   Slave that reported ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
+-   this message even before ``VHOST_USER_SET_FEATURES`` was called.
++   ``VHOST_USER_F_PROTOCOL_FEATURES`` does not need to be acknowledged
++   with ``VHOST_USER_SET_FEATURES``.
+ 
+ ``VHOST_USER_SET_OWNER``
+   :id: 3
 
