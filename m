@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6241723E37A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 23:21:27 +0200 (CEST)
-Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E452423E38D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 23:39:05 +0200 (CEST)
+Received: from localhost ([::1]:33792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3nKI-0004ey-GM
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 17:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
+	id 1k3nbM-0000Tq-A3
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 17:39:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3nJV-0004EC-HE
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:20:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45733
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3nJT-0005Yz-Hh
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:20:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596748834;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MlRQcgfY51Kp01uwREV+l6YpW7olEb2k+QC8UClRUPY=;
- b=HZ/bkyu7aa4d255jPPM15j4wnoDmUpS1HnwMlM3j9TMqVDdoE6kK6X1CybKccxddo0oCYk
- AIammQPLTkx5UDwOQkNluOrNjYbVXp0vRhF1fAl8Y3pBsEZ/d7crAABb7H5wvpOCCD0zxJ
- t24V7/6Xam5G9chqYJP9bO/ymPASh9U=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-FAdP4UcBMHe5F_XJpxpAvQ-1; Thu, 06 Aug 2020 17:20:32 -0400
-X-MC-Unique: FAdP4UcBMHe5F_XJpxpAvQ-1
-Received: by mail-ed1-f71.google.com with SMTP id b11so6428103edy.17
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 14:20:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3naC-0008RS-Gu
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:37:52 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37927)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3naB-0007Rc-1V
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 17:37:52 -0400
+Received: by mail-wr1-x435.google.com with SMTP id a14so45386331wra.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 14:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fBxvvlC37pPeDsRlTaA29QNcZkLbhDMohAa1v+BwemI=;
+ b=Bg16maN75XaaAp/GOeRc3n+8jmMuAHlA92Ap8QfG2t2Rlgn1Ej21H2RigdWdzZIoif
+ +VaJlijyDxzJxmW7OxxOmQGSCpHqX2xJNht6EUeO2snW6hFS5S38UJpAebL7MtYDKwR+
+ JRvX+TtIrH0oWZxmjkFDR9gM2NVqEo65r5RXgswA+cESgC+BzL5Pd+RwclLxoRBjF6ow
+ XbE4SPMlyS9020HKwgzRfWZfXS80agOS9JSO2EAZ8eK8qNiihEL1tqiN9E+9JiSHc3CE
+ gb8nImZYJiSun80g0XTQwMrCQ4Y0hHmoD7rW1+ipLD15f99MaGliKeS5//BM2VZIzUzg
+ 5X7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MlRQcgfY51Kp01uwREV+l6YpW7olEb2k+QC8UClRUPY=;
- b=uPNsaHmlrYkC64RGc4jbVHm0L0wSAKOi+aWaYzUEktrsh53tWlGR2G7qYILb5MRhLi
- uuiVnHa7BGx4Z3rumNICxY78MrAlLNvRsxeTeayMPwntoo+d+96pgV1pyQKGOYTaiyYo
- NiX55+s/muyJMTi9krlhCBLAV9tCSTBBqjKWX0UjeP2ryAHctfe7zrQ/WSBVrd6O/VCt
- fB0WNOT9onqOieXSyKv0s/DKPmA2iPTY8g8XjvIFNbrXoGQS1HQyuplRARl6gTetxEdv
- 7RuLs6UW/d1SmZ3joYUHyJ44kIAT8Xn8jOI1wQVCXm38bSeAdF+Kr4xwG+3GAElWgE7Y
- j0tg==
-X-Gm-Message-State: AOAM531rbRf/LIK3T2zAQc2wiyoAAM8zo9VPJryMvkg4Ij/mbcrZCtGG
- zymMcnG0/2fxZkwnRonoJirZqmJPwyF/LR0botl9NwVgk7NRKmBg3RBO6az8xo51n/gysn7GnlL
- 5qsjwoBrQf6E80YrLQ7Dh7+DD01Z9kyk=
-X-Received: by 2002:a17:906:82c1:: with SMTP id
- a1mr6368549ejy.172.1596748830825; 
- Thu, 06 Aug 2020 14:20:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIKa2XEwS0CD5nvyKA3b0751rrBSZB+6q2J6qeDvr7wsZ6YoKBTqoLdQ1aJCu8AKugF0hj1g9R7QdhSizPZEg=
-X-Received: by 2002:a17:906:82c1:: with SMTP id
- a1mr6368535ejy.172.1596748830558; 
- Thu, 06 Aug 2020 14:20:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <1596741379-12902-109-git-send-email-pbonzini@redhat.com>
- <CAFEAcA_j2N1ee3Aqjcw3cKF1ksJ9Ls4qF6eXBH058A8oNBObfw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_j2N1ee3Aqjcw3cKF1ksJ9Ls4qF6eXBH058A8oNBObfw@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 6 Aug 2020 23:20:17 +0200
-Message-ID: <CABgObfYry+2he0aL_UujxaSCTNELQL+mbtD8GYc_R4b1H94x8g@mail.gmail.com>
-Subject: Re: [PATCH 108/143] meson: convert hw/intc
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fBxvvlC37pPeDsRlTaA29QNcZkLbhDMohAa1v+BwemI=;
+ b=XV3Gnq0DFqp+eL/2QnnZmn1Boh19t4ySTtaKi49wUrYsYE04A/caXIaA+So6OU7W4Y
+ LlHOHDKBt+LKUWXT4xrEtBKW0NlI8coJJedLH12Orlj4JU/aRPy3CD/ls7HJppLRYrjv
+ tH5GUh44Z1s0aiJBH8Cxenm3TjUwQ4+2BzNCuRCpNsebl9e7qI04ULXL4NfqAZM8W5UH
+ ZfBUrYwtb50Dzwmw2C6U1ekJLArwCpBzttpQLabeom2rXDreT1jcr9SL6xY2QR7XlIwz
+ 7ZRJ9tg4/ITtWgRsi2f6HrUJScxHjS5by/TsxALkuq5f1iR7m2qpGBxvHuADrgulsZ0C
+ 9xCg==
+X-Gm-Message-State: AOAM531fiGzbzooNxgfPlXq4KYDiFikAv2VVvH+CMjIWkKKwLJqs16ty
+ /doEndPS9adtZ4DGurmZ0Z0=
+X-Google-Smtp-Source: ABdhPJzvqOo95cJ8KTTRYSh5K8D3aaXcvNly1OCiceQQPm+Bas9gxEBComaGsClyVMfXSVMJwobY0A==
+X-Received: by 2002:a5d:550e:: with SMTP id b14mr9734853wrv.392.1596749867751; 
+ Thu, 06 Aug 2020 14:37:47 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id 130sm7681018wme.26.2020.08.06.14.37.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Aug 2020 14:37:47 -0700 (PDT)
+Subject: Re: [PATCH-for-5.2] target/mips: Report unimplemented cache()
+ operations
 To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000d7645c05ac3c0e47"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200806122612.17167-1-f4bug@amsat.org>
+ <e55da0ff-e88c-f2f4-0430-32255f7e58fe@flygoat.com>
+ <ec0ff553-a5e7-6c93-5ab3-093721b044a6@amsat.org>
+ <CAFEAcA8iXXW=eD+w-UdPqdjtbfc45Qu+DyfZBmaVe0TgMt_jmg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a620f323-e42a-e75e-0491-228c480fa55b@amsat.org>
+Date: Thu, 6 Aug 2020 23:37:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8iXXW=eD+w-UdPqdjtbfc45Qu+DyfZBmaVe0TgMt_jmg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,135 +93,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d7645c05ac3c0e47
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 8/6/20 10:51 PM, Peter Maydell wrote:
+> On Thu, 6 Aug 2020 at 21:31, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 8/6/20 8:01 PM, Jiaxun Yang wrote:
+>>> 在 2020/8/6 下午8:26, Philippe Mathieu-Daudé 写道:
+>>>> We only implement the Index[Store/Load]Tag from the 'cache' opcode.
+>>>> Instead of ignoring the other cache operations, report them as
+>>>> unimplemented.
+>>>
+>>> Hmm, I don't think we have anything to do with Invalidate/Writeback etc.
+>>> opcodes
+>>> in QEMU. Why do we log this?
+>>
+>> I'm noticed this code is run on Linux 3.3.8 (4KEc):
+>>
+>>     8880:       3082000f        andi    v0,a0,0xf
+>>     8884:       10800008        beqz    a0,88a8
+>>     8888:       00a21021        addu    v0,a1,v0
+>>     888c:       08002227        j       889c
+>>     8890:       00001821        move    v1,zero
+>>     8894:       bcf90000        cache   0x19,0(a3)
+>>     8898:       24630010        addiu   v1,v1,16
+>>     889c:       0062302b        sltu    a2,v1,v0
+>>     88a0:       14c0fffc        bnez    a2,8894
+>>     88a4:       00833821        addu    a3,a0,v1
+>>     88a8:       03e00008        jr      ra
+>>     88ac:       00000000        nop
+>>
+>> Why silently ignore the opcode is not implemented instead of logging it?
+> 
+> I think the question is whether the opcode is supposed to have
+> some behaviour which we're not implementing, or whether "no-op"
+> is the correct behaviour for it (which it usually is for
+> cache invalidate type operations; compare the way the Arm
+> cache ops like IC_IALLU are just ARM_CP_NOP ops).
 
-Il gio 6 ago 2020, 23:02 Peter Maydell <peter.maydell@linaro.org> ha
-scritto:
+OK now I understand better, thanks.
 
-> On Thu, 6 Aug 2020 at 21:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> Compared to:
->
-> > -common-obj-$(CONFIG_HEATHROW_PIC) +=3D heathrow_pic.o
->
-> > +softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true:
-> files('heathrow_pic.c'))
->
-> this feels pretty clunky. Doesn't Meson have a nicer
-> way of expressing this kind of thing?
+I haven't found useful information about this 0x19=25 opcode value.
 
+On a r10k core it is listed as 'Hit Writeback Invalidate (D)' but here
+this is a 4kEc. The address used is a SRAM shared with a embedded DSP
+on the same SoC. From a RevEng PoV it is helpful to see there is a such
+cache access, as I can separate better the peripheral involved.
+I'm happy using a trace event instead.
 
-Nope, in fact it turns out we had to implement it ourselves because there
-was no way to express it at all in the way that QEMU build multiple
-binaries. My initial version didn't have the when/if_true part but the
-maintainer was quite adamant on requiring them instead of just relying on
-positional arguments.
+Jiaxun, can you list me the list of opcodes QEMU can safely ignore from
+the TCG emulation PoV? That way we can comment them in the code such:
 
-Unfortunately, while common in QEMU, and in Linux too, it doesn't seem to
-be a very common idiom in general; Makefiles do express it in a very
-readable and concise way.
+    switch (op) {
+    case 9:
+        /* Index Store Tag */
+        ...
+        break;
+    case 5:
+        /* Index Load Tag */
+        ...
+        break;
+    case X:
+    case Y:
+    case Z:
+        /* No-Op for QEMU */
+        ...
+        break;
+    default:
+        qemu_log_mask(LOG_UNIMP, "cache %u\n", op);
+    }
 
-I cannot deny it looks clunky. While Meson does have a huge advantage in
-terms of predictability and lack of surprises when doing harder things, the
-imperative syntax is heavier when dealing with the simplest. They do remain
-simple (it's still one line of coffee), but the quotes and commas seem to
-be enough to "switch" our brain to a different mode.
+Thanks,
 
-My opinion is that you don't really look at these things very much, so it
-doesn't really matter, but I can see people disagreeing.
+Phil.
 
-(You had already pointed this out during the very first discussions, if I
-remember correctly. I can't add much except that with extra experience the
-balance does tilt in favor of Meson despite the heavier syntax for simple
-cases).
-
-Paolo
-
-It's really
-> common and I'd hope that a build system language
-> would provide less long-winded ways to write common
-> operations...
->
+> 
 > thanks
 > -- PMM
->
->
-
---000000000000d7645c05ac3c0e47
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 6 ago 2020, 23:02 Peter Maydell &lt;<a href=3D"=
-mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scritt=
-o:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">On Thu, 6 Aug 2020 at 21:10, Pao=
-lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=
-=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank" rel=3D"noreferrer">marcandre.lureau@redhat.com<=
-/a>&gt;<br>
-&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank" rel=3D"noreferrer">marcandre.lureau@re=
-dhat.com</a>&gt;<br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-<br>
-Compared to:<br>
-<br>
-&gt; -common-obj-$(CONFIG_HEATHROW_PIC) +=3D heathrow_pic.o<br>
-<br>
-&gt; +softmmu_ss.add(when: &#39;CONFIG_HEATHROW_PIC&#39;, if_true: files(&#=
-39;heathrow_pic.c&#39;))<br>
-<br>
-this feels pretty clunky. Doesn&#39;t Meson have a nicer<br>
-way of expressing this kind of thing? </blockquote></div></div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Nope, in fact it turns out we had to impl=
-ement it ourselves because there was no way to express it at all in the way=
- that QEMU build multiple binaries. My initial version didn&#39;t have the =
-when/if_true part but the maintainer was quite adamant on requiring them in=
-stead of just relying on positional arguments.</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Unfortunately, while common in QEMU, and in Linux to=
-o, it doesn&#39;t seem to be a very common idiom in general; Makefiles do e=
-xpress it in a very readable and concise way.</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">I cannot deny it looks clunky. While Meson does have =
-a huge advantage in terms of predictability and lack of surprises when doin=
-g harder things, the imperative syntax is heavier when dealing with the sim=
-plest. They do remain simple (it&#39;s still one line of coffee), but the q=
-uotes and commas seem to be enough to &quot;switch&quot; our brain to a dif=
-ferent mode.</div><div dir=3D"auto"><br></div><div dir=3D"auto">My opinion =
-is that you don&#39;t really look at these things very much, so it doesn&#3=
-9;t really matter, but I can see people disagreeing.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">(You had already pointed this out during the v=
-ery first discussions, if I remember correctly. I can&#39;t add much except=
- that with extra experience the balance does tilt in favor of Meson despite=
- the heavier syntax for simple cases).</div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">It&#39;s really<br>
-common and I&#39;d hope that a build system language<br>
-would provide less long-winded ways to write common<br>
-operations...<br>
-<br>
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000d7645c05ac3c0e47--
-
+> 
 
