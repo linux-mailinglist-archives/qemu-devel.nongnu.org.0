@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA1623E32C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:29:57 +0200 (CEST)
-Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EDE23E351
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:52:21 +0200 (CEST)
+Received: from localhost ([::1]:41746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3mWS-0004Oq-On
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
+	id 1k3ms8-0001aZ-C1
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k3mAy-0006js-8R
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 16:07:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44851
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1k3mAv-0003gg-NX
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 16:07:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596744460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=joeqeLvJ2iySElb5CMt+QdGfxkouO4ht/kWT8/rNr0s=;
- b=gKpra3B7J3NJW3c7ivv3Lw3h8h9XqEDsgCyRoUUeAjtcWEYqny51XM1AemhmXwQ4FErVOd
- v9iRM+O4YijSG+NaR6Fye314qvpc9LRpcqUVjs0OiZ91mdevWIZe3/S0LviK5TvHiBVF94
- +0kqU9Zb49hAJcLde3JbUdPIA5O9lT8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-XPP8kz4rNd2l_PNXlWfDAg-1; Thu, 06 Aug 2020 16:07:38 -0400
-X-MC-Unique: XPP8kz4rNd2l_PNXlWfDAg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E64B800404;
- Thu,  6 Aug 2020 20:07:37 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-112-23.rdu2.redhat.com [10.10.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9C811944D;
- Thu,  6 Aug 2020 20:07:29 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 2E87D220441; Thu,  6 Aug 2020 16:07:29 -0400 (EDT)
-Date: Thu, 6 Aug 2020 16:07:29 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Derek Su <jwsu1986@gmail.com>
-Subject: Re: [Virtio-fs] virtio-fs performance
-Message-ID: <20200806200729.GH367847@redhat.com>
-References: <CAFKS8hWbckrE_cyJCf0pgFresD-JQk66wo-6uJA=Gu2MhReHVw@mail.gmail.com>
- <20200728134936.GA21660@stefanha-x1.localdomain>
- <20200728152719.GD78409@redhat.com>
- <CAFKS8hUPdx=eHpvYqB3T__ZBWyztfNPGSBtiBDiqMotA8Cca9Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <louisc363@gmail.com>)
+ id 1k3jXH-00030K-SU
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 13:18:35 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:46266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <louisc363@gmail.com>)
+ id 1k3jXG-000114-3X
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 13:18:35 -0400
+Received: by mail-ot1-x332.google.com with SMTP id v6so25977575ota.13
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 10:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=jiKhGRX52re3eIJjnsi7RVpixiQqbIrGIKUj9n8s1Zg=;
+ b=ZW7SufAprcszuG7/a2+vmjOu5LMKMGHVDWGKLHR5FYYaBa96CvIqZqL69wtdE2M+26
+ pxonoZGp3oekifSkTzPvNGVNa/NnqCYV8HK+3ZFreTk9ftBzfxWuML2N/oQFyFcVEmVT
+ cEGHPN6hVs00uxhMHFDdRDyNIH5d0Byd786sWNsS8SQkumudrn4lCBjAAUgKE3n6rRFL
+ kPo3kd/Y1AzTyoywQMrnq/Qaz/c+ySr+yP2YnFfXG5L8FnKjLWK4+LfrteK4UU2ykzhC
+ nTZDMI58vy/SJXXOIIszDNqx1adMckYe8oLiucxWuIQttNpWKhxbTCKfv4E5wFHKID5Y
+ tHGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=jiKhGRX52re3eIJjnsi7RVpixiQqbIrGIKUj9n8s1Zg=;
+ b=pTOnD3Y0hcFcHtgeCNg7bBSOruj+LLbnqewKueppwDr3bV4y848th9RnMYe3/zjEYv
+ 7NWQy+I5xW/bZ5m+ONKdCsP3JblnjVZGVCqGZu9VnFko2HJjiiGYi9De8DhBHcu3M4PG
+ ycAC7CAkm4AEI6Gh8Ixvj7y4Xs554EgfQ9m4/0mvocrBpGFTHrjAgn6I1auOHv2DPDEw
+ +kAbG9YxIuC77lvyNY5B/PjlrJUMwyL/M4DlBxBvkM5ktIoVulTUfeQcEtDb/WQoDVDR
+ u9yFgyCV521W3/1ky999dJKTaztQT1HIDw3HogsMmchCZKvJkhj0Cy1tfAw5foK1uxWl
+ mgSA==
+X-Gm-Message-State: AOAM530WMiw4LORty9ngNHi4wsMThZx7VAbSN0wxpe3AiOzk6o7eU7Y6
+ +zrIVcVaRxSczqyYyddgU/L6jKFa4a+0VvK3UKiFVaI7PA8=
+X-Google-Smtp-Source: ABdhPJynxpefn3OLKetlDuI7EDw0B4sDpvUolxqO9jDlSnIWTcF7KujpGkfygnhEIW3l1wlIe3bjk6aH/iWQ1c5UV3I=
+X-Received: by 2002:a05:6830:2119:: with SMTP id
+ i25mr8483708otc.131.1596734311860; 
+ Thu, 06 Aug 2020 10:18:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFKS8hUPdx=eHpvYqB3T__ZBWyztfNPGSBtiBDiqMotA8Cca9Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Louis Cloete <louisc363@gmail.com>
+Date: Thu, 6 Aug 2020 19:18:11 +0200
+Message-ID: <CA+BhqPZP8BCefVJi554ZfvC5zK_Tkz6yWiLQZ1Hw9b96Fmp1fQ@mail.gmail.com>
+Subject: Small error in blog post
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000075913b05ac38ade5"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=louisc363@gmail.com; helo=mail-ot1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 06 Aug 2020 16:51:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,137 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-discuss@nongnu.org
+Cc: stefanha@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 04, 2020 at 03:51:50PM +0800, Derek Su wrote:
-> Vivek Goyal <vgoyal@redhat.com> 於 2020年7月28日 週二 下午11:27寫道：
-> >
-> > On Tue, Jul 28, 2020 at 02:49:36PM +0100, Stefan Hajnoczi wrote:
-> > > > I'm trying and testing the virtio-fs feature in QEMU v5.0.0.
-> > > > My host and guest OS are both ubuntu 18.04 with kernel 5.4, and the
-> > > > underlying storage is one single SSD.
-> > > >
-> > > > The configuations are:
-> > > > (1) virtiofsd
-> > > > ./virtiofsd -o
-> > > > source=/mnt/ssd/virtiofs,cache=auto,flock,posix_lock,writeback,xattr
-> > > > --thread-pool-size=1 --socket-path=/tmp/vhostqemu
-> > > >
-> > > > (2) qemu
-> > > > qemu-system-x86_64 \
-> > > > -enable-kvm \
-> > > > -name ubuntu \
-> > > > -cpu Westmere \
-> > > > -m 4096 \
-> > > > -global kvm-apic.vapic=false \
-> > > > -netdev tap,id=hn0,vhost=off,br=br0,helper=/usr/local/libexec/qemu-bridge-helper
-> > > > \
-> > > > -device e1000,id=e0,netdev=hn0 \
-> > > > -blockdev '{"node-name": "disk0", "driver": "qcow2",
-> > > > "refcount-cache-size": 1638400, "l2-cache-size": 6553600, "file": {
-> > > > "driver": "file", "filename": "'${imagefolder}\/ubuntu.qcow2'"}}' \
-> > > > -device virtio-blk,drive=disk0,id=disk0 \
-> > > > -chardev socket,id=ch0,path=/tmp/vhostqemu \
-> > > > -device vhost-user-fs-pci,chardev=ch0,tag=myfs \
-> > > > -object memory-backend-memfd,id=mem,size=4G,share=on \
-> > > > -numa node,memdev=mem \
-> > > > -qmp stdio \
-> > > > -vnc :0
-> > > >
-> > > > (3) guest
-> > > > mount -t virtiofs myfs /mnt/virtiofs
-> > > >
-> > > > I tried to change virtiofsd's --thread-pool-size value and test the
-> > > > storage performance by fio.
-> > > > Before each read/write/randread/randwrite test, the pagecaches of
-> > > > guest and host are dropped.
-> > > >
-> > > > ```
-> > > > RW="read" # or write/randread/randwrite
-> > > > fio --name=test --rw=$RW --bs=4k --numjobs=1 --ioengine=libaio
-> > > > --runtime=60 --direct=0 --iodepth=64 --size=10g
-> > > > --filename=/mnt/virtiofs/testfile
-> > > > done
-> >
-> > Couple of things.
-> >
-> > - Can you try cache=none option in virtiofsd. That will bypass page
-> >   cache in guest. It also gets rid of latencies related to
-> >   file_remove_privs() as of now.
-> >
-> > - Also with direct=0, are we really driving iodepth of 64? With direct=0
-> >   it is cached I/O. Is it still asynchronous at this point of time of
-> >   we have fallen back to synchronous I/O and driving queue depth of
-> >   1.
-> 
-> Hi, Vivek
-> 
-> I did not see any difference in queue depth with direct={0|1} in my fio test.
-> Are there more clues to dig into this issue?
+--00000000000075913b05ac38ade5
+Content-Type: text/plain; charset="UTF-8"
 
-I tried it just again. fio seems to say queue depth 64 in both the cases
-but I am not sure if this is correct. Reason being that I get much
-better performance with direct=1. Also fio man page says.
+Hi!
 
- libaio Linux native asynchronous I/O. Note that Linux may
-        only support queued behavior with non-buffered I/O
-        (set  `direct=1'  or  `buffered=0').   This engine
-        defines engine specific options.
+I read your blog post
+http://blog.vmsplice.net/2020/08/why-qemu-should-move-from-c-to-rust.html
 
-Are you see difference in effective bandwidth/iops when you run with
-direct=0/1. I see it. 
+I thought it was a well thought out exposition of the topic of "what shall
+we do to security vulnerabilities due to C bugs. Is Rust the answer".
 
-Anyway, in an attempt to narrow down the issues, I ran virtiofsd 
-with cache=none and did not enable xattr. (As of now xattr case
-needs to be optimized with SB_NOSEC).
+However, one small inaccuracy caught my eye. Rust doesn't prevent memory
+leaks. Memory leaks aren't considered memory unsafe by Rust's definition.
+It is possible to leak memory in safe Rust. I believe memory leaks are not
+prevented, because trying to prove their absence at compile time boils down
+to the halting problem.
 
-I ran virtiofsd as follows.
+Regards
+Louis Cloete
 
-./virtiofsd --socket-path=/tmp/vhostqemu2 -o source=/mnt/sdb/virtiofs-source2/ -o no_posix_lock -o modcaps=+sys_admin -o log_level=info -o cache=none --daemonize
+--00000000000075913b05ac38ade5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-And then ran following fio commands with direct=0 and direct=1.
+<div dir=3D"ltr"><div>Hi!</div><div><br></div><div>I read your blog post <a=
+ href=3D"http://blog.vmsplice.net/2020/08/why-qemu-should-move-from-c-to-ru=
+st.html">http://blog.vmsplice.net/2020/08/why-qemu-should-move-from-c-to-ru=
+st.html</a></div><div><br></div><div>I thought it was a well thought out ex=
+position of the topic of &quot;what shall we do to security vulnerabilities=
+ due to C bugs. Is Rust the answer&quot;.</div><div><br></div><div>However,=
+ one small inaccuracy caught my eye. Rust doesn&#39;t prevent memory leaks.=
+ Memory leaks aren&#39;t considered memory unsafe by Rust&#39;s definition.=
+ It is possible to leak memory in safe Rust. I believe memory leaks are not=
+ prevented, because trying to prove their absence at compile time boils dow=
+n to the halting problem.</div><div><br></div><div>Regards</div><div>Louis =
+Cloete<br></div></div>
 
-fio --name=test --rw=randwrite --bs=4K --numjobs=1 --ioengine=libaio --runtime=30 --direct=0 --iodepth=64 --filename=fio-file1
-
-direct=0
---------
-write: IOPS=8712, BW=34.0MiB/s (35.7MB/s)(1021MiB/30001msec)
-
-direct=1
---------
-write: IOPS=84.4k, BW=330MiB/s (346MB/s)(4096MiB/12428msec)
-
-So I see almost 10 fold jump in throughput with direct=1. So I believe
-direct=0 is not driving the queue depth.
-
-You raised interesting issue of --thread-pool-size=1 vs 64 and I decided
-to give it a try. I ran same tests as above with thread pool size 1
-and following are results.
-
-with direct=0
--------------
-write: IOPS=14.7k, BW=57.4MiB/s (60.2MB/s)(1721MiB/30001msec)
-
-with direct=1
--------------
-write: IOPS=71.7k, BW=280MiB/s (294MB/s)(4096MiB/14622msec);
-
-So with we are driving queue depth 1 (direct=0), looks like
---thread-pool-size 1 is helping. I see higher IOPS. But when we are
-driving queue depth of 64, then --thread-pool-size=1 seems to hurt.
-
-Now question is, why thread pool size 64 by default hurts so much
-for the case of queue depth 1.
-
-You raised anohter issue of it being slower than NFSv4/CIFS. I think
-you can run virtiofsd with cache=none and without enabling xattr
-and post results here so that we have some idea how much better
-NFSv4/CIFS is.
-
-Thanks
-Vivek
-
+--00000000000075913b05ac38ade5--
 
