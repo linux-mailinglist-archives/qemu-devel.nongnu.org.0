@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2501323D98E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:01:28 +0200 (CEST)
-Received: from localhost ([::1]:52614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4321323D98A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:00:43 +0200 (CEST)
+Received: from localhost ([::1]:49028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3deJ-00078P-4j
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:01:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
+	id 1k3dda-0005av-4L
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dQz-000122-BV
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:47:41 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:53875)
+ id 1k3dRD-0001UQ-Ik
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:47:55 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:34385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dQw-0007i6-H8
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:47:40 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id l60so6450179pjb.3
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:47:38 -0700 (PDT)
+ id 1k3dRA-0007k1-FV
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:47:55 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id c10so4558628pjn.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=U5RnSvr84lN+WWcwRTJMnMd/JFwx/9zDtnmGShOgnxk=;
- b=cduUhIFL8hYFvKFug/FdCsB3D1P5dlr8qQhsQZv/I2oxUEKgzOzgRkGGTzIHhGzXZy
- diDLeDtjtmN8fSJM9XNZgjflUrbD6xvoEy0Rg2gTnM+9pPNWS8Vuo+tZ0VvqAqc+Di1p
- 6MUeGd7h440FUD0gGoCE8qV6K9ykBDD57KTycChg63pZvaxJc6kpPcCPcLZyJdHEVNK9
- 7nc1haS8Po6EJnTfpdppgdFWVkFpWXb68JHMo1K7017/ve/DWeF1gHyeJ17C2qrBXmsC
- UdEt+ICK+CF3I0b+2xREBe6g68AbxJ/8HKjaqQb2fJTFcrRqxgHAN+ab8hSFEC17vPo7
- T4tQ==
+ bh=rbR7gWz7NB+oHD2ItrhPcWL3qhV01Hqh8WuvfbYuDMM=;
+ b=N8WfztLktFrSDzG+FP9aNA49F3AJd8FMxthufRfNjvDnv9e5e72Si+pGDkk5P2ywS5
+ 8WBjTsT4S5PIfOMGDXxkS7Dk0DtCzrKViwxgYowiWoIor2SURRd4OdietLrEpnvHZIg+
+ OESvP4PaGaTIll+fOyFAYN2oHF3WHuz4mCDBPwAuHovmOj5SzndjkDTx1Kp9bK8f2T+L
+ A570QYAYq5R8W0VrRGz5F81IM2NFwKHA5eG5Pywy0BC1qjQR8EG9YnQEJ3TQNXN6xwW4
+ sZ31IQ30cREwJrvOHvJ82kJv1D5HOZaRerTZ5X1Z1QrTVrbDbP0dajrC4wWb5bnbGKBn
+ i9Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=U5RnSvr84lN+WWcwRTJMnMd/JFwx/9zDtnmGShOgnxk=;
- b=b2Zf/zEzR7YCUVS0FCkR9p7i3CJVie6IJ/jd5TFg3uOgS3aAk4ou58V+CXc+zLv06B
- D4qKZSCCNdcrZ7MHr8TH9Wgf/SyqPlOtwQ7WGbzMJelYIeDN6b/eQD7yIQZZxYHya0Yd
- r175L32CbiY5XK/pVblMhsXQNXHqpi3QUiDCn0eurcgiHhHR4buASs6EgZprSCnyzf/L
- EtPTWFSiDWVqP89UFwCZScoiQHrcwH+T7aMgAZaKaubHscGy9DRU/8Op3TQXjqIN8Dl2
- uvTxxXX0ILuRWjfZUfB5N0W5URRthWlySmuvvjdSA6d/1QPC3VO1f07KpMI+lJ7y867E
- HZXA==
-X-Gm-Message-State: AOAM533NLk7o5Tzy5Lt9Vy4/6sdbY0j511Pef851VZWIOmO0rEpTgK0X
- rYbuR+HVPasD66lCJqArc1EYVVS2NdY=
-X-Google-Smtp-Source: ABdhPJzquORTFE+noBEFWuVxN2s+2OHdnzBLthHxdFlbnF0Meu1PPBx4W7qdeXO8LvKWrdiC0zjIdw==
-X-Received: by 2002:a17:90a:fa94:: with SMTP id
- cu20mr7808910pjb.145.1596710856959; 
- Thu, 06 Aug 2020 03:47:36 -0700 (PDT)
+ bh=rbR7gWz7NB+oHD2ItrhPcWL3qhV01Hqh8WuvfbYuDMM=;
+ b=RrIzpUQyLHxYJ5KCaYdY5V2Mr4Dt505M9ivN9Ah1RfrBuGTRdif6oTRxZqHc9d8e7B
+ rspopEszOHB1DQ55qUm221TRByL28GvjPuULw3amwFuMUdNf55nP0wW9t77wBFGD/gfn
+ Iw+uKCr72LrmRq6VOUD7Qoq0Q1hYmakPLbt4C44edot0K+7MpzCJiPa0sd7vnkqXKtrG
+ 4C9C3ad1KztN/Eg1dxLRz7lPqS+yDGfFuYOUzdTJT43dtXpZybLqCa9raCJEl2UMmNC3
+ Jex58mARnk741Q9c4N+FKgOeJCYgBr1o+p7lpbY++cG21N3sEW0w4b7FMRF2MUqD59sJ
+ PBBg==
+X-Gm-Message-State: AOAM530sThlfbbEGEb92akEZWlhOAqcDTMat2tebK+IrLiecLojHf8h2
+ auZKOBvlZgSL3WqgA4SuALKq03Oq3fA=
+X-Google-Smtp-Source: ABdhPJwjpay4QK0QbbvTFa0Rj8aznBuQcwASvR7VD4wJXDkuKqdQ4/AyCu+TITEImdj1Pf0kskQQow==
+X-Received: by 2002:a17:902:221:: with SMTP id
+ 30mr7470595plc.222.1596710870902; 
+ Thu, 06 Aug 2020 03:47:50 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.47.35
+ by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.47.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:47:36 -0700 (PDT)
+ Thu, 06 Aug 2020 03:47:50 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v3 07/71] target/riscv: rvv-1.0: remove vxrm and vxsat fields
- from fcsr register
-Date: Thu,  6 Aug 2020 18:46:04 +0800
-Message-Id: <20200806104709.13235-8-frank.chang@sifive.com>
+Subject: [RFC v3 12/71] target/riscv: rvv-1.0: add fractional LMUL
+Date: Thu,  6 Aug 2020 18:46:09 +0800
+Message-Id: <20200806104709.13235-13-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
 References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,43 +94,134 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Remove VXRM and VXSAT fields from FCSR register as they are only
-presented in VCSR register.
+Introduce the concepts of fractional LMUL for RVV 1.0.
+In RVV 1.0, LMUL bits are contiguous in vtype register.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/csr.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ target/riscv/cpu.h                      | 15 ++++++++-------
+ target/riscv/insn_trans/trans_rvv.inc.c |  9 ++++++---
+ target/riscv/translate.c                |  3 +++
+ target/riscv/vector_helper.c            | 17 +++++++++++++++--
+ 4 files changed, 32 insertions(+), 12 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 7f937e5b9c8..34c951d5d4b 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -166,10 +166,6 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
- #endif
-     *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
-         | (env->frm << FSR_RD_SHIFT);
--    if (vs(env, csrno) >= 0) {
--        *val |= (env->vxrm << FSR_VXRM_SHIFT)
--                | (env->vxsat << FSR_VXSAT_SHIFT);
--    }
-     return 0;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 08d2c10a024..d0f9a76ca01 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -94,10 +94,10 @@ typedef struct CPURISCVState CPURISCVState;
+ 
+ #define RV_VLEN_MAX 256
+ 
+-FIELD(VTYPE, VLMUL, 0, 2)
+-FIELD(VTYPE, VSEW, 2, 3)
+-FIELD(VTYPE, VEDIV, 5, 2)
+-FIELD(VTYPE, RESERVED, 7, sizeof(target_ulong) * 8 - 9)
++FIELD(VTYPE, VLMUL, 0, 3)
++FIELD(VTYPE, VSEW, 3, 3)
++FIELD(VTYPE, VEDIV, 8, 2)
++FIELD(VTYPE, RESERVED, 10, sizeof(target_ulong) * 8 - 11)
+ FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
+ 
+ struct CPURISCVState {
+@@ -368,9 +368,10 @@ typedef RISCVCPU ArchCPU;
+ #include "exec/cpu-all.h"
+ 
+ FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
+-FIELD(TB_FLAGS, LMUL, 3, 2)
+-FIELD(TB_FLAGS, SEW, 5, 3)
+-FIELD(TB_FLAGS, VILL, 8, 1)
++FIELD(TB_FLAGS, LMUL, 3, 3)
++FIELD(TB_FLAGS, SEW, 6, 3)
++/* Skip MSTATUS_VS (0x600) fields */
++FIELD(TB_FLAGS, VILL, 11, 1)
+ 
+ /*
+  * A simplification for VLMAX
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index b529474403e..75aab0a50f9 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -1653,7 +1653,8 @@ static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
+                              vreg_ofs(s, a->rs1),
+                              MAXSZ(s), MAXSZ(s));
+         } else {
+-            uint32_t data = FIELD_DP32(0, VDATA, LMUL, s->lmul);
++            uint32_t data = 0;
++            data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+             static gen_helper_gvec_2_ptr * const fns[4] = {
+                 gen_helper_vmv_v_v_b, gen_helper_vmv_v_v_h,
+                 gen_helper_vmv_v_v_w, gen_helper_vmv_v_v_d,
+@@ -1691,7 +1692,8 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
+             TCGv_i32 desc ;
+             TCGv_i64 s1_i64 = tcg_temp_new_i64();
+             TCGv_ptr dest = tcg_temp_new_ptr();
+-            uint32_t data = FIELD_DP32(0, VDATA, LMUL, s->lmul);
++            uint32_t data = 0;
++            data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+             static gen_helper_vmv_vx * const fns[4] = {
+                 gen_helper_vmv_v_x_b, gen_helper_vmv_v_x_h,
+                 gen_helper_vmv_v_x_w, gen_helper_vmv_v_x_d,
+@@ -1729,7 +1731,8 @@ static bool trans_vmv_v_i(DisasContext *s, arg_vmv_v_i *a)
+             TCGv_i32 desc;
+             TCGv_i64 s1;
+             TCGv_ptr dest;
+-            uint32_t data = FIELD_DP32(0, VDATA, LMUL, s->lmul);
++            uint32_t data = 0;
++            data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+             static gen_helper_vmv_vx * const fns[4] = {
+                 gen_helper_vmv_v_x_b, gen_helper_vmv_v_x_h,
+                 gen_helper_vmv_v_x_w, gen_helper_vmv_v_x_d,
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 7b6088677d4..24026f901d1 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -60,6 +60,7 @@ typedef struct DisasContext {
+     /* vector extension */
+     bool vill;
+     uint8_t lmul;
++    float flmul;
+     uint8_t sew;
+     uint16_t vlen;
+     bool vl_eq_vlmax;
+@@ -852,6 +853,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
+     ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+     ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
++    ctx->flmul = (ctx->lmul < 4) ?
++                    (1 << ctx->lmul) : 1.0f / (1 << (8 - ctx->lmul));
+     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
  }
  
-@@ -180,13 +176,8 @@ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
-         return -1;
-     }
-     env->mstatus |= MSTATUS_FS;
--    env->mstatus |= MSTATUS_VS;
- #endif
-     env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
--    if (vs(env, csrno) >= 0) {
--        env->vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
--        env->vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
--    }
-     riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
-     return 0;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index f42346cb9ca..4a4c18b8a96 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -86,9 +86,22 @@ static inline uint32_t vext_vm(uint32_t desc)
+     return FIELD_EX32(simd_data(desc), VDATA, VM);
  }
+ 
+-static inline uint32_t vext_lmul(uint32_t desc)
++/*
++ * Encode LMUL to lmul as following:
++ *     LMUL    vlmul    lmul
++ *      1       000       0
++ *      2       001       1
++ *      4       010       2
++ *      8       011       3
++ *      -       100       -
++ *     1/8      101      -3
++ *     1/4      110      -2
++ *     1/2      111      -1
++ */
++static inline int32_t vext_lmul(uint32_t desc)
+ {
+-    return FIELD_EX32(simd_data(desc), VDATA, LMUL);
++    uint32_t lmul = FIELD_EX32(simd_data(desc), VDATA, LMUL);
++    return (int8_t)(lmul << 5) >> 5;
+ }
+ 
+ static uint32_t vext_wd(uint32_t desc)
 -- 
 2.17.1
 
