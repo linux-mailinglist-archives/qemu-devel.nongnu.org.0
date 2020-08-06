@@ -2,86 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C7723DB03
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:59:28 +0200 (CEST)
-Received: from localhost ([::1]:40976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3AC23DB08
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 16:07:49 +0200 (CEST)
+Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3gQZ-0003sc-Oc
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
+	id 1k3gYd-0000dV-Ml
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 10:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3gPq-0003M4-8A
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:58:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57020
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3gPo-0005aP-OY
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:58:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596722319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cepDETQUo+jJLvqnzAfamax3Xlpb/zYuUECWLtj0je8=;
- b=dui3pkynO5BJ3Abp+TMxcUa3w+Xj72gyFbOz85Bu0tagcatdo09AViFpPHbNVQcpXf+28r
- DPnKdgZeRIn4MRFALCGLldu+05+m1wKVQbRG8eaHYHp7rq/m75//2KEQEaHJoGaPh1akn8
- lN3e8zai5NnIDDi4CcF1rXmmbuJRhCM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-ArqDZBVePcSSLkAPuhRe5w-1; Thu, 06 Aug 2020 09:58:38 -0400
-X-MC-Unique: ArqDZBVePcSSLkAPuhRe5w-1
-Received: by mail-wr1-f71.google.com with SMTP id f14so14756072wrm.22
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 06:58:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cepDETQUo+jJLvqnzAfamax3Xlpb/zYuUECWLtj0je8=;
- b=Gl2Hj4vVZHpCffTLIw2cgakvoXrrsQcaIZsic+JmCNriGk18XeZHToySSZNDd66e2C
- BlVq0irKkPoBpYXO1batuMVwDx5aHSXfEQCgBkNO+zlqSvDpjNLIzI93rAx2SmjvXewM
- y3WdiOiZCYebYXyV0XI1Y97uFW3l+ZGr6ViEdQPdqpcLXUf7xZL0wjItYYliMEW6UZlM
- H7UWssNIfUNzFAiS0UsxI8XK5Vx6XIHLg3eCaSl0CtwKtYPaD6YXCMLj96KNFkke77QH
- Y0o/BrPAHeVi+2tnSEXPhMNfrjK+WU1Pi+rjYNSD7WrXWefg/IWbA9xypaz0Qk3F+o5T
- sRqw==
-X-Gm-Message-State: AOAM532WPeNDaRxdQYIyUthDjAwF5q3I9GVLzGwo7icP3R97TBJC7D5g
- WAhX3Fu3fAfkjzh7RMi1itFlTaKr++32AjKlNFZKGRY5NyKCd7FRB28SefPqEamxYK4jNzFOOzu
- Oxcf+6FIuW9bdl9k=
-X-Received: by 2002:a1c:a78a:: with SMTP id q132mr8011586wme.27.1596722315219; 
- Thu, 06 Aug 2020 06:58:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9oRQGKeLAuOtaRv/DDBw/3hZKYQxZX/HqoqmzccjeYp8xXjwqcYCpS6RO+sdjl6VDEQqfDA==
-X-Received: by 2002:a1c:a78a:: with SMTP id q132mr8011568wme.27.1596722314984; 
- Thu, 06 Aug 2020 06:58:34 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id x2sm7093978wrg.73.2020.08.06.06.58.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 06:58:34 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2] Revert "mailmap: Update philmd email address"
-Date: Thu,  6 Aug 2020 15:58:32 +0200
-Message-Id: <20200806135832.2319-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1k3gXp-0008Lu-KJ; Thu, 06 Aug 2020 10:06:57 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:34966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1k3gXn-0006WA-1F; Thu, 06 Aug 2020 10:06:57 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 5B82543766;
+ Thu,  6 Aug 2020 15:58:06 +0200 (CEST)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] block/block-copy: always align copied region to cluster size
+Date: Thu,  6 Aug 2020 15:57:40 +0200
+Message-Id: <20200806135740.24420-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:58:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,35 +49,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This mailmap entry does not work as I expected. I am receiving
-emails related to my hobbyist contributions in my work mailbox
-and I get distracted :) Remove the entry to keep things separated.
+Since commit 42ac214406e0 (block/block-copy: refactor task creation)
+block_copy_task_create calculates the area to be copied via
+bdrv_dirty_bitmap_next_dirty_area, but that can return an unaligned byte
+count if the backing image's last cluster end is not aligned to the
+bitmap's granularity.
 
-This reverts commit 289371239153b24cb7bd96b6948c6b40b4627a9b.
+Always ALIGN_UP the resulting bytes value to satisfy block_copy_do_copy,
+which requires the 'bytes' parameter to be aligned to cluster size.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- .mailmap | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/.mailmap b/.mailmap
-index 81c2ce0937..2d97a14af3 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -54,7 +54,6 @@ Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
- Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
- Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
- Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
--Philippe Mathieu-Daudé <philmd@redhat.com> <f4bug@amsat.org>
- Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
- Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+This causes backups with unaligned image sizes to fail on the last block in my
+testing (e.g. a backup job with 4k cluster size fails on a drive with 4097
+bytes).
+
+Alternatively one could remove the
+  assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+from block_copy_do_copy, but I'd wager that's there for a reason?
+
+ block/block-copy.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/block/block-copy.c b/block/block-copy.c
+index f7428a7c08..023cb03200 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -142,6 +142,8 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+         return NULL;
+     }
+ 
++    bytes = QEMU_ALIGN_UP(bytes, s->cluster_size);
++
+     /* region is dirty, so no existent tasks possible in it */
+     assert(!find_conflicting_task(s, offset, bytes));
  
 -- 
-2.21.3
+2.20.1
+
 
 
