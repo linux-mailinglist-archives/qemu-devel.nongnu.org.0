@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC7923D9DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:23:33 +0200 (CEST)
-Received: from localhost ([::1]:53158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064AC23D9A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:07:01 +0200 (CEST)
+Received: from localhost ([::1]:51626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dzg-0002eX-DM
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
+	id 1k3djg-0001MF-0F
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dTU-0005Cx-Tv
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:50:16 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:35721)
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1k3dRN-0001tG-MG
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:05 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:40047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dTS-00089z-HM
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:50:16 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id r4so16675523pls.2
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6kkcYautSYvytvSbaEQJQyjXHNh36DVL7LgNPrrKZR0=;
- b=eCoTS1Kq8IRCCVg6erfCtL23hQzWqdQvZL0iteV1s8A4mAqF/Zk7A+1bb2K8TtBulp
- 4F2KhN9uvcT/7LvMr2AuATZojggLa+MH4K9PRoPpFa/2fDli3rSBsY68tDRJi+pReRTg
- sP+DpM0lMKVr6+5frx98nZw3lLSvj/761C9rmPUEGQXejTbKfkZn/fyLTkrM2Zg0gdaG
- ndzbEmOFfz+mlW+7kZVT+4vQO6/mVyghZIVULeaGAC345zTFEHJ4DMH0Rga1KjbLOhZA
- ozivOAA2Zqv2DtK/GXRrXWx8KEnP4c3AdiYfkfGj3HVtY7XlX3hDjCdoeXTzRjD7oO2E
- Autw==
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1k3dRM-0007lK-0y
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:48:05 -0400
+Received: by mail-lf1-x141.google.com with SMTP id m15so25197963lfp.7
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+F2bvw4279AFpRAqqHr9VWj7UEazWN4PYw+oY2vMYa8=;
+ b=FZytDxuwtIQKZP3iyMnkL/T5/O6IjGWF8fDMueWvMixfJVT0mifTHd743Bj5ndEbvF
+ Ry3pSxktKyczlATkt3Yt3ovkS/7xygecOfGuZjdmwzIF1ipy2NB6pzZh7ao+//ZmTBdi
+ CNueY6UNDJK95eeClCokRBbkY+gs/dvS4CmGuViCqjkLaaAk6CHbcDPe2G0ACzGAQgJk
+ e2j0KobbMTFzhGr0tX49nsTraHwHmcfyZkGr3JFEYz5IDfkFrtxpTM5/yJ2kbliylX1/
+ 6CdNnBknNmq8X/aEHsaa3VyymRzrCUR2fqPcatDBEnKFlg1Ox34Pspo9XJ0SqdLbbNBm
+ 6rHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6kkcYautSYvytvSbaEQJQyjXHNh36DVL7LgNPrrKZR0=;
- b=UyW/DoJAjZqDJbjVx8Xpc35fcFTD+OWiXa7MTwwauwm6HnF+jMFk1dMwyyK1t28Xpk
- kaAfQtpWEOU1Zq1YCT5PCoagw/6Vs6vSSbDqDrlzmNXSC5F//+RGHkUAkVImieLBih+y
- JYukObDejgX08bDnUVR4jP7i444KyVoKFSrI0ui/VdCV2OpvjbSkfc+6S/QPSVzSbfbg
- QwQsJN6Ln8U66o1p51CeoAzGIPBzGe0PGGJ4MpYxWzDb96+Y8OtNhFXQF79njy6Em9Cl
- WuSPh6xPOGqnOPijN8IdOKX/wBTo0x+MNchO1GW0POAQ4kM8YDp68F2Bf6n5WvDcv9kV
- ivkw==
-X-Gm-Message-State: AOAM532ExpFMkeD6kOiIs5xnSXR6Mhxy3fNUoGVq/rYwNT0ld13cn1GU
- YM1tyhESa0YeGZZ0v0++fQAvsXOw4+o=
-X-Google-Smtp-Source: ABdhPJzeqN9C5B5Zapl4bF8WpqKGNPOeFTpNGCKDHqrPp7NiJED4dPgNW5cORvu1ldO/Bd7yQ9Q42w==
-X-Received: by 2002:a17:90b:4d0f:: with SMTP id
- mw15mr7596121pjb.174.1596711012884; 
- Thu, 06 Aug 2020 03:50:12 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:50:12 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v3 71/71] target/riscv: gdb: support vector registers for rv32
-Date: Thu,  6 Aug 2020 18:47:08 +0800
-Message-Id: <20200806104709.13235-72-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
-References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62c.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+F2bvw4279AFpRAqqHr9VWj7UEazWN4PYw+oY2vMYa8=;
+ b=j+euW9mFYnriG7u49eOfDotofmMvo5G08D66Aw5UTr86pj9qyjRvTsDMHHvInB/7Ua
+ MeoWupRIL6xLRTqYZw58GR5E3WZjSkS4PKG1Cv/opANwNts4ufL09+SyZhugN//prmVv
+ PAs6ZxjfRku4P14sG2PbGcFX9wISTH3hejAXrN0fDF0xwPiZoAY61Qg1L99YCKc1ZnAW
+ FWfg6JVEFEz94CmFlSig4hijmTOPW38rXvnOW9goIsACkOjv9KZj2RE2/nLdmlQDrFWK
+ jtYaBSKv+utzQmMpNuoBqUDi8JpoV26+9pnLSLNMMXHXAQMcGDuqyEAwX3oPYYSTCbky
+ DorQ==
+X-Gm-Message-State: AOAM532nxDbPglfR7TfE5958HPkQ1v4yISPpYhaBAEWeJnjWp1ojU7+/
+ rkY4NILpCxD2gUKOAfjsdhkYERwPRp+BrfiGCcxTtg==
+X-Google-Smtp-Source: ABdhPJw3YRS5JPfc1W80PkQQEw6/Xj8PLvezRr9eMiA5H0m5fq09Fro360+A1GEpHIZKK8g2u9ca4vq/md8Y6ToCaw0=
+X-Received: by 2002:ac2:5e26:: with SMTP id o6mr3576663lfg.194.1596710881135; 
+ Thu, 06 Aug 2020 03:48:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200529072017.2906-1-linus.walleij@linaro.org>
+ <CAFEAcA-x0y6ufRXebckRdGSLOBzbdBsk=uw+foK4p+HDeVrA9A@mail.gmail.com>
+ <CACRpkdZk-Pv49PyhtrW7ZQo+iebOapVb7L2T_cxh0SpYtcv5Xw@mail.gmail.com>
+ <CACRpkdbOiL7=KUNa0==P+H-3SynhMt1=JweCY8ihbEZLK=b78w@mail.gmail.com>
+In-Reply-To: <CACRpkdbOiL7=KUNa0==P+H-3SynhMt1=JweCY8ihbEZLK=b78w@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 6 Aug 2020 12:47:49 +0200
+Message-ID: <CACRpkdY-w7TD89eRMJQSvhrPC7gxSPYPmMhPO2FUOxtzYRcRsg@mail.gmail.com>
+Subject: Re: [PATCH v2] fcntl: Add 32bit filesystem mode
+To: "Theodore Ts'o" <tytso@mit.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=linus.walleij@linaro.org; helo=mail-lf1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,8 +67,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,41 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Greentime Hu <greentime.hu@sifive.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Linux API <linux-api@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Florian Weimer <fw@deneb.enyo.de>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Andy Lutomirski <luto@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greentime Hu <greentime.hu@sifive.com>
+On Sun, Jul 19, 2020 at 2:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Mon, Jul 6, 2020 at 10:54 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> > Ted, can you merge this patch?
+> >
+> > It seems QEMU is happy and AFICT it uses the approach you want :)
+>
+> Gentle ping!
 
-This patch adds vector support for rv32 gdb. It allows gdb client to access
-vector registers correctly.
+Special merge-window ping.
 
-Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- gdb-xml/riscv-32bit-csr.xml | 7 +++++++
- 1 file changed, 7 insertions(+)
+Shall I resend the patch?
 
-diff --git a/gdb-xml/riscv-32bit-csr.xml b/gdb-xml/riscv-32bit-csr.xml
-index 3d2031da7dc..bb98b927995 100644
---- a/gdb-xml/riscv-32bit-csr.xml
-+++ b/gdb-xml/riscv-32bit-csr.xml
-@@ -248,4 +248,11 @@
-   <reg name="mucounteren" bitsize="32"/>
-   <reg name="mscounteren" bitsize="32"/>
-   <reg name="mhcounteren" bitsize="32"/>
-+  <reg name="vstart" bitsize="32" group="vector"/>
-+  <reg name="vxsat" bitsize="32" group="vector"/>
-+  <reg name="vxrm" bitsize="32" group="vector"/>
-+  <reg name="vcsr" bitsize="32" group="vector"/>
-+  <reg name="vl" bitsize="32" group="vector"/>
-+  <reg name="vtype" bitsize="32" group="vector"/>
-+  <reg name="vlenb" bitsize="32" group="vector"/>
- </feature>
--- 
-2.17.1
-
+Yours,
+Linus Walleij
 
