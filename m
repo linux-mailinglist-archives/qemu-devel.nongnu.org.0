@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4BEA23D9F5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:31:27 +0200 (CEST)
-Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6D823D9F6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:32:26 +0200 (CEST)
+Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3e7L-0003pH-1s
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:31:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42726)
+	id 1k3e8H-0004iQ-BT
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:32:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k3dVy-0001r5-Pf
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:52:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47339
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3dXA-0004JT-T2
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:54:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58675
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k3dVx-000078-0k
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:52:50 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3dX9-0000If-6m
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596711168;
+ s=mimecast20190719; t=1596711242;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X9RzPaxnRJzpU4jyAEBv4ovkhnjF/0CGzpCT/YB8Uc0=;
- b=dJedPtDCyepaRSnIsU64reBL9mZ6Z22+K9D5f8YLz3wB3/hz5TNF8Dm4gFELWNLQD4xzNc
- ctZWMDpz+PJo83MMOm7Y4jGAJRllOssVM3hq2y/zvJLPd88husFqO+zlr67CoQQ7viPVjK
- 2BPruev3XRUy1kjB14oIc/f36kM5EAY=
+ to:to:cc:cc:content-type:content-type;
+ bh=SOC3LaHVlJs/MBm7cGCcBs630KBGQSWI7UqcuLQ0ZGs=;
+ b=A3ACcp5y5zShgIN5Vt6lHtnvTP1+3DEomKjrWa6ezFHCWKYBI++2BfFpO0dF9tr8/RD9Mw
+ MUP7GmMF4Wvbe3skCwwDw+bXE/a8+S7aEPm/aEyCDvbDNWvnImujv1cF0TZYPONym8Zqe0
+ uAOrTzOvrb9rwnEIRPO0jtAiwLefKgY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-ArfAj5R_OZijEH2zvTHANg-1; Thu, 06 Aug 2020 06:52:44 -0400
-X-MC-Unique: ArfAj5R_OZijEH2zvTHANg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-284-8Xcvs8PDOka5UpM0HUvRyw-1; Thu, 06 Aug 2020 06:53:58 -0400
+X-MC-Unique: 8Xcvs8PDOka5UpM0HUvRyw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15A5B8015F0;
- Thu,  6 Aug 2020 10:52:43 +0000 (UTC)
-Received: from localhost (ovpn-114-7.ams2.redhat.com [10.36.114.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E98D60C47;
- Thu,  6 Aug 2020 10:52:42 +0000 (UTC)
-Date: Thu, 6 Aug 2020 11:52:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 3/3] aio-posix: keep aio_notify_me disabled during
- polling
-Message-ID: <20200806105241.GA379937@stefanha-x1.localdomain>
-References: <20200805100051.361547-1-stefanha@redhat.com>
- <20200805100051.361547-4-stefanha@redhat.com>
- <8e066cf0-e5f9-283c-eedd-47974bf4bbac@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <8e066cf0-e5f9-283c-eedd-47974bf4bbac@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71E308017FB;
+ Thu,  6 Aug 2020 10:53:57 +0000 (UTC)
+Received: from thuth.com (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C229565C68;
+ Thu,  6 Aug 2020 10:53:51 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-5.2 v2 0/9] Continue booting in case the first device is
+ not bootable
+Date: Thu,  6 Aug 2020 12:53:40 +0200
+Message-Id: <20200806105349.632-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,71 +75,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Collin Walling <walling@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---5mCyUwZo2JvN/JJP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The traditional / architected way of booting on s390x is to always
+specify the device where the guest should be booted from - that means
+s390x guests should be always started with a device that has the
+"bootindex" property set.
 
-On Wed, Aug 05, 2020 at 06:37:45PM +0200, Paolo Bonzini wrote:
-> On 05/08/20 12:00, Stefan Hajnoczi wrote:
-> > +
-> > +        /*
-> > +         * aio_notify can avoid the expensive event_notifier_set if
-> > +         * everything (file descriptors, bottom halves, timers) will
-> > +         * be re-evaluated before the next blocking poll().  This is
-> > +         * already true when aio_poll is called with blocking =3D=3D f=
-alse;
-> > +         * if blocking =3D=3D true, it is only true after poll() retur=
-ns,
-> > +         * so disable the optimization now.
-> > +         */
-> > +        if (use_notify_me) {
-> > +            atomic_set(&ctx->notify_me, atomic_read(&ctx->notify_me) +=
- 2);
-> > +            /*
-> > +             * Write ctx->notify_me before reading ctx->notified.  Pai=
-rs with
-> > +             * smp_mb in aio_notify().
-> > +             */
-> > +            smp_mb();
-> > +
-> > +            /* Don't block if aio_notify() was called */
-> > +            if (atomic_read(&ctx->notified)) {
-> > +                timeout =3D 0;
-> > +            }
->=20
-> Aha, this is the trick: "timeout =3D 0" also applies if a timer was moved=
-=20
-> early.  In this case you uselessly keep notify_me set for a bit, but=20
-> it's okay. Nice!
->=20
-> The code can be simplified a bit more, since the use_notify_me variable=
-=20
-> is just "timeout":
+For the users that are used to a firmware from a different CPU archi-
+tecture (or the lazy s390x folks like myself), the s390-ccw bios also
+tries to find a bootable device on its own in case the user did not
+specify a "bootindex" property. Unfortunately, it always stops at the
+very first device that it can find, no matter whether it's bootable or
+not. That causes some weird behavior, for example while
 
-Good point. I'll send another revision.
+ qemu-system-s390x -hda bootable.qcow2
 
-Stefan
+boots perfectly fine, the bios refuses to work if you just specify
+a virtio-scsi controller in front of it:
 
---5mCyUwZo2JvN/JJP
-Content-Type: application/pgp-signature; name="signature.asc"
+ qemu-system-s390x -device virtio-scsi -hda bootable.qcow2
 
------BEGIN PGP SIGNATURE-----
+While this is perfectly fine from the Z architecture point of view, it
+still could be a little bit uncomfortable and confusing for the lazy
+or ignorant users who did not specify a "bootindex". And since all major
+firmwares on other architectures correctly boot in such cases, too,
+let's also try to teach the s390-ccw bios how to boot in such cases.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8r4PgACgkQnKSrs4Gr
-c8jzowf/W9SXMevLAUhOTEubZ8vtANwRdpwPkRTL1i582gQzBeJMffId4ouY2rN+
-tfh86e+hzY0VqEPfsOAA9DvLUwvUbwINhSzcqWuDDaCjkhN1fgYhyH+iw+2EK7Bw
-Af8xuzoCqZLoXblcT9HZzD0SykLJ8Iq6xcUf+I8VTp1741kh/daDJX8D1BQGCkb+
-npDhU96i1yXd8OIPysddQ+9NWe5IQvGYcNDRq4vS7Mv99jGtDB0qwpVu7+NjMMAA
-he6Sbw82hj9tym99XfaUUS2sL5NIgQL+c2H4x9agIycF3OvZFM/tJm9PeC5isz6S
-brmnoTPLsC4sEcd3np1TnUuDCSdo7A==
-=rIhj
------END PGP SIGNATURE-----
+For this, we have to get rid of the various panic()s and IPL_assert()
+statements at the "low-level" function and let the main code handle
+the decision instead whether a boot from a device should fail or not,
+so that the main code can continue searching in case it wants to.
 
---5mCyUwZo2JvN/JJP--
+ Thomas
+
+v2:
+ - Add patch to remove superfluous call to enable_subchannel()
+ - Add patch to test the new behavior in the tests/qtest/cdrom-test
+ - Added Reviewed-bys from v1
+ - Renamed check_sch_no() to is_dev_possibly_bootable()
+ - Reworked the return codes to use 0/-ENODEV instead of true/false
+
+Thomas Huth (9):
+  pc-bios/s390-ccw/Makefile: Compile with -std=gnu99, -fwrapv and
+    -fno-common
+  pc-bios/s390-ccw: Move ipl-related code from main() into a separate
+    function
+  pc-bios/s390-ccw: Introduce ENODEV define and remove guards of others
+  pc-bios/s390-ccw: Move the inner logic of find_subch() to a separate
+    function
+  pc-bios/s390-ccw: Do not bail out early if not finding a SCSI disk
+  pc-bios/s390-ccw: Scan through all devices if no boot device specified
+  pc-bios/s390-ccw: Allow booting in case the first virtio-blk disk is
+    bad
+  pc-bios/s390-ccw/main: Remove superfluous call to enable_subchannel()
+  tests/qtest/cdrom: Add more s390x-related boot tests
+
+ pc-bios/s390-ccw/Makefile        |   7 +-
+ pc-bios/s390-ccw/bootmap.c       |  34 ++++--
+ pc-bios/s390-ccw/main.c          | 172 +++++++++++++++++++------------
+ pc-bios/s390-ccw/s390-ccw.h      |   8 +-
+ pc-bios/s390-ccw/virtio-blkdev.c |   7 +-
+ pc-bios/s390-ccw/virtio-scsi.c   |  28 +++--
+ pc-bios/s390-ccw/virtio-scsi.h   |   2 +-
+ tests/qtest/cdrom-test.c         |  12 +++
+ 8 files changed, 174 insertions(+), 96 deletions(-)
+
+-- 
+2.18.1
 
 
