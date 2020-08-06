@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CD123D85E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:15:17 +0200 (CEST)
-Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A7E23D85C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:14:42 +0200 (CEST)
+Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3bzY-0006LQ-3n
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47900)
+	id 1k3byz-0005Tj-JN
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:14:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3byU-0005VF-FV
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:14:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25049
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k3bxv-0004yM-87
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:13:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55490
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3byT-0004rl-1G
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:14:10 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k3bxt-0004p6-Ig
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 05:13:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596705247;
+ s=mimecast20190719; t=1596705212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=731Q14db66V9di9dbOv+mpl8HAnEsqVTkra1MagnkT8=;
- b=i71UcZBjbevNGGNurTlq6jNoYwTyqy0CX7A9oQxg5EjHLfvvu93J2ZnQ1APjLSogGmgjGs
- R0f5cmWySRQtvrN5I89VZRwDD0nKz47e3AOXWN7GvvdqmDd7dh0x1uZ4f1EO9ZSawD9x+a
- QEjYUizKCGJmiKWXsSH/mpsRjjwRVFE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-yMvA0I7fMV-58a4gjXjIwg-1; Thu, 06 Aug 2020 05:13:01 -0400
-X-MC-Unique: yMvA0I7fMV-58a4gjXjIwg-1
-Received: by mail-wm1-f72.google.com with SMTP id c184so2774528wme.1
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 02:13:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=731Q14db66V9di9dbOv+mpl8HAnEsqVTkra1MagnkT8=;
- b=a2Cda0KAiPzm9Iqf06ZcQJ5IrkIAE3+BuVEKtvxMvcn7AOPWrM13Q7IBc94Xzfa6O/
- AjQtCAvNqTCbZbpiPBh6TM+24f/wy0/XnEFt+iJCf7knGoCeJiwxAurGDqaPbL+ZFi8e
- TxfkCoS8FwJOIrNjJ9NBSH6dHuVHWisUAJmZBmD58vr+u3GEm7KkkKsQ5wUum6l422gH
- CkU7WWO2iNvLg/FtriqgmiDFCpZIj5TYw/2tU1fEm6lpjt6YJJC0lDhcQ9DgXpOy/Lf7
- gE0nZgZGF+Gr/c6uLEN6/3baqE7y1UBtDA0esEcIK+eQ070j3YASBMM7SpvbH/jUd3m5
- gbLg==
-X-Gm-Message-State: AOAM531wFChDgkVYmfnSFdFaEXEC2T6MR/WGEeJrTNHoAxIZv9Fjbc/T
- +DLE8gAtF8BRcyWPffDDicSdfbVWsjEPnhhY1fY+wtMOLtUSXbFI3GjPEaflCLfbWQfYsK+om2k
- CAOUy5S42w4Rew7U=
-X-Received: by 2002:adf:f485:: with SMTP id l5mr6006426wro.147.1596705180631; 
- Thu, 06 Aug 2020 02:13:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxiOHzSJVJUilRbNFQ2NU0Tw+yU1OGEc6kpiVvoagzIP14J/3/WL22N+tHONTf6Sy9jYXAQ4A==
-X-Received: by 2002:adf:f485:: with SMTP id l5mr6006408wro.147.1596705180356; 
- Thu, 06 Aug 2020 02:13:00 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
- ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
- by smtp.gmail.com with ESMTPSA id x11sm5481966wmc.33.2020.08.06.02.12.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 02:12:59 -0700 (PDT)
-Subject: Re: [PATCH v1 17/21] target/s390x: add BQL to do_interrupt and
- cpu_exec_interrupt
-To: Cornelia Huck <cohuck@redhat.com>, Robert Foley <robert.foley@linaro.org>
-References: <20200805181303.7822-1-robert.foley@linaro.org>
- <20200805181303.7822-18-robert.foley@linaro.org>
- <20200806105923.2bd2b0de.cohuck@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fefaec2a-0bb3-80e8-7798-7537530ba041@redhat.com>
-Date: Thu, 6 Aug 2020 11:12:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ bh=yKGIh8y6QwPIQgxqaDk8Mo2904QCSrmps4tz+L5wPXw=;
+ b=JH7x405mLseuQoUc3nuvU210mIzKJbgZgBMWQ1EQtuje79oV/YZmPxy+vYjp97Y5SpOwhP
+ myUlCzIGAOGdW8sE4RpP/yB7Z2n/GXo10lwNAmfnzAlldE940MrzIyYJ2eZkmgOnBISpdB
+ 9I7uT1Vxvnz1rj8ytZ0c4l2eAP0wK7Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-tXndaqyZNL6gozeSzfNMfw-1; Thu, 06 Aug 2020 05:13:31 -0400
+X-MC-Unique: tXndaqyZNL6gozeSzfNMfw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAB44800685;
+ Thu,  6 Aug 2020 09:13:29 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-19.ams2.redhat.com [10.36.114.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4ADE75DA60;
+ Thu,  6 Aug 2020 09:13:28 +0000 (UTC)
+Date: Thu, 6 Aug 2020 11:13:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [PATCH] qcow2: flush qcow2 l2 meta for new allocated clusters
+Message-ID: <20200806091326.GC17753@linux.fritz.box>
+References: <20200805023826.184-1-fangying1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200806105923.2bd2b0de.cohuck@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200805023826.184-1-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,27 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
- cota@braap.org, peter.puhov@linaro.org, alex.bennee@linaro.org,
- Richard Henderson <rth@twiddle.net>
+Cc: alex.chen@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/20 10:59, Cornelia Huck wrote:
->>      bool stopped = false;
->> -
->> +    bool bql = !qemu_mutex_iothread_locked();
->> +    if (bql) {
->> +        qemu_mutex_lock_iothread();
->> +    }
-> I'm not sure I like that conditional locking. Can we instead create
-> __s390_cpu_do_interrupt() or so, move the meat of this function there,
-> take the bql unconditionally here, and...
+Am 05.08.2020 um 04:38 hat Ying Fang geschrieben:
+> From: fangying <fangying1@huawei.com>
 > 
+> When qemu or qemu-nbd process uses a qcow2 image and configured with
+> 'cache = none', it will write to the qcow2 image with a cache to cache
+> L2 tables, however the process will not use L2 tables without explicitly
+> calling the flush command or closing the mirror flash into the disk.
+> Which may cause the disk data inconsistent with the written data for
+> a long time. If an abnormal process exit occurs here, the issued written
+> data will be lost.
+> 
+> Therefore, in order to keep data consistency we need to flush the changes
+> to the L2 entry to the disk in time for the newly allocated cluster.
+> 
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
 
-Agreed, except the usual convention would be s390_cpu_do_interrupt_locked.
+If you want to have data safely written to the disk after each write
+request, you need to use cache=writethrough/directsync (in other words,
+aliases that are equivalent to setting -device ...,write-cache=off).
+Note that this will have a major impact on write performance.
 
-Paolo
+cache=none means bypassing the kernel page cache (O_DIRECT), but not
+flushing after each write request.
+
+Kevin
 
 
