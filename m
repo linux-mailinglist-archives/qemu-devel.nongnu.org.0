@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D788323D7DA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:11:37 +0200 (CEST)
-Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C9923D7E0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:13:27 +0200 (CEST)
+Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3azw-0007hO-UW
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:11:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33814)
+	id 1k3b1i-00029S-I8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3ax5-0002UQ-AM; Thu, 06 Aug 2020 04:08:39 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3ax3-0005gs-Jo; Thu, 06 Aug 2020 04:08:38 -0400
-Received: by mail-wr1-x431.google.com with SMTP id p20so8172616wrf.0;
- Thu, 06 Aug 2020 01:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7eAZ0/8yiggvPhkOUdkJ91QA34FcT2pw/7CIAHLDBoI=;
- b=gT4mV6Re+G81D1DVLg9KyuO+IJIuIezbYCwieNnxvT+udghu7NEpXuqp0bMRBEHHsZ
- pEJIUgOclMIRZ+DtmjrLYx9yEx0+6MQwMK2maW2bd2/S98LWdc7hjLvwZaodgtUDXBDA
- KZKG2cmbD6SydenFWC+tM/YpDnlP17JwQEBbShY+OpLWifR9/CmZ5DLQ2nogsQaM38NZ
- /rBF41Wa8P+vB2UeEjwGr2WXvxHDSSarzobR6q43IZOx8Fj9H8mwhih3pSE+b0mDJjYt
- qRnpCRPcEnRB1+Tugj7NiDIl4a5POWas5hehqknBekmZWT5aLJPKUt2fUKwxDtrj0pvq
- pHXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7eAZ0/8yiggvPhkOUdkJ91QA34FcT2pw/7CIAHLDBoI=;
- b=P4WK3EQdM/MptmLXffSLte+RwKSzkZr46w7kzLpcLFbrEilfxToLKKjk+O7bgcT5mo
- 6EtGM86wy66Qn50OFTBd2+jM5hkOPM6IGlch/XbzTmbn0fBOBpPqNZPu8Cp09eGXMqKW
- Wku1DlQBr7R9o59A8YEhl73pGiWRkj8T+4KrRb8q6/kHRkiht+snCR569ya4G9sdcBe3
- YUKGxiiqkTXiwmyVeaRP1xijqLRZg5kqU46DgOyyrBdnxDv9eGaX0Z/A3MIw7BV9v0NT
- 1M4wIUz64SUn+cbiNvn9nzqCdmgjzUzeQvuw0cHcsMgBV1/9zvaOGnvjj+uI8C9507TW
- p5VQ==
-X-Gm-Message-State: AOAM5327s4zpw9o/yG7UIsXmJrvyuvAqYL/t2n14r1kGqKgDsjZ6pIlF
- AowFCtMi+Hyi7/3+a/hpHHMNshJ3
-X-Google-Smtp-Source: ABdhPJyyNSbtrPbc8vneLMA2gswDfr9U65erO/ZXRdVXi1BT3/35+DwLFTbnaUFVx0lQPaam955IpQ==
-X-Received: by 2002:adf:cd12:: with SMTP id w18mr6399520wrm.352.1596701315485; 
- Thu, 06 Aug 2020 01:08:35 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 01:08:34 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3b0I-0000TQ-N4
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:11:59 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49561
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3b0G-0006AK-8o
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:11:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596701513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3obfenmJrzoY1c8w0bVKKQRSdH6H5myc2BvttSR7q6s=;
+ b=LfJI8XS+za/zLirpSQNWaVGcZ5r/NFkv8IeWb5CtMxcAPuwx/g0S7tgdAjQ//Z5pvzpZU7
+ Ffw1ajRXlCHn1YJIhkFlhCpiynODD+vKpNhwJKLUWqwbED61b8YIUSA848RKbKpco8IFir
+ LI7raslOr/iG5PRn7fR5qqQ7lAhId0I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-pJ47YuZ6Nq6sS041mYOpeA-1; Thu, 06 Aug 2020 04:11:50 -0400
+X-MC-Unique: pJ47YuZ6Nq6sS041mYOpeA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A9101009445;
+ Thu,  6 Aug 2020 08:11:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CDEF19C4F;
+ Thu,  6 Aug 2020 08:11:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 96E251132801; Thu,  6 Aug 2020 10:11:47 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 7/7] hw/block/fdc: Add ASCII art schema of QOM
- relations
-Date: Thu,  6 Aug 2020 10:08:24 +0200
-Message-Id: <20200806080824.21567-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200806080824.21567-1-f4bug@amsat.org>
-References: <20200806080824.21567-1-f4bug@amsat.org>
+Subject: [PATCH 0/3] A few doc fixes
+Date: Thu,  6 Aug 2020 10:11:44 +0200
+Message-Id: <20200806081147.3123652-1-armbru@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,80 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without knowing the QEMU history, it is hard to relate QEMU objects
-with the hardware datasheet.
+If we need -rc4 for some other reason, throwing these in would be
+nice.
 
-For example, one naively expects:
+Markus Armbruster (3):
+  docs/interop/qmp-spec: Point to the QEMU QMP reference manual
+  qapi: Document event VSERPORT_CHANGE is rate-limited
+  docs/qdev-device-use: Don't suggest -drive and -net can do USB
 
-* a floppy disk is plugged / unplugged on the bus
+ docs/interop/qmp-spec.txt |  9 ++++++---
+ docs/qdev-device-use.txt  | 34 ++++++++++++++++++++++++++++++++--
+ qapi/char.json            |  2 ++
+ 3 files changed, 40 insertions(+), 5 deletions(-)
 
-  Wrong! QEMU floppy disks always sit on the bus. The block drives
-  are plugged / unplugged on the disks, and the disks magically
-  re-adapt their proprieties to match the block drive.
-
-* a floppy controller has a fixed number of disks pluggable on the bus
-
-  Wrong! QEMU floppy controllers have as much slots as the number of
-  floppy drive provided when a machine is created. Then the ACPI table
-  are generated and the number of slots can not be modified. So if you
-  expect a dual slot controller being created with slot A and B, if
-  the machine is created with a single drive attached, the controller
-  will only have slot A created, and you will never be able to plug
-  drive B without risking a mismatch in the ACPI tables.
-
-* a floppy controller supporting 4 disks uses 2 buses
-
-  Wrong! QEMU uses a single bus to plug the 4 disks.
-
-As all these false assumptions are not obvious (we don't plug a disk,
-we plug a block drive into a disk, etc...), start documenting the QOM
-relationships with a simple ASCII schema.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/block/fdc.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 6944b06e4b..b109f37050 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -47,6 +47,28 @@
- #include "qemu/module.h"
- #include "trace.h"
- 
-+/*
-+ * QOM relationship:
-+ * =================
-+ *
-+ *                  +-------------------+
-+ *                  |                   |
-+ * isa/sysbus  <--->|                   |
-+ *                  |                   |
-+ *  irq/dma    <----|        fdc        |
-+ *                  |
-+ *      clk    ---->|                   |        +-+------+-+    +-+------+-+
-+ *                  |                   |        | | blk  | |    | | blk  | |
-+ *                  +--------+----------+        | |      | |    | |      | |
-+ *                           |                   | +------+ |    | +------+ |
-+ *                           |                   |          |    |          |
-+ *                           |                   |  floppy  |    |  floppy  |
-+ *                           |                   +----+-----+    +----+-----+
-+ *                           |   floppy-bus           |               |
-+ *                           +------------------------v---------------v---
-+ *
-+ */
-+
- /********************************************************/
- /* debug Floppy devices */
- 
 -- 
-2.21.3
+2.26.2
 
 
