@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBD423D9C0
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:16:08 +0200 (CEST)
-Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC3E23D9C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:17:40 +0200 (CEST)
+Received: from localhost ([::1]:47640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dsV-0002Oh-3e
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
+	id 1k3dtz-0005qs-Ea
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dTB-0004eR-84
+ id 1k3dTC-0004fi-VS
  for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:58 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37220)
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:36502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dT7-00085F-DF
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:56 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id s26so24716511pfm.4
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:49:52 -0700 (PDT)
+ id 1k3dTA-00085X-Iu
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:58 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id m8so17863943pfh.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vY2lbA6woX2KiM9/SKOS5oHJ8x4EHcHF3Lh9OQafu80=;
- b=ScfVnrR2Sbz/JIIo31PIFy3fRE3TNYYJR+nvuI2MGJ+aQxAM0W2eiafv/IjW/Xks8d
- ely0OCic0OOufHrifNvl4Gbx4z8HFli/yWEKwxBeuSthFkNQxUXX0J2210TPU/+/0Qxa
- m0TnwRMeF5H8s0rInuqsFxd0coPepFVkbR0YL7eLaIDlOmxU5vXWbSdqBbTQhGJp+1Hb
- TKj2PCXgQOrHGXhQEHEQV94djccmsCRC+Su9+TaRNq7wkWvSXC8MvbM1dLmKwzj+waWZ
- vjQODDFCraqmSlZ/bQwE7zG0yVIju3ZRmQVVxgOSgnmhMkS4Kam3dnW0sxr5mEGgEkZF
- 4foA==
+ bh=IQ3uTgsg443PO8q/BPWjaloyJQL2rLdGPV+ewS61ZxI=;
+ b=V8OyAFAQjDme8o5BF/+qB9z8Fc1+Tj75iHOcX8eTWH0hURIlHAhN+1rK5fBhu5C+vx
+ MvmK/eRAlgrN6yPuajAGrZXxdtGj22qCxcQqE2gJoEwBnTROjS0lH7IqWkHkD+xIMotm
+ ILVquca0q0k3g9cWXJBJ6/Qqbgl0cR4jwNruRNZckKrmAez2K+RInyJpE4F3AIedvgZQ
+ cWnXFtqepTdEaGawhsDMkdBKC9HsxVDoJDaDARvholyzBW25o3dS71FRPM/Wpz5i5aCU
+ lNGxYoFOrRGGDh8nCYppW7VpBNnECZuAPGGGz/bZBDEBr7Lh549P+n5L/5WP2FhzQUfN
+ cnqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=vY2lbA6woX2KiM9/SKOS5oHJ8x4EHcHF3Lh9OQafu80=;
- b=FoPyW0PgCD84TeoPDwpZoh/SeW8DfmdIqx+C79SpfkKAOwzc4lSGbiI1Yc/pyOPewJ
- +4yxiErj4LzHV90+aDGyg4a01Nu9rpYvsouO6Kibim2F4XIAsT2ztSR7rrf6gqkh+pte
- SqzhdZB7dA247HWlvGNIbgtbc4EHWzb3TrtexGFSnt2cIYYVw5pWvcF9Jb50LQMx1soE
- iODvCsu7Hgz/z5fRWxgQwi5rA9m0I+EMHE3kFH2MooahnmayPk4tHSJN+gzSFtX8bIA7
- QAItGVSnlFHozcAwio2Tm7wUIInSC7BACwianROqK9ooKyzqjy35oajfU0VoRkNT9Dle
- OU1w==
-X-Gm-Message-State: AOAM530lkiqVRa4hTQOh/BmNyisE2gzhBDWOvSfLM1i+obwlRufE3RRa
- ign6FsvP+tZgz59cwrpmmlRxy8BIe7g=
-X-Google-Smtp-Source: ABdhPJyOtqSaHuQ782OU5h4iyqzHl6oYcG0K6XPs91zQZCPagmgzRKS2jmHatQnlCqKNLLYLiTEMXg==
-X-Received: by 2002:aa7:9357:: with SMTP id 23mr7632552pfn.278.1596710991115; 
- Thu, 06 Aug 2020 03:49:51 -0700 (PDT)
+ bh=IQ3uTgsg443PO8q/BPWjaloyJQL2rLdGPV+ewS61ZxI=;
+ b=rmPKSAgTPceDcaY2+SSg4f6voZSzTHiAiVeuGL5PhEBDlQ5+HIM6AZ2eYVY/hbDot4
+ QFpxo/MC6J3YHhPbqrDUk0hW+hFeIXKeKyVIVCgzaRPHcghviupjX+bltFdrbIUcue9s
+ 085VeROgG5lgt/SpcdTCUG/+7/i1jtn0uhYc7rTyHXE9uureW++Rbjy/31VEk2JBBtrO
+ AspcPZpQptII//RQVBLHkcE4wBnDttx5om2eboapLSeKbVDur49h7rLqZkVl2skPDJTi
+ AjU15DGougqopzeFaZFQ87lhdbEAvTTV9IGIVsB2qG2ZolcxdbFRrHdICUHKlJR8JLZM
+ e/Zw==
+X-Gm-Message-State: AOAM533bpfswGdbKR/mSojcRszXgQAR0HlDSGlh9wrkukObYCNshJ9Mf
+ NEM3oK/+x4oCQS2h++RZfaiD1QqAyUM=
+X-Google-Smtp-Source: ABdhPJz7ER815wZQTveNKqwFVjivJQ/3CWKBeX9EFojYCZBzDphkzkXGIaEfuRardBpd1Ads8kDNYA==
+X-Received: by 2002:aa7:9ace:: with SMTP id x14mr7269835pfp.216.1596710993595; 
+ Thu, 06 Aug 2020 03:49:53 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.49.48
+ by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.49.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:49:50 -0700 (PDT)
+ Thu, 06 Aug 2020 03:49:53 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v3 62/71] target/riscv: rvv-1.0: remove integer extract
- instruction
-Date: Thu,  6 Aug 2020 18:46:59 +0800
-Message-Id: <20200806104709.13235-63-frank.chang@sifive.com>
+Subject: [RFC v3 63/71] target/riscv: rvv-1.0: floating-point min/max
+ instructions
+Date: Thu,  6 Aug 2020 18:47:00 +0800
+Message-Id: <20200806104709.13235-64-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
 References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,65 +95,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn32.decode              |  1 -
- target/riscv/insn_trans/trans_rvv.inc.c | 23 -----------------------
- 2 files changed, 24 deletions(-)
+ target/riscv/vector_helper.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 994ef3031b5..425cfd7cb32 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -603,7 +603,6 @@ viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
- vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
- vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
- vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
--vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
- vfmv_f_s        010000 1 ..... 00000 001 ..... 1010111 @r2rd
- vfmv_s_f        010000 1 00000 ..... 101 ..... 1010111 @r2
- vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 718a8834962..f2bd3972558 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -3146,8 +3146,6 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
-  *** Vector Permutation Instructions
-  */
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 359ed6605c6..10b99113712 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -3658,28 +3658,28 @@ GEN_VEXT_V_ENV(vfsqrt_v_w, 4, 4)
+ GEN_VEXT_V_ENV(vfsqrt_v_d, 8, 8)
  
--/* Integer Extract Instruction */
--
- static void load_element(TCGv_i64 dest, TCGv_ptr base,
-                          int ofs, int sew, bool sign)
- {
-@@ -3249,27 +3247,6 @@ static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
-     load_element(dest, cpu_env, endian_ofs(s, vreg, idx), s->sew, sign);
- }
+ /* Vector Floating-Point MIN/MAX Instructions */
+-RVVCALL(OPFVV2, vfmin_vv_h, OP_UUU_H, H2, H2, H2, float16_minnum)
+-RVVCALL(OPFVV2, vfmin_vv_w, OP_UUU_W, H4, H4, H4, float32_minnum)
+-RVVCALL(OPFVV2, vfmin_vv_d, OP_UUU_D, H8, H8, H8, float64_minnum)
++RVVCALL(OPFVV2, vfmin_vv_h, OP_UUU_H, H2, H2, H2, float16_minnum_noprop)
++RVVCALL(OPFVV2, vfmin_vv_w, OP_UUU_W, H4, H4, H4, float32_minnum_noprop)
++RVVCALL(OPFVV2, vfmin_vv_d, OP_UUU_D, H8, H8, H8, float64_minnum_noprop)
+ GEN_VEXT_VV_ENV(vfmin_vv_h, 2, 2)
+ GEN_VEXT_VV_ENV(vfmin_vv_w, 4, 4)
+ GEN_VEXT_VV_ENV(vfmin_vv_d, 8, 8)
+-RVVCALL(OPFVF2, vfmin_vf_h, OP_UUU_H, H2, H2, float16_minnum)
+-RVVCALL(OPFVF2, vfmin_vf_w, OP_UUU_W, H4, H4, float32_minnum)
+-RVVCALL(OPFVF2, vfmin_vf_d, OP_UUU_D, H8, H8, float64_minnum)
++RVVCALL(OPFVF2, vfmin_vf_h, OP_UUU_H, H2, H2, float16_minnum_noprop)
++RVVCALL(OPFVF2, vfmin_vf_w, OP_UUU_W, H4, H4, float32_minnum_noprop)
++RVVCALL(OPFVF2, vfmin_vf_d, OP_UUU_D, H8, H8, float64_minnum_noprop)
+ GEN_VEXT_VF(vfmin_vf_h, 2, 2)
+ GEN_VEXT_VF(vfmin_vf_w, 4, 4)
+ GEN_VEXT_VF(vfmin_vf_d, 8, 8)
  
--static bool trans_vext_x_v(DisasContext *s, arg_r *a)
--{
--    TCGv_i64 tmp = tcg_temp_new_i64();
--    TCGv dest = tcg_temp_new();
--
--    if (a->rs1 == 0) {
--        /* Special case vmv.x.s rd, vs2. */
--        vec_element_loadi(s, tmp, a->rs2, 0);
--    } else {
--        /* This instruction ignores LMUL and vector register groups */
--        int vlmax = s->vlen >> (3 + s->sew);
--        vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
--    }
--    tcg_gen_trunc_i64_tl(dest, tmp);
--    gen_set_gpr(a->rd, dest);
--
--    tcg_temp_free(dest);
--    tcg_temp_free_i64(tmp);
--    return true;
--}
--
- /* Integer Scalar Move Instruction */
- 
- static void store_element(TCGv_i64 val, TCGv_ptr base,
+-RVVCALL(OPFVV2, vfmax_vv_h, OP_UUU_H, H2, H2, H2, float16_maxnum)
+-RVVCALL(OPFVV2, vfmax_vv_w, OP_UUU_W, H4, H4, H4, float32_maxnum)
+-RVVCALL(OPFVV2, vfmax_vv_d, OP_UUU_D, H8, H8, H8, float64_maxnum)
++RVVCALL(OPFVV2, vfmax_vv_h, OP_UUU_H, H2, H2, H2, float16_maxnum_noprop)
++RVVCALL(OPFVV2, vfmax_vv_w, OP_UUU_W, H4, H4, H4, float32_maxnum_noprop)
++RVVCALL(OPFVV2, vfmax_vv_d, OP_UUU_D, H8, H8, H8, float64_maxnum_noprop)
+ GEN_VEXT_VV_ENV(vfmax_vv_h, 2, 2)
+ GEN_VEXT_VV_ENV(vfmax_vv_w, 4, 4)
+ GEN_VEXT_VV_ENV(vfmax_vv_d, 8, 8)
+-RVVCALL(OPFVF2, vfmax_vf_h, OP_UUU_H, H2, H2, float16_maxnum)
+-RVVCALL(OPFVF2, vfmax_vf_w, OP_UUU_W, H4, H4, float32_maxnum)
+-RVVCALL(OPFVF2, vfmax_vf_d, OP_UUU_D, H8, H8, float64_maxnum)
++RVVCALL(OPFVF2, vfmax_vf_h, OP_UUU_H, H2, H2, float16_maxnum_noprop)
++RVVCALL(OPFVF2, vfmax_vf_w, OP_UUU_W, H4, H4, float32_maxnum_noprop)
++RVVCALL(OPFVF2, vfmax_vf_d, OP_UUU_D, H8, H8, float64_maxnum_noprop)
+ GEN_VEXT_VF(vfmax_vf_h, 2, 2)
+ GEN_VEXT_VF(vfmax_vf_w, 4, 4)
+ GEN_VEXT_VF(vfmax_vf_d, 8, 8)
 -- 
 2.17.1
 
