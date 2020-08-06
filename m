@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A4A23E2EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:13:22 +0200 (CEST)
-Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E3523E2E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:11:39 +0200 (CEST)
+Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3mGP-00087G-3t
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
+	id 1k3mEk-0004kf-BG
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:11:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lRC-0002wa-4o
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:20:26 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27606
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k3lRB-0002uX-1K
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:20:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27272
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lR9-0006tk-JF
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:20:25 -0400
+ id 1k3lR8-0006tf-UJ
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:20:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1596741622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ihCti3XLbliKzKVveic1hC5S/JNzHZAojXsiG6HCWdk=;
- b=dZEP8b9J8IhpcIMVA1vLA3M+7/XztO5NnGkGWTO1h940jIp3uMRyDlX91BwFSeyZojH/eI
- 6Kd/KBCU8OQmkqKBr8Tki3MjJj3Vr2xX8oV/VNh/o2nJyRJPg4qA/JEiwDZqORaiHgRdhA
- urS5S1UGtzBhwBabXsUqg6Zln61iuMk=
+ to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=9d4OMmwTQF35/7jkUv6krr+da86weRcSC2GuhLAFSlg=;
+ b=H79+MGrKWILqgnWRTpJ/MbWBLw4Z+Co9/OMfVEkxNVDv/c0pXLdSFPFWLMbCHZihYK/TCg
+ ZVQZCauhrVT6MKA3wg0Ij0kmRYGCHJHlo6l4LVfMtXiPEKKFVnr8676h6JV5ifUmgbrqTy
+ Ms0bPvAliKq1+9DCIjWBEPVP3z76K2E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-UNpWBrCPOZi9P3-N3Pn7cg-1; Thu, 06 Aug 2020 15:20:19 -0400
-X-MC-Unique: UNpWBrCPOZi9P3-N3Pn7cg-1
+ us-mta-396-aF81fbKiOQeFQm8YXe3YPQ-1; Thu, 06 Aug 2020 15:20:20 -0400
+X-MC-Unique: aF81fbKiOQeFQm8YXe3YPQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DA88800468
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:20:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEF87107BEF5
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:20:19 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF3A35F9DC;
- Thu,  6 Aug 2020 19:20:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12E8E69315
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:20:18 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 128/143] meson: cpu-emu
-Date: Thu,  6 Aug 2020 21:16:04 +0200
-Message-Id: <1596741379-12902-129-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 129/143] meson: plugins
+Date: Thu,  6 Aug 2020 21:16:05 +0200
+Message-Id: <1596741379-12902-130-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,210 +78,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+For now link arguments end up in Makefile.target, they will move to the
+right place soon.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.target         | 12 ------------
- configure               |  8 ++++++++
- meson.build             | 37 +++++++++++++++++++++++++++++++++++++
- scripts/feature_to_c.sh | 24 ++++++++----------------
- 4 files changed, 53 insertions(+), 28 deletions(-)
+ Makefile              |  8 +-------
+ Makefile.target       | 12 ++++++++++--
+ meson.build           |  5 +++++
+ plugins/Makefile.objs | 21 ---------------------
+ plugins/meson.build   |  5 +++++
+ 5 files changed, 21 insertions(+), 30 deletions(-)
+ delete mode 100644 plugins/Makefile.objs
+ create mode 100644 plugins/meson.build
 
+diff --git a/Makefile b/Makefile
+index 2aaa3f8..5320a06 100644
+--- a/Makefile
++++ b/Makefile
+@@ -419,13 +419,10 @@ endif
+ 
+ ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
+ 
+-install-includedir:
+-	$(INSTALL_DIR) "$(DESTDIR)$(includedir)"
+-
+ # Needed by "meson install"
+ export DESTDIR
+ install: all $(if $(BUILD_DOCS),install-doc) \
+-	install-datadir install-localstatedir install-includedir \
++	install-datadir install-localstatedir \
+ 	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
+ 	recurse-install
+ ifdef CONFIG_TRACE_SYSTEMTAP
+@@ -468,9 +465,6 @@ endif
+ ifdef CONFIG_GTK
+ 	$(MAKE) -C po $@
+ endif
+-ifeq ($(CONFIG_PLUGIN),y)
+-	$(INSTALL_DATA) $(SRC_PATH)/include/qemu/qemu-plugin.h "$(DESTDIR)$(includedir)/qemu-plugin.h"
+-endif
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
+ 	set -e; for x in $(KEYMAPS); do \
+ 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
 diff --git a/Makefile.target b/Makefile.target
-index 5c099fa..c180b4c 100644
+index c180b4c..2b7280b 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -108,15 +108,6 @@ obj-y += $(LIBQEMU)
- obj-y += trace/
- 
+@@ -110,8 +110,6 @@ obj-y += trace/
  #########################################################
--# cpu emulator library
--obj-y += exec.o exec-vary.o
--obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
--obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
--obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
--obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
--obj-$(CONFIG_TCG) += fpu/softfloat.o
--obj-y += disas.o
--obj-$(call notempty,$(TARGET_XML_FILES)) += gdbstub-xml.o
  LIBS := $(libs_cpu) $(LIBS)
  
- obj-$(CONFIG_PLUGIN) += plugins/
-@@ -200,9 +191,6 @@ ifdef CONFIG_DARWIN
- 	$(call quiet-command,SetFile -a C $@,"SETFILE","$(TARGET_DIR)$@")
- endif
- 
--gdbstub-xml.c: $(TARGET_XML_FILES) $(SRC_PATH)/scripts/feature_to_c.sh
--	$(call quiet-command,rm -f $@ && $(SHELL) $(SRC_PATH)/scripts/feature_to_c.sh $@ $(TARGET_XML_FILES),"GEN","$(TARGET_DIR)$@")
+-obj-$(CONFIG_PLUGIN) += plugins/
 -
- clean: clean-target
- 	rm -f *.a *~ $(PROGS)
- 	rm -f $(shell find . -name '*.[od]')
-diff --git a/configure b/configure
-index 525f415..a7a4538 100755
---- a/configure
-+++ b/configure
-@@ -5416,9 +5416,13 @@ case "$capstone" in
-       LIBCAPSTONE=libcapstone.a
-     fi
-     libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
-+    capstone_libs="-L$PWD/capstone -lcapstone"
-+    capstone_cflags="-I${source_path}/capstone/include"
-     ;;
+ #########################################################
+ # Linux user emulator target
  
-   system)
-+    capstone_libs="$($pkg_config --libs capstone)"
-+    capstone_cflags="$($pkg_config --cflags capstone)"
-     QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags capstone)"
-     libs_cpu="$($pkg_config --libs capstone) $libs_cpu"
-     ;;
-@@ -7637,6 +7641,8 @@ if test "$ivshmem" = "yes" ; then
- fi
- if test "$capstone" != "no" ; then
-   echo "CONFIG_CAPSTONE=y" >> $config_host_mak
-+  echo "CAPSTONE_CFLAGS=$capstone_cflags" >> $config_host_mak
-+  echo "CAPSTONE_LIBS=$capstone_libs" >> $config_host_mak
- fi
- if test "$debug_mutex" = "yes" ; then
-   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
-@@ -7657,6 +7663,8 @@ fi
+@@ -153,6 +151,16 @@ LIBS := $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
+ LIBS := $(LIBS) $(LIBUSB_LIBS) $(SMARTCARD_LIBS) $(USB_REDIR_LIBS)
+ LIBS := $(LIBS) $(VIRGL_LIBS) $(CURSES_LIBS)
  
- if test "$libpmem" = "yes" ; then
-   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
-+  echo "LIBPMEM_LIBS=$libpmem_libs" >> $config_host_mak
-+  echo "LIBPMEM_CFLAGS=$libpmem_cflags" >> $config_host_mak
- fi
++ifeq ($(CONFIG_PLUGIN),y)
++ifdef CONFIG_HAS_LD_DYNAMIC_LIST
++LIBS += -Wl,--dynamic-list=$(BUILD_DIR)/qemu-plugins-ld.symbols
++else
++ifdef CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST
++LIBS += -Wl,-exported_symbols_list,$(BUILD_DIR)/qemu-plugins-ld64.symbols
++endif
++endif
++endif
++
+ generated-files-y += hmp-commands.h hmp-commands-info.h
  
- if test "$libdaxctl" = "yes" ; then
+ endif # CONFIG_SOFTMMU
 diff --git a/meson.build b/meson.build
-index e1d7672..7ed8276 100644
+index 7ed8276..58f84e8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -328,6 +328,16 @@ if 'CONFIG_USB_LIBUSB' in config_host
-   libusb = declare_dependency(compile_args: config_host['LIBUSB_CFLAGS'].split(),
-                               link_args: config_host['LIBUSB_LIBS'].split())
+@@ -704,6 +704,7 @@ subdir('net')
+ subdir('replay')
+ subdir('hw')
+ subdir('accel')
++subdir('plugins')
+ subdir('bsd-user')
+ subdir('linux-user')
+ 
+@@ -872,6 +873,10 @@ endforeach
+ 
+ # Other build targets
+ 
++if 'CONFIG_PLUGIN' in config_host
++  install_headers('include/qemu/qemu-plugin.h')
++endif
++
+ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
  endif
-+capstone = not_found
-+if 'CONFIG_CAPSTONE' in config_host
-+  capstone = declare_dependency(compile_args: config_host['CAPSTONE_CFLAGS'].split(),
-+                                link_args: config_host['CAPSTONE_LIBS'].split())
-+endif
-+libpmem = not_found
-+if 'CONFIG_LIBPMEM' in config_host
-+  libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
-+                               link_args: config_host['LIBPMEM_LIBS'].split())
-+endif
- 
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -505,6 +515,8 @@ target_softmmu_arch = {}
- # Trace files #
- ###############
- 
-+# TODO: add each directory to the subdirs from its own meson.build, once
-+# we have those
- trace_events_subdirs = [
-   'accel/kvm',
-   'accel/tcg',
-@@ -670,6 +682,20 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
- common_ss.add(files('cpus-common.c'))
- 
- subdir('softmmu')
-+
-+specific_ss.add(files('disas.c', 'exec.c', 'gdbstub.c'), capstone, libpmem)
-+specific_ss.add(files('exec-vary.c'))
-+specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-+  'fpu/softfloat.c',
-+  'tcg/optimize.c',
-+  'tcg/tcg-common.c',
-+  'tcg/tcg-op-gvec.c',
-+  'tcg/tcg-op-vec.c',
-+  'tcg/tcg-op.c',
-+  'tcg/tcg.c',
-+))
-+specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c', 'tcg/tci.c'))
-+
- subdir('backends')
- subdir('disas')
- subdir('migration')
-@@ -761,6 +787,8 @@ common_all = static_library('common',
-                             dependencies: common_all.dependencies(),
-                             name_suffix: 'fa')
- 
-+feature_to_c = find_program('scripts/feature_to_c.sh')
-+
- foreach target : target_dirs
-   config_target = config_target_mak[target]
-   target_name = config_target['TARGET_NAME']
-@@ -807,6 +835,15 @@ foreach target : target_dirs
-     endif
-   endif
- 
-+  if 'TARGET_XML_FILES' in config_target
-+    gdbstub_xml = custom_target(target + '-gdbstub-xml.c',
-+                                output: target + '-gdbstub-xml.c',
-+                                input: files(config_target['TARGET_XML_FILES'].split()),
-+                                command: [feature_to_c, '@INPUT@'],
-+                                capture: true)
-+    arch_srcs += gdbstub_xml
-+  endif
-+
-   t = target_arch[arch].apply(config_target, strict: false)
-   arch_srcs += t.sources()
- 
-diff --git a/scripts/feature_to_c.sh b/scripts/feature_to_c.sh
-index c8ce9b8..b116989 100644
---- a/scripts/feature_to_c.sh
-+++ b/scripts/feature_to_c.sh
-@@ -19,16 +19,8 @@
- # You should have received a copy of the GNU General Public License
- # along with this program; if not, see <http://www.gnu.org/licenses/>.
- 
--output=$1
--shift
+diff --git a/plugins/Makefile.objs b/plugins/Makefile.objs
+deleted file mode 100644
+index 6f14d91..0000000
+--- a/plugins/Makefile.objs
++++ /dev/null
+@@ -1,21 +0,0 @@
+-#
+-# Plugin Support
+-#
 -
--if test -z "$output" || test -z "$1"; then
--  echo "Usage: $0 OUTPUTFILE INPUTFILE..."
--  exit 1
--fi
+-obj-y += loader.o
+-obj-y += core.o
+-obj-y += api.o
 -
--if test -e "$output"; then
--  echo "Output file \"$output\" already exists; refusing to overwrite."
-+if test -z "$1"; then
-+  echo "Usage: $0 INPUTFILE..."
-   exit 1
- fi
- 
-@@ -60,17 +52,17 @@ for input; do
-       printf "'\''\\n'\'', \n"
-     } END {
-       print "  0 };"
--    }' < $input >> $output
-+    }' < $input
- done
- 
--echo >> $output
--echo "const char *const xml_builtin[][2] = {" >> $output
-+echo
-+echo "const char *const xml_builtin[][2] = {"
- 
- for input; do
-   basename=$(echo $input | sed 's,.*/,,')
-   arrayname=xml_feature_$(echo $input | sed 's,.*/,,; s/[-.]/_/g')
--  echo "  { \"$basename\", $arrayname }," >> $output
-+  echo "  { \"$basename\", $arrayname },"
- done
- 
--echo "  { (char *)0, (char *)0 }" >> $output
--echo "};" >> $output
-+echo "  { (char *)0, (char *)0 }"
-+echo "};"
+-# Abuse -libs suffix to only link with --dynamic-list/-exported_symbols_list
+-# when the final binary includes the plugin object.
+-#
+-# Note that simply setting LDFLAGS is not enough: we build binaries that
+-# never link plugin.o, and the linker might fail (at least ld64 does)
+-# if the symbols in the list are not in the output binary.
+-ifdef CONFIG_HAS_LD_DYNAMIC_LIST
+-api.o-libs := -Wl,--dynamic-list=$(BUILD_DIR)/qemu-plugins-ld.symbols
+-else
+-ifdef CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST
+-api.o-libs := -Wl,-exported_symbols_list,$(BUILD_DIR)/qemu-plugins-ld64.symbols
+-endif
+-endif
+diff --git a/plugins/meson.build b/plugins/meson.build
+new file mode 100644
+index 0000000..9608e52
+--- /dev/null
++++ b/plugins/meson.build
+@@ -0,0 +1,5 @@
++specific_ss.add(when: 'CONFIG_PLUGIN', if_true: [files(
++  'loader.c',
++  'core.c',
++  'api.c',
++)])
 -- 
 1.8.3.1
 
