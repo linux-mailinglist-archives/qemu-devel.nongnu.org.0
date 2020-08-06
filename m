@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E47323D91D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:08:47 +0200 (CEST)
-Received: from localhost ([::1]:57022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028DE23D933
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:17:39 +0200 (CEST)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3cpK-00030d-E0
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
+	id 1k3cxt-0005QC-QP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3coa-0002av-Tq
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:08:00 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45949
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k3cwS-0004wq-RX
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:16:08 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34796
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3coY-0002hx-Uy
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:08:00 -0400
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1k3cwQ-0003qX-Vw
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:16:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596708478;
+ s=mimecast20190719; t=1596708964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=COG95HzB6W4riqDfKaT8VHOJkxpvAVw5ExvX7uBMST0=;
- b=QvJDjjj/4nFRuBRaGVPr0Xbi8CsNv3/ozhNjWiQCQ1BEiO1rX0/WAksDUN6e0MxEOkBXkk
- /aTOQE9FoCUQMus2VHry98lCigAU2xt0ZyMvtGhAUXbzoaBrjidyczCwjg+wjSAjL7Gzqz
- Q0rCUoGjojw/sDuOpMYbBYEHHiIy4ks=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-hktdH_5tPpO_aUd_doo7tw-1; Thu, 06 Aug 2020 06:07:54 -0400
-X-MC-Unique: hktdH_5tPpO_aUd_doo7tw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FA4918FF662;
- Thu,  6 Aug 2020 10:07:53 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-229.ams2.redhat.com [10.36.112.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68D2987A4D;
- Thu,  6 Aug 2020 10:07:50 +0000 (UTC)
-Subject: Re: [PATCH 1/5] log: Add logs for vm start and destroy
-To: Peng Liang <liangpeng10@huawei.com>, qemu-trivial@nongnu.org
-References: <20200806093720.2355692-1-liangpeng10@huawei.com>
- <20200806093720.2355692-2-liangpeng10@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <4c171abd-1366-6ff9-f261-a450a3a1783d@redhat.com>
-Date: Thu, 6 Aug 2020 12:07:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200806093720.2355692-2-liangpeng10@huawei.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cFKrUjjkOFZiBV5Z+F6A64nK9xVU4UrzxL3BD+g+SMc=;
+ b=SIdReF5B79TCw2ToWNic26urylYmw5DrPHcFSocGDzkybk3E4I5xsDegPqJbaGSMOsNQ59
+ lGfrqHJOUu2gpVL+HMsYiTGAbVzz60yvsmeSgzaewMSF6/oQrBC5VuorMAd+kTgObkvP+e
+ Iv9FCf424n7FEPUWYKsRqGRzd+uouKo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-hbFX-Tk_NWGEcwLCh8vnRQ-1; Thu, 06 Aug 2020 06:14:55 -0400
+X-MC-Unique: hbFX-Tk_NWGEcwLCh8vnRQ-1
+Received: by mail-wr1-f72.google.com with SMTP id b13so11857016wrq.19
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:14:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:content-transfer-encoding:mime-version
+ :subject:message-id:date:cc:to;
+ bh=tjhzc3DZAJOCSB2tramfpoH4PDygFrsd3e9qQTU8hrA=;
+ b=Tf7iBgGJHpADIQuxenoZICUHsVvolxzc1lSM4/Ih1FSk9+3Bq/GvfTMzTKoeKDqNbF
+ 63UeuveTbyHczwUYAXNb0Z0fw12gHE8ZVihQIXduzKD9A8Yv62WCvJAFqVz6knnQAi0k
+ httEQIUdIVqayrt17TIhaSHEgxy61IBLp7ROQMHxqII16H+zBCnTbD/kkE4Z4WM5whx+
+ BnaTe4r3+l3liDIOAoUn3G+50aj5di8o6EerVRS0NeG4H3rzNTqhgkOsgT+V0EZTJaVJ
+ oTCVOKG+G7VRLoJGDUsqIT+QfqxTGt7OUwRMK2luK9Fn1yazPAiRek5Ik7PSmPfLFdCk
+ id2g==
+X-Gm-Message-State: AOAM533BhE31Y81NnoIRZPcJF+/4UIhkT4tXCLFhLWEpCLvqVwdO7w6N
+ pVd8hLnc6zkkfm06wRZ7IQcJiu7ztF1FtT+ot4JtruX6pj3sRpjQ3cAEGL2BPaYo2ihEt6FJOmw
+ EDtOpDNhIYd3rv2I=
+X-Received: by 2002:adf:f4ca:: with SMTP id h10mr6582896wrp.355.1596708894551; 
+ Thu, 06 Aug 2020 03:14:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpZDbLTvTkdUsFaVMxY0730u1E4zKAWjthEP+hX2v8qGoILa86CNX31m7CqvUJ2m0JfUnkpA==
+X-Received: by 2002:adf:f4ca:: with SMTP id h10mr6582877wrp.355.1596708894241; 
+ Thu, 06 Aug 2020 03:14:54 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:466:71c0:d0c5:70f6:7493:1710?
+ ([2a01:e0a:466:71c0:d0c5:70f6:7493:1710])
+ by smtp.gmail.com with ESMTPSA id x82sm6049798wmb.30.2020.08.06.03.14.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 06 Aug 2020 03:14:53 -0700 (PDT)
+From: Christophe de Dinechin <dinechin@redhat.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Qemu web site down?
+Message-Id: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
+Date: Thu, 6 Aug 2020 12:14:51 +0200
+To: Stefan Weil <sw@weilnetz.de>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dinechin@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +97,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/2020 11.37, Peng Liang wrote:
-> Add logs for vm start and destroy.
-> 
-> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> ---
->  hw/acpi/core.c  | 3 +++
->  hw/core/reset.c | 2 ++
->  softmmu/vl.c    | 8 ++++++++
->  3 files changed, 13 insertions(+)
-> 
-> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-> index ac06db3450..0a24f018cf 100644
-> --- a/hw/acpi/core.c
-> +++ b/hw/acpi/core.c
-> @@ -560,13 +560,16 @@ static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
->          uint16_t sus_typ = (val >> 10) & 7;
->          switch(sus_typ) {
->          case 0: /* soft power off */
-> +            info_report("VM will be soft power off");
->              qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->              break;
->          case 1:
-> +            info_report("VM will be suspend state");
->              qemu_system_suspend_request();
->              break;
->          default:
->              if (sus_typ == ar->pm1.cnt.s4_val) { /* S4 request */
-> +                info_report("VM will be S4 state");
->                  qapi_event_send_suspend_disk();
->                  qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->              }
+Hi Stefan,
 
-There is already a trace point in qemu_system_shutdown_request(), so
-this can already be used instead.
 
- Thomas
+The link from https://wiki.qemu.org/Documentation pointing to https://qemu.=
+weilnetz.de/doc/qemu-doc.html seems to be dead. Is the problem on your web =
+site, or should the wiki be updated?
+
+
+Thanks
+Christophe
 
 
