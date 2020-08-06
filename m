@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA1823D7D3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:09:45 +0200 (CEST)
-Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E54723D7D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:09:48 +0200 (CEST)
+Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ay8-0003ph-SY
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33718)
+	id 1k3ayB-0003xA-1r
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:09:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3awx-0002FP-9C; Thu, 06 Aug 2020 04:08:31 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37403)
+ id 1k3awy-0002Fh-H0; Thu, 06 Aug 2020 04:08:32 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3awv-0005fp-Na; Thu, 06 Aug 2020 04:08:31 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id y3so43079462wrl.4;
- Thu, 06 Aug 2020 01:08:29 -0700 (PDT)
+ id 1k3aww-0005ft-V9; Thu, 06 Aug 2020 04:08:32 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g8so8021779wmk.3;
+ Thu, 06 Aug 2020 01:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RLlgeL2C/FYTW7vdWP0OhAQl6GDJRLGBT60ys2uJvCE=;
- b=XUbMoEcSMxGEUtED05wSHJW1i3kN7U25wPcJj2yPbhyQU/Pczn1RGZp31CAY67/gmC
- DCrLIkgepqbJ8QEpRLeSNQlVB5E4Q/kgWefqQqjl9uSpdYp8oEeoKZMZh/SdG5j5nMSg
- EuBnmEDahY2CpdSdKSlVVeUhzbt82zPQwzZZ9iQyvxeDv6I1DJ+URVONHc6uScq1qjPV
- DJWtc09ySKKXAJm02s1OVPQJyJGi2M1wCIbB3tdrQ4o2tzHEBugSqbrulakCKho5i6Ul
- tN0VCeLSOu9EggP5b6yDWOUhS9OjSSESa6EU4099PXeMtugwsX3/0iZmzlAyGIgeE8MO
- WbSA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Rq4yNdphOIo43q9Xr8hQFGdolus1VUdY6wY1oJGgT2Q=;
+ b=Y4sKZyfhVIgYQSBnb5ToM2MgNHsGlJwXdbcrRG4A38e90jZYd7i+GpenAP8CSN3N+4
+ 9gxUOQpzsLOEL462xvTKtaWDZBmJ0t+asS+jlI+Z2gOX1WrWgEPOcfTi7B24XTmlZ4fE
+ DnQ8x3v5coa3Le9LtCxODrFvy6OoNr7YyKjdII5VC2nRaEwRt9h5JdBdhCTX9TE5Ljpe
+ HfGUd3ZIXCCTBOD3MmskUVjDYufmpAtt+LdGZnYun1fSM3CLGOuM1zuhDsahQXHB1cgf
+ FoQxDmYIXRo7ESl6ipy4aXzMTaJxOTYw7H6wIm6EPz5S7gWDOyG2/08yOdBYRfiAjTKz
+ 63JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=RLlgeL2C/FYTW7vdWP0OhAQl6GDJRLGBT60ys2uJvCE=;
- b=TpoI3GI1r2oC/+KFiLI4gWmwAnUP74/pofGJkJiqOpKHvbFoUrA2KxTK3Wo5gz+nbs
- W+CEFfjinJktMKL75g08rCLnfL0l90gIAolA7Gp8gaqsSSVuy+TYhgId7+Pzzq+oqJXn
- YqVj8kLH9hx+N/Ggxof1itFht27S21M9zXhDy74dzX7SOxdb8RAMwVYlcMs/MXLRdHh1
- Lm2fwSTUuZEyzfGntLGG0Ljk9XDqYCnmyT+2smjWmxd+W+h8K3EJly2XPr6GZ0xpxgAK
- Ud12KpBncSGOl0pyDoBqyKZwlyLXpNgwnOBnYHIPRzSwoPAmPAb+BaXStsP24ByfMa15
- cpPQ==
-X-Gm-Message-State: AOAM53163I4eVFqXZQpF37emX7U7H6BCC/h0OfZROJBXIlkFEonWkFCV
- Um62PagwQwzlSFyiGUystydxAmLu
-X-Google-Smtp-Source: ABdhPJyNVSLQR+za7u7ezBcMNENYCasW24bMQzaXmgM7d5dxS9R1qe1h+gMkDE4P/yk+4i0Vbwokow==
-X-Received: by 2002:a5d:5151:: with SMTP id u17mr6292276wrt.154.1596701307340; 
- Thu, 06 Aug 2020 01:08:27 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Rq4yNdphOIo43q9Xr8hQFGdolus1VUdY6wY1oJGgT2Q=;
+ b=jzsCFS0GWIT16xxeHS1Z9gdsDWAblU/YRH2gpGOQjS4otYd9PQMvu+tK4fsycomc0y
+ AWZv0YLDU8EPpDEPteuX0JJcVYZ769uNkRaWz4xtoBGODX9KdP9ccefFAGYK82xXl4uU
+ wMBeOB7ic09THHs0ly4RuiHGSBcKaM2S0UXLgZzTh7FANyHZb7jyWksDf+aN2ndd3Fke
+ bDwqoe4WjAnU4IET/3SWThbgRf3UuWxugoGaLjJuyaN2locNov7+yV2AtoeHWKshon3s
+ sCIDNd1c8bemlQIkB5shMOqJl5kIypvrqs2R36b8SIo23YKuIUYnwsnTxcZHBTS+Q2Zl
+ DaTA==
+X-Gm-Message-State: AOAM533UKweDcCoWLmpAlG5wXIAlthqPh2A6Cszl+i8X3cb4lFU18Fjv
+ 2PpF1wBMxEJmJzwZfBa+UZO7GVQY
+X-Google-Smtp-Source: ABdhPJwQbqVFaRYfTEhE0ucxwIP57z1qC374zgUltvP1FF+yVb3HepGMYJcO4COGnfhxeRNCgoqA2Q==
+X-Received: by 2002:a1c:a78a:: with SMTP id q132mr6690408wme.27.1596701308456; 
+ Thu, 06 Aug 2020 01:08:28 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.26
+ by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 01:08:26 -0700 (PDT)
+ Thu, 06 Aug 2020 01:08:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 0/7] hw/block/fdc: Cleanups trying to make sense of
- the floppy controllers
-Date: Thu,  6 Aug 2020 10:08:17 +0200
-Message-Id: <20200806080824.21567-1-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 1/7] hw/block/fdc: Let sector count be unsigned
+Date: Thu,  6 Aug 2020 10:08:18 +0200
+Message-Id: <20200806080824.21567-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200806080824.21567-1-f4bug@amsat.org>
+References: <20200806080824.21567-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -90,23 +91,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial patches while trying to make sense of the floppy
-controllers code.
+Sectors count can not be negative, make it unsigned.
 
-Philippe Mathieu-Daudé (7):
-  hw/block/fdc: Let sector count be unsigned
-  hw/block/fdc: Let sector offset be unsigned
-  hw/block/fdc: Use warn_report() instead of debug FLOPPY_DPRINTF()
-    calls
-  hw/block/fdc: Convert debug FLOPPY_DPRINTF() to trace events
-  hw/block/fdc: Drop pointless FLOPPY_DPRINTF() call
-  hw/block/fdc: Use more descriptive TypeInfo names
-  hw/block/fdc: Add ASCII art schema of QOM relations
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/block/fdc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- hw/block/fdc.c        | 87 +++++++++++++++++++++++++++----------------
- hw/block/trace-events |  3 ++
- 2 files changed, 57 insertions(+), 33 deletions(-)
-
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index e9ed3eef45..2cec7568c1 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -245,14 +245,14 @@ static void fd_init(FDrive *drv)
+ 
+ #define NUM_SIDES(drv) ((drv)->flags & FDISK_DBL_SIDES ? 2 : 1)
+ 
+-static int fd_sector_calc(uint8_t head, uint8_t track, uint8_t sect,
+-                          uint8_t last_sect, uint8_t num_sides)
++static uint32_t fd_sector_calc(uint8_t head, uint8_t track, uint8_t sect,
++                               uint8_t last_sect, uint8_t num_sides)
+ {
+     return (((track * num_sides) + head) * last_sect) + sect - 1;
+ }
+ 
+ /* Returns current position, in sectors, for given drive */
+-static int fd_sector(FDrive *drv)
++static uint32_t fd_sector(FDrive *drv)
+ {
+     return fd_sector_calc(drv->head, drv->track, drv->sect, drv->last_sect,
+                           NUM_SIDES(drv));
 -- 
 2.21.3
 
