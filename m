@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CB123D825
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:48:47 +0200 (CEST)
-Received: from localhost ([::1]:42778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE75323D826
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:50:06 +0200 (CEST)
+Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3bZu-0001Ld-Cm
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41950)
+	id 1k3bbC-0002GX-0j
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1k3bZB-0000vt-Cy
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:48:01 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38077)
+ id 1k3baS-0001q1-TT
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:49:20 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1k3bZ9-0001qz-Fy
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:48:01 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t14so8877116wmi.3
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 01:47:58 -0700 (PDT)
+ id 1k3baR-00021D-3U
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:49:20 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 184so8888749wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 01:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KvgzoOXz0p2hw5PBbzJ9+wJNmCEzZWT9U8qAdLbRU4g=;
- b=rNef9oiYJhGS3UOtvhqqwOBCRqs5PH0/N8Inf2Vw9zFhPr8BEDxAWkm/rilCs7uZwa
- EsnrLsobRRSC9wOoPn9jKP/M++rBaqtZsdSfgs+jECHmp+6sqB0a3ItPTGl4Jr8Vo3xh
- hk8x2ynXUSvZxVCJfRWFu837ZPGRQk8ajUaP5pDxQpAInGygx3hFbUQYoQHaIScHN5m6
- gssl1zR7jZ1Can9jsevxYErOKWIoWngi4yDTFOSQ+GhAcKfumPxzaa6ELkwUDSI4nV72
- 8D/U4bvMNzB/JjCtmHSGNgreHe0Ys0VMjX5q8j52afa3dJbRL3NYTvWFMfhq1ZocFxud
- dAkA==
+ :cc; bh=PKkq8xYRKOtLz5Mb8kMdvtrgQ88Mie7GXc8zOkR1xHw=;
+ b=lVtdltBEVnaP0bzcj9Df4Kglfj58lQ9jA87pGbfgkor0uRbfowvk+az3Qm41PlKWTL
+ kDQbTe1015o5Ro1u7fFMPvkBCgdYvOISRCOgpNAh7+xUvOcJu2Q6FoUjEH0uZ+pDC4jn
+ P/qbuSz+r0YTJjPOyFWr2H6lwMa21U3T8p0nvrpuW4Fs7PWp65qesMjyizpfwljW0gC9
+ Dj5vUffpWcMZnu96U/XYDcC+M7aRYjt9F4Y83BtsUsGlz19cIVLzHYAkz4CXe+vI/37L
+ FO2tcIHz3qWjqc2u03agRYWsvNP2R2yJ9sU7Mw2m5r/dh+XmwyvkMVJa3ml9C90loSwY
+ fvyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KvgzoOXz0p2hw5PBbzJ9+wJNmCEzZWT9U8qAdLbRU4g=;
- b=XlDWH0JWQBiMgBvq/MUh4G+egsvZR2cBQSH5u800vQASuBtfnBGhbFBFL8AgkS6+ei
- 333hjVkTjCHMdHoe9d8AhIrTDVhKF8HNqfwYr6EdwjcrHzxnJZL40EE7q4teEGRkDFZe
- sWSJT5eHVLkxuosgqBy4W5f3fHbE491JpJc2GZ+a3XfaPdqJU1h5gk4N+Xp9l3hpzz9f
- s+jqSBnKCjaZ2xjFckj4jo21f9r8P3idE4heLakAy89/R+tmiLYaAe1Lc1A1hypgCJjA
- DFgyACzrHQzm0geB81zASyIhgrh3P8DSOW2bVK7dsQwM7eoHLahpYTfaub7WSZY//G5i
- W+VA==
-X-Gm-Message-State: AOAM5333jwpdGbDEUe3zon/dj6H1681R4efJ66Rl7Yyjq52z8VsdU+uR
- JHisr/bQx4c5H0RfaNAO2qSVQIR8iqbfGNV1oSo=
-X-Google-Smtp-Source: ABdhPJxqMw4rlVN7GgfvSbvK1FBeo/eS2vvCDjnsr8MwMwvIDjlzyOYalsbwvsIzOo3Vz94jMi32TR8Mm90LfR+RxGU=
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr6896281wmh.55.1596703676429; 
- Thu, 06 Aug 2020 01:47:56 -0700 (PDT)
+ bh=PKkq8xYRKOtLz5Mb8kMdvtrgQ88Mie7GXc8zOkR1xHw=;
+ b=TXEWaRjo5WR26kReapq2M9DCGaHT6fyUSCKBYR0GQA+BosSFph2PPF2l0OPsw7xcGC
+ wFXAmA7uQPyhE+AEHapilt6Rgw8GvCV2YEikmszyXW6jchYQQzCnrtPf5eiZjfIJCZXS
+ +zH4Ufg1gaEyt0FU3TM6SHMFSPmNiB+n07riNWUMJIokKw1gJfNEdH2yh0s4jQOuAfpb
+ /cSkcSkRqqQR/HjJXWV1wFKj1CfOgqO1zIItkY7ZlZWckcTkEVfdusuP1TPULjY9glut
+ 0o1AHghUr1hNqsj98KTPoI82PYQ0At8ud8XoaUlTDtaguDvoJSXP6NDUrf8+yDoF7wza
+ TEIg==
+X-Gm-Message-State: AOAM532eifhuU6MKhBmFYu2H5sC4/YZ76tllRLF4SzlZRosWONsXPp/z
+ 1wN9XQM2Bo3WY8vH5lSVA15IKVxOjNWeSofLG+fa/jQoENg=
+X-Google-Smtp-Source: ABdhPJx3lfNqycb/I1HxJ3OZDekkoQipJOov4QoNaCcFn+amoNUbpSMNhsgAmY2GkCJzz3CQ2DN0Qs9VNLTZ6KshP14=
+X-Received: by 2002:a7b:c0c8:: with SMTP id s8mr7243239wmh.4.1596703756910;
+ Thu, 06 Aug 2020 01:49:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200806081147.3123652-1-armbru@redhat.com>
- <20200806081147.3123652-3-armbru@redhat.com>
-In-Reply-To: <20200806081147.3123652-3-armbru@redhat.com>
+ <20200806081147.3123652-2-armbru@redhat.com>
+In-Reply-To: <20200806081147.3123652-2-armbru@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 6 Aug 2020 12:47:44 +0400
-Message-ID: <CAJ+F1CLjvzbr3C6YMdW7o6VYNiYHZz-47zXVsiL0b3WyV4GFdQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] qapi: Document event VSERPORT_CHANGE is rate-limited
+Date: Thu, 6 Aug 2020 12:49:05 +0400
+Message-ID: <CAJ+F1CJvsJ6zvLSXu1CoW+Q=vvw-zrS9PX_7GExTd6DoX9RxwQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs/interop/qmp-spec: Point to the QEMU QMP
+ reference manual
 To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000071fb2205ac318ba4"
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x344.google.com
+Content-Type: multipart/alternative; boundary="0000000000003e07f305ac3190b9"
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,43 +84,62 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000071fb2205ac318ba4
+--0000000000003e07f305ac3190b9
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Thu, Aug 6, 2020 at 12:13 PM Markus Armbruster <armbru@redhat.com> wrote=
+On Thu, Aug 6, 2020 at 12:12 PM Markus Armbruster <armbru@redhat.com> wrote=
 :
 
-> Commit e2ae6159de "virtio-serial: report frontend connection state via
-> monitor" neglected to document the new event is rate-limited.  Fix
-> that.
+> Commit 4d8bb958fa0..231aaf3a821 integrated the contents of
+> docs/qmp-events.txt into QAPI schema doc comments.  It left dangling
+> references to qmp-events.txt behind.  Fix to point to the QEMU QMP
+> reference manual generated from the QAPI schema.
+>
+> Add a similar reference for commands.
 >
 > Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Cc: Eric Blake <eblake@redhat.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  qapi/char.json | 2 ++
->  1 file changed, 2 insertions(+)
+>  docs/interop/qmp-spec.txt | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >
-
+>
+sure,
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-> diff --git a/qapi/char.json b/qapi/char.json
-> index 8aeedf96b2..b4d66ec90b 100644
-> --- a/qapi/char.json
-> +++ b/qapi/char.json
-> @@ -562,6 +562,8 @@
->  #
->  # @open: true if the guest has opened the virtio-serial port
->  #
-> +# Note: This event is rate-limited.
-> +#
->  # Since: 2.1
->  #
->  # Example:
+diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
+> index adcf86754d..cdf5842555 100644
+> --- a/docs/interop/qmp-spec.txt
+> +++ b/docs/interop/qmp-spec.txt
+> @@ -110,6 +110,9 @@ or
+>    if provided.  The "id" member can be any json-value.  A json-number
+>    incremented for each successive command works fine.
+>
+> +The actual commands are documented in the QEMU QMP reference manual
+> +docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.
+> +
+>  2.3.1 Out-of-band execution
+>  ---------------------------
+>
+> @@ -207,13 +210,13 @@ The format of asynchronous events is:
+>    there is a failure to retrieve host time, both members of the
+>    timestamp will be set to -1.
+>
+> -For a listing of supported asynchronous events, please, refer to the
+> -qmp-events.txt file.
+> +The actual asynchronous events are documented in the QEMU QMP
+> +reference manual docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.
+>
+>  Some events are rate-limited to at most one per second.  If additional
+>  "similar" events arrive within one second, all but the last one are
+>  dropped, and the last one is delayed.  "Similar" normally means same
+> -event type.  See qmp-events.txt for details.
+> +event type.
+>
+>  2.6 Forcing the JSON parser into known-good state
+>  -------------------------------------------------
 > --
 > 2.26.2
 >
@@ -129,47 +149,71 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000071fb2205ac318ba4
+--0000000000003e07f305ac3190b9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, Aug 6, 2020 at 12:13 PM Markus Armbru=
-ster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Commit e2ae6=
-159de &quot;virtio-serial: report frontend connection state via<br>
-monitor&quot; neglected to document the new event is rate-limited.=C2=A0 Fi=
-x<br>
-that.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 6, 2020 at 12:12 PM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Comm=
+it 4d8bb958fa0..231aaf3a821 integrated the contents of<br>
+docs/qmp-events.txt into QAPI schema doc comments.=C2=A0 It left dangling<b=
+r>
+references to qmp-events.txt behind.=C2=A0 Fix to point to the QEMU QMP<br>
+reference manual generated from the QAPI schema.<br>
+<br>
+Add a similar reference for commands.<br>
 <br>
 Cc: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
 m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-Cc: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=3D"_blank">e=
-blake@redhat.com</a>&gt;<br>
 Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
 arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0qapi/char.json | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br></blockquote><div><br></div><div>R=
-eviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@r=
-edhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div>=
- <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0docs/interop/qmp-spec.txt | 9 ++++++---<br>
+=C2=A01 file changed, 6 insertions(+), 3 deletions(-)<br>
+<br></blockquote><div><br></div><div>sure,</div><div><div>Reviewed-by: Marc=
+-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" targe=
+t=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><div>=
+<br></div> </div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt<br>
+index adcf86754d..cdf5842555 100644<br>
+--- a/docs/interop/qmp-spec.txt<br>
++++ b/docs/interop/qmp-spec.txt<br>
+@@ -110,6 +110,9 @@ or<br>
+=C2=A0 =C2=A0if provided.=C2=A0 The &quot;id&quot; member can be any json-v=
+alue.=C2=A0 A json-number<br>
+=C2=A0 =C2=A0incremented for each successive command works fine.<br>
 <br>
-diff --git a/qapi/char.json b/qapi/char.json<br>
-index 8aeedf96b2..b4d66ec90b 100644<br>
---- a/qapi/char.json<br>
-+++ b/qapi/char.json<br>
-@@ -562,6 +562,8 @@<br>
-=C2=A0#<br>
-=C2=A0# @open: true if the guest has opened the virtio-serial port<br>
-=C2=A0#<br>
-+# Note: This event is rate-limited.<br>
-+#<br>
-=C2=A0# Since: 2.1<br>
-=C2=A0#<br>
-=C2=A0# Example:<br>
++The actual commands are documented in the QEMU QMP reference manual<br>
++docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.<br>
++<br>
+=C2=A02.3.1 Out-of-band execution<br>
+=C2=A0---------------------------<br>
+<br>
+@@ -207,13 +210,13 @@ The format of asynchronous events is:<br>
+=C2=A0 =C2=A0there is a failure to retrieve host time, both members of the<=
+br>
+=C2=A0 =C2=A0timestamp will be set to -1.<br>
+<br>
+-For a listing of supported asynchronous events, please, refer to the<br>
+-qmp-events.txt file.<br>
++The actual asynchronous events are documented in the QEMU QMP<br>
++reference manual docs/interop/qemu-qmp-ref.{7,html,info,pdf,txt}.<br>
+<br>
+=C2=A0Some events are rate-limited to at most one per second.=C2=A0 If addi=
+tional<br>
+=C2=A0&quot;similar&quot; events arrive within one second, all but the last=
+ one are<br>
+=C2=A0dropped, and the last one is delayed.=C2=A0 &quot;Similar&quot; norma=
+lly means same<br>
+-event type.=C2=A0 See qmp-events.txt for details.<br>
++event type.<br>
+<br>
+=C2=A02.6 Forcing the JSON parser into known-good state<br>
+=C2=A0-------------------------------------------------<br>
 -- <br>
 2.26.2<br>
 <br>
@@ -177,5 +221,5 @@ index 8aeedf96b2..b4d66ec90b 100644<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000071fb2205ac318ba4--
+--0000000000003e07f305ac3190b9--
 
