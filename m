@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E0023DA09
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:38:30 +0200 (CEST)
-Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8E823DA0C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:41:39 +0200 (CEST)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3eE9-000254-86
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
+	id 1k3eHC-0003Jo-Iz
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3e02-0005F0-QY
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:23:54 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58974
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3e01-00041W-21
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:23:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596713032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xfEAygivCJoI3PmJyMAd9Lv3CPeIbdIvym+D3KzoLYw=;
- b=CidZdoRSqJ0dxGPOVY6X1xRXT18IFfipJIietTnkyfVOJAv1E+nrZFvEMQVWT0u2zaG7L2
- D65ICR7efnk+dIFTF6LQvzCO0cQrX3zN77+F3u0miE0EoBNi35d/p7qzVFylBMnRmlawEh
- 8x2LR++w1a4Bkxr+A+hConmu9CsQS4s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-AfWcQfIWN9-Aed4dL58DyQ-1; Thu, 06 Aug 2020 07:23:50 -0400
-X-MC-Unique: AfWcQfIWN9-Aed4dL58DyQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAF87800468;
- Thu,  6 Aug 2020 11:23:48 +0000 (UTC)
-Received: from gondolin (ovpn-113-2.ams2.redhat.com [10.36.113.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1813F87A63;
- Thu,  6 Aug 2020 11:23:46 +0000 (UTC)
-Date: Thu, 6 Aug 2020 13:23:44 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-5.2 v2 9/9] tests/qtest/cdrom: Add more
- s390x-related boot tests
-Message-ID: <20200806132344.4a34178e.cohuck@redhat.com>
-In-Reply-To: <20200806105349.632-10-thuth@redhat.com>
-References: <20200806105349.632-1-thuth@redhat.com>
- <20200806105349.632-10-thuth@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k3eGQ-0002uU-Tk
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:40:50 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k3eGP-0006Jc-1h
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:40:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a5so33714747wrm.6
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 04:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=chlYlmg1y+jGFcu7MLZcX9cVTv/UER0aYzDkRYc+PeE=;
+ b=Y5v1vZUUrc8/KOdqlge8PXwotvagrVhI7iaBDtXclP0LmcgNqA8ivtKElr4Yyaxq8A
+ jRy+W5IvwLJmt1QLnJBq8zpQgokhBeqzBvPpKpX6F+CnImniycP7+AbkHWDU/qrMrPhe
+ gJqFs9vLsQsAQV3QQrCeIESOaTVP3YPrAosxkZZCRBf8EI5XaLA1DFp+3sH/3az4Uijc
+ TQS6SHg5nEyc7Z0Yw06TBNYDvp18AyRUWXx9VCXHdyZtF0t0FTdlkyJBi2yx3miYEQc8
+ gJEJ7oTOnXCvGTvoNELpN/0fhXEYMsVceJnZ40Bd5AOLw1B049F+fXcvS56GlqmdbzMh
+ uG9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=chlYlmg1y+jGFcu7MLZcX9cVTv/UER0aYzDkRYc+PeE=;
+ b=rFzQFRgW8jXVCxjmNrPqeIH6oQWtPqG+NiyrX4fyQwea150vN4ad5l2Vp2xO2DBq1i
+ Wx+uON5KHQZbctsW5N0iDGw7XXYngU210V5ZaRFlIvtBAoNm61mALP3NcP4Azrcrnqp2
+ xJHBgvcG5/ZExkK/GIkakL+GOx0BNOAKqc55MQAmS3xlQkEacUey2A3ZwwXu0tN4ZKkc
+ rUxvQuJF6dYqK16qGTJZsQnsLU8H4V2kGK69WHvamhFzNItvSltTKURZrkqLBidE7S1N
+ T4JcFZ8U+rO2kV3/fWRzjf4/pmQN8RUjcA8UD8rq4ZougF2GKPJKgUPxTcAZPyuDHH1v
+ xzMQ==
+X-Gm-Message-State: AOAM5333z/fwjP+C92RrPAaR7/kiQIholJPFwG6tmpf5ILYaXXggnNE0
+ S3okzY3EScMu/Fd8oi5zgjV9tw==
+X-Google-Smtp-Source: ABdhPJxgj4xYBZGE7ku6V6SFziIDd76SZhreQIPD3UCdbQHBIN6d37HOaD5Zd0YtUw2Yd5yXvto+Og==
+X-Received: by 2002:a5d:464e:: with SMTP id j14mr7172286wrs.361.1596714046952; 
+ Thu, 06 Aug 2020 04:40:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g145sm8881929wmg.23.2020.08.06.04.40.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Aug 2020 04:40:45 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D35991FF7E;
+ Thu,  6 Aug 2020 12:40:44 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] CODING_STYLE.rst: flesh out our naming conventions.
+Date: Thu,  6 Aug 2020 12:40:36 +0100
+Message-Id: <20200806114036.10646-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,59 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  6 Aug 2020 12:53:49 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+Mention a few of the more common naming conventions we follow in the
+code base including common variable names and function prefix and
+suffix examples.
 
-> Let's add two new tests:
-> 
-> 1) Booting with "bootindex" is the architected default behavior on the
-> s390x target, so we should have at least one test that is using the
-> "bootindex" property.
-> 
-> 2) The s390-ccw bios used to fail when other unbootable devices have
-> been specified before the bootable device (without "bootindex"). Now
-> that the s390-ccw bios is a little bit smarter here, we should test
-> this scenario, too, to avoid regressions.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qtest/cdrom-test.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-> index 833a0508a1..13e22f57c1 100644
-> --- a/tests/qtest/cdrom-test.c
-> +++ b/tests/qtest/cdrom-test.c
-> @@ -163,6 +163,18 @@ static void add_s390x_tests(void)
->      qtest_add_data_func("cdrom/boot/virtio-scsi",
->                          "-device virtio-scsi -device scsi-cd,drive=cdr "
->                          "-blockdev file,node-name=cdr,filename=", test_cdboot);
-> +    qtest_add_data_func("cdrom/boot/with-bootindex",
-> +                        "-device virtio-serial -device virtio-scsi "
-> +                        "-device virtio-blk,drive=d1 "
-> +                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
-> +                        "-device virtio-blk,drive=d2,bootindex=1 "
-> +                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
-> +    qtest_add_data_func("cdrom/boot/without-bootindex",
-> +                        "-device virtio-scsi -device virtio-serial "
-> +                        "-device x-terminal3270 -device virtio-blk,drive=d1 "
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ CODING_STYLE.rst | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Any special reason for that 3270 device here? Or just to add more
-variety? :)
-
-> +                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
-> +                        "-device virtio-blk,drive=d2 "
-> +                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
->  }
->  
->  int main(int argc, char **argv)
+diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
+index 427699e0e42..17cb42ba761 100644
+--- a/CODING_STYLE.rst
++++ b/CODING_STYLE.rst
+@@ -109,9 +109,32 @@ names are lower_case_with_underscores_ending_with_a_t, like the POSIX
+ uint64_t and family.  Note that this last convention contradicts POSIX
+ and is therefore likely to be changed.
+ 
++Variable Naming Conventions
++---------------------------
++
++A number of common short naming conventions exist for variables that use
++common QEMU types. For example when dealing with the architecture
++independent CPUState this is often in a ``cs`` pointer variable
++whereas the concrete CPUArchState us usually held in a pointer called
++``env``.
++
++Likewise in device emulation code the common DeviceState is usually
++called ``dev`` with the actual state structure often the very terse
++``s`` or maybe ``foodev``.
++
++Function Naming Conventions
++---------------------------
++
+ When wrapping standard library functions, use the prefix ``qemu_`` to alert
+ readers that they are seeing a wrapped version; otherwise avoid this prefix.
+ 
++Functions that are expected to be called with some sort of lock held
++usually have the suffix ``_locked``.
++
++Public functions (i.e. declared in public headers) tend to be prefixes
++with the subsystem or file they came from. For example ``tlb_`` for
++functions from ``cputlb.c`` or ``cpu_`` for functions from cpus.c.
++
+ Block structure
+ ===============
+ 
+-- 
+2.20.1
 
 
