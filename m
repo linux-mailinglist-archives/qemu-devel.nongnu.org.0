@@ -2,57 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2D823D726
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:06:54 +0200 (CEST)
-Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A1F23D727
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:08:04 +0200 (CEST)
+Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ZzJ-0004hb-4x
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
+	id 1k3a0R-0005fC-Dw
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1k3ZyX-0004DJ-2A; Thu, 06 Aug 2020 03:06:05 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:57247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1k3ZyR-0006zj-GS; Thu, 06 Aug 2020 03:06:04 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07735255|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.025566-0.000491407-0.973943;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16378; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=6; RT=6; SR=0; TI=SMTPD_---.IDGOXO8_1596697544; 
-Received: from 30.225.208.44(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.IDGOXO8_1596697544)
- by smtp.aliyun-inc.com(10.147.42.22); Thu, 06 Aug 2020 15:05:45 +0800
-Subject: Re: [PATCH v2 1/7] target/riscv: Generate nanboxed results from fp
- helpers
-To: Chih-Min Chao <chihmin.chao@sifive.com>
-References: <20200724002807.441147-1-richard.henderson@linaro.org>
- <20200724002807.441147-2-richard.henderson@linaro.org>
- <1aa6cb56-2f41-45c1-2d32-ec8b3b10780b@c-sky.com>
- <9e10c17c-7a9e-5f7f-b1e3-c195d4e30b32@linaro.org>
- <ccc72223-d98e-6dd4-6c44-ca30f4e687d5@c-sky.com>
- <CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <4183e2c5-9a9b-2416-301d-95e62ac53a6c@c-sky.com>
-Date: Thu, 6 Aug 2020 15:05:44 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3ZzR-0005AS-BR
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:07:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42097
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k3ZzO-0007Ao-0b
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:07:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596697616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DbthWF/LgKCdQHPwR2XtBaGWNOd6GCSJudayM3EHW3w=;
+ b=INSJEf8Hsjd7L7kj18pZAlEuVsrhlRmYsLH5cfJ2h4Kj1lzj9jT+oFCNXbC8028WI3A51S
+ yRnWCHlAAZ44/VsgXmbXxHJeD+/ueBa3eJUQUJmovBM0123YlGD8Pf0i2wHu1JzHRpdLHp
+ lrdDjsrgYZrnEyK5acdjvYM90UcZUz8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-JtWOVT5DOE6uq7_b-G8WNw-1; Thu, 06 Aug 2020 03:06:54 -0400
+X-MC-Unique: JtWOVT5DOE6uq7_b-G8WNw-1
+Received: by mail-wr1-f70.google.com with SMTP id e14so10903612wrr.7
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 00:06:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=DbthWF/LgKCdQHPwR2XtBaGWNOd6GCSJudayM3EHW3w=;
+ b=dU8mOl2dKGvFzYvnWjZfizywiEq4ibW5w0gAd5IN1pJ0nEtV1Gcxx/+gjULThr2key
+ esFI807CuNdshtUK75yxvEau4c/qYXMu9wRdipVFygTdiEf5reAUHsWx/5UYNkwxe+9k
+ tXcG0IljVk+ArAO+YFDMh9MnyCQYBX7OP53+9N+64wP4+NhOgIEtzQ5HKg+KmH97evlS
+ 2OPAUjyGBj0MLbXLAP0Uq+PzveT8WtxXquS6oPPTfnw/lv+wafkN0dygtKpK6eBnT/oH
+ aJluxr+GTTaDSP3TqPl7twRYL5VjDGtnn6kpX6e73MGrxC5D+3QALcOlXeVW//nEZEZm
+ JoYg==
+X-Gm-Message-State: AOAM5310j7sbncz9CaR+Rvg9TQln89j+JqsZ1IP1ob+6a7A+6ad5/umv
+ dFZSMjctmu9dX2fIi01Yz5CJ6r0o2vHsHXwT9M2MULenE0Dgvzp78xyMgWA5zo+F80dIWRkd4Hs
+ bhKiWIhdG7l9Dgk8=
+X-Received: by 2002:adf:e647:: with SMTP id b7mr6422624wrn.220.1596697613738; 
+ Thu, 06 Aug 2020 00:06:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8ClNgGz1D7ZOZcOGxflSB16b4qeQrm2TstnXLIOneStaqYaJCdu/2ln0mp9yYA7dduTrAdQ==
+X-Received: by 2002:adf:e647:: with SMTP id b7mr6422589wrn.220.1596697613374; 
+ Thu, 06 Aug 2020 00:06:53 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id c15sm5171789wme.23.2020.08.06.00.06.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Aug 2020 00:06:52 -0700 (PDT)
+Subject: Re: [PATCH] block/vhdx: Support vhdx image only with 512 bytes
+ logical sector size
+To: Swapnil Ingle <swapnil.ingle@nutanix.com>, qemu-devel@nongnu.org
+References: <1596663040-172084-1-git-send-email-swapnil.ingle@nutanix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <e867e590-83e8-8925-d02c-b79c40048d7d@redhat.com>
+Date: Thu, 6 Aug 2020 09:06:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------4A744EF9BA97243CD4F85E41"
+In-Reply-To: <1596663040-172084-1-git-send-email-swapnil.ingle@nutanix.com>
 Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:05:47
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,244 +123,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair23@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: Jeff Cody <codyprime@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:VHDX" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------4A744EF9BA97243CD4F85E41
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 8/5/20 11:30 PM, Swapnil Ingle wrote:
+> block/vhdx uses qemu block layer where sector size is always 512 byte.
 
+"bytes".
 
+> This may have issues  with 4K logical sector sized vhdx image.
+> 
+> For e.g qemu-img convert on such images fails with following assert:
+> 
+> $qemu-img convert -f vhdx -O raw 4KTest1.vhdx test.raw
+> qemu-img: util/iov.c:388: qiov_slice: Assertion `offset + len <=
+> qiov->size' failed.
+> Aborted
+> 
+> This patch adds an check to return ENOTSUP for vhdx images which
+> has logical sector size other than 512 bytes.
 
-On 2020/8/6 14:09, Chih-Min Chao wrote:
-> On Fri, Jul 24, 2020 at 2:06 PM LIU Zhiwei <zhiwei_liu@c-sky.com 
-> <mailto:zhiwei_liu@c-sky.com>> wrote:
->
->
->
->     On 2020/7/24 11:55, Richard Henderson wrote:
->     > On 7/23/20 7:35 PM, LIU Zhiwei wrote:
->     >>
->     >> On 2020/7/24 8:28, Richard Henderson wrote:
->     >>> Make sure that all results from single-precision scalar helpers
->     >>> are properly nan-boxed to 64-bits.
->     >>>
->     >>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org
->     <mailto:richard.henderson@linaro.org>>
->     >>> ---
->     >>>    target/riscv/internals.h  |  5 +++++
->     >>>    target/riscv/fpu_helper.c | 42
->     +++++++++++++++++++++------------------
->     >>>    2 files changed, 28 insertions(+), 19 deletions(-)
->     >>>
->     >>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
->     >>> index 37d33820ad..9f4ba7d617 100644
->     >>> --- a/target/riscv/internals.h
->     >>> +++ b/target/riscv/internals.h
->     >>> @@ -38,4 +38,9 @@ target_ulong fclass_d(uint64_t frs1);
->     >>>    #define SEW32 2
->     >>>    #define SEW64 3
->     >>>    +static inline uint64_t nanbox_s(float32 f)
->     >>> +{
->     >>> +    return f | MAKE_64BIT_MASK(32, 32);
->     >>> +}
->     >>> +
->     >> If define it here,  we can also define a more general  function
->     with flen.
->     >>
->     >> +static inline uint64_t nanbox_s(float32 f, uint32_t flen)
->     >> +{
->     >> +    return f | MAKE_64BIT_MASK(flen, 64 - flen);
->     >> +}
->     >> +
->     >>
->     >> So we can reuse it in fp16 or bf16 scalar instruction and in
->     vector instructions.
->     > While we could do that, we will not encounter all possible
->     lengths.  In the
->     > cover letter, I mentioned defining a second function,
->     >
->     > static inline uint64_t nanbox_h(float16 f)
->     > {
->     >     return f | MAKE_64BIT_MASK(16, 48);
->     > }
->     >
->     > Having two separate functions will, I believe, be easier to use
->     in practice.
->     >
->     Get  it. Thanks.
->
->     Zhiwei
->     >
->     > r~
->
->
->
-> That is what has been implemented in spike.  It fills up the Nan-Box 
-> when value is stored back internal structure and
-> unbox the value with difference floating type (half/single/double/quad).
-Hi Chih-Min,
+Probably "which have".
 
-Has half-precision been a part of RVV? Or do you know the ISA 
-abbreviation of half-precision?
+> 
+> Signed-off-by: Swapnil Ingle <swapnil.ingle@nutanix.com>
+> ---
+>  block/vhdx.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/vhdx.c b/block/vhdx.c
+> index 791eb90..356ec4c 100644
+> --- a/block/vhdx.c
+> +++ b/block/vhdx.c
+> @@ -816,9 +816,9 @@ static int vhdx_parse_metadata(BlockDriverState *bs, BDRVVHDXState *s)
+>          goto exit;
+>      }
+>  
+> -    /* only 2 supported sector sizes */
+> -    if (s->logical_sector_size != 512 && s->logical_sector_size != 4096) {
+> -        ret = -EINVAL;
+> +    /* Currently we only support 512 */
+> +    if (s->logical_sector_size != 512) {
+> +        ret = -ENOTSUP;
+>          goto exit;
+>      }
+>  
+> 
 
-Thanks very much.
-
-Best Regards,
-Zhiwei
->
-> By the way,  I prefer to keeping the suffix to tell different floating 
-> type rather than pass arbitrary
-> since each floating type belong to each extension.
->
-> Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com 
-> <mailto:chihmin.chao@sifive.com>>
-
-
---------------4A744EF9BA97243CD4F85E41
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 2020/8/6 14:09, Chih-Min Chao wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr">
-          <div>
-            <div dir="ltr" class="gmail_signature"
-              data-smartmail="gmail_signature">
-              <div dir="ltr">On Fri, Jul 24, 2020 at 2:06 PM LIU Zhiwei
-                &lt;<a href="mailto:zhiwei_liu@c-sky.com"
-                  moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
-                wrote:<br>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex"><br>
-            <br>
-            On 2020/7/24 11:55, Richard Henderson wrote:<br>
-            &gt; On 7/23/20 7:35 PM, LIU Zhiwei wrote:<br>
-            &gt;&gt;<br>
-            &gt;&gt; On 2020/7/24 8:28, Richard Henderson wrote:<br>
-            &gt;&gt;&gt; Make sure that all results from
-            single-precision scalar helpers<br>
-            &gt;&gt;&gt; are properly nan-boxed to 64-bits.<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; Signed-off-by: Richard Henderson &lt;<a
-              href="mailto:richard.henderson@linaro.org" target="_blank"
-              moz-do-not-send="true">richard.henderson@linaro.org</a>&gt;<br>
-            &gt;&gt;&gt; ---<br>
-            &gt;&gt;&gt;    target/riscv/internals.h  |  5 +++++<br>
-            &gt;&gt;&gt;    target/riscv/fpu_helper.c | 42
-            +++++++++++++++++++++------------------<br>
-            &gt;&gt;&gt;    2 files changed, 28 insertions(+), 19
-            deletions(-)<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; diff --git a/target/riscv/internals.h
-            b/target/riscv/internals.h<br>
-            &gt;&gt;&gt; index 37d33820ad..9f4ba7d617 100644<br>
-            &gt;&gt;&gt; --- a/target/riscv/internals.h<br>
-            &gt;&gt;&gt; +++ b/target/riscv/internals.h<br>
-            &gt;&gt;&gt; @@ -38,4 +38,9 @@ target_ulong
-            fclass_d(uint64_t frs1);<br>
-            &gt;&gt;&gt;    #define SEW32 2<br>
-            &gt;&gt;&gt;    #define SEW64 3<br>
-            &gt;&gt;&gt;    +static inline uint64_t nanbox_s(float32 f)<br>
-            &gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt; +    return f | MAKE_64BIT_MASK(32, 32);<br>
-            &gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt; +<br>
-            &gt;&gt; If define it here,  we can also define a more
-            general  function with flen.<br>
-            &gt;&gt;<br>
-            &gt;&gt; +static inline uint64_t nanbox_s(float32 f,
-            uint32_t flen)<br>
-            &gt;&gt; +{<br>
-            &gt;&gt; +    return f | MAKE_64BIT_MASK(flen, 64 - flen);<br>
-            &gt;&gt; +}<br>
-            &gt;&gt; +<br>
-            &gt;&gt;<br>
-            &gt;&gt; So we can reuse it in fp16 or bf16 scalar
-            instruction and in vector instructions.<br>
-            &gt; While we could do that, we will not encounter all
-            possible lengths.  In the<br>
-            &gt; cover letter, I mentioned defining a second function,<br>
-            &gt;<br>
-            &gt; static inline uint64_t nanbox_h(float16 f)<br>
-            &gt; {<br>
-            &gt;     return f | MAKE_64BIT_MASK(16, 48);<br>
-            &gt; }<br>
-            &gt;<br>
-            &gt; Having two separate functions will, I believe, be
-            easier to use in practice.<br>
-            &gt;<br>
-            Get  it. Thanks.<br>
-            <br>
-            Zhiwei<br>
-            &gt;<br>
-            &gt; r~<br>
-            <br>
-            <br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>That is what has been implemented in spike.  It fills up
-            the Nan-Box when value is stored back internal structure
-            and </div>
-          <div>unbox the value with difference floating type
-            (half/single/double/quad).<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Hi Chih-Min,<br>
-    <br>
-    Has half-precision been a part of RVV? Or do you know the ISA
-    abbreviation of half-precision?<br>
-    <br>
-    Thanks very much.<br>
-    <br>
-    Best Regards,<br>
-    Zhiwei <br>
-    <blockquote type="cite"
-cite="mid:CAEiOBXXmz2APpmtwPrvikXUt5j_Q=k5ZqK9g2Fe4bdjeAbg_6g@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote">
-          <div><br>
-          </div>
-          <div>By the way,  I prefer to keeping the suffix to tell
-            different floating type rather than pass arbitrary </div>
-          <div>since each floating type belong to each extension.<br>
-            <br>
-            Reviewed-by: Chih-Min Chao &lt;<a
-              href="mailto:chihmin.chao@sifive.com"
-              moz-do-not-send="true">chihmin.chao@sifive.com</a>&gt;<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------4A744EF9BA97243CD4F85E41--
 
