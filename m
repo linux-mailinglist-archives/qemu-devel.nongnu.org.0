@@ -2,119 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E6723D73E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:25:59 +0200 (CEST)
-Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE44E23D768
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 09:37:34 +0200 (CEST)
+Received: from localhost ([::1]:50162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3aHm-0003yf-3o
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1k3aSz-0006wL-Ei
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 03:37:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1k3aGy-0003LL-6C
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:25:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23506
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1k3aGw-0000rO-Ex
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:25:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596698705;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8Kr6PVxIv0ilgCcjZONBE+baG7kiKGwF9rYrlS6BQWY=;
- b=Sohr0nJPdF7D9vvxrSonpovPL3OeXMpxZc71PkqKhlru2gv4CnK+WwZF4PQgQEzfIKNIJx
- GO8FPHMnGA2SPdOr4370vlIZiFhmmc1eOHf9KoGPb5zvjGJY5Td/nnweCtm8NKwEyArqXN
- RKxSsHcWKuprpxpr5fe65In8eAq8E8U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-Has8BSrSPy-2oX40pg6KsQ-1; Thu, 06 Aug 2020 03:18:51 -0400
-X-MC-Unique: Has8BSrSPy-2oX40pg6KsQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 689001005510;
- Thu,  6 Aug 2020 07:18:49 +0000 (UTC)
-Received: from [10.36.112.9] (ovpn-112-9.ams2.redhat.com [10.36.112.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D8EB6842F;
- Thu,  6 Aug 2020 07:18:35 +0000 (UTC)
-Subject: Re: [for-5.2 v4 10/10] s390: Recognize host-trust-limitation option
-To: David Gibson <david@gibson.dropbear.id.au>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
- <20200724025744.69644-11-david@gibson.dropbear.id.au>
- <20200727175040.7beca3dd.cohuck@redhat.com>
- <20200806061412.GB157233@yekko.fritz.box>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <47ec89ce-f0e2-d716-426a-3028ff0404ba@redhat.com>
-Date: Thu, 6 Aug 2020 09:18:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k3aS6-0006C7-Jp
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:36:38 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:34816 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k3aS4-0002Gb-2O
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 03:36:38 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 34D8BA22444E0E738451;
+ Thu,  6 Aug 2020 15:36:22 +0800 (CST)
+Received: from [127.0.0.1] (10.174.186.4) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Thu, 6 Aug 2020
+ 15:36:14 +0800
+From: Zheng Chuan <zhengchuan@huawei.com>
+Subject: Re: [RFC PATCH 0/8] *** A Method for evaluating dirty page rate ***
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
+ <20200804161902.GC2659@work-vm>
+Message-ID: <fdb4afcb-8c99-1a97-a211-5eaa0573398d@huawei.com>
+Date: Thu, 6 Aug 2020 15:36:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200806061412.GB157233@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200804161902.GC2659@work-vm>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.4]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:36:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,144 +63,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, pbonzini@redhat.com,
- Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
- ehabkost@redhat.com
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, linyilu@huawei.com,
+ qemu-devel@nongnu.org, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.08.20 08:14, David Gibson wrote:
-> On Mon, Jul 27, 2020 at 05:50:40PM +0200, Cornelia Huck wrote:
->> On Fri, 24 Jul 2020 12:57:44 +1000
->> David Gibson <david@gibson.dropbear.id.au> wrote:
->>
->>> At least some s390 cpu models support "Protected Virtualization" (PV),
->>> a mechanism to protect guests from eavesdropping by a compromised
->>> hypervisor.
->>>
->>> This is similar in function to other mechanisms like AMD's SEV and
->>> POWER's PEF, which are controlled bythe "host-trust-limitation"
->>> machine option.  s390 is a slightly special case, because we already
->>> supported PV, simply by using a CPU model with the required feature
->>> (S390_FEAT_UNPACK).
->>>
->>> To integrate this with the option used by other platforms, we
->>> implement the following compromise:
->>>
->>>  - When the host-trust-limitation option is set, s390 will recognize
->>>    it, verify that the CPU can support PV (failing if not) and set
->>>    virtio default options necessary for encrypted or protected guests,
->>>    as on other platforms.  i.e. if host-trust-limitation is set, we
->>>    will either create a guest capable of entering PV mode, or fail
->>>    outright
->>>
->>>  - If host-trust-limitation is not set, guest's might still be able to
->>>    enter PV mode, if the CPU has the right model.  This may be a
->>>    little surprising, but shouldn't actually be harmful.
->>
->> This could be workable, I guess. Would like a second opinion, though.
->>
->>>
->>> To start a guest supporting Protected Virtualization using the new
->>> option use the command line arguments:
->>>     -object s390-pv-guest,id=pv0 -machine host-trust-limitation=pv0
->>>
->>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->>> ---
->>>  hw/s390x/pv.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++
->>>  1 file changed, 61 insertions(+)
->>>
->>> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
->>> index ab3a2482aa..4bf3b345b6 100644
->>> --- a/hw/s390x/pv.c
->>> +++ b/hw/s390x/pv.c
->>> @@ -14,8 +14,11 @@
->>>  #include <linux/kvm.h>
->>>  
->>>  #include "cpu.h"
->>> +#include "qapi/error.h"
->>>  #include "qemu/error-report.h"
->>>  #include "sysemu/kvm.h"
->>> +#include "qom/object_interfaces.h"
->>> +#include "exec/host-trust-limitation.h"
->>>  #include "hw/s390x/ipl.h"
->>>  #include "hw/s390x/pv.h"
->>>  
->>> @@ -111,3 +114,61 @@ void s390_pv_inject_reset_error(CPUState *cs)
->>>      /* Report that we are unable to enter protected mode */
->>>      env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
->>>  }
->>> +
->>> +#define TYPE_S390_PV_GUEST "s390-pv-guest"
->>> +#define S390_PV_GUEST(obj)                              \
->>> +    OBJECT_CHECK(S390PVGuestState, (obj), TYPE_S390_PV_GUEST)
->>> +
->>> +typedef struct S390PVGuestState S390PVGuestState;
->>> +
->>> +/**
->>> + * S390PVGuestState:
->>> + *
->>> + * The S390PVGuestState object is basically a dummy used to tell the
->>> + * host trust limitation system to use s390's PV mechanism.  guest.
->>> + *
->>> + * # $QEMU \
->>> + *         -object s390-pv-guest,id=pv0 \
->>> + *         -machine ...,host-trust-limitation=pv0
->>> + */
->>> +struct S390PVGuestState {
->>> +    Object parent_obj;
->>> +};
->>> +
->>> +static int s390_pv_kvm_init(HostTrustLimitation *gmpo, Error **errp)
->>> +{
->>> +    if (!s390_has_feat(S390_FEAT_UNPACK)) {
->>> +        error_setg(errp,
->>> +                   "CPU model does not support Protected Virtualization");
->>> +        return -1;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>
->> So here's where I'm confused: If I follow the code correctly, the
->> ->kvm_init callback is invoked before kvm_arch_init() is called. The
->> kvm_arch_init() implementation for s390x checks whether
->> KVM_CAP_S390_PROTECTED is available, which is a pre-req for
->> S390_FEAT_UNPACK. Am I missing something? Can someone with access to PV
->> hardware check whether this works as intended?
+
+
+On 2020/8/5 0:19, Dr. David Alan Gilbert wrote:
+> * Chuan Zheng (zhengchuan@huawei.com) wrote:
+>> From: Zheng Chuan <zhengchuan@huawei.com>
 > 
-> Ah, yes, I need to rethink this.  kvm_arch_init() happens
-> substantially earlier than I realized.  Plus the setup of s390 cpu
-> models is confusing to me, it seems to set up the model after the cpu
-> instance is created, rather than having cpu models correspond to cpu
-> classes and thus existing before the cpus are actually instantiated.
+> Hi,
+> 
+>> Sometimes it is neccessary to evaluate dirty page rate before migration.
+>> Users could decide whether to proceed migration based on the evaluation
+>> in case of vm performance loss due to heavy workload.
+>> Unlikey simulating dirtylog sync which could do harm on runnning vm,
+>> we provide a sample-hash method to compare hash results for samping page.
+>> In this way, it would have hardly no impact on vm performance.
+>>
+>> We evaluate the dirtypage rate on running vm.
+>> The VM specifications for migration are as follows:
+>> - VM use 4-K page;
+>> - the number of VCPU is 32;
+>> - the total memory is 32Gigabit;
+>> - use 'mempress' tool to pressurize VM(mempress 4096 1024);
+>>
+>> ++++++++++++++++++++++++++++++++++++++++++
+>> |                      |    dirtyrate    |
+>> ++++++++++++++++++++++++++++++++++++++++++
+>> | no mempress          |     4MB/s       |
+>> ------------------------------------------
+>> | mempress 4096 1024   |    1204MB/s     |
+>> ++++++++++++++++++++++++++++++++++++++++++
+>> | mempress 4096 4096   |    4000Mb/s     |
+>> ++++++++++++++++++++++++++++++++++++++++++
+> 
+> This is quite neat; I know we've got other people who have asked
+> for a similar feature!
+> Have you tried to validate these numbers against a real migration - e.g.
+> try setting mempress to dirty just under 1GByte/s and see if you can
+> migrate it over a 10Gbps link?
+> 
+> Dave
+> 
+Hi, Dave.
+Thank you for your review.
 
-The class only contains the cpu definition, the instance contains the
-actual model. A definition is static and immutable at runtime (e.g., a
-z15 with all possible features), a model is a variation of that (e.g.,
-enable/disable features, e.g., a z15 with features available in the
-current configuration).
+Note that, the original intention is evaluating dirty rate before migration.
 
-We initialize the actual model in instance_init() (so during init, not
-after init), where we create and initialize cpu->model, based on the cpu
-definition in the class information (xcc->cpu_def).
+However, I test dirty rate against a real migration over a bandwidth of 10Gps with various mempress, which shows as below:
+++++++++++++++++++++++++++++++++++++++++++
+|                      |    dirtyrate    |
+++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |     8MB/s       |
+------------------------------------------
+| mempress 4096 1024   |    1188MB/s     |
+++++++++++++++++++++++++++++++++++++++++++
 
-In case of qemu/host/max model, we have to construct the cpu model at
-init time, because the cpu model does not match an exact cpu definition
-we have at hand.
+It looks still close to actual dirty rate:)
 
-So whenever we init a cpu, we already have to have kvm running such that
-we can query the actual host/max model to construct cpu->model.
+Test results against a real migration will be posted in V2.
 
--- 
-Thanks,
-
-David / dhildenb
+>> Test dirtyrate by qmp command like this:
+>> 1.  virsh qemu-monitor-command [vmname] '{"execute":"cal_dirty_rate", "arguments": {"value": [sampletime]}}'
+>> 2.  virsh qemu-monitor-command [vmname] '{"execute":"get_dirty_rate"}'
+>>
+>> Further test dirtyrate by libvirt api like this:
+>> virsh getdirtyrate [vmname] [sampletime]
+>>
+>> Zheng Chuan (8):
+>>   migration/dirtyrate: Add get_dirtyrate_thread() function
+>>   migration/dirtyrate: Add block_dirty_info to store dirtypage info
+>>   migration/dirtyrate: Add dirtyrate statistics series functions
+>>   migration/dirtyrate: Record hash results for each ramblock
+>>   migration/dirtyrate: Compare hash results for recorded ramblock
+>>   migration/dirtyrate: Implement get_sample_gap_period() and
+>>     block_sample_gap_period()
+>>   migration/dirtyrate: Implement calculate_dirtyrate() function
+>>   migration/dirtyrate: Implement
+>>     qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+>>
+>>  migration/Makefile.objs |   1 +
+>>  migration/dirtyrate.c   | 424 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>  migration/dirtyrate.h   |  67 ++++++++
+>>  qapi/migration.json     |  24 +++
+>>  qapi/pragma.json        |   3 +-
+>>  5 files changed, 518 insertions(+), 1 deletion(-)
+>>  create mode 100644 migration/dirtyrate.c
+>>  create mode 100644 migration/dirtyrate.h
+>>
+>> -- 
+>> 1.8.3.1
+>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> 
+> .
+> 
 
 
