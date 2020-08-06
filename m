@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1479723E206
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:22:14 +0200 (CEST)
-Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1081823E20A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:23:50 +0200 (CEST)
+Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lSu-0005M4-Ve
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42586)
+	id 1k3lUT-0000Kq-13
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lNu-00042k-0z
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58990
- helo=us-smtp-1.mimecast.com)
+ id 1k3lNz-00047R-40
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49973
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lNs-0006P1-AC
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:01 -0400
+ id 1k3lNv-0006PO-VW
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:17:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741419;
+ s=mimecast20190719; t=1596741423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LlLezuw5CnWDOBY0ux1WhnM0Gc72Xtig+8ieEscUTU0=;
- b=H8EgxpZ7+E6qc314OBLTPuzowMTmEoc38riactTJMzASG1OSrvriI+b1hUC0x7ZyfKxlyE
- NTkU+ZAh0Z/pITeS7zamvBSyglJ054RscpuBt+g2V8HMkTGiiJDZaJBN0Q5fpucYaE0sUp
- 0D3Om2e3tb25WaGg9d35eWoll57/rX4=
+ bh=+7TUck7514fAQUs+9d+qwIGNj7sahshkHYcFDcaHUN8=;
+ b=CaJKObr+bp04nmTW1A/TRa2u79pp1SBDvNYRTNNQqVhJUygbDQU/C0lvKXEI1tQSJ+g+uM
+ 3KIPZVpA5QAfDADY4spBiB1SD/qnOTeL1tNG427uzU0G9KzSkyOBP4n0hhNjD8Z+gdPXsx
+ CMiUgfETDGSxivqpFHYpHUXyk8Pb9qA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-nMzkkKyFMRmPm_KnHL9_cw-1; Thu, 06 Aug 2020 15:16:56 -0400
-X-MC-Unique: nMzkkKyFMRmPm_KnHL9_cw-1
+ us-mta-277-kxx00iFpMsCpIF4aT5FQaA-1; Thu, 06 Aug 2020 15:17:01 -0400
+X-MC-Unique: kxx00iFpMsCpIF4aT5FQaA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A54201DE1
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:16:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBCCD800468
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:17:00 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CB1A5F9DC;
- Thu,  6 Aug 2020 19:16:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A3DC69315;
+ Thu,  6 Aug 2020 19:16:55 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 017/143] meson: enable pie
-Date: Thu,  6 Aug 2020 21:14:13 +0200
-Message-Id: <1596741379-12902-18-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 018/143] meson: use coverage option
+Date: Thu,  6 Aug 2020 21:14:14 +0200
+Message-Id: <1596741379-12902-19-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 05:03:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +68,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,21 +91,165 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ Makefile               | 14 --------------
+ Makefile.target        | 16 ----------------
+ configure              |  9 ++-------
+ docs/devel/testing.rst |  7 +++----
+ meson.build            |  2 +-
+ 5 files changed, 6 insertions(+), 42 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index c0c3b8b..18f6aa7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -765,14 +765,6 @@ module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
+ 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
+ 	"GEN","$@")
+ 
+-ifdef CONFIG_GCOV
+-.PHONY: clean-coverage
+-clean-coverage:
+-	$(call quiet-command, \
+-		find . \( -name '*.gcda' -o -name '*.gcov' \) -type f -exec rm {} +, \
+-		"CLEAN", "coverage files")
+-endif
+-
+ clean: recurse-clean
+ # avoid old build problems by removing potentially incorrect old files
+ 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
+@@ -1275,9 +1267,6 @@ endif
+ 		echo '')
+ 	@echo  'Cleaning targets:'
+ 	$(call print-help,clean,Remove most generated files but keep the config)
+-ifdef CONFIG_GCOV
+-	$(call print-help,clean-coverage,Remove coverage files)
+-endif
+ 	$(call print-help,distclean,Remove all generated files)
+ 	$(call print-help,dist,Build a distributable tarball)
+ 	@echo  ''
+@@ -1288,9 +1277,6 @@ endif
+ 	@echo  ''
+ 	@echo  'Documentation targets:'
+ 	$(call print-help,html info pdf txt,Build documentation in specified format)
+-ifdef CONFIG_GCOV
+-	$(call print-help,coverage-report,Create code coverage report)
+-endif
+ 	@echo  ''
+ ifdef CONFIG_WIN32
+ 	@echo  'Windows targets:'
+diff --git a/Makefile.target b/Makefile.target
+index ffa2657..d61a6a9 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -269,19 +269,3 @@ endif
+ 
+ generated-files-y += config-target.h
+ Makefile: $(generated-files-y)
+-
+-# Reports/Analysis
+-#
+-# The target specific coverage report only cares about target specific
+-# blobs and not the shared code.
+-#
+-
+-%/coverage-report.html:
+-	@mkdir -p $*
+-	$(call quiet-command,\
+-		gcovr -r $(SRC_PATH) --object-directory $(CURDIR) \
+-		-p --html --html-details -o $@, \
+-		"GEN", "coverage-report.html")
+-
+-.PHONY: coverage-report
+-coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
 diff --git a/configure b/configure
-index 3083187..23b990e 100755
+index 23b990e..bdd35d2 100755
 --- a/configure
 +++ b/configure
-@@ -8443,6 +8443,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
-         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
+@@ -424,7 +424,6 @@ tcg_interpreter="no"
+ bigendian="no"
+ mingw32="no"
+ gcov="no"
+-gcov_tool="gcov"
+ EXESUF=""
+ DSOSUF=".so"
+ LDFLAGS_SHARED="-shared"
+@@ -1008,8 +1007,6 @@ for opt do
+   ;;
+   --meson=*) meson="$optarg"
+   ;;
+-  --gcov=*) gcov_tool="$optarg"
+-  ;;
+   --smbd=*) smbd="$optarg"
+   ;;
+   --extra-cflags=*)
+@@ -1816,7 +1813,6 @@ Advanced options (experts only):
+   --with-coroutine=BACKEND coroutine backend. Supported options:
+                            ucontext, sigaltstack, windows
+   --enable-gcov            enable test coverage analysis with gcov
+-  --gcov=GCOV              use specified gcov [$gcov_tool]
+   --disable-blobs          disable installing provided firmware blobs
+   --with-vss-sdk=SDK-path  enable Windows VSS support in QEMU Guest Agent
+   --with-win-sdk=SDK-path  path to Windows Platform SDK (to build VSS .tlb)
+@@ -6530,8 +6526,7 @@ fi
+ write_c_skeleton
+ 
+ if test "$gcov" = "yes" ; then
+-  QEMU_CFLAGS="-fprofile-arcs -ftest-coverage -g $QEMU_CFLAGS"
+-  QEMU_LDFLAGS="-fprofile-arcs -ftest-coverage $QEMU_LDFLAGS"
++  :
+ elif test "$fortify_source" = "yes" ; then
+   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
+   debug=no
+@@ -7804,7 +7799,6 @@ echo "TASN1_CFLAGS=$tasn1_cflags" >> $config_host_mak
+ echo "POD2MAN=$POD2MAN" >> $config_host_mak
+ if test "$gcov" = "yes" ; then
+   echo "CONFIG_GCOV=y" >> $config_host_mak
+-  echo "GCOV=$gcov_tool" >> $config_host_mak
+ fi
+ 
+ if test "$libudev" != "no"; then
+@@ -8444,6 +8438,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
          -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
          -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-+        -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
++        -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
          $cross_arg \
          "$PWD" "$source_path"
  
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index c1ff243..a426469 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -164,13 +164,12 @@ instrumenting the tested code. To use it, configure QEMU with
+ ``--enable-gcov`` option and build. Then run ``make check`` as usual.
+ 
+ If you want to gather coverage information on a single test the ``make
+-clean-coverage`` target can be used to delete any existing coverage
++clean-gcda`` target can be used to delete any existing coverage
+ information before running a single test.
+ 
+ You can generate a HTML coverage report by executing ``make
+-coverage-report`` which will create
+-./reports/coverage/coverage-report.html. If you want to create it
+-elsewhere simply execute ``make /foo/bar/baz/coverage-report.html``.
++coverage-html`` which will create
++``meson-logs/coveragereport/index.html``.
+ 
+ Further analysis can be conducted by running the ``gcov`` command
+ directly on the various .gcda output files. Please read the ``gcov``
+diff --git a/meson.build b/meson.build
+index 48baf20..ed61853 100644
+--- a/meson.build
++++ b/meson.build
+@@ -197,7 +197,7 @@ summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_US
+ summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
+ summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
+ summary_info += {'GlusterFS support': config_host.has_key('CONFIG_GLUSTERFS')}
+-summary_info += {'gcov':              config_host.has_key('CONFIG_GCOV')}
++summary_info += {'gcov':              get_option('b_coverage')}
+ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+ summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
+ summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
 -- 
 1.8.3.1
 
