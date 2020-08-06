@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98D423DB05
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 16:01:34 +0200 (CEST)
-Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446FC23DB09
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 16:09:13 +0200 (CEST)
+Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3gSX-00054H-RS
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 10:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57252)
+	id 1k3ga0-00020g-Bz
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 10:09:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3gR2-0004Mx-B4; Thu, 06 Aug 2020 09:59:56 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36001)
+ id 1k3gZE-0001Th-Df; Thu, 06 Aug 2020 10:08:24 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3gR0-0005e4-W2; Thu, 06 Aug 2020 09:59:56 -0400
-Received: by mail-wr1-x430.google.com with SMTP id 88so44075620wrh.3;
- Thu, 06 Aug 2020 06:59:54 -0700 (PDT)
+ id 1k3gZC-0006jd-Qc; Thu, 06 Aug 2020 10:08:24 -0400
+Received: by mail-wr1-x442.google.com with SMTP id y3so44145320wrl.4;
+ Thu, 06 Aug 2020 07:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MTSUUlOpj4xpO1gZOSJB9I5hMOIw0BjlgQX4+Z19ZEY=;
- b=Fz4cIVIbowcvzmNimlMUPF8FGnbIIIKMW9p4kSaBc+M2zKgUKq7FW+K9UqvAfdodzh
- nK6M0QFhZLF10DQyIqMRpsntc5FxFC/tSL1ab1rykq/4SywTnBktq7V0a9/tdCsWCnde
- IeSmrW9fZpc21xhCzWm4YUghORDUnOPYV/hBGepcZ3lGQL+uDRUUDAK8SgmgkcdBPZbK
- GNxXckKSA9U4N+yLtr1CeQyIAEifRgF7dWTrGBsA8HvknjxDaucW1AK/gM0nkKbTDX3x
- kUrDBh5/lgWHU/uq9h6xnqKmBoXqhxB3yQlJKb0kWbFDn9kCMerCUOf50s+len6UqV01
- qJgQ==
+ bh=+Bxyvr6S+vXVoNkU/baDMBPB8j3EiNZGJgp+D9j8ok4=;
+ b=kgU0pgaXmVsUh4rJnKWysR3DxpaRoQzRPgwerXF0Uhnm0smkmCJ2TKoviLLZ1cMcis
+ O1ozB7/GK3wNoUubxJhfrk8hXfa63w0qgRztc/UZA4qzO73IdAFThr2HhF2yj6BLLdg9
+ JKXWw8S9MX68CHa9hjTqyG77VQhFLSUKz1hP7qKT3nAInHTbW4d0VglhG71f05iDXcj2
+ TbuYh1qRCzS+EbXO4JfovPmNROS5zB3k6xsB4hic5dXYXNiVnXK6fxJb4uZJqV7TvSyP
+ yLp83i+m/Lew/LVBMtbMXxP1XhNVhoGjvngj3X8eTAA9VYLMPBxJDzFyN1M3dLB4pHGA
+ Xg1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MTSUUlOpj4xpO1gZOSJB9I5hMOIw0BjlgQX4+Z19ZEY=;
- b=Jrbom01FlLz1E7UAF9YuB/0XhkaUX0QYhWhL8qVk8GOZ/5apiNJe/D8NcbhE7bFmns
- pg7xUqcMA6sT5CsLk8wXyI59V9dePYv2vaZLdQhrkx4iRxvuN+WlJUcOkrSUHFeBme1H
- RvnhELjJ6TCW4dx5SjTWJDkZxW0whtFchuwmRfVHMoIrwVP/PGzuVlOtREyxWljeHQno
- 47MCsTT15pkLfw5cKOEN/U8iLKFhF1I33guSQ7GXxYxnndc2ECvu5GM9lrrvUA20zjcS
- ChSPUhKsl/ohAefCAufqeYsLa6kOojGI3k3QIruRL5YcoHl1OL+4Fmkl9jN7TV/cPvGs
- Pfgw==
-X-Gm-Message-State: AOAM531Qtkh0SBUlD7bOlBolQDDMr9qSO3m9lUXAeyoebLhugmaEFC/g
- 8IcGEQHb5z/cy+PyqMngssZkRnP4
-X-Google-Smtp-Source: ABdhPJxRy/B0UX2UC+3Jl1sw8HKAnb7vfyMx5tGdfv2cCt972zwSwh5ZR7vIEHo+YEwycUWP0fcyHg==
-X-Received: by 2002:a5d:610a:: with SMTP id v10mr7426243wrt.8.1596722392644;
- Thu, 06 Aug 2020 06:59:52 -0700 (PDT)
+ bh=+Bxyvr6S+vXVoNkU/baDMBPB8j3EiNZGJgp+D9j8ok4=;
+ b=nxXHf/Fsl+qMnTX1CwB+Fz0e87XyQUo43aDsodH8sW675RIJUE0GeM3xmxhX6UeH7f
+ 58irdkYMFAJTXiY1b2egb/lHpikW0xwfQmTG0tqRnJuk/KRmH1IK2rku1gK3X3+YRSpr
+ 7ZKEHlfXXs7VDG1Pn8+NgYt3NTrnKKy3tLZTCDy8dXmzD+r1NxNJWuS+9c1vcAzAVexg
+ QISfaeEcWClFWOk1X8ro0XLPaDZb8mX8rKwX0TzUpwLkHksfL7EehfDypsUiYwjJrWKK
+ 3GQiCkeyIw3YRtgT16EION+tL4VMPwKTGruXFlQQgZmV4n3KYbORfBVwdzPQisoZv5SH
+ tdMw==
+X-Gm-Message-State: AOAM533cv9kUj7TBEug7hvNyLmgs8Tk5LCcYKWdYXIu93Yy6ctnv6lUZ
+ nAzlALH4FgJkzJ8XXqwsrWE=
+X-Google-Smtp-Source: ABdhPJwbjqr07rbfrwpBGaQpe4z3QUMS6twZGVJRHgmCQbvcqHDJU+0et2fq5yky21JVqexlzYONZg==
+X-Received: by 2002:adf:f590:: with SMTP id f16mr7073204wro.98.1596722900523; 
+ Thu, 06 Aug 2020 07:08:20 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id g188sm7492178wma.5.2020.08.06.06.59.51
+ by smtp.gmail.com with ESMTPSA id 124sm6470608wmd.31.2020.08.06.07.08.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 06:59:52 -0700 (PDT)
-Subject: Re: [PATCH-for-5.2] Revert "mailmap: Update philmd email address"
-To: qemu-devel@nongnu.org
-References: <20200806135832.2319-1-philmd@redhat.com>
+ Thu, 06 Aug 2020 07:08:19 -0700 (PDT)
+Subject: Re: [PATCH for-5.2 04/19] aspeed/scu: Fix valid access size on AST2400
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200806132106.747414-1-clg@kaod.org>
+ <20200806132106.747414-5-clg@kaod.org>
+ <4a41f234-ab81-d078-0fcd-c1b20fceb1e9@amsat.org>
+ <bd58f180-1c18-c998-5fa7-da41177deb02@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bb226ab5-f76f-2e8c-71e9-94799583ac75@amsat.org>
-Date: Thu, 6 Aug 2020 15:59:51 +0200
+Message-ID: <f8f6782a-b05a-d039-33ef-2ac551cb1c54@amsat.org>
+Date: Thu, 6 Aug 2020 16:08:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200806135832.2319-1-philmd@redhat.com>
+In-Reply-To: <bd58f180-1c18-c998-5fa7-da41177deb02@kaod.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,38 +91,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, erik-smit <erik.lucas.smit@gmail.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 3:58 PM, Philippe Mathieu-Daudé wrote:
-> This mailmap entry does not work as I expected. I am receiving
-> emails related to my hobbyist contributions in my work mailbox
-> and I get distracted :) Remove the entry to keep things separated.
+On 8/6/20 3:49 PM, Cédric Le Goater wrote:
+> On 8/6/20 3:32 PM, Philippe Mathieu-Daudé wrote:
+>> On 8/6/20 3:20 PM, Cédric Le Goater wrote:
+>>> The read access size of the SCU registers can be 1/2/4 bytes and write
+>>> is 4 bytes. Set the min access size to 1 byte to cover both read and
+>>> write operations on the AST2400 but keep the min access size of the
+>>> other SoCs to 4 bytes as this is an unusual access size.
+>>
+>> From your description it seems you need to implement .valid.accepts().
 > 
-> This reverts commit 289371239153b24cb7bd96b6948c6b40b4627a9b.
+> Ah yes. 
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Can this come as a follow up ? because this patch is enabling
+> support for the Supermicro X11 BMC machine.
 
-FWIW to respect the stricter .mailmap rules:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is certainly not a blocker, so up to you :)
 
-> ---
->  .mailmap | 1 -
->  1 file changed, 1 deletion(-)
 > 
-> diff --git a/.mailmap b/.mailmap
-> index 81c2ce0937..2d97a14af3 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -54,7 +54,6 @@ Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
->  Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
->  Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
->  Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
-> -Philippe Mathieu-Daudé <philmd@redhat.com> <f4bug@amsat.org>
->  Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
->  Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
->  
+> Thanks,
 > 
-
+> C. 
+> 
+> 
+>>
+>>>
+>>> This fixes support for some old firmware doing 2 bytes reads on the
+>>> AST2400 SoC.
+>>>
+>>> Reported-by: erik-smit <erik.lucas.smit@gmail.com>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>  hw/misc/aspeed_scu.c | 7 ++++---
+>>>  1 file changed, 4 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+>>> index ec4fef900e27..764222404bef 100644
+>>> --- a/hw/misc/aspeed_scu.c
+>>> +++ b/hw/misc/aspeed_scu.c
+>>> @@ -328,9 +328,10 @@ static const MemoryRegionOps aspeed_ast2400_scu_ops = {
+>>>      .read = aspeed_scu_read,
+>>>      .write = aspeed_ast2400_scu_write,
+>>>      .endianness = DEVICE_LITTLE_ENDIAN,
+>>> -    .valid.min_access_size = 4,
+>>> -    .valid.max_access_size = 4,
+>>> -    .valid.unaligned = false,
+>>> +    .valid = {
+>>> +        .min_access_size = 1,
+>>> +        .max_access_size = 4,
+>>> +    },
+>>>  };
+>>>  
+>>>  static const MemoryRegionOps aspeed_ast2500_scu_ops = {
+>>>
+>>
+> 
+> 
 
