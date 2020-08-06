@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A1E23DABD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:29:26 +0200 (CEST)
-Received: from localhost ([::1]:55000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B13123DAC3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:32:12 +0200 (CEST)
+Received: from localhost ([::1]:39504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3fxV-0007UT-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49000)
+	id 1k3g0B-0004Kj-9a
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3fpk-0001XI-2u; Thu, 06 Aug 2020 09:21:24 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44683)
+ id 1k3fpi-0001Sz-RP; Thu, 06 Aug 2020 09:21:22 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:34793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3fpf-0000vl-8V; Thu, 06 Aug 2020 09:21:23 -0400
+ id 1k3fpf-0000vc-82; Thu, 06 Aug 2020 09:21:22 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 59F8B4DAE2D7;
- Thu,  6 Aug 2020 15:21:17 +0200 (CEST)
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 5CEF3545F8A7;
+ Thu,  6 Aug 2020 15:21:13 +0200 (CEST)
 Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 6 Aug 2020
- 15:21:16 +0200
+ 15:21:12 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005f3a5c668-5a6b-47c9-bcdd-2cd644a8de4f,
+ (GARM-103G00540107a35-d1b1-4246-bc5e-8ea7b807d7f7,
  96EDEDBD7B7627A0205C40E9E2B74F8D513A659B) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH for-5.2 19/19] aspeed/smc: Open AHB window of the second chip
- of the AST2600 FMC controller
-Date: Thu, 6 Aug 2020 15:21:06 +0200
-Message-ID: <20200806132106.747414-20-clg@kaod.org>
+Subject: [PATCH for-5.2 10/19] ftgmac100: Fix interrupt status "Packet
+ transmitted on ethernet"
+Date: Thu, 6 Aug 2020 15:20:57 +0200
+Message-ID: <20200806132106.747414-11-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200806132106.747414-1-clg@kaod.org>
 References: <20200806132106.747414-1-clg@kaod.org>
@@ -42,14 +42,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: cb628793-1d65-4e9e-921d-727053b08558
-X-Ovh-Tracer-Id: 273875154179099430
+X-Ovh-Tracer-GUID: d102f4ee-63c3-452c-8218-545d1a87ad79
+X-Ovh-Tracer-Id: 272749254968380265
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:10
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:12
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,33 +69,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Frederic Konrad <konrad.frederic@yahoo.fr>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change works around the HW default values to be able to test the
-tacoma board with -kernel command line option.
+The second field of the TX descriptor has a set of flags to choose
+when the transmit interrupt is raised : after the packet has been sent
+on the ethernet or after it has been moved into the TX FIFO. But we
+don't model that today.
 
+Simply raise the "Packet transmitted on ethernet" the interrupt status
+bit as soon as the packet is sent by QEMU.
+
+Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ssi/aspeed_smc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/ftgmac100.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 8c79a5552f93..795784e5f364 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -230,7 +230,7 @@ static void aspeed_smc_reg_to_segment(const AspeedSMCState *s, uint32_t reg,
+diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+index 0348fcf45676..aa3c05ef9882 100644
+--- a/hw/net/ftgmac100.c
++++ b/hw/net/ftgmac100.c
+@@ -547,9 +547,7 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+             qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
+             ptr = s->frame;
+             frame_size = 0;
+-            if (flags & FTGMAC100_TXDES1_TXIC) {
+-                s->isr |= FTGMAC100_INT_XPKT_ETH;
+-            }
++            s->isr |= FTGMAC100_INT_XPKT_ETH;
+         }
  
- static const AspeedSegments aspeed_segments_ast2600_fmc[] = {
-     { 0x0, 128 * MiB }, /* start address is readonly */
--    { 0x0, 0 }, /* disabled */
-+    { 128 * MiB, 128 * MiB }, /* default is disabled but needed for -kernel */
-     { 0x0, 0 }, /* disabled */
- };
- 
+         if (flags & FTGMAC100_TXDES1_TX2FIC) {
 -- 
 2.25.4
 
