@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC1523D93C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:24:08 +0200 (CEST)
-Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B703523D93D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 12:25:36 +0200 (CEST)
+Received: from localhost ([::1]:38398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3d4B-0007Ua-5Y
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34356)
+	id 1k3d5b-0008O6-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 06:25:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jason.zeng@linux.intel.com>)
- id 1k3d3S-00073q-NW
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:23:22 -0400
-Received: from mga17.intel.com ([192.55.52.151]:49270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jason.zeng@linux.intel.com>)
- id 1k3d3Q-0004c5-CI
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:23:22 -0400
-IronPort-SDR: swiz2Su6UrkIhmevIG1JpkDJpW/eBKBOSp98ylCTfPKBvG8Y61ukslKfv7It6pWRNsr98b2YZF
- M+gl3lOxl2UQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9704"; a="132850649"
-X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; d="scan'208";a="132850649"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Aug 2020 03:23:16 -0700
-IronPort-SDR: mxdXF4IRNkqO+zPZ45zbgSEaJA6MU+Y/skm4qEvhx4o9KQjsXjiMwkWy/xzND0vJ2ihVuDlfim
- JI8eWqmJu3bw==
-X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; d="scan'208";a="467798831"
-Received: from x48.bj.intel.com (HELO x48) ([10.238.157.64])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Aug 2020 03:23:12 -0700
-Date: Thu, 6 Aug 2020 18:22:59 +0800
-From: Jason Zeng <jason.zeng@linux.intel.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V1 30/32] vfio-pci: save and restore
-Message-ID: <20200806102259.GA25634@x48>
-References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-31-git-send-email-steven.sistare@oracle.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k3d4X-0007xG-Ii
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:24:29 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:42615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k3d4V-0004j8-9R
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:24:29 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id q17so27253550pls.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=4ER4fkikP/KS0w1Gum0nBUXhNQjCgF+lmRdY/Ay4+y4=;
+ b=XJERPI3GxXFimrrJzmzqhxCU65CxZc79HhiU3GHtenAr/ZXMdHQEMj/yK7jp2fCIp7
+ 1rLsXzXS4dd4Is229EG7JMxhsnyJf27rChCBJ4ZQPR2qI/ST1uCZhd4Yq8cvVnTFzFu1
+ XSj9u2Wdt5kZw8NO1HzUWbDOsX8N0LdQHJ267yDim8LBnYQnwyjkrH3PLH0EsxpCHURF
+ YS1lpNaDRLztyuB+0zq07FEkMDhp28XNVBm6DcSrAjLYeihDDVJCOCi1KvGgANKZgXyR
+ HRFxJbUQyQBlMk6zHkj2Vo21lghDpX5whkN0BaPLE73QVPvTqqsPdDxcAEI+q3qcBBBm
+ 4uPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=4ER4fkikP/KS0w1Gum0nBUXhNQjCgF+lmRdY/Ay4+y4=;
+ b=az1gX+M3kELlNjihvceCzCq5VfRhu0pxBjWrT8r2fpiAIbRqFj/+YDHibcfZtYtsRT
+ euDeMykV2CugQroBg1Xif7gto6tQQ4gJCr3ORVL7gnDXsY9fybA/7wGH6PE8iRuVkkSn
+ jyAhwh8t0CYJ0q/31Vi9RGERGd1v6B8yYPhjiSvTAr+1ElCHou/qYC1wruLIem7kspHN
+ rZNOA4xu9TcUMxdloR2GqNnnGM8Sjlmm++nvPFtWbHYMG69hB6vY2NWjRa3Q2abLEqU1
+ 2IGhX0qPDxvkLKxf11t1XLkIDlig+WhggEo08SxEqY+tDUXxuTe2nO0Pprrq75kVAlba
+ eGUg==
+X-Gm-Message-State: AOAM533Cj7gQGDtnOLyDD+5CY+bSyvgy0jRHtI5BBLoUCM1x74XxTIMF
+ OOICPPoLDO1W+nGt7hO7TC7AqkQPQ29hSQ22aYcYWtddArs=
+X-Google-Smtp-Source: ABdhPJz26CtuxJHuodPkItETFpK9ZeOyHnlnPsbFUNCVig8D5IHMXIWuw/82FDhXKOg/KXZp5CAxzEDxZtV80k11sbY=
+X-Received: by 2002:a17:902:6b45:: with SMTP id
+ g5mr7240015plt.42.1596709464392; 
+ Thu, 06 Aug 2020 03:24:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1596122076-341293-31-git-send-email-steven.sistare@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=jason.zeng@linux.intel.com; helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 06:23:16
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 6 Aug 2020 11:24:13 +0100
+Message-ID: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
+Subject: Why QEMU should move from C to Rust (clickbait alert ;))
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=stefanha@gmail.com; helo=mail-pl1-x62d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,159 +76,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Dave Gilbert <dgilbert@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Oleinik, Alexander" <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Steve,
+I just posted this on my blog, but my intention is to continue the
+discussion around moving to Rust in the QEMU community. Thoughts about
+how to increase safety in QEMU, both for and against moving to Rust
+are welcome!
 
-On Thu, Jul 30, 2020 at 08:14:34AM -0700, Steve Sistare wrote:
-> @@ -3182,6 +3207,51 @@ static Property vfio_pci_dev_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> +static int vfio_pci_post_load(void *opaque, int version_id)
-> +{
-> +    int vector;
-> +    MSIMessage msg;
-> +    Error *err = 0;
-> +    VFIOPCIDevice *vdev = opaque;
-> +    PCIDevice *pdev = &vdev->pdev;
-> +
-> +    if (msix_enabled(pdev)) {
-> +        vfio_msix_enable(vdev);
-> +        pdev->msix_function_masked = false;
-> +
-> +        for (vector = 0; vector < vdev->pdev.msix_entries_nr; vector++) {
-> +            if (!msix_is_masked(pdev, vector)) {
-> +                msg = msix_get_message(pdev, vector);
-> +                vfio_msix_vector_use(pdev, vector, msg);
-> +            }
-> +        }
+My KVM Forum 2018 presentation titled Security in QEMU: How Virtual
+Machines provide Isolation reviewed security bugs in QEMU and found
+the most common causes were C programming bugs. This includes buffer
+overflows, use-after-free, uninitialized memory, and more. In this
+post I will argue for using Rust as a safer language that prevents
+these classes of bugs.
 
-It looks to me MSIX re-init here may lose device IRQs and impact
-device hardware state?
+In 2018 the choice of a safer language was not clear. C++ offered safe
+abstractions without an effective way to prohibit unsafe language
+features. Go also offered safety but with concerns about runtime
+costs. Rust looked promising but few people had deep experience with
+it. In 2018 I was not able to argue confidently for moving away from C
+in QEMU.
 
-The re-init will cause the kernel vfio driver to connect the device
-MSIX vectors to new eventfds and KVM instance. But before that, device
-IRQs will be routed to previous eventfd. Looks these IRQs will be lost.
+Now in 2020 the situation is clearer. C programming bugs are still the
+main cause of CVEs in QEMU. Rust has matured, its ecosystem is growing
+and healthy, and there are virtualization projects like Crosvm,
+Firecracker, and cloud-hypervisor that prove Rust is an effective
+language for writing Virtual Machine Monitors (VMM). In the QEMU
+community Paolo Bonzini and Sergio Lopez's work on rust-vmm and
+vhost-user code inspired me to look more closely at moving away from
+C.
 
-And the re-init will make the device go through the procedure of
-disabling MSIX, enabling INTX, and re-enabling MSIX and vectors.
-So if the device is active, its hardware state will be impacted?
+Do we need to change programming language?
+---------------------------------------------------------------
+Most security bugs in QEMU are C programming bugs. This is easy to
+verify by looking through the CVE listings. Although I have only
+reviewed CVEs it seems likely that non-security bugs are also mostly C
+programming bugs.
 
+Eliminating C programming bugs does not necessarily require switching
+programming languages. Other approaches to reducing bug rates in
+software include:
 
-Thanks,
-Jason
+Coding style rules that forbid unsafe language features.
+Building safe abstractions and prohibiting unsafe language features or
+library APIs.
+Static checkers that scan source code for bugs.
+Dynamic sanitizers that run software with instrumentation to identify bugs.
+Unit testing and fuzzing.
 
-> +
-> +    } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
-> +        vfio_intx_enable(vdev, &err);
-> +        if (err) {
-> +            error_report_err(err);
-> +        }
-> +    }
-> +
-> +    vdev->vbasedev.group->container->reused = false;
-> +    vdev->pdev.reused = false;
-> +
-> +    return 0;
-> +}
-> +
-> +static const VMStateDescription vfio_pci_vmstate = {
-> +    .name = "vfio-pci",
-> +    .unmigratable = 1,
-> +    .mode_mask = VMS_RESTART,
-> +    .version_id = 0,
-> +    .minimum_version_id = 0,
-> +    .post_load = vfio_pci_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_MSIX(pdev, VFIOPCIDevice),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -3189,6 +3259,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
->  
->      dc->reset = vfio_pci_reset;
->      device_class_set_props(dc, vfio_pci_dev_properties);
-> +    dc->vmsd = &vfio_pci_vmstate;
->      dc->desc = "VFIO-based PCI device assignment";
->      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->      pdc->realize = vfio_realize;
-> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-> index ac2cefc..e6e1a5d 100644
-> --- a/hw/vfio/platform.c
-> +++ b/hw/vfio/platform.c
-> @@ -592,7 +592,7 @@ static int vfio_base_device_init(VFIODevice *vbasedev, Error **errp)
->              return -EBUSY;
->          }
->      }
-> -    ret = vfio_get_device(group, vbasedev->name, vbasedev, errp);
-> +    ret = vfio_get_device(group, vbasedev->name, vbasedev, 0, errp);
->      if (ret) {
->          vfio_put_group(group);
->          return ret;
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index bd07c86..c926a24 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -358,6 +358,7 @@ struct PCIDevice {
->  
->      /* ID of standby device in net_failover pair */
->      char *failover_pair_id;
-> +    bool reused;
->  };
->  
->  void pci_register_bar(PCIDevice *pci_dev, int region_num,
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index c78f3ff..4e2a332 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -73,6 +73,8 @@ typedef struct VFIOContainer {
->      unsigned iommu_type;
->      Error *error;
->      bool initialized;
-> +    bool reused;
-> +    int cid;
->      unsigned long pgsizes;
->      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-> @@ -177,7 +179,7 @@ void vfio_reset_handler(void *opaque);
->  VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
->  void vfio_put_group(VFIOGroup *group);
->  int vfio_get_device(VFIOGroup *group, const char *name,
-> -                    VFIODevice *vbasedev, Error **errp);
-> +                    VFIODevice *vbasedev, bool *reused, Error **errp);
->  
->  extern const MemoryRegionOps vfio_region_ops;
->  typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 881dc13..2606cf0 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1568,7 +1568,7 @@ static int qemu_savevm_state(QEMUFile *f, VMStateMode mode, Error **errp)
->          return -EINVAL;
->      }
->  
-> -    if (migrate_use_block()) {
-> +    if ((mode & (VMS_SNAPSHOT | VMS_MIGRATE)) && migrate_use_block()) {
->          error_setg(errp, "Block migration and snapshots are incompatible");
->          return -EINVAL;
->      }
-> -- 
-> 1.8.3.1
-> 
-> 
+The problem is, the QEMU community has been doing these things for
+years but new bugs are still introduced despite these efforts. It is
+certainly possible to spend more energy on these efforts but the
+evidence shows that bugs continue to slip through.
+
+There are two issues with these approaches to reducing bugs. First,
+although these approaches help find existing bugs, eliminating classes
+of bugs so they cannot exist in the first place is a stronger
+approach. This is hard to do with C since the language is unsafe,
+placing the burden of safety on the programmer.
+
+Second, much of the ability to write safe C code comes with
+experience. Custom conventions, APIs, tooling, and processes to reduce
+bugs is a hurdle for one-time contributors or newcomers. It makes the
+codebase inaccessible unless we accept lower standards for some
+contributors. Code quality should depend as little on experience as
+possible but C is notorious for being a programming language that
+requires a lot of practice before you can write production-quality
+code.
+
+Why Rust?
+--------------
+Safe languages eliminate memory safety bugs (and other classes like
+concurrency bugs). Rust made this a priority in its design:
+
+Use-after-free, double-free, memory leaks, and other lifetime bugs are
+prevented at compile-time by the borrow checker where the compiler
+checks ownership of data.
+Buffer overflows and other memory corruptions are prevented by
+compile-time and runtime bounds-checking.
+Pointer deference bugs are prevented by the absense of NULL pointers
+and strict ownership rules.
+Uninitialized memory is prevented because all variables and fields
+must be initialized.
+
+Rust programs can still "panic" at runtime when safety cannot be
+proven at compile time but this does not result in undefined behavior
+as seen in C programs. The program simply aborts with a backtrace.
+Bugs that could have resulted in arbitrary code execution in C become
+at most denial-of-service bugs in Rust. This reduces the severity of
+bugs.
+
+As a result of this language design most C programming bugs that
+plague QEMU today are either caught by the compiler or turn into a
+safe program termination. It is reasonable to expect CVEs to reduce in
+number and in severity when switching to Rust.
+
+At the same time Rust eliminates the need for many of the measures
+that the QEMU community added onto C because the Rust programming
+language and its compiler already enforce safety. This means newcomers
+and one-time contributors will not need QEMU-specific experience, can
+write production-quality code more easily, and can get their code
+merged more quickly. It also means reviewers will have to spend less
+time pointing out C programming bugs or asking for changes that comply
+with QEMU's way of doing things.
+
+That said, Rust has a reputation for being a scary language due to the
+borrow checker. Most programmers have not thought about object
+lifetimes and ownership as systematically and explicitly as required
+by Rust. This raises the bar to learning the language, but I look at
+it this way: learning Rust is humanly possible, writing bug-free C
+code is not.
+
+How can we change programming language?
+------------------------------------------------------------
+When I checked in 2018 QEMU was 1.5 million lines of code. It has
+grown since then. Moving a large codebase to a new programming
+language is extremely difficult. If people want to convert QEMU to
+Rust that would be great, but I personally don't have the appetite to
+do it because I think the integration will be messy, result in a lot
+of duplication, and there is too much un(der)maintained code that is
+hard to convert.
+
+The reason I am writing this post is because device emulation, the
+main security attack surface for VMMs, can be done in a separate
+program. That program can be written in any language and this is where
+Rust comes in. For vhost devices it is possible to write Rust device
+backends today and I hope this will become the default approach to
+writing new devices.
+
+For non-vhost devices the vfio-user project is working on an interface
+out-of-process device emulation. It will be possible to implement
+devices in Rust there too.
+
+If you are implementing new device emulation code please consider
+doing it in Rust!
+
+Conclusion
+---------------
+Most security bugs in QEMU today are C programming bugs. Switching to
+a safer programming language will significantly reduce security bugs
+in QEMU. Rust is now mature and proven enough to use as the language
+for device emulation code. Thanks to vhost-user and vfio-user using
+Rust for device emulation does not require a big conversion of QEMU
+code, it can simply be done in a separate program. This way attack
+surfaces can be written in Rust to make them less susceptible to
+security bugs going forward.
 
