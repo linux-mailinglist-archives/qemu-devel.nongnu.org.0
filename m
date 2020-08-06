@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBC523DACD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:36:04 +0200 (CEST)
-Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C40723DAC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:31:21 +0200 (CEST)
+Received: from localhost ([::1]:34788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3g3v-0002ke-BM
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:36:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
+	id 1k3fzM-0002QO-EU
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3ftB-00008T-DD; Thu, 06 Aug 2020 09:24:58 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:57915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3ft8-0001KF-CR; Thu, 06 Aug 2020 09:24:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 6719C545FD8B;
- Thu,  6 Aug 2020 15:24:39 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 6 Aug 2020
- 15:24:38 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0030afb1f0f-01aa-4101-8f54-416872ade5fd,
- 96EDEDBD7B7627A0205C40E9E2B74F8D513A659B) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH for-5.2 00/19] aspeed: mostly cleanups and some extensions
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200806132106.747414-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <c5e38163-5ad0-1965-df7e-7543be284135@kaod.org>
-Date: Thu, 6 Aug 2020 15:24:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3fuw-0003V4-Dm
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:26:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k3fuu-0001fX-6y
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:26:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596720402;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gATjTAJfUOKSkw0bPmIty9msJzfneBhk9VT91K4fysg=;
+ b=iYm4b4eYQOMYXbBgwrnFNuQNTqBRcTDRX/w2NY3foaGsGZcGjgGm32kJ7Y6g9vQdaPEf1K
+ cFTvws0W/9IHqSJlYbbcMTSme6h3B4/hl/ybYIqYAYoOCC8SbvtIEGyRM5mG68sOeYSWrB
+ GpzW7Q3yB//BdNo68s5lCrQSbwoIwe8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-y-zFSA3QPxmf80CLKwYccw-1; Thu, 06 Aug 2020 09:26:38 -0400
+X-MC-Unique: y-zFSA3QPxmf80CLKwYccw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E1B18064AB;
+ Thu,  6 Aug 2020 13:26:37 +0000 (UTC)
+Received: from gondolin (ovpn-113-2.ams2.redhat.com [10.36.113.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D78BC5F1EF;
+ Thu,  6 Aug 2020 13:26:36 +0000 (UTC)
+Date: Thu, 6 Aug 2020 15:26:34 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH] CODING_STYLE.rst: flesh out our naming conventions.
+Message-ID: <20200806152634.54a0a0c2.cohuck@redhat.com>
+In-Reply-To: <20200806114036.10646-1-alex.bennee@linaro.org>
+References: <20200806114036.10646-1-alex.bennee@linaro.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200806132106.747414-1-clg@kaod.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 71edc469-bf57-4389-b55b-986c946b188c
-X-Ovh-Tracer-Id: 330733099095919523
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 04:59:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,66 +79,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 3:20 PM, Cédric Le Goater wrote:
-> Hello,
-> 
-> Various fixes improving the support of Aspeed machines.
-> 
-> Thanks,
-> 
-> C.
-> 
-> Cédric Le Goater (16):
->   m25p80: Return the JEDEC ID twice for mx25l25635e
->   m25p80: Add support for mx25l25635f
->   m25p80: Add support for n25q512ax3
->   aspeed/scu: Fix valid access size on AST2400
->   aspeed/smc: Fix MemoryRegionOps definition
->   aspeed/smc: Fix max_slaves of the legacy SMC device
->   aspeed/sdhci: Fix reset sequence
->   ftgmac100: Fix registers that can be read
->   ftgmac100: Fix interrupt status "Packet transmitted on ethernet"
->   ftgmac100: Fix interrupt status "Packet moved to RX FIFO"
->   ftgmac100: Change interrupt status when a DMA error occurs
->   ftgmac100: Check for invalid len and address before doing a DMA
->     transfer
->   ftgmac100: Fix integer overflow in ftgmac100_do_tx()
->   ftgmac100: Improve software reset
->   aspeed/sdmc: Simplify calculation of RAM bits
->   aspeed/smc: Open AHB window of the second chip of the AST2600 FMC
->     controller
-> 
-> Joel Stanley (2):
->   aspeed/sdmc: Perform memory training
->   aspeed/sdmc: Allow writes to unprotected registers
-> 
-> erik-smit (1):
->   hw/arm/aspeed: Add board model for Supermicro X11 BMC
+On Thu,  6 Aug 2020 12:40:36 +0100
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-Peter,
+> Mention a few of the more common naming conventions we follow in the
+> code base including common variable names and function prefix and
+> suffix examples.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  CODING_STYLE.rst | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>=20
+> diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
+> index 427699e0e42..17cb42ba761 100644
+> --- a/CODING_STYLE.rst
+> +++ b/CODING_STYLE.rst
+> @@ -109,9 +109,32 @@ names are lower_case_with_underscores_ending_with_a_=
+t, like the POSIX
+>  uint64_t and family.  Note that this last convention contradicts POSIX
+>  and is therefore likely to be changed.
+> =20
+> +Variable Naming Conventions
+> +---------------------------
+> +
+> +A number of common short naming conventions exist for variables that use
+> +common QEMU types. For example when dealing with the architecture
 
-I saw that you just merged that one. I did some minor changes in 
-the commit log. Nothing very important.
+s/example/example,/
 
-Thanks,
+> +independent CPUState this is often in a ``cs`` pointer variable
 
-C.
+"the architecture independent CPUState is often held in a ``cs``
+pointer variable," ?
 
-> 
->  include/hw/misc/aspeed_sdmc.h |  13 +++-
->  hw/arm/aspeed.c               |  35 ++++++++++
->  hw/block/m25p80.c             |   4 +-
->  hw/misc/aspeed_scu.c          |   9 +--
->  hw/misc/aspeed_sdmc.c         | 125 +++++++++++++++++++---------------
->  hw/net/ftgmac100.c            |  45 ++++++++----
->  hw/sd/aspeed_sdhci.c          |  10 ++-
->  hw/ssi/aspeed_smc.c           |   6 +-
->  8 files changed, 167 insertions(+), 80 deletions(-)
-> 
+> +whereas the concrete CPUArchState us usually held in a pointer called
+> +``env``.
+> +
+> +Likewise in device emulation code the common DeviceState is usually
+
+s/Likewise/Likewise,/
+
+> +called ``dev`` with the actual state structure often the very terse
+
+"while the actual statue structure often uses..." ?
+
+> +``s`` or maybe ``foodev``.
+> +
+> +Function Naming Conventions
+> +---------------------------
+> +
+>  When wrapping standard library functions, use the prefix ``qemu_`` to al=
+ert
+>  readers that they are seeing a wrapped version; otherwise avoid this pre=
+fix.
+> =20
+> +Functions that are expected to be called with some sort of lock held
+> +usually have the suffix ``_locked``.
+
+Hm, I think this is mostly for those cases where you have two versions?
+What about:
+
+"If there are two versions of a function to be called with or without a
+lock held, the function that expects the lock to be already usually
+uses the suffix ``_locked``."
+
+> +
+> +Public functions (i.e. declared in public headers) tend to be prefixes
+
+s/prefixes/prefixed/
+
+> +with the subsystem or file they came from. For example ``tlb_`` for
+
+s/example/example,/
+
+> +functions from ``cputlb.c`` or ``cpu_`` for functions from cpus.c.
+> +
+>  Block structure
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
 
 
