@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008F523D9C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:17:26 +0200 (CEST)
-Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEBE23D9CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:19:17 +0200 (CEST)
+Received: from localhost ([::1]:55052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3dtk-0005IG-R3
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41748)
+	id 1k3dvY-0000PG-8a
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dSx-0004Fr-57
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:43 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:34958)
+ id 1k3dSy-0004J7-Ep
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:44 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:39387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k3dSu-00083T-TO
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:42 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id o5so8496039pgb.2
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:49:40 -0700 (PDT)
+ id 1k3dSw-00083k-RA
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 06:49:44 -0400
+Received: by mail-pf1-x434.google.com with SMTP id z188so16876324pfc.6
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 03:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=CESX6q26+3ZHamBv09KqrV0Utgcx/nTm3sAptnzacM0=;
- b=a6COSk7jQF9HKxB2XBSpkHCVaR8C6uvRIgYiuh+klFXaQ7YhMSzsBEDmNT0cmuwBXI
- yIc2oDrnQZmUa18+CdN8Uo1vE/U6cWT/edXZa7mqx1aBrqhQzamgPJUtbMoSXCWoB/4E
- +VHUI01WNTvuodtqECmTS2gJs770GNY+L0DSUqHFmsJo/CUs4zr66/v/FtTH2zQq48NP
- gShuBfAdRlbQT1rV0PA6DL52yfVU2wOvpivk+J8cV1mfW/z21YqpLMOY74KHE2BlzHwB
- qrLgAYYlTiOGOjt4M2SJ0NooUDiplFZFWzeFe3tCLXbc5PClNC+h3OUgri1Jz99K+sUv
- fd0Q==
+ bh=DQhH2Q4YXEvegCMiWnmy59ZjpowYkn1863Fk7UHo49Q=;
+ b=RQ2zqNxhZk49Ts2mpe1T+5pIJ/G7/aBW4vrT6RvizMInbOIqWVmHuzpe/WcQxrUxiX
+ UVVQ7J/2cHSdimQqIEqwc2I9REkLC3cBlyzWnjH9jT3h3zw504bkviI/nUPZmC8VpVcL
+ 0KXZlHYJakba4O6mhleokDTBx6Wg7lhO20qDke1ai4PfY8hCjiVzjE/nIsynpsQ9ONmX
+ yoHXBQJtBlwDCpJ7Fv4Is03W1kRtrojCH0AeO0/1aOahsvyJWgttlZOJfwzfq8FPAYP/
+ PoJ5DHj5MAIlS0cdxNDlKRGclTRyQy05tm5RTz5upU96lnkGpI1RbRw1qYHzBSuYPxLn
+ 6O4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=CESX6q26+3ZHamBv09KqrV0Utgcx/nTm3sAptnzacM0=;
- b=oO6uvJMl4p4lUZX1I9Hu64ivUpwvr5qlud57aijAEKy9Wv+heaDyhpItH/aEOwi+If
- QYhcQDew9Oa/OJtajb86sS2sR9SoqqIhkihUIToOwcWUJbqOSqpWbWyRGvA33YxTs9Uz
- LOf4E9QiLAZb/FWRUfbznzXzcyDu3p2Wr3h+c7zgiTsFXTTJWAnzcUpc5EN5yheCfB1w
- qs/qN+bWKyGxSx4wtYuqwfL80boqZmRL+ptXCPO4DgvIVvy4VXJ3AX5flQ3wSLJ4YlF1
- HVfI5+/yjKQt00hQrA+DXrj2pwZTq7k5JcD6vbONr19Q2SaaQ9O8NwfxLe4w2dQu9Neh
- xsQQ==
-X-Gm-Message-State: AOAM533PYcD1eeVFHGV2XJ+HTzbtBTHT4SZrzcuQ3InoNhTrT0xUi4oP
- p94ZA1TzagNyLEujw+7X9r67FCNfNl8=
-X-Google-Smtp-Source: ABdhPJyr/yFALEQKfcTj6wonnAmiXtqE3Km7IZKJzJhhMcWWw5TeoWHaOtep+9ReP8lPu32ztdUjlg==
-X-Received: by 2002:a63:c34e:: with SMTP id e14mr6529502pgd.55.1596710979528; 
- Thu, 06 Aug 2020 03:49:39 -0700 (PDT)
+ bh=DQhH2Q4YXEvegCMiWnmy59ZjpowYkn1863Fk7UHo49Q=;
+ b=R1aRYrjLM09NQsvYaUkC/OT9CdISzmlLYKnixds41KoaTzjRAJBHjd1E2OXAGaa4oF
+ 5ePquaYsDNxyNb9giKSvEW9SkSn4oLy+Qh86QQYqeNudcXGG1iHy0LreWsBzsYjzqWg2
+ xPBi7XI0WMGuwtU8n4Lr0fEW9kloBbswGJ6ViAhf4HNOM21oXwPen6kuJAjsWBq0zO/R
+ Degsb5CZ59/YobvaL0keXw6NfGc20h0FaLmyWR+MGy8rdH5xOMLq3unWly7gfR3eR95j
+ mMRovtf/d1dx0WOirXv8nH+jXsRIlzwhKTFd1uIqmwHBRw/k2R7dRLemH8F+NuL/oham
+ LFaA==
+X-Gm-Message-State: AOAM530TSvYUbZjdTXcxQ6fqYNA4jFLYosM4Htu7p9M8ou59VBr+bgFp
+ GqqL0miFfz+180wE4fa6Vkc3ED+avcY=
+X-Google-Smtp-Source: ABdhPJyw3RVjDkYcyh30/fJ80sFTIxjKQCstNrpmEojzumQmg3ItF5mEgNLdi2rJkqn++RjvGtAR/Q==
+X-Received: by 2002:aa7:9519:: with SMTP id b25mr7537412pfp.292.1596710981504; 
+ Thu, 06 Aug 2020 03:49:41 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.49.37
+ by smtp.gmail.com with ESMTPSA id f18sm6567309pgv.84.2020.08.06.03.49.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 03:49:39 -0700 (PDT)
+ Thu, 06 Aug 2020 03:49:41 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v3 57/71] target/riscv: rvv-1.0: single-width floating-point
- reduction
-Date: Thu,  6 Aug 2020 18:46:54 +0800
-Message-Id: <20200806104709.13235-58-frank.chang@sifive.com>
+Subject: [RFC v3 58/71] target/riscv: rvv-1.0: widening floating-point
+ reduction instructions
+Date: Thu,  6 Aug 2020 18:46:55 +0800
+Message-Id: <20200806104709.13235-59-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806104709.13235-1-frank.chang@sifive.com>
 References: <20200806104709.13235-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,34 +96,22 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/vector_helper.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index a3679f79d0a..543d94ba6a8 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4450,14 +4450,14 @@ GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
- GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
- 
- /* Maximum value */
--GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maxnum)
--GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maxnum)
--GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maxnum)
-+GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maxnum_noprop)
-+GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maxnum_noprop)
-+GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maxnum_noprop)
- 
- /* Minimum value */
--GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minnum)
--GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minnum)
--GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minnum)
-+GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minnum_noprop)
-+GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minnum_noprop)
-+GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minnum_noprop)
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 9e8798902a3..64bd4aa239d 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -2965,7 +2965,7 @@ GEN_OPFVV_TRANS(vfredmax_vs, reduction_check)
+ GEN_OPFVV_TRANS(vfredmin_vs, reduction_check)
  
  /* Vector Widening Floating-Point Reduction Instructions */
- /* Unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
+-GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
++GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_widen_check)
+ 
+ /*
+  *** Vector Mask Operations
 -- 
 2.17.1
 
