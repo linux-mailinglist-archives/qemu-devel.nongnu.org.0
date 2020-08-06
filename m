@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EA823DA80
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 14:56:40 +0200 (CEST)
-Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47F323DA86
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:01:54 +0200 (CEST)
+Received: from localhost ([::1]:35184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3fRn-00067W-3v
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 08:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
+	id 1k3fWr-00005E-VA
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:01:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3fQd-000561-UZ
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:55:27 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43257)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k3fQb-0006Bb-SZ
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 08:55:27 -0400
-Received: by mail-ot1-x343.google.com with SMTP id r21so25521529ota.10
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 05:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PQju2RyxO1lbrYUXrxcgdWwgDLJPYib9FQfWj5UiMfQ=;
- b=gay2+h1ehcLHXfNO2lflVOXzNHG+CuQovdf93FLzjb7OrS1zhtwOgixDetKUesmWCO
- fDbekmxZAxTEW2CgaDyMLJRspmqO7VznmGddlN6uMQeA+7vtXS0EmJSwcIH+Q+uuV0tB
- uDff8vJW9XE4ILcvq7qjos+q/lpafHnWo3HFomhcSnU9lKnkhRUD+KTggNWM8OH0jDll
- PIknQxTj/QneIUqPv64bPhY7WdcpHnyuRQl8IYV8rhSQ4Jnz3O79/4r8H8KZegV79QBF
- HuAez9LU9WTE7oo0/80Nv/d6dTliWC8FcTgnnw0BfbIIBACL7/9kin8KzJflXoR432R/
- qiqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PQju2RyxO1lbrYUXrxcgdWwgDLJPYib9FQfWj5UiMfQ=;
- b=owE1aP0R6ZCp7f+DFuxNoA1Ki/oC+BgdjfhUhQRR8+vv51ABO0WbqlGkk26zQ1syZX
- AbCPsyIWYYTWGBwq6w34Ksg4C0dxHSsj+3x1sDKTIT1lYwwXUt7Vh4N28MkiyBHIAnBW
- 4/f69gV5BzaQlQXAjvpvhDaL7Gt39EZKewzm5wIr+o5Qo6wwWToKkAmv1WXV8igq2A5r
- yv3nUl31EuyeQhHXVhqoZ/STweuH+4iOE3s1tmggI14jWLbnFBo/0WzXtcTd3hOi76Ai
- njT8kZt3m8I/QRMWTOvY6C3uyDw0YAugSEASJC6nDWoN1ZYSWfVf1xByY2aOFgQkby2I
- HKKw==
-X-Gm-Message-State: AOAM531FyT1p2F9L9RaNuxo+N96iKUZfhW6T08tGamTnLnNlu1cqb93n
- I4Sw0Elo39NBi13PdjMiRGEHHNfrf1rmLqxv0o0dug==
-X-Google-Smtp-Source: ABdhPJyJWwWU3PNTfVBJMD+ju/z3AhNg/waW2mF43v6lTUA8yRl7BsILG6iu47brBY4PORGWrvC6sHCMTN2EpweNr9I=
-X-Received: by 2002:a9d:39c2:: with SMTP id y60mr7002073otb.91.1596718524844; 
- Thu, 06 Aug 2020 05:55:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3fV7-0007j4-UA
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:00:05 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27115
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3fV4-0006aR-Ve
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 09:00:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596718801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=MjkRPyDWj8e0wYQiKVQFu9aXImnmoKT9oI4ly82w83g=;
+ b=OLRRdB0VpcSQHe9BVEzFwXOvl3G6vNOVN+4bzwAsXJQEm09UiHkQ2aFYdKpXZoAoLNBjRa
+ AQplxP0Dtc03aTTl2JYGEOlD2801YzRWk58b1oQg+A9ZK8eX5/lTtrE1TssDKgNj+7bUsl
+ tVAY/uo8xFJ2PZzWae6021dldq6JtXw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-k3FTrlxxPgK2_2XsPBYK2A-1; Thu, 06 Aug 2020 08:59:56 -0400
+X-MC-Unique: k3FTrlxxPgK2_2XsPBYK2A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 984978017FB;
+ Thu,  6 Aug 2020 12:59:54 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF60787A5E;
+ Thu,  6 Aug 2020 12:59:49 +0000 (UTC)
+Subject: Re: Qemu web site down?
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Christophe de Dinechin <dinechin@redhat.com>
+References: <9C8E7160-7A4D-4002-8DE8-6BBFE0C2240A@redhat.com>
+ <87o8nokq46.fsf@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <fe4d7cc8-aa6e-6714-097e-6ea07c078c76@redhat.com>
+Date: Thu, 6 Aug 2020 14:59:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200728150815.11446-1-eric.auger@redhat.com>
- <CAFEAcA9Dh=cNr95ajznpQHCLQ0REFmjSZCTaygGOZEP8vg3swA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9Dh=cNr95ajznpQHCLQ0REFmjSZCTaygGOZEP8vg3swA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Aug 2020 13:55:13 +0100
-Message-ID: <CAFEAcA8k--w5yvdhX_Cu_sS=KaUEg0KyirZ4=JG8NdGFKGRweQ@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 v4 00/11] SMMUv3.2 Range-based TLB Invalidation
- Support
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87o8nokq46.fsf@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,32 +85,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Jul 2020 at 14:39, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 28 Jul 2020 at 16:08, Eric Auger <eric.auger@redhat.com> wrote:
-> >
-> > SMMU3.2 brings the support of range-based TLB invalidation and
-> > level hint. When this feature is supported, the SMMUv3 driver
-> > is allowed to send TLB invalidations for a range of IOVAs instead
-> > of using page based invalidation.
+On 06/08/2020 12.47, Alex Bennée wrote:
+> 
+> Christophe de Dinechin <dinechin@redhat.com> writes:
+> 
+>> Hi Stefan,
+>>
+>>
+>> The link from https://wiki.qemu.org/Documentation pointing to
+>> https://qemu.weilnetz.de/doc/qemu-doc.html seems to be dead. Is the
+>> problem on your web site, or should the wiki be updated?
+> 
+> It should be pointing at:
+> 
+>   https://www.qemu.org/documentation/
+> 
+> now.
 
-> I think this is all reviewed now; I've put it on my list
-> of series to apply to target-arm.next in once 5.1 is out
-> and we reopen the trunk for 5.2.
+Done.
+
+ Thomas
 
 
-
-Applied to target-arm.next for 5.2, thanks.
-
--- PMM
 
