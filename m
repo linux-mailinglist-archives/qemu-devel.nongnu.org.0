@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0432A23DA23
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:51:21 +0200 (CEST)
-Received: from localhost ([::1]:42164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA9023DA24
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:54:10 +0200 (CEST)
+Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3eQa-0000mb-3C
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56560)
+	id 1k3eTJ-0001vS-FN
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3ePb-0008IV-Q7
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:50:19 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3ePZ-0007EN-Gb
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:50:19 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c15so7481493wrs.11
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 04:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=aMd+FmGor1m6cVbEb6BAkwUhmlGzc+FCfZrFk1n+zbw=;
- b=fSLXs3eALMbSNf8mf2TUekjcAUx4Vd7a8tn5RSwFwz1+lhYndfA6Q6d1dXiYj5iEBW
- qc0oOzJKw3qqU+tJgjMUUKcwSH43WU+3dFL5/sY0IBDVnRPlUVHz69EUPFlGeqP+L7Ye
- PMsL686ouMLENvDE90IwJ7x71CqdUzdqyhYbPRqBkb/ijZrEkJXGAYBa2Bg9Z3t7gWr7
- 45LQdNLDgIKOBEB2WVBcrNQp3popUn4AlembpEgIhtheNUHV8afFGvRNGWsZ6xhH3sWs
- WBprDUFOuOKiK11CaZ5Ax4uDR4f3gRh2NPcq8a3Py3EdOWRlVarjIad2RfBwHf4RlbbC
- js6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=aMd+FmGor1m6cVbEb6BAkwUhmlGzc+FCfZrFk1n+zbw=;
- b=UxUBAKZ8bmi9NfY8LqBIuOEKG26JKtSZD22Zx330omhBYdnQ4ebAACjV0lEFtZZ6e/
- Dx3DTcBgxD3W0wuEDLSPh4HBAWcQdoLkDSkgjBaQOV27w30gRJGWdvxnXvAP6uEMSSWa
- 53Q8J/D7/guU50q2AfoaDB/m5Kym8FYsuL2amgirv5N+8xfIid8GKMU5gJ40vAHrK7QV
- 56+xPPoJfUD9oa8kXleZEUXqDE6zk6BYd7t6cvHVSe2KebFAkHD4LD3aVlJu880Yw2/K
- CtGuu5Wuib3areO7cesr9CoDQr1Pl/hCGCRTt/EiZ2LjkdNvj/z/2Fj3cB7Y+opYrm2n
- W/gQ==
-X-Gm-Message-State: AOAM532jJmbCJ7AA+fD+Ny7pgwzlfO4rtP7JYsElXQD9VqerBSCjq6Lv
- RYBYugWgy3AwRtlYBb11Ak6hfw==
-X-Google-Smtp-Source: ABdhPJzDgrXLLIhS66tag+zIuCPaUAKRWcyIc7GFKPx855S1zXTevfG3ggLUmBJ4dLVLTKleUELEow==
-X-Received: by 2002:a5d:464a:: with SMTP id j10mr7464995wrs.187.1596714615610; 
- Thu, 06 Aug 2020 04:50:15 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v12sm6154950wri.47.2020.08.06.04.50.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 04:50:14 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B5CC11FF7E;
- Thu,  6 Aug 2020 12:50:13 +0100 (BST)
-References: <20200806104453.30393-1-peter.maydell@linaro.org>
- <20200806104453.30393-5-peter.maydell@linaro.org>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 4/4] target/arm: Use correct FPST for VCMLA, VCADD on fp16
-In-reply-to: <20200806104453.30393-5-peter.maydell@linaro.org>
-Date: Thu, 06 Aug 2020 12:50:13 +0100
-Message-ID: <87d044kn7u.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1k3eSN-0001UU-Es
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:53:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40493
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1k3eSK-0007c2-O0
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:53:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596714787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NqV9gCnAUxzr6+qbJqyweRulLHzxkJcR01K3EXI43R8=;
+ b=SkqlVRnWXowc4GGMZZiiTVIxFDXVVHgxiEXfbijHaUFAGup5xHNTDeOxDCZ32gcxkd8y6a
+ qRVgOmZsNhn/kvHLpTvI9JpwQoJnDuTAJvuBZ3d87izo3GkgkdCHU5i4CqLD/yozj3H4XW
+ wqAloDy/17TTN7Y0km500mNK2H0tp54=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-7fKRVda8OzWDHSlBF6LMRQ-1; Thu, 06 Aug 2020 07:51:51 -0400
+X-MC-Unique: 7fKRVda8OzWDHSlBF6LMRQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C549110059D8;
+ Thu,  6 Aug 2020 11:51:49 +0000 (UTC)
+Received: from localhost (ovpn-112-129.rdu2.redhat.com [10.10.112.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5733E5C1D2;
+ Thu,  6 Aug 2020 11:51:49 +0000 (UTC)
+Date: Thu, 6 Aug 2020 13:51:48 +0200
+From: Sergio Lopez <slp@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
+Message-ID: <20200806115148.7lz32dro645a3wv6@mhamilton>
+References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7hscaeo53h5onxw4"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=slp@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,21 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Dave Gilbert <dgilbert@redhat.com>, "Oleinik, Alexander" <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--7hscaeo53h5onxw4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Thu, Aug 06, 2020 at 11:24:13AM +0100, Stefan Hajnoczi wrote:
+<snip>
+> Conclusion
+> ---------------
+> Most security bugs in QEMU today are C programming bugs. Switching to
+> a safer programming language will significantly reduce security bugs
+> in QEMU. Rust is now mature and proven enough to use as the language
+> for device emulation code. Thanks to vhost-user and vfio-user using
+> Rust for device emulation does not require a big conversion of QEMU
+> code, it can simply be done in a separate program. This way attack
+> surfaces can be written in Rust to make them less susceptible to
+> security bugs going forward.
+>=20
 
-> When we implemented the VCMLA and VCADD insns we put in the
-> code to handle fp16, but left it using the standard fp status
-> flags. Correct them to use FPST_STD_F16 for fp16 operations.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Having worked on Rust implementations for vhost-user-fs and
+vhost-user-blk, I'm 100% sold on this idea.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+That said, there are a couple things that I think may help getting
+more people into implementing vhost-user devices in Rust.
 
---=20
-Alex Benn=C3=A9e
+ 1. Having a reference implementation for a simple device somewhere
+ close or inside the QEMU source tree. I'd say vhost-user-blk is a
+ clear candidate, given that a naive implementation for raw files
+ without any I/O optimization is quite easy to read and understand.
+
+ 2. Integrating the ability to start-up vhost-user daemons from QEMU,
+ in an easy and portable way. I know we can always rely on daemons
+ like libvirt to do this for us, but I think it'd be nicer to be able
+ to define a vhost-user device from the command line and have QEMU
+ execute it with the proper parameters (BTW, Cloud-Hypervisor already
+ does that). This would probably require some kind of configuration
+ file, to be able to define which binary provides each vhost-user
+ device personality, but could also be a way for "sanctioning"
+ daemons (through the configuration defaults), and to have them adhere
+ to a standardized command line format.
+
+Thanks,
+Sergio.
+
+--7hscaeo53h5onxw4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl8r7tMACgkQ9GknjS8M
+AjXA+BAAiK8Xk6r7h+7WgA4PJ8I64ehDKAETS6Ir21a9hYODI1oIsC5k4ukjBe0S
+4AfBMaBETX+QWzNR0irLWGyCsWQbj3JwSQZybCTsjo1OeTL0P3+wOvvLQQogdxln
+YdtzlDWjVAB9jt6BmwGG6oQFGG4jKKIyjDTcUTXf7UbCk2v6lJ/uXe68Iytkkof3
+y+WbHE1JYgSGEqpyePBYsGvVzHAH2qNwVjChBpUWdgtOTcRLuRwxcQtGa4E2ezj+
+Oc+D5GjVKJ1CJ0eGP+5I2/J7039q6k18Igm8F3jW1TDUl94SUcvdH8oEpUKQczSF
+rEp/jQrlVgXqH7HzT9zXMSE+ZcqlB4BfCnFfHNJgz3eVEurg6+Qg81hUANRUDDhG
+sdMU7gzNKmdyEFbP+Pnu/6HvX6mm4KoZholnDTPoFoNcdPUuthUPGA23EA49CUrI
+VAj4GqDFio6+TIX0nSvvA8RWRrd4B95JcZk4HP3JKI/R81ugwT4GghuUtE5SRl6F
+ltRYIJ/f3I4DcpCYgv30pOqXB6VMMHNqNu6OmWrchfgWGV3yTb3nyhnoNjqpzn3A
+4qVUThQt0nLNJC7JVr0hrVB1BOTTOdIbs4IXPqVCM4O22DxEiebmKoAxgRCTb4c/
+ldnA3YLsh6uhv3svJ54F0anY/T5zyPcTMmyYUwhCZ0Md8I5Ldd0=
+=LfpU
+-----END PGP SIGNATURE-----
+
+--7hscaeo53h5onxw4--
+
 
