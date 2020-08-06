@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8E823DA0C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:41:39 +0200 (CEST)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BC123DA12
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 13:45:46 +0200 (CEST)
+Received: from localhost ([::1]:33618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3eHC-0003Jo-Iz
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
+	id 1k3eLB-0005QA-Ie
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 07:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3eGQ-0002uU-Tk
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:40:50 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39560)
+ id 1k3eKI-0004op-Jh
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:44:50 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3eGP-0006Jc-1h
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:40:50 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a5so33714747wrm.6
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 04:40:48 -0700 (PDT)
+ id 1k3eKF-0006fm-V8
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 07:44:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c15so7466450wrs.11
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 04:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=chlYlmg1y+jGFcu7MLZcX9cVTv/UER0aYzDkRYc+PeE=;
- b=Y5v1vZUUrc8/KOdqlge8PXwotvagrVhI7iaBDtXclP0LmcgNqA8ivtKElr4Yyaxq8A
- jRy+W5IvwLJmt1QLnJBq8zpQgokhBeqzBvPpKpX6F+CnImniycP7+AbkHWDU/qrMrPhe
- gJqFs9vLsQsAQV3QQrCeIESOaTVP3YPrAosxkZZCRBf8EI5XaLA1DFp+3sH/3az4Uijc
- TQS6SHg5nEyc7Z0Yw06TBNYDvp18AyRUWXx9VCXHdyZtF0t0FTdlkyJBi2yx3miYEQc8
- gJEJ7oTOnXCvGTvoNELpN/0fhXEYMsVceJnZ40Bd5AOLw1B049F+fXcvS56GlqmdbzMh
- uG9w==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=cMatXE/DVSsnWTfBdSTx8J7Ctss0zXNvDVRfCtEXC+k=;
+ b=A2lj1INAuAiNWJ40RUVSrufDsi7MsUZnWigXW8pA9vgeOir+c+xtslUnT4zOhZcVLy
+ mV4rgD4dgLQEjPp7qgxOjvFv5eC9rKzDKJJiAcfqlmgLE1+2kn3QQzrvWvYfsdO6VvI4
+ UO94C0JXzJsqULgYcVxvIQUkK9w/l8H18mJ2oM4W1e9LGYDzCHpbf3krUSxzX6pr1RxL
+ Ldv3l4MWMEroaG8MHtoo3nWjwwl5qg4M0/M2FHWOpl5R9z7Las/F35tJ+t4ULWW4UHV4
+ YBBMtxixh+gXKlGzaYE51d/c2p7GWiMpm1+2C3ztVCdCDUm+6KeSgJWnVdYnCiNPwUHn
+ DRmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=chlYlmg1y+jGFcu7MLZcX9cVTv/UER0aYzDkRYc+PeE=;
- b=rFzQFRgW8jXVCxjmNrPqeIH6oQWtPqG+NiyrX4fyQwea150vN4ad5l2Vp2xO2DBq1i
- Wx+uON5KHQZbctsW5N0iDGw7XXYngU210V5ZaRFlIvtBAoNm61mALP3NcP4Azrcrnqp2
- xJHBgvcG5/ZExkK/GIkakL+GOx0BNOAKqc55MQAmS3xlQkEacUey2A3ZwwXu0tN4ZKkc
- rUxvQuJF6dYqK16qGTJZsQnsLU8H4V2kGK69WHvamhFzNItvSltTKURZrkqLBidE7S1N
- T4JcFZ8U+rO2kV3/fWRzjf4/pmQN8RUjcA8UD8rq4ZougF2GKPJKgUPxTcAZPyuDHH1v
- xzMQ==
-X-Gm-Message-State: AOAM5333z/fwjP+C92RrPAaR7/kiQIholJPFwG6tmpf5ILYaXXggnNE0
- S3okzY3EScMu/Fd8oi5zgjV9tw==
-X-Google-Smtp-Source: ABdhPJxgj4xYBZGE7ku6V6SFziIDd76SZhreQIPD3UCdbQHBIN6d37HOaD5Zd0YtUw2Yd5yXvto+Og==
-X-Received: by 2002:a5d:464e:: with SMTP id j14mr7172286wrs.361.1596714046952; 
- Thu, 06 Aug 2020 04:40:46 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=cMatXE/DVSsnWTfBdSTx8J7Ctss0zXNvDVRfCtEXC+k=;
+ b=e/rVDo6EfHmwX8CUdMKMrP6h2iaMm9CGlT/0bbgZ9XAciW6zOstR0pRDA2ap2XySet
+ vJ/Qn1wPM5LigGVs0fwI1/hY8fUR397pMo3dcjrvHZuG1D6W10ZqQ+RRWw5UJsQGoZsi
+ ewVgSdGhCvbaTLOqjOBuh0Q9QlxmoA3PF29GdZMnkdXIE42Ak0cKD8Z6eZ+9LhDCIpkR
+ 0CVlWfaVXWXPN71r3v2EOBmU8EWaCo01FKnYrI7cPbmqMYBYriWG1CHie9wl723Bedtb
+ bruALoI24ViX0WDKjx4hN3XLTm1y2ZuAse+m2aWBNH76JDyUIeBrjtOgdBuVrlVQr9G1
+ 0kWA==
+X-Gm-Message-State: AOAM533PM/SAKqLnASda0OYeJaoeWmSzIuf4evkC42TlD3zcoGZigSJe
+ svwc3NPviKv/AQvXV8BMdhh84X/J+wY=
+X-Google-Smtp-Source: ABdhPJx5up9LNTBPyZcv0nFpkmitYI9x4VG55RBdZlypuW0bpDL8qbhlVIya3RIBIVezJ18cfJDI/w==
+X-Received: by 2002:a5d:4ad1:: with SMTP id y17mr7585835wrs.132.1596714285813; 
+ Thu, 06 Aug 2020 04:44:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g145sm8881929wmg.23.2020.08.06.04.40.45
+ by smtp.gmail.com with ESMTPSA id j2sm6626781wrp.46.2020.08.06.04.44.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 04:40:45 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D35991FF7E;
- Thu,  6 Aug 2020 12:40:44 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] CODING_STYLE.rst: flesh out our naming conventions.
-Date: Thu,  6 Aug 2020 12:40:36 +0100
-Message-Id: <20200806114036.10646-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Thu, 06 Aug 2020 04:44:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B1D311FF7E;
+ Thu,  6 Aug 2020 12:44:43 +0100 (BST)
+References: <20200806104453.30393-1-peter.maydell@linaro.org>
+ <20200806104453.30393-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/4] target/arm: Replace A64 get_fpstatus_ptr() with
+ generic fpstatus_ptr()
+In-reply-to: <20200806104453.30393-2-peter.maydell@linaro.org>
+Date: Thu, 06 Aug 2020 12:44:43 +0100
+Message-ID: <87lfisknh0.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::444;
  envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -73,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,57 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mention a few of the more common naming conventions we follow in the
-code base including common variable names and function prefix and
-suffix examples.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- CODING_STYLE.rst | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
-index 427699e0e42..17cb42ba761 100644
---- a/CODING_STYLE.rst
-+++ b/CODING_STYLE.rst
-@@ -109,9 +109,32 @@ names are lower_case_with_underscores_ending_with_a_t, like the POSIX
- uint64_t and family.  Note that this last convention contradicts POSIX
- and is therefore likely to be changed.
- 
-+Variable Naming Conventions
-+---------------------------
-+
-+A number of common short naming conventions exist for variables that use
-+common QEMU types. For example when dealing with the architecture
-+independent CPUState this is often in a ``cs`` pointer variable
-+whereas the concrete CPUArchState us usually held in a pointer called
-+``env``.
-+
-+Likewise in device emulation code the common DeviceState is usually
-+called ``dev`` with the actual state structure often the very terse
-+``s`` or maybe ``foodev``.
-+
-+Function Naming Conventions
-+---------------------------
-+
- When wrapping standard library functions, use the prefix ``qemu_`` to alert
- readers that they are seeing a wrapped version; otherwise avoid this prefix.
- 
-+Functions that are expected to be called with some sort of lock held
-+usually have the suffix ``_locked``.
-+
-+Public functions (i.e. declared in public headers) tend to be prefixes
-+with the subsystem or file they came from. For example ``tlb_`` for
-+functions from ``cputlb.c`` or ``cpu_`` for functions from cpus.c.
-+
- Block structure
- ===============
- 
--- 
-2.20.1
+> We currently have two versions of get_fpstatus_ptr(), which both take
+> an effectively boolean argument:
+>  * the one for A64 takes "bool is_f16" to distinguish fp16 from other ops
+>  * the one for A32/T32 takes "int neon" to distinguish Neon from other ops
+>
+> This is confusing, and to implement ARMv8.2-FP16 the A32/T32 one will
+> need to make a four-way distinction between "non-Neon, FP16",
+> "non-Neon, single/double", "Neon, FP16" and "Neon, single/double".
+> The A64 version will then be a strict subset of the A32/T32 version.
+>
+> To clean this all up, we want to go to a single implementation which
+> takes an enum argument with values FPST_FPCR, FPST_STD,
+> FPST_FPCR_F16, and FPST_STD_F16.  We rename the function to
+> fpstatus_ptr() so that unconverted code gets a compilation error
+> rather than silently passing the wrong thing to the new function.
+>
+> This commit implements that new API, and converts A64 to use it:
+>  get_fpstatus_ptr(false) -> fpstatus_ptr(FPST_FPCR)
+>  get_fpstatus_ptr(true) -> fpstatus_ptr(FPST_FPCR_F16)
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
+How many more can they add ;-)
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
