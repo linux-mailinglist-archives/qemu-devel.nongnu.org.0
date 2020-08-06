@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243F623E4E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 01:58:47 +0200 (CEST)
-Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028A923E4ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 02:03:23 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3pmY-0003SU-5B
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 19:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
+	id 1k3pqz-0005Jn-Un
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 20:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1k3pfJ-0000pT-LN; Thu, 06 Aug 2020 19:51:17 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46374)
+ id 1k3pfw-0001Ga-N4; Thu, 06 Aug 2020 19:51:56 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1k3pfI-0004xo-6u; Thu, 06 Aug 2020 19:51:17 -0400
-Received: by mail-ej1-x643.google.com with SMTP id l4so139758ejd.13;
- Thu, 06 Aug 2020 16:51:15 -0700 (PDT)
+ id 1k3pfv-00050q-0J; Thu, 06 Aug 2020 19:51:56 -0400
+Received: by mail-ej1-x643.google.com with SMTP id f24so170746ejx.6;
+ Thu, 06 Aug 2020 16:51:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=yhkYD6jNFI1oia6iMO0Anl2+YSRaapDxeQ9aaFom5pk=;
- b=kNCjceR6EPcGdSpwr2fvgeuwaRGK9efwwUYSiD8oyvl9Fwfly+jB9YXFL/4ndSpxgI
- iVdF7A4giFCF2bYDp/EGkIzLbOy0wr4+ZSdlJ0KiBuanE6facd1VWo3NW0gKx6MW25j+
- GGs3huX9/GsYEnZC24oxTo+GxjoJUwIfXFPVk=
+ bh=d+9pBZZwPa0pV77+wNPY0Un0t5VNfMN9t4dWRP7btB0=;
+ b=D3N/ufOpiYAQHcaWoKDlV+6OaIu3LAhP3wfT+QMvgxFTwgi3MqUXU7sTXp0Wr5Q2vh
+ VwAJfMu7APpMIZAgz9SPKK6l9t/vin6zT9TfMN6c0/YxAjw+Cw7cweFwBpbxpKSn7GD3
+ HY09XV1Q+qW61i0sBQL0li3q3dk3l8GC7IPKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=yhkYD6jNFI1oia6iMO0Anl2+YSRaapDxeQ9aaFom5pk=;
- b=Az8qstLUS4Lk1UYbjKqX7CXo4hVViJrDezmWswJf4nFOB+fKzqaU3fYpl+sc29XgDy
- jMcik0pnR3FGirtoW96tyxtNI5l8Vov3X67HSxNpPG8BHd8G6GpAAejmAkz1Utn+KMfM
- axJbdz4XJLk6I5mcBVubvJROxOBHtSOmwO7/SLe6Du58RQkUzgBp6EbfZOPOj9Bo0CfD
- y71RZ/QojTsCeyYiDlVTPnPhT+Y2nPkQlmQKJzug6jVyfPth5oKAMLd5mD9w9CQdWpPA
- 5SBXGlxexqM19HgxYR1I6lQbQtC2lPdOO9+wybD6jyX7GMcxhgyceX8v91wob5G/LEM+
- LhIQ==
-X-Gm-Message-State: AOAM532WDZNW0TPXOwK/TP1tjeSJbol57x+qSUaw2x1P8tDeiQWNbMTy
- BNG41TT6UhLvczaLG1syCsKi/kCelNjdeWibulQ=
-X-Google-Smtp-Source: ABdhPJysMJNLcVeZcpkXVXF8lZb9PyA/7hYyTSboyecdk1XxiWC1uoEhFnEIcQqLw5XUe2pGSgE98Fjx0TlN6x0+JzM=
-X-Received: by 2002:a17:906:c187:: with SMTP id
- g7mr7047421ejz.108.1596757873675; 
- Thu, 06 Aug 2020 16:51:13 -0700 (PDT)
+ bh=d+9pBZZwPa0pV77+wNPY0Un0t5VNfMN9t4dWRP7btB0=;
+ b=AylEoxM5dSmX9lz7gyQJJTnFxpQoRSYiuUjQmC52dDqv6SDUfBNcy4RoTflrVUpNYR
+ dL2PVFVHcWyDG3zDmNuolgFFvbUDCW1t6IJt19iqktLVx118KLoo6sihHOAS9pez2mLz
+ iJ8b6YazkiD9zLC9PIhhsn+sJFfPMx2IhQjEuD/kNYHMvg+QmF+SFlXTyGwxEv8J9OUp
+ NCELh0TuQPF1sDcW3ZCMkVrzYkXds8M/d5ni9VM6SQ+LCxxjwWZ8oGVuvdz/eYM1c2ta
+ 6vMxPj5kQmUe/S3nY8986inu96s4rcAfFN6aPFByXDY2ZF47/ggb9k2CPnNwn9Cs2pkk
+ ebkg==
+X-Gm-Message-State: AOAM531k7zO2xYu2/9bAxELSJoN94uDKLynMRbCtlX3LcUO3kfwK7lzh
+ ngGOseJupGbR0GlgEm4if6yY7Q8SckFsI1zQ5kI=
+X-Google-Smtp-Source: ABdhPJyta5YbOnXfQYvOKApR2DT3LfCjEgyRvg+NzIcqRA1gfz+5fYJ0xDr7b1KZ5mmtHv/91OE1Hs5GVkTzFdt8vlM=
+X-Received: by 2002:a17:906:4ec3:: with SMTP id
+ i3mr6634458ejv.215.1596757913041; 
+ Thu, 06 Aug 2020 16:51:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-13-clg@kaod.org>
-In-Reply-To: <20200806132106.747414-13-clg@kaod.org>
+ <20200806132106.747414-14-clg@kaod.org>
+In-Reply-To: <20200806132106.747414-14-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 6 Aug 2020 23:51:01 +0000
-Message-ID: <CACPK8XdUOhLVDxjBJoAZmOxGafsHhajyhb1jXiVvY8BqqTxNQw@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 12/19] ftgmac100: Change interrupt status when a
- DMA error occurs
+Date: Thu, 6 Aug 2020 23:51:41 +0000
+Message-ID: <CACPK8XeB=G12CyJNm5Zt7F6NGfq-fX8MgZMOXLgm7yNFHDJBvA@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 13/19] ftgmac100: Check for invalid len and
+ address before doing a DMA transfer
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -87,45 +87,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 6 Aug 2020 at 13:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The model uses today the "No transmit buffer unavailable" interrupt
-> status which it is not appropriate. According to the Aspeed specs, no
-> interrupts are raised in that case. An "AHB error" status seems like a
-> better modeling choice for all implementations since it is covered by
-> the Linux kernel.
-
-The datasheet calls it this:
-
- NPTXBUF UNAVA: Normal priority transmit buffer unavailable
-
-Perhaps we should say this:
-
-The model uses today the "Normal priority transmit buffer unavailable"
-interrupt status which is not appropriate.
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
+> According to the Aspeed specs, no interrupts are raised in that case
+> but a "Tx-packets lost" status seems like a good modeling choice for
+> all implementations. It is covered by the Linux kernel.
 >
 > Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  hw/net/ftgmac100.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/net/ftgmac100.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
 > diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-> index 5c0fe2d8cb75..014980d30aca 100644
+> index 014980d30aca..280aa3d3a1e2 100644
 > --- a/hw/net/ftgmac100.c
 > +++ b/hw/net/ftgmac100.c
-> @@ -517,7 +517,7 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32=
-_t tx_ring,
->          if (dma_memory_read(&address_space_memory, bd.des3, ptr, len)) {
->              qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to read packet @ =
-0x%x\n",
->                            __func__, bd.des3);
-> -            s->isr |=3D FTGMAC100_INT_NO_NPTXBUF;
-> +            s->isr |=3D FTGMAC100_INT_AHB_ERR;
->              break;
+> @@ -507,6 +507,15 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint3=
+2_t tx_ring,
 >          }
 >
+>          len =3D FTGMAC100_TXDES0_TXBUF_SIZE(bd.des0);
+> +        if (!len) {
+> +            /*
+> +             * 0 is an invalid size, however the HW does not raise any
+> +             * interrupt. Flag an error because the guest is buggy.
+> +             */
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid segment size\n",
+> +                          __func__);
+> +        }
+> +
+>          if (frame_size + len > sizeof(s->frame)) {
+>              qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too big : %d bytes=
+\n",
+>                            __func__, len);
 > --
 > 2.25.4
 >
