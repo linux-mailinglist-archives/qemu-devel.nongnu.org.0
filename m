@@ -2,119 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9C223D7EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:22:54 +0200 (CEST)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0672923D817
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:40:48 +0200 (CEST)
+Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3bAq-0002co-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36870)
+	id 1k3bS7-0005u1-VL
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1k3bA3-0002D0-Ac
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:22:03 -0400
-Received: from esa14.fujitsucc.c3s2.iphmx.com ([68.232.156.101]:62250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1k3b9w-0007MK-Sv
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:22:02 -0400
-IronPort-SDR: RJQi2G343fbyRqg5PGONtFPfoSx7Ydq9/m2B2mJRYxkKbJDiIooaNSOZfp64KRYXAHPSfOjhHK
- dIaMWjoWocSSdNh9VrldMrJmanaRAN5PhIc1AWiGkCAQCE3SW9n0BkVOSdvgWpfiUtvSk0pGRG
- 1LcU1jKGi4OBBUvE0o96MhrkUfn2Huo3B+Rwb6A0VpY9ejAj/b442of2PaEwy+gRJd07GZdqPg
- PCbr1X+hsOcHI3iE2OWbI7WWs9GvbFaj6eMzedeHfB8AcW9BLYfghe0JPZ+e+SnTjDX82qyiKm
- pnQ=
-X-IronPort-AV: E=McAfee;i="6000,8403,9704"; a="16468998"
-X-IronPort-AV: E=Sophos;i="5.75,441,1589209200"; d="scan'208";a="16468998"
-Received: from mail-os2jpn01lp2050.outbound.protection.outlook.com (HELO
- JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.50])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Aug 2020 17:21:50 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RM+VxqpKvf8AtOpuwKaqGibR5Q0ZEF/dkkJrgXHVEFnKPxh9znxVU018SNpY0si55AIYXTkQXie/H+wIkS6ZeM3hQC2PL0hC0xhlKL+XZRL8QjgXMpdP3USdm3F2mL0wlAzz0/zFMHmiI8m4KaWWWsLUgaSE/IzvcLSIpvXypKdVTDP2jwgQ0Zgddzy7OV8i+Rb+h+X4Ry5eCygrj4zPozqcAaWx/0VJVOBA8V2t7lP3Ye1UAbCMI7x5IOSF+JFzlZKw7Qy73DoOAKfBgUU/9uaZ821yQYHzLNoGZNz28JUPYXwOuRUpoJIjW5m7eRRMlhffHwptIEHvzPVktwGhCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4bniU8zPH+52MQmMc/EX4E81xCFPz4/8Bdos46VqOmc=;
- b=iodhjTXNPOuqv1moFqiW9Ld4SOGxAM+94YCYE/frODMatXiVM8Pq9RZzZUii1pFmhJ9j7nEtY3AimDWsZWKTtOHlEUK3+EB2NG4LhSU3icsxqQ9nXzpg1wbOEYvZOhfZfAvAylvpK5BKyN1NpxRu0wvgSegzmHeB7bzMBAz5kBvA61P7DRVC8K7cr3lwlVX3ANuFfY3PdlpiNXUdW8OLNRGt9YL8GvnjUxDZDUD+oe7FBGwYkTm04ErxCo2nsdwnXHclB2HIyxPzBD5QXjmNVFyPtL7yZP8kURKJgminx3mjIpV7j8AnC557PhAJhc/V7Cbz16f3E4KKxg9vCWpJKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4bniU8zPH+52MQmMc/EX4E81xCFPz4/8Bdos46VqOmc=;
- b=GLtvG6ce/RATRHdUe9cZRwvmohnMPQBIhT+JFK8cgyC4rbLFOQVY4Dh15A+lvu7cB0zYFdZ3HxHVKSOTtuEjSvVZU4uAEymRT4Eeg+PUyycVdYBHldk6HcJya6tVyRU/CTPQqEJV4dJSbMq6tCdMA6VcjQCCJY0ca+y7SZwF0l8=
-Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com (2603:1096:604:74::21)
- by OSAPR01MB2210.jpnprd01.prod.outlook.com (2603:1096:603:1c::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.18; Thu, 6 Aug
- 2020 08:21:45 +0000
-Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com
- ([fe80::d8f2:88cb:21f7:f426]) by OSBPR01MB4582.jpnprd01.prod.outlook.com
- ([fe80::d8f2:88cb:21f7:f426%3]) with mapi id 15.20.3239.021; Thu, 6 Aug 2020
- 08:21:45 +0000
-From: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>
-To: 'Vivek Goyal' <vgoyal@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [Virtio-fs] [PATCH] virtiofsd: Disable remote posix locks by
- default
-Thread-Topic: [Virtio-fs] [PATCH] virtiofsd: Disable remote posix locks by
- default
-Thread-Index: AQHWZDG1j+TP8kU1ME2sQZoeeTEaZqkqynUg
-Date: Thu, 6 Aug 2020 08:20:39 +0000
-Deferred-Delivery: Thu, 6 Aug 2020 08:21:38 +0000
-Message-ID: <OSBPR01MB4582AB9CD2DB32A48A8BB13FE5480@OSBPR01MB4582.jpnprd01.prod.outlook.com>
-References: <20200727161841.GA54539@redhat.com>
-In-Reply-To: <20200727161841.GA54539@redhat.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-shieldmailcheckermailid: 15c36ae158b242e8b2addb0eccccc124
-x-securitypolicycheck: OK by SHieldMailChecker v2.6.3
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [118.155.224.184]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 306794f8-612d-45e1-e978-08d839e1c198
-x-ms-traffictypediagnostic: OSAPR01MB2210:
-x-microsoft-antispam-prvs: <OSAPR01MB2210F5E41E5B744709C1F39DE5480@OSAPR01MB2210.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: U1ODWfq9fVoj+a9EuA+UU0yhA0KmrPseH/Q2/hRGLi8Ynq6+J6TqyJRqDw+VSp84l8ClhCIikl1to+F5s/jmPGbJGw2A1OL0WqeNEHN8RMEtaKcByjV+KPbVlZ7tpfSuszBVel7ZVAV6J8hlkF41knmWR/ccB13IHUwZ3w3v+Wzdi1eS9X4g8GRN4teUK+Aus92Fu/KxvH+0yNpMYZwNLSCs326PFKzn/guFfgnarb3vRP11CW09dfS4u631TPR/WcjA5qUn7eq6JKNibulBnKfQBZZsdty+AlWwTlYb/ZUYmCXTvTjsM373n16o/XluLB5l1rpoBUyQgxAz/quIC8ie5GkYtGimOFO25j2vwKLxj/zI32D47u/877XNAEXs
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OSBPR01MB4582.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(136003)(376002)(39860400002)(396003)(346002)(4326008)(478600001)(8676002)(71200400001)(83380400001)(8936002)(6666004)(86362001)(2906002)(7696005)(55016002)(66946007)(76116006)(85182001)(6506007)(186003)(5660300002)(316002)(110136005)(66446008)(9686003)(66476007)(26005)(66556008)(64756008)(52536014)(33656002)(777600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: yKek8HLpnaNyi9UOyrNS1fT2DOhLX39MsI9Jz0Ia0Y8TyxpYv5FQwwPwKs7RMS8WLvlxTFkorZTfyspypPjnG9N4QlzsI4hQKISn6+yNT62vQZbAWQJLglOF7II+3qoLtfB6dacqqI/+iZg3wlyWRm2HtAhynjK+rEvCtqkLWkPvrZ6wVKMbo17fttX+rZLAmqoEQl9dGjziNWfymMgUR3cluCglqrbv4ks/UtPICuqPOGx6RLnJyGQVyiZX5wu0Nv6EPWIiNrXbESPAXhSCfeUSdLYmQXXWtjxgSDPS7maXwkXMLB9KUDW13f4+oxoU0yLvxAzdr8aKYmdRtWSc4YC2S0Xl96O0zfsG+9Gqxznk/44BjrnKMSopl5CS63iS/yRkU7Ck/VNlQwQySKel+Rh/pVhsEBFe7hf2LiO6oQtlEfbsDOJxvtlPHKxujDPYlnrNKF8unQFSeN05AtEx5xVkvzS8JpMerPP8DQ7ma1FJU4/N/2fstVR/i1aVAmQVVhuPQZXjrIwAgFJRInFjEC3kWe0q+bNgfTiD4/ZLyVm4fl6m8HtTyTlNEb/tpKq9fKChpkgePq7Uv/JWBYgyzz8nIefxWpbhaYhwnrksBrAU07FSyaQxl2bSIeyOz51oWAfbm7Cjg+iVpsPjoDmgBw==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3bR9-0005QQ-QS
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:39:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41946
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k3bR7-0000s0-DT
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 04:39:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596703179;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=GqG+JA+Gqx9K0v+2iqLpk3uvYM5+OokXWP84pT375gs=;
+ b=Lf6FZGc24Ch3NferHyjysguu1eKMB6xZ2Eh1JRZObNLVSGfr+wSJpEoxoQPP3vU9d4hww4
+ yFiCf+mMk8Hai3vV642JCB89Q6KffIPAdSg2gKmn4DvO7vgQTFr5WYqeguvLnXHXAHmu26
+ o/gh4mnqicfURotLD5d2RL2lxOgzecI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-ROiBYr-_PuuuMbqfiG5i7w-1; Thu, 06 Aug 2020 04:38:50 -0400
+X-MC-Unique: ROiBYr-_PuuuMbqfiG5i7w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F4F7102C7ED;
+ Thu,  6 Aug 2020 08:38:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B7C25DA6A;
+ Thu,  6 Aug 2020 08:38:43 +0000 (UTC)
+Date: Thu, 6 Aug 2020 09:38:41 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] ide: Get rid of IDEDrive struct
+Message-ID: <20200806083841.GA4159383@redhat.com>
+References: <20200805194812.1735218-1-ehabkost@redhat.com>
+ <CAFEAcA8-REfRgq=713Tq9PfSNmRPZVzBKmLzoWLauZjqF5q5eQ@mail.gmail.com>
+ <20200805221417.GC1700540@habkost.net>
+ <877ducb9jl.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB4582.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 306794f8-612d-45e1-e978-08d839e1c198
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2020 08:21:45.1044 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rN16A0qn1cs45kgwVx9J9HYrkWUfxTFI2UpKwICwK55IjDyQOn02g8JukgiYXH6jUByWIseNxPrWkFXw2tOafSYcHy6M87wc8aaec36Rs8Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB2210
-Received-SPF: pass client-ip=68.232.156.101;
- envelope-from=misono.tomohiro@fujitsu.com; helo=esa14.fujitsucc.c3s2.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 04:21:50
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <877ducb9jl.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:24:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,35 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Right now we enable remote posix locks by default. That means when guest =
-does a posix lock it sends request to server
-> (virtiofsd). But currently we only support non-blocking posix lock and re=
-turn -EOPNOTSUPP for blocking version.
->=20
-> This means that existing applications which are doing blocking posix lock=
-s get -EOPNOTSUPP and fail. To avoid this,
-> people have been running virtiosd with option "-o no_posix_lock". For new=
- users it is still a surprise and trial and error
-> takes them to this option.
->=20
-> Given posix lock implementation is not complete in virtiofsd, disable it =
-by default. This means that posix locks will work
-> with-in applications in a guest but not across guests. Anyway we don't su=
-pport sharing filesystem among different guests
-> yet in virtiofs so this should not lead to any kind of surprise or regres=
-sion and will make life little easier for virtiofs users.
->=20
-> Reported-by: Aa Aa <jimbothom@yandex.com>
-> Suggested-by: Miklos Szeredi <mszeredi@redhat.com>
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Aug 06, 2020 at 07:58:06AM +0200, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > On Wed, Aug 05, 2020 at 09:41:25PM +0100, Peter Maydell wrote:
+> >> On Wed, 5 Aug 2020 at 20:49, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >> >
+> >> > The struct had a single field (IDEDevice dev), and is only used
+> >> > in the QOM type declarations and property lists.  We can simply
+> >> > use the IDEDevice struct directly instead.
+> >> >
+> >> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> >> > @@ -327,7 +323,6 @@ static void ide_hd_class_init(ObjectClass *klass, void *data)
+> >> >  static const TypeInfo ide_hd_info = {
+> >> >      .name          = "ide-hd",
+> >> >      .parent        = TYPE_IDE_DEVICE,
+> >> > -    .instance_size = sizeof(IDEDrive),
+> >> >      .class_init    = ide_hd_class_init,
+> >> >  };
+> >> 
+> >> This is one of those areas where this change works and reduces
+> >> amount of code, but on the other hand it means the QOM type
+> >> doesn't follow the common pattern for a leaf type of:
+> >>  * it has a struct
+> >>  * it has cast macros that cast to that struct
+> >>  * the typeinfo instance_size is the size of that struct
+> >> (it wasn't exactly following this pattern before, of course).
+> >
+> > Is this really a pattern that exists and we want to follow?
+> > I don't see why that pattern would be useful for simple leaf
+> > types.
+> 
+> I think the pattern exists, but we deviate from it in quite a few
+> places, probably just because it's so much boilerplate.
+> 
+> Related: Daniel's "[PATCH 0/4] qom: reduce boilerplate required for
+> declaring and defining objects".  Perhaps Daniel has an opinion on
+> taking shortcuts with leaf types.
 
-We should update docs/tools/virtiofsd.rst as well. Given that:
- Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+I think following a consistent pattern everywhere is important,
+because people look at existing code to guide their new code.
+The boilerplate pain is very real, but I think my patch series
+you point to will reduce the burden sufficiently that the kind
+of optimization proposed here is not required.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
