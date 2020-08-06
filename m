@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E743C23DAC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:31:22 +0200 (CEST)
-Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBC523DACD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:36:04 +0200 (CEST)
+Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3fzN-0002Y8-S1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:31:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
+	id 1k3g3v-0002ke-BM
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3fpk-0001Zc-Qy; Thu, 06 Aug 2020 09:21:24 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41181)
+ id 1k3ftB-00008T-DD; Thu, 06 Aug 2020 09:24:58 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:57915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3fpe-0000vM-4S; Thu, 06 Aug 2020 09:21:24 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 88D484DAE2D3;
- Thu,  6 Aug 2020 15:21:16 +0200 (CEST)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ id 1k3ft8-0001KF-CR; Thu, 06 Aug 2020 09:24:56 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 6719C545FD8B;
+ Thu,  6 Aug 2020 15:24:39 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 6 Aug 2020
- 15:21:15 +0200
+ 15:24:38 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005c266ca87-773d-4879-bd29-332383e74056,
+ (GARM-99G0030afb1f0f-01aa-4101-8f54-416872ade5fd,
  96EDEDBD7B7627A0205C40E9E2B74F8D513A659B) smtp.auth=clg@kaod.org
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: Re: [PATCH for-5.2 00/19] aspeed: mostly cleanups and some extensions
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH for-5.2 17/19] aspeed/sdmc: Allow writes to unprotected
- registers
-Date: Thu, 6 Aug 2020 15:21:04 +0200
-Message-ID: <20200806132106.747414-18-clg@kaod.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200806132106.747414-1-clg@kaod.org>
 References: <20200806132106.747414-1-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <c5e38163-5ad0-1965-df7e-7543be284135@kaod.org>
+Date: Thu, 6 Aug 2020 15:24:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200806132106.747414-1-clg@kaod.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: c528cd45-ae84-42f7-b36e-0db5c2e7c388
-X-Ovh-Tracer-Id: 273593680521628454
+X-Ovh-Tracer-GUID: 71edc469-bf57-4389-b55b-986c946b188c
+X-Ovh-Tracer-Id: 330733099095919523
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:10
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:12
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,78 +70,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
  Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+On 8/6/20 3:20 PM, Cédric Le Goater wrote:
+> Hello,
+> 
+> Various fixes improving the support of Aspeed machines.
+> 
+> Thanks,
+> 
+> C.
+> 
+> Cédric Le Goater (16):
+>   m25p80: Return the JEDEC ID twice for mx25l25635e
+>   m25p80: Add support for mx25l25635f
+>   m25p80: Add support for n25q512ax3
+>   aspeed/scu: Fix valid access size on AST2400
+>   aspeed/smc: Fix MemoryRegionOps definition
+>   aspeed/smc: Fix max_slaves of the legacy SMC device
+>   aspeed/sdhci: Fix reset sequence
+>   ftgmac100: Fix registers that can be read
+>   ftgmac100: Fix interrupt status "Packet transmitted on ethernet"
+>   ftgmac100: Fix interrupt status "Packet moved to RX FIFO"
+>   ftgmac100: Change interrupt status when a DMA error occurs
+>   ftgmac100: Check for invalid len and address before doing a DMA
+>     transfer
+>   ftgmac100: Fix integer overflow in ftgmac100_do_tx()
+>   ftgmac100: Improve software reset
+>   aspeed/sdmc: Simplify calculation of RAM bits
+>   aspeed/smc: Open AHB window of the second chip of the AST2600 FMC
+>     controller
+> 
+> Joel Stanley (2):
+>   aspeed/sdmc: Perform memory training
+>   aspeed/sdmc: Allow writes to unprotected registers
+> 
+> erik-smit (1):
+>   hw/arm/aspeed: Add board model for Supermicro X11 BMC
 
-A subset of registers are not protected by the lock behaviour, so allow
-unconditionally writing to those.
+Peter,
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/misc/aspeed_sdmc.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+I saw that you just merged that one. I did some minor changes in 
+the commit log. Nothing very important.
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index ff2809a09965..81c73450ab5d 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -33,15 +33,28 @@
- /* Configuration Register */
- #define R_CONF            (0x04 / 4)
- 
-+/* Interrupt control/status */
-+#define R_ISR             (0x50 / 4)
-+
- /* Control/Status Register #1 (ast2500) */
- #define R_STATUS1         (0x60 / 4)
- #define   PHY_BUSY_STATE      BIT(0)
- #define   PHY_PLL_LOCK_STATUS BIT(4)
- 
-+/* Reserved */
-+#define R_MCR6C           (0x6c / 4)
-+
- #define R_ECC_TEST_CTRL   (0x70 / 4)
- #define   ECC_TEST_FINISHED   BIT(12)
- #define   ECC_TEST_FAIL       BIT(13)
- 
-+#define R_TEST_START_LEN  (0x74 / 4)
-+#define R_TEST_FAIL_DQ    (0x78 / 4)
-+#define R_TEST_INIT_VAL   (0x7c / 4)
-+#define R_DRAM_SW         (0x88 / 4)
-+#define R_DRAM_TIME       (0x8c / 4)
-+#define R_ECC_ERR_INJECT  (0xb4 / 4)
-+
- /*
-  * Configuration register Ox4 (for Aspeed AST2400 SOC)
-  *
-@@ -449,6 +462,20 @@ static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
- static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
-                                    uint32_t data)
- {
-+    /* Unprotected registers */
-+    switch (reg) {
-+    case R_ISR:
-+    case R_MCR6C:
-+    case R_TEST_START_LEN:
-+    case R_TEST_FAIL_DQ:
-+    case R_TEST_INIT_VAL:
-+    case R_DRAM_SW:
-+    case R_DRAM_TIME:
-+    case R_ECC_ERR_INJECT:
-+        s->regs[reg] = data;
-+        return;
-+    }
-+
-     if (s->regs[R_PROT] == PROT_HARDLOCKED) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked until system reset!\n",
-                 __func__);
--- 
-2.25.4
+Thanks,
+
+C.
+
+> 
+>  include/hw/misc/aspeed_sdmc.h |  13 +++-
+>  hw/arm/aspeed.c               |  35 ++++++++++
+>  hw/block/m25p80.c             |   4 +-
+>  hw/misc/aspeed_scu.c          |   9 +--
+>  hw/misc/aspeed_sdmc.c         | 125 +++++++++++++++++++---------------
+>  hw/net/ftgmac100.c            |  45 ++++++++----
+>  hw/sd/aspeed_sdhci.c          |  10 ++-
+>  hw/ssi/aspeed_smc.c           |   6 +-
+>  8 files changed, 167 insertions(+), 80 deletions(-)
+> 
 
 
