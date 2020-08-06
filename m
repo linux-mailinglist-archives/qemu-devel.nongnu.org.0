@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAB923E26E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:43:33 +0200 (CEST)
-Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F12A23E26D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 21:43:29 +0200 (CEST)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3lnY-0000EC-4W
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43440)
+	id 1k3lnU-000075-Eq
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 15:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPI-0006lq-J8
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59586)
+ id 1k3lPK-0006qa-Dn
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44533
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3lPG-0006dJ-O5
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:28 -0400
+ id 1k3lPI-0006di-N5
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:18:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596741506;
+ s=mimecast20190719; t=1596741508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zrj12kzZYHHcNsSb3AF6uL1m7skqEn/bAUdsElV/8tw=;
- b=SXrlxkeC8kBYldL5Kl/dCN52p7A64JQRKi6r6AAaq7dYzbwzVazmd9pXaDtK1xqgDM+qNS
- k7JYTgX60TiwPorQvLn1S+B6cp5WwX0IrjrFDEiKJXxnK66Gz31EiJ5JHpk80QrjASHHqA
- vh+4pPo5AmAiiF+KoZjhNQDXl/KedRY=
+ bh=m+MnjZtJnKYt4bAVZIvun1xH+oVaS9WuxQZU2bt3rcU=;
+ b=BMLBojRPbnSBWkg+eREvdzI9E2kXKwxZO5MUvgDbo/zUqoh39ZenCVHwc8y0W7oY2Xu1mI
+ XlCtTD5LHIrqkQJYVnyMA0O/2rxhf/EIaWWXcR4qc7aToJ0IFzVbRSoVm4tiT5VLDfYH2A
+ 2tVaEYe9RWGwbdmXeFL4B9EF7LtTvJ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-yvfDgsiWO_uZqsHOCUKvxw-1; Thu, 06 Aug 2020 15:18:24 -0400
-X-MC-Unique: yvfDgsiWO_uZqsHOCUKvxw-1
+ us-mta-327-_EVzAYjyP76LDKZqkeAw1A-1; Thu, 06 Aug 2020 15:18:25 -0400
+X-MC-Unique: _EVzAYjyP76LDKZqkeAw1A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 761F2100AA21
- for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE6878014C1
+ for <qemu-devel@nongnu.org>; Thu,  6 Aug 2020 19:18:24 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87EE55FC3B;
- Thu,  6 Aug 2020 19:18:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E03C55F9DC;
+ Thu,  6 Aug 2020 19:18:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 069/143] meson: convert trace/
-Date: Thu,  6 Aug 2020 21:15:05 +0200
-Message-Id: <1596741379-12902-70-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 070/143] meson: convert block/
+Date: Thu,  6 Aug 2020 21:15:06 +0200
+Message-Id: <1596741379-12902-71-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 12:59:11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:10:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,50 +90,23 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- trace/Makefile.objs | 8 --------
- trace/meson.build   | 5 ++++-
- 2 files changed, 4 insertions(+), 9 deletions(-)
- delete mode 100644 trace/Makefile.objs
+ Makefile.objs | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/trace/Makefile.objs b/trace/Makefile.objs
-deleted file mode 100644
-index a429474..0000000
---- a/trace/Makefile.objs
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# -*- mode: makefile -*-
--
--
--##################################################
--# Translation level
--
--obj-y += generated-helpers.o
--obj-y += control-target.o
-diff --git a/trace/meson.build b/trace/meson.build
-index 8ea8db7..b113425 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -1,3 +1,5 @@
-+specific_ss.add(files('control-target.c'))
-+
- # common options
- tracetool = [
-   find_program('scripts/tracetool.py'),
-@@ -67,12 +69,13 @@ foreach d : [
-   ['generated-helpers.h', 'tcg-helper-h'],
-   ['generated-helpers-wrappers.h', 'tcg-helper-wrapper-h'],
- ]
--  custom_target(d[0],
-+  gen = custom_target(d[0],
-                 output: d[0],
-                 input: meson.source_root() / 'trace-events',
-                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
-                 build_by_default: true, # to be removed when added to a target
-                 capture: true)
-+  specific_ss.add(gen)
- endforeach
+diff --git a/Makefile.objs b/Makefile.objs
+index a5c919d..0f3074b 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -47,8 +47,7 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
+ # single QEMU executable should support all CPUs and machines.
  
- if 'CONFIG_TRACE_UST' in config_host
+ ifeq ($(CONFIG_SOFTMMU),y)
+-common-obj-y = block/
+-common-obj-y += dump/
++common-obj-y = dump/
+ common-obj-y += monitor/
+ common-obj-y += net/
+ common-obj-$(CONFIG_LINUX) += fsdev/
 -- 
 1.8.3.1
 
