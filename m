@@ -2,147 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA0623DACB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:35:28 +0200 (CEST)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D0B23DAE9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:39:01 +0200 (CEST)
+Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3g3L-0001NA-Se
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:35:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
+	id 1k3g6m-0004PR-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:39:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1k3g2H-0008Tx-VU; Thu, 06 Aug 2020 09:34:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1k3g2F-0002P6-W9; Thu, 06 Aug 2020 09:34:21 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 076DXEP6046760; Thu, 6 Aug 2020 09:34:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type; s=pp1; bh=xLgXlOn9iAlBuzB6Hh5yozSZRWCW7vrFTdFTv5m99vs=;
- b=MkqNqXH4JmBDkG4waQxFrtdRObj4yeShzMpT0B7mbCagbCPn5mJ2agbjleXBzs54RgGE
- peWCQgiR28uHKPZFHyrjvjqudGhon9hHEqcRdan5ho5unEmH5cjI1iy9phhWNljBvhEl
- btEZ90RMFFDpb+GEQs8YK+R2kTS1vTmAUrorKLK7tkXq0BFbtO+83u2xcjzag3woBvwd
- 7ZwWIkyMB6MXCfPPtfCJOdfmnZrEwFbG+lBlq0g1Lo98MJpsu6G//IsKl/isubr5JHX4
- USYqkkemBgBCc7TkFherKaswTESj3SQOrDCcBJMeVSBvY+pMeAkG8U7EENiAcutGlBWD VA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32qcf386pr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Aug 2020 09:34:18 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 076DXQcp047180;
- Thu, 6 Aug 2020 09:34:16 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32qcf386n0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Aug 2020 09:34:16 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 076DGeT8016373;
- Thu, 6 Aug 2020 13:34:12 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06fra.de.ibm.com with ESMTP id 32mynhbcmf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Aug 2020 13:34:12 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 076DY9KT11469252
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Aug 2020 13:34:09 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A9B9CA4068;
- Thu,  6 Aug 2020 13:34:09 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 31AB3A405B;
- Thu,  6 Aug 2020 13:34:09 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.35.222])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  6 Aug 2020 13:34:09 +0000 (GMT)
-Subject: Re: [PATCH for-5.2 v2 9/9] tests/qtest/cdrom: Add more s390x-related
- boot tests
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200806105349.632-1-thuth@redhat.com>
- <20200806105349.632-10-thuth@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <0188a660-926b-2326-c4fe-ba462f12f978@linux.ibm.com>
-Date: Thu, 6 Aug 2020 15:34:08 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3g61-0003tg-MN; Thu, 06 Aug 2020 09:38:13 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k3g60-0002t0-2D; Thu, 06 Aug 2020 09:38:13 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y3so44044830wrl.4;
+ Thu, 06 Aug 2020 06:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OjcdhDLucSRT8FFIZv176pPKfHlgD06Q4at/uUFwg18=;
+ b=R8stUgv6aD/HW5lP2fgPJMR4Pdb5o6g5P/BeSR4cCF1GcClUdqR+u3AUN7MTkzp4rf
+ 64SjaeNYNVEinfZCWE6D7fGK4+QrOjmc7+keyz0+IZ51gwOqflqvlRI1kwYhWmcb0mDL
+ jCr7Iem/pfUPlSIaNk78u7wBDL3FTaQNjJ6Gq8F+Qo1doQqH2zHl3q0NLVuIcyj0dlNs
+ 0UfDln8+Ojd8+ZWWmXJd4YgEW2h8gL8ZBfA6yXB0FEQXBzNguz6pG9ojHs55EupUXvro
+ OMFR3cXIDJbV/Ljrm4pl1MuDLai8qjHaXt7JfANnvapQoONNuquIJwR1ZcQLbFW3K1n2
+ WhsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OjcdhDLucSRT8FFIZv176pPKfHlgD06Q4at/uUFwg18=;
+ b=c6uC2ji970tOKLO+/cJrJz/qrlIxEQjUWtYJMkPd3YN1NytB8+q8NCr4YR/VjmROJy
+ 35+8FDaFXaglCpkcoXkMCgnCwutw96o7/qP337F6QMh6gLLgZ6U6EOR3KMRtNI6XLQDS
+ 3N4eIp7ICbAHKhdlpbT95NoVXO1P232qWASNXg2BdjQnuu6RX+Wh8VrKovBranVdt+/L
+ WvQi7m9Ugpu7QVs2fsx2oVzf8abeu9JiYNV3eq/MQLIAa4HoFEaZ0y2O86V2HXxygHoH
+ 9dxF25aFQR2ioPiPmGaBk1pQGwgyHvxnkIf2wNuT5G6rcoMQiwFWUC4XtvBPx8UuiCFe
+ nw8w==
+X-Gm-Message-State: AOAM530XJA+y3EKd7+P3gr+vJ45PnA9Zh2T5UJYeHhRg4sfSdNzKb8Ud
+ ERomoyakqPbCocgdl+Up8HrhSwEy
+X-Google-Smtp-Source: ABdhPJxQFVDAxOK2L5UcMVG3/RWN+q7JtafbotGzZ3ui+581Z04m3XrGDVhuiP5lm831Ug4KSYQqDA==
+X-Received: by 2002:adf:a45d:: with SMTP id e29mr7578761wra.107.1596721089900; 
+ Thu, 06 Aug 2020 06:38:09 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id c15sm6311768wme.23.2020.08.06.06.38.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Aug 2020 06:38:08 -0700 (PDT)
+Subject: Re: [PATCH for-5.2 16/19] aspeed/sdmc: Perform memory training
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200806132106.747414-1-clg@kaod.org>
+ <20200806132106.747414-17-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <56f83c0b-b5eb-241e-c848-56f038633398@amsat.org>
+Date: Thu, 6 Aug 2020 15:38:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200806105349.632-10-thuth@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lTRppvqo0tivfP3WpwRiVZNpY5qCocj1L"
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-06_09:2020-08-06,
- 2020-08-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 malwarescore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008060096
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:28:58
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200806132106.747414-17-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -155,104 +89,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, qemu-block@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lTRppvqo0tivfP3WpwRiVZNpY5qCocj1L
-Content-Type: multipart/mixed; boundary="ZKuuM4Vxk0PmxFmNg9Y8N3iOr0mOPonhN"
-
---ZKuuM4Vxk0PmxFmNg9Y8N3iOr0mOPonhN
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 8/6/20 12:53 PM, Thomas Huth wrote:
-> Let's add two new tests:
->=20
-> 1) Booting with "bootindex" is the architected default behavior on the
-> s390x target, so we should have at least one test that is using the
-> "bootindex" property.
->=20
-> 2) The s390-ccw bios used to fail when other unbootable devices have
-> been specified before the bootable device (without "bootindex"). Now
-> that the s390-ccw bios is a little bit smarter here, we should test
-> this scenario, too, to avoid regressions.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Nice!
-
-Acked-by: Janosch Frank <frankja@linux.ibm.com>
-
+On 8/6/20 3:21 PM, Cédric Le Goater wrote:
+> From: Joel Stanley <joel@jms.id.au>
+> 
+> This allows qemu to run the "normal" power on reset boot path through
+> u-boot, where the DDR is trained.
+> 
+> An enhancement would be to have the SCU bit stick across qemu reboots,
+> but be unset on initial boot.
+> 
+> Proper modelling would be to discard all writes to the phy setting regs
+> at offset 0x100 - 0x400 and to model the phy status regs at offset
+> 0x400.
+> 
+> The status regs model would only need to account for offets 0x00,
+> 0x50, 0x68 and 0x7c.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> [ clg: checkpatch fixes ]
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  tests/qtest/cdrom-test.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-> index 833a0508a1..13e22f57c1 100644
-> --- a/tests/qtest/cdrom-test.c
-> +++ b/tests/qtest/cdrom-test.c
-> @@ -163,6 +163,18 @@ static void add_s390x_tests(void)
->      qtest_add_data_func("cdrom/boot/virtio-scsi",
->                          "-device virtio-scsi -device scsi-cd,drive=3Dc=
-dr "
->                          "-blockdev file,node-name=3Dcdr,filename=3D", =
-test_cdboot);
-> +    qtest_add_data_func("cdrom/boot/with-bootindex",
-> +                        "-device virtio-serial -device virtio-scsi "
-> +                        "-device virtio-blk,drive=3Dd1 "
-> +                        "-drive driver=3Dnull-co,read-zeroes=3Don,if=3D=
-none,id=3Dd1 "
-> +                        "-device virtio-blk,drive=3Dd2,bootindex=3D1 "=
+>  include/hw/misc/aspeed_sdmc.h | 13 ++++++++++++-
+>  hw/misc/aspeed_scu.c          |  2 +-
+>  hw/misc/aspeed_sdmc.c         | 19 +++++++++++++++++--
+>  3 files changed, 30 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
+> index cea1e67fe365..c6226957dd3d 100644
+> --- a/include/hw/misc/aspeed_sdmc.h
+> +++ b/include/hw/misc/aspeed_sdmc.h
+> @@ -17,7 +17,18 @@
+>  #define TYPE_ASPEED_2500_SDMC TYPE_ASPEED_SDMC "-ast2500"
+>  #define TYPE_ASPEED_2600_SDMC TYPE_ASPEED_SDMC "-ast2600"
+>  
+> -#define ASPEED_SDMC_NR_REGS (0x174 >> 2)
+> +/*
+> + * SDMC has 174 documented registers. In addition the u-boot device tree
+> + * describes the following regions:
+> + *  - PHY status regs at offset 0x400, length 0x200
+> + *  - PHY setting regs at offset 0x100, length 0x300
+> + *
+> + * There are two sets of MRS (Mode Registers) configuration in ast2600 memory
+> + * system: one is in the SDRAM MC (memory controller) which is used in run
+> + * time, and the other is in the DDR-PHY IP which is used during DDR-PHY
+> + * training.
+> + */
+> +#define ASPEED_SDMC_NR_REGS (0x500 >> 2)
+>  
+>  typedef struct AspeedSDMCState {
+>      /*< private >*/
+> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+> index 764222404bef..dc6dd87c22f4 100644
+> --- a/hw/misc/aspeed_scu.c
+> +++ b/hw/misc/aspeed_scu.c
+> @@ -656,7 +656,7 @@ static const uint32_t ast2600_a1_resets[ASPEED_AST2600_SCU_NR_REGS] = {
+>      [AST2600_SYS_RST_CTRL2]     = 0xFFFFFFFC,
+>      [AST2600_CLK_STOP_CTRL]     = 0xFFFF7F8A,
+>      [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
+> -    [AST2600_SDRAM_HANDSHAKE]   = 0x00000040,  /* SoC completed DRAM init */
+> +    [AST2600_SDRAM_HANDSHAKE]   = 0x00000000,
+>      [AST2600_HPLL_PARAM]        = 0x1000405F,
+>      [AST2600_CHIP_ID0]          = 0x1234ABCD,
+>      [AST2600_CHIP_ID1]          = 0x88884444,
+> diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+> index 855848b7d23a..ff2809a09965 100644
+> --- a/hw/misc/aspeed_sdmc.c
+> +++ b/hw/misc/aspeed_sdmc.c
+> @@ -113,7 +113,7 @@ static uint64_t aspeed_sdmc_read(void *opaque, hwaddr addr, unsigned size)
+>      if (addr >= ARRAY_SIZE(s->regs)) {
+>          qemu_log_mask(LOG_GUEST_ERROR,
+>                        "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
+> -                      __func__, addr);
+> +                      __func__, addr * 4);
+>          return 0;
+>      }
+>  
+> @@ -206,6 +206,19 @@ static void aspeed_sdmc_reset(DeviceState *dev)
+>  
+>      /* Set ram size bit and defaults values */
+>      s->regs[R_CONF] = asc->compute_conf(s, 0);
+> +
+> +    /*
+> +     * PHY status:
+> +     *  - set phy status ok (set bit 1)
+> +     *  - initial PVT calibration ok (clear bit 3)
+> +     *  - runtime calibration ok (clear bit 5)
+> +     */
+> +    s->regs[0x100] = BIT(1);
 
-> +                        "-drive if=3Dnone,id=3Dd2,media=3Dcdrom,file=3D=
-", test_cdboot);
-> +    qtest_add_data_func("cdrom/boot/without-bootindex",
-> +                        "-device virtio-scsi -device virtio-serial "
-> +                        "-device x-terminal3270 -device virtio-blk,dri=
-ve=3Dd1 "
-> +                        "-drive driver=3Dnull-co,read-zeroes=3Don,if=3D=
-none,id=3Dd1 "
-> +                        "-device virtio-blk,drive=3Dd2 "
-> +                        "-drive if=3Dnone,id=3Dd2,media=3Dcdrom,file=3D=
-", test_cdboot);
+This is usually implemented with a one-shot timer, see
+sd_ocr_powerup() in hw/sd/sd.c (migration is handled).
+
+> +
+> +    /* PHY eye window: set all as passing */
+> +    s->regs[0x100 | (0x68 / 4)] = 0xff;
+> +    s->regs[0x100 | (0x7c / 4)] = 0xff;
+> +    s->regs[0x100 | (0x50 / 4)] = 0xfffffff;
 >  }
-> =20
->  int main(int argc, char **argv)
->=20
-
-
-
---ZKuuM4Vxk0PmxFmNg9Y8N3iOr0mOPonhN--
-
---lTRppvqo0tivfP3WpwRiVZNpY5qCocj1L
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl8sBtAACgkQ41TmuOI4
-ufhyWg/+JtQB/28nfNXLYvojl/inR/6mPEdrmgYhHy4/HYJmcJjV1ucEtNybx60E
-HC+r2508xRROwX+7feUnFKrjhkEAbUZDaf7aw0GRDUuvRDxetWISkDv/+GgssrPR
-+myUfz2QNkFQov2W7DrCOz3MbMGaAG5vDEgf9yAvnS9AfqdZMqT85yA4QE57IB9O
-HghQRaw1ZW355lfy4D3eaNArArxe0r4YZunyxLgxzia1y77v13ROIbBRAC2eR4hB
-90at/4gi//PbEjR8YyeMRJW8S/+QDK04wjcVuAnRZwfmEaBguw6ftcFZbm7+ypUG
-GyPVAqVR3V5mTnxf9o/Od0QkDEwHS9Hwh74xcqgvstUl3q25vY8kzQxBcN5JVDau
-KN3EsfTbuSTkWeIVHPLp35w0czdTsIzeh+ylGHk84jj0Jq01ltQzUyswjbWiBLr1
-HJWWo3d3MykBru+7POYxr7zNLFH1+3m7KE9fOLZNksCcqZB2pLqIcc0sgn3NQacn
-jDX9JrKBnBegFiy3Bj/1WekyjCe9u0zR86hSwUW/UQzFg+7rV5+4cfBy8dbU3k3W
-LwdcK3V4C9u+9w+sQi5vQGbel44IKC32AB4KUAY5SnWfoJOz56uBmimREzt22HCV
-ZBNIrnXnI6ygT6bopt/4WzIkhlM7u7UmjfB5JyJzdCR7kCp98vQ=
-=J1LW
------END PGP SIGNATURE-----
-
---lTRppvqo0tivfP3WpwRiVZNpY5qCocj1L--
+>  
+>  static void aspeed_sdmc_get_ram_size(Object *obj, Visitor *v, const char *name,
+> @@ -443,7 +456,9 @@ static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+>      }
+>  
+>      if (reg != R_PROT && s->regs[R_PROT] == PROT_SOFTLOCKED) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked!\n", __func__);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: SDMC is locked! (write to MCR%02x blocked)\n",
+> +                      __func__, reg * 4);
+>          return;
+>      }
+>  
+> 
 
 
