@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB78E23E305
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:18:44 +0200 (CEST)
-Received: from localhost ([::1]:46616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10CF23E323
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:27:27 +0200 (CEST)
+Received: from localhost ([::1]:54260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3mLb-0001If-Nn
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:18:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47456)
+	id 1k3mU3-0007d2-0k
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k3lgN-0002Mg-2P; Thu, 06 Aug 2020 15:36:07 -0400
-Received: from relay.sw.ru ([185.231.240.75]:56468 helo=relay3.sw.ru)
+ id 1k3lgO-0002SI-VX; Thu, 06 Aug 2020 15:36:08 -0400
+Received: from relay.sw.ru ([185.231.240.75]:56480 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k3lgJ-0000Kt-Ns; Thu, 06 Aug 2020 15:36:06 -0400
+ id 1k3lgK-0000Kq-95; Thu, 06 Aug 2020 15:36:08 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k3lgC-0003k9-1q; Thu, 06 Aug 2020 22:35:56 +0300
+ id 1k3lgC-0003k9-3C; Thu, 06 Aug 2020 22:35:56 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v13 09/11] qcow2_format.py: collect fields to dump in JSON
+Subject: [PATCH v13 10/11] qcow2_format.py: support dumping metadata in JSON
  format
-Date: Thu,  6 Aug 2020 22:35:55 +0300
-Message-Id: <1596742557-320265-10-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Thu,  6 Aug 2020 22:35:56 +0300
+Message-Id: <1596742557-320265-11-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -56,107 +56,91 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As __dict__ is being extended with class members we do not want to
-print, add the to_dict() method to classes that returns a dictionary
-with desired fields and their values. Extend it in subclass when
-necessary to print the final dictionary in the JSON output which
-follows.
+Implementation of dumping QCOW2 image metadata.
+The sample output:
+{
+    "Header_extensions": [
+        {
+            "name": "Feature table",
+            "magic": 1745090647,
+            "length": 192,
+            "data_str": "<binary>"
+        },
+        {
+            "name": "Bitmaps",
+            "magic": 595929205,
+            "length": 24,
+            "data": {
+                "nb_bitmaps": 2,
+                "reserved32": 0,
+                "bitmap_directory_size": 64,
+                "bitmap_directory_offset": 1048576,
+                "bitmap_directory": [
+                    {
+                        "name": "bitmap-1",
+                        "bitmap_table_offset": 589824,
+                        "bitmap_table_size": 1,
+                        "flags": 2,
+                        "type": 1,
+                        "granularity_bits": 15,
+                        "name_size": 8,
+                        "extra_data_size": 0,
+                        "bitmap_table": [
+                            {
+                                "type": "serialized",
+                                "offset": 655360
+                            },
+                            ...
 
 Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ tests/qemu-iotests/qcow2_format.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index de0adcb..5a298b2 100644
+index 5a298b2..8adc995 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -119,6 +119,9 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+@@ -19,6 +19,15 @@
  
-             print('{:<25} {}'.format(f[2], value_str))
- 
-+    def to_json(self):
-+        return dict((f[2], self.__dict__[f[2]]) for f in self.fields)
+ import struct
+ import string
++import json
 +
- 
- class Qcow2BitmapExt(Qcow2Struct):
- 
-@@ -151,6 +154,11 @@ class Qcow2BitmapExt(Qcow2Struct):
-             print()
-             entry.dump()
- 
-+    def to_json(self):
-+        fields_dict = super().to_json()
-+        fields_dict['bitmap_directory'] = self.bitmap_directory
-+        return fields_dict
 +
- 
- class Qcow2BitmapDirEntry(Qcow2Struct):
- 
-@@ -189,6 +197,14 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-         super(Qcow2BitmapDirEntry, self).dump()
-         self.bitmap_table.dump()
- 
-+    def to_json(self):
-+        # Put the name ahead of the dict
-+        return {
-+            'name': self.name,
-+            **super().to_json(),
-+            'bitmap_table': self.bitmap_table
-+        }
-+
- 
- class Qcow2BitmapTableEntry(Qcow2Struct):
- 
-@@ -214,6 +230,10 @@ class Qcow2BitmapTableEntry(Qcow2Struct):
-         else:
-             self.type = 'all-zeroes'
- 
-+    def to_json(self):
-+        return {'type': self.type, 'offset': self.offset,
-+                'reserved': self.reserved}
-+
- 
- class Qcow2BitmapTable:
- 
-@@ -234,6 +254,9 @@ class Qcow2BitmapTable:
-                 size = 0
-             print(f'{i:<14} {entry.type:<15} {size:<12} {entry.offset}')
- 
-+    def to_json(self):
-+        return self.entries
-+
- 
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
- 
-@@ -249,6 +272,9 @@ class QcowHeaderExtension(Qcow2Struct):
-             0x44415441: 'Data file'
-         }
- 
-+        def to_json(self):
-+            return self.mapping.get(self.value, "<unknown>")
-+
-     fields = (
-         ('u32', Magic, 'magic'),
-         ('u32', '{}', 'length')
-@@ -311,6 +337,16 @@ class QcowHeaderExtension(Qcow2Struct):
-         else:
-             self.obj.dump()
- 
-+    def to_json(self):
-+        # Put the name ahead of the dict
-+        res = {'name': self.Magic(self.magic), **super().to_json()}
-+        if self.obj is not None:
-+            res['data'] = self.obj
++class ComplexEncoder(json.JSONEncoder):
++    def default(self, obj):
++        if hasattr(obj, 'to_json'):
++            return obj.to_json()
 +        else:
-+            res['data_str'] = self.data_str
++            return json.JSONEncoder.default(self, obj)
+ 
+ 
+ class Qcow2Field:
+@@ -110,6 +119,10 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+                              for i, field in enumerate(self.fields))
+ 
+     def dump(self, is_json=False):
++        if is_json:
++            print(json.dumps(self.to_json(), indent=4, cls=ComplexEncoder))
++            return
 +
-+        return res
+         for f in self.fields:
+             value = self.__dict__[f[2]]
+             if isinstance(f[1], str):
+@@ -445,6 +458,10 @@ class QcowHeader(Qcow2Struct):
+         fd.write(buf)
+ 
+     def dump_extensions(self, is_json=False):
++        if is_json:
++            print(json.dumps(self.extensions, indent=4, cls=ComplexEncoder))
++            return
 +
-     @classmethod
-     def create(cls, magic, data):
-         return QcowHeaderExtension(magic, len(data), data)
+         for ex in self.extensions:
+             print('Header extension:')
+             ex.dump()
 -- 
 1.8.3.1
 
