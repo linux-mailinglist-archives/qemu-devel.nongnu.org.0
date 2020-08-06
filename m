@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC8C23E435
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 00:59:56 +0200 (CEST)
-Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C18A23E43F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 01:02:32 +0200 (CEST)
+Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3orb-0007jX-RY
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 18:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60172)
+	id 1k3ou7-0001NJ-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 19:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k3oqa-00072e-64
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 18:58:52 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39200)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1k3ooj-0005p2-5X; Thu, 06 Aug 2020 18:56:57 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:37701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k3oqY-0007pQ-L1
- for qemu-devel@nongnu.org; Thu, 06 Aug 2020 18:58:51 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id f9so7431929pju.4
- for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 15:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QnnIcZDIbfq/i7nr6CWOpWg/8xI7vWY4gpm0Kv+LiXY=;
- b=WZhsfD9X3bvGaypquzBiYA/tQvZWFzZDAfabUfq25d1gohGpvZXaviuP41O5PzK8Px
- K/R74gBkguXMRGmO8DyaK6FpybPPDUL/3clfbvP8vz0pjqkiXssUFiqmP8t2geUOkEpv
- Y/+Kb/WnhO98OF3mSgZ8rW2IKT3jtSiwLevdgQFJk5K6s4PTNSRthKxqiYDn5TDF/ART
- Ne2HdqvqTiFGlumR3m3MV4FnA6QiY+grt1hsk664KVRDzvARLxDjFG+8kCQtejPBL0lw
- KSF5aTXuQPXvBnVhC3FRo2iuYsWST3QGilPoHxyPze3woFEDLlE3t7FCrsUlNxbYcKJ5
- I1YQ==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1k3ooh-0007hG-HJ; Thu, 06 Aug 2020 18:56:56 -0400
+Received: by mail-ej1-x643.google.com with SMTP id qc22so70841ejb.4;
+ Thu, 06 Aug 2020 15:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Qu2ENRZk6CkwRhGJYY8E5JdAc3goZ8oYK8L9brcXu9s=;
+ b=NNEutSj3sdizOa4rdGh7HZz/Zx9O9d8MXEs4hXDR/GlRNQGlFG95gh/rlQmSgbGCKt
+ gesZyOFn8IqWKosvUvroGmB3PHxCxUBb0yrh+QDAf+EhtBpkErg2CfJAJSvQe85qHOwh
+ WSwJxS8QrzSGYv4vaJjb2rXz0sE2i8Pmh53Cg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QnnIcZDIbfq/i7nr6CWOpWg/8xI7vWY4gpm0Kv+LiXY=;
- b=KVAbCMUEqcX8cga62ZC7COQzu3NoFNHWBk8y9s44F1Fayfop+G/PA+aGPCR8J+ppM8
- Y8xsgIQcCOwjKda0M3JEYjJR/fSp4gPzNf/i+DJ2paE9or7OwtZQBxxCGyxa9Ec6iFJp
- 0+0YH6WpLakxUwG3P3EpNTQR9MeYDCDODxGnjiuPDjXDBVmQMQctKS9h8YjuXsFXR1ZW
- QT7/vCzNqShp6tc6VMx6FEQZ+RJ3EkM0rl62DVkPrVTRSWzcI8EgEBKUitdq+fjT5BxD
- 9tcB62AszKH89K8N35lGGoLCHwiM9d3Pd9RkbvQQNJE5z6a6uqJxLco4xN6D1/G+dqii
- zN6A==
-X-Gm-Message-State: AOAM531+bQf8gi3VhW8sJE8Oh0VuEvsZENEQ/uuie/1OoFS746V9D/mR
- elPapnLyw6Vif55e/BGMMr6CEQ==
-X-Google-Smtp-Source: ABdhPJzwt1YxRQJQzWwDgc1LeCRT2MQj4XR//FaESfnsbFn1gF8os30F7aHQdbX/Pj4PtlBAprrCUg==
-X-Received: by 2002:a17:90b:f94:: with SMTP id
- ft20mr10942495pjb.69.1596754729318; 
- Thu, 06 Aug 2020 15:58:49 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id n3sm9490152pfq.131.2020.08.06.15.58.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Aug 2020 15:58:48 -0700 (PDT)
-Subject: Re: [RFC v3 17/71] target/riscv: rvv:1.0: add translation-time
- nan-box helper function
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20200806104709.13235-1-frank.chang@sifive.com>
- <20200806104709.13235-18-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c63fa4ab-7612-6868-343a-b96b58a5586d@linaro.org>
-Date: Thu, 6 Aug 2020 15:58:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Qu2ENRZk6CkwRhGJYY8E5JdAc3goZ8oYK8L9brcXu9s=;
+ b=Lf9To3D92ZT5obaGsrZjZ0sj9swoaT3URUyLj1AE9LqPfIu8Mf8r57yQ3APPtXX/BB
+ aa60XWGAosWkuehReJs4CqTjZ9+PI3FZwdlgM3KKNTxO0GDpc7lyQ4v9CTRGedTWWEj4
+ b0YCpQsRuHdl2HDUEsp+Fc8oPRRTW7cwE0Uw1IFX+tnasgZ+PmvXipgr3l+9HLYrbkaQ
+ +Kk4Y9nZDcIEkQNUybWqME/KABmC7gBouNqBahXM+YBEH+sreO5bGpqvetK5Qpk7IPk3
+ XCY+lSF/BfFtlB80lojSN8Yl5Wo2xazcKFMB/J36Bx7ODW2NO4C7iO+MW0Xcr40ZR/px
+ OVBw==
+X-Gm-Message-State: AOAM533D8upo2lhV6XWda6qh0ivNPF/Y3lz8PtKPJWiu/srGDH0UMDTQ
+ ofEuT42WP5xi6pGUDA4ZvZ3JSacZnSLro74RMco=
+X-Google-Smtp-Source: ABdhPJwCm6gMovvGwSRB4ta7yhOdIRkVLmbHl+TZjyn+pmCcMHGgOZq3YIlNEOthx1A/E1GR54U1nbL5PmV9KiuQ6yw=
+X-Received: by 2002:a17:906:198e:: with SMTP id
+ g14mr6509601ejd.266.1596754613333; 
+ Thu, 06 Aug 2020 15:56:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200806104709.13235-18-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+References: <20200806132106.747414-1-clg@kaod.org>
+ <20200806132106.747414-4-clg@kaod.org>
+In-Reply-To: <20200806132106.747414-4-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 6 Aug 2020 22:56:41 +0000
+Message-ID: <CACPK8XdaTPFiv4eD=5rTUuUrw4d5c0Xjf1E8gDD48JgByXMuug@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 03/19] m25p80: Add support for n25q512ax3
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 3:46 AM, frank.chang@sifive.com wrote:
-> From: Frank Chang <frank.chang@sifive.com>
-> 
-> Add do_nanbox() helper function to utilize gen_check_nanbox_X() to
-> generate the NaN-boxed floating-point values based on SEW setting.
-> 
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+On Thu, 6 Aug 2020 at 13:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> Datasheet available here :
+>
+> https://www.micron.com/-/media/client/global/Documents/Products/Data%20Sh=
+eet/NOR%20Flash/Serial%20NOR/N25Q/n25q_512mb_1ce_3v_65nm.pdf
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  target/riscv/insn_trans/trans_rvv.inc.c | 27 +++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-
-Similarly, do_nanbox will Werror as an unused function.
-Otherwise looks fine.
-
-
-r~
+>  hw/block/m25p80.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 1696ab1f7821..8a3fd959e218 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -238,6 +238,7 @@ static const FlashPartInfo known_devices[] =3D {
+>      { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+>      { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
+>      { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+> +    { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+>      { INFO_STACKED("n25q00",    0x20ba21, 0x1000, 64 << 10, 2048, ER_4K,=
+ 4) },
+>      { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K,=
+ 4) },
+>      { INFO_STACKED("mt25ql01g", 0x20ba21, 0x1040, 64 << 10, 2048, ER_4K,=
+ 2) },
+> --
+> 2.25.4
+>
 
