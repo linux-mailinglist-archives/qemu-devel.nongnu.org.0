@@ -2,42 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E687D23E337
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:32:31 +0200 (CEST)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B2E23E330
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 22:30:44 +0200 (CEST)
+Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3mYw-0000Nx-Vt
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47642)
+	id 1k3mXD-0005po-EP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 16:30:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k3lgf-00038m-6D; Thu, 06 Aug 2020 15:36:25 -0400
-Received: from relay.sw.ru ([185.231.240.75]:56462 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k3lgd-0000Kp-4E; Thu, 06 Aug 2020 15:36:24 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k3lgB-0003k9-Si; Thu, 06 Aug 2020 22:35:55 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v13 06/11] qcow2_format.py: pass cluster size to substructures
-Date: Thu,  6 Aug 2020 22:35:52 +0300
-Message-Id: <1596742557-320265-7-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 15:35:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1k3lgR-0002Yg-4G
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:36:11 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:43151)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1k3lgO-0000MD-SO
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 15:36:10 -0400
+Received: by mail-lj1-x242.google.com with SMTP id v12so22758879ljc.10
+ for <qemu-devel@nongnu.org>; Thu, 06 Aug 2020 12:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W15Ha0hCF51frGCm+qcYUA5I0hXEkQ7+NuQTIlEy4s4=;
+ b=etewQPmU+A47D5AJVSnCbTn8RWDkjfggx+SAxtqCNnMhIFG0F6xyJubyxJbf/XRw4x
+ CKGAEe9jaSp6Sn6/VGq3FOwfR2VyJ/lQavFXt0KpkqdgPf17cKTLawapS6dzDsimTd5f
+ UmTjTHl4aDSXqc4lGHzyvSfQvcVUpu1zbUtPOindJR3BivxZAjDVEFggWLLtsy6f+GmN
+ YGX90yqI7EGUm9gSmOoZszALmtqJziVnYSn88NW64VRx5WX/Py6/vIhascMLP1EIEorQ
+ espYVi+97sfQiuVGXe5H75pNpYWZv9eDtBb/Q6yD0XFofskhmnAhR3IAXqATG1AI5zt9
+ /GGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W15Ha0hCF51frGCm+qcYUA5I0hXEkQ7+NuQTIlEy4s4=;
+ b=nfCf51ir90ua8QrHltCYVmgyfd6t7y9S2mtHH9Imz6Q4ISusDSbCz6ADhdlGDTD3Yd
+ yb5icldONTDJKRxQeu4Lk+CqVdwL37K64X5FqMfJUjQGc2GZ6+QsUZhPIKI55+asE2cd
+ Mb/VI97l2XPwaj3Fp0Ne13BGhZjrCRwjLi3pAI5Rana1ZMKRjB5iaxCdoEw5shnRTvKH
+ Vu9L5v00fU6E+lxGNDMasogm8ddqXf1eRa5OKIaVx2snyfzLo+r1MiaAAgXmLvMMhTra
+ Bul4aRErbx38uFAQJhjO09jDGh1LnrpyAimmduCpr2RTgIv6khkWcJxQrU6qze9c/r6W
+ 4UKA==
+X-Gm-Message-State: AOAM533zaKAOz4NJviAh6460hXrxC65zRhVlqfk3aWvZEHf9hjV/hqOS
+ c1CmZXqCZe3JZH6wHRSMDi1iX0v2ZNB8SjgVNwVEpQ==
+X-Google-Smtp-Source: ABdhPJyCJJQ2NRGGMz7mLJ1nFKdhmV/RKs5LwxxOG7JdBVE5v9DdCI6YDSz7/14WJ3BLhmH3GRcZHeXKoCEmJ6Dl+vI=
+X-Received: by 2002:a2e:b8cb:: with SMTP id s11mr4831216ljp.110.1596742563870; 
+ Thu, 06 Aug 2020 12:36:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200805181303.7822-1-robert.foley@linaro.org>
+ <20200805181303.7822-5-robert.foley@linaro.org>
+ <CAK4993h0ieEuV3wimiy1HRjcS1nYkHAQ-qYmiEyEp6=2aBCr0g@mail.gmail.com>
+In-Reply-To: <CAK4993h0ieEuV3wimiy1HRjcS1nYkHAQ-qYmiEyEp6=2aBCr0g@mail.gmail.com>
+From: Robert Foley <robert.foley@linaro.org>
+Date: Thu, 6 Aug 2020 15:36:24 -0400
+Message-ID: <CAEyhzFu21_afW2HycrcSacJdrLQ1kwmhPs1uuZDTxNQcJP6dxg@mail.gmail.com>
+Subject: Re: [PATCH v1 04/21] target/avr: add BQL to do_interrupt and
+ cpu_exec_interrupt
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=robert.foley@linaro.org; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,94 +81,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+ Peter Puhov <peter.puhov@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cluster size of an image is the QcowHeader class member and may be
-obtained by dependent extension structures such as Qcow2BitmapExt for
-further bitmap table details print.
+On Thu, 6 Aug 2020 at 14:37, Michael Rolnik <mrolnik@gmail.com> wrote:
+>
+> Hi Robert.
+>
+> I am sorry but how can I apply it? following this what I get
+>
+> error: patch failed: accel/tcg/cpu-exec.c:558
+> error: accel/tcg/cpu-exec.c: patch does not apply
+> error: patch failed: target/arm/helper.c:9808
+> error: target/arm/helper.c: patch does not apply
+> error: patch failed: target/ppc/excp_helper.c:1056
+> error: target/ppc/excp_helper.c: patch does not apply
+> error: patch failed: target/sh4/helper.c:62
+> error: target/sh4/helper.c: patch does not apply
+> error: patch failed: target/unicore32/softmmu.c:118
+> error: target/unicore32/softmmu.c: patch does not apply
+>
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/qcow2_format.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+Hi Michael,
+This patch is based on the per-cpu locks patch series:
+https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg05314.html
 
-diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 05a8aa9..ca0d350 100644
---- a/tests/qemu-iotests/qcow2_format.py
-+++ b/tests/qemu-iotests/qcow2_format.py
-@@ -129,19 +129,21 @@ class Qcow2BitmapExt(Qcow2Struct):
-         ('u64', '{:#x}', 'bitmap_directory_offset')
-     )
- 
--    def __init__(self, fd):
-+    def __init__(self, fd, cluster_size):
-         super().__init__(fd=fd)
-         tail = struct.calcsize(self.fmt) % 8
-         if tail:
-             fd.seek(8 - tail, 1)
-         position = fd.tell()
-+        self.cluster_size = cluster_size
-         self.read_bitmap_directory(fd)
-         fd.seek(position)
- 
-     def read_bitmap_directory(self, fd):
-         fd.seek(self.bitmap_directory_offset)
-         self.bitmap_directory = \
--            [Qcow2BitmapDirEntry(fd) for _ in range(self.nb_bitmaps)]
-+            [Qcow2BitmapDirEntry(fd, cluster_size=self.cluster_size)
-+             for _ in range(self.nb_bitmaps)]
- 
-     def dump(self):
-         super().dump()
-@@ -162,8 +164,9 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-         ('u32', '{}', 'extra_data_size')
-     )
- 
--    def __init__(self, fd):
-+    def __init__(self, fd, cluster_size):
-         super().__init__(fd=fd)
-+        self.cluster_size = cluster_size
-         # Seek relative to the current position in the file
-         fd.seek(self.extra_data_size, 1)
-         bitmap_name = fd.read(self.name_size)
-@@ -203,11 +206,13 @@ class QcowHeaderExtension(Qcow2Struct):
-         # then padding to next multiply of 8
-     )
- 
--    def __init__(self, magic=None, length=None, data=None, fd=None):
-+    def __init__(self, magic=None, length=None, data=None, fd=None,
-+                 cluster_size=None):
-         """
-         Support both loading from fd and creation from user data.
-         For fd-based creation current position in a file will be used to read
-         the data.
-+        The cluster_size value may be obtained by dependent structures.
- 
-         This should be somehow refactored and functionality should be moved to
-         superclass (to allow creation of any qcow2 struct), but then, fields
-@@ -230,7 +235,7 @@ class QcowHeaderExtension(Qcow2Struct):
-             assert all(v is None for v in (magic, length, data))
-             super().__init__(fd=fd)
-             if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
--                self.obj = Qcow2BitmapExt(fd=fd)
-+                self.obj = Qcow2BitmapExt(fd=fd, cluster_size=cluster_size)
-                 self.data = None
-             else:
-                 padded = (self.length + 7) & ~7
-@@ -319,7 +324,7 @@ class QcowHeader(Qcow2Struct):
-             end = self.cluster_size
- 
-         while fd.tell() < end:
--            ext = QcowHeaderExtension(fd=fd)
-+            ext = QcowHeaderExtension(fd=fd, cluster_size=self.cluster_size)
-             if ext.magic == 0:
-                 break
-             else:
--- 
-1.8.3.1
+Our current WIP tree for this interrupts patch is here:
+https://github.com/rf972/qemu/commits/int_core_v1.4
 
+Also, just so you know, based on the initial feedback we are going
+to substantially change this series.
+
+Another version will be sent out in a few days.
+
+Thanks & Regards,
+-Rob
+>
+>
+> On Wed, Aug 5, 2020 at 9:17 PM Robert Foley <robert.foley@linaro.org> wrote:
+>>
+>> This is part of a series of changes to remove the implied BQL
+>> from the common code of cpu_handle_interrupt and
+>> cpu_handle_exception.  As part of removing the implied BQL
+>> from the common code, we are pushing the BQL holding
+>> down into the per-arch implementation functions of
+>> do_interrupt and cpu_exec_interrupt.
+>>
+>> The purpose of this set of changes is to set the groundwork
+>> so that an arch could move towards removing
+>> the BQL from the cpu_handle_interrupt/exception paths.
+>>
+>> This approach was suggested by Paolo Bonzini.
+>> For reference, here are two key posts in the discussion, explaining
+>> the reasoning/benefits of this approach.
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg08731.html
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
+>>
+>> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+>> ---
+>>  target/avr/helper.c | 12 +++++++++++-
+>>  1 file changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/avr/helper.c b/target/avr/helper.c
+>> index d96d14372b..f0d625c195 100644
+>> --- a/target/avr/helper.c
+>> +++ b/target/avr/helper.c
+>> @@ -30,6 +30,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>>      CPUClass *cc = CPU_GET_CLASS(cs);
+>>      AVRCPU *cpu = AVR_CPU(cs);
+>>      CPUAVRState *env = &cpu->env;
+>> +    qemu_mutex_lock_iothread();
+>>
+>>      if (interrupt_request & CPU_INTERRUPT_RESET) {
+>>          if (cpu_interrupts_enabled(env)) {
+>> @@ -53,6 +54,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>>              ret = true;
+>>          }
+>>      }
+>> +    qemu_mutex_unlock_iothread();
+>>      return ret;
+>>  }
+>>
+>> @@ -61,10 +63,15 @@ void avr_cpu_do_interrupt(CPUState *cs)
+>>      AVRCPU *cpu = AVR_CPU(cs);
+>>      CPUAVRState *env = &cpu->env;
+>>
+>> -    uint32_t ret = env->pc_w;
+>> +    uint32_t ret;
+>>      int vector = 0;
+>>      int size = avr_feature(env, AVR_FEATURE_JMP_CALL) ? 2 : 1;
+>>      int base = 0;
+>> +    bool bql = !qemu_mutex_iothread_locked();
+>> +    if (bql) {
+>> +        qemu_mutex_lock_iothread();
+>> +    }
+>> +    ret = env->pc_w;
+>>
+>>      if (cs->exception_index == EXCP_RESET) {
+>>          vector = 0;
+>> @@ -87,6 +94,9 @@ void avr_cpu_do_interrupt(CPUState *cs)
+>>      env->sregI = 0; /* clear Global Interrupt Flag */
+>>
+>>      cs->exception_index = -1;
+>> +    if (bql) {
+>> +        qemu_mutex_unlock_iothread();
+>> +    }
+>>  }
+>>
+>>  int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
+>> --
+>> 2.17.1
+>>
+>
+>
+> --
+> Best Regards,
+> Michael Rolnik
 
