@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B5023D696
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 07:54:18 +0200 (CEST)
-Received: from localhost ([::1]:42746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B27723D688
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 07:45:47 +0200 (CEST)
+Received: from localhost ([::1]:33778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3Yr3-0006xI-PT
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 01:54:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32800)
+	id 1k3Yin-0002ng-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 01:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k3Ypv-0005n0-6R; Thu, 06 Aug 2020 01:53:07 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:39153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k3Ypt-0006wO-Dx; Thu, 06 Aug 2020 01:53:06 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BMd232B6wz9sSG; Thu,  6 Aug 2020 15:52:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1596693179;
- bh=lgTsRzjMmVBG5qWj5LT5in6hUMox5nSoTbrkFoowdRQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lV3E2aFmWelN1iQaXE5dVCnS25ujrdUEbYcoWliszaYb/p7qMnzmaBHnTtnE9SlPn
- J++K4R86UY9yXit+FW/zP5E4OHjGl6Ux+GUe1fS0s1WVGj7pWXoossumQWk4TWfJsj
- xwIgrkKDVQmuGLjCmth+yhBK3Af+10NSw7RcE9nI=
-Date: Thu, 6 Aug 2020 15:13:55 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 0/8] Generalize start-powered-off property from ARM
-Message-ID: <20200806051355.GA157233@yekko.fritz.box>
-References: <20200723025657.644724-1-bauerman@linux.ibm.com>
- <878sf3uojf.fsf@morokweng.localdomain>
- <20200730005947.GO84173@umbus.fritz.box>
- <CAAdtpL5Mtaf7Xwu74U33eGTCAiFZNNXeCST8COwQeW8S9j8ZVQ@mail.gmail.com>
- <87a6zh3uyv.fsf@morokweng.localdomain>
- <874kph58o5.fsf@morokweng.localdomain>
- <CAFEAcA-Yi754zyxHd+bggjny5vXw=rrs5fm6SZCcxwVUeoTtOg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3Yhp-0002In-Eb
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 01:44:45 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28960
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k3Yhm-0005rb-Ku
+ for qemu-devel@nongnu.org; Thu, 06 Aug 2020 01:44:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596692680;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6QF9hKJGDHxG3XnIwFh68ZlZjWBEPo7q2mqeZ2NJRcQ=;
+ b=JhbxzDdvgdIALD8JysxjYe/O0HRJbmjjO2DShuCfqvVMlw7iKDaxYox9YzHs6sThigBJ4a
+ Nb6o1wNaMuQWUo4mbBvFvwtu1um37ToK+gLiOhIPbyjmg9KCYoh0xKHyruxuU7c5ibvZjp
+ rEgwnJLRUyY33swXZmdatYK75g1tBYA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-C8zdVDvHMyuSKeRs7YHZUg-1; Thu, 06 Aug 2020 01:44:39 -0400
+X-MC-Unique: C8zdVDvHMyuSKeRs7YHZUg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14AD480183C;
+ Thu,  6 Aug 2020 05:44:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA2D174F4D;
+ Thu,  6 Aug 2020 05:44:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5143C1132801; Thu,  6 Aug 2020 07:44:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: cleanups with long-term benefits
+References: <87k0yeg7mc.fsf@dusky.pond.sub.org>
+ <6e5df5fc-94f8-ee8e-0c14-f56135de25e4@redhat.com>
+ <87o8np5ysp.fsf@dusky.pond.sub.org>
+ <9f83eb93-5389-7aad-3031-0777de0c35b0@redhat.com>
+ <20200805083949.GA3004@work-vm>
+ <241436db-1aec-b804-314f-7893954e981b@redhat.com>
+ <20200805090540.GC4127670@redhat.com>
+ <20200805111155.25abfd26.cohuck@redhat.com>
+ <20200805100802.GG4127670@redhat.com>
+ <20200805162323.GB37318@linux.fritz.box>
+ <20200805164618.GO225270@habkost.net>
+Date: Thu, 06 Aug 2020 07:44:27 +0200
+In-Reply-To: <20200805164618.GO225270@habkost.net> (Eduardo Habkost's message
+ of "Wed, 5 Aug 2020 12:46:18 -0400")
+Message-ID: <87h7tg5nwk.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-Yi754zyxHd+bggjny5vXw=rrs5fm6SZCcxwVUeoTtOg@mail.gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 00:07:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,69 +92,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Juan Quintela <quintela@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
---J2SCkAp4GZ/dPZZf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, Aug 05, 2020 at 06:23:23PM +0200, Kevin Wolf wrote:
+>> We're basically weighing "git blame" against syntax highlighting
+>> defaults. I don't think the latter has an obviously higher weight.
+>
+> I think "syntax highlight defaults" is far from being an accurate
+> description of the motivations behind this discussion.
 
-On Wed, Aug 05, 2020 at 08:04:11PM +0100, Peter Maydell wrote:
-> On Wed, 5 Aug 2020 at 18:01, Thiago Jung Bauermann
-> <bauerman@linux.ibm.com> wrote:
-> > Any news on this? Is there something I should be doing? I saw -rc3 today
-> > but not these patches.
->=20
-> Sorry, you've missed the bus for 5.1 at this point. I'd assumed
-> that the relevant bits of the patchset would go into a PPC pullreq
-> if it was important for 5.1.
+The motivation and the expected benefits are far from clear to me,
+because all I have so far is a meandering e-mail thread.
 
-Ah, bother.  Meanwhile I assumed that since it was cross-target it was
-going in separately, so I didn't take it through my tree.
+For a change proposal as massive as "throw out working code and touch
+basically every line in the QAPI schema", I'd like to see a concise memo
+stating the goals, their benefits, the possible ways to get there, and
+their cost.  I don't think that's too much to ask.
 
-Oh well, I guess we apply ASAP in 5.2 and we'll do a backport
-downstream.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---J2SCkAp4GZ/dPZZf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8rkZMACgkQbDjKyiDZ
-s5Kjug//YImhtTXWaAu4zBB39Ef1w1Ff+d+LbgxUQnLKZtEyG4c/hLHYpKyzdntK
-jxrpJ55yFL8M2+nfqJ8e8J0iO1c9/uyO4o2OR7y4jisX+NoIJxl7ngoeKP7CiiSo
-wr+wzvNBf64AjKZy/L9ddAkk+ZKrm7M8SKcFRaPxbkRbsPL386SvvURHG2R3UZp5
-HZiul6Ge9Qg97MEvp5KQizWeWHrXIhR6mW5da4voPtAJVxDPG7ES4gE5KEpost9p
-kB3heCy2e5wLEyjXb0JFwUErKo3Fz+XsYmh+jpugE5luDnUwnUfIuA9J4bhcDUsG
-2XrU9wxoifWhInrSYtgX1/7kHu0yAqZuW9+wqjlYXi+uJrJxIIicOWamta3tc7l6
-czfN+jVLp2EP8X0alp8S7QcKcNDDkcO6WEHXJ1pO/LrZzwChydPFn6XYvOnTVfF0
-XUj3QRbIGOI0JyR6xkOhUxPkkv8ZEopkb2D3XzU+/N0T8lt0lRO583yWCNLtrslq
-GddoWrdf/RZ24JxzFrSHspMfPqZDR2C5wPfi1bUbjdOyapynNKKRJFNRbC9CM6pu
-O4EF5fCS0SH//Q9pD4ngrnEbhQjmRxPVC9xY4r3edHFlrYKAL+oNoBWPWfvw3jZ2
-ehSsheA5Ry4cRlb7XcGjWcJBG/ZhM94uYLNsx04XcbexDgnK3eg=
-=B/Xv
------END PGP SIGNATURE-----
-
---J2SCkAp4GZ/dPZZf--
 
