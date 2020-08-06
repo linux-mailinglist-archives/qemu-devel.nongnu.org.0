@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A499C23DAC7
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:35:00 +0200 (CEST)
-Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E743C23DAC2
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 15:31:22 +0200 (CEST)
+Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3g2t-0000UA-Mb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49062)
+	id 1k3fzN-0002Y8-S1
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 09:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3fpm-0001fP-PR; Thu, 06 Aug 2020 09:21:27 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:58469)
+ id 1k3fpk-0001Zc-Qy; Thu, 06 Aug 2020 09:21:24 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k3fpg-0000wX-UU; Thu, 06 Aug 2020 09:21:26 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.9])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 9B8F7545F8B4;
- Thu,  6 Aug 2020 15:21:15 +0200 (CEST)
+ id 1k3fpe-0000vM-4S; Thu, 06 Aug 2020 09:21:24 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 88D484DAE2D3;
+ Thu,  6 Aug 2020 15:21:16 +0200 (CEST)
 Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 6 Aug 2020
  15:21:15 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G00503397b68-57b0-4252-8284-b3f72d3db1f4,
+ (GARM-103G005c266ca87-773d-4879-bd29-332383e74056,
  96EDEDBD7B7627A0205C40E9E2B74F8D513A659B) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH for-5.2 15/19] ftgmac100: Improve software reset
-Date: Thu, 6 Aug 2020 15:21:02 +0200
-Message-ID: <20200806132106.747414-16-clg@kaod.org>
+Subject: [PATCH for-5.2 17/19] aspeed/sdmc: Allow writes to unprotected
+ registers
+Date: Thu, 6 Aug 2020 15:21:04 +0200
+Message-ID: <20200806132106.747414-18-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200806132106.747414-1-clg@kaod.org>
 References: <20200806132106.747414-1-clg@kaod.org>
@@ -41,14 +42,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: ad1596c2-9823-4f34-bcb6-a6c4e5879378
-X-Ovh-Tracer-Id: 273312202425142121
+X-Ovh-Tracer-GUID: c528cd45-ae84-42f7-b36e-0db5c2e7c388
+X-Ovh-Tracer-Id: 273593680521628454
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:12
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 09:21:10
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,48 +69,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Konrad <konrad.frederic@yahoo.fr>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The software reset of the MAC needs a finer granularity. Not all
-registers are reseted and some setting in MACCR are kept.
+From: Joel Stanley <joel@jms.id.au>
 
-Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
-Fixes: bd44300d1afc ("net: add FTGMAC100 support")
+A subset of registers are not protected by the lock behaviour, so allow
+unconditionally writing to those.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/net/ftgmac100.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/misc/aspeed_sdmc.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 987b843fabc4..0740049c5268 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -655,11 +655,10 @@ static void ftgmac100_reset(DeviceState *d)
-     s->itc = 0;
-     s->aptcr = 1;
-     s->dblac = 0x00022f00;
--    s->revr = 0;
-     s->fear1 = 0;
-     s->tpafcr = 0xf1;
+diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+index ff2809a09965..81c73450ab5d 100644
+--- a/hw/misc/aspeed_sdmc.c
++++ b/hw/misc/aspeed_sdmc.c
+@@ -33,15 +33,28 @@
+ /* Configuration Register */
+ #define R_CONF            (0x04 / 4)
  
--    s->maccr = 0;
-+    s->maccr &= FTGMAC100_MACCR_GIGA_MODE | FTGMAC100_MACCR_FAST_MODE;
-     s->phycr = 0;
-     s->phydata = 0;
-     s->fcr = 0x400;
-@@ -812,6 +811,7 @@ static void ftgmac100_write(void *opaque, hwaddr addr,
-     case FTGMAC100_MACCR: /* MAC Device control */
-         s->maccr = value;
-         if (value & FTGMAC100_MACCR_SW_RST) {
-+            /* TODO: rework software reset to have a finer granularity */
-             ftgmac100_reset(DEVICE(s));
-         }
++/* Interrupt control/status */
++#define R_ISR             (0x50 / 4)
++
+ /* Control/Status Register #1 (ast2500) */
+ #define R_STATUS1         (0x60 / 4)
+ #define   PHY_BUSY_STATE      BIT(0)
+ #define   PHY_PLL_LOCK_STATUS BIT(4)
  
++/* Reserved */
++#define R_MCR6C           (0x6c / 4)
++
+ #define R_ECC_TEST_CTRL   (0x70 / 4)
+ #define   ECC_TEST_FINISHED   BIT(12)
+ #define   ECC_TEST_FAIL       BIT(13)
+ 
++#define R_TEST_START_LEN  (0x74 / 4)
++#define R_TEST_FAIL_DQ    (0x78 / 4)
++#define R_TEST_INIT_VAL   (0x7c / 4)
++#define R_DRAM_SW         (0x88 / 4)
++#define R_DRAM_TIME       (0x8c / 4)
++#define R_ECC_ERR_INJECT  (0xb4 / 4)
++
+ /*
+  * Configuration register Ox4 (for Aspeed AST2400 SOC)
+  *
+@@ -449,6 +462,20 @@ static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
+ static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+                                    uint32_t data)
+ {
++    /* Unprotected registers */
++    switch (reg) {
++    case R_ISR:
++    case R_MCR6C:
++    case R_TEST_START_LEN:
++    case R_TEST_FAIL_DQ:
++    case R_TEST_INIT_VAL:
++    case R_DRAM_SW:
++    case R_DRAM_TIME:
++    case R_ECC_ERR_INJECT:
++        s->regs[reg] = data;
++        return;
++    }
++
+     if (s->regs[R_PROT] == PROT_HARDLOCKED) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked until system reset!\n",
+                 __func__);
 -- 
 2.25.4
 
