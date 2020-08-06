@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C537823D8C7
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4F823D8C5
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 11:38:29 +0200 (CEST)
-Received: from localhost ([::1]:59794 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3cM0-0006l7-3f
+	id 1k3cM0-0006lR-7L
 	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 05:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k3cKd-0005B5-Du; Thu, 06 Aug 2020 05:37:03 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4229 helo=huawei.com)
+ id 1k3cKc-0005As-IX; Thu, 06 Aug 2020 05:37:02 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:41098 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k3cKa-0007WF-8e; Thu, 06 Aug 2020 05:37:03 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 30D4CDAD1A6B884FFD1C;
- Thu,  6 Aug 2020 17:36:46 +0800 (CST)
+ id 1k3cKa-0007WL-5v; Thu, 06 Aug 2020 05:37:02 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 4BC14C9C85E425E67E81;
+ Thu,  6 Aug 2020 17:36:51 +0800 (CST)
 Received: from localhost.localdomain (10.175.101.6) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 6 Aug 2020 17:36:35 +0800
+ 14.3.487.0; Thu, 6 Aug 2020 17:36:41 +0800
 From: Peng Liang <liangpeng10@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH 0/5] log: Add logs for some modules
-Date: Thu, 6 Aug 2020 17:37:15 +0800
-Message-ID: <20200806093720.2355692-1-liangpeng10@huawei.com>
+Subject: [PATCH 1/5] log: Add logs for vm start and destroy
+Date: Thu, 6 Aug 2020 17:37:16 +0800
+Message-ID: <20200806093720.2355692-2-liangpeng10@huawei.com>
 X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20200806093720.2355692-1-liangpeng10@huawei.com>
+References: <20200806093720.2355692-1-liangpeng10@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
+Received-SPF: pass client-ip=45.249.212.35;
  envelope-from=liangpeng10@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 02:58:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/06 03:36:23
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,35 +62,120 @@ Cc: Peng Liang <liangpeng10@huawei.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This path serial add some logs for some modeuls to make it easier to debug.
+Add logs for vm start and destroy.
 
-Peng Liang (5):
-  log: Add logs for vm start and destroy
-  log: Add log for each modules
-  log: Add more details to virtio_report in virtqueue_pop
-  log: Add log at boot & cpu init for aarch64
-  log: Add logs during qemu start
+Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+---
+ hw/acpi/core.c  | 3 +++
+ hw/core/reset.c | 2 ++
+ softmmu/vl.c    | 8 ++++++++
+ 3 files changed, 13 insertions(+)
 
- accel/kvm/kvm-all.c         |  5 ++++-
- blockdev.c                  |  2 ++
- hw/acpi/core.c              |  3 +++
- hw/arm/boot.c               |  2 ++
- hw/arm/virt.c               |  2 ++
- hw/core/reset.c             |  2 ++
- hw/pci/pci.c                |  1 +
- hw/usb/host-libusb.c        |  5 +++++
- hw/virtio/virtio-pci.c      |  2 ++
- hw/virtio/virtio-scsi-pci.c |  3 +++
- hw/virtio/virtio.c          | 17 ++++++++++++++---
- monitor/monitor.c           |  9 +++++++++
- monitor/qmp-cmds.c          |  2 ++
- os-posix.c                  |  1 +
- qapi/qmp-dispatch.c         | 17 +++++++++++++++++
- qdev-monitor.c              |  6 ++++++
- softmmu/vl.c                | 10 ++++++++++
- util/oslib-posix.c          |  3 +--
- 18 files changed, 86 insertions(+), 6 deletions(-)
-
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index ac06db3450..0a24f018cf 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -560,13 +560,16 @@ static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
+         uint16_t sus_typ = (val >> 10) & 7;
+         switch(sus_typ) {
+         case 0: /* soft power off */
++            info_report("VM will be soft power off");
+             qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+             break;
+         case 1:
++            info_report("VM will be suspend state");
+             qemu_system_suspend_request();
+             break;
+         default:
+             if (sus_typ == ar->pm1.cnt.s4_val) { /* S4 request */
++                info_report("VM will be S4 state");
+                 qapi_event_send_suspend_disk();
+                 qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+             }
+diff --git a/hw/core/reset.c b/hw/core/reset.c
+index 9c477f2bf5..bd583c77ac 100644
+--- a/hw/core/reset.c
++++ b/hw/core/reset.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/queue.h"
+ #include "sysemu/reset.h"
++#include "qemu/error-report.h"
+ 
+ /* reset/shutdown handler */
+ 
+@@ -64,6 +65,7 @@ void qemu_devices_reset(void)
+ {
+     QEMUResetEntry *re, *nre;
+ 
++    info_report("reset all devices");
+     /* reset all devices */
+     QTAILQ_FOREACH_SAFE(re, &reset_handlers, entry, nre) {
+         re->func(re->opaque);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 4eb9d1f7fd..a9f06111b3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1657,9 +1657,11 @@ static bool main_loop_should_exit(void)
+     }
+     if (qemu_powerdown_requested()) {
+         qemu_system_powerdown();
++        info_report("domain is power down by outside operation");
+     }
+     if (qemu_vmstop_requested(&r)) {
+         vm_stop(r);
++        info_report("domain is stopped by outside operation");
+     }
+     return false;
+ }
+@@ -1669,6 +1671,7 @@ void qemu_main_loop(void)
+ #ifdef CONFIG_PROFILER
+     int64_t ti;
+ #endif
++    info_report("qemu enter main_loop");
+     while (!main_loop_should_exit()) {
+ #ifdef CONFIG_PROFILER
+         ti = profile_getclock();
+@@ -2941,6 +2944,7 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     autostart = 1;
+ 
++    info_report("qemu pid is %d, options parsing start", getpid());
+     /* first pass of option parsing */
+     optind = 1;
+     while (optind < argc) {
+@@ -3154,6 +3158,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 exit(0);
+                 break;
+             case QEMU_OPTION_m:
++                info_report("memory options parse start");
+                 opts = qemu_opts_parse_noisily(qemu_find_opts("memory"),
+                                                optarg, true);
+                 if (!opts) {
+@@ -4152,6 +4157,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     current_machine->maxram_size = maxram_size;
+     current_machine->ram_slots = ram_slots;
+ 
++    info_report("configure accelerator %s start", machine_class->name);
+     /*
+      * Note: uses machine properties such as kernel-irqchip, must run
+      * after machine_set_property().
+@@ -4300,6 +4306,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     replay_checkpoint(CHECKPOINT_INIT);
+     qdev_machine_init();
+ 
++    info_report("machine init start");
+     current_machine->boot_order = boot_order;
+ 
+     /* parse features once if machine provides default cpu_type */
+@@ -4379,6 +4386,7 @@ void qemu_init(int argc, char **argv, char **envp)
+             exit(1);
+     }
+ 
++    info_report("device init start");
+     /* init generic devices */
+     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+     qemu_opts_foreach(qemu_find_opts("device"),
 -- 
 2.18.4
 
