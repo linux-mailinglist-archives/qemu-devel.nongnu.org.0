@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E54723D7D4
+	by mail.lfdr.de (Postfix) with ESMTPS id C137123D7D5
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Aug 2020 10:09:48 +0200 (CEST)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ayB-0003xA-1r
+	id 1k3ayB-0003xi-Oz
 	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 04:09:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33738)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3awy-0002Fh-H0; Thu, 06 Aug 2020 04:08:32 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54178)
+ id 1k3awz-0002GZ-8M; Thu, 06 Aug 2020 04:08:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k3aww-0005ft-V9; Thu, 06 Aug 2020 04:08:32 -0400
-Received: by mail-wm1-x329.google.com with SMTP id g8so8021779wmk.3;
+ id 1k3awx-0005g1-NO; Thu, 06 Aug 2020 04:08:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id 88so43044772wrh.3;
  Thu, 06 Aug 2020 01:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rq4yNdphOIo43q9Xr8hQFGdolus1VUdY6wY1oJGgT2Q=;
- b=Y4sKZyfhVIgYQSBnb5ToM2MgNHsGlJwXdbcrRG4A38e90jZYd7i+GpenAP8CSN3N+4
- 9gxUOQpzsLOEL462xvTKtaWDZBmJ0t+asS+jlI+Z2gOX1WrWgEPOcfTi7B24XTmlZ4fE
- DnQ8x3v5coa3Le9LtCxODrFvy6OoNr7YyKjdII5VC2nRaEwRt9h5JdBdhCTX9TE5Ljpe
- HfGUd3ZIXCCTBOD3MmskUVjDYufmpAtt+LdGZnYun1fSM3CLGOuM1zuhDsahQXHB1cgf
- FoQxDmYIXRo7ESl6ipy4aXzMTaJxOTYw7H6wIm6EPz5S7gWDOyG2/08yOdBYRfiAjTKz
- 63JA==
+ bh=4+aXm2ggWfq1Fly1rmq/Lj+bQKm9iyQ1C1siDyh5+3o=;
+ b=vBIqgLBL2GNNUoliO1+45+XjA00P0+68zsF6XGyQV6irjsbG0+pF3A8i+4AJpF8911
+ hqYyNeTbUjnauH/vE+HyFZnMyWEdyCOiFEnEsn5SmG7fmG65uCsg4yEHAVyHrjjunwNC
+ k5m/XbXEonFRdztED73Y2XmR5Tdy9RRBPEscDwN410wqfjkh37igJPEl7ZOXmG6Uh69D
+ /hRMhZGMx3b7v2TzhsguyD2fci82sqETGIZTCjERzsxNSoxz/tW14M1vuE6hdcrgr+nG
+ WDiOtafb0hOHp6r9T7jj4ALHUHUE0A8MjRdKiqOWrC/Jh1fgYoyxkOiOai+j+ddPA+hU
+ Qhkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Rq4yNdphOIo43q9Xr8hQFGdolus1VUdY6wY1oJGgT2Q=;
- b=jzsCFS0GWIT16xxeHS1Z9gdsDWAblU/YRH2gpGOQjS4otYd9PQMvu+tK4fsycomc0y
- AWZv0YLDU8EPpDEPteuX0JJcVYZ769uNkRaWz4xtoBGODX9KdP9ccefFAGYK82xXl4uU
- wMBeOB7ic09THHs0ly4RuiHGSBcKaM2S0UXLgZzTh7FANyHZb7jyWksDf+aN2ndd3Fke
- bDwqoe4WjAnU4IET/3SWThbgRf3UuWxugoGaLjJuyaN2locNov7+yV2AtoeHWKshon3s
- sCIDNd1c8bemlQIkB5shMOqJl5kIypvrqs2R36b8SIo23YKuIUYnwsnTxcZHBTS+Q2Zl
- DaTA==
-X-Gm-Message-State: AOAM533UKweDcCoWLmpAlG5wXIAlthqPh2A6Cszl+i8X3cb4lFU18Fjv
- 2PpF1wBMxEJmJzwZfBa+UZO7GVQY
-X-Google-Smtp-Source: ABdhPJwQbqVFaRYfTEhE0ucxwIP57z1qC374zgUltvP1FF+yVb3HepGMYJcO4COGnfhxeRNCgoqA2Q==
-X-Received: by 2002:a1c:a78a:: with SMTP id q132mr6690408wme.27.1596701308456; 
- Thu, 06 Aug 2020 01:08:28 -0700 (PDT)
+ bh=4+aXm2ggWfq1Fly1rmq/Lj+bQKm9iyQ1C1siDyh5+3o=;
+ b=uc2XUo7Ttiq1iqAAAGSRUVETQ0aEUW15Y79sw4T+qj1D/1HAtmi6waj3DCkFtqRaIK
+ atVmZOjyxoFXV83VRv6+8DC3gujFvTe/L6b2zMSRUNsAfhtOwT9EOZzEPlooJCiWwM2W
+ E94byvTkFSUWvTe28bB5j13Oo8TfTeGM9gB3UxFmgVQk+ivJ28/BhQO/gzpPXdOOJVYg
+ 6sfUlDolfPgsqziCS+cGhB84IKGywYzfqgS9bDiJU88ZG/pO1tPMIV0CHd9wmlooAW4V
+ 4CJSHU8xwKSeyZDi9yH0L1D3zT15qG6GU9H9y/oZL5x4WkaeWaP+UhdxQFVVCr/NYCe5
+ rs+A==
+X-Gm-Message-State: AOAM531RG76uHpmuZYEjj7tnk/OsrgpVnaxYb3CUcUI9HboQOhtPltLE
+ dZp63kMxW0Cqhzbz4hjLElg6bzEh
+X-Google-Smtp-Source: ABdhPJzupK0w6Pw7Yv3JZ9t//wVtZZTftWvR1hHu7uKTk88NmVL83zwitQ5FW2WzZkaPUh2Vk174og==
+X-Received: by 2002:a5d:51c3:: with SMTP id n3mr6340324wrv.104.1596701309639; 
+ Thu, 06 Aug 2020 01:08:29 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.27
+ by smtp.gmail.com with ESMTPSA id w2sm6039587wre.5.2020.08.06.01.08.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 01:08:27 -0700 (PDT)
+ Thu, 06 Aug 2020 01:08:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 1/7] hw/block/fdc: Let sector count be unsigned
-Date: Thu,  6 Aug 2020 10:08:18 +0200
-Message-Id: <20200806080824.21567-2-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 2/7] hw/block/fdc: Let sector offset be unsigned
+Date: Thu,  6 Aug 2020 10:08:19 +0200
+Message-Id: <20200806080824.21567-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200806080824.21567-1-f4bug@amsat.org>
 References: <20200806080824.21567-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,35 +91,26 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sectors count can not be negative, make it unsigned.
+Sector offset can not be negative, make it unsigned.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/fdc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/block/fdc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index e9ed3eef45..2cec7568c1 100644
+index 2cec7568c1..c91ed7ee2d 100644
 --- a/hw/block/fdc.c
 +++ b/hw/block/fdc.c
-@@ -245,14 +245,14 @@ static void fd_init(FDrive *drv)
- 
- #define NUM_SIDES(drv) ((drv)->flags & FDISK_DBL_SIDES ? 2 : 1)
- 
--static int fd_sector_calc(uint8_t head, uint8_t track, uint8_t sect,
--                          uint8_t last_sect, uint8_t num_sides)
-+static uint32_t fd_sector_calc(uint8_t head, uint8_t track, uint8_t sect,
-+                               uint8_t last_sect, uint8_t num_sides)
- {
-     return (((track * num_sides) + head) * last_sect) + sect - 1;
+@@ -259,7 +259,7 @@ static uint32_t fd_sector(FDrive *drv)
  }
  
- /* Returns current position, in sectors, for given drive */
--static int fd_sector(FDrive *drv)
-+static uint32_t fd_sector(FDrive *drv)
+ /* Returns current position, in bytes, for given drive */
+-static int fd_offset(FDrive *drv)
++static uint64_t fd_offset(FDrive *drv)
  {
-     return fd_sector_calc(drv->head, drv->track, drv->sect, drv->last_sect,
-                           NUM_SIDES(drv));
+     g_assert(fd_sector(drv) < INT_MAX >> BDRV_SECTOR_BITS);
+     return fd_sector(drv) << BDRV_SECTOR_BITS;
 -- 
 2.21.3
 
