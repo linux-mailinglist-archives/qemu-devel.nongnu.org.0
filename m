@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC1223EA55
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:29:41 +0200 (CEST)
-Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F023EA60
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:32:34 +0200 (CEST)
+Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yh2-0002q7-P5
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
+	id 1k3yjp-0005sI-Io
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:32:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3yfw-00027f-9R
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:28:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57408
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3yfu-0002Zz-Mz
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:28:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596792509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=clKlOhwQpIAzW78hcJMVjxNauxhrIsgp4RR3i95RSq0=;
- b=dwer9KiIBtIjlvshv/7VzSh8+CBgdahQJl4ctHEpr2iRLXMAbHqi2SflbAcnnbitF2xe4p
- UrQFppxq3ObXJi2fmHrR2Ei9UPQ0gHagIdWTqxOGr0xWBcTVQnGWay9peOjL+6iAmjujVb
- yFTIeRYYMWn+i38qKPqQnk+c3Tz6jCE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-ZIQ79NLSN8uvtb_MfYnvsw-1; Fri, 07 Aug 2020 05:28:26 -0400
-X-MC-Unique: ZIQ79NLSN8uvtb_MfYnvsw-1
-Received: by mail-wr1-f71.google.com with SMTP id z7so514746wrw.21
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:28:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=clKlOhwQpIAzW78hcJMVjxNauxhrIsgp4RR3i95RSq0=;
- b=K/4J8V0bq8vhfi/qVSWWc/YIl3byChmKHPIM7ILwm53ndWlL2HHR47RjCt2Cql7bLI
- juQUfYLHDGr4jGyrm3Pp7Nc3BN0VKI1l0LOscyAF+v+baAfv+nEnE/uXNGXlOq8w1NAM
- 9UsJxIcMmExOUyHaeX4exAA1YXZXrQ8G5bgSncmd0TjzLxIIGEmLufIqkFag6P/y4Fjm
- 8A5c/EQHOiLRgMZYZ6NNOB7W1BbW0yNrp06ocyG2uZcY+9rJg5m72asMku6On9J8omTe
- SKl5wRVMMGKIzcQp4wP/eWNX8UbCnPvNyjush5K5JXiGgmdkrFjE8tvaMYr8hWomI+Dy
- koJw==
-X-Gm-Message-State: AOAM533oD06iVSfA+tSbZWT4FQP/BCC8IrGsK/rE2qheCUAt+lzSqEiC
- tibxcew0Y8z9TJpknbeY9kf+PPYVUnAY9DJiVW5j/VWdIAABRXbQr609Qyyw9bGr/6Etv6N/MrM
- PJG8GbpxiI3Hdgok=
-X-Received: by 2002:a5d:4947:: with SMTP id r7mr11084140wrs.165.1596792505156; 
- Fri, 07 Aug 2020 02:28:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyO7iLOGNi+iqYw+8QKjafGPZnvSRXqO89nXGBMHUfXz+EC6DiJEtHSLihXEOyChEppMOzicg==
-X-Received: by 2002:a5d:4947:: with SMTP id r7mr11084066wrs.165.1596792504044; 
- Fri, 07 Aug 2020 02:28:24 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
- ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
- by smtp.gmail.com with ESMTPSA id j5sm10014302wmb.15.2020.08.07.02.28.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Aug 2020 02:28:23 -0700 (PDT)
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA-d0F9y2OSX5D7GrzUYU7yf4nAhHabE1dUVii3LRrueLQ@mail.gmail.com>
- <dc73a810-ee9e-711e-dad0-76a566b923e4@redhat.com>
- <8dedfe22-8659-5684-99a6-e9d503a5b3e2@redhat.com>
- <20200807091841.GG120942@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f9d3dec8-90d2-54a3-4fce-65703bc619a2@redhat.com>
-Date: Fri, 7 Aug 2020 11:28:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3yh6-0003We-4a
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:29:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3yh3-0002fi-Oc
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:29:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k3yh1-0005oP-WD
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 09:29:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EC8752E808C
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 09:29:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200807091841.GG120942@redhat.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 02:21:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Aug 2020 09:19:56 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1030807@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: k-henning-z philmd th-huth
+X-Launchpad-Bug-Reporter: Henning Schild (k-henning-z)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <20120730102531.13148.51710.malonedeb@wampee.canonical.com>
+ <159678769319.10780.14963118191647047477.malone@chaenomeles.canonical.com>
+Message-Id: <4e854df9-b3e2-ecf0-0c24-0c4d8031bd93@redhat.com>
+Subject: Re: [Bug 1030807] Re: PCI host bridge should ignore 1- and 2-byte I/O
+ accesses
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2c76416c1bddbcb0868f34930925a71fc6d5a57b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -107,31 +75,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1030807 <1030807@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/20 11:18, Daniel P. Berrangé wrote:
-> If we bundle Meson, there's a risk that we see a new shiny feature
-> in next meson, and bump our sub-module to the next release. And
-> again. And again. And again. If we do that we'll never get to a
-> place where we can rely on distro Meson. That will be bad.
-> 
-> So I think we need to be very mindful of this and strongly resist
-> the urge to further increase our min meson version in future.
+Cc'ing Julia (can't find her on Launchpad) because this looks
+similar to a bug she has been tracking.
 
-Agreed.  Marc-André has a couple patches left, but they're just nice to
-have.  Another possibility could be adding first-class Sphinx support to
-Meson (e.g. parsing the conf.py file to figure out the manpages directly).
+On 8/7/20 10:08 AM, Thomas Huth wrote:
+> Looking through old bug tickets... is this still an issue with the
+> latest version of QEMU? Or could we close this ticket nowadays?
+> =
 
-Otherwise, 0.55.0 (or 0.56.0 if we want to avoid the warnings) should
-have all that we need, and we're already doing some pretty complicated
-things.
+> =
 
-Paolo
+> ** Changed in: qemu
+>        Status: New =3D> Incomplete
+>
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1030807
+
+Title:
+  PCI host bridge should ignore 1- and 2-byte I/O accesses
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  In PCI there are two IO modes. Deprecated Mode2 that uses single byte IO =
+and Mode1 that uses 4byte IO.
+  According to the spec a host bridge that supports Mode1 should ignore all=
+ IO that is not 4bytes.
+
+  > Anytime a host bridge sees a full DWORD I/O write from the host to
+  > CONFIG_ADDRESS, the bridge must latch the data into its CONFIG_ADDRESS
+  > register. On full DWORD I/O reads to CONFIG_ADDRESS, the bridge must re=
+turn the
+  > data in CONFIG_ADDRESS. Any other types of accesses to this address (no=
+n-DWORD)
+  > have no effect on CONFIG_ADDRESS and are executed as normal I/O transac=
+tions on
+  > the PCI bus. Therefore, the only I/O Space consumed by this register is=
+ a DWORD at the
+  > given address. I/O devices that share the same address but use BYTE or =
+WORD registers
+  > are not affected because their transactions will pass through the host =
+bridge unchanged.
+
+  In qemu the host bridge will accept 1-, 2-, and 4-byte reads/writes.
+  That breakes plan9 guests that do not use the bios to access the PCI
+  config space.
+
+  have a look at:
+  http://code.google.com/p/plan9front/source/browse/sys/src/9/pc/pci.c
+
+  In Lines 960-967 the check for PCI Mode1 is done. This check assumes that=
+ the 4-byte write at line 961 succeeds and the single byte write at 962 is =
+ignored.
+  On qemu line 962 will not be ignored and the test in line 963 will fail.
+  The plan9 kernel will fall back to Mode2 which does not work.
+  The result is that the guest will not see any PCI devices.
+
+  I do not really have an image that you guys could quickly check this with=
+, but i could prepare one if need be.
+  An easy way to reproduce this in linux would be to stick an outb between =
+those two lines from pci_check_type1(void).
+
+  > outl(0x80000000, 0xCF8);
+  + outb0x01, 0xcfb);
+  > if (inl(0xCF8) =3D=3D 0x80000000 && pci_sanity_check(&pci_direct_conf1)=
+) {
+
+  I did not try this but i guess on real hardware the linux kernel would
+  still work while it would not work anymore on qemu.
+
+  I tried to come up with a patch but did not find a quick solution. I
+  found that in hw/piic_pci.c sysbus_add_io is used which will register
+  read/write functions for 1, 2, and 4 bytes. This is done in ioport.c
+  ioport_register. I guess if i provided a patch you guys might not like
+  it :). So i figured i should report the bug, let me know if you need
+  any additional information.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1030807/+subscriptions
 
