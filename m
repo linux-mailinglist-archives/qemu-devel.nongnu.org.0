@@ -2,69 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175E323EB8B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:27:15 +0200 (CEST)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3AE23EB38
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:08:01 +0200 (CEST)
+Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zak-0006tb-2l
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
+	id 1k3zI9-00037E-1Y
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3zYf-00055t-29
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3zYZ-0000bH-8D
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3zYW-0002j2-2i
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:24:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 121FC2E808D
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:24:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k3zH7-0002P4-Px
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:06:57 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46726
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k3zH6-0006xd-B1
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:06:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596794815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zsoKQF+OGJNqmx28LlRW/D/nr6kg9bvepOAbBivFiBw=;
+ b=c0EfwKdRLnhftr5B1oEKY7DHSMXRS8L9kxTxRFLag1eQHMgiKjwpfi6UpaDzRFEXng0gyN
+ 7slMdn3P1W6nMU+lIMmXzxml84YUXNiW6zwypRaAfa7CfX9SaaER4bl8a8LmeF9Mveworp
+ LSwWXzngtc6wOsrjluiCt3QakAzfZW4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-wzSlHkqwPVmUbEsdOUt6lw-1; Fri, 07 Aug 2020 06:06:53 -0400
+X-MC-Unique: wzSlHkqwPVmUbEsdOUt6lw-1
+Received: by mail-wr1-f70.google.com with SMTP id b18so556555wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 03:06:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zsoKQF+OGJNqmx28LlRW/D/nr6kg9bvepOAbBivFiBw=;
+ b=IaGBS/eF5Qm6BN0sYjo3DxRp/MOndY66V41eloXf9BKyKM1J+MFu1mbeZ2yNd+PElk
+ YB+D2l0ZJbfFJEtIEWqxhlwmTDqaDhTNYkRfU6CyZEzNKol+R058XMxhNXMUowAGRStP
+ mPGK12ZodUGEN6jdkRwy3JzSBMdK143TEjCns/WWxdRcZXTp0h3G9WMckR5fYJo+vNcT
+ +2d0HrfNhhnaIKNVdsFXhtw6n0xiCmuTzQwkGsXyyeAirHcZ9yjQ6OkSrdwAHHyS+e63
+ /ncHgsSUo3MEWbyW06JjlisTbURbOfQgT54t4Po7Ef+MlKB0DZTbOhWQxPIhw+tBOZZs
+ mgPA==
+X-Gm-Message-State: AOAM5306GcjIyM6cADmYPJqFDCz9fzz+N7QUXWA9QS+0UITYboVsv+Fv
+ JNjMgZvV1IkQwu+1yPhfuLTnCVdqDFrgK9WL5SlIqw+T9zVss+/rNp3PmlZQxgtIz9aDsVjsn8U
+ RxzacvJvNp1LnZMw=
+X-Received: by 2002:adf:ed85:: with SMTP id c5mr11384518wro.307.1596794812448; 
+ Fri, 07 Aug 2020 03:06:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHTV0K5ejycNc7Fz/uIaYldxACAoSzHZO8bA0ZH01IIO0Jd+ZJWx1WtD+2QM2GRcWpNEzFSQ==
+X-Received: by 2002:adf:ed85:: with SMTP id c5mr11384497wro.307.1596794812152; 
+ Fri, 07 Aug 2020 03:06:52 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
+ ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
+ by smtp.gmail.com with ESMTPSA id p3sm9534229wma.44.2020.08.07.03.06.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Aug 2020 03:06:51 -0700 (PDT)
+Subject: Re: [PATCH 005/143] meson: rename .inc.c files to .inc
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+ <1596741379-12902-6-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA_mN3XrgxRbhq5U0B=OxBq6T3DXymb4_U-tzOya=W-AbQ@mail.gmail.com>
+ <d676a107-c49d-ab3f-f6e3-f6b594af9c4f@redhat.com> <877dualqs9.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1748c4ce-a80a-af1b-ea9c-d518e3b93cbe@redhat.com>
+Date: Fri, 7 Aug 2020 12:06:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 10:06:31 -0000
-From: Thomas Huth <1280521@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: bell labs plan
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: silverwerwolf13 th-huth
-X-Launchpad-Bug-Reporter: Jinx (silverwerwolf13)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140215035259.1834.30563.malonedeb@wampee.canonical.com>
-Message-Id: <159679479191.5696.6854103791427361615.malone@soybean.canonical.com>
-Subject: [Bug 1280521] Re: Plan 9 can't use GUI well emulating a RTL8139 card
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ff1557ae28ae7db5c97f2cd55f59d153a411b49e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <877dualqs9.fsf@linaro.org>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,35 +104,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1280521 <1280521@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
+On 07/08/20 12:00, Alex Bennée wrote:
+> Hmm - I guess one workaround is to tweak editorconfig so whatever we end
+> up renaming things still get identified as the right type of file for
+> syntax hi-lighting purposes.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+We can use .c.inc and .h.inc in that case.  .c.inc would be for
+singly-included inline C files, .h.inc is for multiply-included inline C
+files.
 
--- =
+FWIW I would also prefer .inc.c, but it's not my choice to make
+unfortunately.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1280521
+Paolo
 
-Title:
-  Plan 9 can't use GUI well emulating a RTL8139 card
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  The OS Plan 9 from Bell Labs runs fine in QEMU/KVM for the most part
-  buy is unable to boot its GUI when emulating a RTL8139 WiFi card. I
-  hear someone was able to get it working under a Windows XP host but I
-  can't seem to do it under a Gentoo host. If you have any idea what may
-  be doing this I would love to hear it.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1280521/+subscriptions
 
