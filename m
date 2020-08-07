@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DE623E789
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 09:06:22 +0200 (CEST)
-Received: from localhost ([::1]:52522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82A823E7D5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 09:21:35 +0200 (CEST)
+Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3wSK-0000vQ-Sd
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 03:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
+	id 1k3wh5-0005Pf-0P
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 03:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ouyangxuan10@163.com>)
- id 1k3wRF-0000OD-Ji
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 03:05:13 -0400
-Received: from m13117.mail.163.com ([220.181.13.117]:4671)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ouyangxuan10@163.com>)
- id 1k3wR9-0001Xz-MZ
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 03:05:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=j4bMR
- u9D8CvqC10f0ooXZRs0rr+iTNRCZq7j8Onn8XQ=; b=AlOWBrQX4acEQsrUEejtW
- WujBvp+4qHYflM5JbP6tHzN05aNdTE7SqK91fofTXR+rvtKyqAZwB/IRSI1f6bHV
- GTk96rXOIZwEr1S4zr0OTW+6NQsAlEg10MZrM8Y+uATuS98zmuWOEDK5JUsAZOqe
- U6Q3ibU/H7pSEZIE6EMQsM=
-Received: from ouyangxuan10$163.com ( [106.120.127.15] ) by
- ajax-webmail-wmsvr117 (Coremail) ; Fri, 7 Aug 2020 15:03:48 +0800 (CST)
-X-Originating-IP: [106.120.127.15]
-Date: Fri, 7 Aug 2020 15:03:48 +0800 (CST)
-From: www  <ouyangxuan10@163.com>
-To: "Joel Stanley" <joel@jms.id.au>
-Subject: Re:Re: [qemu]: How to use qemu to run 64MB bmc image?
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190724(ac680a23)
- Copyright (c) 2002-2020 www.mailtech.cn 163com
-In-Reply-To: <CACPK8Xe0bCyksJ8wYA5oWrkZ6+COdQWxai5qHAV0nYxRhE7xqw@mail.gmail.com>
-References: <7c834989.1a25.173c17e115d.Coremail.ouyangxuan10@163.com>
- <1f2df783-caf0-a5da-11f2-bb99d006b961@kaod.org>
- <248a1877-66a6-9a4b-f1f0-92819aa9a072@redhat.com>
- <CACPK8Xe0bCyksJ8wYA5oWrkZ6+COdQWxai5qHAV0nYxRhE7xqw@mail.gmail.com>
-X-CM-CTRLDATA: 2sedcWZvb3Rlcl9odG09NzUzNjo1Ng==
-Content-Type: multipart/alternative; 
- boundary="----=_Part_53762_1859832586.1596783828747"
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3wgI-0004fs-83
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 03:20:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3wgF-0003ys-TM
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 03:20:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k3wgD-0008Rr-Sg
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 07:20:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D76F62E804E
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 07:20:41 +0000 (UTC)
 MIME-Version: 1.0
-Message-ID: <808b2c7.38d8.173c7bb9f0b.Coremail.ouyangxuan10@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: dcGowAD3_3vU_Cxf3QpNAA--.16461W
-X-CM-SenderInfo: prx1t0pj0xt0irq6il2tof0z/1tbiORZ52lXluElWaAADsw
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.117; envelope-from=ouyangxuan10@163.com;
- helo=m13117.mail.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 03:04:50
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Aug 2020 07:10:22 -0000
+From: Satheesh Rajendran <1890290@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=groug@kaod.org; 
+X-Launchpad-Bug-Tags: nested powerpc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gkurz sathnaga
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
+References: <159655059319.10948.7356744312155765003.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159678422209.15668.11598367117061646669.malone@wampee.canonical.com>
+Subject: [Bug 1890290] Re: PowerPC L2(nested virt) kvm guest fails to boot
+ with ic-mode=dual, kernel-irqchip=on - `KVM is too old to support ic-mode=dual,
+ kernel-irqchip=on`
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f8d08067c099760e601af1107308eb5ba131a069
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,230 +75,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?GBK?Q?Philippe_Mathieu-Daud=A8=A6?= <philmd@redhat.com>,
- =?GBK?Q?C=A8=A6dric_Le_Goater?= <clg@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1890290 <1890290@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_53762_1859832586.1596783828747
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+@Greg,
 
-aGksCgoKVGhhbmsgeW91IGZvciB5b3VyIHJlcGx5LiAKSSBtZWFuOiBJJ3ZlIG1vZGlmaWVkIHRo
-ZSBPQk1DIHByb2plY3QgdG8gZ2VuZXJhdGUgNjRNQiBvZiBCTUMgaW1hZ2UsIHdoaWNoIGNhbiBy
-dW4gc21vb3RobHkgb24gdGhlIGFjdHVhbCBtYWNoaW5lLiBJIHRyaWVkIHRvIHJ1biA2NE1CIEJN
-QyBpbWFnZSBpbiBRRU1VLCBidXQgZmFpbGVkLgoKCgoKSSB3YW50IHRvIGFzazogCjEuIERvIEkg
-bmVlZCB0byBtb2RpZnkgUUVNVSBzb3VyY2UgY29kZSBhbmQgcmVjb21waWxlIGl0PwoKMi4gSG93
-IHRvIG1vZGlmeSBpdCBpZiBuZWNlc3Nhcnk/CgozLiBJcyB0aGVyZSBhbnkgZG9jdW1lbnQgYWJv
-dXQgUUVNVSB0aGF0IGNhbiBoZWxwIG1lIHVuZGVyc3RhbmQgdGhlIHdvcmtpbmcgcHJpbmNpcGxl
-IG9mIFFFTVUgcXVpY2tseT8KCgpjb25zb2xlIGxvZ6O6ClsgICAgNS41NTc2NTRdIENoZWNrZWQg
-VytYIG1hcHBpbmdzOiBwYXNzZWQsIG5vIFcrWCBwYWdlcyBmb3VuZApbICAgIDUuNTU4MjAzXSBS
-dW4gL2luaXQgYXMgaW5pdCBwcm9jZXNzCnJvZnMgPSBtdGQ0IHNxdWFzaGZzIHJ3ZnMgPSBtdGQ1
-IGpmZnMyCm1vdW50OiBtb3VudGluZyAvZGV2L2xvb3AwIG9uIHJ1bi9pbml0cmFtZnMvcm8gZmFp
-bGVkOiBJbnZhbGlkIGFyZ3VtZW50ClsgICAxOC4yOTczNzddIGpmZnMyOiBUb28gZmV3IGVyYXNl
-IGJsb2NrcyAoMCkKbW91bnQ6IG1vdW50aW5nIC9kZXYvbXRkYmxvY2s1IG9uIHJ1bi9pbml0cmFt
-ZnMvcncgZmFpbGVkOiBJbnZhbGlkIGFyZ3VtZW50CgoKTW91bnRpbmcgcmVhZC13cml0ZSAvZGV2
-L210ZGJsb2NrNSBmaWxlc3lzdGVtIGZhaWxlZC4gIFBsZWFzZSBmaXggYW5kIHJ1bgogICAgICAg
-IG1vdW50IC9kZXYvbXRkYmxvY2s1IHJ1bi9pbml0cmFtZnMvcncgLXQgamZmczIgLW8gcncKdG8g
-dG8gY29udGludWUsIG9yIGRvIGNoYW5nZSBub3RoaW5nIHRvIHJ1biBmcm9tIFJBTSBmb3IgdGhp
-cyBib290LgpFbnRlciBwYXNzd29yZCB0byB0cnkgdG8gbWFudWFsbHkgZml4LgpBZnRlciBmaXhp
-bmcgcnVuIGV4aXQgdG8gY29udGludWUgdGhpcyBzY3JpcHQsIG9yIHJlYm9vdCAtZiB0byByZXRy
-eSwgb3IKdG91Y2ggL3Rha2VvdmVyIGFuZCBleGl0IHRvIGJlY29tZSBQSUQgMSBhbGxvd2luZyBl
-ZGl0aW5nIG9mIHRoaXMgc2NyaXB0LgpHaXZlIHJvb3QgcGFzc3dvcmQgZm9yIHN5c3RlbSBtYWlu
-dGVuYW5jZQoob3IgdHlwZSBDb250cm9sLUQgZm9yIG5vcm1hbCBzdGFydHVwKToKCgpxZW11IGxv
-Z6O6CmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zm
-c2V0IDB4ODAwNjQpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNp
-emUgNCwgb2Zmc2V0IDB4ODAwNjApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNl
-IHdyaXRlIChzaXplIDQsIHZhbHVlIDB4NDdmMDAwMCwgb2Zmc2V0IDB4ODAwNjApCmFzcGVlZF9z
-b2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zmc2V0IDB4ODAwNjAp
-CmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zmc2V0
-IDB4ODAwNjQpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUg
-NCwgb2Zmc2V0IDB4ODAwNjApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdy
-aXRlIChzaXplIDQsIHZhbHVlIDB4NDIwMDAwMCwgb2Zmc2V0IDB4ODAwNjApCmFzcGVlZF9zb2Mu
-aW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zmc2V0IDB4ODAwNjApCmFz
-cGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zmc2V0IDB4
-ODAwNjQpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwg
-b2Zmc2V0IDB4ODAwNjApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRl
-IChzaXplIDQsIHZhbHVlIDB4NDAwMDAwMCwgb2Zmc2V0IDB4ODAwNjApCmFzcGVlZF9zb2MuaW86
-IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zmc2V0IDB4ODAwNjApCmFzcGVl
-ZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHJlYWQgKHNpemUgNCwgb2Zmc2V0IDB4ODAw
-NjQpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZh
-bHVlIDB4MCwgb2Zmc2V0IDB4YTAwMDgpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2
-aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4MWZmLCBvZmZzZXQgMHhhMDAwYykKYXNwZWVkX3Nv
-Yy5pbzogdW5pbXBsZW1lbnRlZCBkZXZpY2Ugd3JpdGUgKHNpemUgNCwgdmFsdWUgMHg4MDAzMDgw
-MCwgb2Zmc2V0IDB4YTAwMDApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdy
-aXRlIChzaXplIDQsIHZhbHVlIDB4ODAwNzA4MDAsIG9mZnNldCAweGEwMDAwKQphc3BlZWRfc29j
-LmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2YWx1ZSAweDMzZiwgb2Zm
-c2V0IDB4YTAwMjApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChz
-aXplIDQsIHZhbHVlIDB4MCwgb2Zmc2V0IDB4YTAwMjApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVt
-ZW50ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4MCwgb2Zmc2V0IDB4YTAwMTApCmFz
-cGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4
-MCwgb2Zmc2V0IDB4YTAwMTQpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdy
-aXRlIChzaXplIDQsIHZhbHVlIDB4N2ZmZiwgb2Zmc2V0IDB4YTAwMTgpCmFzcGVlZF9zb2MuaW86
-IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4N2ZmZiwgb2Zmc2V0
-IDB4YTAwMWMpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChzaXpl
-IDQsIHZhbHVlIDB4MCwgb2Zmc2V0IDB4YTAwMzApCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50
-ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4NSwgb2Zmc2V0IDB4YTAwMzgpCmFzcGVl
-ZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4MCwg
-b2Zmc2V0IDB4YTAwM2MpCmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRl
-IChzaXplIDQsIHZhbHVlIDB4OWIwNDAwMDAsIG9mZnNldCAweGEwMDM0KQphc3BlZWRfc29jLmlv
-OiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2YWx1ZSAweDAsIG9mZnNldCAw
-eGEwMDA0KQphc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0
-LCB2YWx1ZSAweDgwMDcwODAxLCBvZmZzZXQgMHhhMDAwMCkKYXNwZWVkX3NvYy5pbzogdW5pbXBs
-ZW1lbnRlZCBkZXZpY2Ugd3JpdGUgKHNpemUgNCwgdmFsdWUgMHgxMDFjYiwgb2Zmc2V0IDB4YTAw
-MDgpCgoKCgp0aGFuayB5b3UsCkJ5cm9uCgoKCgoKCgoKCgoKCgoKCgoKQXQgMjAyMC0wOC0wNyAw
-NjowOToyNiwgIkpvZWwgU3RhbmxleSIgPGpvZWxAam1zLmlkLmF1PiB3cm90ZToKPk9uIFRodSwg
-NiBBdWcgMjAyMCBhdCAxNToxMiwgUGhpbGlwcGUgTWF0aGlldS1EYXVkqKYgPHBoaWxtZEByZWRo
-YXQuY29tPiB3cm90ZToKPj4KPj4gT24gOC82LzIwIDM6NTQgUE0sIEOopmRyaWMgTGUgR29hdGVy
-IHdyb3RlOgo+PiA+IEhlbGxvLAo+PiA+Cj4+ID4gT24gOC82LzIwIDM6NTggQU0sIHd3dyB3cm90
-ZToKPj4gPj4gSGkgSm9lbCBTdGFubGV5LCBBbmRyZXcgSmVmZmVyeSwgQ6imZHJpYyBMZSBHb2F0
-ZXIsCj4+ID4+Cj4+ID4+IEhvdyB0byBtb2RpZnkgaXQgc28gdGhhdCBRRU1VIGNhbiBydW4gNjRN
-QiBCTUMgaW1hZ2U/Cj4+ID4KPj4gPiBZb3UgY2FuIGluY3JlYXNlIHRoZSBGVyBpbWFnZSBmaWxl
-IHNpemUgd2l0aCAnZGQnIG9yIHdpdGggOgo+PiA+Cj4+ID4gICBjYXQgZm9vIGZvbyA+IGJhcgo+
-PiA+Cj4+ID4gaWYgdGhlIGV4cGVjdGVkIHNpemUgaXMgMTI4TUIKPj4KPj4gWW91IGNhbiB1c2Ug
-J3RydW5jYXRlJyBmcm9tIGNvcmV1dGlsczoKPj4KPj4gJCB0cnVuY2F0ZSAtcyAxMjhNIGltYWdl
-LmJpbgo+Cj5OaWNlIHRpcCEKPgo+KFdoYXQgYW4gb2J2aW91cyBuYW1lIGZvciBhIHRvb2wgdG8g
-ZXh0ZW5kIGZpbGVzKQo+Cj5DaGVlcnMsCj4KPkpvZWwK
-------=_Part_53762_1859832586.1596783828747
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+Thanks for the patch, I see it already got applied into 5.2, tested and
+works fine,
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPmhpLDwvZGl2PjxkaXYg
-c3R5bGU9Im1hcmdpbjogMDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij5UaGFu
-ayB5b3UgZm9yIHlvdXIgcmVwbHkuJm5ic3A7PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+
-SSBtZWFuOiBJJ3ZlIG1vZGlmaWVkIHRoZSBPQk1DIHByb2plY3QgdG8gZ2VuZXJhdGUgNjRNQiBv
-ZiBCTUMgaW1hZ2UsIHdoaWNoIGNhbiBydW4gc21vb3RobHkgb24gdGhlIGFjdHVhbCBtYWNoaW5l
-LiBJIHRyaWVkIHRvIHJ1biA2NE1CIEJNQyBpbWFnZSBpbiBRRU1VLCBidXQgZmFpbGVkLjwvZGl2
-PjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkkg
-d2FudCB0byBhc2s6Jm5ic3A7PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+MS4gRG8gSSBu
-ZWVkIHRvIG1vZGlmeSBRRU1VIHNvdXJjZSBjb2RlIGFuZCByZWNvbXBpbGUgaXQ/PC9kaXY+PHAg
-c3R5bGU9Im1hcmdpbjogMDsiPjIuIEhvdyB0byBtb2RpZnkgaXQgaWYgbmVjZXNzYXJ5PzwvcD48
-ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij4zLiBJcyB0aGVyZSBhbnkgZG9jdW1lbnQgYWJvdXQgUUVN
-VSB0aGF0IGNhbiBoZWxwIG1lIHVuZGVyc3RhbmQgdGhlIHdvcmtpbmcgcHJpbmNpcGxlIG9mIFFF
-TVUgcXVpY2tseT88L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9kaXY+PGRpdiBz
-dHlsZT0ibWFyZ2luOiAwOyI+PGI+Y29uc29sZSBsb2c8L2I+o7o8L2Rpdj48ZGl2IHN0eWxlPSJt
-YXJnaW46IDA7Ij48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OiAxMnB4OyI+PGk+WyZuYnNwOyAmbmJzcDsgNS41NTc2NTRdIENoZWNrZWQgVytYIG1hcHBpbmdz
-OiBwYXNzZWQsIG5vIFcrWCBwYWdlcyBmb3VuZDwvaT48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0i
-bWFyZ2luOiAwOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTJweDsiPjxpPlsmbmJzcDsgJm5i
-c3A7IDUuNTU4MjAzXSBSdW4gL2luaXQgYXMgaW5pdCBwcm9jZXNzPC9pPjwvc3Bhbj48L2Rpdj48
-ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxMnB4OyI+PGk+
-cm9mcyA9IG10ZDQgc3F1YXNoZnMgcndmcyA9IG10ZDUgamZmczI8L2k+PC9zcGFuPjwvZGl2Pjxk
-aXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDEycHg7Ij48aT5t
-b3VudDogbW91bnRpbmcgL2Rldi9sb29wMCBvbiBydW4vaW5pdHJhbWZzL3JvIGZhaWxlZDogSW52
-YWxpZCBhcmd1bWVudDwvaT48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZTogMTJweDsiPjxpPlsmbmJzcDsgJm5ic3A7MTguMjk3Mzc3XSBq
-ZmZzMjogVG9vIGZldyBlcmFzZSBibG9ja3MgKDApPC9pPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxl
-PSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxMnB4OyI+PGk+bW91bnQ6IG1v
-dW50aW5nIC9kZXYvbXRkYmxvY2s1IG9uIHJ1bi9pbml0cmFtZnMvcncgZmFpbGVkOiBJbnZhbGlk
-IGFyZ3VtZW50PC9pPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9k
-aXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTJweDsi
-PjxpPk1vdW50aW5nIHJlYWQtd3JpdGUgL2Rldi9tdGRibG9jazUgZmlsZXN5c3RlbSBmYWlsZWQu
-Jm5ic3A7IFBsZWFzZSBmaXggYW5kIHJ1bjwvaT48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFy
-Z2luOiAwOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTJweDsiPjxpPiZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyBtb3VudCAvZGV2L210ZGJsb2NrNSBydW4vaW5pdHJhbWZzL3J3IC10IGpm
-ZnMyIC1vIHJ3PC9pPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOiAxMnB4OyI+PGk+dG8gdG8gY29udGludWUsIG9yIGRvIGNoYW5nZSBu
-b3RoaW5nIHRvIHJ1biBmcm9tIFJBTSBmb3IgdGhpcyBib290LjwvaT48L3NwYW4+PC9kaXY+PGRp
-diBzdHlsZT0ibWFyZ2luOiAwOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTJweDsiPjxpPkVu
-dGVyIHBhc3N3b3JkIHRvIHRyeSB0byBtYW51YWxseSBmaXguPC9pPjwvc3Bhbj48L2Rpdj48ZGl2
-IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxMnB4OyI+PGk+QWZ0
-ZXIgZml4aW5nIHJ1biBleGl0IHRvIGNvbnRpbnVlIHRoaXMgc2NyaXB0LCBvciByZWJvb3QgLWYg
-dG8gcmV0cnksIG9yPC9pPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOiAxMnB4OyI+PGk+dG91Y2ggL3Rha2VvdmVyIGFuZCBleGl0IHRv
-IGJlY29tZSBQSUQgMSBhbGxvd2luZyBlZGl0aW5nIG9mIHRoaXMgc2NyaXB0LjwvaT48L3NwYW4+
-PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTJw
-eDsiPjxpPkdpdmUgcm9vdCBwYXNzd29yZCBmb3Igc3lzdGVtIG1haW50ZW5hbmNlPC9pPjwvc3Bh
-bj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAx
-MnB4OyI+PGk+KG9yIHR5cGUgQ29udHJvbC1EIGZvciBub3JtYWwgc3RhcnR1cCk6PC9pPjwvc3Bh
-bj48L2Rpdj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9kaXY+PGRpdiBzdHls
-ZT0ibWFyZ2luOiAwOyI+PGI+cWVtdSBsb2ejujwvYj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDA7Ij48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVu
-dGVkIGRldmljZSByZWFkIChzaXplIDQsIG9mZnNldCAweDgwMDY0KTwvaT48L2Rpdj48ZGl2IHN0
-eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSBy
-ZWFkIChzaXplIDQsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0
-LCB2YWx1ZSAweDQ3ZjAwMDAsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJt
-YXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSByZWFkIChz
-aXplIDQsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48
-aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSByZWFkIChzaXplIDQsIG9mZnNl
-dCAweDgwMDY0KTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29j
-LmlvOiB1bmltcGxlbWVudGVkIGRldmljZSByZWFkIChzaXplIDQsIG9mZnNldCAweDgwMDYwKTwv
-aT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxl
-bWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2YWx1ZSAweDQyMDAwMDAsIG9mZnNldCAweDgw
-MDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1
-bmltcGxlbWVudGVkIGRldmljZSByZWFkIChzaXplIDQsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rp
-dj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVk
-IGRldmljZSByZWFkIChzaXplIDQsIG9mZnNldCAweDgwMDY0KTwvaT48L2Rpdj48ZGl2IHN0eWxl
-PSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSByZWFk
-IChzaXplIDQsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7
-Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2
-YWx1ZSAweDQwMDAwMDAsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSByZWFkIChzaXpl
-IDQsIG9mZnNldCAweDgwMDYwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5h
-c3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSByZWFkIChzaXplIDQsIG9mZnNldCAw
-eDgwMDY0KTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlv
-OiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2YWx1ZSAweDAsIG9mZnNldCAw
-eGEwMDA4KTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3BlZWRfc29jLmlv
-OiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2YWx1ZSAweDFmZiwgb2Zmc2V0
-IDB4YTAwMGMpPC9pPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxpPmFzcGVlZF9zb2Mu
-aW86IHVuaW1wbGVtZW50ZWQgZGV2aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4ODAwMzA4MDAs
-IG9mZnNldCAweGEwMDAwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48aT5hc3Bl
-ZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2YWx1ZSAweDgw
-MDcwODAwLCBvZmZzZXQgMHhhMDAwMCk8L2k+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+
-PGk+YXNwZWVkX3NvYy5pbzogdW5pbXBsZW1lbnRlZCBkZXZpY2Ugd3JpdGUgKHNpemUgNCwgdmFs
-dWUgMHgzM2YsIG9mZnNldCAweGEwMDIwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7
-Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2
-YWx1ZSAweDAsIG9mZnNldCAweGEwMDIwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7
-Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2
-YWx1ZSAweDAsIG9mZnNldCAweGEwMDEwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7
-Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2
-YWx1ZSAweDAsIG9mZnNldCAweGEwMDE0KTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7
-Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0LCB2
-YWx1ZSAweDdmZmYsIG9mZnNldCAweGEwMDE4KTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6ZSA0
-LCB2YWx1ZSAweDdmZmYsIG9mZnNldCAweGEwMDFjKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6
-ZSA0LCB2YWx1ZSAweDAsIG9mZnNldCAweGEwMDMwKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6
-ZSA0LCB2YWx1ZSAweDUsIG9mZnNldCAweGEwMDM4KTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6
-ZSA0LCB2YWx1ZSAweDAsIG9mZnNldCAweGEwMDNjKTwvaT48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48aT5hc3BlZWRfc29jLmlvOiB1bmltcGxlbWVudGVkIGRldmljZSB3cml0ZSAoc2l6
-ZSA0LCB2YWx1ZSAweDliMDQwMDAwLCBvZmZzZXQgMHhhMDAzNCk8L2k+PC9kaXY+PGRpdiBzdHls
-ZT0ibWFyZ2luOiAwOyI+PGk+YXNwZWVkX3NvYy5pbzogdW5pbXBsZW1lbnRlZCBkZXZpY2Ugd3Jp
-dGUgKHNpemUgNCwgdmFsdWUgMHgwLCBvZmZzZXQgMHhhMDAwNCk8L2k+PC9kaXY+PGRpdiBzdHls
-ZT0ibWFyZ2luOiAwOyI+PGk+YXNwZWVkX3NvYy5pbzogdW5pbXBsZW1lbnRlZCBkZXZpY2Ugd3Jp
-dGUgKHNpemUgNCwgdmFsdWUgMHg4MDA3MDgwMSwgb2Zmc2V0IDB4YTAwMDApPC9pPjwvZGl2Pjxk
-aXYgc3R5bGU9Im1hcmdpbjogMDsiPjxpPmFzcGVlZF9zb2MuaW86IHVuaW1wbGVtZW50ZWQgZGV2
-aWNlIHdyaXRlIChzaXplIDQsIHZhbHVlIDB4MTAxY2IsIG9mZnNldCAweGEwMDA4KTwvaT48L2Rp
-dj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFy
-Z2luOiAwOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPnRoYW5rIHlvdSw8L2Rp
-dj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij5CeXJvbjwvZGl2PjxwIHN0eWxlPSJtYXJnaW46IDA7
-Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46
-IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxkaXYgc3R5bGU9InBv
-c2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PC9kaXY+PGRpdiBpZD0iZGl2TmV0ZWFzZU1haWxDYXJk
-Ij48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cHJlPjxicj5BdCAyMDIwLTA4
-LTA3IDA2OjA5OjI2LCAiSm9lbCBTdGFubGV5IiAmbHQ7am9lbEBqbXMuaWQuYXUmZ3Q7IHdyb3Rl
-OgomZ3Q7T24gVGh1LCA2IEF1ZyAyMDIwIGF0IDE1OjEyLCBQaGlsaXBwZSBNYXRoaWV1LURhdWSo
-piAmbHQ7cGhpbG1kQHJlZGhhdC5jb20mZ3Q7IHdyb3RlOgomZ3Q7Jmd0OwomZ3Q7Jmd0OyBPbiA4
-LzYvMjAgMzo1NCBQTSwgQ6imZHJpYyBMZSBHb2F0ZXIgd3JvdGU6CiZndDsmZ3Q7ICZndDsgSGVs
-bG8sCiZndDsmZ3Q7ICZndDsKJmd0OyZndDsgJmd0OyBPbiA4LzYvMjAgMzo1OCBBTSwgd3d3IHdy
-b3RlOgomZ3Q7Jmd0OyAmZ3Q7Jmd0OyBIaSBKb2VsIFN0YW5sZXksIEFuZHJldyBKZWZmZXJ5LCBD
-qKZkcmljIExlIEdvYXRlciwKJmd0OyZndDsgJmd0OyZndDsKJmd0OyZndDsgJmd0OyZndDsgSG93
-IHRvIG1vZGlmeSBpdCBzbyB0aGF0IFFFTVUgY2FuIHJ1biA2NE1CIEJNQyBpbWFnZT8KJmd0OyZn
-dDsgJmd0OwomZ3Q7Jmd0OyAmZ3Q7IFlvdSBjYW4gaW5jcmVhc2UgdGhlIEZXIGltYWdlIGZpbGUg
-c2l6ZSB3aXRoICdkZCcgb3Igd2l0aCA6CiZndDsmZ3Q7ICZndDsKJmd0OyZndDsgJmd0OyAgIGNh
-dCBmb28gZm9vICZndDsgYmFyCiZndDsmZ3Q7ICZndDsKJmd0OyZndDsgJmd0OyBpZiB0aGUgZXhw
-ZWN0ZWQgc2l6ZSBpcyAxMjhNQgomZ3Q7Jmd0OwomZ3Q7Jmd0OyBZb3UgY2FuIHVzZSAndHJ1bmNh
-dGUnIGZyb20gY29yZXV0aWxzOgomZ3Q7Jmd0OwomZ3Q7Jmd0OyAkIHRydW5jYXRlIC1zIDEyOE0g
-aW1hZ2UuYmluCiZndDsKJmd0O05pY2UgdGlwIQomZ3Q7CiZndDsoV2hhdCBhbiBvYnZpb3VzIG5h
-bWUgZm9yIGEgdG9vbCB0byBleHRlbmQgZmlsZXMpCiZndDsKJmd0O0NoZWVycywKJmd0OwomZ3Q7
-Sm9lbAo8L3ByZT48L2Rpdj48YnI+PGJyPjxzcGFuIHRpdGxlPSJuZXRlYXNlZm9vdGVyIj48cD4m
-bmJzcDs8L3A+PC9zcGFuPg==
-------=_Part_53762_1859832586.1596783828747--
+# git log -2 --oneline
+1972794 (HEAD -> master) spapr: Clarify error and documentation for broken =
+KVM XICS
+e1d322c (grafted, tag: v5.1.0-rc3, origin/master, origin/HEAD) Update versi=
+on for v5.1.0-rc3 release
 
+
+# /usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate
+--name 'vm1' --machine pseries --memory=3D8192
+--vcpu=3D8,maxvcpus=3D8,sockets=3D1,cores=3D8,threads=3D1 --import --nograp=
+hics
+--serial pty --memballoon model=3Dvirtio --controller type=3Dscsi,model
+=3Dvirtio-scsi --disk path=3D/home/tests/data/avocado-
+vt/images/f31-ppc64le.qcow2,bus=3Dscsi,size=3D10,format=3Dqcow2
+--network=3Dbridge=3Dvirbr0,model=3Dvirtio,mac=3D52:54:00:5c:f1:fe
+--mac=3D52:54:00:5c:f1:fe --boot emulator=3D/home/qemu/ppc64-softmmu/qemu-
+system-
+ppc64,kernel=3D/boot/vmlinuz-5.8.0-rc5-ge9919e11e,kernel_args=3D"root=3D/de=
+v/sda2
+rw console=3Dtty0 console=3DttyS0,115200 init=3D/sbin/init initcall_debug
+selinux=3D0" --noautoconsole --qemu-commandline=3D" -M pseries,ic-mode=3Ddu=
+al
+,kernel-irqchip=3Don";virsh console vm1
+
+Starting install...
+ERROR    internal error: process exited while connecting to monitor: 2020-0=
+8-07T07:05:38.633057Z qemu-system-ppc64: KVM is incompatible with ic-mode=
+=3Ddual,kernel-irqchip=3Don
+This can happen with an old KVM or in a KVM nested guest.
+Try without kernel-irqchip or with kernel-irqchip=3Doff.
+
+Regards,
+-Satheesh
+
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890290
+
+Title:
+  PowerPC L2(nested virt) kvm guest fails to boot with ic-mode=3Ddual
+  ,kernel-irqchip=3Don - `KVM is too old to support ic-mode=3Ddual,kernel-
+  irqchip=3Don`
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Env:
+  HW: Power 9 DD2.3
+  Host L0: 5.8.0-rc5-g8ba4ffcd8
+  Qemu: 5.0.50 (v5.0.0-533-gdebe78ce14)
+  Libvirt: 6.4.0
+  L1: 5.8.0-rc5-ge9919e11e
+  qemu_version': '5.0.50 (v5.1.0-rc2-dirty)
+  libvirt_version': '6.4.0'
+  L2: 5.8.0-rc7-g6ba1b005f
+
+  =
+
+  1. boot a L2 KVM guest with `ic-mode=3Ddual,kernel-irqchip=3Don`
+
+  /usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate --nam=
+e 'vm1' --machine pseries --memory=3D8192 --vcpu=3D8,maxvcpus=3D8,sockets=
+=3D1,cores=3D2,t
+  hreads=3D4 --import --nographics --serial pty --memballoon model=3Dvirtio=
+ --disk path=3D/home/tests/data/avocado-vt/images/f31-ppc64le.qcow2,bus=3Dv=
+irtio,size=3D10,format=3Dqcow2 --network
+  =3Dbridge=3Dvirbr0,model=3Dvirtio,mac=3D52:54:00:e6:fe:f6 --mac=3D52:54:0=
+0:e6:fe:f6 --boot emulator=3D/usr/share/avocado-plugins-vt/bin/qemu,kernel=
+=3D/tmp/linux/vmlinux,kernel_args=3D"root=3D/de
+  v/vda2 rw console=3Dtty0 console=3DttyS0,115200 init=3D/sbin/init initcal=
+l_debug selinux=3D0" --noautoconsole --qemu-commandline=3D" -M pseries,ic-m=
+ode=3Ddual,kernel-irqchip=3Don"
+
+  =
+
+  ERROR    internal error: process exited while connecting to monitor: 2020=
+-08-04T11:12:53.304482Z qemu: KVM is too old to support ic-mode=3Ddual,kern=
+el-irqchip=3Don
+
+
+  =
+
+  Qemu Log:
+  ```
+  /usr/share/avocado-plugins-vt/bin/qemu \
+  -name guest=3Dvm1,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-5-vm1/master-key.aes \
+  -machine pseries-5.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+  -cpu POWER9 \
+  -m 8192 \
+  -overcommit mem-lock=3Doff \
+  -smp 8,sockets=3D1,dies=3D1,cores=3D2,threads=3D4 \
+  -uuid 20a3351b-2776-4e75-9059-c070fe3dd44b \
+  -display none \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D34,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-shutdown \
+  -boot strict=3Don \
+  -kernel /tmp/linux/vmlinux \
+  -append 'root=3D/dev/vda2 rw console=3Dtty0 console=3DttyS0,115200 init=
+=3D/sbin/init initcall_debug selinux=3D0' \
+  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.0,addr=3D0x2 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 \
+  -blockdev '{"driver":"file","filename":"/home/tests/data/avocado-vt/image=
+s/f31-ppc64le.qcow2","node-name":"libvirt-1-storage","auto-read-only":true,=
+"discard":"unmap"}' \
+  -blockdev '{"node-name":"libvirt-1-format","read-only":false,"driver":"qc=
+ow2","file":"libvirt-1-storage","backing":null}' \
+  -device virtio-blk-pci,bus=3Dpci.0,addr=3D0x4,drive=3Dlibvirt-1-format,id=
+=3Dvirtio-disk0,bootindex=3D1 \
+  -netdev tap,fd=3D37,id=3Dhostnet0,vhost=3Don,vhostfd=3D38 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:fe:f=
+6,bus=3Dpci.0,addr=3D0x1 \
+  -chardev pty,id=3Dcharserial0 \
+  -device spapr-vty,chardev=3Dcharserial0,id=3Dserial0,reg=3D0x30000000 \
+  -chardev socket,id=3Dcharchannel0,fd=3D39,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+  -M pseries,ic-mode=3Ddual,kernel-irqchip=3Don \
+  -msg timestamp=3Don
+  2020-08-04 11:12:53.169+0000: Domain id=3D5 is tainted: custom-argv
+  2020-08-04 11:12:53.179+0000: 11120: info : libvirt version: 6.4.0, packa=
+ge: 1.fc31 (Unknown, 2020-06-02-05:09:40, ltc-wspoon4.aus.stglabs.ibm.com)
+  2020-08-04 11:12:53.179+0000: 11120: info : hostname: atest-guest
+  2020-08-04 11:12:53.179+0000: 11120: info : virObjectUnref:347 : OBJECT_U=
+NREF: obj=3D0x7fff0c117c40
+  char device redirected to /dev/pts/0 (label charserial0)
+  2020-08-04T11:12:53.304482Z qemu: KVM is too old to support ic-mode=3Ddua=
+l,kernel-irqchip=3Don
+  2020-08-04 11:12:53.694+0000: shutting down, reason=3Dfailed
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890290/+subscriptions
 
