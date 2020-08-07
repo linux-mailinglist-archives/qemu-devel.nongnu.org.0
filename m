@@ -2,54 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718F023EB91
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:30:12 +0200 (CEST)
-Received: from localhost ([::1]:38260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06B923EB8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:28:53 +0200 (CEST)
+Received: from localhost ([::1]:33750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zdb-0002w2-Cx
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:30:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
+	id 1k3zcK-00013b-Qs
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3zYf-00056W-Ri
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38718)
+ id 1k3zYa-00053L-IF
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3zYZ-0000bB-7s
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:03 -0400
+ id 1k3zYY-0000b1-2f
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3zYV-0002j4-DB
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:24:55 +0000
+ id 1k3zYU-0002jJ-SH
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:24:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B0BC2E8082
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:24:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AE6702E810E
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:24:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 10:11:23 -0000
-From: Thomas Huth <1309034@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 10:12:59 -0000
+From: Thomas Huth <1323758@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: upstream
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: masm-e
-X-Launchpad-Bug-Reporter: Yuuki Harano (masm-e)
+X-Launchpad-Bug-Commenters: maarten256 rubenportier serge-hallyn th-huth
+X-Launchpad-Bug-Reporter: Ruben Portier (rubenportier)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140417141213.27030.31355.malonedeb@gac.canonical.com>
-Message-Id: <159679508380.25952.5478722826430557250.launchpad@gac.canonical.com>
-Subject: [Bug 1309034] Re: A way not to grab keyboards or mice
+References: <20140527170942.25223.59558.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159679517977.10066.2378527994759963035.malone@chaenomeles.canonical.com>
+Subject: [Bug 1323758] Re: Mouse stops working when connected
+ usb-storage-device
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1ba98a013ba2a15031fe40979ca672a083293fcc
+X-Launchpad-Hash: b4d5eeb71e308486cb8eef0ea43f2122e5935cb9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -71,56 +76,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1309034 <1309034@bugs.launchpad.net>
+Reply-To: Bug 1323758 <1323758@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Looking through old bug tickets... is this still an issue with the
+latest version of QEMU? Or could we close this ticket nowadays?
+
 ** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
+       Status: New =3D> Incomplete
+
+** Changed in: qemu (Ubuntu)
+       Status: Confirmed =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1309034
+https://bugs.launchpad.net/bugs/1323758
 
 Title:
-  A way not to grab keyboards or mice
+  Mouse stops working when connected usb-storage-device
 
 Status in QEMU:
-  New
+  Incomplete
+Status in qemu package in Ubuntu:
+  Incomplete
 
 Bug description:
-  I set up the window manager to move windows with Alt-Btn1, and to
-  iconify windows with Shift-Btn1. But since qemu grabs keyboards and
-  mice, I can't move or iconify the qemu window.
+  I'm running a guest that has Windows 8 Pro (x64) installed. Every time
+  I pass through a usb storage device from the host to the guest, the
+  mouse stops working in the vnc client. When I remove the usb-device
+  the mouse works again.
 
-  I tried not to grab anything, by inserting return, just beginnig of
-  ui/sdl.c:sdl_grab_start() as follows:
+  The mouse only stops working when I pass through a usb storage device
+  and then make the vlc viewer (client) inactive by clicking on another
+  program on the local computer (where I'm running the vnc viewer
+  (client)). As long as I keep the vnc viewer active, the mouse works
+  without any problems. But as soon as I make the vnc viewer inactive
+  and then active again, the mouse will no longer work. I have to reboot
+  the guest or remove the usb storage device.
 
-  static void sdl_grab_start(void)
-  {
-      return;
-      /*
+  I can't find any related problems on the internet, so it may be just
+  me?
 
-  It is comfortable. I'm glad if you make a way not to grab.
-  Environment variables, options, etc are welcome.
+  I hope someone can help me with this.
 
-  Current command line is:
-  QEMU_AUDIO_DRV=3Dpa /usr/local/bin/qemu-system-x86_64 -enable-kvm -hda /d=
-osc/win8_x64.img -soundhw hda -boot c -m 2G -cpu Nehalem,+sep -usb -usbdevi=
-ce tablet -display sdl -rtc base=3Dlocaltime
-
-  qemu version is:
-  luna:linux % qemu-system-x86_64 --version
-  QEMU emulator version 1.7.93, Copyright (c) 2003-2008 Fabrice Bellard
-  luna:linux % =
-
-
-  Host: slackware64 14.1
-  Host Environment: xfce4 / sawfish
-  Guest: Windows 8.1 x64
+  EDIT: I posted the extra/new information in comments. But as I know
+  see it might be wrong and maybe I should've posted them in this bug
+  description container (by editing)? Please tell me if I did it wrong
+  and I will change it. Sorry for this misunderstanding.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1309034/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1323758/+subscriptions
 
