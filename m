@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CCC23EBD3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 13:02:09 +0200 (CEST)
-Received: from localhost ([::1]:48688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFF523EC2A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 13:15:55 +0200 (CEST)
+Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k408W-0004gy-D1
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 07:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
+	id 1k40Lq-0003N1-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 07:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k407c-0004He-C3
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:01:12 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47892)
+ id 1k40Ku-0002w9-Ng
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:14:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k407Z-0005Jk-Hx
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:01:12 -0400
+ id 1k40Ks-000769-IU
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:14:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k407X-00005q-81
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 11:01:07 +0000
+ id 1k40Kq-00018x-Mb
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 11:14:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3979D2E8082
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 11:01:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9B8E22E8055
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 11:14:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 10:54:29 -0000
-From: Gerd Hoffmann <1882851@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 11:01:29 -0000
+From: Peter Maydell <1277433@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: diego-viola kraxel-redhat
-X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
-X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
-References: <159174217343.32241.17743917589333297614.malonedeb@gac.canonical.com>
-Message-Id: <20200807105429.24208-1-kraxel@redhat.com>
-Subject: [Bug 1882851] [PATCH] drm/virtio: fix unblank
+X-Launchpad-Bug-Commenters: pmaydell sebastian-huber th-huth
+X-Launchpad-Bug-Reporter: Sebastian Huber (sebastian-huber)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20140207101533.1830.3618.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159679808995.21623.2352286576359638175.malone@chaenomeles.canonical.com>
+Subject: [Bug 1277433] Re: GDB context is inconsistent after "monitor
+ system_reset"
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5ccd1cedc5319524c5cf8dce19780f8b2f807f72
+X-Launchpad-Hash: fe892987362ab3381cddc8c3915e15f6c08eeaab
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -71,121 +73,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882851 <1882851@bugs.launchpad.net>
+Reply-To: Bug 1277433 <1277433@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When going through a disable/enable cycle without changing the
-framebuffer the optimization added by commit 3954ff10e06e ("drm/virtio:
-skip set_scanout if framebuffer didn't change") causes the screen stay
-blank.  Add a bool to force an update to fix that.
+I suspect that gdb has cached the values of the registers and we haven't
+done anything to tell it that they're now stale. I'm not sure the
+gdbstub protocol even has a mechanism for doing this -- after all, from
+gdb's point of view the target is stopped and it does not expect that
+its state will change until gdb asks it to resume execution.
 
-Cc: 1882851@bugs.launchpad.net
-Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn't ch=
-ange")
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
- drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
- drivers/gpu/drm/virtio/virtgpu_plane.c   | 4 +++-
- 3 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/=
-virtgpu_drv.h
-index 9ff9f4ac0522..7b0c319f23c9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -138,6 +138,7 @@ struct virtio_gpu_output {
- 	int cur_x;
- 	int cur_y;
- 	bool enabled;
-+	bool need_update;
- };
- #define drm_crtc_to_virtio_gpu_output(x) \
- 	container_of(x, struct virtio_gpu_output, crtc)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/vir=
-tio/virtgpu_display.c
-index cc7fd957a307..378be5956b30 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -100,6 +100,7 @@ static void virtio_gpu_crtc_atomic_enable(struct drm_cr=
-tc *crtc,
- 	struct virtio_gpu_output *output =3D drm_crtc_to_virtio_gpu_output(crtc);
- =
-
- 	output->enabled =3D true;
-+	output->need_update =3D true;
- }
- =
-
- static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virti=
-o/virtgpu_plane.c
-index 52d24179bcec..5948031a9ce8 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -163,7 +163,8 @@ static void virtio_gpu_primary_plane_update(struct drm_=
-plane *plane,
- 	    plane->state->src_w !=3D old_state->src_w ||
- 	    plane->state->src_h !=3D old_state->src_h ||
- 	    plane->state->src_x !=3D old_state->src_x ||
--	    plane->state->src_y !=3D old_state->src_y) {
-+	    plane->state->src_y !=3D old_state->src_y ||
-+	    output->need_update) {
- 		DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
- 			  bo->hw_res_handle,
- 			  plane->state->crtc_w, plane->state->crtc_h,
-@@ -178,6 +179,7 @@ static void virtio_gpu_primary_plane_update(struct drm_=
-plane *plane,
- 					   plane->state->src_h >> 16,
- 					   plane->state->src_x >> 16,
- 					   plane->state->src_y >> 16);
-+		output->need_update =3D false;
- 	}
- =
-
- 	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
--- =
-
-2.18.4
+I'm not sure how this could be dealt with -- in theory one could forbid
+actions like system reset while the gdbstub had control, but that seems
+likely to have unwelcome side-effects...
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882851
+https://bugs.launchpad.net/bugs/1277433
 
 Title:
-  QEMU video freezes with "Guest disabled display" (virtio driver)
+  GDB context is inconsistent after "monitor system_reset"
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  I am using Arch Linux as my Guest and Host OS, after starting qemu
-  with the following command:
+  After a "monitor system_reset" the GDB view to the system state
+  differs from QEMUs processor state.
 
-    $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga
-  virtio
+  Breakpoint 8, _ARMV4_Exception_interrupt () at /home/sh/rtems-4.11/c/src/=
+../../cpukit/score/cpu/arm/arm_exc_interrupt.S:74
+  74              mov     EXCHANGE_LR, lr
+  (gdb) info registers
+  r0             0x2027e8 2107368
+  r1             0x204208 2114056
+  r2             0x13     19
+  r3             0x204238 2114104
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x201480 0x201480
+  lr             0x110958 1116504
+  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
+  cpsr           0x192    402
+  (gdb) monitor info registers
+  R00=3D002027e8 R01=3D00204208 R02=3D00000013 R03=3D00204238
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00201480 R14=3D00110958 R15=3D0011073c
+  PSR=3D00000192 ---- A irq32
+  (gdb) monitor system_reset
+  (gdb) info registers
+  r0             0x2027e8 2107368
+  r1             0x204208 2114056
+  r2             0x13     19
+  r3             0x204238 2114104
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x201480 0x201480
+  lr             0x110958 1116504
+  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
+  cpsr           0x192    402
+  (gdb) monitor info registers
+  R00=3D00000000 R01=3D00000000 R02=3D00000000 R03=3D00000000
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100040
+  PSR=3D400001d3 -Z-- A svc32
 
-  and waiting for a screen blank, I get this message:
+  Why does the second "info registers" and "monitor info registers"
+  differ?
 
-    Guest disabled display
+  After a single instruction step they are synchronized at least on ARM
+  (on SPARC this is different).
 
-  And nothing happens after that, I can move the mouse or hit any key,
-  and the message is still there.
-
-  I can still reboot the VM but that's not optimal.
-
-  I can reproduce this with the latest QEMU release (5.0.0) or git master, =
-
-  I also tried this with older releases (4.0.0, 3.0.0) and the issue is sti=
-ll there.
-
-  I can't reproduce this with other video drivers (std, qxl).
-
-  With std/qxl the screen will blank a bit and then continue as normal.
+  (gdb) si
+  bsp_start_vector_table_end () at /home/sh/rtems-4.11/c/src/lib/libbsp/arm=
+/realview-pbx-a9/../shared/start/start.S:144
+  144             msr     cpsr, r0
+  (gdb) info registers
+  r0             0xd3     211
+  r1             0x0      0
+  r2             0x0      0
+  r3             0x0      0
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x0      0x0
+  lr             0x0      0
+  pc             0x100044 0x100044 <bsp_start_vector_table_end+4>
+  cpsr           0x400001d3       1073742291
+  (gdb) monitor info registers
+  R00=3D000000d3 R01=3D00000000 R02=3D00000000 R03=3D00000000
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100044
+  PSR=3D400001d3 -Z-- A svc32
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882851/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1277433/+subscriptions
 
