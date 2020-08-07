@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808D823EC48
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 13:19:13 +0200 (CEST)
-Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E6C23EC56
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 13:23:28 +0200 (CEST)
+Received: from localhost ([::1]:48976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k40P2-00075X-Im
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 07:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53926)
+	id 1k40T9-0000uO-Du
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 07:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k40O8-0006FH-6r
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:18:16 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k40O6-0007Y7-D6
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:18:15 -0400
-Received: by mail-wm1-x342.google.com with SMTP id k20so1477494wmi.5
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 04:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=KCvkuyKswt0l1geFJ6eG01qflfFwuIeDvyfMbDJiGXQ=;
- b=WKRbK7QVg8ObWu7+6vAjpFxs/4wV96yoZtfcU0TlzuNhJGIRYMNYugYLA/DGYeJ+Tv
- o00B4uHo0Jc8QLmmg3syOqARSPvol2KJlriRuhW4i4BVoR4lTCdaIq+OYBSYpfrrfNLg
- X7KpZiotmEBUPZESdBGBwL4DDI1dL47Jra6bB1Rjmvgwe+sfwknQzuRAP7/tP6IEAJzo
- FicMy/Od9vWz0o4MFstb64BwG63WCqW8naEei6uUuqfsKTMo/IVH6h/3hwCQiAr7lZ1z
- jOvQQmMsrgk/VZqdoaXpgHPH+RhwOrDUh5oyGN30osUq7bC0Yy2TMx7ZH+OS/hx1ul1y
- Yacg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=KCvkuyKswt0l1geFJ6eG01qflfFwuIeDvyfMbDJiGXQ=;
- b=KSI1WLSEkmhJkoOkA0BZnZxdufaAOOWio6LJKfYdkqiF7CdDDdtJAWtCFQPf8mkvCy
- z34JFZF+vLeGNh9dtBqmFJn+PF/K1AdKctNDQP2NrTyi1hOXC3TLaulUDLlzhyb2APhW
- Qii9zIt7BqgfohaPWJPm4RBBKNbzn5ho4vLLviV7QdjVxCFm6cdi622K4JOQJTWR+AaT
- dKz+skYSZbXBb6a3jG6jObsfHUEPHpU7mlXpdetvBJHhcjcUZkM44BHS1tn74jXVUTmL
- KZIGc5BB0XZiN61c4FP5ZS9T3PJHSemQS6UOSnm0BPKklsMidz/IbSwfakT/sXhBV2j+
- ZnvQ==
-X-Gm-Message-State: AOAM531g0Hr6mQ7wi2EL11ClegywwAsbkvpv+5sm36LBrID9d+NI1dVZ
- 0ShnNO7MoE+8LiVnXHQU5wj79xSroXY=
-X-Google-Smtp-Source: ABdhPJy0Aj/ZmvMiD0NKaC57sDrvnu5Oe0NJXkh2hXjRuqSONCuCkLSuvGve3BysxcK9jT9lz70Cnw==
-X-Received: by 2002:a1c:cc0c:: with SMTP id h12mr11619818wmb.57.1596799091738; 
- Fri, 07 Aug 2020 04:18:11 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g16sm9743089wrs.88.2020.08.07.04.18.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 04:18:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 126361FF7E;
- Fri,  7 Aug 2020 12:18:10 +0100 (BST)
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <1596741379-12902-21-git-send-email-pbonzini@redhat.com>
- <87sgcyk9zv.fsf@linaro.org>
- <543f3674-b984-680e-4e85-0f507f6571ba@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 020/143] meson: add testsuite Makefile generator
-In-reply-to: <543f3674-b984-680e-4e85-0f507f6571ba@redhat.com>
-Date: Fri, 07 Aug 2020 12:18:10 +0100
-Message-ID: <87k0yak8lp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k40SD-00008z-17
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:22:29 -0400
+Resent-Date: Fri, 07 Aug 2020 07:22:29 -0400
+Resent-Message-Id: <E1k40SD-00008z-17@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k40SA-000802-SC
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 07:22:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1596799334; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dpkDbUpTa4KcuoZfbBvVQYvPx9xHSyxa+S4LNn4sAGcFusSG1jp3Sda4uVmTdbBZNHyEXDAXIv18xCj04ZqPAVAJ/3sP8Voi9fvmcmG1NJ3ztcfBhEFYktidjYvk/EWdy0hyIxIUI+aTwFtrzY0BG+LsktqgYqy5OSINKLmipJA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1596799334;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=q3/M56o4zUxcr1LSWUoEM6zTN6s2Gu/lWbtSJLeczeo=; 
+ b=cDdGOPQc0UwoEK6a7U7aQXn2k0IHaPMzC6Arj/JTkQDgec/10h5y5BzdKXQDBc5sa6EZi3PzWtdWfWUF0gmxVfDNYsZhnHXdHM4ljvsOWQRvRIvdku9c8vkIk2KIDGxjs+x/09da73lX4PHbVWhin9DKIOXU3s0Y8us3a/ixs3I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 159679933211423.519625406829277;
+ Fri, 7 Aug 2020 04:22:12 -0700 (PDT)
+Subject: Re: [RFC v2] checkpatch: detect missing changes to trace-events
+Message-ID: <159679933145.14729.10293881254508357697@66eaa9a8a123>
+In-Reply-To: <20200807111447.15599-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: cfontana@suse.de
+Date: Fri, 7 Aug 2020 04:22:12 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:25:30
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,38 +69,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, cfontana@suse.de, stefanha@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> On 07/08/20 12:48, Alex Benn=C3=A9e wrote:
->>> Rules to execute tests are generated by a simple Python program
->>> that integrates into the existing "make check" mechanism.  This
->>> provides familiarity for developers, and also allows piecewise
->>> conversion of the testsuite Makefiles to meson.
->> Hmm not sure why check-tcg has broken then:
->>=20
->>   11:44:37 [alex.bennee@hackbox2:~/l/q/b/all] review/meson-for-5.2|=E2=
-=9C=94 + make check-tcg
->>   make[1]: Entering directory '/home/alex.bennee/lsrc/qemu.git/slirp'
->>   make[1]: Nothing to be done for 'all'.
->>   make[1]: Leaving directory '/home/alex.bennee/lsrc/qemu.git/slirp'
->>   make: *** No rule to make target 'run-tcg-tests-aarch64-softmmu', need=
-ed by 'check-tcg'.  Stop.
->>=20
->>=20
->
-> Probably unrelated unless you bisected it to this patch.  I'll check.
-
-I tried bisecting but there was too much breakage at the other commits.
-
->
-> Paolo
-
-
---=20
-Alex Benn=C3=A9e
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgwNzExMTQ0Ny4xNTU5
+OS0xLWNmb250YW5hQHN1c2UuZGUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
+YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
+LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
+IEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRX
+T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0
+IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDgwNzExMTQ0Ny4xNTU5OS0x
+LWNmb250YW5hQHN1c2UuZGUvdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNz
+YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
+Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
+ZWxAcmVkaGF0LmNvbQ==
 
