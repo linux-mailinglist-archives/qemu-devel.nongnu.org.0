@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D509B23ED25
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 14:12:01 +0200 (CEST)
-Received: from localhost ([::1]:58026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DFF23ED09
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 14:01:47 +0200 (CEST)
+Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k41E8-0004i4-VT
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 08:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37224)
+	id 1k414D-0000b3-UW
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 08:01:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k41Ct-0004Ea-9J
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 08:10:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k41Cr-0005pn-B2
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 08:10:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k41Cp-0007as-8f
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 12:10:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3A6BD2E8081
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 12:10:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k412e-0008Hc-LS
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 08:00:08 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49306
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k412b-0004OO-L9
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 08:00:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596801603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IVwqKyqW50wYrrH5JlBPTOAfT6+kzPwRmFuVW8KPOc8=;
+ b=ZJe7+cUr2hHbv116RmvWIS2dQtyLoNjHfmbvEEQ3cCX52i1N6CvNHs5aE13ez3QBT7bUgR
+ 8Z9k4NUnZHHewGo2yOzGksdysAXTwEOqP8SHHO0fprnWNRsKwZwzu9SP9myZmaRdLcMR/C
+ IAA0QTKfwRcDLqNZjgs9Fc5427IBt/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-KrXRZ7ZLMsSPqWzO7L0ebg-1; Fri, 07 Aug 2020 08:00:01 -0400
+X-MC-Unique: KrXRZ7ZLMsSPqWzO7L0ebg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92E8F100960F;
+ Fri,  7 Aug 2020 11:59:59 +0000 (UTC)
+Received: from gondolin (ovpn-112-214.ams2.redhat.com [10.36.112.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E0A865C94;
+ Fri,  7 Aug 2020 11:59:45 +0000 (UTC)
+Date: Fri, 7 Aug 2020 13:59:42 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Sean Mooney <smooney@redhat.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200807135942.5d56a202.cohuck@redhat.com>
+In-Reply-To: <4cf2824c803c96496e846c5b06767db305e9fb5a.camel@redhat.com>
+References: <20200727072440.GA28676@joy-OptiPlex-7040>
+ <20200727162321.7097070e@x1.home>
+ <20200729080503.GB28676@joy-OptiPlex-7040>
+ <20200804183503.39f56516.cohuck@redhat.com>
+ <c178a0d3-269d-1620-22b1-9010f602d8ff@redhat.com>
+ <20200805021654.GB30485@joy-OptiPlex-7040>
+ <2624b12f-3788-7e2b-2cb7-93534960bcb7@redhat.com>
+ <20200805075647.GB2177@nanopsycho>
+ <eb1d01c2-fbad-36b6-10cf-9e03483a736b@redhat.com>
+ <20200805093338.GC30485@joy-OptiPlex-7040>
+ <20200805105319.GF2177@nanopsycho>
+ <4cf2824c803c96496e846c5b06767db305e9fb5a.camel@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 11:59:28 -0000
-From: Thomas Huth <1277433@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell sebastian-huber th-huth
-X-Launchpad-Bug-Reporter: Sebastian Huber (sebastian-huber)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140207101533.1830.3618.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159680156895.9379.5891625546079901508.launchpad@wampee.canonical.com>
-Subject: [Bug 1277433] Re: GDB context is inconsistent after "monitor
- system_reset"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0333f4da186a2395af35b57e90b0fc382f9ecb64
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,117 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1277433 <1277433@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
+ eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
+ openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
+ kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
+ Parav Pandit <parav@mellanox.com>, jian-feng.ding@intel.com,
+ dgilbert@redhat.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
+ bao.yumeng@zte.com.cn, Jiri Pirko <jiri@mellanox.com>,
+ intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com, eskultet@redhat.com,
+ Alex Williamson <alex.williamson@redhat.com>, dinechin@redhat.com,
+ devel@ovirt.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+On Wed, 05 Aug 2020 12:35:01 +0100
+Sean Mooney <smooney@redhat.com> wrote:
 
--- =
+> On Wed, 2020-08-05 at 12:53 +0200, Jiri Pirko wrote:
+> > Wed, Aug 05, 2020 at 11:33:38AM CEST, yan.y.zhao@intel.com wrote:  
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1277433
+(...)
 
-Title:
-  GDB context is inconsistent after "monitor system_reset"
+> > >    software_version: device driver's version.
+> > >               in <major>.<minor>[.bugfix] scheme, where there is no
+> > > 	       compatibility across major versions, minor versions have
+> > > 	       forward compatibility (ex. 1-> 2 is ok, 2 -> 1 is not) and
+> > > 	       bugfix version number indicates some degree of internal
+> > > 	       improvement that is not visible to the user in terms of
+> > > 	       features or compatibility,
+> > > 
+> > > vendor specific attributes: each vendor may define different attributes
+> > >   device id : device id of a physical devices or mdev's parent pci device.
+> > >               it could be equal to pci id for pci devices
+> > >   aggregator: used together with mdev_type. e.g. aggregator=2 together
+> > >               with i915-GVTg_V5_4 means 2*1/4=1/2 of a gen9 Intel
+> > > 	       graphics device.
+> > >   remote_url: for a local NVMe VF, it may be configured with a remote
+> > >               url of a remote storage and all data is stored in the
+> > > 	       remote side specified by the remote url.
+> > >   ...  
+> just a minor not that i find ^ much more simmple to understand then
+> the current proposal with self and compatiable.
+> if i have well defiend attibute that i can parse and understand that allow
+> me to calulate the what is and is not compatible that is likely going to
+> more useful as you wont have to keep maintianing a list of other compatible
+> devices every time a new sku is released.
+> 
+> in anycase thank for actully shareing ^ as it make it simpler to reson about what
+> you have previously proposed.
 
-Status in QEMU:
-  New
+So, what would be the most helpful format? A 'software_version' field
+that follows the conventions outlined above, and other (possibly
+optional) fields that have to match?
 
-Bug description:
-  After a "monitor system_reset" the GDB view to the system state
-  differs from QEMUs processor state.
+(...)
 
-  Breakpoint 8, _ARMV4_Exception_interrupt () at /home/sh/rtems-4.11/c/src/=
-../../cpukit/score/cpu/arm/arm_exc_interrupt.S:74
-  74              mov     EXCHANGE_LR, lr
-  (gdb) info registers
-  r0             0x2027e8 2107368
-  r1             0x204208 2114056
-  r2             0x13     19
-  r3             0x204238 2114104
-  r4             0x0      0
-  r5             0x0      0
-  r6             0x0      0
-  r7             0x0      0
-  r8             0x0      0
-  r9             0x0      0
-  r10            0x0      0
-  r11            0x0      0
-  r12            0x0      0
-  sp             0x201480 0x201480
-  lr             0x110958 1116504
-  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
-  cpsr           0x192    402
-  (gdb) monitor info registers
-  R00=3D002027e8 R01=3D00204208 R02=3D00000013 R03=3D00204238
-  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
-  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
-  R12=3D00000000 R13=3D00201480 R14=3D00110958 R15=3D0011073c
-  PSR=3D00000192 ---- A irq32
-  (gdb) monitor system_reset
-  (gdb) info registers
-  r0             0x2027e8 2107368
-  r1             0x204208 2114056
-  r2             0x13     19
-  r3             0x204238 2114104
-  r4             0x0      0
-  r5             0x0      0
-  r6             0x0      0
-  r7             0x0      0
-  r8             0x0      0
-  r9             0x0      0
-  r10            0x0      0
-  r11            0x0      0
-  r12            0x0      0
-  sp             0x201480 0x201480
-  lr             0x110958 1116504
-  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
-  cpsr           0x192    402
-  (gdb) monitor info registers
-  R00=3D00000000 R01=3D00000000 R02=3D00000000 R03=3D00000000
-  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
-  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
-  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100040
-  PSR=3D400001d3 -Z-- A svc32
+> > Thanks for the explanation, I'm still fuzzy about the details.
+> > Anyway, I suggest you to check "devlink dev info" command we have
+> > implemented for multiple drivers.  
+> 
+> is devlink exposed as a filesytem we can read with just open?
+> openstack will likely try to leverage libvirt to get this info but when we
+> cant its much simpler to read sysfs then it is to take a a depenency on a commandline
+> too and have to fork shell to execute it and parse the cli output.
+> pyroute2 which we use in some openstack poject has basic python binding for devlink but im not
+> sure how complete it is as i think its relitivly new addtion. if we need to take a dependcy
+> we will but that would be a drawback fo devlink not that that is a large one just something
+> to keep in mind.
 
-  Why does the second "info registers" and "monitor info registers"
-  differ?
+A devlinkfs, maybe? At least for reading information (IIUC, "devlink
+dev info" is only about information retrieval, right?)
 
-  After a single instruction step they are synchronized at least on ARM
-  (on SPARC this is different).
-
-  (gdb) si
-  bsp_start_vector_table_end () at /home/sh/rtems-4.11/c/src/lib/libbsp/arm=
-/realview-pbx-a9/../shared/start/start.S:144
-  144             msr     cpsr, r0
-  (gdb) info registers
-  r0             0xd3     211
-  r1             0x0      0
-  r2             0x0      0
-  r3             0x0      0
-  r4             0x0      0
-  r5             0x0      0
-  r6             0x0      0
-  r7             0x0      0
-  r8             0x0      0
-  r9             0x0      0
-  r10            0x0      0
-  r11            0x0      0
-  r12            0x0      0
-  sp             0x0      0x0
-  lr             0x0      0
-  pc             0x100044 0x100044 <bsp_start_vector_table_end+4>
-  cpsr           0x400001d3       1073742291
-  (gdb) monitor info registers
-  R00=3D000000d3 R01=3D00000000 R02=3D00000000 R03=3D00000000
-  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
-  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
-  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100044
-  PSR=3D400001d3 -Z-- A svc32
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1277433/+subscriptions
 
