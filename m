@@ -2,69 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0642F23EBB3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:56:29 +0200 (CEST)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1A923EBA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:49:28 +0200 (CEST)
+Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4032-0001Rc-3D
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49458)
+	id 1k3zwF-00024g-1W
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k401u-0000PS-Sd
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:55:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k401s-0004cM-Lv
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:55:18 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k401r-00082r-ER
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:55:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6C5492E8023
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:55:15 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k3zuN-00017b-L8
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:47:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25462
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k3zuI-0003iq-EQ
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:47:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596797242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1LC7u6+oyx94fl2Swh1NZaEXTCGqZI29mPrUf0VG/Kg=;
+ b=a+o6zjlsssLmr9H4YeiFLsSLOEMPTljnbQf5rtqIW62EeK4um/s9K9paepXwV4wNxB1ivb
+ IQ4U7gubGV4nYOJ/hwqD8ywNDq8SGrbh2+EU5oR0BCeQDuGsAJgU6LEPwU55y4nHhbeyYa
+ IwKmwGdyS3NG/lT0UGI5SKtw0ZRkkS4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-KlIeDO61Pmicub9FZkOVIQ-1; Fri, 07 Aug 2020 06:47:19 -0400
+X-MC-Unique: KlIeDO61Pmicub9FZkOVIQ-1
+Received: by mail-wm1-f70.google.com with SMTP id u144so635058wmu.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 03:47:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1LC7u6+oyx94fl2Swh1NZaEXTCGqZI29mPrUf0VG/Kg=;
+ b=WnXBaGDK0RB7S5KrB1JNEIRqE9IRMsnA1J+dr1vMSi9EbB3tYy767WBApcr3rLWZ2L
+ QrCp3VyLqh1CqW3tNqM+d9IJ8euio+ghLmv+IEVZfHlAGKT75qy1kOn8en/iBfgB/OyW
+ rLbeNX3ZB0rdGb9tw956N/HLw3yeFq+xZD8ssjO09IBxcaoWgqTLB0GH+WuAUPxK67HL
+ P7TLJnEeUEMNI+a9sIBD9C4IwG8qrOzF/iUHaLfAVF7u/Sn7RAda9u3faxbzfSHoUoVS
+ P2AriLbR/uUewMfDUC2ZkDpdxY4NZ0uGfJOvoDQuTndZlemDIyCdybYq0vyEBybGN0B0
+ 6qNA==
+X-Gm-Message-State: AOAM532l9DFA4Oz3TiThSkU6MSLu2PJwOGekU3ZwF0r1mxy0e3qB9zff
+ FmDBJqCgc0FTafNK6idr4U2ODjXsxcF3QDTevyd8opq8II0LtESXNjZtl/XU+W8oNafCSdF5SVY
+ 83s6gPEYjmSRs4cg=
+X-Received: by 2002:a1c:7f4e:: with SMTP id a75mr576326wmd.62.1596797238155;
+ Fri, 07 Aug 2020 03:47:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyp0gLf2iW0XOQcU54Vj+AUA0DBesKvmZx9fwctJpDIaXX+ZGef6lc1nLXG6x4H7n2z/Tne4w==
+X-Received: by 2002:a1c:7f4e:: with SMTP id a75mr576277wmd.62.1596797237269;
+ Fri, 07 Aug 2020 03:47:17 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.136.3])
+ by smtp.gmail.com with ESMTPSA id i6sm9606551wrp.92.2020.08.07.03.47.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Aug 2020 03:47:16 -0700 (PDT)
+Subject: Re: [PATCH 015/143] build-sys: add meson submodule
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+ <1596741379-12902-16-git-send-email-pbonzini@redhat.com>
+ <87v9hukai3.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e84bae2b-3711-ce55-c07d-7ae631a07beb@redhat.com>
+Date: Fri, 7 Aug 2020 12:47:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 10:39:23 -0000
-From: Sebastian Huber <1277433@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sebastian-huber th-huth
-X-Launchpad-Bug-Reporter: Sebastian Huber (sebastian-huber)
-X-Launchpad-Bug-Modifier: Sebastian Huber (sebastian-huber)
-References: <20140207101533.1830.3618.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159679676380.5583.6889395427107942003.malone@soybean.canonical.com>
-Subject: [Bug 1277433] Re: GDB context is inconsistent after "monitor
- system_reset"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5971e97e69d281b28c4504da4b205cb641ecbc5e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87v9hukai3.fsf@linaro.org>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:00:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,116 +103,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1277433 <1277433@bugs.launchpad.net>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can also build the latest Git master of Qemu if this helps.
+On 07/08/20 12:37, Alex Bennée wrote:
+> 
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+> 
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  .gitmodules               |  3 +++
+>>  configure                 | 44 +++++++++++++++++++++++++++++++++++++++++---
+>>  meson                     |  1 +
+>>  scripts/archive-source.sh |  3 ++-
+>>  4 files changed, 47 insertions(+), 4 deletions(-)
+>>  create mode 160000 meson
+>>
+>> diff --git a/.gitmodules b/.gitmodules
+>> index 9c0501a..ce97939 100644
+>> --- a/.gitmodules
+>> +++ b/.gitmodules
+>> @@ -58,3 +58,6 @@
+>>  [submodule "roms/qboot"]
+>>  	path = roms/qboot
+>>  	url = https://github.com/bonzini/qboot
+>> +[submodule "meson"]
+>> +	path = meson
+>> +	url = https://github.com/mesonbuild/meson/
+>> diff --git a/configure b/configure
+>> index 13db149..d87d544 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -174,6 +174,25 @@ path_of() {
+>>      return 1
+>>  }
+>>  
+>> +version_ge () {
+>> +    local_ver1=`echo $1 | tr . ' '`
+>> +    local_ver2=`echo $2 | tr . ' '`
+>> +    while true; do
+>> +        set x $local_ver1
+>> +        local_first=${2-0}
+>> +        # shift 2 does nothing if there are less than 2 arguments
+>> +        shift; shift
+>> +        local_ver1=$*
+>> +        set x $local_ver2
+>> +        # the second argument finished, the first must be greater or equal
+>> +        test $# = 1 && return 0
+>> +        test $local_first -lt $2 && return 1
+>> +        test $local_first -gt $2 && return 0
+>> +        shift; shift
+>> +        local_ver2=$*
+>> +    done
+>> +}
+>> +
+>>  have_backend () {
+>>      echo "$trace_backends" | grep "$1" >/dev/null
+>>  }
+>> @@ -1965,9 +1984,28 @@ then
+>>      error_exit "Python not found. Use --python=/path/to/python"
+>>  fi
+>>  
+>> -if ! has "$meson"
+>> -then
+>> -    error_exit "Meson not found. Use --meson=/path/to/meson"
+>> +if test -z "$meson" ; then
+>> +    if has meson && version_ge "$(meson --version)" 0.55.0; then
+>> +        meson=meson
+>> +    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+>> +        meson=git
+>> +    elif test -e "${source_path}/meson/meson.py" ; then
+>> +        meson=internal
+>> +    fi
+>> +fi
+>> +
+>> +case "$meson" in
+>> +    git | internal)
+> 
+> Is "internal" meant to be synonymous with "git"? AFAICT we don't
+> actually do anything with --meson=internal which is why it failed later.
 
--- =
+"git" only works on checkouts, "internal" works on release builds as
+well.  So the problem is that git_update is not set to "yes" for
+whatever reason.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1277433
+Paolo
 
-Title:
-  GDB context is inconsistent after "monitor system_reset"
+> 
+>> +        if test "$meson" = git; then
+>> +            git_submodules="${git_submodules} meson"
+>> +            (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update meson)
+>> +        fi
+>> +        meson="${source_path}/meson/meson.py"
+>> +        ;;
+>> +esac
+>> +
+>> +if ! has "$meson" ; then
+>> +    error_exit "Meson not found. Use --meson=/path/to/meson|git|internal"
+>>  fi
+> <snip>
+> 
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  After a "monitor system_reset" the GDB view to the system state
-  differs from QEMUs processor state.
-
-  Breakpoint 8, _ARMV4_Exception_interrupt () at /home/sh/rtems-4.11/c/src/=
-../../cpukit/score/cpu/arm/arm_exc_interrupt.S:74
-  74              mov     EXCHANGE_LR, lr
-  (gdb) info registers
-  r0             0x2027e8 2107368
-  r1             0x204208 2114056
-  r2             0x13     19
-  r3             0x204238 2114104
-  r4             0x0      0
-  r5             0x0      0
-  r6             0x0      0
-  r7             0x0      0
-  r8             0x0      0
-  r9             0x0      0
-  r10            0x0      0
-  r11            0x0      0
-  r12            0x0      0
-  sp             0x201480 0x201480
-  lr             0x110958 1116504
-  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
-  cpsr           0x192    402
-  (gdb) monitor info registers
-  R00=3D002027e8 R01=3D00204208 R02=3D00000013 R03=3D00204238
-  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
-  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
-  R12=3D00000000 R13=3D00201480 R14=3D00110958 R15=3D0011073c
-  PSR=3D00000192 ---- A irq32
-  (gdb) monitor system_reset
-  (gdb) info registers
-  r0             0x2027e8 2107368
-  r1             0x204208 2114056
-  r2             0x13     19
-  r3             0x204238 2114104
-  r4             0x0      0
-  r5             0x0      0
-  r6             0x0      0
-  r7             0x0      0
-  r8             0x0      0
-  r9             0x0      0
-  r10            0x0      0
-  r11            0x0      0
-  r12            0x0      0
-  sp             0x201480 0x201480
-  lr             0x110958 1116504
-  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
-  cpsr           0x192    402
-  (gdb) monitor info registers
-  R00=3D00000000 R01=3D00000000 R02=3D00000000 R03=3D00000000
-  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
-  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
-  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100040
-  PSR=3D400001d3 -Z-- A svc32
-
-  Why does the second "info registers" and "monitor info registers"
-  differ?
-
-  After a single instruction step they are synchronized at least on ARM
-  (on SPARC this is different).
-
-  (gdb) si
-  bsp_start_vector_table_end () at /home/sh/rtems-4.11/c/src/lib/libbsp/arm=
-/realview-pbx-a9/../shared/start/start.S:144
-  144             msr     cpsr, r0
-  (gdb) info registers
-  r0             0xd3     211
-  r1             0x0      0
-  r2             0x0      0
-  r3             0x0      0
-  r4             0x0      0
-  r5             0x0      0
-  r6             0x0      0
-  r7             0x0      0
-  r8             0x0      0
-  r9             0x0      0
-  r10            0x0      0
-  r11            0x0      0
-  r12            0x0      0
-  sp             0x0      0x0
-  lr             0x0      0
-  pc             0x100044 0x100044 <bsp_start_vector_table_end+4>
-  cpsr           0x400001d3       1073742291
-  (gdb) monitor info registers
-  R00=3D000000d3 R01=3D00000000 R02=3D00000000 R03=3D00000000
-  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
-  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
-  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100044
-  PSR=3D400001d3 -Z-- A svc32
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1277433/+subscriptions
 
