@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D320723EE7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 15:56:40 +0200 (CEST)
-Received: from localhost ([::1]:56452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DB423EE8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 16:05:38 +0200 (CEST)
+Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k42rP-0008I7-TL
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 09:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
+	id 1k4305-0003uf-6F
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 10:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k42qA-0007KO-MW
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 09:55:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34028
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1k42q7-00017X-VG
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 09:55:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596808519;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tGQtLedpkAIA+1aRSkBO7B4yyc7FwMUKPp3ydEBfj0U=;
- b=clq/7sQphdyI12+6+iGpwbMJtyxzy5ljRDpEfGTHLgg2Lb0lT91MGq6pYL2gPp8auQuNRM
- XIP9PUJJd9N46Uxg4ptdEmebzXC4tLNprMg95OKalho2OlBpeWcxfWIBSTHsb1iQuTZWmm
- CWwx3dobeCIA8Z42yZzuIqO1q19RdZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-X7sAF3-oPw-sXDZhUaeGcQ-1; Fri, 07 Aug 2020 09:55:16 -0400
-X-MC-Unique: X7sAF3-oPw-sXDZhUaeGcQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A096101C8A5;
- Fri,  7 Aug 2020 13:55:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D13FE5FC3B;
- Fri,  7 Aug 2020 13:55:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5D5DB1132801; Fri,  7 Aug 2020 15:55:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <87364y28jp.fsf@dusky.pond.sub.org>
- <9d7b7f59-ec3e-1f74-d1d4-359e3388f0f8@redhat.com>
-Date: Fri, 07 Aug 2020 15:55:10 +0200
-In-Reply-To: <9d7b7f59-ec3e-1f74-d1d4-359e3388f0f8@redhat.com> (Paolo
- Bonzini's message of "Fri, 7 Aug 2020 10:39:47 +0200")
-Message-ID: <87ft8yd0ht.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k42zJ-0003Tn-6D
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:04:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k42zH-0002Cb-0m
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:04:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k42zF-0004oG-2r
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 14:04:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F07522E809C
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 14:04:44 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 02:53:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Aug 2020 13:53:59 -0000
+From: John Snow <1219234@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: crobinso jnsnow th-huth
+X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <20130831150404.10743.73717.malonedeb@gac.canonical.com>
+Message-Id: <159680843906.26262.16803249989681185887.malone@gac.canonical.com>
+Subject: [Bug 1219234] Re: -device ide-hd will assign bus with with no free
+ units
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 92a219a127b44cda60e988f5253e27b9561cf4e1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,68 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, jsnow@redhat.com, stefanha@redhat.com,
- alex.bennee@linaro.org
+Reply-To: Bug 1219234 <1219234@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+I'll re-investigate. I definitely fixed some of this (there is if=3DIDE
+for AHCI now), but I recall Markus mentioning recently that there are a
+lot of weird things quite broken with AHCI and bus assignment.
 
-> On 07/08/20 09:56, Markus Armbruster wrote:
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->> 
->>> This the more or less final version of the Meson conversion.  Due to
->>> the sheer size of the series you have been CCed only on the cover
->>> letter.
->> 
->> Perfect timing: right before I drop off for two weeks of vacation.  I'm
->> excused!  *Maniacal laughter*
->> 
->> Have you run it through our CI?
->
-> Of course not. O:-)
->
->> without even more weeks of intense rebasing.
->
-> FWIW there were only three hard rebases from 5.0 to 5.2:
-> qemu-storage-daemon (by far the hardest), linux-user's syscall_nr.h
-> generation, and fuzzing (easiest except it required conversion of qtest).  S
->
-> I would like to merge this on August 21st.  I hope to post a
-> "definitive" verion on August 14th, and hope to work with Peter the next
-> week on getting it to pass his tests.
+I'm working on several other IDE fixes for the next release, so we can
+add this one to the pile. I will leave it as "incomplete" for now since
+I need to re-assess.
 
-Sounds good to me.
+-- =
 
->                                        Perhaps that's optimistic though.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1219234
 
-If it's not ready then, we pick another date and try again.
+Title:
+  -device ide-hd will assign bus with with no free units
 
-> Depending on when it's ready, I can pick up the series that gets rid of
-> Texinfo, if Peter and yourself don't want to learn Meson just for that.
+Status in QEMU:
+  Incomplete
 
-I appreciate the offer.  I figure I'll eventually have to learn some
-Meson anyway.  Still, having to learn it *now* to unblock that series
-may be inconvenient.
+Bug description:
+  Originally filed here:
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1000118
 
-> Anyway, I think this is the no-return point: if people say no, I'm not
-> going to push it any further.  If people say yes, we'd better merge it
-> quickly and be done with it.
->
-> I do understand resistance.  It's a new tool replacing a 40-year-old
-> standard; build systems are not fancy; and there is a substantial sunken
-> cost.  All I can answer is that the line between sunken cost and
-> Stockholm syndrome is a fine one.  I cannot say this stuff has been
-> *fun*, but at least the debugging was refreshing compared to Makefiles.
->  Again not a very high bar, but it's something.
+  ./x86_64-softmmu/qemu-system-x86_64 -device ahci -drive id=3Daa,file=3D/t=
+mp/foo,if=3Dnone -drive id=3Dbb,file=3D/tmp/foo,if=3Dnone -device ide-hd,dr=
+ive=3Daa -device ide-hd,drive=3Dbb
+  qemu-system-x86_64: -device ide-hd,drive=3Dbb: Can't create IDE unit 1, b=
+us supports only 1 units
+  qemu-system-x86_64: -device ide-hd,drive=3Dbb: Device initialization fail=
+ed.
+  qemu-system-x86_64: -device ide-hd,drive=3Dbb: Device 'ide-hd' could not =
+be initialized
 
-I'm willing to trust your judgement on this one.
+  If a bus isn't specified for -device ide-hd, it just uses the first
+  bus it finds, not taking into account if that bus was already assigned
+  for another device. So users are forced to do -device ide-hd,bus=3Dide.0
+  -device ide-hd,bus=3Dide.1, etc.
 
-I'm notoriously conservative in my choice of tools, and GNU Make is a
-much better tool than some people give it credit for, but I've long felt
-we've pushed it beyond its limits.
+  This isn't specific to -device ahci, but it's worse there since there
+  isn't any -drive if=3DIDE or -hda convenience option, which both seem to
+  get the logic correct.
 
-[...]
+  I know -device is the 'build it yourself' approach so I understand if
+  this is WONTFIX.
 
+  This is affects qemu.git as of today (8-31-2013)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1219234/+subscriptions
 
