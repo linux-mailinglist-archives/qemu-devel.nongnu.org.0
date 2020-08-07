@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF20923E8A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:13:13 +0200 (CEST)
-Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7087E23E8A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:14:59 +0200 (CEST)
+Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3xV2-0002DI-R9
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
+	id 1k3xWk-0005gx-HT
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1k3xSf-00070N-QL
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:10:45 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:41444)
+ id 1k3xSg-00073r-Ut
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:10:46 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:46970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1k3xSc-0001h6-EG
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:10:45 -0400
-Received: by mail-io1-xd33.google.com with SMTP id g19so1057948ioh.8
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 01:10:41 -0700 (PDT)
+ id 1k3xSc-0001hN-Rx
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:10:46 -0400
+Received: by mail-il1-x141.google.com with SMTP id c6so1053721ilo.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 01:10:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SVvavflqwBHyVfPeo3WkPtz2sD2s7cZLSNZLl+ZfUO0=;
- b=hCzc8Gm9b7h0j1Hij+WDaaowmrvNimX4GLIJ5eYjCHwjLaascuNQMt4q+J1JY/4Egr
- uYe8ayQhzwq6LZ0iGU+UFPdVhqcOygM+IVAGdQMAP71UCUtiB6XDeHv0i3ktSYYwr2uP
- eMtQw6Si0k/wMY5beDVkS8SlIpYS/3B+4WGpvmBdKYa1Cu5fJnsnWSKN9D9L/wedDaq4
- QJid3NW4x6U0Cet/0OgnNq78Q0N7ShXFVbK4GKGz+TBuYPbyyTjCFjn+Tse0rA6yDURL
- jxd3Mk9CohNsdBvLw++zalcMUvml5kuc4NDbB1bSTtQc3eo7a2RxvyUf/CU/h/Glh5Zd
- 1vfg==
+ bh=9aB5SJHC8FbDBha6sRb/HKsg3SmMO8+j3TVfCLWuY0I=;
+ b=VMRerHchoWHr6rI5g1T1wBXEAV08CskMGvdTstVSKB1XxOvhzZ3/tIF/aOWYqm0zJi
+ KOgIgp4cS890MoVcBHUhGd61D3p2blbo5YJ0VcGA1sr30zKXcR3SL9R65GjTDYWvkYuw
+ QEaBck9wT8PcjJxo9A6b7VOYyeVBQ/pY6mFEuFgVj1i9/C0CHB2FHo8Uzu+fBA/wsw1+
+ GrFcPBz8szdvlRgMJtN719v4Q4fCYKE5xx77k5IbJnMqmpu00RFFTr3V/rtnVi8+3iMP
+ V2zSdFakfE/WlUnkpWK6b+xu67XLfZ3QO1rM+EQyHirsyJY8TELx4axKy3czRwEOLVEV
+ RW9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SVvavflqwBHyVfPeo3WkPtz2sD2s7cZLSNZLl+ZfUO0=;
- b=PSgN7oeBkaKY3+BZ5WMjAUTEcldEcXip7Wst4WKHsFV59qFQYLPCKQ9Lm2yZAOXEMN
- BDHiLXRk6E0jjKj/r9RNffGRIARWg2Lf9J6ODEHIt6Ak0fpRFc9v8qoG2ma3WLu1vsYx
- hjYnRLjPs1qh9aPgpdOevAeWHa7msqEUwaW1Fhh2hIudcD9bjesumyyuaJY4pusEBL6u
- su6pr2QaWrbYK/mgOYZdyZWP2JMg6K5GYHvtFynfO+DYp6QzvvwKHLhvy+MYzGU0V3/w
- dckNdxQaFC/NxoXC4CLl8poheFwcShBeIMtPrSV6tpdk8kGxdt0NywXuK98kheHZ5Ajx
- ZiJQ==
-X-Gm-Message-State: AOAM53018rkNm5AzX3mSCnOv3iAJq+bzhD9IX03xipNxdD9NGyPlHdnX
- v8g9tz5GcCOAZBWJ09bRbrFN
-X-Google-Smtp-Source: ABdhPJxMCDuVYAdFWPKtjS2mFGhjatwW/Vq2uyACdZmA3eYiEiwVWLCuz7TpVRTtj1vWL180HFsHvw==
-X-Received: by 2002:a6b:8b10:: with SMTP id n16mr3242360iod.11.1596787841141; 
+ bh=9aB5SJHC8FbDBha6sRb/HKsg3SmMO8+j3TVfCLWuY0I=;
+ b=B5lhom2qE4IeV+dTqdYLm5uyKxsXmzBIr1sp5VzlCJmyLRHJsFOgrwGfjdNTetgW23
+ 5cj1ZoCl+K54ygJKALnyNqJpwZTjBQIr8ZI3K6xWaEs6iR/Kyy/FynEYYYXkl7FKKWum
+ uz6bHofIbhxPTtdeZaSs+Vn+auPGcgMh17+Uso/omycpXgHrntmnR13ifgOp1Vlb1SDu
+ GLTTKucB8C47/4H0zXW4IUoSoozIXqN6kzZltVWh5BF/Da2gzTS95ggZNTy0+6HPDM8U
+ Dtw/QXfOfB4ZuCrPD8AigQWuwaLY0joPXuXIqwkveGH6aNW9YzzI3J3LeWR6fn468dCd
+ g5VA==
+X-Gm-Message-State: AOAM530AAlpOCqyziMe1IMuAnF361oo50nvARd0iYiqOWfH8JT08ryyN
+ 61qIQXix9jKvfNpxKEq0JD7C
+X-Google-Smtp-Source: ABdhPJysPrQcDjSYpoMeRJAXtSsCanQ8RUHrdS2KtsJppKv03QaV+LmRwH7B8KY8/NZrKZsm2LVYNg==
+X-Received: by 2002:a92:c74a:: with SMTP id y10mr3126240ilp.306.1596787841901; 
  Fri, 07 Aug 2020 01:10:41 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id l144sm6233546ill.6.2020.08.07.01.10.40
+ by smtp.gmail.com with ESMTPSA id l144sm6233546ill.6.2020.08.07.01.10.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 01:10:40 -0700 (PDT)
+ Fri, 07 Aug 2020 01:10:41 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PATCH 1/7] update Linux headers with new vSPE macros
-Date: Fri,  7 Aug 2020 08:10:31 +0000
-Message-Id: <4da5af14d6f0c0adb112d04eafa0a488ab924439.1596768588.git.haibo.xu@linaro.org>
+Subject: [PATCH 2/7] target/arm/kvm: spe: Add helper to detect SPE when using
+ KVM
+Date: Fri,  7 Aug 2020 08:10:32 +0000
+Message-Id: <76aa68f9ec73ced85070b81ef5251771ca27d072.1596768588.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1596768588.git.haibo.xu@linaro.org>
 References: <cover.1596768588.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=haibo.xu@linaro.org; helo=mail-io1-xd33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=haibo.xu@linaro.org; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,52 +92,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
 ---
- linux-headers/asm-arm64/kvm.h | 4 ++++
- linux-headers/linux/kvm.h     | 2 ++
- 2 files changed, 6 insertions(+)
+ target/arm/kvm.c     |  5 +++++
+ target/arm/kvm_arm.h | 13 +++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.h
-index 9e34f0f875..802319ee02 100644
---- a/linux-headers/asm-arm64/kvm.h
-+++ b/linux-headers/asm-arm64/kvm.h
-@@ -106,6 +106,7 @@ struct kvm_regs {
- #define KVM_ARM_VCPU_SVE               4 /* enable SVE for this CPU */
- #define KVM_ARM_VCPU_PTRAUTH_ADDRESS   5 /* VCPU uses address authentication */
- #define KVM_ARM_VCPU_PTRAUTH_GENERIC   6 /* VCPU uses generic authentication */
-+#define KVM_ARM_VCPU_SPE_V1            7 /* Support guest SPEv1 */
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 8bb7318378..58f991e890 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -214,6 +214,11 @@ bool kvm_arm_pmu_supported(void)
+     return kvm_check_extension(kvm_state, KVM_CAP_ARM_PMU_V3);
+ }
  
- struct kvm_vcpu_init {
-        __u32 target;
-@@ -334,6 +335,9 @@ struct kvm_vcpu_events {
- #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER                1   
- #define KVM_ARM_VCPU_PVTIME_CTRL       2   
- #define   KVM_ARM_VCPU_PVTIME_IPA      0
-+#define KVM_ARM_VCPU_SPE_V1_CTRL       3
-+#define   KVM_ARM_VCPU_SPE_V1_IRQ      0
-+#define   KVM_ARM_VCPU_SPE_V1_INIT     1
++bool kvm_arm_spe_supported(void)
++{
++    return kvm_check_extension(kvm_state, KVM_CAP_ARM_SPE_V1);
++}
++
+ int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+ {
+     KVMState *s = KVM_STATE(ms->accelerator);
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index adb38514bf..f79655674e 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -283,6 +283,14 @@ bool kvm_arm_aarch32_supported(void);
+  */
+ bool kvm_arm_pmu_supported(void);
 
- /* KVM_IRQ_LINE irq field index values */
- #define KVM_ARM_IRQ_VCPU2_SHIFT                28
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index a28c366737..35ef0ae842 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_PPC_SECURE_GUEST 181
- #define KVM_CAP_HALT_POLL 182
- #define KVM_CAP_ASYNC_PF_INT 183
-+#define KVM_CAP_ARM_SPE_V1 184
++/**
++ * kvm_arm_spe_supported:
++ *
++ * Returns: true if the KVM VCPU can enable its SPE
++ * and false otherwise.
++ */
++bool kvm_arm_spe_supported(void);
++
+ /**
+  * kvm_arm_sve_supported:
+  *
+@@ -366,6 +374,11 @@ static inline bool kvm_arm_pmu_supported(void)
+     return false;
+ }
 
- #ifdef KVM_CAP_IRQ_ROUTING
-
-@@ -1671,6 +1672,7 @@ struct kvm_assigned_msix_entry {
- #define KVM_ARM_DEV_EL1_VTIMER         (1 << 0)
- #define KVM_ARM_DEV_EL1_PTIMER         (1 << 1)
- #define KVM_ARM_DEV_PMU                        (1 << 2)
-+#define KVM_ARM_DEV_SPE                        (1 << 3)
-
- struct kvm_hyperv_eventfd {
-        __u32 conn_id;
++static inline bool kvm_arm_spe_supported(void)
++{
++    return false;
++}
++
+ static inline bool kvm_arm_sve_supported(void)
+ {
+     return false;
 -- 
 2.17.1
 
