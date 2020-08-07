@@ -2,114 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E47123EA6F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:35:51 +0200 (CEST)
-Received: from localhost ([::1]:59398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C9F23EAD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:48:10 +0200 (CEST)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yn0-00013M-7S
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33502)
+	id 1k3yyv-00066D-TW
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k3ykT-0007Mn-TT; Fri, 07 Aug 2020 05:33:14 -0400
-Received: from mail-eopbgr150094.outbound.protection.outlook.com
- ([40.107.15.94]:43563 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k3ykR-000386-A0; Fri, 07 Aug 2020 05:33:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UoroIOofG1tn62oUYwuAtbnhvV12mJLmB1xOQ1hPd4/Kut7RmFcVheVNpgnzpl2Oh5Mbgjtc+WRsrZ8VbtkxlDsJ6F5tP+eSIVDlYZXq3kzyMwds44AuCpdXdj09f/3xnFy/LABnNZkjfI18X7WOJhcMneQijo9djlQ71f9oxu2vbx1DA3jTkZfFzCw8u+zR4d0VeLqRiGs1FXpcC0TE/6hxc6i7qfFyuIVjH4UA++eZbbYOCdj3aWF4jZLZMJkHlocPtanuVxCZM5moDzwmTPf3bM6U3WWRJFpUdl+DwE511dPiANWpCGXRwQEJ4gnI5Cpz3KFzf+swr1KWkzNqgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VqgUX23Xcm/PCttrLghr4rNkOVNNMQKXjAyLeD7rhLU=;
- b=Ini7CTm7wEtIul8zSRE5j26SqgVLtxdB3rWYZA+pDXm8fMRD1B9D209iR5+UvtwBJ4h0KyFxjbmqBdF4iT19AOxLho//58zKAy5TuUIlZVpTcWPLyjSnncqFYFD6LMTtSN/9L1lQ283W83JNBX/RH8tI1a5FztDJtkYUZDeBHQDglC5R/5QTf8EC3DAandNzIW4+AT4Zrr3xVAmI6UUtNbt/CrnvY5NJ1x72mV3LCp3hIgdfkG5eiwfBXuUAQFbqlNhECaI3pylG+b1GR2BdOig1T9GhfVjw7W4tY5FTb7OB9q391Ld8PwvyEegb/LP595a2pFWiFARIV2Qsmyd0Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VqgUX23Xcm/PCttrLghr4rNkOVNNMQKXjAyLeD7rhLU=;
- b=njWF3PbuZ2l5mtvu12vaLpvWkNE3Fm0Ckmq6rzqCLLxk6jfS5/xQitqsOktte7PfCyUHPMkZjQNYCpNs8wkPzVHZkvHXRA7ys4gduzvfmKehxHoNMLT8HEwC/aboPb5zr8FtpuQet3nBA+tVKItNoSllaYPX3XSSWlws7N4t368=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4469.eurprd08.prod.outlook.com (2603:10a6:20b:70::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.20; Fri, 7 Aug
- 2020 09:33:04 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3261.020; Fri, 7 Aug 2020
- 09:33:04 +0000
-Subject: Re: [PATCH v7 01/47] block: Add child access functions
-To: Christophe de Dinechin <dinechin@redhat.com>
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-2-mreitz@redhat.com>
- <12e568be-f931-fc16-0ca2-a7ec54e538ea@virtuozzo.com>
- <ly1rkvhb8s.fsf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b80e99b3-5e8d-4ac8-479e-664ae6e7d091@virtuozzo.com>
-Date: Fri, 7 Aug 2020 12:33:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <ly1rkvhb8s.fsf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR08CA0020.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::33) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3ywv-0003R3-FI
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3ywq-0004j5-NE
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k3ywo-0000Oi-LF
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 09:45:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 93B4E2E809C
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 09:45:58 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.177) by
- AM0PR08CA0020.eurprd08.prod.outlook.com (2603:10a6:208:d2::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.18 via Frontend Transport; Fri, 7 Aug 2020 09:33:04 +0000
-X-Originating-IP: [185.215.60.177]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6cd891b9-c6c2-474d-49a3-08d83ab4e2da
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4469:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4469FA82DB44FE99061AA5BDC1490@AM6PR08MB4469.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xfLLSPH1kUIWUA/oixNtkiXL80paRy44deaCX7NrNHCz5k0XMN9Jc8NgxNk71aUh56L6MPc+ngh6gTHO/Hr1xPPDLThFOPsyQQNrECfxEKOZalvnq69YZ02pbEmPtWB2pWWMHXI6hZgE4bmcbo8WVtSSgGcqr6hhAqVZ3aQ5Xk8k6Z3GKeQikf52Cd/SYOFRY0OQghMJJ5XJ7ztKYPaf4XP/zVayc/eiLkMz/KLlpYxqw4fmJ2AOnIdiOmEqnBXg8F0mwG9iRepswBaN2GeX5587CdOqx1WaOpqhrGpFFpsrd4+Z0Eaz15yoBb7WMjiab6Kxe/Cs6sadZEK5YN8MEzpQ3WeeQUS25iX2wH2aL3ecyeQBLLXh0LkyA9h1g8tE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(346002)(39850400004)(396003)(136003)(376002)(186003)(16526019)(316002)(54906003)(478600001)(26005)(86362001)(2906002)(36756003)(2616005)(956004)(8676002)(6916009)(66556008)(66946007)(66476007)(31696002)(6486002)(8936002)(16576012)(52116002)(5660300002)(31686004)(4326008)(83380400001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: DDea9VF0p0DGSSl7oy7VvadTksus5zYZ/S/07QEJxsH8uXPXEniFJPr+CeraQi8r9sjLlqBJsR29jjxDT2t84vtEudZb0fWpO+YsMKPU6ZWnjiaP3uH2gJH8mhK4vawsyA3oO13iJARfwW9DSK1osWDZIoq6VrH4oFbXUmg+OuGmyGbAGF2TaufTqJ1YLzCULRM1nefoPALi6DLXzij0ReAcAvqL/pW4IwSA1pswwAcwJOW1RskKVVxaL7Cr3bM33SU1RV010nc3ZQfx8xdMiibvmUzf7b2as6s80RxKdSbefzTMd+XjiNxIm0gqTF+zqoXEbGEa9qA18vnSoyvvHvpCJAM8+P3nibCIGLD1i0s9r7Etc0Vfl4wgR+FjOhxjIxd6k8hsK8dRgCAapJoOCXrnRgZFMIbsD4x+HhUvALEWeTBeeG3IFg8PmxXv0DShq6HqFPmMFVX2n0HOThVdOrnviF0E79sPMs0ulWbvhj5E2F7GZaa+CuzHp8OIEAOCErwi8xdbZPoxbm5yYHpaSynldpn5Pf1WiRlT3vZzDH0ZfkOVa4tom/vtjhFh13snihoFd1NG/q3yDE825N2sQu+8j+mDCcWDa0Obfjxv1aZIbkMDcDpEVHqv+PTjWJvrtWplr1R4io+yvQZV8wkEBQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cd891b9-c6c2-474d-49a3-08d83ab4e2da
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2020 09:33:04.9008 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r9DPCf32syp7cbRkQHgC1ls1nPlXf1kiQ6ihcDpgAd1j1Old0CW6avVw4/EzHqbeTtElKVdx+J3aGcF1gm/ION6xj0vcXPqinjIp3dlLNd8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4469
-Received-SPF: pass client-ip=40.107.15.94;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 05:33:05
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Aug 2020 09:33:52 -0000
+From: Thomas Huth <1248959@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol th-huth vladimir-zinovjevs-ext
+X-Launchpad-Bug-Reporter: Vladimir Zinovjevs (vladimir-zinovjevs-ext)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20131107133921.24319.20662.malonedeb@gac.canonical.com>
+Message-Id: <159679283224.11064.1146336068284428275.malone@chaenomeles.canonical.com>
+Subject: [Bug 1248959] Re: pdpe1gb flag is missing in guest running on Intel
+ h/w
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: dcc05ae1020ad2c5e39728dd3f6d3ae841ea77ad
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -118,95 +74,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1248959 <1248959@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.07.2020 19:09, Christophe de Dinechin wrote:
-> 
-> On 2020-07-13 at 11:06 CEST, Vladimir Sementsov-Ogievskiy wrote...
->> 25.06.2020 18:21, Max Reitz wrote:
->>> There are BDS children that the general block layer code can access,
->>> namely bs->file and bs->backing.  Since the introduction of filters and
->>> external data files, their meaning is not quite clear.  bs->backing can
->>> be a COW source, or it can be a filtered child; bs->file can be a
->>> filtered child, it can be data and metadata storage, or it can be just
->>> metadata storage.
->>>
->>> This overloading really is not helpful.  This patch adds functions that
->>> retrieve the correct child for each exact purpose.  Later patches in
->>> this series will make use of them.  Doing so will allow us to handle
->>> filter nodes in a meaningful way.
->>>
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>> ---
->>
->> [..]
->>
->>> +/*
->>> + * Return the primary child of this node: For filters, that is the
->>> + * filtered child.  For other nodes, that is usually the child storing
->>> + * metadata.
->>> + * (A generally more helpful description is that this is (usually) the
->>> + * child that has the same filename as @bs.)
->>> + *
->>> + * Drivers do not necessarily have a primary child; for example quorum
->>> + * does not.
->>> + */
->>> +BdrvChild *bdrv_primary_child(BlockDriverState *bs)
->>> +{
->>> +    BdrvChild *c;
->>> +
->>> +    QLIST_FOREACH(c, &bs->children, next) {
->>> +        if (c->role & BDRV_CHILD_PRIMARY) {
->>> +            return c;
->>> +        }
->>> +    }
->>> +
->>> +    return NULL;
->>> +}
->>>
->>
->> Suggest squash-in to also assert that not more than one primary child:
->> --- a/block.c
->> +++ b/block.c
->> @@ -6998,13 +6998,14 @@ BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs)
->>     */
->>    BdrvChild *bdrv_primary_child(BlockDriverState *bs)
->>    {
->> -    BdrvChild *c;
->> +    BdrvChild *c, *found = NULL;
->>
->>        QLIST_FOREACH(c, &bs->children, next) {
->>            if (c->role & BDRV_CHILD_PRIMARY) {
->> -            return c;
->> +            assert(!found);
->> +            found = c;
->>            }
->>        }
->>
->> -    return NULL;
->> +    return c;
-> 
-> Shouldn't that be "return found"?
+Looking through old bug tickets... is this still an issue with the
+latest version of QEMU? Or could we close this ticket nowadays?
 
-Oops, you are right of course!
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
->>    }
->>
->>
->> with or without:
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> 
-> --
-> Cheers,
-> Christophe de Dinechin (IRC c3d)
-> 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1248959
 
--- 
-Best regards,
-Vladimir
+Title:
+  pdpe1gb flag is missing in guest running on Intel h/w
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I need to utilize 1G hugepages on my guest system. But this is not
+  possible as long as there is no pdpe1gb support in guest system.  The
+  latest source code contains pdpe1gb  support for AMD but not for
+  Intel.
+
+  Are there any obstacles that does not allow to implement it for modern
+  Intel chips?
+
+  My configuration:
+  Host:
+  -------
+  uname -a
+  Linux tripel.salab.cic.nsn-rdnet.net 2.6.32-358.14.1.el6.x86_64 #1 SMP Tu=
+e Jul 16 23:51:20 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
+
+  cat /etc/*-release
+  CentOS release 6.4 (Final)
+
+  yum list installed | grep qemu
+  gpxe-roms-qemu.noarch                0.9.7-6.9.el6             @base
+  qemu-img.x86_64                      2:0.12.1.2-2.355.0.1.el6.centos.5
+  qemu-kvm.x86_64                      2:0.12.1.2-2.355.0.1.el6.centos.5
+
+  cat /proc/cpuinfo
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 45
+  model name      : Intel(R) Xeon(R) CPU E5-2680 0 @ 2.70GHz
+  stepping        : 7
+  cpu MHz         : 2700.000
+  cache size      : 20480 KB
+  physical id     : 0
+  siblings        : 16
+  core id         : 0
+  cpu cores       : 8
+  apicid          : 0
+  initial apicid  : 0
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 13
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
+a cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx=
+ pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology no=
+nstop_tsc aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ss=
+se3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer =
+aes xsave avx lahf_lm ida arat epb xsaveopt pln pts dts tpr_shadow vnmi fle=
+xpriority ept vpid
+  bogomips        : 5387.09
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 46 bits physical, 48 bits virtual
+
+  /usr/libexec/qemu-kvm -cpu ?
+  Recognized CPUID flags:
+    f_edx: pbe ia64 tm ht ss sse2 sse fxsr mmx acpi ds clflush pn pse36 pat=
+ cmov mca pge mtrr sep apic cx8 mce pae msr tsc pse de vme fpu
+    f_ecx: hypervisor rdrand f16c avx osxsave xsave aes tsc-deadline popcnt=
+ movbe x2apic sse4.2|sse4_2 sse4.1|sse4_1 dca pcid pdcm xtpr cx16 fma cid s=
+sse3 tm2 est smx vmx ds_cpl monitor dtes64 pclmulqdq|pclmuldq pni|sse3
+    extf_edx: 3dnow 3dnowext lm|i64 rdtscp pdpe1gb fxsr_opt|ffxsr fxsr mmx =
+mmxext nx|xd pse36 pat cmov mca pge mtrr syscall apic cx8 mce pae msr tsc p=
+se de vme fpu
+    extf_ecx: perfctr_nb perfctr_core topoext tbm nodeid_msr tce fma4 lwp w=
+dt skinit xop ibs osvw 3dnowprefetch misalignsse sse4a abm cr8legacy extapi=
+c svm cmp_legacy lahf_lm
+
+  ps ax | grep qemu
+   7197 ?        Sl     0:15 /usr/libexec/qemu-kvm -name vladimir.AS-0 -S -=
+M rhel6.4.0 -cpu SandyBridge,+pdpe1gb,+osxsave,+dca,+pcid,+pdcm,+xtpr,+tm2,=
++est,+smx,+vmx,+ds_cpl,+monitor,+dtes64,+pbe,+tm,+ht,+ss,+acpi,+ds,+vme -en=
+able-kvm -m 8192 -mem-prealloc -mem-path /var/lib/hugetlbfs/pagesize-1GB/li=
+bvirt/qemu -smp 4,sockets=3D4,cores=3D1,threads=3D1 -uuid ec2d3c58-a7f0-fdb=
+d-9de5-b547a5b3130f -nographic -nodefconfig -nodefaults -chardev socket,id=
+=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/vladimir.AS-0.monitor,server,no=
+wait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc=
+ -no-shutdown -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -n=
+etdev tap,fd=3D28,id=3Dhostnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,m=
+ac=3D52:54:00:81:5b:df,bus=3Dpci.0,addr=3D0x3,bootindex=3D1 -chardev pty,id=
+=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 -devic=
+e pci-assign,host=3D02:00.0,id=3Dhostdev0,configfd=3D29,bus=3Dpci.0,addr=3D=
+0x4 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5
+
+  Guest:
+  ---------
+  # uname -a
+  Linux AS-0 2.6.34.13-WR4.3.fp_x86_64_standard-00019-g052bb3e #1 SMP Wed M=
+ay 8 12:21:02 EEST 2013 x86_64 x86_64 x86_64 GNU/Linux
+
+  #  cat /etc/*-release
+  Wind River Linux 4.3 glibc_cgl
+
+  # cat /proc/cpuinfo
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 42
+  model name      : Intel Xeon E312xx (Sandy Bridge)
+  stepping        : 1
+  cpu MHz         : 2693.893
+  cache size      : 4096 KB
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 13
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cm=
+ov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx lm constant_tsc rep_go=
+od pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes xsave avx hyper=
+visor lahf_lm xsaveopt
+  bogomips        : 5387.78
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 46 bits physical, 48 bits virtual
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1248959/+subscriptions
 
