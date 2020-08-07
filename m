@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB0423EAD6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:48:29 +0200 (CEST)
-Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B551223EAE4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:49:44 +0200 (CEST)
+Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yzE-0006a3-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
+	id 1k3z0R-0008Kf-Pr
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3ywt-0003Mu-H2
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59888
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3ywq-0004iy-Fo
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596793556;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=ojqnaAey0tQrsjTHr/PLN9By8BiwfEh0Cg3rK5vYp5M=;
- b=OS+xkCLRn5EdVOGcA31Jk1grh995jgpPlylfAfoh/JmAON3YqTbMkdSvFkht/SvdYP28so
- cl7PGKjMj9S5PEbjh+LrBLd7qdzDTjPcCnSLoC3xGVPywkPesuvDdBgFxmLp8UCj6iSLdv
- NrF/hzlEk1HUq+ZqqI2Jzn7AbWMdNSo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-Z8nWerfEOm-HW0qE5P0aMg-1; Fri, 07 Aug 2020 05:45:54 -0400
-X-MC-Unique: Z8nWerfEOm-HW0qE5P0aMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9323101C8A6;
- Fri,  7 Aug 2020 09:45:52 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-31.ams2.redhat.com [10.36.113.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDEA65F207;
- Fri,  7 Aug 2020 09:45:45 +0000 (UTC)
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <761b4058-7a2b-d992-2cc2-6efe654ee62e@redhat.com>
- <9c894412-b156-607e-1ea9-9e9ba14cbf1a@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <6f6e9c9b-fdf6-951e-9112-3913fe44c455@redhat.com>
-Date: Fri, 7 Aug 2020 11:45:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k3ywx-0003Vw-Lc
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:07 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k3yww-0004jZ-33
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:07 -0400
+Received: by mail-pg1-x535.google.com with SMTP id p8so631386pgn.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ibHVxmsSTyxvJyX9Gm2Ir4+dXdJ8NjJzgCpXCaB941Q=;
+ b=tiofBvPqzFQNH/zXATIsBswU9rwLx8SxmxlRiwpBcC4zAeUg7lyD9nLXoIU1GO/deV
+ mwMH44crI1pLGImuteUM/1UD5hucw9daKSnry3hzhDpEqD6IO5xl3eyehskATM/Bd0Ei
+ qVSF23m1QboVS6zk31VhdMW4oomG4AhcE5Rkz/8Nysaj1Kp5n/REb0MUqlu8amy/PfL7
+ 7LIHE59eMCs+HVp7SuZG5icKHp8APpWjMB4v7GJ3zdfXttTE4FSraTnD0dNFwDI27OdK
+ wSc0ZcDjItoT34W6wtQDm1KmlKZr/+MzFk383PbMyEDzZChqlkEATfT6LJPZGNTiZykf
+ gfJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ibHVxmsSTyxvJyX9Gm2Ir4+dXdJ8NjJzgCpXCaB941Q=;
+ b=K/FbZhy5v5E96QQdWgYpEUk6Ua0TuQGaKIOX5B+EEynAbfXNYZIJsoOu8F47ePTRDO
+ 39DZUsGyYc0XxJ2bWr2T40UsxlVDuwOtuepIf2/64Wd9lUH79wmhEe6IWBzT/5jppmSC
+ +bJl5o5BnvpfIVFbMitCXXJthBY3qAl7psCmq+NsGuSUIrf2RSBVNouSQnw3rG4sgEod
+ xp8YxGrAqplwKlF6w9ec9cQ/u5prbUJGn3DrHd2vF5oFwvQECNqodJbUNp7QneBbIHKX
+ NPiV1nzMx4lrPGDXJNxgks+fWK5XzkiealhLPuxs8P2I4g0VEGepaUkGIk/jNuFRUYds
+ ULmA==
+X-Gm-Message-State: AOAM533E+kaVLBYy6GZ3l3GXJv4eJOZ1VT7dDF3tAPXl3H46xd/M48Om
+ 9mYhKwpkSVALoTR8HqkjH5EW9PNLU5nzZeNVARY=
+X-Google-Smtp-Source: ABdhPJwoNDPg79lBENsB0dJe9KNIzj1ZN8fUIqsX3K0sdkCSGex3A1JgFMzrC5Hm/WSKLgJ5dnfprbcXkRy4hJBaOGs=
+X-Received: by 2002:a63:ec04:: with SMTP id j4mr10901562pgh.393.1596793564519; 
+ Fri, 07 Aug 2020 02:46:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9c894412-b156-607e-1ea9-9e9ba14cbf1a@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
+ <20200806115148.7lz32dro645a3wv6@mhamilton>
+ <20200806120130.GK4159383@redhat.com>
+ <20200806133845.maouiwnazkjtpklr@mhamilton>
+ <CAJSP0QWJV=DrsAmVR7Mm9Gb_YtMiwE0geGTvq_R2tgQ=BCxKUg@mail.gmail.com>
+In-Reply-To: <CAJSP0QWJV=DrsAmVR7Mm9Gb_YtMiwE0geGTvq_R2tgQ=BCxKUg@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 7 Aug 2020 10:45:53 +0100
+Message-ID: <CAJSP0QVx-oY6bq=1+5r-b=T14r17dZa+9WG7r2D2nJFZPKr1ow@mail.gmail.com>
+Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
+To: Sergio Lopez <slp@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=stefanha@gmail.com; helo=mail-pg1-x535.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,32 +82,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, philmd@redhat.com,
- armbru@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
- jsnow@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Dave Gilbert <dgilbert@redhat.com>, "Oleinik, Alexander" <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/2020 11.31, Paolo Bonzini wrote:
-> On 07/08/20 10:51, Thomas Huth wrote:
->> 2) With --meson=git added, I also do not get much further:
->>  "./ui/meson.build:77:0: ERROR: Program 'keycodemapdb/tools/keymap-gen'
->> not found"
->>
->>  https://gitlab.com/huth/qemu/-/jobs/675546229
->>
->> Any idea what's going wrong here?
-> 
-> This is also a submodule not being initialized,
-> ui/keycodemapdb/tools/keymap-gen comes from a submodule.
+On Fri, Aug 7, 2020 at 10:27 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > Nice, but AFAIK QEMU still lacks the ability to process those files
+> > and run the vhost-user device providers by itself. Or perhaps I just
+> > can't find it (?).
+>
+> How about a Python script? It can list available vhost-user programs
+> and their options:
 
-Ok. I've added a hack to my configure script to checkout the submodules,
-but still, it does not compile yet:
+Another option is systemd unit files. It's lower-level than a
+dedicated tool but gives full control and it should be possible to
+bring up an entire set of processes using a single systemctl command.
 
- ../tools/virtiofsd/meson.build:1:0: ERROR: Unknown variable
-"libvhost_user".
- https://gitlab.com/huth/qemu/-/jobs/675665455
-
- Thomas
-
+Stefan
 
