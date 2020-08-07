@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CE823EB57
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:16:54 +0200 (CEST)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC3523EB8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:28:55 +0200 (CEST)
+Received: from localhost ([::1]:33944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zQj-0007qV-VB
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
+	id 1k3zcM-00018L-DB
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3zPm-0007QG-WF
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:15:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35508)
+ id 1k3zYg-00056n-Kd
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3zPk-0008B4-Sp
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:15:54 -0400
+ id 1k3zYa-0000bP-7m
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:25:05 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3zPi-0000vl-Er
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:15:50 +0000
+ id 1k3zYW-0002j7-GJ
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:24:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6728C2E8025
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:15:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7AAAF2E809C
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:24:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 10:05:33 -0000
-From: Thomas Huth <1253563@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 10:06:09 -0000
+From: Thomas Huth <1277433@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,20 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amoskong th-huth
-X-Launchpad-Bug-Reporter: Amos Jianjun Kong (amoskong)
+X-Launchpad-Bug-Commenters: sebastian-huber th-huth
+X-Launchpad-Bug-Reporter: Sebastian Huber (sebastian-huber)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20131121092412.27241.16050.malonedeb@gac.canonical.com>
-Message-Id: <159679473342.5527.7207423639313432047.malone@soybean.canonical.com>
-Subject: [Bug 1253563] Re: bad performance with rng-egd backend
-X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
+References: <20140207101533.1830.3618.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159679476969.4683.10518482053799329215.malone@soybean.canonical.com>
+Subject: [Bug 1277433] Re: GDB context is inconsistent after "monitor
+ system_reset"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a5bedd18aa5432bc3e2e1e59447238409ce57c27
+X-Launchpad-Hash: a1d4966843385773af41af50d3200e33801390ba
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1253563 <1253563@bugs.launchpad.net>
+Reply-To: Bug 1277433 <1277433@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,58 +87,107 @@ latest version of QEMU? Or could we close this ticket nowadays?
 -- =
 
 You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to the bug report.
-https://bugs.launchpad.net/bugs/1253563
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1277433
 
 Title:
-  bad performance with rng-egd backend
+  GDB context is inconsistent after "monitor system_reset"
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  =
+  After a "monitor system_reset" the GDB view to the system state
+  differs from QEMUs processor state.
 
-  1. create listen socket
-  # cat /dev/random | nc -l localhost 1024
+  Breakpoint 8, _ARMV4_Exception_interrupt () at /home/sh/rtems-4.11/c/src/=
+../../cpukit/score/cpu/arm/arm_exc_interrupt.S:74
+  74              mov     EXCHANGE_LR, lr
+  (gdb) info registers
+  r0             0x2027e8 2107368
+  r1             0x204208 2114056
+  r2             0x13     19
+  r3             0x204238 2114104
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x201480 0x201480
+  lr             0x110958 1116504
+  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
+  cpsr           0x192    402
+  (gdb) monitor info registers
+  R00=3D002027e8 R01=3D00204208 R02=3D00000013 R03=3D00204238
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00201480 R14=3D00110958 R15=3D0011073c
+  PSR=3D00000192 ---- A irq32
+  (gdb) monitor system_reset
+  (gdb) info registers
+  r0             0x2027e8 2107368
+  r1             0x204208 2114056
+  r2             0x13     19
+  r3             0x204238 2114104
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x201480 0x201480
+  lr             0x110958 1116504
+  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
+  cpsr           0x192    402
+  (gdb) monitor info registers
+  R00=3D00000000 R01=3D00000000 R02=3D00000000 R03=3D00000000
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100040
+  PSR=3D400001d3 -Z-- A svc32
 
-  2. start vm with rng-egd backend
+  Why does the second "info registers" and "monitor info registers"
+  differ?
 
-  ./x86_64-softmmu/qemu-system-x86_64 --enable-kvm -mon chardev=3Dqmp,mode=
-=3Dcontrol,pretty=3Don -chardev socket,id=3Dqmp,host=3Dlocalhost,port=3D123=
-4,server,nowait -m 2000 -device virtio-net-pci,netdev=3Dh1,id=3Dvnet0 -netd=
-ev tap,id=3Dh1 -vnc :0 -drive file=3D/images/RHEL-64-virtio.qcow2 \
-  -chardev socket,host=3Dlocalhost,port=3D1024,id=3Dchr0 \
-  -object rng-egd,chardev=3Dchr0,id=3Drng0 \
-  -device virtio-rng-pci,rng=3Drng0,max-bytes=3D1024000,period=3D1000
+  After a single instruction step they are synchronized at least on ARM
+  (on SPARC this is different).
 
-  (guest) # dd if=3D/dev/hwrng of=3D/dev/null
-
-  note: cancelling dd process by Ctrl+c, it will return the read speed.
-
-  Problem:   the speed is around 1k/s
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  If I use rng-random backend (filename=3D/dev/random), the speed is about
-  350k/s).
-
-  It seems that when the request entry is added to the list, we don't read =
-the data from queue list immediately.
-  The chr_read() is delayed, the virtio_notify() is delayed.  the next requ=
-est will also be delayed. It effects the speed.
-
-  I tried to change rng_egd_chr_can_read() always returns 1,  the speed
-  is improved to (about 400k/s)
-
-  Problem: we can't poll the content in time currently
-
-  =
-
-  Any thoughts?
-
-  Thanks, Amos
+  (gdb) si
+  bsp_start_vector_table_end () at /home/sh/rtems-4.11/c/src/lib/libbsp/arm=
+/realview-pbx-a9/../shared/start/start.S:144
+  144             msr     cpsr, r0
+  (gdb) info registers
+  r0             0xd3     211
+  r1             0x0      0
+  r2             0x0      0
+  r3             0x0      0
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x0      0x0
+  lr             0x0      0
+  pc             0x100044 0x100044 <bsp_start_vector_table_end+4>
+  cpsr           0x400001d3       1073742291
+  (gdb) monitor info registers
+  R00=3D000000d3 R01=3D00000000 R02=3D00000000 R03=3D00000000
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100044
+  PSR=3D400001d3 -Z-- A svc32
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1253563/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1277433/+subscriptions
 
