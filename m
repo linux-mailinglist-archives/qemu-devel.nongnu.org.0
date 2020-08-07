@@ -2,101 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B870623EB2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:04:37 +0200 (CEST)
-Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA22A23EB32
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:05:47 +0200 (CEST)
+Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zEq-0006b0-Ps
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:04:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1k3zFy-0000Up-S3
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3zDh-0005IX-8K
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21611
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k3zDf-0006Wq-A8
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596794602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zYtUajKOhbUILX9o7u2kpIyTWubbIj9jOSX8jtsIprM=;
- b=ZY6NWPjFc7HQ4RfpUnY1J4KLgAEFBWO0nZeuR+J3+hy9oXhchMcmwV2KJgBD81vqpe3+lj
- xddXQE+o+HxF5mgLyOo7v6YdwFMQKE4zBfbifQSXhnBBRkN6G6AoyXZvk25gl/Z4DpgicR
- L5SjeZHtRhM7p/Q9cDKl7NuWPPme3Ac=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-Uvn9Z3QjOVK7H7D-pZgz4w-1; Fri, 07 Aug 2020 06:03:20 -0400
-X-MC-Unique: Uvn9Z3QjOVK7H7D-pZgz4w-1
-Received: by mail-wr1-f70.google.com with SMTP id z1so547592wrn.18
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 03:03:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zYtUajKOhbUILX9o7u2kpIyTWubbIj9jOSX8jtsIprM=;
- b=cjZqPeGno/ePYTLaglMvOSj51Sa4M/FGADogXjAqSyxBX4voMR1L5h8pPX6ImEIOub
- PJskme1WJAeEOXYZRCcUKagO8pcV0WOfpuXFqfRnQADAKiy4jsr1/Pi8wtmpwx4QCOZI
- 3R9jJexwLQUZSudAkSStEukndDyvvd6RYVign07xCCazSV8lfYhMp3JdQRuX8sUyL4hz
- S0gSWR1ZCV1GN7gA6+RBCn5sn9i2+npvuWPTFFqp7sMq8Rs5yWM9pyWLJf/ED5oIlOfb
- 23xcWKjAA0SUHtgBUOI8e4lABqdiU1p6c3IzFRQPb0NDbPeUis3gODBO0q3Soejp0WCy
- amlA==
-X-Gm-Message-State: AOAM531PMMWDWhvIxmy/y9qHaPGmuiXZT9Fx/HLOEyGvCA/6iUJRB6Pq
- 6r3Q6I4FUaM3Zi9EyL1mhuZ0jOsEojQ0YfOjt9Qpk/OZtiT0jO9YclqoP38UFyvuiq7SQeLQTpM
- xiKlsgNsFC8ajeoM=
-X-Received: by 2002:a05:600c:21d6:: with SMTP id
- x22mr11292093wmj.112.1596794599441; 
- Fri, 07 Aug 2020 03:03:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvsK/iqGjyGp8R6BmoF7x/aewOr9toRJgp7Sb1+1qnRxmsDE8EbS9nEbyIX/NOW3ZNEfoWhw==
-X-Received: by 2002:a05:600c:21d6:: with SMTP id
- x22mr11292072wmj.112.1596794599219; 
- Fri, 07 Aug 2020 03:03:19 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
- ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
- by smtp.gmail.com with ESMTPSA id 62sm9984482wrq.31.2020.08.07.03.03.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Aug 2020 03:03:18 -0700 (PDT)
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <761b4058-7a2b-d992-2cc2-6efe654ee62e@redhat.com>
- <9c894412-b156-607e-1ea9-9e9ba14cbf1a@redhat.com>
- <6f6e9c9b-fdf6-951e-9112-3913fe44c455@redhat.com>
- <ac18da61-6f54-b9d4-7591-e1296f9d3a32@redhat.com>
- <353ff6f7-c67f-7665-b631-967512417fa2@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d9590bf6-91b7-db6f-3545-873337a4990c@redhat.com>
-Date: Fri, 7 Aug 2020 12:03:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <353ff6f7-c67f-7665-b631-967512417fa2@redhat.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1)
+ (envelope-from <bounces+17973240-45d5-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1k3zDj-0005Ng-TG
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:27 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:53379)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <bounces+17973240-45d5-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1k3zDi-0006Wv-93
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+ h=from:subject:to:cc:content-type:content-transfer-encoding;
+ s=smtpapi; bh=EJ7gXKm+dF7hUMEmQAYNZk1RRM4eLdL+UyukHy3qQIk=;
+ b=PYvKwbhdf4tUHcwUfieJ2t+u+Lhbf6SNx0vZ3Tma2P1XKXxy3Ry4lNLzgv/i1vQrvgsL
+ 8wqZvWkjNQhJpSTENFFEs8nCZ6aqSTdx8xug3hmkNSPXp88tC6rAlw7J1hxhqoP4bU4nbq
+ JpDR60aaDCd58bRaKvx/Jel8yJ+bY28cE=
+Received: by filterdrecv-p3iad2-d8cc6d457-vbbww with SMTP id
+ filterdrecv-p3iad2-d8cc6d457-vbbww-18-5F2D26EA-11D
+ 2020-08-07 10:03:22.963194328 +0000 UTC m=+748498.735243532
+Received: from swapnil-ingle.ubvm.nutanix.com (unknown)
+ by ismtpd0007p1sjc2.sendgrid.net (SG) with ESMTP
+ id qTXmY0oaTBmf1YzBgfibpg Fri, 07 Aug 2020 10:03:22.716 +0000 (UTC)
+From: Swapnil Ingle <swapnil.ingle@nutanix.com>
+Subject: [PATCH v2] block/vhdx: Support vhdx image only with 512 bytes logical
+ sector size
+Date: Fri, 07 Aug 2020 10:03:23 +0000 (UTC)
+Message-Id: <1596794594-44531-1-git-send-email-swapnil.ingle@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
+X-SG-EID: =?us-ascii?Q?F2ZUz17l2INJHYm1t3SgcUlF+k0ID8lTNwkAb5HHXc8fLM5LiKzEftZo2hMPsh?=
+ =?us-ascii?Q?g8C4Vps0UmhpJRBoOufhCJs4fp0VRL94dwjCvG0?=
+ =?us-ascii?Q?xA21GUZktfi=2FHrxgxopmi9IryiHTEMbof67wir+?=
+ =?us-ascii?Q?n4RqU=2FciB+TYrYnb1nY2MkffztFb5YXsI0pjNM7?=
+ =?us-ascii?Q?aGYI5Kep09MSr2irukEra=2FStnQwQKxLT7+aUFAq?=
+ =?us-ascii?Q?FCbVoqxySibEZj1oYTb1ThHUFeJxNBKp6Ve+9Py?=
+ =?us-ascii?Q?w4I5nVbGFyIdXb5REwK+g=3D=3D?=
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:00:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=198.21.4.205;
+ envelope-from=bounces+17973240-45d5-qemu-devel=nongnu.org@sendgrid.net;
+ helo=o1.dev.nutanix.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 06:03:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,68 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, philmd@redhat.com,
- armbru@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
- jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "open list:VHDX" <qemu-block@nongnu.org>, Jeff Cody <codyprime@gmail.com>,
+ Max Reitz <mreitz@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/20 11:52, Thomas Huth wrote:
->> At least the Debian container started to compile, but then fails here:
->>
->>  ../hw/display/virtio-gpu.c:43:10: fatal error: virglrenderer.h: No such
->> file or directory
->>  https://gitlab.com/huth/qemu/-/jobs/675665451
+block/vhdx uses qemu block layer where sector size is always 512 bytes.
+This may have issues  with 4K logical sector sized vhdx image.
 
-Likely just a rebase issue:
+For e.g qemu-img convert on such images fails with following assert:
 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index efe18f2..ffcccc0 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -81,13 +81,6 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-                      if_true: virtio_gpu_ss)
- endif
+$qemu-img convert -f vhdx -O raw 4KTest1.vhdx test.raw
+qemu-img: util/iov.c:388: qiov_slice: Assertion `offset + len <=
+qiov->size' failed.
+Aborted
+
+This patch adds an check to return ENOTSUP for vhdx images which
+have logical sector size other than 512 bytes.
+
+Signed-off-by: Swapnil Ingle <swapnil.ingle@nutanix.com>
+---
+v2: Fixed commit message, suggested by Philippe Mathieu-Daude
+---
+ block/vhdx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 791eb90..356ec4c 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -816,9 +816,9 @@ static int vhdx_parse_metadata(BlockDriverState *bs, BDRVVHDXState *s)
+         goto exit;
+     }
  
--specific_ss.add(when: [pixman, 'CONFIG_VIRTIO_GPU'], if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c', 'virtio-gpu-3d.c'), virgl])
--specific_ss.add(when: [pixman, 'CONFIG_VHOST_USER_GPU'], if_true: files('vhost-user-gpu.c'))
--specific_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-gpu-pci.c'))
--specific_ss.add(when: ['CONFIG_VHOST_USER_GPU', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-gpu-pci.c'))
--specific_ss.add(when: 'CONFIG_VIRTIO_VGA', if_true: files('virtio-vga.c'))
--specific_ss.add(when: 'CONFIG_VHOST_USER_VGA', if_true: files('vhost-user-vga.c'))
--
- specific_ss.add(when: [x11, opengl, 'CONFIG_MILKYMIST_TMU2'], if_true: files('milkymist-tmu2.c'))
- specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
+-    /* only 2 supported sector sizes */
+-    if (s->logical_sector_size != 512 && s->logical_sector_size != 4096) {
+-        ret = -EINVAL;
++    /* Currently we only support 512 */
++    if (s->logical_sector_size != 512) {
++        ret = -ENOTSUP;
+         goto exit;
+     }
  
-
-
-> And yet another error, this time on Travis with --disable-system :
-> 
->  ../hw/display/meson.build:42:22: ERROR: Unknown variable
-> "config_all_devices".
->  https://travis-ci.com/github/huth/qemu/jobs/369657010#L1035
-
-diff --git a/meson.build b/meson.build
-index 5635f8e..ddd73d4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -491,10 +491,10 @@ if have_system
-     command: [grepy, '@INPUT@'],
-   )
-   config_all_devices = keyval.load(config_all_devices_mak)
--  config_all = config_all_devices
- else
--  config_all = {}
-+  config_all_devices = {}
- endif
-+config_all = config_all_devices
- config_all += config_host
- config_all += config_all_disas
- config_all += {
-
-
-More type checking.  I'll finish my current round of testing and push again.
-
-Paolo
+-- 
+2.9.3
 
 
