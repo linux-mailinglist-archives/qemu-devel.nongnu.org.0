@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BA323EA71
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:36:10 +0200 (CEST)
-Received: from localhost ([::1]:32826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C090F23EA72
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:36:11 +0200 (CEST)
+Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ynJ-0001nO-4e
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
+	id 1k3ynK-0001ot-SB
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3ymA-0000UL-W9
+ id 1k3ymB-0000V6-Kk
  for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:34:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43616)
+Received: from indium.canonical.com ([91.189.90.7]:43580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3ym9-0003Fv-De
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:34:58 -0400
+ id 1k3ym9-0003Ft-BN
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:34:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3ym8-0006E3-3d
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 09:34:56 +0000
+ id 1k3ym7-0006E1-IW
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 09:34:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 10E572E8072
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 09:34:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 82F482E8081
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 09:34:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 09:23:29 -0000
-From: Thomas Huth <761471@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 09:25:36 -0000
+From: Thomas Huth <1180923@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: neil-aldur th-huth
-X-Launchpad-Bug-Reporter: Neil Wilson (neil-aldur)
+X-Launchpad-Bug-Commenters: anthony-codemonkey oubattler panie pmaydell
+ stefanha th-huth
+X-Launchpad-Bug-Reporter: TC1988 (panie)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20110415073142.22650.18425.malonedeb@wampee.canonical.com>
-Message-Id: <159679220934.5114.10358628711075936078.malone@soybean.canonical.com>
-Subject: [Bug 761471] Re: Multicast VPN TTL hardcoded at 1
+References: <20130516173422.20571.91890.malonedeb@gac.canonical.com>
+Message-Id: <159679233654.15506.18339479497776422311.malone@wampee.canonical.com>
+Subject: [Bug 1180923] Re: unused memory filled with 0x00 instead of 0xFF
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2178e9581f02c479f9eeb179342b254494f24b05
+X-Launchpad-Hash: 184ebba5b462222fc009171150829898b3bdea16
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -72,35 +73,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 761471 <761471@bugs.launchpad.net>
+Reply-To: Bug 1180923 <1180923@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks, so I'll close this now.
+Looking through old bug tickets... is this still an issue with the
+latest version of QEMU? Or could we close this ticket nowadays?
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Won't Fix
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/761471
+https://bugs.launchpad.net/bugs/1180923
 
 Title:
-  Multicast VPN TTL hardcoded at 1
+  unused memory filled with 0x00 instead of 0xFF
 
 Status in QEMU:
-  Won't Fix
+  Incomplete
 
 Bug description:
-  The multicast VPN opens sockets with the default TTL of 1 and there
-  doesn't appear to be an option anywhere that will allow you to
-  increase that.
-
-  This limits the usability of the VPN to the local network where the
-  host server lives.
+  Qemu, ever since it was made (so, since 2003), has this problem in DOS
+  (either PC-DOS or MS-DOS and partly Windows 9x) not recognizing the
+  memory available when the memory is filled with 0x00 but when it is
+  filled with 0xFF it gets recognized properly, where should I patch
+  qemu to solve this memory problem?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/761471/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1180923/+subscriptions
 
