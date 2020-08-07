@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97A523F2E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:47:17 +0200 (CEST)
-Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F35E23F2EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 21:01:57 +0200 (CEST)
+Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k47Oe-0008Bl-8h
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
+	id 1k47cp-0004G3-KF
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 15:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k47N4-0007Ls-De
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:45:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34386)
+ id 1k47c0-0003pt-KN
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 15:01:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k47Mw-0000jB-SW
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:45:38 -0400
+ id 1k47by-0002QQ-3G
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 15:01:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k47Mv-0005DS-3v
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:45:29 +0000
+ id 1k47bw-0006gS-0Q
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 19:01:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EF8942E809C
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:45:28 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 87F3B2E80AB
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 19:00:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 18:32:04 -0000
-From: Thomas Huth <1505041@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 18:53:21 -0000
+From: "Dr. David Alan Gilbert" <1888601@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange fgouget th-huth
-X-Launchpad-Bug-Reporter: Francois Gouget (fgouget)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20151012003458.26359.57214.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159682512489.26006.12480849118781518560.malone@gac.canonical.com>
-Subject: [Bug 1505041] Re: Live snapshot revert times increases linearly with
- snapshot age
+X-Launchpad-Bug-Commenters: dgilbert-h jasowang skaegi
+X-Launchpad-Bug-Reporter: Simon Kaegi (skaegi)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <159547584008.11100.1316842366379773629.malonedeb@wampee.canonical.com>
+Message-Id: <159682640111.27188.13983446699844703894.malone@gac.canonical.com>
+Subject: [Bug 1888601] Re: QEMU v5.1.0-rc0/rc1 hang with nested virtualization
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 71238122bc7f5e4ba97b996bd32082220af760bd
+X-Launchpad-Hash: a10330f907b174bac82553daff45bf3850332404
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -73,110 +71,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1505041 <1505041@bugs.launchpad.net>
+Reply-To: Bug 1888601 <1888601@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
+If even with that fix it's failing =3Dand giving a similar back trace,
+then:
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Thread 4 (LWP 23729):
+#0 0x00007f9ae5fed337 in __strcmp_sse2 ()
+#1 0x00007f9ae5d9a8ad in g_str_equal () at pthread_create.c:679
+#2 0x00007f9ae5d99a9d in g_hash_table_lookup () at pthread_create.c:679
+#3 0x00007f9ae5ac728f in type_table_lookup (name=3D0x7f9ae609c9dd "virtio-b=
+us") at qom/object.c:84
+#4 type_get_by_name (name=3D0x7f9ae609c9dd "virtio-bus") at qom/object.c:171
+#5 object_class_dynamic_cast (class=3Dclass@entry=3D0x5555572d1ac0, typenam=
+e=3Dtypename@entry=3D0x7f9ae609c9dd "virtio-bus") at qom/object.c:879
+
+seems weird to me - why would you be stuck in a g_str_equal for any length =
+of time (yet 2 of your backtraces both have it); yet the filename and symbo=
+l name don't really look like they're matching so I'm suspicious.
+Have you got a minimal non-kata way to reproduce this?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1505041
+https://bugs.launchpad.net/bugs/1888601
 
 Title:
-  Live snapshot revert times increases linearly with snapshot age
+  QEMU v5.1.0-rc0/rc1 hang with nested virtualization
 
 Status in QEMU:
-  Incomplete
+  New
 
 Bug description:
-  The WineTestBot (https://testbot.winehq.org/) uses QEmu live snapshots
-  to ensure the Wine tests are always run in a pristine Windows
-  environment. However the revert times keep increasing linearly with
-  the age of the snapshot, going from tens of seconds to thousands.
-  While the revert takes place the qemu process takes 100% of a core and
-  there is no disk activity. Obviously waiting over 20 minutes before
-  being able to run a 10 second test is not viable.
+  We're running Kata Containers using QEMU and with v5.1.0rc0 and rc1
+  have noticed a problem at startup where QEMu appears to hang. We are
+  not seeing this problem on our bare metal nodes and only on a VSI that
+  supports nested virtualization.
 
-  Only some VMs are impacted. Based on libvirt's XML files the common
-  point appears to be the presence of the following <timer> tags:
+  We unfortunately see nothing at all in the QEMU logs to help
+  understand the problem and a hung process is just a guess at this
+  point.
 
-      <clock offset=3D'localtime'>
-        <timer name=3D'rtc' tickpolicy=3D'delay'/>
-        <timer name=3D'pit' tickpolicy=3D'delay'/>
-        <timer name=3D'hpet' present=3D'no'/>
-      </clock>
+  Using git bisect we first see the problem with...
 
-  Where the unaffected VMs have the following clock definition instead:
+  ---
 
-      <clock offset=3D'localtime'/>
+  f19bcdfedd53ee93412d535a842a89fa27cae7f2 is the first bad commit
+  commit f19bcdfedd53ee93412d535a842a89fa27cae7f2
+  Author: Jason Wang <jasowang@redhat.com>
+  Date:   Wed Jul 1 22:55:28 2020 +0800
 
-  Yet shutting down the affected VMs, changing the clock definition,
-  creating a live snapshot and trying to revert to it 6 months later
-  results in slow revert times (>400 seconds).
+  =C2=A0=C2=A0=C2=A0=C2=A0virtio-pci: implement queue_enabled method
 
-  Changing the tickpolicy to catchup for rtc and/or pit has no effect on
-  the revert time (and unsurprisingly causes the clock to run fast in
-  the guest).
+  =C2=A0=C2=A0=C2=A0=C2=A0With version 1, we can detect whether a queue is =
+enabled via
+  =C2=A0=C2=A0=C2=A0=C2=A0queue_enabled.
 
-  =
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Jason Wang <jasowang@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Cindy Lu <lulu@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Message-Id: <20200701145538.22333-5-lulu@redhat.c=
+om>
+  =C2=A0=C2=A0=C2=A0=C2=A0Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Acked-by: Jason Wang <jasowang@redhat.com>
 
-  To reproduce this problem do the following:
-  * Create a Windows VM (either 32 or 64 bits). This is known to happen wit=
-h at least Windows 2000, XP, 2003, 2008 and 10.
-  * That VM will have the <timer> tags shown above, with the possible addit=
-ion of an hypervclock timer.
-  * Shut down the VM.
-  * date -s "2014/04/01"
-  * Start the VM.
-  * Take a live snapshot.
-  * Shut down the VM.
-  * date -s "<your current date>"
-  * Revert to the live snapshot.
+  =C2=A0hw/virtio/virtio-pci.c | 13 +++++++++++++
+  =C2=A01 file changed, 13 insertions(+)
 
-  If the revert takes more than 2 minutes then there is a problem.
+  ---
 
-  =
+  Reverting this commit (on top of 5.1.0-rc1) seems to work and prevent
+  the hanging.
 
-  A workaround is to set track=3D'guest' on the rtc timer. This makes the r=
-evert fast and may even be the correct solution. But why is it not the defa=
-ult or better documented?
-   * It setting track=3D'wall' or omitting track, then the revert is slow a=
-nd the clock in the guest is not updated.
-   * It setting track=3D'guest' the revert is fast and the clock in the gue=
-st is not updated.
+  ---
 
-  =
+  Here's how kata ends up launching qemu in our environment --
+  /opt/kata/bin/qemu-system-x86_64 -name sandbox-849df14c6065931adedb9d18bc=
+9260a6d896f1814a8c5cfa239865772f1b7a5f -uuid 6bec458e-1da7-4847-a5d7-5ab31d=
+4d2465 -machine pc,accel=3Dkvm,kernel_irqchip -cpu host,pmu=3Doff -qmp unix=
+:/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5=
+f/qmp.sock,server,nowait -m 4096M,slots=3D10,maxmem=3D30978M -device pci-br=
+idge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don,addr=3D2,romfil=
+e=3D -device virtio-serial-pci,disable-modern=3Dtrue,id=3Dserial0,romfile=
+=3D -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0 -chardev socke=
+t,id=3Dcharconsole0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f=
+1814a8c5cfa239865772f1b7a5f/console.sock,server,nowait -device virtio-scsi-=
+pci,id=3Dscsi0,disable-modern=3Dtrue,romfile=3D -object rng-random,id=3Drng=
+0,filename=3D/dev/urandom -device virtio-rng-pci,rng=3Drng0,romfile=3D -dev=
+ice virtserialport,chardev=3Dcharch0,id=3Dchannel0,name=3Dagent.channel.0 -=
+chardev socket,id=3Dcharch0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
+0a6d896f1814a8c5cfa239865772f1b7a5f/kata.sock,server,nowait -chardev socket=
+,id=3Dchar-396c5c3e19e29353,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
+0a6d896f1814a8c5cfa239865772f1b7a5f/vhost-fs.sock -device vhost-user-fs-pci=
+,chardev=3Dchar-396c5c3e19e29353,tag=3DkataShared,romfile=3D -netdev tap,id=
+=3Dnetwork-0,vhost=3Don,vhostfds=3D3:4,fds=3D5:6 -device driver=3Dvirtio-ne=
+t-pci,netdev=3Dnetwork-0,mac=3D52:ac:2d:02:1f:6f,disable-modern=3Dtrue,mq=
+=3Don,vectors=3D6,romfile=3D -global kvm-pit.lost_tick_policy=3Ddiscard -vg=
+a none -no-user-config -nodefaults -nographic -daemonize -object memory-bac=
+kend-file,id=3Ddimm1,size=3D4096M,mem-path=3D/dev/shm,share=3Don -numa node=
+,memdev=3Ddimm1 -kernel /opt/kata/share/kata-containers/vmlinuz-5.7.9-74 -i=
+nitrd /opt/kata/share/kata-containers/kata-containers-initrd_alpine_1.11.2-=
+6_agent.initrd -append tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=
+=3D1 i8042.direct=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 nor=
+eplace-smp reboot=3Dk console=3Dhvc0 console=3Dhvc1 iommu=3Doff cryptomgr.n=
+otests net.ifnames=3D0 pci=3Dlastbus=3D0 debug panic=3D1 nr_cpus=3D4 agent.=
+use_vsock=3Dfalse scsi_mod.scan=3Dnone init=3D/usr/bin/kata-agent -pidfile =
+/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5f=
+/pid -D /run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa23986577=
+2f1b7a5f/qemu.log -smp 2,cores=3D1,threads=3D1,sockets=3D4,maxcpus=3D4
 
-  I found three past mentions of this issue but as far as I can tell none o=
-f them got anywhere:
-
-  * [Qemu-discuss] massive slowdown for reverts after given amount of time =
-on any newer versions
-     https://lists.gnu.org/archive/html/qemu-discuss/2013-02/msg00000.html
-
-  * The above post references another one from 2011 wrt qemu 0.14:
-     https://lists.gnu.org/archive/html/qemu-devel/2011-03/msg02645.html
-
-  * Comment #9 of Launchpad bug 1174654 matches this slow revert issue. How=
-ever
-     the bug was really about another issue so this was not followed on.
-     https://bugs.launchpad.net/qemu/+bug/1174654/comments/9
-
-  =
-
-  I'm currently running into this issue with QEmu 2.1 but it looks like thi=
-s bug has been there all along.
-  1:2.1+dfsg-12+deb8u2 qemu-kvm
-  1:2.1+dfsg-12+deb8u2 qemu-system-common
-  1:2.1+dfsg-12+deb8u2 qemu-system-x86
+  ---
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1505041/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1888601/+subscriptions
 
