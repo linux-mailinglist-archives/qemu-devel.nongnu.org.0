@@ -2,112 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD823E896
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:11:31 +0200 (CEST)
-Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D328A23E89B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:12:39 +0200 (CEST)
+Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3xTO-0006ms-2f
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45344)
+	id 1k3xUU-0000pX-Ta
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k3xRu-0005fA-2D; Fri, 07 Aug 2020 04:09:58 -0400
-Received: from mail-eopbgr130119.outbound.protection.outlook.com
- ([40.107.13.119]:20031 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k3xRq-0001VH-HF; Fri, 07 Aug 2020 04:09:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YhfbM70R4YMvRqCRSLz72STlBWBToUqw2/fjN2vXLY+aBRifsRn9NEFpqqOFuZNdWpbAqrbFFkb7rO0kh7QG6rxD3MifRxRk54Q35PSCwMt+tF0dvF/fyT+0l8YBdjMLssnsoW5m1FzCbibbHW/tfP2Y1wrco0VMYRE8tkQJ6IlErgP7jy6h76x7KsGzpCTuGroUBj+9VvJK8jfFeqBMQ4eLw/Bd+H/8WmY+IZt41/USk3oA6vcs45PjEUqJIuiAYFR7uYMTFZ3MytV6zyu/1OH8n9NMlORLOnqOF2dqYrpygnd5jPJ+g7UVYPg4Z3FwXZAMcKYHhq43i0rkNXk7yQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VMr3o2tnsIMDm2T1QDerSAqu+sJ97FOGFHKxBw7YhyA=;
- b=Onp7GW3URHREZoUiH06HATAEKxSpNW4cH+VMU6y1QK8cEm7OSVuU8jjQDH83BQ+90q5ETUouo010Eee6Mh3ZfVEajJV7cXf8gkjsx8DxheqsQvjBfjTfcY9cMXg68IKejMl4SekPgy+t0vgxITSo8zNRu1L/VejVuK367SHGPKI9UBHh1qR9e2o+epT4xQGLlbIkN6+NNShz/j5q9nYu9ZAZEZbXE8Ge1Bq5AI6ijUGrPoLeWDI9XDVndgQdJzW5t2M8FkpxdQ1iOG9hH2afYobfHdh1WDpQn5ARc1+Wk70QSNyw6F7H7800y8f3ht6j8H53yOBRvOJuXKAXVdG2xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VMr3o2tnsIMDm2T1QDerSAqu+sJ97FOGFHKxBw7YhyA=;
- b=ZHQYTfUuSzSQIseHLbumjFBhYVdM9qRI6xZ7C+ZAxtU2JmtD1RFrsYFC0Ih+Ul6HcCHECyNHzvgvDppd0vcThqdtfMRNQ0hoDeGhY0p5Qn5gGQiQhrZklSow6p3WJstJDXZZtDXNemRKkIcfOFfnSFCgx67/t7CNpX/cLikQi9k=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB2981.eurprd08.prod.outlook.com (2603:10a6:209:44::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.16; Fri, 7 Aug
- 2020 08:09:50 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3261.020; Fri, 7 Aug 2020
- 08:09:50 +0000
-Subject: Re: [PATCH v13 09/11] qcow2_format.py: collect fields to dump in JSON
- format
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1596742557-320265-10-git-send-email-andrey.shinkevich@virtuozzo.com>
- <552171df-3015-4f88-48c9-0862bb0b8396@virtuozzo.com>
- <c718f884-579e-c658-1ba6-a584a4598e82@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <16f57b1a-b1ee-c974-ad45-7be32b0d73b6@virtuozzo.com>
-Date: Fri, 7 Aug 2020 11:09:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <c718f884-579e-c658-1ba6-a584a4598e82@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR08CA0031.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::44) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1k3xSf-0006yx-8l
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:10:45 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:35916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1k3xSc-0001gw-3J
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:10:44 -0400
+Received: by mail-io1-xd32.google.com with SMTP id t15so1077886iob.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 01:10:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CoQS0jn/1hwXwTcHIYOL0+48OLeXmrMVmHENtEgtvUM=;
+ b=GaeH9aZChBHRdPq0u5V59OslWHYdLl8rOY5wAxWLOQ1MI3tky7nzgwhYYq58khBl+q
+ n9rXoc7MxJ83wRraLE+j8G3eS/huYIt45mz7bmtQ8kZYet3YPpm+kZeIVK/aWM7dwaEE
+ a/cAZlh8fgeuD89keyLfLwxvhrq0i4MUeTYlZWGU0KWzZG1/Bwbog30RGEUfYO7SRpAk
+ 9k5z+tWpyXsTMfDkv/1iVxl4aCfnbUVpxseMoxWAFyirwJrVb8nFdrMKCUyLBwYBUb5l
+ 4s0a69+jgoxSoeXkx9tZHXXgob990NhU53lhIZBUV7Fm9JON9aaOuHMeofxBEmZ/KWFv
+ VhkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CoQS0jn/1hwXwTcHIYOL0+48OLeXmrMVmHENtEgtvUM=;
+ b=XVtrhzt3m05o8Sp5N2iWetk5+GqlCoxHTPhtG06ZFuhSnMZekPSJZjxfPdVuso/7GF
+ Q63v5XgGBdEEAvDXbT3EuRroPw0MheV1nJLEOzhycZYjZ3IDB+D6KAsFSTMJqtfg3GQI
+ bXZF9K4wQN1KX+t6WewO5lNwYORM0l/V8k1QXH8Q0JUPfI0vV9hdFXHwtnxk9yeqK45s
+ R1LRQ/kW5UFvx9MYJ1DZKT4pjvrqbRHL6IKhtrCOLrMgIJ4XWn1sYRcSXUbFYmOolncz
+ mFJAN/VIKTQV5ibMpJ6OVy3DMRkm2jQcCuEbmvXXidDW788e2myrqh0RRrEaJwg74JNy
+ l9ug==
+X-Gm-Message-State: AOAM530QujrsFKCojcer7JlBxTRvl3OEZZYpgasoZeSyIZCGkPNhMdxK
+ vaqZsKeZB9ABdtJxvpcGQHAQ
+X-Google-Smtp-Source: ABdhPJx+dd+FZEUPthxbS13wXm3KiIOfFKLr+PCSmYr+TKpBmX3qa+qS+trdTYj6ltMw5vUKB951qA==
+X-Received: by 2002:a05:6602:2409:: with SMTP id
+ s9mr3032017ioa.98.1596787840232; 
+ Fri, 07 Aug 2020 01:10:40 -0700 (PDT)
+Received: from localhost.localdomain ([147.75.106.138])
+ by smtp.gmail.com with ESMTPSA id l144sm6233546ill.6.2020.08.07.01.10.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Aug 2020 01:10:39 -0700 (PDT)
+From: Haibo Xu <haibo.xu@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PATCH 0/7] target/arm: Add vSPE support to KVM guest
+Date: Fri,  7 Aug 2020 08:10:30 +0000
+Message-Id: <cover.1596768588.git.haibo.xu@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.177) by
- AM0PR08CA0031.eurprd08.prod.outlook.com (2603:10a6:208:d2::44) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.17 via Frontend Transport; Fri, 7 Aug 2020 08:09:49 +0000
-X-Originating-IP: [185.215.60.177]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ce0babc-0af9-43a4-60db-08d83aa941a8
-X-MS-TrafficTypeDiagnostic: AM6PR08MB2981:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB29812E589DAAA6B318EC2122C1490@AM6PR08MB2981.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 46D70GOihm7Nwqs2ErkQJytyLngoBKG+JbIudxWh+UKume/1PSGkch6f2fFmImPaeC8Mhd19nG2Hx4pXWXJpVaUJKLZ3qKXyH+de4zbArQSWxcpOeC+BEpyJuSR12ZBOs+lpFcPz/DB/byxvhwM4whP+KIf27qNjWSiZ4XiKLXnQKbO9h4sC56sR4Ud4H71vYrGKeNOJC0Epm6xRtCKAo8U9sp85zh+fbBRVQf8AIzpRvb2acZOmXXt4YbFflKmmlYrnxuUqVZKEnAGVTYuhGkE6sSvdAbTUV2LNXxGwq9gpVj5o51hfwqqs0RoS73xHtdo9L+eHFDNdzsy9v/rcODSsCTe5koeMh4MmodeJ0D/0FEDUdiN4QpbCKht2qMJz
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(346002)(136003)(39840400004)(366004)(376002)(66556008)(66476007)(956004)(5660300002)(66946007)(2616005)(4744005)(16576012)(316002)(31696002)(107886003)(4326008)(31686004)(36756003)(8676002)(86362001)(8936002)(6486002)(83380400001)(186003)(26005)(16526019)(53546011)(52116002)(2906002)(478600001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: xg533FB+4jp6Nh9I3n3mp265nMN5ve4EhkYIl/FcFxbTkoAajajV6TyYvjESvzI+tdHdKi82EvTOROxVCL5L10JadR0uW2PP5L7X+hBilaWgSrtJSTs4Ai9inHRSgHUC4U6nn6A6tYFw7+xkG++PTyBFZ9a0EDvchm+mT+P+AQkhSF2pzacepM2U45glMLt11fNSShNWq7tpFGAmMwOeRVVNScs5J8O1jrlvKPQwgRgRTmE3FhXmX4feehfca40CDTplijDbwzY3xJXtkUhj9YbygmjUVb2sAfWjVmKOL7q97GdkdXpWclnkn9MIy2S4vTUjCqROiiYHIGRxEGEstF3BoVvj3ILsHyvFGvCNbhI8f0BbSO/OQWdM5OyHWgjBAXPxqZHNgJgdbtkr943rgAdSs6cSKP3sn0CfF758/8WThWPR1e1zijGycA+rnxxF2LT6ulC6TRYYSfvS0Qgfe8SIRwgFoEs/bl6ZhpOTEzTGap/zf+AT/Zv/+9cMi0GKdipDiYQO2jRpGrkuPrZgbMvmEBorUEx1k2xjXwLag2bVRbPMbkoMTUuC5Xef06wsqVbBRZ1twoV83lz4HRkTKi5xfSHqdUCro4VfET2ch+qvP6SqKNvsZNZ+vfPMzpTMoHLB2cEIlry72Ouf9ErH8g==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ce0babc-0af9-43a4-60db-08d83aa941a8
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2020 08:09:49.9956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fQ5RA1vZZ86beDOLp6X/4WkHNtl7vxctj6tYuyWtkOjJ/tCd01tyfJuZQwB7YAKXlGqgNAzDNV35AjRR+Q5WfVFimpZmQ3Gfu2tVsOEIOjM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2981
-Received-SPF: pass client-ip=40.107.13.119;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:09:50
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=haibo.xu@linaro.org; helo=mail-io1-xd32.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,38 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: drjones@redhat.com, qemu-arm@nongnu.org, philmd@redhat.com,
+ qemu-devel@nongnu.org, Haibo Xu <haibo.xu@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.08.2020 11:03, Andrey Shinkevich wrote:
-> On 07.08.2020 09:30, Vladimir Sementsov-Ogievskiy wrote:
->> 06.08.2020 22:35, Andrey Shinkevich wrote:
->>> As __dict__ is being extended with class members we do not want to
->>> print, add the to_dict() method to classes that returns a dictionary
->>
->> to_json() ... that returns a json-dumpable object
->>
-> 
-> New version to release with the commit message fix?
-> 
+This series add support for SPE(Statistical Profiling Extension)[1]
+in KVM guest. It's based on Andrew Murray's kernel KVM patches V2[2],
+and has been tested to ensure that guest can use SPE with valid data.
+E.g.
 
-Not worth resending, it can be touched when queuing.
+In host:
+$ ./qemu-system-aarch64 \
+        -cpu host -M virt,accel=kvm,gic-version=3 -nographic -m 2048M \
+        -kernel ./Image-new \
+        -initrd /boot/initrd.img-5.6.0-rc2+ \
+        -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
+        -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
+        -device virtio-blk-device,drive=hd0  \
 
-> 
->>> with desired fields and their values. Extend it in subclass when
->>> necessary to print the final dictionary in the JSON output which
->>> follows.
->>>
->>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>
->>
+In guest:
+$ perf record -e arm_spe/ts_enable=1,pa_enable=1,pct_enable=1/ \
+        dd if=/dev/zero of=/dev/null count=1000
+$ perf report --dump-raw-trace > spe_buf.txt
 
+The spe_buf.txt should contain similar data as below:
+
+. ... ARM SPE data: size 135944 bytes
+.  00000000:  b0 f4 d3 29 10 00 80 ff a0                      PC 0xff80001029d3f4 el1 ns=1
+.  00000009:  99 0b 00                                        LAT 11 ISSUE
+.  0000000c:  98 0d 00                                        LAT 13 TOT
+.  0000000f:  52 16 00                                        EV RETIRED L1D-ACCESS TLB-ACCESS
+.  00000012:  49 00                                           LD
+.  00000014:  b2 d0 40 d8 70 00 00 ff 00                      VA 0xff000070d840d0
+.  0000001d:  9a 01 00                                        LAT 1 XLAT
+.  00000020:  00 00 00                                        PAD
+.  00000023:  71 a5 1f b3 20 14 00 00 00                      TS 86447955877
+.  0000002c:  b0 7c f9 29 10 00 80 ff a0                      PC 0xff80001029f97c el1 ns=1
+.  00000035:  99 02 00                                        LAT 2 ISSUE
+.  00000038:  98 03 00                                        LAT 3 TOT
+.  0000003b:  52 02 00                                        EV RETIRED
+.  0000003e:  48 00                                           INSN-OTHER
+.  00000040:  00 00 00                                        PAD
+.  00000043:  71 ef 1f b3 20 14 00 00 00                      TS 86447955951
+.  0000004c:  b0 f0 e9 29 10 00 80 ff a0                      PC 0xff80001029e9f0 el1 ns=1
+.  00000055:  99 02 00                                        LAT 2 ISSUE
+.  00000058:  98 03 00                                        LAT 3 TOT
+.  0000005b:  52 02 00                                        EV RETIRED
+
+If you want to disable the vSPE support, you can use the 'spe=off' cpu
+property:
+
+./qemu-system-aarch64 \
+        -cpu host,spe=off -M virt,accel=kvm,gic-version=3 -nographic -m 2048M \
+        -kernel ./Image-new \
+        -initrd /boot/initrd.img-5.6.0-rc2+ \
+        -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
+        -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
+        -device virtio-blk-device,drive=hd0  \
+
+Note:
+(1) Since the kernel patches are still under review, some of the macros
+    in the header files may be changed after merging. We may need to
+    update them accordingly.
+(2) These patches only add vSPE support in KVM mode, for TCG mode, I'm
+    not sure whether we need to support it.
+(3) Just followed the 'pmu' property, we only allow this feature to be
+    removed from CPUs which enable it by default. But since the SPE is
+    an optional feature extension for Armv8.2, I think a better way may
+    be to disable it by default, and only enable it when the host cpu
+    do have the feature.
+
+[1]https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/
+   posts/statistical-profiling-extension-for-armv8-a
+[2]https://www.spinics.net/lists/arm-kernel/msg776228.html
+
+Haibo Xu (7):
+  update Linux headers with new vSPE macros
+  target/arm/kvm: spe: Add helper to detect SPE when using KVM
+  target/arm/cpu: spe: Add an option to turn on/off vSPE support
+  target/arm/kvm: spe: Unify device attr operatioin helper
+  target/arm/kvm: spe: Add device init and set_irq operations
+  hw/arm/virt: spe: Add SPE fdt binding for virt machine
+  target/arm/cpu: spe: Enable spe to work with host cpu
+
+ hw/arm/virt-acpi-build.c      |  3 +++
+ hw/arm/virt.c                 | 42 ++++++++++++++++++++++++++++++
+ include/hw/acpi/acpi-defs.h   |  1 +
+ include/hw/arm/virt.h         |  1 +
+ linux-headers/asm-arm64/kvm.h |  4 +++
+ linux-headers/linux/kvm.h     |  2 ++
+ target/arm/cpu.c              | 34 +++++++++++++++++++++++++
+ target/arm/cpu.h              |  5 ++++
+ target/arm/kvm.c              | 11 ++++++++
+ target/arm/kvm64.c            | 48 ++++++++++++++++++++++++++++++++---
+ target/arm/kvm_arm.h          | 18 +++++++++++++
+ 11 files changed, 166 insertions(+), 3 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.17.1
+
 
