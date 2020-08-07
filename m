@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AB523EAB3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:46:12 +0200 (CEST)
-Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB0423EAD6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:48:29 +0200 (CEST)
+Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yx1-0002pl-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:46:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35546)
+	id 1k3yzE-0006a3-Sm
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k3yvY-0001W2-K7
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:44:40 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k3yvW-0004SN-Qs
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:44:40 -0400
-Received: by mail-pl1-x634.google.com with SMTP id u10so803089plr.7
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4eNxeNGVOOjRBT7qXtqucCH5bejXzed9utfrJkA/b+E=;
- b=OEp/MUIoPLFyqFW2BIlv19WxMI1IGwd6wL1PX/cz8vRe44ZE9oNgyPTJvpka6jgOS4
- ddJZDz3nXwBcD1sFlPB2KNuMYZKiZPiGs97tlL8XBybkBrATL949ho14ZeVOepTsENEn
- 4b5QyEQqI5d+h+UYMmc9p/UaT/5vv6HTQZE1G/SSe7uihQH5pAgljwzaZkd5Kl55BquV
- wGV0AAG8TQB1l/4ND2tmpFfCiIUAHbbGmqCXjZ/VSyx+hTSLFR1yVhhPgkGae5kel1U+
- EBJG1D9C+shYwAI4Z1p/jh7aAIwWpx9Y2Go/WLI9StPajXtQ/4WJKzs0tUznVfJJ+/n8
- cABA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4eNxeNGVOOjRBT7qXtqucCH5bejXzed9utfrJkA/b+E=;
- b=lXqS3y4D4Xty1qEPp3I6kdvxFfFpgd8yJnT1qVONfg69l3AVKem2eaL88eT/0tAWOm
- wNhvLD0eQuY/QEpyf7MxWOo5lX33K0sBN8xGpQP6LaG7UbaonLsQmbE82BV9kNOw65Bf
- OFke8GNpdD/CkFgW+4TiB0eRZNHmUClJgwsh7K2v24D/q21hWfOukuHRwvHl1qEYSG9A
- nHCEZDhMS/o2JBzr/t3nb3guBOi8hMk21ZBHfk7it6jq5ZlgRpEfba2kFitvHzl6a3vK
- cEMwPqURMtLhVMQEGk12NRq6WWkuxilYzq9jLV34XS3/4YSS1lmhCbLidItMzRHB4pyB
- vp4g==
-X-Gm-Message-State: AOAM531qlSApxeISbgUYozNsSX4KQFcrUlI9U9JbZkqdUMN5NmLGfbhJ
- Xa/w/1/g/7c2NMOdrYA+DwyuTELE8+B9OgmEAfc=
-X-Google-Smtp-Source: ABdhPJy5j11xgkZWwmoSZ0dN41WCfNHbCe/fhFXlTLCjykLVyMNnaN6rWBIIvpO3WA0nHUaKl+uX16krlfuJlC1Dg0I=
-X-Received: by 2002:a17:90b:1103:: with SMTP id
- gi3mr11649499pjb.132.1596793477233; 
- Fri, 07 Aug 2020 02:44:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3ywt-0003Mu-H2
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:03 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59888
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3ywq-0004iy-Fo
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:46:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596793556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=ojqnaAey0tQrsjTHr/PLN9By8BiwfEh0Cg3rK5vYp5M=;
+ b=OS+xkCLRn5EdVOGcA31Jk1grh995jgpPlylfAfoh/JmAON3YqTbMkdSvFkht/SvdYP28so
+ cl7PGKjMj9S5PEbjh+LrBLd7qdzDTjPcCnSLoC3xGVPywkPesuvDdBgFxmLp8UCj6iSLdv
+ NrF/hzlEk1HUq+ZqqI2Jzn7AbWMdNSo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-Z8nWerfEOm-HW0qE5P0aMg-1; Fri, 07 Aug 2020 05:45:54 -0400
+X-MC-Unique: Z8nWerfEOm-HW0qE5P0aMg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9323101C8A6;
+ Fri,  7 Aug 2020 09:45:52 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-31.ams2.redhat.com [10.36.113.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BDEA65F207;
+ Fri,  7 Aug 2020 09:45:45 +0000 (UTC)
+Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+ <761b4058-7a2b-d992-2cc2-6efe654ee62e@redhat.com>
+ <9c894412-b156-607e-1ea9-9e9ba14cbf1a@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <6f6e9c9b-fdf6-951e-9112-3913fe44c455@redhat.com>
+Date: Fri, 7 Aug 2020 11:45:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
- <20200806110826.GH4159383@redhat.com>
-In-Reply-To: <20200806110826.GH4159383@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 7 Aug 2020 10:44:25 +0100
-Message-ID: <CAJSP0QUfET+KjAaUS6ped=OWh0ZFN1Kup1jAvGw4Cr3M2eDa8w@mail.gmail.com>
-Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=stefanha@gmail.com; helo=mail-pl1-x634.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9c894412-b156-607e-1ea9-9e9ba14cbf1a@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Oleinik, Alexander" <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Dave Gilbert <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, philmd@redhat.com,
+ armbru@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 6, 2020 at 12:08 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
-> Yes, but I think we'll need put in significant effort to guide / assist
-> people in taking this direction, and think about what it means for the
-> future of QEMU as a brand and GIT repo.
->
-> In many ways it is a good thing if the Rust vhost-user impls are
-> all in their own standalone git repos. They're likely to be independent
-> codebases, so there's little compelling reason to force them into the
-> QEMU git, where they'll have to use QEMU workflow, and QEMU release
-> cycle. They're better off free from QEMU where they can choose to adopt
-> modern development practices like GitLab merge requests if they
-> desire and release on a more frequent cycle than QEMU's 3-times a
-> year, etc. Would also make them more appealing for use by alternative
-> non-QEMU userspaces for KVM.
->
-> The downside is that QEMU git would only contain the "legacy" builtin
-> C impls of the devices, and all the "recommended" modern Rust impls
-> would be elsewhere. Essentially QEMU would no longer be a self-contained
-> provider of the complete solution. Many parts would be disaggregated,
-> and users now have the burden of finding all the right pieces to build
-> the best solution. We've already seen this to some extent with existing
-> vhost-user impls, but it feels like we'd be pushing towards that as a
-> more general model for the future which would amplify problems we've
-> largely been able to ignore upto now.
->
-> I'm not sure what a good answer here is. Perhaps QEMU could try to
-> become more of brand for an umbrella project that covers multiple
-> independant repos ? eg create new repos under gitlab.com/qemu-project/
-> but allow them to work fairly independantly from the main qemu.git ?
-> That way we can more easily promote a collection of QEMU repos as
-> showing the recommended architecture, without forcing everything
-> into qemu.git. We can leverage the QEMU website, wiki and documentation
-> in general to showcase the overall solution, while still letting the
-> pieces develop independently.
+On 07/08/2020 11.31, Paolo Bonzini wrote:
+> On 07/08/20 10:51, Thomas Huth wrote:
+>> 2) With --meson=git added, I also do not get much further:
+>>  "./ui/meson.build:77:0: ERROR: Program 'keycodemapdb/tools/keymap-gen'
+>> not found"
+>>
+>>  https://gitlab.com/huth/qemu/-/jobs/675546229
+>>
+>> Any idea what's going wrong here?
+> 
+> This is also a submodule not being initialized,
+> ui/keycodemapdb/tools/keymap-gen comes from a submodule.
 
-I agree.
+Ok. I've added a hack to my configure script to checkout the submodules,
+but still, it does not compile yet:
 
-Working independently and following Rust conventions ought to work
-well for external programs like vhost-user device backends.
+ ../tools/virtiofsd/meson.build:1:0: ERROR: Unknown variable
+"libvhost_user".
+ https://gitlab.com/huth/qemu/-/jobs/675665455
 
-It's important that the QEMU source tree builds a complete system. Git
-submodules can help with that and are already widely used today.
+ Thomas
 
-Stefan
 
