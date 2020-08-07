@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAECA23EE87
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 16:03:21 +0200 (CEST)
-Received: from localhost ([::1]:34526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B3623EEF2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 16:19:52 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k42xs-0002zu-9R
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 10:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60404)
+	id 1k43Dq-00066R-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 10:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k42ww-0002VC-9I
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:02:22 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:42796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k42wt-00022L-P8
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:02:21 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id v21so1638288otj.9
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 07:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ppo/29vO7eIVLIqzbsiEq9lWEyg21xLKfEF6AGTj1uk=;
- b=roRondsWm8UBkPjPeLypR7un54C3gSw5dNRCmxUf23pkIGafu/ANd6ckSVWBkCRy6p
- GyXydOL/7/hz1nbWnXGzVSScEulX/j/Ql4N2Zky7BNlAH2DnxXpPE/4lmuRh3lbfeuIA
- rfteRkTTXhSyuDpja0N/bzfFgZIAScVm5YJA6YFgKzCYebhVWOU6cwBf4eOaSCvZFaUn
- 4sUPUoLIG+ISW2NyGkjshbcguXp1sywBe58Hg8jadSD5UJhE/rl3H0oiFUtCq1OoJlbN
- /k6GJW8vJ3o5zrwh/tzQZtYcSth7LMdPHKAy8XQrIRFXMhko96hWtJJ2uYEjNDlwOwMc
- AI0w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k43DA-0005hN-1s
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:19:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57081
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k43D7-000443-8Q
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:19:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596809943;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wAjMBiooYBOl8zBPJsj8kkNGvyasQwYf02rciro3jXU=;
+ b=YtKWkt+72yIcQOyd5eQRjK6YnkSdTQpo6bbYuTdIyxeIHiPWIXmpojr5kyJdL8kTBMT07n
+ 3JKr6af4ddSj/ibcbVA+pp5QyDcO8Z/QvAgOWix09hPsfLBLg/C4WlxuRV/OH5bYN55AUF
+ av3FvVlrdgGfHZUVRYk0piCWFGQVUpU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-hdqguDy8OXixmk0ALNz3hQ-1; Fri, 07 Aug 2020 10:19:01 -0400
+X-MC-Unique: hdqguDy8OXixmk0ALNz3hQ-1
+Received: by mail-wr1-f72.google.com with SMTP id e12so807459wra.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 07:19:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ppo/29vO7eIVLIqzbsiEq9lWEyg21xLKfEF6AGTj1uk=;
- b=OSYswAKgjSBnWftPW6G4FtOLHxYC+aAJp82li+AWmN19Uv4ppqysi7s5/pIvsNtqJz
- c6pZN/cMkNpAwtlW7RYHz8hoNNVq29aT7epg1c4y3YRK02b7EYyuau7jAWIrcZc1itQV
- 2D4ZQLPvfLNRUPsv4VoLm0xKnIBcbxGnh9TfM3G0d6157W1TAvR4nqG6BNeWkbm3LkcY
- BjXeOupLShl42Tv94N80kCxyya8fFOyluT7mAL0QLAWSRjI7fGS8gNtbnaTzM49anCw6
- W61uazATB/VKprXdikUkvPpLAOS4NkMR6qcMQheS4PkNOb00cXTe24ViTtmmA9u/d1+3
- WPLw==
-X-Gm-Message-State: AOAM531L33G0GFUXhYhxcjfwmRB3ITf2G2pdshEZqiUl9IoX93c35f0Y
- 2vCHQfulKuz2PRMoMyKuuVVZwMu17pbUQZaiiBKq1Q==
-X-Google-Smtp-Source: ABdhPJxuku6qEaPRvpu1AnkdSIslyxX3w3Zw9WMZtfhEpXiLP+nLbuc75b5t9irD4l7FtGZ3vzWufYJsap78wOLgsR8=
-X-Received: by 2002:a9d:6f8f:: with SMTP id h15mr5570952otq.221.1596808936319; 
- Fri, 07 Aug 2020 07:02:16 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wAjMBiooYBOl8zBPJsj8kkNGvyasQwYf02rciro3jXU=;
+ b=LQoIdogkHa9j0wXP0s+vqp3sZ58/6QPzFgGMcfsCX17BrrrsB+0fIGYgvR2IYQeyGa
+ 9QnISXj/4XP+3zh5TKkwoB07V2YPo1sPnEsFs3bFsOo/DD2W8Ni89NgdVCGT4ENlATC6
+ DEcqhYDNepOna4eoP2DOAnPEB2wV4AQ4pVqohr6wnfnzAFUKveXgqad9UKFXk11mgWVs
+ x0PVcTKvNBcYxKj7SjPGP3KQM47S2aUJP8ixPhlyf5Vu0ixxD1uVa/4RnF8GHqQjHXfQ
+ HpAiDRgXzWauPhkDOTRqAmtfbEdxkh33RxkyGE14Tr9zTW1Yjm0yhIN0vny6y0ozkv4H
+ 4sFQ==
+X-Gm-Message-State: AOAM530mdBWNvICPc8eej+5SvDvnPr6Sz+daPu1/tqD5f2GuIF2ywMyb
+ hkUFeb2nhlxmh0FtIxOG7PFIGNvycBUfquKrVfRwBsJWL7HKvj7vhD5GX36sYphw8fqQyra40Zs
+ n/iallo6C+v5IEDs=
+X-Received: by 2002:adf:f64a:: with SMTP id x10mr11490249wrp.99.1596809940469; 
+ Fri, 07 Aug 2020 07:19:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiqspbnsK3YbIgXkacbAyCHJQcGylMAdQpu4cdw319fK4uQXDr0zGl6wDbXOxDR+L/PInj8Q==
+X-Received: by 2002:adf:f64a:: with SMTP id x10mr11490236wrp.99.1596809940265; 
+ Fri, 07 Aug 2020 07:19:00 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.136.3])
+ by smtp.gmail.com with ESMTPSA id g3sm11882237wrb.59.2020.08.07.07.18.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Aug 2020 07:18:59 -0700 (PDT)
+Subject: Re: [PATCH 068/143] meson: convert most of softmmu/
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <87364y28jp.fsf@dusky.pond.sub.org>
- <9d7b7f59-ec3e-1f74-d1d4-359e3388f0f8@redhat.com>
- <87ft8yd0ht.fsf@dusky.pond.sub.org>
-In-Reply-To: <87ft8yd0ht.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Aug 2020 15:02:05 +0100
-Message-ID: <CAFEAcA8-qAh9RzAZNqFS9HphAEDuCVVGzZO7vKem-1WCJogyjw@mail.gmail.com>
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <1596741379-12902-69-git-send-email-pbonzini@redhat.com>
+ <bac67efd-d736-b7ae-b9b3-0373393d2849@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a54f3ef9-5905-628c-c277-f7d6190c3be6@redhat.com>
+Date: Fri, 7 Aug 2020 16:18:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <bac67efd-d736-b7ae-b9b3-0373393d2849@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 02:21:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,33 +104,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Aug 2020 at 14:55, Markus Armbruster <armbru@redhat.com> wrote:
-> I'm notoriously conservative in my choice of tools, and GNU Make is a
-> much better tool than some people give it credit for, but I've long felt
-> we've pushed it beyond its limits.
+On 07/08/20 15:36, Philippe Mathieu-Daudé wrote:
+> There is still "obj-y += vl.o" in softmmu/Makefile.objs.
+> 
+> Did you meant to squash this into the previous patch?
 
-The thing is, it feels somewhat like we're already pushing Meson beyond
-*its* limits instead... (it can't do everything we want it to, we've
-already had to get at least one new feature added upstream for our benefit,
-and in other places we're having to change our existing conventions
-to placate Meson). This would be an easier sell if it was "this is all
-straightforward and Meson has all the functionality we need".
+This is what I meant:
 
-I admit that I'm partly feeling a bit more conservative about tooling
-right now because we just switched the docs to Sphinx and Sphinx has
-turned out to have some annoying problems we didn't foresee. So taking
-another tool from the Python universe isn't hugely appealing.
+diff --git a/meson.build b/meson.build
+index a7ad3248cc..ef6f811c51 100644
+--- a/meson.build
++++ b/meson.build
+@@ -618,6 +618,8 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ 
+ common_ss.add(files('cpus-common.c'))
+ 
++subdir('softmmu')
++
+ # needed for fuzzing binaries
+ subdir('tests/qtest/libqos')
+ 
+diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
+index a414a74c50..ebcfd15695 100644
+--- a/softmmu/Makefile.objs
++++ b/softmmu/Makefile.objs
+@@ -1,14 +1,2 @@
+ softmmu-main-y = softmmu/main.o
+-
+-obj-y += arch_init.o
+-obj-y += cpus.o
+-obj-y += cpu-throttle.o
+-obj-y += balloon.o
+-obj-y += ioport.o
+-obj-y += memory.o
+-obj-y += memory_mapping.o
+-
+-obj-y += qtest.o
+-
+-obj-y += vl.o
+-vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
++main.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+new file mode 100644
+index 0000000000..95d38df259
+--- /dev/null
++++ b/softmmu/meson.build
+@@ -0,0 +1,10 @@
++specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
++  'arch_init.c',
++  'balloon.c',
++  'cpus.c',
++  'cpu-throttle.c',
++  'ioport.c',
++  'memory.c',
++  'memory_mapping.c',
++  'qtest.c',
++  'vl.c'))
 
-(This is not a 'nak'; I'm just expressing my unease.)
-
-thanks
--- PMM
 
