@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5928A23EA41
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:23:05 +0200 (CEST)
-Received: from localhost ([::1]:57654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3204F23EA47
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:23:58 +0200 (CEST)
+Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yae-0004U6-EE
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59550)
+	id 1k3ybV-0005p7-0J
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k3yZd-0003lI-1M
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:22:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47491
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k3yZb-0001po-8w
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:22:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596792118;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=86LA0at+nC/KLmE2l3HVQiQTKYoKByxkv7K9Rz/KyxI=;
- b=AFBsY+3Ce7IW8fPcey8Op5mrCUTr/XNhOc1jdiRVYexgulDfrvGOPtgHh+9sBtEQDDP8Sd
- +B3I1WPAKwh8vAz2S1HyszdW8jhVxvCJdKPBRe4WhIvYLl2FtwDdH7wbzhzCkcc3PJdv9C
- XmydKSMm9e3+lDqTWPJpr00d26xkdzU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-QbftK5rjNBmW_owXbU3-lA-1; Fri, 07 Aug 2020 05:21:56 -0400
-X-MC-Unique: QbftK5rjNBmW_owXbU3-lA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48CD5101C8A0;
- Fri,  7 Aug 2020 09:21:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 149527B936;
- Fri,  7 Aug 2020 09:21:49 +0000 (UTC)
-Date: Fri, 7 Aug 2020 10:21:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-Message-ID: <20200807092147.GH120942@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3yaK-0004cj-6M
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:22:44 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3yaI-00020Q-IY
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:22:43 -0400
+Received: by mail-ot1-x344.google.com with SMTP id r21so1082791ota.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=D/xmAgHv28D3G+h7X5ONnbYR4vXWlTa2XYhHN3IvxuE=;
+ b=bC36p5KWMdP6sA/I1K6Qyh0j3LrudbhsWTfJccbTEQLd9zQPMBWd0AT/W1QhCs/Kkk
+ a076xvp+cC5A/EA7Gk6WZkb3j6hwXa4b0MFcrAd5dbihEgwv/g/cYE6EabFGwJtX4XEM
+ 5jM4xcqJu7iHFjguHGU2b6vl5caqI1L2+EwakF6roMOH1s0G01q8btcz26yO3Dp9yIkt
+ W61tKG+X5bi0q+xYHHprILYOZRxeQMIZMfWnA/UVJZehm/vHgwXY7NHqKsBr4yUAIjra
+ IXx2aKfoX5V0p74wRlrx308eaJXdprDGpbwSrx7r1H8VAAHAldfSDBnMK7SHsvcjM+Wq
+ wpOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=D/xmAgHv28D3G+h7X5ONnbYR4vXWlTa2XYhHN3IvxuE=;
+ b=gxUoiswfbN9CtvtNu/guwuOUxgQO+Jo7bVw7yw3O67ydyJXZ/lmQjvEVHiByE4yk+G
+ oAYUblMXfwgLwqSViD0HXQqfdn7Xj6/0saDvXD4AIIsIZStzACYtdE5PqO20CpQF8TAw
+ LC345+KMBVIwJS/DZiYIi4vXckY8MQDiZ8JmzUWIy3dVFN/hIco/J7cOUDKtUVeTPf53
+ jSdbqhrMcuXQlEOppz4YXpBth6dUiF6QMsb2hrWZ9NR9eMTbilzC+6B6e039J1Kk3cMa
+ 0d/Z5fdHcN4KaYs4eKOzS6hmAdi0suY3eHnh/CJK8uevGPK+CsklUErVZrBkD8/ARb5y
+ CrDA==
+X-Gm-Message-State: AOAM532q0HQlIxYnSvVzATCgokxlP71KcmnzvVMFQ1bjLctAQZWpuciS
+ NV7bct17KvgeyhA3WgaQIrg7Fy7W8oKs5FLib5MkBg==
+X-Google-Smtp-Source: ABdhPJzxITawtboDg4YynVNnTrOVGu0jCxo131JcJTI0lq4eLgGr5D9CEh/+ymQRPJR7JALGU7+pWMueFJjGfT/RXfo=
+X-Received: by 2002:a9d:3b61:: with SMTP id z88mr11153216otb.135.1596792161381; 
+ Fri, 07 Aug 2020 02:22:41 -0700 (PDT)
+MIME-Version: 1.0
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
  <CAFEAcA-d0F9y2OSX5D7GrzUYU7yf4nAhHabE1dUVii3LRrueLQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-d0F9y2OSX5D7GrzUYU7yf4nAhHabE1dUVii3LRrueLQ@mail.gmail.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ <dc73a810-ee9e-711e-dad0-76a566b923e4@redhat.com>
+ <8dedfe22-8659-5684-99a6-e9d503a5b3e2@redhat.com>
+ <20200807091841.GG120942@redhat.com>
+In-Reply-To: <20200807091841.GG120942@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Aug 2020 10:22:30 +0100
+Message-ID: <CAFEAcA8CVcKzNzaFVV4Gun91Nt0qQEOz+Ej2uedoN0MkQtaAxg@mail.gmail.com>
+Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 07, 2020 at 09:49:23AM +0100, Peter Maydell wrote:
-> On Thu, 6 Aug 2020 at 20:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > This the more or less final version of the Meson conversion.  Due to
-> > the sheer size of the series you have been CCed only on the cover
-> > letter.
-> 
-> Does this work with actually-released versions of Meson yet?
-> I am still not very enthusiastic about the prospect of having
-> to carry around an entire build system in a submodule. That
-> still seems to me to be living closer to the bleeding edge
-> than I would like...
+On Fri, 7 Aug 2020 at 10:19, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+> FWIW, for libvirt we decided that despite lack of distro support,
+> there was not a compelling reason to bundle meson, because it is
+> really trivial for users to update. e.g. just "pip install".
+>
+>    pip install meson --user
+>    meson build
+>    ninja -C build
 
-Being on the edge is unavoidable if we actually want to use meson any
-time soon. If we wait for it to be in even 1/2 of the distros we target,
-then we will be delaying conversion by 1-2 years. I don't think that's
-desirable, when updating to new enough meson is not much more than runing
-"pip install meson --user"
+I really hate software build instructions that want me to
+"just pip install" something. I know nothing about the
+python out-of-distro packaging process and I don't want
+the python thing I had to install to build software X
+to be lurking around on my system forever being picked
+up and used by random other stuff...
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
