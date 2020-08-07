@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9480323F273
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:06:23 +0200 (CEST)
-Received: from localhost ([::1]:32800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E34E23F28F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:11:45 +0200 (CEST)
+Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k46l4-0008VZ-Cc
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57524)
+	id 1k46qF-0002G3-Qm
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k46k0-0007ha-JD
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:05:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55190)
+ id 1k46p9-0001mi-1j
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:10:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k46jy-0004Qe-AL
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:05:16 -0400
+ id 1k46p3-00052x-24
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:10:34 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k46jv-00080T-2Z
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:05:11 +0000
+ id 1k46p0-0000Op-1j
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:10:26 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ECD1D2E806D
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:05:10 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CA03E2E802E
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:10:25 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 17:55:05 -0000
-From: Thomas Huth <1415181@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 17:56:25 -0000
+From: Thomas Huth <1423528@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,20 +38,20 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sebastianlacuesta th-huth ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: =?utf-8?q?Sebasti=C3=A1n_Lacuesta_=28sebastianlac?=
- =?utf-8?q?uesta=29?=
+X-Launchpad-Bug-Commenters: mbiebl th-huth
+X-Launchpad-Bug-Reporter: Michael Biebl (mbiebl)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150127194148.12487.20751.malonedeb@soybean.canonical.com>
-Message-Id: <159682290589.9587.15452218650313573549.malone@wampee.canonical.com>
-Subject: [Bug 1415181] Re: Access raw partitions from Windows
+References: <20150219122612.20987.32403.malonedeb@gac.canonical.com>
+Message-Id: <159682298569.5150.6353910256545440821.malone@soybean.canonical.com>
+Subject: [Bug 1423528] Re: setting unsupported timeout for i6300esb watchdog
+ causes hw reset
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1bbc3618049e3f92a6898899e6a50f604366e1a9
+X-Launchpad-Hash: 507e58e62440853afa4783be5d54e46d9f723784
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1415181 <1415181@bugs.launchpad.net>
+Reply-To: Bug 1423528 <1423528@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -88,21 +88,41 @@ latest version of QEMU? Or could we close this ticket nowadays?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1415181
+https://bugs.launchpad.net/bugs/1423528
 
 Title:
-  Access raw partitions from Windows
+   setting unsupported timeout for i6300esb watchdog causes hw reset
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I'm using a windows tablet that makes imposible usb booting. It would be =
-nice to have access to raw partitions in order to run linux installers usin=
-g qemu. I can successfully install several boot loaders using uefi, so I gu=
-es this feature would be very helpful.
-  Thanks!
+  Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D778291
+  Version: 2.1
+
+  systemd utilizes existing watchdog hardware and set's a 10min timer on re=
+boot.
+  The i6300esb under qemu doesn't like such a timeout, and immediately rese=
+ts the hardware:
+
+  The last message one gets is
+  [    9.402243] i6300esb: Unexpected close, not stopping watchdog!
+
+  =
+
+  The linked bug report contains information how this bug can easily be rep=
+roduced.
+  With any image using a recent enough systemd as PID 1 you should be able =
+to reproduce it by running
+
+  qemu-system-x86_64 -curses -enable-kvm -device i6300esb -watchdog-
+  action reset -hda <image with systemd>
+
+  =
+
+  I'm uncertain if this is a qemu or kernel/driver bug. If the latter, plea=
+se re-assign the bug as necessary.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1415181/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1423528/+subscriptions
 
