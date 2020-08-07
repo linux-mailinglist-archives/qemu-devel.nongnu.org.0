@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC10523EF2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 16:46:30 +0200 (CEST)
-Received: from localhost ([::1]:46494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649F423EFDC
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 17:15:14 +0200 (CEST)
+Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k43dd-0005oQ-Sl
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 10:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41994)
+	id 1k445P-0004Y9-TG
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 11:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1k43ci-00050o-2g
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:45:32 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1k43cg-00077e-Be
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 10:45:31 -0400
-Received: by mail-ot1-x342.google.com with SMTP id k12so1790683otr.1
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 07:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=K8SWbLxzcL3axd6Jd2bv0FfGo3b4oSekGNesWsTnJWQ=;
- b=n0aF8lYDcHOaA68GyGnlbCISYOSm0zl8F7O8f1pSVZ944TLtWI2pqVQKYbL38zdZEK
- cEAl0+hXRo/yNSNz1l2+zeBGfABNNjBvFq1MEFERNAfKAqTlYdK0JhzcXtmLv49gZl/m
- 5nADIqEcY1ThSfBZZBRwpTyvyCF3guJEibfq+R0GiItwWEinTICsydixaJ6eu3TEle+m
- RmvUVQtXzAeJmTgDX/Rn5s8bcGh7fq2mWBCE/mSPbjgKMjO9yF56aYugrsCQpOsvDaKR
- VOY2zLuFEtFHt3mmk1mujiVoNu6squQcv6Zl3VRB+Y+ggki1FR7qOhIiEll38LoFUNzC
- 0Fbg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k444a-00048U-0N
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 11:14:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38790
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k444W-0001nX-U9
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 11:14:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596813254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1QrvQuUFP3M3zplWGL0ie2m3tbk+wJ0tBBDvI4O1gTk=;
+ b=b+tBnqylxTQM4o3xxkJOQvox6hZOQclmycpPcxiniXcGBxtZvGpiWVYh+uSHTyAKb+xOsd
+ 9MIGe1cDEdAICsiF4u3rvefvLR2OhqCmS7C6Vzao+EVwiszuzO6wa0Y3m78yVmO/AIiSU8
+ I9+c1MvI3ejtuJuiqaYticaqV0PggUU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-W5xygfC_PGi-R2RXWKpX0A-1; Fri, 07 Aug 2020 11:14:11 -0400
+X-MC-Unique: W5xygfC_PGi-R2RXWKpX0A-1
+Received: by mail-wm1-f72.google.com with SMTP id z1so900442wmf.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 08:14:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=K8SWbLxzcL3axd6Jd2bv0FfGo3b4oSekGNesWsTnJWQ=;
- b=dEZemLQkaY81p8KCSDsUVwnZCaxCrIPbLbm6Tm9vZoPp8O86/kF3G5OZf3LV+sllaH
- RnXWFsQK/2Xy2KWoVeGIkKj5D6jbp4CBjJZjCOnty2CIVmHSN2gF/E5K2QcPMXbaxjyj
- 5XiL5cfNmO8vo9wGnwnk6SGMW2yb3ID98xDCVN1vv/6JIJfW07GIc++6RqxBP+8SZBcj
- B88n5fESa0YDe7tk/XuUa8iabxPkPqbotpX9Sbekx9nBVjocKpnK/Om9fR9CDx30KDv4
- Q7NOPuYoHSiOAUmrXTK6WwdkDrZZB8uMTg933YlD5THnsZd3Mnb8vdxmw46jDOZgdf4U
- yY8A==
-X-Gm-Message-State: AOAM532dtsAsTcR2cjNtwJ48rBlFJ53ypJMm+QFo1FKKfxBXRlWf3YyH
- 0slURkVIvnDHtm/hHsOkjvYIfBQ=
-X-Google-Smtp-Source: ABdhPJwo93GjiNcs7TifD++BNYB6nKl1+DR8nUCP4McqPrNsi1f52LpQp40m+UqFpeaAzg2i45KWRQ==
-X-Received: by 2002:a9d:1c9c:: with SMTP id l28mr12756807ota.127.1596811528924; 
- Fri, 07 Aug 2020 07:45:28 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.146.204])
- by smtp.gmail.com with ESMTPSA id q189sm1803500oic.15.2020.08.07.07.45.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 07:45:28 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:c8ac:a9c:4367:4c28])
- by serve.minyard.net (Postfix) with ESMTPSA id 6784418055B;
- Fri,  7 Aug 2020 14:45:27 +0000 (UTC)
-Date: Fri, 7 Aug 2020 09:45:26 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 111/143] meson: convert hw/i2c
-Message-ID: <20200807144526.GL2842@minyard.net>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1QrvQuUFP3M3zplWGL0ie2m3tbk+wJ0tBBDvI4O1gTk=;
+ b=QzN8loHxDE3c+5fYnN5Lm0CcswPqXT10Ix8AnWTbjOttq7XD+FvpiM4UmTvpMfyuv9
+ hD3duZ8TUOHMsxaCG3EElENTF8ym/L+nLiuDxWF46pNATWmSukOHtZlOB4oWh9iiDPD0
+ BabMInotCHhwQY5sWAFRZXZVSQGLTAfU4+wNhPMwetDaY991CzTG+kvOCjJWSxOZuXWf
+ LRNF4t1GMYo2Fac8fugcsv2kvqaKTLkJx/KygRvffFRGAROWq3n8GFEsEldvJmEGKgLl
+ YoKq08XyNahNyahB8wMekGcwYpwCm0hAlid60dEordx3PgusaadRF7GmlLqwAsQnk+vt
+ 5Iwg==
+X-Gm-Message-State: AOAM532Zt42v/AK6WPYAvkWOYZRDiPv8vz5epcdCi+ro8ytQUq9gZNIW
+ TUP37yDAYWWSFSL4tn6NxPnOU631Wc6kTmPWEdctHYAU4Hp8RNoTktvwyQPn3HG3ZF6pIwVgvc5
+ FcCZfM80Q8To7EQo=
+X-Received: by 2002:a1c:f70a:: with SMTP id v10mr13037862wmh.39.1596813250113; 
+ Fri, 07 Aug 2020 08:14:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzE0HfVB5TuGceTZEYLjqwML3DmK7e5KszuchA3GyioJUEkLFqpyZBLggx/RNdJULTsdCT2iA==
+X-Received: by 2002:a1c:f70a:: with SMTP id v10mr13037845wmh.39.1596813249801; 
+ Fri, 07 Aug 2020 08:14:09 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.136.3])
+ by smtp.gmail.com with ESMTPSA id q19sm10479338wrf.48.2020.08.07.08.14.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Aug 2020 08:14:09 -0700 (PDT)
+Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <1596741379-12902-112-git-send-email-pbonzini@redhat.com>
+ <87364y28jp.fsf@dusky.pond.sub.org>
+ <9d7b7f59-ec3e-1f74-d1d4-359e3388f0f8@redhat.com>
+ <87ft8yd0ht.fsf@dusky.pond.sub.org>
+ <CAFEAcA8-qAh9RzAZNqFS9HphAEDuCVVGzZO7vKem-1WCJogyjw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f8cb36ff-a98a-9147-1c31-6f6394a4ec77@redhat.com>
+Date: Fri, 7 Aug 2020 17:14:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8-qAh9RzAZNqFS9HphAEDuCVVGzZO7vKem-1WCJogyjw@mail.gmail.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1596741379-12902-112-git-send-email-pbonzini@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,96 +105,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 06, 2020 at 09:15:47PM +0200, Paolo Bonzini wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 07/08/20 16:02, Peter Maydell wrote:
+> On Fri, 7 Aug 2020 at 14:55, Markus Armbruster <armbru@redhat.com> wrote:
+>> I'm notoriously conservative in my choice of tools, and GNU Make is a
+>> much better tool than some people give it credit for, but I've long felt
+>> we've pushed it beyond its limits.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> The thing is, it feels somewhat like we're already pushing Meson beyond
+> *its* limits instead...
 
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
+We totally are pushing it *to* its limits, though I obviously disagree
+with "beyond".  QEMU would certainly be one of the largest projects
+using Meson.  In fact we had to add more than one new feature.
 
-> ---
->  hw/Makefile.objs     |  1 -
->  hw/i2c/Makefile.objs | 14 --------------
->  hw/i2c/meson.build   | 16 ++++++++++++++++
->  hw/meson.build       |  1 +
->  4 files changed, 17 insertions(+), 15 deletions(-)
->  delete mode 100644 hw/i2c/Makefile.objs
->  create mode 100644 hw/i2c/meson.build
+One important difference between Make and Meson is that Meson is by
+design limited in what it can do.  The idea (which I think has served
+them well) is that they want projects to show what they need and work
+with them on how to build it.  So:
+
+- with Make you can do everything, it just becomes harder and harder;
+
+- with Meson you cannot do everything, plus you're using software that
+is opinionated and conservative in some respects with respect to its
+design decisions.  In exchange: 1) you can always propose to add
+features to the upstream project like Marc-André and I did; 2) you don't
+have to worry about the minute details of everything.
+
+So that's what makes Shell+Make and Meson substantially different tools.
+
+Stuff like automatically cloning git submodules will never be in Meson,
+and we can keep Make forever as a small escape hatch for that.  However,
+using Make as a Turing-complete language to build our own DSLs on top of
+is just a bad idea.  Shell+Make can remain simply as a driver for
+executing commands, which is what Make does best.
+
+We also have parts that have effectively separate build systems: I have
+no plans to convert the TCG tests at all, the firmware could be
+converted to Meson or Autotools (yes I am serious :)) or left aside, and
+so on.
+
+
+That said, and going back to pushing Make beyond its limits, I am quite
+positive that unnest-vars has to go even if the solution has some
+disadvantages.  Meson is one solution, our own home-grown DSL and
+Makefile generator could be another.  However, designing our own build
+system DSL is not something I want to spend time on; I prefer to improve
+Meson for every other project using it, it's better for the whole open
+source development community.
+
+The reason why I started thinking about the conversion is that every now
+and then people entered fights against unnest-vars and I was wondering
+how those fights would compare to Meson fights.  And the result, after
+about one year of hacking on and off, is that---with one exception---it
+never felt like I was fighting Meson or the Meson maintainers; any
+adaptation or concession came naturally, or was even an improvement in
+retrospect.
+
+That one exception, the one thing that disappoints me of the whole
+conversion, is the trace.h files.  The current solution is one of the
+first parts I did of the conversion and I have never touched it since; I
+think it can be improved (I can even think of two ways to do it), but I
+don't really have the time to do it now.  But even that bit is just
+ugly, not unmaintainable, and I really see nothing in the conversion
+that is a step back for QEMU's long term maintainability and our ability
+to develop new features.
+
+/me gets off the soap box
+
+Thanks,
+
+Paolo
+
+> (it can't do everything we want it to, we've
+> already had to get at least one new feature added upstream for our benefit,
+> and in other places we're having to change our existing conventions
+> to placate Meson). This would be an easier sell if it was "this is all
+> straightforward and Meson has all the functionality we need".
 > 
-> diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-> index 02c5c0d..22eb804 100644
-> --- a/hw/Makefile.objs
-> +++ b/hw/Makefile.objs
-> @@ -10,7 +10,6 @@ devices-dirs-y += display/
->  devices-dirs-y += dma/
->  devices-dirs-y += gpio/
->  devices-dirs-$(CONFIG_HYPERV) += hyperv/
-> -devices-dirs-$(CONFIG_I2C) += i2c/
->  endif
->  
->  common-obj-y += $(devices-dirs-y)
-> diff --git a/hw/i2c/Makefile.objs b/hw/i2c/Makefile.objs
-> deleted file mode 100644
-> index f2c61ea..0000000
-> --- a/hw/i2c/Makefile.objs
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -common-obj-$(CONFIG_I2C) += core.o
-> -common-obj-$(CONFIG_SMBUS) += smbus_slave.o smbus_master.o
-> -common-obj-$(CONFIG_SMBUS_EEPROM) += smbus_eeprom.o
-> -common-obj-$(CONFIG_VERSATILE_I2C) += versatile_i2c.o
-> -common-obj-$(CONFIG_ACPI_X86_ICH) += smbus_ich9.o
-> -common-obj-$(CONFIG_ACPI_SMBUS) += pm_smbus.o
-> -common-obj-$(CONFIG_BITBANG_I2C) += bitbang_i2c.o
-> -common-obj-$(CONFIG_EXYNOS4) += exynos4210_i2c.o
-> -common-obj-$(CONFIG_IMX_I2C) += imx_i2c.o
-> -common-obj-$(CONFIG_ASPEED_SOC) += aspeed_i2c.o
-> -common-obj-$(CONFIG_NRF51_SOC) += microbit_i2c.o
-> -common-obj-$(CONFIG_MPC_I2C) += mpc_i2c.o
-> -common-obj-$(CONFIG_OMAP) += omap_i2c.o
-> -common-obj-$(CONFIG_PPC4XX) += ppc4xx_i2c.o
-> diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
-> new file mode 100644
-> index 0000000..3a51153
-> --- /dev/null
-> +++ b/hw/i2c/meson.build
-> @@ -0,0 +1,16 @@
-> +i2c_ss = ss.source_set()
-> +i2c_ss.add(when: 'CONFIG_I2C', if_true: files('core.c'))
-> +i2c_ss.add(when: 'CONFIG_SMBUS', if_true: files('smbus_slave.c', 'smbus_master.c'))
-> +i2c_ss.add(when: 'CONFIG_ACPI_SMBUS', if_true: files('pm_smbus.c'))
-> +i2c_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('smbus_ich9.c'))
-> +i2c_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_BITBANG_I2C', if_true: files('bitbang_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_IMX_I2C', if_true: files('imx_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_MPC_I2C', if_true: files('mpc_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('microbit_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
-> +i2c_ss.add(when: 'CONFIG_VERSATILE_I2C', if_true: files('versatile_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_i2c.c'))
-> +i2c_ss.add(when: 'CONFIG_PPC4XX', if_true: files('ppc4xx_i2c.c'))
-> +softmmu_ss.add_all(when: 'CONFIG_I2C', if_true: i2c_ss)
-> diff --git a/hw/meson.build b/hw/meson.build
-> index 4d7c31c6..983edc1 100644
-> --- a/hw/meson.build
-> +++ b/hw/meson.build
-> @@ -1,4 +1,5 @@
->  subdir('core')
-> +subdir('i2c')
->  subdir('ide')
->  subdir('input')
->  subdir('intc')
-> -- 
-> 1.8.3.1
+> I admit that I'm partly feeling a bit more conservative about tooling
+> right now because we just switched the docs to Sphinx and Sphinx has
+> turned out to have some annoying problems we didn't foresee. So taking
+> another tool from the Python universe isn't hugely appealing.
 > 
-> 
-> 
+> (This is not a 'nak'; I'm just expressing my unease.)
+
+Yes, it's totally understandable.
+
 
