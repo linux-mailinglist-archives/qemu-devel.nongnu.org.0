@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E85423EB0D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:01:50 +0200 (CEST)
-Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7574223EB1E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:03:12 +0200 (CEST)
+Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zC9-00020I-Gp
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:01:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
+	id 1k3zDT-0004BH-GS
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3zAh-00012k-BU
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:00:19 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3zAe-00065d-Es
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:00:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a15so1105501wrh.10
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 03:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=1xs/6T4a1mvMkV5VAlxQg+XqLtTwBk3TEAaZpfJgSPo=;
- b=CoyQPNcyHQcbFpVTdQJmfmtbjeGIb3YHSSJLBYILWE6BvZddCuLdAHYqPWJIKXMvR9
- ZlQfdACrlw2pxzOYMMyT3/ZxoBDWgWl3j0I7fMkWzGIPbFChi9JRNBPZOWQ0wD7DHJrK
- AClZNLAXx3HKmNqjHRbUgnO1NqpyN1ZBnH9EN76+uhZ3bGLaqxsDATYm2VVsuFfqSrON
- eZtlRhsbFLRZvuRk1jjtEND6S/nDtb1UEJxpLjKos43hc0K3rlhqN/wrgGnJS3uAiqHm
- TFJK5ChK6YLRQo/mctYk+jNcpj91871O+RV1Da4pp3jGR5UtmPwgDhYu6Ye5AN4EA/h5
- 8k+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=1xs/6T4a1mvMkV5VAlxQg+XqLtTwBk3TEAaZpfJgSPo=;
- b=ML38GLEVwWWQNxuYWUkVXDml6zOzJiAr0kHey+mWJWJogueF2KTem/7n4LPiKYw83Q
- Az5EoydgffD91PTfHEjDVg27bcSfGzNAnY1jw5BoQRqHvwln+VyPUPFjFgLMc7D+SkUq
- rRNERXEcArLjDYj+408kupejfF8z4vIyBKRxoRUcSYaXRCRr4EJm0UTp8MVVFfwUcKPe
- 9J+GlNw6/jKOTfw2qeUTot92gQewxdisB1ipU4eBM4K0u6ip+bLQhfDUnnIU7BTnMHHq
- TzdsuEIYxsBsFwX5Y7NjjuC7WEnoXYTOMMSDDUKt4zvr1uxx5K19YqAU5Xqtn/8g8VgG
- Xqhg==
-X-Gm-Message-State: AOAM533oBSSRF5PGzPuH31Cy2OuXpIutziQipvjClp7wbcDiBeoobY1z
- 6yk692YVY73Cgapn8DMG6UuOPg==
-X-Google-Smtp-Source: ABdhPJxPW7O16jrhaEwVYmE8m+cH/P3tLB/FHUTOMAWa3rCyAE0FMW124LxjuY68XoXhcnaKHz6ZoQ==
-X-Received: by 2002:adf:ee83:: with SMTP id b3mr11161438wro.163.1596794407832; 
- Fri, 07 Aug 2020 03:00:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s205sm10149179wme.7.2020.08.07.03.00.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 03:00:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2002E1FF7E;
- Fri,  7 Aug 2020 11:00:06 +0100 (BST)
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <1596741379-12902-6-git-send-email-pbonzini@redhat.com>
- <CAFEAcA_mN3XrgxRbhq5U0B=OxBq6T3DXymb4_U-tzOya=W-AbQ@mail.gmail.com>
- <d676a107-c49d-ab3f-f6e3-f6b594af9c4f@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k3zCX-0003Gd-Sb
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:02:13 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25334
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k3zCW-0006RF-5u
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:02:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596794531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ERzZWtB7beTMcsBKVlbPSMzEkynQZmnlmRTU9BQzylY=;
+ b=VsBtThIycehDCUT4l9JK5zjZfdZPjojHw4pP9Hiv4VueTjdsT3qcnNe7hqiSuMyH/Y9d1L
+ l82Lj0rPVLgWYH8KsZdV3OQ3CrM6yxX6ANmCQh3tDMAW+MmYdMozqPkRkGeI+OmTr261p3
+ QLvY9YtUN8xH1VpHo0yQiirrNujLZFU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-CyKE0pEmOcCrIqwBk087-w-1; Fri, 07 Aug 2020 06:02:08 -0400
+X-MC-Unique: CyKE0pEmOcCrIqwBk087-w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 868E710059C4;
+ Fri,  7 Aug 2020 10:02:07 +0000 (UTC)
+Received: from localhost (ovpn-114-16.ams2.redhat.com [10.36.114.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D42D87A7D;
+ Fri,  7 Aug 2020 10:02:06 +0000 (UTC)
+Date: Fri, 7 Aug 2020 11:02:05 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 005/143] meson: rename .inc.c files to .inc
-In-reply-to: <d676a107-c49d-ab3f-f6e3-f6b594af9c4f@redhat.com>
-Date: Fri, 07 Aug 2020 11:00:06 +0100
-Message-ID: <877dualqs9.fsf@linaro.org>
+Subject: Re: [PATCH v3 2/3] async: always set ctx->notified in aio_notify()
+Message-ID: <20200807100205.GB600298@stefanha-x1.localdomain>
+References: <20200806131802.569478-1-stefanha@redhat.com>
+ <20200806131802.569478-3-stefanha@redhat.com>
+ <1e47af10-47fb-0a2f-7aa2-8a426ec86361@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1e47af10-47fb-0a2f-7aa2-8a426ec86361@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 02:53:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,76 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--Bn2rw/3z4jIqBvZU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On Thu, Aug 06, 2020 at 03:45:33PM +0200, Paolo Bonzini wrote:
+> On 06/08/20 15:18, Stefan Hajnoczi wrote:
+> > +    atomic_set(&ctx->notified, false);
+> > +
+> > +    /*
+> > +     * Write ctx->notified before reading e.g. bh->flags.  Pairs with =
+smp_mb in
+> > +     * aio_notify.
+> > +     */
+> > +    smp_wmb();
+>=20
+> Sorry I was not clear: the memory barrier has to be smp_mb(), but the
+> comment has to say smp_wmb().  No need to repost for this.
 
-> On 07/08/20 10:59, Peter Maydell wrote:
->> On Thu, 6 Aug 2020 at 20:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>> ---
->> What's the rationale for this ? ".inc.c" is the project's
->> standard naming convention for files which aren't headers
->> but which are lumps of C code #included into a top level .c
->> file. The .inc.c deliberately ends '.c' because that way
->> editors will use the right syntax highlighting for the file.
->
-> Good point.  It can be changed to .inc.h too, if that's preferrable
-> for you.
+Ah, right! I'll fix it up when merging. Thanks!
 
-We have two types of inc files - the inline C sections but also .inc.h
-files. I'm not sure they should be lumped together. I think most of the
-header based ones are essentially templates which get expanded multiple
-times with #undef/#define blocks before each inclusion.
+Stefan
 
->
->> It would be much better if Meson could cope with our
->> standard naming convention rather than forcing us to change it.
->
-> First of all I need to describe why this is needed; it is because of the
-> way Meson handles dependencies on generated headers.
->
-> With Makefiles that have automatically generated dependencies, you
-> typically make generated includes depend on the Makefile so that they
-> are built before everything else and they are available when first
-> building the .c files.
->
-> Meson is similar, however the way it works is that you list those
-> generated includes in the sources.  The dependencies are still
-> automatically generated, but the build rules will ensure that the
-> includes are generated before attempting to build the toplevel C sources.
->
-> The problem is that Meson decides if something is a source vs. a
-> generated include by looking at the extension: '.c', '.cc', '.m', '.C'
-> are sources, while everything else is considered an include---including
-> '.inc.c'.
->
-> Going back to patch 124, I can now answer your question:
->
->>> It's not clear to me why all the decodetree lines ended up in a
->>> single "gen =3D []" block -- they're independent of each other.
->
-> The files are added to the source list with "arm_ss.add(gen)".  All that
-> line does is ensuring they are built before other target-specific files
-> for ARM targets.
->
-> The question then is if Meson could be changed to cope with our naming
-> convention, and unfortunately the answer is no.  The root cause is that
-> Makefiles list .o files (and uses implicit patterns to connect .o files
-> to the corresponding sources), while Meson lists .c files.
->
-> There is a silver lining, in that you do get something out of this: if
-> you have a typo in the name of a .c file, it is detected it at
-> "configure" time rather than having to wait until "make" tries to find
-> the source code for that ".o" file.
+--Bn2rw/3z4jIqBvZU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Hmm - I guess one workaround is to tweak editorconfig so whatever we end
-up renaming things still get identified as the right type of file for
-syntax hi-lighting purposes.
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Alex Benn=C3=A9e
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8tJp0ACgkQnKSrs4Gr
+c8gKIwf6A7bdQ25QQkY8lGpHucPWHP8aJBCkE8QMb6cs/F30xwEuchusI3UQlIyp
+IUUzFIYYfhk46XFXWup+ZGxP9sPxGYZVigPuy1Z/JH/Y8tBzkPeIbK+a7r0X5P6J
+3rzsv/PGQl9wIXvvUwrnJH3DA/B+LBdHfh5WytobPpHCQNgPDKjYKXxlkUnjLS8O
+fpIu1tLxCbrHbmu8hOJ7uqQPICeZQahuFnGoitkV7IqhrsPRiIJGQqe+fyd49an3
+DudB23E1w6UUs46vciLCpa+Bxsp8jlQLrn1wXyBR7a2WRHjSK4m86k+s3rCCRm1i
+E2weVzKskKz9VlpRUE12YxupepTXvQ==
+=FiKG
+-----END PGP SIGNATURE-----
+
+--Bn2rw/3z4jIqBvZU--
+
 
