@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6979C23E9C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:08:08 +0200 (CEST)
-Received: from localhost ([::1]:40922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF7723E9D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:12:30 +0200 (CEST)
+Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yMB-000537-GY
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
+	id 1k3yQP-0007Fm-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3yLF-0004Hr-6D
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:07:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57911
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k3yPW-0006pP-64
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:11:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38680
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3yLD-0008V7-Hb
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:07:08 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k3yPU-0000l1-AB
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:11:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596791226;
+ s=mimecast20190719; t=1596791491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=MJF1DRTNwQGdYwN5rom/iUICBhK7XCpetir6Yr9WmCo=;
- b=jNYP59422VJpuZiTLzVewiGMnsM3Qs6UU3LQoNJMV76E9j/Ioyo3hmFAenE1BpGszaeH6w
- 2v8QCDWiM3tCt/8AnsIa+izaei11+t1atr819yu1kjxK1jZ0yAKBFYicS8b9QzNjE7aRxN
- +sGdIn3khbRVCvS73xqGC5tlKfXcHCg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-X6fMbDMWP86X96GPoKSZTg-1; Fri, 07 Aug 2020 05:07:05 -0400
-X-MC-Unique: X6fMbDMWP86X96GPoKSZTg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1E4919057A7;
- Fri,  7 Aug 2020 09:07:03 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-31.ams2.redhat.com [10.36.113.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C65B32DE79;
- Fri,  7 Aug 2020 09:06:57 +0000 (UTC)
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+ in-reply-to:in-reply-to:references:references;
+ bh=/rPT8TthiaR/w8rKMpl9GV1UCZLpHSyy23SsCdPujhE=;
+ b=AK20/3+9BlS0MXcD/ml9mEL3zI0SHWztEFyJgYAsnTMSqqaUL4i+tbwwrt7/ie3iYjkfYA
+ +i6eI1NW9k5pWI7UlOhhihaF7z3KElyY4qmhIf3aBVLeiXoW0xfb3IGUOHpDj28+6Y3HOi
+ nmjiYKCnPcnnr1A4doNvRqspsN6wab8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-oPoq9nGiPkSiC2QCNH50PQ-1; Fri, 07 Aug 2020 05:11:29 -0400
+X-MC-Unique: oPoq9nGiPkSiC2QCNH50PQ-1
+Received: by mail-wr1-f69.google.com with SMTP id e14so497543wrr.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:11:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/rPT8TthiaR/w8rKMpl9GV1UCZLpHSyy23SsCdPujhE=;
+ b=hi8MAlHQmceSjJRq7dkLN4YX2b1ZC68+HOnU7R7RkA1HMws+rDPEspUQUeki2Kex8X
+ O4wtoL08YQH0GrX1I2NyO5rx+DTwPEkYMA/Fa7GfIbt+X+8X3Zx/KN1FVGJfOilM+JRj
+ r8DefGx8MCluaOyDSGhcHUWQx9Z2duh+zEcGHXk4UCvghaq483EEOy9k2iwdkN36CqjG
+ IXwCh72qoihzK1DtX5Wyh2nBDNqlFpK2JkIGiiiY4pF5/wY4wtn4U1b76PlBx+a9Bjru
+ 5VXEx5Jeb3XhJSpLZ/XlzsqDafjwVOOTeZmzjrl0/Eq+mGenMo7VufXqZa0sNUCKgTwA
+ OQXA==
+X-Gm-Message-State: AOAM532CKDSn1nhWCoblpx0IiZv2lYEVHml7JmwG0ocaQ83cRvgw60jS
+ uIzERFgSEzcM+qgKnxx1m2W8zAF1heYI5e9xZZfPsAE3uQhwSgeYhFSsoOyvfo6KMz2kPwjMMAk
+ 1DnnL4rWHdQnrJ1U=
+X-Received: by 2002:a5d:4907:: with SMTP id x7mr12082900wrq.166.1596791488191; 
+ Fri, 07 Aug 2020 02:11:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVPxoFHyDv9EzHNeCV7UY7Dak4S/BCRQfR/p2JdHeMuQCJd/eliCR7+19IqH09MmeNCIBNRg==
+X-Received: by 2002:a5d:4907:: with SMTP id x7mr12082873wrq.166.1596791487933; 
+ Fri, 07 Aug 2020 02:11:27 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7841:78cc:18c6:1e20?
+ ([2001:b07:6468:f312:7841:78cc:18c6:1e20])
+ by smtp.gmail.com with ESMTPSA id x2sm10204565wrg.73.2020.08.07.02.11.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Aug 2020 02:11:27 -0700 (PDT)
+Subject: Re: [PATCH 124/143] meson: target
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA-d0F9y2OSX5D7GrzUYU7yf4nAhHabE1dUVii3LRrueLQ@mail.gmail.com>
- <dc73a810-ee9e-711e-dad0-76a566b923e4@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <8dedfe22-8659-5684-99a6-e9d503a5b3e2@redhat.com>
-Date: Fri, 7 Aug 2020 11:06:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <1596741379-12902-125-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA84DhPcZxa0yhRmZOMiSdPt8L_PBVQacgoOuznbJv7kFg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <91373a0d-5d83-5dce-7067-f83d6bda8ef2@redhat.com>
+Date: Fri, 7 Aug 2020 11:11:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <dc73a810-ee9e-711e-dad0-76a566b923e4@redhat.com>
+In-Reply-To: <CAFEAcA84DhPcZxa0yhRmZOMiSdPt8L_PBVQacgoOuznbJv7kFg@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 02:21:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:00:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -73,7 +90,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,40 +104,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/2020 11.02, Paolo Bonzini wrote:
-> On 07/08/20 10:49, Peter Maydell wrote:
->>> This the more or less final version of the Meson conversion.  Due to
->>> the sheer size of the series you have been CCed only on the cover
->>> letter.
+On 07/08/20 11:04, Peter Maydell wrote:
+> On Thu, 6 Aug 2020 at 21:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >>
->> Does this work with actually-released versions of Meson yet?
->> I am still not very enthusiastic about the prospect of having
->> to carry around an entire build system in a submodule. That
->> still seems to me to be living closer to the bleeding edge
->> than I would like...
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > 
-> Yes it works with 0.55.0, with only a few warnings about possible future
-> incompatibility.  Those will be fixed in 0.56.0, where the feature was
-> stabilized without introducing any incompatibility.
 > 
-> Carrying around Meson in a submodule was mostly done to let QEMU build
-> transparently on older distros.  Removing it is easy (though it would
-> involve modifying the docker files to install the latest meson, so
-> whatever you throw out of the door comes back through the window).
+> 
+>> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+>> index 694757b..4cd1e10 100755
+>> --- a/scripts/decodetree.py
+>> +++ b/scripts/decodetree.py
+>> @@ -1257,7 +1257,7 @@ def main():
+>>      long_opts = ['decode=', 'translate=', 'output=', 'insnwidth=',
+>>                   'static-decode=', 'varinsnwidth=']
+>>      try:
+>> -        (opts, args) = getopt.getopt(sys.argv[1:], 'o:vw:', long_opts)
+>> +        (opts, args) = getopt.gnu_getopt(sys.argv[1:], 'o:vw:', long_opts)
+>>      except getopt.GetoptError as err:
+>>          error(0, err)
+>>      for o, a in opts:
+> 
+> This change to the decodetree script doesn't seem like it
+> belongs in this patch ?
 
-From my point of view, we should keep the meson submodule at least 'till
-spring next year - then we'll remove support for RHEL7 according to our
-support policy. Hopefully the other distros will have a recent version
-of Meson at that point in time.
+Marc-André did this, I'll check how/why it ended up here and document it
+in the commit message.
 
- Thomas
+> 
+>> --- /dev/null
+>> +++ b/target/arm/meson.build
+>> @@ -0,0 +1,62 @@
+>> +gen = [
+>> +  decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
+>> +  decodetree.process('neon-shared.decode', extra_args: '--static-decode=disas_neon_shared'),
+>> +  decodetree.process('neon-dp.decode', extra_args: '--static-decode=disas_neon_dp'),
+>> +  decodetree.process('neon-ls.decode', extra_args: '--static-decode=disas_neon_ls'),
+>> +  decodetree.process('vfp.decode', extra_args: '--static-decode=disas_vfp'),
+>> +  decodetree.process('vfp-uncond.decode', extra_args: '--static-decode=disas_vfp_uncond'),
+>> +  decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
+>> +  decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
+>> +  decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
+>> +  decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
+>> +]
+>> +
+>> +arm_ss = ss.source_set()
+>> +arm_ss.add(gen)
+>> +arm_ss.add(files(
+>> +  'cpu.c',
+>> +  'crypto_helper.c',
+>> +  'debug_helper.c',
+>> +  'gdbstub.c',
+>> +  'helper.c',
+>> +  'iwmmxt_helper.c',
+>> +  'm_helper.c',
+>> +  'neon_helper.c',
+>> +  'op_helper.c',
+>> +  'tlb_helper.c',
+>> +  'translate.c',
+>> +  'vec_helper.c',
+>> +  'vfp_helper.c',
+>> +  'cpu_tcg.c',
+>> +))
+>> +arm_ss.add(zlib)
+> 
+> Just to check, does this get the underlying dependencies right?
+> ie translate.o depends on translate.c and also eg translate-vfp.inc.c,
+> which in turn depends on vfp.decode ?
+
+Yes...
+
+> It's not clear to me why all the decodetree lines ended up in a
+> single "gen = []" block -- they're independent of each other.
+
+... and I'll answer to this in the .inc.c patch because it's related.
+
+Paolo
 
 
