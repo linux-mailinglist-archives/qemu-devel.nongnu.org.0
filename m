@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E2223EE53
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 15:37:31 +0200 (CEST)
-Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8635823EE57
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 15:38:37 +0200 (CEST)
+Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k42Ys-0007wW-CV
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 09:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54670)
+	id 1k42Zw-0001Cd-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 09:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k42Xe-00075n-HY
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 09:36:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34182
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k42Z5-0000YF-IE
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 09:37:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44447
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k42XZ-0007I6-L2
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 09:36:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k42Z3-0007St-VX
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 09:37:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596807367;
+ s=mimecast20190719; t=1596807457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Bvzod+lZOx5RLo3fLqLcfnFRssoFXo8SacWKbw8cfAY=;
- b=WBq0fAi6VoU6fn1g2nfKhZF2QaIAXlsbbtTsrGqJf51/JDZvRXEPp5EFbEI/RFpg0XBaZv
- XWSDg/s9IjIt95zASQPpdiW4Kv/dijoeHKicFfm4sAiDVaeM36xaO9IE01MgdidhE3Kv/f
- 6tQWfeqB3auL7Lu/b6cs6yLB88V9q7M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-7Rp7j4G8NKuS2S0vN1wVYA-1; Fri, 07 Aug 2020 09:36:06 -0400
-X-MC-Unique: 7Rp7j4G8NKuS2S0vN1wVYA-1
-Received: by mail-wm1-f71.google.com with SMTP id a207so680245wme.9
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 06:36:05 -0700 (PDT)
+ bh=+UPNjo9w03u2nyXOgmFbRk8Dh3gyc/eIqb8ZwdM7E18=;
+ b=SdZd4gJ3K9dBdeMD8ecXsjz1/03I5Cm6S/gJibZKQeDbmG+fXs3fdq/U5Qpqcy43jyQNjw
+ yVnT70GWdWQQheqiy2FWAtkIWotER9j2tlWY3oZB/0Inv4+PSyMI1H78GcY6amc1d5NPqs
+ YomLKOPlsC9fFOARPPGJI4qQLoMl6sg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-vfdHbz15MWG1M4mr5m408w-1; Fri, 07 Aug 2020 09:37:36 -0400
+X-MC-Unique: vfdHbz15MWG1M4mr5m408w-1
+Received: by mail-wr1-f71.google.com with SMTP id w7so761568wre.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 06:37:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Bvzod+lZOx5RLo3fLqLcfnFRssoFXo8SacWKbw8cfAY=;
- b=NHPu95faXYp9901MK5MDCCHoLn+KWAwVNhPceCmiLhWp62xpDOvuH+I/LScggKiMpE
- QQcPCB/sOFMEgLzq84G7Lr8l5d2c773EdqJtT0dFjO65aXXkofL+Hl+k6Na792lsv/3d
- 4q6SN2fd+hwaVTfmQ4PaSdrkbhokRyD667ZWzVIAbgGNxvWCcLnAGtQ3ikTq//d64lmo
- MQQRqd9L5aTTqU9wETa6dnjc9c4ePZbHlI9hLDINcyx95fWwLI1no1Jl9F6ScZ6iptbC
- Er5tJE1eeM+/H++HtRuqMGOKHi2tnxkAFvXYBLfz+CYPF+AW12A2R9aRgMWPukcu8gxm
- aEdQ==
-X-Gm-Message-State: AOAM533uQ0GEH0ZoYx/Qe0eFgEmMeYSVy/SrSEsIfs924RSLZ5nD4QYm
- 6rRaUftobZXLRg3jB/lhKYv80KfUXncS2fHrV4jLngHZ9w3fqJmAsLFck0seugMPKOHq29v3wjM
- ATgJvfSp8ALLhZbc=
-X-Received: by 2002:adf:ed0c:: with SMTP id a12mr11961188wro.24.1596807364640; 
- Fri, 07 Aug 2020 06:36:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlyVPGqnSn7lNvvLa1dIugCfaaGYe22AxXFGMs7yqKESxsBRY1WNGPVlIe1mKKLbS7AesuHQ==
-X-Received: by 2002:adf:ed0c:: with SMTP id a12mr11961172wro.24.1596807364372; 
- Fri, 07 Aug 2020 06:36:04 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=+UPNjo9w03u2nyXOgmFbRk8Dh3gyc/eIqb8ZwdM7E18=;
+ b=dJOR50LazB467sYIQjTjVt4g0O5BeskD+MEiqqyjbrl0sKZ96gBoLtCC7d292NnGDZ
+ 22RsXMNE9Bc5eq22WoH0MG2LXQBQxQDf8762kFOZB1SWRKsXzqG9btu6wpgB8OiUeRml
+ vBxC8nPdgxmmI1yO9cCOCVuq6KGrM6oScQZG7dZpjh4BCfHvXlK8RaewuXPXKLjZdJZo
+ KmLqGsGXSW5rb4fQGJbP2PamLk5789sO603dNxhRcUAffgzfLY5CwtiRc8AynFsz3out
+ d1oIiKqUaGo9ulbExulPdMtMn02KzLn1FlZ6bDMXixlhcbt7BPRH7s/jULENvrnwcSc1
+ DFlA==
+X-Gm-Message-State: AOAM531PTkJB4yz5HNRBY4zDQYYjCl+YLzpL7MaQ9Uex5jUBXN9Z8MnY
+ cf86Ona7+BGg0Wl/rC8Kex/wNlF6JsIwG2wo36MhUniOv8i5DZ2PvjjHJdtWlnCvm9r0lSp/P0y
+ 0SDxw1Hu//R9U070=
+X-Received: by 2002:adf:c986:: with SMTP id f6mr12348012wrh.168.1596807455123; 
+ Fri, 07 Aug 2020 06:37:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyepqXhp1qP0uFfZUNL565ztZF5wsxV2YmsLRBcIL3YBpVDuXPcfcs91QHV03WUBB6MG1ZDjg==
+X-Received: by 2002:adf:c986:: with SMTP id f6mr12348001wrh.168.1596807454977; 
+ Fri, 07 Aug 2020 06:37:34 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id l18sm10590787wrm.52.2020.08.07.06.36.03
+ by smtp.gmail.com with ESMTPSA id y17sm11164443wrh.63.2020.08.07.06.37.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Aug 2020 06:36:03 -0700 (PDT)
-Subject: Re: [PATCH 068/143] meson: convert most of softmmu/
+ Fri, 07 Aug 2020 06:37:34 -0700 (PDT)
+Subject: Re: [PATCH 070/143] meson: convert block/
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <1596741379-12902-69-git-send-email-pbonzini@redhat.com>
+ <1596741379-12902-71-git-send-email-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,19 +87,19 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <bac67efd-d736-b7ae-b9b3-0373393d2849@redhat.com>
-Date: Fri, 7 Aug 2020 15:36:02 +0200
+Message-ID: <1292192b-9237-29e0-0d25-40a076a53370@redhat.com>
+Date: Fri, 7 Aug 2020 15:37:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1596741379-12902-69-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1596741379-12902-71-git-send-email-pbonzini@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:11:35
@@ -110,8 +110,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,40 +123,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
-
 On 8/6/20 9:15 PM, Paolo Bonzini wrote:
-> Leave out main.c, it's special due to fuzzing.
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  softmmu/meson.build | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  Makefile.objs | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/softmmu/meson.build b/softmmu/meson.build
-> index d4ac51b..95d38df 100644
-> --- a/softmmu/meson.build
-> +++ b/softmmu/meson.build
-> @@ -1,4 +1,4 @@
-> -specific_ss.add(files(
-> +specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
->    'arch_init.c',
->    'balloon.c',
->    'cpus.c',
-> @@ -6,4 +6,5 @@ specific_ss.add(files(
->    'ioport.c',
->    'memory.c',
->    'memory_mapping.c',
-> -  'qtest.c'))
-> +  'qtest.c',
-> +  'vl.c'))
+> diff --git a/Makefile.objs b/Makefile.objs
+> index a5c919d..0f3074b 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -47,8 +47,7 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
+>  # single QEMU executable should support all CPUs and machines.
+>  
+>  ifeq ($(CONFIG_SOFTMMU),y)
+> -common-obj-y = block/
+
+Left-over from 58/143 "meson: convert block"?
+
+> -common-obj-y += dump/
+> +common-obj-y = dump/
+>  common-obj-y += monitor/
+>  common-obj-y += net/
+>  common-obj-$(CONFIG_LINUX) += fsdev/
 > 
-
-There is still "obj-y += vl.o" in softmmu/Makefile.objs.
-
-Did you meant to squash this into the previous patch?
 
 
