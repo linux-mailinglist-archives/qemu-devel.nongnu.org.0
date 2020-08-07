@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AF923E4EA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 02:02:04 +0200 (CEST)
-Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70FF23E4F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 02:06:32 +0200 (CEST)
+Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ppj-0004f6-Dy
-	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 20:02:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
+	id 1k3pu3-0006sX-Lz
+	for lists+qemu-devel@lfdr.de; Thu, 06 Aug 2020 20:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1k3pls-0003jG-Qf; Thu, 06 Aug 2020 19:58:05 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42431)
+ id 1k3pqw-0005vu-Hv; Thu, 06 Aug 2020 20:03:18 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:33362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1k3plr-0005j6-BU; Thu, 06 Aug 2020 19:58:04 -0400
-Received: by mail-ed1-x543.google.com with SMTP id df16so20061859edb.9;
- Thu, 06 Aug 2020 16:58:02 -0700 (PDT)
+ id 1k3pqv-0006K9-1Z; Thu, 06 Aug 2020 20:03:18 -0400
+Received: by mail-ed1-x541.google.com with SMTP id v22so8051edy.0;
+ Thu, 06 Aug 2020 17:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=dwPzxmLXN+yX/OQMLKEPCt0XuTuduWedD+g/vwJBqqA=;
- b=YC2LsDIh6v/4VF3IFjVvpBWQqcTUQKSj2BLFN3jfDAUpWh3Kv3dhh/7sDtEIvG9+Hy
- hMGmKsos1q3S0IpqqxjvP55HdhjORp98N8QBNSkiHcucky+4o7PygpB3Ij0IPRp+BX13
- eATAWNQh7FJ2eCFBh6Bz46aoeuS4tQPipYPKw=
+ bh=36skZ/Fqp0hzGFyizluyH7sOhrXB27+uSzT8RYATHZw=;
+ b=X0K1p8U+6sh6cvpVPLBNTUR1452pTRNBgAYBrrsZMjs0xW5RsJaaRzJB383cTH+R2L
+ RBd8aSZsWS6f/67hrDibWwsJ82UtBB49lD45iS+MI2PWfU7ifTJ922CzeNmcw8VrXneA
+ VOMrjmkZVxejA0uOGPLtyMJcGT/caO2pSgWmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dwPzxmLXN+yX/OQMLKEPCt0XuTuduWedD+g/vwJBqqA=;
- b=INFIt0KQytlLqJh3KRjE0QNDvSRe6TD6ACcTvqoZFC86mKGRyifR3bqM1eSYcLM1YC
- GNJ/NkSZ09L0Hfeh7pyzltACwPYB7p73uo2IhAebHBWR1b/hD6XBJx0e+rQVRAJpLdhs
- 197W0wv/NQ9k6Zn8TckfIsBxcKdh9d96PxpbrkWwMtAzmAL+c1juKmC/HEZwL4mVYDcK
- 8UmlG64RB3X42r0Oa97HfbVpY3KmXP7Bpn2oVsCUeXtJaP4NxTZUKHGfBzcejZKQkCCo
- BUac5IIVCaCzWTKp2dlvYzO7OH0stMFdf2bxLAqax2o9lqfz4sXI6CB/alExVn8/SwyX
- JVyw==
-X-Gm-Message-State: AOAM5315zrqaeZBKZGk1BNOLqK/JgusIDtVY5Toe558OwCJBmyOs3fOR
- K6Uvlaru8TvGgGK6ZVhaknos6eSMT1zYiEWi4D8=
-X-Google-Smtp-Source: ABdhPJxqTSfJQZmvWaz3URj8mfYOEevjsgk6ScVyH35a4q+zV4Q9e54oaqupugqNI7/yP0X6HxH3/Ztj5losqvai8DY=
-X-Received: by 2002:aa7:ce90:: with SMTP id y16mr6503479edv.325.1596758279088; 
- Thu, 06 Aug 2020 16:57:59 -0700 (PDT)
+ bh=36skZ/Fqp0hzGFyizluyH7sOhrXB27+uSzT8RYATHZw=;
+ b=QRBOv8coP8NAk2UswR5WpUrO7uBuCuvskcMlGtimXq52d/HU3LeZhwsBpbxldA7yOi
+ 7D0/taqbSTGgf8ILXu4vMYC3jzegFIqxmaB4dmcfUxbngi6V8juDU38V8AdStfs00au7
+ x6HziwBGXtmfZjOpIWgR3XUxo219Dv2LLsI/MPHLk6bxxsqs+6j9Wa+gd0R/+7dRa2wU
+ xN4rooLwa3bFeAhNfFb3roFBFrFYe/7M6kQFso6m4u8ORiy60pIpTw30NU/PBpcWjCiO
+ C+cLsXBT4WAVaYm+i3Z8YKIplUlou0/WiTXu+JdfUoxT/3iOlXD/m7aYP5ub+D91jEt1
+ o87A==
+X-Gm-Message-State: AOAM530WksHpkOtqDuFaO6JCqRNnZT9kIkkU0hDcfMqoF1AmpOv04lz7
+ pLNRSQ1WYLhn/N3zslWv2dml6v7JJ1+yBPLSuss=
+X-Google-Smtp-Source: ABdhPJwBJ+rUhp17CDFpcMD16KhB6mQPiVzL1gXprgmRq4MOCyvHbBBFeXPuSEq6CzoWnRW/OcVVFsZR4bG9bsc81f0=
+X-Received: by 2002:aa7:c406:: with SMTP id j6mr6310927edq.143.1596758594814; 
+ Thu, 06 Aug 2020 17:03:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-15-clg@kaod.org>
-In-Reply-To: <20200806132106.747414-15-clg@kaod.org>
+ <20200806132106.747414-16-clg@kaod.org>
+In-Reply-To: <20200806132106.747414-16-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 6 Aug 2020 23:57:46 +0000
-Message-ID: <CACPK8Xcr3j=egQChJiNs+y++qac3_ekODPasnV_z59nxzR0Nyw@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 14/19] ftgmac100: Fix integer overflow in
- ftgmac100_do_tx()
+Date: Fri, 7 Aug 2020 00:03:02 +0000
+Message-ID: <CACPK8XdW0nysvS99Su7edNN7vzxwvYgZJRQ=VGV073UEik3YGQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 15/19] ftgmac100: Improve software reset
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=joel.stan@gmail.com; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -78,69 +77,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Frederic Konrad <konrad.frederic@yahoo.fr>, Andrew Jeffery <andrew@aj.id.au>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Ziming Zhang <ezrakiez@gmail.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Frederic Konrad <konrad.frederic@yahoo.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 6 Aug 2020 at 13:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> When inserting the VLAN tag in packets, memmove() can generate an
-> integer overflow for packets whose length is less than 12 bytes.
->
-> Check length against the size of the ethernet header (14 bytes) to
-> avoid the crash and return FTGMAC100_INT_XPKT_LOST status. This seems
-> like a good modeling choice even if Aspeed does not specify anything
-> in that case.
+> The software reset of the MAC needs a finer granularity. Not all
+> registers are reseted and some setting in MACCR are kept.
+
+'settings'
+
+This makes the software reset incorrect, but the power on reset values
+correct. Was that your goal?
+
+If so, perhaps put that in the commit message.
+
 >
 > Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
-> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-> Reported-by: Ziming Zhang <ezrakiez@gmail.com>
+> Fixes: bd44300d1afc ("net: add FTGMAC100 support")
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
 > ---
->  hw/net/ftgmac100.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
+>  hw/net/ftgmac100.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-> index 280aa3d3a1e2..987b843fabc4 100644
+> index 987b843fabc4..0740049c5268 100644
 > --- a/hw/net/ftgmac100.c
 > +++ b/hw/net/ftgmac100.c
-> @@ -540,10 +540,21 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint=
-32_t tx_ring,
->                  s->isr |=3D FTGMAC100_INT_XPKT_LOST;
->                  len =3D  sizeof(s->frame) - frame_size - 4;
->              }
-> -            memmove(ptr + 16, ptr + 12, len - 12);
-> -            stw_be_p(ptr + 12, ETH_P_VLAN);
-> -            stw_be_p(ptr + 14, bd.des1);
-> -            len +=3D 4;
-> +
-> +            if (len < sizeof(struct eth_header)) {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                         "%s: frame too small for VLAN insertion : %d by=
-tes\n",
-> +                         __func__, len);
-> +                s->isr |=3D FTGMAC100_INT_XPKT_LOST;
-> +            } else {
-> +                uint8_t *vlan_hdr =3D ptr + (ETH_ALEN * 2);
-> +                uint8_t *payload =3D vlan_hdr + sizeof(struct vlan_heade=
-r);
-> +
-> +                memmove(payload, vlan_hdr, len - (ETH_ALEN * 2));
-> +                stw_be_p(vlan_hdr, ETH_P_VLAN);
-> +                stw_be_p(vlan_hdr + 2, FTGMAC100_TXDES1_VLANTAG_CI(bd.de=
-s1));
-> +                len +=3D sizeof(struct vlan_header);
-> +            }
+> @@ -655,11 +655,10 @@ static void ftgmac100_reset(DeviceState *d)
+>      s->itc =3D 0;
+>      s->aptcr =3D 1;
+>      s->dblac =3D 0x00022f00;
+> -    s->revr =3D 0;
+>      s->fear1 =3D 0;
+>      s->tpafcr =3D 0xf1;
+>
+> -    s->maccr =3D 0;
+> +    s->maccr &=3D FTGMAC100_MACCR_GIGA_MODE | FTGMAC100_MACCR_FAST_MODE;
+>      s->phycr =3D 0;
+>      s->phydata =3D 0;
+>      s->fcr =3D 0x400;
+> @@ -812,6 +811,7 @@ static void ftgmac100_write(void *opaque, hwaddr addr=
+,
+>      case FTGMAC100_MACCR: /* MAC Device control */
+>          s->maccr =3D value;
+>          if (value & FTGMAC100_MACCR_SW_RST) {
+> +            /* TODO: rework software reset to have a finer granularity *=
+/
+>              ftgmac100_reset(DEVICE(s));
 >          }
 >
->          ptr +=3D len;
 > --
 > 2.25.4
 >
