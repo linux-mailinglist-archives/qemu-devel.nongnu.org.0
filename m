@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EFA23F3C2
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 22:25:40 +0200 (CEST)
-Received: from localhost ([::1]:39052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBF723F3DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 22:39:52 +0200 (CEST)
+Received: from localhost ([::1]:45916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k48vr-0007So-Gr
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 16:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56798)
+	id 1k499b-0003Ql-9y
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 16:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
- id 1k48uX-0006y8-5v
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:24:17 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:40222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
- id 1k48uU-00030m-Qm
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:24:16 -0400
-Received: by mail-io1-xd43.google.com with SMTP id l17so3155431iok.7
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 13:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wIBO+1edhTfax9nbowihE0T+Ozo346+VaKPIDCNuOs8=;
- b=eMaRqb+TGbciq1bpCyHVbWYNRyMMckZFdGC72tqu/UvWLRf29A7R/S4vn7Gf4bw9wo
- ruSb06i2U1RB2hSYEnQT4BqEK1csr1gn2NlQvb4QTno2n7qN1Aa4f4wz2YnC3vOAavsm
- FFcnXHGrXKcMTW5jS/fS9pkxoZGPoWQy42pcmvsv+Z+EzmUETuKipQX7I4ynSyEhk41K
- d9GDp08mKtOn5dueWSzZhigtyyQzh3i5XyHRuQ/05uVcp4VKO2NYPr7ot81P/IEbq0UH
- /5d9vEFGlrykM71W2ZoQRRQLbQoN+4tO87F5VZbfJ7yEYT3pvbWApqhKj9wJVX186zGU
- Atrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wIBO+1edhTfax9nbowihE0T+Ozo346+VaKPIDCNuOs8=;
- b=qyeY/hYueLNl4mfzP0X4e9BhwDKLv/OpCKJgvlRjqU/In+pfXACXJkux8Cbru47iTx
- xGg33g59nn8V0VH17gmlG2m5jFsVwRGs8C2uiV18B/UqIDfur+Jn5Q4t2nTsn4DiZa2Z
- 67E3ZcVq9wUscRul3xifQWTLUguV/IxrunPTCyZD5uA4NXx7hjsy4ebQDdfgcXDYaqXW
- PqEmE1xw9z+fAu5AkK24AmV9A7/T7BliXm84zv7fCrUxY9RSMH65S04wY9mLZR+y+Vli
- pVZeeiiYur0jE78gLbYFEUWgT/9yNxzpsyDUCqGR+40kh5CnCHxjG/ODYuETo9Vll90F
- sseA==
-X-Gm-Message-State: AOAM533Q/Cb/nKQiALpgJ+T8ng4rWc1GeTV0q5EjCjI6YiH2ZJON2JJu
- e1aWv3q+NS8yoSiHE4v42r9eaCs3Ax4O7FnNYzdkaw==
-X-Google-Smtp-Source: ABdhPJx25KGEVk2ghIjvf/j0LcVFkHN2xWRE+amHwbu840CEIwluD5YyY07fD0WByBEWN7rP2nXZ2VNPv527zSftCNM=
-X-Received: by 2002:a6b:f911:: with SMTP id j17mr6010056iog.96.1596831853098; 
- Fri, 07 Aug 2020 13:24:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1k498H-0002lk-6C
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:38:29 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:58812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1k498E-0004Of-8J
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:38:28 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 077KXRBs108288;
+ Fri, 7 Aug 2020 20:38:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=n6zMTgDwiKSj0JrUFY7KLLunQaCGDK4KZbhYvgl0HeA=;
+ b=FFjSzEULV7Iev5SsipNbZzksYkf9KQrvI458DWZfGvy0+ucPGZncM9vOK3QJqrl3zOMI
+ +gqbUAqfOc4TW0GrHBvcv2heaaZEAxfMfDBMKszxYtXRrYD6VmvC7ZnR5xvHeUFxVK+M
+ Av9cbEOu+XUpe5rmyjd9ovX3FBU9JnQnFJDgSozjmw1i8H2ddxtE4W1K/933kAD7BYnD
+ bLnRt6BoF/0aAa0mEM4tL/pLS7SN1ZHGjduneAiJiIdHPEK5SAKK30GWDtf4OrcPFdSF
+ w6XYrx9cNFLNTk1tjBqLj+v6a689h0nycOfEAIHYjuiNOKxPhHoIrrV40nVKKCR3qArP NA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 32r6gx2j0m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 07 Aug 2020 20:38:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 077KXFT1115909;
+ Fri, 7 Aug 2020 20:38:16 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 32qy8rcxw3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 Aug 2020 20:38:16 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 077KcFSH002699;
+ Fri, 7 Aug 2020 20:38:15 GMT
+Received: from [10.39.221.23] (/10.39.221.23)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 07 Aug 2020 13:38:14 -0700
+Subject: Re: [PATCH V1 30/32] vfio-pci: save and restore
+To: Jason Zeng <jason.zeng@linux.intel.com>
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+ <1596122076-341293-31-git-send-email-steven.sistare@oracle.com>
+ <20200806102259.GA25634@x48>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <5d2e3c90-eb8c-569f-ef4a-5016756725c7@oracle.com>
+Date: Fri, 7 Aug 2020 16:38:12 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200724002807.441147-1-richard.henderson@linaro.org>
- <20200724002807.441147-6-richard.henderson@linaro.org>
-In-Reply-To: <20200724002807.441147-6-richard.henderson@linaro.org>
-From: Chih-Min Chao <chihmin.chao@sifive.com>
-Date: Sat, 8 Aug 2020 04:24:02 +0800
-Message-ID: <CAEiOBXVac0bFSZCrh_rhZbLVC7DGVwBe+D6YF90HQy1K-8wfYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] target/riscv: Check nanboxed inputs in
- trans_rvf.inc.c
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000005edfaf05ac4f6390"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=chihmin.chao@sifive.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200806102259.GA25634@x48>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9706
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ spamscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008070145
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9706
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ bulkscore=0 spamscore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 priorityscore=1501
+ phishscore=0 clxscore=1011 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008070145
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 16:38:19
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,389 +103,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair23@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- liuzhiwei <zhiwei_liu@c-sky.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005edfaf05ac4f6390
-Content-Type: text/plain; charset="UTF-8"
+On 8/6/2020 6:22 AM, Jason Zeng wrote:
+> Hi Steve,
+> 
+> On Thu, Jul 30, 2020 at 08:14:34AM -0700, Steve Sistare wrote:
+>> @@ -3182,6 +3207,51 @@ static Property vfio_pci_dev_properties[] = {
+>>      DEFINE_PROP_END_OF_LIST(),
+>>  };
+>>  
+>> +static int vfio_pci_post_load(void *opaque, int version_id)
+>> +{
+>> +    int vector;
+>> +    MSIMessage msg;
+>> +    Error *err = 0;
+>> +    VFIOPCIDevice *vdev = opaque;
+>> +    PCIDevice *pdev = &vdev->pdev;
+>> +
+>> +    if (msix_enabled(pdev)) {
+>> +        vfio_msix_enable(vdev);
+>> +        pdev->msix_function_masked = false;
+>> +
+>> +        for (vector = 0; vector < vdev->pdev.msix_entries_nr; vector++) {
+>> +            if (!msix_is_masked(pdev, vector)) {
+>> +                msg = msix_get_message(pdev, vector);
+>> +                vfio_msix_vector_use(pdev, vector, msg);
+>> +            }
+>> +        }
+> 
+> It looks to me MSIX re-init here may lose device IRQs and impact
+> device hardware state?
+> 
+> The re-init will cause the kernel vfio driver to connect the device
+> MSIX vectors to new eventfds and KVM instance. But before that, device
+> IRQs will be routed to previous eventfd. Looks these IRQs will be lost.
 
-On Fri, Jul 24, 2020 at 8:28 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Thanks Jason, that sounds like a problem.  I could try reading and saving an 
+event from eventfd before shutdown, and injecting it into the eventfd after
+restart, but that would be racy unless I disable interrupts.  Or, unconditionally
+inject a spurious interrupt after restart to kick it, in case an interrupt 
+was lost.
 
-> If a 32-bit input is not properly nanboxed, then the input is replaced
-> with the default qnan.  The only inline expansion is for the sign-changing
-> set of instructions: FSGNJ.S, FSGNJX.S, FSGNJN.S.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/riscv/insn_trans/trans_rvf.inc.c | 71 +++++++++++++++++++------
->  target/riscv/translate.c                | 18 +++++++
->  2 files changed, 73 insertions(+), 16 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvf.inc.c
-> b/target/riscv/insn_trans/trans_rvf.inc.c
-> index 264d3139f1..f9a9e0643a 100644
-> --- a/target/riscv/insn_trans/trans_rvf.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvf.inc.c
-> @@ -161,47 +161,86 @@ static bool trans_fsgnj_s(DisasContext *ctx,
-> arg_fsgnj_s *a)
->  {
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVF);
-> +
->      if (a->rs1 == a->rs2) { /* FMOV */
-> -        tcg_gen_mov_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
-> +        gen_check_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
->      } else { /* FSGNJ */
-> -        tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rs2],
-> cpu_fpr[a->rs1],
-> -                            0, 31);
-> +        TCGv_i64 rs1 = tcg_temp_new_i64();
-> +        TCGv_i64 rs2 = tcg_temp_new_i64();
-> +
-> +        gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-> +        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-> +
-> +        /* This formulation retains the nanboxing of rs2. */
-> +        tcg_gen_deposit_i64(cpu_fpr[a->rd], rs2, rs1, 0, 31);
-> +        tcg_temp_free_i64(rs1);
-> +        tcg_temp_free_i64(rs2);
->      }
-> -    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
->      mark_fs_dirty(ctx);
->      return true;
->  }
->
->  static bool trans_fsgnjn_s(DisasContext *ctx, arg_fsgnjn_s *a)
->  {
-> +    TCGv_i64 rs1, rs2, mask;
-> +
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVF);
-> +
-> +    rs1 = tcg_temp_new_i64();
-> +    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-> +
->      if (a->rs1 == a->rs2) { /* FNEG */
-> -        tcg_gen_xori_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], INT32_MIN);
-> +        tcg_gen_xori_i64(cpu_fpr[a->rd], rs1, MAKE_64BIT_MASK(31, 1));
->      } else {
-> -        TCGv_i64 t0 = tcg_temp_new_i64();
-> -        tcg_gen_not_i64(t0, cpu_fpr[a->rs2]);
-> -        tcg_gen_deposit_i64(cpu_fpr[a->rd], t0, cpu_fpr[a->rs1], 0, 31);
-> -        tcg_temp_free_i64(t0);
-> +        rs2 = tcg_temp_new_i64();
-> +        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-> +
-> +        /*
-> +         * Replace bit 31 in rs1 with inverse in rs2.
-> +         * This formulation retains the nanboxing of rs1.
-> +         */
-> +        mask = tcg_const_i64(~MAKE_64BIT_MASK(31, 1));
-> +        tcg_gen_andc_i64(rs2, mask, rs2);
->
+Do you have any other ideas?
 
-should be
-              tcg_gen_not_i64(rs2, rs2);         // forget to inverse rs2
-              tcg_gen_andc_i64(rs2, rs2, mask);  //mask needs to be
-inverted to get only sign
+> And the re-init will make the device go through the procedure of
+> disabling MSIX, enabling INTX, and re-enabling MSIX and vectors.
+> So if the device is active, its hardware state will be impacted?
 
- Chih-Min Chao
+Again thanks.  vfio_msix_enable() does indeed call vfio_disable_interrupts().
+For a quick experiment, I deleted that call in for the post_load code path, and 
+it seems to work fine, but I need to study it more.
 
-> +        tcg_gen_and_i64(rs1, mask, rs1);
-> +        tcg_gen_or_i64(cpu_fpr[a->rd], rs1, rs2);
-> +
-> +        tcg_temp_free_i64(mask);
-> +        tcg_temp_free_i64(rs2);
->      }
-> -    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-> +    tcg_temp_free_i64(rs1);
-> +
->      mark_fs_dirty(ctx);
->      return true;
->  }
->
->  static bool trans_fsgnjx_s(DisasContext *ctx, arg_fsgnjx_s *a)
->  {
-> +    TCGv_i64 rs1, rs2;
-> +
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVF);
-> +
-> +    rs1 = tcg_temp_new_i64();
-> +    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-> +
->      if (a->rs1 == a->rs2) { /* FABS */
-> -        tcg_gen_andi_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], ~INT32_MIN);
-> +        tcg_gen_andi_i64(cpu_fpr[a->rd], rs1, ~MAKE_64BIT_MASK(31, 1));
->      } else {
-> -        TCGv_i64 t0 = tcg_temp_new_i64();
-> -        tcg_gen_andi_i64(t0, cpu_fpr[a->rs2], INT32_MIN);
-> -        tcg_gen_xor_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], t0);
-> -        tcg_temp_free_i64(t0);
-> +        rs2 = tcg_temp_new_i64();
-> +        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-> +
-> +        /*
-> +         * Xor bit 31 in rs1 with that in rs2.
-> +         * This formulation retains the nanboxing of rs1.
-> +         */
-> +        tcg_gen_andi_i64(rs2, rs2, MAKE_64BIT_MASK(31, 1));
-> +        tcg_gen_xor_i64(cpu_fpr[a->rd], rs1, rs2);
-> +
-> +        tcg_temp_free_i64(rs2);
->      }
-> -    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-> +    tcg_temp_free_i64(rs1);
-> +
->      mark_fs_dirty(ctx);
->      return true;
->  }
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 12a746da97..bf35182776 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -101,6 +101,24 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
->      tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
->  }
->
-> +/*
-> + * A narrow n-bit operation, where n < FLEN, checks that input operands
-> + * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.
-> + * If so, the least-significant bits of the input are used, otherwise the
-> + * input value is treated as an n-bit canonical NaN (v2.2 section 9.2).
-> + *
-> + * Here, the result is always nan-boxed, even the canonical nan.
-> + */
-> +static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-> +{
-> +    TCGv_i64 t_max = tcg_const_i64(0xffffffff00000000ull);
-> +    TCGv_i64 t_nan = tcg_const_i64(0xffffffff7fc00000ull);
-> +
-> +    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-> +    tcg_temp_free_i64(t_max);
-> +    tcg_temp_free_i64(t_nan);
-> +}
-> +
->  static void generate_exception(DisasContext *ctx, int excp)
->  {
->      tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-> --
-> 2.25.1
->
->
->
-
---0000000000005edfaf05ac4f6390
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr" class=3D"gmail_sign=
-ature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">On Fri, Jul 24, =
-2020 at 8:28 AM Richard Henderson &lt;<a href=3D"mailto:richard.henderson@l=
-inaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br></div></div></div=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">If a 32-bit input is not properly nanboxed, then the input is re=
-placed<br>
-with the default qnan.=C2=A0 The only inline expansion is for the sign-chan=
-ging<br>
-set of instructions: FSGNJ.S, FSGNJX.S, FSGNJN.S.<br>
-<br>
-Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
----<br>
-=C2=A0target/riscv/insn_trans/trans_rvf.inc.c | 71 +++++++++++++++++++-----=
--<br>
-=C2=A0target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 18 +++++++<br>
-=C2=A02 files changed, 73 insertions(+), 16 deletions(-)<br>
-<br>
-diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_tr=
-ans/trans_rvf.inc.c<br>
-index 264d3139f1..f9a9e0643a 100644<br>
---- a/target/riscv/insn_trans/trans_rvf.inc.c<br>
-+++ b/target/riscv/insn_trans/trans_rvf.inc.c<br>
-@@ -161,47 +161,86 @@ static bool trans_fsgnj_s(DisasContext *ctx, arg_fsgn=
-j_s *a)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0REQUIRE_FPU;<br>
-=C2=A0 =C2=A0 =C2=A0REQUIRE_EXT(ctx, RVF);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (a-&gt;rs1 =3D=3D a-&gt;rs2) { /* FMOV */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_mov_i64(cpu_fpr[a-&gt;rd], cpu_fpr[a-&=
-gt;rs1]);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_check_nanbox_s(cpu_fpr[a-&gt;rd], cpu_fpr[=
-a-&gt;rs1]);<br>
-=C2=A0 =C2=A0 =C2=A0} else { /* FSGNJ */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_deposit_i64(cpu_fpr[a-&gt;rd], cpu_fpr=
-[a-&gt;rs2], cpu_fpr[a-&gt;rs1],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 0, 31);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_i64 rs1 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_i64 rs2 =3D tcg_temp_new_i64();<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_check_nanbox_s(rs1, cpu_fpr[a-&gt;rs1]);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_check_nanbox_s(rs2, cpu_fpr[a-&gt;rs2]);<b=
-r>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* This formulation retains the nanboxing of r=
-s2. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_deposit_i64(cpu_fpr[a-&gt;rd], rs2, rs=
-1, 0, 31);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(rs1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(rs2);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 gen_nanbox_s(cpu_fpr[a-&gt;rd], cpu_fpr[a-&gt;rd]);<br>
-=C2=A0 =C2=A0 =C2=A0mark_fs_dirty(ctx);<br>
-=C2=A0 =C2=A0 =C2=A0return true;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static bool trans_fsgnjn_s(DisasContext *ctx, arg_fsgnjn_s *a)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 TCGv_i64 rs1, rs2, mask;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0REQUIRE_FPU;<br>
-=C2=A0 =C2=A0 =C2=A0REQUIRE_EXT(ctx, RVF);<br>
-+<br>
-+=C2=A0 =C2=A0 rs1 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 gen_check_nanbox_s(rs1, cpu_fpr[a-&gt;rs1]);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (a-&gt;rs1 =3D=3D a-&gt;rs2) { /* FNEG */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_xori_i64(cpu_fpr[a-&gt;rd], cpu_fpr[a-=
-&gt;rs1], INT32_MIN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_xori_i64(cpu_fpr[a-&gt;rd], rs1, MAKE_=
-64BIT_MASK(31, 1));<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_i64 t0 =3D tcg_temp_new_i64();<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_not_i64(t0, cpu_fpr[a-&gt;rs2]);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_deposit_i64(cpu_fpr[a-&gt;rd], t0, cpu=
-_fpr[a-&gt;rs1], 0, 31);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(t0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rs2 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_check_nanbox_s(rs2, cpu_fpr[a-&gt;rs2]);<b=
-r>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Replace bit 31 in rs1 with inverse in =
-rs2.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* This formulation retains the nanboxing=
- of rs1.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mask =3D tcg_const_i64(~MAKE_64BIT_MASK(31, 1)=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andc_i64(rs2, mask, rs2);<br></blockqu=
-ote><div><br></div><div>should be=C2=A0</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_not_i64(rs2, rs2);=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0// forget to inverse rs2</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 tcg_gen_andc_i64(rs2, rs2, mask);=C2=A0 //mask needs t=
-o be inverted to get only sign</div><div><br></div><div>=C2=A0Chih-Min Chao=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_and_i64(rs1, mask, rs1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_or_i64(cpu_fpr[a-&gt;rd], rs1, rs2);<b=
-r>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(mask);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(rs2);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 gen_nanbox_s(cpu_fpr[a-&gt;rd], cpu_fpr[a-&gt;rd]);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(rs1);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0mark_fs_dirty(ctx);<br>
-=C2=A0 =C2=A0 =C2=A0return true;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static bool trans_fsgnjx_s(DisasContext *ctx, arg_fsgnjx_s *a)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 TCGv_i64 rs1, rs2;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0REQUIRE_FPU;<br>
-=C2=A0 =C2=A0 =C2=A0REQUIRE_EXT(ctx, RVF);<br>
-+<br>
-+=C2=A0 =C2=A0 rs1 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 gen_check_nanbox_s(rs1, cpu_fpr[a-&gt;rs1]);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (a-&gt;rs1 =3D=3D a-&gt;rs2) { /* FABS */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(cpu_fpr[a-&gt;rd], cpu_fpr[a-=
-&gt;rs1], ~INT32_MIN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(cpu_fpr[a-&gt;rd], rs1, ~MAKE=
-_64BIT_MASK(31, 1));<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_i64 t0 =3D tcg_temp_new_i64();<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(t0, cpu_fpr[a-&gt;rs2], INT32=
-_MIN);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_xor_i64(cpu_fpr[a-&gt;rd], cpu_fpr[a-&=
-gt;rs1], t0);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(t0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rs2 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_check_nanbox_s(rs2, cpu_fpr[a-&gt;rs2]);<b=
-r>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Xor bit 31 in rs1 with that in rs2.<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* This formulation retains the nanboxing=
- of rs1.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(rs2, rs2, MAKE_64BIT_MASK(31,=
- 1));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_xor_i64(cpu_fpr[a-&gt;rd], rs1, rs2);<=
-br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(rs2);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 gen_nanbox_s(cpu_fpr[a-&gt;rd], cpu_fpr[a-&gt;rd]);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(rs1);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0mark_fs_dirty(ctx);<br>
-=C2=A0 =C2=A0 =C2=A0return true;<br>
-=C2=A0}<br>
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c<br>
-index 12a746da97..bf35182776 100644<br>
---- a/target/riscv/translate.c<br>
-+++ b/target/riscv/translate.c<br>
-@@ -101,6 +101,24 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)<br=
->
-=C2=A0 =C2=A0 =C2=A0tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));<br>
-=C2=A0}<br>
-<br>
-+/*<br>
-+ * A narrow n-bit operation, where n &lt; FLEN, checks that input operands=
-<br>
-+ * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.<br>
-+ * If so, the least-significant bits of the input are used, otherwise the<=
-br>
-+ * input value is treated as an n-bit canonical NaN (v2.2 section 9.2).<br=
->
-+ *<br>
-+ * Here, the result is always nan-boxed, even the canonical nan.<br>
-+ */<br>
-+static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)<br>
-+{<br>
-+=C2=A0 =C2=A0 TCGv_i64 t_max =3D tcg_const_i64(0xffffffff00000000ull);<br>
-+=C2=A0 =C2=A0 TCGv_i64 t_nan =3D tcg_const_i64(0xffffffff7fc00000ull);<br>
-+<br>
-+=C2=A0 =C2=A0 tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan)=
-;<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(t_max);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(t_nan);<br>
-+}<br>
-+<br>
-=C2=A0static void generate_exception(DisasContext *ctx, int excp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0tcg_gen_movi_tl(cpu_pc, ctx-&gt;base.pc_next);<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000005edfaf05ac4f6390--
+- Steve
+ 
+>> +
+>> +    } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
+>> +        vfio_intx_enable(vdev, &err);
+>> +        if (err) {
+>> +            error_report_err(err);
+>> +        }
+>> +    }
+>> +
+>> +    vdev->vbasedev.group->container->reused = false;
+>> +    vdev->pdev.reused = false;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static const VMStateDescription vfio_pci_vmstate = {
+>> +    .name = "vfio-pci",
+>> +    .unmigratable = 1,
+>> +    .mode_mask = VMS_RESTART,
+>> +    .version_id = 0,
+>> +    .minimum_version_id = 0,
+>> +    .post_load = vfio_pci_post_load,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_MSIX(pdev, VFIOPCIDevice),
+>> +        VMSTATE_END_OF_LIST()
+>> +    }
+>> +};
+>> +
+>>  static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+>>  {
+>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>> @@ -3189,6 +3259,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+>>  
+>>      dc->reset = vfio_pci_reset;
+>>      device_class_set_props(dc, vfio_pci_dev_properties);
+>> +    dc->vmsd = &vfio_pci_vmstate;
+>>      dc->desc = "VFIO-based PCI device assignment";
+>>      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>>      pdc->realize = vfio_realize;
+>> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+>> index ac2cefc..e6e1a5d 100644
+>> --- a/hw/vfio/platform.c
+>> +++ b/hw/vfio/platform.c
+>> @@ -592,7 +592,7 @@ static int vfio_base_device_init(VFIODevice *vbasedev, Error **errp)
+>>              return -EBUSY;
+>>          }
+>>      }
+>> -    ret = vfio_get_device(group, vbasedev->name, vbasedev, errp);
+>> +    ret = vfio_get_device(group, vbasedev->name, vbasedev, 0, errp);
+>>      if (ret) {
+>>          vfio_put_group(group);
+>>          return ret;
+>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+>> index bd07c86..c926a24 100644
+>> --- a/include/hw/pci/pci.h
+>> +++ b/include/hw/pci/pci.h
+>> @@ -358,6 +358,7 @@ struct PCIDevice {
+>>  
+>>      /* ID of standby device in net_failover pair */
+>>      char *failover_pair_id;
+>> +    bool reused;
+>>  };
+>>  
+>>  void pci_register_bar(PCIDevice *pci_dev, int region_num,
+>> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+>> index c78f3ff..4e2a332 100644
+>> --- a/include/hw/vfio/vfio-common.h
+>> +++ b/include/hw/vfio/vfio-common.h
+>> @@ -73,6 +73,8 @@ typedef struct VFIOContainer {
+>>      unsigned iommu_type;
+>>      Error *error;
+>>      bool initialized;
+>> +    bool reused;
+>> +    int cid;
+>>      unsigned long pgsizes;
+>>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+>>      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+>> @@ -177,7 +179,7 @@ void vfio_reset_handler(void *opaque);
+>>  VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
+>>  void vfio_put_group(VFIOGroup *group);
+>>  int vfio_get_device(VFIOGroup *group, const char *name,
+>> -                    VFIODevice *vbasedev, Error **errp);
+>> +                    VFIODevice *vbasedev, bool *reused, Error **errp);
+>>  
+>>  extern const MemoryRegionOps vfio_region_ops;
+>>  typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
+>> diff --git a/migration/savevm.c b/migration/savevm.c
+>> index 881dc13..2606cf0 100644
+>> --- a/migration/savevm.c
+>> +++ b/migration/savevm.c
+>> @@ -1568,7 +1568,7 @@ static int qemu_savevm_state(QEMUFile *f, VMStateMode mode, Error **errp)
+>>          return -EINVAL;
+>>      }
+>>  
+>> -    if (migrate_use_block()) {
+>> +    if ((mode & (VMS_SNAPSHOT | VMS_MIGRATE)) && migrate_use_block()) {
+>>          error_setg(errp, "Block migration and snapshots are incompatible");
+>>          return -EINVAL;
+>>      }
+>> -- 
+>> 1.8.3.1
+>>
+>>
 
