@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E34E23F28F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:11:45 +0200 (CEST)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B9823F2A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:21:25 +0200 (CEST)
+Received: from localhost ([::1]:44808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k46qF-0002G3-Qm
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:11:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58838)
+	id 1k46zc-0005x1-5c
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k46p9-0001mi-1j
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:10:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56262)
+ id 1k46yD-000508-2l
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:19:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k46p3-00052x-24
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:10:34 -0400
+ id 1k46yB-00067X-6n
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:19:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k46p0-0000Op-1j
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:10:26 +0000
+ id 1k46y9-0001zT-OJ
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:19:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CA03E2E802E
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:10:25 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B19382E808C
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:19:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 17:56:25 -0000
-From: Thomas Huth <1423528@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 18:03:46 -0000
+From: Thomas Huth <1428352@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mbiebl th-huth
-X-Launchpad-Bug-Reporter: Michael Biebl (mbiebl)
+X-Launchpad-Bug-Commenters: th-huth wpaul
+X-Launchpad-Bug-Reporter: Bill Paul (wpaul)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150219122612.20987.32403.malonedeb@gac.canonical.com>
-Message-Id: <159682298569.5150.6353910256545440821.malone@soybean.canonical.com>
-Subject: [Bug 1423528] Re: setting unsupported timeout for i6300esb watchdog
- causes hw reset
+References: <20150304222256.6659.52366.malonedeb@wampee.canonical.com>
+Message-Id: <159682342684.9018.11225813160215913583.malone@wampee.canonical.com>
+Subject: [Bug 1428352] Re: SYSRET instruction incorrectly implemented
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 507e58e62440853afa4783be5d54e46d9f723784
+X-Launchpad-Hash: dc48287d6fcf6b90c98cfee9a4a0e65235944c56
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -61,7 +60,8 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,56 +73,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1423528 <1423528@bugs.launchpad.net>
+Reply-To: Bug 1428352 <1428352@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
-
+If I've got that right, this has been fixed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dac57622985220de0
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1423528
+https://bugs.launchpad.net/bugs/1428352
 
 Title:
-   setting unsupported timeout for i6300esb watchdog causes hw reset
+  SYSRET instruction incorrectly implemented
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D778291
-  Version: 2.1
+  The Intel architecture manual states that when returning to user mode,
+  the SYSRET instruction will re-load the stack selector (%ss) from the
+  IA32_STAR model specific register using the following logic:
 
-  systemd utilizes existing watchdog hardware and set's a 10min timer on re=
-boot.
-  The i6300esb under qemu doesn't like such a timeout, and immediately rese=
-ts the hardware:
+  SS.Selector <-- (IA32_STAR[63:48]+8) OR 3; (* RPL forced to 3 *)
 
-  The last message one gets is
-  [    9.402243] i6300esb: Unexpected close, not stopping watchdog!
+  Another description of the instruction behavior which shows the same
+  logic in a slightly different form can also be found here:
 
-  =
+  http://tptp.cc/mirrors/siyobik.info/instruction/SYSRET.html
 
-  The linked bug report contains information how this bug can easily be rep=
-roduced.
-  With any image using a recent enough systemd as PID 1 you should be able =
-to reproduce it by running
+  [...]
+          SS(SEL) =3D IA32_STAR[63:48] + 8;
+          SS(PL) =3D 0x3;
+  [...]
 
-  qemu-system-x86_64 -curses -enable-kvm -device i6300esb -watchdog-
-  action reset -hda <image with systemd>
+  In other words, the value of the %ss register is supposed to be loaded
+  from  bits 63:48 of the IA32_STAR model-specific register, incremented
+  by 8, and then ORed with 3. ORing in the 3 sets the privilege level to
+  3 (user). This is done since SYSRET returns to user mode after a
+  system call.
 
-  =
+  However, helper_sysret() in target-i386/seg_helper.c does not do the
+  "OR 3" step. The code looks like this:
 
-  I'm uncertain if this is a qemu or kernel/driver bug. If the latter, plea=
-se re-assign the bug as necessary.
+          cpu_x86_load_seg_cache(env, R_SS, selector + 8,
+                                 0, 0xffffffff,
+                                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
+                                 DESC_S_MASK | (3 << DESC_DPL_SHIFT) |
+                                 DESC_W_MASK | DESC_A_MASK);
+
+  It should look like this:
+
+          cpu_x86_load_seg_cache(env, R_SS, (selector + 8) | 3,
+                                 0, 0xffffffff,
+                                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
+                                 DESC_S_MASK | (3 << DESC_DPL_SHIFT) |
+                                 DESC_W_MASK | DESC_A_MASK);
+
+  The code does correctly set the privilege level bits for the code
+  selector register (%cs) but not for the stack selector (%ss).
+
+  The effect of this is that when SYSRET returns control to the user-
+  mode caller, %ss will be have the privilege level bits cleared. In my
+  case, it went from 0x2b to 0x28. This caused a crash later: when the
+  user-mode code was preempted by an interrupt, and the interrupt
+  handler would do an IRET, a general protection fault would occur
+  because the %ss value being loaded from the exception frame was not
+  valid for user mode. (At least, I think that's what happened.)
+
+  This behavior seems inconsistent with real hardware, and also appears
+  to be wrong with respect to the Intel documentation, so I'm pretty
+  confident in calling this a bug. :)
+
+  Note that this issue seems to have been around for a long time. I
+  discovered it while using QEMU 2.2.0, but I happened to have the
+  sources for QEMU 0.10.5, and the problem is there too (in
+  os_helper.c). I am using FreeBSD/amd64 9.1-RELEASE as my host system,
+  without KVM.
+
+  The fix is fairly simple. I'm attaching a patch which worked for me.
+  Using this fix, the code that I'm testing now behaves the same on the
+  QEMU virtual machine as on real hardware.
+
+  - Bill (wpaul@windriver.com)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1423528/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1428352/+subscriptions
 
