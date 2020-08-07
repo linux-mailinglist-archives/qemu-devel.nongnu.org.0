@@ -2,69 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFB523E8CD
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:22:29 +0200 (CEST)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD823E896
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:11:31 +0200 (CEST)
+Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3xe0-000763-LM
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47636)
+	id 1k3xTO-0006ms-2f
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3xbM-0003yT-8u
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:19:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3xbJ-0002dT-Fa
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:19:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3xbH-0005si-Os
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 08:19:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AAF442E809C
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 08:19:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k3xRu-0005fA-2D; Fri, 07 Aug 2020 04:09:58 -0400
+Received: from mail-eopbgr130119.outbound.protection.outlook.com
+ ([40.107.13.119]:20031 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k3xRq-0001VH-HF; Fri, 07 Aug 2020 04:09:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YhfbM70R4YMvRqCRSLz72STlBWBToUqw2/fjN2vXLY+aBRifsRn9NEFpqqOFuZNdWpbAqrbFFkb7rO0kh7QG6rxD3MifRxRk54Q35PSCwMt+tF0dvF/fyT+0l8YBdjMLssnsoW5m1FzCbibbHW/tfP2Y1wrco0VMYRE8tkQJ6IlErgP7jy6h76x7KsGzpCTuGroUBj+9VvJK8jfFeqBMQ4eLw/Bd+H/8WmY+IZt41/USk3oA6vcs45PjEUqJIuiAYFR7uYMTFZ3MytV6zyu/1OH8n9NMlORLOnqOF2dqYrpygnd5jPJ+g7UVYPg4Z3FwXZAMcKYHhq43i0rkNXk7yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VMr3o2tnsIMDm2T1QDerSAqu+sJ97FOGFHKxBw7YhyA=;
+ b=Onp7GW3URHREZoUiH06HATAEKxSpNW4cH+VMU6y1QK8cEm7OSVuU8jjQDH83BQ+90q5ETUouo010Eee6Mh3ZfVEajJV7cXf8gkjsx8DxheqsQvjBfjTfcY9cMXg68IKejMl4SekPgy+t0vgxITSo8zNRu1L/VejVuK367SHGPKI9UBHh1qR9e2o+epT4xQGLlbIkN6+NNShz/j5q9nYu9ZAZEZbXE8Ge1Bq5AI6ijUGrPoLeWDI9XDVndgQdJzW5t2M8FkpxdQ1iOG9hH2afYobfHdh1WDpQn5ARc1+Wk70QSNyw6F7H7800y8f3ht6j8H53yOBRvOJuXKAXVdG2xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VMr3o2tnsIMDm2T1QDerSAqu+sJ97FOGFHKxBw7YhyA=;
+ b=ZHQYTfUuSzSQIseHLbumjFBhYVdM9qRI6xZ7C+ZAxtU2JmtD1RFrsYFC0Ih+Ul6HcCHECyNHzvgvDppd0vcThqdtfMRNQ0hoDeGhY0p5Qn5gGQiQhrZklSow6p3WJstJDXZZtDXNemRKkIcfOFfnSFCgx67/t7CNpX/cLikQi9k=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB2981.eurprd08.prod.outlook.com (2603:10a6:209:44::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.16; Fri, 7 Aug
+ 2020 08:09:50 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3261.020; Fri, 7 Aug 2020
+ 08:09:50 +0000
+Subject: Re: [PATCH v13 09/11] qcow2_format.py: collect fields to dump in JSON
+ format
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1596742557-320265-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1596742557-320265-10-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <552171df-3015-4f88-48c9-0862bb0b8396@virtuozzo.com>
+ <c718f884-579e-c658-1ba6-a584a4598e82@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <16f57b1a-b1ee-c974-ad45-7be32b0d73b6@virtuozzo.com>
+Date: Fri, 7 Aug 2020 11:09:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+In-Reply-To: <c718f884-579e-c658-1ba6-a584a4598e82@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR08CA0031.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::44) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 08:08:13 -0000
-From: Thomas Huth <1030807@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: k-henning-z th-huth
-X-Launchpad-Bug-Reporter: Henning Schild (k-henning-z)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20120730102531.13148.51710.malonedeb@wampee.canonical.com>
-Message-Id: <159678769319.10780.14963118191647047477.malone@chaenomeles.canonical.com>
-Subject: [Bug 1030807] Re: PCI host bridge should ignore 1- and 2-byte I/O
- accesses
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fbb598eae8d301e2f3a97732db8726c9cc16de1e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.177) by
+ AM0PR08CA0031.eurprd08.prod.outlook.com (2603:10a6:208:d2::44) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3261.17 via Frontend Transport; Fri, 7 Aug 2020 08:09:49 +0000
+X-Originating-IP: [185.215.60.177]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6ce0babc-0af9-43a4-60db-08d83aa941a8
+X-MS-TrafficTypeDiagnostic: AM6PR08MB2981:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB29812E589DAAA6B318EC2122C1490@AM6PR08MB2981.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:983;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 46D70GOihm7Nwqs2ErkQJytyLngoBKG+JbIudxWh+UKume/1PSGkch6f2fFmImPaeC8Mhd19nG2Hx4pXWXJpVaUJKLZ3qKXyH+de4zbArQSWxcpOeC+BEpyJuSR12ZBOs+lpFcPz/DB/byxvhwM4whP+KIf27qNjWSiZ4XiKLXnQKbO9h4sC56sR4Ud4H71vYrGKeNOJC0Epm6xRtCKAo8U9sp85zh+fbBRVQf8AIzpRvb2acZOmXXt4YbFflKmmlYrnxuUqVZKEnAGVTYuhGkE6sSvdAbTUV2LNXxGwq9gpVj5o51hfwqqs0RoS73xHtdo9L+eHFDNdzsy9v/rcODSsCTe5koeMh4MmodeJ0D/0FEDUdiN4QpbCKht2qMJz
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(346002)(136003)(39840400004)(366004)(376002)(66556008)(66476007)(956004)(5660300002)(66946007)(2616005)(4744005)(16576012)(316002)(31696002)(107886003)(4326008)(31686004)(36756003)(8676002)(86362001)(8936002)(6486002)(83380400001)(186003)(26005)(16526019)(53546011)(52116002)(2906002)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: xg533FB+4jp6Nh9I3n3mp265nMN5ve4EhkYIl/FcFxbTkoAajajV6TyYvjESvzI+tdHdKi82EvTOROxVCL5L10JadR0uW2PP5L7X+hBilaWgSrtJSTs4Ai9inHRSgHUC4U6nn6A6tYFw7+xkG++PTyBFZ9a0EDvchm+mT+P+AQkhSF2pzacepM2U45glMLt11fNSShNWq7tpFGAmMwOeRVVNScs5J8O1jrlvKPQwgRgRTmE3FhXmX4feehfca40CDTplijDbwzY3xJXtkUhj9YbygmjUVb2sAfWjVmKOL7q97GdkdXpWclnkn9MIy2S4vTUjCqROiiYHIGRxEGEstF3BoVvj3ILsHyvFGvCNbhI8f0BbSO/OQWdM5OyHWgjBAXPxqZHNgJgdbtkr943rgAdSs6cSKP3sn0CfF758/8WThWPR1e1zijGycA+rnxxF2LT6ulC6TRYYSfvS0Qgfe8SIRwgFoEs/bl6ZhpOTEzTGap/zf+AT/Zv/+9cMi0GKdipDiYQO2jRpGrkuPrZgbMvmEBorUEx1k2xjXwLag2bVRbPMbkoMTUuC5Xef06wsqVbBRZ1twoV83lz4HRkTKi5xfSHqdUCro4VfET2ch+qvP6SqKNvsZNZ+vfPMzpTMoHLB2cEIlry72Ouf9ErH8g==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ce0babc-0af9-43a4-60db-08d83aa941a8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2020 08:09:49.9956 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fQ5RA1vZZ86beDOLp6X/4WkHNtl7vxctj6tYuyWtkOjJ/tCd01tyfJuZQwB7YAKXlGqgNAzDNV35AjRR+Q5WfVFimpZmQ3Gfu2tVsOEIOjM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2981
+Received-SPF: pass client-ip=40.107.13.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:09:50
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,84 +120,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1030807 <1030807@bugs.launchpad.net>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
+07.08.2020 11:03, Andrey Shinkevich wrote:
+> On 07.08.2020 09:30, Vladimir Sementsov-Ogievskiy wrote:
+>> 06.08.2020 22:35, Andrey Shinkevich wrote:
+>>> As __dict__ is being extended with class members we do not want to
+>>> print, add the to_dict() method to classes that returns a dictionary
+>>
+>> to_json() ... that returns a json-dumpable object
+>>
+> 
+> New version to release with the commit message fix?
+> 
+
+Not worth resending, it can be touched when queuing.
+
+> 
+>>> with desired fields and their values. Extend it in subclass when
+>>> necessary to print the final dictionary in the JSON output which
+>>> follows.
+>>>
+>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>
+>>
 
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1030807
-
-Title:
-  PCI host bridge should ignore 1- and 2-byte I/O accesses
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  In PCI there are two IO modes. Deprecated Mode2 that uses single byte IO =
-and Mode1 that uses 4byte IO.
-  According to the spec a host bridge that supports Mode1 should ignore all=
- IO that is not 4bytes.
-
-  > Anytime a host bridge sees a full DWORD I/O write from the host to
-  > CONFIG_ADDRESS, the bridge must latch the data into its CONFIG_ADDRESS
-  > register. On full DWORD I/O reads to CONFIG_ADDRESS, the bridge must re=
-turn the
-  > data in CONFIG_ADDRESS. Any other types of accesses to this address (no=
-n-DWORD)
-  > have no effect on CONFIG_ADDRESS and are executed as normal I/O transac=
-tions on
-  > the PCI bus. Therefore, the only I/O Space consumed by this register is=
- a DWORD at the
-  > given address. I/O devices that share the same address but use BYTE or =
-WORD registers
-  > are not affected because their transactions will pass through the host =
-bridge unchanged.
-
-  In qemu the host bridge will accept 1-, 2-, and 4-byte reads/writes.
-  That breakes plan9 guests that do not use the bios to access the PCI
-  config space.
-
-  have a look at:
-  http://code.google.com/p/plan9front/source/browse/sys/src/9/pc/pci.c
-
-  In Lines 960-967 the check for PCI Mode1 is done. This check assumes that=
- the 4-byte write at line 961 succeeds and the single byte write at 962 is =
-ignored.
-  On qemu line 962 will not be ignored and the test in line 963 will fail.
-  The plan9 kernel will fall back to Mode2 which does not work.
-  The result is that the guest will not see any PCI devices.
-
-  I do not really have an image that you guys could quickly check this with=
-, but i could prepare one if need be.
-  An easy way to reproduce this in linux would be to stick an outb between =
-those two lines from pci_check_type1(void).
-
-  > outl(0x80000000, 0xCF8);
-  + outb0x01, 0xcfb);
-  > if (inl(0xCF8) =3D=3D 0x80000000 && pci_sanity_check(&pci_direct_conf1)=
-) {
-
-  I did not try this but i guess on real hardware the linux kernel would
-  still work while it would not work anymore on qemu.
-
-  I tried to come up with a patch but did not find a quick solution. I
-  found that in hw/piic_pci.c sysbus_add_io is used which will register
-  read/write functions for 1, 2, and 4 bytes. This is done in ioport.c
-  ioport_register. I guess if i provided a patch you guys might not like
-  it :). So i figured i should report the bug, let me know if you need
-  any additional information.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1030807/+subscriptions
+-- 
+Best regards,
+Vladimir
 
