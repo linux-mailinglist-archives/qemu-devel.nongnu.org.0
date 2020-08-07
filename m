@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3210D23F2E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:48:27 +0200 (CEST)
-Received: from localhost ([::1]:38926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97A523F2E3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 20:47:17 +0200 (CEST)
+Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k47Pm-0001Hu-A3
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37076)
+	id 1k47Oe-0008Bl-8h
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 14:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k47N5-0007MD-Ns
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:45:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34402)
+ id 1k47N4-0007Ls-De
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:45:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k47N2-0000kK-3m
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:45:39 -0400
+ id 1k47Mw-0000jB-SW
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 14:45:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k47Mv-0005EH-U4
+ id 1k47Mv-0005DS-3v
  for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:45:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DE9F22E8081
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:45:29 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EF8942E809C
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 18:45:28 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 18:31:26 -0000
-From: Thomas Huth <1503031@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 18:32:04 -0000
+From: Thomas Huth <1505041@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,20 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrewoates th-huth
-X-Launchpad-Bug-Reporter: Andrew Oates (andrewoates)
+X-Launchpad-Bug-Commenters: berrange fgouget th-huth
+X-Launchpad-Bug-Reporter: Francois Gouget (fgouget)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20151005203328.1986.66361.malonedeb@wampee.canonical.com>
-Message-Id: <159682508643.26498.4252052376498889849.malone@gac.canonical.com>
-Subject: [Bug 1503031] Re: 32-to-64-bit call gate unsupported in IA32e mode
+References: <20151012003458.26359.57214.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159682512489.26006.12480849118781518560.malone@gac.canonical.com>
+Subject: [Bug 1505041] Re: Live snapshot revert times increases linearly with
+ snapshot age
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4d362a8e1e2709349b73d9f806bb468c61e21075
+X-Launchpad-Hash: 71238122bc7f5e4ba97b996bd32082220af760bd
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1503031 <1503031@bugs.launchpad.net>
+Reply-To: Bug 1505041 <1505041@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,37 +87,96 @@ latest version of QEMU? Or could we close this ticket nowadays?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1503031
+https://bugs.launchpad.net/bugs/1505041
 
 Title:
-  32-to-64-bit call gate unsupported in IA32e mode
+  Live snapshot revert times increases linearly with snapshot age
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  In particular, the lcall implementation doesn't support the 64-bit
-  TSS.
+  The WineTestBot (https://testbot.winehq.org/) uses QEmu live snapshots
+  to ensure the Wine tests are always run in a pristine Windows
+  environment. However the revert times keep increasing linearly with
+  the age of the snapshot, going from tens of seconds to thousands.
+  While the revert takes place the qemu process takes 100% of a core and
+  there is no disk activity. Obviously waiting over 20 minutes before
+  being able to run a 10 second test is not viable.
 
-  helper_lcall_protected (target-i386/seg_helper.c:1884) calls
-  get_ss_esp_from_tss() on a call gate to a lower privilege level, which
-  tries to extract a 32-bit ESP and 16-bit SS from the TSS.  In IA32e
-  mode (64-bit or compatibility mode), this instead grabs the lower
-  32-bits of the target RSP, and 16 of the upper bits as the SS.
-  Additionally, several of the subsequent checks are incorrect (even if
-  the correct stack pointer were extracted).
+  Only some VMs are impacted. Based on libvirt's XML files the common
+  point appears to be the presence of the following <timer> tags:
 
-  This isn't a problem for interrupts since the interrupts are given
-  their own implementation entirely, that uses get_rsp_from_tss() rather
-  than get_ss_esp_from_tss().
+      <clock offset=3D'localtime'>
+        <timer name=3D'rtc' tickpolicy=3D'delay'/>
+        <timer name=3D'pit' tickpolicy=3D'delay'/>
+        <timer name=3D'hpet' present=3D'no'/>
+      </clock>
 
-  I believe the missing logic is from the branch starting "ELSE (*
-  current TSS is 64-bit *)" in the CALL pseudocode in the Intel manual
-  (page 3-124 of the PDF I have).
+  Where the unaffected VMs have the following clock definition instead:
 
-  Reproduced at master (c0b520dfb8890294a9f8879f4759172900585995), and
-  also as of a qemu built a year ago.
+      <clock offset=3D'localtime'/>
+
+  Yet shutting down the affected VMs, changing the clock definition,
+  creating a live snapshot and trying to revert to it 6 months later
+  results in slow revert times (>400 seconds).
+
+  Changing the tickpolicy to catchup for rtc and/or pit has no effect on
+  the revert time (and unsurprisingly causes the clock to run fast in
+  the guest).
+
+  =
+
+  To reproduce this problem do the following:
+  * Create a Windows VM (either 32 or 64 bits). This is known to happen wit=
+h at least Windows 2000, XP, 2003, 2008 and 10.
+  * That VM will have the <timer> tags shown above, with the possible addit=
+ion of an hypervclock timer.
+  * Shut down the VM.
+  * date -s "2014/04/01"
+  * Start the VM.
+  * Take a live snapshot.
+  * Shut down the VM.
+  * date -s "<your current date>"
+  * Revert to the live snapshot.
+
+  If the revert takes more than 2 minutes then there is a problem.
+
+  =
+
+  A workaround is to set track=3D'guest' on the rtc timer. This makes the r=
+evert fast and may even be the correct solution. But why is it not the defa=
+ult or better documented?
+   * It setting track=3D'wall' or omitting track, then the revert is slow a=
+nd the clock in the guest is not updated.
+   * It setting track=3D'guest' the revert is fast and the clock in the gue=
+st is not updated.
+
+  =
+
+  I found three past mentions of this issue but as far as I can tell none o=
+f them got anywhere:
+
+  * [Qemu-discuss] massive slowdown for reverts after given amount of time =
+on any newer versions
+     https://lists.gnu.org/archive/html/qemu-discuss/2013-02/msg00000.html
+
+  * The above post references another one from 2011 wrt qemu 0.14:
+     https://lists.gnu.org/archive/html/qemu-devel/2011-03/msg02645.html
+
+  * Comment #9 of Launchpad bug 1174654 matches this slow revert issue. How=
+ever
+     the bug was really about another issue so this was not followed on.
+     https://bugs.launchpad.net/qemu/+bug/1174654/comments/9
+
+  =
+
+  I'm currently running into this issue with QEmu 2.1 but it looks like thi=
+s bug has been there all along.
+  1:2.1+dfsg-12+deb8u2 qemu-kvm
+  1:2.1+dfsg-12+deb8u2 qemu-system-common
+  1:2.1+dfsg-12+deb8u2 qemu-system-x86
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1503031/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1505041/+subscriptions
 
