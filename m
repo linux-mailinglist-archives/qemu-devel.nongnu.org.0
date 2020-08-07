@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B9123EB23
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:04:18 +0200 (CEST)
-Received: from localhost ([::1]:43854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF36023EB31
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:05:31 +0200 (CEST)
+Received: from localhost ([::1]:50122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zEX-0005xZ-HO
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38666)
+	id 1k3zFi-00005U-WD
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k3zDP-0004i1-6K
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48046)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3zDV-0004up-Dq
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27959
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k3zDN-0006VY-CI
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k3zDT-0006WE-Kc
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:03:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596794584;
+ s=mimecast20190719; t=1596794590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j82icMJ2OvRFDTnmz4MsqW37bH9aOeXXyGXwpc+6dJE=;
- b=dKJq0h8Z2YH+DvnDDHi+DJgER1NPXgdFmJiWXcdoXLrzT1Lg8z2TTgNYMXwa4b9kx7syAR
- Oe4/2k2Hy/5UmTeNnNJyhYtiky2i+FQHYThXG46CjHAHvljUYymkUyg0JuIkibsHitwA93
- c+CFG3pNG7ek4Jh1lHoQOEE7Rino0WE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=upucBznWtiYhhuTXzAqRV329zbtbSZSoCut6Cs0pFhE=;
+ b=TM8Ik2vj1sTUr1XvAkHKqgl71ipxRyXBxDs5IeX9ESWsI3n0K/MJ+bNpxX22+K6k+IGAMC
+ q97CJxu0rWHzD/2OidABnlpoeZu+fUbSe1c5wpdJggJZK0V6Y2bs34LbtmI6JS/UPF4Mh6
+ +/rPHOeNCGZUK557mGGqTmsaUJ5gFCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-16t5tn7NPFKkc0GgWyFnfg-1; Fri, 07 Aug 2020 06:03:02 -0400
-X-MC-Unique: 16t5tn7NPFKkc0GgWyFnfg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-356-NCRzaQ_WMbe6xzegMJCaPQ-1; Fri, 07 Aug 2020 06:03:07 -0400
+X-MC-Unique: NCRzaQ_WMbe6xzegMJCaPQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669AE1005504;
- Fri,  7 Aug 2020 10:03:01 +0000 (UTC)
-Received: from localhost (ovpn-114-16.ams2.redhat.com [10.36.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB7EB108AA;
- Fri,  7 Aug 2020 10:02:57 +0000 (UTC)
-Date: Fri, 7 Aug 2020 11:02:56 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.2] exec: Remove MemoryRegion::global_locking field
-Message-ID: <20200807100256.GC600298@stefanha-x1.localdomain>
-References: <20200806150726.962-1-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA2361800D4A;
+ Fri,  7 Aug 2020 10:03:06 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-31.ams2.redhat.com [10.36.113.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D139D5DA33;
+ Fri,  7 Aug 2020 10:03:00 +0000 (UTC)
+Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+ <761b4058-7a2b-d992-2cc2-6efe654ee62e@redhat.com>
+ <9c894412-b156-607e-1ea9-9e9ba14cbf1a@redhat.com>
+ <6f6e9c9b-fdf6-951e-9112-3913fe44c455@redhat.com>
+ <4a79a167-ccd6-159a-0f67-072192b54b0d@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <f4233923-f82e-6edf-8a56-2e4f62038d0e@redhat.com>
+Date: Fri, 7 Aug 2020 12:02:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200806150726.962-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <4a79a167-ccd6-159a-0f67-072192b54b0d@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 05:20:01
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 04:00:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,57 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, philmd@redhat.com,
+ armbru@redhat.com, alex.bennee@linaro.org, stefanha@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---5G06lTa6Jq83wMTw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07/08/2020 11.51, Paolo Bonzini wrote:
+> On 07/08/20 11:45, Thomas Huth wrote:
+>> On 07/08/2020 11.31, Paolo Bonzini wrote:
+>>> On 07/08/20 10:51, Thomas Huth wrote:
+>>>> 2) With --meson=git added, I also do not get much further:
+>>>>  "./ui/meson.build:77:0: ERROR: Program 'keycodemapdb/tools/keymap-gen'
+>>>> not found"
+>>>>
+>>>>  https://gitlab.com/huth/qemu/-/jobs/675546229
+>>>>
+>>>> Any idea what's going wrong here?
+>>>
+>>> This is also a submodule not being initialized,
+>>> ui/keycodemapdb/tools/keymap-gen comes from a submodule.
+>>
+>> Ok. I've added a hack to my configure script to checkout the submodules,
+>> but still, it does not compile yet:
+>>
+>>  ../tools/virtiofsd/meson.build:1:0: ERROR: Unknown variable
+>> "libvhost_user".
+>>  https://gitlab.com/huth/qemu/-/jobs/675665455
+> 
+> Fixed, thanks:
+> 
+> diff --git a/meson.build b/meson.build
+> index 38f1f40..cc96d07 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1091,9 +1091,10 @@ if have_tools
+>      subdir('contrib/ivshmem-client')
+>      subdir('contrib/ivshmem-server')
+>    endif
+> +
+> +  subdir('tools')
+>  endif
+> 
+> -subdir('tools')
+>  subdir('scripts')
+>  subdir('pc-bios')
+>  subdir('tests')
 
-On Thu, Aug 06, 2020 at 05:07:26PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Last uses of memory_region_clear_global_locking() have been
-> removed in commit 7070e085d4 ("acpi: mark PMTIMER as unlocked")
-> and commit 08565552f7 ("cputlb: Move NOTDIRTY handling from I/O
-> path to TLB path").
-> Remove memory_region_clear_global_locking() and the now unused
-> 'global_locking' field in MemoryRegion.
->=20
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  include/exec/memory.h | 14 --------------
->  accel/tcg/cputlb.c    |  4 ++--
->  exec.c                |  2 +-
->  softmmu/memory.c      |  6 ------
->  4 files changed, 3 insertions(+), 23 deletions(-)
+Thanks! With the fix, it now gets a little bit further, but then stops with:
 
-It can be added back in later, if necessary. For now let's drop the dead
-code.
+  ../meson.build:1258:3: ERROR: Key CONFIG_QEMU_PRIVATE_XTS is not in dict
+ https://gitlab.com/huth/qemu/-/jobs/675699330#L130
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---5G06lTa6Jq83wMTw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8tJtAACgkQnKSrs4Gr
-c8g9OAgAqqNaIXh48FbFo8ns2CsE36Up9Hxa+21BVjTw5DC8FKU942NCb+/8aaMS
-ZEBzDcD83miVLG0mzym1EjWeQwJtse/kIJ2x1KzRoRFnyOYoxd5AALBLUyXieBvl
-FaHUx0F6AeFdeaTwdz5frfoiEiEIT55TbpXtw10Q+NrDfP/A13sev2gSBp+8JObM
-qWW933PprUvKJ53kJACH52m+q1muvqzf8y1/hhW4daCgi6H2oXJSL8UV1y5pMeHc
-+9OJRwQuDfAhWkghp2zf6OGjmbTzCdypF3/uPeIwMidIAyXYKX/ouTi/9J7EK6bt
-o1KNxt0hiiLXj5vZqE7sUTDsw6OctQ==
-=xTXE
------END PGP SIGNATURE-----
-
---5G06lTa6Jq83wMTw--
+ Thomas
 
 
