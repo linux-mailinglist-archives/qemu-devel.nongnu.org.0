@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6939423E8C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:20:46 +0200 (CEST)
-Received: from localhost ([::1]:44010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6BF23E8C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 10:21:34 +0200 (CEST)
+Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3xcL-0004tM-FY
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:20:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
+	id 1k3xd7-00069q-Lz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 04:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3xbM-0003yx-Ke
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:19:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58924)
+ id 1k3xbL-0003xD-7e
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:19:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3xbJ-0002dX-Lm
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:19:44 -0400
+ id 1k3xbJ-0002dV-FZ
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 04:19:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3xbI-0005tW-GL
+ id 1k3xbI-0005tX-8O
  for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 08:19:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7AAB92E8081
+ by loganberry.canonical.com (Postfix) with ESMTP id 2B6F92E808C
  for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 08:19:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 08:05:45 -0000
-From: Thomas Huth <812398@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 08:06:32 -0000
+From: Thomas Huth <825776@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: mmu ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth till-straumann
-X-Launchpad-Bug-Reporter: till (till-straumann)
+X-Launchpad-Bug-Commenters: steve2926
+X-Launchpad-Bug-Reporter: Steve Si (steve2926)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20110718161723.13916.57921.malonedeb@soybean.canonical.com>
-Message-Id: <159678754600.3031.2113846546900930260.malone@gac.canonical.com>
-Subject: [Bug 812398] Re: powerpc 7450 MMU initialization broken
+References: <20110813120125.14483.24260.malonedeb@gac.canonical.com>
+Message-Id: <159678759258.3307.4814108308261927807.launchpad@gac.canonical.com>
+Subject: [Bug 825776] Re: -boot -hda //.//physicaldrivex does not work if it
+ is USB drive
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c683c51a6994e2fbc49e0e4030d2b2b97dc3d445
+X-Launchpad-Hash: 135a4a5a189722d5e78e30ee76864ae18db3364d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -73,48 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 812398 <812398@bugs.launchpad.net>
+Reply-To: Bug 825776 <825776@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
-
-
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/812398
+https://bugs.launchpad.net/bugs/825776
 
 Title:
-  powerpc 7450 MMU initialization broken
+  -boot -hda //.//physicaldrivex does not work if it is USB drive
 
 Status in QEMU:
-  Incomplete
+  Invalid
 
 Bug description:
-  The 7540 family of PPCs' MMU can update TLBs using hardware search
-  (like a 604 or 7400) but also using a software algorithm. The
-  mechanism used is defined by HID0[STEN].
+  qemu-system-x86_64.exe -L . -name "RMPrepUSB Emulation Session" -boot
+  c -m 500 -hda //./PhysicalDrive1
 
-  By default (CPU reset) HID0 is set to 0x80000000 (BTW; another small bug,=
- qemu doesn't set the hardwired MSB), hence
-  the software-table lookup feature is *disabled*. However, the default (an=
-d immutable) 'mmu_model' for this CPU family is POWERC_MMU_SOFT_74XX which =
-choses the soft TLB replacement scheme.
+  just opens a blank QEMU window (no BIOS POSt messages) and does
+  nothing
 
-  To fix this:
+  qemu v 0.15.0
+  Under Windows 7 64-bit
+  drive1 is a USB Flash drive
 
-  1) the initial mmu_model for the 7450 family (includes 7441, 7445, 7451, =
-7455, 7457, 7447, 7448) should be: POWERPC_MMU_32B
-  2) when HID0[STEN] is written then the mmu_model should be changed accord=
-ingly (I'm not familiar enough with the qemu internal state to judge if any=
- cached state would have to be updated).
+  Previous version of x86_64 (Jan 2010) works fine. If replace with new
+  version (or RC2 version) then does not work.
+
+  if use harddisk.img raw file instead of USB physical device then I get BI=
+OS POST messages and it boots to image OK.
+  So appears to be USB or physicaldisk support issue???
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/812398/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/825776/+subscriptions
 
