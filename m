@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C96523EA59
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:31:39 +0200 (CEST)
-Received: from localhost ([::1]:48022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CCA23EA64
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:33:30 +0200 (CEST)
+Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yiw-0004iN-38
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60942)
+	id 1k3ykj-0007F2-DX
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:33:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1k3ygj-000343-Lm; Fri, 07 Aug 2020 05:29:21 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:48681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1k3ygg-0002bm-Sn; Fri, 07 Aug 2020 05:29:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.27])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 8932154AFAE1;
- Fri,  7 Aug 2020 11:29:14 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 7 Aug 2020
- 11:29:13 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0025762a9e4-0521-441d-afc9-fa6b3ef79d2d,
- 0FAFD30B9C3B2BFB516736AB00726897D031F517) smtp.auth=groug@kaod.org
-Date: Fri, 7 Aug 2020 11:29:12 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 for-5.2 3/5] ppc/xive: Introduce dedicated
- kvm_irqchip_in_kernel() wrappers
-Message-ID: <20200807112912.5ba553a2@bahia.lan>
-In-Reply-To: <20200807091554.633833c5@bahia.lan>
-References: <159673295739.766512.2950380687630225803.stgit@bahia.lan>
- <159673298011.766512.17389427967409788911.stgit@bahia.lan>
- <64551e66-e867-037e-bf2e-efa22ebdd324@kaod.org>
- <20200807091554.633833c5@bahia.lan>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3yi3-0004OK-PN
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:30:43 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k3yi1-0002wc-T2
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:30:43 -0400
+Received: by mail-oi1-x241.google.com with SMTP id a24so1361217oia.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p6CObgSy6lHIvCmzXCTrUl+FaKTxDExZUeGOK+BYGmU=;
+ b=YWx45xqBuCkmY7bDSKBGssQ8VTLwL+hyFNueZ0QPXE4sqYNxyUPrrHqbETs2B2FDhw
+ YdhW+XpGxh9N+hFyOp2gf2nHakygbquNJbSr2NNqn/bBD5j4+55AthVZ5bWaaETTXV7v
+ 447kSroVe1vzsRK9ckOPwklMcHLRT9Pev2aoTUIwDjcFzp86/Ke1izawWquzAyB28YR1
+ B/G5yGL1Y+EDPHnFML/ZAxtHz1ItqNc8wnQn3kjhCjcid8a+BmJUZBd7syZA+zrUe96W
+ pxSZi5i3vCkfvv3YqTNc/b4gHPZZyIaPDWkguIC1EPvyTzr+t4BEtr3naYCVjiqSrh1S
+ TPnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p6CObgSy6lHIvCmzXCTrUl+FaKTxDExZUeGOK+BYGmU=;
+ b=YYPx3SrG5nemMJrJti7SyXajU67fptHUjVlV4BAv4p7zHWfm2YUIkODYqraAJSsXsH
+ rvcuhrCZ4ptYR2JYGa/xyslYAfBjd7WDgVgF2e0qF+PAOPgLpNVauUhMzIJmoQbcdE2e
+ /Etid0+yFNE1vxS45ypUCHKUR3RE6O2ez2IU7CoM81t8aSWd65xkbXPLB1cmFVkKM68Q
+ +f8EkB5AERg5eiPb9AOG2kv87uj+CR/uf4vk4+5bNpZs4nZcjx6L1VO4g34TIwOk+Fyc
+ JkfJ65afk/H+/ixUdR3UwzCXOGi52eZjPGRi4eDUcVAffiKOgIOyhqLM+fFN+RKFGNdf
+ VrqQ==
+X-Gm-Message-State: AOAM531C2J8egl58TpIrTToX11dTKiLyQM/Y0ojlVJ13xDHIJx0G4NtI
+ 1UnWfq/BJqVd6GoheVKkvYkUVYWbt8TfprRxMUJarQ==
+X-Google-Smtp-Source: ABdhPJxAk6RPrCBdPaaMPA62UZPMrWfHPhZoXeGdO2DkM8h5udE9wMIwPn6kmY5DWPJi4gExwIMqw7lKYwX8hXTslaQ=
+X-Received: by 2002:aca:4a96:: with SMTP id
+ x144mr10394690oia.163.1596792640542; 
+ Fri, 07 Aug 2020 02:30:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+ <1596741379-12902-6-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA_mN3XrgxRbhq5U0B=OxBq6T3DXymb4_U-tzOya=W-AbQ@mail.gmail.com>
+ <d676a107-c49d-ab3f-f6e3-f6b594af9c4f@redhat.com>
+In-Reply-To: <d676a107-c49d-ab3f-f6e3-f6b594af9c4f@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Aug 2020 10:30:29 +0100
+Message-ID: <CAFEAcA9JLqTHLLEy1WtGkvRYGSupX0PPUYAmnZ4Q_kGaJ3cSTg@mail.gmail.com>
+Subject: Re: [PATCH 005/143] meson: rename .inc.c files to .inc
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: e01457b0-0f74-418b-baa9-cdf5f7145a2a
-X-Ovh-Tracer-Id: 2227311494357621155
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedvgddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 05:29:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,73 +82,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Aug 2020 09:15:54 +0200
-Greg Kurz <groug@kaod.org> wrote:
+On Fri, 7 Aug 2020 at 10:23, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 07/08/20 10:59, Peter Maydell wrote:
+> > On Thu, 6 Aug 2020 at 20:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> >> ---
+> > What's the rationale for this ? ".inc.c" is the project's
+> > standard naming convention for files which aren't headers
+> > but which are lumps of C code #included into a top level .c
+> > file. The .inc.c deliberately ends '.c' because that way
+> > editors will use the right syntax highlighting for the file.
+>
+> Good point.  It can be changed to .inc.h too, if that's preferrable for you.
 
-> On Thu, 6 Aug 2020 19:55:29 +0200
-> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->=20
+Not really, though I guess it's slightly better than plain .inc.
+They're not header files...
 
-[...]
+> > It would be much better if Meson could cope with our
+> > standard naming convention rather than forcing us to change it.
+>
+> First of all I need to describe why this is needed; it is because of the
+> way Meson handles dependencies on generated headers.
+>
+> With Makefiles that have automatically generated dependencies, you
+> typically make generated includes depend on the Makefile so that they
+> are built before everything else and they are available when first
+> building the .c files.
+>
+> Meson is similar, however the way it works is that you list those
+> generated includes in the sources.  The dependencies are still
+> automatically generated, but the build rules will ensure that the
+> includes are generated before attempting to build the toplevel C sources.
 
-> > > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> > > index 705cf48176fc..aa46e3fcf512 100644
-> > > --- a/include/hw/ppc/xive.h
-> > > +++ b/include/hw/ppc/xive.h
-> > > @@ -161,6 +161,7 @@ typedef struct XiveNotifier XiveNotifier;
-> > >  typedef struct XiveNotifierClass {
-> > >      InterfaceClass parent;
-> > >      void (*notify)(XiveNotifier *xn, uint32_t lisn);
-> > > +    bool (*in_kernel)(const XiveNotifier *xn);
-> > >  } XiveNotifierClass;
-> > > =20
-> > >  /*
-> > > @@ -396,6 +397,7 @@ typedef struct XivePresenterClass {
-> > >                       uint8_t nvt_blk, uint32_t nvt_idx,
-> > >                       bool cam_ignore, uint8_t priority,
-> > >                       uint32_t logic_serv, XiveTCTXMatch *match);
-> > > +    bool (*in_kernel)(const XivePresenter *xptr);
-> > >  } XivePresenterClass;
-> > > =20
-> > >  int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-> > >=20
-> > >=20
-> >=20
-> > It seems redundant. Can we introduce a new XiveBackend QOM interface=20
-> > which would implement an in_kernel() handler ? and XiveRouter would=20
-> > inherit from it.=20
-> >=20
->=20
-> Not sure to see how it would help... the XiveRouter type isn't used
-> at the locations where we call kvm_irqchip_in_kernel(). Only
-> XivePresenter and XiveNotifier...
->=20
+But we don't really want to build all these files before building
+all C sources. We just want to say "this .c file depends on these
+.inc.c files" and then let the build tool figure it out, surely?
 
-Looking again at xive_source_realize(), I now realize (forgive the pun ;) t=
-hat
-the negative check on kvm_irqchip_in_kernel() is a bit awkward. We usually
-do more stuff when we have a KVM backend, not less. The intent seems to be
-that the ESB MMIO should point to either I/O sub-region when XIVE is emulat=
-ed
-or to a mmapped subregion when XIVE is backed by a KVM device. This can be
-achieved with a container and overlapping sub-regions (prio 0 for emulated,
-prio 1 for KVM). And we no longer need to hijack XiveNotifier.
+> The problem is that Meson decides if something is a source vs. a
+> generated include by looking at the extension: '.c', '.cc', '.m', '.C'
+> are sources, while everything else is considered an include---including
+> '.inc.c'.
 
-So in the end, we only need the method for XivePresenter.
+Is this hardcoded in Meson? That seems pretty suboptimal.
 
-I'll cook a v3.
+> Going back to patch 124, I can now answer your question:
+>
+> >> It's not clear to me why all the decodetree lines ended up in a
+> >> single "gen = []" block -- they're independent of each other.
+>
+> The files are added to the source list with "arm_ss.add(gen)".  All that
+> line does is ensuring they are built before other target-specific files
+> for ARM targets.
 
-> > C.
-> >=20
-> >=20
-> >=20
-> >=20
-> >=20
->=20
+Do you mean that it just adds an extra implicit ordering constraint,
+such that if we need to rebuild both files not in 'gen' and files
+that are in 'gen' the 'gen' ones go first, or that Meson really
+builds all the 'gen' files first? What happens when you edit a
+.decode file? How much stuff gets rebuilt?
 
+> The question then is if Meson could be changed to cope with our naming
+> convention, and unfortunately the answer is no.  The root cause is that
+> Makefiles list .o files (and uses implicit patterns to connect .o files
+> to the corresponding sources), while Meson lists .c files.
+
+Can Meson handle "this .c file needs to be built from something else?".
+Presumably so, that's a common pattern for flex/yacc type tools.
+
+thanks
+-- PMM
 
