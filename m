@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E5523EA9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:41:24 +0200 (CEST)
-Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAA623EA58
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:31:03 +0200 (CEST)
+Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3ysN-0006wu-A8
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34592)
+	id 1k3yiM-00043H-Fo
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3yrA-0005m8-Fp
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:40:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45062)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k3ygX-0002yW-U9
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:29:09 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k3yr8-0003pu-FU
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:40:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k3yr7-0007gm-1n
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 09:40:05 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C901B2E8072
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 09:40:04 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1k3ygW-0002bR-Bc
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:29:09 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id f9so627190pju.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9S/iwe4jo246z59Z+bamF7xXxjkoltPvGZcy1HMgweQ=;
+ b=Iq+mfoXhkkJnf41hteg1qVvMUNIshUjLISiT/jFT2S/+8GaR7/5fx/8C5LOuH61sfB
+ 0wGyNR0sXia+7OGah7CDN+J/ZrsX7/HuCGyhnByXtg4nK2C2MZPnJ51JvdL0gY35HDN1
+ XwaKE4DciYuUaMnwlxQWAp0nXJzD8qyDeGZk+m3feCLf1XrE3aXZKvKnCWi44DBHSbec
+ qIDvD9hFijWOSEg/gTbsc/Esu16DgpP46hh05b96XaU21cs5+W8KpLg96GPuHAeDDlj6
+ vGUQ1G3Gy5k0jmrfHxJ+RNTj3yRyTMQ7r7farky5AzkTnW2vPODQ3C+M0elJShA5bjgp
+ AJhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9S/iwe4jo246z59Z+bamF7xXxjkoltPvGZcy1HMgweQ=;
+ b=ht2UecAtA/LiucEIpkNvskCo5SO1JoJYIQ1WVEJcJuphMp8EKKwgarCyBjwcGqqlha
+ D2numGO/2mCkp+9B799tb1AKe0CZWgyDSbn4bPPx6TNdui59rWyu57T4Z6bMJKMXe8/p
+ /Q9xu9oznFTPe2Q8XYLp4XSp7Dzmhfjd5oKb2yxsTjAdjRt6B3Y4N61RXDCPb2FyD+O2
+ APJsNWiArjWpWG5Fs7k201AOhyaQhuI2AoW8jwN0H37dqs1TT0pqldMvBLhXiYHC7ckf
+ 3y+oaHxZW+NMZLaWH32NzUFDB+7J8DAFjk1xkcTyeNJDfK9oy5FkZQY7Fa5RI+yWposV
+ NC1A==
+X-Gm-Message-State: AOAM530j0ek0FgmuPZ7l5E7oP4qv5WmXfu+4weqn+MR453kemI7Z2i80
+ H7S2rZHAJPr67BMh4NzjErTq/1xx/XvhjDVK6w4=
+X-Google-Smtp-Source: ABdhPJzR1+FqU4PR0mv+PBrtBnfNdC6Qc/NMLrUIJzGRpDf2HCvtWiiC65OOJZmAFUV26/lFZVlkf5BHrl0KhPnEYAA=
+X-Received: by 2002:a17:902:c40f:: with SMTP id
+ k15mr11840094plk.330.1596792546799; 
+ Fri, 07 Aug 2020 02:29:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
+ <20200806110826.GH4159383@redhat.com> <87a6z7lwqm.fsf@linaro.org>
+In-Reply-To: <87a6z7lwqm.fsf@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 7 Aug 2020 10:28:55 +0100
+Message-ID: <CAJSP0QX7JbMGe_4QV+M_fnS963hMpCnAtQNZLL5LyRj91Lu92w@mail.gmail.com>
+Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 09:27:56 -0000
-From: Thomas Huth <1196145@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sascha-v th-huth
-X-Launchpad-Bug-Reporter: Sascha Krissler (sascha-v)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20130629221252.20061.54827.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159679247659.2438.16403141290102906180.malone@gac.canonical.com>
-Subject: [Bug 1196145] Re: usb-host: hostaddr=0XX is parsed as octal number
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 58c90fed98ad6854bc6e65874aa76c658ec2052b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x1033.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,49 +82,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1196145 <1196145@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Oleinik, Alexander" <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dave Gilbert <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
+On Thu, Aug 6, 2020 at 2:39 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+> So has any vhost-user stuff been prototyped in Rust yet?
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Yes, Sergio implemented vhost-user-blk here:
+https://github.com/slp/qsd
 
--- =
+cloud-hypervisor also vhost-user device backends, like vhost-user-fs.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1196145
-
-Title:
-  usb-host: hostaddr=3D0XX is parsed as octal number
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  when doing
-
-  device_add usb-host,hostaddr=3D010
-
-  taking 010 in the format of both lsusb or udev, qemu parses an octal numb=
-er and assumes hostaddr=3D8.
-  (i used a 2.0 device on the ehci.0 bus)
-  at least to me that is confusing.
-
-  also:
-
-  when adding a non-existent usb device (bogus hostaddr), the following
-  is created according to 'usb info':
-
-    Device 1.0, Port 1, Speed 1.5 Mb/s, Product USB Host Device
-
-  in usb_qdev_init():
-  usb_claim_port is called but usb_device_init does not report an error and=
- thus usb_release_port is not called.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1196145/+subscriptions
+Stefan
 
