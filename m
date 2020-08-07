@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7419C23EB33
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:06:44 +0200 (CEST)
-Received: from localhost ([::1]:54342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CE823EB57
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 12:16:54 +0200 (CEST)
+Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3zGt-0001uo-Ip
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39160)
+	id 1k3zQj-0007qV-VB
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 06:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3zFP-0000Dh-0C
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:05:11 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50774)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3zPm-0007QG-WF
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:15:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k3zFN-0006fX-8u
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:05:10 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c80so1232836wme.0
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 03:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=jvVGkH0LBNinaxafxZkfuyP+UftXUjgg+H7EUQ6vlJ4=;
- b=IhuhqcgxaztKFm/1FZIJjjmft1BrKDEWQZQ/ez9TKosDmxEB8pEtMaYKwXK/LmXX7U
- zJLQX68wG2IVfNd3/OXqfHGnTd1P2kRlMc+i9S1v02LFdb8afqSv1rWlPRx4KjoSxeTN
- uvQr9rJJsI/i83TGXheFGoMeBcw+zNNvAw96qLGplWQWbJUePyGGj/BX5gfDoGs3ErUC
- P40av2u7X0dJvcZgwbXxQRI7MqoH3eEI42mJ6kAAGsdQbapK2mY6afgg5CgF3hdmExog
- mb9deSotlcFJQ3d9lCf001IgyavyddhvvEd83Uu7TrfCnP951EDhA/EuSYmUjGoF3a8F
- hJDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=jvVGkH0LBNinaxafxZkfuyP+UftXUjgg+H7EUQ6vlJ4=;
- b=PzAOk0PwhXHjXkwnhSAR9vWtHtk1BV6z0cIZsfXBwu1eujtVWWi7D7D5hqfkSuFpvA
- yQowLUhhxhlvdFgaPuuHHlbcBYnOBPos4y3l3VI/vbvJqUSrYCxAj8BcgSap10OVl5jG
- tSz1AbsOiK/cgvhStJ+qXJIROBck4y1GMuzknx4iqG7myMlln66U/UsbHypm7aXdgZ2Y
- 2WDBACYnRGWf7pIaSR9+jAdxxTw8Y4un9rQsSVbHhAvZABteVV+pnWtdm3Nwc2emedIU
- rsR7XCyQJYQn4Hlhm1qlXSvikYCqiWKK8nUn3nnpSJv2+yXDRP+0/1st4fbqHvVKqb1N
- rCCg==
-X-Gm-Message-State: AOAM530UFGjc/UkdsYz2btgbFVu0ngel0gHgDdirkhx6CHx6dFt73Z3B
- Wk7IQT1GMQ4of/+xdtNd0SryiA==
-X-Google-Smtp-Source: ABdhPJzmM7rnFsXhxl+j8Djn3ELkHahwh15d6sJb08noS6CqItSDXhxOMWz0UB7HZ/5B8gPE2icONA==
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr11882000wmc.130.1596794707505; 
- Fri, 07 Aug 2020 03:05:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l81sm9889502wmf.4.2020.08.07.03.05.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 03:05:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 764431FF7E;
- Fri,  7 Aug 2020 11:05:05 +0100 (BST)
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <20200807085302.7d7616df.cohuck@redhat.com>
- <CAE2XoE_eMv_=zoEe-v1HiqcKX+FNobKSKzV=9eLkJNivnuYg-A@mail.gmail.com>
- <4e8addca-7400-f1a1-ee56-991def2959ae@redhat.com>
- <CAE2XoE9HzvHOQ8odXwiOw+nsYOkwTK+jue1i-mQ6Mo29T+9Rog@mail.gmail.com>
- <c6059e0c-ed50-399f-111b-4d4b96c80e85@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-In-reply-to: <c6059e0c-ed50-399f-111b-4d4b96c80e85@redhat.com>
-Date: Fri, 07 Aug 2020 11:05:05 +0100
-Message-ID: <874kpelqjy.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k3zPk-0008B4-Sp
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 06:15:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k3zPi-0000vl-Er
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 10:15:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6728C2E8025
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 10:15:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Fri, 07 Aug 2020 10:05:33 -0000
+From: Thomas Huth <1253563@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: amoskong th-huth
+X-Launchpad-Bug-Reporter: Amos Jianjun Kong (amoskong)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20131121092412.27241.16050.malonedeb@gac.canonical.com>
+Message-Id: <159679473342.5527.7207423639313432047.malone@soybean.canonical.com>
+Subject: [Bug 1253563] Re: bad performance with rng-egd backend
+X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a5bedd18aa5432bc3e2e1e59447238409ce57c27
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,28 +72,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, jsnow@redhat.com,
- Cornelia Huck <cohuck@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- armbru@redhat.com, luoyonggang@gmail.com, stefanha@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1253563 <1253563@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Looking through old bug tickets... is this still an issue with the
+latest version of QEMU? Or could we close this ticket nowadays?
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 07/08/20 10:31, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
->> Any IDE works with meson properly? Does meson have vs code plugin?
->
-> I'm not sure what the plugin would do.  However note that even with
-> Meson, QEMU would be built with "./configure && make".
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-One the subject of IDE's my Emacs tooling (counsel-compile) uses a
-mixture of "make -nqp" and "make help" to probe for potential make
-targets. I assume these are still probable with the meson generated
-files?
+-- =
 
---=20
-Alex Benn=C3=A9e
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to the bug report.
+https://bugs.launchpad.net/bugs/1253563
+
+Title:
+  bad performance with rng-egd backend
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  =
+
+  1. create listen socket
+  # cat /dev/random | nc -l localhost 1024
+
+  2. start vm with rng-egd backend
+
+  ./x86_64-softmmu/qemu-system-x86_64 --enable-kvm -mon chardev=3Dqmp,mode=
+=3Dcontrol,pretty=3Don -chardev socket,id=3Dqmp,host=3Dlocalhost,port=3D123=
+4,server,nowait -m 2000 -device virtio-net-pci,netdev=3Dh1,id=3Dvnet0 -netd=
+ev tap,id=3Dh1 -vnc :0 -drive file=3D/images/RHEL-64-virtio.qcow2 \
+  -chardev socket,host=3Dlocalhost,port=3D1024,id=3Dchr0 \
+  -object rng-egd,chardev=3Dchr0,id=3Drng0 \
+  -device virtio-rng-pci,rng=3Drng0,max-bytes=3D1024000,period=3D1000
+
+  (guest) # dd if=3D/dev/hwrng of=3D/dev/null
+
+  note: cancelling dd process by Ctrl+c, it will return the read speed.
+
+  Problem:   the speed is around 1k/s
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  If I use rng-random backend (filename=3D/dev/random), the speed is about
+  350k/s).
+
+  It seems that when the request entry is added to the list, we don't read =
+the data from queue list immediately.
+  The chr_read() is delayed, the virtio_notify() is delayed.  the next requ=
+est will also be delayed. It effects the speed.
+
+  I tried to change rng_egd_chr_can_read() always returns 1,  the speed
+  is improved to (about 400k/s)
+
+  Problem: we can't poll the content in time currently
+
+  =
+
+  Any thoughts?
+
+  Thanks, Amos
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1253563/+subscriptions
 
