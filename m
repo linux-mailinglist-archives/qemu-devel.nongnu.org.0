@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005B823F200
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 19:36:43 +0200 (CEST)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A573323F203
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 19:37:37 +0200 (CEST)
+Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k46IM-0004Ut-Vl
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 13:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51572)
+	id 1k46JE-0006R5-Lq
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 13:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k46Gs-0002nK-5W
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 13:35:10 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:40497)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k46Gw-0002qK-By
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 13:35:14 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:54745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k46Gq-0000vv-Ab
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 13:35:09 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k46Gt-0000wC-VW
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 13:35:14 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MS4WT-1kB5bu2lul-00TSQy; Fri, 07 Aug 2020 19:34:57 +0200
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MrhHm-1kXgKv2nbA-00nhVB; Fri, 07 Aug 2020 19:35:01 +0200
 To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
 References: <20200803094629.21898-1-Filip.Bozuta@syrmia.com>
- <20200803094629.21898-3-Filip.Bozuta@syrmia.com>
+ <20200803094629.21898-4-Filip.Bozuta@syrmia.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -66,37 +66,37 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PATCH v2 2/8] linux-user: Add support for a group of btrfs
- ioctls used for snapshots
-Message-ID: <9ae719de-c5c2-0912-ee66-d1aba900cf45@vivier.eu>
-Date: Fri, 7 Aug 2020 19:34:56 +0200
+Subject: Re: [PATCH v2 3/8] linux-user: Add support for btrfs ioctls used to
+ manipulate with devices
+Message-ID: <7d31d175-4d35-e66e-5cee-59a73341402a@vivier.eu>
+Date: Fri, 7 Aug 2020 19:34:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200803094629.21898-3-Filip.Bozuta@syrmia.com>
+In-Reply-To: <20200803094629.21898-4-Filip.Bozuta@syrmia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QdgczGPsH14jv/IzRBt9Z1+tshrrqArPGRH7mqVq1dyqQXWKj7L
- tO2RgK46/l15aSQ2Y8+tr2I2wethyp4vOe7VVFMNx8G32jxB0W2aamyl0SiNdVS4trUcraq
- 5lOvFkOQ1qLKVzPshmiZRPQ6HQyBKeILZiYTUEWGWBPU0i9sSZLLZeHTZjX9beL/+zUFNge
- y5k0WC9kJI+z9vOa3Mxdg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+jmSmZja+lw=:G8RW06T6zk4mf8NZPxhVgM
- UH/XbHeKEe1zyIJtBxC4op7R5zMlx/gjl9cmX/YNTR5ErtCqJpUhvBajZfLFKOengrOKFrdOA
- TaWXpRBNfTxvRqHgNN05MJS9w6lwPqGzmm9Fk5ZQ/VyXpzQmUky3pg0hKaLXcu10Rny9iw6x8
- xSkcXUXlrHnk6XD1IBjAEQhybrSxnVW7FwuloN0jfjxv7gOEdXgho8OOSvKo5VqN7F4UhMuGL
- H2lXc8DTE6hCaaCsAsQrZ2mSrLkA6NS6sEkK4PTmwugqxYX6usZcNAZ5aeU42V2jQA833M+pu
- rfw868KG4DX/Kf65BpU1CMgtqnMHL/j117QnhCTdv55IWHR8tbYD+UzLPPVcSK3LwQOC2wTr1
- GCCaeel3mqDYarPd6rAiUeOUdB6xL5YkKsNDOrqldWI4bwsJ0C7jk9gRDXG8BlD648DHXUGIk
- q21883Ix+MAYPT1M8ONee0hruucejw3+TvRJh/2wxBN97jsBgk9pK10WsJTtPShZs/kH4uaH5
- eOvl7SXwHC78qsWOhFJ4yqhvXCKtUa8+52WPJjbfxnoq7CgDnYzyGpjMwn7djJg53aHz0Dpw4
- 0QJU2yaWJCSpsobm9FuHOoqKXqHjDfH7h8HMW6gi31ncOwImSKoHvrTycIaqdBAByRMyAIBXR
- ANtaB9QKdEwJRkOeL888jPuiZJKBclmEdDaddJaT6ig9bgD01UleHsLXLoCLOK4bes8yRo1OJ
- s/6PhBvSNGIVPuSYgqn2bySJ/rsqhG5xcqGK+Mp7o3F1FuuxiPqtQi5AYevTFK0QELhklLBz6
- fGULQkEl38GFLLCzGJz+qk2Fi2MnJoX6qrKLkJjrxv0xcGSLpgBsM5xDKmPPYJczzyxFm3m
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:CdtIENJ5G6DXQq10HZLxVmJ6v9HEfrg1S6kZZRBNuypU3gjoBQ7
+ NZ6I2Ao8tq6yF6Os42ZwbI99GFU7q1r+ep0+5DBxZEiykR2pUo8xEN15Nrh4nYdJFFXXM6F
+ UCbQ7SMKDTILb91QD7xB9m/H+XhlwK9imHaQ29erCiHVXIBL0WpwrsK6zQPdIne5pH74MWP
+ 5dC8Q8p+zwUYyOGosCq/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+5r8V200FQo=:vhSMINPYPTVHz/1xq/ZvmN
+ ws3EAEYlhKin3zYMye+BJvhgVVpesU3q2u5zsHCYpq2NNUfLmnjJVd2MMNznSVKmznDd5iy9w
+ Pus4HCB+z76tUAcT5Wanui+1KKJ7dU+uC8wk0ceCC8dO3i/lTGlaaDeIJ8PjfLYkZnbs3Y+Io
+ 266ZH77PSa6J/UDLE9UG7ne1Ol2zvDSB4V45BNYgUem06y9tlqeYMq/V4cgY0cFGRU7s+8v3Q
+ 0Xjrc5m9rYzv9kZG+WlybyUr9dPZ66aVrk1h94goH0MdbPnYSxNPMLEND2taTIQWqR/aRvfae
+ Tf1BHEmi4oxn3Z9nDHG+5SRLm/E55ccQK9G+VjbwR+RLMUMeUw+OP9wuIiD3JjVLgMnByVpxc
+ VX0988+bFbplbOFh7nfcTU12HvtS4U0J7VBgR0tACFMfCKlpJ4B895hhY1gAgYqJpvlPBByaK
+ dqVg+d+cwi1gu7wrlRmULbMw40dG1Uwx0AVYjlNKdjAaWdOXf8G8c8/tqKt8fH2KfVNnGytSY
+ CqRTNjTQuf7scuU+s0v1+7RqPkcVd5neMkamBXKCu7orewZab9EQoY66646BPj7zDm4jTMwY1
+ tldcuvtgkmIJ9NPD+o0gTevisr0E0n2CrdRlCANUOoh2FqqmIRovD9irte8EdV/apF3zPGN9G
+ QBBdjTASXc3A/sUBKgkFPow/ES/fOopH3OcG+mCY1lme3cp6E6T4gI0NGoDhPBvJFr2IaUXIQ
+ g0N/EKmujaW9S4qdkFobQfsH2IQ9rmbtWzDLK3ZoE7qJyzDeXrXsdynml9lObdBgoqY5D27Zb
+ eYXw8aRNz/h242Tz5gHYwgfZlRgTOxPvzOLmUjYiFlOBvsoJ7HYq4F5TsukiuAyksqv0v0V
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 13:35:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 13:35:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -123,73 +123,197 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 03/08/2020 à 11:46, Filip Bozuta a écrit :
 > This patch implements functionality for following ioctls:
 > 
-> BTRFS_IOC_SNAP_CREATE - Creating a subvolume snapshot
+> BTRFS_IOC_SCAN_DEV - Scanning device for a btrfs filesystem
 > 
->     Create a snapshot of a btrfs subvolume. The snapshot is created using the
->     ioctl's third argument that is a pointer to a 'struct btrfs_ioctl_vol_args'
->     (which was mentioned in the previous patch). Before calling this ioctl,
->     the fields of the structure should be filled with aproppriate values for
->     the file descriptor and path of the subvolume for which the snapshot is to
->     be created.
+>     Scan a device for a btrfs filesystem. The device that is to
+>     be scanned is passed in the ioctl's third argument which
+>     represents a pointer to a 'struct ioc_vol_args' (which was
+>     mentioned in a previous patch). Before calling this ioctl,
+>     the name field of this structure should be filled with the
+>     aproppriate name value which represents a path for the device.
+>     If the device contains a btrfs filesystem, the ioctl returns 0,
+>     otherwise a negative value is returned.
 > 
-> BTRFS_IOC_SNAP_DESTROY - Removing a subvolume snapshot
+> BTRFS_IOC_ADD_DEV - Adding a device to a btrfs filesystem
 > 
->     Delete a snapshot of a btrfs subvolume. The snapshot is deleted using the
->     ioctl's third argument that is a pointer to a 'struct btrfs_ioctl_vol_args'
->     (which was mentioned in the previous patch). Before calling this ioctl,
->     the fields of the structure should be filled with aproppriate values for
->     the file descriptor and path of the subvolume for which the snapshot is to
->     be deleted.
+>     Add a device to a btrfs filesystem. The device that is to be
+>     added is passed in the ioctl's third argument which represents
+>     a pointer to a 'struct ioc_vol_args' (which was mentioned in
+>     a previous patch). Before calling this ioctl, the name field of
+>     this structure should be filled with the aproppriate name value
+>     which represents a path for the device.
+> 
+> BTRFS_IOC_RM_DEV - Removing a device from a btrfs filesystem
+> 
+>     Remove a device from a btrfs filesystem. The device that is to be
+>     removed is passed in the ioctl's third argument which represents
+>     a pointer to a 'struct ioc_vol_args' (which was mentioned in
+>     a previous patch). Before calling this ioctl, the name field of
+>     this structure should be filled with the aproppriate name value
+>     which represents a path for the device.
+> 
+> BTRFS_IOC_DEV_INFO - Getting information about a device
+> 
+>     Obtain information for device in a btrfs filesystem. The information
+>     is gathered in the ioctl's third argument which represents a pointer
+>     to a following structure type:
+> 
+>     struct btrfs_ioctl_dev_info_args {
+> 	__u64 devid;				/* in/out */
+> 	__u8 uuid[BTRFS_UUID_SIZE];		/* in/out */
+> 	__u64 bytes_used;			/* out */
+> 	__u64 total_bytes;			/* out */
+> 	__u64 unused[379];			/* pad to 4k */
+> 	__u8 path[BTRFS_DEVICE_PATH_NAME_MAX];	/* out */
+>     };
+> 
+>     Before calling this ioctl, field "devid" should be set with the id value
+>     for the device for which the information is to be obtained. If this field
+>     is not aproppriately set, the errno ENODEV ("No such device") is returned.
+> 
+> BTRFS_IOC_GET_DEV_STATS - Getting device statistics
+> 
+>     Obtain stats informatin for device in a btrfs filesystem. The information
+>     is gathered in the ioctl's third argument which represents a pointer to
+>     a following structure type:
+> 
+>     struct btrfs_ioctl_get_dev_stats {
+> 	__u64 devid;				/* in */
+> 	__u64 nr_items;				/* in/out */
+> 	__u64 flags;				/* in/out */
+> 
+> 	/* out values: */
+> 	__u64 values[BTRFS_DEV_STAT_VALUES_MAX];
+> 
+> 	/*
+> 	 * This pads the struct to 1032 bytes. It was originally meant to pad to
+> 	 * 1024 bytes, but when adding the flags field, the padding calculation
+> 	 * was not adjusted.
+> 	 */
+> 	__u64 unused[128 - 2 - BTRFS_DEV_STAT_VALUES_MAX];
+>     };
+> 
+>     Before calling this ioctl, field "devid" should be set with the id value
+>     for the device for which the information is to be obtained. If this field
+>     is not aproppriately set, the errno ENODEV ("No such device") is returned.
+> 
+> BTRFS_IOC_FORGET_DEV - Remove unmounted devices
+> 
+>     Search and remove all stale devices (devices which are not mounted).
+>     The third ioctl argument is a pointer to a 'struct btrfs_ioctl_vol_args'.
+>     The ioctl call will release all unmounted devices which match the path
+>     which is specified in the "name" field of the structure. If an empty
+>     path ("") is specified, all unmounted devices will be released.
 > 
 > Implementation notes:
 > 
->     Since the thunk type 'struct btrfs_ioctl_vol_args' is defined in the
->     previous patch, the implementation for these ioctls was straightforward.
+>     Ioctls BTRFS_IOC_DEV_INFO and BTRFS_IOC_GET_DEV_STATS use types
+>     'struct btrfs_ioctl_dev_info_args' and ' struct btrfs_ioctl_get_dev_stats'
+>     as third argument types. That is the reason why corresponding structure
+>     definitions were added in file 'linux-user/syscall_types.h'.
+>     Since the thunk type for 'struct ioc_vol_args' was already added in a
+>     previous patch, the rest of the implementation was straightforward.
 > 
 > Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->  linux-user/ioctls.h       | 8 ++++++++
->  linux-user/syscall_defs.h | 2 ++
->  2 files changed, 10 insertions(+)
+>  linux-user/ioctls.h        | 24 ++++++++++++++++++++++++
+>  linux-user/syscall_defs.h  |  6 ++++++
+>  linux-user/syscall_types.h | 16 ++++++++++++++++
+>  3 files changed, 46 insertions(+)
 > 
 > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 544184ff95..2422675dd0 100644
+> index 2422675dd0..c20bd97736 100644
 > --- a/linux-user/ioctls.h
 > +++ b/linux-user/ioctls.h
-> @@ -174,10 +174,18 @@
->       IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
->       IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
->  
-> +#ifdef BTRFS_IOC_SNAP_CREATE
-> +     IOCTL(BTRFS_IOC_SNAP_CREATE, IOC_W,
+> @@ -178,6 +178,22 @@
+>       IOCTL(BTRFS_IOC_SNAP_CREATE, IOC_W,
+>             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+>  #endif
+> +#ifdef BTRFS_IOC_SCAN_DEV
+> +     IOCTL(BTRFS_IOC_SCAN_DEV, IOC_W,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> +#endif
+> +#ifdef BTRFS_IOC_FORGET_DEV
+> +     IOCTL(BTRFS_IOC_FORGET_DEV, IOC_W,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> +#endif
+> +#ifdef BTRFS_IOC_ADD_DEV
+> +     IOCTL(BTRFS_IOC_ADD_DEV, IOC_W,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> +#endif
+> +#ifdef BTRFS_IOC_RM_DEV
+> +     IOCTL(BTRFS_IOC_RM_DEV, IOC_W,
 > +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
 > +#endif
 >  #ifdef BTRFS_IOC_SUBVOL_CREATE
 >       IOCTL(BTRFS_IOC_SUBVOL_CREATE, IOC_W,
 >             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> @@ -192,6 +208,14 @@
+>  #ifdef BTRFS_IOC_SUBVOL_SETFLAGS
+>       IOCTL(BTRFS_IOC_SUBVOL_SETFLAGS, IOC_W, MK_PTR(TYPE_ULONGLONG))
 >  #endif
-> +#ifdef BTRFS_IOC_SNAP_DESTROY
-> +     IOCTL(BTRFS_IOC_SNAP_DESTROY, IOC_W,
-> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+> +#ifdef BTRFS_IOC_DEV_INFO
+> +     IOCTL(BTRFS_IOC_DEV_INFO, IOC_RW,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_dev_info_args)))
 > +#endif
->  #ifdef BTRFS_IOC_SUBVOL_GETFLAGS
->       IOCTL(BTRFS_IOC_SUBVOL_GETFLAGS, IOC_R, MK_PTR(TYPE_ULONGLONG))
->  #endif
+> +#ifdef BTRFS_IOC_GET_DEV_STATS
+> +     IOCTL(BTRFS_IOC_GET_DEV_STATS, IOC_RW,
+> +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_dev_stats)))
+> +#endif
+>  #ifdef BTRFS_IOC_GET_SUBVOL_INFO
+>       IOCTL(BTRFS_IOC_GET_SUBVOL_INFO, IOC_R,
+>             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_subvol_info_args)))
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 67a3c110b6..16966c323f 100644
+> index 16966c323f..23f966d552 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -968,7 +968,9 @@ struct target_rtc_pll_info {
->  #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+> @@ -969,12 +969,18 @@ struct target_rtc_pll_info {
 >  
 >  /* btrfs ioctls */
-> +#define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
+>  #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
+> +#define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
+> +#define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
+> +#define TARGET_BTRFS_IOC_ADD_DEV                TARGET_IOWU(BTRFS_IOCTL_MAGIC, 10)
+> +#define TARGET_BTRFS_IOC_RM_DEV                 TARGET_IOWU(BTRFS_IOCTL_MAGIC, 11)
 >  #define TARGET_BTRFS_IOC_SUBVOL_CREATE          TARGET_IOWU(BTRFS_IOCTL_MAGIC, 14)
-> +#define TARGET_BTRFS_IOC_SNAP_DESTROY           TARGET_IOWU(BTRFS_IOCTL_MAGIC, 15)
+>  #define TARGET_BTRFS_IOC_SNAP_DESTROY           TARGET_IOWU(BTRFS_IOCTL_MAGIC, 15)
 >  #define TARGET_BTRFS_IOC_SUBVOL_GETFLAGS        TARGET_IOR(BTRFS_IOCTL_MAGIC, 25,\
 >                                                             abi_ullong)
 >  #define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, 26,\
+>                                                             abi_ullong)
+> +#define TARGET_BTRFS_IOC_DEV_INFO               TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 30)
+> +#define TARGET_BTRFS_IOC_GET_DEV_STATS          TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 52)
+>  #define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IORU(BTRFS_IOCTL_MAGIC, 60)
+>  
+>  /* usb ioctls */
+> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+> index 75ce6482ea..b5718231e5 100644
+> --- a/linux-user/syscall_types.h
+> +++ b/linux-user/syscall_types.h
+> @@ -349,6 +349,22 @@ STRUCT(btrfs_ioctl_get_subvol_info_args,
+>         MK_STRUCT(STRUCT_btrfs_ioctl_timespec), /* rtime */
+>         MK_ARRAY(TYPE_ULONGLONG, 8)) /* reserved */
+>  
+> +STRUCT(btrfs_ioctl_dev_info_args,
+> +       TYPE_ULONGLONG, /* devid */
+> +       MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* uuid */
+> +       TYPE_ULONGLONG, /* bytes_used */
+> +       TYPE_ULONGLONG, /* total_bytes */
+> +       MK_ARRAY(TYPE_ULONGLONG, 379), /* unused */
+> +       MK_ARRAY(TYPE_CHAR, BTRFS_DEVICE_PATH_NAME_MAX)) /* path */
+> +
+> +STRUCT(btrfs_ioctl_get_dev_stats,
+> +       TYPE_ULONGLONG, /* devid */
+> +       TYPE_ULONGLONG, /* nr_items */
+> +       TYPE_ULONGLONG, /* flags */
+> +       MK_ARRAY(TYPE_ULONGLONG, BTRFS_DEV_STAT_VALUES_MAX), /* values */
+> +       MK_ARRAY(TYPE_ULONGLONG,
+> +                128 - 2 - BTRFS_DEV_STAT_VALUES_MAX)) /* unused */
+> +
+>  STRUCT(rtc_time,
+>         TYPE_INT, /* tm_sec */
+>         TYPE_INT, /* tm_min */
 > 
 
 Applied to my linux-user-for-5.2 branch.
