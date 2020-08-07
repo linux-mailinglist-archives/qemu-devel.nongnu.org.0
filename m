@@ -2,71 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEE023EA95
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:40:10 +0200 (CEST)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9172623EAAE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 11:45:05 +0200 (CEST)
+Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k3yrB-0005Tq-Cn
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34462)
+	id 1k3yvw-0001U2-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 05:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k3yqQ-000534-9G
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:39:22 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:43430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k3yqO-0003m2-Pc
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:39:22 -0400
-Received: by mail-pg1-x535.google.com with SMTP id d19so631852pgl.10
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 02:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eTkztUbmivJRPCo+XsRK4Ev3J0cSbfzzlZVdWhD+bLw=;
- b=JdXIRsWN9VGNPXtJzUBJhESddTCYsX7CfwCVwynZC6Bs2bLcMjBiwX3KaZ5+44Qmrw
- H76nM31FwQwqUjWyH5yfgeTFRAerW5/kP7up6PxdxDSHpYdAuZ9RDlHfu5jZ1rH5t90r
- dTLZVySDXUXHuNqObUq86wVBLaQk4RnAkD/iVPplggJ0xROTigAFiIs7EJtB+rng56E6
- tJTjnTxGVgDvebEhxc+2TEmCkr7Tj42wqWbeIFa7E+LBjCfaK4RuvYCQnTlzIldkUAfl
- xjfj8zinY3Hy8LffdO4Kjdt7Ys7vz8jq2AevUUDfCBY0AxUm3ftSZN/eMWoQQHwqsfE+
- 9zOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eTkztUbmivJRPCo+XsRK4Ev3J0cSbfzzlZVdWhD+bLw=;
- b=WBVORZlCt8bx0qvRoC6fmtP9CllAEA1wej7Btr98h0kwhdHmzrRuvKgSjgKVitZNK1
- PdFOYI4rQvJQ+bmKH0B/tXXzwYGohfBkh2GGUCkhZ5jicDjhAPLsixneG4u0NkMdSPwX
- foF/72zMUzRCunJeMJ5mxP8L1qM/8qGB0Q1uwkbCEfhuNMf0k2woSfiRT0sRq4F1n47Z
- C4KxJv44OrHct2kLKIH+Wyv7QwXvIcP7ZDwni3tLo5RnEuDm93sUQu+aZUOE5x9tVjnw
- gC4Xc+xsjGBwkgTRSqc34XbjLkFTRR802cMHQ4PqqqpZniqFl1Zv6wDopBS6gS5r7gKL
- h2Pg==
-X-Gm-Message-State: AOAM530/0kliYuxcXBkwOuRkF7XL3kSmgvWk+kDHGlT/6bhrVPzDjDuG
- ofiVzKRZmU3IQaBkycFHjiDlBnMDHnEPAI+bgIM=
-X-Google-Smtp-Source: ABdhPJxVfhJinPsNOa1lWwv5ZIx5RQY09C/B/J+j63cjrA3QibcVyVBooHWBKEZpZ3eNS8THpw1E3w4Pkog7Jf+rw0k=
-X-Received: by 2002:a65:558b:: with SMTP id j11mr11449329pgs.61.1596793159091; 
- Fri, 07 Aug 2020 02:39:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k3yv2-0000nV-8u
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:44:08 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:55721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k3yv0-0004Oo-HH
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 05:44:08 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M8QNy-1k8Oll2oca-004Shq; Fri, 07 Aug 2020 11:44:01 +0200
+Subject: Re: [PATCH 1/2] linux-user: Validate mmap/mprotect prot value
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200519185645.3915-1-richard.henderson@linaro.org>
+ <20200519185645.3915-2-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <a8e6d223-30ee-bf8b-bd97-ee3b266f2755@vivier.eu>
+Date: Fri, 7 Aug 2020 11:44:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <CAJSP0QWF8g7r5VqU_PRbskWZU3ahCq+eobR8GexUcPrAiYoCPQ@mail.gmail.com>
- <20200806115148.7lz32dro645a3wv6@mhamilton>
-In-Reply-To: <20200806115148.7lz32dro645a3wv6@mhamilton>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 7 Aug 2020 10:39:07 +0100
-Message-ID: <CAJSP0QUzzHST0vMc_hqu7VUsms+NaN1N=+W-Y_SZ71OMxjvkLQ@mail.gmail.com>
-Subject: Re: Why QEMU should move from C to Rust (clickbait alert ;))
-To: Sergio Lopez <slp@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=stefanha@gmail.com; helo=mail-pg1-x535.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200519185645.3915-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:h8I8ODKDLx/zghnLf08fZP+GQzS98vUuavcUPWSDe358vu9E78/
+ zcxUFoKOtrDl1+01lbfwqzdLbPqdbgAz/hhEZFPY6MkWJqYmX5yek7hKNqvuD9FMHw0Hke+
+ svgG48bHrvQu5tjyp96+OXrPASaJLhhBLeSh/TOpSXnGXY1kR7qrfoBspaSqFRX9W9TNm0J
+ iHIBVjUOSUUtp7pKQbo6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8yy10CPU7Fk=:NGpfxopZHtS+Xe5k8P1B9J
+ f2nhXmYdGHsULOJHDwCGf55bWfQ/akF1NW/HFulXfW+LNddKhAHtiQgjkj/B5q/pClpNHx3Do
+ dhmGTyjEKfwOcjXTgGuAOYTJ0pnTEBVevI6vrfhi9fEwPUPrjJdZVGDxEngQ+piiHUG3NUdGQ
+ w/8Im7MWbHz5wC8kavzfr+H4ZhXtYjA35dJYeMDPnvv4xz1dV8m5GDh4ny1AC6EPa5XKEtFZS
+ lEQrPjiEyK5IMT0bqpVAxcoA1jq8wuXID5nmzCMzKJBvPpocf1SnJUWZnp0VdE/2hCIRfO50l
+ 7Z3ZSWjrCT9wsPN8FM8Tn6TcyXtL8NOj4ER/HzM9v+GPQMqzScqvAjWVJlZaArx1HjUOPHrBH
+ BZyoT0oIviiRz2sHQgsOmrGrdAs7NbX9GG4+WAzt05vi0c629FbZ5nBaJCGzWz7CpQ3LeExAz
+ D2Kww4P34JW+9f3hRjOi0R/zSVf2xXBGmHAehxMrHg0FPYaoK0gZlRS7c/jbZqK/RvngOPNsH
+ 2fOeJZ8JSDEl/nSyrNjYsn/UHp7k5YrgaY8vjB/dFDsmxvwlAz0RcjQjAt3i/yo+56HfXksw0
+ 3eZVLJ57mArAZaYSMg6GISu8EDd/2Bsmwj4lJ8CWChU4REptN+HkX5MrgZd2g3hiAf8QJAukJ
+ kmK7VejxxfLEcd5AFl4YcMZA2lGog7chembjl/NpLGCYvYI2cj3Z3/DJ9pQGlQEPaT+Jywo9r
+ nWckBBgFTj3YHJwg1Kt9211/1AocVESEv3IDcq1trujYm5JzA2Vpg+2b6Yye414IutTG1XLr2
+ jUZSSZnYIQG+6sAEsxpLazllMqGB5gK9M7RZGwTPltFbKype/6ilPU/W26zGwgzHknFfXRr
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 05:44:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,33 +115,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Dave Gilbert <dgilbert@redhat.com>, "Oleinik, Alexander" <alxndr@bu.edu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 6, 2020 at 12:51 PM Sergio Lopez <slp@redhat.com> wrote:
->  1. Having a reference implementation for a simple device somewhere
->  close or inside the QEMU source tree. I'd say vhost-user-blk is a
->  clear candidate, given that a naive implementation for raw files
->  without any I/O optimization is quite easy to read and understand.
+Le 19/05/2020 à 20:56, Richard Henderson a écrit :
+> The kernel will return -EINVAL for bits set in the prot argument
+> that are unknown or invalid.  Previously we were simply cropping
+> out the bits that we care about.
+> 
+> Introduce validate_prot_to_pageflags to perform this check in a
+> single place between the two syscalls.  Differentiate between
+> the target and host versions of prot.  Compute the qemu internal
+> page_flags value at the same time.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/mmap.c | 106 +++++++++++++++++++++++++++++++---------------
+>  1 file changed, 73 insertions(+), 33 deletions(-)
+> 
 
-Yes, it's important to have crates that make it easy to build device backends.
+Applied to my linux-user-for-5.2 branch.
 
-The following common areas come to mind:
-1. vhost-user protocol and vring APIs.
-2. vhost-user conventions for command-line options.
-3. Live migration support.
-4. Sandboxing (seccomp, etc).
-5. Management interface.
+Thanks,
+Laurent
 
-They can all be separate crates and you can choose which ones to use.
-
-Rust-vmm and cloud-hypervisor have already started on some of these.
-It would be nice to work together.
-
-Stefan
 
