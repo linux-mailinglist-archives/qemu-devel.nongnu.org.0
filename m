@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17D523F3B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 22:22:11 +0200 (CEST)
-Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8FA23F3C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Aug 2020 22:26:47 +0200 (CEST)
+Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k48sU-0005vg-8o
-	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 16:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55860)
+	id 1k48ww-00008R-Oh
+	for lists+qemu-devel@lfdr.de; Fri, 07 Aug 2020 16:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k48ri-0005VL-Ne
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:21:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50342)
+ id 1k48vt-0007u3-VG
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:25:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k48rg-0002bC-8E
- for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:21:22 -0400
+ id 1k48vr-0003Ax-NM
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 16:25:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k48re-0008Lp-56
- for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 20:21:18 +0000
+ id 1k48vq-0000MF-69
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 20:25:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1A0162E8081
- for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 20:21:18 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 001F42E808D
+ for <qemu-devel@nongnu.org>; Fri,  7 Aug 2020 20:25:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2020 20:13:34 -0000
-From: dann frazier <1805256@bugs.launchpad.net>
+Date: Fri, 07 Aug 2020 20:15:20 -0000
+From: =?utf-8?q?Sebasti=C3=A1n_Lacuesta?= <1415181@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=kunpeng920; status=Triaged; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04; status=Triaged;
- importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe;
- status=Triaged; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
- component=main; status=Fix Committed; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=Fix Released; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug-Tags: ikeradar patch qemu-img verification-done
- verification-done-bionic verification-done-eoan verification-done-focal
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-cloke brian-murray dannf ikepanhc iveskim
- jan-glauber-i janitor jnsnow kongzizaixian lizhengui paelzer philmd
- rafaeldtinoco sil2100 tjaalton ubuntu-sru-bot ying-fang
-X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: dann frazier (dannf)
-References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <159683121409.25952.6246547292967057684.malone@gac.canonical.com>
-Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
- Aarch64 when converting images
+X-Launchpad-Bug-Commenters: sebastianlacuesta th-huth ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: =?utf-8?q?Sebasti=C3=A1n_Lacuesta_=28sebastianlac?=
+ =?utf-8?q?uesta=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Sebasti=C3=A1n_Lacuesta_=28sebastianlac?=
+ =?utf-8?q?uesta=29?=
+References: <20150127194148.12487.20751.malonedeb@soybean.canonical.com>
+ <159682290589.9587.15452218650313573549.malone@wampee.canonical.com>
+Message-Id: <CAKKr7JQSBxNiwVqEdu-vRRvmvw_QNLcHbxgFnr=9QP9-8q_7Ow@mail.gmail.com>
+Subject: Re: [Bug 1415181] Re: Access raw partitions from Windows
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e92174ce7d4a591e686dc21d7d74d2bf0f384ea7
+X-Launchpad-Hash: ac537c1886adb088b6727e142ad612c68b8faa25
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/07 01:41:01
@@ -99,229 +75,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
+Reply-To: Bug 1415181 <1415181@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verified w/ over 500 successful iterations on a m6g.metal instance, and
-over 300 in an armhf chroot on the same.
+Well, it's not an issue for me, but is a nice to have feature. I don't use
+the tablet in question anymore. The tablet had an uefi that didn't allow
+pendrive boot, but if it could be done what I proposed with qemu, a linux
+distro could be booted with qemu and this installed manually in a
+partition. The Uefi of the tablet did allow a grub install and also I could
+install another bootloader, but any of them recognized pendrives.
+So, personally I don't care anymore for now. But would allow a beautiful
+method to override insane manufacturers setups.
+Thanks, regards!
+Sebasti=C3=A1n
 
-** Tags removed: verification-needed verification-needed-bionic
-** Tags added: verification-done verification-done-bionic
+El vie., 7 ago. 2020 a las 15:05, Thomas Huth (<1415181@bugs.launchpad.net>)
+escribi=C3=B3:
+
+> Looking through old bug tickets... is this still an issue with the
+> latest version of QEMU? Or could we close this ticket nowadays?
+>
+>
+> ** Changed in: qemu
+>        Status: New =3D> Incomplete
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1415181
+>
+> Title:
+>   Access raw partitions from Windows
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1415181/+subscriptions
+>
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805256
+https://bugs.launchpad.net/bugs/1415181
 
 Title:
-  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
-  converting images
+  Access raw partitions from Windows
 
-Status in kunpeng920:
-  Triaged
-Status in kunpeng920 ubuntu-18.04 series:
-  Triaged
-Status in kunpeng920 ubuntu-18.04-hwe series:
-  Triaged
-Status in kunpeng920 ubuntu-19.10 series:
-  Fix Released
-Status in kunpeng920 ubuntu-20.04 series:
-  Fix Released
-Status in kunpeng920 upstream-kernel series:
-  Invalid
 Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Bionic:
-  Fix Committed
-Status in qemu source package in Eoan:
-  Fix Released
-Status in qemu source package in Focal:
-  Fix Released
+  Incomplete
 
 Bug description:
-  =
-
-  SRU TEAM REVIEWER: This has already been SRUed for Focal, Eoan and Bionic=
-. Unfortunately the Bionic SRU did not work and we had to reverse the chang=
-e. Since then we had another update and now I'm retrying the SRU.
-
-  After discussing with @paelzer (and @dannf as a reviewer) extensively,
-  Christian and I agreed that we should scope this SRU as Aarch64 only
-  AND I was much, much more conservative in question of what is being
-  changed in the AIO qemu code.
-
-  New code has been tested against the initial Test Case and the new
-  one, regressed for Bionic. More information (about tests and
-  discussion) can be found in the MR at
-  ~rafaeldtinoco/ubuntu/+source/qemu:lp1805256-bionic-refix
-
-  BIONIC REGRESSION BUG:
-
-  https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1885419
-
-  [Impact]
-
-  * QEMU locking primitives might face a race condition in QEMU Async
-  I/O bottom halves scheduling. This leads to a dead lock making either
-  QEMU or one of its tools to hang indefinitely.
-
-  [Test Case]
-
-  INITIAL
-
-  * qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs in Aarch64.
-
-  [Regression Potential]
-
-  * This is a change to a core part of QEMU: The AIO scheduling. It
-  works like a "kernel" scheduler, whereas kernel schedules OS tasks,
-  the QEMU AIO code is responsible to schedule QEMU coroutines or event
-  listeners callbacks.
-
-  * There was a long discussion upstream about primitives and Aarch64.
-  After quite sometime Paolo released this patch and it solves the
-  issue. Tested platforms were: amd64 and aarch64 based on his commit
-  log.
-
-  * Christian suggests that this fix stay little longer in -proposed to
-  make sure it won't cause any regressions.
-
-  * dannf suggests we also check for performance regressions; e.g. how
-  long it takes to convert a cloud image on high-core systems.
-
-  BIONIC REGRESSED ISSUE
-
-  https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1885419
-
-  [Other Info]
-
-  =C2=A0* Original Description bellow:
-
-  Command:
-
-  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs.
-
-  ----
-
-  Workaround:
-
-  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
-
-  ----
-
-  (gdb) thread 1
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf1ad81c in __GI_ppoll
-  #1 0x0000aaaaaabcf73c in ppoll
-  #2 qemu_poll_ns
-  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
-  #4 main_loop_wait
-  ...
-
-  (gdb) thread 2
-  ...
-  (gdb) bt
-  #0 syscall ()
-  #1 0x0000aaaaaabd41cc in qemu_futex_wait
-  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
-  #3 0x0000aaaaaabed05c in call_rcu_thread
-  #4 0x0000aaaaaabd34c8 in qemu_thread_start
-  #5 0x0000ffffbf25c880 in start_thread
-  #6 0x0000ffffbf1b6b9c in thread_start ()
-
-  (gdb) thread 3
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
-  #1 0x0000ffffbf2671b4 in __sigwait
-  #2 0x0000aaaaaabd1ddc in sigwait_compat
-  #3 0x0000aaaaaabd34c8 in qemu_thread_start
-  #4 0x0000ffffbf25c880 in start_thread
-  #5 0x0000ffffbf1b6b9c in thread_start
-
-  ----
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
-  ./disk01.ext4.qcow2 ./output.qcow2
-
-  [New Thread 0xffffbec5ad90 (LWP 72839)]
-  [New Thread 0xffffbe459d90 (LWP 72840)]
-  [New Thread 0xffffbdb57d90 (LWP 72841)]
-  [New Thread 0xffffacac9d90 (LWP 72859)]
-  [New Thread 0xffffa7ffed90 (LWP 72860)]
-  [New Thread 0xffffa77fdd90 (LWP 72861)]
-  [New Thread 0xffffa6ffcd90 (LWP 72862)]
-  [New Thread 0xffffa67fbd90 (LWP 72863)]
-  [New Thread 0xffffa5ffad90 (LWP 72864)]
-
-  [Thread 0xffffa5ffad90 (LWP 72864) exited]
-  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
-  [Thread 0xffffa77fdd90 (LWP 72861) exited]
-  [Thread 0xffffbdb57d90 (LWP 72841) exited]
-  [Thread 0xffffa67fbd90 (LWP 72863) exited]
-  [Thread 0xffffacac9d90 (LWP 72859) exited]
-  [Thread 0xffffa7ffed90 (LWP 72860) exited]
-
-  <HUNG w/ 3 threads in the stack trace showed before>
-  """
-
-  All the tasks left are blocked in a system call, so no task left to call
-  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
-  thread #1 (doing poll() in a pipe with thread #2).
-
-  Those 7 threads exit before disk conversion is complete (sometimes in
-  the beginning, sometimes at the end).
-
-  ----
-
-  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
-  frequently hangs (~50% of the time) with this command:
-
-  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
-
-  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
-  qcow2->qcow2 conversion happens to be something uvtool does every time
-  it fetches images.
-
-  Once hung, attaching gdb gives the following backtrace:
-
-  (gdb) bt
-  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
-274213760,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
-igmask=3D0xffffc123b950)
-  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
-  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
-linux-gnu/bits/poll2.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
-c:322
-  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
-  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
-  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
-  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
-g.c:1980
-  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
-img.c:2456
-  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:4975
-
-  Reproduced w/ latest QEMU git (@ 53744e0a182)
+  I'm using a windows tablet that makes imposible usb booting. It would be =
+nice to have access to raw partitions in order to run linux installers usin=
+g qemu. I can successfully install several boot loaders using uefi, so I gu=
+es this feature would be very helpful.
+  Thanks!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1415181/+subscriptions
 
