@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0341423F6E5
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 10:00:40 +0200 (CEST)
-Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4336C23F6EF
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 10:20:47 +0200 (CEST)
+Received: from localhost ([::1]:43506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4JmQ-0003BR-G7
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 04:00:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41812)
+	id 1k4K5t-0006fA-CB
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 04:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k4JlT-0002ku-6s
- for qemu-devel@nongnu.org; Sat, 08 Aug 2020 03:59:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48604)
+ id 1k4K4z-0005pD-1a
+ for qemu-devel@nongnu.org; Sat, 08 Aug 2020 04:19:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k4JlR-0000bG-4M
- for qemu-devel@nongnu.org; Sat, 08 Aug 2020 03:59:38 -0400
+ id 1k4K4w-000375-AJ
+ for qemu-devel@nongnu.org; Sat, 08 Aug 2020 04:19:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k4JlP-0007VV-0b
- for <qemu-devel@nongnu.org>; Sat, 08 Aug 2020 07:59:35 +0000
+ id 1k4K4t-0000wp-7G
+ for <qemu-devel@nongnu.org>; Sat, 08 Aug 2020 08:19:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EAF342E808C
- for <qemu-devel@nongnu.org>; Sat,  8 Aug 2020 07:59:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3340F2E808C
+ for <qemu-devel@nongnu.org>; Sat,  8 Aug 2020 08:19:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2020 07:48:44 -0000
-From: Michael Tokarev <1423528@bugs.launchpad.net>
+Date: Sat, 08 Aug 2020 08:09:21 -0000
+From: Thomas Huth <1503031@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mbiebl mjt+launchpad-tls th-huth
-X-Launchpad-Bug-Reporter: Michael Biebl (mbiebl)
-X-Launchpad-Bug-Modifier: Michael Tokarev (mjt+launchpad-tls)
-References: <20150219122612.20987.32403.malonedeb@gac.canonical.com>
-Message-Id: <159687292447.21733.1943716827123045705.malone@chaenomeles.canonical.com>
-Subject: [Bug 1423528] Re: setting unsupported timeout for i6300esb watchdog
- causes hw reset
+X-Launchpad-Bug-Commenters: andrewoates pmaydell th-huth
+X-Launchpad-Bug-Reporter: Andrew Oates (andrewoates)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20151005203328.1986.66361.malonedeb@wampee.canonical.com>
+Message-Id: <159687416169.26824.16621021982700195278.malone@gac.canonical.com>
+Subject: [Bug 1503031] Re: 32-to-64-bit call gate unsupported in IA32e mode
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e5dbfdc1c7b96dde4296c363494fc053fddde7ed
+X-Launchpad-Hash: c4657b89ebebbcf78473f1a9176ab4f4c348d74b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 03:59:35
@@ -73,52 +72,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1423528 <1423528@bugs.launchpad.net>
+Reply-To: Bug 1503031 <1503031@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's nothing changed in i6300esb about this issue. I can reproduce it
-exactly the same way with current qemu 5.1-tobe
+That looks like the corresponding fix, indeed. Let's close this ticket.
+
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1423528
+https://bugs.launchpad.net/bugs/1503031
 
 Title:
-   setting unsupported timeout for i6300esb watchdog causes hw reset
+  32-to-64-bit call gate unsupported in IA32e mode
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D778291
-  Version: 2.1
+  In particular, the lcall implementation doesn't support the 64-bit
+  TSS.
 
-  systemd utilizes existing watchdog hardware and set's a 10min timer on re=
-boot.
-  The i6300esb under qemu doesn't like such a timeout, and immediately rese=
-ts the hardware:
+  helper_lcall_protected (target-i386/seg_helper.c:1884) calls
+  get_ss_esp_from_tss() on a call gate to a lower privilege level, which
+  tries to extract a 32-bit ESP and 16-bit SS from the TSS.  In IA32e
+  mode (64-bit or compatibility mode), this instead grabs the lower
+  32-bits of the target RSP, and 16 of the upper bits as the SS.
+  Additionally, several of the subsequent checks are incorrect (even if
+  the correct stack pointer were extracted).
 
-  The last message one gets is
-  [    9.402243] i6300esb: Unexpected close, not stopping watchdog!
+  This isn't a problem for interrupts since the interrupts are given
+  their own implementation entirely, that uses get_rsp_from_tss() rather
+  than get_ss_esp_from_tss().
 
-  =
+  I believe the missing logic is from the branch starting "ELSE (*
+  current TSS is 64-bit *)" in the CALL pseudocode in the Intel manual
+  (page 3-124 of the PDF I have).
 
-  The linked bug report contains information how this bug can easily be rep=
-roduced.
-  With any image using a recent enough systemd as PID 1 you should be able =
-to reproduce it by running
-
-  qemu-system-x86_64 -curses -enable-kvm -device i6300esb -watchdog-
-  action reset -hda <image with systemd>
-
-  =
-
-  I'm uncertain if this is a qemu or kernel/driver bug. If the latter, plea=
-se re-assign the bug as necessary.
+  Reproduced at master (c0b520dfb8890294a9f8879f4759172900585995), and
+  also as of a qemu built a year ago.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1423528/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1503031/+subscriptions
 
