@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53F923F7AA
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 14:56:20 +0200 (CEST)
-Received: from localhost ([::1]:41454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811F823F7BC
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:04:58 +0200 (CEST)
+Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4OOa-0000Va-0F
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 08:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36448)
+	id 1k4OWv-0001y1-GY
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:04:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k4ONb-0008P9-FO
- for qemu-devel@nongnu.org; Sat, 08 Aug 2020 08:55:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39038)
+ (Exim 4.90_1) (envelope-from <briannorris@chromium.org>)
+ id 1k4Dlr-000522-NL
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 21:35:39 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k4ONZ-0008LK-Nx
- for qemu-devel@nongnu.org; Sat, 08 Aug 2020 08:55:19 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k4ONY-0006GK-4P
- for <qemu-devel@nongnu.org>; Sat, 08 Aug 2020 12:55:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D6EB22E807B
- for <qemu-devel@nongnu.org>; Sat,  8 Aug 2020 12:55:15 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <briannorris@chromium.org>)
+ id 1k4Dlp-0002fR-1v
+ for qemu-devel@nongnu.org; Fri, 07 Aug 2020 21:35:39 -0400
+Received: by mail-pl1-x642.google.com with SMTP id f10so2039720plj.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Aug 2020 18:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Qg5AipmbsOqGORh4asctcOLgSmkHVhy7DTpwSSMHlcU=;
+ b=CXm7NU+sFKz0z5FhuzBDYLPGduqzipl14SuBf5i0cOjh4ReCaJ+Ofy2E9Xqkju05qa
+ HeNQF3LRje2RlIKUHSw0LQQgx96zcugJgQTF1SJxjRVMgikzfb6uOie8NB+XoP+VphVM
+ OyGDXrjuMZO1JDzy3k2SaRKrOnqqdgwXhWbY0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Qg5AipmbsOqGORh4asctcOLgSmkHVhy7DTpwSSMHlcU=;
+ b=Ny8EHwtzUGn/2SWh2k+r67ohI9zm7HdtX48ykAUfOwLsF/PVR0oPHdReL03Qnfd9XG
+ +LoWZsJ49whNYInVyVIQuGriY9uE2sp8ZQNJm1cuDAfd2Hfjykh8HcQTtlHzGjfHdyY4
+ 2ai3Gbmtb/Tc/oKpR/tY3vcE1iH3rUT0/yig2vFrPJxDsfmFS0M6qTKJKLeBOtEHmB2W
+ uGdCO16GNGSg+u4N94cJYq+rCNKFNQdHYQSvrvmxpTqnBrHCr0f6TzNoESg8Y/7FQILF
+ gbJXKrSN3zQwzjYYGMdLe2f9aR+khyqGE0zVfQxHRgw3P9/jsycBHvPnB3mPy/iGUgqT
+ 88rQ==
+X-Gm-Message-State: AOAM532doQvflB/tWXMJAhSi3y6QAdI3Rr0W+E4JGTazwqOsK/SaWERh
+ YNipbd9aP8LTg9PNXfmaqi+PaA==
+X-Google-Smtp-Source: ABdhPJzGo/X8QZvyTCC72htn5LBgXseULfbUnWUbFHvb0KsoP2c+WgS+ZbHHeQYwX4bLhJaRjeu67Q==
+X-Received: by 2002:a17:90a:6903:: with SMTP id
+ r3mr15951458pjj.65.1596850534476; 
+ Fri, 07 Aug 2020 18:35:34 -0700 (PDT)
+Received: from google.com ([2620:15c:202:1:8edc:d4ff:fe53:350d])
+ by smtp.gmail.com with ESMTPSA id q12sm15488646pfg.135.2020.08.07.18.35.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Aug 2020 18:35:33 -0700 (PDT)
+Date: Fri, 7 Aug 2020 18:35:31 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 1/1] os_find_datadir: search as in version 4.2
+Message-ID: <20200808013531.GA166030@google.com>
+References: <20200615225827.183062-1-joe.slater@windriver.com>
+ <CAFEAcA_ZU_w7PaYFVVaW1vzGySOLaNaThVcNQFNmd_GV-hG6Qw@mail.gmail.com>
+ <CAFEAcA8BtVkBbHtLt-kB-AcZnN9YWtBahKTQ0wSvHWojF9CinQ@mail.gmail.com>
+ <CAMxuvaxUqrq77_io9j6k7EU91vm7iEEBaTwLNsKd9YJ9NVR7rw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2020 12:43:56 -0000
-From: BALATON Zoltan <811683@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: exceptions ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: afaerber agraf balaton-4 th-huth till-straumann
-X-Launchpad-Bug-Reporter: till (till-straumann)
-X-Launchpad-Bug-Modifier: BALATON Zoltan (balaton-4)
-References: <20110716214931.3466.65125.malonedeb@soybean.canonical.com>
- <159688296990.21910.647956033834590534.malone@chaenomeles.canonical.com>
-Message-Id: <alpine.BSF.2.22.395.2008081439260.46861@zero.eik.bme.hu>
-Subject: Re: [Bug 811683] Re: 7400, 7410,
- 7450 cpus vector have wrong exception prefix at reset
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e70ee51365d07f571904cf4b9821c28fa80738ac
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 03:59:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMxuvaxUqrq77_io9j6k7EU91vm7iEEBaTwLNsKd9YJ9NVR7rw@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=briannorris@chromium.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FSL_HELO_FAKE=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 08 Aug 2020 08:59:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,63 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 811683 <811683@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Joe Slater <joe.slater@windriver.com>, "MacLeod,
+ Randy" <randy.macleod@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please don't close ticket if there's a known problem just to at least =
+Hello!
 
-document there's a problem. Is this a CPU feature or board specific?
+On Wed, Jul 15, 2020 at 11:57:14PM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Jul 15, 2020 at 11:37 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Tue, 16 Jun 2020 at 10:19, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Tue, 16 Jun 2020 at 00:00, Joe Slater <joe.slater@windriver.com> wrote:
+> > > >
+> > > > Always look for ../share/qemu then ../pc-bios when looking for datadir.
+> > >
+> > > Could you provide some more context, please? Why is this
+> > > change useful; presumably we broke some setup in 5.0, but
+> > > what exactly ?
+> > >
+> > > I'm guessing this might be a regression introduced by commit
+> > > 6dd2dacedd83d12328 so I'm ccing the relevant people.
+> >
+> > Marco, Paolo: ping? Another user has just asked me the status
+> > of this as they also ran into this regression in what directories
+> > we search...
+> 
+> Thanks for the heads-up, I didn't see that bug/mail. Indeed, that
+> commit assumed that either we run from a build directory or from an
+> installed qemu. It seems this is hybrid approach, which I didn't know
+> we supported. I'll check it.
 
-Doesn't these CPUs have some way to select the exception vectors base and =
+Add one more to the pile! Chrome OS noticed this when upgrading to
+5.0.0:
 
-could that be set wrong? I've also seen some problems with these CPUs but =
+https://bugs.chromium.org/p/chromium/issues/detail?id=1114204#c8
 
-last time I asked nobody answered:
-https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00292.html
-Could this bug be related to that?
+I'd love to see this applied to a release.
 
--- =
+I actually wrote basically this exact same patch and was about to submit
+it, when I saw that this was already here. I've tested Joe's variant:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/811683
+Tested-by: Brian Norris <briannorris@chromium.org>
+Reviewed-by: Brian Norris <briannorris@chromium.org>
 
-Title:
-  7400,7410,7450 cpus vector have wrong exception prefix at reset
+The Chromium bug report is public, so you can see details there, but
+it's basically the same -- we sometimes run qemu from a path that's not
+the same absolute path noted in ./configure. This is because we build
+qemu to run within our SDK (a semi-containerized chroot), but we also
+support running that same QEMU binary from outside the container, which
+then may be at some arbitrary hierarchy on a developer's machine.
 
-Status in QEMU:
-  Triaged
+It might be wise to include a tiny bit more verbose of a code comment,
+to prevent oversights like this in the future. I'm sure that could be
+spliced in when the patch is applied though.
 
-Bug description:
-  I have a proprietary ROM implementing system calls that are executed
-  via the 'SC' instruction.
-
-  I use qemu-0.14.1,
-
-  qemu-system-ppc -M prep -cpu $CPU -bios my_bios -kernel my_kernel
-
-  That works fine on a 604 (CPU=3D0x00040103) - but does not on an emulated=
- 7400 (CPU=3D0x000c0209) or 7450 (CPU=3D0x80000201). I found that the emula=
-tor jumps to 0x00000c00 instead of 0xfff00c00.
-  Probably this is due to a wrong setting in target-ppc/translate_init.c:
-
-  init_excp_604() correctly sets env->hreset_vector=3D0xfff00000UL;
-
-  but
-
-  init_excp_7400() says env->hreset_vector=3D0x00000000UL;
-
-  which seems wrong. (the 7400 manual says a hard-reset jumps initializes t=
-he
-  prefix to 0xfff00000.)
-
-  Likewise, init_excp_7450() (and probably other, related CPUs) are
-  wrong.
-
-  Indeed, when I change the value in init_excp_7400() to 0xfff00000UL then
-  everything works as expected for me.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/811683/+subscriptions
+Regards,
+Brian
 
