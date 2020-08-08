@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ECE23F7C4
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:06:42 +0200 (CEST)
-Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16C823F7BB
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:04:57 +0200 (CEST)
+Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4OYa-0005X1-W4
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54038)
+	id 1k4OWu-0001wm-U7
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ethan.lee.qnl@gmail.com>)
- id 1k4KsS-0000jj-5G; Sat, 08 Aug 2020 05:10:56 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55604)
+ id 1k4KsV-0000kW-6D; Sat, 08 Aug 2020 05:10:59 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:53702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ethan.lee.qnl@gmail.com>)
- id 1k4KsQ-0000bM-4Y; Sat, 08 Aug 2020 05:10:55 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id 2so2165283pjx.5;
- Sat, 08 Aug 2020 02:10:53 -0700 (PDT)
+ id 1k4KsT-0000bm-Hg; Sat, 08 Aug 2020 05:10:58 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id l60so2170076pjb.3;
+ Sat, 08 Aug 2020 02:10:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IqYdAZooT8lM28ETEjL5hU1NnnBa1o7OjjnUhzOuR3Y=;
- b=FZ89hNCg5E4Um6oxdgXwESusEbjxji5pxx1l1cIebwGYZS8XI7kIcDKWKrbkoNaHql
- ZYkpR8vbUNY3pvxzO/y2U+Q2iIpVv/JqSozWx5XFXCySxr6Z/VTGZm6Kp7UZt55t4S78
- rQEPwgAJ8/ZgyYz5sRdsQIxtu3jEyssZL71x7Wv4fxAfEwt1wDd4X/OP011jOhuE1DBn
- yuj86esER2+h0B4jCeruMloxJ+GvBflxm146YuV+RRN4BqLyGNr+nxtx4pwX7cs0jiyD
- 2TW0URTDhipfH4qXlkTb9tVWfqfNJFlcHi21dvcV9yvm3BaPYnMOe157QXwFt+CV7s6M
- dZzg==
+ bh=fWKpYnUfRg0gxuuuKT5iT/I7/Zv/OLd6oIWfqWvvQUg=;
+ b=EBvSq0aVNEf5XTvrqLvnxFtrcJOkxncyp0RHzljQ8G+uaGTpPdIWGCns6+GUDbTLno
+ OD8fLHkGLgjCLFGmD/T+W2s/xruF+hRkJjJ8ip4gT5NyccGI2N11mVshNrtVpHY+4oNm
+ jJ8K2IkCYWV9UsbqprhAVTQuHRLPxljPoT6lTDh2gIUonII5aOJAJ8OSCMUPWcwyOpQA
+ vP32DbpjANZ1+Z2M/2QEo7C6eXX4tJZCET/VJ9O8YgTW0KsRI0iZxGOHkiY0llXbqNxP
+ MTcj456MPfNsqwlhBs1QcONepCsaeeFgHRWJ2FqnDmCMMXR862OyjsYXlCTDSfDK5qxN
+ MiBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IqYdAZooT8lM28ETEjL5hU1NnnBa1o7OjjnUhzOuR3Y=;
- b=HCIAWka3MyMY1e12fm8iR1YcC9VR6/V9cBPMN4nrxaJ2ilMTj9RNwz7u81aUKHZV6S
- ggq2InOIVxHyq48qhtyZxjLddxKcn4yF/256bfTMKZ6jSyWLyihKeufV7xAIEgySb72t
- SBF03mGk0/WgolVec6mYIrl47T96FUJJF5bakk3mUEsyJw2jAnPYbuL6mUbaNXWDD1dW
- wX7d/H66W7YhxlQTfclloCeVBvqSVdaZgN0nsQurnuZitmZcL8t4BF+1arm9dWiDIyBo
- MsQPScWhjXH606VndF/L6HkDitTJeZogLGFKLzarMrKmQuSQxwAJ4FUoB0YBlN2lpPay
- gIUQ==
-X-Gm-Message-State: AOAM532tHrUKmyxhoHMSiETf7rJTpqinMv7esVz+ZeytBoXMI0WfyuXB
- SVOAxj5c4aVYgqXRoBk0eztmYOviEbcZKg==
-X-Google-Smtp-Source: ABdhPJx43Hf8Nd0dXu/jhposdQ03b7fvkBnCiJS3tn4w22VYioWDlEoXQmUlkkPP8jetJcnJ6spr/g==
-X-Received: by 2002:a17:90a:8d0b:: with SMTP id
- c11mr17922923pjo.196.1596877851775; 
- Sat, 08 Aug 2020 02:10:51 -0700 (PDT)
+ bh=fWKpYnUfRg0gxuuuKT5iT/I7/Zv/OLd6oIWfqWvvQUg=;
+ b=aOuGiRHjyWCpNRJB6kT/G+jCEbAL9fJTInWH7JEc7M7L4qO5yGbUk4WLFKS/WLwBdr
+ JpykOXa7SBwAyYNcnbkrLmonRUDog4MiXXTOE94Np2Kj3STzrDWPllQ+wcYx3Pf3fyPw
+ hjTODut6Md2UiIwUHVzS+UX2IrkvhXj3nCzzzmmyiDUJcAzIKpWli+iIHV60pfyB0mhU
+ voaO+5gJ58ykM54831kjhF1WJTlgZh3cJWohD5jhV3uHEPSm0HLdD0QzPoRBnenu4v8X
+ cBRlyeU14lFhHHrvckUi1gN7QUVrNXhpfhqE17w0BOaT3Qjx9Gv852g9L1FWIfHwvFR9
+ pLZA==
+X-Gm-Message-State: AOAM530i7HgHVCduWh1uim47T43XZIIgKhGHcvIIpVDVgkLb7YOlDDyn
+ GiuzcWCG6gEfJ0A50XXbkNVZfGUIsWPZGQ==
+X-Google-Smtp-Source: ABdhPJylzfvKTv1USFPo4NvG63pys7FzBVwTk13/oLwbBLcLs5kYzzzRWR/CuQ0g76mOsJexEPq92Q==
+X-Received: by 2002:a17:902:ba83:: with SMTP id
+ k3mr16155769pls.217.1596877855605; 
+ Sat, 08 Aug 2020 02:10:55 -0700 (PDT)
 Received: from localhost.localdomain (183178047145.ctinets.com.
  [183.178.47.145])
- by smtp.gmail.com with ESMTPSA id i11sm13312700pjv.30.2020.08.08.02.10.48
+ by smtp.gmail.com with ESMTPSA id i11sm13312700pjv.30.2020.08.08.02.10.52
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 08 Aug 2020 02:10:51 -0700 (PDT)
+ Sat, 08 Aug 2020 02:10:55 -0700 (PDT)
 From: Hongzheng-Li <ethan.lee.qnl@gmail.com>
 X-Google-Original-From: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/4] Implementation of enhanced PMP(ePMP) support
-Date: Sat,  8 Aug 2020 17:09:48 +0800
-Message-Id: <20200808090950.13-3-Ethan.Lee.QNL@gmail.com>
+Subject: [PATCH 3/4] Add ePMP CSR accesses
+Date: Sat,  8 Aug 2020 17:09:49 +0800
+Message-Id: <20200808090950.13-4-Ethan.Lee.QNL@gmail.com>
 X-Mailer: git-send-email 2.24.1.windows.2
 In-Reply-To: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
 References: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
@@ -96,242 +96,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hou Weiying <weiying_hou@outlook.com>
 
-The ePMP can be found in:
-https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8/edit#heading=h.9wsr1lnxtwe2
-
 Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
 Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
 ---
- target/riscv/pmp.c        | 134 ++++++++++++++++++++++++++++++++++----
- target/riscv/pmp.h        |  12 ++++
- target/riscv/trace-events |   4 ++
- 3 files changed, 138 insertions(+), 12 deletions(-)
+ target/riscv/csr.c | 18 ++++++++++++++++++
+ target/riscv/pmp.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 0e6b640fbd..8df389cecd 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -34,6 +34,26 @@ static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
- static uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t addr_index);
- static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index);
- 
-+static char mode_to_char(int mode)
-+{
-+    char ret = 0;
-+    switch (mode) {
-+    case PRV_U:
-+        ret = 'u';
-+        break;
-+    case PRV_S:
-+        ret = 's';
-+        break;
-+    case PRV_H:
-+        ret = 'h';
-+        break;
-+    case PRV_M:
-+        ret = 'm';
-+        break;
-+    }
-+    return ret;
-+}
-+
- /*
-  * Accessor method to extract address matching type 'a field' from cfg reg
-  */
-@@ -99,7 +119,28 @@ static inline uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t pmp_index)
- static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
- {
-     if (pmp_index < MAX_RISCV_PMPS) {
--        if (!pmp_is_locked(env, pmp_index)) {
-+        /*
-+         * mseccfg.RLB is set
-+         */
-+        if (MSECCFG_RLB_ISSET(env) ||
-+            /*
-+             * mseccfg.MML is set
-+             */
-+            (MSECCFG_MML_ISSET(env) &&
-+            /*
-+             * m model and not adding X bit
-+             */
-+            (((val & PMP_LOCK) != 0 && (val & PMP_EXEC) != PMP_EXEC) ||
-+             /*
-+              * shared region and not adding X bit
-+              */
-+            ((val & PMP_LOCK) != PMP_LOCK &&
-+            (val & 0x7) != (PMP_WRITE | PMP_EXEC)))) ||
-+            /*
-+             * mseccfg.MML is not set
-+             */
-+            (!MSECCFG_MML_ISSET(env) && !pmp_is_locked(env, pmp_index))
-+        ){
-             env->pmp_state.pmp[pmp_index].cfg_reg = val;
-             pmp_update_rule(env, pmp_index);
-         } else {
-@@ -230,6 +271,18 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
- 
-     /* Short cut if no rules */
-     if (0 == pmp_get_num_rules(env)) {
-+        if (MSECCFG_MMWP_ISSET(env)) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "pmp violation - %c mode access denied\n",
-+                          mode_to_char(mode));
-+            return false;
-+        }
-+        if (MSECCFG_MML_ISSET(env) && (mode != PRV_M || (privs & PMP_EXEC))) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "pmp violation - %c mode access denied\n",
-+                          mode_to_char(mode));
-+            return false;
-+        }
-         return true;
-     }
- 
-@@ -261,16 +314,65 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         const uint8_t a_field =
-             pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
- 
--        /*
--         * If the PMP entry is not off and the address is in range, do the priv
--         * check
--         */
-         if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
--            allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
--            if ((mode != PRV_M) || pmp_is_locked(env, i)) {
--                allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
-+            /*
-+             * If the PMP entry is not off and the address is in range,
-+             * do the priv check
-+             */
-+            if (!MSECCFG_MML_ISSET(env)) {
-+                /*
-+                 * If mseccfg.MML Bit is not set, do pmp priv check
-+                 */
-+                allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
-+                if ((mode != PRV_M) || pmp_is_locked(env, i)) {
-+                    allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
-+                }
-+            } else {
-+                /*
-+                 * If mseccfg.MML Bit set, do the enhanced pmp priv check
-+                 */
-+                if (env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) {
-+                    /*
-+                     * Shared Region
-+                     */
-+                    if ((env->pmp_state.pmp[i].cfg_reg &
-+                    (PMP_READ | PMP_WRITE)) == PMP_WRITE) {
-+                        allowed_privs = PMP_EXEC | ((mode == PRV_M &&
-+                        (env->pmp_state.pmp[i].cfg_reg & PMP_EXEC)) ?
-+                        PMP_READ : 0);
-+                    } else {
-+                        allowed_privs = env->pmp_state.pmp[i].cfg_reg &
-+                        (PMP_READ | PMP_WRITE | PMP_EXEC);
-+
-+                        if (mode != PRV_M && allowed_privs) {
-+                            qemu_log_mask(LOG_GUEST_ERROR,
-+                                "pmp violation - %c mode access denied\n",
-+                                mode_to_char(mode));
-+                            ret = 0;
-+                            break;
-+                        }
-+                    }
-+                } else {
-+                    /*
-+                     * Shared Region
-+                     */
-+                    if ((env->pmp_state.pmp[i].cfg_reg &
-+                        (PMP_READ | PMP_WRITE)) == PMP_WRITE) {
-+                        allowed_privs = PMP_READ | ((mode == PRV_M ||
-+                        (env->pmp_state.pmp[i].cfg_reg & PMP_EXEC)) ?
-+                        PMP_WRITE : 0);
-+                    } else {
-+                        allowed_privs = env->pmp_state.pmp[i].cfg_reg &
-+                        (PMP_READ | PMP_WRITE | PMP_EXEC);
-+                        if (mode == PRV_M && allowed_privs) {
-+                            qemu_log_mask(LOG_GUEST_ERROR,
-+                                    "pmp violation - m mode access denied\n");
-+                            ret = 0;
-+                            break;
-+                        }
-+                    }
-+                }
-             }
--
-             if ((privs & allowed_privs) == privs) {
-                 ret = 1;
-                 break;
-@@ -284,15 +386,23 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-     /* No rule matched */
-     if (ret == -1) {
-         if (mode == PRV_M) {
--            ret = 1; /* Privileged spec v1.10 states if no PMP entry matches an
--                      * M-Mode access, the access succeeds */
-+            ret = !MSECCFG_MMWP_ISSET(env); /* PMP Enhancements */
-+            if (MSECCFG_MML_ISSET(env) && (privs & PMP_EXEC)) {
-+                ret = 0;
-+            }
-         } else {
-             ret = 0; /* Other modes are not allowed to succeed if they don't
-                       * match a rule, but there are rules.  We've checked for
-                       * no rule earlier in this function. */
-         }
-     }
--
-+    if (ret) {
-+        trace_pmp_hart_has_privs_pass_match(
-+            env->mhartid, addr, size, privs, mode);
-+    } else {
-+        trace_pmp_hart_has_privs_violation(
-+            env->mhartid, addr, size, privs, mode);
-+    }
-     return ret == 1 ? true : false;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 11d184cd16..e2395e3a51 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -112,6 +112,11 @@ static int hmode(CPURISCVState *env, int csrno)
+     return -1;
  }
  
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index 8e19793132..7db2069204 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -36,6 +36,12 @@ typedef enum {
-     PMP_AMATCH_NAPOT /* Naturally aligned power-of-two region */
- } pmp_am_t;
- 
-+typedef enum {
-+    MSECCFG_MML  = 1 << 0,
-+    MSECCFG_MMWP = 1 << 1,
-+    MSECCFG_RLB  = 1 << 2
-+} mseccfg_field_t;
++static int epmp(CPURISCVState *env, int csrno)
++{
++    return -!(env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP));
++}
 +
- typedef struct {
-     target_ulong addr_reg;
-     uint8_t  cfg_reg;
-@@ -58,7 +64,13 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index);
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-     target_ulong val);
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
-+void mseccfg_csr_write(CPURISCVState *env, target_ulong val);
-+target_ulong mseccfg_csr_read(CPURISCVState *env);
- bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-     target_ulong size, pmp_priv_t priv, target_ulong mode);
+ static int pmp(CPURISCVState *env, int csrno)
+ {
+     return -!riscv_feature(env, RISCV_FEATURE_PMP);
+@@ -1160,6 +1165,18 @@ static int write_pmpaddr(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
  
-+#define MSECCFG_MML_ISSET(env) get_field(env->mseccfg, MSECCFG_MML)
-+#define MSECCFG_MMWP_ISSET(env) get_field(env->mseccfg, MSECCFG_MMWP)
-+#define MSECCFG_RLB_ISSET(env) get_field(env->mseccfg, MSECCFG_RLB)
++static int read_mseccfg(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = mseccfg_csr_read(env);
++    return 0;
++}
++
++static int write_mseccfg(CPURISCVState *env, int csrno, target_ulong val)
++{
++    mseccfg_csr_write(env, val);
++    return 0;
++}
 +
  #endif
-diff --git a/target/riscv/trace-events b/target/riscv/trace-events
-index 4b6c652ae9..4f877f90f7 100644
---- a/target/riscv/trace-events
-+++ b/target/riscv/trace-events
-@@ -6,3 +6,7 @@ pmpcfg_csr_read(uint64_t mhartid, uint32_t reg_index, uint64_t val) "hart %" PRI
- pmpcfg_csr_write(uint64_t mhartid, uint32_t reg_index, uint64_t val) "hart %" PRIu64 ": write reg%" PRIu32", val: 0x%" PRIx64
- pmpaddr_csr_read(uint64_t mhartid, uint32_t addr_index, uint64_t val) "hart %" PRIu64 ": read addr%" PRIu32", val: 0x%" PRIx64
- pmpaddr_csr_write(uint64_t mhartid, uint32_t addr_index, uint64_t val) "hart %" PRIu64 ": write addr%" PRIu32", val: 0x%" PRIx64
-+mseccfg_csr_read(uint64_t mhartid, uint64_t val) "hart %" PRIu64 ": read mseccfg, val: 0x%" PRIx64
-+mseccfg_csr_write(uint64_t mhartid, uint64_t val) "hart %" PRIu64 ": write mseccfg, val: 0x%" PRIx64
-+pmp_hart_has_privs_pass_match(uint64_t mhartid, uint64_t addr, uint64_t size, uint64_t privs, uint64_t mode) "hart %"PRId64 "pass PMP 0 match addr:%"PRIu64" size:%"PRIu64 "privs: %"PRIu64 "mode: %"PRIu64
-+pmp_hart_has_privs_violation(uint64_t mhartid, uint64_t addr, uint64_t size, uint64_t privs, uint64_t mode) "hart %"PRId64 "pass PMP 0 match addr:%"PRIu64" size:%"PRIu64 "privs: %"PRIu64 "mode: %"PRIu64
+ 
+ /*
+@@ -1368,6 +1385,7 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_MTINST] =              { hmode,   read_mtinst,      write_mtinst     },
+ 
+     /* Physical Memory Protection */
++    [CSR_MSECCFG] =             { epmp,    read_mseccfg,     write_mseccfg    },
+     [CSR_PMPCFG0  ... CSR_PMPADDR9] =  { pmp,   read_pmpcfg,  write_pmpcfg   },
+     [CSR_PMPADDR0 ... CSR_PMPADDR15] = { pmp,   read_pmpaddr, write_pmpaddr  },
+ 
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 8df389cecd..0eabaf690c 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -490,3 +490,43 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+ 
+     return val;
+ }
++
++
++/*
++ * Handle a write to a mseccfg CSR
++ */
++void mseccfg_csr_write(CPURISCVState *env, target_ulong val)
++{
++    int i;
++
++    if (!MSECCFG_RLB_ISSET(env)) {
++        for (i = 0; i < MAX_RISCV_PMPS; i++) {
++            if (pmp_is_locked(env, i)) {
++                /*
++                 * Now that mseccfg.rlb is zero
++                 * the value of mseccfg.rlb should be locked.
++                 */
++                val &= ~MSECCFG_RLB;
++                break;
++            }
++        }
++    }
++
++    /*
++     * sticky bit
++     */
++    val |= (env->mseccfg & (MSECCFG_MMWP | MSECCFG_MML));
++
++    env->mseccfg = val;
++    trace_mseccfg_csr_write(env->mhartid, val);
++}
++
++
++/*
++ * Handle a read from a mseccfg CSR
++ */
++target_ulong mseccfg_csr_read(CPURISCVState *env)
++{
++    trace_mseccfg_csr_read(env->mhartid, env->mseccfg);
++    return env->mseccfg;
++}
 -- 
 2.20.1
 
