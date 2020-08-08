@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DD523F7B6
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:03:23 +0200 (CEST)
-Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A34323F7C5
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:06:48 +0200 (CEST)
+Received: from localhost ([::1]:46630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4OVO-00072c-SP
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53944)
+	id 1k4OYh-0005pw-Hr
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:06:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ethan.lee.qnl@gmail.com>)
- id 1k4Ks5-0000gL-5e; Sat, 08 Aug 2020 05:10:33 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33430)
+ id 1k4KsN-0000j7-VT; Sat, 08 Aug 2020 05:10:51 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:53702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ethan.lee.qnl@gmail.com>)
- id 1k4Ks3-0000Xh-9N; Sat, 08 Aug 2020 05:10:32 -0400
-Received: by mail-pl1-x642.google.com with SMTP id g19so2371953plq.0;
- Sat, 08 Aug 2020 02:10:30 -0700 (PDT)
+ id 1k4KsM-0000b0-CM; Sat, 08 Aug 2020 05:10:51 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id l60so2169996pjb.3;
+ Sat, 08 Aug 2020 02:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/7LujT5lRtrL8lKMtajUMzUZudhf3L9UNPDuYcY0R1g=;
- b=RufbzsceFD8EMrgM+spB6gifSxX+b3QqJxx0GemUo3/9W+3kAzrIDy+BcE7w+yho8W
- gO42pjS2kBQyfy/sKx0/xh8BJPHi0XT+18NbaSUvWU/D3o22KGZr/PKNM7grk7aNYmzm
- KMf0Ag5RVLwn18Rqx7K40ZCDFdqQb/koPN6iBWEnp1qK0gi68khSKXFJ6y8aLaEY2qWF
- cHUPe+4GU9eDq1FQ0oRX4bD89i2ZDFg8IyIlLe4JFNqXeKrSGgxSk67G7QCMb8Z7W7nc
- RCWNMsErksyxKicIhTgP9CQnhjblv0hqZrFqwwKg3DdYEXYDSSFn4YPfeFodClQ3aqcq
- uAmQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MW3DZaA0cPRetzOJHOEnr2p1Qwr/h9P0QQbQ/RWFC4M=;
+ b=YwkhA2J1SX43I8x94fuarPMxS/+hhO+8DOjSPyHAfraBQ76yynR3uzeQqVhbLqvEme
+ E22AiSLD/Va4gCahWrwA86hxhII+NvF8mFf06kLhIGXJnYJHdFv0D387LquNaJV456gM
+ tDnY/ilt9ss3kg5XS9AbLh8dXAzpkq+F9zpb9a7P0zZrKU/PKdcC9KZ2f5KmL7azd/pr
+ uonm47YKgn6AW9aBr63egVz6vFORQkKxR5trs7H8IcQyGGC3+NwwO6XziRwk1uksWQkr
+ v/KfyH/533szE2esGPy9rthpZUu8E0fCwzZF/vKTSR9GvHHM5nh71VaZCaFgHQqROX4m
+ ToVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/7LujT5lRtrL8lKMtajUMzUZudhf3L9UNPDuYcY0R1g=;
- b=iyDvP43llm6mNQrTWclLxlUbpuPL4KnNY1BVIDQGVFC2FRW9WijsGDQQ+tnQvX+SVM
- TaCXinX5BxhSzTZWqkWs35FW+do8d+EM5Q+UuVgt9lD/4IWE6vAJm9Fag2eGuSw1GeHf
- F/2tN3zjVsXNeZoMu0JyrpeSiDDxP8eYsNzSgA1CLMDxX9vjca79CiEo1shNMjo9dbCQ
- AwkGDfL02aMtDeME/q2Kmsc/CjAmAfWLQEy1gWIjajK7wpCwFzexdf90gX701mWm+ChJ
- HBbkOBLg3ubxnOCpxqPGRql4929fRFZITxU+KeMm/G96NLKnQOyDT2+WQPz2epXhhigs
- KqmA==
-X-Gm-Message-State: AOAM5337RgbJ1wpVntMAdmTs1kozI2gAqQ2oxxIPaLjthQbPkYskW1lq
- /2C9TWN6bmytmWH/PC2/rxo6jZ7doEE=
-X-Google-Smtp-Source: ABdhPJyVsyhRF3fQLigC5TYELywW6C4YtzwD/4EXzFYPTY9HYbUZsa+CujQ8Rx3Xd7YtUlFByst6UA==
-X-Received: by 2002:a17:90a:c693:: with SMTP id
- n19mr17663232pjt.53.1596877828600; 
- Sat, 08 Aug 2020 02:10:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MW3DZaA0cPRetzOJHOEnr2p1Qwr/h9P0QQbQ/RWFC4M=;
+ b=VBGGsYBgzZ/bYeQFqxOWVLZhee/vXp63txxzOTTHLCm2xJEIKhkeiZmFwmZ2HmJg9A
+ yzqt3nNCwqNTzzx1Q/vix2MTWrSYn0jOH9PmSza7untgCTOVCgH02pzdPSRFOVFsb4rV
+ gTQwmcvjdINxpx6Ez88CxXlb3hX5c72rrQ2lVpYqldLo8QuZODkWPr8k0e57hfgVTR+b
+ Jnc/f6D4/G4fi5dbJ8H4KwJ3BRTuszMKMvw7nng1FfL9QZEKVhnSapDG27lHma2VRuYg
+ +C1NtxqXny2KGncdIwFwkcyKpo6G3JwCLLSSas7lcCqAKeywbjfWUX6RBmLGO2bWExYD
+ 3cEA==
+X-Gm-Message-State: AOAM530eP0LqQxgpoHuvYKEiJ3XUUFEO2PqZ39tjrjZXMb5sdu51wdWP
+ 9gEJRQrHskSkpOfmDOr+mIMnkEwLCaW3Ew==
+X-Google-Smtp-Source: ABdhPJzrynnq8jldIm7Q6LT8BQy/kVoB9DH/LzIHVNqXddCjx0mP5C5+cwgixXVu7CrTMI9EJNZpHw==
+X-Received: by 2002:a17:90a:d081:: with SMTP id
+ k1mr17196543pju.177.1596877848631; 
+ Sat, 08 Aug 2020 02:10:48 -0700 (PDT)
 Received: from localhost.localdomain (183178047145.ctinets.com.
  [183.178.47.145])
- by smtp.gmail.com with ESMTPSA id i11sm13312700pjv.30.2020.08.08.02.10.26
+ by smtp.gmail.com with ESMTPSA id i11sm13312700pjv.30.2020.08.08.02.10.45
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 08 Aug 2020 02:10:28 -0700 (PDT)
+ Sat, 08 Aug 2020 02:10:48 -0700 (PDT)
 From: Hongzheng-Li <ethan.lee.qnl@gmail.com>
 X-Google-Original-From: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/4] riscv: Add enhanced PMP support
-Date: Sat,  8 Aug 2020 17:09:46 +0800
-Message-Id: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
+Subject: [PATCH 1/4] Define ePMP mseccfg
+Date: Sat,  8 Aug 2020 17:09:47 +0800
+Message-Id: <20200808090950.13-2-Ethan.Lee.QNL@gmail.com>
 X-Mailer: git-send-email 2.24.1.windows.2
+In-Reply-To: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
+References: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=ethan.lee.qnl@gmail.com; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=ethan.lee.qnl@gmail.com; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,32 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hou Weiying <weiying_hou@outlook.com>, Alistair.Francis@wdc.com,
- palmer@dabbelt.com, sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de
+Cc: Hou Weiying <weiying_hou@outlook.com>, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, Hongzheng-Li <Ethan.Lee.QNL@gmail.com>,
+ Alistair.Francis@wdc.com, palmer@dabbelt.com,
+ Myriad-Dreamin <camiyoru@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hou Weiying <weiying_hou@outlook.com>
 
-The ePMP can be found in:
-https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8/edit#heading=h.9wsr1lnxtwe2
+Currently using 0x390 and 0x391 for x-epmp (experimental). This may change in the future spec.
 
-Hou Weiying (4):
-  Define ePMP mseccfg
-  Implementation of enhanced PMP(ePMP) support
-  Add ePMP CSR accesses
-  Add a config option for ePMP.
+Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+---
+ target/riscv/cpu_bits.h | 3 +++
+ target/riscv/gdbstub.c  | 2 ++
+ 2 files changed, 5 insertions(+)
 
- target/riscv/cpu.c        |   9 ++
- target/riscv/cpu.h        |   3 +
- target/riscv/cpu_bits.h   |   3 +
- target/riscv/csr.c        |  18 ++++
- target/riscv/gdbstub.c    |   2 +
- target/riscv/pmp.c        | 174 +++++++++++++++++++++++++++++++++++---
- target/riscv/pmp.h        |  12 +++
- target/riscv/trace-events |   4 +
- 8 files changed, 213 insertions(+), 12 deletions(-)
-
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 7f64ee1174..9a8a6be534 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -214,6 +214,9 @@
+ #define CSR_MTINST          0x34a
+ #define CSR_MTVAL2          0x34b
+ 
++/* Enhanced PMP */
++#define CSR_MSECCFG         0x390
++#define CSR_MSECCFGH        0x391
+ /* Physical Memory Protection */
+ #define CSR_PMPCFG0         0x3a0
+ #define CSR_PMPCFG1         0x3a1
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index eba12a86f2..de5551604a 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -132,6 +132,8 @@ static int csr_register_map[] = {
+     CSR_MIP,
+     CSR_MTINST,
+     CSR_MTVAL2,
++    CSR_MSECCFG,
++    CSR_MSECCFGH,
+     CSR_PMPCFG0,
+     CSR_PMPCFG1,
+     CSR_PMPCFG2,
 -- 
 2.20.1
 
