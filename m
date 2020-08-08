@@ -2,64 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7657223F744
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 12:50:59 +0200 (CEST)
-Received: from localhost ([::1]:55848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA71F23F773
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 14:01:47 +0200 (CEST)
+Received: from localhost ([::1]:50118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4MRF-00049v-W5
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 06:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
+	id 1k4NXm-0003Nt-B0
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 08:01:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k4MQI-0003YD-Kq; Sat, 08 Aug 2020 06:49:58 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:38457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k4MQG-0002p4-5D; Sat, 08 Aug 2020 06:49:58 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id CD1D3550C641;
- Sat,  8 Aug 2020 12:49:43 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Sat, 8 Aug 2020
- 12:49:43 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001c55ddfdc-dd91-47a1-b2ff-4f6206f45a05,
- C8A1FAB73906E5665C3B6F042B66887CBAB5505C) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v3 for-5.2 2/3] ppc/xive: Introduce dedicated
- kvm_irqchip_in_kernel() wrappers
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <159679991916.876294.8967140647442842745.stgit@bahia.lan>
- <159679993438.876294.7285654331498605426.stgit@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <e718da5f-c5f3-db74-be94-938700384ce7@kaod.org>
-Date: Sat, 8 Aug 2020 12:49:41 +0200
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k4NWf-0002bw-V2
+ for qemu-devel@nongnu.org; Sat, 08 Aug 2020 08:00:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47737
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k4NWd-00029I-E7
+ for qemu-devel@nongnu.org; Sat, 08 Aug 2020 08:00:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596888033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ds3PDR083NBIh+4L3ioQQpsx5ynu3bdau6xl1aWQ+UU=;
+ b=KovJP+uz3rduw41Ao2145tduA5CLOsInXG1ZvnziLzzgQqFiYwXs9q5j5qcJe086pVm3p8
+ KJisBePP9HcmfwhQA8ha9IMODL+xPAFYk0ZVV3mBwRJpKPaJnTbIIhzSg2gDi1iMZE2Fnk
+ ptEfHsH6vwqckTyvRdNy/PNMfLrVpbc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-KsiIxqCrNJOLj1wX1pqWRw-1; Sat, 08 Aug 2020 08:00:31 -0400
+X-MC-Unique: KsiIxqCrNJOLj1wX1pqWRw-1
+Received: by mail-wr1-f72.google.com with SMTP id t3so1877229wrr.5
+ for <qemu-devel@nongnu.org>; Sat, 08 Aug 2020 05:00:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ds3PDR083NBIh+4L3ioQQpsx5ynu3bdau6xl1aWQ+UU=;
+ b=f7+QMp9nwHSEI0gIM2A2SZgxHq2W55vsClxKuMbyt9GbWC7BgCnJIDjf+t96OOCpbY
+ p9cOb2rFHCOhw/kE1vTLPtdjo6Keh5BFcrv7QQqINUa6PkYRWfkRK+8wkOa0npzRQSZk
+ 5WvLvfcqdunpSJ7JTPiS/cEiMzj75qZuYd3qjJIKq8cJv3t3tEndoMSGxGfNpXOonXnU
+ WQk+j3vOHAl2NQenDhKq/YJKJs+jQ4bdDli1aVPUn2mFSbmICvuJZoHCgteCHk3Baz5M
+ DwLehqVEITITtzkMYXhvj2HreZ8W+R3Ij2btg1bGCpeHUYLa591GIXqkNu9Na41SP9Yd
+ GQJQ==
+X-Gm-Message-State: AOAM533hYlnqJcAT+1icgHk9z0hrRYmX3YD5hnuyJRp4PQBRSsdAXX3E
+ eSft9rDSmTV7+F8l5Tt3vGfmwAJe1YsSIEdSr5qADa1pC0BFyrReq0eOM+SIgiFBLC+0lXK/hfe
+ bI7QJqGSKOMB/5d0=
+X-Received: by 2002:a1c:7e44:: with SMTP id z65mr17910465wmc.13.1596888029889; 
+ Sat, 08 Aug 2020 05:00:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2AnvTAdrvI3u593Hcsu6O+UgON7fwEBBPsJA+cpRd+OR7lIT+JDbNXTzq2R95mLPZWWv6Cw==
+X-Received: by 2002:a1c:7e44:: with SMTP id z65mr17910436wmc.13.1596888029588; 
+ Sat, 08 Aug 2020 05:00:29 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:310b:68e5:c01a:3778?
+ ([2001:b07:6468:f312:310b:68e5:c01a:3778])
+ by smtp.gmail.com with ESMTPSA id l10sm13553687wru.3.2020.08.08.05.00.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Aug 2020 05:00:28 -0700 (PDT)
+Subject: Re: [PATCH v1 01/21] accel/tcg: Change interrupt/exception handling
+ to remove implied BQL
+To: Robert Foley <robert.foley@linaro.org>
+References: <20200805181303.7822-1-robert.foley@linaro.org>
+ <20200805181303.7822-2-robert.foley@linaro.org>
+ <ca24d2c5-2c5e-eace-4cf2-90011e684485@linaro.org>
+ <4e678ed7-fc36-7918-ce9e-7a7e309c56df@redhat.com>
+ <CAEyhzFvveC=nhpo4uyJ_89J8Wi4+9NEc2T2Mk9mg6Y9ZMQjNSA@mail.gmail.com>
+ <CAEyhzFvh79ViuXYLYyihTBS3d5dviGpOXjntAt95yyuwE+HwLA@mail.gmail.com>
+ <CAEyhzFsMgQWr=sOM43-w3jwSgNyUiKMRKFGdRGRqxM5=offsGA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e1cad321-b24d-dd72-cd9c-541940a8d8d6@redhat.com>
+Date: Sat, 8 Aug 2020 14:00:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <159679993438.876294.7285654331498605426.stgit@bahia.lan>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAEyhzFsMgQWr=sOM43-w3jwSgNyUiKMRKFGdRGRqxM5=offsGA@mail.gmail.com>
 Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 2f793697-0b2b-47e7-a790-9354654c4917
-X-Ovh-Tracer-Id: 9459529542488001443
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkeeggddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegvdeijeefvdfhudfhffeuveehledufffhvdekheelgedttddthfeigeevgefhffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 06:49:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 08:00:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,67 +108,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+ Peter Puhov <peter.puhov@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some more comments, because I still think there are some shortcuts.
+On 08/08/20 00:18, Robert Foley wrote:
+> 2) Another perhaps cleaner option is to add a new cpu class function
+> ->do_interrupt_locked.
+>    This lets callers like *_cpu_exec_interrupt call to ->do_interrupt_locked
+>    with lock held and solves the issue without resorting to conditional locking.
+> 
+>    Another benefit we could gain from this approach is to simplify our solution
+>    overall by adding a common do_interrupt function.
+> 
+>    void cpu_common_do_interrupt(CPUState *cs)
+>    {
+>         CPUClass *cc = CPU_GET_CLASS(cpu);
+>         qemu_mutex_lock_iothread();
+>         cc->do_interrupt_locked(cpu);
+>         qemu_mutex_unlock_iothread();
+>     }
+>    cc->do_interrupt would be set to cpu_common_do_interrupt by default
+> in cpu_class_init.
+>    In other words, the base cpu class would handle holding the BQL for us,
+>    and we would not need to implement a new *_do_interrupt function
+> for each arch.
+> 
+> We are thinking that 2) would be a good option.
 
-My feeling is that all the kvmppc_xive* could be part of a QOM interface
-defining how to use a kernel device backend. When the kernel IRQ device 
-is not available, under TCG or under an hypervisor not advertising 
-support at the KVM level, the QOM interface kernel device backend 
-would be a no-op, else it would implement what the kvmppc_xive_* do
-today. So, it's something we would change like ->intc after an interrupt 
-mode has been negotiated. 
+Yes, it is.  The only slight complication is that you'd have both
+->do_interrupt and ->do_interrupt_locked so you probably should add some
+consistency check, for example
 
-It's an intuition regarding POWER10/XIVE2 and nested support which 
-could need a different interface of the KVM XIVE device in the future. 
-I don't think we need today but it would clarify some of the shortcuts. 
-  
-> +/*
-> + * kvm_irqchip_in_kernel() will cause the compiler to turn this
-> + * info a nop if CONFIG_KVM isn't defined.
-> + */
-> +#define spapr_xive_in_kernel(xive) \
-> +    (kvm_irqchip_in_kernel() && (xive)->fd != -1)
-> +
+    /*
+     * cc->do_interrupt_locked should only be needed if
+     * the class uses cpu_common_do_interrupt.
+     */
+    assert(cc->do_interrupt == cpu_common_do_interrupt ||
+           !cc->do_interrupt_locked);
 
-Here, we have a shortcut. kvm_irqchip_in_kernel() is a compilation 
-trick but the real handler :
+Therefore, a variant is to add ->do_interrupt_locked to ARMCPUClass and
+CRISCPUClass (target/avr/helper.c can just call
+avr_cpu_do_interrupt_locked, because that's the only value that
+cc->do_interrupt can have).  Then ARM and CRIS can have a do_interrupt
+like you wrote above:
 
-	{
-		return SPAPR_XIVE(xrtr)->fd != -1;
-	}
+void arm_do_interrupt(CPUState *cs)
+{
+    ARMCPUClass *acc = ARM_CPU_GET_CLASS(cs);
+    qemu_mutex_lock_iothread();
+    acc->do_interrupt_locked(cpu);
+    qemu_mutex_unlock_iothread();
+}
 
-is a shortcut. We are using ->fd to know if QEMU is connected with 
-a KVM device or not.
+with a small duplication between ARM and CRIS but on the other hand a
+simpler definition of the common CPUClass.
 
-
->  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
->  {
->      XiveSource *xsrc = &xive->source;
->      int i;
->  
-> -    if (kvm_irqchip_in_kernel()) {
-> +    if (spapr_xive_in_kernel(xive)) {
->          Error *local_err = NULL;
->  
->          kvmppc_xive_synchronize_state(xive, &local_err);
-
-With a QOM interface for a kernel device backend, this would become :
-
-	XIVE_BACKEND_GET_CLASS(xive->backend)->synchronize_state(xive);
-
-and we could drop all the 'if' statement.
-
-
-
-Makes sense ? I think XICS behaves the same.
-
-Thanks,
-
-C. 
+Paolo
 
 
