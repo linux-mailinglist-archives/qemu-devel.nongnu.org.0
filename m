@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16C823F7BB
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:04:57 +0200 (CEST)
-Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9A923F7C8
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:09:23 +0200 (CEST)
+Received: from localhost ([::1]:57020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4OWu-0001wm-U7
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54052)
+	id 1k4ObC-0001do-Hk
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ethan.lee.qnl@gmail.com>)
- id 1k4KsV-0000kW-6D; Sat, 08 Aug 2020 05:10:59 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:53702)
+ id 1k4KsY-0000l1-MB; Sat, 08 Aug 2020 05:11:02 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:40717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ethan.lee.qnl@gmail.com>)
- id 1k4KsT-0000bm-Hg; Sat, 08 Aug 2020 05:10:58 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id l60so2170076pjb.3;
- Sat, 08 Aug 2020 02:10:56 -0700 (PDT)
+ id 1k4KsW-0000c8-9P; Sat, 08 Aug 2020 05:11:02 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id d4so2231180pjx.5;
+ Sat, 08 Aug 2020 02:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fWKpYnUfRg0gxuuuKT5iT/I7/Zv/OLd6oIWfqWvvQUg=;
- b=EBvSq0aVNEf5XTvrqLvnxFtrcJOkxncyp0RHzljQ8G+uaGTpPdIWGCns6+GUDbTLno
- OD8fLHkGLgjCLFGmD/T+W2s/xruF+hRkJjJ8ip4gT5NyccGI2N11mVshNrtVpHY+4oNm
- jJ8K2IkCYWV9UsbqprhAVTQuHRLPxljPoT6lTDh2gIUonII5aOJAJ8OSCMUPWcwyOpQA
- vP32DbpjANZ1+Z2M/2QEo7C6eXX4tJZCET/VJ9O8YgTW0KsRI0iZxGOHkiY0llXbqNxP
- MTcj456MPfNsqwlhBs1QcONepCsaeeFgHRWJ2FqnDmCMMXR862OyjsYXlCTDSfDK5qxN
- MiBQ==
+ bh=ZQ4wkJR7VVNblB+G2e/NZ21j2c8KfW3THWxKkfwdtAw=;
+ b=PC9BPd3PwbPGf+qQvhYp2FBMAhVrZzjIIUTg5bMgguc2/uhGAgAv6VCgBGxiN/4tOq
+ klGeJ/3ORPGbXWAmIQedOU6dssoTLg1QBRYdgQAIeZqNaW/ldbOSwOxQKnbcmGV+lryM
+ xZ/ovI4vwff1qVIxh2BsUk7xZr3U2oxlgG0mUL40I/9Ro7ijyCqFLxxeORj/XnbCD+Jl
+ z/Oem4f7ZKmWIGR/OQcw0TugSRdo65ImAHviAcyWMbu2orp/fdCRbQSfluKGYo77T9fJ
+ L2QJwMDBozUZXw5c+08nIIQne7wXgDOM2SFJb/5RsgedQQxcj/zN6q3ezB7y9KxOXsRq
+ sxOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fWKpYnUfRg0gxuuuKT5iT/I7/Zv/OLd6oIWfqWvvQUg=;
- b=aOuGiRHjyWCpNRJB6kT/G+jCEbAL9fJTInWH7JEc7M7L4qO5yGbUk4WLFKS/WLwBdr
- JpykOXa7SBwAyYNcnbkrLmonRUDog4MiXXTOE94Np2Kj3STzrDWPllQ+wcYx3Pf3fyPw
- hjTODut6Md2UiIwUHVzS+UX2IrkvhXj3nCzzzmmyiDUJcAzIKpWli+iIHV60pfyB0mhU
- voaO+5gJ58ykM54831kjhF1WJTlgZh3cJWohD5jhV3uHEPSm0HLdD0QzPoRBnenu4v8X
- cBRlyeU14lFhHHrvckUi1gN7QUVrNXhpfhqE17w0BOaT3Qjx9Gv852g9L1FWIfHwvFR9
- pLZA==
-X-Gm-Message-State: AOAM530i7HgHVCduWh1uim47T43XZIIgKhGHcvIIpVDVgkLb7YOlDDyn
- GiuzcWCG6gEfJ0A50XXbkNVZfGUIsWPZGQ==
-X-Google-Smtp-Source: ABdhPJylzfvKTv1USFPo4NvG63pys7FzBVwTk13/oLwbBLcLs5kYzzzRWR/CuQ0g76mOsJexEPq92Q==
-X-Received: by 2002:a17:902:ba83:: with SMTP id
- k3mr16155769pls.217.1596877855605; 
- Sat, 08 Aug 2020 02:10:55 -0700 (PDT)
+ bh=ZQ4wkJR7VVNblB+G2e/NZ21j2c8KfW3THWxKkfwdtAw=;
+ b=WbiIsFfh2OwkSu5QGIQOb7XGfUdQAyt9mlwjKCSgjRhm/rl25Yh4bKnkvXO1N0AxBs
+ uAtddNjU+cs8qNmUKeo1IO3aWGCMs1mGFGHFiZM7RkBH0jmbgWUjRsNfg9XXTNh178GU
+ G2qvqIhLdn4p+/ev/X6fsXdtp7nipgmgxoPqltLQaMKU7YtvuGicRobU4W3wQ0dRIh81
+ FO65rOBXrA/nl7B5rJy3I6Yu3hD0R/GGyFT9ONkAMOc0iffNCpN4J1xngbIpHb2bp+9n
+ ZzNcg8sfeLaCF83MHcGNdcMbiQ0MdJA/fFZ3S+SUj6S2oKPVHn6RgseA2EQML5Vfx5+P
+ s0Mg==
+X-Gm-Message-State: AOAM530cucPbfSH6PPmB0VBbNXpUZYUr7y3UaYwffHUTTElUk/0rcajX
+ seKOM1tiZNbPTK3W9fI6j91RMO4UIXtYYA==
+X-Google-Smtp-Source: ABdhPJzKHW2N9VyR2MzCX7L5LU5MliDKksICKxhZsiUiSUNdYvE0gZllyfxXWLq9jQpMdVGoDKogVw==
+X-Received: by 2002:a17:90b:124e:: with SMTP id
+ gx14mr18033376pjb.225.1596877858527; 
+ Sat, 08 Aug 2020 02:10:58 -0700 (PDT)
 Received: from localhost.localdomain (183178047145.ctinets.com.
  [183.178.47.145])
- by smtp.gmail.com with ESMTPSA id i11sm13312700pjv.30.2020.08.08.02.10.52
+ by smtp.gmail.com with ESMTPSA id i11sm13312700pjv.30.2020.08.08.02.10.55
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 08 Aug 2020 02:10:55 -0700 (PDT)
+ Sat, 08 Aug 2020 02:10:58 -0700 (PDT)
 From: Hongzheng-Li <ethan.lee.qnl@gmail.com>
 X-Google-Original-From: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 3/4] Add ePMP CSR accesses
-Date: Sat,  8 Aug 2020 17:09:49 +0800
-Message-Id: <20200808090950.13-4-Ethan.Lee.QNL@gmail.com>
+Subject: [PATCH 4/4] Add a config option for ePMP.
+Date: Sat,  8 Aug 2020 17:09:50 +0800
+Message-Id: <20200808090950.13-5-Ethan.Lee.QNL@gmail.com>
 X-Mailer: git-send-email 2.24.1.windows.2
 In-Reply-To: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
 References: <20200808090950.13-1-Ethan.Lee.QNL@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=ethan.lee.qnl@gmail.com; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=ethan.lee.qnl@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,105 +96,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hou Weiying <weiying_hou@outlook.com>
 
+Add a config option to enable experimental support for ePMP. This
+is disabled by default and can be enabled with 'x-epmp=true'.
+
 Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
 Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
 ---
- target/riscv/csr.c | 18 ++++++++++++++++++
- target/riscv/pmp.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
+ target/riscv/cpu.c | 9 +++++++++
+ target/riscv/cpu.h | 3 +++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 11d184cd16..e2395e3a51 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -112,6 +112,11 @@ static int hmode(CPURISCVState *env, int csrno)
-     return -1;
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 059d71f2c7..79fa9d3c2f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -407,6 +407,14 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
  
-+static int epmp(CPURISCVState *env, int csrno)
-+{
-+    return -!(env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP));
-+}
+     if (cpu->cfg.pmp) {
+         set_feature(env, RISCV_FEATURE_PMP);
 +
- static int pmp(CPURISCVState *env, int csrno)
- {
-     return -!riscv_feature(env, RISCV_FEATURE_PMP);
-@@ -1160,6 +1165,18 @@ static int write_pmpaddr(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
- }
- 
-+static int read_mseccfg(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = mseccfg_csr_read(env);
-+    return 0;
-+}
-+
-+static int write_mseccfg(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    mseccfg_csr_write(env, val);
-+    return 0;
-+}
-+
- #endif
- 
- /*
-@@ -1368,6 +1385,7 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MTINST] =              { hmode,   read_mtinst,      write_mtinst     },
- 
-     /* Physical Memory Protection */
-+    [CSR_MSECCFG] =             { epmp,    read_mseccfg,     write_mseccfg    },
-     [CSR_PMPCFG0  ... CSR_PMPADDR9] =  { pmp,   read_pmpcfg,  write_pmpcfg   },
-     [CSR_PMPADDR0 ... CSR_PMPADDR15] = { pmp,   read_pmpaddr, write_pmpaddr  },
- 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 8df389cecd..0eabaf690c 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -490,3 +490,43 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
- 
-     return val;
- }
-+
-+
-+/*
-+ * Handle a write to a mseccfg CSR
-+ */
-+void mseccfg_csr_write(CPURISCVState *env, target_ulong val)
-+{
-+    int i;
-+
-+    if (!MSECCFG_RLB_ISSET(env)) {
-+        for (i = 0; i < MAX_RISCV_PMPS; i++) {
-+            if (pmp_is_locked(env, i)) {
-+                /*
-+                 * Now that mseccfg.rlb is zero
-+                 * the value of mseccfg.rlb should be locked.
-+                 */
-+                val &= ~MSECCFG_RLB;
-+                break;
-+            }
++        /*
++         * Enhanced PMP should only be available
++         * on harts with PMP support
++         */
++        if (cpu->cfg.epmp) {
++            set_feature(env, RISCV_FEATURE_EPMP);
 +        }
-+    }
-+
-+    /*
-+     * sticky bit
-+     */
-+    val |= (env->mseccfg & (MSECCFG_MMWP | MSECCFG_MML));
-+
-+    env->mseccfg = val;
-+    trace_mseccfg_csr_write(env->mhartid, val);
-+}
-+
-+
-+/*
-+ * Handle a read from a mseccfg CSR
-+ */
-+target_ulong mseccfg_csr_read(CPURISCVState *env)
-+{
-+    trace_mseccfg_csr_read(env->mhartid, env->mseccfg);
-+    return env->mseccfg;
-+}
+     }
+ 
+     /* If misa isn't set (rv32 and rv64 machines) set it here */
+@@ -509,6 +517,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
++    DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index d0e7f5b9c5..afdc9fa2bf 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -77,6 +77,7 @@
+ enum {
+     RISCV_FEATURE_MMU,
+     RISCV_FEATURE_PMP,
++    RISCV_FEATURE_EPMP,
+     RISCV_FEATURE_MISA
+ };
+ 
+@@ -202,6 +203,7 @@ struct CPURISCVState {
+ 
+     /* physical memory protection */
+     pmp_table_t pmp_state;
++    target_ulong mseccfg;
+ 
+     /* machine specific rdtime callback */
+     uint64_t (*rdtime_fn)(void);
+@@ -272,6 +274,7 @@ typedef struct RISCVCPU {
+         char *user_spec;
+         bool mmu;
+         bool pmp;
++        bool epmp;
+     } cfg;
+ } RISCVCPU;
+ 
 -- 
 2.20.1
 
