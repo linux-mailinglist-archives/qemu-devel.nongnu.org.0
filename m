@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7E623F7C7
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:08:14 +0200 (CEST)
-Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F58623F7B7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 15:03:25 +0200 (CEST)
+Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4Oa5-0000Yq-8v
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
+	id 1k4OVQ-000726-7b
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 09:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weiying_hou@outlook.com>)
- id 1k4Kev-0007Jl-Tp; Sat, 08 Aug 2020 04:56:57 -0400
-Received: from mail-oln040092253041.outbound.protection.outlook.com
- ([40.92.253.41]:39932 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ id 1k4Kf6-0007Kg-4S; Sat, 08 Aug 2020 04:57:08 -0400
+Received: from mail-oln040092254044.outbound.protection.outlook.com
+ ([40.92.254.44]:60494 helo=APC01-PU1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weiying_hou@outlook.com>)
- id 1k4Kes-0007DI-Vd; Sat, 08 Aug 2020 04:56:57 -0400
+ id 1k4Kf4-0007EL-Bs; Sat, 08 Aug 2020 04:57:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N5mLCfmGX9M+51ym0rEKG5CHWGdsqjvPmcgRk7Y1rC+NlCRAM2PhAyKRPZVesCxia/x9avrwpd1Pc+KZ3I54uVywb4rvgTXm93wuYQSkK7lZmMXIxUpCr66kYmxG78ZEMCjUXXfkASEV4saYgTHbLsChyxQ55orMf0Sfpa6FSvRLrKrvUMYNNTUBUkFw7+8Rgl5ac5RxNEx6i6CMfppfZL3nlP5HAdvkbVJE2pN+duI46c371a/RH1b6A1d8cNYYwABevLh3RZAOyb7mQGRGSDs+PcflDptQeerC9KbbwZuP/6fkb4xHnuamst7RvapeFikcUwlLxpu6OdYII3xtcQ==
+ b=IuhR1Ou55m/ZflQPBexGK+Ac2qIm0TUhhEMDHdTUXuLWWR86oQZUQjeXHibv9yaWYBFAy4nsN7RLUnHlJUzcL2xc/JOUKg0D4ZHo30LMCUHuePsBkWNKZODmwRq8EaI8e20flKaZOOYmL22F552hONf3XA/kqdZS079ybgNFRGevaKZRJAz/0lwymaP3synaLTjYrk6ZbXRC1qMe86VqfT/8SCebRSKP0sRB41fYs3zcYG8fL4onrPGkWOROBe0wiPGqFZs9FTzUaNhD+8WVeQZEiFX/4hbMYJjQB92sl0ArMhlHc2kVRqetY+KI7+0rd4Qjdl1yA/L9aTkq/zy0LA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y9BkRaRE+jhddNS04t8FzzErct+SEKU2NZRuqELMWk4=;
- b=nZTvScvBUvz6Orp7Ah/JB6bk63jutI7jsBhaRzZC3JIMSd6sbX9/3TjUoYmJ/Bhe5AagTghTmLpEz2ltFwAk/7mdQTV6NDX1eFHoCBs0bS+17moL7HUUVr45YDBBwi7PGdETV9ICqg0o1vLj7o44pM9M/dxUG53+HkrFnmKssBc+tjB9L32JudLXysFUeWmkzZjl8kYrWuoTThu2V8KWfEtl3zODfAFxO9nKv2Vcoo3ATNeDWDaX+DyPvsSKlDJmZSSuWoSQpNLDTPQJYIIrxPV8oLxWzSWoJ0Cj2XOcNEBHk9Vozt0osIyc4F2uy8UtoXY6rGC9H4H17km0gdkDdQ==
+ bh=uSe+h3YqVKXjPPJg0a5xr4TuLg8up0FeIB7A9Cx7qh0=;
+ b=Et+RP5gaWqIQNdMHlHj6mvSSKvlpWdDN5qcMC0FFQzpGoO2GPNQew21CcZWal85fyXOhxwHOUjLW+ZbucZuinNX2qPy6vrxpjaL4zvdLDZOWGT4v+6ldfDxPfbiK6HZbn+uUD2Bq9j7OjqEXcSOHDvmRyJRk+eKio4QGAuO27QK8MZsaNeurHAwzJ2vT3ig+cN5R4YR7JVzzzNb8lrvFsc+5OP+GUCF9o1I/0rrsNON4hKtbJoljUjdAyZjhhdOnTne0fd5v/vyH0inij75ABga5A2GJerLQoMkb3RYRPRa9WF6bSr0B5Fdrsh67ju/bR3a6qRLMUYPJuv/yI1bV0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y9BkRaRE+jhddNS04t8FzzErct+SEKU2NZRuqELMWk4=;
- b=jVlbqnQnpD2Bcg76lKMKwAclyeNK0bzVXyiSXdiOLsDp9kq4Uev8/QTj5U/9+WKx5YwaNnQwNf9QNh6lfHIHiDruKv9gbaCboA9ZvyAGHh2zvvv8a7g7NggHkW9YWmYcrE79b7ZMZnaoD9/Wf8YLAo28bbeukGlhqbz7VL+aXpI632+Q33kVG7m5sqDvX/3KYw2dcfI1/j6u5IWAH/+dUL6DIQTKrs/9a1EFe0vQYcQSs6ujpLPwpZYpM5XKdrHPO+Oi9mTWIPvUBjFM0B0uSazqtkFMyBT9OmO+JlJJn9Up5wYtZouKLoQ4UsTXj7RmsTlGX2w7AEetLNFXlk8/7g==
+ bh=uSe+h3YqVKXjPPJg0a5xr4TuLg8up0FeIB7A9Cx7qh0=;
+ b=G6jtDmLGEEMzgPs4fakKiu+bZJYYSXxPxjKIUxVsTc4o2GWVMVooZ6uIyrlVpflpQOTcPZblrafFaiows89UsZeqadALprobGUp6uJSdqWUgxl8iaFuAj8P11mcMc+Pqw1Uv0ag9qOfTlZeW792uIbUj0lql7EHGoHa3ot3u6WgfD4WZ1KiUbaa0fb/q1kbgH78w78aF6TKRu/B3rFj0NF//3Fb8nvWrH6R0MqTZz6YFdBbTCedj/rsbHTGylR14vvWU9rsXcsPf+N9qtFWqMiX+zbi7E5WOt9S6TxXn109K6qjqJ1j+DM3yaNrKTGhaZgh2j9xLn86W70OrBKFgnw==
 Received: from SG2APC01FT013.eop-APC01.prod.protection.outlook.com
  (2a01:111:e400:7ebd::47) by
  SG2APC01HT031.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::265)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.16; Sat, 8 Aug
- 2020 08:56:47 +0000
+ 2020 08:57:00 +0000
 Received: from SG2PR02MB2634.apcprd02.prod.outlook.com
  (2a01:111:e400:7ebd::50) by SG2APC01FT013.mail.protection.outlook.com
  (2a01:111:e400:7ebd::186) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.16 via Frontend
- Transport; Sat, 8 Aug 2020 08:56:47 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:D5617A2D2A9E8920906BD7A638A4C3336E22CDC9AE2666017560D81ABC161BC9;
- UpperCasedChecksum:E12E7EB9BEC6EA0381056D028A68718C90F301E93B62139988C37094C91463D6;
- SizeAsReceived:7579; Count:47
+ Transport; Sat, 8 Aug 2020 08:57:00 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:89D5D278299320B7CA4D497D1E70B9C6A5B353016D27FF996AD08949B14F7BD2;
+ UpperCasedChecksum:1780244CFE796278A500725EECDD45C970B9556E625A453D0BBB58892671EEE6;
+ SizeAsReceived:7498; Count:47
 Received: from SG2PR02MB2634.apcprd02.prod.outlook.com
  ([fe80::8f0:37c7:286c:1725]) by SG2PR02MB2634.apcprd02.prod.outlook.com
  ([fe80::8f0:37c7:286c:1725%5]) with mapi id 15.20.3261.022; Sat, 8 Aug 2020
- 08:56:47 +0000
+ 08:57:00 +0000
 From: Hou Weiying <weiying_hou@outlook.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] riscv: Fix bug in setting pmpcfg CSR for RISCV64
-Date: Sat,  8 Aug 2020 16:56:40 +0800
-Message-ID: <SG2PR02MB263420036254AC8841F66CE393460@SG2PR02MB2634.apcprd02.prod.outlook.com>
+Subject: [PATCH 0/4] riscv: Add enhanced PMP support
+Date: Sat,  8 Aug 2020 16:56:52 +0800
+Message-ID: <SG2PR02MB2634448F0D69E047AD1F576093460@SG2PR02MB2634.apcprd02.prod.outlook.com>
 X-Mailer: git-send-email 2.20.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0183.apcprd02.prod.outlook.com
- (2603:1096:201:21::19) To SG2PR02MB2634.apcprd02.prod.outlook.com
+X-ClientProxiedBy: HK2PR02CA0187.apcprd02.prod.outlook.com
+ (2603:1096:201:21::23) To SG2PR02MB2634.apcprd02.prod.outlook.com
  (2603:1096:4:51::19)
-X-Microsoft-Original-Message-ID: <20200808085640.28636-1-weiying_hou@outlook.com>
+X-Microsoft-Original-Message-ID: <20200808085656.28692-1-weiying_hou@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (223.89.139.46) by
- HK2PR02CA0183.apcprd02.prod.outlook.com (2603:1096:201:21::19) with Microsoft
+ HK2PR02CA0187.apcprd02.prod.outlook.com (2603:1096:201:21::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.15 via Frontend Transport; Sat, 8 Aug 2020 08:56:46 +0000
+ 15.20.3261.15 via Frontend Transport; Sat, 8 Aug 2020 08:56:58 +0000
 X-Mailer: git-send-email 2.20.1
-X-Microsoft-Original-Message-ID: <20200808085640.28636-1-weiying_hou@outlook.com>
-X-TMN: [1pdgUXaSSg28optFSxUH20t12cSFtMUh]
+X-Microsoft-Original-Message-ID: <20200808085656.28692-1-weiying_hou@outlook.com>
+X-TMN: [OiX5KSBmpbGUxna3ZmDNEElAbtCkQ7Fr]
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: fc5d72c8-cd51-4a84-2ff4-08d83b78fb5e
+X-MS-Office365-Filtering-Correlation-Id: 21b18311-c60b-478f-568c-08d83b7902db
 X-MS-TrafficTypeDiagnostic: SG2APC01HT031:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5mQfJKN3c0yZXoLn17pvwV171eUX66Io3MZNtR3yWnx9HkvIzbJpo90na3MlQnt4RbwBdQMXrY6t8jjDfFpLNrDE8vMpU+18CVibdJjyxDq4p9InpF7e37xL0ICdBPnn4pEka8VKtD7TDYsFQWfo67FwhwctdaHZOcWVRQFr9cc2YnBd1Hpuhp8RW3DkjabF7t1CVBITmrkqtfSuSiGJ0Q==
+X-Microsoft-Antispam-Message-Info: sQsV/tl4T4q9FSHbXJXrF6YmltAf5FtO+r9zD+r2Oc5yv7N9s3ACKTEuJ1rTD60Tyy2Q6nRNw11xacgtU6VQVOyxvzN88AJBsu/Hrzmr+ybOrSC7lfyv3k5V2csYOUyypEuUM9CEQeX77lag9MWS09QSlKaGcmjOpf7N6grRC9LHY9dL+uJ6qPSP0ngeCPAbwNI6fD8x2YpFeIUxztH5sw8G2LkEKoURCNp9WyrXmTY26l+cbRRqpmXqE8AvJd4m
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
  IPV:NLI; SFV:NSPM; H:SG2PR02MB2634.apcprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:; SFS:; DIR:OUT; SFP:1901; 
-X-MS-Exchange-AntiSpam-MessageData: HHIEaEwVICXATiY9jBTuU8lEXY+grHKN3oafNdX1r8o2uwkES0E0l6+tbu31T1diAC+JZkpCxmoPUuQmRcW910RDemONKWT3gIfUbkweZydb255PpM0wTyPitJWvvPAxlsXVpp18KMcGVRQltfT3yA==
+X-MS-Exchange-AntiSpam-MessageData: 5Yr1yR225bis6tgGS3xqJFvOYSn4AoxqUe7dQf7iqUG5lBbQK9XqKtOzskOpCQxtrdfudD/jMqm16Aa64tqUvaT1f/fFh1BgwuhIaqZgn1L8P3zocEsDRUsjKWonM7fT58OcLrvPjdxFYgiR/8LHEg==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc5d72c8-cd51-4a84-2ff4-08d83b78fb5e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2020 08:56:47.5212 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21b18311-c60b-478f-568c-08d83b7902db
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2020 08:56:59.9712 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT013.eop-APC01.prod.protection.outlook.com
@@ -93,10 +93,10 @@ X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT031
-Received-SPF: pass client-ip=40.92.253.41;
+Received-SPF: pass client-ip=40.92.254.44;
  envelope-from=weiying_hou@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 04:56:50
+ helo=APC01-PU1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 04:57:02
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -118,58 +118,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
- Hongzheng-Li <Ethan.Lee.QNL@gmail.com>, Alistair.Francis@wdc.com,
- Myriad-Dreamin <camiyoru@gmail.com>, palmer@dabbelt.com
+Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First, sizeof(target_ulong) equals to 4 on riscv32, so this change
-does not change the function on riscv32. Second, sizeof(target_ulong)
-equals to 8 on riscv64, and 'reg_index * 8 + i' is not a legal
-pmp_index (we will explain later), which should be 'reg_index * 4 + i'.
+The ePMP can be found in:
+https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8/edit#heading=h.9wsr1lnxtwe2
 
-If the parameter reg_index equals to 2 (means that we will change the
-value of pmpcfg2, or the second pmpcfg on riscv64), then
-pmpcfg_csr_write(env, 2, val) will map write tasks to
-pmp_write_cfg(env, 2 * 8 + [0...7], val). However, no cfg csr is indexed
-by value 16 or 23 on riscv64, so we consider it as a bug.
+Hou Weiying (4):
+  Define ePMP mseccfg
+  Implementation of enhanced PMP(ePMP) support
+  Add ePMP CSR accesses
+  Add a config option for ePMP.
 
-We are looking for constant (e.g., define a new constant named
-RISCV_WORD_SIZE) in QEMU to help others understand code better,
-but none was found. A possible good explanation of this literal is it is
-the minimum word length on riscv is 4 bytes (32 bit).
+ target/riscv/cpu.c        |   9 ++
+ target/riscv/cpu.h        |   3 +
+ target/riscv/cpu_bits.h   |   3 +
+ target/riscv/csr.c        |  18 ++++
+ target/riscv/gdbstub.c    |   2 +
+ target/riscv/pmp.c        | 174 +++++++++++++++++++++++++++++++++++---
+ target/riscv/pmp.h        |  12 +++
+ target/riscv/trace-events |   4 +
+ 8 files changed, 213 insertions(+), 12 deletions(-)
 
-Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
----
- target/riscv/pmp.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 2a2b9f5363..b14feeb7da 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -320,8 +320,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
- 
-     for (i = 0; i < sizeof(target_ulong); i++) {
-         cfg_val = (val >> 8 * i)  & 0xff;
--        pmp_write_cfg(env, (reg_index * sizeof(target_ulong)) + i,
--            cfg_val);
-+        pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
-     }
- }
- 
-@@ -336,7 +335,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
-     target_ulong val = 0;
- 
-     for (i = 0; i < sizeof(target_ulong); i++) {
--        val = pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i);
-+        val = pmp_read_cfg(env, (reg_index * 4) + i);
-         cfg_val |= (val << (i * 8));
-     }
-     trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
 -- 
 2.20.1
 
