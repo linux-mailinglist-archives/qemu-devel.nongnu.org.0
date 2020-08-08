@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2648F23F734
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 12:11:51 +0200 (CEST)
-Received: from localhost ([::1]:47912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8629323F746
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Aug 2020 12:56:52 +0200 (CEST)
+Received: from localhost ([::1]:59138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4LpO-0005NK-7s
-	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 06:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
+	id 1k4MWx-00063e-JZ
+	for lists+qemu-devel@lfdr.de; Sat, 08 Aug 2020 06:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k4LoQ-0004pl-TJ
- for qemu-devel@nongnu.org; Sat, 08 Aug 2020 06:10:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55776)
+ id 1k4MVD-00058j-Mg
+ for qemu-devel@nongnu.org; Sat, 08 Aug 2020 06:55:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k4LoP-0006nU-4D
- for qemu-devel@nongnu.org; Sat, 08 Aug 2020 06:10:50 -0400
+ id 1k4MVA-0003YT-L2
+ for qemu-devel@nongnu.org; Sat, 08 Aug 2020 06:55:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k4LoL-0000rI-GE
- for <qemu-devel@nongnu.org>; Sat, 08 Aug 2020 10:10:45 +0000
+ id 1k4MV9-0003uY-6E
+ for <qemu-devel@nongnu.org>; Sat, 08 Aug 2020 10:54:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 750A02E807B
- for <qemu-devel@nongnu.org>; Sat,  8 Aug 2020 10:10:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2CDE82E804F
+ for <qemu-devel@nongnu.org>; Sat,  8 Aug 2020 10:54:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2020 10:03:52 -0000
-From: Thomas Huth <1667613@bugs.launchpad.net>
+Date: Sat, 08 Aug 2020 10:36:09 -0000
+From: till <811683@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: exceptions ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: intermediadc th-huth
-X-Launchpad-Bug-Reporter: luigiburdo (intermediadc)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170224093456.30105.18077.malonedeb@gac.canonical.com>
-Message-Id: <159688103226.26385.18224313883836627401.malone@gac.canonical.com>
-Subject: [Bug 1667613] Re: Qemu 2.8  on PPC64 issue with input
+X-Launchpad-Bug-Commenters: afaerber agraf th-huth till-straumann
+X-Launchpad-Bug-Reporter: till (till-straumann)
+X-Launchpad-Bug-Modifier: till (till-straumann)
+References: <20110716214931.3466.65125.malonedeb@soybean.canonical.com>
+Message-Id: <159688296990.21910.647956033834590534.malone@chaenomeles.canonical.com>
+Subject: [Bug 811683] Re: 7400, 7410,
+ 7450 cpus vector have wrong exception prefix at reset
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 98bc5406082c88b00872237db9b75eb58032438f
+X-Launchpad-Hash: 45f70574807605c6857904b108217a430baa087d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/08 03:59:35
@@ -72,46 +74,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1667613 <1667613@bugs.launchpad.net>
+Reply-To: Bug 811683 <811683@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... is this still an issue with the
-latest version of QEMU? Or could we close this ticket nowadays?
+I no longer have the test readily available. So I tried to print the
+initial MSR and IP register contents from the QEMU monitor:
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+qemu-system-ppc -machine none -cpu 7400 -S -monitor stdio
+QEMU 5.0.93 monitor - type 'help' for more information
+(qemu) info registers
+NIP 00000000   LR 00000000 CTR 00000000 XER 00000000 CPU#0
+MSR 00000000 HID0 00000000  HF 00000000 iidx 0 didx 0
+Segmentation fault (core dumped)
+
+Unfortunately this lets qemu (tried 2.11.1(Debian 1:2.11+dfsg-
+1ubuntu7.29) as well as 5.1.0-rc3) segfault; apparently the time-base is
+not initialized but still accessed when -machine =3D=3D none. Yet another
+bug, it seems. The NIP and MSR seem wrong, however.
+
+I can generate an empty ppc_rom.bin and fool a prep machine under
+2.11.1:
+
+till@tillp1  $ ls -l empty.bin
+-rw-r--r-- 1 till till 0 Aug  8 12:03 empty.bin
+
+till@tillp1  $ qemu-system-ppc -bios ./empty.bin -cpu 7400 -machine prep -S=
+ -monitor stdio
+QEMU 2.11.1 monitor - type 'help' for more information
+(qemu) info registers
+NIP fff00100   LR 00000000 CTR 00000000 XER 00000000 CPU#0
+MSR 00000040 HID0 00000000  HF 00000000 iidx 3 didx 3
+
+Here, the issue is fixed! Apparently it is fixed for the 'prep' machine
+but not 'none'. Unfortunately 'prep' is gone from 5.3.0 and 'none' is
+buggy; wait - it seems I can emulate 'prep' with '40p':
+
+till@tillp1  $ build/ppc-softmmu/qemu-system-ppc -machine 40p -cpu 7400 -S =
+-monitor stdio
+QEMU 5.0.93 monitor - type 'help' for more information
+(qemu) info registers
+NIP fff00100   LR 00000000 CTR 00000000 XER 00000000 CPU#0
+MSR 00000040 HID0 00000000  HF 00000000 iidx 3 didx 3
+
+This looks good, so I suppose it is OK to close this bug.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1667613
+https://bugs.launchpad.net/bugs/811683
 
 Title:
-  Qemu 2.8  on PPC64 issue with input
+  7400,7410,7450 cpus vector have wrong exception prefix at reset
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hi devs,
-  on my PPC64 machine if i start qemu with gtk,gl=3Don or with sdl,gl=3Don =
-i have issue with pointer and keyboard. pratically not input at all.
-  This issue is present in tgc and in kvm
+  I have a proprietary ROM implementing system calls that are executed
+  via the 'SC' instruction.
 
-  without gl=3Don option in kvm with mate as guest i have the input device
-  work in the beginning but after some time the usb goes "unplugged" (i
-  see this message on the serial log of qemu usb unplugged) and the
-  keyboard and mouse dont work.
+  I use qemu-0.14.1,
 
-  On Debian jessie kvm i dont have input working at all.
+  qemu-system-ppc -M prep -cpu $CPU -bios my_bios -kernel my_kernel
 
-  my machine is a G5 quad with Fedora 25 PPC64
+  That works fine on a 604 (CPU=3D0x00040103) - but does not on an emulated=
+ 7400 (CPU=3D0x000c0209) or 7450 (CPU=3D0x80000201). I found that the emula=
+tor jumps to 0x00000c00 instead of 0xfff00c00.
+  Probably this is due to a wrong setting in target-ppc/translate_init.c:
 
-  thanks
-  Luigi
+  init_excp_604() correctly sets env->hreset_vector=3D0xfff00000UL;
+
+  but
+
+  init_excp_7400() says env->hreset_vector=3D0x00000000UL;
+
+  which seems wrong. (the 7400 manual says a hard-reset jumps initializes t=
+he
+  prefix to 0xfff00000.)
+
+  Likewise, init_excp_7450() (and probably other, related CPUs) are
+  wrong.
+
+  Indeed, when I change the value in init_excp_7400() to 0xfff00000UL then
+  everything works as expected for me.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1667613/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/811683/+subscriptions
 
