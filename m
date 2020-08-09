@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E735423FCEB
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Aug 2020 07:40:43 +0200 (CEST)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810CD23FD08
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Aug 2020 08:37:53 +0200 (CEST)
+Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k4e4Y-00005W-Po
-	for lists+qemu-devel@lfdr.de; Sun, 09 Aug 2020 01:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37890)
+	id 1k4exs-0003dX-0P
+	for lists+qemu-devel@lfdr.de; Sun, 09 Aug 2020 02:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k4doz-0006KF-6n
- for qemu-devel@nongnu.org; Sun, 09 Aug 2020 01:24:37 -0400
-Received: from mout.gmx.net ([212.227.17.22]:52385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k4dox-0002qk-H2
- for qemu-devel@nongnu.org; Sun, 09 Aug 2020 01:24:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1596950647;
- bh=4cu5DCwNBFInqID3CJQEwuqMV1flM13s9w/a+nvBy40=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=JDvvBBKISbdA/b4fcLdlBQ3wQRydPJbmviJolbL4NgsAnhbjtAKD7tmF6KqybHB5m
- 8lb+knknuaiEcJ7U19VPufFHUd0mVRD60U7700HC0gAPIfVm7I7Y4y4q+PDw8gfkXv
- Xl56VOiyscigyolnwJKJY0uxT5ZKrfCxfD3kPRcU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.185.161]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMobU-1kLDG72gNQ-00IhZg; Sun, 09
- Aug 2020 07:24:07 +0200
-From: Helge Deller <deller@gmx.de>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v4 12/12] hw/display/artist: Fix invalidation of lines near
- screen border
-Date: Sun,  9 Aug 2020 07:24:02 +0200
-Message-Id: <20200809052402.31641-13-deller@gmx.de>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200809052402.31641-1-deller@gmx.de>
-References: <20200809052402.31641-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <paulburton89@gmail.com>)
+ id 1k4ewm-00035v-MA; Sun, 09 Aug 2020 02:36:45 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paulburton89@gmail.com>)
+ id 1k4ewk-0000pS-TN; Sun, 09 Aug 2020 02:36:44 -0400
+Received: by mail-oi1-f193.google.com with SMTP id o21so5989282oie.12;
+ Sat, 08 Aug 2020 23:36:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o8oOH1CAijstfPClf55haIpg1h2dcOqUJrPHuZ9nxtg=;
+ b=sjYSpgyRH6PgAlDMG1frb19W4pCG8X6Tu0tng7armCfIuvt8da8KPZAsJGu/gQ/T61
+ TY77JJDEFlLJw3MTu5cQgBS5VMiBlX45bgaE2wOmRm8/0YDrOJA8kfBfvAD3QhnbJL63
+ 5rqrIYMn7YAvz34WID/at9Gr07TyTdJHa9NKKprMzGBlT6HxM9u8+HRXLmAV1eS+Hah+
+ QCAHJC3QPQy7BHis8+4z1Di07dm8caU7EjDhqf2RI0cX28CujSUHns1B2kMbkOOXOAD5
+ 3YujwNBv7qQcweAGJ16wghb8JH2ef3X3+PfRoI+HHQz9MFDc0Ryyyj1BOxvjk5yeVtlW
+ crUA==
+X-Gm-Message-State: AOAM530iGJKFBWdEhnsZRn+Jn4zUqsgrDJGW2SCmXznfMCNoA8sfAiWR
+ /WpHiE31HIq/ZvXgdVbSDHlR02QB5yJEZg==
+X-Google-Smtp-Source: ABdhPJw2z+GXCU4Wy3iwdltSfBOJAphb7viuejwtwKwrXT/cTmjc12BlsY5UQXyputhZ/MV4AunMEQ==
+X-Received: by 2002:aca:d68a:: with SMTP id n132mr17474914oig.16.1596955000397; 
+ Sat, 08 Aug 2020 23:36:40 -0700 (PDT)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com.
+ [209.85.210.48])
+ by smtp.gmail.com with ESMTPSA id p189sm1369031oia.18.2020.08.08.23.36.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Aug 2020 23:36:40 -0700 (PDT)
+Received: by mail-ot1-f48.google.com with SMTP id c4so4825282otf.12;
+ Sat, 08 Aug 2020 23:36:39 -0700 (PDT)
+X-Received: by 2002:a9d:1b62:: with SMTP id l89mr7850057otl.145.1596954999610; 
+ Sat, 08 Aug 2020 23:36:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200707022544.24925-1-f4bug@amsat.org>
+ <19b2c623-7c8e-fd93-290f-86498b85caf5@amsat.org>
+ <932a272b-bc80-f6e4-d51e-32e2222f540c@amsat.org>
+In-Reply-To: <932a272b-bc80-f6e4-d51e-32e2222f540c@amsat.org>
+From: Paul Burton <paulburton@kernel.org>
+Date: Sat, 8 Aug 2020 23:35:28 -0700
+X-Gmail-Original-Message-ID: <CAG0y8xk6qEzTXup7jJojmLK9n4KWTCq_z9FULeyyru7Ux3iM_Q@mail.gmail.com>
+Message-ID: <CAG0y8xk6qEzTXup7jJojmLK9n4KWTCq_z9FULeyyru7Ux3iM_Q@mail.gmail.com>
+Subject: Re: [PATCH v2] .mailmap: Update Paul Burton email address
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:C8b8NIzhwhK2ClhEX1a4Un/JILwhcE/qe+SZXLGcu3NZWpph449
- PuFfnMjMd4oLftQKH6Ig1+DL/v/8acUGmhZUuzWxvBdh2FQfhvN+mQZFw8CrBftqd7eZ8kU
- hJ2dqLweg1ZGZFDewGCqApK3RVh8bU/LOIZmcoIhBfxt6hLwj/AJaBOXR3RQT4dhS9zsNGK
- VolL7xKJvJi1+QIm9DNhw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:z44uQtOgeqM=:NqSdmBZw9TMClOGlEhFBVU
- iiGYf89nr4+ILnCto1tLGlzqp+rrG3R01K56lOKLbB3I3b5HWAkEbfNzGxtP2YWCvnl0PC9Js
- 250PZAu6Ld9k8ZEMOP7eDkmEwby57fne+DfXmRiFJo87XYbWNKaBZljJWiujSAJF+C3k58wkQ
- D/9XAchXta4lWQMk1SGCTRBL7rr8pRRQgnmyxH+ZLWL55yGmbMfPEu0NGNvRExRydlrOUBhHZ
- SVJLNOKC2NHXIqlZmoQWfDQV7xHk4YT2Qqy1w2Y9oUrn51usj6m1epfZ9h62Gyg5CuriQg7DL
- gjP1rW+BvvLRSjzMzfc7zdP2Fx5QXdJjtZN865JU2LXG/mUVo6Z73vGQQyNS0SP3E8INZl2d7
- AwaLN+YF9U4QztuOOuUJRpU+eAV77G2+GNIviCI8+63WvOUREH+DHek0/vJXfhJAuD5f+9+Dy
- ZKlo2e4ovOo5RJjzgFJHl4x7rs3IYoCG+vy4K+iRxIahaiGQHhXGuzHtyJGw9akN+DvDmCwBx
- kEkbNb3/fTTwWwJjNNLJoANtPLrcvWDCHS8P0tW/CkHDHBCmY6kyWgqUfHegqQIpa82QeRswq
- M9HEnhjs7EHSqPMbc8x94YnDs+n8ttCYdto52MDet+oRWf11LJp9QUchN+dq1k6DIKpT/f9ba
- oTfhhQpNVF9KpsNpy8TM9Bpdi2DlIyObIgNyAND4XXlk3ye+MmooGlwkSTdLOgyGcyBJpKhlJ
- yE9TG7VuXpLRncXTb3FDLNu5rLXP2hL+MOBzA95fNzZSgezh56rCefkmD7GC7t9bSRJ+OmHGo
- r9XpbMdIDpoPJHCitYwZ9rLRD66QiAP0QxZzXS6wOkgwhaCOUj5m8VpnfC3C6Wn8XcOBBE7+P
- DnhyjIad6Xy49i000bwQPZSp0MEIscO473+yvRpsifj79sCtrXOpQ5hjkbyjttXUnJATv8wC6
- 5HQylE5BNLjdVR5oXwvta1j+iFdihhdS11W2kzv1v5Y+Sc7w1ZCel3ak6DdWK8CalRmz0qfrj
- oQ/Y2J+fqCbPFjY//KFUa5II7GDf2PWGDTueTIm2SrSjsDROy73yUG6Px2hCAB19BcMn8y1l+
- oQVfP9r8nIfl1QTy75y8QHZG9swO3VCqiIlPixXoKmVSL1URvCDjDED6bDcOzLHKZ3x5qUIvS
- xwYESTNSjKJVSoVdMzBVaTnP+EuMpgNodJ4PVufj9MdAy0bwdnBYB/ZCPTrvkhNEgfoDekU1m
- KfMlK6c8Jqrzbh3i+
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/09 01:17:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=209.85.167.193;
+ envelope-from=paulburton89@gmail.com; helo=mail-oi1-f193.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/09 02:36:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,44 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sven Schnelle <svens@stackframe.org>
+Hi Philippe,
 
-If parts of the invalidated screen lines are outside of the VRAM buffer,
-the code skips the whole invalidate. This is incorrect when only parts
-of the buffer are invisble - which is the case when the mouse cursor is
-located near the screen border.
+On Thu, Aug 6, 2020 at 6:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+> ping, as I'm still receiving "The recipient email address is
+> incorrect or does not exist in this domain." from wavecomp.com...
+>
+> On 7/16/20 8:56 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Hi Paul,
+> >
+> > Do you mind Acking this patch? QEMU's get_maintainer.pl
+> > still selects pburton@wavecomp.com for various of your
+> > contributions and wavesemi.com (where wavecomp.com seems
+> > redirected) keeps sending "The recipient email address is
+> > incorrect or does not exist in this domain."
 
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/display/artist.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Sure, sorry for the delay:
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 09d8b541f5..720db179ab 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -206,7 +206,12 @@ static void artist_invalidate_lines(struct vram_buffe=
-r *buf,
-                                     int starty, int height)
- {
-     int start =3D starty * buf->width;
--    int size =3D height * buf->width;
-+    int size;
-+
-+    if (starty + height > buf->height)
-+        height =3D buf->height - starty;
-+
-+    size =3D height * buf->width;
+  Acked-by: Paul Burton <paulburton@kernel.org>
 
-     if (start + size <=3D buf->size) {
-         memory_region_set_dirty(&buf->mr, start, size);
-=2D-
-2.21.3
+> > In case you don't want to receive any more emails from the
+> > QEMU mailing list, you can Nack this patch, so I'll have a
+> > good reason to insist with the alternative to have a
+> > 'ignore .mailmap', suggested here:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg717757.html
 
+I'm happy to continue receiving mail, though right now realistically I
+don't have the time to do much with it. Perhaps that might change in
+the future.
+
+Thanks,
+    Paul
 
