@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505DB240AB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:44:53 +0200 (CEST)
-Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BA2240AF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 18:04:44 +0200 (CEST)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k59ym-0000Ps-D5
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:44:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
+	id 1k5AHy-0002Ws-SQ
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 12:04:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin@koconnor.net>)
- id 1k59xe-0007zI-Kv
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:43:42 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:37477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kevin@koconnor.net>)
- id 1k59xc-0000oO-CI
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:43:42 -0400
-Received: by mail-qk1-x730.google.com with SMTP id b14so8740031qkn.4
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 08:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koconnor.net; s=google;
- h=date:from:to:subject:message-id:mime-version:content-disposition;
- bh=l+gZJMIUHPcIAwADlv6f4Euq8WeOhW8STveKLJQ0yjE=;
- b=Pturvk0gzan0MmFKYQeAxq9tYzhZslBr7qy5Gt3EOcQ2CtelOC1s3EXWyv7TYFcq/7
- 1H4U9QSDIWY3INQqzLoj9zkd+STN3G8Le1XzdYbH/8ow10Az1BxSQQ9JLlQ8dkD9jnrg
- WBX7m2HnKcZf3ScvEJsqbizKPvIo0U2rTL0Us=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition;
- bh=l+gZJMIUHPcIAwADlv6f4Euq8WeOhW8STveKLJQ0yjE=;
- b=hvksXdX67APQxAa4BXjGkCJAxSU/plfwmmkpNfOQ4bRrlwhb/USRSfaeUJWc8Q5Jyv
- eR0EZr9jOA9rR265ckkCQ8dv0210oiY9Hi8amJlB8c5QwIZtefiPj79ykjIMQecG1dnG
- 5G00u5ZessOxsk0C8yYwKnPnGcWvuC2thjIyCy1Yhwpcm9+NDA532A5t6t+xinzUxKdh
- n2Cb5lZoo8BaZluioY79O1DYQ072npXXM3XimiH/+ZVHqgBE7rMdd3I8T3yRRaSYrxjR
- DpCP7pgvO6Iyvypu2pZGbes+s+gP/isQ2SuxrYgcbRUjW7vXddlPYhS/6iDRtHCQMxCB
- OHWw==
-X-Gm-Message-State: AOAM533bBdbVHA6XdhMsxEiqTQlnlDDXtzmBBhk4GFPIcGsU6w/zi/K/
- YX+WGnUDEajficc2O4GR4fVDQNmg+0Q=
-X-Google-Smtp-Source: ABdhPJyeojddMPngIbWp/Lc6GZ+sqbz6E/h7gMTtuMnUOUDrg2W2CFQCWrGO5JjbeI2Z786+q01zqw==
-X-Received: by 2002:ae9:dc45:: with SMTP id q66mr26456388qkf.55.1597074218099; 
- Mon, 10 Aug 2020 08:43:38 -0700 (PDT)
-Received: from localhost ([64.18.9.253])
- by smtp.gmail.com with ESMTPSA id z197sm14606031qkb.66.2020.08.10.08.43.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 08:43:37 -0700 (PDT)
-Date: Mon, 10 Aug 2020 11:43:36 -0400
-From: Kevin O'Connor <kevin@koconnor.net>
-To: seabios@seabios.org, qemu-devel@nongnu.org, coreboot@coreboot.org
-Subject: [ANNOUNCE] SeaBIOS 1.14.0
-Message-ID: <20200810154336.GA3995464@morn.lan>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k5AGq-0001nO-PF
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:03:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44972
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k5AGn-0003PT-Fn
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:03:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597075407;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dhjTJH/ytGUDzuAKkHpQ7/JZhJ7cKTZHMrNULMT6EWA=;
+ b=Cfl3Y7mh2PjLDzji4EC5GMgFqn4OMlL7E2GOJtRaLvWY9g1VENWZWtyjA9DqNpvPLUr7F6
+ 2Q84YqFZITG8cbdZyFtBZmJ/3vKehBZqT2oYG40PIMw8IXmhfgb9qYNmUTEql0qjIdgWBn
+ 5eLtzuib7g6jwt/UaQqaJ82lmdf0xHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-fVaJU4GYMlSlRwkSvOI1PA-1; Mon, 10 Aug 2020 12:03:20 -0400
+X-MC-Unique: fVaJU4GYMlSlRwkSvOI1PA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 538CD1005510;
+ Mon, 10 Aug 2020 16:03:18 +0000 (UTC)
+Received: from localhost (ovpn-114-132.ams2.redhat.com [10.36.114.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8DF87B92F;
+ Mon, 10 Aug 2020 16:02:49 +0000 (UTC)
+Date: Mon, 10 Aug 2020 17:02:48 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v8 07/20] multi-process: add co-routines to communicate
+ with remote
+Message-ID: <20200810160248.GB66474@stefanha-x1.localdomain>
+References: <cover.1596217462.git.jag.raman@oracle.com>
+ <b57493752ed0ec04f44df915413e325acf641882.1596217462.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <b57493752ed0ec04f44df915413e325acf641882.1596217462.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FkmkrVfFsRoUs1wW"
 Content-Disposition: inline
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=kevin@koconnor.net; helo=mail-qk1-x730.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 04:13:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,99 +84,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 1.14.0 version of SeaBIOS has now been released.  For more
-information on the release, please see:
+--FkmkrVfFsRoUs1wW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-http://seabios.org/Releases
+On Fri, Jul 31, 2020 at 02:20:14PM -0400, Jagannathan Raman wrote:
+> +/*
+> + * Create if needed and enter co-routine to send the message to the
+> + * remote channel ioc and wait for the reply.
+> + * Returns the value from the reply message, sets the error on failure.
+> + */
+> +
+> +uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, QIOChannel *ioc,
+> +                                  Error **errp)
+> +{
+> +    MPQemuRequest req = {0};
+> +    uint64_t ret = UINT64_MAX;
+> +
+> +    req.ioc = ioc;
+> +    if (!req.ioc) {
+> +        error_setg(errp, "Channel is set to NULL");
+> +        return ret;
+> +    }
+> +
+> +    req.msg = msg;
+> +    req.ret = 0;
+> +    req.finished = false;
+> +
+> +    req.co = qemu_coroutine_create(mpqemu_msg_send_co, &req);
+> +    qemu_coroutine_enter(req.co);
+> +
+> +    while (!req.finished) {
+> +        aio_poll(qemu_get_aio_context(), true);
+> +    }
 
+This is called from vcpu threads. aio_poll() does not release the global
+mutex so all other vcpu threads are blocked until mpqemu communication
+completes.
 
-New in this release:
+The simplest solution is to unlock the global mutex and call blocking,
+non-coroutine versions of the send/recv code. That way other vcpu
+threads can execute.
 
-* New virtio MMIO support. Support for finding virtio MMIO devices via
-  an ACPI DSDT parser. Support for handling a large number of virtio
-  devices.
-* Improved handling of USB keyboards with non-standard packet size.
-* Improved KVM CPU frequency detection.
-* Support for PCI mmconfig support on QEMU.
-* Several bug fixes and code cleanups.
+This means that the QEMU process would not use the mpqemu IOChannel in
+the event loop.
 
+The remote process would still use the IOChannel in the event loop,
+however.
 
-For information on obtaining SeaBIOS, please see:
+Stefan
 
-http://seabios.org/Download
+--FkmkrVfFsRoUs1wW
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-===== git shortlog -n rel-1.13.0..rel-1.14.0 =====
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8xb6gACgkQnKSrs4Gr
+c8j5Ogf+LjFVIml9m39/9H76AFmerro7gv+4o5Ff/sP15G7qhUCSCe4sP0whM5JN
+kIOZL22iZ7W1K2G9AVIqY1VwXqPJ/eT6+li0kOXnBf1sPGGMjFhZ4XrOga0MF+Hh
+AH9m2Ej9x21EKc5om52tIueGTS2ZuYSS86yCg7D0m0IRKRIfltJTBG+O4wBvC3z1
+QAxZBoB+AJCmEtE3i8x532A5QyUDnUUqFjvmFM4u+thCbYePnD7OcylcLxVixnqt
+FczACdTru5HhrdWIjEoBvVkhC4ATRGhWoFo5TGhj50HunHv51PGDX/TrC8pY6c/K
+87eoHpAqWtbDAPt/Hk5HLGnhQ/P15g==
+=kpgr
+-----END PGP SIGNATURE-----
 
-Gerd Hoffmann (25):
-      boot: cache HALT priority
-      virtio-scsi: skip initializing non-bootable devices
-      nvme: skip initializing non-bootable devices
-      timer: add tsctimer_setfreq()
-      kvm: detect unconditionally
-      kvm: add support for reading tsc frequency via cpuid.
-      kvm: add support for reading tsc frequency from kvmclock
-      sercon: vbe modeset is int 10h function 4f02 not 4f00
-      pci: factor out ioconfig_cmd()
-      pci: add mmconfig support
-      qemu: factor out qemu_cfg_detect()
-      qemu: rework e820 detection
-      qemu: check rtc presence before reading cpu count from cmos
-      virtio-mmio: device probing and initialization.
-      virtio-mmio: add support to vp_*() functions
-      virtio-mmio: add support for scsi devices.
-      virtio-mmio: add support for block devices.
-      virtio-mmio: print device type
-      acpi: add xsdt support
-      acpi: add dsdt parser
-      acpi: skip kbd init if not present
-      acpi: find and register virtio-mmio devices
-      rewrap Makefile lines.
-      pci: fix mmconfig support
-      vga: fix cirrus bios
+--FkmkrVfFsRoUs1wW--
 
-Kevin O'Connor (6):
-      usb-hid: Improve max packet size checking
-      Revert "ps2port: adjust init routine to fix PS/2 keyboard issues"
-      boot: Fixup check for only one item in boot list
-      vgabios: Fix preserve memory flag in handle_1000
-      ldnoexec: Add script to remove ET_EXEC flag from intermediate build objects
-      docs: Note v1.14.0 release
-
-Paul Menzel (5):
-      std/tcg: Replace zero-length array with flexible-array member
-      boot: Extend `etc/show-boot-menu` to configure skipping boot menu with only one device
-      boot: Log, if boot menu is skipped
-      cdrom: Demote `scsi_is_ready` return print to debug level
-      nvme: Increase `nvme_cmd_readwrite()` message log level from 3 to 5
-
-Matt DeVillier (4):
-      hw/usb-hid: Don't abort if setting key repeat rate fails
-      Skip boot menu and timeout with only one boot device
-      ps2port: adjust init routine to fix PS/2 keyboard issues
-      boot: Fix logic for boot menu display
-
-Stefan Berger (3):
-      tcgbios: Only write logs for PCRs that are in active PCR banks
-      tcgbios: Fix the vendorInfoSize to be of type u8
-      tcgbios: Add support for SHA3 type of algorithms
-
-Alexey Kirillov (2):
-      boot: Detect strict boot order (HALT record) in function
-      virtio: Do not init non-bootable devices
-
-Christian Ehrhardt (1):
-      build: use -fcf-protection=none when available
-
-Jason Andryuk (1):
-      serialio: Preserve Xen DebugOutputPort
-
-Roman Bolshakov (1):
-      timer: Handle decrements of PIT counter
-
-Stefan Reiter (1):
-      virtio-scsi: fix boot prio detection by using correct lun
 
