@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52FB240696
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:31:30 +0200 (CEST)
-Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814702406B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:40:34 +0200 (CEST)
+Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k57th-0003pG-Il
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46300)
+	id 1k582T-0000lB-CY
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:40:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nd-0000zv-TE
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:13 -0400
-Received: from mout.gmx.net ([212.227.15.18]:59033)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57ni-00013E-Fi
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:18 -0400
+Received: from mout.gmx.net ([212.227.15.19]:33401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57na-0008GU-PX
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:13 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nf-0008HN-Hn
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1597065887;
- bh=WOmbPSJ1IovLaHobnoaa9ga8qpoZn56dcothAl1FiBM=;
+ bh=FteAIEPVuJTC5Kttr/SwW6t9UCyjdQt5PIs/OZjkss4=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=DZcNoYKAhr7fFtZSuuP0WzRuOGW5iu29qXZZ8KIxw7S0YWiPovPoNvvAvM+UaxA5e
- pEApVa5E7QZvthvztBSgTm4vD0rAjdWb9LWolePrETbwagxt4ESJJascezrRCkRAN6
- doRmmB9btlEcQQ03D3flkqUne8KchfddfNKFQXjw=
+ b=WIA20f4gL/qlpsaiMwFXZlsqZI4GJhNp1IOVW52sQ8VKlXOsnjceSGghPL8VyS5zj
+ fjmgfZ7mFyGThCuzbPDI+cPA1Rs0OQWhMiTdjMvehQGNfqK0V+jEwX0Miw1yY5q2Z2
+ WN9hZ1MuJq1tH8K4CxdWlsp9x5R4wkr4Zk/LTXhI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.174.37]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M59C2-1k6EFm45rw-0016Im; Mon, 10
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mk0JW-1kXsyV1C24-00kNkW; Mon, 10
  Aug 2020 15:24:47 +0200
 From: Helge Deller <deller@gmx.de>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 08/12] Revert "hw/display/artist: Avoid drawing line when
- nothing to display"
-Date: Mon, 10 Aug 2020 15:24:37 +0200
-Message-Id: <20200810132441.16551-9-deller@gmx.de>
+Subject: [PULL v2 09/12] hw/display/artist: Prevent out of VRAM buffer accesses
+Date: Mon, 10 Aug 2020 15:24:38 +0200
+Message-Id: <20200810132441.16551-10-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200810132441.16551-1-deller@gmx.de>
 References: <20200810132441.16551-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FSLJL8fni5LyydvTm0rgWc96QgpkSmsBseMxLySOG5nFTANsFKO
- SWDopwtH4wuCyslENQxlv3uDVZMnfe7GpB+RLoMONbUPrXsJgTVherFIv0Keoyh30wo24lk
- W2tPH3FKtYbT2KJAVILtcLxxiiKJ7xS96BAR5GLVxLkDLlefELk2JvWkd5Ddi4gv+R2jXKN
- MNznQooF8MFQWRHJTR6gQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wsySTu7L3Bs=:MHRRHCM9YlsDFvIVWVusmV
- q8XRj8MjQiWCzS1SmSZbgvKVablzs9j7JxjCVoz9GGYWB0a15x2m5nJXdffPVIMwXHPUkDcgq
- fLTKWmUqPpaBOFKUyTj96hLbmta6RhengxllEzAmtausYLlFoCczk7OhUBoU9V4znSyV+uXcW
- uFX2DsE7M8ymG/foeMlTxTmq3lnXD2Kk5OOiO8jH7ewzfMvt0bEt1xSKivb5kD8tOjpNOyMXm
- hewhAo1+bZAtmYC1SKtV75oQ3yUJRDRyk3Mme7FPSx0FI4ft+o5IjAtSulDZSbbj1Gje6NS8J
- gmF6wnbTj0xbw1j7qTbAvSDQHHWHwcMETQUM7wnBNCeGpjB+JBUeDRZSEvSJT697K/4I8ijCj
- tN6ol9d7FXSoVYOgfqGFR0z3CuIeK5jlAILn2KcKqSwhp6rBB4YmsrXLsUVv3RqxYIfWaD4jL
- J8FDIXq1OFRf3HvpFTvXxezHT1oAA3FlShIAHwXTZybPiEGSuzfHk7RFEOr6GdCAUFn1xrYa5
- 8xmiP7Dg10y2vfZzq/iuaOIDXZArRYr+wadst7Rawvluh7fgmKBshnipbiXPFdKFvszTOVp33
- 2niCKHlTzvmVdWKPfeKIlWuHbSEzCvwmqvmmodxPMPS76E9ZpBdgQnuKEX+YayL8nDPlB228Q
- Kfk9GQ0pQDChwJ3n8irXzuBYm8aLUNyHEBAvw+ZcQLz0YZtHljf7hLWRakQAxoal+f05ilkIB
- ytUtFHRm2jTDYsIv7nGAoTJ1G9Ux3f1vB6gFU6b0MNhSTYfcecyvLba+RTV3nm2oonThLn9ZQ
- hxQFPVYoy/gS99ikN+yd4ozzjxXjKp0cYMd3oY99fkbvJ1brW7S1iCy9xs25cIWopV3vi+0Iu
- zaVQ+Z6Lk+sl2bk03bhh39dhqEB8Fdhr67v3KRFr2yJw3808EATv7PrVjTrXPoaD6EkoWEQMy
- j29AjJA3FJabHHbeMS9tr7rRsp9+T4bOmJhbE8LwT2GHyFjmGLL8/PldNs4Kgy2xoDphR1JMZ
- jqWtE6RqHUeNNgOk0BGCb5QxQEBMGJlLHrMo21Hmry5jIUy0A+ldqzzHvY0zWgXdYFwY54s0u
- TF7MKzZzXx1G3HciPQH2F4uDQE0Q40B2W4/+6V0rUbNjERJcwIXB4rxnhhAX+82istcbs+T4P
- LfA3xhIRIfFCMo1zR5ICnKz+Da98FrbeUV6eqRVJcS6ajEfhd8/H+7e7JSeRq3Fep77CPy9u0
- PFEK4Cq5QmxdIH3/4
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:sCF5fIzdSNPy6joOil02thubFvlOinwQ7zWHyL4vHntrU/KGOpc
+ taOdAq3fqChvkCmpIwGJhJqIlGIgA0FL1zganf0su1VgnCXhfD2bEQZ0jeaZRFt0s41X0Pj
+ UGa7IiN6x6Hf+SkK78PLP73APU3YOYXw8nCMxeaJZ0scUVDaFh9K8S+OlGC6zsqnrv6t0/Z
+ UemL2DVEeXUdgF5NLUDSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:t3i3CRmaNJE=:5kYkKnfQBpFsrvigf3jWCa
+ 48Hs8AM7L6pP4LeMIkwUKFEw0tcD+3sIV0yBQjargnv6OPa6F9bsWfjcZv3d7CIrha+mYi8ye
+ EfBxOsx5pn19bitt7n0IVRs8cu7NbsuK7pYxe+3fOyRE0MN5L/wLlGw1UfSY4HCzzkCswtBCN
+ 9G+3lNTAVS6BRNuzGGnv6f755VxamQYytQ2MEI/QHTYr7L7uw2Bcb4zlaAQqRH/nCaiDhiVn7
+ geFYg4iw/ZWU7SVg+Sc/QPoPF1kvyt6CE6NKmltfTO65Du6mHw2nk/EQwNmgHkSG8NQbikL8w
+ 3373WjiTMW3AXvdCQOpQ1FHDXTu9sTZCGV3vWxgeheARaJWZU72nFKkxQyXv74TJyWOfI2/bB
+ 8L5NHlzlymX4HexRcOCPhnc89jk0PFc/++PpuYlwsBHtLbBrazdeOZlZsp4zRlwUwVd2RQ4I5
+ jcSqKRE3XT5xoILelHvhU++cpF0Yafb0ju8asVURVj0B+N5++Vj6EnYOlsftOJ7H6lE5p9r14
+ ov0v6GLHLdach7toY3ARPUn/H82+VfsLdPyyCLBi2NIbJeje3BSeOl+g8ZQXx1BIDwWUH/QOx
+ o0FE0RKPSBh5hY4D9VBZQ3WvI+44lR9XulKxuEveTt0aEH45hLJHfPGvoL+lAflf+jIXOTeUI
+ xYOJhPum7cpaZL0vj+EI/IFjPhU8RKlFeWi/9XiawvLewAgVvkLCXHjkmSJS9CjmMh878pMxI
+ yxvVGo3WJ3THqEvPImxNvW5MK5IZp7VvUnaFfcmuooNsR0CqBEbnXLg4EpbM0wk0sQvrArttI
+ la6sVTad9h8lS7EFDbQD9xDDCCCKufNNQqyhxeW1ADwjlZ47B68xrG58uvZE5Fu3IErtrIOU4
+ 3WBQrqmv/pp7ezqmsLfWC1L8AOHL+aka/SOCvsZJDzi/+hr+q+14qn1Mhs74LzMEDZ45qkXgU
+ U3lDnFVzdPY1o8btIrmLgYVlRoGBiiRyTx50FL6e2ExK5D/UL6L4k0cBg1MX5B47eCq4nKJby
+ F0FH3sS1/sE9l1eYxJLnNOuSzeeWg2z4eXH1pdlWVMmdLN3Z/+uu8dpe0FSUZoyuVMk1CBzER
+ qzNnctPXQDhzkOmN2DlsxVIBU9yZireA6VlCx6m7v+OQZmT4cqrmj5+D08xwZD3qta82IxLgN
+ B+PYyt1XXjA03kIE8fjL/LDLKAHJurDBcY6e6SxA0MD48wSLL9/sd5B158aGU265Y0wKMv3Ws
+ xo2gKeqIQ9wodi5We
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 09:25:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 09:25:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -86,33 +85,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Helge Deller <deller@gmx.de>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit b0f6455feac97e41045ee394e11c24d92c370f6e.
-It's wrong. A line could even be a dot.
+Simplify various bounds checks by changing parameters like row and column
+numbers to become unsigned instead of signed.
+With that we can check if the calculated offset is bigger than the size of=
+ the
+VRAM region and bail out if not.
 
+Reported-by: LLVM libFuzzer
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1880326
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890310
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890311
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890312
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890370
+Acked-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/display/artist.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/display/artist.c | 110 +++++++++++++++++++++++++++-----------------
+ 1 file changed, 69 insertions(+), 41 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 47de17b9e9..f37aa9eb49 100644
+index f37aa9eb49..46eaa10dae 100644
 =2D-- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -591,9 +591,6 @@ static void draw_line(ARTISTState *s, int x1, int y1, =
-int x2, int y2,
-     } else {
-         dy =3D y1 - y2;
-     }
--    if (!dx || !dy) {
--        return;
--    }
+@@ -35,9 +35,9 @@
+ struct vram_buffer {
+     MemoryRegion mr;
+     uint8_t *data;
+-    int size;
+-    int width;
+-    int height;
++    unsigned int size;
++    unsigned int width;
++    unsigned int height;
+ };
 
-     c1 =3D false;
-     if (dy > dx) {
+ typedef struct ARTISTState {
+@@ -274,15 +274,15 @@ static artist_rop_t artist_get_op(ARTISTState *s)
+ }
+
+ static void artist_rop8(ARTISTState *s, struct vram_buffer *buf,
+-                        int offset, uint8_t val)
++                        unsigned int offset, uint8_t val)
+ {
+     const artist_rop_t op =3D artist_get_op(s);
+     uint8_t plane_mask;
+     uint8_t *dst;
+
+-    if (offset < 0 || offset >=3D buf->size) {
++    if (offset >=3D buf->size) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "rop8 offset:%d bufsize:%u\n", offset, buf->size);
++                      "rop8 offset:%u bufsize:%u\n", offset, buf->size);
+         return;
+     }
+     dst =3D buf->data + offset;
+@@ -294,8 +294,7 @@ static void artist_rop8(ARTISTState *s, struct vram_bu=
+ffer *buf,
+         break;
+
+     case ARTIST_ROP_COPY:
+-        *dst &=3D ~plane_mask;
+-        *dst |=3D val & plane_mask;
++        *dst =3D (*dst & ~plane_mask) | (val & plane_mask);
+         break;
+
+     case ARTIST_ROP_XOR:
+@@ -349,7 +348,8 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+ {
+     struct vram_buffer *buf;
+     uint32_t vram_bitmask =3D s->vram_bitmask;
+-    int mask, i, pix_count, pix_length, offset, width;
++    int mask, i, pix_count, pix_length;
++    unsigned int offset, width;
+     uint8_t *data8, *p;
+
+     pix_count =3D vram_write_pix_per_transfer(s);
+@@ -364,8 +364,7 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+         offset =3D posy * width + posx;
+     }
+
+-    if (!buf->size) {
+-        qemu_log("write to non-existent buffer\n");
++    if (!buf->size || offset >=3D buf->size) {
+         return;
+     }
+
+@@ -394,7 +393,9 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+
+     case 3:
+         if (s->cmap_bm_access) {
+-            *(uint32_t *)(p + offset) =3D data;
++            if (offset + 3 < buf->size) {
++                *(uint32_t *)(p + offset) =3D data;
++            }
+             break;
+         }
+         data8 =3D (uint8_t *)&data;
+@@ -464,12 +465,14 @@ static void vram_bit_write(ARTISTState *s, int posx,=
+ int posy, bool incr_x,
+     }
+ }
+
+-static void block_move(ARTISTState *s, int source_x, int source_y, int de=
+st_x,
+-                       int dest_y, int width, int height)
++static void block_move(ARTISTState *s,
++                       unsigned int source_x, unsigned int source_y,
++                       unsigned int dest_x,   unsigned int dest_y,
++                       unsigned int width,    unsigned int height)
+ {
+     struct vram_buffer *buf;
+     int line, endline, lineincr, startcolumn, endcolumn, columnincr, colu=
+mn;
+-    uint32_t dst, src;
++    unsigned int dst, src;
+
+     trace_artist_block_move(source_x, source_y, dest_x, dest_y, width, he=
+ight);
+
+@@ -481,6 +484,12 @@ static void block_move(ARTISTState *s, int source_x, =
+int source_y, int dest_x,
+     }
+
+     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
++    if (height > buf->height) {
++        height =3D buf->height;
++    }
++    if (width > buf->width) {
++        width =3D buf->width;
++    }
+
+     if (dest_y > source_y) {
+         /* move down */
+@@ -507,24 +516,27 @@ static void block_move(ARTISTState *s, int source_x,=
+ int source_y, int dest_x,
+     }
+
+     for ( ; line !=3D endline; line +=3D lineincr) {
+-        src =3D source_x + ((line + source_y) * buf->width);
+-        dst =3D dest_x + ((line + dest_y) * buf->width);
++        src =3D source_x + ((line + source_y) * buf->width) + startcolumn=
+;
++        dst =3D dest_x + ((line + dest_y) * buf->width) + startcolumn;
+
+         for (column =3D startcolumn; column !=3D endcolumn; column +=3D c=
+olumnincr) {
+-            if (dst + column > buf->size || src + column > buf->size) {
++            if (dst >=3D buf->size || src >=3D buf->size) {
+                 continue;
+             }
+-            artist_rop8(s, buf, dst + column, buf->data[src + column]);
++            artist_rop8(s, buf, dst, buf->data[src]);
++            src +=3D columnincr;
++            dst +=3D columnincr;
+         }
+     }
+
+     artist_invalidate_lines(buf, dest_y, height);
+ }
+
+-static void fill_window(ARTISTState *s, int startx, int starty,
+-                        int width, int height)
++static void fill_window(ARTISTState *s,
++                        unsigned int startx, unsigned int starty,
++                        unsigned int width,  unsigned int height)
+ {
+-    uint32_t offset;
++    unsigned int offset;
+     uint8_t color =3D artist_get_color(s);
+     struct vram_buffer *buf;
+     int x, y;
+@@ -561,7 +573,9 @@ static void fill_window(ARTISTState *s, int startx, in=
+t starty,
+     artist_invalidate_lines(buf, starty, height);
+ }
+
+-static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
++static void draw_line(ARTISTState *s,
++                      unsigned int x1, unsigned int y1,
++                      unsigned int x2, unsigned int y2,
+                       bool update_start, int skip_pix, int max_pix)
+ {
+     struct vram_buffer *buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+@@ -571,12 +585,12 @@ static void draw_line(ARTISTState *s, int x1, int y1=
+, int x2, int y2,
+
+     trace_artist_draw_line(x1, y1, x2, y2);
+
+-    if (x1 * y1 >=3D buf->size || x2 * y2 >=3D buf->size) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "draw_line (%d,%d) (%d,%d)\n", x1, y1, x2, y2);
+-        return;
++    if ((x1 >=3D buf->width && x2 >=3D buf->width) ||
++        (y1 >=3D buf->height && y2 >=3D buf->height)) {
++	return;
+     }
+
++
+     if (update_start) {
+         s->vram_start =3D (x2 << 16) | y2;
+     }
+@@ -633,7 +647,7 @@ static void draw_line(ARTISTState *s, int x1, int y1, =
+int x2, int y2,
+     color =3D artist_get_color(s);
+
+     do {
+-        int ofs;
++        unsigned int ofs;
+
+         if (c1) {
+             ofs =3D x * s->width + y;
+@@ -765,13 +779,14 @@ static void font_write16(ARTISTState *s, uint16_t va=
+l)
+     uint16_t mask;
+     int i;
+
+-    int startx =3D artist_get_x(s->vram_start);
+-    int starty =3D artist_get_y(s->vram_start) + s->font_write_pos_y;
+-    int offset =3D starty * s->width + startx;
++    unsigned int startx =3D artist_get_x(s->vram_start);
++    unsigned int starty =3D artist_get_y(s->vram_start) + s->font_write_p=
+os_y;
++    unsigned int offset =3D starty * s->width + startx;
+
+     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
+
+-    if (offset + 16 > buf->size) {
++    if (startx >=3D buf->width || starty >=3D buf->height ||
++        offset + 16 >=3D buf->size) {
+         return;
+     }
+
+@@ -1135,7 +1150,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
+ddr, uint64_t val,
+     struct vram_buffer *buf;
+     int posy =3D (addr >> 11) & 0x3ff;
+     int posx =3D addr & 0x7ff;
+-    uint32_t offset;
++    unsigned int offset;
+     trace_artist_vram_write(size, addr, val);
+
+     if (s->cmap_bm_access) {
+@@ -1156,18 +1171,28 @@ static void artist_vram_write(void *opaque, hwaddr=
+ addr, uint64_t val,
+     }
+
+     offset =3D posy * buf->width + posx;
++    if (offset >=3D buf->size) {
++        return;
++    }
++
+     switch (size) {
+     case 4:
+-        *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
+-        memory_region_set_dirty(&buf->mr, offset, 4);
++        if (offset + 3 < buf->size) {
++            *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
++            memory_region_set_dirty(&buf->mr, offset, 4);
++        }
+         break;
+     case 2:
+-        *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
+-        memory_region_set_dirty(&buf->mr, offset, 2);
++        if (offset + 1 < buf->size) {
++            *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
++            memory_region_set_dirty(&buf->mr, offset, 2);
++        }
+         break;
+     case 1:
+-        *(uint8_t *)(buf->data + offset) =3D val;
+-        memory_region_set_dirty(&buf->mr, offset, 1);
++        if (offset < buf->size) {
++            *(uint8_t *)(buf->data + offset) =3D val;
++            memory_region_set_dirty(&buf->mr, offset, 1);
++        }
+         break;
+     default:
+         break;
+@@ -1183,9 +1208,12 @@ static uint64_t artist_vram_read(void *opaque, hwad=
+dr addr, unsigned size)
+
+     if (s->cmap_bm_access) {
+         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
+-        val =3D *(uint32_t *)(buf->data + addr);
++        val =3D 0;
++        if (addr < buf->size && addr + 3 < buf->size) {
++            val =3D *(uint32_t *)(buf->data + addr);
++        }
+         trace_artist_vram_read(size, addr, 0, 0, val);
+-        return 0;
++        return val;
+     }
+
+     buf =3D vram_read_buffer(s);
 =2D-
 2.21.3
 
