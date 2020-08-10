@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BB9240BDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:24:58 +0200 (CEST)
-Received: from localhost ([::1]:43674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B720240BF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:29:33 +0200 (CEST)
+Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5BXd-0001L0-K6
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45604)
+	id 1k5Bc4-00040f-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJV-0007X2-6i
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42924
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k5BJU-0007VO-GO
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJS-0002pT-BG
+ id 1k5BJS-0002pY-IN
  for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597079417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=1BWOI/nEMBAbcdH3Hg9U1VAqfDrfVzd49qKJhFbH1K4=;
- b=Dw2fD9wgU9J7BMJXGf4YV9zKvDIbN+H98eHCRTlHxQlNhNJP1Mu4msEAvt+wg3Jg704Uz8
- d4Shm0X3M44ak7ces6myFBhPtSH7sH6cQeeAUnE6zsXJ/wwToJ3WzxXTOkGftccIXKYtQl
- gLGAmf1PX7CcNmLC9QPTDvEK0j5oCmQ=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WZvlnJ9Jj4AqGoZcTwDNkyH0J7VSZJMbTia0qPpJBEs=;
+ b=DiTaZOc2Pu65FInq5jaukeCDTitRUEf5u/w9ELy9NIfIOXTaP1oXKxl1QoW5c4h/FTShz2
+ 8YcQ39A7f9uZeL2pcll7VW1ZFNuTmaKvC8a23Gt/J5haM2R6JHx6LjJ6abs26/i9XFkYzm
+ 5BKQC6B+A6LEW/tlnuNt6XScOoE48XY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-OK-pLXFWNU6RnRWZK8ibMA-1; Mon, 10 Aug 2020 13:10:14 -0400
-X-MC-Unique: OK-pLXFWNU6RnRWZK8ibMA-1
+ us-mta-215-Vzp3KubfN9WGkcYCGif1ig-1; Mon, 10 Aug 2020 13:10:16 -0400
+X-MC-Unique: Vzp3KubfN9WGkcYCGif1ig-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1D0D19057AC
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D5E1100CCDD
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:15 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E79BC71927
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A1455F1EA;
+ Mon, 10 Aug 2020 17:10:13 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 039/147] meson: convert dummy Windows qga/qemu-ga target
-Date: Mon, 10 Aug 2020 19:07:17 +0200
-Message-Id: <1597079345-42801-40-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 040/147] meson: add qemu-bridge-helper
+Date: Mon, 10 Aug 2020 19:07:18 +0200
+Message-Id: <1597079345-42801-41-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:29:25
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:11:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,67 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                  | 5 -----
- qga/meson.build           | 4 ++++
- qga/vss-win32/meson.build | 2 ++
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ Makefile    | 4 ----
+ meson.build | 9 ++++++++-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 3aeadfb..b844b06 100644
+index b844b06..b4f486b 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -434,11 +434,6 @@ qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
- qemu-keymap$(EXESUF): LIBS += $(XKBCOMMON_LIBS)
- qemu-keymap$(EXESUF): QEMU_CFLAGS += $(XKBCOMMON_CFLAGS)
+@@ -181,8 +181,6 @@ LIBS+=-lz $(LIBS_TOOLS)
  
--ifneq ($(EXESUF),)
--.PHONY: qga/qemu-ga
--qga/qemu-ga: qga/qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
--endif
+ HELPERS-y = $(HELPERS)
+ 
+-HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
 -
- module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
- 	$(call quiet-command,$(PYTHON) $< $@ \
- 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
-diff --git a/qga/meson.build b/qga/meson.build
-index 2d33c09..7e7174b 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -44,6 +44,7 @@ qga = executable('qemu-ga', qga_ss.sources(),
-                  link_args: config_host['LIBS_QGA'].split(),
-                  dependencies: [qemuutil, libudev],
-                  install: true)
-+all_qga = [qga]
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
+ # build the manuals into a subdirectory (and then install them from
+@@ -415,8 +413,6 @@ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
+ qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
  
- if host_machine.system() == 'windows'
-   if 'CONFIG_QGA_VSS' in config_host
-@@ -72,6 +73,9 @@ if host_machine.system() == 'windows'
-                               config_host['QEMU_GA_MSI_WITH_VSS'].split(),
-                               config_host['QEMU_GA_MSI_MINGW_DLL_PATH'].split(),
-                             ])
-+    all_qga += [qga-msi]
-     alias_target('msi', qga_msi)
+-qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+-
+ qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
+ 
+ qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+diff --git a/meson.build b/meson.build
+index e05a440..7d07aa7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -276,7 +276,6 @@ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: genh + version_res)
+ 
+ # Other build targets
+-
+ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
+ endif
+@@ -294,6 +293,14 @@ if have_tools
+     subdir('contrib/vhost-user-input')
+     subdir('contrib/vhost-user-scsi')
    endif
- endif
 +
-+alias_target('qemu-ga', all_qga)
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-index 1f39e05..780c461 100644
---- a/qga/vss-win32/meson.build
-+++ b/qga/vss-win32/meson.build
-@@ -14,6 +14,8 @@ if add_languages('cpp', required: false)
-                                cc.find_library('shlwapi'),
-                                cc.find_library('uuid'),
-                                cc.find_library('intl')])
++  if host_machine.system() == 'linux'
++    executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
++               dependencies: [qemuutil, libcap_ng],
++               install: true,
++               install_dir: get_option('libexecdir'))
++  endif
 +
-+  all_qga += qga_vss
- endif
- 
- # rules to build qga-vss.tlb
+   if 'CONFIG_IVSHMEM' in config_host
+     subdir('contrib/ivshmem-client')
+     subdir('contrib/ivshmem-server')
 -- 
 1.8.3.1
 
