@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AFD240C74
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:56:22 +0200 (CEST)
-Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F41A240C7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:58:00 +0200 (CEST)
+Received: from localhost ([::1]:37538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5C21-0004xl-62
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
+	id 1k5C3b-0008NH-Cv
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BLV-0002py-AN
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:25 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51852
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k5BLl-00031Q-LT
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32202
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BLT-0003Hm-7U
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:24 -0400
+ id 1k5BLh-0003KG-Dc
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079542;
+ s=mimecast20190719; t=1597079553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XhQB4ICFW6AJbBPIjPKbDMY18H8bit53HVqzaUS2BM0=;
- b=Pd5dF8m308Bp5yaKTT9wmPfO/Jaos8XHKRJJyxCI6pOSqEj0G/K0MI1TLVqkAwMLv/B8aZ
- IN+6dlZyfCrYfYDte+9k9VD3bjMmRRgl2hd0vKDOYfJPE/hFEhsUwBzpamA57MAK90/oCB
- mnn2X2kQHbVNHizHIEWfivi8UbJ/EnI=
+ bh=uMwCXBbuAcSBH1xta3qaNV59S+O7BdB/TdI6Kh9HkK4=;
+ b=MdG641oZeUSjA4gY08Cji23o1oIHnEYG50WIuAkW+Y1/9oXhnZ74DSzprTIbfE6/i8uuAA
+ zQZH/Qve39i51C2gdyI3xJID2sKxuIokqenBioe7yvtp6lJsdTLTvhld0UBdW6djQdoNn9
+ jd9gaZ3akeNPPvX+eIueTPNC5eWtjUU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-dmW7-_XuOBGtPMHF6KZDIA-1; Mon, 10 Aug 2020 13:12:20 -0400
-X-MC-Unique: dmW7-_XuOBGtPMHF6KZDIA-1
+ us-mta-389-R9gzsRukPmSQAjVqvGI6Tw-1; Mon, 10 Aug 2020 13:12:32 -0400
+X-MC-Unique: R9gzsRukPmSQAjVqvGI6Tw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A5F91DE4
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46FFB19067E0
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:31 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 373B85F1E9;
- Mon, 10 Aug 2020 17:12:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53E5A5F1E9;
+ Mon, 10 Aug 2020 17:12:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 114/147] meson: convert hw/gpio
-Date: Mon, 10 Aug 2020 19:08:32 +0200
-Message-Id: <1597079345-42801-115-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 122/147] meson: convert hw/acpi
+Date: Mon, 10 Aug 2020 19:08:40 +0200
+Message-Id: <1597079345-42801-123-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,18 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:29:25
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,71 +92,96 @@ Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
  hw/Makefile.objs      |  1 -
- hw/gpio/Makefile.objs | 12 ------------
- hw/gpio/meson.build   | 12 ++++++++++++
+ hw/acpi/Makefile.objs | 26 --------------------------
+ hw/acpi/meson.build   | 25 +++++++++++++++++++++++++
  hw/meson.build        |  1 +
- 4 files changed, 13 insertions(+), 13 deletions(-)
- delete mode 100644 hw/gpio/Makefile.objs
- create mode 100644 hw/gpio/meson.build
+ 4 files changed, 26 insertions(+), 27 deletions(-)
+ delete mode 100644 hw/acpi/Makefile.objs
+ create mode 100644 hw/acpi/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index a2c2f6d..c04dfe5 100644
+index 4bdb674..ebae00a 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -8,7 +8,6 @@ devices-dirs-y += char/
- devices-dirs-y += cpu/
- devices-dirs-y += display/
- devices-dirs-y += dma/
--devices-dirs-y += gpio/
+@@ -1,6 +1,5 @@
+ ifeq ($(CONFIG_SOFTMMU), y)
+ devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
+-devices-dirs-y += acpi/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/gpio/Makefile.objs b/hw/gpio/Makefile.objs
+diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
 deleted file mode 100644
-index 3cfc261..0000000
---- a/hw/gpio/Makefile.objs
+index 72886c7..0000000
+--- a/hw/acpi/Makefile.objs
 +++ /dev/null
-@@ -1,12 +0,0 @@
--common-obj-$(CONFIG_MAX7310) += max7310.o
--common-obj-$(CONFIG_PL061) += pl061.o
--common-obj-$(CONFIG_PUV3) += puv3_gpio.o
--common-obj-$(CONFIG_ZAURUS) += zaurus.o
--common-obj-$(CONFIG_E500) += mpc8xxx.o
--common-obj-$(CONFIG_GPIO_KEY) += gpio_key.o
+@@ -1,26 +0,0 @@
+-ifeq ($(CONFIG_ACPI),y)
+-common-obj-$(CONFIG_ACPI_X86) += core.o piix4.o pcihp.o
+-common-obj-$(CONFIG_ACPI_X86_ICH) += ich9.o tco.o
+-common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu_hotplug.o
+-common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) += memory_hotplug.o
+-common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
+-common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
+-common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
+-common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
+-common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
+-common-obj-$(CONFIG_ACPI_APEI) += ghes.o
+-common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
+-common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
 -
--common-obj-$(CONFIG_OMAP) += omap_gpio.o
--common-obj-$(CONFIG_IMX) += imx_gpio.o
--common-obj-$(CONFIG_RASPI) += bcm2835_gpio.o
--common-obj-$(CONFIG_NRF51_SOC) += nrf51_gpio.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_gpio.o
-diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+-common-obj-y += acpi_interface.o
+-common-obj-y += bios-linker-loader.o
+-common-obj-y += aml-build.o utils.o
+-common-obj-$(CONFIG_ACPI_PCI) += pci.o
+-common-obj-$(CONFIG_TPM) += tpm.o
+-
+-common-obj-$(CONFIG_IPMI) += ipmi.o
+-common-obj-$(call lnot,$(CONFIG_IPMI)) += ipmi-stub.o
+-else
+-common-obj-y += acpi-stub.o aml-build-stub.o
+-endif
+-common-obj-$(CONFIG_ALL) += acpi-stub.o aml-build-stub.o acpi-x86-stub.o ipmi-stub.o
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
 new file mode 100644
-index 0000000..6bcdfa6
+index 0000000..dd69577
 --- /dev/null
-+++ b/hw/gpio/meson.build
-@@ -0,0 +1,12 @@
-+softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
-+softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
-+softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
-+softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
-+softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_ZAURUS', if_true: files('zaurus.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
++++ b/hw/acpi/meson.build
+@@ -0,0 +1,25 @@
++acpi_ss = ss.source_set()
++acpi_ss.add(files(
++  'acpi_interface.c',
++  'aml-build.c',
++  'bios-linker-loader.c',
++  'utils.c',
++))
++acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
++acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
++acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
++acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
++softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c'))
++softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
++                                                  'acpi-x86-stub.c', 'ipmi-stub.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index f9e5adf..52577c3 100644
+index ffa3f06..55ca2b2 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,4 +1,5 @@
- subdir('core')
-+subdir('gpio')
- subdir('hyperv')
- subdir('i2c')
- subdir('ide')
+@@ -1,3 +1,4 @@
++subdir('acpi')
+ subdir('adc')
+ subdir('audio')
+ subdir('block')
 -- 
 1.8.3.1
 
