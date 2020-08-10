@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAA6241134
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:54:38 +0200 (CEST)
-Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E850B24113D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:57:16 +0200 (CEST)
+Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5DsT-0008U1-LF
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51126)
+	id 1k5Dv2-000659-0T
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Dog-0000VF-Am
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:42 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36425)
+ id 1k5Doi-0000a7-Ff
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:44 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Dob-0004l5-OB
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:41 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id 3so692692wmi.1
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:37 -0700 (PDT)
+ id 1k5Dod-0004lO-Uh
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:44 -0400
+Received: by mail-wm1-x331.google.com with SMTP id k20so664787wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=in8nHFzKOQegCgF8vb8hOhMAaiGbmURtCJ4Hj4NuXzg=;
- b=oEINfCMrjNcCDNfoGaT77zm+BZJrp0tyYJNIvjAA06OSfwbf5+4gKdoKyPgiahXWTp
- pfMyQC/iMt1nVN4IJYZyKqRM4/cdzhH76cYT+MiQXvmwhbs5bZUyR5vYzH/oIiqreEEC
- DeTLiaM8EF6zQrQ/4J59qYPsHyrCEUQem7Awb7AIPzp7EB/ib7SYwIiNfC3xRumLY4QN
- yt6PaA8qQWKwMUrJ50fBhW3Qh/zmONMuAOnCAnXOJcBTH/iOfAFzCVQ4El1AI/6+joS8
- QPzQUq/kERTMt0jSTkQR7nqCeoIiQnDxWEndvu2tEyiJg1GwqQNzsi6V//NSmtTy6Ygg
- S4tg==
+ bh=z/dTzF2aEpv733HceHEozLrO8vWXaXfUqU2qDmOaLKo=;
+ b=ZihLP3J/KcleUK4I0C95+PUWmjfUomT5KyWRk0mfQMm2Iy/YBhOOv4YZJ51oz/C7UQ
+ wQxDoWuSQpPa4UFB/L5k96XYJDxxwEmhgoafBNPaUmnBvKdRYMMig3WNzPwM0yMDpxSO
+ DBTkRgCKSJko92CiGLByVMbeu1UqiMcp7L74G0WsgyaqRde6W937rsUTFviXeG4ApNx8
+ IjuYagxEZQ4TFarkAxB/5+89JU7obrLTol3bnTa7edOixbWiO6Rza4Xm+44F16Ntxdn9
+ VpXe/YQFgk9JZfjlj67Q0q6tiLgkGsaSfgFBbUfd32hmAjrnmeUVMDuwp+9QOOoDMU2m
+ 42MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=in8nHFzKOQegCgF8vb8hOhMAaiGbmURtCJ4Hj4NuXzg=;
- b=tbAP0HSd9hthXBsNozdC3RUPjsyB7Ew5SnrqHI/2jf4OZzEy+QR31tQGROI3TqceKf
- ZKHan6ASIlDhU3VIQFLfQDaSs4UvjhmZtRij3ahf5pqTUrijNeabgnndxJRThigLFk4p
- pVh38gvAyyavDizm1BX595sIadP4ouANVWygSbmRowMO80vLCHicxNpAnZo7sMmKyTps
- c4RaSJvgWu8EqVYy/zLM3q+BDNhJsbBBkSWZ9K4HwDpXR3KlR/LMPgVPIrmg649tYDZS
- bSOZs7pBirvrOT3Ue5fFuSP0J1E6BVwE8YBfQzZCUZbhezPBKS6lFDoZ/2R1xqcWBjVE
- AlaA==
-X-Gm-Message-State: AOAM532cVzYj9g0cb6Xp+rqGsnxPDgDKKfn+/L7a+vCzshgbD1WJta9m
- dMMV96DvXwxOFI3jbBiX6D41lP5pVDtyMg==
-X-Google-Smtp-Source: ABdhPJzLPjoKYwq19yk3SwarDfhuwmOzgWFfI2kjgugOvqyQUN5XOAqcGI0j609qI9Y/Z7dLjWXztA==
-X-Received: by 2002:a1c:964b:: with SMTP id y72mr745852wmd.69.1597089035390;
- Mon, 10 Aug 2020 12:50:35 -0700 (PDT)
+ bh=z/dTzF2aEpv733HceHEozLrO8vWXaXfUqU2qDmOaLKo=;
+ b=ZOD3oPQF4E5oVJXd1MT9iPHfPpnb4wZKSTb3sbtgBQI6UsV8DurDCH6e/ZQJWposlv
+ Terrl9yz3T5jrgQl5biSJWsshKCXc6z/Q4yew1uEYHI4Qowza1EhQiU3chmmx8KU5Ohq
+ 98yhF97WaOPt4ajZoK0X2rkcQRbL3LuZpvmYjJQey5NUmnJb8YBHk1Lkxl8Q0Kl217Pm
+ HSOST+veOqpWj8Ez9u4gcXaYxbkysCTTM/2Q/py3wScWoDo4tXXTCO97sdFUAo3UaGp1
+ 0FUc9plByACv+veqv7SPE1sondh013TLA+0Upb9iuyQD7VWUtiq6QdjBHjeaXiwmBESL
+ bSdw==
+X-Gm-Message-State: AOAM5311EKl7EhVRQ+PuxQ1QMENDYfcZDW+JZNMwhEQoVCvbl88XUR4G
+ u0vhNyKkFy7y83HTKoRyC4xFKRAF7JZJaA==
+X-Google-Smtp-Source: ABdhPJwwfPRZJCMtmZ701QVCxP6QapxTeNzkKhG+1ueV7OsUhuKtqH7RfxrPOO3AY4WubFEitEK4LQ==
+X-Received: by 2002:a7b:cf29:: with SMTP id m9mr757581wmg.88.1597089037183;
+ Mon, 10 Aug 2020 12:50:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.34
+ by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 12:50:34 -0700 (PDT)
+ Mon, 10 Aug 2020 12:50:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/20] scripts/qapi/parser.py: improve doc comment indent
- handling
-Date: Mon, 10 Aug 2020 20:50:07 +0100
-Message-Id: <20200810195019.25427-9-peter.maydell@linaro.org>
+Subject: [PATCH v5 09/20] docs/sphinx: Add new qapi-doc Sphinx extension
+Date: Mon, 10 Aug 2020 20:50:08 +0100
+Message-Id: <20200810195019.25427-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200810195019.25427-1-peter.maydell@linaro.org>
 References: <20200810195019.25427-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,234 +88,578 @@ Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the handling of indentation in doc comments more sophisticated,
-so that when we see a section like:
+Some of our documentation is auto-generated from documentation
+comments in the JSON schema.
 
-Notes: some text
-       some more text
-          indented line 3
+For Sphinx, rather than creating a file to include, the most natural
+way to handle this is to have a small custom Sphinx extension which
+processes the JSON file and inserts documentation into the rST
+file being processed.
 
-we save it for the doc-comment processing code as:
+This is the same approach that kerneldoc and hxtool use.
 
-some text
-some more text
-   indented line 3
-
-and when we see a section with the heading on its own line:
-
-Notes:
-
-some text
-some more text
-   indented text
-
-we also accept that and save it in the same form.
-
-The exception is that we always retain indentation as-is for Examples
-sections, because these are literal text.
-
-If we detect that the comment document text is not indented as much
-as we expect it to be, we throw a parse error.  (We don't complain
-about over-indented sections, because for rST this can be legitimate
-markup.)
-
-The golden reference for the doc comment text is updated to remove
-the two 'wrong' indents; these now form a test case that we correctly
-stripped leading whitespace from an indented multi-line argument
-definition.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-v1->v2: Update doc-good.out as per final para.
+Changes v4->v5: match the changes in parameters to the
+various visit_* methods from commit 7b3bc9e28f366
 ---
- scripts/qapi/parser.py         | 81 +++++++++++++++++++++++++++-------
- tests/qapi-schema/doc-good.out |  4 +-
- 2 files changed, 67 insertions(+), 18 deletions(-)
+ docs/conf.py           |   6 +-
+ docs/sphinx/qapidoc.py | 504 +++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS            |   1 +
+ 3 files changed, 510 insertions(+), 1 deletion(-)
+ create mode 100644 docs/sphinx/qapidoc.py
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 7fae4478d34..d9f11eadd96 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -308,18 +308,32 @@ class QAPIDoc:
-     """
+diff --git a/docs/conf.py b/docs/conf.py
+index d6e173ef77b..44ec5050717 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -52,7 +52,10 @@ except NameError:
+ # add these directories to sys.path here. If the directory is relative to the
+ # documentation root, use an absolute path starting from qemu_docdir.
+ #
++# Our extensions are in docs/sphinx; the qapidoc extension requires
++# the QAPI modules from scripts/.
+ sys.path.insert(0, os.path.join(qemu_docdir, "sphinx"))
++sys.path.insert(0, os.path.join(qemu_docdir, "../scripts"))
  
-     class Section:
--        def __init__(self, name=None):
-+        def __init__(self, parser, name=None, indent=0):
-+            # parser, for error messages about indentation
-+            self._parser = parser
-             # optional section name (argument/member or section name)
-             self.name = name
-             # the list of lines for this section
-             self.text = ''
-+            # the expected indent level of the text of this section
-+            self._indent = indent
  
-         def append(self, line):
-+            # Strip leading spaces corresponding to the expected indent level
-+            # Blank lines are always OK.
-+            if line:
-+                spacecount = len(line) - len(line.lstrip(" "))
-+                if spacecount > self._indent:
-+                    spacecount = self._indent
-+                if spacecount < self._indent:
-+                    raise QAPIParseError(self._parser, "unexpected de-indent")
-+                line = line[spacecount:]
+ # -- General configuration ------------------------------------------------
+@@ -67,7 +70,7 @@ needs_sphinx = '1.6'
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+-extensions = ['kerneldoc', 'qmp_lexer', 'hxtool']
++extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'qapidoc']
+ 
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+@@ -241,3 +244,4 @@ texinfo_documents = [
+ kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
+ kerneldoc_srctree = os.path.join(qemu_docdir, '..')
+ hxtool_srctree = os.path.join(qemu_docdir, '..')
++qapidoc_srctree = os.path.join(qemu_docdir, '..')
+diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+new file mode 100644
+index 00000000000..4f571b2f45a
+--- /dev/null
++++ b/docs/sphinx/qapidoc.py
+@@ -0,0 +1,504 @@
++# coding=utf-8
++#
++# QEMU qapidoc QAPI file parsing extension
++#
++# Copyright (c) 2020 Linaro
++#
++# This work is licensed under the terms of the GNU GPLv2 or later.
++# See the COPYING file in the top-level directory.
++"""qapidoc is a Sphinx extension that implements the qapi-doc directive"""
 +
-             self.text += line.rstrip() + '\n'
- 
-     class ArgSection(Section):
--        def __init__(self, name):
--            super().__init__(name)
-+        def __init__(self, parser, name, indent=0):
-+            super().__init__(parser, name, indent)
-             self.member = None
- 
-         def connect(self, member):
-@@ -333,7 +347,7 @@ class QAPIDoc:
-         self._parser = parser
-         self.info = info
-         self.symbol = None
--        self.body = QAPIDoc.Section()
-+        self.body = QAPIDoc.Section(parser)
-         # dict mapping parameter name to ArgSection
-         self.args = OrderedDict()
-         self.features = OrderedDict()
-@@ -438,7 +452,18 @@ class QAPIDoc:
- 
-         if name.startswith('@') and name.endswith(':'):
-             line = line[len(name)+1:]
--            self._start_args_section(name[1:-1])
-+            if not line or line.isspace():
-+                # Line was just the "@arg:" header; following lines
-+                # are not indented
-+                indent = 0
-+                line = ''
++# The purpose of this extension is to read the documentation comments
++# in QAPI JSON schema files, and insert them all into the current document.
++# The conf.py file must set the qapidoc_srctree config value to
++# the root of the QEMU source tree.
++# Each qapi-doc:: directive takes one argument which is the
++# path of the .json file to process, relative to the source tree.
++
++import os
++import re
++
++from docutils import nodes
++from docutils.statemachine import ViewList
++from docutils.parsers.rst import directives, Directive
++from sphinx.errors import ExtensionError
++from sphinx.util.nodes import nested_parse_with_titles
++import sphinx
++from qapi.gen import QAPISchemaVisitor
++from qapi.schema import QAPIError, QAPISchema
++
++# Sphinx up to 1.6 uses AutodocReporter; 1.7 and later
++# use switch_source_input. Check borrowed from kerneldoc.py.
++Use_SSI = sphinx.__version__[:3] >= '1.7'
++if Use_SSI:
++    from sphinx.util.docutils import switch_source_input
++else:
++    from sphinx.ext.autodoc import AutodocReporter
++
++
++__version__ = '1.0'
++
++# Function borrowed from pydash, which is under the MIT license
++def intersperse(iterable, separator):
++    """Like join, but for arbitrary iterables, notably arrays"""
++    iterable = iter(iterable)
++    yield next(iterable)
++    for item in iterable:
++        yield separator
++        yield item
++
++class QAPISchemaGenRSTVisitor(QAPISchemaVisitor):
++    """A QAPI schema visitor which generates docutils/Sphinx nodes
++
++    This class builds up a tree of docutils/Sphinx nodes corresponding
++    to documentation for the various QAPI objects. To use it, first create
++    a QAPISchemaGenRSTVisitor object, and call its visit_begin() method.
++    Then you can call one of the two methods 'freeform' (to add documentation
++    for a freeform documentation chunk) or 'symbol' (to add documentation
++    for a QAPI symbol). These will cause the visitor to build up the
++    tree of document nodes. Once you've added all the documentation
++    via 'freeform' and 'symbol' method calls, you can call 'get_document_nodes'
++    to get the final list of document nodes (in a form suitable for returning
++    from a Sphinx directive's 'run' method).
++    """
++    def __init__(self, sphinx_directive):
++        self._cur_doc = None
++        self._sphinx_directive = sphinx_directive
++        self._top_node = nodes.section()
++        self._active_headings = [self._top_node]
++
++    def _serror(self, msg):
++        """Raise an exception giving a user-friendly syntax error message"""
++        file = self._cur_doc.info.fname
++        line = self._cur_doc.info.line
++        raise ExtensionError('%s line %d: syntax error: %s' % (file, line, msg))
++
++    def _make_dlitem(self, term, defn):
++        """Return a dlitem node with the specified term and definition.
++
++        term should be a list of Text and literal nodes.
++        defn should be one of:
++        - a string, which will be handed to _parse_text_into_node
++        - a list of Text and literal nodes, which will be put into
++          a paragraph node
++        """
++        dlitem = nodes.definition_list_item()
++        dlterm = nodes.term('', '', *term)
++        dlitem += dlterm
++        if defn:
++            dldef = nodes.definition()
++            if isinstance(defn, list):
++                dldef += nodes.paragraph('', '', *defn)
 +            else:
-+                # Line is "@arg: first line of description"; following
-+                # lines should be indented by len(name) + 1, and we
-+                # pad out this first line so it is handled the same way
-+                indent = len(name) + 1
-+                line = ' ' * indent + line
-+            self._start_args_section(name[1:-1], indent)
-         elif self._is_section_tag(name):
-             self._append_line = self._append_various_line
-             self._append_various_line(line)
-@@ -460,7 +485,17 @@ class QAPIDoc:
- 
-         if name.startswith('@') and name.endswith(':'):
-             line = line[len(name)+1:]
--            self._start_features_section(name[1:-1])
-+            if not line or line.isspace():
-+                # Line is just the "@name:" header, no ident for following lines
-+                indent = 0
-+                line = ''
++                self._parse_text_into_node(defn, dldef)
++            dlitem += dldef
++        return dlitem
++
++    def _make_section(self, title):
++        """Return a section node with optional title"""
++        section = nodes.section(ids=[self._sphinx_directive.new_serialno()])
++        if title:
++            section += nodes.title(title, title)
++        return section
++
++    def _nodes_for_ifcond(self, ifcond, with_if=True):
++        """Return list of Text, literal nodes for the ifcond
++
++        Return a list which gives text like ' (If: cond1, cond2, cond3)', where
++        the conditions are in literal-text and the commas are not.
++        If with_if is False, we don't return the "(If: " and ")".
++        """
++        condlist = intersperse([nodes.literal('', c) for c in ifcond],
++                               nodes.Text(', '))
++        if not with_if:
++            return condlist
++
++        nodelist = [nodes.Text(' ('), nodes.strong('', 'If: ')]
++        nodelist.extend(condlist)
++        nodelist.append(nodes.Text(')'))
++        return nodelist
++
++    def _nodes_for_one_member(self, member):
++        """Return list of Text, literal nodes for this member
++
++        Return a list of doctree nodes which give text like
++        'name: type (optional) (If: ...)' suitable for use as the
++        'term' part of a definition list item.
++        """
++        term = [nodes.literal('', member.name)]
++        if member.type.doc_type():
++            term.append(nodes.Text(': '))
++            term.append(nodes.literal('', member.type.doc_type()))
++        if member.optional:
++            term.append(nodes.Text(' (optional)'))
++        if member.ifcond:
++            term.extend(self._nodes_for_ifcond(member.ifcond))
++        return term
++
++    def _nodes_for_variant_when(self, variants, variant):
++        """Return list of Text, literal nodes for variant 'when' clause
++
++        Return a list of doctree nodes which give text like
++        'when tagname is variant (If: ...)' suitable for use in
++        the 'variants' part of a definition list.
++        """
++        term = [nodes.Text(' when '),
++                nodes.literal('', variants.tag_member.name),
++                nodes.Text(' is '),
++                nodes.literal('', '"%s"' % variant.name)]
++        if variant.ifcond:
++            term.extend(self._nodes_for_ifcond(variant.ifcond))
++        return term
++
++    def _nodes_for_members(self, doc, what, base=None, variants=None):
++        """Return doctree nodes for the table of members"""
++        dlnode = nodes.definition_list()
++        for section in doc.args.values():
++            term = self._nodes_for_one_member(section.member)
++            # TODO drop fallbacks when undocumented members are outlawed
++            if section.text:
++                defn = section.text
++            elif (variants and variants.tag_member == section.member
++                  and not section.member.type.doc_type()):
++                values = section.member.type.member_names()
++                defn = [nodes.Text('One of ')]
++                defn.extend(intersperse([nodes.literal('', v) for v in values],
++                                        nodes.Text(', ')))
 +            else:
-+                # Line is "@arg: first line of description"; following
-+                # lines should be indented by len(name) + 3, and we
-+                # pad out this first line so it is handled the same way
-+                indent = len(name) + 1
-+                line = ' ' * indent + line
-+            self._start_features_section(name[1:-1], indent)
-         elif self._is_section_tag(name):
-             self._append_line = self._append_various_line
-             self._append_various_line(line)
-@@ -493,11 +528,23 @@ class QAPIDoc:
-                                  % (name, self.sections[0].name))
-         if self._is_section_tag(name):
-             line = line[len(name)+1:]
--            self._start_section(name[:-1])
-+            if not line or line.isspace():
-+                # Line is just "SectionName:", no indent for following lines
-+                indent = 0
-+                line = ''
-+            elif name.startswith("Example"):
-+                # The "Examples" section is literal-text, so preserve
-+                # all the indentation as-is
-+                indent = 0
++                defn = [nodes.Text('Not documented')]
++
++            dlnode += self._make_dlitem(term, defn)
++
++        if base:
++            dlnode += self._make_dlitem([nodes.Text('The members of '),
++                                         nodes.literal('', base.doc_type())],
++                                        None)
++
++        if variants:
++            for v in variants.variants:
++                if v.type.is_implicit():
++                    assert not v.type.base and not v.type.variants
++                    for m in v.type.local_members:
++                        term = self._nodes_for_one_member(m)
++                        term.extend(self._nodes_for_variant_when(variants, v))
++                        dlnode += self._make_dlitem(term, None)
++                else:
++                    term = [nodes.Text('The members of '),
++                            nodes.literal('', v.type.doc_type())]
++                    term.extend(self._nodes_for_variant_when(variants, v))
++                    dlnode += self._make_dlitem(term, None)
++
++        if not dlnode.children:
++            return None
++
++        section = self._make_section(what)
++        section += dlnode
++        return section
++
++    def _nodes_for_enum_values(self, doc, what):
++        """Return doctree nodes for the table of enum values"""
++        seen_item = False
++        dlnode = nodes.definition_list()
++        for section in doc.args.values():
++            termtext = [nodes.literal('', section.member.name)]
++            if section.member.ifcond:
++                termtext.extend(self._nodes_for_ifcond(section.member.ifcond))
++            # TODO drop fallbacks when undocumented members are outlawed
++            if section.text:
++                defn = section.text
 +            else:
-+                # Line is "SectionName: some text", indent required
-+                indent = len(name) + 1
-+                line = ' ' * indent + line
-+            self._start_section(name[:-1], indent)
++                defn = [nodes.Text('Not documented')]
++
++            dlnode += self._make_dlitem(termtext, defn)
++            seen_item = True
++
++        if not seen_item:
++            return None
++
++        section = self._make_section(what)
++        section += dlnode
++        return section
++
++    def _nodes_for_arguments(self, doc, boxed_arg_type):
++        """Return doctree nodes for the arguments section"""
++        if boxed_arg_type:
++            assert not doc.args
++            section = self._make_section('Arguments')
++            dlnode = nodes.definition_list()
++            dlnode += self._make_dlitem(
++                [nodes.Text('The members of '),
++                 nodes.literal('', boxed_arg_type.name)],
++                None)
++            section += dlnode
++            return section
++
++        return self._nodes_for_members(doc, 'Arguments')
++
++    def _nodes_for_features(self, doc):
++        """Return doctree nodes for the table of features"""
++        seen_item = False
++        dlnode = nodes.definition_list()
++        for section in doc.features.values():
++            dlnode += self._make_dlitem([nodes.literal('', section.name)],
++                                        section.text)
++            seen_item = True
++
++        if not seen_item:
++            return None
++
++        section = self._make_section('Features')
++        section += dlnode
++        return section
++
++    def _nodes_for_example(self, exampletext):
++        """Return doctree nodes for a code example snippet"""
++        return nodes.literal_block(exampletext, exampletext)
++
++    def _nodes_for_sections(self, doc, ifcond):
++        """Return doctree nodes for additional sections following arguments"""
++        nodelist = []
++        for section in doc.sections:
++            snode = self._make_section(section.name)
++            if section.name and section.name.startswith('Example'):
++                snode += self._nodes_for_example(section.text)
++            else:
++                self._parse_text_into_node(section.text, snode)
++            nodelist.append(snode)
++        if ifcond:
++            snode = self._make_section('If')
++            snode += self._nodes_for_ifcond(ifcond, with_if=False)
++            nodelist.append(snode)
++        if not nodelist:
++            return None
++        return nodelist
++
++    def _add_doc(self, typ, sections):
++        """Add documentation for a command/object/enum...
++
++        We assume we're documenting the thing defined in self._cur_doc.
++        typ is the type of thing being added ("Command", "Object", etc)
++
++        sections is a list of nodes for sections to add to the definition.
++        """
++
++        doc = self._cur_doc
++        snode = nodes.section(ids=[self._sphinx_directive.new_serialno()])
++        snode += nodes.title('', '', *[nodes.literal(doc.symbol, doc.symbol),
++                                       nodes.Text(' (' + typ + ')')])
++        self._parse_text_into_node(doc.body.text, snode)
++        for s in sections:
++            if s is not None:
++                snode += s
++        self._add_node_to_current_heading(snode)
++
++    def visit_enum_type(self, name, info, ifcond, features, members, prefix):
++        doc = self._cur_doc
++        self._add_doc('Enum',
++                      [self._nodes_for_enum_values(doc, 'Values'),
++                       self._nodes_for_features(doc),
++                       self._nodes_for_sections(doc, ifcond)])
++
++    def visit_object_type(self, name, info, ifcond, features,
++                          base, members, variants):
++        doc = self._cur_doc
++        if base and base.is_implicit():
++            base = None
++        self._add_doc('Object',
++                      [self._nodes_for_members(doc, 'Members', base, variants),
++                       self._nodes_for_features(doc),
++                       self._nodes_for_sections(doc, ifcond)])
++
++    def visit_alternate_type(self, name, info, ifcond, features, variants):
++        doc = self._cur_doc
++        self._add_doc('Alternate',
++                      [self._nodes_for_members(doc, 'Members'),
++                       self._nodes_for_features(doc),
++                       self._nodes_for_sections(doc, ifcond)])
++
++    def visit_command(self, name, info, ifcond, features, arg_type,
++                      ret_type, gen, success_response, boxed, allow_oob,
++                      allow_preconfig):
++        doc = self._cur_doc
++        self._add_doc('Command',
++                      [self._nodes_for_arguments(doc,
++                                                 arg_type if boxed else None),
++                       self._nodes_for_features(doc),
++                       self._nodes_for_sections(doc, ifcond)])
++
++    def visit_event(self, name, info, ifcond, features, arg_type, boxed):
++        doc = self._cur_doc
++        self._add_doc('Event',
++                      [self._nodes_for_arguments(doc,
++                                                 arg_type if boxed else None),
++                       self._nodes_for_features(doc),
++                       self._nodes_for_sections(doc, ifcond)])
++
++    def symbol(self, doc, entity):
++        """Add documentation for one symbol to the document tree
++
++        This is the main entry point which causes us to add documentation
++        nodes for a symbol (which could be a 'command', 'object', 'event',
++        etc). We do this by calling 'visit' on the schema entity, which
++        will then call back into one of our visit_* methods, depending
++        on what kind of thing this symbol is.
++        """
++        self._cur_doc = doc
++        entity.visit(self)
++        self._cur_doc = None
++
++    def _start_new_heading(self, heading, level):
++        """Start a new heading at the specified heading level
++
++        Create a new section whose title is 'heading' and which is placed
++        in the docutils node tree as a child of the most recent level-1
++        heading. Subsequent document sections (commands, freeform doc chunks,
++        etc) will be placed as children of this new heading section.
++        """
++        if len(self._active_headings) < level:
++            self._serror('Level %d subheading found outside a level %d heading'
++                         % (level, level - 1))
++        snode = self._make_section(heading)
++        self._active_headings[level - 1] += snode
++        self._active_headings = self._active_headings[:level]
++        self._active_headings.append(snode)
++
++    def _add_node_to_current_heading(self, node):
++        """Add the node to whatever the current active heading is"""
++        self._active_headings[-1] += node
++
++    def freeform(self, doc):
++        """Add a piece of 'freeform' documentation to the document tree
++
++        A 'freeform' document chunk doesn't relate to any particular
++        symbol (for instance, it could be an introduction).
++
++        As a special case, if the freeform document is a single line
++        of the form '= Heading text' it is treated as a section or subsection
++        heading, with the heading level indicated by the number of '=' signs.
++        """
++
++        # QAPIDoc documentation says free-form documentation blocks
++        # must have only a body section, nothing else.
++        assert not doc.sections
++        assert not doc.args
++        assert not doc.features
++        self._cur_doc = doc
++
++        if re.match(r'=+ ', doc.body.text):
++            # Section or subsection heading: must be the only thing in the block
++            (heading, _, rest) = doc.body.text.partition('\n')
++            if rest != '':
++                raise ExtensionError('%s line %s: section or subsection heading'
++                                     ' must be in its own doc comment block'
++                                     % (doc.info.fname, doc.info.line))
++            (leader, _, heading) = heading.partition(' ')
++            self._start_new_heading(heading, len(leader))
++            return
++
++        node = self._make_section(None)
++        self._parse_text_into_node(doc.body.text, node)
++        self._add_node_to_current_heading(node)
++        self._cur_doc = None
++
++    def _parse_text_into_node(self, doctext, node):
++        """Parse a chunk of QAPI-doc-format text into the node
++
++        The doc comment can contain most inline rST markup, including
++        bulleted and enumerated lists.
++        As an extra permitted piece of markup, @var will be turned
++        into ``var``.
++        """
++
++        # Handle the "@var means ``var`` case
++        doctext = re.sub(r'@([\w-]+)', r'``\1``', doctext)
++
++        rstlist = ViewList()
++        for line in doctext.splitlines():
++            # The reported line number will always be that of the start line
++            # of the doc comment, rather than the actual location of the error.
++            # Being more precise would require overhaul of the QAPIDoc class
++            # to track lines more exactly within all the sub-parts of the doc
++            # comment, as well as counting lines here.
++            rstlist.append(line, self._cur_doc.info.fname,
++                           self._cur_doc.info.line)
++        self._sphinx_directive.do_parse(rstlist, node)
++
++    def get_document_nodes(self):
++        """Return the list of docutils nodes which make up the document"""
++        return self._top_node.children
++
++class QAPIDocDirective(Directive):
++    """Extract documentation from the specified QAPI .json file"""
++    required_argument = 1
++    optional_arguments = 1
++    option_spec = {
++        'qapifile': directives.unchanged_required
++    }
++    has_content = False
++
++    def new_serialno(self):
++        """Return a unique new ID string suitable for use as a node's ID"""
++        env = self.state.document.settings.env
++        return 'qapidoc-%d' % env.new_serialno('qapidoc')
++
++    def run(self):
++        env = self.state.document.settings.env
++        qapifile = env.config.qapidoc_srctree + '/' + self.arguments[0]
++
++        # Tell sphinx of the dependency
++        env.note_dependency(os.path.abspath(qapifile))
++
++        try:
++            schema = QAPISchema(qapifile)
++        except QAPIError as err:
++            # Launder QAPI parse errors into Sphinx extension errors
++            # so they are displayed nicely to the user
++            raise ExtensionError(str(err))
++
++        vis = QAPISchemaGenRSTVisitor(self)
++        vis.visit_begin(schema)
++        for doc in schema.docs:
++            if doc.symbol:
++                vis.symbol(doc, schema.lookup_entity(doc.symbol))
++            else:
++                vis.freeform(doc)
++
++        return vis.get_document_nodes()
++
++    def do_parse(self, rstlist, node):
++        """Parse rST source lines and add them to the specified node
++
++        Take the list of rST source lines rstlist, parse them as
++        rST, and add the resulting docutils nodes as children of node.
++        The nodes are parsed in a way that allows them to include
++        subheadings (titles) without confusing the rendering of
++        anything else.
++        """
++        # This is from kerneldoc.py -- it works around an API change in
++        # Sphinx between 1.6 and 1.7. Unlike kerneldoc.py, we use
++        # sphinx.util.nodes.nested_parse_with_titles() rather than the
++        # plain self.state.nested_parse(), and so we can drop the saving
++        # of title_styles and section_level that kerneldoc.py does,
++        # because nested_parse_with_titles() does that for us.
++        if Use_SSI:
++            with switch_source_input(self.state, rstlist):
++                nested_parse_with_titles(self.state, rstlist, node)
++        else:
++            save = self.state.memo.reporter
++            self.state.memo.reporter = AutodocReporter(rstlist,
++                                                       self.state.memo.reporter)
++            try:
++                nested_parse_with_titles(self.state, rstlist, node)
++            finally:
++                self.state.memo.reporter = save
++
++def setup(app):
++    """ Register qapi-doc directive with Sphinx"""
++    app.add_config_value('qapidoc_srctree', None, 'env')
++    app.add_directive('qapi-doc', QAPIDocDirective)
++
++    return dict(
++        version=__version__,
++        parallel_read_safe=True,
++        parallel_write_safe=True
++    )
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0886eb3d2b5..fdd38f412d7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3116,6 +3116,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
+ S: Maintained
+ F: docs/conf.py
+ F: docs/*/conf.py
++F: docs/sphinx/
  
-         self._append_freeform(line)
- 
--    def _start_symbol_section(self, symbols_dict, name):
-+    def _start_symbol_section(self, symbols_dict, name, indent):
-         # FIXME invalid names other than the empty string aren't flagged
-         if not name:
-             raise QAPIParseError(self._parser, "invalid parameter name")
-@@ -506,21 +553,21 @@ class QAPIDoc:
-                                  "'%s' parameter name duplicated" % name)
-         assert not self.sections
-         self._end_section()
--        self._section = QAPIDoc.ArgSection(name)
-+        self._section = QAPIDoc.ArgSection(self._parser, name, indent)
-         symbols_dict[name] = self._section
- 
--    def _start_args_section(self, name):
--        self._start_symbol_section(self.args, name)
-+    def _start_args_section(self, name, indent):
-+        self._start_symbol_section(self.args, name, indent)
- 
--    def _start_features_section(self, name):
--        self._start_symbol_section(self.features, name)
-+    def _start_features_section(self, name, indent):
-+        self._start_symbol_section(self.features, name, indent)
- 
--    def _start_section(self, name=None):
-+    def _start_section(self, name=None, indent=0):
-         if name in ('Returns', 'Since') and self.has_section(name):
-             raise QAPIParseError(self._parser,
-                                  "duplicated '%s' section" % name)
-         self._end_section()
--        self._section = QAPIDoc.Section(name)
-+        self._section = QAPIDoc.Section(self._parser, name, indent)
-         self.sections.append(self._section)
- 
-     def _end_section(self):
-@@ -543,7 +590,7 @@ class QAPIDoc:
-     def connect_member(self, member):
-         if member.name not in self.args:
-             # Undocumented TODO outlaw
--            self.args[member.name] = QAPIDoc.ArgSection(member.name)
-+            self.args[member.name] = QAPIDoc.ArgSection(self._parser, member.name)
-         self.args[member.name].connect(member)
- 
-     def connect_feature(self, feature):
-@@ -551,6 +598,8 @@ class QAPIDoc:
-             raise QAPISemError(feature.info,
-                                "feature '%s' lacks documentation"
-                                % feature.name)
-+            self.features[feature.name] = QAPIDoc.ArgSection(self._parser,
-+                                                             feature.name)
-         self.features[feature.name].connect(feature)
- 
-     def check_expr(self, expr):
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 0ef85d959ac..bbf77b08dc3 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -158,7 +158,7 @@ doc symbol=Alternate
- 
-     arg=i
- an integer
--    @b is undocumented
-+@b is undocumented
-     arg=b
- 
-     feature=alt-feat
-@@ -173,7 +173,7 @@ doc symbol=cmd
- the first argument
-     arg=arg2
- the second
--       argument
-+argument
-     arg=arg3
- 
-     feature=cmd-feat1
+ Miscellaneous
+ -------------
 -- 
 2.20.1
 
