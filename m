@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C856A240C1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:37:21 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2EB240C0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:34:26 +0200 (CEST)
+Received: from localhost ([::1]:39540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Bjc-0003nv-Qe
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
+	id 1k5Bgn-0005an-QU
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJt-0008KT-3u
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26578
+ id 1k5BJq-0008EN-MR
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35782
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJm-0002zq-NS
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:44 -0400
+ id 1k5BJo-000301-FI
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079438;
+ s=mimecast20190719; t=1597079439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gr8MjIzbAVwQXxACXb77HW3lFv7imGoDWT4qAN144w4=;
- b=YaSc9BiqAtu3Z4KqxV258D/ANC5S2jddYAKHMW/0+sZ2hqeMqkBeaAb8XQbXwE/s+uZDOg
- s999dEa4NNHLq8O3jwbI9EUtmVRBOPk4LGt7jfjONWQbc7a4nUq/9YDy4KQm4HNjZukqrN
- hIhq23c3mpvo6482GijRKWI/2DiIJ7w=
+ bh=KOsEBTNkKuEQxmw2J8FfhfR58sAy37Ne2eNjB4HMElE=;
+ b=WLuc6djMVgJ9CrWoQEqQeblGI/C8c7Vabvu8DGmhvfjbXb+zW6kibesx4c8Y3VTmxUmRrn
+ Gb9yKiz9ibIqzqcmq235Ztv0pl31ewnaqhovJYgDjPPC/CKy54GysHFKLBC2qVEy8aoq4e
+ 4ZggEmZokACbOz4mKuur4KbVdXmakEE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-mAraBCqcP5Gfjluvyb9Wig-1; Mon, 10 Aug 2020 13:10:36 -0400
-X-MC-Unique: mAraBCqcP5Gfjluvyb9Wig-1
+ us-mta-109-g3gjQ9M2NVSHP6qUZ3UzXw-1; Mon, 10 Aug 2020 13:10:37 -0400
+X-MC-Unique: g3gjQ9M2NVSHP6qUZ3UzXw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61DD08064B7
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C10338005B0
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:36 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FDB95F1EA;
- Mon, 10 Aug 2020 17:10:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDF605F1E9;
+ Mon, 10 Aug 2020 17:10:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 053/147] meson: convert authz directory to Meson
-Date: Mon, 10 Aug 2020 19:07:31 +0200
-Message-Id: <1597079345-42801-54-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 054/147] meson: convert crypto directory to Meson
+Date: Mon, 10 Aug 2020 19:07:32 +0200
+Message-Id: <1597079345-42801-55-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:00:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,118 +91,202 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile            |  1 -
- Makefile.objs       |  3 ++-
- Makefile.target     |  2 +-
- authz/Makefile.objs |  7 -------
- authz/meson.build   | 19 +++++++++++++++++++
- meson.build         |  5 +++++
- 6 files changed, 27 insertions(+), 10 deletions(-)
- delete mode 100644 authz/Makefile.objs
- create mode 100644 authz/meson.build
+ Makefile             |  1 -
+ Makefile.objs        |  2 +-
+ Makefile.target      |  2 +-
+ crypto/Makefile.objs | 37 -------------------------------------
+ crypto/meson.build   | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build          |  4 ++--
+ qom/meson.build      |  2 +-
+ 7 files changed, 57 insertions(+), 43 deletions(-)
+ delete mode 100644 crypto/Makefile.objs
 
 diff --git a/Makefile b/Makefile
-index 1be6019..872f450 100644
+index 872f450..d26ad4c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -225,7 +225,6 @@ include $(SRC_PATH)/Makefile.objs
- endif
- 
- dummy := $(call unnest-vars,, \
--                authz-obj-y \
-                 chardev-obj-y \
-                 block-obj-y \
+@@ -230,7 +230,6 @@ dummy := $(call unnest-vars,, \
                  block-obj-m \
+                 storage-daemon-obj-y \
+                 storage-daemon-obj-m \
+-                crypto-obj-y \
+                 io-obj-y \
+                 common-obj-y \
+                 common-obj-m)
 diff --git a/Makefile.objs b/Makefile.objs
-index 84bfa2a..0bc361d 100644
+index 0bc361d..018338d 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -9,7 +9,8 @@ ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
+@@ -19,7 +19,7 @@ block-obj-$(CONFIG_REPLICATION) += replication.o
  
- chardev-obj-y = chardev/
+ block-obj-m = block/
  
--authz-obj-y = authz/
-+authz-obj-y = authz/libauthz.fa
-+authz/libauthz.fa-libs = $(if $(CONFIG_AUTH_PAM),-lpam)
+-crypto-obj-y = crypto/
++crypto-obj-y = crypto/libcrypto.fa
  
- block-obj-y = block/ nbd/ scsi/
- block-obj-y += block.o blockjob.o job.o
+ io-obj-y = io/
+ 
 diff --git a/Makefile.target b/Makefile.target
-index 1e04551..79b6e02 100644
+index 79b6e02..b213955 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -192,9 +192,9 @@ common-obj-m :=
- 
+@@ -193,12 +193,12 @@ common-obj-m :=
  include $(SRC_PATH)/Makefile.objs
  dummy := $(call fix-paths,../,, \
-+              authz-obj-y \
+               authz-obj-y \
++              crypto-obj-y \
                qom-obj-y)
  dummy := $(call unnest-vars,.., \
--               authz-obj-y \
                 block-obj-y \
                 block-obj-m \
                 chardev-obj-y \
-diff --git a/authz/Makefile.objs b/authz/Makefile.objs
+-               crypto-obj-y \
+                io-obj-y \
+                common-obj-y \
+                common-obj-m)
+diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
 deleted file mode 100644
-index ed7b273..0000000
---- a/authz/Makefile.objs
+index a988591..0000000
+--- a/crypto/Makefile.objs
 +++ /dev/null
-@@ -1,7 +0,0 @@
--authz-obj-y += base.o
--authz-obj-y += simple.o
--authz-obj-y += list.o
--authz-obj-y += listfile.o
--authz-obj-$(CONFIG_AUTH_PAM) += pamacct.o
--
--pamacct.o-libs = -lpam
-diff --git a/authz/meson.build b/authz/meson.build
-new file mode 100644
-index 0000000..c1f6362
---- /dev/null
-+++ b/authz/meson.build
-@@ -0,0 +1,19 @@
-+authz_ss = ss.source_set()
-+authz_ss.add(genh)
-+authz_ss.add(files(
-+  'base.c',
-+  'list.c',
-+  'listfile.c',
-+  'simple.c',
+@@ -1,37 +0,0 @@
+-crypto-obj-y = init.o
+-crypto-obj-y += hash.o
+-crypto-obj-$(CONFIG_NETTLE) += hash-nettle.o
+-crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += hash-gcrypt.o
+-crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += hash-glib.o
+-crypto-obj-y += hmac.o
+-crypto-obj-$(CONFIG_NETTLE) += hmac-nettle.o
+-crypto-obj-$(CONFIG_GCRYPT_HMAC) += hmac-gcrypt.o
+-crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT_HMAC),n,y)) += hmac-glib.o
+-crypto-obj-y += aes.o
+-crypto-obj-y += desrfb.o
+-crypto-obj-y += cipher.o
+-crypto-obj-$(CONFIG_AF_ALG) += afalg.o
+-crypto-obj-$(CONFIG_AF_ALG) += cipher-afalg.o
+-crypto-obj-$(CONFIG_AF_ALG) += hash-afalg.o
+-crypto-obj-$(CONFIG_GNUTLS) += tls-cipher-suites.o
+-crypto-obj-y += tlscreds.o
+-crypto-obj-y += tlscredsanon.o
+-crypto-obj-y += tlscredspsk.o
+-crypto-obj-y += tlscredsx509.o
+-crypto-obj-y += tlssession.o
+-crypto-obj-y += secret_common.o
+-crypto-obj-y += secret.o
+-crypto-obj-$(CONFIG_SECRET_KEYRING) += secret_keyring.o
+-crypto-obj-y += pbkdf.o
+-crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
+-crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
+-crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += pbkdf-stub.o
+-crypto-obj-y += ivgen.o
+-crypto-obj-y += ivgen-essiv.o
+-crypto-obj-y += ivgen-plain.o
+-crypto-obj-y += ivgen-plain64.o
+-crypto-obj-y += afsplit.o
+-crypto-obj-$(CONFIG_QEMU_PRIVATE_XTS) += xts.o
+-crypto-obj-y += block.o
+-crypto-obj-y += block-qcow.o
+-crypto-obj-y += block-luks.o
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 1b24431..7aab8db 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -1,3 +1,55 @@
++crypto_ss = ss.source_set()
++crypto_ss.add(genh)
++crypto_ss.add(files(
++  'afsplit.c',
++  'block-luks.c',
++  'block-qcow.c',
++  'block.c',
++  'cipher.c',
++  'desrfb.c',
++  'hash.c',
++  'hmac.c',
++  'ivgen-essiv.c',
++  'ivgen-plain.c',
++  'ivgen-plain64.c',
++  'ivgen.c',
++  'pbkdf.c',
++  'secret_common.c',
++  'secret.c',
++  'tlscreds.c',
++  'tlscredsanon.c',
++  'tlscredspsk.c',
++  'tlscredsx509.c',
++  'tlssession.c',
 +))
 +
-+authz_ss.add(when: ['CONFIG_AUTH_PAM', pam], if_true: files('pamacct.c'))
++if 'CONFIG_GCRYPT' in config_host
++  wo_nettle = files('hash-gcrypt.c', 'pbkdf-gcrypt.c')
++else
++  wo_nettle = files('hash-glib.c', 'pbkdf-stub.c')
++endif
++if 'CONFIG_GCRYPT_HMAC' not in config_host
++  wo_nettle += files('hmac-glib.c')
++endif
++crypto_ss.add(when: [nettle, 'CONFIG_NETTLE'],
++             if_true: files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'),
++             if_false: wo_nettle)
 +
-+authz_ss = authz_ss.apply(config_host, strict: false)
-+libauthz = static_library('authz', authz_ss.sources(),
-+                          dependencies: [authz_ss.dependencies()],
-+                          name_suffix: 'fa',
-+                          build_by_default: false)
++crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
++crypto_ss.add(when: 'CONFIG_QEMU_PRIVATE_XTS', if_true: files('xts.c'))
++crypto_ss.add(when: 'CONFIG_GCRYPT_HMAC', if_true: files('hmac-gcrypt.c'))
++crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
++crypto_ss.add(when: 'CONFIG_GNUTLS', if_true: files('tls-cipher-suites.c'))
 +
-+authz = declare_dependency(link_whole: libauthz,
-+                           dependencies: qom)
++crypto_ss = crypto_ss.apply(config_host, strict: false)
++libcrypto = static_library('crypto', crypto_ss.sources(),
++                           dependencies: [crypto_ss.dependencies()],
++                           name_suffix: 'fa',
++                           build_by_default: false)
++
++crypto = declare_dependency(link_whole: libcrypto,
++                            dependencies: [authz, qom])
++
+ util_ss.add(files('aes.c'))
+ util_ss.add(files('init.c'))
+ if 'CONFIG_GCRYPT' in config_host
 diff --git a/meson.build b/meson.build
-index 6517d7e..f8fd56a 100644
+index f8fd56a..8d46944 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -82,6 +82,10 @@ if 'CONFIG_GNUTLS' in config_host
- endif
- pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
-                             link_args: config_host['PIXMAN_LIBS'].split())
-+pam = not_found
-+if 'CONFIG_AUTH_PAM' in config_host
-+  pam = cc.find_library('pam')
-+endif
- libattr = not_found
- if 'CONFIG_ATTR' in config_host
-   libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
-@@ -320,6 +324,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
+@@ -307,6 +307,8 @@ subdir('qobject')
+ subdir('stubs')
+ subdir('trace')
+ subdir('util')
++subdir('qom')
++subdir('authz')
+ subdir('crypto')
+ subdir('storage-daemon')
+ subdir('ui')
+@@ -323,8 +325,6 @@ libqemuutil = static_library('qemuutil',
+ qemuutil = declare_dependency(link_with: libqemuutil,
                                sources: genh + version_res)
  
- subdir('qom')
-+subdir('authz')
+-subdir('qom')
+-subdir('authz')
  subdir('fsdev')
  
  # Other build targets
+diff --git a/qom/meson.build b/qom/meson.build
+index 3c41ed3..4af044d 100644
+--- a/qom/meson.build
++++ b/qom/meson.build
+@@ -1,4 +1,5 @@
+ qom_ss = ss.source_set()
++qom_ss.add(genh)
+ qom_ss.add(files(
+   'container.c',
+   'object.c',
+@@ -9,7 +10,6 @@ qom_ss.add(files(
+ qom_ss = qom_ss.apply(config_host, strict: false)
+ libqom = static_library('qom', qom_ss.sources(),
+                         dependencies: [qom_ss.dependencies()],
+-                        link_with: [libqemuutil],
+                         name_suffix: 'fa')
+ 
+ qom = declare_dependency(link_whole: libqom)
 -- 
 1.8.3.1
 
