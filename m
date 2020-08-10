@@ -2,87 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC382406EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:44:30 +0200 (CEST)
-Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AF2240726
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 16:04:22 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k586H-00052w-5x
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50952)
+	id 1k58PU-0006Pp-N0
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 10:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1k5859-00046p-Kl
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:43:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1k5857-0001xj-JI
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:43:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597066996;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oaKx2OZ1h0VrAiH41NlcpdXiDkDnFX+49omO/QQAGiA=;
- b=Imi1P5OAKaWOG8oEJSDGX4H4sSlN1vIqmYsBElH0i39SwcOeQa0ZmnbSl5vSK0SBZaoOWk
- 99ccvLR57YLCin2G2DeCmxljjnmvUCCofjE+LRJJgej1lpU7lZ+ZN7RNMjdiiWEHyrthFd
- 5r3jtmZWGYCxt4uWxyxH282AprBgUYs=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-sJJ_fbYdOZqpWgDp-rKJnw-1; Mon, 10 Aug 2020 09:43:12 -0400
-X-MC-Unique: sJJ_fbYdOZqpWgDp-rKJnw-1
-Received: by mail-ej1-f69.google.com with SMTP id gg11so3872787ejb.6
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 06:43:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oaKx2OZ1h0VrAiH41NlcpdXiDkDnFX+49omO/QQAGiA=;
- b=Xd9eQoT3cTeDtKmIqqDXj1RYVIkKgxA0rcOuFzDwyXcSOfWwzkJt82xHnczhkN+v3Z
- aygP4iTL1hAelmhUDkKyj1V6gtB8HLgeVobhrtcxazBZ1gD39C2WsdFTn5O3163P28w/
- HTcD4XQRU4b7Zyd8Bu61nQ5UMIz425WqwSsLkyVUVkrIMsfpqMtWgWrdd7H2kT8ZeAYK
- KhEwrwGV/1XvLg1k0yey34qOwThozhYzDlNM7FBGeeB48ldl/e++fTApvB3xRt/wavd5
- feT94t8tSAd6nqt+HSjojQY0zMt2MciTtW9cvvsprUDCKrZJbNlZqc/9ixWItTXfYxrQ
- 1jbA==
-X-Gm-Message-State: AOAM533JhVQILNHvXnKdZnLf7zt4dpx1NfZ3aU8H5UYn3NQodtELMYH8
- eGjLYnIcDIczTwPtAjdHAd0VHRdELDPT7eGLjSZcMkTu9Udd1sEao6pv14MkZmpAXmgLl1rXlZr
- T+zJHPS15LjK+0N834C9Zk6i41aGnEl4=
-X-Received: by 2002:a17:906:4dcb:: with SMTP id
- f11mr21244341ejw.454.1597066991060; 
- Mon, 10 Aug 2020 06:43:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFruMGOAs4ld4KO2jTC2j9NTgZ3sTXR6pFDql2aso4NtP9jFJo8ZShy7tp9AKHatP0fuFC2XanQql+4eT6EKk=
-X-Received: by 2002:a17:906:4dcb:: with SMTP id
- f11mr21244320ejw.454.1597066990808; 
- Mon, 10 Aug 2020 06:43:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k58O9-0005Wk-LE; Mon, 10 Aug 2020 10:02:57 -0400
+Received: from mail-eopbgr30129.outbound.protection.outlook.com
+ ([40.107.3.129]:19316 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k58O4-0004iA-Ul; Mon, 10 Aug 2020 10:02:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QyMptF/kKKjprXzwCTg+krc/PFw9FJj64ewla/X5Djc1G9l22vyOvz7HgkQS6g27SJvELd3bjbfvhU+lmHeARLXcHI+Ivc/BuZXAEPh1+A3Rjsnc5onBMoJSNdJ0tcAsPOvY9XXXTGnYh6orWHh8CUcku6vcKU4vkBlc63nZt1ZYbyTPobHSjDveJWUYbAeOh2pd3ctCR+YqGnl9UqssnxrdqWPbaf7uAsZDyCGsR2xfP7x1oklf3IrqP7QgnjY8Z+j14NVR7OicBIWSkzOQx8LlqZCm8nQmt1+Cn8UAOUE4wCoZA4Q6v5xrou4dCequ/VggUD5WNgg+UwefFSIhyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uU3VJIV+WJnYI8ZxVh2ly8TEAfisV6TNY2mr80tDJXw=;
+ b=EnQoQPGK+CoTlPkHUWiuzc1FD05MVg4lM+U60X7PiO6NjS4+Y2/Gfk9WEQNEprbx8kNIDMLRYeMxxR0R5Xsr2pSdfMBnkbbT0abqq5XUwUvPrvPYPaYd+WZewowwtrfcg4PNwfhLc8JMkJoWp5r0p2IT9j9M3U8Aajck9e7bfGI2nDuTk9mV9Bl+uqGTjpdwmLcmNVkErDBddgpmWFU3CHlWRbt1syk3Usi1h4OYsLTazqgVLejN6Zc7BQZ/SS+NtQ+5gIh3LKpY26c7k59BY2p9FbUE0UJROU9m2pednLk5IMn+ODOcSC6asZhS6CZ4nGlPS+j4OvAIOu4hHxuB6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uU3VJIV+WJnYI8ZxVh2ly8TEAfisV6TNY2mr80tDJXw=;
+ b=fcDqVM62ZgM9oju9me6bvkQtoIS52HPBGfclVU8rsxvw4hyBBsPtBYUxFhiXOn7j2Di7dyO0SuvpYkhM2Tbo7Wn3837/FNJhgUZr9jaSpmRVQ0eotgOIHC5t3OD4uMelttkR5UmLyd8noEWRx+FhGWZdnMft0TX2WKrc2dqLQVY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3861.eurprd08.prod.outlook.com (2603:10a6:20b:80::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.15; Mon, 10 Aug
+ 2020 14:02:48 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3261.024; Mon, 10 Aug 2020
+ 14:02:48 +0000
+Subject: Re: [PATCH for 5.2 1/1] qemu-io: add -V flag for read sub-command
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200810123555.30481-1-den@openvz.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <d87985bc-1f09-dcb7-3ed9-3d54a21c4da9@virtuozzo.com>
+Date: Mon, 10 Aug 2020 17:02:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+In-Reply-To: <20200810123555.30481-1-den@openvz.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR08CA0015.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-15-clg@kaod.org>
-In-Reply-To: <20200806132106.747414-15-clg@kaod.org>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Mon, 10 Aug 2020 15:43:00 +0200
-Message-ID: <CAA8xKjVfG8cp_g6FDNxUCQ6dqiMHnf17eMNCE2Wz+Vr+grAprw@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 14/19] ftgmac100: Fix integer overflow in
- ftgmac100_do_tx()
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 05:35:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.170) by
+ AM0PR08CA0015.eurprd08.prod.outlook.com (2603:10a6:208:d2::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3261.16 via Frontend Transport; Mon, 10 Aug 2020 14:02:47 +0000
+X-Originating-IP: [185.215.60.170]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bae7b855-5549-456b-dffa-08d83d361011
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3861:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3861E771646E762FBDBCE470C1440@AM6PR08MB3861.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2TnbRfOtc49C+91t05BocIwVNCjwlY+m55CNM6ciLIMo+8XSsdSMo952dn5lUy1aHbq8y0E0CyVVJLocvKIbiyKDwWRw9ruInOxKfKCiu39uk0xp7qXMBrHLH1mXx/0JevUtxWJPUhudBMHZCsvnsBR1l00Ppshbhw/QNzDZkToa2FJ4oj7Kix64U9o9/NJBWyj7q9UxcWjGSIIpQhfCwdbD32xQolZwpzfeHqvxcRbccQSHq+nIlQWSSlS0J1WTS3IfqFWhaNjcaivuZSbbQKahkRo4ewVmC2byw/s/P/+835PdDRB/HEGNouNH14F0Zqln8iYLsw7c7s3xSQgjdUk8/I3PMCzlb1/ehejK8vxSMwpa0f6DbkQuoSp4MUfD
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(136003)(376002)(396003)(39840400004)(346002)(186003)(5660300002)(26005)(66946007)(66556008)(66476007)(31686004)(86362001)(54906003)(52116002)(6486002)(316002)(478600001)(8936002)(36756003)(16576012)(4326008)(2616005)(956004)(8676002)(31696002)(16526019)(2906002)(83380400001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: NG0XgExs7jx/MyFGx/lRqDEUZUf1kbmL10hVSi+v3FFtFkrRUEPCncGyJAXeJmQlkJtbUturBzPm9CJp4RzSknb5yhrHXTPyjxPW5e2XqMJRly5TD6BEKzpm+n0BzdxgazEDEYcLuIQ/fDxAz0+4wdmXwtKGsEXCY5haxxxC77QWYSS1ZDQF/8TwtrB1Qu+CFfwsHx+MkkiJ97TrykSKRYaStOXiXFz8BljFF/qqA45A3XrclkYImptL9MWAg2KCs0tskmfP1lKmxezpmMdHMxCdqfUN9PxwYkWmGKKzEX87h6Iderp2qBH3Dx8+8clK6cPCslzMyCPcpAZD0zY2JUGUOrKphvpFpUp4QxsCvISUnHV3m1maSNGCxkDl2vaET9S04J74JPrDG0tLpthuFgJ1ZkZyg0W7xPT1E0cd/sn8XZOOEwWMkh3etfuFeuPKbMrwl+6wk1ROF3qAYNVlOjkHYMZUaIamTHFc4jnplzaGGs3QaqLIZCdlbgyeS78wsKsFt+WS+ACvp/31FHYu434WU+qfK2qdwuNmptlrh9vukZaXBNbhRZE11MhlhJkLkjfwRiivweQvQ0QaQcjZGx663ZTjPxb+bYqbi4zTIoUeCywyzVgneM2d6OO1ecllpOB6kT6dRTacDEe1jONIww==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bae7b855-5549-456b-dffa-08d83d361011
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2020 14:02:48.2171 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0yCuW0qs2QknvT+Nt7NlDzkOWZgA85gmI6KSDLLZsug+1GJRgXqJ3gjLR62RVLDj+AAqE2XIDejTDcjs1ZF1KamipwQF1P+QDzowztPDlis=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3861
+Received-SPF: pass client-ip=40.107.3.129;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 10:02:49
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,74 +117,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frederic Konrad <konrad.frederic@yahoo.fr>, Andrew Jeffery <andrew@aj.id.au>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Ziming Zhang <ezrakiez@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "Richard W . M . Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 6, 2020 at 3:21 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> When inserting the VLAN tag in packets, memmove() can generate an
-> integer overflow for packets whose length is less than 12 bytes.
->
-> Check length against the size of the ethernet header (14 bytes) to
-> avoid the crash and return FTGMAC100_INT_XPKT_LOST status. This seems
-> like a good modeling choice even if Aspeed does not specify anything
-> in that case.
->
-> Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
-> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-> Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+10.08.2020 15:35, Denis V. Lunev wrote:
+> The problem this patch is trying to address is libguestfs behavior on the
+> appliance startup. It starts supporting to use root=UUID definition in
+> the kernel command line of its root filesystem using
+>      file --  /usr/lib64/guestfs/appliance/root
+> This works fine with RAW image, but we are using QCOW2 as a storage to
+> save a bit of file space and in this case we get
+>      QEMU QCOW Image (v3), 1610612736 bytes
+> instead of UUID of the root filesystem.
+> 
+> The solution is very simple - we should dump first 256k of the image file
+> like the follows
+>      qemu-io -c "read -V 0 256k" appliance | file -
+> which will provide correct result for all possible types of the appliance
+> storage.
+> 
+> Unfortunately, additional option for qemu-io is the only and the simplest
+> solution as '-v' creates very specific output, which requires to be
+> parsed. 'qemu-img dd of=/dev/stdout' does not work and the fix would be
+> much more intrusive.
+> 
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Max Reitz <mreitz@redhat.com>
+> CC: Richard W.M. Jones <rjones@redhat.com>
 > ---
->  hw/net/ftgmac100.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-> index 280aa3d3a1e2..987b843fabc4 100644
-> --- a/hw/net/ftgmac100.c
-> +++ b/hw/net/ftgmac100.c
-> @@ -540,10 +540,21 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint=
-32_t tx_ring,
->                  s->isr |=3D FTGMAC100_INT_XPKT_LOST;
->                  len =3D  sizeof(s->frame) - frame_size - 4;
->              }
-> -            memmove(ptr + 16, ptr + 12, len - 12);
-> -            stw_be_p(ptr + 12, ETH_P_VLAN);
-> -            stw_be_p(ptr + 14, bd.des1);
-> -            len +=3D 4;
-> +
-> +            if (len < sizeof(struct eth_header)) {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                         "%s: frame too small for VLAN insertion : %d by=
-tes\n",
-> +                         __func__, len);
-> +                s->isr |=3D FTGMAC100_INT_XPKT_LOST;
-> +            } else {
-> +                uint8_t *vlan_hdr =3D ptr + (ETH_ALEN * 2);
-> +                uint8_t *payload =3D vlan_hdr + sizeof(struct vlan_heade=
-r);
-> +
-> +                memmove(payload, vlan_hdr, len - (ETH_ALEN * 2));
-> +                stw_be_p(vlan_hdr, ETH_P_VLAN);
-> +                stw_be_p(vlan_hdr + 2, FTGMAC100_TXDES1_VLANTAG_CI(bd.de=
-s1));
-> +                len +=3D sizeof(struct vlan_header);
-> +            }
->          }
->
->          ptr +=3D len;
-> --
-> 2.25.4
->
+> P.S. Patch to libguestfs will follow.
+> 
+>   qemu-io-cmds.c | 17 +++++++++++++----
+>   1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+> index baeae86d8c..7aae9726cd 100644
+> --- a/qemu-io-cmds.c
+> +++ b/qemu-io-cmds.c
+> @@ -718,7 +718,7 @@ static const cmdinfo_t read_cmd = {
+>       .cfunc      = read_f,
+>       .argmin     = 2,
+>       .argmax     = -1,
+> -    .args       = "[-abCqv] [-P pattern [-s off] [-l len]] off len",
+> +    .args       = "[-abCqvV] [-P pattern [-s off] [-l len]] off len",
+>       .oneline    = "reads a number of bytes at a specified offset",
+>       .help       = read_help,
+>   };
+> @@ -728,6 +728,7 @@ static int read_f(BlockBackend *blk, int argc, char **argv)
+>       struct timespec t1, t2;
+>       bool Cflag = false, qflag = false, vflag = false;
+>       bool Pflag = false, sflag = false, lflag = false, bflag = false;
+> +    bool vrawflag = true;
+>       int c, cnt, ret;
+>       char *buf;
+>       int64_t offset;
+> @@ -737,7 +738,7 @@ static int read_f(BlockBackend *blk, int argc, char **argv)
+>       int pattern = 0;
+>       int64_t pattern_offset = 0, pattern_count = 0;
+>   
+> -    while ((c = getopt(argc, argv, "bCl:pP:qs:v")) != -1) {
+> +    while ((c = getopt(argc, argv, "bCl:pP:qs:vV")) != -1) {
+>           switch (c) {
+>           case 'b':
+>               bflag = true;
+> @@ -777,6 +778,9 @@ static int read_f(BlockBackend *blk, int argc, char **argv)
+>           case 'v':
+>               vflag = true;
+>               break;
+> +        case 'V':
+> +            vrawflag = true;
+> +            break;
+>           default:
+>               qemuio_command_usage(&read_cmd);
+>               return -EINVAL;
+> @@ -869,10 +873,15 @@ static int read_f(BlockBackend *blk, int argc, char **argv)
+>       if (vflag) {
+>           dump_buffer(buf, offset, count);
+>       }
+> +    if (vrawflag) {
+> +        write(STDOUT_FILENO, buf, count);
+> +    }
+>   
+>       /* Finally, report back -- -C gives a parsable format */
+> -    t2 = tsub(t2, t1);
+> -    print_report("read", &t2, offset, count, total, cnt, Cflag);
+> +    if (!vrawflag) {
+> +        t2 = tsub(t2, t1);
+> +        print_report("read", &t2, offset, count, total, cnt, Cflag);
+> +    }
+>   
+>   out:
+>       qemu_io_free(buf);
+> 
 
-I can confirm that I can't reproduce the issue with the above patch. Thank =
-you.
+I think -v and -V should be mutually exclusive, as combined output doesn't make real sense.
+Still, I'm OK with it as is (as well as with -V renamed to -r). I can suggest also -d (aka dump).
 
---=20
-Mauro Matteo Cascella, Red Hat Product Security
-6F78 E20B 5935 928C F0A8  1A9D 4E55 23B8 BB34 10B0
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+-- 
+Best regards,
+Vladimir
 
