@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E45240CA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:06:51 +0200 (CEST)
-Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A4B240C91
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:01:16 +0200 (CEST)
+Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5CCA-00074l-MN
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46798)
+	id 1k5C6l-0004rT-Io
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BLT-0002nT-VZ
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:24 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37449
+ id 1k5BLZ-0002uo-5F
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58459
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BLS-0003Hg-28
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:23 -0400
+ id 1k5BLU-0003Hy-TI
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079541;
+ s=mimecast20190719; t=1597079544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4ljzT9uBW3oam26OBDL4h2fJTNj7LbFlqlVlhCS6FiY=;
- b=IaCqUttt/Prnwu89CLqnthqeDvJuu9C/pMzVPvmprCicayhL0TGuuM53La1mN9wJSbAmtf
- HvgOKicYPdyhPqCUSBD1lLFV6F7vUQ81KRfMfQzuxJdhLMtZvIGLn+yfLWOrSbUhyaHmd+
- Ozxu8Z/q/sTCy/WPQHzbXRPT/BiId4Y=
+ bh=jgf3c/81Sz8+zccu3dp02ligzGaHLYd1poS2Bpj3JP8=;
+ b=A28i0ywxNowMO2I1liDFow2tP7wMA9dn0uzqvulzWFi72Cx8jpDMODlZXYpWqdsX+B+4PN
+ OJZdil89sUBQy89llyaO36SCbzK8rtndU7S8iGxx5qnRDlsuDrSMkjqRhdzdS9px5lmVS9
+ 2BHIfSs4VYTwzrhF35zOUApXqCLDiwA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-YmFlaOf1MempQB8wPUmhaA-1; Mon, 10 Aug 2020 13:12:19 -0400
-X-MC-Unique: YmFlaOf1MempQB8wPUmhaA-1
+ us-mta-391-SXuxtq7bNSyK2jRL4ljaIg-1; Mon, 10 Aug 2020 13:12:22 -0400
+X-MC-Unique: SXuxtq7bNSyK2jRL4ljaIg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD99480183C
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8938880183C
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:21 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB6DB5F1E9;
- Mon, 10 Aug 2020 17:12:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9671C5F1E9;
+ Mon, 10 Aug 2020 17:12:20 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 113/147] meson: convert hw/hyperv
-Date: Mon, 10 Aug 2020 19:08:31 +0200
-Message-Id: <1597079345-42801-114-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 115/147] meson: convert hw/dma
+Date: Mon, 10 Aug 2020 19:08:33 +0200
+Message-Id: <1597079345-42801-116-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -91,54 +91,79 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs        | 1 -
- hw/hyperv/Makefile.objs | 3 ---
- hw/hyperv/meson.build   | 3 +++
- hw/meson.build          | 1 +
- 4 files changed, 4 insertions(+), 4 deletions(-)
- delete mode 100644 hw/hyperv/Makefile.objs
- create mode 100644 hw/hyperv/meson.build
+ hw/Makefile.objs     |  1 -
+ hw/dma/Makefile.objs | 16 ----------------
+ hw/dma/meson.build   | 15 +++++++++++++++
+ hw/meson.build       |  1 +
+ 4 files changed, 16 insertions(+), 17 deletions(-)
+ delete mode 100644 hw/dma/Makefile.objs
+ create mode 100644 hw/dma/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 22eb804..a2c2f6d 100644
+index c04dfe5..26917a4 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -9,7 +9,6 @@ devices-dirs-y += cpu/
+@@ -7,7 +7,6 @@ devices-dirs-y += block/
+ devices-dirs-y += char/
+ devices-dirs-y += cpu/
  devices-dirs-y += display/
- devices-dirs-y += dma/
- devices-dirs-y += gpio/
--devices-dirs-$(CONFIG_HYPERV) += hyperv/
+-devices-dirs-y += dma/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/hyperv/Makefile.objs b/hw/hyperv/Makefile.objs
+diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
 deleted file mode 100644
-index 5b614e0..0000000
---- a/hw/hyperv/Makefile.objs
+index f4b1cfe..0000000
+--- a/hw/dma/Makefile.objs
 +++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += hyperv.o
--obj-$(CONFIG_HYPERV_TESTDEV) += hyperv_testdev.o
--obj-$(CONFIG_VMBUS) += vmbus.o
-diff --git a/hw/hyperv/meson.build b/hw/hyperv/meson.build
+@@ -1,16 +0,0 @@
+-common-obj-$(CONFIG_PUV3) += puv3_dma.o
+-common-obj-$(CONFIG_RC4030) += rc4030.o
+-common-obj-$(CONFIG_PL080) += pl080.o
+-common-obj-$(CONFIG_PL330) += pl330.o
+-common-obj-$(CONFIG_I82374) += i82374.o
+-common-obj-$(CONFIG_I8257) += i8257.o
+-common-obj-$(CONFIG_XILINX_AXI) += xilinx_axidma.o
+-common-obj-$(CONFIG_ZYNQ_DEVCFG) += xlnx-zynq-devcfg.o
+-common-obj-$(CONFIG_ETRAXFS) += etraxfs_dma.o
+-common-obj-$(CONFIG_STP2000) += sparc32_dma.o
+-common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dpdma.o
+-common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx-zdma.o
+-
+-common-obj-$(CONFIG_OMAP) += omap_dma.o soc_dma.o
+-common-obj-$(CONFIG_PXA2XX) += pxa2xx_dma.o
+-common-obj-$(CONFIG_RASPI) += bcm2835_dma.o
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
 new file mode 100644
-index 0000000..1367e29
+index 0000000..ff5bb37
 --- /dev/null
-+++ b/hw/hyperv/meson.build
-@@ -0,0 +1,3 @@
-+specific_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'))
-+specific_ss.add(when: 'CONFIG_HYPERV_TESTDEV', if_true: files('hyperv_testdev.c'))
-+specific_ss.add(when: 'CONFIG_VMBUS', if_true: files('vmbus.c'))
++++ b/hw/dma/meson.build
+@@ -0,0 +1,15 @@
++softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_dma.c'))
++softmmu_ss.add(when: 'CONFIG_RC4030', if_true: files('rc4030.c'))
++softmmu_ss.add(when: 'CONFIG_PL080', if_true: files('pl080.c'))
++softmmu_ss.add(when: 'CONFIG_PL330', if_true: files('pl330.c'))
++softmmu_ss.add(when: 'CONFIG_I82374', if_true: files('i82374.c'))
++softmmu_ss.add(when: 'CONFIG_I8257', if_true: files('i8257.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('xilinx_axidma.c'))
++softmmu_ss.add(when: 'CONFIG_ZYNQ_DEVCFG', if_true: files('xlnx-zynq-devcfg.c'))
++softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_dma.c'))
++softmmu_ss.add(when: 'CONFIG_STP2000', if_true: files('sparc32_dma.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dpdma.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zdma.c'))
++softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dma.c'))
++softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
++softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 983edc1..f9e5adf 100644
+index 52577c3..96da0bb 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('hyperv')
++subdir('dma')
+ subdir('gpio')
+ subdir('hyperv')
  subdir('i2c')
- subdir('ide')
- subdir('input')
 -- 
 1.8.3.1
 
