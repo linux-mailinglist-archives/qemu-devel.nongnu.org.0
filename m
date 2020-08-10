@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D233240CD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:16:27 +0200 (CEST)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF234240CD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:18:39 +0200 (CEST)
+Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5CLS-0000Kx-F1
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:16:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
+	id 1k5CNa-0005M8-W3
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BMI-0004Ea-CI
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:13:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57855
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BMG-0003Q4-DX
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:13:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079591;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=AYSjFqQursWhOKANXbeBTB5KlJKZDt83RzJAWS7IRm8=;
- b=ETIjlW9sNUKsIZ8OR7s+si+yExZZZ4QWI9c9aS+cRUOR6iOMYjgcrzGCCryB94TeaCYrl7
- khRIqxlX/ILc26THBqpKr90lHVWehDmI+lvbv2+Q3xw0XQ7t57WKVQXpFBLjTu7J8yAqql
- 2zW/bcGWCBekvBhucJpOQjZ0g8jblnM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-49tzb8C7NoWehsbfMZF5Lg-1; Mon, 10 Aug 2020 13:13:09 -0400
-X-MC-Unique: 49tzb8C7NoWehsbfMZF5Lg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCF38107ACCA
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:13:08 +0000 (UTC)
-Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 303005F1E9
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:13:07 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 147/147] meson: avoid unstable module warning with Meson
- 0.56.0 or newer
-Date: Mon, 10 Aug 2020 19:09:05 +0200
-Message-Id: <1597079345-42801-148-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
-References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:29:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1k5BNv-00072T-JH; Mon, 10 Aug 2020 13:14:55 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52391)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1k5BNs-0003Wv-G9; Mon, 10 Aug 2020 13:14:55 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 440D655C7B1C;
+ Mon, 10 Aug 2020 19:14:41 +0200 (CEST)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Mon, 10 Aug
+ 2020 19:14:40 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002007a2343-7b21-4e05-83e1-b3e7fd5f5712,
+ EF638D8D103391F16F38E39CF07A17906BAD491E) smtp.auth=clg@kaod.org
+Subject: Re: [PATCH for-5.2 14/19] ftgmac100: Fix integer overflow in
+ ftgmac100_do_tx()
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+References: <20200806132106.747414-1-clg@kaod.org>
+ <20200806132106.747414-15-clg@kaod.org>
+ <CAA8xKjVfG8cp_g6FDNxUCQ6dqiMHnf17eMNCE2Wz+Vr+grAprw@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <b0e8e4d3-5250-ec81-7ce5-146bba1d5130@kaod.org>
+Date: Mon, 10 Aug 2020 19:14:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAA8xKjVfG8cp_g6FDNxUCQ6dqiMHnf17eMNCE2Wz+Vr+grAprw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: fd7484c1-1046-4760-984b-f3fd4e2d3832
+X-Ovh-Tracer-Id: 9259682312313932652
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkeekgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepmhgtrghstggvlhhlsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 13:14:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,32 +73,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Frederic Konrad <konrad.frederic@yahoo.fr>, Andrew Jeffery <andrew@aj.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Ziming Zhang <ezrakiez@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On 8/10/20 3:43 PM, Mauro Matteo Cascella wrote:
+> On Thu, Aug 6, 2020 at 3:21 PM Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> When inserting the VLAN tag in packets, memmove() can generate an
+>> integer overflow for packets whose length is less than 12 bytes.
+>>
+>> Check length against the size of the ethernet header (14 bytes) to
+>> avoid the crash and return FTGMAC100_INT_XPKT_LOST status. This seems
+>> like a good modeling choice even if Aspeed does not specify anything
+>> in that case.
+>>
+>> Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
+>> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
+>> Reported-by: Ziming Zhang <ezrakiez@gmail.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>  hw/net/ftgmac100.c | 19 +++++++++++++++----
+>>  1 file changed, 15 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+>> index 280aa3d3a1e2..987b843fabc4 100644
+>> --- a/hw/net/ftgmac100.c
+>> +++ b/hw/net/ftgmac100.c
+>> @@ -540,10 +540,21 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+>>                  s->isr |= FTGMAC100_INT_XPKT_LOST;
+>>                  len =  sizeof(s->frame) - frame_size - 4;
+>>              }
+>> -            memmove(ptr + 16, ptr + 12, len - 12);
+>> -            stw_be_p(ptr + 12, ETH_P_VLAN);
+>> -            stw_be_p(ptr + 14, bd.des1);
+>> -            len += 4;
+>> +
+>> +            if (len < sizeof(struct eth_header)) {
+>> +                qemu_log_mask(LOG_GUEST_ERROR,
+>> +                         "%s: frame too small for VLAN insertion : %d bytes\n",
+>> +                         __func__, len);
+>> +                s->isr |= FTGMAC100_INT_XPKT_LOST;
+>> +            } else {
+>> +                uint8_t *vlan_hdr = ptr + (ETH_ALEN * 2);
+>> +                uint8_t *payload = vlan_hdr + sizeof(struct vlan_header);
+>> +
+>> +                memmove(payload, vlan_hdr, len - (ETH_ALEN * 2));
+>> +                stw_be_p(vlan_hdr, ETH_P_VLAN);
+>> +                stw_be_p(vlan_hdr + 2, FTGMAC100_TXDES1_VLANTAG_CI(bd.des1));
+>> +                len += sizeof(struct vlan_header);
+>> +            }
+>>          }
+>>
+>>          ptr += len;
+>> --
+>> 2.25.4
+>>
+> 
+> I can confirm that I can't reproduce the issue with the above patch. Thank you.
+> 
 
-diff --git a/meson.build b/meson.build
-index 6556a48..8551ed5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3,7 +3,11 @@ project('qemu', ['c', 'cpp'], meson_version: '>=0.55.0',
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
- 
- not_found = dependency('', required: false)
--keyval = import('unstable-keyval')
-+if meson.version().version_compare('>=0.56.0')
-+  keyval = import('keyval')
-+else
-+  keyval = import('unstable-keyval')
-+endif
- ss = import('sourceset')
- 
- sh = find_program('sh')
--- 
-1.8.3.1
+Can I count that as a Tested-by ? 
+
+Thanks,
+
+C. 
+
 
 
