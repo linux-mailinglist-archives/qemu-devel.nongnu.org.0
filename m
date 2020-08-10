@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332FB240693
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:30:05 +0200 (CEST)
-Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DB52406A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:35:17 +0200 (CEST)
+Received: from localhost ([::1]:51780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k57sK-0002nS-21
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46192)
+	id 1k57xM-0006JT-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nS-0000xD-Ck
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:02 -0400
-Received: from mout.gmx.net ([212.227.15.15]:36649)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nO-0000wM-Gd
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:24:58 -0400
+Received: from mout.gmx.net ([212.227.15.15]:59549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nQ-0008FZ-6K
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:01 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nL-0008F6-Mg
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:24:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1597065888;
- bh=HXCvduzOIXsCQA5SfxLwuvEJdZ32wS45EDx3y1nQsa0=;
+ s=badeba3b8450; t=1597065884;
+ bh=hyIzH7ivPq7ku2oSW5+xDDT45fhCNW0UoyQcYF08040=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=Rq9+bhyvKGbbdHADyvvjRfxtMqW5vzuiTmTBCS6rbVE0Kuj2faThpv/QS2N1icSUp
- R3BMfhzYOcXPgahxEYmMqjcPZe5SnUAV1QZ8Ql1sxIWtpmN6aA99ybrTJ5nhgr54nY
- cv2pGrUjryb5gvpQTF9U8wIhBONGFQx8Q1aUjd0A=
+ b=OnbmACw7qt/FENGMnRshge/ij1uTAUw/wut7pnXlmmkrwmOVIvYY12TZA6uSORcGq
+ zPK1+iipYCIk5nvBqMhMNYjvacR5S5jU5KlaWFCGiPznmFQOundr1xdYnrqAOrgfHC
+ Et8CulxfOy4c3Q5dKwdFXxEraTGk3KeW8cvZlkGA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.174.37]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3se2-1knE0F3Utk-00zqEi; Mon, 10
- Aug 2020 15:24:47 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MZCfD-1k9EY11s6j-00VCJN; Mon, 10
+ Aug 2020 15:24:44 +0200
 From: Helge Deller <deller@gmx.de>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 12/12] hw/display/artist: Fix invalidation of lines near
- screen border
-Date: Mon, 10 Aug 2020 15:24:41 +0200
-Message-Id: <20200810132441.16551-13-deller@gmx.de>
+Subject: [PULL v2 01/12] hw/hppa: Sync hppa_hardware.h file with SeaBIOS
+ sources
+Date: Mon, 10 Aug 2020 15:24:30 +0200
+Message-Id: <20200810132441.16551-2-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200810132441.16551-1-deller@gmx.de>
 References: <20200810132441.16551-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Xg+ggqxvj7w0xaJZpdOEYGPzqc83QiRRipaOh+iHR/ZtaOMo7aq
- fLlQQhija/vztpON4lh3trgXRYfQ0KRjMxZLFQLc4VIB+S815rN1gsyyADbOxOHPAa6RF5u
- Zfat9S5r/1PfpYLXRoWHKpotg1YS0OcESSujeb/ItC+2x8B14/eyUh5qCzI+JgoLjgAKMVx
- 2PtEIvV+xFZSoAWga1JBg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XAhJ/9YRwUA=:r+G/HnAN/CZLmRKd8gqooR
- rTqS5bHXVFOBBJH+RGYYxihMMQFpOBxxKSSnEls66cIdZk2HhEbp9f7oaBM37ifalYS8sovNM
- ENqaeUH2X7yUXgPcVZXmixo71eqnMLSFBp01c3bFdgd6xQB549gEqWOeoa8z8uCgszPQjQTaN
- 0PIftfqC+FRdQXwWWOwvIQaP88eaX4zwapGNkm6sOIBiyBsgpKENcLhx31t7MkOTYTFMtxIzQ
- d2rOi+PnFum2leYMff4DhnieXErwtn6B+nVy8UZFEiaG4IoiXBAr+XByT85s5yKOnevoylgLS
- 4pDEzEDgkQSekaRDPX+RMHHi5i3FQayCS8bsbYZYNf/tNXHwYdJwfvLuEZw4AIQvIw6+KaN3w
- yNEyrL7S3+cgzyQRD0crw2IhhmWF/pdU9yS7LsvYxXm9hHRfMSVrVqLAsR3wGNe/rJf+fgxeI
- /o6YqorOPCXwnbGmniM6yYH6TumVB+Vu/c4iKbAEfQe59wChw3Bm0JTNZQAT70K8C4U2XGupS
- kNfU+tJDjRJHzzQHYK6/l/NiB75+Evw25ypHaDc56L8tGaTwi02d0hj8oR7niQ27Z13zWZ4D3
- HaI//Qa1B+x7BE+acckUphCSNGggtuKgSRoEJlXvLu3oYHRW5YiQ/vj/EiMS40F1zy0SeZBK5
- gFuPpiDcz+EY2SnfBHEvvTdRh2dl/xfwPUcRySHcpFfdpp10ewkQkcdkFGnoiS6VfIJCA7Ubc
- OSADwKilVbCUHWuiXKBxFY0U2IW3xoOpch6mS1W6y3yuGI93x3mFL78V+KLxE7fE9LP7OKu9F
- ILJckClNwRYQdydUi2sMLmRxGeJtt+WBIoOcnOti7yRhRJBUpqtLwie6mux3YL1UBRWHwJoH8
- SpHPV+UPWgwnVsbHRLauWdEMFYJipCB+BHxIpAqnmZGa7EmOT5ksKGvc5z+iTJamqPXE2unu6
- JcQmHK04kEsnoLCpQQdAQsBbPlBdyCdgebtkLwWy4ov0s8QChFvAiHKuYnhN/j1svlqqtaJgY
- D7if05oH7mCZXuZi8lixKYk8OwbtjDjvSHU0aRCdFs+qBLMmfFHp3ZqbkBaWuqc0ZH4+Go7dk
- euuWidovckl0o4zNDKAHNYhGdwGAOio6MNY/0z4XpxY7rRgAjoNfoJhJhRG9o119/rMU89ruX
- cHtYGCHcJ32E/privOe37lc7ifJs6Q/BVhK5tT2Dg28h6jYI75HXa+0uzUGKfUZ9/eZ3nk5xr
- 90a+Fy5SwUB3viRyn
+X-Provags-ID: V03:K1:HhdYLRzg54XjeLVqbgrQuwHimMv7qHlYwoTC+bdxewuaZUafPlq
+ oA6HmDKy4kTRMwHuN8drwWZfP97mHZzrXOGZKepip6uM9btFzVAV/CT7Twe9YokkQZK9eE+
+ UdDl9mWykvpBtfSifWz3D3lXWy7L0ULBrUjxxkJEv9VTFNDcfIWnhhBT3cBWpfwxrz0eZVf
+ W+EmYPtod8/OCjadtM9TA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OHRPozBqstM=:mScvOnqvgF/l2T2NlMYQU0
+ gSmpnKIGB27N/nnbz1sbhKoXLzy12nyxPw2H0tuc5yJIH6ADlZ55GsqCMtiLQjhf5/Rk+0JT/
+ mE7v9YyRtchE8Y0WRBlfy+8SoR/hecjgDoAsIQKgao3e77NL8DHGjDJbGCPu9Wma7XdZf0lE1
+ wF+6lGo11IMAwJaFz+ZeuwDWgo7p/TCQmttTj/+kJSpoI+UcSwY5HVT7ujqMONwjwzD8VCooN
+ VGtHR0ZzETX2rEy8605nHVjEjdRa+q0UvJkLRU9+6j7c/3JiGrGzRkLqr8kqYusAEyqeyYpzv
+ CsMO6mdMnZhmGsscWMMfn5FeTtCCSmRVdSIpjaMRIWzFIsFLkcw2MlvzxmbS2h4+eCXfKpdG3
+ fuaO5f4D0F3EJLUK1J2aUtedAYAnbW1ayyZ2kKUB8p24NIjWleqE6MQdWrB7BtORYFcKlwrY2
+ wEqT4qn2w6Dw3/N6SKm5mDHXYMuM4qQO9B2vkptRKA+mNRymPqLimet3/Ddl1mvuaxTYjlQr4
+ UNMpqSl7WMingu0meN3MTSPoABThHt/VOiZV7LZHpbozyy/l08QyNAofeKExiAOEb0mLeMo7i
+ tA8R+kFZ3XOygnDnVl8DTLxoi0WiXeFku+PRKjrrOpze2lIRdc/LuTLpbasfHBdWmXNOIP6Ro
+ 31RNK25XtRAr5qXpLeNS1VBp/KSZ5cMBbJEtpwjXwZPr5VjKaNgrHXybQM1uLId/BZQrmXYXl
+ aFDKxlvH+rvLfxMTTOSMOGkhuX8dx+iw1PbJMoU/aSRzybdOggXfhay5TZZMx5QjpcHdFTbYT
+ F4sYHejlTEbt2fsQyhZbMYNTxcdCpbT0nEKtapzOw21pVZXL05+xldQuR1KpM2tYhJFLOiK/q
+ qEOfG1DcSevS3pi29MwNUpw7NGjbbUsyQCDZjww1gL/ajMkk2oHAq1fENIzEU88jN8+/umRjO
+ JeGofTik/Ti6YlmNDeZoH0TWD4mlXzTGknNFgPUeqdVOh2m96uGy9nhyg83kejxR118HnmyoF
+ mXO29Y+nfoo+XdALN9B94ZCng9d3ot22bUPDUiaxlDoz666pb6w027hP3C69wi3T3yzlmssyj
+ kzl8/lkq5kLqAtE2umxOMD/IB3aBUrpQeAlEZUlgYaPJohhfQ1E0/tbMuFQTCAKtNA69R07DQ
+ lZuybr3v/fH41qeD4e+ZRFJLRdlwgcgIVwMLBl16NjgQ1C7vI44x66UgsgQxGzPGU6egR1WZP
+ 2hpi9cEvrWLu53EJD
 Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 09:24:50
@@ -86,43 +86,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+Cc: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sven Schnelle <svens@stackframe.org>
+The hppa_hardware.h file is shared with SeaBIOS. Sync it.
 
-If parts of the invalidated screen lines are outside of the VRAM buffer,
-the code skips the whole invalidate. This is incorrect when only parts
-of the buffer are invisble - which is the case when the mouse cursor is
-located near the screen border.
-
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/display/artist.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/hppa/hppa_hardware.h | 6 ++++++
+ hw/hppa/lasi.c          | 2 --
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index a959b2c158..71982559c6 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -206,7 +206,12 @@ static void artist_invalidate_lines(struct vram_buffe=
-r *buf,
-                                     int starty, int height)
- {
-     int start =3D starty * buf->width;
--    int size =3D height * buf->width;
-+    int size;
-+
-+    if (starty + height > buf->height)
-+        height =3D buf->height - starty;
-+
-+    size =3D height * buf->width;
+diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
+index 4a2fe2df60..cdb7fa6240 100644
+=2D-- a/hw/hppa/hppa_hardware.h
++++ b/hw/hppa/hppa_hardware.h
+@@ -17,6 +17,7 @@
+ #define LASI_UART_HPA   0xffd05000
+ #define LASI_SCSI_HPA   0xffd06000
+ #define LASI_LAN_HPA    0xffd07000
++#define LASI_RTC_HPA    0xffd09000
+ #define LASI_LPT_HPA    0xffd02000
+ #define LASI_AUDIO_HPA  0xffd04000
+ #define LASI_PS2KBD_HPA 0xffd08000
+@@ -37,10 +38,15 @@
+ #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
+ #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
 
-     if (start + size <=3D buf->size) {
-         memory_region_set_dirty(&buf->mr, start, size);
++/* QEMU fw_cfg interface port */
++#define QEMU_FW_CFG_IO_BASE     (MEMORY_HPA + 0x80)
++
+ #define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
+ #define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
+
+ #define HPPA_MAX_CPUS   8       /* max. number of SMP CPUs */
+ #define CPU_CLOCK_MHZ   250     /* emulate a 250 MHz CPU */
+
++#define CPU_HPA_CR_REG  7       /* store CPU HPA in cr7 (SeaBIOS internal=
+) */
++
+ #endif
+diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
+index 19974034f3..ffcbb988b8 100644
+=2D-- a/hw/hppa/lasi.c
++++ b/hw/hppa/lasi.c
+@@ -54,8 +54,6 @@
+ #define LASI_CHIP(obj) \
+     OBJECT_CHECK(LasiState, (obj), TYPE_LASI_CHIP)
+
+-#define LASI_RTC_HPA    (LASI_HPA + 0x9000)
+-
+ typedef struct LasiState {
+     PCIHostState parent_obj;
+
 =2D-
 2.21.3
 
