@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22475240C7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:57:22 +0200 (CEST)
-Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A23240C6D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:54:17 +0200 (CEST)
+Received: from localhost ([::1]:49380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5C2z-0006wJ-4c
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46478)
+	id 1k5C00-0001fl-0y
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BKv-0001n2-T9
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:11:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42174
+ id 1k5BL0-0001yF-4O
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:11:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50973
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BKt-0003CT-7G
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:11:49 -0400
+ id 1k5BKx-0003D8-MX
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:11:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079504;
+ s=mimecast20190719; t=1597079511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EY5xBq1uQzGsiziefS8q1NV3vGh7VRyVrHGNrGkrL3c=;
- b=jDuzfrQHVYoYr4YKMs5jeqZhr1WobfJblYKesTRo9nvNT3EDPyqZbjL9BfIU2XLFr6d+Ws
- +oYb+3sRVkIzNyVXP66nF/uMCsBbIhY3vCv3qyGjE/l/u8seuntdSYYa3zh6hPeAWrW8na
- G0MMt2Z6SXAs+LA9oiqiWmgEfDkDmaE=
+ bh=JVG9N+xGFm05XrSMUMBQFJhxy7afPpsKd7cHwY5hH0k=;
+ b=GhvISc7o4lLQ62/yM420AmMOYdBpfy5+dS55PYZlXNcF44ky+TgjUafETeXIFSzrZooQC8
+ RSQxlpwXv/HAFIyW9G0e0NKZ28fJvkosvmlTvD1c43W1/4i9sy2I8ZyNWaWPqoO7zIzYs3
+ sJggrDHjTY3fMT4RcSKoXIHm/HcKyeU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-tKp-W1cWNFSVejxUcZLKPA-1; Mon, 10 Aug 2020 13:11:42 -0400
-X-MC-Unique: tKp-W1cWNFSVejxUcZLKPA-1
+ us-mta-57-_KXHDEtpOSy9jc12gOKbhQ-1; Mon, 10 Aug 2020 13:11:43 -0400
+X-MC-Unique: _KXHDEtpOSy9jc12gOKbhQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 406AE80183C
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:11:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A11F119067E3
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:11:42 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82D1487D61;
- Mon, 10 Aug 2020 17:11:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD3595F1E9;
+ Mon, 10 Aug 2020 17:11:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 090/147] meson: convert hw/vfio
-Date: Mon, 10 Aug 2020 19:08:08 +0200
-Message-Id: <1597079345-42801-91-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 091/147] meson: convert hw/usb
+Date: Mon, 10 Aug 2020 19:08:09 +0200
+Message-Id: <1597079345-42801-92-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:00:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,81 +86,233 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/meson.build        |  1 +
- hw/vfio/Makefile.objs |  8 --------
- hw/vfio/meson.build   | 18 ++++++++++++++++++
- 4 files changed, 19 insertions(+), 9 deletions(-)
- delete mode 100644 hw/vfio/Makefile.objs
- create mode 100644 hw/vfio/meson.build
+ Makefile.target      |  1 +
+ hw/Makefile.objs     |  1 -
+ hw/meson.build       |  1 +
+ hw/usb/Makefile.objs | 71 ----------------------------------------------------
+ hw/usb/meson.build   | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build          | 15 +++++++++++
+ 6 files changed, 86 insertions(+), 72 deletions(-)
+ delete mode 100644 hw/usb/Makefile.objs
+ create mode 100644 hw/usb/meson.build
 
+diff --git a/Makefile.target b/Makefile.target
+index 386378b..3d5a2af 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -168,6 +168,7 @@ endif
+ LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOMP_LIBS)
+ LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
+ LIBS := $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
++LIBS := $(LIBS) $(LIBUSB_LIBS) $(SMARTCARD_LIBS) $(USB_REDIR_LIBS)
+ 
+ # Hardware support
+ ifeq ($(TARGET_NAME), sparc64)
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index a1cfb99..f6e08f6 100644
+index f6e08f6..c2619bb 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -31,7 +31,6 @@ devices-dirs-y += ssi/
+@@ -30,7 +30,6 @@ devices-dirs-y += sd/
+ devices-dirs-y += ssi/
  devices-dirs-y += timer/
  devices-dirs-$(CONFIG_TPM) += tpm/
- devices-dirs-y += usb/
--devices-dirs-$(CONFIG_VFIO) += vfio/
+-devices-dirs-y += usb/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 8338fc4..4dafc8a 100644
+index 4dafc8a..89bd6ad 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -3,6 +3,7 @@ subdir('mem')
  subdir('nubus')
  subdir('semihosting')
  subdir('smbios')
-+subdir('vfio')
++subdir('usb')
+ subdir('vfio')
  subdir('virtio')
  subdir('watchdog')
- subdir('xen')
-diff --git a/hw/vfio/Makefile.objs b/hw/vfio/Makefile.objs
+diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
 deleted file mode 100644
-index 9bb1c09..0000000
---- a/hw/vfio/Makefile.objs
+index e342ff5..0000000
+--- a/hw/usb/Makefile.objs
 +++ /dev/null
-@@ -1,8 +0,0 @@
--obj-y += common.o spapr.o
--obj-$(CONFIG_VFIO_PCI) += pci.o pci-quirks.o display.o
--obj-$(CONFIG_VFIO_CCW) += ccw.o
--obj-$(CONFIG_VFIO_PLATFORM) += platform.o
--obj-$(CONFIG_VFIO_XGMAC) += calxeda-xgmac.o
--obj-$(CONFIG_VFIO_AMD_XGBE) += amd-xgbe.o
--obj-$(CONFIG_VFIO_AP) += ap.o
--obj-$(CONFIG_VFIO_IGD) += igd.o
-diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
+@@ -1,71 +0,0 @@
+-# usb subsystem core
+-common-obj-y += core.o combined-packet.o bus.o libhw.o
+-common-obj-$(CONFIG_USB) += desc.o desc-msos.o
+-
+-# usb host adapters
+-common-obj-$(CONFIG_USB_UHCI) += hcd-uhci.o
+-common-obj-$(CONFIG_USB_OHCI) += hcd-ohci.o
+-common-obj-$(CONFIG_USB_OHCI_PCI) += hcd-ohci-pci.o
+-common-obj-$(CONFIG_USB_EHCI) += hcd-ehci.o
+-common-obj-$(CONFIG_USB_EHCI_PCI) += hcd-ehci-pci.o
+-common-obj-$(CONFIG_USB_EHCI_SYSBUS) += hcd-ehci-sysbus.o
+-common-obj-$(CONFIG_USB_XHCI) += hcd-xhci.o
+-common-obj-$(CONFIG_USB_XHCI_NEC) += hcd-xhci-nec.o
+-common-obj-$(CONFIG_USB_MUSB) += hcd-musb.o
+-common-obj-$(CONFIG_USB_DWC2) += hcd-dwc2.o
+-
+-common-obj-$(CONFIG_TUSB6010) += tusb6010.o
+-common-obj-$(CONFIG_IMX)      += chipidea.o
+-
+-# emulated usb devices
+-common-obj-$(CONFIG_USB) += dev-hub.o
+-common-obj-$(CONFIG_USB) += dev-hid.o
+-common-obj-$(CONFIG_USB_TABLET_WACOM) += dev-wacom.o
+-common-obj-$(CONFIG_USB_STORAGE_BOT)  += dev-storage.o
+-common-obj-$(CONFIG_USB_STORAGE_UAS)  += dev-uas.o
+-common-obj-$(CONFIG_USB_AUDIO)        += dev-audio.o
+-common-obj-$(CONFIG_USB_SERIAL)       += dev-serial.o
+-common-obj-$(CONFIG_USB_NETWORK)      += dev-network.o
+-
+-ifeq ($(CONFIG_USB_SMARTCARD),y)
+-common-obj-y                          += dev-smartcard-reader.o
+-ifeq ($(CONFIG_SMARTCARD),y)
+-common-obj-m                          += smartcard.mo
+-smartcard.mo-objs := ccid-card-passthru.o ccid-card-emulated.o
+-smartcard.mo-cflags := $(SMARTCARD_CFLAGS)
+-smartcard.mo-libs := $(SMARTCARD_LIBS)
+-endif
+-endif
+-
+-ifeq ($(CONFIG_POSIX),y)
+-common-obj-$(CONFIG_USB_STORAGE_MTP)  += dev-mtp.o
+-endif
+-
+-# usb redirection
+-ifeq ($(CONFIG_USB),y)
+-ifeq ($(CONFIG_USB_REDIR),y)
+-common-obj-m += redirect.mo
+-redirect.mo-objs = redirect.o quirks.o
+-redirect.mo-cflags = $(USB_REDIR_CFLAGS)
+-redirect.mo-libs = $(USB_REDIR_LIBS)
+-endif
+-endif
+-
+-# usb pass-through
+-ifeq ($(CONFIG_USB_LIBUSB)$(CONFIG_USB),yy)
+-common-obj-y += host-libusb.o
+-else
+-common-obj-y += host-stub.o
+-endif
+-common-obj-$(CONFIG_ALL) += host-stub.o
+-
+-host-libusb.o-cflags := $(LIBUSB_CFLAGS)
+-host-libusb.o-libs := $(LIBUSB_LIBS)
+-
+-ifeq ($(CONFIG_USB_LIBUSB),y)
+-common-obj-$(CONFIG_XEN) += xen-usb.o
+-xen-usb.o-cflags := $(LIBUSB_CFLAGS)
+-xen-usb.o-libs := $(LIBUSB_LIBS)
+-endif
+-
+-common-obj-$(CONFIG_IMX_USBPHY) += imx-usb-phy.o
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
 new file mode 100644
-index 0000000..37efa74
+index 0000000..f40d158
 --- /dev/null
-+++ b/hw/vfio/meson.build
-@@ -0,0 +1,18 @@
-+vfio_ss = ss.source_set()
-+vfio_ss.add(files(
-+  'common.c',
-+  'spapr.c',
-+))
-+vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
-+  'display.c',
-+  'pci-quirks.c',
-+  'pci.c',
-+))
-+vfio_ss.add(when: 'CONFIG_VFIO_CCW', if_true: files('ccw.c'))
-+vfio_ss.add(when: 'CONFIG_VFIO_PLATFORM', if_true: files('platform.c'))
-+vfio_ss.add(when: 'CONFIG_VFIO_XGMAC', if_true: files('calxeda-xgmac.c'))
-+vfio_ss.add(when: 'CONFIG_VFIO_AMD_XGBE', if_true: files('amd-xgbe.c'))
-+vfio_ss.add(when: 'CONFIG_VFIO_AP', if_true: files('ap.c'))
-+vfio_ss.add(when: 'CONFIG_VFIO_IGD', if_true: files('igd.c'))
++++ b/hw/usb/meson.build
+@@ -0,0 +1,69 @@
++hw_usb_modules = []
 +
-+specific_ss.add_all(when: 'CONFIG_VFIO', if_true: vfio_ss)
++# usb subsystem core
++softmmu_ss.add(files(
++  'bus.c',
++  'combined-packet.c',
++  'core.c',
++  'libhw.c'
++))
++
++softmmu_ss.add(when: 'CONFIG_USB', if_true: files(
++  'desc.c',
++  'desc-msos.c',
++))
++
++# usb host adapters
++softmmu_ss.add(when: 'CONFIG_USB_UHCI', if_true: files('hcd-uhci.c'))
++softmmu_ss.add(when: 'CONFIG_USB_OHCI', if_true: files('hcd-ohci.c'))
++softmmu_ss.add(when: 'CONFIG_USB_OHCI_PCI', if_true: files('hcd-ohci-pci.c'))
++softmmu_ss.add(when: 'CONFIG_USB_EHCI', if_true: files('hcd-ehci.c'))
++softmmu_ss.add(when: 'CONFIG_USB_EHCI_PCI', if_true: files('hcd-ehci-pci.c'))
++softmmu_ss.add(when: 'CONFIG_USB_EHCI_SYSBUS', if_true: files('hcd-ehci.c', 'hcd-ehci-sysbus.c'))
++softmmu_ss.add(when: 'CONFIG_USB_XHCI', if_true: files('hcd-xhci.c'))
++softmmu_ss.add(when: 'CONFIG_USB_XHCI_NEC', if_true: files('hcd-xhci-nec.c'))
++softmmu_ss.add(when: 'CONFIG_USB_MUSB', if_true: files('hcd-musb.c'))
++softmmu_ss.add(when: 'CONFIG_USB_DWC2', if_true: files('hcd-dwc2.c'))
++
++softmmu_ss.add(when: 'CONFIG_TUSB6010', if_true: files('tusb6010.c'))
++softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
++softmmu_ss.add(when: 'CONFIG_IMX_USBPHY', if_true: files('imx-usb-phy.c'))
++
++# emulated usb devices
++softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hub.c'))
++softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hid.c'))
++softmmu_ss.add(when: 'CONFIG_USB_TABLET_WACOM', if_true: files('dev-wacom.c'))
++softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage.c'))
++softmmu_ss.add(when: 'CONFIG_USB_STORAGE_UAS', if_true: files('dev-uas.c'))
++softmmu_ss.add(when: 'CONFIG_USB_AUDIO', if_true: files('dev-audio.c'))
++softmmu_ss.add(when: 'CONFIG_USB_SERIAL', if_true: files('dev-serial.c'))
++softmmu_ss.add(when: 'CONFIG_USB_NETWORK', if_true: files('dev-network.c'))
++softmmu_ss.add(when: ['CONFIG_POSIX', 'CONFIG_USB_STORAGE_MTP'], if_true: files('dev-mtp.c'))
++
++# smartcard
++softmmu_ss.add(when: 'CONFIG_USB_SMARTCARD', if_true: files('dev-smartcard-reader.c'))
++
++if config_host.has_key('CONFIG_SMARTCARD')
++  hw_usb_modules += [['smartcard', files(
++      'ccid-card-emulated.c',
++      'ccid-card-passthru.c',
++    ), [cacard], ['CONFIG_USB_SMARTCARD']]]
++endif
++
++# usb redirect
++if config_host.has_key('CONFIG_USB_REDIR')
++  hw_usb_modules += [['redirect', files(
++      'redirect.c',
++      'quirks.c',
++    ), [usbredir], ['CONFIG_USB']]]
++endif
++
++# usb pass-through
++softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_USB_LIBUSB', libusb],
++               if_true: files('host-libusb.c'),
++               if_false: files('host-stub.c'))
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('host-stub.c'))
++
++softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_XEN', libusb], if_true: files('xen-usb.c'))
++
++modules += { 'hw-usb': hw_usb_modules }
+diff --git a/meson.build b/meson.build
+index 19c81b6..696d743 100644
+--- a/meson.build
++++ b/meson.build
+@@ -318,6 +318,21 @@ if 'CONFIG_XEN_BACKEND' in config_host
+   xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
+                            link_args: config_host['XEN_LIBS'].split())
+ endif
++cacard = not_found
++if 'CONFIG_SMARTCARD' in config_host
++  cacard = declare_dependency(compile_args: config_host['SMARTCARD_CFLAGS'].split(),
++                              link_args: config_host['SMARTCARD_LIBS'].split())
++endif
++usbredir = not_found
++if 'CONFIG_USB_REDIR' in config_host
++  usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
++                                link_args: config_host['USB_REDIR_LIBS'].split())
++endif
++libusb = not_found
++if 'CONFIG_USB_LIBUSB' in config_host
++  libusb = declare_dependency(compile_args: config_host['LIBUSB_CFLAGS'].split(),
++                              link_args: config_host['LIBUSB_LIBS'].split())
++endif
+ 
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
 -- 
 1.8.3.1
 
