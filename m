@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E3A240CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:27:17 +0200 (CEST)
-Received: from localhost ([::1]:50990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E568240CEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:22:33 +0200 (CEST)
+Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5CVw-0000yG-6d
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60380)
+	id 1k5CRM-0002YP-2m
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5CJV-0005pZ-7m
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:14:25 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41032)
+ id 1k5CPd-0001Gg-DE
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:20:45 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5CJT-000289-9c
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:14:24 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a65so8013870otc.8
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 11:14:22 -0700 (PDT)
+ id 1k5CPb-0002y0-6M
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:20:44 -0400
+Received: by mail-ot1-x342.google.com with SMTP id a65so8030459otc.8
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 11:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P9N+4wg/QjLK1C1fhMrTRf3g+gzYGq9hUP1q66TtW+Y=;
- b=brNqlvSKIQbOcNMbaosgNAfE/y00nkdADY80v/8BlVvGXzE6/ncoLo5HupSNLbrvTh
- tokkzdQNlCYsXl+3x7et32+Yx8Bl25dfCEJtaV0jjB/SFFFTfc5qWopBSaMcKMBL2vYA
- wFpRfMoRDl8KlgrIYVN4BzTAyMI3uyYvTmftu+mXO3nWO+6OdwrXexRNlgvA8FeZEFNX
- +fQHJmpaI3+mSUh0H3nenzb+lmoJmZBmPKLr4zkkoodZAjilZglHrIOgrqZ0k5bArf72
- gwkJcV2Mhs0SZNeJ0Skig0ohKBWADLjYokiwY++fEXM+v45uuWRybc1Aw4sQV9mlp5iC
- RGOA==
+ :cc:content-transfer-encoding;
+ bh=SUKIF7YAq+gxcV4P0x/LHb+7gEhUOeKzNZ+fgumOGU8=;
+ b=p00yz1v900SgH+X7fzkP+zCXSstFSRX6Ou95GSrNeshHd8FRxeE3/mSPloWmPWgkEb
+ N8faYNm7CkCGdDFwaoOvPaRw5wLWI/ScUrOyB9hAgDgNq7bk5XKstZVULhuABvj1RTtO
+ 0WfxRnsBKXjl0W4H4oXeUKyksJSFPmTjMZXeeU3CGD4KjM+vP8MofL/RENsqDqiUOA+D
+ 7gFvEvImzwavRf4XMn15GrxOO6/1H/usbYWmSkHGSwKMF7WVfku8IF7pySfENnV6+w/L
+ 1tgwPfus0Zyp0xBk++l66c6YJRxWK1Nq5+X6FXdVmNZIs7IWoR/PBNGs7YyksA5SIBr8
+ GzFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P9N+4wg/QjLK1C1fhMrTRf3g+gzYGq9hUP1q66TtW+Y=;
- b=fz3Uj53Z/SxozrGbcG7oejL+uTP6b3oqm7L+BeR49Jj2LfRrrhUXXA4uocNfjUOMVN
- 9yBb+DVC4WaVAjUQ5UjN+7J7csMrQGZLZEdOVjGpIA17yPviqHrIM9NnswyfR8JXlnVx
- xOiCernjEzyE7UeGcfJQo68vWCcxzobgdAEoSm3Jk2b77y7qluEz/dBYQ9hdVgcvobcq
- BSc15qpy9aA1ntqGr22/GmqBWF7+Hvr3ZqmZJOGxnxWGq3ranulOIfeiCjbe9NsmREia
- eyveqINIBHb7MhNePyC9tlesyNFeKVfYUkBLS26Ug/8I4kETZPPMbvN0T1Y8MkgwGZyO
- QJqQ==
-X-Gm-Message-State: AOAM5324+37/NoihBBujIoU3gqw1LvzirAxGufo6KwjLinfIkElrCr17
- GUrNi1u9+psCyyBHRVSQay62NYLEpL065m2zpUCq0g==
-X-Google-Smtp-Source: ABdhPJzwFlW5iaFAuFk/ZsnR+ePvEd2N0pqGkiJnvPuE2UnQwUtQ5mn/BHrrzShOLdkcg/feqL3BAoIv+8qidrEmghk=
-X-Received: by 2002:a9d:24e7:: with SMTP id z94mr1771079ota.91.1597083261864; 
- Mon, 10 Aug 2020 11:14:21 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SUKIF7YAq+gxcV4P0x/LHb+7gEhUOeKzNZ+fgumOGU8=;
+ b=eioq1Vcw60Ep+WONAWy1SSEplGpEFcMcl9IbCEJLzBpQt1BtbZaGXzN0s9YXLKhDJ5
+ nS5SRIxwdSdgU1dTo45C3tAazmWt5WFX46+ReMynCO7pHE2uptqBf86s3Q3fxc2cStFj
+ iHAEgHyi0gKSiFtja+tIBssjK1JjRrYkyGpaAADB2s0f6EvsDcQ0o8J003yjoLwMODyH
+ 6wXqsgWWr7wUWaL27xc5hWdh0xmxPbtuvfbvh0uGdvdrVf4OgIglDThBrjbrVOn1iA1H
+ GJtpWkebmez6EYHbTnVfzRNqvg4d5B5e19jjmiodAhglpgvlULobAn6KDCfeSs1EBONJ
+ CkgA==
+X-Gm-Message-State: AOAM5305/o0wf/m6BV1ncrZpcUBFYkq+ti0lQT8c1uBTNGRl9E0tR8kn
+ SuRB9vJPlb8eU54n1QU8RS3XF/JNIjePju223ZAyyA==
+X-Google-Smtp-Source: ABdhPJwUJE8zQdrSv03du82G7oe3r3LNRCSJkHh9FA1RG5kOKav9IB2h20UsKlc/rrQ+rqkMQb1aS6mZRvmEizSpO9s=
+X-Received: by 2002:a9d:6f8f:: with SMTP id h15mr1700935otq.221.1597083641423; 
+ Mon, 10 Aug 2020 11:20:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
  <CAFEAcA_icj94N6eotg9W7FutXTY_6U-Ak6pJMyYH0n9eggunrg@mail.gmail.com>
 In-Reply-To: <CAFEAcA_icj94N6eotg9W7FutXTY_6U-Ak6pJMyYH0n9eggunrg@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Aug 2020 19:14:10 +0100
-Message-ID: <CAFEAcA-RULUBoTtkr3JWUhujfXYbcaj9+v-UBjdTAMcda7FDAA@mail.gmail.com>
+Date: Mon, 10 Aug 2020 19:20:30 +0100
+Message-ID: <CAFEAcA_cBDHNgNsDMJS+WqX+W-xbo18c1Eno2RqGnwa-iGw3-w@mail.gmail.com>
 Subject: Re: [PATCH 000/147] Meson integration for 5.2
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,27 +90,58 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Aug 2020 at 19:09, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, 10 Aug 2020 at 19:09, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 > The other hosts are still running, will report results as
-> they finish. These are just the ones that bailed out
-> immediately.
+> they finish.
 
-Linux x86-64 succeeded but produced a bunch of warnings:
+ppc64be host:
 
-../../meson.build:9: WARNING: Module unstable-keyval has no backwards
-or forwards compatibility and might not exist in future releases.
-WARNING: custom_target 'shared QAPI source files' has more than one
-output! Using the first one.
-WARNING: custom_target 'QGA QAPI files' has more than one output!
-Using the first one.
-WARNING: custom_target 'QAPI files for qemu-storage-daemon' has more
-than one output! Using the first one.
-WARNING: custom_target 'dbus-vmstate description' has more than one
-output! Using the first one.
-WARNING: custom_target 'tools man pages' has more than one output!
-Using the first one.
-WARNING: custom_target 'system man pages' has more than one output!
-Using the first one.
+In file included from ../../contrib/vhost-user-scsi/vhost-user-scsi.c:15:0:
+/usr/include/iscsi/scsi-lowlevel.h:810:13: error: inline function
+=E2=80=98scsi_set_uint16=E2=80=99 declared but never defined [-Werror]
+ inline void scsi_set_uint16(unsigned char *c, uint16_t val);
+             ^
+/usr/include/iscsi/scsi-lowlevel.h:809:13: error: inline function
+=E2=80=98scsi_set_uint32=E2=80=99 declared but never defined [-Werror]
+ inline void scsi_set_uint32(unsigned char *c, uint32_t val);
+             ^
+/usr/include/iscsi/scsi-lowlevel.h:808:17: error: inline function
+=E2=80=98scsi_get_uint16=E2=80=99 declared but never defined [-Werror]
+ inline uint16_t scsi_get_uint16(const unsigned char *c);
+                 ^
+/usr/include/iscsi/scsi-lowlevel.h:807:17: error: inline function
+=E2=80=98scsi_get_uint32=E2=80=99 declared but never defined [-Werror]
+ inline uint32_t scsi_get_uint32(const unsigned char *c);
+                 ^
+/usr/include/iscsi/scsi-lowlevel.h:810:13: error: inline function
+=E2=80=98scsi_set_uint16=E2=80=99 declared but never defined [-Werror]
+ inline void scsi_set_uint16(unsigned char *c, uint16_t val);
+             ^
+/usr/include/iscsi/scsi-lowlevel.h:809:13: error: inline function
+=E2=80=98scsi_set_uint32=E2=80=99 declared but never defined [-Werror]
+ inline void scsi_set_uint32(unsigned char *c, uint32_t val);
+             ^
+/usr/include/iscsi/scsi-lowlevel.h:808:17: error: inline function
+=E2=80=98scsi_get_uint16=E2=80=99 declared but never defined [-Werror]
+ inline uint16_t scsi_get_uint16(const unsigned char *c);
+                 ^
+/usr/include/iscsi/scsi-lowlevel.h:807:17: error: inline function
+=E2=80=98scsi_get_uint32=E2=80=99 declared but never defined [-Werror]
+ inline uint32_t scsi_get_uint32(const unsigned char *c);
+                 ^
+cc1: all warnings being treated as errors
+
+(Looks like an error in the version of the system header
+file on this system, which, unlike my x86 box, defines
+the prototypes with "inline" (a change that came in upstream
+in commit
+https://github.com/sahlberg/libiscsi/commit/7692027d6c11c58948ec3c493abea80=
+8af00fdd0
+).
+
+However, old make-style compilation worked on this system, so
+something has changed.
 
 thanks
 -- PMM
