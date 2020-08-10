@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E0D240C02
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:33:02 +0200 (CEST)
-Received: from localhost ([::1]:59226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C856A240C1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:37:21 +0200 (CEST)
+Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5BfR-0002Ap-Cv
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45898)
+	id 1k5Bjc-0003nv-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJp-0008BK-Cl
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53844
+ id 1k5BJt-0008KT-3u
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26578
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJl-0002zl-O7
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:41 -0400
+ id 1k5BJm-0002zq-NS
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079437;
+ s=mimecast20190719; t=1597079438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8BExYD+jYRnltvzX/J1apmJ6spW8unIA0zrj1JMhdZQ=;
- b=WAQFUn80vwsM3mSSIEbC2VYQK6dyP3KBe5LzQSLIDnTj1vi2n+4sh12LDet7kNbvRHiTzl
- 3Aa2MtVTlLlm0y5jUKJaAL9G2ZRouQMEWJilR9dPxKyarecryRH+8wIf+zZpISxWTmVk6q
- xXbRcn0krwstMwQWqGINuiH5ohlreh4=
+ bh=gr8MjIzbAVwQXxACXb77HW3lFv7imGoDWT4qAN144w4=;
+ b=YaSc9BiqAtu3Z4KqxV258D/ANC5S2jddYAKHMW/0+sZ2hqeMqkBeaAb8XQbXwE/s+uZDOg
+ s999dEa4NNHLq8O3jwbI9EUtmVRBOPk4LGt7jfjONWQbc7a4nUq/9YDy4KQm4HNjZukqrN
+ hIhq23c3mpvo6482GijRKWI/2DiIJ7w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-wWYdnWRNPMmThpsSkMeHGA-1; Mon, 10 Aug 2020 13:10:34 -0400
-X-MC-Unique: wWYdnWRNPMmThpsSkMeHGA-1
+ us-mta-458-mAraBCqcP5Gfjluvyb9Wig-1; Mon, 10 Aug 2020 13:10:36 -0400
+X-MC-Unique: mAraBCqcP5Gfjluvyb9Wig-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 036E619067E1
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61DD08064B7
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:10:35 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EB515F1E9;
- Mon, 10 Aug 2020 17:10:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FDB95F1EA;
+ Mon, 10 Aug 2020 17:10:34 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 052/147] meson: convert qom directory to Meson (tools part)
-Date: Mon, 10 Aug 2020 19:07:30 +0200
-Message-Id: <1597079345-42801-53-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 053/147] meson: convert authz directory to Meson
+Date: Mon, 10 Aug 2020 19:07:31 +0200
+Message-Id: <1597079345-42801-54-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,18 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:29:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:00:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,110 +91,118 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile          |  2 +-
- Makefile.objs     |  2 +-
- Makefile.target   |  3 ++-
- meson.build       |  1 +
- qom/Makefile.objs |  3 ---
- qom/meson.build   | 15 +++++++++++++++
- 6 files changed, 20 insertions(+), 6 deletions(-)
- create mode 100644 qom/meson.build
+ Makefile            |  1 -
+ Makefile.objs       |  3 ++-
+ Makefile.target     |  2 +-
+ authz/Makefile.objs |  7 -------
+ authz/meson.build   | 19 +++++++++++++++++++
+ meson.build         |  5 +++++
+ 6 files changed, 27 insertions(+), 10 deletions(-)
+ delete mode 100644 authz/Makefile.objs
+ create mode 100644 authz/meson.build
 
 diff --git a/Makefile b/Makefile
-index 62e0ef0..1be6019 100644
+index 1be6019..872f450 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -232,7 +232,6 @@ dummy := $(call unnest-vars,, \
-                 storage-daemon-obj-y \
-                 storage-daemon-obj-m \
-                 crypto-obj-y \
--                qom-obj-y \
-                 io-obj-y \
-                 common-obj-y \
-                 common-obj-m)
-@@ -253,6 +252,7 @@ $(SOFTMMU_ALL_RULES): $(storage-daemon-obj-y)
- $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
- $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
-+$(SOFTMMU_ALL_RULES): $(qom-obj-y)
- $(SOFTMMU_ALL_RULES): config-all-devices.mak
+@@ -225,7 +225,6 @@ include $(SRC_PATH)/Makefile.objs
+ endif
  
- SOFTMMU_FUZZ_RULES=$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
+ dummy := $(call unnest-vars,, \
+-                authz-obj-y \
+                 chardev-obj-y \
+                 block-obj-y \
+                 block-obj-m \
 diff --git a/Makefile.objs b/Makefile.objs
-index baf1565..84bfa2a 100644
+index 84bfa2a..0bc361d 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -1,6 +1,6 @@
- #######################################################################
- # Common libraries for tools and emulators
--qom-obj-y = qom/
-+qom-obj-y = qom/libqom.fa
+@@ -9,7 +9,8 @@ ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
  
- #######################################################################
- # code used by both qemu system emulation and qemu-img
+ chardev-obj-y = chardev/
+ 
+-authz-obj-y = authz/
++authz-obj-y = authz/libauthz.fa
++authz/libauthz.fa-libs = $(if $(CONFIG_AUTH_PAM),-lpam)
+ 
+ block-obj-y = block/ nbd/ scsi/
+ block-obj-y += block.o blockjob.o job.o
 diff --git a/Makefile.target b/Makefile.target
-index 257afc2..1e04551 100644
+index 1e04551..79b6e02 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -191,13 +191,14 @@ all-obj-y := $(obj-y)
- common-obj-m :=
+@@ -192,9 +192,9 @@ common-obj-m :=
  
  include $(SRC_PATH)/Makefile.objs
-+dummy := $(call fix-paths,../,, \
-+              qom-obj-y)
+ dummy := $(call fix-paths,../,, \
++              authz-obj-y \
+               qom-obj-y)
  dummy := $(call unnest-vars,.., \
-                authz-obj-y \
+-               authz-obj-y \
                 block-obj-y \
                 block-obj-m \
                 chardev-obj-y \
-                crypto-obj-y \
--               qom-obj-y \
-                io-obj-y \
-                common-obj-y \
-                common-obj-m)
+diff --git a/authz/Makefile.objs b/authz/Makefile.objs
+deleted file mode 100644
+index ed7b273..0000000
+--- a/authz/Makefile.objs
++++ /dev/null
+@@ -1,7 +0,0 @@
+-authz-obj-y += base.o
+-authz-obj-y += simple.o
+-authz-obj-y += list.o
+-authz-obj-y += listfile.o
+-authz-obj-$(CONFIG_AUTH_PAM) += pamacct.o
+-
+-pamacct.o-libs = -lpam
+diff --git a/authz/meson.build b/authz/meson.build
+new file mode 100644
+index 0000000..c1f6362
+--- /dev/null
++++ b/authz/meson.build
+@@ -0,0 +1,19 @@
++authz_ss = ss.source_set()
++authz_ss.add(genh)
++authz_ss.add(files(
++  'base.c',
++  'list.c',
++  'listfile.c',
++  'simple.c',
++))
++
++authz_ss.add(when: ['CONFIG_AUTH_PAM', pam], if_true: files('pamacct.c'))
++
++authz_ss = authz_ss.apply(config_host, strict: false)
++libauthz = static_library('authz', authz_ss.sources(),
++                          dependencies: [authz_ss.dependencies()],
++                          name_suffix: 'fa',
++                          build_by_default: false)
++
++authz = declare_dependency(link_whole: libauthz,
++                           dependencies: qom)
 diff --git a/meson.build b/meson.build
-index 6f1e199..6517d7e 100644
+index 6517d7e..f8fd56a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -319,6 +319,7 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
+@@ -82,6 +82,10 @@ if 'CONFIG_GNUTLS' in config_host
+ endif
+ pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
+                             link_args: config_host['PIXMAN_LIBS'].split())
++pam = not_found
++if 'CONFIG_AUTH_PAM' in config_host
++  pam = cc.find_library('pam')
++endif
+ libattr = not_found
+ if 'CONFIG_ATTR' in config_host
+   libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
+@@ -320,6 +324,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
                                sources: genh + version_res)
  
-+subdir('qom')
+ subdir('qom')
++subdir('authz')
  subdir('fsdev')
  
  # Other build targets
-diff --git a/qom/Makefile.objs b/qom/Makefile.objs
-index 1b45d10..b962904 100644
---- a/qom/Makefile.objs
-+++ b/qom/Makefile.objs
-@@ -1,5 +1,2 @@
--qom-obj-y = object.o container.o qom-qobject.o
--qom-obj-y += object_interfaces.o
--
- common-obj-$(CONFIG_SOFTMMU) += qom-hmp-cmds.o qom-qmp-cmds.o
- storage-daemon-obj-y += qom-qmp-cmds.o
-diff --git a/qom/meson.build b/qom/meson.build
-new file mode 100644
-index 0000000..3c41ed3
---- /dev/null
-+++ b/qom/meson.build
-@@ -0,0 +1,15 @@
-+qom_ss = ss.source_set()
-+qom_ss.add(files(
-+  'container.c',
-+  'object.c',
-+  'object_interfaces.c',
-+  'qom-qobject.c',
-+))
-+
-+qom_ss = qom_ss.apply(config_host, strict: false)
-+libqom = static_library('qom', qom_ss.sources(),
-+                        dependencies: [qom_ss.dependencies()],
-+                        link_with: [libqemuutil],
-+                        name_suffix: 'fa')
-+
-+qom = declare_dependency(link_whole: libqom)
 -- 
 1.8.3.1
 
