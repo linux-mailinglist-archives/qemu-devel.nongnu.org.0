@@ -2,111 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1253C24082C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:09:06 +0200 (CEST)
-Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D100240835
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:12:54 +0200 (CEST)
+Received: from localhost ([::1]:40348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k59Q9-0001Nl-4i
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
+	id 1k59Tp-0004zk-Df
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k59PD-0000Tg-AS; Mon, 10 Aug 2020 11:08:07 -0400
-Received: from mail-eopbgr60127.outbound.protection.outlook.com
- ([40.107.6.127]:58176 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k59P9-0004Z7-Vu; Mon, 10 Aug 2020 11:08:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X9tccX7G6gYclVD7mPCrsQoW593y0/YMTWZKDjII0p6BH4nlmRXbFBfAN8xUdS5xpQ+em2Mi9bgRJ3owIgxHstSemJ3O6EoE3vCgm/uWBZRip5g6QyDTIEID9oD0V3wkWG0jFz4EfwMdr9qeeo7eppRcohc/xqUTIUZT+QIDNWDxSjLhUhU2JHtgeNAfs9NUzgGDG/2PS0CgWN6wL3cQrvkUIpstZhbXJrOvxCXqpEtdBlvWPktekGM15AStnE2i+Tc0acrW+7FRl0newjgKTk+N2fr4IoYUW0PgBTZw0E8ZSLYBMczBJxeG0b//fl24k0YSrdJXhTGfqrKKJa654A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkRjROkfwD/MMFSzb2C4li2LP3mmB8BxcuVcp+mnm1s=;
- b=kjeB9GrOPRyXUEYYizy0zAPhWKrexYWqEfqOHjZJeiby+z2JwiVuVpG4q1NrmmMETYGxtN4qvNW3mTsyVvV9R1HDdZpWtSeVJAlL1qK3auBSJHN9jK77x/buGWVR/TWtrfa6LAPo6nUcKnaSE8szln3VHlZkt50IUbZrNug943Wx2K6oMJTu+0desauACGX9w2Y4JONeTsQK/1gs7zem5LLV8m0E3S6xJ6K+kr92q1BHZT3WzSKaooQ67RRjJYhp8qCxNBjkkOGDmcpVNvU0aGpgmXwgRusRNGWkaLndS2S7XhAwQakooGQHcpzA8ELTuhqtzDOb1Wch6Pq1YOYVgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkRjROkfwD/MMFSzb2C4li2LP3mmB8BxcuVcp+mnm1s=;
- b=H9GZWFIFsWeJJ72QRemPh+MMZj3vveuwdeutPEzAT5hepLdBNoKet3VtMcDISUBOX7iRqJpqXRnLSaARlSa9w+u8za6SGHRAHBJ2ZAi3G2/+MxXtyCBscNlc2DvrrIuFOYnx6PAXI9tpoawBtbeDJFBV01Y/0y4svpWSauJr0MI=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0802MB2419.eurprd08.prod.outlook.com (2603:10a6:203:a1::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.15; Mon, 10 Aug
- 2020 15:08:00 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3261.024; Mon, 10 Aug 2020
- 15:08:00 +0000
-Subject: Re: [PATCH for 5.2 1/1] qemu-io: add -V flag for read sub-command
-To: Eric Blake <eblake@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20200810123555.30481-1-den@openvz.org>
- <d01f2684-e17e-c1b9-1e43-3b6ff57ddf10@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <433af02b-e577-05de-2824-16cc6f736783@virtuozzo.com>
-Date: Mon, 10 Aug 2020 18:07:58 +0300
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k59SK-0004Rc-Vl
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:11:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59869
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k59SI-00051W-0p
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:11:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597072276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ACNWXQZkVsuEuqzOVp4dtkD+dF16gboF+EqWOk1w4LI=;
+ b=T63XNbDBsokuXWLkNAwDrr67BbhRrSsvzW2r9b0vNAJsg2UV/e9kwnGfivMsRvHX3uydVb
+ CSxG43rbV78qdcbmsVCjy0ntg9qSCnX3nq9TDIRyBe4547x+j38wzpPFHMkKq/ls9/zcix
+ Vqww3G8JhJX2n9GZKyJaeEwKPDySO1Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-cayUa2pCMGmo79SCwgB5Bg-1; Mon, 10 Aug 2020 11:11:13 -0400
+X-MC-Unique: cayUa2pCMGmo79SCwgB5Bg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 744ED1326E1;
+ Mon, 10 Aug 2020 15:11:11 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-36.ams2.redhat.com
+ [10.36.113.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D89056F120;
+ Mon, 10 Aug 2020 15:11:09 +0000 (UTC)
+Subject: Re: [PATCH for-5.1 v2 2/2] iotests: add test for unaligned
+ granularity bitmap backup
+To: Stefan Reiter <s.reiter@proxmox.com>, qemu-block@nongnu.org
+References: <20200810095523.15071-1-s.reiter@proxmox.com>
+ <20200810095523.15071-2-s.reiter@proxmox.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <941940d2-370d-0452-83c8-969a41f83c72@redhat.com>
+Date: Mon, 10 Aug 2020 17:11:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <d01f2684-e17e-c1b9-1e43-3b6ff57ddf10@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR07CA0076.eurprd07.prod.outlook.com
- (2603:10a6:207:4::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.170) by
- AM3PR07CA0076.eurprd07.prod.outlook.com (2603:10a6:207:4::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.7 via Frontend Transport; Mon, 10 Aug 2020 15:07:59 +0000
-X-Originating-IP: [185.215.60.170]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ea2a70e1-de06-4c54-9575-08d83d3f2bbf
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2419:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB24192C343A60293D2DCAD3A5C1440@AM5PR0802MB2419.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GxF8GAyYeqmU81qcgHS3q801wptocLAgu4aljexV8E9/Nc/InjwHndt3Y13VXKRxBhnbJ3SwuaSELgqgJhqdmG+FPlsBcrbGaFzL7EiJnMD4Day4YoHVNfmAiXAEOhK2mBAe3qiaMi5hSTkxM4pJaUYP2Q5FqqLdPiOYF1P+36S0dGC10xBftO5HKqOvf9mP0i+XyZlnqhPkjAuoWwp1GCF3q4MBpeHbmR98Fd/xm0FooUK6k6dSadhA9rQBwKIPjphwIO2h/ht6cf97u9SE6dw4Jtoagkw5rAvNZPQVgQadMc5MagFsgNVPwW+xhwxEjOyNvGy54pgSC9rwBlToz1Dkj1U4y9P3TNoHh8gtxj1hIDUKpr+wggaIPziKWP8v
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(376002)(346002)(39840400004)(136003)(366004)(107886003)(2906002)(8676002)(956004)(2616005)(31696002)(83380400001)(66476007)(53546011)(86362001)(31686004)(186003)(16526019)(5660300002)(66946007)(26005)(66556008)(110136005)(52116002)(8936002)(478600001)(316002)(36756003)(4326008)(6486002)(54906003)(16576012)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 78MaxHyRD360IDltX+P0GhK4IgDo5hi/6k+iokjjwwF1WCLVB+J79RXYi2qji3TTTa7dBp385jlUcXjox6un3YnPU0BJynj8Hm8dKes9h46A6rnXtlc6bhocjAoUqxtbU1hQzuSA/LxPJN4fFBtZ8Mq+5jmpTQ1wt7jXDOsvpB8ym5JIkpRLn2C7XMROJaJF86+TbvBodw0H7W88VoTrUtvBk6JH0xqQE9uIRkYyJio9Ce8obKibIBb0G2SNJQUmWr2xPD1N9xuvLG2J1C5ZMLhS0fV/kyGZeVp9dSCmiaS+8kisEy9A0JvoYj668IpxcoP+Rr5xhHblroki5DfhPoCwXEMHtXzpaQLB/K0g7Q1oQAOZTXlJKnP0pVYzVdbd+d9CvuF72S2gZpYLFmXWu49gahRUO8pmo7L5vy4BGD53WlRYRSo3XozWR3nHaz1ICGfCLgBTrluWskMhxcxgMBuG8krVPvBdmaBoxO58QEAECBOQgCVnyZVDAUe6Qz6qYI9D3rXhY+qv/Hh9tFXUc4vVKmpu9XI2kLN2QrIDu3hI0Z9i/USjuiqA51yxk+KQicNBlYOpOWmioYU+sjijh3iJj6JAoDwzZ4NxcolBmCli0rScH9vvadK6WmRAUAy5zmhPo7jObnwBOkoUwa2+ZQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea2a70e1-de06-4c54-9575-08d83d3f2bbf
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2020 15:08:00.0389 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C0j0KO9eJ0wxDL1G+veDfPypK0qPu0kvJOt0wIhXxv/bJ9QYx4NUSx6YNrjwFq5d314HcjiaGyYtSKGr0wlfJtJVc0OsbkUxQEJefhrU6bs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2419
-Received-SPF: pass client-ip=40.107.6.127;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:08:01
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+In-Reply-To: <20200810095523.15071-2-s.reiter@proxmox.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 04:13:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,54 +108,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "Richard W . M . Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-10.08.2020 17:20, Eric Blake wrote:
-> On 8/10/20 7:35 AM, Denis V. Lunev wrote:
->> The problem this patch is trying to address is libguestfs behavior on the
->> appliance startup. It starts supporting to use root=UUID definition in
->> the kernel command line of its root filesystem using
->>      file --  /usr/lib64/guestfs/appliance/root
->> This works fine with RAW image, but we are using QCOW2 as a storage to
->> save a bit of file space and in this case we get
->>      QEMU QCOW Image (v3), 1610612736 bytes
->> instead of UUID of the root filesystem.
->>
->> The solution is very simple - we should dump first 256k of the image file
->> like the follows
->>      qemu-io -c "read -V 0 256k" appliance | file -
->> which will provide correct result for all possible types of the appliance
->> storage.
-> 
-> Is 'appliance' a qcow2 file?  If so, another way to accomplish this could include:
-> 
-> nbdkit streaming --run 'qemu-img convert --image-opts driver=raw,size=256,file.driver=qcow2,file.file.driver=file,file.file.filename=appliance "$uri"' | file -
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU
+Content-Type: multipart/mixed; boundary="3BuiXYvDqr6xGWQxMDUN2wl5moHXZ8JxA"
 
-This adds a dependency on nbdkit streaming plugin, not installed by default in our RH-based distributive. Probably the simplest thing is just create a temporary file for qemu-img convert (or dd) target, and then call file command on it.
+--3BuiXYvDqr6xGWQxMDUN2wl5moHXZ8JxA
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> which says to use qemu-img to open a length-limited view of the file, and stream the entire thing to an NBD server, where nbdkit then provides a way to convert that to a pipeline to feed into file (since qemu's NBD server doesn't directly like writing into a pipe).
-> 
-> I'm also wondering if the 'nbdcopy' program (not yet released in a stable version, but available in libnbd.git) could be put to use on this front, with some way to quickly combine it with qemu-nbd serving appliance.qcow2.
-> 
->>
->> Unfortunately, additional option for qemu-io is the only and the simplest
->> solution as '-v' creates very specific output, which requires to be
->> parsed. 'qemu-img dd of=/dev/stdout' does not work and the fix would be
->> much more intrusive.
-> 
-> 'qemu-img dd' _should_ be merely syntactic sugar for 'qemu-img convert', but it isn't yet.  Until we rectify that feature parity (there are things that dd can't do like better output control and skipping, and there are things that convert can't do like length limiting and offset selection), hacking up 'qemu-io' (which is for debugging use only) is a tolerable short-term solution; but qemu-io was NEVER intended for stable use cases.  If adding this makes debugging qemu easier, then go for it; but if the real problem is that qemu-img is missing functionality, we should instead be focusing on fixing qemu-img.
-> 
+(Note: When submitting a patch series with multiple patches, our
+guidelines require a cover letter:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Include_a_meaningful_cover_le=
+tter
 
-Thanks for clarifying this!
+But not too important now.)
 
-If we are going to improve qemu-img at some point, I'm not sure that convert or dd is correct places to do it, as they want target to be a block node. But how to create a block-node on top of /dev/stdout? Detect it and behave another way in img_dd function? Or may be better create another command qemu-img dump, for dumping the contents to stdout?
+On 10.08.20 11:55, Stefan Reiter wrote:
+> Start a VM with a 4097 byte image attached, add a 4096 byte granularity
+> dirty bitmap, mark it dirty, and then do a backup.
+>=20
+> This used to run into an assert and fail, check that it works as
+> expected and also check the created image to ensure that misaligned
+> backups in general work correctly.
+>=20
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> ---
+>=20
+> I saw Andrey's big series covering iotest 303 so I went for 304.
 
--- 
-Best regards,
-Vladimir
+Works for me.
+
+> Never submitted
+> one before so I hope that's okay, if not feel free to renumber it.
+
+Yep, if there=E2=80=99s a clash I tend to just renumber it when applying it=
+.
+
+>  tests/qemu-iotests/304     | 68 ++++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/304.out |  2 ++
+>  tests/qemu-iotests/group   |  1 +
+>  3 files changed, 71 insertions(+)
+>  create mode 100755 tests/qemu-iotests/304
+>  create mode 100644 tests/qemu-iotests/304.out
+>=20
+> diff --git a/tests/qemu-iotests/304 b/tests/qemu-iotests/304
+> new file mode 100755
+> index 0000000000..9a3b0224fa
+> --- /dev/null
+> +++ b/tests/qemu-iotests/304
+> @@ -0,0 +1,68 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Tests dirty-bitmap backup with unaligned bitmap granularity
+> +#
+> +# Copyright (c) 2020 Proxmox Server Solutions
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +# owner=3Ds.reiter@proxmox.com
+> +
+> +import iotests
+> +from iotests import qemu_img_create, qemu_img_log, file_path
+> +
+> +iotests.script_initialize(supported_fmts=3D['qcow2'],
+> +                          supported_protocols=3D['file'])
+> +
+> +test_img =3D file_path('test.qcow2')
+> +target_img =3D file_path('target.qcow2')
+> +
+> +# unaligned by one byte
+> +image_len =3D 4097
+> +bitmap_granularity =3D 4096
+> +
+> +qemu_img_create('-f', iotests.imgfmt, test_img, str(image_len))
+> +
+> +# create VM and add dirty bitmap
+> +vm =3D iotests.VM().add_drive(test_img)
+> +vm.launch()
+> +
+> +vm.qmp('block-dirty-bitmap-add', **{
+> +    'node': 'drive0',
+> +    'name': 'bitmap0',
+> +    'granularity': bitmap_granularity
+> +})
+> +
+> +# mark entire bitmap as dirty
+> +vm.hmp_qemu_io('drive0', 'write -P0x16 0 4096');
+> +vm.hmp_qemu_io('drive0', 'write -P0x17 4097 1');
+
+s/4097/4096/?
+
+(4097 works, too, because of something somewhere aligning up the 4097 to
+512 byte sectors, I suppose, but I don=E2=80=99t think it=E2=80=99s the add=
+ress you want
+here)
+
+> +
+> +# do backup and wait for completion
+> +vm.qmp('drive-backup', **{
+> +    'device': 'drive0',
+> +    'sync': 'full',
+> +    'target': target_img,
+> +    'bitmap': 'bitmap0',
+> +    'bitmap-mode': 'on-success'
+
+The bitmap is unnecessary, isn=E2=80=99t it?  I.e., if I drop the
+block-dirty-bitmap-add call and the bitmap* parameters here, I still get
+an assertion failure without patch 1.
+
+Not that it really matters, it=E2=80=99s just that this makes it look like =
+less
+of an issue than it actually is.  (Which is why I=E2=80=99d drop the bitmap
+stuff in case there=E2=80=99s no actual reason for it.)
+
+> +})
+> +
+> +event =3D vm.event_wait(name=3D'BLOCK_JOB_COMPLETED',
+> +                      match=3D{'data': {'device': 'drive0'}},
+> +                      timeout=3D5.0)
+
+(By the way, =E2=80=9Cvm.run_job('drive0', auto_dismiss=3DTrue)=E2=80=9D wo=
+uld have worked
+as well.  But since the backup job just needs waiting for a single
+event, I suppose it doesn=E2=80=99t matter.  Just a hint in case you start
+writing more iotests in the future.)
+
+Max
+
+
+--3BuiXYvDqr6xGWQxMDUN2wl5moHXZ8JxA--
+
+--WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8xY4wACgkQ9AfbAGHV
+z0Ba9wgAsvl8LBhowKf4fohi3/oUOBpxbqouPFrX8cdfuRpA34wJL5qN16kPXxhg
+/4+mTiEBHjSBg+jc3InCXhzMfUGgqnA+hu6ZDoCMwPgTjPfj8zMYQuR20YxJpXDs
+YlUSKbagS/E6S93mv765Jif+A19zUBDN6hJ8E/fCu6sA5vxbUO13o+PPcUvEqigQ
+p9fHSl/kR3ymz/pemo7spJgUYs/t3/gguxwSeedYEY3LBb4Ibl+4Jw3gW9N0yQp+
+30Ab0R7pNuR5Li/a9J5LwgRIzeHa4r4B+kGFHUukTDiLOtazMacxe3z4DIldxQWQ
+Hwab2wwcHN39L7UW2vtjv9iPvKN+uA==
+=Bo55
+-----END PGP SIGNATURE-----
+
+--WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU--
+
 
