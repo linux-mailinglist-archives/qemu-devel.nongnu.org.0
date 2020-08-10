@@ -2,90 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A74240526
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 13:17:40 +0200 (CEST)
-Received: from localhost ([::1]:51960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A185240527
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 13:18:28 +0200 (CEST)
+Received: from localhost ([::1]:53702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k55oB-0006He-2f
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 07:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40706)
+	id 1k55ox-0006ys-F5
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 07:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k55mk-0005gS-Me
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:16:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60548
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k55nO-00060Z-DO
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:16:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33542
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k55mj-0000Ds-4q
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:16:10 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k55nM-0000HL-N8
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:16:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597058168;
+ s=mimecast20190719; t=1597058208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4yN7M5RaYVxQm+1Q6dPuZl4UHUL4fDobprbh/F1tMKk=;
- b=Q4YDuXgYiwTvHEeyED3SLsAstWTMNLkf+qlHxQrzPs1+cc6wFOGD2pb5loS3acJrWmnR7U
- mnTg8doAi1B/FC5zyGOvFKl1CDoJofF7t+l8QXb9sD8QPQd4epaEe0JTJg9hEdRbv8j6on
- EFg4IsWaSAmd2a6DXivry2RbdocH/8A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-IaSFnhz1OVajDfk52rvE7A-1; Mon, 10 Aug 2020 07:16:06 -0400
-X-MC-Unique: IaSFnhz1OVajDfk52rvE7A-1
-Received: by mail-wr1-f72.google.com with SMTP id d6so4075635wrv.23
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 04:16:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4yN7M5RaYVxQm+1Q6dPuZl4UHUL4fDobprbh/F1tMKk=;
- b=WETcqjJmU4DLmmPDZmgp/Rxqrx1YoWTeaLl95w/LuLeulBtX7Jlc4wXC6qJNDhoTls
- KYBF6zrSb4IMuMK9+gbLnBXKLZ0izMiCi4cHa3RuyY8L2NAeTPPMcfHuZviH/q9+tItJ
- 23RtMerv8qylxTau2gx69SlQZWYD0DSzauZyEbSxRduAARtm9ogsNCF66sO1EWJyelET
- lXmuAZ7tVpsdVKs0e0MSx6GZ8X3vCMm0mCK3bUhPdYPJqWgP6Q51lNFYMQmxGfWM8s6/
- JUZnt9EDi/aH+QvVd8Gts1F587/+cmKZHi7egpqagDQyIQQGbsxeqd78iX9j83eGvM4D
- 1xsg==
-X-Gm-Message-State: AOAM532lfPMyKYxFzGa3sbt0GW0+1DyCVXHg/LI50GTf5oi+h9k/BSng
- LMK8ogQwuTuNZSklSyYG3ihR3spHMC9P7+ZzvFGCrxsW2eIiDkfO8YnVjeVGeR9p3cksOPV2nqg
- y7cjqLb44UFAMsT0=
-X-Received: by 2002:adf:de8d:: with SMTP id w13mr23705219wrl.129.1597058165175; 
- Mon, 10 Aug 2020 04:16:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwTwwcw2UZ3F5hhk9pZ6U0Hs00m+njx2VTsuYwS65LVTUSRMpm+6Zs/0dt3SqC+SZo6229Fg==
-X-Received: by 2002:adf:de8d:: with SMTP id w13mr23705197wrl.129.1597058164959; 
- Mon, 10 Aug 2020 04:16:04 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5d6c:f50:4462:5103?
- ([2001:b07:6468:f312:5d6c:f50:4462:5103])
- by smtp.gmail.com with ESMTPSA id f16sm18954215wro.34.2020.08.10.04.16.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Aug 2020 04:16:04 -0700 (PDT)
-Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
-To: Cornelia Huck <cohuck@redhat.com>
-References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
- <20200807085302.7d7616df.cohuck@redhat.com>
- <499b18ae-b15d-abbb-faf5-d9bdd5262fa4@redhat.com>
- <20200807113557.178825af.cohuck@redhat.com>
- <20200807142021.53967299.cohuck@redhat.com>
- <9b8cacc4-e60e-d436-4666-1457ec68e510@redhat.com>
- <20200810115851.36c21729.cohuck@redhat.com>
- <20200810120432.10b5176e.cohuck@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5fec94b6-4ef3-39b2-6bab-63b88434b8d2@redhat.com>
-Date: Mon, 10 Aug 2020 13:16:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ bh=tScTnjEVuwphYxuVRll+V25t9nbMWdIDFdXtVpdbdQA=;
+ b=TzJD50gJ7QsONSCA5C5abEreQdhK/ohwULobS8NZYA9HH2cdB97RUwI5qa+e/MVLgVAcGj
+ DmBz6WMSnFqG6ok/OWmvZTcAKn/uYC2KPmP0VCJgWXnSdHJ4k8eKM8MmJSuK7skeu1XD5+
+ JM2lrzvDbRs5/w5uBzWWep+lP/6062s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-l76WE3qCOv-ls7EFM_uDSg-1; Mon, 10 Aug 2020 07:16:46 -0400
+X-MC-Unique: l76WE3qCOv-ls7EFM_uDSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19BD3800477;
+ Mon, 10 Aug 2020 11:16:45 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EBE48BD9E;
+ Mon, 10 Aug 2020 11:16:43 +0000 (UTC)
+Date: Mon, 10 Aug 2020 13:16:40 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>
+Subject: Re: [PATCH 7/7] target/arm/cpu: spe: Enable spe to work with host cpu
+Message-ID: <20200810111640.ykejphmuyirncjwv@kamzik.brq.redhat.com>
+References: <cover.1596768588.git.haibo.xu@linaro.org>
+ <bf909c1f4904a22be0804cae9fd6f38ba4862563.1596768588.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200810120432.10b5176e.cohuck@redhat.com>
-Content-Language: en-US
+In-Reply-To: <bf909c1f4904a22be0804cae9fd6f38ba4862563.1596768588.git.haibo.xu@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 05:06:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -95,8 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,40 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
- stefanha@redhat.com, jsnow@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/20 12:04, Cornelia Huck wrote:
-> 'make check' is unhappy, however:
+On Fri, Aug 07, 2020 at 08:10:37AM +0000, Haibo Xu wrote:
+> Turn on the spe cpu property by default when working with host
+> cpu type in KVM mode, i.e. we can now do '-cpu host' to add the 
+> vSPE, and '-cpu host,spe=off' to remove it. 
+
+-cpu max with KVM should also enable it by default
+
 > 
-> Running test qtest-s390x: device-introspect-test
-> missing object type 'virtio-gpu-device'
-> Broken pipe
-> ../tests/qtest/libqtest.c:175: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
-> ERROR qtest-s390x: device-introspect-test - too few tests run (expected 6, got 5)
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  target/arm/cpu.c   | 4 ++++
+>  target/arm/kvm64.c | 9 +++++++++
+>  2 files changed, 13 insertions(+)
+> 
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 67ab0089fd..42fa99953c 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1719,6 +1719,10 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          cpu->pmceid1 = 0;
+>      }   
+>  
+> +    if (!cpu->has_spe || !kvm_enabled()) {
+> +        unset_feature(env, ARM_FEATURE_SPE);
+> +    }
 
-It could be an unnecessary dependency on virgl that was detected by the GitLab CI:
+I don't think this should be necessary.
 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index ffcccc0..fa4f806 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -77,7 +77,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   #hw_display_modules += [[ 'virtio-gpu', virtio_gpu.sources(), [pixman, virgl],
-   #                         ['CONFIG_VIRTIO_GPU']]]
- 
--  softmmu_ss.add_all(when: [pixman, virgl, 'CONFIG_VIRTIO_GPU'],
-+  softmmu_ss.add_all(when: [pixman, 'CONFIG_VIRTIO_GPU'],
-                      if_true: virtio_gpu_ss)
- endif
- 
+> +
+>      if (!arm_feature(env, ARM_FEATURE_EL2)) {
+>          /* Disable the hypervisor feature bits in the processor feature
+>           * registers if we don't have EL2. These are id_pfr1[15:12] and
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index be045ccc5f..4ea58afc1d 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -679,6 +679,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+>      features |= 1ULL << ARM_FEATURE_AARCH64;
+>      features |= 1ULL << ARM_FEATURE_PMU;
+>      features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
+> +    features |= 1ULL << ARM_FEATURE_SPE;
 
-In any case I'll post another version today or tomorrow.  (I decided to bite the
-bullet, include the unit tests conversion and get rid of more Makefile gunk).
+No, SPE is not a feature we assume is present in v8.0 CPUs.
 
-Paolo
+> 
+>      ahcf->features = features;
+> 
+> @@ -826,6 +827,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>      } else {
+>          env->features &= ~(1ULL << ARM_FEATURE_PMU);
+>      }
+> +    if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_SPE_V1)) {
+> +        cpu->has_spe = false;
+> +    }
+> +    if (cpu->has_spe) {
+> +        cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SPE_V1;
+> +    } else {
+> +        env->features &= ~(1ULL << ARM_FEATURE_SPE);
+> +    }
+
+The PMU code above this isn't a good pattern to copy. The SVE code below
+is better. SVE uses an ID bit and doesn't do the redundant KVM cap check.
+It'd be nice to cleanup the PMU code (with a separate patch) and then add
+SPE in a better way.
+
+>      if (cpu_isar_feature(aa64_sve, cpu)) {
+>          assert(kvm_arm_sve_supported());
+>          cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
+> -- 
+> 2.17.1
+> 
+
+Thanks,
+drew
 
 
