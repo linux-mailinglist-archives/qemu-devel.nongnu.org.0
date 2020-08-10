@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B130241129
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:51:45 +0200 (CEST)
-Received: from localhost ([::1]:60960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937B824112C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:53:11 +0200 (CEST)
+Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Dpg-0001m6-Gg
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51034)
+	id 1k5Dr4-00051b-JV
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5DoU-0008TC-FI
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:30 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33976)
+ id 1k5DoW-00005A-32
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:32 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5DoS-0004j1-NA
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:30 -0400
-Received: by mail-wm1-x331.google.com with SMTP id c19so656837wmd.1
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:28 -0700 (PDT)
+ id 1k5DoU-0004jF-CP
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:31 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id f12so9305369wru.13
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=69oUenAIXTnbx7cTfT5bBPqb6C7oBsuKzHVSA9VIsO8=;
- b=quSitfKlkbwyewrc37F9wnUld5ennQHGHWvjbbdhBBPnI+N+3tj/m60zG9NIbO2f83
- F9xoWf/mFEo6uuYpZGSF6NM9z6VNdYVkdbhuIWNA4VqhcC3CxG5yOrX+vNv+0d/lEFaU
- rNO9IZUUoxFPHTqcFRY0+dXR93Uw3rdTnYyuNIUFALq4V5WQSz2l+HQRpE+MN6Sw185n
- NFntNKgLNZqhlgNbJAiwYgPA85RXOm2wIORfkgcfKjK7FGIWHLensvpPC5m88GHhxbQn
- oO5HxS6NNtRh69ToDaNSsnGRvifjzgIigxJ7rVMWkqlIV1hplaEf9Xdzn1fK4ZfFgwv9
- 488A==
+ bh=NK7m3uoWmCtcbXsGQreBTTuezmJYVKaA5MHLH71vKCc=;
+ b=au9d957sT+BXStmJAnu0OeN23N5SDALeo4EBFOXmM5YuLP32Ql9aZapp0BGJOJaC/5
+ N4vou9gORHwBo0TlOmu2hexIvLFiYceWytADQtC+crT6ag8JOUWQkv1kbIeniz3gA+nG
+ uB5T56hkv0ivD0BKHByoh+JC58ZJxkoYjCSG8mngTfYjo8AtCLrq4KGQXIApBFpoiBHM
+ nH6T75FmNz/lH+SPplpdUi8ebhkSj8gLl2nA7z7sVOybYI8EwgUR95sp5s445oLiAdTr
+ 9OQ1LyZLbvVl4afB+c43ncU/pB3CsZW4e/sO4kFjioTy2Ew+YwzOwtVnd19A0A6g8UMe
+ sWCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=69oUenAIXTnbx7cTfT5bBPqb6C7oBsuKzHVSA9VIsO8=;
- b=SbchTg3BQrpc9gLSfx+7ofWdcMoVt3rMlkUvPIMhjMfjXZeFpvzfjmmIWsOBljhYyj
- 6BcISZlYwLGpMCYjXZMXAmIzFr9lAfBQJq21MF5JMRSdfQ2KaxHjmCCk5UEIh8n4jKS4
- cxUgPHt4bqpAU5WbldG02sCB3vIzvr4PcXalG7C1VDsH/Tben72kCXVjUHDnXl9z/ixr
- da0gU1DXTr69kX8tKXBXdmbA6v65enPuaoTeVlU5M/4z1sbVD8tkZoqXbEo3pq/nmLPK
- tHEDYd4Lh8HdqPtZRwtAonxFtmMeBhjmWPsLK/NhX59gWpCdIrXAE6gnP/Fb/JhrMdPK
- RQSQ==
-X-Gm-Message-State: AOAM531UHVhVZlpeeA/bCYAtqPWCLHHr06MLEumKoVRmARy134eYs3TH
- HYcFG1TxESQrDS5ehgJsBJJS/MZqKzcnVw==
-X-Google-Smtp-Source: ABdhPJzzwqanvn7JT3NdQDXjuRCuPnGgSztQf76dzjCqAm8cIQ2zrp7xlWJHo25dbKDleeOcexr1SA==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr748807wmi.183.1597089026363; 
- Mon, 10 Aug 2020 12:50:26 -0700 (PDT)
+ bh=NK7m3uoWmCtcbXsGQreBTTuezmJYVKaA5MHLH71vKCc=;
+ b=IgqcmEGb28/q6Sz09YDstWIrUSmPHEFd9tOcO9GBSCxNhjaIJBJAw42LJhupwzRR40
+ ngLPEh4L5x6tEK3hHUjg5b4joUYkv5EBNsgAa8aSveyAkzllXqyfJbzyAnuBrDWg40FX
+ +QUmCeAKXO83lGrYuELHRHY35Spg6rJRWzefkQjS0SyhOtFR9ocHTKAJuvzwQ4vPL8XU
+ 5Ptoa6w8A3vOoNgk4Dxc1h3xM1+a5DZthzT43o6r4EZqiBPQp6MadQy6vAxzRgZZbh3D
+ 1VEqQWeBpzcKmpEybGHAyEnFj7DNfy30GtV5xS+yFfhctDKlaL7Hz2ythTIyxUsBlkYM
+ jw8Q==
+X-Gm-Message-State: AOAM533w0EGJtoy+jQd/y6K8qwYLkZDhmFTGhZ/1ArdPLZiqmqyeK8pB
+ bkqvAU9Us3vEFbqpeR5lGQ8xI24pkx1k+Q==
+X-Google-Smtp-Source: ABdhPJyZtEjJvshDEby8ed7gkF2E+UiN/S8MqGY19x5WuusiVJ2/K4i5+JmXnpL9yFW4muIVY2tx3g==
+X-Received: by 2002:adf:e8cc:: with SMTP id k12mr27013186wrn.2.1597089028382; 
+ Mon, 10 Aug 2020 12:50:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.24
+ by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 12:50:25 -0700 (PDT)
+ Mon, 10 Aug 2020 12:50:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 03/20] qapi/block-core.json: Fix nbd-server-start docs
-Date: Mon, 10 Aug 2020 20:50:02 +0100
-Message-Id: <20200810195019.25427-4-peter.maydell@linaro.org>
+Subject: [PATCH v5 04/20] qapi/qapi-schema.json: Put headers in their own
+ doc-comment blocks
+Date: Mon, 10 Aug 2020 20:50:03 +0100
+Message-Id: <20200810195019.25427-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200810195019.25427-1-peter.maydell@linaro.org>
 References: <20200810195019.25427-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,45 +89,67 @@ Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit eed8b6917832 added some new text to the nbd-server-start
-documentation in the wrong place.  Since this is after the 'Returns:'
-line it's parsed as if it were part of the documentation of the
-"Returns:' information.  Move it up to join the rest of the
-"documentation of the type as a whole" doc text.
+Our current QAPI doc-comment markup allows section headers
+(introduced with a leading '=' or '==') anywhere in any documentation
+comment.  This works for texinfo because the texi generator simply
+prints a texinfo heading directive at that point in the output
+stream.  For rST generation, since we're assembling a tree of
+docutils nodes, this is awkward because a new section implies
+starting a new section node at the top level of the tree and
+generating text into there.
 
-This doesn't look odd in the current HTML rendering, but the
-new QAPI-to-rST handling will complain about the indent level
-of the lines not matching up with the 'Returns:' line.
+New section headings in the middle of the documentation of a command
+or event would be pretty nonsensical, and in fact we only ever output
+new headings using 'freeform' doc comment blocks whose only content
+is the single line of the heading, with two exceptions, which are in
+the introductory freeform-doc-block at the top of
+qapi/qapi-schema.json.
 
+Split that doc-comment up so that the heading lines are in their own
+doc-comment.  This will allow us to tighten the specification to
+insist that heading lines are always standalone, rather than
+requiring the rST document generator to look at every line in a doc
+comment block and handle headings in odd places.
+
+This change makes no difference to the generated texi.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qapi/block-core.json | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ qapi/qapi-schema.json | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index f04bb3f0dd5..535b2b2e7bf 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5206,6 +5206,9 @@
- # server will present them as named exports; for example, another
- # QEMU instance could refer to them as "nbd:HOST:PORT:exportname=NAME".
- #
-+# Keep this type consistent with the NbdServerOptions type. The only intended
-+# difference is using SocketAddressLegacy instead of SocketAddress.
-+#
- # @addr: Address on which to listen.
- # @tls-creds: ID of the TLS credentials object (since 2.6).
- # @tls-authz: ID of the QAuthZ authorization object used to validate
-@@ -5216,9 +5219,6 @@
- #
- # Returns: error if the server is already running.
- #
--# Keep this type consistent with the NbdServerOptions type. The only intended
--# difference is using SocketAddressLegacy instead of SocketAddress.
--#
- # Since: 1.3.0
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index f03ff91ceb5..5fc0771eb04 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -2,7 +2,9 @@
+ # vim: filetype=python
  ##
- { 'command': 'nbd-server-start',
+ # = Introduction
+-#
++##
++
++##
+ # This document describes all commands currently supported by QMP.
+ #
+ # Most of the time their usage is exactly the same as in the user Monitor, this
+@@ -26,9 +28,13 @@
+ #
+ # Please, refer to the QMP specification (docs/interop/qmp-spec.txt) for
+ # detailed information on the Server command and response formats.
+-#
++##
++
++##
+ # = Stability Considerations
+-#
++##
++
++##
+ # The current QMP command set (described in this file) may be useful for a
+ # number of use cases, however it's limited and several commands have bad
+ # defined semantics, specially with regard to command completion.
 -- 
 2.20.1
 
