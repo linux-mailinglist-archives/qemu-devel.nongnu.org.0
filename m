@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B64240C6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:54:23 +0200 (CEST)
-Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3391B240C76
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:56:34 +0200 (CEST)
+Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5C06-0001zW-Rz
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
+	id 1k5C2D-0005UU-6J
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BL8-000280-FO
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20266)
+ id 1k5BLB-0002Ej-WE
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39681
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BL5-0003E6-MX
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:02 -0400
+ id 1k5BL9-0003EU-VE
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079518;
+ s=mimecast20190719; t=1597079523;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b44MIC5J2BiGWng14IMIOdBGRSyZNO44AYRS8hN5N9A=;
- b=D4ymE5TBAA62A6NFvkvrm3UztUpDXKKluWp8mpq+fBLmTaefyXwMeNiAfpDyfHISqEPOWg
- tezdROHA73FGeZKod4QNcMnBdCcS1E2V9gK6fkrbhSYBGJ0UjoTb78ImgosW5pQUEjJDIG
- LbSLzV9kSyELoSJ4oHBVZ11+IqKoGD8=
+ bh=NW3TMiLzOoUHqYw0ETNn/3bx4VcSKXeKEHAdlPbxa7c=;
+ b=bZKKtkkIvZYFbf8SNOb1GUkUduX4zW0NHfFuZ+MhcKrIbp4Ctu6qU1piB5veH4DOEitTyD
+ Oy2sX2yCvbuelGE78AtYKxC+YEFkd+d3LVFJ9oJ0lSRCn9A7x8BlfWCSdehmdib+Ym+up7
+ ++VvUrF6AYOjkBuvimQPCF3dYz3mxO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-GLg2imfVNKqZWwAOqyVLsQ-1; Mon, 10 Aug 2020 13:11:57 -0400
-X-MC-Unique: GLg2imfVNKqZWwAOqyVLsQ-1
+ us-mta-61-36ZlHLa8M_yeDNFMzXiK5Q-1; Mon, 10 Aug 2020 13:12:01 -0400
+X-MC-Unique: 36ZlHLa8M_yeDNFMzXiK5Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ECFD8014D7
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:11:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97629800465
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:00 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C92A5F1E9;
- Mon, 10 Aug 2020 17:11:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA8615F1E9;
+ Mon, 10 Aug 2020 17:11:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 101/147] meson: convert hw/pci
-Date: Mon, 10 Aug 2020 19:08:19 +0200
-Message-Id: <1597079345-42801-102-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 102/147] meson: convert hw/nvram
+Date: Mon, 10 Aug 2020 19:08:20 +0200
+Message-Id: <1597079345-42801-103-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:11:16
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,83 +91,67 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/pci/Makefile.objs | 14 --------------
- hw/pci/meson.build   | 19 +++++++++++++++++++
- 4 files changed, 20 insertions(+), 15 deletions(-)
- delete mode 100644 hw/pci/Makefile.objs
- create mode 100644 hw/pci/meson.build
+ hw/Makefile.objs       | 1 -
+ hw/meson.build         | 1 +
+ hw/nvram/Makefile.objs | 8 --------
+ hw/nvram/meson.build   | 9 +++++++++
+ 4 files changed, 10 insertions(+), 9 deletions(-)
+ delete mode 100644 hw/nvram/Makefile.objs
+ create mode 100644 hw/nvram/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 3513040..2083284 100644
+index 2083284..78860ae 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -21,7 +21,6 @@ devices-dirs-y += misc/
+@@ -20,7 +20,6 @@ devices-dirs-y += isa/
+ devices-dirs-y += misc/
  devices-dirs-y += net/
  devices-dirs-y += rdma/
- devices-dirs-y += nvram/
--devices-dirs-y += pci/
+-devices-dirs-y += nvram/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index a7301f2..53c347c 100644
+index 53c347c..0bdd6a2 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,6 +1,7 @@
  subdir('core')
  subdir('mem')
  subdir('nubus')
-+subdir('pci')
++subdir('nvram')
+ subdir('pci')
  subdir('pci-bridge')
  subdir('pci-host')
- subdir('pcmcia')
-diff --git a/hw/pci/Makefile.objs b/hw/pci/Makefile.objs
+diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
 deleted file mode 100644
-index c78f2fb..0000000
---- a/hw/pci/Makefile.objs
+index f3ad921..0000000
+--- a/hw/nvram/Makefile.objs
 +++ /dev/null
-@@ -1,14 +0,0 @@
--common-obj-$(CONFIG_PCI) += pci.o pci_bridge.o
--common-obj-$(CONFIG_PCI) += msix.o msi.o
--common-obj-$(CONFIG_PCI) += shpc.o
--common-obj-$(CONFIG_PCI) += slotid_cap.o
--common-obj-$(CONFIG_PCI) += pci_host.o
--
--# The functions in these modules can be used by devices too.  Since we
--# allow plugging PCIe devices into PCI buses, include them even if
--# CONFIG_PCI_EXPRESS=n.
--common-obj-$(CONFIG_PCI) += pcie.o pcie_aer.o
--common-obj-$(CONFIG_PCI_EXPRESS) += pcie_port.o pcie_host.o
--
--common-obj-$(call lnot,$(CONFIG_PCI)) += pci-stub.o
--common-obj-$(CONFIG_ALL) += pci-stub.o
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
+@@ -1,8 +0,0 @@
+-common-obj-$(CONFIG_DS1225Y) += ds1225y.o
+-common-obj-$(CONFIG_NMC93XX_EEPROM) += eeprom93xx.o
+-common-obj-$(CONFIG_AT24C) += eeprom_at24c.o
+-common-obj-y += fw_cfg.o
+-common-obj-$(CONFIG_CHRP_NVRAM) += chrp_nvram.o
+-common-obj-$(CONFIG_MAC_NVRAM) += mac_nvram.o
+-common-obj-$(CONFIG_NRF51_SOC) += nrf51_nvm.o
+-obj-$(CONFIG_PSERIES) += spapr_nvram.o
+diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
 new file mode 100644
-index 0000000..5c4bbac
+index 0000000..ba21455
 --- /dev/null
-+++ b/hw/pci/meson.build
-@@ -0,0 +1,19 @@
-+pci_ss = ss.source_set()
-+pci_ss.add(files(
-+  'msi.c',
-+  'msix.c',
-+  'pci.c',
-+  'pci_bridge.c',
-+  'pci_host.c',
-+  'shpc.c',
-+  'slotid_cap.c'
-+))
-+# The functions in these modules can be used by devices too.  Since we
-+# allow plugging PCIe devices into PCI buses, include them even if
-+# CONFIG_PCI_EXPRESS=n.
-+pci_ss.add(files('pcie.c', 'pcie_aer.c'))
-+softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
-+softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
++++ b/hw/nvram/meson.build
+@@ -0,0 +1,9 @@
++softmmu_ss.add(files('fw_cfg.c'))
++softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
++softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
++softmmu_ss.add(when: 'CONFIG_NMC93XX_EEPROM', if_true: files('eeprom93xx.c'))
++softmmu_ss.add(when: 'CONFIG_AT24C', if_true: files('eeprom_at24c.c'))
++softmmu_ss.add(when: 'CONFIG_MAC_NVRAM', if_true: files('mac_nvram.c'))
++softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_nvm.c'))
 +
-+softmmu_ss.add(when: 'CONFIG_PCI', if_false: files('pci-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('pci-stub.c'))
++specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_nvram.c'))
 -- 
 1.8.3.1
 
