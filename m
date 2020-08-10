@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4EC241143
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 22:00:05 +0200 (CEST)
-Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EC524113B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:56:29 +0200 (CEST)
+Received: from localhost ([::1]:60368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Dxk-0001pS-5G
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 16:00:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
+	id 1k5DuG-0004MZ-PK
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Doy-0001Cs-KI
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:51:00 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40168)
+ id 1k5Dt7-0002e4-D2
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:55:17 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Dow-0004yN-R6
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:51:00 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l2so9309034wrc.7
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:58 -0700 (PDT)
+ id 1k5Dt5-0005Pv-Ld
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:55:17 -0400
+Received: by mail-ot1-x342.google.com with SMTP id v6so8254855ota.13
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LSVn2WKQmCMQEFWwav2YKrRxyoiYWkDAUAzH6RvFEtY=;
- b=DoiMkcr4OfPIGRdqayTkzUkRgiX0WKQq46v5fIjtCejtCoZs+uEYAUSKT0pJbXgTs3
- LQ5Jdz5EV+s6aRYaP5LFmWgH1+qVKrQEk10jl+jzaM+lKYP4yYOyI7DReFQrq8fOi2vb
- QTkdZSL1OytZM3KA8oPsMaBFpV3M4dkmbgyEOK4QOMIZ4YWenaw6Z9rdZgm741ze988d
- htiQ+iLcKtzkzaPtCQeTAK50xt9lrGlL3LJIbi3AUh9cC/+YuTaoazlKJlDffl8gab3r
- kcv1e2zr5H6dizZewRsmxCVl623f6Z3chTDGwurPdMfR8KUAiH73vvsrp6unM0+VJvEI
- USHA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QFA+/sGzUvZB3ksquoHC1n+ZdzOejatiGSJQXQruFEM=;
+ b=giSJzTmK0ZdrXD0yvOqgpASp6h1vDwPhhjMMA7RymfJA/Zkxv2Y5+eWhkxYW+QQEi1
+ y8lvim3H11sCVdfOnQxF6QexUzYO8acbVid6FaK4hI1XquHBNNaT8Va+ZehIyqxJCpDo
+ mm6QP0+505SxVi3hPHCqTMOjLuXRND72rUYHF5nkZiRrzizTN0CZYy0Z4QveDoik3kSN
+ JdTGN2l437K0qJu6e4/qCrbD/aOBq6hAWSZQ656qUlGb3anJogHSlsL+htccWiSaosRG
+ 6mhUE0Gg8JFIZvT5/C/wWCS/iEMqpYnQ0o32yMYylPTrRadtD68sNI1kLygC7dHy8orp
+ NDow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LSVn2WKQmCMQEFWwav2YKrRxyoiYWkDAUAzH6RvFEtY=;
- b=c7ANHg2w9ZjwgstNzbf6QE41xbiUz+DzZ6EMlz63DSeAxlaj9UJ1H3rgCX4JKIfVCB
- +myJzdIGEgHU7DE5ZekZhlyqD7AWHIyjA31p6YrlAhKeCbmVdJ5XWaGBD5to8KI4MgiS
- AdtRPhwxnZOgbdo/ylMV2LAZY25mNMxMRutMKgVlKVl0crypo0NCA3ImqZXJ98tZZyVk
- SvfmdNDyx2E1IxwoGi5ELHs2sRJRWZiKf6ohUhFOCwpp+eKkKCkvVGMwNN1pXqjYJgav
- CJwBDqozCBPowopx1cKPj6LQkp3m4Q4EGBtBBHUWJFfOwwy3MGPXQFHFFXRpDGM/RLlY
- 4gWw==
-X-Gm-Message-State: AOAM533WbMTQYaqZdu32lPsOi+iXkNLphsW82EMpgJv1AFkIQJ324Bn1
- vZEOJkAVPU4rmjokGbUl7ll7uk00r7oKdw==
-X-Google-Smtp-Source: ABdhPJzfTgnWP9rLvsLny7LOwWyRFDNYDgtLJluK4P/OOJ2g/ovqWOIA0xKvFjYNb90xPrAXQB5ndQ==
-X-Received: by 2002:adf:e7c9:: with SMTP id e9mr26767912wrn.10.1597089056932; 
- Mon, 10 Aug 2020 12:50:56 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 12:50:55 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 20/20] Remove texinfo dependency from docker and CI configs
-Date: Mon, 10 Aug 2020 20:50:19 +0100
-Message-Id: <20200810195019.25427-21-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200810195019.25427-1-peter.maydell@linaro.org>
-References: <20200810195019.25427-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QFA+/sGzUvZB3ksquoHC1n+ZdzOejatiGSJQXQruFEM=;
+ b=Dh2eQCFEWZcifA0J27kKsNxKf9DphoF0dmtyZ/y5+S9pQb9Hi2w9DnShFuczhqIG2W
+ CmTZ/Due4pX1hbGHjsDxjdqbjWHyTUVQqm9dR+MkJe9vQV5r0TFkKH4g4zvAa0I0+FTm
+ xhK6wiZNgkddIYT5Bf8qxztef58JXB5nukLJoYJ9GldqHguUaeXtG1hsUodGLoRUCPIT
+ sOuu/WuFkUc8UTsB1AwDHOLkiHReoy/2dHEXrmrpxjUZYey7nHXUAoZK0ZYT+IcQtsML
+ FcPUOwfKGN86vY/BJRNi10qrZHW7bfWOCQrI+HcBJQYFAqNC+0ZoExYYvVevAbglX1tc
+ OVJg==
+X-Gm-Message-State: AOAM532Fmb1uYEGavusnXnK4vD+7mb2cbVXHNIF4TggqN+V/FDRORUoU
+ 5LD2z9GFujG9Vbdm4U2t1nYHDQBFC6TMP+aJdpEqGw==
+X-Google-Smtp-Source: ABdhPJxBIlhB/wPVrmePJWjmzg2cVO1YHHr9D5FTcknR4ziOEB2tWLCKGklIQ3sKF94nyFt/LiUBqKKeGuK3wpJanVw=
+X-Received: by 2002:a05:6830:1305:: with SMTP id
+ p5mr2140112otq.135.1597089314278; 
+ Mon, 10 Aug 2020 12:55:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA_icj94N6eotg9W7FutXTY_6U-Ak6pJMyYH0n9eggunrg@mail.gmail.com>
+ <CAFEAcA8smstwpQUD9UJzMuE6Cq2WutQzBPrKLLs=3wvfXUmpUg@mail.gmail.com>
+ <b710345e-1644-782a-44a9-537493b85d95@redhat.com>
+ <CAFEAcA9v7jv=SYZ0NLeSkjoM3da-apeu4OC5BMmorxMue0-viQ@mail.gmail.com>
+ <6a82c3b5-037f-7cd7-68fd-0fffd8eff192@redhat.com>
+ <CAFEAcA8xB=vOLvj_w9iTWWKh6kwu7fWN8QUbVAYunRdnJG0Qmg@mail.gmail.com>
+ <4bbf807f-6ff0-66b5-ac13-65f2bc954d9c@redhat.com>
+In-Reply-To: <4bbf807f-6ff0-66b5-ac13-65f2bc954d9c@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Aug 2020 20:55:03 +0100
+Message-ID: <CAFEAcA-M1OXT5Kj0rt4aNHZvzCGi9gX=JDzfdKSp=bD0jOYTVg@mail.gmail.com>
+Subject: Re: [PATCH 000/147] Meson integration for 5.2
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,110 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need texinfo to build the docs any more, so we can
-drop that dependency from our docker and other CI configs.
+On Mon, 10 Aug 2020 at 20:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 10/08/20 21:45, Peter Maydell wrote:
+> >> Note that if you don't install it, you just get the previous behavior
+> >> (plus a warning).  But if you want that, it would be simply "gettext" I
+> >> guess.  You're using tests/vm/*bsd right?
+> > Yes. Unless there's a strong reason for testing the no-gettext
+> > configuration via the BSD VMs it seems like we might as well
+> > just install the dependency. Silencing the warning would be
+> > nice as well if the lack of it isn't actually problematic.
+> >
+>
+> No, I think the warning is valid.  Silencing it would be predicated on
+> --disable-gettext or something like that.  I'll just add the dependency.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Changes v4->v5: remove texinfo from ubuntu2004.docker too
----
- .travis.yml                                | 1 -
- tests/docker/dockerfiles/debian10.docker   | 1 -
- tests/docker/dockerfiles/debian9.docker    | 1 +
- tests/docker/dockerfiles/fedora.docker     | 1 -
- tests/docker/dockerfiles/ubuntu.docker     | 1 -
- tests/docker/dockerfiles/ubuntu1804.docker | 1 -
- tests/docker/dockerfiles/ubuntu2004.docker | 1 -
- 7 files changed, 1 insertion(+), 6 deletions(-)
+Our usual default convention is "if the host system has feature X,
+act as if --enable-X, otherwise act as if --disable-X", not
+"act as if --disable-X apart from warning about it".
 
-diff --git a/.travis.yml b/.travis.yml
-index 6695c0620fc..ff4361079f3 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -198,7 +198,6 @@ jobs:
-         apt:
-           packages:
-             - python3-sphinx
--            - texinfo
-             - perl
- 
- 
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index bcdff04ddfe..e5dbfa8fe95 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -30,7 +30,6 @@ RUN apt update && \
-         psmisc \
-         python3 \
-         python3-sphinx \
--        texinfo \
-         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
- 
- ENV FEATURES docs
-diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
-index 0f0ebe530af..7e4b8a672fc 100644
---- a/tests/docker/dockerfiles/debian9.docker
-+++ b/tests/docker/dockerfiles/debian9.docker
-@@ -28,4 +28,5 @@ RUN apt update && \
-         pkg-config \
-         psmisc \
-         python3 \
-+        python3-sphinx \
-         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 70b6186bd3e..71e4b569770 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -96,7 +96,6 @@ ENV PACKAGES \
-     tar \
-     tesseract \
-     tesseract-langpack-eng \
--    texinfo \
-     usbredir-devel \
-     virglrenderer-devel \
-     vte291-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index 161806e6b8c..b556ed17d29 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -63,7 +63,6 @@ ENV PACKAGES \
-     python3-yaml \
-     python3-sphinx \
-     sparse \
--    texinfo \
-     xfslibs-dev
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index a10ea2850b6..a6a7617da67 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -49,7 +49,6 @@ ENV PACKAGES \
-     python3-yaml \
-     python3-sphinx \
-     sparse \
--    texinfo \
-     xfslibs-dev
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 8d10934a2a7..cafe8443fbf 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -57,7 +57,6 @@ ENV PACKAGES flex bison \
-     sparse \
-     tesseract-ocr \
-     tesseract-ocr-eng \
--    texinfo \
-     xfslibs-dev\
-     vim
- RUN apt-get update && \
--- 
-2.20.1
-
+thanks
+-- PMM
 
