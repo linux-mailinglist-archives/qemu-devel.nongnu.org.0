@@ -2,43 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6483E240498
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 12:17:10 +0200 (CEST)
-Received: from localhost ([::1]:38606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3305724049B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 12:19:52 +0200 (CEST)
+Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k54rd-0007xn-GR
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 06:17:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49376)
+	id 1k54uF-0001xy-9o
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 06:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1k54pW-0004zs-04; Mon, 10 Aug 2020 06:14:58 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50172 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1k54pT-0007eJ-4i; Mon, 10 Aug 2020 06:14:57 -0400
-Received: from [192.168.15.33] (helo=iris.lishka.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <den@openvz.org>)
- id 1k54pD-0001FY-Cr; Mon, 10 Aug 2020 13:14:39 +0300
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 3/3] block: enable long IO requests report by default
-Date: Mon, 10 Aug 2020 13:14:47 +0300
-Message-Id: <20200810101447.7380-4-den@openvz.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200810101447.7380-1-den@openvz.org>
-References: <20200810101447.7380-1-den@openvz.org>
-Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
- helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 06:14:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k54tP-0001P8-7Q
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 06:18:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33712
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k54tL-0008Uo-SV
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 06:18:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597054733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JNpd4Ppf/S+A61p3gn336tjMJJHggACBCURT+G/026M=;
+ b=bWJxuptCSGvDWi2jIzkvlftM58QLLpsnRbTYqB0XkB+H27Ku4QnGBS9SdMO8cLAIqiLnHR
+ 7zi4XbAvR3pBe5G8Aw1vQtPuX5Q0KlrNaizqzd00obG8LRPJJc01zrWT/FPEvsKq5UhMvX
+ MH9JamCFppyh8ztgvUqKnY6TcM9o8/Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-GNj9Xf8POM2Zl03XkOAGYA-1; Mon, 10 Aug 2020 06:18:52 -0400
+X-MC-Unique: GNj9Xf8POM2Zl03XkOAGYA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FED5100CCC0;
+ Mon, 10 Aug 2020 10:18:51 +0000 (UTC)
+Received: from gondolin (ovpn-112-218.ams2.redhat.com [10.36.112.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64CCA1755E;
+ Mon, 10 Aug 2020 10:18:50 +0000 (UTC)
+Date: Mon, 10 Aug 2020 12:18:47 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs/system/s390x: Add a chapter about s390x boot devices
+Message-ID: <20200810121847.5ab4e227.cohuck@redhat.com>
+In-Reply-To: <20200806150507.12073-1-thuth@redhat.com>
+References: <20200806150507.12073-1-thuth@redhat.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,44 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Latency threshold is set to 10 seconds following guest request timeout
-on legacy storage controller.
+On Thu,  6 Aug 2020 17:05:07 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Max Reitz <mreitz@redhat.com>
----
- blockdev.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> Booting on s390x is a little bit different compared to other architectures.
+> Let's add some information for people who are not yet used to this.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/system/s390x/bootdevices.rst | 82 +++++++++++++++++++++++++++++++
+>  docs/system/target-s390x.rst      |  1 +
+>  2 files changed, 83 insertions(+)
+>  create mode 100644 docs/system/s390x/bootdevices.rst
+> 
+> diff --git a/docs/system/s390x/bootdevices.rst b/docs/system/s390x/bootdevices.rst
+> new file mode 100644
+> index 0000000000..68f0ffd450
+> --- /dev/null
+> +++ b/docs/system/s390x/bootdevices.rst
+> @@ -0,0 +1,82 @@
+> +Boot devices on s390x
+> +=====================
+> +
+> +Booting with bootindex parameter
+> +--------------------------------
+> +
+> +For classical mainframe guests (i.e. LPAR or z/VM installations), you always
+> +have to exactly specify the disk where you want to boot from (or "IPL" from,
 
-diff --git a/blockdev.c b/blockdev.c
-index 66158d1292..733fdd36da 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -622,8 +622,13 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
- 
-         bs->detect_zeroes = detect_zeroes;
- 
-+        /*
-+         * Set log threshold to 10 seconds. Timeout choosen by observation
-+         * of the guest behavior with legacy storage controllers. Linux
-+         * could remount FS read-only if journal write takes this time.
-+         */
-         block_acct_setup(blk_get_stats(blk), account_invalid, account_failed,
--                qemu_opt_get_number(opts, "latency-log-threshold", 0));
-+                qemu_opt_get_number(opts, "latency-log-threshold", 10000));
- 
-         if (!parse_stats_intervals(blk_get_stats(blk), interval_list, errp)) {
-             blk_unref(blk);
--- 
-2.17.1
+s/exactly/explictly/ ?
+
+> +in s390x-speak -- IPL means "Initial Program Load"). Especially, there can
+
+s/Especially/In particular/ ?
+
+> +also be only one boot device according to the architecture specification, thus
+> +specifying multiple boot devices is not possible (yet).
+> +
+> +So for booting an s390x guest in QEMU, you should always mark the
+> +device where you want to boot from with the ``bootindex`` property, for
+> +example::
+> +
+> + qemu-system-s390x -drive if=none,id=dr1,file=guest.qcow2 \
+> +                   -device virtio-blk,drive=dr1,bootindex=1
+> +
+> +For booting from a CD-ROM ISO image (which needs to include El-Torito boot
+> +informatin for being bootable), it is recommended to specify a ``scsi-cd``
+
+s/informatin for being/information in order to be/
+
+> +device, for example like this::
+> +
+> + qemu-system-s390x -blockdev file,node-name=c1,filename=... \
+> +                   -device virtio-scsi \
+> +                   -device scsi-cd,drive=c1,bootindex=1
+> +
+> +Note that you really have to use the ``bootindex`` property to select the
+> +boot device. The old-fashioned ``-boot order=...`` command of QEMU (and
+> +also ``-boot once=...``) is not supported on s390x.
+
+(...)
+
+This looks good to me, and is certainly helpful. I can fix the nits
+myself and apply it.
+
+There's also some documentation regarding DASD IPL in the devel guide;
+but as that is mostly helpful for people actually working with the
+code, I don't think that it makes sense to cross-reference it.
 
 
