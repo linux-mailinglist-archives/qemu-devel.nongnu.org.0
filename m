@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C902240BD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:20:39 +0200 (CEST)
-Received: from localhost ([::1]:49910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5132240BE0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 19:25:01 +0200 (CEST)
+Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5BTS-0000qF-9y
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45382)
+	id 1k5BXg-0001U2-Ns
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 13:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJC-0006mF-Nn
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56519
+ id 1k5BJF-0006rR-B2
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24760
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BJA-0002mo-Rl
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:02 -0400
+ id 1k5BJC-0002n6-Q6
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:10:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079400;
+ s=mimecast20190719; t=1597079402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=LfhaaV0IWW8+d6MiU3ZNGehjzRVw6lRdeh9EZzy4RK4=;
- b=GTuTVlVPAH+yRYDdugfABLr7r505M448KzXSdWkUyhxap6+cIL/7vwd699XWz1BcOXYrcQ
- AylfMNamOGMcZZ5PdzpSo0IGXJrr5N5JRFywpbHYvsGJbmeNUtfiHT1z8m7V81VdKRNcLq
- W3dfyBMquYfNwXVnZc3rMA80ZX6H3aI=
+ references:references; bh=w1RTZxsIAbWotdvjpZZYdpsZzENGz26urCgmvEAM2Vg=;
+ b=GO9dkSd+Ykv9/P9oOk9sRHVk9cS+MrYtArgtLcpR6BbMezzRBWmmdbOwJROJDaH7Fqwfjz
+ kZxr9TkG4C1Ab+0IZwRwOhmyUzWialWyyfm7Dyy5MnH2hwCgF/x0sk5jTFVVxIMSfYpHg0
+ gWDkAYITASeE3nVMJ3gmR2EjtReR8Vs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-05h4nm9tPAqAHEki7MyfRA-1; Mon, 10 Aug 2020 13:09:58 -0400
-X-MC-Unique: 05h4nm9tPAqAHEki7MyfRA-1
+ us-mta-445-96fbRppwO5OgFOi6Ri9GUA-1; Mon, 10 Aug 2020 13:10:00 -0400
+X-MC-Unique: 96fbRppwO5OgFOi6Ri9GUA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88F8C10CB427
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:09:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF57F8064A9
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:09:58 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA0065F1E9
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:09:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00C4487D61
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:09:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 030/147] contrib/vhost-user-scsi: convert to Meson
-Date: Mon, 10 Aug 2020 19:07:08 +0200
-Message-Id: <1597079345-42801-31-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 031/147] contrib/rdmacm-mux: convert to Meson
+Date: Mon, 10 Aug 2020 19:07:09 +0200
+Message-Id: <1597079345-42801-32-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -81,99 +81,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The libiscsi pkg-config information is extracted from config-host.mak and
-used to link vhost-user-blk.
+We can use config-host.mak to decide whether the tool has to be built,
+apart from that the conversion is straightforward.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                              | 3 ---
- Makefile.objs                         | 3 ---
- contrib/vhost-user-scsi/Makefile.objs | 1 -
- contrib/vhost-user-scsi/meson.build   | 7 +++++++
- meson.build                           | 6 ++++++
- 5 files changed, 13 insertions(+), 7 deletions(-)
- delete mode 100644 contrib/vhost-user-scsi/Makefile.objs
- create mode 100644 contrib/vhost-user-scsi/meson.build
+ Makefile                         | 5 -----
+ Makefile.objs                    | 1 -
+ contrib/rdmacm-mux/Makefile.objs | 3 ---
+ contrib/rdmacm-mux/meson.build   | 8 ++++++++
+ meson.build                      | 2 ++
+ 5 files changed, 10 insertions(+), 9 deletions(-)
+ delete mode 100644 contrib/rdmacm-mux/Makefile.objs
+ create mode 100644 contrib/rdmacm-mux/meson.build
 
 diff --git a/Makefile b/Makefile
-index 7317554..11716bb 100644
+index 11716bb..404cab7 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -296,7 +296,6 @@ dummy := $(call unnest-vars,, \
+@@ -295,7 +295,6 @@ dummy := $(call unnest-vars,, \
+                 elf2dmp-obj-y \
                  ivshmem-client-obj-y \
                  ivshmem-server-obj-y \
-                 rdmacm-mux-obj-y \
--                vhost-user-scsi-obj-y \
+-                rdmacm-mux-obj-y \
                  vhost-user-input-obj-y \
                  vhost-user-gpu-obj-y \
                  qga-vss-dll-obj-y \
-@@ -517,8 +516,6 @@ ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
- ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
+@@ -517,10 +516,6 @@ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
  	$(call LINK, $^)
  endif
--vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
--	$(call LINK, $^)
  
- rdmacm-mux$(EXESUF): LIBS += "-libumad"
- rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+-rdmacm-mux$(EXESUF): LIBS += "-libumad"
+-rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+-	$(call LINK, $^)
+-
+ vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
 diff --git a/Makefile.objs b/Makefile.objs
-index f69736c..ab798b0 100644
+index ab798b0..0f80b63 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -106,9 +106,6 @@ qga-vss-dll-obj-y = qga/
+@@ -106,7 +106,6 @@ qga-vss-dll-obj-y = qga/
  elf2dmp-obj-y = contrib/elf2dmp/
  ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
  ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
--vhost-user-scsi.o-cflags := $(LIBISCSI_CFLAGS)
--vhost-user-scsi.o-libs := $(LIBISCSI_LIBS)
--vhost-user-scsi-obj-y = contrib/vhost-user-scsi/
- rdmacm-mux-obj-y = contrib/rdmacm-mux/
+-rdmacm-mux-obj-y = contrib/rdmacm-mux/
  vhost-user-input-obj-y = contrib/vhost-user-input/
  vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
-diff --git a/contrib/vhost-user-scsi/Makefile.objs b/contrib/vhost-user-scsi/Makefile.objs
+ 
+diff --git a/contrib/rdmacm-mux/Makefile.objs b/contrib/rdmacm-mux/Makefile.objs
 deleted file mode 100644
-index e83a38a..0000000
---- a/contrib/vhost-user-scsi/Makefile.objs
+index 3df744a..0000000
+--- a/contrib/rdmacm-mux/Makefile.objs
 +++ /dev/null
-@@ -1 +0,0 @@
--vhost-user-scsi-obj-y = vhost-user-scsi.o
-diff --git a/contrib/vhost-user-scsi/meson.build b/contrib/vhost-user-scsi/meson.build
+@@ -1,3 +0,0 @@
+-ifdef CONFIG_PVRDMA
+-rdmacm-mux-obj-y = main.o
+-endif
+diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
 new file mode 100644
-index 0000000..257cbff
+index 0000000..1a01bb9
 --- /dev/null
-+++ b/contrib/vhost-user-scsi/meson.build
-@@ -0,0 +1,7 @@
-+if 'CONFIG_LIBISCSI' in config_host
-+  executable('vhost-user-scsi', files('vhost-user-scsi.c'),
-+             link_with: libvhost_user,
-+             dependencies: [qemuutil, libiscsi],
++++ b/contrib/rdmacm-mux/meson.build
+@@ -0,0 +1,8 @@
++if 'CONFIG_PVRDMA' in config_host
++  # if not found, CONFIG_PVRDMA should not be set
++  libumad = cc.find_library('ibumad', required: true)
++  executable('rdmacm-mux', files('main.c'),
++             dependencies: [glib, libumad],
 +             build_by_default: targetos == 'linux',
 +             install: false)
 +endif
 diff --git a/meson.build b/meson.build
-index fc1346a..eb0ae2c 100644
+index eb0ae2c..1d55980 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -88,6 +88,11 @@ libcap_ng = not_found
- if 'CONFIG_LIBCAP_NG' in config_host
-   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
- endif
-+libiscsi = not_found
-+if 'CONFIG_LIBISCSI' in config_host
-+  libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
-+                                link_args: config_host['LIBISCSI_LIBS'].split())
-+endif
+@@ -256,6 +256,8 @@ qemuutil = declare_dependency(link_with: libqemuutil,
+ # Other build targets
  
- target_dirs = config_host['TARGET_DIRS'].split()
- have_user = false
-@@ -254,6 +259,7 @@ if have_tools
+ if have_tools
++  subdir('contrib/rdmacm-mux')
++
    if 'CONFIG_VHOST_USER' in config_host
      subdir('contrib/libvhost-user')
      subdir('contrib/vhost-user-blk')
-+    subdir('contrib/vhost-user-scsi')
-   endif
- endif
- 
 -- 
 1.8.3.1
 
