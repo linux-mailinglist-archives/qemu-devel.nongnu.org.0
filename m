@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EC524113B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:56:29 +0200 (CEST)
-Received: from localhost ([::1]:60368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6188E241148
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 22:00:53 +0200 (CEST)
+Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5DuG-0004MZ-PK
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52218)
+	id 1k5DyW-0002wA-EG
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 16:00:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Dt7-0002e4-D2
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:55:17 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46323)
+ id 1k5Dot-0000z1-0P
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:55 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Dt5-0005Pv-Ld
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:55:17 -0400
-Received: by mail-ot1-x342.google.com with SMTP id v6so8254855ota.13
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:55:15 -0700 (PDT)
+ id 1k5Doq-0004uv-Rw
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:54 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z18so9297904wrm.12
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QFA+/sGzUvZB3ksquoHC1n+ZdzOejatiGSJQXQruFEM=;
- b=giSJzTmK0ZdrXD0yvOqgpASp6h1vDwPhhjMMA7RymfJA/Zkxv2Y5+eWhkxYW+QQEi1
- y8lvim3H11sCVdfOnQxF6QexUzYO8acbVid6FaK4hI1XquHBNNaT8Va+ZehIyqxJCpDo
- mm6QP0+505SxVi3hPHCqTMOjLuXRND72rUYHF5nkZiRrzizTN0CZYy0Z4QveDoik3kSN
- JdTGN2l437K0qJu6e4/qCrbD/aOBq6hAWSZQ656qUlGb3anJogHSlsL+htccWiSaosRG
- 6mhUE0Gg8JFIZvT5/C/wWCS/iEMqpYnQ0o32yMYylPTrRadtD68sNI1kLygC7dHy8orp
- NDow==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4PyfQa7ahU945SxQ17WhvHpJu4ijwLrsrnt3XXoa7zs=;
+ b=FgJM1Jy9C1ig1fGoH+pMZIRzN3e75IH2TckgsHj9aKpRKDd8yyF9m9jCaOXfkQZua8
+ 0L2GmqeF2EJvogAMEilz+Es6F4Bim7OH30qJsNOFla89OTc+dINiXOqK2N3gcHdqjPg0
+ ArIzPBSVujv7GU5fT4NM7Yx+y8UV1YlO/Uudc9MrfD0pWqSR6c3lC/vO+6CQt1zXuvqf
+ zg+gbKtq2/r30CvHL7Vlj8/0n0j+9PmCSVDgDc3/Dsrudz0KNe5QsYqEGO4HjfMrJjc7
+ Co/sY/JLtpOC9iWsEe9luzei8wcKlgJlhiSIVH8YCBcyetkYgOBWv9CJ1yKUeZnnoyrf
+ Zkaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QFA+/sGzUvZB3ksquoHC1n+ZdzOejatiGSJQXQruFEM=;
- b=Dh2eQCFEWZcifA0J27kKsNxKf9DphoF0dmtyZ/y5+S9pQb9Hi2w9DnShFuczhqIG2W
- CmTZ/Due4pX1hbGHjsDxjdqbjWHyTUVQqm9dR+MkJe9vQV5r0TFkKH4g4zvAa0I0+FTm
- xhK6wiZNgkddIYT5Bf8qxztef58JXB5nukLJoYJ9GldqHguUaeXtG1hsUodGLoRUCPIT
- sOuu/WuFkUc8UTsB1AwDHOLkiHReoy/2dHEXrmrpxjUZYey7nHXUAoZK0ZYT+IcQtsML
- FcPUOwfKGN86vY/BJRNi10qrZHW7bfWOCQrI+HcBJQYFAqNC+0ZoExYYvVevAbglX1tc
- OVJg==
-X-Gm-Message-State: AOAM532Fmb1uYEGavusnXnK4vD+7mb2cbVXHNIF4TggqN+V/FDRORUoU
- 5LD2z9GFujG9Vbdm4U2t1nYHDQBFC6TMP+aJdpEqGw==
-X-Google-Smtp-Source: ABdhPJxBIlhB/wPVrmePJWjmzg2cVO1YHHr9D5FTcknR4ziOEB2tWLCKGklIQ3sKF94nyFt/LiUBqKKeGuK3wpJanVw=
-X-Received: by 2002:a05:6830:1305:: with SMTP id
- p5mr2140112otq.135.1597089314278; 
- Mon, 10 Aug 2020 12:55:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA_icj94N6eotg9W7FutXTY_6U-Ak6pJMyYH0n9eggunrg@mail.gmail.com>
- <CAFEAcA8smstwpQUD9UJzMuE6Cq2WutQzBPrKLLs=3wvfXUmpUg@mail.gmail.com>
- <b710345e-1644-782a-44a9-537493b85d95@redhat.com>
- <CAFEAcA9v7jv=SYZ0NLeSkjoM3da-apeu4OC5BMmorxMue0-viQ@mail.gmail.com>
- <6a82c3b5-037f-7cd7-68fd-0fffd8eff192@redhat.com>
- <CAFEAcA8xB=vOLvj_w9iTWWKh6kwu7fWN8QUbVAYunRdnJG0Qmg@mail.gmail.com>
- <4bbf807f-6ff0-66b5-ac13-65f2bc954d9c@redhat.com>
-In-Reply-To: <4bbf807f-6ff0-66b5-ac13-65f2bc954d9c@redhat.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=4PyfQa7ahU945SxQ17WhvHpJu4ijwLrsrnt3XXoa7zs=;
+ b=iGs0qDm8LGr7YzFwJrVTb2pGCQ+PFC6t6m0Lnd94QqM38ASNo8HyYjT0sqZvt4UVb6
+ Y4vQ1e5JnWwXmbUrktQZRaleasxN00LJAi3+V7mXa5LA7pR/QrE7tP8m1JWJ3ulnh2+r
+ pSZldRumyYM74IQb3gQcOXw9ZOdvPuyTJQ+v4x/nafaNciQaMu5fXzlRx10tvVtHrakl
+ Xant4elycnd7ShrTQKg/TUwMMBpYblG0AmuoltWTJG2sm52Or76vCVVRg00uBlRBWppJ
+ hy6V3aYuBwhpkOFyaW9e/oATaexszE2Q31B4V/EP7+VePdKFeUlE3u4y4rid7SVibjG+
+ 845A==
+X-Gm-Message-State: AOAM530MMbQ6+RD7igrGw/4g0TwDE17dNiOm/U8uSlQhWp16herm8ddi
+ XePYCONZh7yykx950EGFkAnAtTNo+w4u6g==
+X-Google-Smtp-Source: ABdhPJxTgoILl2GusDc29acGF0+QwedND82L+3/InJ5HGSrf5HQCgjib3gRenbtqxO4IAflw9PJqRA==
+X-Received: by 2002:a5d:5273:: with SMTP id l19mr25808161wrc.257.1597089049283; 
+ Mon, 10 Aug 2020 12:50:49 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Aug 2020 12:50:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Aug 2020 20:55:03 +0100
-Message-ID: <CAFEAcA-M1OXT5Kj0rt4aNHZvzCGi9gX=JDzfdKSp=bD0jOYTVg@mail.gmail.com>
-Subject: Re: [PATCH 000/147] Meson integration for 5.2
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 16/20] Makefile: Remove redundant Texinfo related rules
+Date: Mon, 10 Aug 2020 20:50:15 +0100
+Message-Id: <20200810195019.25427-17-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200810195019.25427-1-peter.maydell@linaro.org>
+References: <20200810195019.25427-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +70,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,34 +84,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Aug 2020 at 20:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 10/08/20 21:45, Peter Maydell wrote:
-> >> Note that if you don't install it, you just get the previous behavior
-> >> (plus a warning).  But if you want that, it would be simply "gettext" I
-> >> guess.  You're using tests/vm/*bsd right?
-> > Yes. Unless there's a strong reason for testing the no-gettext
-> > configuration via the BSD VMs it seems like we might as well
-> > just install the dependency. Silencing the warning would be
-> > nice as well if the lack of it isn't actually problematic.
-> >
->
-> No, I think the warning is valid.  Silencing it would be predicated on
-> --disable-gettext or something like that.  I'll just add the dependency.
+We now don't build anything from Texinfo, so we can remove
+some redundant Makefile pattern rules and the rule for
+generating the version.texi file that used to be included
+from many Texinfo source files.
 
-Our usual default convention is "if the host system has feature X,
-act as if --enable-X, otherwise act as if --disable-X", not
-"act as if --disable-X apart from warning about it".
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ Makefile  | 31 +------------------------------
+ rules.mak | 14 +-------------
+ 2 files changed, 2 insertions(+), 43 deletions(-)
 
-thanks
--- PMM
+diff --git a/Makefile b/Makefile
+index fc3ccc15030..1bc0f4f1d5c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -759,8 +759,7 @@ clean: recurse-clean
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+ 	rm -f $(edk2-decompressed)
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+-	rm -f fsdev/*.pod scsi/*.pod
++	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *~ */*~
+ 	rm -f qemu-img-cmds.h
+ 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+ 	@# May not be present in generated-files-y
+@@ -795,7 +794,6 @@ distclean: clean
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+ 	rm -f config.log
+ 	rm -f linux-headers/asm
+-	rm -f docs/version.texi
+ 	rm -rf .doctrees
+ 	$(call clean-manual,devel)
+ 	$(call clean-manual,interop)
+@@ -1015,31 +1013,6 @@ ui/shader.o: $(SRC_PATH)/ui/shader.c \
+ 	ui/shader/texture-blit-frag.h
+ 
+ # documentation
+-MAKEINFO=makeinfo
+-MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
+-MAKEINFOFLAGS=--no-split --number-sections $(MAKEINFOINCLUDES)
+-TEXI2PODFLAGS=$(MAKEINFOINCLUDES) -DVERSION="$(VERSION)" -DCONFDIR="$(qemu_confdir)"
+-TEXI2PDFFLAGS=$(if $(V),,--quiet) -I $(SRC_PATH) $(MAKEINFOINCLUDES)
+-
+-docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+-	$(call quiet-command,(\
+-		echo "@set VERSION $(VERSION)" && \
+-		echo "@set CONFDIR $(qemu_confdir)" \
+-	)> $@,"GEN","$@")
+-
+-%.html: %.texi docs/version.texi
+-	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
+-	--html $< -o $@,"GEN","$@")
+-
+-%.info: %.texi docs/version.texi
+-	$(call quiet-command,$(MAKEINFO) $(MAKEINFOFLAGS) $< -o $@,"GEN","$@")
+-
+-%.txt: %.texi docs/version.texi
+-	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
+-	--plaintext $< -o $@,"GEN","$@")
+-
+-%.pdf: %.texi docs/version.texi
+-	$(call quiet-command,texi2pdf $(TEXI2PDFFLAGS) $< -o $@,"GEN","$@")
+ 
+ # Sphinx builds all its documentation at once in one invocation
+ # and handles "don't rebuild things unless necessary" itself.
+@@ -1109,8 +1082,6 @@ $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
+ 
+ html: sphinxdocs
+ 
+-$(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
+-
+ # Reports/Analysis
+ 
+ %/coverage-report.html:
+diff --git a/rules.mak b/rules.mak
+index 694865b63ee..1dc2a353ee6 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -144,7 +144,7 @@ cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
+ cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
+                 >/dev/null 2>&1 && echo OK), $2, $3)
+ 
+-VPATH_SUFFIXES = %.c %.h %.S %.cc %.cpp %.m %.mak %.texi %.sh %.rc Kconfig% %.json.in
++VPATH_SUFFIXES = %.c %.h %.S %.cc %.cpp %.m %.mak %.sh %.rc Kconfig% %.json.in
+ set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
+ 
+ # install-prog list, dir
+@@ -381,18 +381,6 @@ define unnest-vars
+         $(eval $v := $(filter-out %/,$($v))))
+ endef
+ 
+-TEXI2MAN = $(call quiet-command, \
+-	perl -Ww -- $(SRC_PATH)/scripts/texi2pod.pl $(TEXI2PODFLAGS) $< $@.pod && \
+-	$(POD2MAN) --section=$(subst .,,$(suffix $@)) --center=" " --release=" " $@.pod > $@, \
+-	"GEN","$@")
+-
+-%.1:
+-	$(call TEXI2MAN)
+-%.7:
+-	$(call TEXI2MAN)
+-%.8:
+-	$(call TEXI2MAN)
+-
+ GEN_SUBST = $(call quiet-command, \
+ 	sed -e "s!@libexecdir@!$(libexecdir)!g" < $< > $@, \
+ 	"GEN","$@")
+-- 
+2.20.1
+
 
