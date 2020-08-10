@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85339240CCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:13:53 +0200 (CEST)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557CD240CA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:07:33 +0200 (CEST)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5CIy-0003a6-Jl
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47072)
+	id 1k5CCq-0000PM-DE
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BLx-0003Qe-0y
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58094
+ id 1k5BLy-0003Tf-7o
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:54 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50362
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5BLv-0003N2-0m
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:52 -0400
+ id 1k5BLw-0003ND-An
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 13:12:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597079570;
+ s=mimecast20190719; t=1597079571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AEn8HY0hbZnigh2zF+adrqHOxONI7ngTjgI9sOI65tg=;
- b=iiLRcQdc6W2W4SyP6zIc1eaRX151NH7+vKSqdeOvuTEshzhoaLVHgFgxBzRMgMK9X/+9bt
- NJCFxRUvXmMdnm+Jcfcb6oxmEG85WgbboUdQBmrElaQ+CqoBsdGP5k7Hi4nmWc/W2dcZp3
- XvpgjS5nhv/CVDmblicvGT7qIzExDPI=
+ bh=JCWQsqaYkXE5O2PZN9SLzgeF6lcVZ+ltbOpsodxa3rQ=;
+ b=P+6EFpv9NTvmtEVleIuo80kn+yeXr5z3MlXZ4TMZoaYlSlJAjYh5M5U1uuCv9JeBN9ALHN
+ TNcS1VmMHw9/+dcDhlFrqgbteujezJBC3a2BDDkey9WMN6TOfr9L2x9+d2D1eSxwHQDLTN
+ /Y32EAdmQbMPbIsUVf+BuWgmZeQepkQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-kkegG43VPRCswZ9UeofSzQ-1; Mon, 10 Aug 2020 13:12:48 -0400
-X-MC-Unique: kkegG43VPRCswZ9UeofSzQ-1
+ us-mta-387-aknlCe4fMOWp4WBv6et2cw-1; Mon, 10 Aug 2020 13:12:49 -0400
+X-MC-Unique: aknlCe4fMOWp4WBv6et2cw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C0A757
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06CC680183C
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 17:12:49 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9C045F1EA;
- Mon, 10 Aug 2020 17:12:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 143F987D61;
+ Mon, 10 Aug 2020 17:12:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 132/147] meson: convert systemtap files
-Date: Mon, 10 Aug 2020 19:08:50 +0200
-Message-Id: <1597079345-42801-133-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 133/147] rules.mak: remove version.o
+Date: Mon, 10 Aug 2020 19:08:51 +0200
+Message-Id: <1597079345-42801-134-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:29:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 04:13:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,190 +90,61 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.target   | 85 ++-----------------------------------------------------
- meson.build       | 26 +++++++++++++++++
- rules.mak         |  3 --
- trace/meson.build | 14 ++++-----
- 4 files changed, 35 insertions(+), 93 deletions(-)
+ Makefile      | 5 -----
+ Makefile.objs | 4 ----
+ rules.mak     | 4 +---
+ 3 files changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/Makefile.target b/Makefile.target
-index 8ee4c78..a07149c 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -6,88 +6,7 @@ include ../config-host.mak
- include config-target.mak
- include $(SRC_PATH)/rules.mak
+diff --git a/Makefile b/Makefile
+index ebda912..2962a41 100644
+--- a/Makefile
++++ b/Makefile
+@@ -225,11 +225,6 @@ recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
+ recurse-install: $(addsuffix /install, $(TARGET_DIRS))
+ $(addsuffix /install, $(TARGET_DIRS)): all
  
--$(call set-vpath, $(SRC_PATH):$(BUILD_DIR))
+-$(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
+-	$(call quiet-command,$(WINDRES) -I$(BUILD_DIR) -o $@ $<,"RC","version.o")
 -
--ifdef CONFIG_USER_ONLY
--# user emulator name
--QEMU_PROG=qemu-$(TARGET_NAME)
--else
--# system emulator name
--QEMU_PROG=qemu-system-$(TARGET_NAME)$(EXESUF)
--endif
+-Makefile: $(version-obj-y)
 -
--STPFILES=
--
--ifdef CONFIG_TRACE_SYSTEMTAP
--stap: $(QEMU_PROG).stp-installed $(QEMU_PROG).stp $(QEMU_PROG)-simpletrace.stp $(QEMU_PROG)-log.stp
--
--ifdef CONFIG_USER_ONLY
--TARGET_TYPE=user
--else
--TARGET_TYPE=system
--endif
--
--tracetool-y = $(SRC_PATH)/scripts/tracetool.py
--tracetool-y += $(shell find $(SRC_PATH)/scripts/tracetool -name "*.py")
--
--$(QEMU_PROG).stp-installed: $(BUILD_DIR)/trace/trace-events-all $(tracetool-y)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=all \
--		--format=stap \
--		--backends=$(TRACE_BACKENDS) \
--		--binary=$(bindir)/$(QEMU_PROG) \
--		--target-name=$(TARGET_NAME) \
--		--target-type=$(TARGET_TYPE) \
--		$< > $@,"GEN","$(TARGET_DIR)$(QEMU_PROG).stp-installed")
--
--$(QEMU_PROG).stp: $(BUILD_DIR)/trace/trace-events-all $(tracetool-y)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=all \
--		--format=stap \
--		--backends=$(TRACE_BACKENDS) \
--		--binary=$(realpath .)/$(QEMU_PROG) \
--		--target-name=$(TARGET_NAME) \
--		--target-type=$(TARGET_TYPE) \
--		$< > $@,"GEN","$(TARGET_DIR)$(QEMU_PROG).stp")
--
--$(QEMU_PROG)-simpletrace.stp: $(BUILD_DIR)/trace/trace-events-all $(tracetool-y)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=all \
--		--format=simpletrace-stap \
--		--backends=$(TRACE_BACKENDS) \
--		--probe-prefix=qemu.$(TARGET_TYPE).$(TARGET_NAME) \
--		$< > $@,"GEN","$(TARGET_DIR)$(QEMU_PROG)-simpletrace.stp")
--
--$(QEMU_PROG)-log.stp: $(BUILD_DIR)/trace/trace-events-all $(tracetool-y)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=all \
--		--format=log-stap \
--		--backends=$(TRACE_BACKENDS) \
--		--probe-prefix=qemu.$(TARGET_TYPE).$(TARGET_NAME) \
--		$< > $@,"GEN","$(TARGET_DIR)$(QEMU_PROG)-log.stp")
--
--else
--stap:
--endif
--.PHONY: stap
--
--all: stap
--
--clean:
--	rm -f *.a *~
--	rm -f $(shell find . -name '*.[od]')
--	rm -f hmp-commands.h gdbstub-xml.c
--	rm -f trace/generated-helpers.c trace/generated-helpers.c-timestamp
--ifdef CONFIG_TRACE_SYSTEMTAP
--	rm -f *.stp
--endif
--
-+all:
- install: all
--ifdef CONFIG_TRACE_SYSTEMTAP
--	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/../systemtap/tapset"
--	$(INSTALL_DATA) $(QEMU_PROG).stp-installed "$(DESTDIR)$(qemu_datadir)/../systemtap/tapset/$(QEMU_PROG).stp"
--	$(INSTALL_DATA) $(QEMU_PROG)-simpletrace.stp "$(DESTDIR)$(qemu_datadir)/../systemtap/tapset/$(QEMU_PROG)-simpletrace.stp"
--	$(INSTALL_DATA) $(QEMU_PROG)-log.stp "$(DESTDIR)$(qemu_datadir)/../systemtap/tapset/$(QEMU_PROG)-log.stp"
--endif
--
-+	
- .PHONY: all clean install
-diff --git a/meson.build b/meson.build
-index 797e69d..c3ef9b6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -811,6 +811,7 @@ common_all = static_library('common',
-                             name_suffix: 'fa')
+ ######################################################################
  
- feature_to_c = find_program('scripts/feature_to_c.sh')
-+tracetool = find_program('scripts/tracetool.py')
+ clean: recurse-clean
+diff --git a/Makefile.objs b/Makefile.objs
+index 5295c3a..c351b59 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -32,7 +32,3 @@ crypto-obj-y = crypto/libcrypto.fa
+ io-obj-y = io/libio.fa
  
- emulators = []
- foreach target : target_dirs
-@@ -946,6 +947,31 @@ foreach target : target_dirs
-                link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
-                link_args: link_args,
-                gui_app: exe['gui'])
-+
-+    if 'CONFIG_TRACE_SYSTEMTAP' in config_host
-+      foreach stp: [
-+        {'ext': '.stp-build', 'fmt': 'stap', 'bin': meson.current_build_dir() / exe_name, 'install': false},
-+        {'ext': '.stp', 'fmt': 'stap', 'bin': get_option('prefix') / get_option('bindir') / exe_name, 'install': true},
-+        {'ext': '-simpletrace.stp', 'fmt': 'simpletrace-stap', 'bin': '', 'install': true},
-+        {'ext': '-log.stp', 'fmt': 'log-stap', 'bin': '', 'install': true},
-+      ]
-+        custom_target(exe_name + stp['ext'],
-+                      input: trace_events_all,
-+                      output: exe_name + stp['ext'],
-+                      capture: true,
-+                      install: stp['install'],
-+                      install_dir: config_host['qemu_datadir'] / '../systemtap/tapset',
-+                      command: [
-+                        tracetool, '--group=all', '--format=' + stp['fmt'],
-+                        '--backends=' + config_host['TRACE_BACKENDS'],
-+                        '--binary=' + stp['bin'],
-+                        '--target-name=' + target_name,
-+                        '--target-type=' + target_type,
-+                        '--probe-prefix=qemu.' + target_type + '.' + target_name,
-+                        '@INPUT@',
-+                      ])
-+      endforeach
-+    endif
-   endforeach
- endforeach
- 
+ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
+-
+-######################################################################
+-# Resource file for Windows executables
+-version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
 diff --git a/rules.mak b/rules.mak
-index 6488dc3..b983c7f 100644
+index b983c7f..6d89001 100644
 --- a/rules.mak
 +++ b/rules.mak
-@@ -199,9 +199,6 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
- isempty = $(if $1,n,y)
- notempty = $(if $1,y,n)
+@@ -77,8 +77,6 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
+ 	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+ 	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
+ 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
+-%.o: %.rc
+-	$(call quiet-command,$(WINDRES) -I. -o $@ $<,"RC","$(TARGET_DIR)$@")
  
--# Generate files with tracetool
--TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
--
- .PHONY: clean-timestamp
- clean-timestamp:
- 	rm -f *.timestamp
-diff --git a/trace/meson.build b/trace/meson.build
-index 9c3c128..56e8708 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -49,13 +49,13 @@ foreach dir : [ '.' ] + trace_events_subdirs
-   endif
- endforeach
+ # If we have a CXX we might have some C++ objects, in which case we
+ # must link with the C++ compiler, not the plain C compiler.
+@@ -86,7 +84,7 @@ LINKPROG = $(or $(CXX),$(CC))
  
--custom_target('trace-events-all',
--              output: 'trace-events-all',
--              input: trace_events_files,
--              command: [ 'cat', '@INPUT@' ],
--              capture: true,
--              install: true,
--              install_dir: config_host['qemu_datadir'])
-+trace_events_all = custom_target('trace-events-all',
-+                                 output: 'trace-events-all',
-+                                 input: trace_events_files,
-+                                 command: [ 'cat', '@INPUT@' ],
-+                                 capture: true,
-+                                 install: true,
-+                                 install_dir: config_host['qemu_datadir'])
+ LINK = $(call quiet-command, $(LINKPROG) $(CFLAGS) $(QEMU_LDFLAGS) -o $@ \
+        $(call process-archive-undefs, $1) \
+-       $(version-obj-y) $(call extract-libs,$1) $(LIBS),"LINK","$(TARGET_DIR)$@")
++       $(call extract-libs,$1) $(LIBS),"LINK","$(TARGET_DIR)$@")
  
- foreach d : [
-   ['generated-tcg-tracers.h', 'tcg-h'],
+ %.o: %.S
+ 	$(call quiet-command,$(CCAS) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
 -- 
 1.8.3.1
 
