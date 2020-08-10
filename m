@@ -2,104 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D100240835
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:12:54 +0200 (CEST)
-Received: from localhost ([::1]:40348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DB72408DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:26:05 +0200 (CEST)
+Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k59Tp-0004zk-Df
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
+	id 1k59gZ-0002vP-Tf
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k59SK-0004Rc-Vl
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:11:20 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59869
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k59SI-00051W-0p
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:11:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597072276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ACNWXQZkVsuEuqzOVp4dtkD+dF16gboF+EqWOk1w4LI=;
- b=T63XNbDBsokuXWLkNAwDrr67BbhRrSsvzW2r9b0vNAJsg2UV/e9kwnGfivMsRvHX3uydVb
- CSxG43rbV78qdcbmsVCjy0ntg9qSCnX3nq9TDIRyBe4547x+j38wzpPFHMkKq/ls9/zcix
- Vqww3G8JhJX2n9GZKyJaeEwKPDySO1Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-cayUa2pCMGmo79SCwgB5Bg-1; Mon, 10 Aug 2020 11:11:13 -0400
-X-MC-Unique: cayUa2pCMGmo79SCwgB5Bg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 744ED1326E1;
- Mon, 10 Aug 2020 15:11:11 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-36.ams2.redhat.com
- [10.36.113.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D89056F120;
- Mon, 10 Aug 2020 15:11:09 +0000 (UTC)
-Subject: Re: [PATCH for-5.1 v2 2/2] iotests: add test for unaligned
- granularity bitmap backup
-To: Stefan Reiter <s.reiter@proxmox.com>, qemu-block@nongnu.org
-References: <20200810095523.15071-1-s.reiter@proxmox.com>
- <20200810095523.15071-2-s.reiter@proxmox.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <941940d2-370d-0452-83c8-969a41f83c72@redhat.com>
-Date: Mon, 10 Aug 2020 17:11:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k59fe-0002Lc-H1
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:25:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k59fc-0006lq-6C
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 11:25:06 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k59fa-0004Fd-DW
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 15:25:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 026BF2E80D2
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 15:25:02 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200810095523.15071-2-s.reiter@proxmox.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 04:13:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 10 Aug 2020 15:12:42 -0000
+From: Steve Dodd <1594394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anarchetic jrtc27 kb9vqf laurent-vivier legoll
+ pmaydell
+X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
+X-Launchpad-Bug-Modifier: Steve Dodd (anarchetic)
+References: <20160620140124.12349.60184.malonedeb@wampee.canonical.com>
+Message-Id: <159707236238.5741.11561856239872936291.malone@soybean.canonical.com>
+Subject: [Bug 1594394] Re: Using setreuid / setegid crashes x86_64 user-mode
+ target
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1bd4fb15f7110d5c06845800ec2a65856e9efb19
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 11:25:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -108,169 +75,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org
+Reply-To: Bug 1594394 <1594394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU
-Content-Type: multipart/mixed; boundary="3BuiXYvDqr6xGWQxMDUN2wl5moHXZ8JxA"
+OK, messing around with https://hub.docker.com/r/multiarch/ubuntu-core
+for quick testing, it looks like modern versions of qemu do not have
+this bug - I used the test case from Bug #1815911 (which I think is
+probably a duplicate) and cannot reproduce with:
 
---3BuiXYvDqr6xGWQxMDUN2wl5moHXZ8JxA
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+REPOSITORY                            TAG           IMAGE ID      CREATED  =
+       SIZE
+docker.io/multiarch/ubuntu-core       armhf-bionic  78064abebdab  41 minute=
+s ago  52 MB
 
-(Note: When submitting a patch series with multiple patches, our
-guidelines require a cover letter:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Include_a_meaningful_cover_le=
-tter
+Which seems to use "qemu-arm version 5.0.0 (qemu-5.0.0-2.fc33)"
 
-But not too important now.)
+If copy in the ancient qemu-arm-static that ships with Bionic by default
+the error returns.
 
-On 10.08.20 11:55, Stefan Reiter wrote:
-> Start a VM with a 4097 byte image attached, add a 4096 byte granularity
-> dirty bitmap, mark it dirty, and then do a backup.
->=20
-> This used to run into an assert and fail, check that it works as
-> expected and also check the created image to ensure that misaligned
-> backups in general work correctly.
->=20
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> ---
->=20
-> I saw Andrey's big series covering iotest 303 so I went for 304.
+So I guess this can be closed, but would be nice to know which commit
+fixed this, for cherrypicking ..
 
-Works for me.
+-- =
 
-> Never submitted
-> one before so I hope that's okay, if not feel free to renumber it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1594394
 
-Yep, if there=E2=80=99s a clash I tend to just renumber it when applying it=
-.
+Title:
+  Using setreuid / setegid crashes x86_64 user-mode target
 
->  tests/qemu-iotests/304     | 68 ++++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/304.out |  2 ++
->  tests/qemu-iotests/group   |  1 +
->  3 files changed, 71 insertions(+)
->  create mode 100755 tests/qemu-iotests/304
->  create mode 100644 tests/qemu-iotests/304.out
->=20
-> diff --git a/tests/qemu-iotests/304 b/tests/qemu-iotests/304
-> new file mode 100755
-> index 0000000000..9a3b0224fa
-> --- /dev/null
-> +++ b/tests/qemu-iotests/304
-> @@ -0,0 +1,68 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Tests dirty-bitmap backup with unaligned bitmap granularity
-> +#
-> +# Copyright (c) 2020 Proxmox Server Solutions
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +# owner=3Ds.reiter@proxmox.com
-> +
-> +import iotests
-> +from iotests import qemu_img_create, qemu_img_log, file_path
-> +
-> +iotests.script_initialize(supported_fmts=3D['qcow2'],
-> +                          supported_protocols=3D['file'])
-> +
-> +test_img =3D file_path('test.qcow2')
-> +target_img =3D file_path('target.qcow2')
-> +
-> +# unaligned by one byte
-> +image_len =3D 4097
-> +bitmap_granularity =3D 4096
-> +
-> +qemu_img_create('-f', iotests.imgfmt, test_img, str(image_len))
-> +
-> +# create VM and add dirty bitmap
-> +vm =3D iotests.VM().add_drive(test_img)
-> +vm.launch()
-> +
-> +vm.qmp('block-dirty-bitmap-add', **{
-> +    'node': 'drive0',
-> +    'name': 'bitmap0',
-> +    'granularity': bitmap_granularity
-> +})
-> +
-> +# mark entire bitmap as dirty
-> +vm.hmp_qemu_io('drive0', 'write -P0x16 0 4096');
-> +vm.hmp_qemu_io('drive0', 'write -P0x17 4097 1');
+Status in QEMU:
+  New
 
-s/4097/4096/?
+Bug description:
+  When setreuid() or setegid() are called from x86_64 target code in
+  user mode, qemu crashes inside the NPTL signal handlers.  x86 targets
+  do not directly use a syscall to handle setreuid() / setegid();
+  instead the x86 NPTL implementation sets up a temporary data region in
+  memory (__xidcmd) and issues a signal (SIGRT1) to all threads,
+  allowing the handler for that signal to issue the syscall.  Under
+  qemu, __xidcmd remains null (see variable display below backtrace).
 
-(4097 works, too, because of something somewhere aligning up the 4097 to
-512 byte sectors, I suppose, but I don=E2=80=99t think it=E2=80=99s the add=
-ress you want
-here)
+  Backtrace:
+  Program received signal SIGSEGV, Segmentation fault.
+  [Switching to Thread 0x3fff85c74fc0 (LWP 74517)]
+  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d08, c=
+tx=3D0x3fff85c71f90) at nptl-init.c:263
+  263     nptl-init.c: No such file or directory.
+  (gdb) thread apply all bt
 
-> +
-> +# do backup and wait for completion
-> +vm.qmp('drive-backup', **{
-> +    'device': 'drive0',
-> +    'sync': 'full',
-> +    'target': target_img,
-> +    'bitmap': 'bitmap0',
-> +    'bitmap-mode': 'on-success'
+  Thread 3 (Thread 0x3fff87e8efc0 (LWP 74515)):
+  #0  0x00000000601cc430 in syscall ()
+  #1  0x0000000060109080 in futex_wait (val=3D<optimized out>, ev=3D<optimi=
+zed out>) at /build/qemu/util/qemu-thread-posix.c:292
+  #2  qemu_event_wait (ev=3D0x62367bb0 <rcu_call_ready_event>) at /build/qe=
+mu/util/qemu-thread-posix.c:399
+  #3  0x000000006010f73c in call_rcu_thread (opaque=3D<optimized out>) at /=
+build/qemu/util/rcu.c:250
+  #4  0x0000000060176f8c in start_thread (arg=3D0x3fff87e8efc0) at pthread_=
+create.c:336
+  #5  0x00000000601cebf4 in clone ()
 
-The bitmap is unnecessary, isn=E2=80=99t it?  I.e., if I drop the
-block-dirty-bitmap-add call and the bitmap* parameters here, I still get
-an assertion failure without patch 1.
+  Thread 2 (Thread 0x3fff85c74fc0 (LWP 74517)):
+  #0  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d0=
+8, ctx=3D0x3fff85c71f90) at nptl-init.c:263
+  #1  <signal handler called>
+  #2  0x00000000601cc42c in syscall ()
+  #3  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
+0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
+imized out>) at /build/qemu/linux-user/syscall.c:748
+  #4  do_futex (val3=3D<optimized out>, uaddr2=3D275186650880, timeout=3D0,=
+ val=3D1129, op=3D128, uaddr=3D275186651116) at /build/qemu/linux-user/sysc=
+all.c:6201
+  #5  do_syscall (cpu_env=3D0x1000abfd350, num=3D<optimized out>, arg1=3D27=
+5186651116, arg2=3D<optimized out>, arg3=3D1129, arg4=3D0, arg5=3D275186650=
+880, arg6=3D<optimized out>, arg7=3D0, arg8=3D0)
+      at /build/qemu/linux-user/syscall.c:10651
+  #6  0x00000000600347b8 in cpu_loop (env=3D0x1000abfd350) at /build/qemu/l=
+inux-user/main.c:317
+  #7  0x0000000060036ae0 in clone_func (arg=3D0x3fffc4c2ca38) at /build/qem=
+u/linux-user/syscall.c:5445
+  #8  0x0000000060176f8c in start_thread (arg=3D0x3fff85c74fc0) at pthread_=
+create.c:336
+  #9  0x00000000601cebf4 in clone ()
 
-Not that it really matters, it=E2=80=99s just that this makes it look like =
-less
-of an issue than it actually is.  (Which is why I=E2=80=99d drop the bitmap
-stuff in case there=E2=80=99s no actual reason for it.)
+  Thread 1 (Thread 0x1000aa05000 (LWP 74511)):
+  #0  0x00000000601cc430 in syscall ()
+  #1  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
+0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
+imized out>) at /build/qemu/linux-user/syscall.c:748
+  #2  do_futex (val3=3D<optimized out>, uaddr2=3D1, timeout=3D0, val=3D1, o=
+p=3D128, uaddr=3D275078324992) at /build/qemu/linux-user/syscall.c:6201
+  #3  do_syscall (cpu_env=3D0x1000aa23890, num=3D<optimized out>, arg1=3D27=
+5078324992, arg2=3D<optimized out>, arg3=3D1, arg4=3D0, arg5=3D1, arg6=3D<o=
+ptimized out>, arg7=3D0, arg8=3D0) at /build/qemu/linux-user/syscall.c:10651
+  #4  0x00000000600347b8 in cpu_loop (env=3D0x1000aa23890) at /build/qemu/l=
+inux-user/main.c:317
+  #5  0x00000000600020e4 in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>) at /build/qemu/linux-user/main.c:4779
+  (gdb) p __xidcmd
+  $1 =3D (struct xid_command *) 0x0
 
-> +})
-> +
-> +event =3D vm.event_wait(name=3D'BLOCK_JOB_COMPLETED',
-> +                      match=3D{'data': {'device': 'drive0'}},
-> +                      timeout=3D5.0)
-
-(By the way, =E2=80=9Cvm.run_job('drive0', auto_dismiss=3DTrue)=E2=80=9D wo=
-uld have worked
-as well.  But since the backup job just needs waiting for a single
-event, I suppose it doesn=E2=80=99t matter.  Just a hint in case you start
-writing more iotests in the future.)
-
-Max
-
-
---3BuiXYvDqr6xGWQxMDUN2wl5moHXZ8JxA--
-
---WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8xY4wACgkQ9AfbAGHV
-z0Ba9wgAsvl8LBhowKf4fohi3/oUOBpxbqouPFrX8cdfuRpA34wJL5qN16kPXxhg
-/4+mTiEBHjSBg+jc3InCXhzMfUGgqnA+hu6ZDoCMwPgTjPfj8zMYQuR20YxJpXDs
-YlUSKbagS/E6S93mv765Jif+A19zUBDN6hJ8E/fCu6sA5vxbUO13o+PPcUvEqigQ
-p9fHSl/kR3ymz/pemo7spJgUYs/t3/gguxwSeedYEY3LBb4Ibl+4Jw3gW9N0yQp+
-30Ab0R7pNuR5Li/a9J5LwgRIzeHa4r4B+kGFHUukTDiLOtazMacxe3z4DIldxQWQ
-Hwab2wwcHN39L7UW2vtjv9iPvKN+uA==
-=Bo55
------END PGP SIGNATURE-----
-
---WwZSkP09Y8LVE4jLrxmHjmMAKqKWsBAqU--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1594394/+subscriptions
 
