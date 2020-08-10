@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3369B241125
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:51:09 +0200 (CEST)
-Received: from localhost ([::1]:57138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3E7241128
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 21:51:45 +0200 (CEST)
+Received: from localhost ([::1]:60854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Dp5-0000Bo-S5
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
+	id 1k5Dpg-0001jb-3y
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 15:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5Dnw-0007WS-P7
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:49:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k5Dnu-0004fO-TI
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:49:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597088993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IQeleJRoD9V0GWn68LG4tE0qSm3PsHuZMohv7KFMM2M=;
- b=OHb9zqpnbBhFney6aBQ8jKPNRwcmX5s7C8eDnebY6RrFbtbLKW9akoT+VjAfT5Trk7eJN9
- RXHzsEC3JhyyNr6c/L6FT5NrDbRQX4SQl1eIPWJW4UnMOtfbtcAc1x6nUQVW0/pvZlwJc7
- AtXa5fZtadJg2mkwnk61C7NrWDBHyno=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-qBzLsy1sO4SXCoxbYqFzNA-1; Mon, 10 Aug 2020 15:49:51 -0400
-X-MC-Unique: qBzLsy1sO4SXCoxbYqFzNA-1
-Received: by mail-wr1-f70.google.com with SMTP id z7so4616110wrw.21
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:49:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k5DoT-0008Rl-5e
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:29 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:33968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k5DoO-0004iS-FL
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 15:50:28 -0400
+Received: by mail-wm1-x329.google.com with SMTP id c19so656749wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 12:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xcEo0fp6CBFh276nl/6kLab5MtELflMN3HnoC47o0W0=;
+ b=tadt3Psip72YGJ8bh9EqUMKNY5GeF7bFH4yvOV4LMdu4PCPCHsIEwRUHpj7IZeLVRW
+ 91lkkzrHBXJdr1m2F+deCddJYqpKrESZKwRCM5aftwPzi6U/iGlhOwiqjRANmVMd3SOZ
+ OwSBhLwdhqSLOzvjLg5HpuAUy3B5QgI2/iX7g+LVuNfBiGC0zA0x5aLAjGzZz7jR5/SI
+ S2LQBkvwpEpTkO7Y9DOp5O6OvK2YtQ6/P5K5OADUtKx8gLKTjyDTvOkuotpf5aCcq2Jc
+ uAxN0vSrD17tSqZ3wuXrbFMHhSUugDpptBGUrepW8qbApGh++4v/PFmGBAM6a+XfeaUJ
+ 4zUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IQeleJRoD9V0GWn68LG4tE0qSm3PsHuZMohv7KFMM2M=;
- b=PskNuS6yj+4+b5RPk/2XnueZ3hXiZ75P/rs6kj7UGXetVYKUGmbLy952BKgjVr1Lsd
- emwxj7fO075baWlUkY+M9Q05QYLroA8wIHtv4/TlCAFm3PZkalmUjNLWQwocC6VoZ5QT
- coMir1+9Y0DR9W1Bw7VeimQ2h2iMps4s6awUaAtpHaaO1k19owC/Ku5ROfFSaKWWACxM
- ooomiZQ+8470ejkMB80GRKVNCQiEWODzs7KV9Zwhufiuqr1r5HPNjMyzeDNY+g9il8HI
- LyHli0dmdgXIoj33InJ7fHDaJcgQOPOvEcFjiN/oKCqyz/grcBBXrLZv3scvFs2Wg9xe
- rLhw==
-X-Gm-Message-State: AOAM532nGtVntU8RWa4cQLuo2/EmxVThwK+oFACbddgMULSRH9U/RGpl
- gPhBrAP9ShmacqrrYiwOXIuVtnKGLEYNZHl4vma+2e5NC1M47AEJ2DhoiapbRc+HIdDZ0nhJl7m
- ggGQJI8yakLIeA7Q=
-X-Received: by 2002:a5d:6702:: with SMTP id o2mr25597043wru.364.1597088990563; 
- Mon, 10 Aug 2020 12:49:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIQ6Z6ETtJ6t/T65BBbV66EKUaHTCCZg8xpUGFlnXLINJtphVxZ89cAsp483viGD7/lZvcdA==
-X-Received: by 2002:a5d:6702:: with SMTP id o2mr25597025wru.364.1597088990297; 
- Mon, 10 Aug 2020 12:49:50 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5d6c:f50:4462:5103?
- ([2001:b07:6468:f312:5d6c:f50:4462:5103])
- by smtp.gmail.com with ESMTPSA id z6sm23431833wrs.36.2020.08.10.12.49.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Aug 2020 12:49:49 -0700 (PDT)
-Subject: Re: [PATCH 000/147] Meson integration for 5.2
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA_icj94N6eotg9W7FutXTY_6U-Ak6pJMyYH0n9eggunrg@mail.gmail.com>
- <CAFEAcA8smstwpQUD9UJzMuE6Cq2WutQzBPrKLLs=3wvfXUmpUg@mail.gmail.com>
- <b710345e-1644-782a-44a9-537493b85d95@redhat.com>
- <CAFEAcA9v7jv=SYZ0NLeSkjoM3da-apeu4OC5BMmorxMue0-viQ@mail.gmail.com>
- <6a82c3b5-037f-7cd7-68fd-0fffd8eff192@redhat.com>
- <CAFEAcA8xB=vOLvj_w9iTWWKh6kwu7fWN8QUbVAYunRdnJG0Qmg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4bbf807f-6ff0-66b5-ac13-65f2bc954d9c@redhat.com>
-Date: Mon, 10 Aug 2020 21:49:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ bh=xcEo0fp6CBFh276nl/6kLab5MtELflMN3HnoC47o0W0=;
+ b=RfTZIr/rVxWrL65x83GFtYA7gt6lqXVWHInLprcmMg+xXTAZVWsLYyicsO2Diryn/4
+ 1+mOe3/E/zAc2PGdzIakoI2ehKka5myYlXuJ7RzB1KL7RvTSpe2uTcDOQHWjOJ7oMn2o
+ rjwlx4WOCKbg6EKQArveUJ+vMG2dUEbIDHwWPtIENyXs442KEsu5LayQt4sW5n7Xu+i/
+ aT2oARDU/SIGPf/dFHrb6Jqoh8jOhP5/TKGej+rjSG1c1J6+P2jtukb3DQNXnEEF/a+n
+ 5CBNDKy55JL5dZrnoNDb5AwbZgJIKCWC5ke1epXI5J0IijmE7ZjMw4YL1tx1i46c64+D
+ SIbA==
+X-Gm-Message-State: AOAM530E9c7mdG70BYwF0J5Z75Db+tHUDWi1U59aJ7V05ElZj8UF3a78
+ jjexJVxI/y2ZcNDIrhP0cz0/VuueO01E+A==
+X-Google-Smtp-Source: ABdhPJzuvqK1Iz8wDe7hdY8Oh5tPkySqWyrPNAwMHUfVr5wEO8CsjaonPK3qRyPg5ODpvJxbFExJ7A==
+X-Received: by 2002:a1c:bdd7:: with SMTP id n206mr500807wmf.1.1597089022072;
+ Mon, 10 Aug 2020 12:50:22 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id b129sm976087wmb.29.2020.08.10.12.50.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Aug 2020 12:50:21 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/20] Convert QAPI doc comments to generate rST instead of
+ texinfo
+Date: Mon, 10 Aug 2020 20:49:59 +0100
+Message-Id: <20200810195019.25427-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8xB=vOLvj_w9iTWWKh6kwu7fWN8QUbVAYunRdnJG0Qmg@mail.gmail.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 13:09:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,28 +83,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/20 21:45, Peter Maydell wrote:
->> Note that if you don't install it, you just get the previous behavior
->> (plus a warning).  But if you want that, it would be simply "gettext" I
->> guess.  You're using tests/vm/*bsd right?
-> Yes. Unless there's a strong reason for testing the no-gettext
-> configuration via the BSD VMs it seems like we might as well
-> just install the dependency. Silencing the warning would be
-> nice as well if the lack of it isn't actually problematic.
-> 
+This series switches all our QAPI doc comments over from
+texinfo format to rST. It then removes all the texinfo
+machinery, because this was the last user of texinfo.
 
-No, I think the warning is valid.  Silencing it would be predicated on
---disable-gettext or something like that.  I'll just add the dependency.
+This is largely just a rebase of patchset v4 to current master.
+I've had to add three new patches at the front which fix
+up newly added QAPI doc comment deviations from the
+tightened-up indent rules that the rST conversion requires.
+In a couple of places where Markus had already reviewed
+patches with a 'reviewed-by with these minor commit message
+fixes' I've made the fixes and added his r-by tag.
 
-Paolo
+I've sent this out to the mailing list since I've done the
+rebase-work anyway and it seems more useful to review this
+than v4. I haven't bothered to re-generate the "here's what
+the rendered HTML looks like" since v4, though I can do that
+if useful.
+
+Also available as a git branch at
+https://git.linaro.org/people/peter.maydell/qemu-arm.git sphinx-conversions-v5
+
+thanks
+-- PMM
+
+
+Below is the same old text from the v3 cover letter, just
+for convenience:
+
+The basic approach is somewhat similar to how we deal with kerneldoc
+and hxtool: we have a custom Sphinx extension which is passed a
+filename which is the json file it should run the QAPI parser over and
+generate documentation for. Unlike 'kerneldoc' but somewhat like
+hxtool, I have chosed to generate documentation by generating a tree
+of docutils nodes, rather than by generating rST source that is then
+fed to the rST parser to generate docutils nodes.  Individual lumps of
+doc comment go to the rST parser, but the structured parts we render
+directly. This makes it easier to get the structure and heading level
+nesting correct.
+
+Rather than trying to exactly handle all the existing comments I have
+opted (as Markus suggested) to tweak them where this seemed more
+sensible than contorting the rST generator to deal with
+weirdnesses. The principal changes are:
+ * whitespace is now significant, and multiline definitions must have
+   their second and subsequent lines indented to match the first line
+ * general rST format markup is permitted, not just the small set of
+   markup the old texinfo generator handled. For most things (notably
+   bulleted and itemized lists) the old format is the same as rST was.
+ * Specific things that might trip people up:
+   - instead of *bold* and _italic_ rST has **bold** and *italic*
+   - lists need a preceding and following blank line
+   - a lone literal '*' will need to be backslash-escaped to
+     avoid a rST syntax error
+ * the old leading '|' for example (literal text) blocks is replaced
+   by the standard rST '::' literal block.
+ * headings and subheadings must now be in a freeform documentation
+   comment of their own
+ * we support arbitrary levels of sub- and sub-sub-heading, not just a
+   main and sub-heading like the old texinfo generator
+ * as a special case, @foo is retained and is equivalent to ``foo``
+Moving on to the actual code changes:
+ * we start by changing the existing parser code to be more careful
+   with leading whitespace: instead of stripping it all, it strips
+   only the amount required for indented multiline definitions, and
+   complains if it finds an unexpected de-indent. The texinfo
+   generator code is updated to do whitespace stripping itself, so
+   there is no change to the generated texi source.
+ * then we add the new qapidoc Sphinx extension, which is not yet used
+   by anything. This is a 500 line script, all added in one patch. I
+   can split it if people think that would help, but I'm not sure I
+   see a good split point.
+ * then we can convert the two generated reference documents, one at a
+   time. This is mostly just updating makefile rules and the like.
+ * after that we can do some minor tweaks to doc comments that would
+   have confused the texinfo parser: changing our two instances of
+   '|'-markup literal blocks to rST '::' literal blocks, and adding
+   some headings to the GA reference so the rST interop manual ToC
+   looks better.
+ * finally, we can delete the old texinfo machinery and update the
+   markup docs in docs/devel/qapi-code-gen.txt
+
+On headings:
+
+Because the rST generator works by assembling a tree of docutils
+nodes, it needs to know the structure of the document, in the
+sense that it wants to know that there is a "section with a level
+1 heading titled Foo", which contains "section with a level 2
+heading titled Bar", which in turn contains the documentation for
+commands Baz, Boz, Buz. This means we can't follow the texinfo
+generator's approach of just treating '= Foo' as another kind
+of markup to be turned into a '@section' texinfo and otherwise
+just written out into the output stream. Instead we need to
+be able to distinguish "this is a level 1 section heading"
+from any other kind of doc-comment, and the user shouldn't be
+able to insert directives specifying changes in the document
+structure randomly in the middle of what would otherwise be a
+lump of "just rST source to be fed to a rST parser".
+The approach I've taken to letting the generator know the structure
+is to special-case headings into "must be in their own freeform
+doc-comment as a single line", like this:
+ ##
+ # = Foo
+ ##
+This is easy to spot in the 'freeform' method, and matches how
+we already mark up headings in almost all cases. An alternative
+approach would be to have parser.py detect heading markup, so
+that instead of
+        for doc in schema.docs:
+            if doc.symbol:
+                vis.symbol(doc, schema.lookup_entity(doc.symbol))
+            else:
+                vis.freeform(doc)
+(ie "everything the parser gives you is either documenting
+a symbol, or it is a freefrom comment") we have:
+        for doc in schema.docs:
+            if doc.symbol:
+                vis.symbol(doc, schema.lookup_entity(doc.symbol))
+            else if doc.is_section_header:
+                vis.new_section(doc.heading_text, doc.heading_level)
+            else:
+                vis.freeform(doc)
+(ie "everything the parser gives you is either documenting
+a symbol, or a notification about the structure of the document,
+or a freeform comment".) I feel that would be less simple than
+we currently have, though.
+
+There are a few things I have left out of this initial series:
+ * unlike the texinfo, there is no generation of index entries
+   or an index in the HTML docs
+ * although there are HTML anchors on all the command/object/etc
+   headings, they are not stable but just serial-number based
+   tags like '#qapidoc-35', so not suitable for trying to link
+   to from other parts of the docs
+ * unlike the old texinfo generation, we make no attempt to regression
+   test the rST generation in 'make check'. This is trickier than
+   the texinfo equivalent, because we never generate rST source
+   that we could compare against a golden reference. Comparing
+   against generated HTML is liable to break with new Sphinx
+   versions; trying to compare the data structure of docutils nodes
+   would be a bit more robust but would require a bunch of code to
+   mock up running Sphinx somehow.
+
+My view is that we can add niceties like this later; the series
+already seems big enough to me.
+
+
+
+
+Peter Maydell (20):
+  qapi/migration.json: Fix indentation
+  qapi: Fix indentation, again
+  qapi/block-core.json: Fix nbd-server-start docs
+  qapi/qapi-schema.json: Put headers in their own doc-comment blocks
+  qapi/machine.json: Escape a literal '*' in doc comment
+  tests/qapi/doc-good.json: Prepare for qapi-doc Sphinx extension
+  scripts/qapi: Move doc-comment whitespace stripping to doc.py
+  scripts/qapi/parser.py: improve doc comment indent handling
+  docs/sphinx: Add new qapi-doc Sphinx extension
+  docs/interop: Convert qemu-ga-ref to rST
+  docs/interop: Convert qemu-qmp-ref to rST
+  qapi: Use rST markup for literal blocks
+  qga/qapi-schema.json: Add some headings
+  scripts/qapi: Remove texinfo generation support
+  docs/devel/qapi-code-gen.txt: Update to new rST backend conventions
+  Makefile: Remove redundant Texinfo related rules
+  scripts/texi2pod: Delete unused script
+  Remove Texinfo related files from .gitignore and git.orderfile
+  configure: Drop texinfo requirement
+  Remove texinfo dependency from docker and CI configs
+
+ docs/conf.py                               |   6 +-
+ docs/devel/qapi-code-gen.txt               |  90 ++--
+ docs/index.html.in                         |   2 -
+ docs/interop/conf.py                       |   4 +
+ docs/interop/index.rst                     |   2 +
+ docs/interop/qemu-ga-ref.rst               |   4 +
+ docs/interop/qemu-ga-ref.texi              |  80 ---
+ docs/interop/qemu-qmp-ref.rst              |   4 +
+ docs/interop/qemu-qmp-ref.texi             |  80 ---
+ docs/sphinx/qapidoc.py                     | 504 +++++++++++++++++++
+ configure                                  |  12 +-
+ Makefile                                   |  86 +---
+ rules.mak                                  |  14 +-
+ qapi/audio.json                            |  12 +-
+ qapi/block-core.json                       |  30 +-
+ qapi/control.json                          |   4 +-
+ qapi/machine.json                          |   8 +-
+ qapi/migration.json                        |  68 +--
+ qapi/misc.json                             |   4 +-
+ qapi/net.json                              |   2 +-
+ qapi/qapi-schema.json                      |  18 +-
+ qga/qapi-schema.json                       |  12 +-
+ .gitignore                                 |  15 -
+ .travis.yml                                |   1 -
+ MAINTAINERS                                |   3 +-
+ scripts/checkpatch.pl                      |   2 +-
+ scripts/git.orderfile                      |   1 -
+ scripts/qapi-gen.py                        |   2 -
+ scripts/qapi/doc.py                        | 301 ------------
+ scripts/qapi/gen.py                        |   7 -
+ scripts/qapi/parser.py                     |  93 +++-
+ scripts/texi2pod.pl                        | 536 ---------------------
+ tests/Makefile.include                     |  15 +-
+ tests/docker/dockerfiles/debian10.docker   |   1 -
+ tests/docker/dockerfiles/debian9.docker    |   1 +
+ tests/docker/dockerfiles/fedora.docker     |   1 -
+ tests/docker/dockerfiles/ubuntu.docker     |   1 -
+ tests/docker/dockerfiles/ubuntu1804.docker |   1 -
+ tests/docker/dockerfiles/ubuntu2004.docker |   1 -
+ tests/qapi-schema/doc-good.json            |  25 +-
+ tests/qapi-schema/doc-good.out             |  22 +-
+ tests/qapi-schema/doc-good.texi            | 319 ------------
+ 42 files changed, 784 insertions(+), 1610 deletions(-)
+ create mode 100644 docs/interop/qemu-ga-ref.rst
+ delete mode 100644 docs/interop/qemu-ga-ref.texi
+ create mode 100644 docs/interop/qemu-qmp-ref.rst
+ delete mode 100644 docs/interop/qemu-qmp-ref.texi
+ create mode 100644 docs/sphinx/qapidoc.py
+ delete mode 100644 scripts/qapi/doc.py
+ delete mode 100755 scripts/texi2pod.pl
+ delete mode 100644 tests/qapi-schema/doc-good.texi
+
+-- 
+2.20.1
 
 
