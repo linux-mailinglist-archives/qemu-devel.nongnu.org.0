@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51A4240B7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 18:57:48 +0200 (CEST)
-Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C848E240B86
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 18:59:28 +0200 (CEST)
+Received: from localhost ([::1]:39700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5B7L-0002sT-QC
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 12:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1k5B8x-0005ua-QS
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 12:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5B4u-0006yT-KZ
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:55:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46625
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5B53-00074X-Cd
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:55:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39044
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5B4r-0000nk-PT
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:55:16 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5B50-0000tn-Ug
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:55:25 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-Kk3b-ToDNXS291tDU34NoA-1; Mon, 10 Aug 2020 12:55:11 -0400
-X-MC-Unique: Kk3b-ToDNXS291tDU34NoA-1
+ us-mta-65-QTaOuewSOO2MZ5k5NF254A-1; Mon, 10 Aug 2020 12:55:18 -0400
+X-MC-Unique: QTaOuewSOO2MZ5k5NF254A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24C771005504;
- Mon, 10 Aug 2020 16:55:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DEA78005B0;
+ Mon, 10 Aug 2020 16:55:17 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-38.ams2.redhat.com [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F5226111F;
- Mon, 10 Aug 2020 16:55:09 +0000 (UTC)
-Subject: [PATCH 11/14] ppc/xive: Fix error handling in vmstate_xive_tctx_*()
- callbacks
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4692A6111F;
+ Mon, 10 Aug 2020 16:55:16 +0000 (UTC)
+Subject: [PATCH 12/14] spapr/xive: Simplify error handling in
+ kvmppc_xive_connect()
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 10 Aug 2020 18:55:08 +0200
-Message-ID: <159707850840.1489912.14912810818646455474.stgit@bahia.lan>
+Date: Mon, 10 Aug 2020 18:55:15 +0200
+Message-ID: <159707851537.1489912.1030839306195472651.stgit@bahia.lan>
 In-Reply-To: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
 References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.31.120; envelope-from=groug@kaod.org;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
+Received-SPF: softfail client-ip=207.211.31.81; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 04:13:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -12
 X-Spam_score: -1.3
@@ -75,59 +73,103 @@ Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that kvmppc_xive_cpu_get_state() and kvmppc_xive_cpu_set_state()
-return negative errnos on failures, use that instead local_err because
-it is the recommended practice. Also return that instead of -1 since
-vmstate expects negative errnos.
+Now that all these functions return a negative errno on failure, check
+that and get rid of the local_err boilerplate.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/xive.c |   14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/intc/spapr_xive_kvm.c |   24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index a453e8f4dcbe..17ca5a1916b4 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -695,12 +695,13 @@ static int vmstate_xive_tctx_pre_save(void *opaque)
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 005729ebffed..e9a36115bed6 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -723,12 +723,12 @@ int kvmppc_xive_connect(SpaprInterruptController *int=
+c, uint32_t nr_servers,
  {
-     XiveTCTX *tctx =3D XIVE_TCTX(opaque);
-     Error *local_err =3D NULL;
+     SpaprXive *xive =3D SPAPR_XIVE(intc);
+     XiveSource *xsrc =3D &xive->source;
+-    Error *local_err =3D NULL;
+     size_t esb_len =3D xive_source_esb_len(xsrc);
+     size_t tima_len =3D 4ull << TM_SHIFT;
+     CPUState *cs;
+     int fd;
+     void *addr;
 +    int ret;
 =20
-     if (xive_in_kernel(tctx->xptr)) {
--        kvmppc_xive_cpu_get_state(tctx, &local_err);
--        if (local_err) {
-+        ret =3D kvmppc_xive_cpu_get_state(tctx, &local_err);
+     /*
+      * The KVM XIVE device already in use. This is the case when
+@@ -754,9 +754,10 @@ int kvmppc_xive_connect(SpaprInterruptController *intc=
+, uint32_t nr_servers,
+     /* Tell KVM about the # of VCPUs we may have */
+     if (kvm_device_check_attr(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
+                               KVM_DEV_XIVE_NR_SERVERS)) {
+-        if (kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
+-                              KVM_DEV_XIVE_NR_SERVERS, &nr_servers, true,
+-                              &local_err)) {
++        ret =3D kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
++                                KVM_DEV_XIVE_NR_SERVERS, &nr_servers, true=
+,
++                                errp);
 +        if (ret < 0) {
-             error_report_err(local_err);
--            return -1;
-+            return ret;
+             goto fail;
+         }
+     }
+@@ -764,8 +765,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc,=
+ uint32_t nr_servers,
+     /*
+      * 1. Source ESB pages - KVM mapping
+      */
+-    addr =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, esb_len,
+-                            &local_err);
++    addr =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, esb_len, err=
+p);
+     if (addr =3D=3D MAP_FAILED) {
+         goto fail;
+     }
+@@ -783,8 +783,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc,=
+ uint32_t nr_servers,
+     /*
+      * 3. TIMA pages - KVM mapping
+      */
+-    addr =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, tima_len,
+-                            &local_err);
++    addr =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, tima_len, e=
+rrp);
+     if (addr =3D=3D MAP_FAILED) {
+         goto fail;
+     }
+@@ -802,15 +801,15 @@ int kvmppc_xive_connect(SpaprInterruptController *int=
+c, uint32_t nr_servers,
+     CPU_FOREACH(cs) {
+         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+=20
+-        kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
+-        if (local_err) {
++        ret =3D kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, errp);
++        if (ret < 0) {
+             goto fail;
          }
      }
 =20
-@@ -711,16 +712,17 @@ static int vmstate_xive_tctx_post_load(void *opaque, =
-int version_id)
- {
-     XiveTCTX *tctx =3D XIVE_TCTX(opaque);
-     Error *local_err =3D NULL;
-+    int ret;
-=20
-     if (xive_in_kernel(tctx->xptr)) {
-         /*
-          * Required for hotplugged CPU, for which the state comes
-          * after all states of the machine.
-          */
--        kvmppc_xive_cpu_set_state(tctx, &local_err);
--        if (local_err) {
-+        ret =3D kvmppc_xive_cpu_set_state(tctx, &local_err);
-+        if (ret < 0) {
-             error_report_err(local_err);
--            return -1;
-+            return ret;
-         }
+     /* Update the KVM sources */
+-    kvmppc_xive_source_reset(xsrc, &local_err);
+-    if (local_err) {
++    ret =3D kvmppc_xive_source_reset(xsrc, errp);
++    if (ret < 0) {
+         goto fail;
      }
 =20
+@@ -820,7 +819,6 @@ int kvmppc_xive_connect(SpaprInterruptController *intc,=
+ uint32_t nr_servers,
+     return 0;
+=20
+ fail:
+-    error_propagate(errp, local_err);
+     kvmppc_xive_disconnect(intc);
+     return -1;
+ }
 
 
 
