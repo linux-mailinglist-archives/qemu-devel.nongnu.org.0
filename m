@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F581240826
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:06:37 +0200 (CEST)
-Received: from localhost ([::1]:52972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDD024082B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 17:08:59 +0200 (CEST)
+Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k59Nj-0006yA-PY
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43902)
+	id 1k59Q3-0001GI-1n
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 11:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k59Mm-0006Cz-4Y; Mon, 10 Aug 2020 11:05:36 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:35562)
+ id 1k59Ow-00007C-3F; Mon, 10 Aug 2020 11:07:50 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:36947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k59Mk-0004Im-Go; Mon, 10 Aug 2020 11:05:35 -0400
-Received: by mail-io1-xd43.google.com with SMTP id s189so9229554iod.2;
- Mon, 10 Aug 2020 08:05:33 -0700 (PDT)
+ id 1k59Ou-0004YT-BW; Mon, 10 Aug 2020 11:07:49 -0400
+Received: by mail-io1-xd44.google.com with SMTP id b16so777403ioj.4;
+ Mon, 10 Aug 2020 08:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=lDUPLzsyvA/XwAAz+lyK9n7p7QxGmV13wB9lMp3EUFY=;
- b=qAKK/05jrG08GyQDb3DmbajYi6RCQPRCKDkKw940goJNLMvaoJ8w9p4J6RMpmDrJmg
- 3MnNwIvD/nziwhYDBpO5HqgsphKr0no7grlhNZ3YIq0Jj8a4BWp2E8X/QtFKjDjh7iuH
- Csxbc8I1XkyQGB3Lht5xEMs+/4EGlLZqE5T9gTp6xeQIwlFj4OlBbaCo8LktJnUG4IK+
- B/EI0icqjP3/aPdtTt5oL61wNYjzBKePiW+QC5CgEgzSUchk7bZeHO0lysuPBeFHaPJq
- 6XKLS/UsrzC5zpd6Yn6hQaMyTYA0cYX17YTFMfX4uwj0bhE5FYx3rFu+jjhy3qlCPBAX
- 00rg==
+ bh=UORo0qD+fb6kK//n4IaoPZabo4hM1LaKVGqLFNiLsCM=;
+ b=IvS9kSMrHNRAP3O6Cf08oi24rQcgES2x4xaPRzVT9OdvMm1eYNR2iNctsq1Q1T9WMa
+ ZHq0MscPK8MAj4LCDVhQULsMwE2uUdXc2VvTOusJrWCeyCHOweg7hWHDbPlk+mqhRgr1
+ 3HwbCNT0d656Wf97+8Df3qRarlcBT49ROkDqtVLtGvdouPWZR+LgYqVhNJfrxoVHhSUf
+ n2AY+oeOX6lLElyFTc2sDi12xRAeGYylt5Nil5mM/6Xrft/682ul8WW0wO8v/+PFHb6L
+ YlD2NNSHY59mm4XcerBW5OQ0tJmXlFxV/ArUXvkL9ULbG876WJwSzxewLwV07FfxDTTR
+ 1IIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=lDUPLzsyvA/XwAAz+lyK9n7p7QxGmV13wB9lMp3EUFY=;
- b=gjRQPjmlvUz0jD3ibSQveXhOh+B1lHU1o+6Yn5gxDm+Bxn4cpREykXLd94VM3sgXQ6
- Uea/+PZ2qRDECy/sQ6sOgeAScdyRRMniDyB3gD4gsaWBsDNBKo8827kA8pSTPnVVjU9N
- 1LrpExr/1/n60A2ZuOwffM/OlW0gBsXHPu0hjxOsVtJfOBsxWsXvmxvUcFGWeuJJD5D7
- rbmemcsKzjdQPXYRdDUyKxuvV2pzsAa8z5sC+DNYvmONd2fnDblguWpiiDHBtiPhb+qG
- BclYcpxQQ82wAA1t06NWRLSSZNS3BT0kMnLrrtmwXyEvQ+Lwc6JyTwH+FDdits4OBSW4
- XzLg==
-X-Gm-Message-State: AOAM530qEQ2DK8hJ7vKpbADH/s/SwuQil1C7XeVHaWRxNzPGz6Rmw2Vk
- 7JMfZgCzNVIt7f6Cd/Xi2QDFKt3vnazuUUg4rfs=
-X-Google-Smtp-Source: ABdhPJy3SPbV/8RwheCIB1E04mW54Io/JZK1qYQCgp5DaAyFQXSM+Q+au6I9ybi5Q4lQleRnUIw8jbgeTe6SwMUMFfc=
-X-Received: by 2002:a05:6638:248e:: with SMTP id
- x14mr20200786jat.135.1597071932164; 
- Mon, 10 Aug 2020 08:05:32 -0700 (PDT)
+ bh=UORo0qD+fb6kK//n4IaoPZabo4hM1LaKVGqLFNiLsCM=;
+ b=Y1CaVg6OQkL+3ScaxcxXHvOlrfov9b6FYWobh8ACWHYxP4RLRxDM5y+uhiFRAK4aHC
+ x1BCbxRCBTDalRUnJQlQaYQc5NlPy4+NHdNVKuxy8/3LQQRO/rtU598NOyNujiRojmk+
+ vnZRwqjqpkJmvNR8q6w4xxAvNc6Eeu07T78ggujETxsn8+Lp4e6jmDweTGulArAmlkne
+ ytDBzy/4lO93r1S8bVcXTKoCrgfUif7szG/G2Z4yQzpf6w8bGWIf1d03BSELFvaIrOws
+ MIp88c73EWXrhgkK96i38ua4oK5KHJ3fYeUXUp9yh6+o8Rc3upeWWOUoZNhqTtHE9Upc
+ cHkQ==
+X-Gm-Message-State: AOAM533PYmykAZJjkBDTxp+p3DzA0RwIWDpeiHSZ2AupghhKe/z+4Nn5
+ J+AzId0Ta8Bdd/ZUIuGd1jb58oHK8W99xg+QGGI=
+X-Google-Smtp-Source: ABdhPJxWVDJgkTz5YQ8UXbt+7h/YrujNlUbc2RsOHphs5xIbn1CWrcn4bmcQX+HPIGo8YlzD35NYZn7caiWcR0SfOjo=
+X-Received: by 2002:a05:6638:e90:: with SMTP id
+ p16mr20987154jas.26.1597072066586; 
+ Mon, 10 Aug 2020 08:07:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200803105647.22223-1-f4bug@amsat.org>
- <20200803105647.22223-2-f4bug@amsat.org>
-In-Reply-To: <20200803105647.22223-2-f4bug@amsat.org>
+ <20200803105647.22223-3-f4bug@amsat.org>
+In-Reply-To: <20200803105647.22223-3-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 10 Aug 2020 07:55:10 -0700
-Message-ID: <CAKmqyKM228r87A9+fS=KZBNun-i-knK6DAxQH+y2drD1wtrY1w@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1? 1/4] hw/arm/xilinx_zynq: Uninline
- cadence_uart_create()
+Date: Mon, 10 Aug 2020 07:57:24 -0700
+Message-ID: <CAKmqyKMUp03sZ0_Dt5hvpp14gWfza7BOSTtQ8JuHWHi7Mqo1dw@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1? 2/4] hw/arm/xilinx_zynq: Call
+ qdev_connect_clock_in() before DeviceRealize
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -96,8 +96,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Aug 3, 2020 at 3:57 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> As we want to call qdev_connect_clock_in() before the device
-> is realized, we need to uninline cadence_uart_create() first.
+> Clock canonical name is set in device_set_realized (see the block
+> added to hw/core/qdev.c in commit 0e6934f264).
+> If we connect a clock after the device is realized, this code is
+> not executed. This is currently not a problem as this name is only
+> used for trace events, however this disrupt tracing.
+>
+> Fix by calling qdev_connect_clock_in() before realizing.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -106,68 +111,63 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  include/hw/char/cadence_uart.h | 17 -----------------
->  hw/arm/xilinx_zynq.c           | 14 ++++++++++++--
->  2 files changed, 12 insertions(+), 19 deletions(-)
+>  hw/arm/xilinx_zynq.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 >
-> diff --git a/include/hw/char/cadence_uart.h b/include/hw/char/cadence_uar=
-t.h
-> index ed7b58d31d..dabc49ea4f 100644
-> --- a/include/hw/char/cadence_uart.h
-> +++ b/include/hw/char/cadence_uart.h
-> @@ -53,21 +53,4 @@ typedef struct {
->      Clock *refclk;
->  } CadenceUARTState;
->
-> -static inline DeviceState *cadence_uart_create(hwaddr addr,
-> -                                        qemu_irq irq,
-> -                                        Chardev *chr)
-> -{
-> -    DeviceState *dev;
-> -    SysBusDevice *s;
-> -
-> -    dev =3D qdev_new(TYPE_CADENCE_UART);
-> -    s =3D SYS_BUS_DEVICE(dev);
-> -    qdev_prop_set_chr(dev, "chardev", chr);
-> -    sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_mmio_map(s, 0, addr);
-> -    sysbus_connect_irq(s, 0, irq);
-> -
-> -    return dev;
-> -}
-> -
->  #endif
 > diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index 32aa7323d9..cf6d9757b5 100644
+> index cf6d9757b5..969ef0727c 100644
 > --- a/hw/arm/xilinx_zynq.c
 > +++ b/hw/arm/xilinx_zynq.c
-> @@ -254,10 +254,20 @@ static void zynq_init(MachineState *machine)
->      sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]=
-);
->      sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]=
-);
+> @@ -222,18 +222,18 @@ static void zynq_init(MachineState *machine)
+>                            1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2=
+aa,
+>                            0);
 >
-> -    dev =3D cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial=
-_hd(0));
-> +    dev =3D qdev_new(TYPE_CADENCE_UART);
-> +    busdev =3D SYS_BUS_DEVICE(dev);
-> +    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
-> +    sysbus_realize_and_unref(busdev, &error_fatal);
-> +    sysbus_mmio_map(busdev, 0, 0xE0000000);
-> +    sysbus_connect_irq(busdev, 0, pic[59 - IRQ_OFFSET]);
->      qdev_connect_clock_in(dev, "refclk",
->                            qdev_get_clock_out(slcr, "uart0_ref_clk"));
-> -    dev =3D cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial=
-_hd(1));
-> +    dev =3D qdev_new(TYPE_CADENCE_UART);
-> +    busdev =3D SYS_BUS_DEVICE(dev);
-> +    qdev_prop_set_chr(dev, "chardev", serial_hd(1));
-> +    sysbus_realize_and_unref(busdev, &error_fatal);
-> +    sysbus_mmio_map(busdev, 0, 0xE0001000);
-> +    sysbus_connect_irq(busdev, 0, pic[82 - IRQ_OFFSET]);
->      qdev_connect_clock_in(dev, "refclk",
->                            qdev_get_clock_out(slcr, "uart1_ref_clk"));
+> -    /* Create slcr, keep a pointer to connect clocks */
+> -    slcr =3D qdev_new("xilinx,zynq_slcr");
+> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(slcr), &error_fatal);
+> -    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
+> -
+>      /* Create the main clock source, and feed slcr with it */
+>      zynq_machine->ps_clk =3D CLOCK(object_new(TYPE_CLOCK));
+>      object_property_add_child(OBJECT(zynq_machine), "ps_clk",
+>                                OBJECT(zynq_machine->ps_clk));
+>      object_unref(OBJECT(zynq_machine->ps_clk));
+>      clock_set_hz(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
+> +
+> +    /* Create slcr, keep a pointer to connect clocks */
+> +    slcr =3D qdev_new("xilinx,zynq_slcr");
+>      qdev_connect_clock_in(slcr, "ps_clk", zynq_machine->ps_clk);
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(slcr), &error_fatal);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
 >
+>      dev =3D qdev_new(TYPE_A9MPCORE_PRIV);
+>      qdev_prop_set_uint32(dev, "num-cpu", 1);
+> @@ -257,19 +257,19 @@ static void zynq_init(MachineState *machine)
+>      dev =3D qdev_new(TYPE_CADENCE_UART);
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      qdev_prop_set_chr(dev, "chardev", serial_hd(0));
+> +    qdev_connect_clock_in(dev, "refclk",
+> +                          qdev_get_clock_out(slcr, "uart0_ref_clk"));
+>      sysbus_realize_and_unref(busdev, &error_fatal);
+>      sysbus_mmio_map(busdev, 0, 0xE0000000);
+>      sysbus_connect_irq(busdev, 0, pic[59 - IRQ_OFFSET]);
+> -    qdev_connect_clock_in(dev, "refclk",
+> -                          qdev_get_clock_out(slcr, "uart0_ref_clk"));
+>      dev =3D qdev_new(TYPE_CADENCE_UART);
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      qdev_prop_set_chr(dev, "chardev", serial_hd(1));
+> +    qdev_connect_clock_in(dev, "refclk",
+> +                          qdev_get_clock_out(slcr, "uart1_ref_clk"));
+>      sysbus_realize_and_unref(busdev, &error_fatal);
+>      sysbus_mmio_map(busdev, 0, 0xE0001000);
+>      sysbus_connect_irq(busdev, 0, pic[82 - IRQ_OFFSET]);
+> -    qdev_connect_clock_in(dev, "refclk",
+> -                          qdev_get_clock_out(slcr, "uart1_ref_clk"));
+>
+>      sysbus_create_varargs("cadence_ttc", 0xF8001000,
+>              pic[42-IRQ_OFFSET], pic[43-IRQ_OFFSET], pic[44-IRQ_OFFSET], =
+NULL);
 > --
 > 2.21.3
 >
