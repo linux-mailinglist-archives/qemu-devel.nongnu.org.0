@@ -2,65 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A185240527
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 13:18:28 +0200 (CEST)
-Received: from localhost ([::1]:53702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72446240537
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 13:22:11 +0200 (CEST)
+Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k55ox-0006ys-F5
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 07:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
+	id 1k55sY-0000p7-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 07:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k55nO-00060Z-DO
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:16:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33542
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k55rT-0008Pp-PC
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:21:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27160
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k55nM-0000HL-N8
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:16:50 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k55rS-0000tH-29
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 07:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597058208;
+ s=mimecast20190719; t=1597058461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tScTnjEVuwphYxuVRll+V25t9nbMWdIDFdXtVpdbdQA=;
- b=TzJD50gJ7QsONSCA5C5abEreQdhK/ohwULobS8NZYA9HH2cdB97RUwI5qa+e/MVLgVAcGj
- DmBz6WMSnFqG6ok/OWmvZTcAKn/uYC2KPmP0VCJgWXnSdHJ4k8eKM8MmJSuK7skeu1XD5+
- JM2lrzvDbRs5/w5uBzWWep+lP/6062s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-l76WE3qCOv-ls7EFM_uDSg-1; Mon, 10 Aug 2020 07:16:46 -0400
-X-MC-Unique: l76WE3qCOv-ls7EFM_uDSg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19BD3800477;
- Mon, 10 Aug 2020 11:16:45 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.194.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EBE48BD9E;
- Mon, 10 Aug 2020 11:16:43 +0000 (UTC)
-Date: Mon, 10 Aug 2020 13:16:40 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Haibo Xu <haibo.xu@linaro.org>
-Subject: Re: [PATCH 7/7] target/arm/cpu: spe: Enable spe to work with host cpu
-Message-ID: <20200810111640.ykejphmuyirncjwv@kamzik.brq.redhat.com>
-References: <cover.1596768588.git.haibo.xu@linaro.org>
- <bf909c1f4904a22be0804cae9fd6f38ba4862563.1596768588.git.haibo.xu@linaro.org>
+ bh=OXbYEs1/8+2FAcCsKigAZ+C0X28e6+vK6/uxLkuVACQ=;
+ b=IfP5xewJlmGSdU2E5cZfhMyz9+9rk/EnpZ1YTR9IzBRotsh0KG4JxThJOMGIv1K9qyXhny
+ Sxoab0gmKyp2cj2QgWoPN2gdlZ7mDPYTDcfO39sJFLExLFGRS13P/Rh4GvjQCY+39pQTP5
+ 0hD8SH4efEH6mGT8GYeDlC64K58KL5c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-HiPDeVjdOwSiVfOYlG1YnA-1; Mon, 10 Aug 2020 07:20:59 -0400
+X-MC-Unique: HiPDeVjdOwSiVfOYlG1YnA-1
+Received: by mail-wr1-f69.google.com with SMTP id 89so4082241wrr.15
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 04:20:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OXbYEs1/8+2FAcCsKigAZ+C0X28e6+vK6/uxLkuVACQ=;
+ b=BMw/kcFGe4Gqu3mBPHZe9pXAgG/2wtHjOwAZh7UjsRA2kNRVBW3E84kPvpw+/gkEST
+ LUPpRePYUvTFoU1sBRVcCdEN6tVgQ6Nnkstsr6WJgkUkGXFUUdbj/rM7cL1nX4PPNX30
+ HJw/Ks8lWhTOzlZnkYn4eh/7RLHQDVyr2GRxflqZsAFQGM0NV5EMO20uXEIWXIZQGbbo
+ Z8GeF0s9pms5UOSNte1XrBlLan7mF0i4jGTjibDbo5/GHXDRuxAojWJ1SeI9p7BhdL/U
+ qgodZrbJMjM0CSJqTx4eAwDxz9DzdJU5f+peKoF9Lo+bQp15PKwc5rqwd5NoYlugPoDw
+ c/DQ==
+X-Gm-Message-State: AOAM532iMLo6xg8TPnk1kU+A5cX4gwZvlM4OgOUxxt0c4w78NG7O9veg
+ 9ZJwWDTgUsXJ/yG4/J6Nd5tiYKo3s+K1GOFFuOezp5iEJBQT/vqWPcjxEbfdKP0kyiScLPEMNU3
+ KA8O5DqdWaH/UqMs=
+X-Received: by 2002:adf:f48d:: with SMTP id l13mr954760wro.43.1597058458338;
+ Mon, 10 Aug 2020 04:20:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwldMPKpipl4cZJzisIKYObQaa+31ij2rR9wPOQ2cAIyMFjd58UVcTnI+QU/WisDMdmAPFW1w==
+X-Received: by 2002:adf:f48d:: with SMTP id l13mr954738wro.43.1597058458106;
+ Mon, 10 Aug 2020 04:20:58 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5d6c:f50:4462:5103?
+ ([2001:b07:6468:f312:5d6c:f50:4462:5103])
+ by smtp.gmail.com with ESMTPSA id p6sm19619797wru.33.2020.08.10.04.20.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Aug 2020 04:20:57 -0700 (PDT)
+Subject: Re: [DRAFT PATCH 000/143] Meson integration for 5.2
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <1596741379-12902-1-git-send-email-pbonzini@redhat.com>
+ <20200807142939.GK120942@redhat.com>
+ <9d39936b-fd7c-6545-4ecf-03f140d13a08@redhat.com>
+ <f028dc68-400f-cb4c-bacb-0f9c46a7d2ed@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4fbd1e97-98a6-cd32-d817-8ee683f0e894@redhat.com>
+Date: Mon, 10 Aug 2020 13:20:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <bf909c1f4904a22be0804cae9fd6f38ba4862563.1596768588.git.haibo.xu@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <f028dc68-400f-cb4c-bacb-0f9c46a7d2ed@redhat.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 05:06:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:31:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,84 +105,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 07, 2020 at 08:10:37AM +0000, Haibo Xu wrote:
-> Turn on the spe cpu property by default when working with host
-> cpu type in KVM mode, i.e. we can now do '-cpu host' to add the 
-> vSPE, and '-cpu host,spe=off' to remove it. 
+On 10/08/20 12:34, Philippe Mathieu-Daudé wrote:
+>>> New binaries have lost a bunch of libraries they previously linked
+>>> to. This isn't neccessarily a bug, if the old make code was incorrectly
+>>> adding too many libraries.
+>> Yes this is because Meson uses --as-needed.
+> Maybe worth a patch at the beginning of the series, before
+> starting the conversion?
 
--cpu max with KVM should also enable it by default
+Could be, yes.  Thanks for the idea!
 
-> 
-> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
-> ---
->  target/arm/cpu.c   | 4 ++++
->  target/arm/kvm64.c | 9 +++++++++
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 67ab0089fd..42fa99953c 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1719,6 +1719,10 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          cpu->pmceid1 = 0;
->      }   
->  
-> +    if (!cpu->has_spe || !kvm_enabled()) {
-> +        unset_feature(env, ARM_FEATURE_SPE);
-> +    }
-
-I don't think this should be necessary.
-
-> +
->      if (!arm_feature(env, ARM_FEATURE_EL2)) {
->          /* Disable the hypervisor feature bits in the processor feature
->           * registers if we don't have EL2. These are id_pfr1[15:12] and
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index be045ccc5f..4ea58afc1d 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -679,6 +679,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->      features |= 1ULL << ARM_FEATURE_AARCH64;
->      features |= 1ULL << ARM_FEATURE_PMU;
->      features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
-> +    features |= 1ULL << ARM_FEATURE_SPE;
-
-No, SPE is not a feature we assume is present in v8.0 CPUs.
-
-> 
->      ahcf->features = features;
-> 
-> @@ -826,6 +827,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
->      } else {
->          env->features &= ~(1ULL << ARM_FEATURE_PMU);
->      }
-> +    if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_SPE_V1)) {
-> +        cpu->has_spe = false;
-> +    }
-> +    if (cpu->has_spe) {
-> +        cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SPE_V1;
-> +    } else {
-> +        env->features &= ~(1ULL << ARM_FEATURE_SPE);
-> +    }
-
-The PMU code above this isn't a good pattern to copy. The SVE code below
-is better. SVE uses an ID bit and doesn't do the redundant KVM cap check.
-It'd be nice to cleanup the PMU code (with a separate patch) and then add
-SPE in a better way.
-
->      if (cpu_isar_feature(aa64_sve, cpu)) {
->          assert(kvm_arm_sve_supported());
->          cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
-> -- 
-> 2.17.1
-> 
-
-Thanks,
-drew
+Paolo
 
 
