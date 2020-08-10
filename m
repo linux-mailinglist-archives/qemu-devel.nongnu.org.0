@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB73240D0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:34:21 +0200 (CEST)
-Received: from localhost ([::1]:55360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700F6240D24
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:46:41 +0200 (CEST)
+Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Ccm-00038m-3T
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
+	id 1k5Coh-0007hV-TM
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Cbz-0002fW-Sj
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:33:31 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40396)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k5Cnp-0007Gs-8h
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:45:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5Cby-0004mp-7a
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:33:31 -0400
-Received: by mail-oi1-x242.google.com with SMTP id u24so9793282oiv.7
- for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 11:33:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2H871CO4w8Pd0dhiNTjhlI9fZBP7GOPsGacSNhMxTBU=;
- b=Hkp2ybh2BScX7iplDoJlljdbaMx59cIR2Vm/+rcRovHUa1VEsPyRIkNBj23Ao3oR+4
- MuMCbfiJnb3lIYUy3bXOKuKnAfyEN1dNgWrrP+xVoy4gZAk956d/jpajD2S0MUzWJJ+l
- ZQJR939MOLo/1bVr2fy5014Aue1BX2LMzf1dG4cgwZ4Wb39p/aT4YdoQwkezMM6gcrsD
- tA6N/XkCEws6d7LWcmD8nPPQM4yHJIKBrsi2UeFQ9lqIHildEN3oD2BuBBcXSkWvp4jy
- gx4iNGeF2iKVLNNPOxRoizIVmMwUfz1g8rkhbZk1Er2LX2Rbv73feszwEZeqFrX7ZeUW
- /i1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2H871CO4w8Pd0dhiNTjhlI9fZBP7GOPsGacSNhMxTBU=;
- b=c/QmxrDQkckbBTkeaLaAjK3EbgcIBd1fkztDr3WHB51BRgsUhfWgCxhuGpzErliJpN
- b5Ens477JIHqFiyq9ORigPcwkANaPySt4MX6wrNmOGO0UR6274Xd3oZTnGcqmzfrYDqk
- SeK3YmlHUvoPwMlIOT5TbEq3ZDvclNmvdYu8Z6l/bREsIM1KTF9QtRgFb1pNWmmWPVFP
- 30c+cOUNJugn8mMcVP7CDefVtUMrL+mV5tHNGaV2DVDwmgGTmjAe6V8fwK9RTn44gzzG
- yXEa1OWyfYEKlHQb2RbO90fgSB2zEwWSgMaEfciItbStj/JJKqYbljv+WATkvsgH/Ccj
- 7MiA==
-X-Gm-Message-State: AOAM5308yAtXFMA1kzi1s5u/beN7Ml/A2TvO0dovVubq48Wty6j24/j6
- aMDIMgzMsS7WHpe/eEDqmRy8Rzdwvq+fx6g93fKJmw==
-X-Google-Smtp-Source: ABdhPJwaCEsGVhpR3nPkPnO/ctu/aYoXcCUKaMhTPXMiOfUjwDzxI0RDvRxzfEsNiaC9+rGbyl1jyTWgsfRWyiSupL0=
-X-Received: by 2002:aca:5703:: with SMTP id l3mr467103oib.48.1597084408765;
- Mon, 10 Aug 2020 11:33:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k5Cnn-0006Fz-23
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 14:45:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k5Cnj-0006sz-Hx
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 18:45:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 83FE42E8082
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 18:45:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
- <1597079345-42801-136-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1597079345-42801-136-git-send-email-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Aug 2020 19:33:17 +0100
-Message-ID: <CAFEAcA8J3-Sb4r4CqmLE=cmZHL311_B4EZD7L5+N-OhHD+X9jg@mail.gmail.com>
-Subject: Re: [PATCH 135/147] meson: sphinx-build
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Mon, 10 Aug 2020 18:37:46 -0000
+From: Andreas Schwab <1793539@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anarchetic schwab-linux-m68k
+X-Launchpad-Bug-Reporter: Andreas Schwab (schwab-linux-m68k)
+X-Launchpad-Bug-Modifier: Andreas Schwab (schwab-linux-m68k)
+References: <153745238166.24916.6273048340249119390.malonedeb@gac.canonical.com>
+Message-Id: <159708466681.9290.15120981847318833844.malone@wampee.canonical.com>
+Subject: [Bug 1793539] Re: qemu:handle_cpu_signal received signal outside vCPU
+ context @ pc=0x6003ddc5
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f3ea7e592890ed34cff6061a8c7ffdf7c8d22ede
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 14:45:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,58 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1793539 <1793539@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Aug 2020 at 19:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+As you can see in the build log the package builds sucessfully.
 
-> diff --git a/configure b/configure
-> index 21b9ed2..7e7b4d8 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7768,7 +7768,6 @@ echo "INSTALL_PROG=3D$install -c -m 0755" >> $confi=
-g_host_mak
->  echo "INSTALL_LIB=3D$install -c -m 0644" >> $config_host_mak
->  echo "PYTHON=3D$python" >> $config_host_mak
->  echo "SPHINX_BUILD=3D$sphinx_build" >> $config_host_mak
-> -echo "SPHINX_WERROR=3D$sphinx_werror" >> $config_host_mak
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-Shouldn't we also be deleting the code in configure that
-sets $sphinx_werror if we're no longer using it ?
+-- =
 
-> +    these_man_pages =3D []
-> +    install_dirs =3D []
-> +    foreach page, section : man_pages.get(manual, {})
-> +      these_man_pages +=3D page
-> +      install_dirs +=3D section =3D=3D '' ? false : get_option('mandir')=
- / section
-> +    endforeach
-> +    if these_man_pages.length() > 0
-> +      sphinxmans +=3D custom_target(manual + ' man pages',
-> +                         build_always_stale: true,
-> +                         build_by_default: build_docs,
-> +                         output: these_man_pages,
-> +                         install: build_docs,
-> +                         install_dir: install_dirs,
-> +                         command: [SPHINX_ARGS, '-b', 'man', '-d', priva=
-te_dir,
-> +                                   input_dir, meson.current_build_dir()]=
-)
-> +    endif
-> +  endforeach
-> +  alias_target('sphinxdocs', sphinxdocs)
-> +  alias_target('man', sphinxmans)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1793539
 
-Does "build_always_stale: true" do what I guess it does from the
-name? Does this mean we're discarding the makefile's approach of
-only running sphinx if it's necessary in favour of always running
-half a dozen sphinx invocations every build ?
+Title:
+  qemu:handle_cpu_signal received signal outside vCPU context @
+  pc=3D0x6003ddc5
 
-thanks
--- PMM
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  During the build of gedit for RISC-V this error occurs:
+
+  $ qemu-riscv64 -E LD_LIBRARY_PATH=3Dgedit/.libs ./gedit/.libs/gedit
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6003=
+ddc5
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6000=
+09e4
+
+  https://build.opensuse.org/package/live_build_log/openSUSE:Factory:RISCV/=
+gedit/standard/riscv64
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1793539/+subscriptions
 
