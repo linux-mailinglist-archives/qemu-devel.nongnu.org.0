@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF234240CD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:18:39 +0200 (CEST)
-Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE424240CDA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 20:20:10 +0200 (CEST)
+Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5CNa-0005M8-W3
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47572)
+	id 1k5CP3-0007p8-Tj
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 14:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k5BNv-00072T-JH; Mon, 10 Aug 2020 13:14:55 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52391)
+ id 1k5BPw-0002N5-EZ; Mon, 10 Aug 2020 13:17:03 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:55877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k5BNs-0003Wv-G9; Mon, 10 Aug 2020 13:14:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 440D655C7B1C;
- Mon, 10 Aug 2020 19:14:41 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ id 1k5BPs-0003qO-Vz; Mon, 10 Aug 2020 13:16:58 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.56])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0DA514F1EE1B;
+ Mon, 10 Aug 2020 19:16:52 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Mon, 10 Aug
- 2020 19:14:40 +0200
+ 2020 19:16:52 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002007a2343-7b21-4e05-83e1-b3e7fd5f5712,
+ (GARM-101G0042267ea21-cd4a-464b-b59f-e1945aa7b541,
  EF638D8D103391F16F38E39CF07A17906BAD491E) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH for-5.2 14/19] ftgmac100: Fix integer overflow in
- ftgmac100_do_tx()
-To: Mauro Matteo Cascella <mcascell@redhat.com>
+Subject: Re: [PATCH for-5.2 08/19] aspeed/sdhci: Fix reset sequence
+To: Joel Stanley <joel@jms.id.au>
 References: <20200806132106.747414-1-clg@kaod.org>
- <20200806132106.747414-15-clg@kaod.org>
- <CAA8xKjVfG8cp_g6FDNxUCQ6dqiMHnf17eMNCE2Wz+Vr+grAprw@mail.gmail.com>
+ <20200806132106.747414-9-clg@kaod.org>
+ <CACPK8Xcy-OzbQ4oiLaq96VzROSsmnmSAa0dytRcCVp2ot+mQnw@mail.gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <b0e8e4d3-5250-ec81-7ce5-146bba1d5130@kaod.org>
-Date: Mon, 10 Aug 2020 19:14:40 +0200
+Message-ID: <6ed71987-6247-2098-4e48-9c5d59a74353@kaod.org>
+Date: Mon, 10 Aug 2020 19:16:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAA8xKjVfG8cp_g6FDNxUCQ6dqiMHnf17eMNCE2Wz+Vr+grAprw@mail.gmail.com>
+In-Reply-To: <CACPK8Xcy-OzbQ4oiLaq96VzROSsmnmSAa0dytRcCVp2ot+mQnw@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: fd7484c1-1046-4760-984b-f3fd4e2d3832
-X-Ovh-Tracer-Id: 9259682312313932652
+X-Ovh-Tracer-GUID: 520d3da4-3c70-4563-bd7a-c8a84d46aa21
+X-Ovh-Tracer-Id: 9296555531368696614
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkeekgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepmhgtrghstggvlhhlsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 13:14:42
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkeekgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 13:16:54
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -73,74 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frederic Konrad <konrad.frederic@yahoo.fr>, Andrew Jeffery <andrew@aj.id.au>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Ziming Zhang <ezrakiez@gmail.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Eddie James <eajames@linux.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/20 3:43 PM, Mauro Matteo Cascella wrote:
-> On Thu, Aug 6, 2020 at 3:21 PM Cédric Le Goater <clg@kaod.org> wrote:
+On 8/7/20 1:42 AM, Joel Stanley wrote:
+> On Thu, 6 Aug 2020 at 13:21, Cédric Le Goater <clg@kaod.org> wrote:
 >>
->> When inserting the VLAN tag in packets, memmove() can generate an
->> integer overflow for packets whose length is less than 12 bytes.
->>
->> Check length against the size of the ethernet header (14 bytes) to
->> avoid the crash and return FTGMAC100_INT_XPKT_LOST status. This seems
->> like a good modeling choice even if Aspeed does not specify anything
->> in that case.
->>
->> Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
->> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
->> Reported-by: Ziming Zhang <ezrakiez@gmail.com>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  hw/net/ftgmac100.c | 19 +++++++++++++++----
->>  1 file changed, 15 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
->> index 280aa3d3a1e2..987b843fabc4 100644
->> --- a/hw/net/ftgmac100.c
->> +++ b/hw/net/ftgmac100.c
->> @@ -540,10 +540,21 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
->>                  s->isr |= FTGMAC100_INT_XPKT_LOST;
->>                  len =  sizeof(s->frame) - frame_size - 4;
->>              }
->> -            memmove(ptr + 16, ptr + 12, len - 12);
->> -            stw_be_p(ptr + 12, ETH_P_VLAN);
->> -            stw_be_p(ptr + 14, bd.des1);
->> -            len += 4;
->> +
->> +            if (len < sizeof(struct eth_header)) {
->> +                qemu_log_mask(LOG_GUEST_ERROR,
->> +                         "%s: frame too small for VLAN insertion : %d bytes\n",
->> +                         __func__, len);
->> +                s->isr |= FTGMAC100_INT_XPKT_LOST;
->> +            } else {
->> +                uint8_t *vlan_hdr = ptr + (ETH_ALEN * 2);
->> +                uint8_t *payload = vlan_hdr + sizeof(struct vlan_header);
->> +
->> +                memmove(payload, vlan_hdr, len - (ETH_ALEN * 2));
->> +                stw_be_p(vlan_hdr, ETH_P_VLAN);
->> +                stw_be_p(vlan_hdr + 2, FTGMAC100_TXDES1_VLANTAG_CI(bd.des1));
->> +                len += sizeof(struct vlan_header);
->> +            }
->>          }
->>
->>          ptr += len;
->> --
->> 2.25.4
->>
+>> BIT(0) of the ASPEED_SDHCI_INFO register is set by SW and polled until
+>> the bit is cleared by HW. Add definitions for the default value of
+>> this register and fix the reset sequence by clearing the RESET bit.
 > 
-> I can confirm that I can't reproduce the issue with the above patch. Thank you.
+> This is mentioned in the datasheet but I couldn't find if software
+> depends on the behaviour. Were you just trying to make the model more
+> accurate?
 > 
+>>  #define ASPEED_SDHCI_INFO            0x00
+>> -#define  ASPEED_SDHCI_INFO_RESET     0x00030000
+>> +#define  ASPEED_SDHCI_INFO_SLOT1     (1 << 17)
+>> +#define  ASPEED_SDHCI_INFO_SLOT0     (1 << 16)
+>> +#define  ASPEED_SDHCI_INFO_RESET     (1 << 0)
+>>  #define ASPEED_SDHCI_DEBOUNCE        0x04
+>>  #define  ASPEED_SDHCI_DEBOUNCE_RESET 0x00000005
+>>  #define ASPEED_SDHCI_BUS             0x08
+>> @@ -67,6 +69,9 @@ static void aspeed_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
+>>      AspeedSDHCIState *sdhci = opaque;
+>>
+>>      switch (addr) {
+>> +    case ASPEED_SDHCI_INFO:
+>> +        sdhci->regs[TO_REG(addr)] = (uint32_t)val & ~ASPEED_SDHCI_INFO_RESET;
+> 
+> I think bits 24 and 25 should be writable too?
+> 
+>         sdhci->regs[TO_REG(addr)] = (uint32_t)val &
+> ~(ASPEED_SDHCI_INFO_RESET | ASPEED_SDHCI_INFO_SLOT10 |
+> ASPEED_SDHCI_INFO_SLOT1);
+> 
+>> +
+>>      case ASPEED_SDHCI_SDIO_140:
+>>          sdhci->slots[0].capareg = (uint64_t)(uint32_t)val;
+>>          break;
+>> @@ -155,7 +160,8 @@ static void aspeed_sdhci_reset(DeviceState *dev)
+>>      AspeedSDHCIState *sdhci = ASPEED_SDHCI(dev);
+>>
+>>      memset(sdhci->regs, 0, ASPEED_SDHCI_REG_SIZE);
+>> -    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] = ASPEED_SDHCI_INFO_RESET;
+>> +    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] =
+>> +        ASPEED_SDHCI_INFO_SLOT1 | ASPEED_SDHCI_INFO_SLOT0;
+> 
+> If we want to be super strict this is true for the "sd" devices, but
+> the "emmc" device in the ast2600 only sets slot0. I don't think this
+> distinction is important to model though.
 
-Can I count that as a Tested-by ? 
+Both slots seems to be activated on all three SoCs. Am I looking at the 
+wrong controller ? 
 
 Thanks,
 
 C. 
-
+ 
+> 
+>>      sdhci->regs[TO_REG(ASPEED_SDHCI_DEBOUNCE)] = ASPEED_SDHCI_DEBOUNCE_RESET;
+>>  }
+>>
+>> --
+>> 2.25.4
+>>
 
 
