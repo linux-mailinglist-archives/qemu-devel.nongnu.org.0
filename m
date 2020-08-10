@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BA2240AF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 18:04:44 +0200 (CEST)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2056E240B77
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 18:55:47 +0200 (CEST)
+Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5AHy-0002Ws-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 12:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
+	id 1k5B5O-0006RG-2k
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 12:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k5AGq-0001nO-PF
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:03:32 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44972
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5B3q-0004vS-EL
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:54:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42458
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k5AGn-0003PT-Fn
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:03:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597075407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dhjTJH/ytGUDzuAKkHpQ7/JZhJ7cKTZHMrNULMT6EWA=;
- b=Cfl3Y7mh2PjLDzji4EC5GMgFqn4OMlL7E2GOJtRaLvWY9g1VENWZWtyjA9DqNpvPLUr7F6
- 2Q84YqFZITG8cbdZyFtBZmJ/3vKehBZqT2oYG40PIMw8IXmhfgb9qYNmUTEql0qjIdgWBn
- 5eLtzuib7g6jwt/UaQqaJ82lmdf0xHc=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5B3o-0000fS-FM
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 12:54:10 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-fVaJU4GYMlSlRwkSvOI1PA-1; Mon, 10 Aug 2020 12:03:20 -0400
-X-MC-Unique: fVaJU4GYMlSlRwkSvOI1PA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-330--O7t_ejiMSOlC3mCQWJQUQ-1; Mon, 10 Aug 2020 12:53:54 -0400
+X-MC-Unique: -O7t_ejiMSOlC3mCQWJQUQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 538CD1005510;
- Mon, 10 Aug 2020 16:03:18 +0000 (UTC)
-Received: from localhost (ovpn-114-132.ams2.redhat.com [10.36.114.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8DF87B92F;
- Mon, 10 Aug 2020 16:02:49 +0000 (UTC)
-Date: Mon, 10 Aug 2020 17:02:48 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 07/20] multi-process: add co-routines to communicate
- with remote
-Message-ID: <20200810160248.GB66474@stefanha-x1.localdomain>
-References: <cover.1596217462.git.jag.raman@oracle.com>
- <b57493752ed0ec04f44df915413e325acf641882.1596217462.git.jag.raman@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4837680183C;
+ Mon, 10 Aug 2020 16:53:53 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-38.ams2.redhat.com [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61D5E5F1E4;
+ Mon, 10 Aug 2020 16:53:51 +0000 (UTC)
+Subject: [PATCH 00/14] ppc/spapr: Error handling fixes and cleanups
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Mon, 10 Aug 2020 18:53:50 +0200
+Message-ID: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-In-Reply-To: <b57493752ed0ec04f44df915413e325acf641882.1596217462.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FkmkrVfFsRoUs1wW"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.110.61; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 04:13:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 03:29:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,82 +65,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FkmkrVfFsRoUs1wW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series aims to be a follow up to Markus Ambruster's massive
+work to sanitize error handling. It focuses on the following:
+- check return values rather than a pointer to a local Error object
+- get rid of the local_err + error_propagate() boilerplate when
+  possible
+- propage negative errnos to vmstate instead of -1
 
-On Fri, Jul 31, 2020 at 02:20:14PM -0400, Jagannathan Raman wrote:
-> +/*
-> + * Create if needed and enter co-routine to send the message to the
-> + * remote channel ioc and wait for the reply.
-> + * Returns the value from the reply message, sets the error on failure.
-> + */
-> +
-> +uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, QIOChannel *ioc,
-> +                                  Error **errp)
-> +{
-> +    MPQemuRequest req = {0};
-> +    uint64_t ret = UINT64_MAX;
-> +
-> +    req.ioc = ioc;
-> +    if (!req.ioc) {
-> +        error_setg(errp, "Channel is set to NULL");
-> +        return ret;
-> +    }
-> +
-> +    req.msg = msg;
-> +    req.ret = 0;
-> +    req.finished = false;
-> +
-> +    req.co = qemu_coroutine_create(mpqemu_msg_send_co, &req);
-> +    qemu_coroutine_enter(req.co);
-> +
-> +    while (!req.finished) {
-> +        aio_poll(qemu_get_aio_context(), true);
-> +    }
+---
 
-This is called from vcpu threads. aio_poll() does not release the global
-mutex so all other vcpu threads are blocked until mpqemu communication
-completes.
+Greg Kurz (14):
+      spapr: Simplify error handling in spapr_phb_realize()
+      spapr/xive: Rework error handling of kvmppc_xive_cpu_connect()
+      spapr/xive: Rework error handling of kvmppc_xive_source_reset()
+      spapr/xive: Rework error handling of kvmppc_xive_mmap()
+      spapr/xive: Rework error handling of kvmppc_xive_cpu_[gs]et_state()
+      spapr/xive: Rework error handling of kvmppc_xive_[gs]et_queue_config(=
+)
+      spapr/xive: Rework error handling in kvmppc_xive_get_queues()
+      spapr/xive: Rework error handling of kvmppc_xive_set_source_config()
+      spapr/kvm: Fix error handling in kvmppc_xive_pre_save()
+      spapr/xive: Fix error handling in kvmppc_xive_post_load()
+      ppc/xive: Fix error handling in vmstate_xive_tctx_*() callbacks
+      spapr/xive: Simplify error handling in kvmppc_xive_connect()
+      ppc/xive: Simplify error handling in xive_tctx_realize()
+      spapr/xive: Simplify error handling of kvmppc_xive_cpu_synchronize_st=
+ate()
 
-The simplest solution is to unlock the global mutex and call blocking,
-non-coroutine versions of the send/recv code. That way other vcpu
-threads can execute.
 
-This means that the QEMU process would not use the mpqemu IOChannel in
-the event loop.
+ hw/intc/spapr_xive_kvm.c    |  202 ++++++++++++++++++++++-----------------=
+----
+ hw/intc/xive.c              |   19 ++--
+ hw/ppc/spapr_pci.c          |   16 +--
+ include/hw/ppc/spapr_xive.h |    8 +-
+ include/hw/ppc/xive.h       |    8 +-
+ 5 files changed, 125 insertions(+), 128 deletions(-)
 
-The remote process would still use the IOChannel in the event loop,
-however.
-
-Stefan
-
---FkmkrVfFsRoUs1wW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8xb6gACgkQnKSrs4Gr
-c8j5Ogf+LjFVIml9m39/9H76AFmerro7gv+4o5Ff/sP15G7qhUCSCe4sP0whM5JN
-kIOZL22iZ7W1K2G9AVIqY1VwXqPJ/eT6+li0kOXnBf1sPGGMjFhZ4XrOga0MF+Hh
-AH9m2Ej9x21EKc5om52tIueGTS2ZuYSS86yCg7D0m0IRKRIfltJTBG+O4wBvC3z1
-QAxZBoB+AJCmEtE3i8x532A5QyUDnUUqFjvmFM4u+thCbYePnD7OcylcLxVixnqt
-FczACdTru5HhrdWIjEoBvVkhC4ATRGhWoFo5TGhj50HunHv51PGDX/TrC8pY6c/K
-87eoHpAqWtbDAPt/Hk5HLGnhQ/P15g==
-=kpgr
------END PGP SIGNATURE-----
-
---FkmkrVfFsRoUs1wW--
+--
+Greg
 
 
