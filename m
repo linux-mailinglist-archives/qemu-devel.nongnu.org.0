@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CAD240691
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:30:00 +0200 (CEST)
-Received: from localhost ([::1]:43514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7EE2240694
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:30:13 +0200 (CEST)
+Received: from localhost ([::1]:43954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k57sE-0002ki-Hu
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
+	id 1k57sS-0002vn-OD
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:30:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nL-0000vz-PK
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:24:55 -0400
-Received: from mout.gmx.net ([212.227.15.15]:54733)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57ne-00010b-Qi
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:14 -0400
+Received: from mout.gmx.net ([212.227.15.18]:60399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nJ-0008En-Ji
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:24:55 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nZ-0008GI-J8
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1597065884;
- bh=M9fljgFaxLpDPesDaOO2JMfubfGaiDiCLqbN8svY3sI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=Vx7d+QgYACmmQ9CvdnA3931hjWYncPi+iXH3AT9tRzVvpFLMkAwcSVEHoEKcZW279
- FGRy8Q3g5yiBzY3zwfqvqOgAXL4VAyJa732clGU3eboUzSYubBdjPAI8S/auy8Q3qN
- qIbamBLx2RVvSU58tt0Kq4CRq78Xp6GqYEwOYE6s=
+ s=badeba3b8450; t=1597065887;
+ bh=jLLmqaosE8xt+OARVvHb93VE1fgCMwuTT/uP+6We6T4=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=izDQMDNTH/Ybt5yVM5r3jwKIGu7ehcVkbtgBFOc/aDH7gBZJSNRlH89DnTXVw/BbI
+ irsAxe3mo4EYn6s/2lOGxR2UccwvOrXW3L5YNC3zD6b4vW4zoycWJofqNsCGzbbjj8
+ jt1oB+dPaIQnhIDj84OsgRYV86gfriR59mCPKxGM=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.174.37]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MgvvT-1kd69p1AZ3-00hKnl; Mon, 10
- Aug 2020 15:24:44 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmDEg-1kVh7P1zNY-00iApM; Mon, 10
+ Aug 2020 15:24:47 +0200
 From: Helge Deller <deller@gmx.de>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 00/12] target-hppa fixes pull request v2
-Date: Mon, 10 Aug 2020 15:24:29 +0200
-Message-Id: <20200810132441.16551-1-deller@gmx.de>
+Subject: [PULL v2 10/12] hw/display/artist: Unbreak size mismatch memory
+ accesses
+Date: Mon, 10 Aug 2020 15:24:39 +0200
+Message-Id: <20200810132441.16551-11-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200810132441.16551-1-deller@gmx.de>
+References: <20200810132441.16551-1-deller@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HpfW3MNfXQUYG+3sY2abnUMXTJIFEwQ/doo2H7h34D19zTCSVFS
- JeVQLCIzjGXKOo8XMRcupDhK0lQZ4aUGa8JihwmyH4CnP2vwatjo2iLkvg2VjQllN/9FmMl
- ymiywpMVmMAEPAdD0Y8Eu6JT52WKrk94z19gP38uD3py1Ekj2no0pEa3BXWSjBrfu6efdr8
- tdBg7oIyGLChyHAURuaRw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VHTzt/v4tns=:LvOwSgXVJ0VtY2zgSryTKQ
- /vWOv+6EMQu4yJro1XOy6A8DM+OXApA7GUhZ2Ke69ip4x+pg31wV77EAWuNkVTqhafeftUKPX
- k4DOKRkBhrQ9ng3CfDM6JjTnXTbeRAFcgmmA2OPheerZMJdg0qlYqfLjqtu6JT0foHI022Sph
- g3dFuLvXtilV+NOofPgTYh6JG+a0d/68WifIwwAqW/6WJarN4Ma7lwF/or3JdhS+pLlpz+7GN
- douILxLW4F9A/3u/6ky2cpCfXlxCPe8148/lf2YXKe2kAOXLi+mlZG5rpa4E7YVtUGoKG+7Sr
- PK82gaOtjYnwhLc+fBjC5splQ8U+pMo5rGDoraFg0Wj81HydDbim9Nn/ucf0hD28E/uPv7q60
- wOhwS99uyUXujIc7se49u6fOJEgFkxqYjuTHZgCrUE7jYktF9LRFUgb9sAy4biS8Gl8IQfN2V
- sTwnI4huC7RGMPoHWaSHrx8HH3ANPI7kwD5H7dWt8YwxeQx9LxYqyj8Px+x46JG6U6TM9FQR0
- aoKoaWqmTZ26fkS6Om6zsdL7XKWusHbcWE2OKFy4cWFEVg9FH7gymBZGDiEirrx+I8Fbj0HsP
- UCosfHkGP6DhyywzjdQxmeVQ722GYJxqMB2BihUCwlYygWdookHRo0mTZrQiwb5e20H5Z14ZV
- 5nagU3/wZVULFfTaJ3gSoxgr2Uk44rvhDOpzym2WSQSef5hyfCQCIwMCdjRk/MUp5u2pdl1kM
- GCeC6tSU7BMQDpyoKo46JGFQxGnfH605HpQQkD/sH6IhuA5qTCEy/y3yfSE/oe2NGg9rzpt1a
- npEp374Xi3Ios9eWf42JCCCu9dNsN7YA6UauMfBGsEOrp3Re/R5ATMCXmgLRpH9HpxIrSW5YN
- maCPyt8ApG05kL2Iyl59P4DNmaOSClZOD88U94U9uU9vwFQ8tqbjAlzSFJwJ5UvNYf1uzzR/s
- RyUkczB1ZGi3bnYeNLofUhw8IXKmEDyvlZBgK7bsEzD1sltfcPCLyC4TEdWvQR7vTYbuTKFqx
- R8K+HYqjZVr33n8jXv2Hii2sOiL+o7T/3cHbW1I9syQ9MTGnTPPZBAaJa5hOsuL4sl+dJQpzC
- IBv6zuZ6WuWByErbm/GOSL+Ju0WvtGDBRCq5noJUoYBKvWbF5KaJwr/TQJzLWTCYWfWbt2TTK
- 1JQeN/1f7MX0lPhezVVW/xXFGHEptgMdHe5iC9ztW8sRyaKAtrAB/7pfG5c95x2241VvUAvk9
- v1lsBIxJ88bG8LVDt
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:H0/g0Nm4m9YCmIHZ/vbNJIhe13VCHbiBulBUz+S1a3zZuMdPaMD
+ XmkkWTeaxYshxGRdWYK1A+zAX04O2GDmXX3YyoKiFGMx8qacDIDfwGsvX2DJxAWB4ORXEFh
+ DLTYTaG9GujpCB76+akgP247nq+3YO7FEThsZTmvvV6TsFJKjhmE4ul4zb6GR/HZp5EcgmV
+ pSwmDusGlpx5ju5MW+mtw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7e4K+HXrMa8=:DSkxsrKKS3+TKQbtYPgJIy
+ 0jVe5rrEs1KjiqJ7RQRbdoLbUwxv2VkLMFcJBqojI8NfzbvsjD68DsFl7GJ6K0nVWJmn5CcWL
+ SMM575Extg9wTRNzFnuS5NuuhH79X2uzR9lqdL4RjJGrY1DF0dBRaWDbUX36NnCIbl2OcSGfy
+ at7U4xnZXR1O69kE41gnYuUsJi7gMBq9wdw7FbkjDXy8QCkrAaJH4s/5JMlVcoQv0YVmoIR8S
+ LWvuXDEjKHqUtJkkAmjM1IcmXAYhxt3RUA0NZ532RyWZSvDl9aHufqqa2ga7cmftReq0F8YVQ
+ uDB4Rz8zrQ33GnIXvv4bjqaO/4tX9jTQB9BjQR0enNDkzgCzSgcP91XKCZGjvWV7/mm4YDRYo
+ jmE1RffPlosNjnaKDzDZjNb2D0R3u8B23Aw2ym6SIzUR9NCvQ+vx3abgaUcvDxo0ggUxl4fxR
+ hq6Peil9IYUjRK9jfd8P2yAuCT+B9kdntWrLGCvbkE1v7mzKdib5nF8jGCZXqmnyGiA9pB9Zk
+ 2xijaf44FG1k4p6MRXHF1ckx8OnAReJMxn5HXwFXDyt1VEmsVLEL3yJSXfEp3cepDsSXtF12q
+ XUtFQBVYK8mIB1sHzhK+w6rtMesBByb6wKPBp0ZsIqBBUDn9P4oUqWw9GKvQ3IwV+LnAsdi3b
+ cU+C2fSI0tgAr5kBK9nLgqgdIvOKeKLGoF1pEw1E7zdzs/TwhgHidh6OZ1NKv+ZD8EcDehzt8
+ ooFVZyFQRAtOFiz6lz3frEi0+O8IyRjuczrlvvfPYxyvD0L00vvNXHwWh/3c7jEHPerfXzF1R
+ CQ61bzH01uiZLd6fcXJN2RNkn6xqvbW1JT6Nrmu/ZY5cS/d9+Wa01hlGwjEyamc/f1JBpQ5Wp
+ EtXXdKNnz5M7oFQXFDzO7NXqe8d5Y+eJVWHncU2u+6XY1T+TbPtNxgdtsemqkrNM2GNAwUNAc
+ VnCe82WCARriYeY637adkcQ0YP0cHM49a/uMwgLY4LWvh3k+xJV9QX9bQO5hpX18SpIUhaN5L
+ b3HahtBqjq2wMx+Uhc1Ggi+I2QKioJXp97XyEYDK9OzvtWKbXU1N8vFhQgraUYWRPp8cvlcGl
+ w9cwORhwjPsHJIWeaAm52cuTrly/NWD1DzEfdmQ0eCucinhPVX+Sc5H+Qfh3NwHkqu+SvbWQD
+ tuW4cvvh2jSEfGmdjdVPYXDAcXx1jalxMfpCp6A9+pNNm7Gttmfta8Oy3ucQ0xRb5XfA3xj7D
+ /mI8V5oaEyuP78Fv/
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 09:24:50
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 09:25:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,75 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please pull from
-    https://github.com/hdeller/qemu-hppa.git target-hppa
-to fix those bugs in target-hppa:
+Commit 5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes
+in memory_region_access_valid") broke the artist driver in a way that
+the dtwm window manager on HP-UX rendered wrong.
 
-* Fix the SeaBIOS-hppa firmware build with gcc-10 on Debian
+Fixes: 5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes in =
+memory_region_access_valid")
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ hw/display/artist.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-* Fix the SeaBIOS-hppa firmware to boot NetBSD again
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 46eaa10dae..44bb67bbc3 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -1237,20 +1237,16 @@ static const MemoryRegionOps artist_reg_ops =3D {
+     .read =3D artist_reg_read,
+     .write =3D artist_reg_write,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+-    .valid =3D {
+-        .min_access_size =3D 1,
+-        .max_access_size =3D 4,
+-    },
++    .impl.min_access_size =3D 1,
++    .impl.max_access_size =3D 4,
+ };
 
-* Fix many artist framebuffer out-of-bounds accesses as found by Alexander=
- Bulekov
+ static const MemoryRegionOps artist_vram_ops =3D {
+     .read =3D artist_vram_read,
+     .write =3D artist_vram_write,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+-    .valid =3D {
+-        .min_access_size =3D 1,
+-        .max_access_size =3D 4,
+-    },
++    .impl.min_access_size =3D 1,
++    .impl.max_access_size =3D 4,
+ };
 
-* Fix artist memory access bugs due to commit 5d971f9e6725 ("memory: Rever=
-t
-  "memory: accept mismatching sizes in memory_region_access_valid")
-
-* Fix various artist screen updates when running dtwm on HP-UX
-
-In addition the SeaBIOS-hppa firmware now includes a version check to prev=
-ent
-starting when it's incompatible to the emulated qemu hardware.
-
-Thanks,
-Helge
-
-=2D---------------------------------------------------------------
-Changes to v3:
-* Fix memory fallouts due to commit 5d971f9e6725
-* Fix graphic rendering bugs and screen refreshes with dtwm on HP-UX
-
-Changes to v2:
-* added more Acks by Richard Henderson
-* added more artist framebuffer out-of-bounds fixes by
-  Philippe Mathieu-Daud=C3=A9 which were reported by Alexander Bulekov
-* fix NetBSD boot
-
-Changes to v1:
-* added Ack by Richard Henderson for the first patch
-* revised out of bounds check based on Richards feedback
-
-Helge Deller (7):
-  hw/hppa: Sync hppa_hardware.h file with SeaBIOS sources
-  seabios-hppa: Update to SeaBIOS hppa version 1
-  hw/hppa: Implement proper SeaBIOS version check
-  hw/hppa/lasi: Don't abort on invalid IMR value
-  Revert "hw/display/artist: Avoid drawing line when nothing to display"
-  hw/display/artist: Prevent out of VRAM buffer accesses
-  hw/display/artist: Unbreak size mismatch memory accesses
-
-Philippe Mathieu-Daud=C3=A9 (2):
-  hw/display/artist: Check offset in draw_line to avoid buffer over-run
-  hw/display/artist: Refactor artist_rop8() to avoid buffer over-run
-
-Sven Schnelle (3):
-  hw/display/artist.c: fix out of bounds check
-  hw/display/artist: Fix invalidation of lines in artist_draw_line()
-  hw/display/artist: Fix invalidation of lines near screen border
-
- hw/display/artist.c       | 186 +++++++++++++++++++++++---------------
- hw/hppa/hppa_hardware.h   |   6 ++
- hw/hppa/lasi.c            |   9 +-
- hw/hppa/machine.c         |  22 +++++
- pc-bios/hppa-firmware.img | Bin 766136 -> 783192 bytes
- roms/seabios-hppa         |   2 +-
- 6 files changed, 148 insertions(+), 77 deletions(-)
-
+ static void artist_draw_cursor(ARTISTState *s)
 =2D-
 2.21.3
 
