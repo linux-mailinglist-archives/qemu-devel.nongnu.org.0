@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BFF2406A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:35:20 +0200 (CEST)
-Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741102406E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Aug 2020 15:43:00 +0200 (CEST)
+Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k57xP-0006Ki-MN
-	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46204)
+	id 1k584p-0003FL-IY
+	for lists+qemu-devel@lfdr.de; Mon, 10 Aug 2020 09:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nU-0000xp-Ot
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:05 -0400
-Received: from mout.gmx.net ([212.227.15.18]:45295)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k57nS-0008Fg-4l
- for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:25:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1597065887;
- bh=i8X1Kfb349zYfYM6YQnilalygM6Nx1dtlvg6TYGBTk8=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=P5vxtJlygegxBqT5KzyKTSfI5zmtrdevQWkHP459Hi6JEtcxuEhlxqLZ8NxSGjwTt
- YukCkW8+d9wYEGFvMbXAFBejWmQwL0pe6fZN3qfGetYQV18GPJVSV4YYvMVRyGMBIz
- pETNCVKIysn6yepl0fXQylVTQBdp70WgRyU3jtVs=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.174.37]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MeU0k-1kfZ0N2kOC-00aR3M; Mon, 10
- Aug 2020 15:24:47 +0200
-From: Helge Deller <deller@gmx.de>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 11/12] hw/display/artist: Fix invalidation of lines in
- artist_draw_line()
-Date: Mon, 10 Aug 2020 15:24:40 +0200
-Message-Id: <20200810132441.16551-12-deller@gmx.de>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200810132441.16551-1-deller@gmx.de>
-References: <20200810132441.16551-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1k57ti-0005C4-Sr
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:31:30 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1k57tg-0000aA-S4
+ for qemu-devel@nongnu.org; Mon, 10 Aug 2020 09:31:30 -0400
+Received: by mail-wm1-x335.google.com with SMTP id t14so8356500wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Aug 2020 06:31:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vayavyalabs.com; s=vayavyalabs;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wPDM6hSpJ539DNrrLQXTby/xuAzex+8pH+OgdoatxsM=;
+ b=aJEaygxEv9R3BFA0xFJgTCRztazQPYrDE9U2jIBlVjKw3LVVkBOGeNSpknuvwA5Zlf
+ qHxarA2fMq834s+GEAeGbzedZTu7eMPfln1L0X4E/Y2/jEVXIl0kQYhFuGae58zW0Xdn
+ 0t4HGP7KsdoxiQlagc3/Kht27QdT+UpEdnwnU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wPDM6hSpJ539DNrrLQXTby/xuAzex+8pH+OgdoatxsM=;
+ b=hCF126pItOmUzsdrmlrgQ6DGFm8J5xp9qB+FXf4UM+KdMpaSANcIer4ZgsqY8BnXOd
+ x1hhETRHdMR0y/Jms5t+x60drgiycNGu1DB0uF6YvNp89b8KdDXgNRa+2iOUyx/JBozy
+ IN/Q/o/Mj+N4aRPxLlVPr2++F0wRr28WBy6rBPxkFhxDcyzXpY+n2XSyeyUy9a9VnvdL
+ 7Oodus546jSpY+vLFYoEl6HZOvBS+l5dXtPr5JyHaNs7dpUHNYFcrwmf9OFfWaI9wNZM
+ 0kDmoaAKkQkwA8NZagcvIeTRrTZtfqpZuMeueWURvpHGauduZHnztFK5XYIclUnUQ+LO
+ ysDQ==
+X-Gm-Message-State: AOAM531ojvVspanpWNPzQ6+c2csB+l0QDPLuu229uJHNhgYiFz2zuRGR
+ Iq94+HiCI0qtjvz4GOf2YJTfII1y7IMErNo4OY6YBg==
+X-Google-Smtp-Source: ABdhPJxor+WJSqG1tWse0rTLjGF2TbUNB7SrCi09oeXsMpss0vJFwJLR2HfNVzLliSGFOvluMTbXGQ7ouPdIVtOqqag=
+X-Received: by 2002:a1c:2e43:: with SMTP id u64mr23860541wmu.129.1597066286794; 
+ Mon, 10 Aug 2020 06:31:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dcHP7yH2hHqU11PJnlpDcYWEJfdFAsRuShYQ1GQEr//nrfNpVHk
- 3t+STgVb/5bqhQ1MR3Njn0GWdBeQLfWJ9EzUZIMHOoISm/2fLr7uNI6xDZCOFdYtxB2qUzb
- HhrRge9i0b4oTYm7ltRIyRY2I+jcKhNQSzE0oyNeVnqV/0V12AE7fSn5FzhqDqfEExGaGCC
- OcXxkZEiR7Pbi9P8tDVGw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J1ved9nUtB0=:B6349nolbFqRUlgHvm9ByH
- UebvY7kOVYA3e0cxzSWAKmITP9pE6vLidTDs9xEJxaw2jm7+DaOZpg/MRN5npqM59QC6jWt9X
- DypGPdsBgOvtzvodAy84N6tEhu92F7SDpKCWTuTSr+qsDcXAEELiafMHU6clB+FmL3/VVo/2n
- Sv7PTx/nmnKyOXSwZFDePV/7hmaHf1HqVmRvW1FNs9yI8aedkBA4zno5LfySi4Jo5ZEMSrbkj
- HsFXliAkmyiQyYyjEoXVjz8G3a/nQ3QXnNXW026UtGeqDs+qUbu3sOuegqP0+6YFcmCY7X6hD
- IOKcdvdOkOBHmDPCAzlaNN1/TmVeypY6YsbbPRkVFXMmdtleEU50Ln5Dl1mVuK6vE7Mx9tCxn
- TTjBlEAe6z93PlFKR9zSEsbVvbVfcQ9AioFluys9BEoXrSQDqdhwXu4kVL5N8eLIZPNrYfmrx
- zQfC3wocVe3c07R6j1rKu+bYGWeMfTCK58e1s42cOK2NnhC1GaSiiaLAnlC7dHzQbwu2V8zAL
- Xls9Kbxu+pjzS8pvrvqCFPzPxUIYACpgpT4R4sCJpFdGpl2U6ZyKX7u1bUnx5Gq6JOaGvlF7O
- vvo6TUJej+h8Wd0H9LqFo/qfJ+iPw9ZyCRJYNUQ5KqD0xFLxOtUZqN8o9tvIB/pSpco6FZhi1
- tbrgJI+6lMMLVwntMi9Fur5BXRkU4KzXJV433emThowIDGN8oPmrwF9y5MpTRyV00xaKk0xB7
- i5GG35hFtxhqBH8Zt8rJ8RTm2WLexwvTjzlz8z0LMaouj/HLxq+G7lDhWBrkutnNm74pjs1AT
- JhelBG8Wi7vyAqSFxOd9/pbgczB4I5a8jJ6BTMW6YyQ3B5K/Qm3ldmSybRR7h0Ec6YUiugvCp
- 9G64DWd7qBH7HcRG8k7OrjfsSTobwRUUBlwPRcp8mt9m6T8bUbvUELumL34kEBOLfRfLtfcZv
- gVaBX/hH70FgbYpupA+Gv2zJS87GXzfT4KztnbdezxQKv85a7vmYrVVfuatSA4vyxVuF0jjP/
- w/XAGgtN572q1GMoCeyLd0/3WCbO+4u1EvBpIOXj4ujEot+m4ZShkHTpWHZxtFU3cimJb3Rr8
- n5o3mNttnxsvrCBu4BqPVmOcoI3ab5DLiyOtxfh/glZwYO+/TtJFy+OLa01IQFZI6/wLqITNI
- tJsYlulfVr8EEQtPw1/zwkJjnNExRT8PXieZSOgkh762O8QmmDek7WfxFptllX2OjO+D/ObAP
- G9ZcbO3Hl6y/W/bsO
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/10 09:25:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CA+aXn+GrFDssmZWBCL0gh3QLX5BMhmgTQUywLSSQn=cpF2P1ZQ@mail.gmail.com>
+ <87r1se3k7m.fsf@linaro.org>
+ <CA+aXn+ETrBneXK3N6+gzO_7R=6mdxXr_Oig7MjOe7VzO5OD0mg@mail.gmail.com>
+ <87lfim3ipq.fsf@linaro.org>
+In-Reply-To: <87lfim3ipq.fsf@linaro.org>
+From: Pratik Parvati <pratikp@vayavyalabs.com>
+Date: Mon, 10 Aug 2020 19:01:15 +0530
+Message-ID: <CA+aXn+G4EWAoGqgEuDW9j5dQSNJX2g31aGt521YL3MV9eyPzVg@mail.gmail.com>
+Subject: Re: QEMU Library support
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000b52c6105ac85f827"
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=pratikp@vayavyalabs.com; helo=mail-wm1-x335.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,46 +79,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sven Schnelle <svens@stackframe.org>
+--000000000000b52c6105ac85f827
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The old code didn't invalidate correctly when vertical lines were drawn.
-Fix this and move the invalidation out of the loop.
+Just to hide the core QEMU implementation from the device code. QEMU core
+source code remains the same for all device; So, was thinking a way of
+hiding it from the rest of the device code.
 
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/display/artist.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Regards,
+Pratik
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 44bb67bbc3..a959b2c158 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -662,7 +662,6 @@ static void draw_line(ARTISTState *s,
-         }
 
-         if (e > 0) {
--            artist_invalidate_lines(buf, y, 1);
-             y  +=3D incy;
-             e  +=3D diago;
-         } else {
-@@ -670,6 +669,10 @@ static void draw_line(ARTISTState *s,
-         }
-         x++;
-     } while (x <=3D x2 && (max_pix =3D=3D -1 || --max_pix > 0));
-+    if (c1)
-+        artist_invalidate_lines(buf, x, dy+1);
-+    else
-+        artist_invalidate_lines(buf, y, dx+1);
- }
+On Mon, Aug 10, 2020 at 3:50 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
- static void draw_line_pattern_start(ARTISTState *s)
-=2D-
-2.21.3
+>
+> Pratik Parvati <pratikp@vayavyalabs.com> writes:
+>
+> > As an experiment, I have modelled non-existing ARM Watchdog model (SP80=
+5)
+> > interfaced to the versatile PB platform. What actually I was looking is=
+ -
+> > some sort of QEMU library, where I can model new device outside the QEM=
+U
+> > source hierarchy and still be able to compile it using QEMU library and
+> > include files to add support for the new device. If QEMU doesn't provid=
+e
+> a
+> > library, Is there a flexibly that I can tweak something inside the QEMU
+> to
+> > generate it?
+>
+> Not really. While most devices are fairly standalone they can access all
+> sorts of QEMU APIs. Why not just implement your device inside the QEMU
+> source tree?
+>
+> >
+> > Regards,
+> > Pratik
+> >
+> >
+> > On Mon, Aug 10, 2020 at 3:18 PM Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g>
+> wrote:
+> >
+> >>
+> >> Pratik Parvati <pratikp@vayavyalabs.com> writes:
+> >>
+> >> > Hi team,
+> >> >
+> >> > Lately, I have been working on QEMU modeling and interfacing it into
+> the
+> >> > existing platform. What actually I wanted to check is; whether QEMU
+> >> > supports library that gives developers a clean interface to develop
+> and
+> >> > integrate peripheral model in to QEMU. I know of the Greensocs Syste=
+mC
+> >> > bridge - but that was quite difficult to work with in past.
+> >>
+> >> Not really - with a few exceptions like vhost-user and in KVM device
+> >> emulation all devices are emulated in the QEMU code base. As a result
+> >> the best way to maintain a device is to have it integrated upstream
+> >> (along with some tests to ensure it is working).
+> >>
+> >> As you note there are various forks of QEMU that support device
+> >> modelling but none of these features have been merged upstream and wou=
+ld
+> >> likely need to assuage worries about such interfaces being used to avo=
+id
+> >> GPL compliance.
+> >>
+> >> What sort of devices are you looking to model? Are these existing
+> >> devices or experimental/research things?
+> >>
+> >> --
+> >> Alex Benn=C3=A9e
+> >>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
+--000000000000b52c6105ac85f827
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Just to hide the core QEMU implementation=C2=A0from the de=
+vice code. QEMU core source code remains the same for all device; So, was t=
+hinking a way of hiding it from the rest of the device code.<div><br clear=
+=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"=
+gmail_signature"><div dir=3D"ltr">Regards,<div>Pratik</div></div></div></di=
+v><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Mon, Aug 10, 2020 at 3:50 PM Alex Benn=C3=A9e &lt;<a href=3D=
+"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+Pratik Parvati &lt;<a href=3D"mailto:pratikp@vayavyalabs.com" target=3D"_bl=
+ank">pratikp@vayavyalabs.com</a>&gt; writes:<br>
+<br>
+&gt; As an experiment, I have modelled non-existing ARM Watchdog model (SP8=
+05)<br>
+&gt; interfaced to the versatile PB platform. What actually I was looking i=
+s -<br>
+&gt; some sort of QEMU library, where I can model new device outside the QE=
+MU<br>
+&gt; source hierarchy and still be able to compile it using QEMU library an=
+d<br>
+&gt; include files to add support for the new device. If QEMU doesn&#39;t p=
+rovide a<br>
+&gt; library, Is there a flexibly that I can tweak something inside the QEM=
+U to<br>
+&gt; generate it?<br>
+<br>
+Not really. While most devices are fairly standalone they can access all<br=
+>
+sorts of QEMU APIs. Why not just implement your device inside the QEMU<br>
+source tree?<br>
+<br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; Pratik<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, Aug 10, 2020 at 3:18 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto=
+:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; w=
+rote:<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Pratik Parvati &lt;<a href=3D"mailto:pratikp@vayavyalabs.com" targ=
+et=3D"_blank">pratikp@vayavyalabs.com</a>&gt; writes:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; Hi team,<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Lately, I have been working on QEMU modeling and interfacing =
+it into the<br>
+&gt;&gt; &gt; existing platform. What actually I wanted to check is; whethe=
+r QEMU<br>
+&gt;&gt; &gt; supports library that gives developers a clean interface to d=
+evelop and<br>
+&gt;&gt; &gt; integrate peripheral model in to QEMU. I know of the Greensoc=
+s SystemC<br>
+&gt;&gt; &gt; bridge - but that was quite difficult to work with in past.<b=
+r>
+&gt;&gt;<br>
+&gt;&gt; Not really - with a few exceptions like vhost-user and in KVM devi=
+ce<br>
+&gt;&gt; emulation all devices are emulated in the QEMU code base. As a res=
+ult<br>
+&gt;&gt; the best way to maintain a device is to have it integrated upstrea=
+m<br>
+&gt;&gt; (along with some tests to ensure it is working).<br>
+&gt;&gt;<br>
+&gt;&gt; As you note there are various forks of QEMU that support device<br=
+>
+&gt;&gt; modelling but none of these features have been merged upstream and=
+ would<br>
+&gt;&gt; likely need to assuage worries about such interfaces being used to=
+ avoid<br>
+&gt;&gt; GPL compliance.<br>
+&gt;&gt;<br>
+&gt;&gt; What sort of devices are you looking to model? Are these existing<=
+br>
+&gt;&gt; devices or experimental/research things?<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; Alex Benn=C3=A9e<br>
+&gt;&gt;<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div>
+
+--000000000000b52c6105ac85f827--
 
