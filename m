@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22A0241EA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:51:30 +0200 (CEST)
-Received: from localhost ([::1]:36554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9765B241E9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:48:00 +0200 (CEST)
+Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5XUn-0000cK-Qs
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
+	id 1k5XRP-00056O-K9
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5XPv-0003y7-Bv
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:28 -0400
+ id 1k5XPj-0003ni-Ac
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:15 -0400
 Received: from mail-eopbgr50105.outbound.protection.outlook.com
  ([40.107.5.105]:15741 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5XPs-0002xQ-1D
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:27 -0400
+ id 1k5XPh-0002xQ-Ff
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RGNDkPQ+OavKp+ts9vM2ASTg58ije9xVg5ikYCmtBrWDXvaZEMXxCKx6ehD22dpWYU5F/wTuJDUYB9D1loYiJ3JhTzTGVQP+4NJ+AmzJJAC55fSCGj1pL5OjCQETFjJYt1fDO+iASwBLUOcknHANNZHrH2Z6YZuh1hzMPCa4GmGaxClBjp/L6fbwYY3KtycrulyXDiLbM7uvToaEJGVyix7q38O3CGNA1oY+OdNvLmKUDqeJw4RQYFV7fiMS566SJ3qbHpx9loHaH+jR/1/Erk4qkr5XQ/oZLVzmE6D4rHbiiBsFuXBZ2HcbMV/20NX4AQ/K9le72JpFp3hvw68KcQ==
+ b=fMO3eAVm7UF7H6b2KDFkXCqUXahwTkSn2q+n71qXVtOEsbqe79UtI8+hcxksK8wLp4kLlH9vcftAX0FXKmPLw2eNNgVZuecgbSTkR1FC/03At+p1fDQ6V+OE7qSFvwdjF4YVf1VSBnfNvFTYPRX0l06g4SZLhIFPEshwfdvvWlpoaRhkIsB9Qjc+s2Nxtco4Pe+wAE7xdp62QzgK+q6VHvciQRLOP6EiYNC43whdHI3IVvTJEXbYIMXjHvQC0WIOdo59kKgFbUJn386t6Xp27xe6xmVDDDstWTc/P/yYIOODKDgeD8rtPA5QuW0D0mmBbrNcCHeTJUiMSVE9Jf5RFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6zd3h0nigB7ypzVhSlAKMUsFUbL7huBDdkZN7HGFuSc=;
- b=T1yFWBgwj/NltPBvTQjLBiCw0+7jj6d8muAPDFXcj+qf1msr7jnNkHezPu9FtlNQ4rs0MSsBDQgt4MD9Hv0UOqYwfnN6MaAU4FQqs6FzbnyN3P3hM9V50kzUFUKdgutIIgG4YC+I+OChmJWqmIAK8+LzaBMq0E5vZQvtEp3tABFq6V3wNRtOtoEjFufZ2OUX75YtG3+zVezGM27zX6CwYh+YuaGNl7WPCo92FZ2qIkT2Ce+1ZR50tAW9UWqwitSDbsE8s/n51yOHVVs2GzhUDBAqJ7eMP977ntmORAvQbN3Vb1gfJnB2c9Kh6CpUf6spo7sfcLIqF9tTiyirNtC/sA==
+ bh=pVAJorsml/0OXlxkEkuRvBk/Ii5+nXBGPfsPBLt1KRQ=;
+ b=mDQoLpdpYIedWAG0x/VHhlIUPPMIg/wYJLx2aFNj4yQjJKSG+7HwZwibMqiWAYrakcYqtB6mu/JIdCQ2GivLaINDKh5RX/J2YTf/EjhybT7xbMqJBgzSycIdsnm6gDt4lhd8DjA6DC5dlx1XAbbce23uvGRviaoFHxal0fChcSTm8A6yxWP/gIPnsGFm1OOaowwhK6eA+4Kn52k2mIXCWwr9z9jigBRU7xVWmOxY6h/legjoGKAOWt486PuDspN9LOiyGRm5VDzvahKbpafP/OALmbsxhuX/u2PxDM1W0etCP37Nqs+xRR5c18NBNjd7+qbtkLjvWRYtpna+o0nrjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6zd3h0nigB7ypzVhSlAKMUsFUbL7huBDdkZN7HGFuSc=;
- b=Pi2eDTC41v+HYkqUc10iuMGrVLWLeac9WVN2MICG75ZYD+Kw8wrVUUu4naXZqEC/MG178guBuL03DhvmOSQ6Nxi3Smf909C7FPIrzqZ+s5NA74Zg/Mp+k2UZACUyw4jSq3vIyI1rHQaqB++gTdFPVJ27BaEtgpDkc/4XLrjUThE=
+ bh=pVAJorsml/0OXlxkEkuRvBk/Ii5+nXBGPfsPBLt1KRQ=;
+ b=xL2+5TS8bZMrJW8DrzfoD5y6MTbIy2b0/DzaqP8oEjTgWgFeUQfvhayQh8zgHVjof5BoGoyYw209U5K8+Vyj31ZFl/ieaR070xVpoa4vbcGpkG+Q6gFg1Mk3GZeliM7Iv33y9xF26Enh5XHfDHbel+taipu2+sUYGuanIfKQks0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
@@ -45,12 +45,13 @@ Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
- 16:46:07 +0000
+ 16:46:08 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/5] linux-user: Make cpu_env accessible in strace.c
-Date: Tue, 11 Aug 2020 18:45:49 +0200
-Message-Id: <20200811164553.27713-2-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v4 2/5] linux-user: Add strace support for printing arguments
+ of truncate()/ftruncate() and getsid()
+Date: Tue, 11 Aug 2020 18:45:50 +0200
+Message-Id: <20200811164553.27713-3-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200811164553.27713-1-Filip.Bozuta@syrmia.com>
 References: <20200811164553.27713-1-Filip.Bozuta@syrmia.com>
@@ -64,33 +65,33 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.235) by
  LO3P123CA0008.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:ba::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.16 via Frontend Transport; Tue, 11 Aug 2020 16:46:06 +0000
+ 15.20.3261.16 via Frontend Transport; Tue, 11 Aug 2020 16:46:07 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.235]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 084e9ec0-b727-4e1a-b5e5-08d83e160b42
+X-MS-Office365-Filtering-Correlation-Id: c079c073-1bc7-4214-acca-08d83e160bfd
 X-MS-TrafficTypeDiagnostic: VI1PR03MB3662:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR03MB3662A38CFEE83C3E0C025014EB450@VI1PR03MB3662.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <VI1PR03MB36627C2B361377850CA723CBEB450@VI1PR03MB3662.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R3mYwogPFqloGQDy51N7wD8uYYnGgVsekuMZwOKeLBk7bw+o50/SQX8IDTbflTgA1lnpE1xVuhDJNLkmYk2InA86GkkmX/N48LsWCcev6jeFNVk25JD5O0pnL5137TbLLN0Ap/6nZwop43OvGMuRoVPWbZtkGLztD7Qq/9UC24t4NHaVDOAXyxxrs+c3CwXSYzX8LICKuIlBV3YB3piXTwW7DshtLHuW+EhAOh9Hh2RtxqzX7BAbNbtp/3coxSC1Ngc4J2/3TW7HmZ9WCf5aDgOPPSPgBKuAHBgBcNDMBXJ5wwDUlNfwCbFuBAnRkDs7SRoQ66RCkSJzPI3a/u5Qo4GYSfu2TNShdHt2yLjc8ZBP65YsubcdXyug7u1KX+pl3cb6l/F5RyOCPpK22W9dd2mcCmcoBdrSD0Je1o6nDqI=
+X-Microsoft-Antispam-Message-Info: Ltm1l0jKi1v6h+kgXBVndvnPYumMnG7JzSaaqka4Uw0yXISufSyeVMAzeOgI9sSZbj3CFs5RjXSnNRFNkOWVcAo6ke9cWrT+BMEJP6hnCIRSrAhF1yfYz+4G35Y+aPfap/VaRoD5vCAcO5ZrY4yUvi04ShyLgTt1R4RzaalQdQDLygslmBRyLW5D9J0Oo6wGIIpUOe7GFDN5c665Thltbq4IPlwbzy4MDNupGM7q8fOzm1d1a/cW2NtYvek+liTPASqt1FNEefJOrzg+FxRxBNAs64mcg9r1r6F2HLwfByWh8SVGYsavMdjL9tnG/cmj3xa7VLjCF6U5+IzuDvhdfU6AJRx39z9uQXAj4vCxiukdQJ0HeQozdlvDDI1fv01f9GGicVXbFtODV94LDbjbVJoyyZftHpX0yNzs57qfCL6AMReCROFSV3dxZnrhRznwCjjUm/O/bTmWLbL5Ncp/xw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(346002)(376002)(396003)(366004)(39830400003)(136003)(956004)(2906002)(508600001)(6512007)(186003)(52116002)(16526019)(66556008)(66946007)(26005)(83380400001)(6666004)(1076003)(30864003)(66476007)(6506007)(86362001)(54906003)(8936002)(4326008)(107886003)(36756003)(316002)(6916009)(5660300002)(8676002)(6486002)(69590400007)(2616005)(21314003)(579004);
+ SFS:(346002)(376002)(396003)(366004)(39830400003)(136003)(956004)(2906002)(508600001)(6512007)(186003)(52116002)(16526019)(66556008)(66946007)(26005)(83380400001)(6666004)(1076003)(66476007)(6506007)(86362001)(54906003)(8936002)(4326008)(107886003)(966005)(36756003)(316002)(6916009)(5660300002)(8676002)(6486002)(69590400007)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: wbAlg5m/FrUsXrRSjetvm1/3xhTXnQNnDqxcjiHMYGJirWMSffMZYFWc1bVTVLP4xTlRWQM5Ge6G4NipjVM4yThYg3Am6CpxpQL6CAVmZEWg63iVAq+ieAbVQx7+1iaeYNkq31mlV0BOwgADOUdnlRmDTk8weYhGiTiLPeBkbL7BTFiugxPBdcBwUZUSVnD1PTNS1OOaBv7rAU4vpPd0zppPb/36IF8XYXORGwl76reM4UcTzQ63RYOWTdOAHThVL/J3ZbDzUvAFsydga5r5rYeSsIzpa7h5tKIGKvTWxWAis2Tc3PtI+Ju9dddpa3mDCNQbMLB24tNwvZF6EB9kyAxqj4zNnx5V8BQZ9i+VgkzTsAV2CTTSOXMglrAOeVQg4b/WceptEBMIpA2N0x8xEQuNJlK4XqLMlGo1TYe6mODf6A5ojFdp01ctHdu/tKSCKrJzudFNYCspM/q+7I/4L8V6WFEh5ddgOcHBEmSYzLWkEzI4hTfTxOqvTdo7F+3DFAfPNg1IXkglvVqvXbcbVOYCqeh4PwMzpjUAw85xu++7DxprO6JVdPIF53jr2Fo99OS7Ghiy/gWUbgpiXOadegaRXGXs2lSlE/oNyJzzdh5/aHQP50W0vYdKqS6UfIWt2qRtFjE72TA+Ii75cUsDTw==
+X-MS-Exchange-AntiSpam-MessageData: 5a+QNlZm+RGKW1lGmuDo2etAo2NLmq3pcYOZ/mdQtXhqBPqgFTZ4JpuCrdB3eXK9wb/oTQ0hYsqcXqVtYPz/ot5qW4Rz4tZI8I5iUw6i6R8WAvjsaTepJmokH+Cgcqi8/RH3C0cB/FbzuIHRKtTl/q00tLd+aNVZZaBCOALdfXf++aXE0f/jUwlrtZNHRRAf8InNRoQm69+4yzChYb3RnJIDHbDtOIiIpHTPauetoSppF9IAATb9cnq/Xj/sCQA9S0lU84ArnMMzhKZFP1Xiqmu/AGtwoEHGfYuFlN37Hdn7faXFS1ImDnM3bLaOVzCQOG9TOjmllCgWSHF2/UYxJq6T5Kd/QD++/8i8kXIU23a+rWdgWm7fltjOvDpVZnz87VgUXF+k+xnZkr4KFpqcKopCL9HV16dwT298E03KqcrraQyUg4jzkK4zrqswB7o+8CAVdRJ/vDBWoCFviy+jtpAaJMv9oxAOZVN/jremHj7LafMeMfeo+guWB0CU4K7fNR0CViqeCqAJPc0pgohz/Lm2werB+3qLYrrYHMWFBGVziO6O6NLnfRLhANU5rnVUinAfA5EzChwpq9Dv2o53hzy4D01/DGdLzSzdxDGh4B3OZyR1oPMS2a1TLujzAKmHbAxC+0A/q1PLjAcKwLLSww==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 084e9ec0-b727-4e1a-b5e5-08d83e160b42
+X-MS-Exchange-CrossTenant-Network-Message-Id: c079c073-1bc7-4214-acca-08d83e160bfd
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 16:46:07.8245 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 16:46:08.6490 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CWQNBQqatIkTestvvts5f3THn+fNNs4/D/5qnka09I1O3r93e2C47hNCa6TP6RuCq23YlY5V0SRX7NxuDoHl+g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1nCsfyiLTb8jPxsaY2+kWWFtbXHFR9VU1tB05fHhqNMFgz7EMTx7P9dEorhpVnt3QEpcbWUQLFvM20XKBrIqyQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3662
 Received-SPF: pass client-ip=40.107.5.105;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -121,1179 +122,229 @@ Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Variable "cpu_env" is used in file "syscall.c" to store
-the information about the cpu environment. This variable
-is used because values of some syscalls can vary between
-cpu architectures. This patch makes the "cpu_env" accessible
-in "strace.c" so it can enable aproppriate "-strace" argument
-printing for these syscalls. This will be a useful addition
-for future "-strace" implementation in QEMU.
+This patch implements strace argument printing functionality for following syscalls:
+
+    * truncate, ftruncate - truncate a file to a specified length
+
+        int truncate/truncate64(const char *path, off_t length)
+        int ftruncate/ftruncate64(int fd, off_t length)
+        man page: https://man7.org/linux/man-pages/man2/truncate.2.html
+
+    * getsid - get session ID
+
+        pid_t getsid(pid_t pid)
+        man page: https://man7.org/linux/man-pages/man2/getsid.2.html
 
 Implementation notes:
 
-    Functions "print_syscall()" and "print_syscall_ret()" which
-    are stated and defined in "qemu.h" and "strace.c" respectively
-    are used to print syscall arguments before and after syscall
-    execution. These functions were changed with addition of a
-    new argument "void *cpu_env". Strucute "struct syscallname"
-    in "strace.c" is used to store the information about syscalls.
-    Fields "call" and "result" represent pointers to functions which
-    are used to print syscall arguments before and after execution.
-    These fields were also changed with addition of a new "void *"
-    argumetn.
-    Also, all defined "print_*" and "print_syscall_ret*" functions
-    in "strace.c" were changed to have the new "void *cpu_env".
-    This was done to not cause build errors (even though none of
-    these functions use this argument).
+    Syscalls truncate/truncate64 take string argument types and thus a
+    separate print function "print_truncate/print_truncate64" is stated in
+    file "strace.list". This function is defined and implemented in "strace.c"
+    by using an existing function used to print string arguments: "print_string()".
+    For syscall ftruncate64, a separate printing function was also stated in
+    "strace.c" as it requires a special kind of handling.
+    The other syscalls have only primitive argument types, so the rest of the
+    implementation was handled by stating an appropriate printing format in file
+    "strace.list".
+    Function "regpairs_aligned()" was cut & pasted from "syscall.c" to "qemu.h"
+    as it is used by functions "print_truncate64()" and "print_ftruncate64()"
+    to print the offset arguments of "truncate64()" and "ftruncate64()".
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h    |   4 +-
- linux-user/strace.c  | 479 ++++++++++++++++++++++---------------------
- linux-user/syscall.c |   5 +-
- 3 files changed, 247 insertions(+), 241 deletions(-)
+ linux-user/qemu.h      | 35 +++++++++++++++++++++++++++++++
+ linux-user/strace.c    | 47 ++++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list | 10 ++++-----
+ linux-user/syscall.c   | 32 ----------------------------
+ 4 files changed, 87 insertions(+), 37 deletions(-)
 
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 5c964389c1..63ddfe86fd 100644
+index 63ddfe86fd..f431805e57 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -400,10 +400,10 @@ extern long safe_syscall_base(int *pending, long number, ...);
- int host_to_target_waitstatus(int status);
+@@ -706,6 +706,41 @@ static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
+ }
+ #endif /* TARGET_ABI_BITS != 32 */
  
- /* strace.c */
--void print_syscall(int num,
-+void print_syscall(void *cpu_env, int num,
-                    abi_long arg1, abi_long arg2, abi_long arg3,
-                    abi_long arg4, abi_long arg5, abi_long arg6);
--void print_syscall_ret(int num, abi_long ret,
-+void print_syscall_ret(void *cpu_env, int num, abi_long ret,
-                        abi_long arg1, abi_long arg2, abi_long arg3,
-                        abi_long arg4, abi_long arg5, abi_long arg6);
++
++/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
++#ifdef TARGET_ARM
++static inline int regpairs_aligned(void *cpu_env, int num)
++{
++    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
++}
++#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
++static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
++#elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
++/*
++ * SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
++ * of registers which translates to the same as ARM/MIPS, because we start with
++ * r3 as arg1
++ */
++static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
++#elif defined(TARGET_SH4)
++/* SH4 doesn't align register pairs, except for p{read,write}64 */
++static inline int regpairs_aligned(void *cpu_env, int num)
++{
++    switch (num) {
++    case TARGET_NR_pread64:
++    case TARGET_NR_pwrite64:
++        return 1;
++
++    default:
++        return 0;
++    }
++}
++#elif defined(TARGET_XTENSA)
++static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
++#else
++static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
++#endif
++
  /**
+  * preexit_cleanup: housekeeping before the guest exits
+  *
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 13981341b3..f0624b6206 100644
+index f0624b6206..7dc239b9f1 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -16,10 +16,10 @@ struct syscallname {
-     int nr;
-     const char *name;
-     const char *format;
--    void (*call)(const struct syscallname *,
-+    void (*call)(void *, const struct syscallname *,
-                  abi_long, abi_long, abi_long,
-                  abi_long, abi_long, abi_long);
--    void (*result)(const struct syscallname *, abi_long,
-+    void (*result)(void *, const struct syscallname *, abi_long,
-                    abi_long, abi_long, abi_long,
-                    abi_long, abi_long, abi_long);
- };
-@@ -634,7 +634,7 @@ print_clockid(int clockid, int last)
- /* select */
- #ifdef TARGET_NR__newselect
- static void
--print_newselect(const struct syscallname *name,
-+print_newselect(void *cpu_env, const struct syscallname *name,
-                 abi_long arg1, abi_long arg2, abi_long arg3,
-                 abi_long arg4, abi_long arg5, abi_long arg6)
- {
-@@ -652,7 +652,7 @@ print_newselect(const struct syscallname *name,
- 
- #ifdef TARGET_NR_semctl
- static void
--print_semctl(const struct syscallname *name,
-+print_semctl(void *cpu_env, const struct syscallname *name,
-              abi_long arg1, abi_long arg2, abi_long arg3,
-              abi_long arg4, abi_long arg5, abi_long arg6)
- {
-@@ -664,7 +664,7 @@ print_semctl(const struct syscallname *name,
+@@ -1958,6 +1958,53 @@ print_lseek(void *cpu_env, const struct syscallname *name,
+ }
  #endif
  
- static void
--print_execve(const struct syscallname *name,
-+print_execve(void *cpu_env, const struct syscallname *name,
-              abi_long arg1, abi_long arg2, abi_long arg3,
-              abi_long arg4, abi_long arg5, abi_long arg6)
- {
-@@ -697,7 +697,7 @@ print_execve(const struct syscallname *name,
- 
- #ifdef TARGET_NR_ipc
- static void
--print_ipc(const struct syscallname *name,
-+print_ipc(void *cpu_env, const struct syscallname *name,
-           abi_long arg1, abi_long arg2, abi_long arg3,
-           abi_long arg4, abi_long arg5, abi_long arg6)
- {
-@@ -741,9 +741,10 @@ print_syscall_err(abi_long ret)
- }
- 
- static void
--print_syscall_ret_addr(const struct syscallname *name, abi_long ret,
--                       abi_long arg0, abi_long arg1, abi_long arg2,
--                       abi_long arg3, abi_long arg4, abi_long arg5)
-+print_syscall_ret_addr(void *cpu_env, const struct syscallname *name,
-+                       abi_long ret, abi_long arg0, abi_long arg1,
-+                       abi_long arg2, abi_long arg3, abi_long arg4,
-+                       abi_long arg5)
- {
-     if (!print_syscall_err(ret)) {
-         qemu_log("0x" TARGET_ABI_FMT_lx, ret);
-@@ -761,9 +762,10 @@ print_syscall_ret_raw(struct syscallname *name, abi_long ret)
- 
- #ifdef TARGET_NR__newselect
- static void
--print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
--                            abi_long arg0, abi_long arg1, abi_long arg2,
--                            abi_long arg3, abi_long arg4, abi_long arg5)
-+print_syscall_ret_newselect(void *cpu_env, const struct syscallname *name,
-+                            abi_long ret, abi_long arg0, abi_long arg1,
-+                            abi_long arg2, abi_long arg3, abi_long arg4,
-+                            abi_long arg5)
- {
-     if (!print_syscall_err(ret)) {
-         qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
-@@ -790,9 +792,10 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
- #define TARGET_TIME_ERROR    5   /* clock not synchronized */
- #ifdef TARGET_NR_adjtimex
- static void
--print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
--                           abi_long arg0, abi_long arg1, abi_long arg2,
--                           abi_long arg3, abi_long arg4, abi_long arg5)
-+print_syscall_ret_adjtimex(void *cpu_env, const struct syscallname *name,
-+                           abi_long ret, abi_long arg0, abi_long arg1,
-+                           abi_long arg2, abi_long arg3, abi_long arg4,
-+                           abi_long arg5)
- {
-     if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-@@ -825,9 +828,10 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
- #if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
-  || defined(TARGGET_NR_flistxattr)
- static void
--print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
--                            abi_long arg0, abi_long arg1, abi_long arg2,
--                            abi_long arg3, abi_long arg4, abi_long arg5)
-+print_syscall_ret_listxattr(void *cpu_env, const struct syscallname *name,
-+                            abi_long ret, abi_long arg0, abi_long arg1,
-+                            abi_long arg2, abi_long arg3, abi_long arg4,
-+                            abi_long arg5)
- {
-     if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-@@ -856,9 +860,10 @@ print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
- 
- #ifdef TARGET_NR_ioctl
- static void
--print_syscall_ret_ioctl(const struct syscallname *name, abi_long ret,
--                        abi_long arg0, abi_long arg1, abi_long arg2,
--                        abi_long arg3, abi_long arg4, abi_long arg5)
-+print_syscall_ret_ioctl(void *cpu_env, const struct syscallname *name,
-+                        abi_long ret, abi_long arg0, abi_long arg1,
-+                        abi_long arg2, abi_long arg3, abi_long arg4,
-+                        abi_long arg5)
- {
-     if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-@@ -1420,9 +1425,9 @@ print_timezone(abi_ulong tz_addr, int last)
- 
- #ifdef TARGET_NR_accept
- static void
--print_accept(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_accept(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1434,9 +1439,9 @@ print_accept(const struct syscallname *name,
- 
- #ifdef TARGET_NR_access
- static void
--print_access(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_access(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1447,9 +1452,9 @@ print_access(const struct syscallname *name,
- 
- #ifdef TARGET_NR_acct
- static void
--print_acct(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_acct(void *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 1);
-@@ -1459,9 +1464,9 @@ print_acct(const struct syscallname *name,
- 
- #ifdef TARGET_NR_brk
- static void
--print_brk(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_brk(void *cpu_env, const struct syscallname *name,
-+          abi_long arg0, abi_long arg1, abi_long arg2,
-+          abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_pointer(arg0, 1);
-@@ -1471,9 +1476,9 @@ print_brk(const struct syscallname *name,
- 
- #ifdef TARGET_NR_chdir
- static void
--print_chdir(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_chdir(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 1);
-@@ -1483,9 +1488,9 @@ print_chdir(const struct syscallname *name,
- 
- #ifdef TARGET_NR_chroot
- static void
--print_chroot(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_chroot(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 1);
-@@ -1495,9 +1500,9 @@ print_chroot(const struct syscallname *name,
- 
- #ifdef TARGET_NR_chmod
- static void
--print_chmod(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_chmod(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1508,9 +1513,9 @@ print_chmod(const struct syscallname *name,
- 
- #if defined(TARGET_NR_chown) || defined(TARGET_NR_lchown)
- static void
--print_chown(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_chown(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1523,9 +1528,9 @@ print_chown(const struct syscallname *name,
- 
- #ifdef TARGET_NR_clock_adjtime
- static void
--print_clock_adjtime(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_clock_adjtime(void *cpu_env, const struct syscallname *name,
-+                    abi_long arg0, abi_long arg1, abi_long arg2,
-+                    abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_clockid(arg0, 0);
-@@ -1547,9 +1552,9 @@ static void do_print_clone(unsigned int flags, abi_ulong newsp,
- }
- 
- static void
--print_clone(const struct syscallname *name,
--    abi_long arg1, abi_long arg2, abi_long arg3,
--    abi_long arg4, abi_long arg5, abi_long arg6)
-+print_clone(void *cpu_env, const struct syscallname *name,
-+            abi_long arg1, abi_long arg2, abi_long arg3,
-+            abi_long arg4, abi_long arg5, abi_long arg6)
- {
-     print_syscall_prologue(name);
- #if defined(TARGET_MICROBLAZE)
-@@ -1567,9 +1572,9 @@ print_clone(const struct syscallname *name,
- 
- #ifdef TARGET_NR_creat
- static void
--print_creat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_creat(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1580,9 +1585,9 @@ print_creat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_execv
- static void
--print_execv(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_execv(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1593,9 +1598,9 @@ print_execv(const struct syscallname *name,
- 
- #ifdef TARGET_NR_faccessat
- static void
--print_faccessat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_faccessat(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -1608,9 +1613,9 @@ print_faccessat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_fallocate
- static void
--print_fallocate(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fallocate(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1628,9 +1633,9 @@ print_fallocate(const struct syscallname *name,
- 
- #ifdef TARGET_NR_fchmodat
- static void
--print_fchmodat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fchmodat(void *cpu_env, const struct syscallname *name,
++#ifdef TARGET_NR_truncate
++static void
++print_truncate(void *cpu_env, const struct syscallname *name,
 +               abi_long arg0, abi_long arg1, abi_long arg2,
 +               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -1643,9 +1648,9 @@ print_fchmodat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_fchownat
- static void
--print_fchownat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fchownat(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -1659,9 +1664,9 @@ print_fchownat(const struct syscallname *name,
- 
- #if defined(TARGET_NR_fcntl) || defined(TARGET_NR_fcntl64)
- static void
--print_fcntl(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fcntl(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1758,9 +1763,9 @@ print_fcntl(const struct syscallname *name,
- 
- #ifdef TARGET_NR_fgetxattr
- static void
--print_fgetxattr(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fgetxattr(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1773,9 +1778,9 @@ print_fgetxattr(const struct syscallname *name,
- 
- #ifdef TARGET_NR_flistxattr
- static void
--print_flistxattr(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_flistxattr(void *cpu_env, const struct syscallname *name,
++{
++    print_syscall_prologue(name);
++    print_string(arg0, 0);
++    print_raw_param(TARGET_ABI_FMT_ld, arg1, 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
++#ifdef TARGET_NR_truncate64
++static void
++print_truncate64(void *cpu_env, const struct syscallname *name,
 +                 abi_long arg0, abi_long arg1, abi_long arg2,
 +                 abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1787,9 +1792,9 @@ print_flistxattr(const struct syscallname *name,
- 
- #if defined(TARGET_NR_getxattr) || defined(TARGET_NR_lgetxattr)
- static void
--print_getxattr(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_getxattr(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1803,9 +1808,9 @@ print_getxattr(const struct syscallname *name,
- 
- #if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr)
- static void
--print_listxattr(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_listxattr(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1818,9 +1823,9 @@ print_listxattr(const struct syscallname *name,
- 
- #if defined(TARGET_NR_fremovexattr)
- static void
--print_fremovexattr(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fremovexattr(void *cpu_env, const struct syscallname *name,
-+                   abi_long arg0, abi_long arg1, abi_long arg2,
-+                   abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1831,9 +1836,9 @@ print_fremovexattr(const struct syscallname *name,
- 
- #if defined(TARGET_NR_removexattr) || defined(TARGET_NR_lremovexattr)
- static void
--print_removexattr(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_removexattr(void *cpu_env, const struct syscallname *name,
++{
++    print_syscall_prologue(name);
++    print_string(arg0, 0);
++    if (regpairs_aligned(cpu_env, TARGET_NR_truncate64)) {
++        arg1 = arg2;
++        arg2 = arg3;
++    }
++    print_raw_param("%" PRIu64, target_offset64(arg1, arg2), 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
++#ifdef TARGET_NR_ftruncate64
++static void
++print_ftruncate64(void *cpu_env, const struct syscallname *name,
 +                  abi_long arg0, abi_long arg1, abi_long arg2,
 +                  abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1845,9 +1850,9 @@ print_removexattr(const struct syscallname *name,
- 
- #ifdef TARGET_NR_futimesat
- static void
--print_futimesat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_futimesat(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -1860,9 +1865,9 @@ print_futimesat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_settimeofday
- static void
--print_settimeofday(const struct syscallname *name,
--                abi_long arg0, abi_long arg1, abi_long arg2,
--                abi_long arg3, abi_long arg4, abi_long arg5)
-+print_settimeofday(void *cpu_env, const struct syscallname *name,
-+                   abi_long arg0, abi_long arg1, abi_long arg2,
-+                   abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_timeval(arg0, 0);
-@@ -1873,9 +1878,9 @@ print_settimeofday(const struct syscallname *name,
- 
- #ifdef TARGET_NR_link
- static void
--print_link(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_link(void *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -1886,9 +1891,9 @@ print_link(const struct syscallname *name,
- 
- #ifdef TARGET_NR_linkat
- static void
--print_linkat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_linkat(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -1902,9 +1907,9 @@ print_linkat(const struct syscallname *name,
- 
- #ifdef TARGET_NR__llseek
- static void
--print__llseek(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print__llseek(void *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     const char *whence = "UNKNOWN";
-     print_syscall_prologue(name);
-@@ -1924,9 +1929,9 @@ print__llseek(const struct syscallname *name,
- 
- #ifdef TARGET_NR_lseek
- static void
--print_lseek(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_lseek(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -1955,7 +1960,7 @@ print_lseek(const struct syscallname *name,
- 
++{
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    if (regpairs_aligned(cpu_env, TARGET_NR_ftruncate64)) {
++        arg1 = arg2;
++        arg2 = arg3;
++    }
++    print_raw_param("%" PRIu64, target_offset64(arg1, arg2), 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
  #if defined(TARGET_NR_socket)
  static void
--print_socket(const struct syscallname *name,
-+print_socket(void *cpu_env, const struct syscallname *name,
-              abi_long arg0, abi_long arg1, abi_long arg2,
-              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-@@ -2304,7 +2309,7 @@ static struct {
- };
- 
- static void
--print_socketcall(const struct syscallname *name,
-+print_socketcall(void *cpu_env, const struct syscallname *name,
-                  abi_long arg0, abi_long arg1, abi_long arg2,
-                  abi_long arg3, abi_long arg4, abi_long arg5)
- {
-@@ -2325,7 +2330,7 @@ print_socketcall(const struct syscallname *name,
- 
- #if defined(TARGET_NR_bind)
- static void
--print_bind(const struct syscallname *name,
-+print_bind(void *cpu_env, const struct syscallname *name,
-            abi_long arg0, abi_long arg1, abi_long arg2,
-            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-@@ -2339,9 +2344,9 @@ print_bind(const struct syscallname *name,
- #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) || \
-     defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64)
- static void
--print_stat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_stat(void *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2355,9 +2360,9 @@ print_stat(const struct syscallname *name,
- 
- #if defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64)
- static void
--print_fstat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fstat(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -2369,9 +2374,9 @@ print_fstat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mkdir
- static void
--print_mkdir(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mkdir(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2382,9 +2387,9 @@ print_mkdir(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mkdirat
- static void
--print_mkdirat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mkdirat(void *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -2396,9 +2401,9 @@ print_mkdirat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_rmdir
- static void
--print_rmdir(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_rmdir(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2408,9 +2413,9 @@ print_rmdir(const struct syscallname *name,
- 
- #ifdef TARGET_NR_rt_sigaction
- static void
--print_rt_sigaction(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_rt_sigaction(void *cpu_env, const struct syscallname *name,
-+                   abi_long arg0, abi_long arg1, abi_long arg2,
-+                   abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_signal(arg0, 0);
-@@ -2422,9 +2427,9 @@ print_rt_sigaction(const struct syscallname *name,
- 
- #ifdef TARGET_NR_rt_sigprocmask
- static void
--print_rt_sigprocmask(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_rt_sigprocmask(void *cpu_env, const struct syscallname *name,
-+                     abi_long arg0, abi_long arg1, abi_long arg2,
-+                     abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     const char *how = "UNKNOWN";
-     print_syscall_prologue(name);
-@@ -2442,9 +2447,9 @@ print_rt_sigprocmask(const struct syscallname *name,
- 
- #ifdef TARGET_NR_rt_sigqueueinfo
- static void
--print_rt_sigqueueinfo(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_rt_sigqueueinfo(void *cpu_env, const struct syscallname *name,
-+                      abi_long arg0, abi_long arg1, abi_long arg2,
-+                      abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     void *p;
-     target_siginfo_t uinfo;
-@@ -2467,9 +2472,9 @@ print_rt_sigqueueinfo(const struct syscallname *name,
- 
- #ifdef TARGET_NR_rt_tgsigqueueinfo
- static void
--print_rt_tgsigqueueinfo(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_rt_tgsigqueueinfo(void *cpu_env, const struct syscallname *name,
-+                        abi_long arg0, abi_long arg1, abi_long arg2,
-+                        abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     void *p;
-     target_siginfo_t uinfo;
-@@ -2551,9 +2556,9 @@ print_syslog_action(abi_ulong arg, int last)
- }
- 
- static void
--print_syslog(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_syslog(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_syslog_action(arg0, 0);
-@@ -2565,9 +2570,9 @@ print_syslog(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mknod
- static void
--print_mknod(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mknod(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     int hasdev = (arg1 & (S_IFCHR|S_IFBLK));
- 
-@@ -2584,9 +2589,9 @@ print_mknod(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mknodat
- static void
--print_mknodat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mknodat(void *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     int hasdev = (arg2 & (S_IFCHR|S_IFBLK));
- 
-@@ -2604,9 +2609,9 @@ print_mknodat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mq_open
- static void
--print_mq_open(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mq_open(void *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     int is_creat = (arg1 & TARGET_O_CREAT);
- 
-@@ -2623,9 +2628,9 @@ print_mq_open(const struct syscallname *name,
- 
- #ifdef TARGET_NR_open
- static void
--print_open(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_open(void *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     int is_creat = (arg1 & TARGET_O_CREAT);
- 
-@@ -2640,9 +2645,9 @@ print_open(const struct syscallname *name,
- 
- #ifdef TARGET_NR_openat
- static void
--print_openat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_openat(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     int is_creat = (arg2 & TARGET_O_CREAT);
- 
-@@ -2658,9 +2663,9 @@ print_openat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mq_unlink
- static void
--print_mq_unlink(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mq_unlink(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 1);
-@@ -2670,9 +2675,9 @@ print_mq_unlink(const struct syscallname *name,
- 
- #if defined(TARGET_NR_fstatat64) || defined(TARGET_NR_newfstatat)
- static void
--print_fstatat64(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_fstatat64(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -2686,9 +2691,9 @@ print_fstatat64(const struct syscallname *name,
- 
- #ifdef TARGET_NR_readlink
- static void
--print_readlink(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_readlink(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2700,9 +2705,9 @@ print_readlink(const struct syscallname *name,
- 
- #ifdef TARGET_NR_readlinkat
- static void
--print_readlinkat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_readlinkat(void *cpu_env, const struct syscallname *name,
-+                 abi_long arg0, abi_long arg1, abi_long arg2,
-+                 abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -2715,9 +2720,9 @@ print_readlinkat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_rename
- static void
--print_rename(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_rename(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2728,9 +2733,9 @@ print_rename(const struct syscallname *name,
- 
- #ifdef TARGET_NR_renameat
- static void
--print_renameat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_renameat(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -2743,9 +2748,9 @@ print_renameat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_statfs
- static void
--print_statfs(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_statfs(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2756,9 +2761,9 @@ print_statfs(const struct syscallname *name,
- 
- #ifdef TARGET_NR_statfs64
- static void
--print_statfs64(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_statfs64(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2769,9 +2774,9 @@ print_statfs64(const struct syscallname *name,
- 
- #ifdef TARGET_NR_symlink
- static void
--print_symlink(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_symlink(void *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2782,9 +2787,9 @@ print_symlink(const struct syscallname *name,
- 
- #ifdef TARGET_NR_symlinkat
- static void
--print_symlinkat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_symlinkat(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2796,9 +2801,9 @@ print_symlinkat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mount
- static void
--print_mount(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mount(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2812,9 +2817,9 @@ print_mount(const struct syscallname *name,
- 
- #ifdef TARGET_NR_umount
- static void
--print_umount(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_umount(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 1);
-@@ -2824,9 +2829,9 @@ print_umount(const struct syscallname *name,
- 
- #ifdef TARGET_NR_umount2
- static void
--print_umount2(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_umount2(void *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2837,9 +2842,9 @@ print_umount2(const struct syscallname *name,
- 
- #ifdef TARGET_NR_unlink
- static void
--print_unlink(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_unlink(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 1);
-@@ -2849,9 +2854,9 @@ print_unlink(const struct syscallname *name,
- 
- #ifdef TARGET_NR_unlinkat
- static void
--print_unlinkat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_unlinkat(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -2863,9 +2868,9 @@ print_unlinkat(const struct syscallname *name,
- 
- #ifdef TARGET_NR_utime
- static void
--print_utime(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_utime(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2876,9 +2881,9 @@ print_utime(const struct syscallname *name,
- 
- #ifdef TARGET_NR_utimes
- static void
--print_utimes(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_utimes(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_string(arg0, 0);
-@@ -2889,9 +2894,9 @@ print_utimes(const struct syscallname *name,
- 
- #ifdef TARGET_NR_utimensat
- static void
--print_utimensat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_utimensat(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_at_dirfd(arg0, 0);
-@@ -2904,9 +2909,9 @@ print_utimensat(const struct syscallname *name,
- 
- #if defined(TARGET_NR_mmap) || defined(TARGET_NR_mmap2)
- static void
--print_mmap(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mmap(void *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_pointer(arg0, 0);
-@@ -2922,9 +2927,9 @@ print_mmap(const struct syscallname *name,
- 
- #ifdef TARGET_NR_mprotect
- static void
--print_mprotect(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_mprotect(void *cpu_env, const struct syscallname *name,
-+               abi_long arg0, abi_long arg1, abi_long arg2,
-+               abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_pointer(arg0, 0);
-@@ -2936,9 +2941,9 @@ print_mprotect(const struct syscallname *name,
- 
- #ifdef TARGET_NR_munmap
- static void
--print_munmap(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_munmap(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_pointer(arg0, 0);
-@@ -2989,9 +2994,9 @@ if( cmd == val ) { \
- }
- 
- static void
--print_futex(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_futex(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_pointer(arg0, 0);
-@@ -3006,9 +3011,9 @@ print_futex(const struct syscallname *name,
- 
- #ifdef TARGET_NR_kill
- static void
--print_kill(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_kill(void *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -3019,9 +3024,9 @@ print_kill(const struct syscallname *name,
- 
- #ifdef TARGET_NR_tkill
- static void
--print_tkill(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_tkill(void *cpu_env, const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -3032,9 +3037,9 @@ print_tkill(const struct syscallname *name,
- 
- #ifdef TARGET_NR_tgkill
- static void
--print_tgkill(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
-+print_tgkill(void *cpu_env, const struct syscallname *name,
-+             abi_long arg0, abi_long arg1, abi_long arg2,
-+             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
-     print_raw_param("%d", arg0, 0);
-@@ -3046,7 +3051,7 @@ print_tgkill(const struct syscallname *name,
- 
- #ifdef TARGET_NR_statx
- static void
--print_statx(const struct syscallname *name,
-+print_statx(void *cpu_env, const struct syscallname *name,
-             abi_long arg0, abi_long arg1, abi_long arg2,
-             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-@@ -3062,7 +3067,7 @@ print_statx(const struct syscallname *name,
- 
- #ifdef TARGET_NR_ioctl
- static void
--print_ioctl(const struct syscallname *name,
-+print_ioctl(void *cpu_env, const struct syscallname *name,
-             abi_long arg0, abi_long arg1, abi_long arg2,
-             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-@@ -3147,7 +3152,7 @@ static int nsyscalls = ARRAY_SIZE(scnames);
-  * The public interface to this module.
-  */
- void
--print_syscall(int num,
-+print_syscall(void *cpu_env, int num,
-               abi_long arg1, abi_long arg2, abi_long arg3,
-               abi_long arg4, abi_long arg5, abi_long arg6)
- {
-@@ -3160,7 +3165,7 @@ print_syscall(int num,
-         if( scnames[i].nr == num ) {
-             if( scnames[i].call != NULL ) {
-                 scnames[i].call(
--                    &scnames[i], arg1, arg2, arg3, arg4, arg5, arg6);
-+                    cpu_env, &scnames[i], arg1, arg2, arg3, arg4, arg5, arg6);
-             } else {
-                 /* XXX: this format system is broken because it uses
-                    host types and host pointers for strings */
-@@ -3176,7 +3181,7 @@ print_syscall(int num,
- 
- 
- void
--print_syscall_ret(int num, abi_long ret,
-+print_syscall_ret(void *cpu_env, int num, abi_long ret,
-                   abi_long arg1, abi_long arg2, abi_long arg3,
-                   abi_long arg4, abi_long arg5, abi_long arg6)
- {
-@@ -3185,7 +3190,7 @@ print_syscall_ret(int num, abi_long ret,
-     for(i=0;i<nsyscalls;i++)
-         if( scnames[i].nr == num ) {
-             if( scnames[i].result != NULL ) {
--                scnames[i].result(&scnames[i], ret,
-+                scnames[i].result(cpu_env, &scnames[i], ret,
-                                   arg1, arg2, arg3,
-                                   arg4, arg5, arg6);
-             } else {
+ print_socket(void *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index a04706a524..8e5303d035 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -258,10 +258,10 @@
+ { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_ftruncate
+-{ TARGET_NR_ftruncate, "ftruncate" , NULL, NULL, NULL },
++{ TARGET_NR_ftruncate, "ftruncate" , "%s(%d," TARGET_ABI_FMT_ld ")", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_ftruncate64
+-{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, NULL, NULL },
++{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, print_ftruncate64, NULL },
+ #endif
+ #ifdef TARGET_NR_futex
+ { TARGET_NR_futex, "futex" , NULL, print_futex, NULL },
+@@ -372,7 +372,7 @@
+ { TARGET_NR_getrusage, "getrusage" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getsid
+-{ TARGET_NR_getsid, "getsid" , NULL, NULL, NULL },
++{ TARGET_NR_getsid, "getsid" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getsockname
+ { TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
+@@ -1535,10 +1535,10 @@
+ { TARGET_NR_tkill, "tkill" , NULL, print_tkill, NULL },
+ #endif
+ #ifdef TARGET_NR_truncate
+-{ TARGET_NR_truncate, "truncate" , NULL, NULL, NULL },
++{ TARGET_NR_truncate, "truncate" , NULL, print_truncate, NULL },
+ #endif
+ #ifdef TARGET_NR_truncate64
+-{ TARGET_NR_truncate64, "truncate64" , NULL, NULL, NULL },
++{ TARGET_NR_truncate64, "truncate64" , NULL, print_truncate64, NULL },
+ #endif
+ #ifdef TARGET_NR_tuxcall
+ { TARGET_NR_tuxcall, "tuxcall" , NULL, NULL, NULL },
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1211e759c2..cc76ac61ba 100644
+index cc76ac61ba..1517096a9b 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -12594,14 +12594,15 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-                          arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+@@ -501,38 +501,6 @@ static inline int next_free_host_timer(void)
+ }
+ #endif
  
-     if (unlikely(qemu_loglevel_mask(LOG_STRACE))) {
--        print_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
-+        print_syscall(cpu_env, num, arg1, arg2, arg3, arg4, arg5, arg6);
-     }
+-/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
+-#ifdef TARGET_ARM
+-static inline int regpairs_aligned(void *cpu_env, int num)
+-{
+-    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
+-}
+-#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
+-static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
+-#elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
+-/* SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
+- * of registers which translates to the same as ARM/MIPS, because we start with
+- * r3 as arg1 */
+-static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
+-#elif defined(TARGET_SH4)
+-/* SH4 doesn't align register pairs, except for p{read,write}64 */
+-static inline int regpairs_aligned(void *cpu_env, int num)
+-{
+-    switch (num) {
+-    case TARGET_NR_pread64:
+-    case TARGET_NR_pwrite64:
+-        return 1;
+-
+-    default:
+-        return 0;
+-    }
+-}
+-#elif defined(TARGET_XTENSA)
+-static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
+-#else
+-static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
+-#endif
+-
+ #define ERRNO_TABLE_SIZE 1200
  
-     ret = do_syscall1(cpu_env, num, arg1, arg2, arg3, arg4,
-                       arg5, arg6, arg7, arg8);
- 
-     if (unlikely(qemu_loglevel_mask(LOG_STRACE))) {
--        print_syscall_ret(num, ret, arg1, arg2, arg3, arg4, arg5, arg6);
-+        print_syscall_ret(cpu_env, num, ret, arg1, arg2,
-+                          arg3, arg4, arg5, arg6);
-     }
- 
-     record_syscall_return(cpu, num, ret);
+ /* target_to_host_errno_table[] is initialized from
 -- 
 2.25.1
 
