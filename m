@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560DD2418AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 11:01:37 +0200 (CEST)
-Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0362F2418AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 11:03:15 +0200 (CEST)
+Received: from localhost ([::1]:55158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5QA4-0005Ym-Bv
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 05:01:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
+	id 1k5QBe-000800-38
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 05:03:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
- id 1k5Q8P-0003up-8v
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:59:53 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:46534)
+ id 1k5Q8Q-0003wy-JG
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:59:54 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
- id 1k5Q8M-0005TA-Sw
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:59:53 -0400
-Received: by mail-pg1-x529.google.com with SMTP id p8so6387706pgn.13
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 01:59:49 -0700 (PDT)
+ id 1k5Q8O-0005TN-FD
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:59:54 -0400
+Received: by mail-pg1-x542.google.com with SMTP id p37so2237445pgl.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 01:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=8Oa1NMTa30y2wMEwqzgmHnRPPsrYFPcBXMzRuwI3Bf4=;
- b=NbAQ3rFaLfb2y2xQf+774lG4hxAqAVBoBqUlOZ3T5aHP5hhX4SSclXz3ztQzR+p1ob
- JHjent55JjqoDIJHMyr74SGCdc8YTozabS2HKV/bHZ9vCtxMJmWsGAmmlc9+WYdDnCQk
- qUGRj/mNliqw4YRhMgln/vCj8TPBwPeOBLk8vGVLgnTS3+7amGrEHc/esTKR8nPkZKsx
- 53BZUkM9XZ+GwMMNKwmyp2bmYWMcwxkHd17UVBGzIMI+MyW92GbtedgSVhra0wSEdqbA
- SrXlWZddYCgZd896zYDu7RHydx4SQj3X7kMg3RwlPqWJSU2jb1zDImjB8roRgf5U4lkC
- AlGA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=r5VyTkVLYpF3phTVGF7Kd2M8aWZEyprVmGzZRT5UTRI=;
+ b=j76pdoOdk+VvI4MffC6WcL5H6d+Pi954WGnmj17UEhQQvh5u1S69IIA1vWDToCiuy1
+ 7SRaxg1dNtyrKmv5v/EauAHUHtfxX5jZTm5ifmDwELXcKAEGt/R3V0XwQHKbfX6JLvdf
+ rxi9+QquADVkUsEuwbWjiw1Z22bELQ3XVklqrmnvClY+NCGnePhLXS+AcTkoHRaZN6S4
+ Ib6tIpxQfTPt/I6r6ekd/I2opMjxoBPTiYuCiUjSr1AUOWtSEeYhKGr67Lu+oF5fvspd
+ mxySHOKgAVKiIRGHD/BHNa0rSEZY/xvR2gSUN9+GxPkkUxKjG9o3UZfQqYyVRlnA4ySA
+ afZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=8Oa1NMTa30y2wMEwqzgmHnRPPsrYFPcBXMzRuwI3Bf4=;
- b=ntzZG/7RKG29Knz0BoEvVMAHxzcHhtF4c4Jjf2BypOOmwH6glq+h2tV3v3maAwTraV
- CkyJ4PVKxJcNIF7x4RSGDbg6s+SUCCLpQkJcAP4kfkVAdk/xfGOAZiW6qxDivePqaq1J
- /WgaIlWen3UfiCrtA9Q8cLWQAUQHK1EqG6zm5aII05DQtiOECpIaXgMOvchMUpfUZPhP
- tpL9sVw7qENlLzl13Qb74ZVn7BCIUdmX5ReppnMAMQbtGdRSWZanRrnvZJJ2vq1Aq2o8
- T3GLLgz+K8tPrP/FZqJen6mhgOgNQIG3ZoTWbdi1uvRgEod2taGSVDBhr8NqZy88w4lv
- L1HA==
-X-Gm-Message-State: AOAM531KQ4MpVkuHtLkKqI8wK30fKIYIylzkyT6gnvAExzSceqGgPhjT
- rGUgj/wD2zP5IGJNZqJPMmPqHWVwpKGALw==
-X-Google-Smtp-Source: ABdhPJxYXlTrwuFJGx6EvTr0dN6ILxLk9QtWXCyUNfK4TNtuI2Q4ytOdkUdT5acwjBjOsJuqNHHL2g==
-X-Received: by 2002:a63:4d8:: with SMTP id 207mr32132pge.146.1597136388443;
- Tue, 11 Aug 2020 01:59:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=r5VyTkVLYpF3phTVGF7Kd2M8aWZEyprVmGzZRT5UTRI=;
+ b=Rbv3pTmN2EmlSF0/N08fjpFIfDKqbQxPKajgx84t0Vwu55BRQYks3rwmpiRT4G8PI6
+ 99ZyXdvRbWYEScTyzxRYQDFS4rXRCeMTHcJLgELh4Viiktrj1Xx6PEcVdk5omVyJ24Ej
+ KT4jnTuLaVg6B41WG+uY90XQYmh6Bvy7GStK1RnN0+/0KskN0K/WtpWxXHV/wYygIrx/
+ c1U9NHSICvP/K/GfTcUUkv5Lt4sQYOeuoSIqdy0OfXGWHyzphusE7XYzjBCSa2eMq8xm
+ MLqFVKHkfQ3om05tar7UssEE6/37QEygomD2gUebYHOxBrhjtvv822482BwjDClJXqgU
+ yPng==
+X-Gm-Message-State: AOAM530lRsF/dbNsZNsUUA4GIaxgWD6NimGD23dwJ9x7WMFIiN8V/XZ+
+ E4gkt9NSWl7/HPKQwkeXbz1nBpzl+PRKrw==
+X-Google-Smtp-Source: ABdhPJyYde/QqfZhqtwD84HSkE8A0pQvchWhZDRf16feJS2AaaWl/suc9pgUcWET434Yh+REhZkhAQ==
+X-Received: by 2002:aa7:8d95:: with SMTP id i21mr4957266pfr.240.1597136391078; 
+ Tue, 11 Aug 2020 01:59:51 -0700 (PDT)
 Received: from gamma11.internal.sifive.com ([64.62.193.194])
- by smtp.gmail.com with ESMTPSA id w10sm1282499pjq.46.2020.08.11.01.59.47
+ by smtp.gmail.com with ESMTPSA id w10sm1282499pjq.46.2020.08.11.01.59.50
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Aug 2020 01:59:47 -0700 (PDT)
+ Tue, 11 Aug 2020 01:59:50 -0700 (PDT)
 From: Chih-Min Chao <chihmin.chao@sifive.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH 0/3] RFC: target/riscv: add half-precision floating-point
- extension
-Date: Tue, 11 Aug 2020 01:59:23 -0700
-Message-Id: <1597136381-17296-1-git-send-email-chihmin.chao@sifive.com>
+Subject: [PATCH 1/3] target/riscv: add NaN-Boxing helper for half-float
+Date: Tue, 11 Aug 2020 01:59:24 -0700
+Message-Id: <1597136381-17296-2-git-send-email-chihmin.chao@sifive.com>
 X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=chihmin.chao@sifive.com; helo=mail-pg1-x529.google.com
+In-Reply-To: <1597136381-17296-1-git-send-email-chihmin.chao@sifive.com>
+References: <1597136381-17296-1-git-send-email-chihmin.chao@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=chihmin.chao@sifive.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,40 +82,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chih-Min Chao <chihmin.chao@sifive.com>
+Cc: Chih-Min Chao <chihmin.chao@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The spec is a draft but required by vector extension.  The reference is 
-availabe at
-   https://github.com/riscv/riscv-isa-manual/tree/zfh
+When writing, box the 16bit value with all ones in high part[63:16]
+When reading, unbox the 16bit value from 64bit storage and validate it
 
-The patch depends two unmerged patch set
-  1. extend softfloat to support int8 and alternative NaN probagapation
-  2. NaNBox fix
+Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+---
+ target/riscv/internals.h | 16 ++++++++++++++++
+ target/riscv/translate.c | 15 +++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com>
-Based-on: <20200724002807.441147-1-richard.henderson@linaro.org>
-
-Chih-Min Chao (2):
-  target/riscv: add NaN-Boxing helper for half-float
-  target/riscv: support 'x-k' in cpu option
-
-Kito Cheng (1):
-  target/riscv: Implement zfh extension
-
- target/riscv/cpu.c                        |   4 +
- target/riscv/cpu.h                        |   2 +
- target/riscv/fpu_helper.c                 | 180 ++++++++++
- target/riscv/helper.h                     |  34 ++
- target/riscv/insn32-64.decode             |   6 +
- target/riscv/insn32.decode                |  32 ++
- target/riscv/insn_trans/trans_rvzfh.inc.c | 531 ++++++++++++++++++++++++++++++
- target/riscv/internals.h                  |  16 +
- target/riscv/translate.c                  |  16 +
- 9 files changed, 821 insertions(+)
- create mode 100644 target/riscv/insn_trans/trans_rvzfh.inc.c
-
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index f1a546d..522c306 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -54,4 +54,20 @@ static inline float32 check_nanbox_s(uint64_t f)
+     }
+ }
+ 
++static inline uint64_t nanbox_h(float16 f)
++{
++    return f | MAKE_64BIT_MASK(16, 48);
++}
++
++static inline float16 check_nanbox_h(uint64_t f)
++{
++    uint64_t mask = MAKE_64BIT_MASK(16, 48);
++
++    if (likely((f & mask) == mask)) {
++        return (uint16_t)f;
++    } else {
++        return 0x7E00u; /* default qnan */
++    }
++}
++
+ #endif
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index bf35182..e227534 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -119,6 +119,21 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+     tcg_temp_free_i64(t_nan);
+ }
+ 
++static void gen_nanbox_h(TCGv_i64 out, TCGv_i64 in)
++{
++    tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(16, 48));
++}
++
++static void gen_check_nanbox_h(TCGv_i64 out, TCGv_i64 in)
++{
++    TCGv_i64 t_max = tcg_const_i64(0xffffffffffff0000ull);
++    TCGv_i64 t_nan = tcg_const_i64(0xffffffffffff7e00ull);
++
++    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
++    tcg_temp_free_i64(t_max);
++    tcg_temp_free_i64(t_nan);
++}
++
+ static void generate_exception(DisasContext *ctx, int excp)
+ {
+     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
 -- 
 2.7.4
 
