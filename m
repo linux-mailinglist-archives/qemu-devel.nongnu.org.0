@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED262241D97
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 17:52:07 +0200 (CEST)
-Received: from localhost ([::1]:51870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0C0241DB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 17:57:43 +0200 (CEST)
+Received: from localhost ([::1]:59914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5WZK-0003Mn-O3
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 11:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
+	id 1k5Wej-0006tt-59
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 11:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k5WY9-0002Oe-Ka; Tue, 11 Aug 2020 11:50:53 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:35001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k5WY8-00050m-1p; Tue, 11 Aug 2020 11:50:53 -0400
-Received: by mail-ot1-x331.google.com with SMTP id 93so10500697otx.2;
- Tue, 11 Aug 2020 08:50:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ohQrBHzB1KYDgr6Zj+iEzXWbCc2Pu3vfCbm+CWxzNxc=;
- b=pvg5Mm053WLNnfyjbbG5SvL/8WwhNFVFhYZ5Own2UWuHsxLIqKgA3SimEhz7a4Munm
- /rM5XQDSgztnFLTgWr/Uh+D8dzFLI3nlgeaUsxNfQ1+WPjORd2ZbpYjumo0AL8H4j4KX
- SBPKPXwqvUgW6yrCE5BdGfEaMXEvGf/5dQf9BRZxTsWfNnWEKXiUMUbYsIZjPOTLGKCc
- vnFgaJsStc00c4QZewq3vJ3tSon0OysLzqDZioZ2MZcVDG0S2ZUqvuSsoCFDyQpjx1QM
- ay2VtVLPSSwp1fyILBxY6GWpG74z+5IKAi+efED9IVIsWNrNGWcFpzj97vgqm8Yjg+x+
- 7qSg==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1k5Wcm-0005u1-27
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:55:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26486
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1k5Wck-0005Sx-EC
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:55:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597161337;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cMF9wCch3Vo3DZkmu3xNhNm/K1u/RMVm799+qfOigrE=;
+ b=bz+nEBj7hwWbW9lbfaJIPxNbStdXiD3Z0la6U7Sltem/hQSC8q+lp2p9AknwDrmjpPcev0
+ cBbjlEVtaVxNqa2CAZKxTRux9NFZVqmwZfzG/e8yxGvb/gJ++Z9S8268Z0ZNAipe8XrOfI
+ rjbESkmhnHiacyffIDKF3X95C8ToCjE=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-yO5Ml4A3N1WVw6QvTKrspw-1; Tue, 11 Aug 2020 11:54:27 -0400
+X-MC-Unique: yO5Ml4A3N1WVw6QvTKrspw-1
+Received: by mail-oi1-f199.google.com with SMTP id r62so7652390oif.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 08:54:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ohQrBHzB1KYDgr6Zj+iEzXWbCc2Pu3vfCbm+CWxzNxc=;
- b=MuMf6hYnuPDxEdp8At3fPdeCVZjXEIhcvU4GQ2G/w153N9kE1ULTBEH9yZai03mopi
- 4vwBdY2OSGZ5StvUW8g7KnIFcY/U1zdgp3OEyfm8M6QSe61E3VkpJHZnRD32rVz/GwYs
- Wjaqom4p2M2+5en2hTtr8PMLbKnODhlBQoUBIkaQYSKmRNkO0tyg0KEn62FUFekDAeV4
- HfwNEBcH5iJUOmwJZ8N7QjLUt1FdONpZAU8D+I/66o4PIE2pyiLsU6Szw4fj73bsYaYX
- ugdRfR+6xLGUanGcOIDXvBdbPsncqA9+KMA/zxPzdygvJJiLA/jNv7+PhbzTiBQQP/xF
- VVSA==
-X-Gm-Message-State: AOAM531yXzRHIOXWPsLyedqt6ttD0T00iQueWpxxte2SQvdeXiYjfDAc
- cCGNhN3vpDlrkVlqPwo6j18pbp+UXYkdc+zynNg=
-X-Google-Smtp-Source: ABdhPJzs+d+G01JSqYlYvnh14B3zLV+fWjwPILg7Y74WWFnV4knpnRaZV81J+z5CtDG/oJgS/A7jlztxQCQcpvXVv54=
-X-Received: by 2002:a05:6830:796:: with SMTP id
- w22mr5138726ots.353.1597161050414; 
- Tue, 11 Aug 2020 08:50:50 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=cMF9wCch3Vo3DZkmu3xNhNm/K1u/RMVm799+qfOigrE=;
+ b=oMLn+Zh5zsiP1r1HgvTjIH+7CGanHSAIooXHxJB2+wAyHwTfwvinYmiqnAnA77vZ+9
+ 79MdsWuEHbts/3PUwVfRPm5lSJxGOROvHvl6cA8QjjC3lnH36nt4qyA58kPufPxjqmng
+ 9hdFTmE8kLEnDGb1olKlEHp5+e+wvwas5i2n6Mzc0SaWJmjSSxFdV7SW56WrG1r74tNp
+ kAzGm1d537fZF0EZXGi5oD53bQhbLSRSB74FxBMLX/GlKn6LcNxYQJXsE6nGIiqxSgR5
+ NPhJ0d/xrCuM4kKxZ4CaJ1xWEeQsok4J+K6er3dmK7lHgm6jyNdYEYZIheJL4qVFUida
+ 2RLA==
+X-Gm-Message-State: AOAM533KRBO3/r2E3667byj9SGbBWxH4UplXX7ocGo93TNGFwukii/ER
+ y7Wv7hLuGNG2xgDxYuPtgaBpSqk2kpxFjS5pbtV6y9vBdKcGsTWBnQ/75ANpGI5onz85iYp3/kW
+ bQIjBJN719eCjsSAx7CoAClQulojdtgg=
+X-Received: by 2002:a9d:6f85:: with SMTP id h5mr5571120otq.81.1597161265644;
+ Tue, 11 Aug 2020 08:54:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1bXr2TKap/N/+Dz+7mr9dwfeze9j9EI0YH5LK4GhYesmi3ijZ+8M5GwCg65Mn2gTqh4gXQ56aAZ1N3t6Wflk=
+X-Received: by 2002:a9d:6f85:: with SMTP id h5mr5571115otq.81.1597161265449;
+ Tue, 11 Aug 2020 08:54:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200811151643.21293-1-philmd@redhat.com>
-In-Reply-To: <20200811151643.21293-1-philmd@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Tue, 11 Aug 2020 23:50:14 +0800
-Message-ID: <CAKXe6SJWVNgUnfpR8ZATwmeEC5Mt-o+m_T07GD=FLo0=xjkHxA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 0/3] trivial: Remove 'and and' in descriptions
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x331.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200811080830.289136-1-mreitz@redhat.com>
+In-Reply-To: <20200811080830.289136-1-mreitz@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 11 Aug 2020 18:54:09 +0300
+Message-ID: <CAMRbyytS0HZLjHVmr4aKC3of4_EDxZXOqOzAornC1WbnYoxN-Q@mail.gmail.com>
+Subject: Re: [PATCH] iotests/259: Fix reference output
+To: Max Reitz <mreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000e065cd05ac9c1588"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:18:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +91,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Qemu Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=
-=9C=8811=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=8811:17=E5=86=99=E9=81=
-=93=EF=BC=9A
+--000000000000e065cd05ac9c1588
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Aug 11, 2020 at 11:08 AM Max Reitz <mreitz@redhat.com> wrote:
+
+> The error message has changed recently, breaking the test.  Fix it.
 >
-> Remove duplicated 'and' in comments.
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/i2c: Fix typo in description
->   util/qemu-timer: Fix typo in description
->   util/vfio-helpers: Fix typo in description
+> Fixes: a2b333c01880f56056d50c238834d62e32001e54
+>        ("block: nbd: Fix convert qcow2 compressed to nbd")
 >
 
-For this series:
+Thanks for fixing this. I thought that I ran all the tests when I submitted
+the change.
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Is this new test that was not available in master when I submitted this, or
+maybe I
+missed something when running the tests?
 
->  include/hw/i2c/i2c.h | 2 +-
->  util/qemu-timer.c    | 2 +-
->  util/vfio-helpers.c  | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
+I think I ran the tests using:
+
+    SPEED=thorough check-block.sh
+
+Nir
+
+
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/259.out | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
+> index e27b9ff38d..1aaadfda4e 100644
+> --- a/tests/qemu-iotests/259.out
+> +++ b/tests/qemu-iotests/259.out
+> @@ -10,5 +10,5 @@ disk size: unavailable
+>
+>  --- Testing creation for which the node would need to grow ---
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=qcow2 size=67108864
+> preallocation=metadata
+> -qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver
+> does not support resize
+> +qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Cannot grow NBD nodes
+>  *** done
 > --
-> 2.21.3
+> 2.26.2
 >
 >
+>
+
+--000000000000e065cd05ac9c1588
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Aug 11, 2020 at 11:08 AM Max Reit=
+z &lt;<a href=3D"mailto:mreitz@redhat.com">mreitz@redhat.com</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">The error message has changed recently, breaking the test.=C2=
+=A0 Fix it.<br>
+<br>
+Fixes: a2b333c01880f56056d50c238834d62e32001e54<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0(&quot;block: nbd: Fix convert qcow2 compressed =
+to nbd&quot;)<br></blockquote><div><br></div><div>Thanks for fixing this. I=
+ thought that I ran all the tests when I submitted the change.</div><div><b=
+r></div><div>Is this new test that was not available in master when I submi=
+tted this, or maybe I=C2=A0</div><div>missed something=C2=A0when running=C2=
+=A0the tests?</div><div><br></div><div>I think I ran the tests using:</div>=
+<div><br></div><div>=C2=A0 =C2=A0 SPEED=3Dthorough=C2=A0check-block.sh</div=
+><div><br></div><div>Nir</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+Signed-off-by: Max Reitz &lt;<a href=3D"mailto:mreitz@redhat.com" target=3D=
+"_blank">mreitz@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/qemu-iotests/259.out | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out<br>
+index e27b9ff38d..1aaadfda4e 100644<br>
+--- a/tests/qemu-iotests/259.out<br>
++++ b/tests/qemu-iotests/259.out<br>
+@@ -10,5 +10,5 @@ disk size: unavailable<br>
+<br>
+=C2=A0--- Testing creation for which the node would need to grow ---<br>
+=C2=A0Formatting &#39;TEST_DIR/t.IMGFMT&#39;, fmt=3Dqcow2 size=3D67108864 p=
+reallocation=3Dmetadata<br>
+-qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver d=
+oes not support resize<br>
++qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Cannot grow NBD nodes=
+<br>
+=C2=A0*** done<br>
+-- <br>
+2.26.2<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e065cd05ac9c1588--
+
 
