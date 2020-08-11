@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC81241D13
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 17:22:03 +0200 (CEST)
-Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C192241D3D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 17:33:20 +0200 (CEST)
+Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5W6D-0003bH-Ns
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 11:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53592)
+	id 1k5WH9-0001rB-ML
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 11:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5W4n-0002kr-Fq
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:20:34 -0400
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35]:34542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k5W4k-00014H-Pn
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:20:33 -0400
-Received: by mail-oo1-xc35.google.com with SMTP id k63so2697719oob.1
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 08:20:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LhipV3OzC4dEosq3d9R+7AnvHo5SEdfg+6Oq491p3V0=;
- b=btyUMSA4AHwbdZwkGNPMsC8fAjCvkewYTlWhzo8oxtafc1WoP9CfJAnExyJxCgy/it
- 6o2jWo8/3HNhBhStBjf5qyaIeqYXya/rZFlqvfv3+QLsg5cxz9qaWyFKWuC68IW4k7MY
- 1S6huH/WsujB79iginX8rsANriQ5DVRLJdBdSnp4ojYK1irl1+9tDkv12t0bPFiqWuAp
- GM11cEBboQbXN8RoJ3j88EC6z9BG39Cv6TrO8Se7+6ozQRWBUZ+/Eh4rZFnNQi1P49qe
- tjgq8xeymniMEcv7kITbh8KeVOQOmolg60ynVx038u3/zkrBWzjLEBxjiaNeUyN7UY53
- AjzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LhipV3OzC4dEosq3d9R+7AnvHo5SEdfg+6Oq491p3V0=;
- b=KHnt5gSXwTpTAQh7vINTrsUhcVdENgA3DJ4alYuaQDPIXsWrhckoMo6kJreVfveCir
- IRhNlpczyfn5ZMEhz0vCA3bcKV65xrZuy1KCcMD7smpGlNBXlTN1fgto1QGHGJiqTa9Q
- R2XsfXWIhtsChQtZYIkYllUywZNdy/a3JcHKGNwNKHI56G8GVGdYkgXTz+YSVw4wVNKc
- xyNOpaUP2EW16ajND0Qf+GFtMdT80T8zWBKgKOzNpqksnaaY3nlazmYHzttikAjYNNIm
- U8YAShs3X2YlUi7eJjB3nnUXogM5+hLF/U+F3GN4B822wdPHipMSt/YOINbOSxAzRHx8
- m8fA==
-X-Gm-Message-State: AOAM530EyuAVqoOuGA2v4Hg/A+sXsv/fK1xLOekrmCHcwfjZ6UuVBfI2
- VqqRJMb2je46u/GAOJgPwikKLyTiJairb1BuOASjiw==
-X-Google-Smtp-Source: ABdhPJzUMN/qkwG2AjzE8CmjWoI8Q6D5C5qV5XGQhHjCDngebPfaCOwfVkqLL8BVZoSeH5HtTmEnxte88d3icLW9snc=
-X-Received: by 2002:a4a:8dc1:: with SMTP id a1mr5676910ool.69.1597159229386;
- Tue, 11 Aug 2020 08:20:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5WE6-0007V2-Sp
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:30:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20035
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k5WE5-0002I3-G1
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:30:10 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-xRij0k3iPy25m-_Qm9k_3Q-1; Tue, 11 Aug 2020 11:30:01 -0400
+X-MC-Unique: xRij0k3iPy25m-_Qm9k_3Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2880B1005504;
+ Tue, 11 Aug 2020 15:30:00 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-38.ams2.redhat.com [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CFC8579CF3;
+ Tue, 11 Aug 2020 15:29:57 +0000 (UTC)
+Subject: [PATCH 0/2] spapr/nvram: Fix QEMU crash
+From: Greg Kurz <groug@kaod.org>
+To: Thomas Huth <thuth@redhat.com>
+Date: Tue, 11 Aug 2020 17:29:56 +0200
+Message-ID: <159715979684.1635409.14107632395902701971.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-References: <20200811151643.21293-1-philmd@redhat.com>
-In-Reply-To: <20200811151643.21293-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Aug 2020 16:20:18 +0100
-Message-ID: <CAFEAcA-Rnu4mL6uv7uek41g88eyRRw3qekKXNoMu9nXeO54DLA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 0/3] trivial: Remove 'and and' in descriptions
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc35.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=207.211.31.120; envelope-from=groug@kaod.org;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:41:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,26 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Aug 2020 at 16:18, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Remove duplicated 'and' in comments.
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/i2c: Fix typo in description
->   util/qemu-timer: Fix typo in description
->   util/vfio-helpers: Fix typo in description
+This series fixes the following crash:
 
-Series:
+$ qemu-system-ppc64 -M pseries $(for ((x=3D0;x<128;x++)); do \
+  echo -n " -prom-env "$(for ((y=3D0;y<1024;y++)); do echo -n x ; done) ; \
+  done) # this requires ~128 Kib
+malloc(): corrupted top size
+Aborted (core dumped)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This also affects g3beige and mac99 machine types, and probably some
+sparc/sparc64 machine types as well, but I prefer to leave the fixing
+to knowledgeable people.
 
-thanks
--- PMM
+---
+
+Greg Kurz (2):
+      nvram: Add dry_run argument to chrp_nvram_create_system_partition()
+      spapr/nvram: Allocate enough space for all -prom-env options
+
+
+ hw/nvram/chrp_nvram.c         |   35 +++++++++++++++++++++++------------
+ hw/nvram/mac_nvram.c          |    2 +-
+ hw/nvram/spapr_nvram.c        |    7 ++++++-
+ hw/sparc/sun4m.c              |    2 +-
+ hw/sparc64/sun4u.c            |    2 +-
+ include/hw/nvram/chrp_nvram.h |    3 ++-
+ 6 files changed, 34 insertions(+), 17 deletions(-)
+
+--
+Greg
+
 
