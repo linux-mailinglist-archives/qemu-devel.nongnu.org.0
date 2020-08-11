@@ -2,73 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5E62418AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 11:03:35 +0200 (CEST)
-Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6883E2418D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 11:25:59 +0200 (CEST)
+Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5QBz-0000bT-1c
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 05:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49220)
+	id 1k5QXd-0005o7-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 05:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k5Q9A-0005Y0-1f
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 05:00:40 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:48288 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k5Q97-0005fx-Tw
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 05:00:39 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 94D644C891;
- Tue, 11 Aug 2020 09:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1597136435;
- x=1598950836; bh=TLUxIGIrCoQ+l97qrxDN7W89EQeIFmLtsweJ8KLKis0=; b=
- IjVBAfMNmJvUjkIqLR5a1Z1KcsiOuot5TNl5TjhfceEbcqIYd7SappFDOPirSSZ3
- YseCSFTiru0z3+LjYwgk6HY66hPV244+VLWXEiUc98p+zl9YRrINTDgHMo/ZeUd8
- vDuON8/R1KLvYzh+vxT1Y8d2T1JQcX0ZwDa9ez278Qg=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fUixNqVIGzle; Tue, 11 Aug 2020 12:00:35 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 0C7F54C84A;
- Tue, 11 Aug 2020 12:00:35 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 11
- Aug 2020 12:00:34 +0300
-Date: Tue, 11 Aug 2020 12:00:34 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v3 8/8] cpus: extract out hvf-specific code to
- target/i386/hvf/
-Message-ID: <20200811090034.GB62204@SPB-NB-133.local>
-References: <20200803090533.7410-1-cfontana@suse.de>
- <20200803090533.7410-9-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1k5QWi-0005J4-84
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 05:25:00 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1k5QWg-0008Pd-Om
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 05:24:59 -0400
+Received: by mail-ej1-x642.google.com with SMTP id kq25so12341755ejb.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 02:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QTzX12wqsRKIFkxIOn93npxQMfCN/Eh5pdEDRXjlOyA=;
+ b=g0P8PCL4NVh/IYZ37+pq3TYsOSHDqEQDCds4VSzuIiOiFxiTtlqHm2PUJ6eR7lxK0R
+ myuQsXcpFCm9KxiqwNK/xmdLJsQesfIKKpQTCxciGHJ6RCB+Xh2f8v4dd+2+7oU1+OiT
+ rrJ7UCupUy32v9UWdszbgh8+Tn1hC5KClIY2alWtJMBKw26tUwK3OpFB1pSY5e5BnOdB
+ BFx15UNjm9ceS9X90R5E80GV8c+IAQFPbyNu54G5nDx0CcIZ0ndVr5/9hGVMQe5Nw4Iw
+ Q1uyv0U9qH10+9C23STTYzpNAe9f5b7+JfLFMm/x2LDRRTVwgQV20dOoSMDLxkSIDbX/
+ g4tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=QTzX12wqsRKIFkxIOn93npxQMfCN/Eh5pdEDRXjlOyA=;
+ b=TrKF8d4zsHGdIM0/wCDDmNDZX980fPQ8KIJdz7VpD6UOWJtgtPSZAdHHJ/P9y92Fcl
+ I2B69iMBnTmpWODUfRFB0tuKFodIt9JC+u0Tvbz8mCbkxrBrcg+/ppDBqmD3Tb2MgPhw
+ a7H1dGMCwSDUiVoIPSZFvO9tiRE8Rhd9Bu+ceG1np5ymOAHNoZushFYMGdOewtfT5OKR
+ uBRArLusq9bj+h3aVA6U1gkjFU+MXZcrzAtGxVVNOSNu8PFjB89rCexRUiQY1/6oscAr
+ vPXDa55i4dxtAssmnqYQceiT+ZDBuXPdZbuVspG677pt8v2Bn/GAwvEFA8jIkdZNCXGl
+ +6Sw==
+X-Gm-Message-State: AOAM530xZzssfFQHsVm3XjdjNCEt/S6zqVp05FLaPPTh4HMeywQWfdpv
+ SXnvjMEI7PsZluvpkqm+WnAEDEZV
+X-Google-Smtp-Source: ABdhPJx5MmJpm6eeZ7Y/s5LaP3WEUJJTIVOKHbXf2OD/Az/9CcN17pMtzZ9vmLyxpGdAfebWAtsj4Q==
+X-Received: by 2002:a17:906:80c:: with SMTP id
+ e12mr25802190ejd.128.1597137895986; 
+ Tue, 11 Aug 2020 02:24:55 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.12.249])
+ by smtp.googlemail.com with ESMTPSA id r25sm14217830edy.93.2020.08.11.02.24.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Aug 2020 02:24:55 -0700 (PDT)
+Subject: Re: [PATCH 135/147] meson: sphinx-build
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
+ <1597079345-42801-136-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA8J3-Sb4r4CqmLE=cmZHL311_B4EZD7L5+N-OhHD+X9jg@mail.gmail.com>
+ <0c4c75a6-0165-6549-6d3d-24c3f3f7d180@redhat.com>
+Autocrypt: addr=pbonzini@redhat.com; keydata=
+ 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
+ uUHgL9dKIfvpm+rNXRn9wAwGjk0X/A==
+Message-ID: <a8c13a10-f046-86c2-f0d0-23c40f09a953@redhat.com>
+Date: Tue, 11 Aug 2020 11:24:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200803090533.7410-9-cfontana@suse.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:59:29
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0c4c75a6-0165-6549-6d3d-24c3f3f7d180@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,166 +148,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, haxm-team@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 03, 2020 at 11:05:33AM +0200, Claudio Fontana wrote:
-> register a "CpusAccel" interface for HVF as well.
+On 10/08/20 21:06, Paolo Bonzini wrote:
+>>> diff --git a/configure b/configure
+>>> index 21b9ed2..7e7b4d8 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -7768,7 +7768,6 @@ echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
+>>>  echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+>>>  echo "PYTHON=$python" >> $config_host_mak
+>>>  echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
+>>> -echo "SPHINX_WERROR=$sphinx_werror" >> $config_host_mak
+>> Shouldn't we also be deleting the code in configure that
+>> sets $sphinx_werror if we're no longer using it ?
+> Yes.
 > 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  softmmu/cpus.c                |  63 --------------------
->  target/i386/hvf/Makefile.objs |   2 +-
->  target/i386/hvf/hvf-cpus.c    | 131 ++++++++++++++++++++++++++++++++++++++++++
->  target/i386/hvf/hvf-cpus.h    |  17 ++++++
->  target/i386/hvf/hvf.c         |   3 +
->  5 files changed, 152 insertions(+), 64 deletions(-)
->  create mode 100644 target/i386/hvf/hvf-cpus.c
->  create mode 100644 target/i386/hvf/hvf-cpus.h
-> 
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 586b4acaab..d327b2685c 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -33,7 +33,6 @@
->  #include "exec/gdbstub.h"
->  #include "sysemu/hw_accel.h"
->  #include "sysemu/kvm.h"
-> -#include "sysemu/hvf.h"
 
-I wonder if the declarations should be moved from sysemu/hvf.h to
-someplace inside target/i386/hvf/:
+... It's still used by has_sphinx_build, actually.
 
-int hvf_init_vcpu(CPUState *);
-int hvf_vcpu_exec(CPUState *);
-void hvf_cpu_synchronize_state(CPUState *);
-void hvf_cpu_synchronize_post_reset(CPUState *);
-void hvf_cpu_synchronize_post_init(CPUState *);
-void hvf_cpu_synchronize_pre_loadvm(CPUState *);
-void hvf_vcpu_destroy(CPUState *);
-
-They're not used outside of target/i386/hvf/
-
-I also wonder if we need stubs at all?
-
->  #include "exec/exec-all.h"
->  #include "qemu/thread.h"
->  #include "qemu/plugin.h"
-> @@ -391,48 +390,6 @@ void qemu_wait_io_event(CPUState *cpu)
->      qemu_wait_io_event_common(cpu);
->  }
->  
-> -/* The HVF-specific vCPU thread function. This one should only run when the host
-> - * CPU supports the VMX "unrestricted guest" feature. */
-> -static void *qemu_hvf_cpu_thread_fn(void *arg)
-> -{
-> -    CPUState *cpu = arg;
-> -
-> -    int r;
-> -
-> -    assert(hvf_enabled());
-> -
-> -    rcu_register_thread();
-> -
-> -    qemu_mutex_lock_iothread();
-> -    qemu_thread_get_self(cpu->thread);
-> -
-> -    cpu->thread_id = qemu_get_thread_id();
-> -    cpu->can_do_io = 1;
-> -    current_cpu = cpu;
-> -
-> -    hvf_init_vcpu(cpu);
-> -
-> -    /* signal CPU creation */
-> -    cpu_thread_signal_created(cpu);
-> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
-> -
-> -    do {
-> -        if (cpu_can_run(cpu)) {
-> -            r = hvf_vcpu_exec(cpu);
-> -            if (r == EXCP_DEBUG) {
-> -                cpu_handle_guest_debug(cpu);
-> -            }
-> -        }
-> -        qemu_wait_io_event(cpu);
-> -    } while (!cpu->unplug || cpu_can_run(cpu));
-> -
-> -    hvf_vcpu_destroy(cpu);
-> -    cpu_thread_signal_destroyed(cpu);
-> -    qemu_mutex_unlock_iothread();
-> -    rcu_unregister_thread();
-> -    return NULL;
-> -}
-> -
->  void cpus_kick_thread(CPUState *cpu)
->  {
->  #ifndef _WIN32
-> @@ -603,24 +560,6 @@ void cpu_remove_sync(CPUState *cpu)
->      qemu_mutex_lock_iothread();
->  }
->  
-> -static void qemu_hvf_start_vcpu(CPUState *cpu)
-> -{
-> -    char thread_name[VCPU_THREAD_NAME_SIZE];
-> -
-> -    /* HVF currently does not support TCG, and only runs in
-> -     * unrestricted-guest mode. */
-> -    assert(hvf_enabled());
-> -
-> -    cpu->thread = g_malloc0(sizeof(QemuThread));
-> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-> -    qemu_cond_init(cpu->halt_cond);
-> -
-> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/HVF",
-> -             cpu->cpu_index);
-> -    qemu_thread_create(cpu->thread, thread_name, qemu_hvf_cpu_thread_fn,
-> -                       cpu, QEMU_THREAD_JOINABLE);
-> -}
-> -
->  void cpus_register_accel(CpusAccel *ca)
->  {
->      assert(ca != NULL);
-> @@ -648,8 +587,6 @@ void qemu_init_vcpu(CPUState *cpu)
->      if (cpus_accel) {
->          /* accelerator already implements the CpusAccel interface */
->          cpus_accel->create_vcpu_thread(cpu);
-> -    } else if (hvf_enabled()) {
-> -        qemu_hvf_start_vcpu(cpu);
->      } else {
->          assert(0);
->      }
-> diff --git a/target/i386/hvf/Makefile.objs b/target/i386/hvf/Makefile.objs
-> index 927b86bc67..af9f7dcfc1 100644
-> --- a/target/i386/hvf/Makefile.objs
-> +++ b/target/i386/hvf/Makefile.objs
-> @@ -1,2 +1,2 @@
-> -obj-y += hvf.o
-> +obj-y += hvf.o hvf-cpus.o
->  obj-y += x86.o x86_cpuid.o x86_decode.o x86_descr.o x86_emu.o x86_flags.o x86_mmu.o x86hvf.o x86_task.o
-> diff --git a/target/i386/hvf/hvf-cpus.c b/target/i386/hvf/hvf-cpus.c
-> new file mode 100644
-> index 0000000000..9540157f1e
-> --- /dev/null
-> +++ b/target/i386/hvf/hvf-cpus.c
-
-I'd prefer singular form in variables and file names. More on that in
-the comment to patch 2.
-
-Besides that it works fine,
-
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
-
-Regards,
-Roman
+Paolo
 
