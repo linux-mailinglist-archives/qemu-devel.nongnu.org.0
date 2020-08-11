@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609A02416FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 09:13:39 +0200 (CEST)
-Received: from localhost ([::1]:45742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03722416F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 09:12:20 +0200 (CEST)
+Received: from localhost ([::1]:40580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5OTa-0008Nj-Fg
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 03:13:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52766)
+	id 1k5OSJ-0006IL-R8
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 03:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3Q0QyXwMKCpQG0K4CC492.0CAE2AI-12J29BCB4BI.CF4@flex--scw.bounces.google.com>)
- id 1k5OQ3-0004tF-Gi
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:09:59 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:50832)
+ <3RUQyXwMKCpYI2M6EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--scw.bounces.google.com>)
+ id 1k5OQ4-0004ug-KZ
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:10:00 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:53319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3Q0QyXwMKCpQG0K4CC492.0CAE2AI-12J29BCB4BI.CF4@flex--scw.bounces.google.com>)
- id 1k5OQ1-0000kY-RB
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:09:59 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id u189so15666105ybg.17
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 00:09:56 -0700 (PDT)
+ <3RUQyXwMKCpYI2M6EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--scw.bounces.google.com>)
+ id 1k5OQ3-0000kk-1J
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:10:00 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id d26so15749429yba.20
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 00:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=p92oowU9ZC1iU/Ox3DTKv9I37S1q6EF9YrLFp30qbYg=;
- b=vuI8lyEKsYwoI7xSTLJUzpuEDBHgrrvOdEWYuEtcfBUfWNjambssmcotPuM2oeKiqY
- JPbzMZNAc93MBulP7nEHOTyQl7+Th66HznMkllK2ZW+G9jr2Nts3QiZLe4D+W9+Dnymz
- D9SFp5fPKcAvq/IrbD50TSnNhBgXDyr6XJN+fbogMACBbSSixeEIHUKFyihvA2nNmrJN
- 0wYlnCExxlvnhpAe43zPpbnGhr3bO3iVBFIqToC+2EBMSo/8qsURYCdM/o1IFggJqxZS
- QmqNaM4GioyJ9a/7x0JhkUDmUXp9zL5z1smDO4kjz1PcVPQ9ie86BvUtBzy0Js9IfNBM
- 2+BA==
+ :cc; bh=KOl6cq6IjMqpEhD/kHPtyKl8qR4OtmqTxSk98Aj4Ezw=;
+ b=qA3kiYx7CMnnRBAOMofzmp6ZPT++yucztp/xlZzbakC5dC8zSvVTtwRBPmPBo99F34
+ ++Hm6EF+AKCjzjAErpMW2VyQatr1IlYn2P58vkxsBN80Zs9lUHBF+W2Il1EuI2/mJMg4
+ xbJL3MtjsRbXLGvKRkWlRXdwcDFG5M+Ef2Eu4iaq+f0rcI+W3aABIc3WAJT9BvIgs9kX
+ bcKYWdf0apz3YPW5yrwj0gFQxb9m3ehW8Fq5SRq4qmkuS01ctEImLHGUENuQio2O4X0O
+ dKfBePYgAE56QzVdzRavwYygdM5GOj3lFNg7iRGwwQwnkMCLz9HuElyVrnNohNpV/ZVM
+ KW1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=p92oowU9ZC1iU/Ox3DTKv9I37S1q6EF9YrLFp30qbYg=;
- b=KTtOeUrxgoNOP/fWXRP7xLDxvQE8Lc3eNokudb//Z3rPghW4dO3umLixBAJwCvQSXu
- y+COriSkZVjujhSfYFOru3ybjrhpP6FAwkNUptgaN1AadQVxWUu8wseiLntP5DRla833
- 0YFfmGZYg2xRNH6pEU3el/OVn7ivO7H9Xitlvbu0LxE8LvSiOeXEH4iCh/1Y8K8H8Dc5
- PSrDVWiAzy9H3Scj+qNW9FIaQ/2I7w3NRTe/gGjp6jELAyzot7bGm+NWhLU+3WvdFbG1
- fTw/SykJWAl/9pZ51rOuOBEW+vKctzSWJlXv+n0hLzZbbNZX4jXNrGyZ0NitzIYoZ/Qu
- Mkuw==
-X-Gm-Message-State: AOAM532//WKKU0xdLjunKJWKO9T0l46Bffn5RhjZA7AJ7FiPRhXG9W1l
- dyZ1DzyeXOaYbmRUHth+ceqaiXc6w0TWZU75pGrXFu5Z2Sav57XD+RGuPv551wOi8sd7xUNgn5n
- rJ3/haZ7NGmdkQdKF7djAtNQfq8H8y/0em1PMybd1VXrV2p+rftmL
-X-Google-Smtp-Source: ABdhPJz8dwbOvoQpcPDcvQJAMYBZtYmGnQVvOQmmNivr9Ni3SebyqabG0zDmEwBiMSDMmrKKf//S/eU=
-X-Received: by 2002:a25:3b0d:: with SMTP id i13mr45459447yba.314.1597129795399; 
- Tue, 11 Aug 2020 00:09:55 -0700 (PDT)
-Date: Tue, 11 Aug 2020 00:09:41 -0700
+ bh=KOl6cq6IjMqpEhD/kHPtyKl8qR4OtmqTxSk98Aj4Ezw=;
+ b=g0V57tCWa1NctTf8zF2dvCyEZhxWVDecBMiVLqLclPBf7Pp7Dox1ydsk+pJCONs1WD
+ m6I71mWu/IWSXrIZWziV75qclS5rY1i/Bd1QSHrSULHnSGAot5bKnH4mkiRKbfWO5pf3
+ eUaGPnjcyaUAF9LazzK9v4jbsyJwSR92SDGaI+3VAnobWxpMN8li07Z4O9j3c1fGPGDq
+ Z0ubA8oL0U/nyFti1fRvadYLzS4SK4BZVon35gfQTDIJyOfKJcGjVyrTbTdzPr/Dw94p
+ bMIqWsJpz0twdhR0h5pQoN4wdNgewY3YcF+bjVtz4nbIJZlx5oM6P3qgHJ3tY5nP1Tup
+ ulKQ==
+X-Gm-Message-State: AOAM531Ipsa5KXjYF2xkJ0GaNbhxBZQ8yL3qSQmPnnGADkx+b2oJTuPD
+ 6VsSGiCNC8L/C6PVHo8uIRWXKZrXk6dOkmLRpeV5kn1p524d22yJbc/RYyEHMBNGgHrOQty64rt
+ eG57/5O6UCk2ahcXbkgO7q2JWIVYAMjf+cFI+UK2pSc/lxIKO9KP0
+X-Google-Smtp-Source: ABdhPJywbTZAZr4pvyFKc4CT+AEyzs28KTLqCHe8wOL1Urxw3v8g5ZU5uYhUch0tPH1IMgjzjt9YnnU=
+X-Received: by 2002:a25:83c1:: with SMTP id v1mr44915743ybm.264.1597129797343; 
+ Tue, 11 Aug 2020 00:09:57 -0700 (PDT)
+Date: Tue, 11 Aug 2020 00:09:42 -0700
 In-Reply-To: <cover.1597129029.git.scw@google.com>
-Message-Id: <020a4b8e2185a0aab62c99abd0d8f9d8ff315c37.1597129029.git.scw@google.com>
+Message-Id: <71ad91e4ee9f41f439086d8f9de60501ad304859.1597129029.git.scw@google.com>
 Mime-Version: 1.0
 References: <cover.1597129029.git.scw@google.com>
 X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
-Subject: [PATCH v2 1/8] linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
+Subject: [PATCH v2 2/8] linux-user: add missing UDP get/setsockopt option
 From: Shu-Chun Weng <scw@google.com>
 To: qemu-devel@nongnu.org
 Cc: Shu-Chun Weng <scw@google.com>, laurent@vivier.eu
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3Q0QyXwMKCpQG0K4CC492.0CAE2AI-12J29BCB4BI.CF4@flex--scw.bounces.google.com;
+ envelope-from=3RUQyXwMKCpYI2M6EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--scw.bounces.google.com;
  helo=mail-yb1-xb4a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
@@ -87,155 +87,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also reorder blocks so that they are all in the same order everywhere.
+SOL_UDP manipulate options at UDP level. All six options currently defined
+in linux source include/uapi/linux/udp.h take integer values.
 
 Signed-off-by: Shu-Chun Weng <scw@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
 v1 -> v2:
-  Updated print_fcntl().
+  Split out SOL_UDP into own patch.
+  Updated do_print_sockopt().
 
- linux-user/strace.c       | 55 ++++++++++++++++++++++++++++++++-------
- linux-user/syscall.c      | 10 +++++++
- linux-user/syscall_defs.h | 14 +++++-----
- 3 files changed, 64 insertions(+), 15 deletions(-)
+ linux-user/strace.c  | 6 ++++++
+ linux-user/syscall.c | 7 +++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 13981341b3..4fff24b880 100644
+index 4fff24b880..854b54a2ad 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1684,6 +1684,18 @@ print_fcntl(const struct syscallname *name,
-         qemu_log("F_SETFL,");
-         print_open_flags(arg2, 1);
+@@ -7,6 +7,7 @@
+ #include <sys/mount.h>
+ #include <arpa/inet.h>
+ #include <netinet/tcp.h>
++#include <netinet/udp.h>
+ #include <linux/if_packet.h>
+ #include <linux/netlink.h>
+ #include <sched.h>
+@@ -2190,6 +2191,11 @@ static void do_print_sockopt(const char *name, abi_long arg1)
+         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
+         print_pointer(optval, 0);
          break;
-+    case TARGET_F_OFD_GETLK:
-+        qemu_log("F_OFD_GETLK,");
-+        print_pointer(arg2, 1);
++    case SOL_UDP:
++        qemu_log("SOL_UDP,");
++        print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
++        print_pointer(optval, 0);
 +        break;
-+    case TARGET_F_OFD_SETLK:
-+        qemu_log("F_OFD_SETLK,");
-+        print_pointer(arg2, 1);
-+        break;
-+    case TARGET_F_OFD_SETLKW:
-+        qemu_log("F_OFD_SETLKW,");
-+        print_pointer(arg2, 1);
-+        break;
-     case TARGET_F_GETLK:
-         qemu_log("F_GETLK,");
-         print_pointer(arg2, 1);
-@@ -1726,26 +1738,51 @@ print_fcntl(const struct syscallname *name,
- #endif
-     case TARGET_F_SETLEASE:
-         qemu_log("F_SETLEASE,");
--        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-+        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-         break;
-     case TARGET_F_GETLEASE:
-         qemu_log("F_GETLEASE");
-         break;
--    case TARGET_F_SETPIPE_SZ:
--        qemu_log("F_SETPIPE_SZ,");
--        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
--        break;
--    case TARGET_F_GETPIPE_SZ:
--        qemu_log("F_GETPIPE_SZ");
--        break;
-+#ifdef F_DUPFD_CLOEXEC
-     case TARGET_F_DUPFD_CLOEXEC:
-         qemu_log("F_DUPFD_CLOEXEC,");
-         print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-         break;
-+#endif
-     case TARGET_F_NOTIFY:
-         qemu_log("F_NOTIFY,");
--        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-+        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-         break;
-+#ifdef F_GETOWN_EX
-+    case TARGET_F_GETOWN_EX:
-+        qemu_log("F_GETOWN_EX,");
-+        print_pointer(arg2, 1);
-+        break;
-+#endif
-+#ifdef F_SETOWN_EX
-+    case TARGET_F_SETOWN_EX:
-+        qemu_log("F_SETOWN_EX,");
-+        print_pointer(arg2, 1);
-+        break;
-+#endif
-+#ifdef F_SETPIPE_SZ
-+    case TARGET_F_SETPIPE_SZ:
-+        qemu_log("F_SETPIPE_SZ,");
-+        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-+        break;
-+    case TARGET_F_GETPIPE_SZ:
-+        qemu_log("F_GETPIPE_SZ");
-+        break;
-+#endif
-+#ifdef F_ADD_SEALS
-+    case TARGET_F_ADD_SEALS:
-+        qemu_log("F_ADD_SEALS,");
-+        print_raw_param("0x"TARGET_ABI_FMT_lx, arg2, 1);
-+        break;
-+    case TARGET_F_GET_SEALS:
-+        qemu_log("F_GET_SEALS");
-+        break;
-+#endif
-     default:
-         print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
-         print_pointer(arg2, 1);
+     case SOL_IP:
+         qemu_log("SOL_IP,");
+         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 945fc25279..5645862798 100644
+index 5645862798..177eec5201 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6305,6 +6305,14 @@ static int target_to_host_fcntl_cmd(int cmd)
-     case TARGET_F_GETPIPE_SZ:
-         ret = F_GETPIPE_SZ;
+@@ -53,6 +53,7 @@
+ //#include <sys/user.h>
+ #include <netinet/ip.h>
+ #include <netinet/tcp.h>
++#include <netinet/udp.h>
+ #include <linux/wireless.h>
+ #include <linux/icmp.h>
+ #include <linux/icmpv6.h>
+@@ -1938,7 +1939,8 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+ 
+     switch(level) {
+     case SOL_TCP:
+-        /* TCP options all take an 'int' value.  */
++    case SOL_UDP:
++        /* TCP and UDP options all take an 'int' value.  */
+         if (optlen < sizeof(uint32_t))
+             return -TARGET_EINVAL;
+ 
+@@ -2586,7 +2588,8 @@ get_timeout:
+         }
          break;
-+#endif
-+#ifdef F_ADD_SEALS
-+    case TARGET_F_ADD_SEALS:
-+        ret = F_ADD_SEALS;
-+        break;
-+    case TARGET_F_GET_SEALS:
-+        ret = F_GET_SEALS;
-+        break;
- #endif
-     default:
-         ret = -TARGET_EINVAL;
-@@ -6591,6 +6599,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-     case TARGET_F_GETLEASE:
-     case TARGET_F_SETPIPE_SZ:
-     case TARGET_F_GETPIPE_SZ:
-+    case TARGET_F_ADD_SEALS:
-+    case TARGET_F_GET_SEALS:
-         ret = get_errno(safe_fcntl(fd, host_cmd, arg));
-         break;
- 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 3c261cff0e..70df1a94fb 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2292,12 +2292,14 @@ struct target_statfs64 {
- #endif
- 
- #define TARGET_F_LINUX_SPECIFIC_BASE 1024
--#define TARGET_F_SETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 0)
--#define TARGET_F_GETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 1)
--#define TARGET_F_DUPFD_CLOEXEC (TARGET_F_LINUX_SPECIFIC_BASE + 6)
--#define TARGET_F_SETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 7)
--#define TARGET_F_GETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 8)
--#define TARGET_F_NOTIFY  (TARGET_F_LINUX_SPECIFIC_BASE+2)
-+#define TARGET_F_SETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 0)
-+#define TARGET_F_GETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 1)
-+#define TARGET_F_DUPFD_CLOEXEC       (TARGET_F_LINUX_SPECIFIC_BASE + 6)
-+#define TARGET_F_NOTIFY              (TARGET_F_LINUX_SPECIFIC_BASE + 2)
-+#define TARGET_F_SETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 7)
-+#define TARGET_F_GETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 8)
-+#define TARGET_F_ADD_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 9)
-+#define TARGET_F_GET_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 10)
- 
- #include "target_fcntl.h"
- 
+     case SOL_TCP:
+-        /* TCP options all take an 'int' value.  */
++    case SOL_UDP:
++        /* TCP and UDP options all take an 'int' value.  */
+     int_case:
+         if (get_user_u32(len, optlen))
+             return -TARGET_EFAULT;
 -- 
 2.28.0.220.ged08abb693-goog
 
