@@ -2,110 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAF4241EA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:49:58 +0200 (CEST)
-Received: from localhost ([::1]:33822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C9B241EAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:52:42 +0200 (CEST)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5XTJ-0007sE-8b
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44738)
+	id 1k5XVx-0001lB-V1
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5XPr-0003vH-Au
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:24 -0400
-Received: from mail-eopbgr50105.outbound.protection.outlook.com
- ([40.107.5.105]:15741 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5XPp-0002xQ-14
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SaOqt1tD9uHg8AibmfM2yKZa4wkECrvgr2TaX8W0IKp3YbllcOjjZRXh6b1lTzUzxzwQXnRKgp7w7I+I0NXnVKHq3+VcyVvTWThNce9JfoFS2EDIq8vuJrDsUwMbo6gAX/Xgg1ZwaAbaw+ngdlGlwN8GlAqfsgSXDW9/UCrTOplztGnvxzzFsKgevVh3thbd9ULyk2cjjHpHmhXQmVdnbgnvI/DTfHwZQcor45UFCgPJEpD84GDA1pvvxhnmzvVUYOehoVOLCo2NeFOnR+ziivnLfIQviJPVO0xORZTEjfCh29ISD4nDPug/cTQjjsgsuSvbWnQLQjoCuTbGCfCkPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XjRC3S9Kmlf4JTMv2f9aEWiXVlcZppDcI/jFL8vqtJ4=;
- b=k8jdZxRT1+HGbNZBXcerMwVnTJvshmLP9oIKfP40FmU+7hyKutetiCHZuukj+BLZOAzWe1lIXFRoJohslu4kifMzZ23RKa/CCDkrIWr20h+xl4mim5GdPw8eBeiRqbkiyLFzScttAz5XayfhPUxd7w4mDaZ6Xyze3Lf0P5CJONs0nC/ZWF0O2M1so9v7bTbrmbMJnqZC8+i3tiPEdRZ9MSU8sZ1u+E6E2flXzFbVqjMjz1FGiXBYHBEKqEcmlZK8/VTSZdumd+iVZva/sl/4ep9CRbaPJTItLYXRy69D+5bmafXs8KTpWXjwc8IfopRJabR60hx6h8yYgzv4EwoHJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XjRC3S9Kmlf4JTMv2f9aEWiXVlcZppDcI/jFL8vqtJ4=;
- b=lVwwZujlH0wdmcsURghz5lhKxcQZMz7II8zXiPzUYB4fTjgSrak4UjZbJHv4HiFYKYneDxkq80AmcCQtUNT9IWS2cLdmLuC2O5sTVoEjpGa2HCt2Q5stnDmc/xT20mkG/7HYxL/jkpXRwm3nomZsD/CR66GJGAkUDMVwr3OhIxI=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
- by VI1PR03MB3662.eurprd03.prod.outlook.com (2603:10a6:803:3a::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.22; Tue, 11 Aug
- 2020 16:46:11 +0000
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
- 16:46:11 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] linux-user: Add strace support for printing arguments
- of some clock and time functions
-Date: Tue, 11 Aug 2020 18:45:53 +0200
-Message-Id: <20200811164553.27713-6-Filip.Bozuta@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200811164553.27713-1-Filip.Bozuta@syrmia.com>
-References: <20200811164553.27713-1-Filip.Bozuta@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO3P123CA0008.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::13) To VE1PR03MB5246.eurprd03.prod.outlook.com
- (2603:10a6:802:a1::22)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k5XTS-0000Fl-6r
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:50:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56435
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k5XTP-0003EW-QV
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:50:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597164602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2PzPA2ZMDExgUN38xf0J24vMOrGNObxbKrt9vOHFlUo=;
+ b=hTFl/c6LUjupfSBJEF29C/6/R4I6/S/HJBjwtg0nPPhdZ7gRl4MRCc4Lwy8iMWrSqdXsJL
+ giR5hpFgccU9WoBqbT9kJEzb722OqKrK+oHq3HokyCskRM95KYtAU+bUhqcjZ444aHK8M8
+ jFbv7YYf5hC/iHOlr9YEtBZp11qXgPc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-2qvoDm5VNQa9CcSlhyiHTw-1; Tue, 11 Aug 2020 12:49:59 -0400
+X-MC-Unique: 2qvoDm5VNQa9CcSlhyiHTw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7785B102C803;
+ Tue, 11 Aug 2020 16:49:58 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3795610016E8;
+ Tue, 11 Aug 2020 16:49:57 +0000 (UTC)
+Date: Tue, 11 Aug 2020 18:49:54 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>
+Subject: Re: [PATCH 7/7] target/arm/cpu: spe: Enable spe to work with host cpu
+Message-ID: <20200811164954.s2sdjzpqpdh2orks@kamzik.brq.redhat.com>
+References: <cover.1596768588.git.haibo.xu@linaro.org>
+ <bf909c1f4904a22be0804cae9fd6f38ba4862563.1596768588.git.haibo.xu@linaro.org>
+ <20200810111640.ykejphmuyirncjwv@kamzik.brq.redhat.com>
+ <CAJc+Z1F_vFdJuy2kZnj0gZSOd_8-=rSfWFHjQSPU5XEKQ2KZkg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (147.91.217.235) by
- LO3P123CA0008.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:ba::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.16 via Frontend Transport; Tue, 11 Aug 2020 16:46:10 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [147.91.217.235]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3301244b-9be1-4d61-92d7-08d83e160da2
-X-MS-TrafficTypeDiagnostic: VI1PR03MB3662:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR03MB36625D1BC2026A2AC38A8E10EB450@VI1PR03MB3662.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1i2izDchf7VtdWJ8eFZHi0lkvTNoz3vgeNMKLwPZJ9qdDreWbMWcSMk0g0qFTAhv9ZfxrsfpIGeVPopNZAoV7L/EJZzl1dsdqgKg8H0CTs9ZJ15+FvB56/j0sm5j2d6cRSEav7OJfR34DhMvnmGvGZq9TqDIYq3vNA9nqVTUc5OHKr/fOCVfsyHTUjlabuBZizun+wCW/M3vgF02T+kPhURDilrGOWupGzrj1hOqQRQQQNnoEAh2a8oxfn5XmKhDa+L0vMa77Tg9XN8SVWvJWeNK3ReSMuQVJvXDHi4MdbYR08zR3d3B/CPlWHgL/qyfFNRkjrlJzwCgj+NC9eftCe5PKTpnry4f119i8kKmK64GR+wZz2q4s6UW7N16uljnWeV/A8lAbLO2a9uSXM+qHriC+hds8H5AZLs/7o41GNj+2lNDCK1xvFYMz5/bM2PJw3gECG+VxAlJmF0AF3nfckWnTgWvapqqkNiBOWJGGWw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(346002)(376002)(396003)(366004)(39830400003)(136003)(956004)(2906002)(508600001)(6512007)(186003)(52116002)(16526019)(66556008)(66946007)(26005)(83380400001)(6666004)(1076003)(30864003)(66476007)(6506007)(86362001)(54906003)(8936002)(4326008)(107886003)(966005)(36756003)(316002)(6916009)(5660300002)(8676002)(6486002)(69590400007)(2616005)(21314003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: WlEVifvdEmrI3Ae04wqBGnRPBrxuIxGh+kwy1qLJaOrgANpiQgOtG/dHVD9slAmZprEZTI7mJfATi2soMWlmkaGe7HSgCJspy0jOrZHHgiOdUgd8CnIuhjlB0okXW9P4FfFr2Nv7RgNkvOBsWS2DGy9yhda11sz/m2bAV2y9HitAnZo5lZjCd7IaCq2KJDXKgNeoIghGRV5bXxGJCnoMOLBWzW7Edff+KLEL0hxP1ThvB+zMzJPwxSBG82w7BTxkBsrx5xXU41ByBCZ2QxzFlcNRF1cCCR3MYqq9WDhv9nPEYPgEhXt8K8VYwo9U/vU4E0K7opt+M9xRtJqS6zF6Mx7c9S53iTuOsZdd9Dk4Wq7+SMXUsmi8QBSEsCtwurInTuQ0pfB9b2mPYOS4imB8xPqyoPUrhF6OXHn3JtcHYGon9OTo3kJsAboYIeF6eoTOK6kLg9ny5NK4aM/b9L0RQ5gP0loBem56K8DNnNwlHdHNFwYN8QGrrDKx6YczClKngjXt5diHxzoqJe7tc+qXPGmGCyCbAuOqeJxjIKKFGTpvK54eyJ1qJxoAjF94S/Pu4dIPCe3gwkyU3L3uPbwuAJApHRmBXvpnpiZgwpTIQtIKVjSXFBwyen+jqwtA44Y67j6jS/O9nxznGyHA2CUBpA==
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3301244b-9be1-4d61-92d7-08d83e160da2
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 16:46:11.4874 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uZwq7bVe0vzwr1VNJZOyD/WyldrZ0Ia7igjgAJnj43AABVy5VpEPno93x/ENobcAYakz1ONl9lqW9FEgXE5N/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3662
-Received-SPF: pass client-ip=40.107.5.105;
- envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 12:46:08
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAJc+Z1F_vFdJuy2kZnj0gZSOd_8-=rSfWFHjQSPU5XEKQ2KZkg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 10:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,482 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements strace argument printing functionality for following syscalls:
+On Tue, Aug 11, 2020 at 11:15:42AM +0800, Haibo Xu wrote:
+> > > +    if (!cpu->has_spe || !kvm_enabled()) {
+> > > +        unset_feature(env, ARM_FEATURE_SPE);
+> > > +    }
+> >
+> > I don't think this should be necessary.
+> >
+> 
+> Yes, I have tried to remove this check, and the vSPE can still work
+> correctly.
+> But I don't know whether there are some corner cases that trigger an error.
+> The similar logic is added in commit 929e754d5a to enable vPMU support.
 
-    * clock_getres, clock_gettime, clock_settime - clock and time functions
+I think the PMU logic needs a cleanup, rather than to be imitated.
 
-        int clock_getres(clockid_t clockid, struct timespec *res)
-        int clock_gettime(clockid_t clockid, struct timespec *tp)
-        int clock_settime(clockid_t clockid, const struct timespec *tp)
-        man page: https://man7.org/linux/man-pages/man2/clock_getres.2.html
+> 
+> > > +
+> > >      if (!arm_feature(env, ARM_FEATURE_EL2)) {
+> > >          /* Disable the hypervisor feature bits in the processor feature
+> > >           * registers if we don't have EL2. These are id_pfr1[15:12] and
+> > > diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> > > index be045ccc5f..4ea58afc1d 100644
+> > > --- a/target/arm/kvm64.c
+> > > +++ b/target/arm/kvm64.c
+> > > @@ -679,6 +679,7 @@ bool
+> kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+> > >      features |= 1ULL << ARM_FEATURE_AARCH64;
+> > >      features |= 1ULL << ARM_FEATURE_PMU;
+> > >      features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
+> > > +    features |= 1ULL << ARM_FEATURE_SPE;
+> >
+> > No, SPE is not a feature we assume is present in v8.0 CPUs.
+> >
+> 
+> Yes, SPE is an optional feature for v8.2. How about changing to the
+> following logic:
+> 
+> spe_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SPE_V1)
+> > 0;
+> if (spe_supported) {
+>     features |= 1ULL << ARM_FEATURE_SPE;
+> }
 
-    * gettimeofday - get time
+Yes, except you need to drop the ARM_FEATURE_SPE define and use the ID
+register bit instead like "sve_supported" does.
 
-        int gettimeofday(struct timeval *tv, struct timezone *tz)
-        man page: https://man7.org/linux/man-pages/man2/gettimeofday.2.html
+> 
+> > >
+> > >      ahcf->features = features;
+> > >
+> > > @@ -826,6 +827,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
+> > >      } else {
+> > >          env->features &= ~(1ULL << ARM_FEATURE_PMU);
+> > >      }
+> > > +    if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_SPE_V1)) {
+> > > +        cpu->has_spe = false;
+> > > +    }
+> > > +    if (cpu->has_spe) {
+> > > +        cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SPE_V1;
+> > > +    } else {
+> > > +        env->features &= ~(1ULL << ARM_FEATURE_SPE);
+> > > +    }
+> >
+> > The PMU code above this isn't a good pattern to copy. The SVE code below
+> > is better. SVE uses an ID bit and doesn't do the redundant KVM cap check.
+> > It'd be nice to cleanup the PMU code (with a separate patch) and then add
+> > SPE in a better way.
+> >
+> 
+> I noticed that Peter had sent out a mail
+> <https://www.mail-archive.com/qemu-devel@nongnu.org/msg727640.html> to talk
+> about the feature-identification strategy.
+> So shall we adapt it to the vPMU and vSPE feature?
 
-    * getitimer, setitimer - get or set value of an interval timer
+At least SPE. You'll have to double check that it makes sense to do for
+PMU. But, if so, then it should be done with a separate series.
 
-        int getitimer(int which, struct itimerval *curr_value)
-        int setitimer(int which, const struct itimerval *new_value,
-                      struct itimerval *old_value)
-        man page: https://man7.org/linux/man-pages/man2/getitimer.2.html
-
-Implementation notes:
-
-    All of the syscalls have some structue types as argument types and thus
-    a separate printing function was stated in file "strace.list" for each
-    of them. All of these functions use existing functions for their
-    appropriate structure types ("print_timeval()" and "print_timezone()").
-
-    Functions "print_timespec()" and "print_itimerval()" were added in this
-    patch so that they can be used to print types "struct timespec" and
-    "struct itimerval" used by some of the syscalls. Function "print_itimerval()"
-    uses the existing function "print_timeval()" to print fields of the
-    structure "struct itimerval" that are of type "struct timeval".
-
-    Function "print_enums()", which was introduced in the previous patch, is used
-    to print the interval timer type which is the first argument of "getitimer()"
-    and "setitimer()". Also, this function is used to print the clock id which
-    is the first argument of "clock_getres()" and "clock_gettime()". For that
-    reason, the existing function "print_clockid()" was removed in this patch.
-    Existing function "print_clock_adjtime()" was also changed for this reason
-    to use "print_enums()".
-
-    The existing function "print_timeval()" was changed a little so that it
-    prints the field names beside the values.
-
-    Syscalls "clock_getres()" and "clock_gettime()" have the same number
-    and types of arguments and thus their print functions "print_clock_getres"
-    and "print_clock_gettime" share a common definition in file "strace.c".
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
----
- linux-user/strace.c    | 287 +++++++++++++++++++++++++++++++----------
- linux-user/strace.list |  17 ++-
- 2 files changed, 232 insertions(+), 72 deletions(-)
-
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index def92c4d73..1a5c4c820a 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -78,7 +78,9 @@ UNUSED static void print_string(abi_long, int);
- UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
- UNUSED static void print_timeval(abi_ulong, int);
-+UNUSED static void print_timespec(abi_ulong, int);
- UNUSED static void print_timezone(abi_ulong, int);
-+UNUSED static void print_itimerval(abi_ulong, int);
- UNUSED static void print_number(abi_long, int);
- UNUSED static void print_signal(abi_ulong, int);
- UNUSED static void print_sockaddr(abi_ulong, abi_long, int);
-@@ -578,69 +580,6 @@ print_fdset(int n, abi_ulong target_fds_addr)
- }
- #endif
- 
--#ifdef TARGET_NR_clock_adjtime
--/* IDs of the various system clocks */
--#define TARGET_CLOCK_REALTIME              0
--#define TARGET_CLOCK_MONOTONIC             1
--#define TARGET_CLOCK_PROCESS_CPUTIME_ID    2
--#define TARGET_CLOCK_THREAD_CPUTIME_ID     3
--#define TARGET_CLOCK_MONOTONIC_RAW         4
--#define TARGET_CLOCK_REALTIME_COARSE       5
--#define TARGET_CLOCK_MONOTONIC_COARSE      6
--#define TARGET_CLOCK_BOOTTIME              7
--#define TARGET_CLOCK_REALTIME_ALARM        8
--#define TARGET_CLOCK_BOOTTIME_ALARM        9
--#define TARGET_CLOCK_SGI_CYCLE             10
--#define TARGET_CLOCK_TAI                   11
--
--static void
--print_clockid(int clockid, int last)
--{
--    switch (clockid) {
--    case TARGET_CLOCK_REALTIME:
--        qemu_log("CLOCK_REALTIME");
--        break;
--    case TARGET_CLOCK_MONOTONIC:
--        qemu_log("CLOCK_MONOTONIC");
--        break;
--    case TARGET_CLOCK_PROCESS_CPUTIME_ID:
--        qemu_log("CLOCK_PROCESS_CPUTIME_ID");
--        break;
--    case TARGET_CLOCK_THREAD_CPUTIME_ID:
--        qemu_log("CLOCK_THREAD_CPUTIME_ID");
--        break;
--    case TARGET_CLOCK_MONOTONIC_RAW:
--        qemu_log("CLOCK_MONOTONIC_RAW");
--        break;
--    case TARGET_CLOCK_REALTIME_COARSE:
--        qemu_log("CLOCK_REALTIME_COARSE");
--        break;
--    case TARGET_CLOCK_MONOTONIC_COARSE:
--        qemu_log("CLOCK_MONOTONIC_COARSE");
--        break;
--    case TARGET_CLOCK_BOOTTIME:
--        qemu_log("CLOCK_BOOTTIME");
--        break;
--    case TARGET_CLOCK_REALTIME_ALARM:
--        qemu_log("CLOCK_REALTIME_ALARM");
--        break;
--    case TARGET_CLOCK_BOOTTIME_ALARM:
--        qemu_log("CLOCK_BOOTTIME_ALARM");
--        break;
--    case TARGET_CLOCK_SGI_CYCLE:
--        qemu_log("CLOCK_SGI_CYCLE");
--        break;
--    case TARGET_CLOCK_TAI:
--        qemu_log("CLOCK_TAI");
--        break;
--    default:
--        qemu_log("%d", clockid);
--        break;
--    }
--    qemu_log("%s", get_comma(last));
--}
--#endif
--
- /*
-  * Sysycall specific output functions
-  */
-@@ -839,6 +778,81 @@ print_syscall_ret_adjtimex(void *cpu_env, const struct syscallname *name,
- }
- #endif
- 
-+#if defined(TARGET_NR_clock_gettime) || defined(TARGET_NR_clock_getres)
-+static void
-+print_syscall_ret_clock_gettime(void *cpu_env, const struct syscallname *name,
-+                                abi_long ret, abi_long arg0, abi_long arg1,
-+                                abi_long arg2, abi_long arg3, abi_long arg4,
-+                                abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (");
-+        print_timespec(arg1, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#define print_syscall_ret_clock_getres     print_syscall_ret_clock_gettime
-+#endif
-+
-+#ifdef TARGET_NR_gettimeofday
-+static void
-+print_syscall_ret_gettimeofday(void *cpu_env, const struct syscallname *name,
-+                               abi_long ret, abi_long arg0, abi_long arg1,
-+                               abi_long arg2, abi_long arg3, abi_long arg4,
-+                               abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (");
-+        print_timeval(arg0, 0);
-+        print_timezone(arg1, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#endif
-+
-+#ifdef TARGET_NR_getitimer
-+static void
-+print_syscall_ret_getitimer(void *cpu_env, const struct syscallname *name,
-+                            abi_long ret, abi_long arg0, abi_long arg1,
-+                            abi_long arg2, abi_long arg3, abi_long arg4,
-+                            abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (");
-+        print_itimerval(arg1, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#endif
-+
-+
-+#ifdef TARGET_NR_getitimer
-+static void
-+print_syscall_ret_setitimer(void *cpu_env, const struct syscallname *name,
-+                            abi_long ret, abi_long arg0, abi_long arg1,
-+                            abi_long arg2, abi_long arg3, abi_long arg4,
-+                            abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (old_value = ");
-+        print_itimerval(arg2, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#endif
-+
- #if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
-  || defined(TARGGET_NR_flistxattr)
- static void
-@@ -1217,6 +1231,43 @@ UNUSED static struct flags mlockall_flags[] = {
-     FLAG_END,
- };
- 
-+/* IDs of the various system clocks */
-+#define TARGET_CLOCK_REALTIME              0
-+#define TARGET_CLOCK_MONOTONIC             1
-+#define TARGET_CLOCK_PROCESS_CPUTIME_ID    2
-+#define TARGET_CLOCK_THREAD_CPUTIME_ID     3
-+#define TARGET_CLOCK_MONOTONIC_RAW         4
-+#define TARGET_CLOCK_REALTIME_COARSE       5
-+#define TARGET_CLOCK_MONOTONIC_COARSE      6
-+#define TARGET_CLOCK_BOOTTIME              7
-+#define TARGET_CLOCK_REALTIME_ALARM        8
-+#define TARGET_CLOCK_BOOTTIME_ALARM        9
-+#define TARGET_CLOCK_SGI_CYCLE             10
-+#define TARGET_CLOCK_TAI                   11
-+
-+UNUSED static struct enums clockids[] = {
-+    ENUM_TARGET(CLOCK_REALTIME),
-+    ENUM_TARGET(CLOCK_MONOTONIC),
-+    ENUM_TARGET(CLOCK_PROCESS_CPUTIME_ID),
-+    ENUM_TARGET(CLOCK_THREAD_CPUTIME_ID),
-+    ENUM_TARGET(CLOCK_MONOTONIC_RAW),
-+    ENUM_TARGET(CLOCK_REALTIME_COARSE),
-+    ENUM_TARGET(CLOCK_MONOTONIC_COARSE),
-+    ENUM_TARGET(CLOCK_BOOTTIME),
-+    ENUM_TARGET(CLOCK_REALTIME_ALARM),
-+    ENUM_TARGET(CLOCK_BOOTTIME_ALARM),
-+    ENUM_TARGET(CLOCK_SGI_CYCLE),
-+    ENUM_TARGET(CLOCK_TAI),
-+    ENUM_END,
-+};
-+
-+UNUSED static struct enums itimer_types[] = {
-+    ENUM_GENERIC(ITIMER_REAL),
-+    ENUM_GENERIC(ITIMER_VIRTUAL),
-+    ENUM_GENERIC(ITIMER_PROF),
-+    ENUM_END,
-+};
-+
- /*
-  * print_xxx utility functions.  These are used to print syscall
-  * parameters in certain format.  All of these have parameter
-@@ -1435,13 +1486,34 @@ print_timeval(abi_ulong tv_addr, int last)
-             print_pointer(tv_addr, last);
-             return;
-         }
--        qemu_log("{" TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld "}%s",
--            tswapal(tv->tv_sec), tswapal(tv->tv_usec), get_comma(last));
-+        qemu_log("{tv_sec = " TARGET_ABI_FMT_ld
-+                 ",tv_usec = " TARGET_ABI_FMT_ld "}%s",
-+                 tswapal(tv->tv_sec), tswapal(tv->tv_usec), get_comma(last));
-         unlock_user(tv, tv_addr, 0);
-     } else
-         qemu_log("NULL%s", get_comma(last));
- }
- 
-+static void
-+print_timespec(abi_ulong ts_addr, int last)
-+{
-+    if (ts_addr) {
-+        struct target_timespec *ts;
-+
-+        ts = lock_user(VERIFY_READ, ts_addr, sizeof(*ts), 1);
-+        if (!ts) {
-+            print_pointer(ts_addr, last);
-+            return;
-+        }
-+        qemu_log("{tv_sec = " TARGET_ABI_FMT_ld
-+                 ",tv_nsec = " TARGET_ABI_FMT_ld "}%s",
-+                 tswapal(ts->tv_sec), tswapal(ts->tv_nsec), get_comma(last));
-+        unlock_user(ts, ts_addr, 0);
-+    } else {
-+        qemu_log("NULL%s", get_comma(last));
-+    }
-+}
-+
- static void
- print_timezone(abi_ulong tz_addr, int last)
- {
-@@ -1461,6 +1533,22 @@ print_timezone(abi_ulong tz_addr, int last)
-     }
- }
- 
-+static void
-+print_itimerval(abi_ulong it_addr, int last)
-+{
-+    if (it_addr) {
-+        qemu_log("{it_interval=");
-+        print_timeval(it_addr +
-+                      offsetof(struct target_itimerval, it_interval), 0);
-+        qemu_log("it_value=");
-+        print_timeval(it_addr +
-+                      offsetof(struct target_itimerval, it_value), 0);
-+        qemu_log("}%s", get_comma(last));
-+    } else {
-+        qemu_log("NULL%s", get_comma(last));
-+    }
-+}
-+
- #undef UNUSED
- 
- #ifdef TARGET_NR_accept
-@@ -1573,7 +1661,7 @@ print_clock_adjtime(void *cpu_env, const struct syscallname *name,
-                     abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     print_syscall_prologue(name);
--    print_clockid(arg0, 0);
-+    print_enums(clockids, arg0, 0);
-     print_pointer(arg1, 1);
-     print_syscall_epilogue(name);
- }
-@@ -1903,6 +1991,19 @@ print_futimesat(void *cpu_env, const struct syscallname *name,
- }
- #endif
- 
-+#ifdef TARGET_NR_gettimeofday
-+static void
-+print_gettimeofday(void *cpu_env, const struct syscallname *name,
-+                   abi_long arg0, abi_long arg1, abi_long arg2,
-+                   abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_pointer(arg0, 0);
-+    print_pointer(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_settimeofday
- static void
- print_settimeofday(void *cpu_env, const struct syscallname *name,
-@@ -1916,6 +2017,60 @@ print_settimeofday(void *cpu_env, const struct syscallname *name,
- }
- #endif
- 
-+#if defined(TARGET_NR_clock_gettime) || defined(TARGET_NR_clock_getres)
-+static void
-+print_clock_gettime(void *cpu_env, const struct syscallname *name,
-+                    abi_long arg0, abi_long arg1, abi_long arg2,
-+                    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_pointer(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_clock_getres     print_clock_gettime
-+#endif
-+
-+#ifdef TARGET_NR_clock_settime
-+static void
-+print_clock_settime(void *cpu_env, const struct syscallname *name,
-+                    abi_long arg0, abi_long arg1, abi_long arg2,
-+                    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_timespec(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#ifdef TARGET_NR_getitimer
-+static void
-+print_getitimer(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(itimer_types, arg0, 0);
-+    print_pointer(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#ifdef TARGET_NR_setitimer
-+static void
-+print_setitimer(void *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(itimer_types, arg0, 0);
-+    print_itimerval(arg1, 0);
-+    print_pointer(arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_link
- static void
- print_link(void *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d0ea7f3464..084048ab96 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -83,16 +83,18 @@
- { TARGET_NR_clock_adjtime, "clock_adjtime" , NULL, print_clock_adjtime, NULL },
- #endif
- #ifdef TARGET_NR_clock_getres
--{ TARGET_NR_clock_getres, "clock_getres" , NULL, NULL, NULL },
-+{ TARGET_NR_clock_getres, "clock_getres" , NULL, print_clock_getres,
-+                          print_syscall_ret_clock_getres },
- #endif
- #ifdef TARGET_NR_clock_gettime
--{ TARGET_NR_clock_gettime, "clock_gettime" , NULL, NULL, NULL },
-+{ TARGET_NR_clock_gettime, "clock_gettime" , NULL, print_clock_gettime,
-+                           print_syscall_ret_clock_gettime },
- #endif
- #ifdef TARGET_NR_clock_nanosleep
- { TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_clock_settime
--{ TARGET_NR_clock_settime, "clock_settime" , NULL, NULL, NULL },
-+{ TARGET_NR_clock_settime, "clock_settime" , NULL, print_clock_settime, NULL },
- #endif
- #ifdef TARGET_NR_clone
- { TARGET_NR_clone, "clone" , NULL, print_clone, NULL },
-@@ -315,7 +317,8 @@
- { TARGET_NR_gethostname, "gethostname" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getitimer
--{ TARGET_NR_getitimer, "getitimer" , NULL, NULL, NULL },
-+{ TARGET_NR_getitimer, "getitimer" , NULL, print_getitimer,
-+                       print_syscall_ret_getitimer },
- #endif
- #ifdef TARGET_NR_get_kernel_syms
- { TARGET_NR_get_kernel_syms, "get_kernel_syms" , NULL, NULL, NULL },
-@@ -388,7 +391,8 @@
- { TARGET_NR_gettid, "gettid" , "%s()", NULL, NULL },
- #endif
- #ifdef TARGET_NR_gettimeofday
--{ TARGET_NR_gettimeofday, "gettimeofday" , NULL, NULL, NULL },
-+{ TARGET_NR_gettimeofday, "gettimeofday" , NULL, print_gettimeofday,
-+                          print_syscall_ret_gettimeofday },
- #endif
- #ifdef TARGET_NR_getuid
- { TARGET_NR_getuid, "getuid" , "%s()", NULL, NULL },
-@@ -1291,7 +1295,8 @@
- { TARGET_NR_sethostname, "sethostname" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_setitimer
--{ TARGET_NR_setitimer, "setitimer" , NULL, NULL, NULL },
-+{ TARGET_NR_setitimer, "setitimer" , NULL, print_setitimer,
-+                       print_syscall_ret_setitimer },
- #endif
- #ifdef TARGET_NR_set_mempolicy
- { TARGET_NR_set_mempolicy, "set_mempolicy" , NULL, NULL, NULL },
--- 
-2.25.1
+Thanks,
+drew
 
 
