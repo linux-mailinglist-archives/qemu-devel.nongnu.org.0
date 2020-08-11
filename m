@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9765B241E9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:48:00 +0200 (CEST)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7ED241EA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:49:30 +0200 (CEST)
+Received: from localhost ([::1]:60472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5XRP-00056O-K9
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44668)
+	id 1k5XSr-0007FH-Nl
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5XPj-0003ni-Ac
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:15 -0400
+ id 1k5XPl-0003qt-UR
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:17 -0400
 Received: from mail-eopbgr50105.outbound.protection.outlook.com
  ([40.107.5.105]:15741 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5XPh-0002xQ-Ff
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:15 -0400
+ id 1k5XPj-0002xQ-JA
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:46:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fMO3eAVm7UF7H6b2KDFkXCqUXahwTkSn2q+n71qXVtOEsbqe79UtI8+hcxksK8wLp4kLlH9vcftAX0FXKmPLw2eNNgVZuecgbSTkR1FC/03At+p1fDQ6V+OE7qSFvwdjF4YVf1VSBnfNvFTYPRX0l06g4SZLhIFPEshwfdvvWlpoaRhkIsB9Qjc+s2Nxtco4Pe+wAE7xdp62QzgK+q6VHvciQRLOP6EiYNC43whdHI3IVvTJEXbYIMXjHvQC0WIOdo59kKgFbUJn386t6Xp27xe6xmVDDDstWTc/P/yYIOODKDgeD8rtPA5QuW0D0mmBbrNcCHeTJUiMSVE9Jf5RFA==
+ b=g+AlJdXZJRVL3UkqqO2h0eQY39kqJN0rDqGOjjTCtsy5OacGOUIYX7XmB+FpmD2pPixnaxQi4GAvcjKi/09vsLVspzddwX/PzIlCtSrtO0iiD+P9KWCHxZ61WYVUrWogjSo48ndOrSmrlfKrPBueSuud7LjRZ3qgKd4p5NWogcBz/kbMyHLXT+3AdNF6yND8bLcZWyV0qZJ71FoepY9ozEitZW4GvZL1KkjJS0w1BcVZnT01cwqENkx1KJR8VpPljRyGfnL0lZ4xd/vCf9cHIDBSRLDZs2xryHobPyj2+C1pq8a4pAfymrhTpW7kA7lLdFnjBCGIfr2x7BkRiI2iGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pVAJorsml/0OXlxkEkuRvBk/Ii5+nXBGPfsPBLt1KRQ=;
- b=mDQoLpdpYIedWAG0x/VHhlIUPPMIg/wYJLx2aFNj4yQjJKSG+7HwZwibMqiWAYrakcYqtB6mu/JIdCQ2GivLaINDKh5RX/J2YTf/EjhybT7xbMqJBgzSycIdsnm6gDt4lhd8DjA6DC5dlx1XAbbce23uvGRviaoFHxal0fChcSTm8A6yxWP/gIPnsGFm1OOaowwhK6eA+4Kn52k2mIXCWwr9z9jigBRU7xVWmOxY6h/legjoGKAOWt486PuDspN9LOiyGRm5VDzvahKbpafP/OALmbsxhuX/u2PxDM1W0etCP37Nqs+xRR5c18NBNjd7+qbtkLjvWRYtpna+o0nrjg==
+ bh=gfBRNnPfhhFG5rLrehU8qCTuG7mo1D2I+kvG1h0VIfI=;
+ b=YDOgiQFdCAUjpnmmIAEv92gH+hva8yzEHjGhz1KBH09GXA02BYOspEP9RSkyS91hI52AJENPvEDSYepdnEK6W3TI2Mj26ikB+Sq8n5uv8WR31DZaRlai96KC01zZ1cF6+zWU6SW7s615bELh9UhUNL3X9zSDjVzpSKjsIhIqkIkQBUFpBmb0Y8I3/efcjKnbvFzVZG/x965fxgz5mJZ5971rJX479CBpS/m6ru4k1CznY2wAACf/JMqpwmS0CKA4xTughWaNP9JmhtsgXR6BeVcwfULJknySv8DZ/QN/LLRSR1AHohrFi3SYDmFfroUaiC+Yk2lISm9GJGJrlW0G2g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pVAJorsml/0OXlxkEkuRvBk/Ii5+nXBGPfsPBLt1KRQ=;
- b=xL2+5TS8bZMrJW8DrzfoD5y6MTbIy2b0/DzaqP8oEjTgWgFeUQfvhayQh8zgHVjof5BoGoyYw209U5K8+Vyj31ZFl/ieaR070xVpoa4vbcGpkG+Q6gFg1Mk3GZeliM7Iv33y9xF26Enh5XHfDHbel+taipu2+sUYGuanIfKQks0=
+ bh=gfBRNnPfhhFG5rLrehU8qCTuG7mo1D2I+kvG1h0VIfI=;
+ b=QA22Cb6hRgXaNUeoLuugCQH/X1xCy+/c0K1uDxBiZZzlZPAia9x2SOXHLrpcjHuASp39QM6AqzsfbrO4lvGvcLWxZFwpd1ERUQGqbwduaeGEPhHxzo91xuzL8ipl5AygIz1uPyYduERi8/0vwbQN2EOUidO6E2K23/cTv+KvOx0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
  by VI1PR03MB3662.eurprd03.prod.outlook.com (2603:10a6:803:3a::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.22; Tue, 11 Aug
- 2020 16:46:08 +0000
+ 2020 16:46:09 +0000
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
- 16:46:08 +0000
+ 16:46:09 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/5] linux-user: Add strace support for printing arguments
- of truncate()/ftruncate() and getsid()
-Date: Tue, 11 Aug 2020 18:45:50 +0200
-Message-Id: <20200811164553.27713-3-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v4 3/5] linux-user: Add strace support for printing arguments
+ of syscalls used to lock and unlock memory
+Date: Tue, 11 Aug 2020 18:45:51 +0200
+Message-Id: <20200811164553.27713-4-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200811164553.27713-1-Filip.Bozuta@syrmia.com>
 References: <20200811164553.27713-1-Filip.Bozuta@syrmia.com>
@@ -65,33 +65,33 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.235) by
  LO3P123CA0008.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:ba::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.16 via Frontend Transport; Tue, 11 Aug 2020 16:46:07 +0000
+ 15.20.3261.16 via Frontend Transport; Tue, 11 Aug 2020 16:46:08 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.235]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c079c073-1bc7-4214-acca-08d83e160bfd
+X-MS-Office365-Filtering-Correlation-Id: 26810fa0-9fbe-4758-bdf4-08d83e160c78
 X-MS-TrafficTypeDiagnostic: VI1PR03MB3662:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR03MB36627C2B361377850CA723CBEB450@VI1PR03MB3662.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-Microsoft-Antispam-PRVS: <VI1PR03MB36624748AC2AD1C163809E2EEB450@VI1PR03MB3662.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ltm1l0jKi1v6h+kgXBVndvnPYumMnG7JzSaaqka4Uw0yXISufSyeVMAzeOgI9sSZbj3CFs5RjXSnNRFNkOWVcAo6ke9cWrT+BMEJP6hnCIRSrAhF1yfYz+4G35Y+aPfap/VaRoD5vCAcO5ZrY4yUvi04ShyLgTt1R4RzaalQdQDLygslmBRyLW5D9J0Oo6wGIIpUOe7GFDN5c665Thltbq4IPlwbzy4MDNupGM7q8fOzm1d1a/cW2NtYvek+liTPASqt1FNEefJOrzg+FxRxBNAs64mcg9r1r6F2HLwfByWh8SVGYsavMdjL9tnG/cmj3xa7VLjCF6U5+IzuDvhdfU6AJRx39z9uQXAj4vCxiukdQJ0HeQozdlvDDI1fv01f9GGicVXbFtODV94LDbjbVJoyyZftHpX0yNzs57qfCL6AMReCROFSV3dxZnrhRznwCjjUm/O/bTmWLbL5Ncp/xw==
+X-Microsoft-Antispam-Message-Info: Bl41HcSzq62wogOMrC9iXntbE38cO2Yk+4Hy1EoREBuNqT7dpKidMn9LQWtGBOsBP9/dMbllOli2scWppUCqvZ0m3lyfYM1zWxHGs54sH7otifIl1gbipiLIZNhepQorqUCSRG+8coryx41uHSCBnFkvUZBBrJ9v3gZoyzpQG2/Ft/jtJzBadp9dEC4AkmNq7xrZFIvPSUhooS76KTJCIPVVDz/YXw54q7ANy4wko6qqS6ZhWEWQkgVH9sP3cQeFtwTZDE/fGeKzk/NMhv6ynT5qUE5ES9dleMbbiwH+3FBvkPgIOohvGfEH36sib+XmgKkms+/t8C0sWFqK1vimUi6fTJobDZz/DYFJWod+T+JM7sh5jnYuO0WGZS5gX/mHQ6CWnjQzkFinXx6cmuqHU6nj+OaWlZX5LlUGVXZAnrWcJiyRYvN84pDIjRTUJ/d7OAReEFa7p17bCrMdDEfLXRzxeEU/J7kaZG6Kuw9PJX4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(346002)(376002)(396003)(366004)(39830400003)(136003)(956004)(2906002)(508600001)(6512007)(186003)(52116002)(16526019)(66556008)(66946007)(26005)(83380400001)(6666004)(1076003)(66476007)(6506007)(86362001)(54906003)(8936002)(4326008)(107886003)(966005)(36756003)(316002)(6916009)(5660300002)(8676002)(6486002)(69590400007)(2616005);
+ SFS:(346002)(376002)(396003)(366004)(39830400003)(136003)(956004)(2906002)(508600001)(6512007)(186003)(52116002)(16526019)(66556008)(66946007)(26005)(83380400001)(6666004)(1076003)(30864003)(66476007)(6506007)(86362001)(54906003)(8936002)(4326008)(107886003)(966005)(36756003)(316002)(6916009)(5660300002)(8676002)(6486002)(69590400007)(2616005)(21314003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 5a+QNlZm+RGKW1lGmuDo2etAo2NLmq3pcYOZ/mdQtXhqBPqgFTZ4JpuCrdB3eXK9wb/oTQ0hYsqcXqVtYPz/ot5qW4Rz4tZI8I5iUw6i6R8WAvjsaTepJmokH+Cgcqi8/RH3C0cB/FbzuIHRKtTl/q00tLd+aNVZZaBCOALdfXf++aXE0f/jUwlrtZNHRRAf8InNRoQm69+4yzChYb3RnJIDHbDtOIiIpHTPauetoSppF9IAATb9cnq/Xj/sCQA9S0lU84ArnMMzhKZFP1Xiqmu/AGtwoEHGfYuFlN37Hdn7faXFS1ImDnM3bLaOVzCQOG9TOjmllCgWSHF2/UYxJq6T5Kd/QD++/8i8kXIU23a+rWdgWm7fltjOvDpVZnz87VgUXF+k+xnZkr4KFpqcKopCL9HV16dwT298E03KqcrraQyUg4jzkK4zrqswB7o+8CAVdRJ/vDBWoCFviy+jtpAaJMv9oxAOZVN/jremHj7LafMeMfeo+guWB0CU4K7fNR0CViqeCqAJPc0pgohz/Lm2werB+3qLYrrYHMWFBGVziO6O6NLnfRLhANU5rnVUinAfA5EzChwpq9Dv2o53hzy4D01/DGdLzSzdxDGh4B3OZyR1oPMS2a1TLujzAKmHbAxC+0A/q1PLjAcKwLLSww==
+X-MS-Exchange-AntiSpam-MessageData: q0/z7gGJX41oiqAZeC7pTCZpbJAxiNYz7DDB0s9rsEp88W1B+8ikC9bVI5X3V+Xe3v9OGW3A8JQ+uMYS/IWMd3+AM+dM3UHg20U6oUHbI8fw60U9lcWyx63wHCnYY+nMIbOoQT44qtQ3gCvXMI3Bc44Nzo5OesSX6XmiEPsTaZhOEHBmf2TghkpYHtVcjP1ILkPzfXnKFFLHki7jYP4wfszPWKwfdlyuyr4G71RO4dxkgotO2/Xz0yd99E2wFuMlojDN+PRPyYEuhvRjMP45DJYhSNX+1djHETChnDAYp83OpA8yHLPxcG3AcRnM/WRNwmDhjRudMUFDzL9PAF9/A2nfOHtF2poybqG8e+JRkPf5MYxsn6sqRjZdd+Y48a2lv81teZhMHR46bjbq9u54KNl3CP8oCkNbwqf1mZSKqCDUMJ/0NoCtsg45hec25nOj99iAqGQFrWvgOUwMMieeBjUMAf/KNvvXleqOAyxKuEXPlYTSMGNir9FqXejU9fQi9IFyE9xNCnEKwYeRRCwmMPVRJ9ECMAsDjgLVPu12oqkW+YXgqDlYnqQl6FPhrEFXUiCthzj5SwyEz42YgNaHrlzPBlHJ9n3mueKWOuVF9V8psRYwKGZ7TnvqG0SPpmVke4cFB1UWeHv+Gw9ZweGUlQ==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c079c073-1bc7-4214-acca-08d83e160bfd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26810fa0-9fbe-4758-bdf4-08d83e160c78
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 16:46:08.6490 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 16:46:09.6165 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1nCsfyiLTb8jPxsaY2+kWWFtbXHFR9VU1tB05fHhqNMFgz7EMTx7P9dEorhpVnt3QEpcbWUQLFvM20XKBrIqyQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ImfBCjeDiRVsGjHOBKKI7o9K0iwJe8g2U67Du0EdE1UmLPXkkn82EwD3qujG9Pqgwoc5QC/NZcGZw1RYhmkSGg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3662
 Received-SPF: pass client-ip=40.107.5.105;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -124,138 +124,383 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch implements strace argument printing functionality for following syscalls:
 
-    * truncate, ftruncate - truncate a file to a specified length
+    * mlock, munlock, mlockall, munlockall - lock and unlock memory
 
-        int truncate/truncate64(const char *path, off_t length)
-        int ftruncate/ftruncate64(int fd, off_t length)
-        man page: https://man7.org/linux/man-pages/man2/truncate.2.html
-
-    * getsid - get session ID
-
-        pid_t getsid(pid_t pid)
-        man page: https://man7.org/linux/man-pages/man2/getsid.2.html
+       int mlock(const void *addr, size_t len)
+       int munlock(const void *addr, size_t len)
+       int mlockall(int flags)
+       int munlockall(void)
+       man page: https://man7.org/linux/man-pages/man2/mlock.2.html
 
 Implementation notes:
 
-    Syscalls truncate/truncate64 take string argument types and thus a
-    separate print function "print_truncate/print_truncate64" is stated in
-    file "strace.list". This function is defined and implemented in "strace.c"
-    by using an existing function used to print string arguments: "print_string()".
-    For syscall ftruncate64, a separate printing function was also stated in
-    "strace.c" as it requires a special kind of handling.
-    The other syscalls have only primitive argument types, so the rest of the
-    implementation was handled by stating an appropriate printing format in file
-    "strace.list".
-    Function "regpairs_aligned()" was cut & pasted from "syscall.c" to "qemu.h"
-    as it is used by functions "print_truncate64()" and "print_ftruncate64()"
-    to print the offset arguments of "truncate64()" and "ftruncate64()".
+    Syscall mlockall() takes an argument that is composed of predefined values
+    which represent flags that determine the type of locking operation that is
+    to be performed. For that reason, a printing function "print_mlockall" was
+    stated in file "strace.list". This printing function uses an already existing
+    function "print_flags()" to print the "flags" argument.  These flags are stated
+    inside an array "mlockall_flags" that contains values of type "struct flags".
+    These values are instantiated using an existing macro "FLAG_TARGET()" that
+    crates aproppriate target flag values based on those defined in files
+    '/target_syscall.h'. These target flag values were changed from
+    "TARGET_MLOCKALL_MCL*" to "TARGET_MCL_*" so that they can be aproppriately set
+    and recognised in "strace.c" with "FLAG_TARGET()". Value for "MCL_ONFAULT"
+    was added in this patch. This value was also added in "syscall.c" in function
+    "target_to_host_mlockall_arg()". Because this flag value was added in kernel
+    version 4.4, it is enwrapped in an #ifdef directive (both in "syscall.c" and
+    in "strace.c") as to support older kernel versions.
+    The other syscalls have only primitive argument types, so the
+    rest of the implementation was handled by stating an appropriate
+    printing format in file "strace.list". Syscall mlock2() is not implemented in
+    "syscall.c" and thus it's argument printing is not implemented in this patch.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h      | 35 +++++++++++++++++++++++++++++++
- linux-user/strace.c    | 47 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list | 10 ++++-----
- linux-user/syscall.c   | 32 ----------------------------
- 4 files changed, 87 insertions(+), 37 deletions(-)
+ linux-user/aarch64/target_syscall.h    |  5 +++--
+ linux-user/alpha/target_syscall.h      |  5 +++--
+ linux-user/arm/target_syscall.h        |  6 ++++--
+ linux-user/cris/target_syscall.h       |  5 +++--
+ linux-user/hppa/target_syscall.h       |  5 +++--
+ linux-user/i386/target_syscall.h       |  5 +++--
+ linux-user/m68k/target_syscall.h       |  6 +++---
+ linux-user/microblaze/target_syscall.h |  5 +++--
+ linux-user/mips/target_syscall.h       |  5 +++--
+ linux-user/mips64/target_syscall.h     |  5 +++--
+ linux-user/nios2/target_syscall.h      |  5 +++--
+ linux-user/openrisc/target_syscall.h   |  5 +++--
+ linux-user/ppc/target_syscall.h        |  5 +++--
+ linux-user/riscv/target_syscall.h      |  5 +++--
+ linux-user/s390x/target_syscall.h      |  5 +++--
+ linux-user/sh4/target_syscall.h        |  5 +++--
+ linux-user/sparc/target_syscall.h      |  5 +++--
+ linux-user/sparc64/target_syscall.h    |  5 +++--
+ linux-user/strace.c                    | 21 +++++++++++++++++++++
+ linux-user/strace.list                 |  8 ++++----
+ linux-user/syscall.c                   | 10 ++++++++--
+ linux-user/tilegx/target_syscall.h     |  5 +++--
+ linux-user/x86_64/target_syscall.h     |  5 +++--
+ linux-user/xtensa/target_syscall.h     |  5 +++--
+ 24 files changed, 97 insertions(+), 49 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 63ddfe86fd..f431805e57 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -706,6 +706,41 @@ static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
- }
- #endif /* TARGET_ABI_BITS != 32 */
+diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+index 995e475c73..3194e6b009 100644
+--- a/linux-user/aarch64/target_syscall.h
++++ b/linux-user/aarch64/target_syscall.h
+@@ -16,8 +16,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "3.8.0"
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ       2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
  
+ #define TARGET_PR_SVE_SET_VL  50
+ #define TARGET_PR_SVE_GET_VL  51
+diff --git a/linux-user/alpha/target_syscall.h b/linux-user/alpha/target_syscall.h
+index 3426cc5b4e..fd389422e3 100644
+--- a/linux-user/alpha/target_syscall.h
++++ b/linux-user/alpha/target_syscall.h
+@@ -258,7 +258,8 @@ struct target_pt_regs {
+ #define TARGET_UAC_NOFIX		2
+ #define TARGET_UAC_SIGBUS		4
+ #define TARGET_MINSIGSTKSZ              4096
+-#define TARGET_MLOCKALL_MCL_CURRENT     0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE      0x4000
++#define TARGET_MCL_CURRENT     0x2000
++#define TARGET_MCL_FUTURE      0x4000
++#define TARGET_MCL_ONFAULT     0x8000
+ 
+ #endif /* ALPHA_TARGET_SYSCALL_H */
+diff --git a/linux-user/arm/target_syscall.h b/linux-user/arm/target_syscall.h
+index f85cbdaf56..e870ed7a54 100644
+--- a/linux-user/arm/target_syscall.h
++++ b/linux-user/arm/target_syscall.h
+@@ -28,8 +28,10 @@ struct target_pt_regs {
+ #define TARGET_CLONE_BACKWARDS
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
 +
-+/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
-+#ifdef TARGET_ARM
-+static inline int regpairs_aligned(void *cpu_env, int num)
-+{
-+    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
-+}
-+#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+#elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
-+/*
-+ * SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
-+ * of registers which translates to the same as ARM/MIPS, because we start with
-+ * r3 as arg1
-+ */
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+#elif defined(TARGET_SH4)
-+/* SH4 doesn't align register pairs, except for p{read,write}64 */
-+static inline int regpairs_aligned(void *cpu_env, int num)
-+{
-+    switch (num) {
-+    case TARGET_NR_pread64:
-+    case TARGET_NR_pwrite64:
-+        return 1;
-+
-+    default:
-+        return 0;
-+    }
-+}
-+#elif defined(TARGET_XTENSA)
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+#else
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
-+#endif
-+
- /**
-  * preexit_cleanup: housekeeping before the guest exits
-  *
+ #define TARGET_WANT_OLD_SYS_SELECT
+ 
+ #define TARGET_FORCE_SHMLBA
+diff --git a/linux-user/cris/target_syscall.h b/linux-user/cris/target_syscall.h
+index 29d69009ff..d109a6b42a 100644
+--- a/linux-user/cris/target_syscall.h
++++ b/linux-user/cris/target_syscall.h
+@@ -40,7 +40,8 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS2
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif
+diff --git a/linux-user/hppa/target_syscall.h b/linux-user/hppa/target_syscall.h
+index e2f366839d..f34e05edb5 100644
+--- a/linux-user/hppa/target_syscall.h
++++ b/linux-user/hppa/target_syscall.h
+@@ -23,8 +23,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ       2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #undef  TARGET_ENOMSG
+ #define TARGET_ENOMSG          35
+diff --git a/linux-user/i386/target_syscall.h b/linux-user/i386/target_syscall.h
+index 2854758134..ed356b3908 100644
+--- a/linux-user/i386/target_syscall.h
++++ b/linux-user/i386/target_syscall.h
+@@ -151,8 +151,9 @@ struct target_vm86plus_struct {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ #define TARGET_WANT_OLD_SYS_SELECT
+ 
+ #endif /* I386_TARGET_SYSCALL_H */
+diff --git a/linux-user/m68k/target_syscall.h b/linux-user/m68k/target_syscall.h
+index c0366b1c62..23359a6299 100644
+--- a/linux-user/m68k/target_syscall.h
++++ b/linux-user/m68k/target_syscall.h
+@@ -21,9 +21,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
+-
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ #define TARGET_WANT_OLD_SYS_SELECT
+ 
+ #endif /* M68K_TARGET_SYSCALL_H */
+diff --git a/linux-user/microblaze/target_syscall.h b/linux-user/microblaze/target_syscall.h
+index 4141cbaa5e..7f653db34f 100644
+--- a/linux-user/microblaze/target_syscall.h
++++ b/linux-user/microblaze/target_syscall.h
+@@ -50,8 +50,9 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_WANT_NI_OLD_SELECT
+ 
+diff --git a/linux-user/mips/target_syscall.h b/linux-user/mips/target_syscall.h
+index d5509a34a7..dd6fd7af8e 100644
+--- a/linux-user/mips/target_syscall.h
++++ b/linux-user/mips/target_syscall.h
+@@ -234,8 +234,9 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
+diff --git a/linux-user/mips64/target_syscall.h b/linux-user/mips64/target_syscall.h
+index 8ccc46822c..8594955eec 100644
+--- a/linux-user/mips64/target_syscall.h
++++ b/linux-user/mips64/target_syscall.h
+@@ -231,8 +231,9 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
+diff --git a/linux-user/nios2/target_syscall.h b/linux-user/nios2/target_syscall.h
+index f3b2a500f4..78006c24d4 100644
+--- a/linux-user/nios2/target_syscall.h
++++ b/linux-user/nios2/target_syscall.h
+@@ -31,7 +31,8 @@ struct target_pt_regs {
+ };
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif /* NIOS2_TARGET_SYSCALL_H */
+diff --git a/linux-user/openrisc/target_syscall.h b/linux-user/openrisc/target_syscall.h
+index d586d2a018..ef0d89a551 100644
+--- a/linux-user/openrisc/target_syscall.h
++++ b/linux-user/openrisc/target_syscall.h
+@@ -16,8 +16,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define MMAP_SHIFT TARGET_PAGE_BITS
+ 
+diff --git a/linux-user/ppc/target_syscall.h b/linux-user/ppc/target_syscall.h
+index afc0570410..c461f878f2 100644
+--- a/linux-user/ppc/target_syscall.h
++++ b/linux-user/ppc/target_syscall.h
+@@ -72,8 +72,9 @@ struct target_revectored_struct {
+ #define TARGET_CLONE_BACKWARDS
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE  0x4000
++#define TARGET_MCL_CURRENT 0x2000
++#define TARGET_MCL_FUTURE  0x4000
++#define TARGET_MCL_ONFAULT 0x8000
+ #define TARGET_WANT_NI_OLD_SELECT
+ 
+ #endif /* PPC_TARGET_SYSCALL_H */
+diff --git a/linux-user/riscv/target_syscall.h b/linux-user/riscv/target_syscall.h
+index a88e821f73..dc597c8972 100644
+--- a/linux-user/riscv/target_syscall.h
++++ b/linux-user/riscv/target_syscall.h
+@@ -51,8 +51,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "4.15.0"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ /* clone(flags, newsp, ptidptr, tls, ctidptr) for RISC-V */
+ /* This comes from linux/kernel/fork.c, CONFIG_CLONE_BACKWARDS */
+diff --git a/linux-user/s390x/target_syscall.h b/linux-user/s390x/target_syscall.h
+index 8d4f609eaa..94f84178db 100644
+--- a/linux-user/s390x/target_syscall.h
++++ b/linux-user/s390x/target_syscall.h
+@@ -28,7 +28,8 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS2
+ #define TARGET_MINSIGSTKSZ        2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif /* S390X_TARGET_SYSCALL_H */
+diff --git a/linux-user/sh4/target_syscall.h b/linux-user/sh4/target_syscall.h
+index 2b5f75be13..c1437adafe 100644
+--- a/linux-user/sh4/target_syscall.h
++++ b/linux-user/sh4/target_syscall.h
+@@ -16,8 +16,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
+diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+index b9160a771b..d8ea04ea83 100644
+--- a/linux-user/sparc/target_syscall.h
++++ b/linux-user/sparc/target_syscall.h
+@@ -21,8 +21,9 @@ struct target_pt_regs {
+  */
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      4096
+-#define TARGET_MLOCKALL_MCL_CURRENT 0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE  0x4000
++#define TARGET_MCL_CURRENT 0x2000
++#define TARGET_MCL_FUTURE  0x4000
++#define TARGET_MCL_ONFAULT 0x8000
+ 
+ /* For SPARC SHMLBA is determined at runtime in the kernel, and
+  * libc has to runtime-detect it using the hwcaps (see glibc
+diff --git a/linux-user/sparc64/target_syscall.h b/linux-user/sparc64/target_syscall.h
+index 3073a23e03..696a68b1ed 100644
+--- a/linux-user/sparc64/target_syscall.h
++++ b/linux-user/sparc64/target_syscall.h
+@@ -22,8 +22,9 @@ struct target_pt_regs {
+  */
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      4096
+-#define TARGET_MLOCKALL_MCL_CURRENT 0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE  0x4000
++#define TARGET_MCL_CURRENT 0x2000
++#define TARGET_MCL_FUTURE  0x4000
++#define TARGET_MCL_ONFAULT 0x8000
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index f0624b6206..7dc239b9f1 100644
+index 7dc239b9f1..40f863c6e2 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1958,6 +1958,53 @@ print_lseek(void *cpu_env, const struct syscallname *name,
+@@ -1194,6 +1194,15 @@ UNUSED static struct flags falloc_flags[] = {
+ #endif
+ };
+ 
++UNUSED static struct flags mlockall_flags[] = {
++    FLAG_TARGET(MCL_CURRENT),
++    FLAG_TARGET(MCL_FUTURE),
++#ifdef MCL_ONFAULT
++    FLAG_TARGET(MCL_ONFAULT),
++#endif
++    FLAG_END,
++};
++
+ /*
+  * print_xxx utility functions.  These are used to print syscall
+  * parameters in certain format.  All of these have parameter
+@@ -2005,6 +2014,18 @@ print_ftruncate64(void *cpu_env, const struct syscallname *name,
  }
  #endif
  
-+#ifdef TARGET_NR_truncate
++#ifdef TARGET_NR_mlockall
 +static void
-+print_truncate(void *cpu_env, const struct syscallname *name,
++print_mlockall(void *cpu_env, const struct syscallname *name,
 +               abi_long arg0, abi_long arg1, abi_long arg2,
 +               abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_raw_param(TARGET_ABI_FMT_ld, arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#ifdef TARGET_NR_truncate64
-+static void
-+print_truncate64(void *cpu_env, const struct syscallname *name,
-+                 abi_long arg0, abi_long arg1, abi_long arg2,
-+                 abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    if (regpairs_aligned(cpu_env, TARGET_NR_truncate64)) {
-+        arg1 = arg2;
-+        arg2 = arg3;
-+    }
-+    print_raw_param("%" PRIu64, target_offset64(arg1, arg2), 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#ifdef TARGET_NR_ftruncate64
-+static void
-+print_ftruncate64(void *cpu_env, const struct syscallname *name,
-+                  abi_long arg0, abi_long arg1, abi_long arg2,
-+                  abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    if (regpairs_aligned(cpu_env, TARGET_NR_ftruncate64)) {
-+        arg1 = arg2;
-+        arg2 = arg3;
-+    }
-+    print_raw_param("%" PRIu64, target_offset64(arg1, arg2), 1);
++    print_flags(mlockall_flags, arg0, 1);
 +    print_syscall_epilogue(name);
 +}
 +#endif
@@ -264,87 +509,109 @@ index f0624b6206..7dc239b9f1 100644
  static void
  print_socket(void *cpu_env, const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index a04706a524..8e5303d035 100644
+index 8e5303d035..d0ea7f3464 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -258,10 +258,10 @@
- { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
+@@ -568,13 +568,13 @@
+ { TARGET_NR_mknodat, "mknodat" , NULL, print_mknodat, NULL },
  #endif
- #ifdef TARGET_NR_ftruncate
--{ TARGET_NR_ftruncate, "ftruncate" , NULL, NULL, NULL },
-+{ TARGET_NR_ftruncate, "ftruncate" , "%s(%d," TARGET_ABI_FMT_ld ")", NULL, NULL },
+ #ifdef TARGET_NR_mlock
+-{ TARGET_NR_mlock, "mlock" , NULL, NULL, NULL },
++{ TARGET_NR_mlock, "mlock" , "%s(%p," TARGET_FMT_lu ")", NULL, NULL },
  #endif
- #ifdef TARGET_NR_ftruncate64
--{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, NULL, NULL },
-+{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, print_ftruncate64, NULL },
+ #ifdef TARGET_NR_mlock2
+ { TARGET_NR_mlock2, "mlock2" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_futex
- { TARGET_NR_futex, "futex" , NULL, print_futex, NULL },
-@@ -372,7 +372,7 @@
- { TARGET_NR_getrusage, "getrusage" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_mlockall
+-{ TARGET_NR_mlockall, "mlockall" , NULL, NULL, NULL },
++{ TARGET_NR_mlockall, "mlockall" , NULL, print_mlockall, NULL },
  #endif
- #ifdef TARGET_NR_getsid
--{ TARGET_NR_getsid, "getsid" , NULL, NULL, NULL },
-+{ TARGET_NR_getsid, "getsid" , "%s(%d)", NULL, NULL },
+ #ifdef TARGET_NR_mmap
+ { TARGET_NR_mmap, "mmap" , NULL, print_mmap, print_syscall_ret_addr },
+@@ -637,10 +637,10 @@
+ { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_getsockname
- { TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
-@@ -1535,10 +1535,10 @@
- { TARGET_NR_tkill, "tkill" , NULL, print_tkill, NULL },
+ #ifdef TARGET_NR_munlock
+-{ TARGET_NR_munlock, "munlock" , NULL, NULL, NULL },
++{ TARGET_NR_munlock, "munlock" , "%s(%p," TARGET_FMT_lu ")", NULL, NULL },
  #endif
- #ifdef TARGET_NR_truncate
--{ TARGET_NR_truncate, "truncate" , NULL, NULL, NULL },
-+{ TARGET_NR_truncate, "truncate" , NULL, print_truncate, NULL },
+ #ifdef TARGET_NR_munlockall
+-{ TARGET_NR_munlockall, "munlockall" , NULL, NULL, NULL },
++{ TARGET_NR_munlockall, "munlockall" , "%s()", NULL, NULL },
  #endif
- #ifdef TARGET_NR_truncate64
--{ TARGET_NR_truncate64, "truncate64" , NULL, NULL, NULL },
-+{ TARGET_NR_truncate64, "truncate64" , NULL, print_truncate64, NULL },
- #endif
- #ifdef TARGET_NR_tuxcall
- { TARGET_NR_tuxcall, "tuxcall" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_munmap
+ { TARGET_NR_munmap, "munmap" , NULL, print_munmap, NULL },
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index cc76ac61ba..1517096a9b 100644
+index 1517096a9b..24d915f0ff 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -501,38 +501,6 @@ static inline int next_free_host_timer(void)
+@@ -6906,12 +6906,18 @@ static inline int target_to_host_mlockall_arg(int arg)
+ {
+     int result = 0;
+ 
+-    if (arg & TARGET_MLOCKALL_MCL_CURRENT) {
++    if (arg & TARGET_MCL_CURRENT) {
+         result |= MCL_CURRENT;
+     }
+-    if (arg & TARGET_MLOCKALL_MCL_FUTURE) {
++    if (arg & TARGET_MCL_FUTURE) {
+         result |= MCL_FUTURE;
+     }
++#ifdef MCL_ONFAULT
++    if (arg & TARGET_MCL_ONFAULT) {
++        result |= MCL_ONFAULT;
++    }
++#endif
++
+     return result;
  }
  #endif
+diff --git a/linux-user/tilegx/target_syscall.h b/linux-user/tilegx/target_syscall.h
+index d731acdafa..8e9db734b8 100644
+--- a/linux-user/tilegx/target_syscall.h
++++ b/linux-user/tilegx/target_syscall.h
+@@ -34,8 +34,9 @@ struct target_pt_regs {
+     tilegx_reg_t pad[2];
+ };
  
--/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
--#ifdef TARGET_ARM
--static inline int regpairs_aligned(void *cpu_env, int num)
--{
--    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
--}
--#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
--#elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
--/* SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
-- * of registers which translates to the same as ARM/MIPS, because we start with
-- * r3 as arg1 */
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
--#elif defined(TARGET_SH4)
--/* SH4 doesn't align register pairs, except for p{read,write}64 */
--static inline int regpairs_aligned(void *cpu_env, int num)
--{
--    switch (num) {
--    case TARGET_NR_pread64:
--    case TARGET_NR_pwrite64:
--        return 1;
--
--    default:
--        return 0;
--    }
--}
--#elif defined(TARGET_XTENSA)
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
--#else
--static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
--#endif
--
- #define ERRNO_TABLE_SIZE 1200
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
  
- /* target_to_host_errno_table[] is initialized from
+ /* For faultnum */
+ #define TARGET_INT_SWINT_1            14
+diff --git a/linux-user/x86_64/target_syscall.h b/linux-user/x86_64/target_syscall.h
+index 5e221e1d9d..3ecccb72be 100644
+--- a/linux-user/x86_64/target_syscall.h
++++ b/linux-user/x86_64/target_syscall.h
+@@ -101,7 +101,8 @@ struct target_msqid64_ds {
+ #define TARGET_ARCH_GET_FS 0x1003
+ #define TARGET_ARCH_GET_GS 0x1004
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif /* X86_64_TARGET_SYSCALL_H */
+diff --git a/linux-user/xtensa/target_syscall.h b/linux-user/xtensa/target_syscall.h
+index 3866dad849..afc86a153f 100644
+--- a/linux-user/xtensa/target_syscall.h
++++ b/linux-user/xtensa/target_syscall.h
+@@ -43,7 +43,8 @@ struct target_pt_regs {
+     xtensa_reg_t areg[16];
+ };
+ 
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif
 -- 
 2.25.1
 
