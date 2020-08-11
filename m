@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5161241DAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 17:56:15 +0200 (CEST)
-Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9B9241DCE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 18:06:16 +0200 (CEST)
+Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5WdK-0005yz-Ga
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 11:56:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34128)
+	id 1k5Wn0-0006Al-Uw
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 12:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5WcP-0005UV-MA
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:55:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47730
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5Wl0-0004Vs-7s
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:04:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44559
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5WcO-0005LZ-28
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 11:55:17 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5Wkx-0006Rl-DV
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 12:04:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597161314;
+ s=mimecast20190719; t=1597161846;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ZibnC//1CFaPoaIP5MyH7z6inKY9T6njZHhqZ2E4Zg=;
- b=R6sKNhgE3zjh1LN2ajx0wirumtAPsDFa9EKRoZFMFeSk1wowLIKjdoTQTAUvPHwW9SZOx1
- dx+HT4Uq/Nvi4OeI2ZPCDWtH1kyabYGy3PPSa8K/NDsMJcXI/ZmeWT03regiDoIcy0aHTn
- rNlUl9xVJ3lnNaP/mjflPzpAoe1jr1M=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-fx7LgZnxMH2q8-ho9DH7Tw-1; Tue, 11 Aug 2020 11:55:13 -0400
-X-MC-Unique: fx7LgZnxMH2q8-ho9DH7Tw-1
-Received: by mail-wr1-f70.google.com with SMTP id d6so5745383wrv.23
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 08:55:11 -0700 (PDT)
+ bh=nQ5394zOcjO/YO55isJUV3BuOLWxCXmlkbjR+9+PMfQ=;
+ b=Lgxcu1X7DRfWhzer09J1dreo6yqaObm9AXNZZQWWDIA/CupzUw7+WnLFykfhJsFWVuFdoi
+ AJWfBvWx3WgvHP4kdvbJPvZvkSctuI3xk9uMaibCMfQ5Yw2whyOgg/n9pEwTORA0E5tZf6
+ PXyN0ijxZYddTjMtIxEW8BZ8ZK15L4M=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-9fRTb6E9O_-GX-eydKSYtw-1; Tue, 11 Aug 2020 12:04:04 -0400
+X-MC-Unique: 9fRTb6E9O_-GX-eydKSYtw-1
+Received: by mail-wr1-f69.google.com with SMTP id f7so5752512wrs.8
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 09:04:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3ZibnC//1CFaPoaIP5MyH7z6inKY9T6njZHhqZ2E4Zg=;
- b=Z6gXLr8BzBDgGo29350KCOLsCm8H2YsxPt8aHrFtXYr4xgHewpd1uP16PE9qYYLNPD
- aOmYglZaeZE0VilL9e1nfUcg3qtgM8BhWuwPrvF0eKuvV0OqVr2QVJ6TI0Z9ob3RrJsr
- 6SYHYp9naBzcwwBCCBbJGv42RhWGhE+4XKnPSfJAfj/SpCFCq+4Xc9aglgVsdldKK77D
- hPAgDyDo8YfhIiFVwIajC5wL/PlinPmvRc3f7OGH8GftaB3Ime8c3ybvGCj2PjF6MSyf
- LDX8qQNZQWrVNLO2hbiKk9nwmobBCmFxChxKo7vV74EOjBQAw1pwCrzoIgasnMRHG1PJ
- Z+2w==
-X-Gm-Message-State: AOAM533wpILPkWVDFCR5U5RPqG0pYvswna5JFjttLuyN0cCHiwy558M8
- HHRPN1pvCEPb2L7j9YJkNlaB0md1tP7wbbJbdCfTtjUQlpGr37eGmiOrhSIdSTI5h95wzup+TXK
- oqDZnIv7IxXRHr+8=
-X-Received: by 2002:a5d:6a8d:: with SMTP id s13mr32199256wru.201.1597161310156; 
- Tue, 11 Aug 2020 08:55:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVyN36Pz25HRDaZWSTxlCupFd9avpc38QuAFhcVT9E50Z6Hi+NFwAoWWhrzj6Oss6gENOhYw==
-X-Received: by 2002:a5d:6a8d:: with SMTP id s13mr32199241wru.201.1597161309962; 
- Tue, 11 Aug 2020 08:55:09 -0700 (PDT)
+ bh=nQ5394zOcjO/YO55isJUV3BuOLWxCXmlkbjR+9+PMfQ=;
+ b=c+vzvNgQGv9UuV643EZTHR1RRi4mMVc79sVs1bbbsHQsvCLhTGRKF163RbjLbLAUGC
+ hUpz+8OPuEdahNOtmuIjEhHSk/acmJGxPJWVOhDxFjQw2Hu+rqlXfnYE2qIzlDVZQ5Wv
+ IJwoaz2z+zyJaLfAq3pAi9D4OF1QeiNaKdzBTH9HRwSCb/HzEsFXAmfp+RJRCdnXvwH+
+ iC/MAak2B+jB/jjP9BCEVDrS+lI5USEbxtqI8IFWARTkBkFw6mCffPvpoZKaXqc3JVxV
+ jCCbtN0t+UN8VJVAN8CMgRKKeYgUbegpBIKL1DsqXueOdefMzJUkMeUMhmGrGYjb+SJF
+ phlg==
+X-Gm-Message-State: AOAM533e90yUOS9yTrenUUPHV/ENZ67MmC0vYPQa0PAyDNkTzTluPyzX
+ 5wiZCY7RtYnxVa1xu6uKQ7OzlRL2bYUgEtI4cUTKYw/pBc4o+859xfAIoEqpltr52wzSATL1rlE
+ VS2nuABO8k+IYmtw=
+X-Received: by 2002:adf:dd4f:: with SMTP id u15mr6746719wrm.275.1597161843209; 
+ Tue, 11 Aug 2020 09:04:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxnq/ETlt4PKz0gRKkbNTg0pckdh3VJPSmsRpuXJnuLcHnTU/tR7gVf4nl/rQF0i+CCHtWJLg==
+X-Received: by 2002:adf:dd4f:: with SMTP id u15mr6746699wrm.275.1597161842976; 
+ Tue, 11 Aug 2020 09:04:02 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id o2sm26520880wrj.21.2020.08.11.08.55.09
+ by smtp.gmail.com with ESMTPSA id g25sm5508636wmh.35.2020.08.11.09.04.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Aug 2020 08:55:09 -0700 (PDT)
-Subject: Re: [PATCH v2] CODING_STYLE.rst: flesh out our naming conventions.
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200810105147.10670-1-alex.bennee@linaro.org>
+ Tue, 11 Aug 2020 09:04:02 -0700 (PDT)
+Subject: Re: [PATCH 007/147] tests/vm: do not pollute configure with
+ --efi-aarch64
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Robert Foley <robert.foley@linaro.org>
+References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
+ <1597079345-42801-8-git-send-email-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,12 +89,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <3dfae8bc-7f8d-1b1c-c805-5eab4e8fbb19@redhat.com>
-Date: Tue, 11 Aug 2020 17:55:08 +0200
+Message-ID: <7d2f2683-2268-19bf-bcc6-9f97d9f36b31@redhat.com>
+Date: Tue, 11 Aug 2020 18:04:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200810105147.10670-1-alex.bennee@linaro.org>
+In-Reply-To: <1597079345-42801-8-git-send-email-pbonzini@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -100,17 +102,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:41:55
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 10:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,57 +128,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
++Robert in case.
 
-On 8/10/20 12:51 PM, Alex Bennée wrote:
-> Mention a few of the more common naming conventions we follow in the
-> code base including common variable names and function prefix and
-> suffix examples.
+On 8/10/20 7:06 PM, Paolo Bonzini wrote:
+> Just make EFI_AARCH64 a variable in the makefile that defaults to the efi
+> firmware included with QEMU.  It can be redefined on the "make" command
+> line.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > ---
-...
-> +Function Naming Conventions
-> +---------------------------
+>  configure                 | 19 -------------------
+>  tests/vm/Makefile.include |  2 ++
+>  2 files changed, 2 insertions(+), 19 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 2acc4d1..1c17a0f 100755
+> --- a/configure
+> +++ b/configure
+> @@ -418,7 +418,6 @@ prefix="/usr/local"
+>  mandir="\${prefix}/share/man"
+>  datadir="\${prefix}/share"
+>  firmwarepath="\${prefix}/share/qemu-firmware"
+> -efi_aarch64=""
+>  qemu_docdir="\${prefix}/share/doc/qemu"
+>  bindir="\${prefix}/bin"
+>  libdir="\${prefix}/lib"
+> @@ -1109,8 +1108,6 @@ for opt do
+>    ;;
+>    --firmwarepath=*) firmwarepath="$optarg"
+>    ;;
+> -  --efi-aarch64=*) efi_aarch64="$optarg"
+> -  ;;
+>    --host=*|--build=*|\
+>    --disable-dependency-tracking|\
+>    --sbindir=*|--sharedstatedir=*|\
+> @@ -3650,20 +3647,6 @@ EOF
+>    fi
+>  fi
+>  
+> -############################################
+> -# efi-aarch64 probe
+> -# Check for efi files needed by aarch64 VMs.
+> -# By default we will use the efi included with QEMU.
+> -# Allow user to override the path for efi also.
+> -if ! test -f "$efi_aarch64"; then
+> -  if test -f $source_path/pc-bios/edk2-aarch64-code.fd.bz2; then
+> -    # valid after build
+> -    efi_aarch64=$PWD/pc-bios/edk2-aarch64-code.fd
+> -  else
+> -    efi_aarch64=""
+> -  fi
+> -fi
+> -
+>  ##########################################
+>  # libcap-ng library probe
+>  if test "$cap_ng" != "no" ; then
+> @@ -6861,7 +6844,6 @@ if test "$docs" != "no"; then
+>      echo "sphinx-build      $sphinx_build"
+>  fi
+>  echo "genisoimage       $genisoimage"
+> -echo "efi_aarch64       $efi_aarch64"
+>  echo "python_yaml       $python_yaml"
+>  echo "slirp support     $slirp $(echo_version $slirp $slirp_version)"
+>  if test "$slirp" != "no" ; then
+> @@ -7963,7 +7945,6 @@ echo "PYTHON=$python" >> $config_host_mak
+>  echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
+>  echo "SPHINX_WERROR=$sphinx_werror" >> $config_host_mak
+>  echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+> -echo "EFI_AARCH64=$efi_aarch64" >> $config_host_mak
+>  echo "PYTHON_YAML=$python_yaml" >> $config_host_mak
+>  echo "CC=$cc" >> $config_host_mak
+>  if $iasl -h > /dev/null 2>&1; then
+> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+> index f21948c..a599d19 100644
+> --- a/tests/vm/Makefile.include
+> +++ b/tests/vm/Makefile.include
+> @@ -2,6 +2,8 @@
+>  
+>  .PHONY: vm-build-all vm-clean-all
+>  
+> +EFI_AARCH64 = $(wildcard $(BUILD_DIR)/pc-bios/edk2-aarch64-code.fd)
 > +
-> +The ``qemu_`` prefix is used for utility functions that are widely
-> +called from across the code-base. This includes wrapped versions of
-> +standard library functions (e.g. qemu_strtol) where the prefix is
-> +added to the function name to alert readers that they are seeing a
-> +wrapped version; otherwise avoid this prefix.
-> +
-> +If there are two versions of a function to be called with or without a
-> +lock held, the function that expects the lock to be already held
-> +usually uses the suffix ``_locked``.
-
-And if there is only one version? I'm looking at:
-
-  /* With q->lock */
-  static void nvme_kick(NVMeQueuePair *q)
-  {
-  ...
-  }
-
-Should the style be enforced here and this function renamed
-nvme_kick_locked()?
-
-In this particular case, I think so, because we also have:
-
-  /* With q->lock */
-  static void nvme_put_free_req_locked(...)
-  {
-  ...
-  }
-
-  /* With q->lock */
-  static void nvme_wake_free_req_locked(NVMeQueuePair *q)
-  {
-  ...
-  }
-
-For more cases:
-
-$ git grep -A1 -i '\/\*.*with.*lock'
+>  IMAGES := freebsd netbsd openbsd centos fedora
+>  ifneq ($(GENISOIMAGE),)
+>  IMAGES += ubuntu.i386 centos
+> 
 
 
