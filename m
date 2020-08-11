@@ -2,111 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029712421A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 23:08:31 +0200 (CEST)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FF02421DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 23:21:07 +0200 (CEST)
+Received: from localhost ([::1]:36580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5bVV-0001sk-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 17:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52518)
+	id 1k5bhi-00030d-41
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 17:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1k5bSQ-0005Fp-BB
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 17:05:18 -0400
-Received: from mail-bn8nam11on2075.outbound.protection.outlook.com
- ([40.107.236.75]:54176 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1k5bSM-0001kd-IR
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 17:05:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FcOI+s7eODwLBUDM7xlKW1pN1nZU9+U55Wg6wOwPzAEHYBHicm4IgmlC6PkDoj7tMvLp01HtmbX3jC/GVBtdhGh4Jmw8fPzblWsXMpJItDygAQXhljgPKp59AvuohmpDcVQmwykXh2C0Z0ThNsaTwGOBr8XUtgG2ibRkXvnRI5PaqhapttkljkxUlvt0ULjVJlpvzca9MxaqBlvlcSqkpqILXgnTugzRJ4Nc9qWoCsMuG3mk9XwfMAOpLAzV9l8oHwd3/qNUF8Sg5IFcztm9Cg8zFbaezFCmMb1Nwd2tHE3/kYgUsjiKnHJfpYhI3O+x57iup028ivZIUESxJ4vECg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C7egGLk8QsqJ8PHc5lFfIiF4fPb7X4JGU5UZfmQDX4E=;
- b=ELqKyvcYt6yvpzO0lnPXTTmu1zxspD6pmxya2OCzz6rShFHADeoXxyqIJ5wb6IMwH1BcZdog9NGDuL28l+c06Bv41en5VIue7OZde8xCmiadXHIUyVGJKDnh9kBWcLbKddi8NGR49PkexvkGDl0nqT0f+YI9np54wR+UNnSi+TaX2cTj/4Kbz838P74lgWe/0W4pMOVKQ9xJ0vQXQmTAJJ3/rx8ppILtQlKRnXx1po7BM3A8F/8FO/gS3p/8RANLsiLBFsjItMshlSYU5ho59/g6PgNINF1PWmcFAEZOg8ok7OIA1fgGtJjcI/1J8JNOwbLiHCtor+B1fNPHXGj59g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C7egGLk8QsqJ8PHc5lFfIiF4fPb7X4JGU5UZfmQDX4E=;
- b=CIoK/SUkiRqtTYd30IN1oAuaEiQYJAWP4cLb4sJsO4S4yEeg7Bh32WOcPVi8CvaVZd+gxenCIjA40E7kuWi84W3t1T8UK0JFeHRKmQ10fBkprQbdcsSCq7mSLoH1xcm7LPQPUsBHljghGFdx4OUEqZmfsUbL14uybziJv7+DO1E=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SA0PR12MB4414.namprd12.prod.outlook.com (2603:10b6:806:9a::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Tue, 11 Aug
- 2020 21:04:42 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::691c:c75:7cc2:7f2c]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::691c:c75:7cc2:7f2c%6]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
- 21:04:42 +0000
-Subject: RE: [PATCH v3 2/3] hw/i386: Add a new check to configure smp dies for
- EPYC
-To: Igor Mammedov <imammedo@redhat.com>
-References: <159681772267.9679.1334429994189974662.stgit@naples-babu.amd.com>
- <159681797161.9679.5653247810916709875.stgit@naples-babu.amd.com>
- <20200807212729.1cb2ede0@redhat.com>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <b76346d3-de65-9689-36e5-5d071beba78b@amd.com>
-Date: Tue, 11 Aug 2020 16:04:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200807212729.1cb2ede0@redhat.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR07CA0041.namprd07.prod.outlook.com
- (2603:10b6:5:74::18) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1k5bgn-0002RT-4G; Tue, 11 Aug 2020 17:20:09 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1k5bgl-0003OJ-HV; Tue, 11 Aug 2020 17:20:08 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j7so13591899oij.9;
+ Tue, 11 Aug 2020 14:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=yVCa7nTlkdZVDElL8pNK99boT/0lkvSRbHCvDo9h4c4=;
+ b=qfK94Kbp+0omRwH7MQbY2d/62XmQ8yLNAYmBQE/kiF0ucT0A1NunwFbyzaNUPgREln
+ h8Aym02ie4Wg4qOW00s0PHTizOikKcWNvRqXIXzuNUkHnno8p8d8c8/0ic4waUv9uK1O
+ Ao6UNNCACDPVwCol3NqaAY0jkJUz6uM9Uqld6IZaosg2ocmtWA8KhjOQ5K+bCzsydj1J
+ 35kR8YHeK0p5IbgcxWKtXQ7ppGY9JLHRSvFJsj5/bg/Ar58JVH+moa8+GgP2H4cD29zf
+ IGTR2aOe3ogpG4uKKoyZWYnJm2917K0XM55v2MZfi4EDMknAxoHpxFDT5QDKpvvpsMeE
+ OQ9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=yVCa7nTlkdZVDElL8pNK99boT/0lkvSRbHCvDo9h4c4=;
+ b=dht6LGkQp0iTrsJOxRZBCWLYsmAPJIJ1/m3LWvA87Kf3DxgMgfgau2mEOmWa0CBmSl
+ vBVF8ht+E/gjED9E1movVMmy4cZtXcjEIR50Lplp0cgEJ/8PIuy4rCPfrcJ1mMOt2Crp
+ uZKhUexH6WLUuzdoQHUbDiL48AmZg5TCfSfzSe8+yuXUjeMuI58Y851U/W50kOmrR8Gy
+ LPxMMdCnOJLYVK6zNapHAhnB2bwnNPuugua6Y2oZeY3Puq3BV2sDThHBrszXamrxLB/y
+ FDviG908TOTNNTxxTbvDlTPJWrpb3q0KLMGFf3gnrjPARdK+0fGogkOx26IFPLF5CuyO
+ YFaw==
+X-Gm-Message-State: AOAM530bPD0XFrvgo2Ds+JN6vAcXcMlONg2PbDmf3j/BmWC0BntgGTxG
+ BIyuaYPR5vUvflYEhtKgqQ==
+X-Google-Smtp-Source: ABdhPJxhQS0Rqe7j4QxwwT0X2I+P+nnHjHGHJUGouUtl8s5T/VNoYm+Jre3QcI/OLOTEIyOLQe88zg==
+X-Received: by 2002:aca:b742:: with SMTP id h63mr4962088oif.148.1597180805277; 
+ Tue, 11 Aug 2020 14:20:05 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id a187sm4653049ooc.19.2020.08.11.14.20.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Aug 2020 14:20:04 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:e89d:28cf:2a26:b7f3])
+ by serve.minyard.net (Postfix) with ESMTPSA id CF52B18054F;
+ Tue, 11 Aug 2020 21:20:02 +0000 (UTC)
+Date: Tue, 11 Aug 2020 16:20:01 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 1/3] hw/i2c: Fix typo in description
+Message-ID: <20200811212001.GS2842@minyard.net>
+References: <20200811151643.21293-1-philmd@redhat.com>
+ <20200811151643.21293-2-philmd@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.31.79] (165.204.77.1) by
- DM6PR07CA0041.namprd07.prod.outlook.com (2603:10b6:5:74::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.15 via Frontend Transport; Tue, 11 Aug 2020 21:04:36 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 312fae74-ea0b-4f80-39b7-08d83e3a27bb
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4414:
-X-Microsoft-Antispam-PRVS: <SA0PR12MB441421FD2C1EBCE81AFE324B95450@SA0PR12MB4414.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wYXRR2LfuHAYg5lb01nJclTYRZjXyeYL+FwFr1OQLlXn0fjhypwGHUmTv/kmeJTNVL9hkf39PVrqa2uluI5Z7T0zNdZsaMsp3aZ1T/yzJyNMsUDJrUiWr6az0FrUjPYEhjcpuT8Sf9oyGNiUA4efDEMGEeUzjdX2glzbMHoxqZbstlPQNjqo23CGgw9hScjkTTd8kRVyIYHwMzi7I6mHZCxhFhcsUHKuouJxezIYewu2sZHc59pseRRfXXrDSadDij8IbND/m/AzA82pLTBmphdj6g6m916UajJ1gLr7g0VFf/jRkm+62b1H4cg9gdU2ufdotlAoHD7G5+B8JFzx72VkJtEaq/OvR/Q7rIjdDL/acVPcWsjg7sj7DHewcNCz
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(31686004)(36756003)(66556008)(66946007)(6916009)(186003)(66476007)(44832011)(956004)(2616005)(6486002)(5660300002)(83380400001)(26005)(16526019)(316002)(16576012)(31696002)(54906003)(8936002)(2906002)(52116002)(86362001)(53546011)(478600001)(4326008)(8676002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: GnZu66vA8RL8r1rheTBMeUHeYaOFCeoo90yidnO6/k6o7SIL4kFpuelyejjyeV3DgLjRJJJZ+9wCdwgkEU9VxeePw9NKqom+c3ORBHLMQ6IPlpkrVtSKTYJDnGcrXLrDRg2YOdjdrgRX/Yu+w2OyN8dN15+GuTaNbgeCd2KMpxZOPMCq7oPhNUKqoHIHojTnRbucIkaqOvEYHWYfKgb7CF+Ge1J+6Wgkzhxjg+UT72HeaEfri1QSciuEXMbAn/cSEDLjwnzQNrUX97kzUGAzFXvJygLVDMBOBDpXX/g0d+aiuR3K/tRidZYdwjLSekZ8zg6pwamOrJJxOXO4tNgWr3oT872WW1sceW3xmcArW9Qh6W+EZ2aQ5V5IEK2MWkqbt2B117t2hJnlN/yTN8htORI5glzWosDQsq9E8S/bEEuRjA6y6fUNWebP+DY0R3zmptE+Ej7cvuYs0BF2JJLCS3CO6ynvKGc/pOedd4M75LVJoZdW1+5jozijK5Jv5PliPu6ibZeGPFsp2EoXkftG5IR0MoxHNw9uRd78Ow+UMegBdCbJpiW1PNA6uET4Y9XMpsJkrCefBaqe+536Kg2g01pdHN59uW0Pa4i6bVfudCnV3uVnm+K5hEybnfDI/vIHmdgN26R4RzZxTb6h5QieuA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 312fae74-ea0b-4f80-39b7-08d83e3a27bb
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 21:04:42.5179 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WXZRksyk5xapX0yPcbhkmZCuggJRyNYKY4xW8wsMAqjRVFsoLhhwT/uVt6+ShNlI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4414
-Received-SPF: none client-ip=40.107.236.75; envelope-from=Babu.Moger@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 17:05:13
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200811151643.21293-2-philmd@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=tcminyard@gmail.com; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,70 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Reply-To: minyard@acm.org
+Cc: Corey Minyard <cminyard@mvista.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 11, 2020 at 05:16:41PM +0200, Philippe Mathieu-Daudé wrote:
+> Remove the second 'and' introduced in commit 73d5f22ecb
+> ("hw/i2c: Document the I2C qdev helpers").
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Well, it seems rather obvious that this is correct :), so:
 
-> -----Original Message-----
-> From: Igor Mammedov <imammedo@redhat.com>
-> Sent: Friday, August 7, 2020 2:27 PM
-> To: Moger, Babu <Babu.Moger@amd.com>
-> Cc: pbonzini@redhat.com; rth@twiddle.net; ehabkost@redhat.com; qemu-
-> devel@nongnu.org; mst@redhat.com
-> Subject: Re: [PATCH v3 2/3] hw/i386: Add a new check to configure smp dies for
-> EPYC
-> 
-> On Fri, 07 Aug 2020 11:32:51 -0500
-> Babu Moger <babu.moger@amd.com> wrote:
-> 
-> > Adding a new check to warn the users to configure 'dies' when
-> s/warn .../error out .../
-> 
-> > topology is numa configured. It makes it easy to build the topology
-> > for EPYC models.
-> 
-> probably it should mention that will break configs that do not have correct
-> topology configured.
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 
-Sure. Will do that.
-
+> ---
+>  include/hw/i2c/i2c.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index a9c030a512..f57808851e 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -102,7 +102,7 @@ I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
+>  I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr);
+>  
+>  /**
+> - * Realize and and drop a reference an I2C slave device
+> + * Realize and drop a reference an I2C slave device
+>   * @dev: I2C slave device to realize
+>   * @bus: I2C bus to put it on
+>   * @addr: I2C address of the slave on the bus
+> -- 
+> 2.21.3
 > 
 > 
-> > Signed-off-by: Babu Moger <babu.moger@amd.com>
-> > ---
-> >  hw/i386/x86.c |    7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/hw/i386/x86.c b/hw/i386/x86.c index
-> > 67bee1bcb8..2a6ce56ef1 100644
-> > --- a/hw/i386/x86.c
-> > +++ b/hw/i386/x86.c
-> > @@ -138,6 +138,13 @@ void x86_cpus_init(X86MachineState *x86ms, int
-> > default_cpu_version)
-> >
-> >      /* Check for apicid encoding */
-> >      if (cpu_x86_use_epyc_apic_id_encoding(ms->cpu_type)) {
-> > +        if ((ms->numa_state->num_nodes > 0) &&
-> > +            ms->numa_state->num_nodes != (ms->smp.sockets * x86ms-
-> >smp_dies)) {
-> > +            error_setg(&error_fatal, "Numa configuration requires smp 'dies' "
-> > +                       "parameter. Configure the cpu topology properly with "
-> > +                       "max_cpus = sockets * dies * cores * threads");
-> > +            return;
-> > +        }
-> >          x86_set_epyc_topo_handlers(ms);
-> >      }
-> 
-> we also should error out in case
->     ms->numa_state->num_nodes != (ms->smp.sockets * x86ms->smp_dies and
-> ask user to configure numa to match total number of used dies.
-> 
-
-I have already added the same check above. Do you want anything more?
-
 
