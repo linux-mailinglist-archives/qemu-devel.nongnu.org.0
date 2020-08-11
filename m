@@ -2,53 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058DC241C62
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 16:30:31 +0200 (CEST)
-Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73912241C73
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 16:34:12 +0200 (CEST)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5VIL-0000Lx-Vu
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 10:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39782)
+	id 1k5VLv-0003rX-HV
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 10:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5VGs-0007tv-1d
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:28:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51614)
+ (Exim 4.90_1) (envelope-from <gromero@linux.vnet.ibm.com>)
+ id 1k5UQ7-0006I5-FY; Tue, 11 Aug 2020 09:34:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45726
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5VGn-000373-8c
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:28:56 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A9ABFB169;
- Tue, 11 Aug 2020 14:29:09 +0000 (UTC)
-Subject: Re: [RFC v3 8/8] cpus: extract out hvf-specific code to
- target/i386/hvf/
-From: Claudio Fontana <cfontana@suse.de>
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20200803090533.7410-1-cfontana@suse.de>
- <20200803090533.7410-9-cfontana@suse.de>
- <20200811090034.GB62204@SPB-NB-133.local>
- <1e6f2876-4226-b25d-a551-ca22661898ce@suse.de>
-Message-ID: <f251ae23-75bf-4d50-0965-1288cf4aba6a@suse.de>
-Date: Tue, 11 Aug 2020 16:28:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <gromero@linux.vnet.ibm.com>)
+ id 1k5UQ5-0004QC-60; Tue, 11 Aug 2020 09:34:27 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07BDWIab142957; Tue, 11 Aug 2020 09:33:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=HdwaIGASccXjOQVyzIwRjVEA94azmBIosBWHWtfBMmQ=;
+ b=coztNhbiG/Myi+lBxXCOZSLiPV0x3FfNynCHaaw6PEnQRcZkvcb/vsdEg9w0T17YSXd2
+ ccj82Rhm7DUZGjnSkxr0D2+WPV0nWQFH+RzdBqxLl3Pft/thxQjz9pkXySJ1ENY8vZEe
+ ObUg7QyLos3U69DYqcd2D3JheE1fMOEltIoapblPP3oJgvTgas+dOdsfuTCYl990/Ypm
+ bRyjjcTgJf+HOZ4pJcP0vOyj8BGq1/VkQe4edbsS8EWvCENbF3+sk4BkWYDmMfKCBqGJ
+ UD+aRJolyS7zN9Zy45VbTyq7p8ZI3p5CG9+gyt0ENYjZK65T/y+MqeRLiOO49x/dbGwk Xg== 
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32sr7nrx1k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Aug 2020 09:33:07 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07BDTs1o007682;
+ Tue, 11 Aug 2020 13:33:06 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 32skp91rgk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Aug 2020 13:33:06 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07BDX6Nc53150112
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 11 Aug 2020 13:33:06 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 109BEAC060;
+ Tue, 11 Aug 2020 13:33:06 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F216FAC05B;
+ Tue, 11 Aug 2020 13:33:04 +0000 (GMT)
+Received: from oc6336877782.ibm.com (unknown [9.80.200.46])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 11 Aug 2020 13:33:04 +0000 (GMT)
+Subject: Re: [PATCH] target/ppc: Integrate icount to purr, vtb, and tbu40
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Gustavo Romero <gromero@linux.ibm.com>
+References: <20200811012759.16329-1-gromero@linux.ibm.com>
+ <CAFEAcA9U9Q9QCm+Pk+ktnxxRGrC3F3UdQwp-bvGBZ6x2EY1oMw@mail.gmail.com>
+From: Gustavo Romero <gromero@linux.vnet.ibm.com>
+Message-ID: <3c978275-f4b4-5032-6f79-6e08a1ff3fe3@linux.vnet.ibm.com>
+Date: Tue, 11 Aug 2020 10:33:04 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1e6f2876-4226-b25d-a551-ca22661898ce@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA9U9Q9QCm+Pk+ktnxxRGrC3F3UdQwp-bvGBZ6x2EY1oMw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:05:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-11_13:2020-08-11,
+ 2020-08-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ phishscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 malwarescore=0 clxscore=1011
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008110091
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=gromero@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 09:33:21
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 11 Aug 2020 10:30:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,199 +107,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, haxm-team@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/11/20 3:42 PM, Claudio Fontana wrote:
-> On 8/11/20 11:00 AM, Roman Bolshakov wrote:
->> On Mon, Aug 03, 2020 at 11:05:33AM +0200, Claudio Fontana wrote:
->>> register a "CpusAccel" interface for HVF as well.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> ---
->>>  softmmu/cpus.c                |  63 --------------------
->>>  target/i386/hvf/Makefile.objs |   2 +-
->>>  target/i386/hvf/hvf-cpus.c    | 131 ++++++++++++++++++++++++++++++++++++++++++
->>>  target/i386/hvf/hvf-cpus.h    |  17 ++++++
->>>  target/i386/hvf/hvf.c         |   3 +
->>>  5 files changed, 152 insertions(+), 64 deletions(-)
->>>  create mode 100644 target/i386/hvf/hvf-cpus.c
->>>  create mode 100644 target/i386/hvf/hvf-cpus.h
->>>
->>> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
->>> index 586b4acaab..d327b2685c 100644
->>> --- a/softmmu/cpus.c
->>> +++ b/softmmu/cpus.c
->>> @@ -33,7 +33,6 @@
->>>  #include "exec/gdbstub.h"
->>>  #include "sysemu/hw_accel.h"
->>>  #include "sysemu/kvm.h"
->>> -#include "sysemu/hvf.h"
->>
->> I wonder if the declarations should be moved from sysemu/hvf.h to
->> someplace inside target/i386/hvf/:
->>
->> int hvf_init_vcpu(CPUState *);
->> int hvf_vcpu_exec(CPUState *);
->> void hvf_cpu_synchronize_state(CPUState *);
->> void hvf_cpu_synchronize_post_reset(CPUState *);
->> void hvf_cpu_synchronize_post_init(CPUState *);
->> void hvf_cpu_synchronize_pre_loadvm(CPUState *);
->> void hvf_vcpu_destroy(CPUState *);
->>
->> They're not used outside of target/i386/hvf/
->>
->> I also wonder if we need stubs at all?
+Hi Peter,
 
-Ah, missed this,
-
-yes good catch! I think we can remove quite a few stubs and not only for HVF!
-
-Thanks a lot,
-
-Claudio
-
-
+On 8/11/20 6:31 AM, Peter Maydell wrote:
+> On Tue, 11 Aug 2020 at 02:29, Gustavo Romero <gromero@linux.ibm.com> wrote:
 >>
->>>  #include "exec/exec-all.h"
->>>  #include "qemu/thread.h"
->>>  #include "qemu/plugin.h"
->>> @@ -391,48 +390,6 @@ void qemu_wait_io_event(CPUState *cpu)
->>>      qemu_wait_io_event_common(cpu);
->>>  }
->>>  
->>> -/* The HVF-specific vCPU thread function. This one should only run when the host
->>> - * CPU supports the VMX "unrestricted guest" feature. */
->>> -static void *qemu_hvf_cpu_thread_fn(void *arg)
->>> -{
->>> -    CPUState *cpu = arg;
->>> -
->>> -    int r;
->>> -
->>> -    assert(hvf_enabled());
->>> -
->>> -    rcu_register_thread();
->>> -
->>> -    qemu_mutex_lock_iothread();
->>> -    qemu_thread_get_self(cpu->thread);
->>> -
->>> -    cpu->thread_id = qemu_get_thread_id();
->>> -    cpu->can_do_io = 1;
->>> -    current_cpu = cpu;
->>> -
->>> -    hvf_init_vcpu(cpu);
->>> -
->>> -    /* signal CPU creation */
->>> -    cpu_thread_signal_created(cpu);
->>> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
->>> -
->>> -    do {
->>> -        if (cpu_can_run(cpu)) {
->>> -            r = hvf_vcpu_exec(cpu);
->>> -            if (r == EXCP_DEBUG) {
->>> -                cpu_handle_guest_debug(cpu);
->>> -            }
->>> -        }
->>> -        qemu_wait_io_event(cpu);
->>> -    } while (!cpu->unplug || cpu_can_run(cpu));
->>> -
->>> -    hvf_vcpu_destroy(cpu);
->>> -    cpu_thread_signal_destroyed(cpu);
->>> -    qemu_mutex_unlock_iothread();
->>> -    rcu_unregister_thread();
->>> -    return NULL;
->>> -}
->>> -
->>>  void cpus_kick_thread(CPUState *cpu)
->>>  {
->>>  #ifndef _WIN32
->>> @@ -603,24 +560,6 @@ void cpu_remove_sync(CPUState *cpu)
->>>      qemu_mutex_lock_iothread();
->>>  }
->>>  
->>> -static void qemu_hvf_start_vcpu(CPUState *cpu)
->>> -{
->>> -    char thread_name[VCPU_THREAD_NAME_SIZE];
->>> -
->>> -    /* HVF currently does not support TCG, and only runs in
->>> -     * unrestricted-guest mode. */
->>> -    assert(hvf_enabled());
->>> -
->>> -    cpu->thread = g_malloc0(sizeof(QemuThread));
->>> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
->>> -    qemu_cond_init(cpu->halt_cond);
->>> -
->>> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/HVF",
->>> -             cpu->cpu_index);
->>> -    qemu_thread_create(cpu->thread, thread_name, qemu_hvf_cpu_thread_fn,
->>> -                       cpu, QEMU_THREAD_JOINABLE);
->>> -}
->>> -
->>>  void cpus_register_accel(CpusAccel *ca)
->>>  {
->>>      assert(ca != NULL);
->>> @@ -648,8 +587,6 @@ void qemu_init_vcpu(CPUState *cpu)
->>>      if (cpus_accel) {
->>>          /* accelerator already implements the CpusAccel interface */
->>>          cpus_accel->create_vcpu_thread(cpu);
->>> -    } else if (hvf_enabled()) {
->>> -        qemu_hvf_start_vcpu(cpu);
->>>      } else {
->>>          assert(0);
->>>      }
->>> diff --git a/target/i386/hvf/Makefile.objs b/target/i386/hvf/Makefile.objs
->>> index 927b86bc67..af9f7dcfc1 100644
->>> --- a/target/i386/hvf/Makefile.objs
->>> +++ b/target/i386/hvf/Makefile.objs
->>> @@ -1,2 +1,2 @@
->>> -obj-y += hvf.o
->>> +obj-y += hvf.o hvf-cpus.o
->>>  obj-y += x86.o x86_cpuid.o x86_decode.o x86_descr.o x86_emu.o x86_flags.o x86_mmu.o x86hvf.o x86_task.o
->>> diff --git a/target/i386/hvf/hvf-cpus.c b/target/i386/hvf/hvf-cpus.c
->>> new file mode 100644
->>> index 0000000000..9540157f1e
->>> --- /dev/null
->>> +++ b/target/i386/hvf/hvf-cpus.c
+>> Currently if option '-icount auto' is passed to the QEMU TCG to enable
+>> counting instructions the VM crashes with the following error report when
+>> Linux runs on it:
 >>
->> I'd prefer singular form in variables and file names. More on that in
->> the comment to patch 2.
+>> qemu-system-ppc64: Bad icount read
 >>
->> Besides that it works fine,
+>> This happens because read/write access to the SPRs PURR, VTB, and TBU40
+>> is not integrated to the icount framework.
 >>
->> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
->> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>> This commit fixes that issue by making the read/write access of these
+>> SPRs aware of icount framework, adding the proper gen_io_start/end() calls
+>> before/after calling the helpers to load/store these SPRs in TCG.
 >>
->> Regards,
->> Roman
->>
+>> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+>> @@ -284,12 +284,26 @@ static void spr_write_atbu(DisasContext *ctx, int sprn, int gprn)
+>>   ATTRIBUTE_UNUSED
+>>   static void spr_read_purr(DisasContext *ctx, int gprn, int sprn)
+>>   {
+>> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+>> +        gen_io_start();
+>> +    }
+>>       gen_helper_load_purr(cpu_gpr[gprn], cpu_env);
+>> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+>> +        gen_io_end();
+>> +        gen_stop_exception(ctx);
+>> +    }
 > 
-> Hi Roman,
-> 
-> thanks, sure lets discuss more the naming stuff on patch 2.
-> 
-> I noticed a missing chunk in this patch, ie, it leaves a lingering
-> 
-> } else if (hvf_enabled()) {
-> 
-> in cpu_synchronize_pre_loadvm().
-> 
-> that needs to be elided, should not change the behavior, but who knows. I will respin this one in the next version.
-> 
-> Thank you!
-> 
-> Claudio
-> 
-> 
-> 
+> You don't want to call gen_io_end; you just need to ensure that
+> you end the TB immediately after this insn. See
+> docs/devel/tcg-icount.rst.
 
+I understand that to ensure that TB ends immediately after these
+instructions (I understood you meant all the cases, not just the
+spr_read_purr case, right?), the instructions should be a branch
+or change CPU state in a way that cannot be deduced at translation
+time, and I don't know how to ensure that in these cases, they
+are neither, specially for the read access, which doesn't change
+any CPU state specifically afaics.
+
+If I remove the gen_io_end() from all these cases the VM gets
+stuck at apparently random points of execution (I'm digging
+into details right now trying to understand why).
+
+Thanks a lot.
+
+
+Cheers,
+Gustavo
 
