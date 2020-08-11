@@ -2,107 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28F7241AA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:51:10 +0200 (CEST)
-Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE7A241A7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:40:02 +0200 (CEST)
+Received: from localhost ([::1]:39348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5So9-0002Iq-Th
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55882)
+	id 1k5SdN-00087t-9J
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:40:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5Sjg-00052L-Hk
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:46:32 -0400
-Received: from mail-am6eur05on20703.outbound.protection.outlook.com
- ([2a01:111:f400:7e1b::703]:54464
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5Sje-0000GY-82
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:46:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UAsoX/b8YHDs/mi9y3QuXnsmDbW+5zLHVxSm9zd0VJj6tR6lZfsCJ2FwptWM9plgPN+5BEW8L9GHPFhftJMF2Z6HewgcSfEuDwt3CobkZgG39Yjns9slTuOFvoJi8ts+9Xh5TvaVt1HUpUDEWChAGknSiA7svwn1OEo4c/HnSkRq7FSPCwYEZwzVTcdfwBaO8mV59jHn80wcg2NbBRRXP6lcjDDYqnN/PATtLNDza9KEmqZ8LJWAu9cfkStv0H3fkut3qPaffG6c3PG84Nhn6BZ90KK03BII8kYe1Wg+R18mytE5f5ESrHqt66G8qr8ZqQCRAOB/8xA9hCrSfk3nwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qwk0M7pHL5mfA9fBHFTHdG1x3DF59iPg1ZWLEWXKaao=;
- b=HjkjKylhUKhvqS/Q7yOb2kfsFfLKUsWPUAqiKL+xmhrQnuFQ1JcAFQL6NP1nCIRgD3wXwY9GD8dhGWSuBDIxiA0cbo1Q/MM1I8je9S3Anx0ID8EZce0b4YvIydtO9x0x480G5AFpUimyn3Sey9hZDe+STSniAYG4FAB76xwi032ACwixfuCgkccAYcoRhyHL4fjmqE5RHt3SJB/bJjt8gdxpEidnTTC7T/E//Tqigl60lB8gBubQMxpN4gnPXJhIGbYpZ0IN6GFMGrUMbffQ6C2E8lmIL/zwIZIdkFXH8A/Z2D5R3g+QwlGDm8AepraZIAwde+ryEOf2UmvUARccAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qwk0M7pHL5mfA9fBHFTHdG1x3DF59iPg1ZWLEWXKaao=;
- b=cL6r4iTjMcxGqtQ1iHehu3viV2SEikodqMOg25jkOCcym/3rSJJSMzCmHGxrMKFKTiu5p4JZdRPnqoxC2erLDbrL1pM28NXHPkWLAaLz9Xi1RjA7MRk1dz1gLaJz64/UFs74O7/8CW6ObPDwH6yupq3Vh4xUEBVMxIIgQlwG4UA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
- by VI1PR03MB3054.eurprd03.prod.outlook.com (2603:10a6:802:2f::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.22; Tue, 11 Aug
- 2020 11:31:16 +0000
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
- 11:31:16 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Fix 'utimensat()' implementation
-Date: Tue, 11 Aug 2020 13:31:01 +0200
-Message-Id: <20200811113101.6636-1-Filip.Bozuta@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: GV0P278CA0010.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:710:26::20) To VE1PR03MB5246.eurprd03.prod.outlook.com
- (2603:10a6:802:a1::22)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5ScA-0007Gz-5L
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:38:47 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55421
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5Sc5-0007i8-EU
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:38:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597145918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+EcuOyXtByccegQh34RNY1frfHWqd1Ut9ToeCRgCGnk=;
+ b=LrW0GqRiaaWkrYUPXA/O6za5C09alSNpubkyVLLLxOLwJz7xHiwSqHoLJUKizxlBEjxrew
+ gBlwnt5Xwa4+ZNn6HlOCbyxdrPoSrTfFG2uTIsedsaAOthn5UhlhE+WjgdUT99xbXArlYl
+ gpYcdMupLBMx/EBOkjaUmyr1TCk8tZw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-tk_qx-kiNlOn_SWjeow68Q-1; Tue, 11 Aug 2020 07:38:33 -0400
+X-MC-Unique: tk_qx-kiNlOn_SWjeow68Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD00804449;
+ Tue, 11 Aug 2020 11:38:27 +0000 (UTC)
+Received: from gondolin (ovpn-113-33.ams2.redhat.com [10.36.113.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B68136F152;
+ Tue, 11 Aug 2020 11:38:20 +0000 (UTC)
+Date: Tue, 11 Aug 2020 13:38:18 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 000/147] Meson integration for 5.2
+Message-ID: <20200811133818.385badaf.cohuck@redhat.com>
+In-Reply-To: <20200811114139.336ac1f8.cohuck@redhat.com>
+References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
+ <20200811114139.336ac1f8.cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (147.91.217.242) by
- GV0P278CA0010.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:26::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3261.19 via Frontend Transport; Tue, 11 Aug 2020 11:31:15 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [147.91.217.242]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa68dffa-975f-4247-ad2f-08d83dea0f0a
-X-MS-TrafficTypeDiagnostic: VI1PR03MB3054:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR03MB30544D77A7D17B036550DF20EB450@VI1PR03MB3054.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PiqzmPAve/jvKYdsdcROkykgn59bAKX1Ybb0TlESPnhTwe2I763DU270sEos3KEaJu0yfX3jnyJFtWFrqFHIAGjzRMrbfug8I1RD8dZxjVMhGR0q0khcdDvvc/XFJ0jrTz+rJgLQph0c+PzcZf0vUVnwOpmYxAv0UFgswoAIQ2TvEtUER3r+s0neDKM8cZSryrWYRIquWlSnxvzp2xOcPwUv4lcYzpCoF7rYUqdAAA3kppm1PjvV5tDyZldnlzT68wqAJdos1RYSC3s4Leueilw1a/DdKI7j+N4QPl1HFSkW+sXE7IfjH+HOxR2W4nObJyR4TxHZs0gQtNkiw5lqfXXw16EBzGo5H55qjP9Iwhr48/oFGU8EVo83vsSsqim3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(376002)(396003)(136003)(39830400003)(346002)(366004)(66476007)(6506007)(66946007)(66556008)(26005)(186003)(16526019)(107886003)(4326008)(6916009)(2906002)(508600001)(8936002)(6512007)(52116002)(54906003)(6486002)(8676002)(36756003)(316002)(1076003)(2616005)(956004)(5660300002)(86362001)(6666004)(69590400007)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: UsYeyRKixm92dJ6kstW4uWPmyn87xgy5tjU+m6ysULuzOzJGivughvyQvPzGaiKo2IrE2DX5UEzkrxjUdIMAptmgBK8+cH3JmyjWNt8Ly+mb6M5Pnks2Mvs/hzcJQQUSGKLGzzov8WWSJEK8O3fvApxKacdiCbqHqdE+STQfAdPYJPml+vLijEC0ynBVwwxy+GS10Kfj8hsF6qTgHQaiFmGh/4k3Jm47gMlr/qL22jBMmHMf8aSjFn1qTttynVi+ZwrKO9qHJC7B0ikOBwKujEKvNlDNmbDtYWaHQ76DGmkIPFn6zn07LMz6+3V0/TfBxjI8yE+evj3YwABTNfZ2027M/ysvDoKEQc0BZL9GwcrUwFSFmOAIDTUKLynVgEPpAhuCb7t9/eoMwOW1IHd3efWxCq0219FKlBVWhOFlef0fKAMzLybxeRuL8qB3gV6CZHaJ2HFyjMQbUsqhiXwrywUARBMRXHQiYASzLm2SZdT3HaAL84p3C9/bxOszzAOOJjftulTiOdtMSBxhBP/mQDBx2aqz3IexXVdKSDxfg2Gno28lETcg1XdY3QoaTcyOHu/0RIIXfXvKH7zN9iKJmqGh+QV4E2oXx9Kwu9632P7EDfY4GmTCekNnjzJ7DGtOe91pNtyaouHcWqu9Q6K6rQ==
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa68dffa-975f-4247-ad2f-08d83dea0f0a
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 11:31:15.9743 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oPSP+/h9mQarg8IgVLQAMcyV4G/dvK0Vzqd0Cx4StiY8buoXmIMc5RU+oqz39NvuW8lamOZUEF0lTWBU4G1hgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3054
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::703;
- envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 06:40:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,48 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
+ alex.bennee@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, alxndr@bu.edu, stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementation of syscall 'utimensat()' in 'syscall.c' uses functions
-target_to_host/host_to_target_timespec() to convert values of
-'struct timespec' between host and target. However, the implementation
-doesn't check whether the conversion succeeds and thus can cause an
-inappropriate error or succeed unappropriately instead of setting errno
-EFAULT ('Bad address') which is supposed to be set in these cases.
+On Tue, 11 Aug 2020 11:41:39 +0200
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-This was confirmed with the LTP test for utimensat ('testcases/utimensat')
-which fails for test cases when the errno EFAULT is expected. After changes
-from this patch, the test passes for all test cases.
+> On Mon, 10 Aug 2020 19:06:38 +0200
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
+> 
+> > This version is substantially less "draft-like", and the diffstat
+> > is actually quite large with Thursday's draft.
+> > 
+> > The changes are as follows:
+> > - updated oss-fuzz build script
+> > - various cases fixed that broke depending on present/absent dependencies
+> > - all build scripts handle --python correctly
+> > - git submodules properly updated before running meson
+> > - no warnings from Meson master (will be 0.56.0), one from upcoming 0.55.1
+> > - installation matches current build system
+> > - fixes for virtio-vga broken merge
+> > - includes updated s390-ccw patch from Thomas
+> > - less noisy "make check"
+> > - tested with GitLab CI, BSD VM builds and various Docker builds
+> > - input-keymap files properly regenerated
+> > 
+> > Of our supported build platforms, only Mac OS and non-x86 hosts are
+> > still untested.  But I guess this might finally count as a v1.
+> > 
+> > This is available from https://gitlab.com/bonzini/qemu.git branch
+                                   ^^^^^^^^^^
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
----
- linux-user/syscall.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+> > meson-poc-next.  
+> 
+> Trying this branch, configure is already unhappy on Fedora 31:
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff..920656191b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11722,8 +11722,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             if (!arg3) {
-                 tsp = NULL;
-             } else {
--                target_to_host_timespec(ts, arg3);
--                target_to_host_timespec(ts+1, arg3+sizeof(struct target_timespec));
-+                if (target_to_host_timespec(ts, arg3)) {
-+                    return -TARGET_EFAULT;
-+                }
-+                if (target_to_host_timespec(ts + 1, arg3 +
-+                                            sizeof(struct target_timespec))) {
-+                    return -TARGET_EFAULT;
-+                }
-                 tsp = ts;
-             }
-             if (!arg2)
--- 
-2.25.1
+(...)
+
+I pulled from *github*, not *gitlab*... using the proper branch,
+everything seems to work fine (ran make check and did some light
+testing.)
 
 
