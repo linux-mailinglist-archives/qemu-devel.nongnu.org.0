@@ -2,44 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E007241C71
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 16:32:32 +0200 (CEST)
-Received: from localhost ([::1]:40466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D23F241C84
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 16:36:50 +0200 (CEST)
+Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5VKJ-0002f9-En
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 10:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40062)
+	id 1k5VOT-0005HB-Mr
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 10:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1k5VHh-0000Rl-0J
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:29:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1k5VHe-0003B6-3o
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:29:48 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B0480B169;
- Tue, 11 Aug 2020 14:30:05 +0000 (UTC)
-From: mwilck@suse.com
-To: "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v3] virtio-rng: return available data with O_NONBLOCK
-Date: Tue, 11 Aug 2020 16:28:21 +0200
-Message-Id: <20200811142821.12323-1-mwilck@suse.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5VNe-0004ka-Dl
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:35:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24582
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5VNc-000407-1D
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:35:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597156554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vDM5P8M17do9Tj60ONe+r2R7jvuEBm1dPcf/splyQ+M=;
+ b=baN/kIDWMpsJ8GdFO3ILU8husX4qV9Q5X6TSymETi18YHdaVVvf9fJKV3lLXQUl6HqrZiq
+ mPmr/Tn5CqnTmOsIF/6s53VasIq77QREJCoSIsskbR+0lXGDolMACJqHQkfD+HBsANHCVa
+ mdG0J6+tqmsi9sT3PgcnJRp4IBn9wWw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-532-69swqFbSOkSYbpuEDkz8ZA-1; Tue, 11 Aug 2020 10:35:53 -0400
+X-MC-Unique: 69swqFbSOkSYbpuEDkz8ZA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20B8E800050;
+ Tue, 11 Aug 2020 14:35:52 +0000 (UTC)
+Received: from gondolin (ovpn-113-33.ams2.redhat.com [10.36.113.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 414F51001B07;
+ Tue, 11 Aug 2020 14:35:50 +0000 (UTC)
+Date: Tue, 11 Aug 2020 16:35:48 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs/system/s390x: Add a chapter about s390x boot devices
+Message-ID: <20200811163548.7f4c9fbe.cohuck@redhat.com>
+In-Reply-To: <20200806150507.12073-1-thuth@redhat.com>
+References: <20200806150507.12073-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=mwilck@suse.com;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:05:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 06:40:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,169 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtualization@lists.linux-foundation.org, Martin Wilck <mwilck@suse.com>,
- Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Martin Wilck <mwilck@suse.com>
+On Thu,  6 Aug 2020 17:05:07 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-If a program opens /dev/hwrng with O_NONBLOCK and uses poll() and
-non-blocking read() to retrieve random data, it ends up in a tight
-loop with poll() always returning POLLIN and read() returning EAGAIN.
-This repeats forever until some process makes a blocking read() call.
-The reason is that virtio_read() always returns 0 in non-blocking mode,
-even if data is available. Worse, it fetches random data from the
-hypervisor after every non-blocking call, without ever using this data.
+> Booting on s390x is a little bit different compared to other architectures.
+> Let's add some information for people who are not yet used to this.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/system/s390x/bootdevices.rst | 82 +++++++++++++++++++++++++++++++
+>  docs/system/target-s390x.rst      |  1 +
+>  2 files changed, 83 insertions(+)
+>  create mode 100644 docs/system/s390x/bootdevices.rst
 
-The following test program illustrates the behavior and can be used
-for testing and experiments. The problem will only be seen if all
-tasks use non-blocking access; otherwise the blocking reads will
-"recharge" the random pool and cause other, non-blocking reads to
-succeed at least sometimes.
-
-/* Whether to use non-blocking mode in a task, problem occurs if CONDITION is 1 */
-//#define CONDITION (getpid() % 2 != 0)
-
-static volatile sig_atomic_t stop;
-static void handler(int sig __attribute__((unused))) { stop = 1; }
-
-static void loop(int fd, int sec)
-{
-	struct pollfd pfd = { .fd = fd, .events  = POLLIN, };
-	unsigned long errors = 0, eagains = 0, bytes = 0, succ = 0;
-	int size, rc, rd;
-
-	srandom(getpid());
-	if (CONDITION && fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK) == -1)
-		perror("fcntl");
-	size = MINBUFSIZ + random() % (MAXBUFSIZ - MINBUFSIZ + 1);
-
-	for(;;) {
-		char buf[size];
-
-		if (stop)
-			break;
-		rc = poll(&pfd, 1, sec);
-		if (rc > 0) {
-			rd = read(fd, buf, sizeof(buf));
-			if (rd == -1 && errno == EAGAIN)
-				eagains++;
-			else if (rd == -1)
-				errors++;
-			else {
-				succ++;
-				bytes += rd;
-				write(1, buf, sizeof(buf));
-			}
-		} else if (rc == -1) {
-			if (errno != EINTR)
-				perror("poll");
-			break;
-		} else
-			fprintf(stderr, "poll: timeout\n");
-	}
-	fprintf(stderr,
-		"pid %d %sblocking, bufsize %d, %d seconds, %lu bytes read, %lu success, %lu eagain, %lu errors\n",
-		getpid(), CONDITION ? "non-" : "", size, sec, bytes, succ, eagains, errors);
-}
-
-int main(void)
-{
-	int fd;
-
-	fork(); fork();
-	fd = open("/dev/hwrng", O_RDONLY);
-	if (fd == -1) {
-		perror("open");
-		return 1;
-	};
-	signal(SIGALRM, handler);
-	alarm(SECONDS);
-	loop(fd, SECONDS);
-	close(fd);
-	wait(NULL);
-	return 0;
-}
-
-void loop(int fd)
-{
-        struct pollfd pfd0 = { .fd = fd, .events  = POLLIN, };
-        int rc;
-        unsigned int n;
-
-        for (n = LOOPS; n > 0; n--) {
-                struct pollfd pfd = pfd0;
-                char buf[SIZE];
-
-                rc = poll(&pfd, 1, 1);
-                if (rc > 0) {
-                        int rd = read(fd, buf, sizeof(buf));
-
-                        if (rd == -1)
-                                perror("read");
-                        else
-                                printf("read %d bytes\n", rd);
-                } else if (rc == -1)
-                        perror("poll");
-                else
-                        fprintf(stderr, "timeout\n");
-
-        }
-}
-
-int main(void)
-{
-        int fd;
-
-        fd = open("/dev/hwrng", O_RDONLY|O_NONBLOCK);
-        if (fd == -1) {
-                perror("open");
-                return 1;
-        };
-        loop(fd);
-        close(fd);
-        return 0;
-}
-
-This can be observed in the real word e.g. with nested qemu/KVM virtual
-machines, if both the "outer" and "inner" VMs have a virtio-rng device.
-If the "inner" VM requests random data, qemu running in the "outer" VM
-uses this device in a non-blocking manner like the test program above.
-
-Fix it by returning available data if a previous hypervisor call has
-completed. I tested this patch with the program above, and with rng-tools.
-
-v2 -> v3: Simplified the implementation as suggested by Laurent Vivier
-
-Signed-off-by: Martin Wilck <mwilck@suse.com>
----
- drivers/char/hw_random/virtio-rng.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/char/hw_random/virtio-rng.c b/drivers/char/hw_random/virtio-rng.c
-index a90001e02bf7..8eaeceecb41e 100644
---- a/drivers/char/hw_random/virtio-rng.c
-+++ b/drivers/char/hw_random/virtio-rng.c
-@@ -65,7 +65,7 @@ static int virtio_read(struct hwrng *rng, void *buf, size_t size, bool wait)
- 		register_buffer(vi, buf, size);
- 	}
- 
--	if (!wait)
-+	if (!wait && !completion_done(&vi->have_data))
- 		return 0;
- 
- 	ret = wait_for_completion_killable(&vi->have_data);
-@@ -74,7 +74,7 @@ static int virtio_read(struct hwrng *rng, void *buf, size_t size, bool wait)
- 
- 	vi->busy = false;
- 
--	return vi->data_avail;
-+	return min_t(size_t, size, vi->data_avail);
- }
- 
- static void virtio_cleanup(struct hwrng *rng)
--- 
-2.28.0
+Thanks, queued with wording nits fixed.
 
 
