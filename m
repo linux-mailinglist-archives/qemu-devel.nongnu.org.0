@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273A9241A93
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:45:29 +0200 (CEST)
-Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385D3241A9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:48:30 +0200 (CEST)
+Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Sie-0002aS-6O
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:45:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
+	id 1k5SlZ-00075m-9m
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1k5Shb-0001Iy-A2
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49822
- helo=us-smtp-1.mimecast.com)
+ id 1k5Shk-0001cx-VV
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:32 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24411
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1k5ShZ-0008J3-KF
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:22 -0400
+ id 1k5Shj-0008Jl-7q
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597146260;
+ s=mimecast20190719; t=1597146270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O09w58vU600Gb/fgnR/CT6U8ZBX9brZK7maBJW9LFCA=;
- b=GYvGm6nXpUaYnM6NoAS9+TQjwHLkdHC0l/CmeXEoE2exofIDRWexNcD6PqwBEO6iF+FS2M
- NpDCExAYREFv06yFJVpJJqxxD/YhwOXIj8SrsOBzA6+An0ZbE4AC9pKt5HJIy6cznGG2E/
- +BhLx7rhyD5XAioHVuAwfXWGmvyq2wk=
+ bh=eKki41DYt9nTQoYvIlZc35X3B/aFJttnQIh3V+LVOus=;
+ b=P2b7zlnCpF8/cEkyqTq7sJDpz8UL/bsL7BpIUbApy/uJLLPUg0iR8ltxT08wg2rRnkfOCb
+ Yd1b3JiLfATZ2Dle124lCr/zfzbqEclouNbJqyY1z0PylCoEXByDsWejpRc4Bo4cvR9tR+
+ pCsHDBbaoAD93cX+8aH6gltYADgDMbs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-Vx89aPbXPruKR59sMB_oVQ-1; Tue, 11 Aug 2020 07:44:17 -0400
-X-MC-Unique: Vx89aPbXPruKR59sMB_oVQ-1
+ us-mta-274-SMJQo0VbOkKV1YUBZFTUGw-1; Tue, 11 Aug 2020 07:44:26 -0400
+X-MC-Unique: SMJQo0VbOkKV1YUBZFTUGw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 174971083;
- Tue, 11 Aug 2020 11:44:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A2C2108E;
+ Tue, 11 Aug 2020 11:44:25 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.74.8.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCF6C5F9DF;
- Tue, 11 Aug 2020 11:44:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB1931C4;
+ Tue, 11 Aug 2020 11:44:16 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 4/9] prep: add ppc-parity write method
-Date: Tue, 11 Aug 2020 17:11:28 +0530
-Message-Id: <20200811114133.672647-5-ppandit@redhat.com>
+Subject: [PATCH v4 5/9] nvram: add nrf51_soc flash read method
+Date: Tue, 11 Aug 2020 17:11:29 +0530
+Message-Id: <20200811114133.672647-6-ppandit@redhat.com>
 In-Reply-To: <20200811114133.672647-1-ppandit@redhat.com>
 References: <20200811114133.672647-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +59,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ppandit@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:18:06
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 06:40:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,47 +93,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add ppc-parity mmio write method to avoid NULL pointer dereference
+Add nrf51_soc mmio read method to avoid NULL pointer dereference
 issue.
 
 Reported-by: Lei Sun <slei.casper@gmail.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/ppc/prep_systemio.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/nvram/nrf51_nvm.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Update v4: No change, v3 was acked
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09965.html
+Update v4: add explanatory comment and Reviewed-by tag
+  -> https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg05309.html
 
-diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
-index bbc51b6e9a..e583222a1b 100644
---- a/hw/ppc/prep_systemio.c
-+++ b/hw/ppc/prep_systemio.c
-@@ -23,6 +23,7 @@
-  */
+diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
+index f2283c1a8d..7b3460d52d 100644
+--- a/hw/nvram/nrf51_nvm.c
++++ b/hw/nvram/nrf51_nvm.c
+@@ -273,6 +273,15 @@ static const MemoryRegionOps io_ops = {
+         .endianness = DEVICE_LITTLE_ENDIAN,
+ };
  
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
- #include "hw/qdev-properties.h"
-@@ -235,8 +236,15 @@ static uint64_t ppc_parity_error_readl(void *opaque, hwaddr addr,
-     return val;
- }
- 
-+static void ppc_parity_error_writel(void *opaque, hwaddr addr,
-+                                    uint64_t data, unsigned size)
++static uint64_t flash_read(void *opaque, hwaddr offset, unsigned size)
 +{
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid access\n", __func__);
++    /*
++     * This is a rom_device MemoryRegion which is always in
++     * romd_mode (we never put it in MMIO mode), so reads always
++     * go directly to RAM and never come here.
++     */
++    g_assert_not_reached();
 +}
-+
- static const MemoryRegionOps ppc_parity_error_ops = {
-     .read = ppc_parity_error_readl,
-+    .write = ppc_parity_error_writel,
-     .valid = {
-         .min_access_size = 4,
-         .max_access_size = 4,
+ 
+ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
+         unsigned int size)
+@@ -300,6 +309,7 @@ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
+ 
+ 
+ static const MemoryRegionOps flash_ops = {
++    .read = flash_read,
+     .write = flash_write,
+     .valid.min_access_size = 4,
+     .valid.max_access_size = 4,
 -- 
 2.26.2
 
