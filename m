@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A77241C60
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 16:29:55 +0200 (CEST)
-Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965CB241C10
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 16:06:20 +0200 (CEST)
+Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5VHm-0008Ll-8B
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 10:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39468)
+	id 1k5Uux-0008PL-FR
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 10:06:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlmgr@proulx.com>) id 1k5VFQ-0006T2-5m
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:27:28 -0400
-Received: from havoc.proulx.com ([96.88.95.61]:47902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlmgr@proulx.com>) id 1k5VFO-0002tM-9g
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:27:27 -0400
-Received: by havoc.proulx.com (Postfix, from userid 1027)
- id EA001645; Tue, 11 Aug 2020 08:27:24 -0600 (MDT)
-Resent-From: Mailing List Manager <mlmgr@proulx.com>
-Resent-Date: Tue, 11 Aug 2020 08:27:24 -0600
-Resent-Message-ID: <20200811142724.t56al7kqje7muulg@havoc.proulx.com>
-Resent-To: qemu-devel@nongnu.org
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
- by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kamil@rugged.localdomain>)
- id 1k5TrT-0005I4-58
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 08:58:39 -0400
-Received: from 89-79-191-25.dynamic.chello.pl ([89.79.191.25]:63219
- helo=rugged.localdomain) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kamil@rugged.localdomain>) id 1k5TrP-0000Ia-OT
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 08:58:38 -0400
-Received: by rugged.localdomain (Postfix, from userid 1000)
- id 0D7D6970C1; Tue, 11 Aug 2020 12:47:45 +0000 (UTC)
-From: Kamil Rytarowski <n54@gmx.com>
-To: rth@twiddle.net, ehabkost@redhat.com, slp@redhat.com, pbonzini@redhat.com,
- peter.maydell@linaro.org, philmd@redhat.com, max@m00nbsd.net,
- jmcneill@invisible.ca
-Subject: [PATCH v5 4/4] Add the NVMM acceleration enlightenments
-Date: Tue, 11 Aug 2020 14:47:34 +0200
-Message-Id: <20200811124734.17222-4-n54@gmx.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200811124734.17222-1-n54@gmx.com>
-References: <20200206213232.1918-2-n54@gmx.com>
- <20200811124734.17222-1-n54@gmx.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k5UtK-0007gi-D8
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:04:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27076
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k5UtH-0008Oc-Jk
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 10:04:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597154674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=373tXi6BgM2eT+WfXFomKbGoYckt44JdH9aYg+3AQw8=;
+ b=PHbOP4emyHVqCzD97NHAhzJT4/6WMzWOx73X+OK67hzgq1NoYFeL+qMunZ/W8SSSOBQtL7
+ gzL55ZO397HJ1DtX3FFbJOqpE4ITDZYkZ9wAomg6MnKdqZ2Xi8iWZPKLPVGUF/uoDBxCWE
+ OFTjPUbC82fZ7yOvKu/oSVbMjyjENK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-kNX2jZg-NH2zJr-vG4uEGA-1; Tue, 11 Aug 2020 10:04:31 -0400
+X-MC-Unique: kNX2jZg-NH2zJr-vG4uEGA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7312102C803;
+ Tue, 11 Aug 2020 14:04:24 +0000 (UTC)
+Received: from localhost (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23DB865C6E;
+ Tue, 11 Aug 2020 14:04:23 +0000 (UTC)
+Date: Tue, 11 Aug 2020 15:04:23 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v8 13/20] multi-process: PCI BAR read/write handling for
+ proxy & remote endpoints
+Message-ID: <20200811140423.GB18223@stefanha-x1.localdomain>
+References: <cover.1596217462.git.jag.raman@oracle.com>
+ <3588624b278c97cb3c9d1eeda109ad36af39effc.1596217462.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=89.79.191.25;
- envelope-from=kamil@rugged.localdomain; helo=rugged.localdomain
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 08:50:12
-X-ACL-Warn: Detected OS   = ???
-X-Spam_action: reject
-X-Bogosity: Spam, tests=bogofilter, spamicity=1.000000, version=1.2.4
-X-CRM114-Status: UNSURE (   0.69  )
-Received-SPF: pass client-ip=96.88.95.61; envelope-from=mlmgr@proulx.com;
- helo=havoc.proulx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/28 10:23:23
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- HK_RANDOM_ENVFROM=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <3588624b278c97cb3c9d1eeda109ad36af39effc.1596217462.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 06:40:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,184 +83,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kamil Rytarowski <n54@gmx.com>, qemu-devel@nongnu.org
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxime Villard <max@m00nbsd.net>
+--jho1yZJdad60DJr+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Implements the NVMM accelerator cpu enlightenments to actually use the nvmm-all
-accelerator on NetBSD platforms.
+On Fri, Jul 31, 2020 at 02:20:20PM -0400, Jagannathan Raman wrote:
+> +static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp)
+> +{
+> +    BarAccessMsg *bar_access = &msg->data1.bar_access;
+> +    AddressSpace *as =
+> +        bar_access->memory ? &address_space_memory : &address_space_io;
+> +    MPQemuMsg ret = { 0 };
+> +    MemTxResult res;
+> +    uint64_t val;
+> +    Error *local_err = NULL;
+> +
+> +    if (!is_power_of_2(bar_access->size) ||
+> +       (bar_access->size > sizeof(uint64_t))) {
+> +        ret.data1.u64 = UINT64_MAX;
+> +        goto fail;
+> +    }
+> +
+> +    val = cpu_to_le64(bar_access->val);
+> +
+> +    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
+> +                           (void *)&val, bar_access->size, true);
+> +
+> +    if (res != MEMTX_OK) {
+> +        error_setg(errp, "Could not perform address space write operation,"
+> +                   " inaccessible address: %lx in pid %d.",
+> +                   bar_access->addr, getpid());
+> +        ret.data1.u64 = -1;
+> +    }
+> +
+> +fail:
+> +    ret.cmd = RET_MSG;
+> +    ret.size = sizeof(ret.data1);
+> +
+> +    mpqemu_msg_send(&ret, ioc, &local_err);
+> +    if (local_err) {
+> +        error_setg(errp, "Error while sending message to proxy "
+> +                   "in remote process pid=%d", getpid());
 
-Signed-off-by: Maxime Villard <max@m00nbsd.net>
-Signed-off-by: Kamil Rytarowski <n54@gmx.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Jared McNeill <jmcneill@invisible.ca>
----
- include/sysemu/hw_accel.h | 14 ++++++++++
- softmmu/cpus.c            | 58 +++++++++++++++++++++++++++++++++++++++
- target/i386/helper.c      |  2 +-
- 3 files changed, 73 insertions(+), 1 deletion(-)
+There is an assertion failure if res != MEMTX_OK because errp was
+already set. error_setg() must not be called on an Error pointer that
+has already been set.
 
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index e128f8b06b..9e19f5794c 100644
---- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -16,6 +16,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
- 
- static inline void cpu_synchronize_state(CPUState *cpu)
- {
-@@ -31,6 +32,9 @@ static inline void cpu_synchronize_state(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_state(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_state(cpu);
-+    }
- }
- 
- static inline void cpu_synchronize_post_reset(CPUState *cpu)
-@@ -47,6 +51,10 @@ static inline void cpu_synchronize_post_reset(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_reset(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_reset(cpu);
-+    }
-+
- }
- 
- static inline void cpu_synchronize_post_init(CPUState *cpu)
-@@ -63,6 +71,9 @@ static inline void cpu_synchronize_post_init(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_init(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_init(cpu);
-+    }
- }
- 
- static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
-@@ -79,6 +90,9 @@ static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_pre_loadvm(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_pre_loadvm(cpu);
-+    }
- }
- 
- #endif /* QEMU_HW_ACCEL_H */
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index a802e899ab..3b44b92830 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -43,6 +43,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
- #include "exec/exec-all.h"
- 
- #include "qemu/thread.h"
-@@ -1621,6 +1622,48 @@ static void *qemu_whpx_cpu_thread_fn(void *arg)
-     return NULL;
- }
- 
-+static void *qemu_nvmm_cpu_thread_fn(void *arg)
-+{
-+    CPUState *cpu = arg;
-+    int r;
-+
-+    assert(nvmm_enabled());
-+
-+    rcu_register_thread();
-+
-+    qemu_mutex_lock_iothread();
-+    qemu_thread_get_self(cpu->thread);
-+    cpu->thread_id = qemu_get_thread_id();
-+    current_cpu = cpu;
-+
-+    r = nvmm_init_vcpu(cpu);
-+    if (r < 0) {
-+        fprintf(stderr, "nvmm_init_vcpu failed: %s\n", strerror(-r));
-+        exit(1);
-+    }
-+
-+    /* signal CPU creation */
-+    cpu->created = true;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+
-+    do {
-+        if (cpu_can_run(cpu)) {
-+            r = nvmm_vcpu_exec(cpu);
-+            if (r == EXCP_DEBUG) {
-+                cpu_handle_guest_debug(cpu);
-+            }
-+        }
-+        qemu_wait_io_event(cpu);
-+    } while (!cpu->unplug || cpu_can_run(cpu));
-+
-+    nvmm_destroy_vcpu(cpu);
-+    cpu->created = false;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+    qemu_mutex_unlock_iothread();
-+    rcu_unregister_thread();
-+    return NULL;
-+}
-+
- #ifdef _WIN32
- static void CALLBACK dummy_apc_func(ULONG_PTR unused)
- {
-@@ -1998,6 +2041,19 @@ static void qemu_whpx_start_vcpu(CPUState *cpu)
- #endif
- }
- 
-+static void qemu_nvmm_start_vcpu(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    cpu->thread = g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/NVMM",
-+             cpu->cpu_index);
-+    qemu_thread_create(cpu->thread, thread_name, qemu_nvmm_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+}
-+
- static void qemu_dummy_start_vcpu(CPUState *cpu)
- {
-     char thread_name[VCPU_THREAD_NAME_SIZE];
-@@ -2038,6 +2094,8 @@ void qemu_init_vcpu(CPUState *cpu)
-         qemu_tcg_init_vcpu(cpu);
-     } else if (whpx_enabled()) {
-         qemu_whpx_start_vcpu(cpu);
-+    } else if (nvmm_enabled()) {
-+        qemu_nvmm_start_vcpu(cpu);
-     } else {
-         qemu_dummy_start_vcpu(cpu);
-     }
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 70be53e2c3..c2f1aef65c 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -983,7 +983,7 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access)
-     X86CPU *cpu = env_archcpu(env);
-     CPUState *cs = env_cpu(env);
- 
--    if (kvm_enabled() || whpx_enabled()) {
-+    if (kvm_enabled() || whpx_enabled() || nvmm_enabled()) {
-         env->tpr_access_type = access;
- 
-         cpu_interrupt(cs, CPU_INTERRUPT_TPR);
--- 
-2.24.1
+It is simplest to do:
 
+  mpqemu_msg_send(&ret, ioc, (errp && *errp) ? NULL : &local_err);
+
+> +    }
+> +}
+> +
+> +static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp)
+> +{
+> +    BarAccessMsg *bar_access = &msg->data1.bar_access;
+> +    MPQemuMsg ret = { 0 };
+> +    AddressSpace *as;
+> +    MemTxResult res;
+> +    uint64_t val = 0;
+> +    Error *local_err = NULL;
+> +
+> +    as = bar_access->memory ? &address_space_memory : &address_space_io;
+> +
+> +    if (!is_power_of_2(bar_access->size) ||
+> +       (bar_access->size > sizeof(uint64_t))) {
+> +        val = UINT64_MAX;
+> +        goto fail;
+> +    }
+> +
+> +    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
+> +                           (void *)&val, bar_access->size, false);
+> +
+> +    if (res != MEMTX_OK) {
+> +        error_setg(errp, "Could not perform address space read operation,"
+> +                   " inaccessible address: %lx in pid %d.",
+> +                   bar_access->addr, getpid());
+> +        val = UINT64_MAX;
+> +        goto fail;
+> +    }
+> +
+> +fail:
+> +    ret.cmd = RET_MSG;
+> +    ret.data1.u64 = le64_to_cpu(val);
+> +    ret.size = sizeof(ret.data1);
+> +
+> +    mpqemu_msg_send(&ret, ioc, &local_err);
+> +    if (local_err) {
+> +        error_setg(errp, "Error while sending message to proxy "
+
+Same here.
+
+> +static void send_bar_access_msg(PCIProxyDev *pdev, MemoryRegion *mr,
+> +                                bool write, hwaddr addr, uint64_t *val,
+> +                                unsigned size, bool memory)
+> +{
+> +    MPQemuMsg msg = { 0 };
+> +    long ret = -EINVAL;
+
+long is not guaranteed to be 64-bit. This function supports 64-bit
+accesses to BARs so uint64_t is needed here.
+
+> +    Error *local_err = NULL;
+> +
+> +    msg.bytestream = 0;
+> +    msg.size = sizeof(msg.data1);
+> +    msg.data1.bar_access.addr = mr->addr + addr;
+> +    msg.data1.bar_access.size = size;
+> +    msg.data1.bar_access.memory = memory;
+> +
+> +    if (write) {
+> +        msg.cmd = BAR_WRITE;
+> +        msg.data1.bar_access.val = *val;
+> +    } else {
+> +        msg.cmd = BAR_READ;
+> +    }
+> +
+> +    ret = mpqemu_msg_send_and_await_reply(&msg, pdev->ioc, &local_err);
+> +    if (local_err) {
+> +        error_report("Failed to send BAR command to the remote process.");
+
+Leaks local_err. Please report the error message from local_err and then
+free it.
+
+> +const MemoryRegionOps proxy_mr_ops = {
+> +    .read = proxy_bar_read,
+> +    .write = proxy_bar_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +    .impl = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 1,
+
+Should this be .max_access_size = 8?
+
+> diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+> index 5d04b81..82b8465 100644
+> --- a/io/mpqemu-link.c
+> +++ b/io/mpqemu-link.c
+> @@ -269,6 +269,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+>              return false;
+>          }
+>          break;
+> +    case BAR_WRITE:
+> +    case BAR_READ:
+> +        if ((msg->size != sizeof(msg->data1)) || (msg->num_fds != 0)) {
+
+What about bytestream? It would be cleanest not to send bytestream over
+the wire. Since it is sent today the receiver can be confused if it has
+the wrong value and some mpqemu_msg_valid() cases validate bytestream.
+It is not validate here for some reason.
+
+--jho1yZJdad60DJr+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8ypWYACgkQnKSrs4Gr
+c8jPiAgAsHhx7soBe6DpVXNGl4Se9K2+pjKcCF4RMcoIT6xKUMRDn7LMlWopW2wF
+91a5M7khO+Q+VdNZMydc927cjB/hbveO0XbJjf+CEOLhXOWj2RORKVTatm87F81w
+8Hex486RCVERrF5BeGNjKTiPIPKEt9hJOUD7231dbns6sYnde3qEC1SpXBccCBh7
+tUA/0q29sTKMoVRwCS+cYMUDMnmF94XauhjNRym8uJdiw53n+N2OEVasQd32A6Ss
+fWCURPVbT1aoW1joDoROk2u/oDpVadgcavGAMByrrDgCVzBXYYju4FkB/34/zXGq
+iD9AxcAf26LVr9wsYF+nRBK/vsJp5g==
+=YcVy
+-----END PGP SIGNATURE-----
+
+--jho1yZJdad60DJr+--
 
 
