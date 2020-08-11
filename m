@@ -2,41 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0984224180D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 10:12:50 +0200 (CEST)
-Received: from localhost ([::1]:43918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA4E24185C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 10:40:06 +0200 (CEST)
+Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5POr-0005t2-2x
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 04:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37086)
+	id 1k5PpE-0003ft-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 04:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5POA-0005Sr-5Q
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:12:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56112)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5PO7-00080j-8p
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:12:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3CA64AB9F;
- Tue, 11 Aug 2020 08:12:21 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: [RFC v3] checkpatch: detect missing changes to trace-events
-Date: Tue, 11 Aug 2020 10:11:58 +0200
-Message-Id: <20200811081158.4893-1-cfontana@suse.de>
-X-Mailer: git-send-email 2.16.4
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:05:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k5Po6-00031s-I0; Tue, 11 Aug 2020 04:38:55 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k5Po2-0002qz-M8; Tue, 11 Aug 2020 04:38:53 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r4so10650316wrx.9;
+ Tue, 11 Aug 2020 01:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y+8/uorVEJ9Lx8uQJ0InEiz6DidPoFSFfBhX8PcF5H4=;
+ b=J2r+mHy2jZpuv43FrJ2h8T87UuXc96LTmxaj0oaxnp4myXIKykYMhrIPN5sVLPt5Tl
+ iKlUplNjVBGesTucwCCyzUszwVZwhPDkbyhOtkQJu1kWWsZ0aI29pPPaD8J8H9YCFbnK
+ Be1Jp+kFxQxXsjzcY7m1RjzxWoKz8OwTf/a+F00v++0DStjsCi54Hr7R/MwN0DkkH5U/
+ XCnnG+O743dRheJvklLjZVg2hSry2DZiNxaeAayi6hS+VduPFfTwz4KcFGPDOaFJ+QBp
+ s0YeUBVgy7IHO3QJ+e2+cwEeAt+DEjNwU+Yi3LArLtpOlYpnpD/UmdzHtjYdRvysr693
+ OQ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y+8/uorVEJ9Lx8uQJ0InEiz6DidPoFSFfBhX8PcF5H4=;
+ b=H/czinqbx3m1pRDl6HB+4KoImookQwxpSQLh8XFsqRWIa1hpcA+Zfp6wDaeOjH+83z
+ iUwTVcOK13nHvJoiUop2kvJqqB7QCdNYOdWioQD0wQJRv7Fe9/av5psrWFPjzrimWy7r
+ IVkCGbSmR+OjblckvzPePVX9ktcsPU68FVGnZ6ZuO9s0Uv8+2IjuvlzKZaMZatpAqyXU
+ EZPS0h8MnQGtsneG5oMfyCWJiirRBje9Crf4sjpxHptHEQanJWyhDTIS48+ny7OjGmj3
+ yeq4uMYyu9o6AD9NLuyYxnKiSunm7lgIeHg3Xl8VJKjDJ4agNdbh8VHbQFDGs+k3EqC+
+ hPdg==
+X-Gm-Message-State: AOAM532M+XqL73xef0bTI56XWmDf0YHiM/+ldJOAu/02d5pqtVwahNYO
+ +V7zn0TcNN5FyqSh5J1Rd44=
+X-Google-Smtp-Source: ABdhPJwFjzvus2FUdTibc+oLDge4BCYq3HQlArguGIbLqjW2Id9UT+iaGhCJlfmm4zlzWgDUM3Rzmw==
+X-Received: by 2002:a5d:6a4e:: with SMTP id t14mr5255000wrw.135.1597135128136; 
+ Tue, 11 Aug 2020 01:38:48 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id c17sm25939782wrc.42.2020.08.11.01.38.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Aug 2020 01:38:47 -0700 (PDT)
+Subject: Re: [PATCH v7 07/13] hw/arm: Load -bios image as a boot ROM for
+ npcm7xx
+To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org,
+ clg@kaod.org, joel@jms.id.au
+References: <20200811004607.2133149-1-hskinnemoen@google.com>
+ <20200811004607.2133149-8-hskinnemoen@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c17b083c-3747-8564-de9b-773ed29d7f79@amsat.org>
+Date: Tue, 11 Aug 2020 10:38:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200811004607.2133149-8-hskinnemoen@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -49,136 +90,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- scripts/checkpatch.pl | 48 ++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 36 insertions(+), 12 deletions(-)
+Hi Havard,
 
-v2 -> v3 :
+On 8/11/20 2:46 AM, Havard Skinnemoen wrote:
+> If a -bios option is specified on the command line, load the image into
+> the internal ROM memory region, which contains the first instructions
+> run by the CPU after reset.
+> 
+> If -bios is not specified, the vbootrom included with qemu is loaded by
+> default.
+> 
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> ---
+>  hw/arm/npcm7xx_boards.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+> index 0b9dce2b35..26ea97072b 100644
+> --- a/hw/arm/npcm7xx_boards.c
+> +++ b/hw/arm/npcm7xx_boards.c
+> @@ -18,12 +18,38 @@
+>  
+>  #include "hw/arm/npcm7xx.h"
+>  #include "hw/core/cpu.h"
+> +#include "hw/loader.h"
+>  #include "qapi/error.h"
+> +#include "qemu-common.h"
+>  #include "qemu/units.h"
+> +#include "sysemu/sysemu.h"
+>  
+>  #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+>  #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+>  
+> +static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
+> +
+> +static void npcm7xx_load_bootrom(NPCM7xxState *soc)
+> +{
+> +    g_autofree char *filename = NULL;
+> +    int ret;
+> +
+> +    if (!bios_name) {
+> +        bios_name = npcm7xx_default_bootrom;
+> +    }
+> +
+> +    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+> +    if (!filename) {
+> +        error_report("Could not find ROM image '%s'", bios_name);
+> +        exit(1);
 
-* move the check for missing changes to MAINTAINERS and trace-events
-  later on, as otherwise the check for in_commit_log will not be done
-  on an up to date value, causing fromfile and realfile to not be set,
-  and matching unwanted strings inside the commit log.
+Is that OK to refuse starting a guest when -kernel is provided but
+not ROM available?
 
-* Ensure that at least one file name is passed to grep.
+> +    }
+> +    ret = load_image_mr(filename, &soc->irom);
+> +    if (ret < 0) {
+> +        error_report("Failed to load ROM image '%s'", filename);
+> +        exit(1);
+> +    }
+> +}
+> +
+>  static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
+>  {
+>      memory_region_add_subregion(get_system_memory(), NPCM7XX_DRAM_BA, dram);
+> @@ -60,6 +86,7 @@ static void npcm750_evb_init(MachineState *machine)
+>      npcm7xx_connect_dram(soc, machine->ram);
+>      qdev_realize(DEVICE(soc), NULL, &error_fatal);
+>  
+> +    npcm7xx_load_bootrom(soc);
+>      npcm7xx_load_kernel(machine, soc);
 
+Maybe invert here, if no kernel provided, fallback to ROM?
+Something like:
 
-----
+       if (!npcm7xx_load_kernel(machine, soc)) {
+           npcm7xx_load_bootrom(soc);
+       }
 
-v1 -> v2 :
-
-* track the "from" file in addition to the "to" file,
-  and grep into both (if they exist), looking for trace.h, trace-root.h
-
-  If files are reachable and readable, emit a warning if there is no
-  update to trace-events.
-
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bd3faa154c..f63013bc35 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1300,6 +1300,7 @@ sub process {
- 	my $in_header_lines = $file ? 0 : 1;
- 	my $in_commit_log = 0;		#Scanning lines before patch
- 	my $reported_maintainer_file = 0;
-+	my $reported_trace_events_file = 0;
- 	my $non_utf8_charset = 0;
- 
- 	our @report = ();
-@@ -1309,6 +1310,7 @@ sub process {
- 	our $cnt_chk = 0;
- 
- 	# Trace the real file/line as we go.
-+	my $fromfile = '';
- 	my $realfile = '';
- 	my $realline = 0;
- 	my $realcnt = 0;
-@@ -1454,10 +1456,15 @@ sub process {
- 		$here = "#$realline: " if ($file);
- 
- 		# extract the filename as it passes
--		if ($line =~ /^diff --git.*?(\S+)$/) {
--			$realfile = $1;
--			$realfile =~ s@^([^/]*)/@@ if (!$file);
-+		if ($line =~ /^diff --git.*?(\S+).*?(\S+)$/) {
-+			$fromfile = $1;
-+			$realfile = $2;
-+			if (!$file) {
-+				$fromfile =~ s@^([^/]*)/@@ ;
-+				$realfile =~ s@^([^/]*)/@@ ;
-+			}
- 	                checkfilename($realfile, \$acpi_testexpected, \$acpi_nontestexpected);
-+
- 		} elsif ($line =~ /^\+\+\+\s+(\S+)/) {
- 			$realfile = $1;
- 			$realfile =~ s@^([^/]*)/@@ if (!$file);
-@@ -1470,6 +1477,11 @@ sub process {
- 			}
- 
- 			next;
-+
-+		} elsif ($line =~ /^---\s+(\S+)/) {
-+			$fromfile = $1;
-+			$fromfile =~ s@^([^/]*)/@@ if (!$file);
-+			next;
- 		}
- 
- 		$here .= "FILE: $realfile:$realline:" if ($realcnt != 0);
-@@ -1524,15 +1536,9 @@ sub process {
- 		if ($line =~ /^\s*MAINTAINERS\s*\|/) {
- 			$reported_maintainer_file = 1;
- 		}
--
--# Check for added, moved or deleted files
--		if (!$reported_maintainer_file && !$in_commit_log &&
--		    ($line =~ /^(?:new|deleted) file mode\s*\d+\s*$/ ||
--		     $line =~ /^rename (?:from|to) [\w\/\.\-]+\s*$/ ||
--		     ($line =~ /\{\s*([\w\/\.\-]*)\s*\=\>\s*([\w\/\.\-]*)\s*\}/ &&
--		      (defined($1) || defined($2))))) {
--			$reported_maintainer_file = 1;
--			WARN("added, moved or deleted file(s), does MAINTAINERS need updating?\n" . $herecurr);
-+# similar check for trace-events
-+		if ($line =~ /^\s*trace-events\s*\|/) {
-+			$reported_trace_events_file = 1;
- 		}
- 
- # Check for wrappage within a valid hunk of the file
-@@ -1605,6 +1611,24 @@ sub process {
- 			$rpt_cleaners = 1;
- 		}
- 
-+# Check for added, moved or deleted files
-+		if (!$in_commit_log &&
-+		    ($line =~ /^(?:new|deleted) file mode\s*\d+\s*$/ ||
-+		     $line =~ /^rename (?:from|to) [\w\/\.\-]+\s*$/ ||
-+		     ($line =~ /\{\s*([\w\/\.\-]*)\s*\=\>\s*([\w\/\.\-]*)\s*\}/ &&
-+		      (defined($1) || defined($2))))) {
-+			if (!$reported_maintainer_file) {
-+				$reported_maintainer_file = 1;
-+				WARN("added, moved or deleted file(s), does MAINTAINERS need updating?\n" . $herecurr);
-+			}
-+			if (!$reported_trace_events_file &&
-+			    ($fromfile ne '' || $realfile ne '') &&
-+			    (`grep -F -s -e trace.h -e trace-root.h ${fromfile} ${realfile}` ne '')) {
-+				$reported_trace_events_file = 1;
-+				WARN("added, moved or deleted file(s), does trace-events need updating?\n" . $herecurr);
-+			}
-+		}
-+
- # checks for trace-events files
- 		if ($realfile =~ /trace-events$/ && $line =~ /^\+/) {
- 			if ($rawline =~ /%[-+ 0]*#/) {
--- 
-2.16.4
-
+>  }
+>  
+> @@ -71,6 +98,7 @@ static void quanta_gsj_init(MachineState *machine)
+>      npcm7xx_connect_dram(soc, machine->ram);
+>      qdev_realize(DEVICE(soc), NULL, &error_fatal);
+>  
+> +    npcm7xx_load_bootrom(soc);
+>      npcm7xx_load_kernel(machine, soc);
+>  }
+>  
+> 
 
