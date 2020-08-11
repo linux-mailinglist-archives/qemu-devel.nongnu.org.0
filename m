@@ -2,138 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CAE241B55
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 15:03:04 +0200 (CEST)
-Received: from localhost ([::1]:53980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937B3241B7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 15:17:30 +0200 (CEST)
+Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5Tvj-00086k-R1
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 09:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44408)
+	id 1k5U9h-0007eX-FO
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 09:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k5TtE-0006lK-G8
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 09:00:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58731
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k5TtC-0000Vf-HM
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 09:00:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597150825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XWgtIYZV6WQGISiFszSTgqCq1+KgxkpS96/z478ariQ=;
- b=dwNHoSy9iKpwgyKrWQBpPq8GPmoDRyeYDAR+Dd3BrnyUNaNTfX8VYxSzyFBi7bLWBY9hCl
- vDcG/SL2U1t2mncsKmDmurRWa4mCAOh5blBAOXTDKxYIir59/trcX/EcCn/IgbRJdfCAd5
- eI2XSvbOvqptTkLnUuhVo8sQlh4Ixpo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-rTD_3KmjMGGERXNb8d3KJw-1; Tue, 11 Aug 2020 09:00:22 -0400
-X-MC-Unique: rTD_3KmjMGGERXNb8d3KJw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6D5318CBC40;
- Tue, 11 Aug 2020 13:00:20 +0000 (UTC)
-Received: from [10.36.112.235] (ovpn-112-235.ams2.redhat.com [10.36.112.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E55711A7D8;
- Tue, 11 Aug 2020 13:00:15 +0000 (UTC)
-Subject: Re: [PATCH v2] virtio-rng: return available data with O_NONBLOCK
-To: Martin Wilck <mwilck@suse.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-References: <20200715133255.10526-1-mwilck@suse.com>
- <7cfc4316-922b-8606-72ce-80205ef55572@redhat.com>
- <7affb721-9686-1262-b7cf-d9681646b602@redhat.com>
- <810451cf80032d131d5d3feb4fc8300549516f3d.camel@suse.com>
- <b764a4bb-b81f-b14f-9b7f-d6d087a8b1ea@redhat.com>
- <b8b19be7fd9b3fab629506eb30d9f0c820aa57d2.camel@suse.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <085f699b-e391-7363-b63e-3b11cc04e50d@redhat.com>
-Date: Tue, 11 Aug 2020 15:00:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <n54@gmx.com>) id 1k5Tvp-00005T-NB
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 09:03:09 -0400
+Received: from mout.gmx.net ([212.227.15.18]:38781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <n54@gmx.com>) id 1k5Tvj-0000v8-6t
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 09:03:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1597150967;
+ bh=UQC8hbt7Y63znu/ljFuJ4oYlMH3w497UZ5X8j02VolI=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=PgfsCV+LgzEuCZMbOQWoWMlQfddX652fsk3UO0AYILRbtwnAlDCZb6YAz6we7tZ0B
+ XhFYV0UvBFuz8H8zcdGSOF+DDb82o5EO7xCPmcr+hfIPiCDazZOGKEVjlpbGsRSXkb
+ cP2ikBJ+VvsotKH6d6dIns5g7+UQfRkCHThLAXm8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([89.79.191.25]) by mail.gmx.com
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MoO2E-1kTZGB0BAW-00on8q; Tue, 11 Aug 2020 15:02:47 +0200
+From: Kamil Rytarowski <n54@gmx.com>
+To: rth@twiddle.net, ehabkost@redhat.com, slp@redhat.com, pbonzini@redhat.com,
+ peter.maydell@linaro.org, philmd@redhat.com, max@m00nbsd.net,
+ jmcneill@invisible.ca
+Subject: [PATCH v5 1/4] Add the NVMM vcpu API
+Date: Tue, 11 Aug 2020 15:01:50 +0200
+Message-Id: <20200811130153.4948-1-n54@gmx.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200206213232.1918-2-n54@gmx.com>
+References: <20200206213232.1918-2-n54@gmx.com>
 MIME-Version: 1.0
-In-Reply-To: <b8b19be7fd9b3fab629506eb30d9f0c820aa57d2.camel@suse.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:18:06
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:FU/Bc3r7McX3ycozbLrXHSAtWOz3DLt96ut2qPnHS+A/wHcZeF3
+ tOYlloFxUG02zfj25s7Oaqzx3c5SXMZrBDZ6lKj0WgjCDuPMUkkxsKNCYLKsaqqIt22KTTi
+ 8y3QuCvZmRMLD7ABvclj0c65MLYu4Azde3vgoxgZwoQRlsokdU+VhpMo1bI+JLEOL5XM9Wz
+ N1UkKKftDkaldJ4bY2vYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+6XTk8fVRTE=:4uv+Vz8132UryYHd/EITCT
+ UDSPhJA/A41c8aAamjX9rHHe5ZnVra59vM9GqWtCXPzfxwnq2CaaqLIJlvDK6/ZEOhVei9/wl
+ PZhSXotCgAsWEmm3s/x5TbC3VROqK+Vidh1tr9Dv8f4M+ch3NwLDi+9L8UDsQ8sPStg8wIK0l
+ uS+AvAca1t2zbCjlH9n5WF2MKS1i7v9zJfpiHItaQEQCEFDb6kaJ6+jVkXm67E4H71f+Ta0ST
+ LTVTzxeOpCEo2yLENPCoD/NI/ssO8YTXdQvwfEOAvcEpKi5H3BIs8qPgRzmBOBL6klmfXG8YB
+ cekA+9fJjgPyL0a9Qb5q88G9T8cVSFeLq0KSCLyFZ7myxoOR/JSfPc66pdiHMJAadlji65p5E
+ x0xxkQgi2yoozn6khHe5yQWIEE27BnctiWWD1wddE7MTaUiRnDPphxmLPMa4knvde6I1L9sCR
+ a1tFIMtcipApfppZd/dDYv7ejXE59OJqqBVhPfxOo5Gw9LQCqXpLvRFE7P5uTM6NE+fPCrfvv
+ xe82CnyNIaVY2N7IvRy1oaiqcsEMGdZdY0CVPPgi4GlxzadE+fEvmhA5P+3pLEE9vfU32v73m
+ qFxyBQfynqvsW/8IWG/C8c+AHYFo+kk88h3E1C+H1f614AuTm694h6lMwCMOcRGlvUtVOAu10
+ 8plA2Kj23RU+Xv45NZrxq3JMkuY+YI3gGK/5ozQtEnhhiBDQFmPBdIQiWUnMQAAStg1vxkrX5
+ uSLlY8iqzLjk655e2nF5wOYC33FSO6KvevTl1U1P0A7sf0absl1L7OfEdJshzrq6ns/5LH5uY
+ dnGyt6qwPj9UXg2Oc0Zb4yvkkMkQGk1LctqjlXSul5nnS2G7UlBl7BNhgspDz5g31RjfLGkNC
+ +1WOZuZi10JL6lBU9yk+xaU61bsZ/gl5JRKk9O0ecyuP9rpnIFy2xoUGaXpnIM4QklubLGfBX
+ Q+jiEnv+RaCMiJrToUTxT4cRmv03hJuwqx7hTXRbAxeU3L7Z89MLEa0cC4D65CsqQS9CY37bx
+ H3Q+Jvwz/26QlE0N0dtgfvWxH8iw7zzKMDwXGhnsmNXvUxvG0k5X38ADu9gugbZPZwPhuwU7N
+ DY54LFm+4d4tkuF5d3vfU9Sm1Al/kOQGCTMrydzuM+Ar/kt6dNUD1BjWzrB+T0KshGNDj8PTm
+ EWK53YrlKbk4W5y00xgEt5fsGfQ5iAZdtAKlSVXZAjB9E78HGcXnhWccjWlRNIm4pahNX1SxK
+ bO56TrWnmMpczVuBt
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=n54@gmx.com;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 09:02:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 11 Aug 2020 09:13:32 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -145,83 +88,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
+Cc: Kamil Rytarowski <n54@gmx.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/08/2020 14:53, Martin Wilck wrote:
-> On Tue, 2020-08-11 at 14:39 +0200, Laurent Vivier wrote:
->> On 11/08/2020 14:22, Martin Wilck wrote:
->>> On Tue, 2020-08-11 at 14:02 +0200, Laurent Vivier wrote:
->>>>>>  drivers/char/hw_random/virtio-rng.c | 14 ++++++++++++++
->>>>>>  1 file changed, 14 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/char/hw_random/virtio-rng.c
->>>>>> b/drivers/char/hw_random/virtio-rng.c
->>>>>> index 79a6e47b5fbc..984713b35892 100644
->>>>>> --- a/drivers/char/hw_random/virtio-rng.c
->>>>>> +++ b/drivers/char/hw_random/virtio-rng.c
->>>>>> @@ -59,6 +59,20 @@ static int virtio_read(struct hwrng *rng,
->>>>>> void
->>>>>> *buf, size_t size, bool wait)
->>>>>>  	if (vi->hwrng_removed)
->>>>>>  		return -ENODEV;
->>>>>>  
->>>>>> +	/*
->>>>>> +	 * If the previous call was non-blocking, we may have
->>>>>> got some
->>>>>> +	 * randomness already.
->>>>>> +	 */
->>>>>> +	if (vi->busy && completion_done(&vi->have_data)) {
->>>>>> +		unsigned int len;
->>>>>> +
->>>>>> +		vi->busy = false;
->>>>>> +		len = vi->data_avail > size ? size : vi-
->>>>>>> data_avail;
->>>>>> +		vi->data_avail -= len;
->>>>
->>>> You don't need to modify data_avail. As busy is set to false, the
->>>> buffer
->>>> will be reused. and it is always overwritten by
->>>> virtqueue_get_buf().
->>>> And moreover, if it was reused it would be always the beginning.
->>>
->>> Ok.
->>>
->>>>>> +		if (len)
->>>>>> +			return len;
->>>>>> +	}
->>>>>> +
->>>>>>  	if (!vi->busy) {
->>>>>>  		vi->busy = true;
->>>>>>  		reinit_completion(&vi->have_data);
->>>>>>
->>>>
->>>> Why don't you modify only the wait case?
->>>>
->>>> Something like:
->>>>
->>>> 	if (!wait && !completion_done(&vi->have_data)) {
->>>> 		return 0;
->>>>         }
->>>>
->>>> then at the end you can do "return min(size, vi->data_avail);".
->>>
->>> Sorry, I don't understand what you mean. Where would you insert the
->>> above "if" clause? Are you saying I should call
->>> wait_for_completion_killable() also in the (!wait) case?
->>
->> Yes, but only if a the completion is done, so it will not wait.
->>
-> 
-> Slowly getting there, thanks for your patience. Yes, I guess this would
-> work, too. I'll test and get back to you.
+From: Maxime Villard <max@m00nbsd.net>
 
-No problem. This code is tricky and it took me several months to really
-start to understand it ...
+Adds support for the NetBSD Virtual Machine Monitor (NVMM) stubs and
+introduces the nvmm.h sysemu API for managing the vcpu scheduling and
+management.
 
-Thanks,
-Laurent
+Signed-off-by: Maxime Villard <max@m00nbsd.net>
+Signed-off-by: Kamil Rytarowski <n54@gmx.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Jared McNeill <jmcneill@invisible.ca>
+=2D--
+ accel/stubs/Makefile.objs |  1 +
+ accel/stubs/nvmm-stub.c   | 43 +++++++++++++++++++++++++++++++++++++++
+ include/sysemu/nvmm.h     | 35 +++++++++++++++++++++++++++++++
+ 3 files changed, 79 insertions(+)
+ create mode 100644 accel/stubs/nvmm-stub.c
+ create mode 100644 include/sysemu/nvmm.h
+
+diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
+index bbd14e71fb..38660a0b9b 100644
+=2D-- a/accel/stubs/Makefile.objs
++++ b/accel/stubs/Makefile.objs
+@@ -1,6 +1,7 @@
+ obj-$(call lnot,$(CONFIG_HAX))  +=3D hax-stub.o
+ obj-$(call lnot,$(CONFIG_HVF))  +=3D hvf-stub.o
+ obj-$(call lnot,$(CONFIG_WHPX)) +=3D whpx-stub.o
++obj-$(call lnot,$(CONFIG_NVMM)) +=3D nvmm-stub.o
+ obj-$(call lnot,$(CONFIG_KVM))  +=3D kvm-stub.o
+ obj-$(call lnot,$(CONFIG_TCG))  +=3D tcg-stub.o
+ obj-$(call lnot,$(CONFIG_XEN))  +=3D xen-stub.o
+diff --git a/accel/stubs/nvmm-stub.c b/accel/stubs/nvmm-stub.c
+new file mode 100644
+index 0000000000..c2208b84a3
+=2D-- /dev/null
++++ b/accel/stubs/nvmm-stub.c
+@@ -0,0 +1,43 @@
++/*
++ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
++ *
++ * NetBSD Virtual Machine Monitor (NVMM) accelerator stub.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "cpu.h"
++#include "sysemu/nvmm.h"
++
++int nvmm_init_vcpu(CPUState *cpu)
++{
++    return -1;
++}
++
++int nvmm_vcpu_exec(CPUState *cpu)
++{
++    return -1;
++}
++
++void nvmm_destroy_vcpu(CPUState *cpu)
++{
++}
++
++void nvmm_cpu_synchronize_state(CPUState *cpu)
++{
++}
++
++void nvmm_cpu_synchronize_post_reset(CPUState *cpu)
++{
++}
++
++void nvmm_cpu_synchronize_post_init(CPUState *cpu)
++{
++}
++
++void nvmm_cpu_synchronize_pre_loadvm(CPUState *cpu)
++{
++}
+diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
+new file mode 100644
+index 0000000000..10496f3980
+=2D-- /dev/null
++++ b/include/sysemu/nvmm.h
+@@ -0,0 +1,35 @@
++/*
++ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
++ *
++ * NetBSD Virtual Machine Monitor (NVMM) accelerator support.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_NVMM_H
++#define QEMU_NVMM_H
++
++#include "config-host.h"
++#include "qemu-common.h"
++
++int nvmm_init_vcpu(CPUState *);
++int nvmm_vcpu_exec(CPUState *);
++void nvmm_destroy_vcpu(CPUState *);
++
++void nvmm_cpu_synchronize_state(CPUState *);
++void nvmm_cpu_synchronize_post_reset(CPUState *);
++void nvmm_cpu_synchronize_post_init(CPUState *);
++void nvmm_cpu_synchronize_pre_loadvm(CPUState *);
++
++#ifdef CONFIG_NVMM
++
++int nvmm_enabled(void);
++
++#else /* CONFIG_NVMM */
++
++#define nvmm_enabled() (0)
++
++#endif /* CONFIG_NVMM */
++
++#endif /* CONFIG_NVMM */
+=2D-
+2.28.0
 
 
