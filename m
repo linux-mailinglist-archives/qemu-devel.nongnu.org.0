@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DA92418B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 11:06:46 +0200 (CEST)
-Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560DD2418AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 11:01:37 +0200 (CEST)
+Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5QF3-000329-3d
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 05:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50578)
+	id 1k5QA4-0005Ym-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 05:01:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5QEB-0002bd-0f
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 05:05:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48114)
+ (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
+ id 1k5Q8P-0003up-8v
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:59:53 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:46534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5QE8-0006Nx-UP
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 05:05:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5QE6-0003pw-RA
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 09:05:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C75922E808D
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 09:05:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Aug 2020 08:58:50 -0000
-From: "Tony.LI" <1890545@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee bigboy0822 pmaydell
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159670025270.3099.13280483088179052036.malonedeb@gac.canonical.com>
-Message-Id: <159713633047.21231.9338139093164603548.malone@chaenomeles.canonical.com>
-Subject: [Bug 1890545] Re: (ARM64) qemu-x86_64+schroot(Debian bullseye) can't
- run chrome and can't load HTML
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 20a369a26c1dfbde3680083db24c0b9ab4836e71
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:25:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
+ id 1k5Q8M-0005TA-Sw
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 04:59:53 -0400
+Received: by mail-pg1-x529.google.com with SMTP id p8so6387706pgn.13
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 01:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=8Oa1NMTa30y2wMEwqzgmHnRPPsrYFPcBXMzRuwI3Bf4=;
+ b=NbAQ3rFaLfb2y2xQf+774lG4hxAqAVBoBqUlOZ3T5aHP5hhX4SSclXz3ztQzR+p1ob
+ JHjent55JjqoDIJHMyr74SGCdc8YTozabS2HKV/bHZ9vCtxMJmWsGAmmlc9+WYdDnCQk
+ qUGRj/mNliqw4YRhMgln/vCj8TPBwPeOBLk8vGVLgnTS3+7amGrEHc/esTKR8nPkZKsx
+ 53BZUkM9XZ+GwMMNKwmyp2bmYWMcwxkHd17UVBGzIMI+MyW92GbtedgSVhra0wSEdqbA
+ SrXlWZddYCgZd896zYDu7RHydx4SQj3X7kMg3RwlPqWJSU2jb1zDImjB8roRgf5U4lkC
+ AlGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=8Oa1NMTa30y2wMEwqzgmHnRPPsrYFPcBXMzRuwI3Bf4=;
+ b=ntzZG/7RKG29Knz0BoEvVMAHxzcHhtF4c4Jjf2BypOOmwH6glq+h2tV3v3maAwTraV
+ CkyJ4PVKxJcNIF7x4RSGDbg6s+SUCCLpQkJcAP4kfkVAdk/xfGOAZiW6qxDivePqaq1J
+ /WgaIlWen3UfiCrtA9Q8cLWQAUQHK1EqG6zm5aII05DQtiOECpIaXgMOvchMUpfUZPhP
+ tpL9sVw7qENlLzl13Qb74ZVn7BCIUdmX5ReppnMAMQbtGdRSWZanRrnvZJJ2vq1Aq2o8
+ T3GLLgz+K8tPrP/FZqJen6mhgOgNQIG3ZoTWbdi1uvRgEod2taGSVDBhr8NqZy88w4lv
+ L1HA==
+X-Gm-Message-State: AOAM531KQ4MpVkuHtLkKqI8wK30fKIYIylzkyT6gnvAExzSceqGgPhjT
+ rGUgj/wD2zP5IGJNZqJPMmPqHWVwpKGALw==
+X-Google-Smtp-Source: ABdhPJxYXlTrwuFJGx6EvTr0dN6ILxLk9QtWXCyUNfK4TNtuI2Q4ytOdkUdT5acwjBjOsJuqNHHL2g==
+X-Received: by 2002:a63:4d8:: with SMTP id 207mr32132pge.146.1597136388443;
+ Tue, 11 Aug 2020 01:59:48 -0700 (PDT)
+Received: from gamma11.internal.sifive.com ([64.62.193.194])
+ by smtp.gmail.com with ESMTPSA id w10sm1282499pjq.46.2020.08.11.01.59.47
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Aug 2020 01:59:47 -0700 (PDT)
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH 0/3] RFC: target/riscv: add half-precision floating-point
+ extension
+Date: Tue, 11 Aug 2020 01:59:23 -0700
+Message-Id: <1597136381-17296-1-git-send-email-chihmin.chao@sifive.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=chihmin.chao@sifive.com; helo=mail-pg1-x529.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,88 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890545 <1890545@bugs.launchpad.net>
+Cc: Chih-Min Chao <chihmin.chao@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,Alex.It can't work.And I find some thing:
+The spec is a draft but required by vector extension.  The reference is 
+availabe at
+   https://github.com/riscv/riscv-isa-manual/tree/zfh
 
-$ glxinfo | grep -i open
+The patch depends two unmerged patch set
+  1. extend softfloat to support int8 and alternative NaN probagapation
+  2. NaNBox fix
 
-radeon: Failed to get PCI ID, error number -38
-libGL error: failed to create dri screen
-libGL error: failed to load driver: radeonsi
-libGL error: failed to get magic
-libGL error: failed to load driver: radeonsi
-OpenGL vendor string: VMware, Inc.
-OpenGL renderer string: Gallium 0.4 on llvmpipe (LLVM 3.9, 128 bits)
-OpenGL core profile version string: 3.3 (Core Profile) Mesa 13.0.6
-OpenGL core profile shading language version string: 3.30
-OpenGL core profile context flags: (none)
-OpenGL core profile profile mask: core profile
-OpenGL core profile extensions:
-OpenGL version string: 3.0 Mesa 13.0.6
-OpenGL shading language version string: 1.30
-OpenGL context flags: (none)
-OpenGL extensions:
-OpenGL ES profile version string: OpenGL ES 3.0 Mesa 13.0.6
-OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.00
-OpenGL ES profile extensions:
+Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com>
+Based-on: <20200724002807.441147-1-richard.henderson@linaro.org>
 
-So=EF=BC=8Ccould it be a problem with the PCI? I see a lot of questions abo=
-ut
-PCI when use qemu-system.But=EF=BC=8Cwhat should I do?And I use qemu-user l=
-ike
-qemu-x86_64-static.
+Chih-Min Chao (2):
+  target/riscv: add NaN-Boxing helper for half-float
+  target/riscv: support 'x-k' in cpu option
 
--- =
+Kito Cheng (1):
+  target/riscv: Implement zfh extension
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890545
+ target/riscv/cpu.c                        |   4 +
+ target/riscv/cpu.h                        |   2 +
+ target/riscv/fpu_helper.c                 | 180 ++++++++++
+ target/riscv/helper.h                     |  34 ++
+ target/riscv/insn32-64.decode             |   6 +
+ target/riscv/insn32.decode                |  32 ++
+ target/riscv/insn_trans/trans_rvzfh.inc.c | 531 ++++++++++++++++++++++++++++++
+ target/riscv/internals.h                  |  16 +
+ target/riscv/translate.c                  |  16 +
+ 9 files changed, 821 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_rvzfh.inc.c
 
-Title:
-  (ARM64) qemu-x86_64+schroot(Debian bullseye) can't run chrome and
-  can't load HTML
+-- 
+2.7.4
 
-Status in QEMU:
-  New
-
-Bug description:
-  First I creat a file system that is debian(bullseye amd64)on arm64
-  machine=EF=BC=8Cthen I download google-chrome=EF=BC=8Chowever, when I ran=
- Google
-  browser, some errors occurred.
-
-  $ google-chrome --no-sandbox
-  or =
-
-  $ qemu-x86_64-static google-chrome --no-sandbox
-
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1661:1661:0806/074307.502638:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  [1664:1664:0806/074307.504159:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1637:1678:0806/074308.337567:ERROR:file_path_watcher_linux.cc(315)] inot=
-ify_init() failed: Function not implemented (38)
-  Fontconfig warning: "/etc/fonts/fonts.conf", line 100: unknown element "b=
-lank"
-  qemu: unknown option 'type=3Dutility'
-  [1637:1680:0806/074313.598432:FATAL:gpu_data_manager_impl_private.cc(439)=
-] GPU process isn't usable. Goodbye.
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  Trace/breakpoint trap
-
-  Why?
-  And then I run firefox,it can be opened, but it can't load any web pages =
-and HTML.
-  I really need help=EF=BC=81
-  Thank.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890545/+subscriptions
 
