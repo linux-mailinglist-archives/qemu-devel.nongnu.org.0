@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB86241AA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:51:06 +0200 (CEST)
-Received: from localhost ([::1]:37142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C8A241AB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:57:17 +0200 (CEST)
+Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5So5-0002GA-P9
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:51:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56292)
+	id 1k5Su4-0004JK-H3
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k5Slq-00083v-Eh
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:48:46 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k5Slo-0000Ti-6U
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:48:46 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f7so11205700wrw.1
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 04:48:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Z1nOz+t1GQIh1GsapZwTPmgP/ZenjM+deAv+BSaYEHI=;
- b=bCfFUZHF2LUhTRj5uBwT5nPsP7Lq/b8m/mkA+RTUqKwQhN32a5oUba7QcE54f/Cl7V
- txe0Yl6WnnowjIc9rFQHgoOoNGu0vd3L93NJl92N7V+8zTs7qSlXxUnHqDs/Z1hpHZOb
- AZrpEjd9PWoGoqbg2ZCgmGoKWYM+VruntW2K6307NpIy3c2wAIlY66Gg7UWvQJSd+ClA
- uNt9D+nXJrOqqIGAf3Ky4d+c5AU1Lq00a6dPGEpHcONtChyjFoB0tcckqHixUOi3HVSJ
- DxWjp047I3oP8DicbZBIAen19iq6Yxz01QJNzgcZKRHRcpLPa+XJO3mG90yGuq+pBnGd
- LCAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Z1nOz+t1GQIh1GsapZwTPmgP/ZenjM+deAv+BSaYEHI=;
- b=MKTzkxorC5bx7pRMnrJbV7U1MJDnjIJmS62SMmfMSsfyrjr84CH/d2DIMuepgPXrSR
- OPUlSM6TIMfLBq4EbtSB5x3Zxdu0+f/g5sGS8cfMOD+5GD5QTJJjteNWcReN2b15417S
- IqpKU46KH/NB1/iKvC8xvrFhiA2PltRPD5dnF4pGsu98DcKZ9ZQFgUCz/fCsPCmdCSY4
- 09lO/9W6xP6TlRmo0f9Gm8ucyuiZRBxV7qjkmNDNZ7trOOmUbyojHXtIzGRyqa3aRkhe
- MT3Vy4ioMJmfIJVTEJ6wXWXAnnAj5oghEW0V0yafzA144jSx2b+Flo8OKR16NOZQ1t5R
- k7Dw==
-X-Gm-Message-State: AOAM5303dI9XRBln2T14Je/Zcp5Pp8W0GZpI8bUEOI5VZi2ub5FkWLOe
- uYK34grVjrgiHBsYTEPERXrvWFs/vps=
-X-Google-Smtp-Source: ABdhPJyFkNLxv2OMaiDUqfUBlv4ECNX27G1VZaVZ3l8xIsPw7Yyi6QTOpFhgYX1xfKaA6erWSIq/vw==
-X-Received: by 2002:adf:94c5:: with SMTP id 63mr28840122wrr.34.1597146520880; 
- Tue, 11 Aug 2020 04:48:40 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n12sm4143091wrq.63.2020.08.11.04.48.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Aug 2020 04:48:39 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B8D41FF7E;
- Tue, 11 Aug 2020 12:48:38 +0100 (BST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5StD-0003uI-8R
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:56:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21496
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5St9-0001VY-Qj
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:56:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597146977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q/Y33Y1tb3OpjBnHaSAoYOTGur43M0ptPZChxK8FFdE=;
+ b=UxY4p57X7SjHcf/hHFQf8R3j4gi/xT1HFy0tX/v7G7smllbEJUHuXyxfh6FQMb/sfrppka
+ UvSBS8grEqF2x2r4h/5cdxxbPeHmG+X8xHzOB/2SFxd4cDLjy79fq3OJ3ytwF67I2sLbw2
+ Mbn+OILlS44MbMqIVM636L9rXLQxcS4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-INCGrHK2Ot-9alSumIfDMA-1; Tue, 11 Aug 2020 07:56:16 -0400
+X-MC-Unique: INCGrHK2Ot-9alSumIfDMA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FCA21800D41;
+ Tue, 11 Aug 2020 11:56:15 +0000 (UTC)
+Received: from gondolin (ovpn-113-33.ams2.redhat.com [10.36.113.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 499EE5FC2F;
+ Tue, 11 Aug 2020 11:56:14 +0000 (UTC)
+Date: Tue, 11 Aug 2020 13:56:11 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2] CODING_STYLE.rst: flesh out our naming conventions.
+Message-ID: <20200811135611.488581c8.cohuck@redhat.com>
+In-Reply-To: <87zh711jzd.fsf@linaro.org>
 References: <20200810105147.10670-1-alex.bennee@linaro.org>
  <20200811090828.12307821.cohuck@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v2] CODING_STYLE.rst: flesh out our naming conventions.
-In-reply-to: <20200811090828.12307821.cohuck@redhat.com>
-Date: Tue, 11 Aug 2020 12:48:38 +0100
-Message-ID: <87zh711jzd.fsf@linaro.org>
+ <87zh711jzd.fsf@linaro.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:41:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,120 +86,33 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 11 Aug 2020 12:48:38 +0100
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-Cornelia Huck <cohuck@redhat.com> writes:
+> If I re-arrange slightly we can roll from qemu_ to public functions:
+>=20
+>   Function Naming Conventions
+>   ---------------------------
+>=20
+>   The ``qemu_`` prefix is used for utility functions that are widely
+>   called from across the code-base. This includes wrapped versions of
+>   standard library functions (e.g. ``qemu_strtol``) where the prefix is
+>   added to the library function name to alert readers that they are
+>   seeing a wrapped version.
+>=20
+>   Public functions from a file or subsystem (declared in headers) tend
+>   to have a consistent prefix to show where they came from. For example,
+>   ``tlb_`` for functions from ``cputlb.c`` or ``cpu_`` for functions
+>   from cpus.c.
+>=20
+>   If there are two versions of a function to be called with or without a
+>   lock held, the function that expects the lock to be already held
+>   usually uses the suffix ``_locked``.
+>=20
+> What do you think?
 
-> On Mon, 10 Aug 2020 11:51:47 +0100
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->
->> Mention a few of the more common naming conventions we follow in the
->> code base including common variable names and function prefix and
->> suffix examples.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>=20
->> ---
->> v2
->>   - punctuation fixes suggested by Cornelia
->>   - re-worded section on qemu_ prefix
->>   - expanded on _locked suffix
->> ---
->>  CODING_STYLE.rst | 30 ++++++++++++++++++++++++++++--
->>  1 file changed, 28 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
->> index 427699e0e42..e7ae44aed7f 100644
->> --- a/CODING_STYLE.rst
->> +++ b/CODING_STYLE.rst
->> @@ -109,8 +109,34 @@ names are lower_case_with_underscores_ending_with_a=
-_t, like the POSIX
->>  uint64_t and family.  Note that this last convention contradicts POSIX
->>  and is therefore likely to be changed.
->>=20=20
->> -When wrapping standard library functions, use the prefix ``qemu_`` to a=
-lert
->> -readers that they are seeing a wrapped version; otherwise avoid this pr=
-efix.
->> +Variable Naming Conventions
->> +---------------------------
->> +
->> +A number of short naming conventions exist for variables that use
->> +common QEMU types. For example, the architecture independent CPUState
->> +this is often held as a ``cs`` pointer variable, whereas the concrete
->
-> s/this//
->
->> +CPUArchState us usually held in a pointer called ``env``.
->
-> s/us/is/
->
->> +
->> +Likewise, in device emulation code the common DeviceState is usually
->> +called ``dev`` with the actual status structure often uses the terse
->
-> s/with/while/
+There naturally are places that don't follow the convention (for
+example, hw/intc/s390_flic.c is using the qemu_ prefix to mark the
+non-kvm functions), but this makes sense for new code. Looks good to me.
 
-Oops sorry about those - serves me right for trying to re-spin too quickly.
-
->
->> +``s`` or maybe ``foodev``.
->> +
->> +Function Naming Conventions
->> +---------------------------
->> +
->> +The ``qemu_`` prefix is used for utility functions that are widely
->> +called from across the code-base. This includes wrapped versions of
->> +standard library functions (e.g. qemu_strtol) where the prefix is
->> +added to the function name to alert readers that they are seeing a
->> +wrapped version; otherwise avoid this prefix.
->
-> Hm... not so sure about "otherwise avoid this prefix". It sounds a bit
-> like you should avoid it for anything but wrappers, but I think what we
-> want to say is that qemu_ should be used for anything that is
-> potentially useful in many places, but probably not if there is a
-> better prefix?
-
-Yeah it's a hangover from the previous phrasing. Our current usage
-certainly isn't just for wrapped functions - qemu_mutex_lock_iothread and
-friends for example are very specifically qemu utility functions rather
-than wrapped functions.
-
-We also have a bunch of static functions that should really not have the
-prefix - qemu_kvm_start_vcpu for example looses nothing by just being
-kvm_start_vcpu.
-
-We also have functions that could arguably just use a subsystem prefix -
-for example qemu_chr_fe_accept_input is very much a thing you only call
-when dealing with chardev frontends (chr_fe).
-
-I'm certainly not proposing mass renames but it's clear our usage is
-wider than just wrapped functions.
-
-If I re-arrange slightly we can roll from qemu_ to public functions:
-
-  Function Naming Conventions
-  ---------------------------
-
-  The ``qemu_`` prefix is used for utility functions that are widely
-  called from across the code-base. This includes wrapped versions of
-  standard library functions (e.g. ``qemu_strtol``) where the prefix is
-  added to the library function name to alert readers that they are
-  seeing a wrapped version.
-
-  Public functions from a file or subsystem (declared in headers) tend
-  to have a consistent prefix to show where they came from. For example,
-  ``tlb_`` for functions from ``cputlb.c`` or ``cpu_`` for functions
-  from cpus.c.
-
-  If there are two versions of a function to be called with or without a
-  lock held, the function that expects the lock to be already held
-  usually uses the suffix ``_locked``.
-
-What do you think?
-
-(note to self, _impl seems like another convention we should document at
-some point).
-
---=20
-Alex Benn=C3=A9e
 
