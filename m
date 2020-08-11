@@ -2,85 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C20B241A60
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:27:26 +0200 (CEST)
-Received: from localhost ([::1]:33640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28F7241AA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:51:10 +0200 (CEST)
+Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5SRB-00058R-FU
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52060)
+	id 1k5So9-0002Iq-Th
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k5SQB-0004PB-0C
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:26:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50696
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k5SQ8-0006Ts-2Y
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:26:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597145178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iMyfeaWOAmGShheG4PrBuj4YCLetggwAwUSkL1meUIA=;
- b=jKb4/boOhcGP+35jk+i3ma+KqLfvwtIo+9jaTnZn1wQBs9LHhXzc8nqT69LLgifrgPlj/n
- HMgF6eidKnc/qdX5ZDnzPlbXiBSKCEk7v9XhuJNEng1uZ7l74Ga8cUbseBA4FtkYBdoPoo
- GXL3sNUNFHnv85ylnsyzdlrAPNUDQJE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-xlR3MjwENyqjZmBUSTGf9A-1; Tue, 11 Aug 2020 07:26:17 -0400
-X-MC-Unique: xlR3MjwENyqjZmBUSTGf9A-1
-Received: by mail-wr1-f69.google.com with SMTP id z1so5479258wrn.18
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 04:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iMyfeaWOAmGShheG4PrBuj4YCLetggwAwUSkL1meUIA=;
- b=e5yDw/QkikZp9ku5NU4lXt9jVe61hW6i64hwX4htxGwCeS7p8cg//K5+xnyRia3J6U
- 576W6rG0VetSSCxwovNHRZczeEus8IYsqZ8H5AdxTIqU8kfhNQmne6VlCF92g9pY8NbW
- feib2mRAoZtHZ3JtYyE01B0qlFPOmUlUwQbF3k7eoiqwKhWCAN72m9MHxfkh1/zPXQp7
- CxBO/F44Uxe6SLm2mjpjwZO+vxHHic7YW4gNGvHfJfdSL1/hIbmx0uW3NqArmxSt6W+N
- VNzLho4Mz3roz8SO5ebURxcnOH4azSVbmTpBZrTJ2Z/Q08b+wZTyYqbKhtkM5PhpxgNi
- lpxg==
-X-Gm-Message-State: AOAM530U0NUqRLIV+D7CQzbl/WEOf0KLoBM5e3SKNQwD1hFZwZkmoBUc
- i0aV53jSX4C855l/Dxdf1acBqECULVBfn6c8jU/iS8yj/18oml2TUrVdY9vfhyFVWMQGwLv2UWW
- 3/rP3602O4n1AAVY=
-X-Received: by 2002:adf:ef08:: with SMTP id e8mr6046653wro.164.1597145174841; 
- Tue, 11 Aug 2020 04:26:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJypnYkMPA7DMqq8CYhuKzDTIAa9ULJQxDDixSYC+mNmXEC6KzTA5hvyRBJb/IiWnr6gFfQg7g==
-X-Received: by 2002:adf:ef08:: with SMTP id e8mr6046629wro.164.1597145174565; 
- Tue, 11 Aug 2020 04:26:14 -0700 (PDT)
-Received: from redhat.com ([147.161.8.240])
- by smtp.gmail.com with ESMTPSA id l10sm25455753wru.3.2020.08.11.04.26.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Aug 2020 04:26:13 -0700 (PDT)
-Date: Tue, 11 Aug 2020 07:26:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: mwilck@suse.com
-Subject: Re: [PATCH v2] virtio-rng: return available data with O_NONBLOCK
-Message-ID: <20200811071726-mutt-send-email-mst@kernel.org>
-References: <20200715133255.10526-1-mwilck@suse.com>
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1k5Sjg-00052L-Hk
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:46:32 -0400
+Received: from mail-am6eur05on20703.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1b::703]:54464
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1k5Sje-0000GY-82
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:46:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UAsoX/b8YHDs/mi9y3QuXnsmDbW+5zLHVxSm9zd0VJj6tR6lZfsCJ2FwptWM9plgPN+5BEW8L9GHPFhftJMF2Z6HewgcSfEuDwt3CobkZgG39Yjns9slTuOFvoJi8ts+9Xh5TvaVt1HUpUDEWChAGknSiA7svwn1OEo4c/HnSkRq7FSPCwYEZwzVTcdfwBaO8mV59jHn80wcg2NbBRRXP6lcjDDYqnN/PATtLNDza9KEmqZ8LJWAu9cfkStv0H3fkut3qPaffG6c3PG84Nhn6BZ90KK03BII8kYe1Wg+R18mytE5f5ESrHqt66G8qr8ZqQCRAOB/8xA9hCrSfk3nwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qwk0M7pHL5mfA9fBHFTHdG1x3DF59iPg1ZWLEWXKaao=;
+ b=HjkjKylhUKhvqS/Q7yOb2kfsFfLKUsWPUAqiKL+xmhrQnuFQ1JcAFQL6NP1nCIRgD3wXwY9GD8dhGWSuBDIxiA0cbo1Q/MM1I8je9S3Anx0ID8EZce0b4YvIydtO9x0x480G5AFpUimyn3Sey9hZDe+STSniAYG4FAB76xwi032ACwixfuCgkccAYcoRhyHL4fjmqE5RHt3SJB/bJjt8gdxpEidnTTC7T/E//Tqigl60lB8gBubQMxpN4gnPXJhIGbYpZ0IN6GFMGrUMbffQ6C2E8lmIL/zwIZIdkFXH8A/Z2D5R3g+QwlGDm8AepraZIAwde+ryEOf2UmvUARccAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qwk0M7pHL5mfA9fBHFTHdG1x3DF59iPg1ZWLEWXKaao=;
+ b=cL6r4iTjMcxGqtQ1iHehu3viV2SEikodqMOg25jkOCcym/3rSJJSMzCmHGxrMKFKTiu5p4JZdRPnqoxC2erLDbrL1pM28NXHPkWLAaLz9Xi1RjA7MRk1dz1gLaJz64/UFs74O7/8CW6ObPDwH6yupq3Vh4xUEBVMxIIgQlwG4UA=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
+ by VI1PR03MB3054.eurprd03.prod.outlook.com (2603:10a6:802:2f::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.22; Tue, 11 Aug
+ 2020 11:31:16 +0000
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
+ 11:31:16 +0000
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Fix 'utimensat()' implementation
+Date: Tue, 11 Aug 2020 13:31:01 +0200
+Message-Id: <20200811113101.6636-1-Filip.Bozuta@syrmia.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GV0P278CA0010.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:26::20) To VE1PR03MB5246.eurprd03.prod.outlook.com
+ (2603:10a6:802:a1::22)
 MIME-Version: 1.0
-In-Reply-To: <20200715133255.10526-1-mwilck@suse.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:18:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (147.91.217.242) by
+ GV0P278CA0010.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:26::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3261.19 via Frontend Transport; Tue, 11 Aug 2020 11:31:15 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [147.91.217.242]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aa68dffa-975f-4247-ad2f-08d83dea0f0a
+X-MS-TrafficTypeDiagnostic: VI1PR03MB3054:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR03MB30544D77A7D17B036550DF20EB450@VI1PR03MB3054.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PiqzmPAve/jvKYdsdcROkykgn59bAKX1Ybb0TlESPnhTwe2I763DU270sEos3KEaJu0yfX3jnyJFtWFrqFHIAGjzRMrbfug8I1RD8dZxjVMhGR0q0khcdDvvc/XFJ0jrTz+rJgLQph0c+PzcZf0vUVnwOpmYxAv0UFgswoAIQ2TvEtUER3r+s0neDKM8cZSryrWYRIquWlSnxvzp2xOcPwUv4lcYzpCoF7rYUqdAAA3kppm1PjvV5tDyZldnlzT68wqAJdos1RYSC3s4Leueilw1a/DdKI7j+N4QPl1HFSkW+sXE7IfjH+HOxR2W4nObJyR4TxHZs0gQtNkiw5lqfXXw16EBzGo5H55qjP9Iwhr48/oFGU8EVo83vsSsqim3
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(396003)(136003)(39830400003)(346002)(366004)(66476007)(6506007)(66946007)(66556008)(26005)(186003)(16526019)(107886003)(4326008)(6916009)(2906002)(508600001)(8936002)(6512007)(52116002)(54906003)(6486002)(8676002)(36756003)(316002)(1076003)(2616005)(956004)(5660300002)(86362001)(6666004)(69590400007)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: UsYeyRKixm92dJ6kstW4uWPmyn87xgy5tjU+m6ysULuzOzJGivughvyQvPzGaiKo2IrE2DX5UEzkrxjUdIMAptmgBK8+cH3JmyjWNt8Ly+mb6M5Pnks2Mvs/hzcJQQUSGKLGzzov8WWSJEK8O3fvApxKacdiCbqHqdE+STQfAdPYJPml+vLijEC0ynBVwwxy+GS10Kfj8hsF6qTgHQaiFmGh/4k3Jm47gMlr/qL22jBMmHMf8aSjFn1qTttynVi+ZwrKO9qHJC7B0ikOBwKujEKvNlDNmbDtYWaHQ76DGmkIPFn6zn07LMz6+3V0/TfBxjI8yE+evj3YwABTNfZ2027M/ysvDoKEQc0BZL9GwcrUwFSFmOAIDTUKLynVgEPpAhuCb7t9/eoMwOW1IHd3efWxCq0219FKlBVWhOFlef0fKAMzLybxeRuL8qB3gV6CZHaJ2HFyjMQbUsqhiXwrywUARBMRXHQiYASzLm2SZdT3HaAL84p3C9/bxOszzAOOJjftulTiOdtMSBxhBP/mQDBx2aqz3IexXVdKSDxfg2Gno28lETcg1XdY3QoaTcyOHu/0RIIXfXvKH7zN9iKJmqGh+QV4E2oXx9Kwu9632P7EDfY4GmTCekNnjzJ7DGtOe91pNtyaouHcWqu9Q6K6rQ==
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa68dffa-975f-4247-ad2f-08d83dea0f0a
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 11:31:15.9743 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oPSP+/h9mQarg8IgVLQAMcyV4G/dvK0Vzqd0Cx4StiY8buoXmIMc5RU+oqz39NvuW8lamOZUEF0lTWBU4G1hgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3054
+Received-SPF: pass client-ip=2a01:111:f400:7e1b::703;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,178 +115,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 15, 2020 at 03:32:55PM +0200, mwilck@suse.com wrote:
-> From: Martin Wilck <mwilck@suse.com>
-> 
-> If a program opens /dev/hwrng with O_NONBLOCK and uses poll() and
-> non-blocking read() to retrieve random data, it ends up in a tight
-> loop with poll() always returning POLLIN and read() returning EAGAIN.
-> This repeats forever until some process makes a blocking read() call.
-> The reason is that virtio_read() always returns 0 in non-blocking mode,
-> even if data is available. Worse, it fetches random data from the
-> hypervisor after every non-blocking call, without ever using this data.
-> 
-> The following test program illustrates the behavior and can be used
-> for testing and experiments. The problem will only be seen if all
-> tasks use non-blocking access; otherwise the blocking reads will
-> "recharge" the random pool and cause other, non-blocking reads to
-> succeed at least sometimes.
-> 
-> /* Whether to use non-blocking mode in a task, problem occurs if CONDITION is 1 */
-> //#define CONDITION (getpid() % 2 != 0)
-> 
-> static volatile sig_atomic_t stop;
-> static void handler(int sig __attribute__((unused))) { stop = 1; }
-> 
-> static void loop(int fd, int sec)
-> {
-> 	struct pollfd pfd = { .fd = fd, .events  = POLLIN, };
-> 	unsigned long errors = 0, eagains = 0, bytes = 0, succ = 0;
-> 	int size, rc, rd;
-> 
-> 	srandom(getpid());
-> 	if (CONDITION && fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK) == -1)
-> 		perror("fcntl");
-> 	size = MINBUFSIZ + random() % (MAXBUFSIZ - MINBUFSIZ + 1);
-> 
-> 	for(;;) {
-> 		char buf[size];
-> 
-> 		if (stop)
-> 			break;
-> 		rc = poll(&pfd, 1, sec);
-> 		if (rc > 0) {
-> 			rd = read(fd, buf, sizeof(buf));
-> 			if (rd == -1 && errno == EAGAIN)
-> 				eagains++;
-> 			else if (rd == -1)
-> 				errors++;
-> 			else {
-> 				succ++;
-> 				bytes += rd;
-> 				write(1, buf, sizeof(buf));
-> 			}
-> 		} else if (rc == -1) {
-> 			if (errno != EINTR)
-> 				perror("poll");
-> 			break;
-> 		} else
-> 			fprintf(stderr, "poll: timeout\n");
-> 	}
-> 	fprintf(stderr,
-> 		"pid %d %sblocking, bufsize %d, %d seconds, %lu bytes read, %lu success, %lu eagain, %lu errors\n",
-> 		getpid(), CONDITION ? "non-" : "", size, sec, bytes, succ, eagains, errors);
-> }
-> 
-> int main(void)
-> {
-> 	int fd;
-> 
-> 	fork(); fork();
-> 	fd = open("/dev/hwrng", O_RDONLY);
-> 	if (fd == -1) {
-> 		perror("open");
-> 		return 1;
-> 	};
-> 	signal(SIGALRM, handler);
-> 	alarm(SECONDS);
-> 	loop(fd, SECONDS);
-> 	close(fd);
-> 	wait(NULL);
-> 	return 0;
-> }
-> 
-> void loop(int fd)
-> {
->         struct pollfd pfd0 = { .fd = fd, .events  = POLLIN, };
->         int rc;
->         unsigned int n;
-> 
->         for (n = LOOPS; n > 0; n--) {
->                 struct pollfd pfd = pfd0;
->                 char buf[SIZE];
-> 
->                 rc = poll(&pfd, 1, 1);
->                 if (rc > 0) {
->                         int rd = read(fd, buf, sizeof(buf));
-> 
->                         if (rd == -1)
->                                 perror("read");
->                         else
->                                 printf("read %d bytes\n", rd);
->                 } else if (rc == -1)
->                         perror("poll");
->                 else
->                         fprintf(stderr, "timeout\n");
-> 
->         }
-> }
-> 
-> int main(void)
-> {
->         int fd;
-> 
->         fd = open("/dev/hwrng", O_RDONLY|O_NONBLOCK);
->         if (fd == -1) {
->                 perror("open");
->                 return 1;
->         };
->         loop(fd);
->         close(fd);
->         return 0;
-> }
-> 
-> This can be observed in the real word e.g. with nested qemu/KVM virtual
-> machines, if both the "outer" and "inner" VMs have a virtio-rng device.
-> If the "inner" VM requests random data, qemu running in the "outer" VM
-> uses this device in a non-blocking manner like the test program above.
-> 
-> Fix it by returning available data if a previous hypervisor call has
-> completed in the meantime. I tested the patch with the program above,
-> and with rng-tools.
-> 
-> Signed-off-by: Martin Wilck <mwilck@suse.com>
-> ---
->  drivers/char/hw_random/virtio-rng.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/char/hw_random/virtio-rng.c b/drivers/char/hw_random/virtio-rng.c
-> index 79a6e47b5fbc..984713b35892 100644
-> --- a/drivers/char/hw_random/virtio-rng.c
-> +++ b/drivers/char/hw_random/virtio-rng.c
-> @@ -59,6 +59,20 @@ static int virtio_read(struct hwrng *rng, void *buf, size_t size, bool wait)
->  	if (vi->hwrng_removed)
->  		return -ENODEV;
->  
-> +	/*
-> +	 * If the previous call was non-blocking, we may have got some
-> +	 * randomness already.
-> +	 */
-> +	if (vi->busy && completion_done(&vi->have_data)) {
-> +		unsigned int len;
-> +
-> +		vi->busy = false;
-> +		len = vi->data_avail > size ? size : vi->data_avail;
-> +		vi->data_avail -= len;
+Implementation of syscall 'utimensat()' in 'syscall.c' uses functions
+target_to_host/host_to_target_timespec() to convert values of
+'struct timespec' between host and target. However, the implementation
+doesn't check whether the conversion succeeds and thus can cause an
+inappropriate error or succeed unappropriately instead of setting errno
+EFAULT ('Bad address') which is supposed to be set in these cases.
 
-I wonder what purpose does this line serve: busy is false
-which basically means data_avail is invalid, right?
-A following non blocking call will not enter here.
+This was confirmed with the LTP test for utimensat ('testcases/utimensat')
+which fails for test cases when the errno EFAULT is expected. After changes
+from this patch, the test passes for all test cases.
 
-> +		if (len)
-> +			return len;
-> +	}
-> +
->  	if (!vi->busy) {
->  		vi->busy = true;
->  		reinit_completion(&vi->have_data);
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+---
+ linux-user/syscall.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-> -- 
-> 2.26.2
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff..920656191b 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11722,8 +11722,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             if (!arg3) {
+                 tsp = NULL;
+             } else {
+-                target_to_host_timespec(ts, arg3);
+-                target_to_host_timespec(ts+1, arg3+sizeof(struct target_timespec));
++                if (target_to_host_timespec(ts, arg3)) {
++                    return -TARGET_EFAULT;
++                }
++                if (target_to_host_timespec(ts + 1, arg3 +
++                                            sizeof(struct target_timespec))) {
++                    return -TARGET_EFAULT;
++                }
+                 tsp = ts;
+             }
+             if (!arg2)
+-- 
+2.25.1
 
 
