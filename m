@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE7A241A7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:40:02 +0200 (CEST)
-Received: from localhost ([::1]:39348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F75241A90
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:45:06 +0200 (CEST)
+Received: from localhost ([::1]:43956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5SdN-00087t-9J
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
+	id 1k5SiH-0001pf-Dk
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:45:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5ScA-0007Gz-5L
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:38:47 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55421
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1k5ShG-0000qi-Os
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51578
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k5Sc5-0007i8-EU
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:38:45 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1k5ShD-0008GX-RB
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597145918;
+ s=mimecast20190719; t=1597146238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+EcuOyXtByccegQh34RNY1frfHWqd1Ut9ToeCRgCGnk=;
- b=LrW0GqRiaaWkrYUPXA/O6za5C09alSNpubkyVLLLxOLwJz7xHiwSqHoLJUKizxlBEjxrew
- gBlwnt5Xwa4+ZNn6HlOCbyxdrPoSrTfFG2uTIsedsaAOthn5UhlhE+WjgdUT99xbXArlYl
- gpYcdMupLBMx/EBOkjaUmyr1TCk8tZw=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5uz2gYR+ZjhCwSBG2btx3/PoRpLKwa9fy3oUhJjbpq4=;
+ b=QZFqCUTi8Ih1UL1l0CMgvbMoGWO8GdtBL5ekiZI+pjTuZqGX+DAXOlr4uDjVDzO/Oj9M5W
+ CeVZslhcrgP73xO6JE8ibNN0x0OSKuAWYooyJDjspQw8uPw4h6DhuhyUyONpXu7t7YgqxZ
+ 2HdaBtdrmE1f9s5ocP9j9aA6Ysb2ZtE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-tk_qx-kiNlOn_SWjeow68Q-1; Tue, 11 Aug 2020 07:38:33 -0400
-X-MC-Unique: tk_qx-kiNlOn_SWjeow68Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-331-fWp5YmqqOAGF-vRn8GpU8Q-1; Tue, 11 Aug 2020 07:43:46 -0400
+X-MC-Unique: fWp5YmqqOAGF-vRn8GpU8Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD00804449;
- Tue, 11 Aug 2020 11:38:27 +0000 (UTC)
-Received: from gondolin (ovpn-113-33.ams2.redhat.com [10.36.113.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B68136F152;
- Tue, 11 Aug 2020 11:38:20 +0000 (UTC)
-Date: Tue, 11 Aug 2020 13:38:18 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 000/147] Meson integration for 5.2
-Message-ID: <20200811133818.385badaf.cohuck@redhat.com>
-In-Reply-To: <20200811114139.336ac1f8.cohuck@redhat.com>
-References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
- <20200811114139.336ac1f8.cohuck@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C23B71005510;
+ Tue, 11 Aug 2020 11:43:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.74.8.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A4DCB5F9DB;
+ Tue, 11 Aug 2020 11:43:36 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 0/9] memory: assert and define MemoryRegionOps callbacks
+Date: Tue, 11 Aug 2020 17:11:24 +0530
+Message-Id: <20200811114133.672647-1-ppandit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 06:40:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:41:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,48 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
- alex.bennee@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, alxndr@bu.edu, stefanha@redhat.com, jsnow@redhat.com
+Cc: Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Aug 2020 11:41:39 +0200
-Cornelia Huck <cohuck@redhat.com> wrote:
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-> On Mon, 10 Aug 2020 19:06:38 +0200
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> 
-> > This version is substantially less "draft-like", and the diffstat
-> > is actually quite large with Thursday's draft.
-> > 
-> > The changes are as follows:
-> > - updated oss-fuzz build script
-> > - various cases fixed that broke depending on present/absent dependencies
-> > - all build scripts handle --python correctly
-> > - git submodules properly updated before running meson
-> > - no warnings from Meson master (will be 0.56.0), one from upcoming 0.55.1
-> > - installation matches current build system
-> > - fixes for virtio-vga broken merge
-> > - includes updated s390-ccw patch from Thomas
-> > - less noisy "make check"
-> > - tested with GitLab CI, BSD VM builds and various Docker builds
-> > - input-keymap files properly regenerated
-> > 
-> > Of our supported build platforms, only Mac OS and non-x86 hosts are
-> > still untested.  But I guess this might finally count as a v1.
-> > 
-> > This is available from https://gitlab.com/bonzini/qemu.git branch
-                                   ^^^^^^^^^^
+Hello,
 
-> > meson-poc-next.  
-> 
-> Trying this branch, configure is already unhappy on Fedora 31:
+* This series asserts that MemoryRegionOps objects define read/write
+  callback methods. Thus avoids potential NULL pointer dereference.
+  ex. -> https://git.qemu.org/?p=qemu.git;a=commit;h=bb15013ef34617eb1344f5276292cadd326c21b2
 
-(...)
+* Also adds various undefined MemoryRegionOps read/write functions
+  to avoid potential assert failure.
 
-I pulled from *github*, not *gitlab*... using the proper branch,
-everything seems to work fine (ran make check and did some light
-testing.)
+Thank you.
+--
+Prasad J Pandit (9):
+  hw/pci-host: add pci-intack write method
+  pci-host: designware: add pcie-msi read method
+  vfio: add quirk device write method
+  prep: add ppc-parity write method
+  nvram: add nrf51_soc flash read method
+  spapr_pci: add spapr msi read method
+  tz-ppc: add dummy read/write methods
+  imx7-ccm: add digprog mmio write method
+  memory: assert MemoryRegionOps callbacks are defined
+
+ hw/misc/imx7_ccm.c       |  8 ++++++++
+ hw/misc/tz-ppc.c         | 14 ++++++++++++++
+ hw/nvram/nrf51_nvm.c     | 10 ++++++++++
+ hw/pci-host/designware.c | 19 +++++++++++++++++++
+ hw/pci-host/prep.c       |  8 ++++++++
+ hw/ppc/prep_systemio.c   |  8 ++++++++
+ hw/ppc/spapr_pci.c       | 14 ++++++++++++--
+ hw/vfio/pci-quirks.c     |  8 ++++++++
+ softmmu/memory.c         | 10 +++++++++-
+ 9 files changed, 96 insertions(+), 3 deletions(-)
+
+--
+2.26.2
 
 
