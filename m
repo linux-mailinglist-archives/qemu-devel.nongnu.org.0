@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1048241A9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:48:28 +0200 (CEST)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21E7241AA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 13:49:54 +0200 (CEST)
+Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5SlY-000730-2g
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55606)
+	id 1k5Smv-0000Rn-Tr
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 07:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1k5Si6-0002QR-TG
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24203
+ id 1k5SiC-0002cG-Ah
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:45:00 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43092
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1k5Si5-0008Mz-3g
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:44:54 -0400
+ id 1k5SiA-0008O7-Hh
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 07:45:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597146292;
+ s=mimecast20190719; t=1597146297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3Q/BqAs8Ts/eEbXJp0DLogWA+BFVDGoTcxFQL7SmVrI=;
- b=D0jiYHrZlgpEciVGgS0JBqK9cbLZHzwB0yyCBHy78n81ZzeQ35nQQw5Q+IqgLch2rheP7j
- d+c8OOLuIPX+L77L5pm7s2/IdAvZB/2+366IgJi3GdeifBF1EHr0j4XR517JY+X9tvM4VE
- BnNYyWybPCkrSOcgRYvXTkKFRdLOTj0=
+ bh=URgG/GQpF3hxWKP3cotTkm5KWSX2MRj+zKuw0yApTls=;
+ b=f9CoLIEtf+tQvtVGsF5ytGuLZOGhV1jGKjKizRsNBXjNxb4A6ze9g2XwWi7yHSJL1+tXIf
+ epXKBTSlycw4cpMri1LY0+m7amgdgj7j+g0ktKMIpXPUNfjNHny1jsVzph/ghIIfZNzB9P
+ JP7O2czD8/7Vsj5u3QDGYySpoc/MoNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-YsgpB3hHNGK5QTAxFHZybw-1; Tue, 11 Aug 2020 07:44:49 -0400
-X-MC-Unique: YsgpB3hHNGK5QTAxFHZybw-1
+ us-mta-111-IDx7D9ygN06mMvLOfUanVA-1; Tue, 11 Aug 2020 07:44:54 -0400
+X-MC-Unique: IDx7D9ygN06mMvLOfUanVA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D428C1083;
- Tue, 11 Aug 2020 11:44:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6005D1005510;
+ Tue, 11 Aug 2020 11:44:53 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.74.8.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6899A5FC01;
- Tue, 11 Aug 2020 11:44:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88CCE5FC01;
+ Tue, 11 Aug 2020 11:44:48 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 8/9] imx7-ccm: add digprog mmio write method
-Date: Tue, 11 Aug 2020 17:11:32 +0530
-Message-Id: <20200811114133.672647-9-ppandit@redhat.com>
+Subject: [PATCH v4 9/9] memory: assert MemoryRegionOps callbacks are defined
+Date: Tue, 11 Aug 2020 17:11:33 +0530
+Message-Id: <20200811114133.672647-10-ppandit@redhat.com>
 In-Reply-To: <20200811114133.672647-1-ppandit@redhat.com>
 References: <20200811114133.672647-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -93,39 +93,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add digprog mmio write method to avoid assert failure during
-initialisation.
+When registering a MemoryRegionOps object, assert that its
+read/write callback methods are defined. This avoids potential
+guest crash via a NULL pointer dereference.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/misc/imx7_ccm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ softmmu/memory.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Update v4: revise log message to guest_error
-  -> https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg05306.html
+Update v4: add Reviewed-by tag
+  -> https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg05324.html
 
-diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
-index 02fc1ae8d0..075159e497 100644
---- a/hw/misc/imx7_ccm.c
-+++ b/hw/misc/imx7_ccm.c
-@@ -131,8 +131,16 @@ static const struct MemoryRegionOps imx7_set_clr_tog_ops = {
-     },
- };
- 
-+static void imx7_digprog_write(void *opaque, hwaddr addr,
-+                                        uint64_t data, unsigned size)
-+{
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "Guest write to read-only ANALOG_DIGPROG register\n");
-+}
-+
- static const struct MemoryRegionOps imx7_digprog_ops = {
-     .read = imx7_set_clr_tog_read,
-+    .write = imx7_digprog_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .impl = {
-         .min_access_size = 4,
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index af25987518..1f4b37b3a6 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1485,7 +1485,13 @@ void memory_region_init_io(MemoryRegion *mr,
+                            uint64_t size)
+ {
+     memory_region_init(mr, owner, name, size);
+-    mr->ops = ops ? ops : &unassigned_mem_ops;
++    if (ops) {
++        assert(ops->read || ops->read_with_attrs);
++        assert(ops->write || ops->write_with_attrs);
++        mr->ops = ops;
++    } else {
++        mr->ops = &unassigned_mem_ops;
++    }
+     mr->opaque = opaque;
+     mr->terminates = true;
+ }
+@@ -1663,6 +1669,8 @@ void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+ {
+     Error *err = NULL;
+     assert(ops);
++    assert(ops->read || ops->read_with_attrs);
++    assert(ops->write || ops->write_with_attrs);
+     memory_region_init(mr, owner, name, size);
+     mr->ops = ops;
+     mr->opaque = opaque;
 -- 
 2.26.2
 
