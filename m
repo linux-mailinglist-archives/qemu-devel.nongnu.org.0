@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033DD241975
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 12:12:15 +0200 (CEST)
-Received: from localhost ([::1]:38278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D402419A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 12:24:26 +0200 (CEST)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5RGP-00030K-FQ
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 06:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
+	id 1k5RSD-0005Pt-Qa
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 06:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5RFh-0002a9-Gl
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 06:11:29 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5RFf-0005rF-FP
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 06:11:29 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5RFd-0004dj-J8
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 10:11:25 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8C5662E808D
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 10:11:25 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1k5RRB-0004za-B3
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 06:23:21 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1k5RR9-00074p-Dg
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 06:23:20 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B7594AE51;
+ Tue, 11 Aug 2020 10:23:36 +0000 (UTC)
+Message-ID: <b88ec62cb590ac326f73bdb92737d21cc508740a.camel@suse.com>
+Subject: Reminder: [PATCH v2] virtio-rng: return available data with O_NONBLOCK
+From: Martin Wilck <mwilck@suse.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
+Date: Tue, 11 Aug 2020 12:23:15 +0200
+In-Reply-To: <20200715133255.10526-1-mwilck@suse.com>
+References: <20200715133255.10526-1-mwilck@suse.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.36.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Aug 2020 10:04:52 -0000
-From: "Tony.LI" <1890545@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee bigboy0822 pmaydell
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159670025270.3099.13280483088179052036.malonedeb@gac.canonical.com>
-Message-Id: <159714029272.5932.6550922800623490666.malone@soybean.canonical.com>
-Subject: [Bug 1890545] Re: (ARM64) qemu-x86_64+schroot(Debian bullseye) can't
- run chrome and can't load HTML
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c7bae8c9b26729ad48adca70a9a07e0ed6becc32
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 04:25:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=mwilck@suse.com;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/11 02:05:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,75 +54,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890545 <1890545@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And I can get some infomation by "qemu-x86_64-static -d strace".
+On Wed, 2020-07-15 at 15:32 +0200, mwilck@suse.com wrote:
+> From: Martin Wilck <mwilck@suse.com>
+> 
+> If a program opens /dev/hwrng with O_NONBLOCK and uses poll() and
+> non-blocking read() to retrieve random data, it ends up in a tight
+> loop with poll() always returning POLLIN and read() returning EAGAIN.
+> This repeats forever until some process makes a blocking read() call.
+> The reason is that virtio_read() always returns 0 in non-blocking
+> mode,
+> even if data is available. Worse, it fetches random data from the
+> hypervisor after every non-blocking call, without ever using this
+> data.
 
-....
-17344 getdents(8,274880624768,32768,115,274880624899,39) =3D 0
-17344 close(8) =3D 0
-17344 ioctl(7,0xc0406400,0x297330) =3D 0
-17344 ioctl(7,0xc0406400,0x297330) =3D 0
-17344 fstat(7,0x0000004001a0b660) =3D 0
-17344 fcntl(7,F_DUPFD_CLOEXEC,3) =3D 8
-17344 ioctl(8,0xc0406400,0x297330) =3D 0
-17344 ioctl(8,0xc0406400,0x297330) =3D 0
-17344 ioctl(8,0xc0106467,0x1a0b700) =3D -1 errno=3D38 (Function not impleme=
-nted)
-....
+Gentle review reminder.
+https://patchew.org/QEMU/20200715133255.10526-1-mwilck@suse.com/
 
-Last ioctl is error,why?It drives me crazy!!!
+Regards
+Martin
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890545
-
-Title:
-  (ARM64) qemu-x86_64+schroot(Debian bullseye) can't run chrome and
-  can't load HTML
-
-Status in QEMU:
-  New
-
-Bug description:
-  First I creat a file system that is debian(bullseye amd64)on arm64
-  machine=EF=BC=8Cthen I download google-chrome=EF=BC=8Chowever, when I ran=
- Google
-  browser, some errors occurred.
-
-  $ google-chrome --no-sandbox
-  or =
-
-  $ qemu-x86_64-static google-chrome --no-sandbox
-
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1661:1661:0806/074307.502638:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  [1664:1664:0806/074307.504159:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1637:1678:0806/074308.337567:ERROR:file_path_watcher_linux.cc(315)] inot=
-ify_init() failed: Function not implemented (38)
-  Fontconfig warning: "/etc/fonts/fonts.conf", line 100: unknown element "b=
-lank"
-  qemu: unknown option 'type=3Dutility'
-  [1637:1680:0806/074313.598432:FATAL:gpu_data_manager_impl_private.cc(439)=
-] GPU process isn't usable. Goodbye.
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  Trace/breakpoint trap
-
-  Why?
-  And then I run firefox,it can be opened, but it can't load any web pages =
-and HTML.
-  I really need help=EF=BC=81
-  Thank.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890545/+subscriptions
 
