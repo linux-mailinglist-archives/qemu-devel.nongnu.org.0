@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049CD2416FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 09:13:44 +0200 (CEST)
-Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDCA2416F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Aug 2020 09:12:24 +0200 (CEST)
+Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5OTf-0008Uz-2z
-	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 03:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
+	id 1k5OSN-0006PK-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 11 Aug 2020 03:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3R0QyXwMKCpgK4O8GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--scw.bounces.google.com>)
- id 1k5OQ6-0004x2-NV
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:10:02 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:40277)
+ <3SUQyXwMKCpoM6QAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--scw.bounces.google.com>)
+ id 1k5OQC-00050C-IR
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:10:08 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:53014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3R0QyXwMKCpgK4O8GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--scw.bounces.google.com>)
- id 1k5OQ5-0000ky-2r
- for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:10:02 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id l67so15698188ybb.7
- for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 00:10:00 -0700 (PDT)
+ <3SUQyXwMKCpoM6QAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--scw.bounces.google.com>)
+ id 1k5OQ7-0000l9-HL
+ for qemu-devel@nongnu.org; Tue, 11 Aug 2020 03:10:08 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id x10so15513318ybj.19
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 00:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=+M+uJICEFeg+txNwQtx91pgPQOjSg5KEj10o5w9tEBM=;
- b=MysnBrixrRZSukqLhob985+MpOw8BqS/sOAuzlZetszjKXJeVeDyvsZw+xknOfNyOP
- q+ZjmML36OO/jDlwRvVaKMeEB5M3wCMlrG6x1Qto3VJhQ89U9ixpwzBAnOudmvt4gC+P
- XZJoj/ezaaK1JwV+2+TEkkUqQEXZIJGVybRdrxKOyj9VBkzT1Wn3pCIEk+A7ypL4o2tA
- +UCGxrAklG8sQyJJ2/nuLBlztUMk2z14/lDLDNLd4V505Qymypa1EKNQdwvjSF0FsCq6
- W7n+DkdbYL6IYeh7WrxEbdU7B6y7aXn4QaRaXOs6nTuz+B18v0xNPXCLMrYprzdiySD8
- 0YOw==
+ :cc; bh=kIYHcj8O3Sfi4MxJmcqz8ARBjlQe767Toz5vJcOBiIo=;
+ b=VWRDYSIM5vTXIVcgrPYgfGx8la+AIP1rMuns3KBfJ5/F75+tNJgZcqQUOZNrAxwve5
+ LgeLjYaXSUg5d7bBwlFT1kUPKojAzoSSZhjiMyrQU4XKu4DEWDjh5r4Iy2L0LpiO/E/H
+ 7EV7ACmZ7uDO7fHkRCLudmvgvYmqu4je8v8odXRATcuq77dLvOcKxb1Z/AdoMfIWyEck
+ gQfTG0bvASOoC6GqMRcdR7G9Za76QirK+lglZ94P+AjdyeJh6Sh0x7cIY9+badPDBFhG
+ n3Na6AQem5CCL6bREiX9I2GaIHef1lt03/BWKRWLjw3Y5WVh7DH9ZFwThc3NeGaQcv8z
+ wGEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=+M+uJICEFeg+txNwQtx91pgPQOjSg5KEj10o5w9tEBM=;
- b=QT7Ph7DG4wsMwQ+yZ5DuPkSMa4wQFcgNMkXoLGLmeinpoRDvek9EX6zAiynTAJLRzL
- WNVcCdlWQUALEqNF2jPmapspg72QwE8RX9YGFJyxAr5Tzz/sjpWZDZcwX58qLXkZeAD+
- MckVVgkrJtg1O4VoDXtyEZNkH7tqji5v9j2GKsrCNVpfmJVbCCJwdE17NujIJyaNPK3T
- TOGcyRpbxhhbr3DHYTvqYDt50sSP98TZ6s3yox5NjhEoOErADVrJZ587dJcm8urNGkYV
- HDNunkuwCLuJkdlwnjpFwIcTh8CB2QMB/8kFcTl99K52mDQ4IN50juv1Po4mwU5JdFGA
- GFkw==
-X-Gm-Message-State: AOAM53386/PCzo8GlyKjxUDOBLvCBlK5vVvgLjZO4hj1znEcECrpUjVa
- YaLNEVwVYIEBkMLm0hsX29P8CXTVO7JmcuvSiMpYKyjlwzy5k0AVTkS0khfVwmYqEACrw8eBLcS
- bJqSE9/R9yt1ccyttV2bZvD6HMWUWe0Mlt0xBxYHFmCSNP+KN/jH2
-X-Google-Smtp-Source: ABdhPJxKoxWeJvLmEYlfgZ6I+Ec6rwkk6fUbiDEfAgQa06x60jxY2qcrMD7vnpI5xcCorHO4slwVVwg=
-X-Received: by 2002:a5b:b45:: with SMTP id b5mr45443180ybr.294.1597129799243; 
- Tue, 11 Aug 2020 00:09:59 -0700 (PDT)
-Date: Tue, 11 Aug 2020 00:09:43 -0700
+ bh=kIYHcj8O3Sfi4MxJmcqz8ARBjlQe767Toz5vJcOBiIo=;
+ b=SY03JdHcRm0g4f+jBz6m3lGG5Ee1I8D+AssImcv8hpq7jcyex9KLfqy5RZQOENJykN
+ 88CarY9VeudsRzN2oLsiBl/k56nQy4sOmieWQweisOiRPMDFTj8X/CyXblxVRniQ6WN1
+ 5EOwE1BV/oaQ4/It0F0RNoO5G3EmBxYojnJXooFds1fnNLu0VhAWDTJtRMlKqGZs6emL
+ Ul6+GnPic07VCTAMv854htaFypP1VQWFmksCvpLObLcVxucwiulBVy7VwqXxc+Ry+D6t
+ qDlwpWHr/AtcSpFaxHej0ot1/YkrwXEhKYuMI32zWw6sGMvpHm0DFMfcLzaY0CiSIc2w
+ bCfQ==
+X-Gm-Message-State: AOAM531e/QWucRtIRVN1/01O2BC4RuNYRx30IxpJ6OvgQpXBMKSbajnv
+ Mhu/z6HlfGrwMXwknut8m9OWMeUv9wzEBJFrEt/X1H/65H38XF0KCrmzbcCajrV7SCVsfogYoYO
+ I7HB3cwzUgezRwvsfaJFUEbka0VER6pChr61E1oBena+ioLAuxfsA
+X-Google-Smtp-Source: ABdhPJwQnWeGsbzG9OmLZJ/f7NJFcGXqIIFQdcH7aJyscPo22k+tzzqS6Mb4R9/BogOnpKohJx/wcZA=
+X-Received: by 2002:a25:aaf3:: with SMTP id t106mr42481925ybi.56.1597129801240; 
+ Tue, 11 Aug 2020 00:10:01 -0700 (PDT)
+Date: Tue, 11 Aug 2020 00:09:44 -0700
 In-Reply-To: <cover.1597129029.git.scw@google.com>
-Message-Id: <9a8368ac4b1988dbfb2465a926d769bdc23011a1.1597129029.git.scw@google.com>
+Message-Id: <7d61f792c22de8df3c6a9438eacc3906620e7c54.1597129029.git.scw@google.com>
 Mime-Version: 1.0
 References: <cover.1597129029.git.scw@google.com>
 X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
-Subject: [PATCH v2 3/8] linux-user: add missing IPv6 get/setsockopt option
+Subject: [PATCH v2 4/8] linux-user: Add IPv6 options to do_print_sockopt()
 From: Shu-Chun Weng <scw@google.com>
 To: qemu-devel@nongnu.org
 Cc: Shu-Chun Weng <scw@google.com>, laurent@vivier.eu
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3R0QyXwMKCpgK4O8GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--scw.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3SUQyXwMKCpoM6QAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--scw.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -105
@@ -87,47 +87,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
-
 Signed-off-by: Shu-Chun Weng <scw@google.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
 v1 -> v2:
-  Split out IPV6 options into own patch.
-  do_print_sockopt() changes added in a separate patch since a large number of
-  unrelated changes are involved.
+  New: Add all IPV6 options to do_print_sockopt(), including the newly supported
+  IPV6_ADDR_PREFERENCES.
 
- linux-user/syscall.c | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/strace.c | 108 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 177eec5201..cda194a7cc 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -51,6 +51,7 @@
- #include <sys/sysinfo.h>
- #include <sys/signalfd.h>
- //#include <sys/user.h>
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 854b54a2ad..089fb3968e 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -6,6 +6,7 @@
+ #include <sys/select.h>
+ #include <sys/mount.h>
+ #include <arpa/inet.h>
 +#include <netinet/in.h>
- #include <netinet/ip.h>
  #include <netinet/tcp.h>
  #include <netinet/udp.h>
-@@ -2026,6 +2027,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
-         case IPV6_RECVDSTOPTS:
-         case IPV6_2292DSTOPTS:
-         case IPV6_TCLASS:
+ #include <linux/if_packet.h>
+@@ -2307,6 +2308,113 @@ print_optint:
+             break;
+         }
+         break;
++    case SOL_IPV6:
++        qemu_log("SOL_IPV6,");
++        switch (optname) {
++        case IPV6_MTU_DISCOVER:
++            qemu_log("IPV6_MTU_DISCOVER,");
++            goto print_optint;
++        case IPV6_MTU:
++            qemu_log("IPV6_MTU,");
++            goto print_optint;
++        case IPV6_V6ONLY:
++            qemu_log("IPV6_V6ONLY,");
++            goto print_optint;
++        case IPV6_RECVPKTINFO:
++            qemu_log("IPV6_RECVPKTINFO,");
++            goto print_optint;
++        case IPV6_UNICAST_HOPS:
++            qemu_log("IPV6_UNICAST_HOPS,");
++            goto print_optint;
++        case IPV6_MULTICAST_HOPS:
++            qemu_log("IPV6_MULTICAST_HOPS,");
++            goto print_optint;
++        case IPV6_MULTICAST_LOOP:
++            qemu_log("IPV6_MULTICAST_LOOP,");
++            goto print_optint;
++        case IPV6_RECVERR:
++            qemu_log("IPV6_RECVERR,");
++            goto print_optint;
++        case IPV6_RECVHOPLIMIT:
++            qemu_log("IPV6_RECVHOPLIMIT,");
++            goto print_optint;
++        case IPV6_2292HOPLIMIT:
++            qemu_log("IPV6_2292HOPLIMIT,");
++            goto print_optint;
++        case IPV6_CHECKSUM:
++            qemu_log("IPV6_CHECKSUM,");
++            goto print_optint;
++        case IPV6_ADDRFORM:
++            qemu_log("IPV6_ADDRFORM,");
++            goto print_optint;
++        case IPV6_2292PKTINFO:
++            qemu_log("IPV6_2292PKTINFO,");
++            goto print_optint;
++        case IPV6_RECVTCLASS:
++            qemu_log("IPV6_RECVTCLASS,");
++            goto print_optint;
++        case IPV6_RECVRTHDR:
++            qemu_log("IPV6_RECVRTHDR,");
++            goto print_optint;
++        case IPV6_2292RTHDR:
++            qemu_log("IPV6_2292RTHDR,");
++            goto print_optint;
++        case IPV6_RECVHOPOPTS:
++            qemu_log("IPV6_RECVHOPOPTS,");
++            goto print_optint;
++        case IPV6_2292HOPOPTS:
++            qemu_log("IPV6_2292HOPOPTS,");
++            goto print_optint;
++        case IPV6_RECVDSTOPTS:
++            qemu_log("IPV6_RECVDSTOPTS,");
++            goto print_optint;
++        case IPV6_2292DSTOPTS:
++            qemu_log("IPV6_2292DSTOPTS,");
++            goto print_optint;
++        case IPV6_TCLASS:
++            qemu_log("IPV6_TCLASS,");
++            goto print_optint;
 +        case IPV6_ADDR_PREFERENCES:
- #ifdef IPV6_RECVPATHMTU
-         case IPV6_RECVPATHMTU:
- #endif
-@@ -2680,6 +2682,7 @@ get_timeout:
-         case IPV6_RECVDSTOPTS:
-         case IPV6_2292DSTOPTS:
-         case IPV6_TCLASS:
-+        case IPV6_ADDR_PREFERENCES:
- #ifdef IPV6_RECVPATHMTU
-         case IPV6_RECVPATHMTU:
- #endif
++            qemu_log("IPV6_ADDR_PREFERENCES,");
++            goto print_optint;
++#ifdef IPV6_RECVPATHMTU
++        case IPV6_RECVPATHMTU:
++            qemu_log("IPV6_RECVPATHMTU,");
++            goto print_optint;
++#endif
++#ifdef IPV6_TRANSPARENT
++        case IPV6_TRANSPARENT:
++            qemu_log("IPV6_TRANSPARENT,");
++            goto print_optint;
++#endif
++#ifdef IPV6_FREEBIND
++        case IPV6_FREEBIND:
++            qemu_log("IPV6_FREEBIND,");
++            goto print_optint;
++#endif
++#ifdef IPV6_RECVORIGDSTADDR
++        case IPV6_RECVORIGDSTADDR:
++            qemu_log("IPV6_RECVORIGDSTADDR,");
++            goto print_optint;
++#endif
++        case IPV6_PKTINFO:
++            qemu_log("IPV6_PKTINFO,");
++            print_pointer(optval, 0);
++            break;
++        case IPV6_ADD_MEMBERSHIP:
++            qemu_log("IPV6_ADD_MEMBERSHIP,");
++            print_pointer(optval, 0);
++            break;
++        case IPV6_DROP_MEMBERSHIP:
++            qemu_log("IPV6_DROP_MEMBERSHIP,");
++            print_pointer(optval, 0);
++            break;
++        default:
++            print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
++            print_pointer(optval, 0);
++            break;
++        }
++        break;
+     default:
+         print_raw_param(TARGET_ABI_FMT_ld, level, 0);
+         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
 -- 
 2.28.0.220.ged08abb693-goog
 
