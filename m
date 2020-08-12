@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74062242AF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 16:08:48 +0200 (CEST)
-Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3680F242B16
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 16:13:57 +0200 (CEST)
+Received: from localhost ([::1]:34230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5rQt-0007MV-55
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 10:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59498)
+	id 1k5rVs-0001bb-8K
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 10:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5rPn-0006vo-Uw
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 10:07:39 -0400
-Received: from mail-am6eur05on2132.outbound.protection.outlook.com
- ([40.107.22.132]:57569 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k5rPj-0000V7-6E
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 10:07:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M5Q7gIuqixhd8+TxrbXUuGUIyv8x9dvAlobNz3Jc2pWnaKZ2ZZUU9ZuM6N17mAG2pLVOFIwScPDW58KgBKStBT/9nvLOL3elLv0u2m9kWMgZ92HvBMYx4AJWHnZm5wa6fKpUE+IeT0MA1CBkltvJVFrp1Ia3WZYdnCC7Xpy7LXhRd4tKMw4Ii5Ur+PxCsoDvbwSlG3dT/uKZCdAhWzi0oesIpsh75C+qJfO9fkLLme1U18aGbDoBvvDexcPdlOSPBYHIcOXWNnt/PwvYFZuMoTZsSuIt4KEhzro65pROnqBN24Xxhyj7dvXycieWFbD6AtySb6iaIvksu4eY3bWLrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7NN3tX4kUtnA6vcqOFhbcMSfroAT6sJnRW1/8Ojqp0=;
- b=hecjDkEsfH42wiiVMG8rrtTnDT8bF1VoyzcyOQsKzBKmURjXn/AyBVFB0N6zObp3lUK3UjbzyeYPjI5J3yldCH7LSkCBnu0FRm1z8Xq6W725Xhh6cy5pEU/jeJ63bDU/viOSGVNH8siR7EI0n5Obui+f1D2IFnSU+RarHtbgZTWYs6XD49GKSHvzpLlKmTGHxXmVZgQOIqYpy/JtzKc+ui039bxDRvvo0mVd9cmkHAIZBJLnjztDsmtlcU5LvZ5sKAwKrGmvNnZnlX8CXOJR0Oq+SdijWnMhvAIrdDIIpD2oKPA6n0hALmWtpXDFWEJZbME92Yr40ENkTAZjiCJnEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7NN3tX4kUtnA6vcqOFhbcMSfroAT6sJnRW1/8Ojqp0=;
- b=XM1/Nfl0JADvIKzF1kbvVFPcDdRx1/6pS27U21X9rdDQzQJmzuVup+M7z+UQYB2A1URzzCyck8go0MGVk8dfO6M+GDVKaSjTyW5uP01mjMJijuMC6m0vECZ71QPwjV/UwamSz47ImgTasFxDW4pmCfkvR3hf3i+tk0e+U0lNemA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
- by VE1PR03MB5520.eurprd03.prod.outlook.com (2603:10a6:803:119::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16; Wed, 12 Aug
- 2020 14:07:28 +0000
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.024; Wed, 12 Aug 2020
- 14:07:27 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Fix 'semop()' and 'semtimedop()' implementation
-Date: Wed, 12 Aug 2020 16:07:04 +0200
-Message-Id: <20200812140704.46242-1-Filip.Bozuta@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0208.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:9e::28) To VE1PR03MB5246.eurprd03.prod.outlook.com
- (2603:10a6:802:a1::22)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k5rUu-0000fE-Kp
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 10:12:56 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k5rUs-0001G4-TZ
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 10:12:56 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l2so2177778wrc.7
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 07:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=je6VphbiDfG1JG0+cuv27iYamG6VH0o4d0cYjOIwIU4=;
+ b=Gyrz6DPoeJr/WN/VCp9M4bBZFUbkGzl7ofF7jzPYD+bKZYaltRQWYfeCGB+RiZXo1g
+ MkVLe8Fx2DGElsB8TnScS6rtsuN8OIFABSFVgEz/QR3YMRfGFrj2+rRNZnuNBhiE1omn
+ mnmWsJiU25fw07opHDvhXpybhAw+bztBKojp45YOL6TEDC16vbYnJJZw8y38XcdCpiVF
+ Qm0FEMpWG+fdhKWqcuEfCyVDPJ/plcA95LZTvlLzt0TgOGwc8yoyS+PU4qz0HbLo80dg
+ 4ji71EwZ0smFwzBkJ1UU4sU6s1d9VUxpz1MqwUb5sTbkG+AZEk8XfY8xisUP4ozKxQnY
+ g4AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=je6VphbiDfG1JG0+cuv27iYamG6VH0o4d0cYjOIwIU4=;
+ b=BfdCmbJTc8GO+RyaeRXs5UzDO2PhrTyXjlCSSLlWbSAokLQwNeRcfAB8l1ym+3LHc+
+ vzplNHu1C227Isyj7IN2SqrL6acfZcGPeh5jRC8sl2AvT/SnqY48gYTo+HBe/h+NIRMQ
+ AEi13aYAjFNM+yu3RbPSlkMbA2K8b5FzBmsNY4YmRXmp3rff15K0F81xcGBFZR1oW1Lt
+ P8NwGevYe2w2EHVXDPnWKnQA/AnMRLnbXlpI9Yhn7wor7M6yrMHJMk5+cL0Kzyb61bFc
+ dF8ZYb75nMuB2k1AI6I8plQpJY2mlDbvvBU7JD5nBRHeGVo2UVA2atcLOfNiFzwJyLC2
+ aYjw==
+X-Gm-Message-State: AOAM533se1sLbsr5NpRfrhqbJcf55pLgBi3E2fPoOakO5q4MS2byDeaM
+ rEIPWxsQugXX7b2d2J/eV4HwPbapT8A=
+X-Google-Smtp-Source: ABdhPJxa77GpuoT+D5YGADRK9bSJpYg58KCZ/FxDY4JcYJQMROGch6+b7JheU3bNTMk+ih3bXUDNSA==
+X-Received: by 2002:a5d:644b:: with SMTP id d11mr32901022wrw.373.1597241572848; 
+ Wed, 12 Aug 2020 07:12:52 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g14sm4010686wme.16.2020.08.12.07.12.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Aug 2020 07:12:50 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 780F21FF7E;
+ Wed, 12 Aug 2020 15:12:49 +0100 (BST)
+References: <20200812101500.2066-1-zhaolichang@huawei.com>
+ <20200812101500.2066-2-zhaolichang@huawei.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: zhaolichang <zhaolichang@huawei.com>
+Subject: Re: [PATCH RFC 01/10] qemu/: fix some comment spelling errors
+In-reply-to: <20200812101500.2066-2-zhaolichang@huawei.com>
+Date: Wed, 12 Aug 2020 15:12:49 +0100
+Message-ID: <87eeoc0x7i.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (147.91.217.235) by
- LO2P265CA0208.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:9e::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.15 via Frontend Transport; Wed, 12 Aug 2020 14:07:27 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [147.91.217.235]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 102dc633-817c-49b3-389b-08d83ec90ba5
-X-MS-TrafficTypeDiagnostic: VE1PR03MB5520:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR03MB552014F2F8B9E5775D5DF8BBEB420@VE1PR03MB5520.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LhVt0F8li55ADaSTijX+QFEuw5p8iUECunCzjKX0a7cNsudNvWvYROP7gsB8WV7v0KvI65vWocKLX1F4cEjp4HMCCGGAUAMc0Dboj/e9QNYfsDo4JDEBAjT/9BtDuW7bhJBbK7JgY7ahT8SjxJi75MvH1arjVQ/XeITYwgnBFYyooLUd+xQTRdPre3AMD3/DKqen4Lv8+BWW3tXKfA8y/h+IcxEY4pPuqlNFzkSVNRn8Vu9ZEcL5M6I94q4UtaWdhnhgYEdEydIEoYHvk3coffIZ7srqM4uIbm/mZpAgAWrvQyU0A41dzBIIdNQPBUH7YBhiTUa7PKSe27zAtAn3NOG2VFd1BIgQuRMymHrQlP/SBFUGwvNSsmUVDORx5Rda
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(366004)(346002)(39830400003)(136003)(396003)(107886003)(6916009)(6512007)(1076003)(6486002)(8936002)(6666004)(69590400007)(54906003)(316002)(4326008)(6506007)(86362001)(36756003)(508600001)(956004)(83380400001)(2616005)(16526019)(186003)(5660300002)(26005)(52116002)(66476007)(66556008)(2906002)(8676002)(66946007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ZfRpzbLKgXIejDFccXmJAA0OqoDNpmBS67Zkm5lWqXEhdTo1QNAArCxwu0scTk5HySbV+pIBx5ebhlNxuCkQ455WX5dLpgyxGNLbpkH8oDVAtTau5ijotGM/RbueSqf+rjzjDeHUvaEKN05uKPE1XmYakKy0Q00Jxb4A0adEuFigz6ZZPsmNqx48qCI2qQF9hFvo1jBCm/7Af1LKW2X3nFWkbIIs6ZON2Cm4pcU9q6T6o1IcAY3JdWIK7Hs5HYIPztbvnUgNUf8FcEt2Mlram+O9eVUHo2ghjd43Fs0mVfuhLghubGKAXOL9BjMB9nA0jgu9VwaGg/Cule5V9jbMtTXrcI988rY0j1/f613mM8PSYS+tnMKl8IewNVgf/blSeKcR7tGPQ9KZeZ/rfdXMedsWUV1jFOitV4ObfriDJAnfgtqN3iUQ62b9OLbD1Bv4bkSpG9PpM2jfoKp7feuGastxrHqaVamik0T9ObQIYRUWF3etV9S7JfYDSc6a8pHPqM5ehtGoeuzzYfbLcuUnF63ek9xIdPJ3b4yr882eUqBv+xwZjOE4hG+kUcTLnBxnRkKeHMLPTxa8YJV8Xfv9Hy2XUcSvtks8uzr9u7RupBTwoHeCdto633FSDI3VOjLQRg8C93aZfZ+CiMmpkqe2oA==
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 102dc633-817c-49b3-389b-08d83ec90ba5
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2020 14:07:27.9649 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l8e5V0UbcdzyQJqu+V1/iNq2eF7Xa9B3CMdGP1p3Vh4oi/doLQxazfLCVg3LZXisjsEfzhhR7Q9kjEqOtjFdUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR03MB5520
-Received-SPF: pass client-ip=40.107.22.132;
- envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 10:07:33
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,70 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The implementations of syscalls 'semop()' and 'semtimedop()' in
-file 'syscall.c' use function 'target_to_host_sembuf()' to convert
-values of 'struct sembuf' from host to target. However, before this
-conversion it should be check whether the number of semaphore operations
-'nsops' is not bigger than maximum allowed semaphor operations per
-syscall: 'SEMOPM'. In these cases, errno 'E2BIG' ("Arg list too long")
-should be set. But the implementation will set errno 'EFAULT' ("Bad address")
-in this case since the conversion from target to host fails.
 
-This was confirmed with the LTP test for 'semop()' ('ipc/semop/semop02') in
-test case where 'nsops' is greater than SEMOPM with unaproppriate errno EFAULT:
+zhaolichang <zhaolichang@huawei.com> writes:
 
-semop02.c:130: FAIL: semop failed unexpectedly; expected: E2BIG: EFAULT (14)
+> I found that there are many spelling errors in the comments of qemu,
+> so I used the spellcheck tool to check the spelling errors
+> and finally found some spelling errors in the folder.
+>
+> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+> ---
+<snip>
 
-This patch changes this by adding a check whether 'nsops' is bigger than
-'SEMOPM' before the conversion function 'target_to_host_sembuf()' is called.
-After the changes from this patch, the test works fine along with the other
-LTP testcases for 'semop()'):
+> diff --git a/gdbstub.c b/gdbstub.c
+> index f3a318c..bbe66b5 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -698,7 +698,7 @@ static uint32_t gdb_get_cpu_pid(CPUState *cpu)
+>  {
+>      /* TODO: In user mode, we should use the task state PID */
+>      if (cpu->cluster_index =3D=3D UNASSIGNED_CLUSTER_INDEX) {
+> -        /* Return the default process' PID */
+> +        /* Return the default process's PID */
 
-semop02.c:126: PASS: semop failed as expected: E2BIG (7)
+Hmm I thought this was correct usage as s's -> s' but apparently that is
+only a given rule for possessive plural nouns (processes' PIDs) -
+although apparently it is possible to have singular nouns in plural
+forms so what do I know :-/
 
-Implementation notes:
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-    A target value ('TARGET_SEMOPM') was added for 'SEMOPM' as to be sure
-    in case the value is not available for some targets.
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
----
- linux-user/syscall.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1211e759c2..4743a5bef2 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -3899,6 +3899,8 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
-   (__nsops), 0, (__sops), (__timeout)
- #endif
- 
-+#define TARGET_SEMOPM 500
-+
- static inline abi_long do_semtimedop(int semid,
-                                      abi_long ptr,
-                                      unsigned nsops,
-@@ -3915,8 +3917,13 @@ static inline abi_long do_semtimedop(int semid,
-         }
-     }
- 
--    if (target_to_host_sembuf(sops, ptr, nsops))
-+    if (nsops > TARGET_SEMOPM) {
-+        return -TARGET_E2BIG;
-+    }
-+
-+    if (target_to_host_sembuf(sops, ptr, nsops)) {
-         return -TARGET_EFAULT;
-+    }
- 
-     ret = -TARGET_ENOSYS;
- #ifdef __NR_semtimedop
--- 
-2.25.1
-
+--=20
+Alex Benn=C3=A9e
 
