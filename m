@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6102427D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 11:46:12 +0200 (CEST)
-Received: from localhost ([::1]:41230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7265F2427E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 11:51:51 +0200 (CEST)
+Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5nKl-0007hA-VA
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 05:46:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
+	id 1k5nQE-00009v-HK
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 05:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k5nIR-0003kf-KF
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:43:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33101
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k5nLk-0002bO-Hw
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:47:12 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54961
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k5nIO-0006py-1E
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:43:46 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k5nLi-0007HC-HY
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597225422;
+ s=mimecast20190719; t=1597225628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WKLO7yyv5ntdbIaBRtMGcZmUc3SBFtDHhXuYVBS0KzI=;
- b=i2Fr3Y/sKr9WqKewmYEvBsUJKHd5zI5BtxqwT37A7xc/IAI136BiBFJvhMZMBpYbKfV19H
- X/8pG6tIr+OC/jFHntdgBh3X6ArIGEfDi/KLncgAQyUZgTUYr0iuisfmcLHAloix5zc66o
- lHHyeH1PS8QSdi7V+q9h7/bag4EyxW0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-LUMCcGi-PbacDzQWuO_z_A-1; Wed, 12 Aug 2020 05:43:40 -0400
-X-MC-Unique: LUMCcGi-PbacDzQWuO_z_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EEA31005E6B;
- Wed, 12 Aug 2020 09:43:39 +0000 (UTC)
-Received: from work-vm (ovpn-113-233.ams2.redhat.com [10.36.113.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C5F860BF3;
- Wed, 12 Aug 2020 09:43:37 +0000 (UTC)
-Date: Wed, 12 Aug 2020 10:43:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [PATCH 1/2] migration: unify the framework of socket-type channel
-Message-ID: <20200812094335.GA2810@work-vm>
-References: <20200806074030.174-1-longpeng2@huawei.com>
- <20200806074030.174-2-longpeng2@huawei.com>
+ bh=Fisb5KYwmkj8zR54NkRmW04JIJUf3d3+AbYmwzs6PuE=;
+ b=EO32Cvb/E1xZwlxDlT0XFE8Jny6eDVaOL+4p5vlAAB7N4c56hFUCeE4IfuPDX6Y/NTwevp
+ 2fB5MU1VyxPHNUMeq3I61V5QYGUrEKNJJr+VW83TfVeFHdQxZSHx3Tw2Jjb5VxnlhKAKtt
+ 1iAYZiGO/4NwmptlCXlwFv4Birttzx4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-Fpx3quN7MnCP_ILQTGABSg-1; Wed, 12 Aug 2020 05:47:05 -0400
+X-MC-Unique: Fpx3quN7MnCP_ILQTGABSg-1
+Received: by mail-wm1-f69.google.com with SMTP id z10so682065wmi.8
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 02:47:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fisb5KYwmkj8zR54NkRmW04JIJUf3d3+AbYmwzs6PuE=;
+ b=ThuutfbhCFb1W+sr3d/BdXf2xpDxOmJoty2NosVV1XtT6dm5fI5A17jnprBQY5xTUo
+ 2vfA76gdfeHE8EHx9x7baBru7DVvagdPrcnPel3ZNWJJTfSbDERui+eESO3L6VqHsE+R
+ y0dq6oiU0/WZVvTysPCwoE1H+Cj2MDdEzLXwRPI7hibIDJufoWMgEaafDWAED7vF+89f
+ 898BnOTZmLNIzA+YVU3xlpjW/gb1/9OCKVswmRSNX4bL4G6ELfhVdYZo4GDbIdHyiFSg
+ tAlWLvkf4iPA8af7XUdza70MWR/zMhA4ZFxpRUU/yuV08sCuPsA+5iMyWWSIj+3kyEoa
+ Ff6A==
+X-Gm-Message-State: AOAM533+PcnarQ6iMEG6vILChC6B2i5OO0VGKtZAeL9+9yujs/S1qmVq
+ aSjiIvDYEDokma4kdHX+7KEUORqVJTj49exoS7EXji9A3wT/N1UQhRU92u9HV7uZGSOIVc21S9c
+ a/wp0cFZZs2U3TDA=
+X-Received: by 2002:adf:c552:: with SMTP id s18mr31922592wrf.209.1597225624111; 
+ Wed, 12 Aug 2020 02:47:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7ArIYiBmc3CEykdJZ8rASdxc0Hm8N3XJV6UHdnYu33jg8lXOD9qH3rQjZUkOhU2FgOWr5hQ==
+X-Received: by 2002:adf:c552:: with SMTP id s18mr31922568wrf.209.1597225623836; 
+ Wed, 12 Aug 2020 02:47:03 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:744e:cb44:4103:26d3?
+ ([2001:b07:6468:f312:744e:cb44:4103:26d3])
+ by smtp.gmail.com with ESMTPSA id t11sm2986720wrs.66.2020.08.12.02.47.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Aug 2020 02:47:03 -0700 (PDT)
+Subject: Re: [PATCH 08/11] stubs/notify-event: Mark qemu_notify_event() stub
+ as "weak"
+To: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200804170055.2851-1-thuth@redhat.com>
+ <20200804170055.2851-9-thuth@redhat.com>
+ <1cd4b50f-7195-ac05-cd37-c7681747fbf3@linaro.org>
+ <cecf29fe-f079-ba44-2096-27a049a9647d@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ce06de15-c72a-a334-6b5c-41799b236f54@redhat.com>
+Date: Wed, 12 Aug 2020 11:47:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200806074030.174-2-longpeng2@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <cecf29fe-f079-ba44-2096-27a049a9647d@redhat.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.003
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 04:27:07
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 04:50:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,238 +108,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arei.gonglei@huawei.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Longpeng(Mike) (longpeng2@huawei.com) wrote:
-> Currently, the only difference of tcp channel and unix channel in
-> migration/socket.c is the way to build SocketAddress, but socket_parse()
-> can handle these two types, so use it to instead of tcp_build_address()
-> and unix_build_address().
+On 04/08/20 20:20, Thomas Huth wrote:
+> On 04/08/2020 19.50, Richard Henderson wrote:
+>> On 8/4/20 10:00 AM, Thomas Huth wrote:
+>>> Otherwise there is a linker error with MinGW while compiling the tests:
+>>>
+>>>   LINK    tests/test-timed-average.exe
+>>>  libqemuutil.a(main-loop.o): In function `qemu_notify_event':
+>>>  /builds/huth/qemu/util/main-loop.c:139: multiple definition of
+>>>   `qemu_notify_event'
+>>>  tests/test-timed-average.o:/builds/huth/qemu/tests/../stubs/notify-event.c:5:
+>>>   first defined here
+>>>  collect2: error: ld returned 1 exit status
+>>>  /builds/huth/qemu/rules.mak:124: recipe for target
+>>>   'tests/test-timed-average.exe' failed
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>  stubs/notify-event.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> That doesn't make sense.  Since the symbol is satisfied from main-loop.c, it
+>> should not be pulled in from libqemuutil.a.
+>>
+>> What's really happening here?
 > 
-> The socket-type channel can be further unified based on the up, this
-> would be helpful for us to add other socket-type channels.
-> 
-> Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
+> Honestly, I don't have a clue. But since commit ebedb37c8d2aa4775, both
+> the code from util/ and from stubs/ are put into the same library,
+> libqemuutil.a, which is causing the trouble here, I guess.
+> Maybe the linker pulled in the code from the stub first, then some other
+> part used another function from  util/main-loop.c which caused the
+> linker to pull in main-loop.o, too, so that it finally found that there
+> is a clash? ... but that's just a plain guess, of course. Paolo (as
+> author of commit ebedb37c8d2), do you have an idea what might be going
+> on here?
 
-Nice; this saves a chunk of code.
+I think your analysis is right but is the stub needed at all, since te
+linker can include util/main-loop.c instead?
 
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  migration/migration.c | 18 ++++++-------
->  migration/socket.c    | 72 +++++++++++----------------------------------------
->  migration/socket.h    | 11 +++-----
->  3 files changed, 26 insertions(+), 75 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 8fe3633..3160b95 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -377,21 +377,20 @@ void migrate_add_address(SocketAddress *address)
->  
->  void qemu_start_incoming_migration(const char *uri, Error **errp)
->  {
-> -    const char *p;
-> +    const char *p = NULL;
->  
->      qapi_event_send_migration(MIGRATION_STATUS_SETUP);
->      if (!strcmp(uri, "defer")) {
->          deferred_incoming_migration(errp);
-> -    } else if (strstart(uri, "tcp:", &p)) {
-> -        tcp_start_incoming_migration(p, errp);
-> +    } else if (strstart(uri, "tcp:", &p) ||
-> +               strstart(uri, "unix:", NULL)) {
-> +        socket_start_incoming_migration(p ? p : uri, errp);
->  #ifdef CONFIG_RDMA
->      } else if (strstart(uri, "rdma:", &p)) {
->          rdma_start_incoming_migration(p, errp);
->  #endif
->      } else if (strstart(uri, "exec:", &p)) {
->          exec_start_incoming_migration(p, errp);
-> -    } else if (strstart(uri, "unix:", &p)) {
-> -        unix_start_incoming_migration(p, errp);
->      } else if (strstart(uri, "fd:", &p)) {
->          fd_start_incoming_migration(p, errp);
->      } else {
-> @@ -2064,7 +2063,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
->  {
->      Error *local_err = NULL;
->      MigrationState *s = migrate_get_current();
-> -    const char *p;
-> +    const char *p = NULL;
->  
->      if (!migrate_prepare(s, has_blk && blk, has_inc && inc,
->                           has_resume && resume, errp)) {
-> @@ -2072,16 +2071,15 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
->          return;
->      }
->  
-> -    if (strstart(uri, "tcp:", &p)) {
-> -        tcp_start_outgoing_migration(s, p, &local_err);
-> +    if (strstart(uri, "tcp:", &p) ||
-> +        strstart(uri, "unix:", NULL)) {
-> +        socket_start_outgoing_migration(s, p ? p : uri, &local_err);
->  #ifdef CONFIG_RDMA
->      } else if (strstart(uri, "rdma:", &p)) {
->          rdma_start_outgoing_migration(s, p, &local_err);
->  #endif
->      } else if (strstart(uri, "exec:", &p)) {
->          exec_start_outgoing_migration(s, p, &local_err);
-> -    } else if (strstart(uri, "unix:", &p)) {
-> -        unix_start_outgoing_migration(s, p, &local_err);
->      } else if (strstart(uri, "fd:", &p)) {
->          fd_start_outgoing_migration(s, p, &local_err);
->      } else {
-> diff --git a/migration/socket.c b/migration/socket.c
-> index 97c9efd..6016642 100644
-> --- a/migration/socket.c
-> +++ b/migration/socket.c
-> @@ -50,34 +50,6 @@ int socket_send_channel_destroy(QIOChannel *send)
->      return 0;
->  }
->  
-> -static SocketAddress *tcp_build_address(const char *host_port, Error **errp)
-> -{
-> -    SocketAddress *saddr;
-> -
-> -    saddr = g_new0(SocketAddress, 1);
-> -    saddr->type = SOCKET_ADDRESS_TYPE_INET;
-> -
-> -    if (inet_parse(&saddr->u.inet, host_port, errp)) {
-> -        qapi_free_SocketAddress(saddr);
-> -        return NULL;
-> -    }
-> -
-> -    return saddr;
-> -}
-> -
-> -
-> -static SocketAddress *unix_build_address(const char *path)
-> -{
-> -    SocketAddress *saddr;
-> -
-> -    saddr = g_new0(SocketAddress, 1);
-> -    saddr->type = SOCKET_ADDRESS_TYPE_UNIX;
-> -    saddr->u.q_unix.path = g_strdup(path);
-> -
-> -    return saddr;
-> -}
-> -
-> -
->  struct SocketConnectData {
->      MigrationState *s;
->      char *hostname;
-> @@ -109,9 +81,10 @@ static void socket_outgoing_migration(QIOTask *task,
->      object_unref(OBJECT(sioc));
->  }
->  
-> -static void socket_start_outgoing_migration(MigrationState *s,
-> -                                            SocketAddress *saddr,
-> -                                            Error **errp)
-> +static void
-> +socket_start_outgoing_migration_internal(MigrationState *s,
-> +                                         SocketAddress *saddr,
-> +                                         Error **errp)
->  {
->      QIOChannelSocket *sioc = qio_channel_socket_new();
->      struct SocketConnectData *data = g_new0(struct SocketConnectData, 1);
-> @@ -135,27 +108,18 @@ static void socket_start_outgoing_migration(MigrationState *s,
->                                       NULL);
->  }
->  
-> -void tcp_start_outgoing_migration(MigrationState *s,
-> -                                  const char *host_port,
-> -                                  Error **errp)
-> +void socket_start_outgoing_migration(MigrationState *s,
-> +                                     const char *str,
-> +                                     Error **errp)
->  {
->      Error *err = NULL;
-> -    SocketAddress *saddr = tcp_build_address(host_port, &err);
-> +    SocketAddress *saddr = socket_parse(str, &err);
->      if (!err) {
-> -        socket_start_outgoing_migration(s, saddr, &err);
-> +        socket_start_outgoing_migration_internal(s, saddr, &err);
->      }
->      error_propagate(errp, err);
->  }
->  
-> -void unix_start_outgoing_migration(MigrationState *s,
-> -                                   const char *path,
-> -                                   Error **errp)
-> -{
-> -    SocketAddress *saddr = unix_build_address(path);
-> -    socket_start_outgoing_migration(s, saddr, errp);
-> -}
-> -
-> -
->  static void socket_accept_incoming_migration(QIONetListener *listener,
->                                               QIOChannelSocket *cioc,
->                                               gpointer opaque)
-> @@ -173,8 +137,9 @@ static void socket_accept_incoming_migration(QIONetListener *listener,
->  }
->  
->  
-> -static void socket_start_incoming_migration(SocketAddress *saddr,
-> -                                            Error **errp)
-> +static void
-> +socket_start_incoming_migration_internal(SocketAddress *saddr,
-> +                                         Error **errp)
->  {
->      QIONetListener *listener = qio_net_listener_new();
->      size_t i;
-> @@ -207,20 +172,13 @@ static void socket_start_incoming_migration(SocketAddress *saddr,
->      }
->  }
->  
-> -void tcp_start_incoming_migration(const char *host_port, Error **errp)
-> +void socket_start_incoming_migration(const char *str, Error **errp)
->  {
->      Error *err = NULL;
-> -    SocketAddress *saddr = tcp_build_address(host_port, &err);
-> +    SocketAddress *saddr = socket_parse(str, &err);
->      if (!err) {
-> -        socket_start_incoming_migration(saddr, &err);
-> +        socket_start_incoming_migration_internal(saddr, &err);
->      }
->      qapi_free_SocketAddress(saddr);
->      error_propagate(errp, err);
->  }
-> -
-> -void unix_start_incoming_migration(const char *path, Error **errp)
-> -{
-> -    SocketAddress *saddr = unix_build_address(path);
-> -    socket_start_incoming_migration(saddr, errp);
-> -    qapi_free_SocketAddress(saddr);
-> -}
-> diff --git a/migration/socket.h b/migration/socket.h
-> index 528c3b0..891dbcc 100644
-> --- a/migration/socket.h
-> +++ b/migration/socket.h
-> @@ -23,13 +23,8 @@
->  void socket_send_channel_create(QIOTaskFunc f, void *data);
->  int socket_send_channel_destroy(QIOChannel *send);
->  
-> -void tcp_start_incoming_migration(const char *host_port, Error **errp);
-> +void socket_start_incoming_migration(const char *str, Error **errp);
->  
-> -void tcp_start_outgoing_migration(MigrationState *s, const char *host_port,
-> -                                  Error **errp);
-> -
-> -void unix_start_incoming_migration(const char *path, Error **errp);
-> -
-> -void unix_start_outgoing_migration(MigrationState *s, const char *path,
-> -                                   Error **errp);
-> +void socket_start_outgoing_migration(MigrationState *s, const char *str,
-> +                                     Error **errp);
->  #endif
-> -- 
-> 1.8.3.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Paolo
 
 
