@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95357242D83
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 18:41:49 +0200 (CEST)
-Received: from localhost ([::1]:53484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A542E242D57
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 18:32:24 +0200 (CEST)
+Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5toy-0007RV-Lu
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 12:41:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
+	id 1k5tfr-0001aV-F5
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 12:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k5toE-0006y9-67; Wed, 12 Aug 2020 12:41:02 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:40459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k5toB-00045o-A5; Wed, 12 Aug 2020 12:41:01 -0400
-Received: by mail-il1-x142.google.com with SMTP id x1so2367571ilp.7;
- Wed, 12 Aug 2020 09:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WNvNPXWPfE9l3sTS7CTrUl9KyStKg4151mJXx5lyPYE=;
- b=HNsMPtrnzMWl1k0qes1OS5/5Dz6Oq00ZF5r25U0tSNr+v7xUjU5fdlRLVOjc+i9Dn8
- HG8oy3D30/2m3WTlSDEk0qB2ciItGR7KsAaTA3ytKqQapzstsFZ0QZdh34RZOjhTwCqH
- r1BhUCfe32kTWYTUM5h1vWFCxrpmLLSwoKgvpF4Xf0vGV8wfCBlQiEXtw6jlvd3/PUxT
- D4aFl3OKaAs70wcswdGubuiOM9e4kfZlqoEZx6kgn2zbCt1QvaOaq6SlgYG0o/FUvosq
- FoJrlSc8TY2hq7TclXL6HoPWDUk26OEPElnfal274Z1jBvESLbJ2aWquqVk7mRW/DSHb
- QzfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WNvNPXWPfE9l3sTS7CTrUl9KyStKg4151mJXx5lyPYE=;
- b=fseoJKpogq54ZkVRYHJFbIz2qxTG0nXJ8qch3xF+M/Z26x+gKflUjcJTCinm8YhGlY
- Ck9t2sD9KQT/qF3dyQ+NLP38f7sE9G3E/0U+NksBwC8QTHiah97l6udyz4pJkJ0qm12g
- 9uWsiEFJA5++tRaQH3FiChlSZJBW+pYciYPTpT4/FvZ9M8q5T9wLwY9XOVbfLhuzSHr9
- E9OH2USVtsPcIuJo4/Gspf3WX8kapmE1+yLIdryH4hkAg8VvkIDPYxHe6/xNx6fGxZ/v
- KEuXFDlIwAejK37YPo5T4H+wXf3VFlT7jaKLDwbMXpQMFx/TJQqUx+A4TKImK+T1cjXd
- WWcg==
-X-Gm-Message-State: AOAM532ndB0drB80nmhfcuYR7LBhP6Iodml8DZvm1FiYb4zHL/B4DCUU
- FF/iHGdKNEU2+qNuWCMaHVL0REmk+m3U9sZwTSI=
-X-Google-Smtp-Source: ABdhPJyolds156rpD+dvZp44J0V29bWq9jMHvXf4a6TvhCnYP/Uyk2Jne6WU9PlcAnfE0bald6jZauEzZNTEOLxACRQ=
-X-Received: by 2002:a05:6e02:ef3:: with SMTP id
- j19mr512952ilk.227.1597250457293; 
- Wed, 12 Aug 2020 09:40:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k5teq-0001AJ-Gy
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 12:31:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20165
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k5ten-0002tE-QQ
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 12:31:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597249876;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nL042blPnbkxGPrh7SiGRT0k9DUl7O4qmBx3Bk6UxDQ=;
+ b=P0vPTgm2am14ppq4/tgLACHxURQmkmkIWDcU0uvdM0C/CWRpOgIwnkvmrKB4c5X6i9VIW4
+ cISkZopvY8Qe6mYE5g8VG96XOQbKTn3mXEIOfcqreiDRFCgpeD0yNJvgx5oxhrloV8rOxJ
+ wj1mEJ5JSy49S1II+kP465UJ7HM4Sco=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-7jfL6D9oMm6l4MiIFNKJXg-1; Wed, 12 Aug 2020 12:31:12 -0400
+X-MC-Unique: 7jfL6D9oMm6l4MiIFNKJXg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E224E931;
+ Wed, 12 Aug 2020 16:31:11 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F082F60CC8;
+ Wed, 12 Aug 2020 16:31:09 +0000 (UTC)
+Date: Wed, 12 Aug 2020 18:31:07 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] target/arm: Add cpu property to control pauth
+Message-ID: <20200812163107.lbubi6c7ei7i5hmw@kamzik.brq.redhat.com>
+References: <20200812065339.2030527-1-richard.henderson@linaro.org>
+ <20200812065339.2030527-2-richard.henderson@linaro.org>
+ <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
+ <2219f3f9-7894-f898-0cad-43eccaa2a70d@linaro.org>
 MIME-Version: 1.0
-References: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com>
- <1596102747-20226-2-git-send-email-chihmin.chao@sifive.com>
-In-Reply-To: <1596102747-20226-2-git-send-email-chihmin.chao@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 12 Aug 2020 09:30:31 -0700
-Message-ID: <CAKmqyKM8nKVKW6iae7kZ2Ouq6LQ-cvQPo7eSm3PKC_dDOU9QSA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] softfloat: target/riscv: implement full set fp16
- comparision
-To: Chih-Min Chao <chihmin.chao@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2219f3f9-7894-f898-0cad-43eccaa2a70d@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 10:32:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,160 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: mark.rutland@arm.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 30, 2020 at 2:54 AM Chih-Min Chao <chihmin.chao@sifive.com> wro=
-te:
->
-> From: Kito Cheng <kito.cheng@sifive.com>
->
-> Implement them in softfloat and remove local version in riscv
->
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
-> Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On Wed, Aug 12, 2020 at 08:10:47AM -0700, Richard Henderson wrote:
+> On 8/12/20 4:00 AM, Andrew Jones wrote:
+> > On Tue, Aug 11, 2020 at 11:53:38PM -0700, Richard Henderson wrote:
+> >> The crypto overhead of emulating pauth can be significant for
+> >> some workloads.  Add an enumeration property that allows the
+> >> feature to be turned off, on with the architected algorithm,
+> >> or on with an implementation defined algorithm.
+> >>
+> >> The architected algorithm is quite expensive to emulate;
+> >> using another algorithm may allow hardware acceleration.
+> >>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >>  target/arm/cpu64.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++
+> >>  1 file changed, 64 insertions(+)
+> >>
+> >> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> >> index dd696183df..3181d0e2f8 100644
+> >> --- a/target/arm/cpu64.c
+> >> +++ b/target/arm/cpu64.c
+> >> @@ -572,6 +572,69 @@ void aarch64_add_sve_properties(Object *obj)
+> >>      }
+> >>  }
+> >>  
+> >> +static const char * const pauth_names[] = {
+> >> +    "off", "impdef", "arch"
+> >> +};
+> > 
+> > Hi Richard,
+> > 
+> > Please add three boolean properties, rather than one enum:
+> > 
+> > pauth:            enable support of the pauth feature
+> > pauth-fast:       enable QEMU's fast non-cryptographic hash for pauth
+> >                   (pauth must be enabled)
+> > pauth-arch:       enable the architected algorithm for pauth
+> >                   (pauth must be enabled)
+> > 
+> > These booleans can then be added to the cpu feature probing list used by
+> > qmp_query_cpu_model_expansion()
+> 
+> Why are 3 booleans better than one enum?
+> 
+> I'd forgotten about qmp_query_cpu_model_expansion(); can it not take anything
+> but booleans?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Right. The probing works by getting a list of possible CPU features, which
+are all boolean properties. That way the prober can try enabling/disabling
+them without having to know about each property's set of valid values. We
+could implement each as an enum and a second level of probing, but that
+would complicate the probing, and I'm not sure enums gain us much over
+multiple properties.
 
-Alistair
+In this case, since pauth-fast and pauth-arch are mutually exclusive and
+we want a pauth=on/off too, then we'll need a finalize function like SVE
+has in order to support the following selections:
 
-> ---
->  include/fpu/softfloat.h      | 41 ++++++++++++++++++++++++++++++++++++++=
-+++
->  target/riscv/vector_helper.c | 25 -------------------------
->  2 files changed, 41 insertions(+), 25 deletions(-)
->
-> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-> index 659218b..573fce9 100644
-> --- a/include/fpu/softfloat.h
-> +++ b/include/fpu/softfloat.h
-> @@ -285,6 +285,47 @@ static inline float16 float16_set_sign(float16 a, in=
-t sign)
->      return make_float16((float16_val(a) & 0x7fff) | (sign << 15));
->  }
->
-> +static inline bool float16_eq(float16 a, float16 b, float_status *s)
-> +{
-> +    return float16_compare(a, b, s) =3D=3D float_relation_equal;
-> +}
-> +
-> +static inline bool float16_le(float16 a, float16 b, float_status *s)
-> +{
-> +    return float16_compare(a, b, s) <=3D float_relation_equal;
-> +}
-> +
-> +static inline bool float16_lt(float16 a, float16 b, float_status *s)
-> +{
-> +    return float16_compare(a, b, s) < float_relation_equal;
-> +}
-> +
-> +static inline bool float16_unordered(float16 a, float16 b, float_status =
-*s)
-> +{
-> +    return float16_compare(a, b, s) =3D=3D float_relation_unordered;
-> +}
-> +
-> +static inline bool float16_eq_quiet(float16 a, float16 b, float_status *=
-s)
-> +{
-> +    return float16_compare_quiet(a, b, s) =3D=3D float_relation_equal;
-> +}
-> +
-> +static inline bool float16_le_quiet(float16 a, float16 b, float_status *=
-s)
-> +{
-> +    return float16_compare_quiet(a, b, s) <=3D float_relation_equal;
-> +}
-> +
-> +static inline bool float16_lt_quiet(float16 a, float16 b, float_status *=
-s)
-> +{
-> +    return float16_compare_quiet(a, b, s) < float_relation_equal;
-> +}
-> +
-> +static inline bool float16_unordered_quiet(float16 a, float16 b,
-> +                                           float_status *s)
-> +{
-> +    return float16_compare_quiet(a, b, s) =3D=3D float_relation_unordere=
-d;
-> +}
-> +
->  #define float16_zero make_float16(0)
->  #define float16_half make_float16(0x3800)
->  #define float16_one make_float16(0x3c00)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 39f44d1..c68e6c4 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -3955,12 +3955,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, v=
-oid *vs2,   \
->      }                                                         \
->  }
->
-> -static bool float16_eq_quiet(uint16_t a, uint16_t b, float_status *s)
-> -{
-> -    FloatRelation compare =3D float16_compare_quiet(a, b, s);
-> -    return compare =3D=3D float_relation_equal;
-> -}
-> -
->  GEN_VEXT_CMP_VV_ENV(vmfeq_vv_h, uint16_t, H2, float16_eq_quiet)
->  GEN_VEXT_CMP_VV_ENV(vmfeq_vv_w, uint32_t, H4, float32_eq_quiet)
->  GEN_VEXT_CMP_VV_ENV(vmfeq_vv_d, uint64_t, H8, float64_eq_quiet)
-> @@ -4017,12 +4011,6 @@ GEN_VEXT_CMP_VF(vmfne_vf_h, uint16_t, H2, vmfne16)
->  GEN_VEXT_CMP_VF(vmfne_vf_w, uint32_t, H4, vmfne32)
->  GEN_VEXT_CMP_VF(vmfne_vf_d, uint64_t, H8, vmfne64)
->
-> -static bool float16_lt(uint16_t a, uint16_t b, float_status *s)
-> -{
-> -    FloatRelation compare =3D float16_compare(a, b, s);
-> -    return compare =3D=3D float_relation_less;
-> -}
-> -
->  GEN_VEXT_CMP_VV_ENV(vmflt_vv_h, uint16_t, H2, float16_lt)
->  GEN_VEXT_CMP_VV_ENV(vmflt_vv_w, uint32_t, H4, float32_lt)
->  GEN_VEXT_CMP_VV_ENV(vmflt_vv_d, uint64_t, H8, float64_lt)
-> @@ -4030,13 +4018,6 @@ GEN_VEXT_CMP_VF(vmflt_vf_h, uint16_t, H2, float16_=
-lt)
->  GEN_VEXT_CMP_VF(vmflt_vf_w, uint32_t, H4, float32_lt)
->  GEN_VEXT_CMP_VF(vmflt_vf_d, uint64_t, H8, float64_lt)
->
-> -static bool float16_le(uint16_t a, uint16_t b, float_status *s)
-> -{
-> -    FloatRelation compare =3D float16_compare(a, b, s);
-> -    return compare =3D=3D float_relation_less ||
-> -           compare =3D=3D float_relation_equal;
-> -}
-> -
->  GEN_VEXT_CMP_VV_ENV(vmfle_vv_h, uint16_t, H2, float16_le)
->  GEN_VEXT_CMP_VV_ENV(vmfle_vv_w, uint32_t, H4, float32_le)
->  GEN_VEXT_CMP_VV_ENV(vmfle_vv_d, uint64_t, H8, float64_le)
-> @@ -4091,12 +4072,6 @@ GEN_VEXT_CMP_VF(vmfge_vf_h, uint16_t, H2, vmfge16)
->  GEN_VEXT_CMP_VF(vmfge_vf_w, uint32_t, H4, vmfge32)
->  GEN_VEXT_CMP_VF(vmfge_vf_d, uint64_t, H8, vmfge64)
->
-> -static bool float16_unordered_quiet(uint16_t a, uint16_t b, float_status=
- *s)
-> -{
-> -    FloatRelation compare =3D float16_compare_quiet(a, b, s);
-> -    return compare =3D=3D float_relation_unordered;
-> -}
-> -
->  GEN_VEXT_CMP_VV_ENV(vmford_vv_h, uint16_t, H2, !float16_unordered_quiet)
->  GEN_VEXT_CMP_VV_ENV(vmford_vv_w, uint32_t, H4, !float32_unordered_quiet)
->  GEN_VEXT_CMP_VV_ENV(vmford_vv_d, uint64_t, H8, !float64_unordered_quiet)
-> --
-> 2.7.4
->
->
+ # Default (pauth-arch), explicitly selected or not
+ -cpu max[,pauth=on]
+ -cpu max[,pauth=on][,pauth-fast=off],pauth-arch=on
+
+ # Select pauth-fast
+ -cpu max[,pauth=on][,pauth-arch=off],pauth-fast=on
+
+ # Disable
+ -cpu max,pauth=off
+ -cpu max[,pauth=off],pauth-arch=off,pauth-fast=off
+
+ # Mutual exclusion errors
+ -cpu max,pauth=off,pauth-{arch,fast}=on
+ -cpu max,pauth=on,pauth-arch=off,pauth-fast=off
+ -cpu max[,pauth=on],pauth-arch=on,pauth-fast=on
+
+ # Errors because we don't want to guess what the user means
+ -cpu max[,pauth=on],pauth-arch=off
+ -cpu max[,pauth=on],pauth-fast=off
+ 
+
+Thanks,
+drew
+
 
