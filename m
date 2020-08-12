@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034AB243127
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:51:21 +0200 (CEST)
-Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F2A24311F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:48:30 +0200 (CEST)
+Received: from localhost ([::1]:60310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5zaa-0002TE-2u
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
+	id 1k5zXq-0005Sk-1a
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQY-0002OE-Ht
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:58 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56480)
+ id 1k5zQW-0002K2-OZ
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:56 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQV-0005oE-59
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:58 -0400
+ id 1k5zQU-0005m7-GO
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597272055; x=1628808055;
+ t=1597272054; x=1628808054;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nJLaTyf8APEUPNSKIY1asPcvSjkbcpRRCKeaBNyeFOc=;
- b=de3wDI1X6wwgOS9eJj7/nLdiKLXuSWLeUHvMj8lgeEKDz2JG28Luj9bK
- 7eC5h1dVVwEc7/YYmMPwCxddyC75sgx0K8ZGiqB1Vn4wXI9Q9X8CxiAxy
- 4f5nEmmiZF7lBhDgLLFq3iOL4NkbEV91SexQhzoniJGnnJBoEFlj7nQdH
- KzPjfOuvMxUwzywRi0O/Nr5dxuzvKyBfs1sVppxC2IX+U+IOIWkZVbapB
- AEHPawcugOq7i1qziifpz3SfTWAT9xJi3C9E1VXBF2Ojk7cghcZVXCgmV
- uuIq3G/P9P6qSzjJovqoG+jdZYyioz6EMjwtS/socqczleMGL9KKYmAzA A==;
-IronPort-SDR: qnKOyPDYm49BerO/YRJYEvnaJrZDPNU9zFW+Ca3pLd5x4P0R6zHq/v7xdOiamEEaBNBU8gZNgm
- HiZ3x0kJFLaAj9DYJNUCau/CJHJwFd58/h1bqY+Ek1g8kvZREfQ4SjosMtjSXFuyXERXaktA02
- Hxk7BzTz1UL6iYq/QRnG6cH5ozbbhdc98svvcEAS46t9uh6xT/na8PhTH/Zwr3ROcHDYKkr0VV
- 1Th53eovbus3ex0qYEkhBOamDXzE7qVTIclKT4SKS4+BW1nfmMAGsEaM2fj4tQrHCXBA3PDxpL
- iU0=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144853395"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
+ bh=VWIRA4MvJfHg3q+KNZoxT6diO+bgU4E92KEQUmjiKA8=;
+ b=gJIhqfV3ANbQeTzKYRSnXYVEiG6XJDwI4iC10xEoKmIyzxZBKazKAjdK
+ Z3x+eXniE1dUqRHR1IL4prQMvyxjBDp9LXaw4qtTxM+K4QYJR2EBKxlLv
+ /P76jFcfrsRFJUH592ocZqmyEUG477Rpnw7OvkUrDzeY7kdnvXsQLqRr4
+ uM6xl8mDylxvsF5wYU05GyVWNS2GC6wVVK3YSNqRcNetd7vOstqH72iCD
+ p6A+hrF/CSVa6hNo0tsZlborShSrUDTOt2h+NeXd8fub/KuIeERxCZ633
+ eFURC17Eup1AbffDt/LRhKXmGnlcOITKv9SHkuQ2f9yj1qIQ1MyoXLW9w w==;
+IronPort-SDR: bmz7toj7N0KWvHMVmE9NZDQgRnozprObzDm1cwz9VFDHyxHpan/LsJhOH6L3l/L/GrP2Rp+g+W
+ 9cStY+wMaJEVfYj8D0HCrYzyVI69Cg4nrVV8Ck+Tg0OOeQt4hrWH7Yklq5wQmu/b0PVa5vSHOs
+ fXe2AVyJZvXEUkgNPuGxXGBwTUdrxVMOhTleIyYQN8lHKa5DTsaJ0jhnApinVVyraDkfD48j8I
+ oygtwxexRbnBMdWXLOQ2toWoZ7raWhAEl1dU0S5IC/wUKNMT6oHVuz6itOs1SSaklGfBMPyWHL
+ j3k=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="254208931"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:49 +0800
-IronPort-SDR: QSt6NjxLmCZTazLN6jSi2Cr60HWUzX/fVpM8g5js0TKxCEDf1BQZpxCXac97k3z1L34nDdWTY3
- QJUWakxkM58w==
+IronPort-SDR: WA1mP93I0Jw6oip6CcELkjW5mMr+yxWbNns0UBk/qvFC7qwIgP/lSt5fSVhjRweaqGrvUnD1qy
+ Php6tvWFshzQ==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2020 15:28:40 -0700
-IronPort-SDR: cCNHF1TP77kv6l6EVevKeZ0butctWFhO5q3hR5GZOi1EVeRkpGLLOziNzXR2f0DGU5BVyxd915
- 5F4pXUdkBGXA==
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 15:27:57 -0700
+IronPort-SDR: Wrn0z1g9+AbNO6pilbNAQvd7ZN8calFwyiDNw7pnqOvZjGPRi1uhsmCD879UvJZLKzrvPHpgB5
+ O2yI+kUE4yMg==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:46 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/20] hw/riscv: sifive_u: Add a dummy L2 cache controller
- device
-Date: Wed, 12 Aug 2020 15:30:33 -0700
-Message-Id: <20200812223045.96803-9-alistair.francis@wdc.com>
+Subject: [PULL 09/20] riscv: Fix bug in setting pmpcfg CSR for RISCV64
+Date: Wed, 12 Aug 2020 15:30:34 -0700
+Message-Id: <20200812223045.96803-10-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
 References: <20200812223045.96803-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
+Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:47
+ helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:48
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -88,95 +87,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Hou Weiying <weiying_hou@outlook.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Myriad-Dreamin <camiyoru@gmail.com>, Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Hou Weiying <weiying_hou@outlook.com>
 
-It is enough to simply map the SiFive FU540 L2 cache controller
-into the MMIO space using create_unimplemented_device(), with an
-FDT fragment generated, to make the latest upstream U-Boot happy.
+First, sizeof(target_ulong) equals to 4 on riscv32, so this change
+does not change the function on riscv32. Second, sizeof(target_ulong)
+equals to 8 on riscv64, and 'reg_index * 8 + i' is not a legal
+pmp_index (we will explain later), which should be 'reg_index * 4 + i'.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+If the parameter reg_index equals to 2 (means that we will change the
+value of pmpcfg2, or the second pmpcfg on riscv64), then
+pmpcfg_csr_write(env, 2, val) will map write tasks to
+pmp_write_cfg(env, 2 * 8 + [0...7], val). However, no cfg csr is indexed
+by value 16 or 23 on riscv64, so we consider it as a bug.
+
+We are looking for constant (e.g., define a new constant named
+RISCV_WORD_SIZE) in QEMU to help others understand code better,
+but none was found. A possible good explanation of this literal is it is
+the minimum word length on riscv is 4 bytes (32 bit).
+
+Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1595227748-24720-1-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <SG2PR02MB263420036254AC8841F66CE393460@SG2PR02MB2634.apcprd02.prod.outlook.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/sifive_u.h |  4 ++++
- hw/riscv/sifive_u.c         | 22 ++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ target/riscv/pmp.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index aba4d0181f..d3c0c00d10 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -71,6 +71,7 @@ enum {
-     SIFIVE_U_DEBUG,
-     SIFIVE_U_MROM,
-     SIFIVE_U_CLINT,
-+    SIFIVE_U_L2CC,
-     SIFIVE_U_L2LIM,
-     SIFIVE_U_PLIC,
-     SIFIVE_U_PRCI,
-@@ -86,6 +87,9 @@ enum {
- };
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 2a2b9f5363..b14feeb7da 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -320,8 +320,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
  
- enum {
-+    SIFIVE_U_L2CC_IRQ0 = 1,
-+    SIFIVE_U_L2CC_IRQ1 = 2,
-+    SIFIVE_U_L2CC_IRQ2 = 3,
-     SIFIVE_U_UART0_IRQ = 4,
-     SIFIVE_U_UART1_IRQ = 5,
-     SIFIVE_U_GPIO_IRQ0 = 7,
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index e5682c38a9..55b3383c31 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -72,6 +72,7 @@ static const struct MemmapEntry {
-     [SIFIVE_U_DEBUG] =    {        0x0,      0x100 },
-     [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
-     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
-+    [SIFIVE_U_L2CC] =     {  0x2010000,     0x1000 },
-     [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
-     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
-     [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
-@@ -302,6 +303,24 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
-     g_free(nodename);
- 
-+    nodename = g_strdup_printf("/soc/cache-controller@%lx",
-+        (long)memmap[SIFIVE_U_L2CC].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_L2CC].base,
-+        0x0, memmap[SIFIVE_U_L2CC].size);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+        SIFIVE_U_L2CC_IRQ0, SIFIVE_U_L2CC_IRQ1, SIFIVE_U_L2CC_IRQ2);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-+    qemu_fdt_setprop(fdt, nodename, "cache-unified", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, nodename, "cache-size", 2097152);
-+    qemu_fdt_setprop_cell(fdt, nodename, "cache-sets", 1024);
-+    qemu_fdt_setprop_cell(fdt, nodename, "cache-level", 2);
-+    qemu_fdt_setprop_cell(fdt, nodename, "cache-block-size", 64);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+                            "sifive,fu540-c000-ccache");
-+    g_free(nodename);
-+
-     phy_phandle = phandle++;
-     nodename = g_strdup_printf("/soc/ethernet@%lx",
-         (long)memmap[SIFIVE_U_GEM].base);
-@@ -733,6 +752,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
- 
-     create_unimplemented_device("riscv.sifive.u.dmc",
-         memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
-+
-+    create_unimplemented_device("riscv.sifive.u.l2cc",
-+        memmap[SIFIVE_U_L2CC].base, memmap[SIFIVE_U_L2CC].size);
+     for (i = 0; i < sizeof(target_ulong); i++) {
+         cfg_val = (val >> 8 * i)  & 0xff;
+-        pmp_write_cfg(env, (reg_index * sizeof(target_ulong)) + i,
+-            cfg_val);
++        pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
+     }
  }
  
- static Property sifive_u_soc_props[] = {
+@@ -336,7 +335,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+     target_ulong val = 0;
+ 
+     for (i = 0; i < sizeof(target_ulong); i++) {
+-        val = pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i);
++        val = pmp_read_cfg(env, (reg_index * 4) + i);
+         cfg_val |= (val << (i * 8));
+     }
+     trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
 -- 
 2.27.0
 
