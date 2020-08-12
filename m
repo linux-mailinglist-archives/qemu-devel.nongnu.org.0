@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F86243117
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:46:27 +0200 (CEST)
-Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034AB243127
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:51:21 +0200 (CEST)
+Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5zVq-0002JZ-Jh
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39554)
+	id 1k5zaa-0002TE-2u
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQW-0002Im-5P
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:56 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29822)
+ id 1k5zQY-0002OE-Ht
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:58 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQU-0005nU-6C
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:55 -0400
+ id 1k5zQV-0005oE-59
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597272053; x=1628808053;
+ t=1597272055; x=1628808055;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+7HheV/vsUAjq9/L+MI1eALkSfh8Qj8GNhvxVKV1NM4=;
- b=Iw3MkyTWMPy5Ms/RM1ZY3dVG0zqjhwN2EGWTwe38CIHLk3v7KMtOnCug
- uhbF6wik2gSsUBQbMSG2791Z8A4yhRHbOnOHyFPQkvFEg4X0Bs5df6AHL
- J1ylJW0FErra7iYKEmeAVSbYOfGBWe6CyrWwLtAdgGyXC7qzQSBcWpaTj
- O4J4FFYGpha2h7qdFFKLF1P37rhA9xaLE/1ARzoZvYoo9Oqx/oYLP+THi
- +xR3gjXxUlzuWY1Hp6TZKWEWPoyNMIVrQ41Ws0Eq1XgcXRyr3WRPaMPe6
- YI943oRO6I2XPZm7YyxSW9Wj0W+yw04fYJd7K+bh1IG52BC/iIHTmRgKt g==;
-IronPort-SDR: CR6yVkWh6Q9PIhaHWiA6SP6/oO7WPnmEPCbiFYKki7Q8SY7qUad5aIjg3C4ZScTKxGfqXHZ8+S
- +4xCITNt+ZDsBkcXvFyFWif3wDCRRZPj9LhrsFdgL9Ujp0f+h8hum2iMXD95Tdb6spaY7yJWeJ
- Egz5TFtY8L4WuUMoAiyh8stt6DHgOjlBTMR0s+9GB0D8NqY0PmUJekRUiIeWo+JQVFqLvDf/GA
- zUNyXWHAraD0NyKu0d5WgBNZpFFRUr+R4zBmuSctE7visN+IHZXcwOQUyVCYAfQYho6AidNAvK
- +/8=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="254208929"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:48 +0800
-IronPort-SDR: 5sj783Nw9vaWbN8/jWjzhRXzKxyTkSNgeXB8LaopAJn1SNKszTgr2X7e5zTYBlEFVhsIinSnaq
- jTiL4vmDXjug==
+ bh=nJLaTyf8APEUPNSKIY1asPcvSjkbcpRRCKeaBNyeFOc=;
+ b=de3wDI1X6wwgOS9eJj7/nLdiKLXuSWLeUHvMj8lgeEKDz2JG28Luj9bK
+ 7eC5h1dVVwEc7/YYmMPwCxddyC75sgx0K8ZGiqB1Vn4wXI9Q9X8CxiAxy
+ 4f5nEmmiZF7lBhDgLLFq3iOL4NkbEV91SexQhzoniJGnnJBoEFlj7nQdH
+ KzPjfOuvMxUwzywRi0O/Nr5dxuzvKyBfs1sVppxC2IX+U+IOIWkZVbapB
+ AEHPawcugOq7i1qziifpz3SfTWAT9xJi3C9E1VXBF2Ojk7cghcZVXCgmV
+ uuIq3G/P9P6qSzjJovqoG+jdZYyioz6EMjwtS/socqczleMGL9KKYmAzA A==;
+IronPort-SDR: qnKOyPDYm49BerO/YRJYEvnaJrZDPNU9zFW+Ca3pLd5x4P0R6zHq/v7xdOiamEEaBNBU8gZNgm
+ HiZ3x0kJFLaAj9DYJNUCau/CJHJwFd58/h1bqY+Ek1g8kvZREfQ4SjosMtjSXFuyXERXaktA02
+ Hxk7BzTz1UL6iYq/QRnG6cH5ozbbhdc98svvcEAS46t9uh6xT/na8PhTH/Zwr3ROcHDYKkr0VV
+ 1Th53eovbus3ex0qYEkhBOamDXzE7qVTIclKT4SKS4+BW1nfmMAGsEaM2fj4tQrHCXBA3PDxpL
+ iU0=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144853395"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:49 +0800
+IronPort-SDR: QSt6NjxLmCZTazLN6jSi2Cr60HWUzX/fVpM8g5js0TKxCEDf1BQZpxCXac97k3z1L34nDdWTY3
+ QJUWakxkM58w==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2020 15:27:57 -0700
-IronPort-SDR: t/Xqrr41H+n8R8KOPZu7l41UdYcKV2tGyhIsdMklZadd4fbL9uSMlxljMqG2pld64T2frWxIvx
- dqkk4kTmPHow==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 15:28:40 -0700
+IronPort-SDR: cCNHF1TP77kv6l6EVevKeZ0butctWFhO5q3hR5GZOi1EVeRkpGLLOziNzXR2f0DGU5BVyxd915
+ 5F4pXUdkBGXA==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:46 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/20] target/riscv: check before allocating TCG temps
-Date: Wed, 12 Aug 2020 15:30:32 -0700
-Message-Id: <20200812223045.96803-8-alistair.francis@wdc.com>
+Subject: [PULL 08/20] hw/riscv: sifive_u: Add a dummy L2 cache controller
+ device
+Date: Wed, 12 Aug 2020 15:30:33 -0700
+Message-Id: <20200812223045.96803-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
 References: <20200812223045.96803-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
+Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:48
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:47
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -87,86 +88,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200626205917.4545-5-zhiwei_liu@c-sky.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200724002807.441147-8-richard.henderson@linaro.org>
+It is enough to simply map the SiFive FU540 L2 cache controller
+into the MMIO space using create_unimplemented_device(), with an
+FDT fragment generated, to make the latest upstream U-Boot happy.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <1595227748-24720-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvd.inc.c | 8 ++++----
- target/riscv/insn_trans/trans_rvf.inc.c | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ include/hw/riscv/sifive_u.h |  4 ++++
+ hw/riscv/sifive_u.c         | 22 ++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvd.inc.c b/target/riscv/insn_trans/trans_rvd.inc.c
-index ea1044f13b..4f832637fa 100644
---- a/target/riscv/insn_trans/trans_rvd.inc.c
-+++ b/target/riscv/insn_trans/trans_rvd.inc.c
-@@ -20,10 +20,10 @@
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index aba4d0181f..d3c0c00d10 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -71,6 +71,7 @@ enum {
+     SIFIVE_U_DEBUG,
+     SIFIVE_U_MROM,
+     SIFIVE_U_CLINT,
++    SIFIVE_U_L2CC,
+     SIFIVE_U_L2LIM,
+     SIFIVE_U_PLIC,
+     SIFIVE_U_PRCI,
+@@ -86,6 +87,9 @@ enum {
+ };
  
- static bool trans_fld(DisasContext *ctx, arg_fld *a)
- {
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
-+    TCGv t0 = tcg_temp_new();
-+    gen_get_gpr(t0, a->rs1);
-     tcg_gen_addi_tl(t0, t0, a->imm);
+ enum {
++    SIFIVE_U_L2CC_IRQ0 = 1,
++    SIFIVE_U_L2CC_IRQ1 = 2,
++    SIFIVE_U_L2CC_IRQ2 = 3,
+     SIFIVE_U_UART0_IRQ = 4,
+     SIFIVE_U_UART1_IRQ = 5,
+     SIFIVE_U_GPIO_IRQ0 = 7,
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index e5682c38a9..55b3383c31 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -72,6 +72,7 @@ static const struct MemmapEntry {
+     [SIFIVE_U_DEBUG] =    {        0x0,      0x100 },
+     [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
+     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
++    [SIFIVE_U_L2CC] =     {  0x2010000,     0x1000 },
+     [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
+     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
+     [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
+@@ -302,6 +303,24 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
+     g_free(nodename);
  
-     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEQ);
-@@ -35,10 +35,10 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
++    nodename = g_strdup_printf("/soc/cache-controller@%lx",
++        (long)memmap[SIFIVE_U_L2CC].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cells(fdt, nodename, "reg",
++        0x0, memmap[SIFIVE_U_L2CC].base,
++        0x0, memmap[SIFIVE_U_L2CC].size);
++    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
++        SIFIVE_U_L2CC_IRQ0, SIFIVE_U_L2CC_IRQ1, SIFIVE_U_L2CC_IRQ2);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
++    qemu_fdt_setprop(fdt, nodename, "cache-unified", NULL, 0);
++    qemu_fdt_setprop_cell(fdt, nodename, "cache-size", 2097152);
++    qemu_fdt_setprop_cell(fdt, nodename, "cache-sets", 1024);
++    qemu_fdt_setprop_cell(fdt, nodename, "cache-level", 2);
++    qemu_fdt_setprop_cell(fdt, nodename, "cache-block-size", 64);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible",
++                            "sifive,fu540-c000-ccache");
++    g_free(nodename);
++
+     phy_phandle = phandle++;
+     nodename = g_strdup_printf("/soc/ethernet@%lx",
+         (long)memmap[SIFIVE_U_GEM].base);
+@@ -733,6 +752,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
  
- static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
- {
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
-+    TCGv t0 = tcg_temp_new();
-+    gen_get_gpr(t0, a->rs1);
-     tcg_gen_addi_tl(t0, t0, a->imm);
+     create_unimplemented_device("riscv.sifive.u.dmc",
+         memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
++
++    create_unimplemented_device("riscv.sifive.u.l2cc",
++        memmap[SIFIVE_U_L2CC].base, memmap[SIFIVE_U_L2CC].size);
+ }
  
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEQ);
-diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
-index 0d04677a02..16df9c5ee2 100644
---- a/target/riscv/insn_trans/trans_rvf.inc.c
-+++ b/target/riscv/insn_trans/trans_rvf.inc.c
-@@ -25,10 +25,10 @@
- 
- static bool trans_flw(DisasContext *ctx, arg_flw *a)
- {
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+    TCGv t0 = tcg_temp_new();
-+    gen_get_gpr(t0, a->rs1);
-     tcg_gen_addi_tl(t0, t0, a->imm);
- 
-     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
-@@ -41,11 +41,11 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
- 
- static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
- {
-+    REQUIRE_FPU;
-+    REQUIRE_EXT(ctx, RVF);
-     TCGv t0 = tcg_temp_new();
-     gen_get_gpr(t0, a->rs1);
- 
--    REQUIRE_FPU;
--    REQUIRE_EXT(ctx, RVF);
-     tcg_gen_addi_tl(t0, t0, a->imm);
- 
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEUL);
+ static Property sifive_u_soc_props[] = {
 -- 
 2.27.0
 
