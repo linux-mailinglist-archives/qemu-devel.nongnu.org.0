@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4D7242DFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 19:22:51 +0200 (CEST)
-Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B533242DFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 19:21:08 +0200 (CEST)
+Received: from localhost ([::1]:47680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5uSg-00083N-2w
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 13:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56866)
+	id 1k5uR1-00057Z-46
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 13:21:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k5uPn-0003nH-R3
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:19:51 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42743)
+ id 1k5uPp-0003og-6h
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:19:53 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k5uPm-00017v-4P
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:19:51 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id f5so1400632plr.9
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 10:19:49 -0700 (PDT)
+ id 1k5uPn-000182-Jo
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:19:52 -0400
+Received: by mail-pf1-x441.google.com with SMTP id r11so1338019pfl.11
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 10:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LLtRMDyuZBiRd8gTdg99mHl24bM/N9b6c5HKt7k9iXk=;
- b=qO0fly9Z/NZnbtfm/Djw3EjCfHBvuL+rHOYzZ4qspxrG+94xZqgq6UmiICjX8VqQeu
- Wts5twrbrvfWlsMYCLrtGzJG65aEfehrm4ZYXU362UnY+jMYGmpJkIb7cqtGoJgWVdq2
- r0oSOjKii3FjYBbQQ2rCQpXR4GYjVYri4WBZRVIfXW3sjUq7HOlLgIPGuX3nAqyoJV6R
- 2XpT6TYY4v2onT30CrAyZWEJOOtPWJpNOlTn3WvtWKGaUXXiOKolc1s8p3bT4USJl24J
- 2+y9K43Dyj2uYsY6GGUirHRMP1yzOxyj5owiDSfRZW6APC+oCkowRtbC4VuXe0zmeXv6
- C9oA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3Vi8D6cToE+83DNLkfNqfMDYxXOTd4xd+RpYBMQnwio=;
+ b=LUjXCMBnc3FU5sdaW54XQ44rDWLDksdD10xRyOT+mpzCO+5LTSgsARnJ63kpTV5vXa
+ X3kgLvEcnMhgSq8Qg20Aq5S7YBauDtBlhukrqINo76CS/HkNeepcAxUiJ2mQHJhG4lWb
+ HzSPUfdbljHyGF3F6SjpMYNTIjFRe2P/GDFZK8mzrCDdb2AB0zBRuQuAXXmxPodE7RDu
+ RmzGHQKCkFQzWvEV0er+2qhUc6g8AfIVX+RzFO2/Lbjr/OFIZc/ZGHKQzHnB9dNpf7id
+ bwFbDNB1K7ZROWuIY/P+4f/mhvwa3JZeoMB0uJk+LOZXG9zTnZNNO+ISsJdYf559CgSB
+ yoHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LLtRMDyuZBiRd8gTdg99mHl24bM/N9b6c5HKt7k9iXk=;
- b=OIQUkqrV+uP/tDoa/O7slHJXydR6uvJM4iOl9cDPKIw0+ZI5SC4iXwgWVVZN6VFDa0
- +MhYQUr0KFNCGPC4OUlrK/hQlRszMtGH0sasgPxU7/CxlhBnQyPI7edGd6wqqm04iaK1
- dZOwwa7ZfMAb96zbYy69rpPm3iXqSVUYPB7lOaOSQQ/nFIhUoy3Dt4ncug6eFTZhE/Cg
- BrXKWMGeK5g//hXgU2147jBJzdNMbcVZ/iyiX7WCqEZCG524AhulXRChbh1Eq1FyWKFi
- 07wufAG1K21fMMXboiY921Y2AN+KrwSx9REDjj1/VJWj2iaxB2cS6QeE8xizvZlrdwg6
- 5lQg==
-X-Gm-Message-State: AOAM533nqeBO5JOJSYtnzssn4wIiFGsyPR8FZeWdXUH68BUhVv/UyAID
- ymBc61TuMBquxwQcnQXKFL3rAv8vkfw=
-X-Google-Smtp-Source: ABdhPJy8HWHKW0DtLI8VTJE4Ae1JPEljDPUf3FZP9TNUSWId3uH+QMzlufXKYbsKrPOKQwzUb5L48w==
-X-Received: by 2002:a17:90a:8c8f:: with SMTP id
- b15mr1091982pjo.84.1597252788175; 
- Wed, 12 Aug 2020 10:19:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3Vi8D6cToE+83DNLkfNqfMDYxXOTd4xd+RpYBMQnwio=;
+ b=PIKlYPJzoCmsfxDgFznsY/x0QWBJDFz0yKjK1lpmvyDsPIOFYH+q0ax6PSMl5yTB6s
+ /SwkXnXOinZNYglFJCvzN3U3FKNYV0tDC5Tg4xM1EFRQlZCEoIHAbiFJKSvd5l/ZajRu
+ tqmmNWYbHU9KK4j905kSk9v7RbkLUG6Dym9AM4xQc7vKT/tEUm5XIBUtF/mGXGQnhgEL
+ x34RD85KsYXvUzFf06nez5hlg1Rxz7nOBkbO3Cr7hWdD4CaJwWFGh0gxn+fEBOKnNRtH
+ Ru+BNiTl7smUgSVtriWz5kcJDwQF9UfJEwoJLpxgfBGGbVtphSbp21YLbwwIhZYSmos1
+ C8tA==
+X-Gm-Message-State: AOAM5315brIjrcLbLE3I8WINyKXcey7PH8pZWH0ocVshTMB0qvfXKl1W
+ z60cADogNa7pPUqc53VCcDAbg07RxqI=
+X-Google-Smtp-Source: ABdhPJxLj5L3XaFypiF5IUk1WgmAREDbIdrnkrA9UjI4UStQcPnrYVJk9m39VwqnjTwAsYjeDM5BgQ==
+X-Received: by 2002:a63:5b0f:: with SMTP id p15mr123360pgb.299.1597252789793; 
+ Wed, 12 Aug 2020 10:19:49 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y79sm3097206pfb.65.2020.08.12.10.19.47
+ by smtp.gmail.com with ESMTPSA id y79sm3097206pfb.65.2020.08.12.10.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 10:19:47 -0700 (PDT)
+ Wed, 12 Aug 2020 10:19:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] target/arm: Complete ISS for MTE tag check fail
-Date: Wed, 12 Aug 2020 10:19:43 -0700
-Message-Id: <20200812171946.2044791-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/3] target/arm: Export merge_syn_data_abort from tlb_helper.c
+Date: Wed, 12 Aug 2020 10:19:44 -0700
+Message-Id: <20200812171946.2044791-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200812171946.2044791-1-richard.henderson@linaro.org>
+References: <20200812171946.2044791-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,30 +90,50 @@ Cc: Andrey Konovalov <andreyknvl@google.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As reported by Andrey, I was missing the complete ISS info for
-the Data Abort raised upon a synchronous tag check fail.
+We will shortly need this function in mte_helper.c.
+It's also a bit too large for inlining, for something
+that is on an exceptional path.
 
-The following should fix that.  All the twisty little rules for
-the ISS.ISV bit are already handled by merge_syn_data_abort.
-Probably the most important bit that was missing was ISS.WnR,
-as that is independent of ISS.ISV.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/internals.h  | 4 ++++
+ target/arm/tlb_helper.c | 8 +++-----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-Andrey, will you please test?
-
-
-r~
-
-
-Richard Henderson (3):
-  target/arm: Export merge_syn_data_abort from tlb_helper.c
-  target/arm: Pass the entire mte descriptor to mte_check_fail
-  target/arm: Merge ISS for data abort from tag check fail
-
- target/arm/internals.h  |  4 ++++
- target/arm/mte_helper.c | 24 ++++++++++++++----------
- target/arm/tlb_helper.c |  8 +++-----
- 3 files changed, 21 insertions(+), 15 deletions(-)
-
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index ae99725d2b..967d1319de 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -500,6 +500,10 @@ static inline uint32_t syn_wfx(int cv, int cond, int ti, bool is_16bit)
+            (cv << 24) | (cond << 20) | ti;
+ }
+ 
++uint32_t merge_syn_data_abort(uint32_t template_syn, unsigned int target_el,
++                              bool same_el, bool ea, bool s1ptw,
++                              bool is_write, int fsc);
++
+ /* Update a QEMU watchpoint based on the information the guest has set in the
+  * DBGWCR<n>_EL1 and DBGWVR<n>_EL1 registers.
+  */
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index b35dc8a011..e8cf39f7d9 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -10,11 +10,9 @@
+ #include "internals.h"
+ #include "exec/exec-all.h"
+ 
+-static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+-                                            unsigned int target_el,
+-                                            bool same_el, bool ea,
+-                                            bool s1ptw, bool is_write,
+-                                            int fsc)
++uint32_t merge_syn_data_abort(uint32_t template_syn, unsigned int target_el,
++                              bool same_el, bool ea, bool s1ptw,
++                              bool is_write, int fsc)
+ {
+     uint32_t syn;
+ 
 -- 
 2.25.1
 
