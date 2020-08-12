@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA09C2429DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:56:32 +0200 (CEST)
-Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596922429E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:59:39 +0200 (CEST)
+Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5qIx-0002Co-BI
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38382)
+	id 1k5qLy-0004rA-F4
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5qHh-0000rK-PT
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:55:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42790)
+ id 1k5qIS-00027O-3a
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:56:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5qHe-0007Aj-Ss
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:55:13 -0400
+ id 1k5qIP-0007Tl-96
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:55:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5qHc-0008Ej-Ii
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:55:08 +0000
+ id 1k5qIO-0008N4-4L
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:55:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 860942E808B
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:55:08 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1FE472E808C
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:55:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 12:43:51 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1529449@bugs.launchpad.net>
+Date: Wed, 12 Aug 2020 12:45:43 -0000
+From: "Laszlo Ersek \(Red Hat\)" <1723927@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: nvme
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: keith-busch lersek tom-ty89
-X-Launchpad-Bug-Reporter: Tom Yan (tom-ty89)
+X-Launchpad-Bug-Commenters: lersek yppnts
+X-Launchpad-Bug-Reporter: chan (yppnts)
 X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <20151227070342.25181.45645.malonedeb@soybean.canonical.com>
-Message-Id: <159723623123.22224.5313766654986259729.malone@chaenomeles.canonical.com>
-Subject: [Bug 1529449] Re: serial is required for -device nvme
+References: <150815318241.964.13154685786789289008.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159723634309.5096.8009628444993384651.malone@soybean.canonical.com>
+Subject: [Bug 1723927] Re: Linux or windows guest boot failed by uefi on CPU
+ of Intel Xeon X5675
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7b30efaaf3cdf18cc3fa2eed84dee76812020559
+X-Launchpad-Hash: d19faaf011f0dfb641010d0eaa915c858081da49
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:10:59
@@ -73,13 +73,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1529449 <1529449@bugs.launchpad.net>
+Reply-To: Bug 1723927 <1723927@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No new developments for 4+ years, closing as invalid (I'd prefer
-"wontfix due to lack of resources", but I'm unable to pick that
-resolution).
+Closing due to almost 3 years of inactivity.
 
 ** Changed in: qemu
        Status: New =3D> Invalid
@@ -88,21 +86,67 @@ resolution).
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1529449
+https://bugs.launchpad.net/bugs/1723927
 
 Title:
-  serial is required for -device nvme
+  Linux or windows guest boot failed by uefi  on CPU of  Intel Xeon
+  X5675
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  I am not exactly sure if this is a bug, but I don't see why the option
-  "serial" should be required for -device nvme like the option "drive".
-  Truth is it seem to accept random string as its value anyway, if
-  that's the case, couldn't qemu just generate one for it when it's not
-  specified?
+  Hi,
+
+  I started windows server 2012 DC or redhat7.0, but boot failed by UEFI, a=
+nd start process stop on
+  "TianoCore" image by looking at VNCviewer.
+
+  VM using the command:(redhat7.0)
+  /usr/bin/kvm -name guest=3Dytest,debug-threads=3Don -S -object secret,id=
+=3DmasterKey0,format=3Draw,file=3D/run/lib/libvirt/qemu/domain-40-ytest/mas=
+ter-key.aes -machine pc-i440fx-2.7,accel=3Dkvm,usb=3Doff,system=3Dwindows,d=
+ump-guest-core=3Doff -bios /usr/share/qemu-kvm/OVMF_CODE.fd -m size=3D83886=
+08k,slots=3D10,maxmem=3D34359738368k -realtime mlock=3Doff -smp 1,maxcpus=
+=3D24,sockets=3D24,cores=3D1,threads=3D1 -numa node,nodeid=3D0,cpus=3D0-23,=
+mem=3D8192 -uuid 8cf40bd6-258a-4550-ba4e-b38230547a11 -no-user-config -node=
+faults -chardev socket,id=3Dcharmonitor,path=3D/run/lib/libvirt/qemu/domain=
+-40-ytest/monitor.sock,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonito=
+r,mode=3Dcontrol -chardev socket,id=3Dcharmonitor_cas,path=3D/run/lib/libvi=
+rt/qemu/domain-40-ytest/monitor.sock.cas,server,nowait -mon chardev=3Dcharm=
+onitor_cas,id=3Dmonitor_cas,mode=3Dcontrol -rtc base=3Dutc -no-shutdown -gl=
+obal PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=3D1 -boot strict=
+=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -device us=
+b-ehci,id=3Dusb1,bus=3Dpci.0,addr=3D0x3 -device nec-usb-xhci,id=3Dusb2,bus=
+=3Dpci.0,addr=3D0x4 -device virtio-scsi-pci,id=3Dscsi1,bus=3Dpci.0,addr=3D0=
+x6 -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x7 -de=
+vice usb-hub,id=3Dhub0,bus=3Dusb.0,port=3D1 -drive file=3D/vms/hw235/ytest,=
+format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cache=3Ddirectsync,aio=3Dn=
+ative -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x8,pci_hotplugg=
+able=3Don,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1 -drive=
+ if=3Dnone,id=3Ddrive-fdc0-0-0,readonly=3Don -global isa-fdc.driveA=3Ddrive=
+-fdc0-0-0 -global isa-fdc.bootindexA=3D2 -netdev tap,fd=3D48,id=3Dhostnet0,=
+vhost=3Don,vhostfd=3D50 -device virtio-net-pci,pci_hotpluggable=3Don,netdev=
+=3Dhostnet0,id=3Dnet0,mac=3D0c:da:41:1d:67:6f,bus=3Dpci.0,addr=3D0x5,bootin=
+dex=3D4 -chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharseri=
+al0,id=3Dserial0 -chardev socket,id=3Dcharchannel0,path=3D/var/lib/libvirt/=
+qemu/ytest.agent,server,nowait -device virtserialport,bus=3Dvirtio-serial0.=
+0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0=
+ -vnc 0.0.0.0:9 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 -devi=
+ce virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x9 -msg timestamp=
+=3Don
+
+  qemu version: 2.7.1
+  edk2 version: git://git.code.sf.net/p/tianocore/edk2.git, commit: cc0b456=
+a05f8dd1ebfb9be485465be37e96999e7
+  server: ProLiant BL460c G7, CPU: Intel(R) Xeon(R) CPU X5675  @ 3.07GHz
+
+  Another, last version of edk2(compiled by myself) start guest is
+  failed, too. But r15214 of edk2 start guest is ok(Download from
+  http://sourceforge.net/projects/edk2/files/OVMF/, OVMF-X64-r15214.zip)
+
+  Thanks in Advance
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1529449/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1723927/+subscriptions
 
