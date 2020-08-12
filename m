@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57512428FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:03:08 +0200 (CEST)
-Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECA7242937
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:19:16 +0200 (CEST)
+Received: from localhost ([::1]:42284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5pTH-0005AF-HM
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
+	id 1k5pit-0006al-Un
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5pRi-0004L5-D1
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:01:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5pRg-0000KK-Cf
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:01:30 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5pRe-0001Jo-IP
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:01:26 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 89D9A2E808B
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:01:26 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 11:54:07 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1717708@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <matthias@weckbecker.name>)
+ id 1k5ph9-0005Qx-Ua
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:17:27 -0400
+Received: from weckbecker.name ([87.118.122.104]:64220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <matthias@weckbecker.name>)
+ id 1k5ph5-0002ON-Ut
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:17:27 -0400
+Received: by weckbecker.name (Postfix, from userid 1000)
+ id 654441A83AC; Wed, 12 Aug 2020 13:59:14 +0200 (CEST)
+From: Matthias Weckbecker <matthias@weckbecker.name>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 0xab brfeng gilius lersek netrolller-3d pmaydell
- rtfss1 shannon-zhaosl
-X-Launchpad-Bug-Reporter: oscarbg (rtfss1)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <150558614762.29770.16367876405044972592.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159723324776.22462.3065989991441109337.malone@chaenomeles.canonical.com>
-Subject: [Bug 1717708] Re: QEMU aarch64 can't run Windows ARM64 iso's
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6b162d547d92a8720345b3b5a85641108de12eda
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:10:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] plugins: new syscalls plugin
+Date: Wed, 12 Aug 2020 13:58:17 +0200
+Message-Id: <20200812115816.4454-1-matthias@weckbecker.name>
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=87.118.122.104;
+ envelope-from=matthias@weckbecker.name; helo=weckbecker.name
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 08:17:14
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,55 +48,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1717708 <1717708@bugs.launchpad.net>
+Cc: Matthias Weckbecker <matthias@weckbecker.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to keep this open any longer (no activity for 19 months). Please
-follow the links captured above to the past discussions. There's nothing
-new to add wrt. the situation.
+This commit adds a new syscalls plugin that displays the syscalls
+as they are executed and returned. This plugin outputs the number
+of the syscall as well as the syscall return value.
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+Works in *-user only.
 
--- =
+Essentially, this commit restores:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1717708
+  https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg00846.html
 
-Title:
-  QEMU aarch64 can't run Windows ARM64 iso's
+by using the new QEMU plugin API.
 
-Status in QEMU:
-  Invalid
+Signed-off-by: Matthias Weckbecker <matthias@weckbecker.name>
+---
+ tests/plugin/Makefile  |  1 +
+ tests/plugin/syscall.c | 49 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 tests/plugin/syscall.c
 
-Bug description:
-  Hi,
-  recently Windows ARM64 ISOs have been posted on the internet..
-  just checked with latest QEMU 2.10 release from =
+diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
+index e9348fde4a..fc176909e9 100644
+--- a/tests/plugin/Makefile
++++ b/tests/plugin/Makefile
+@@ -21,6 +21,7 @@ NAMES += hotblocks
+ NAMES += howvec
+ NAMES += hotpages
+ NAMES += lockstep
++NAMES += syscall
+ 
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
+diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+new file mode 100644
+index 0000000000..53ee2ab6c4
+--- /dev/null
++++ b/tests/plugin/syscall.c
+@@ -0,0 +1,49 @@
++/*
++ * Copyright (C) 2020, Matthias Weckbecker <matthias@weckbecker.name>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
++
++#include <qemu-plugin.h>
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
++static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
++                         int64_t num, uint64_t a1, uint64_t a2,
++                         uint64_t a3, uint64_t a4, uint64_t a5,
++                         uint64_t a6, uint64_t a7, uint64_t a8)
++{
++    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
++    qemu_plugin_outs(out);
++}
++
++static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
++                             int64_t num, int64_t ret)
++{
++    g_autofree gchar *out;
++    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
++            num, ret);
++    qemu_plugin_outs(out);
++}
++
++/* ************************************************************************* */
++
++static void plugin_exit(qemu_plugin_id_t id, void *p) {}
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv)
++{
++    qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
++    qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
+-- 
+2.23.0
 
-  https://qemu.weilnetz.de/w64/qemu-w64-setup-20170830.exe =
-
-  "h:\qemu\qemu-system-aarch64.exe" -boot d -cdrom h:\iso\16353.1000.170825=
--1423.RS_PRERELEASE_CLIENTPRO_OEMRET_ARM64FRE_ES-ES.ISO -m 2048 -cpu cortex=
--a57 -smp 1 -machine virt
-  seems no video output..
-  checked various machine options for example versatilepb (says guest has n=
-ot initialized the guest)..
-
-  so don't know if it's a QEMU bug or lacking feature but can support
-  running Windows ARM64 builds (would be nice if you can add a
-  Snapdragon835 machine type which is which first machines will be
-  running..)
-
-  =
-
-  note running a Windows x64 ISO with similar parameters works (removing -c=
-pu and -machine as not needed)
-
-  thanks..
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1717708/+subscriptions
 
