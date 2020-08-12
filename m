@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF21243085
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 23:34:41 +0200 (CEST)
-Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8005243107
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:42:44 +0200 (CEST)
+Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5yOO-0005vW-4W
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 17:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53670)
+	id 1k5zSF-0003sk-8C
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k5yNR-0005Gg-UY
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 17:33:42 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:45312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k5yNO-0006Gt-Cl
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 17:33:41 -0400
-Received: by mail-pl1-x642.google.com with SMTP id bh1so1669540plb.12
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 14:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C5MvkIBVFLX8HRTh+OLegEEsjltSHnz6HzBtZTno2sU=;
- b=pbeqsBjORuu/+EgIYzzFaL7/c6+ThCvNOAENbW6j/meSz1meM5XEWq2qiX97MPS7s2
- QmQfSzpu+iEw8WelV6L5SP0/sD4rkX3tS3rvVtDy1nb1O/Pf9ZEcw4xNNhkIyKnrd4vP
- a2jEEFpFkFrFnS1w2Kw8xx+FMLaH3kaufzCgSlhD64vkAobAQor8kWuqSKOwcifpm32b
- gui65SBQywSpS0bU1O684ETL+R7ouKhB791ENtXOvTK5/dR+SAvh2lFm8cOfXDywY9QB
- BNFTYf1e3804/uDLmiNt0tOcB/rYLvBo55J4CoWwthPvL5oo6UwbAome5/h0n5ogyVkP
- Xx/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C5MvkIBVFLX8HRTh+OLegEEsjltSHnz6HzBtZTno2sU=;
- b=YdKR8o1yNPNgKOJxXERwY1vzlU/Ehmf5I2k0CuY49IN/o7ScvJNp0L//07l/YdnXhm
- raC0jRGKoBAf1GlyykV0MslmhI6f+6B2hGSH17uEyCNQ3Vtaa0++Z53qFq7i/eC9rFvp
- NWN8apVEV3oj9KIrauCjgpzfW0a1I5nKnNNbu2+L2uKJj6EtgE3cEaA7d6wwYaJPQnEE
- Ak6H6DeVhgSLU+lxcersxydP5VA1lBQuQR7kw3Qdho16LxqiQ8LnTHi13ku192VW6auu
- pACMyXBXU2Vo42rMDNZzSopD+RNDwsCZopOwdVS0VPyfDFlRfSO7TOhZg3JxVfyae2BL
- ZvlQ==
-X-Gm-Message-State: AOAM530uD10ldA1MyQk9H1UGbHfxJOxWEps7GLgQSwwcto4ju9K96LXT
- iRdcvkL1+aXr2LKhvbU9oX8ux6XK1Pg=
-X-Google-Smtp-Source: ABdhPJzsuvEQlI5kKGuCaaSrts0bPC1ClDJjuhYv3k0taoegT7scYSk17Hu0FnE2tE8aK6/lPXVGWg==
-X-Received: by 2002:a17:90b:23c8:: with SMTP id
- md8mr2074702pjb.176.1597268016017; 
- Wed, 12 Aug 2020 14:33:36 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f27sm3385524pfk.217.2020.08.12.14.33.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Aug 2020 14:33:35 -0700 (PDT)
-Subject: Re: [PATCH v2] target/ppc: Integrate icount to purr, vtb, and tbu40
-To: Gustavo Romero <gromero@linux.ibm.com>, qemu-ppc@nongnu.org
-References: <20200811153235.4527-1-gromero@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5944440c-73ac-8c21-9f02-fee91a3a2dfd@linaro.org>
-Date: Wed, 12 Aug 2020 14:33:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
+ id 1k5zQS-0002G0-Vx
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:53 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56476)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
+ id 1k5zQP-0005lp-UL
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1597272050; x=1628808050;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aw07KdbMYmTC5+DVpXPdFFWuLs99YJFabUaxAVYapdY=;
+ b=Cq6OpsDGXSUKoFsccZQzYQmOe3iuCS8vRZDTszBreNGWKwbBU59CLHh3
+ npLHrsUANuyli2clDz8ihMlgMcVAoc1Ej049S2DNiJTOskbbdnhXCHj17
+ rNO11Up1dqT4agBaHSbOvgB62/zB+liqX0tTiP1V/gWqFmftKEuuqmZOD
+ FazH+Oo7fa7h42wY+Fv9LF30Jufyvuex/nl686CgQqnkMnLyoMAzmFWNq
+ eITIZTzXShLKeKvU+pmCZUpNTrQzHA5O13qUKjD1KWzwRGMu1iTY+6/AK
+ w+CKbs6dm1JebCk9T7JqOf0cOOCO9Ayk02afEgxWzLNug/N58IYpi/98P Q==;
+IronPort-SDR: v6tir55fqFLgCvkwEFIluz2SCE/QJYIIPBtzXCHN6/+rtEBjm54M5Y6CMZ2GPngIQ5XO/yKGNM
+ 4U9p4v1C3lnHGfwYzCQQdw3h3LHA5WELDLPQfUBOZkJly10Bq1Cb7w6eGGPc8Gl2xV+wpRx5/l
+ Vj9ZBSvR6yoX7LO3Ke7EQ/dQqxQqr0t0EG/6ij4Mn/fXYaMXlks8y9sM7wHmQTrZrzsXJFDWDA
+ IPmMclJwP6vx74pmO0nx6e1Evzkemqvlb3m5ElfSAKmV09aBUenl3K8R8wIxCleyG8io1GNH7Q
+ dq0=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144853389"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:47 +0800
+IronPort-SDR: iundp8AN5YkdNcSI61gkpiPTJRgGr34iUqc7LzyTSqMUKAqUHJU81XAJXPLVXhMcqQekyerCAx
+ AqaONCo+RPrw==
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 15:28:37 -0700
+IronPort-SDR: 0mM1n362UySmaSYxxAgZNpdOERufk0DjYpdwSLUzeE+mbVkzEf1kCel475F93YBz8etvqigdWN
+ OOPVbh05O7XQ==
+WDCIronportException: Internal
+Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.59.14])
+ by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:44 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] riscv-to-apply queue
+Date: Wed, 12 Aug 2020 15:30:25 -0700
+Message-Id: <20200812223045.96803-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200811153235.4527-1-gromero@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:47
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,33 +86,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/11/20 8:32 AM, Gustavo Romero wrote:
-> Currently if option '-icount auto' is passed to the QEMU TCG to enable
-> counting instructions the VM crashes with the following error report when
-> Linux runs on it:
-> 
-> qemu-system-ppc64: Bad icount read
-> 
-> This happens because read/write access to the SPRs PURR, VTB, and TBU40
-> is not integrated to the icount framework.
-> 
-> This commit fixes that issue by making the read/write access of these
-> SPRs aware of icount framework, adding the proper gen_io_start() calls
-> before calling the helpers to load/store these SPRs in TCG and ensuring
-> that the associated TBs end immediately after, accordingly to what's in
-> docs/devel/tcg-icount.rst.
-> 
-> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-> ---
->  target/ppc/translate_init.inc.c | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
 
-r~
+are available in the Git repository at:
+
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200812
+
+for you to fetch changes up to 339332b8aa240e4ea3a56ec1b98cc9b2e1346834:
+
+  hw/intc: ibex_plic: Honour source priorities (2020-08-12 12:07:58 -0700)
+
+----------------------------------------------------------------
+The first RISC-V PR for the 5.2 window.
+
+This includes:
+ - NaNBox fixes
+ - Vector extension improvements
+ - a L2 cache controller
+ - PMP fixes
+ - Upgrade to OpenSBI v0.8 and the generic platform
+ - Fixes for the Ibex PLIC
+
+----------------------------------------------------------------
+Alistair Francis (3):
+      hw/intc: ibex_plic: Update the pending irqs
+      hw/intc: ibex_plic: Don't allow repeat interrupts on claimed lines
+      hw/intc: ibex_plic: Honour source priorities
+
+Bin Meng (7):
+      hw/riscv: sifive_u: Add a dummy L2 cache controller device
+      configure: Create symbolic links for pc-bios/*.elf files
+      roms/opensbi: Upgrade from v0.7 to v0.8
+      roms/Makefile: Build the generic platform for RISC-V OpenSBI firmware
+      hw/riscv: Use pre-built bios image of generic platform for virt & sifive_u
+      hw/riscv: spike: Change the default bios to use generic platform image
+      gitlab-ci/opensbi: Update GitLab CI to build generic platform
+
+Hou Weiying (1):
+      riscv: Fix bug in setting pmpcfg CSR for RISCV64
+
+LIU Zhiwei (2):
+      target/riscv: Clean up fmv.w.x
+      target/riscv: check before allocating TCG temps
+
+Richard Henderson (5):
+      target/riscv: Generate nanboxed results from fp helpers
+      target/riscv: Generalize gen_nanbox_fpr to gen_nanbox_s
+      target/riscv: Generate nanboxed results from trans_rvf.inc.c
+      target/riscv: Check nanboxed inputs to fp helpers
+      target/riscv: Check nanboxed inputs in trans_rvf.inc.c
+
+Zong Li (2):
+      target/riscv: Fix the translation of physical address
+      target/riscv: Change the TLB page size depends on PMP entries.
+
+ configure                                      |   1 +
+ Makefile                                       |   4 +-
+ include/hw/intc/ibex_plic.h                    |   1 +
+ include/hw/riscv/sifive_u.h                    |   4 +
+ target/riscv/internals.h                       |  16 ++++
+ target/riscv/pmp.h                             |   2 +
+ hw/intc/ibex_plic.c                            |  36 +++++++--
+ hw/riscv/sifive_u.c                            |  26 ++++++-
+ hw/riscv/spike.c                               |   9 ++-
+ hw/riscv/virt.c                                |   4 +-
+ target/riscv/cpu_helper.c                      |  15 +++-
+ target/riscv/fpu_helper.c                      | 102 ++++++++++++++++---------
+ target/riscv/insn_trans/trans_rvd.inc.c        |   8 +-
+ target/riscv/insn_trans/trans_rvf.inc.c        |  99 +++++++++++++++---------
+ target/riscv/pmp.c                             |  57 +++++++++++++-
+ target/riscv/translate.c                       |  29 +++++++
+ .gitlab-ci.d/opensbi.yml                       |  28 +++----
+ pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 0 -> 62144 bytes
+ pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 0 -> 558668 bytes
+ pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin   | Bin 49520 -> 0 bytes
+ pc-bios/opensbi-riscv32-virt-fw_jump.bin       | Bin 49504 -> 0 bytes
+ pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 0 -> 70792 bytes
+ pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 0 -> 620424 bytes
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin   | Bin 57936 -> 0 bytes
+ pc-bios/opensbi-riscv64-virt-fw_jump.bin       | Bin 57920 -> 0 bytes
+ roms/Makefile                                  |  32 +++-----
+ roms/opensbi                                   |   2 +-
+ 27 files changed, 338 insertions(+), 137 deletions(-)
+ create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+ create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+ delete mode 100644 pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+ delete mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+ create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+ create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+ delete mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+ delete mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
 
