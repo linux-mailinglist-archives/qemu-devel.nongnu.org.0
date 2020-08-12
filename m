@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7685242928
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:12:38 +0200 (CEST)
-Received: from localhost ([::1]:60360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9E824293E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:23:41 +0200 (CEST)
+Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5pcT-0002IP-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55796)
+	id 1k5pnA-0000tm-Co
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5pbN-0001UZ-L8
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:11:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34424)
+ id 1k5plN-0008Gd-DJ
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:21:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5pbL-0001mL-ME
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:11:29 -0400
+ id 1k5plI-0002uW-PU
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:21:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5pbJ-0002mx-Ij
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:11:25 +0000
+ id 1k5plG-0004Fq-Ee
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:21:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 566FA2E806D
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:11:25 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 47F302E809C
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:21:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 11:58:24 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1658634@bugs.launchpad.net>
+Date: Wed, 12 Aug 2020 12:07:49 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1858814@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Tags: edk2
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kraxel-redhat lersek marcandre-lureau phenix1108
-X-Launchpad-Bug-Reporter: Kai Cong (phenix1108)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <20170123095738.20994.7212.malonedeb@gac.canonical.com>
-Message-Id: <159723350484.5527.16333034249960547466.malone@soybean.canonical.com>
-Subject: [Bug 1658634] Re: Can't get correct display with latest QEMU and OVMF
- BIOS
+X-Launchpad-Bug-Commenters: lersek philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <157849903743.2804.3996411796742068143.malonedeb@soybean.canonical.com>
+Message-Id: <159723407001.9637.6372928266158750637.malone@wampee.canonical.com>
+Subject: [Bug 1858814] Re: 'make -C roms efi' does not update edk2 submodules
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9be0bf4f3b3c64230a3cb905b2c900c60826918a
+X-Launchpad-Hash: 98059f172d6cd73970511173b5552241c1c9385d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:10:59
@@ -61,7 +63,8 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,40 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1658634 <1658634@bugs.launchpad.net>
+Reply-To: Bug 1858814 <1858814@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit 3ef0c573d37b ("console: fix console resize",
-2017-01-31), released in v2.9.0.
-
-
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Released
+There might be a big buildsys change in QEMU if we switch to Meson,
+so I'm waiting for that to happen first and then update this ticket.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1658634
+https://bugs.launchpad.net/bugs/1858814
 
 Title:
-  Can't get correct display with latest QEMU and OVMF BIOS
+  'make -C roms efi' does not update edk2 submodules
 
 Status in QEMU:
-  Fix Released
+  Confirmed
 
 Bug description:
-  I tried to install a Ubuntu 16.04.1 Desktop 64bits with latest QEMU and O=
-VMF UEFI BIOS, however I can't get correct display output with default vga =
-configuration (-vga std). However, qemu works with a couple of different co=
-nfigurations:
-  1. "-vga cirrus" + "-bios OVMF.fd": works
-  2. "-vga std" + non-UEFI bios: works
+  On a fresh clone, 'make -C roms efi' fails because submodule is not
+  initialized [1]:
 
-  The same error with QEMU 2.8.0 release. Everything works well on
-  2.7.0/1.
+  /builds/philmd/qemu/roms/edk2/CryptoPkg/Library/OpensslLib/OpensslLibCryp=
+to.inf(-1): error 000E: File/directory not found in workspace
+  /builds/philmd/qemu/roms/edk2/CryptoPkg/Library/OpensslLib/openssl/e_os.h
+  - Failed -
+
+  Laszlo suggested [2] it is possibly a regression from commit f3e330e3c319:
+  "roms/Makefile.edk2: don't pull in submodules when building from tarball"
+
+  [1] https://gitlab.com/philmd/qemu/-/jobs/395644357#L436
+  [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg668929.html
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1658634/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1858814/+subscriptions
 
