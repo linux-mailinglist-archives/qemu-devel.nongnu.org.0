@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8FF1242BEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 17:11:54 +0200 (CEST)
-Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7809C242C1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 17:22:36 +0200 (CEST)
+Received: from localhost ([::1]:36200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5sPx-0000hy-H5
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 11:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49892)
+	id 1k5saJ-0003YG-7r
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 11:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k5sP0-0000GC-15
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 11:10:54 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41825)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k5sZQ-00030n-13; Wed, 12 Aug 2020 11:21:40 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k5sOy-0000r5-AD
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 11:10:53 -0400
-Received: by mail-pf1-x441.google.com with SMTP id a79so1167994pfa.8
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 08:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ph3yn6NSHab5GEJht0sxVWjuqL19952d1xRJxAkl8V8=;
- b=M945kNsQyniAaUMS1ZHwaYkxrhBUCHL0Cl8yKBG1U/NM+jjzEqe89dpJBHxFHDiX67
- JSpbcmxd+c6VsBl78AKPqPK4GqCge0g21pjGlWoWF/b++bd84Cz/Hpx1fd9kE1zl4MAj
- V15HYdBPRp50i9F/M95/JmG3eLstX0H8ZhcFEAfVjleL3zYeKEKREaIujAPzy98IZD4n
- eQ1zuwl3yaO4/LiG9Dh2/VJe6PTIXLqJNzVF2QiqNkxO3ZpZtrAtuVCwA9xGSghIQ4Y+
- WnIhZvfRaJMClORT0JXmOYAxtFeGLANnib4Zl4gqQjRl796Ty7xw3rqWnnzK4BlrLgJE
- PGiw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k5sZO-00025c-6N; Wed, 12 Aug 2020 11:21:39 -0400
+Received: by mail-il1-x143.google.com with SMTP id t4so2020799iln.1;
+ Wed, 12 Aug 2020 08:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MnnoYJ+Yzalu2GoWL+smxqyMsEar2Ew0G/MVfADnPKo=;
+ b=BB0XnFkCGZ6EgbuXbTo+9VOMBDsffT1A2c/C9kapskZpyVC8fPlBKuwwJekwTvDSAJ
+ XcF4XuQ8gEs2nbHcxlJrs26MJJyWfIUO/LjEBAHNijbhVWdELV+V8M2EJ2HyzxSP0qcw
+ 1t0hwAoersnzTaMPXlarusJcblKAoOgySZxMYAiETlqzf+1vepnW566OOy8EaREP2e1Q
+ M2Elc7FbMA78tn7MhhLM4osdjHzGYNFCypMZMjex4wlib86wsqygvlezTwlxzMX2ZN0T
+ lLMWgPVSbhuQr99lqT9cyXC9jkevWWhC5HI1ZYUfktal5iGw7qEGBlniXYnD4GPXMDVH
+ MBBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ph3yn6NSHab5GEJht0sxVWjuqL19952d1xRJxAkl8V8=;
- b=J6gPjGR8ZpTdmmH6HAw+SPKoW8a356/FneMMPcaOq9lSQAW+nYRnqXkZRhW/gFBge+
- IPEkC6g097xO/1VwfC6aJVwb6s7/SX0drb8+FA9VKi01WVlN1BVfvE3RSZPjrO26iMQ2
- E2Yn1pfPEtk86XycwdrgHx1zT97dLpOtfweKnJv9NyqIVLPsUR4Yzks/8/5InAcWd29l
- 37Q4GxkILJ9RRfJ823eFUsIYYX6XvUrETv67RuAb6jeYdFZvJVXiZoVXIiS6H31Euk9X
- RUtad2YGwNdZCV70AOZfxRI6GGMKo24z6k61IVEGJbR1s0wxj0Fhmu9dtCb4yvfSpbAC
- fzJw==
-X-Gm-Message-State: AOAM531KhyVlk4LPNxcIVZ6sycfuGdV8Z5ODkt2supjK1iDIiNHad6vm
- gm9sqrhPqqrI+kzRrq8Ub3Zgjg==
-X-Google-Smtp-Source: ABdhPJw/pxQmeUUHnZGnJiBpIwIPRM6LZbL51oFTmTkOVU09a6RhjeHrWSV9QgyYzr2gLoRTpdj7+A==
-X-Received: by 2002:a65:6119:: with SMTP id z25mr5746737pgu.52.1597245050488; 
- Wed, 12 Aug 2020 08:10:50 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id il13sm2652920pjb.0.2020.08.12.08.10.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Aug 2020 08:10:49 -0700 (PDT)
-Subject: Re: [PATCH 1/2] target/arm: Add cpu property to control pauth
-To: Andrew Jones <drjones@redhat.com>
-References: <20200812065339.2030527-1-richard.henderson@linaro.org>
- <20200812065339.2030527-2-richard.henderson@linaro.org>
- <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2219f3f9-7894-f898-0cad-43eccaa2a70d@linaro.org>
-Date: Wed, 12 Aug 2020 08:10:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MnnoYJ+Yzalu2GoWL+smxqyMsEar2Ew0G/MVfADnPKo=;
+ b=DD0MQYXPru481UWveI7MgQqiuBF3XSxw9KXvXpAnkrHOc+EA7npvSQLaXE+ksu4WHB
+ QwjC2SgzF8wWR3i3fThhLTUq8+ykeAunzCYjLOzdZj9QkTPYHCXNEdjplcs7BZg5HNwd
+ OmwLvsGYCrH96wY9BOgb6MhVruQSs0XenbfLoYkaBz6NIAkxu8NI7zUlyQuUlhyypE1c
+ eS190Q5vY+Aw2gv3XS9CJqghhakqlkL738yXIHv/XC1pqhaaniZJ3pEYkyojU20YmKW9
+ ycxaLJmX82QtnOVDpi3P2TGhmKz6d2MoDcsTD8HNT33WJP8lvASctqg0bBWpdO2VMC9G
+ lLUA==
+X-Gm-Message-State: AOAM533Pfb+LEkoIKJByYM5zAyvdV5g3Zmf+6X3nNWetd/63VPAlCLvt
+ eahmG2fMHMFPQ2tpIfcJNSCcR7QLMCFRYxKZNVg=
+X-Google-Smtp-Source: ABdhPJxFcehUSn0KokyDEoF/sAXVuf65ae6Gep+uS6yTdG7cYBW9jbte2YT3WooB5BHp22ny4R4GDiWtIomIg/wDeps=
+X-Received: by 2002:a05:6e02:ef3:: with SMTP id
+ j19mr146670ilk.227.1597245696707; 
+ Wed, 12 Aug 2020 08:21:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+References: <cover.1595924470.git.zong.li@sifive.com>
+ <6b0bf48662ef26ab4c15381a08e78a74ebd7ca79.1595924470.git.zong.li@sifive.com>
+In-Reply-To: <6b0bf48662ef26ab4c15381a08e78a74ebd7ca79.1595924470.git.zong.li@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 12 Aug 2020 08:11:07 -0700
+Message-ID: <CAKmqyKNso-cTYuwxo5waxp9n8ifV2GR9v=x6aM-y0NjQTSsw+A@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] target/riscv: Change the TLB page size depends on
+ PMP entries.
+To: Zong Li <zong.li@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,56 +80,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.rutland@arm.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
- qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/20 4:00 AM, Andrew Jones wrote:
-> On Tue, Aug 11, 2020 at 11:53:38PM -0700, Richard Henderson wrote:
->> The crypto overhead of emulating pauth can be significant for
->> some workloads.  Add an enumeration property that allows the
->> feature to be turned off, on with the architected algorithm,
->> or on with an implementation defined algorithm.
->>
->> The architected algorithm is quite expensive to emulate;
->> using another algorithm may allow hardware acceleration.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  target/arm/cpu64.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 64 insertions(+)
->>
->> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
->> index dd696183df..3181d0e2f8 100644
->> --- a/target/arm/cpu64.c
->> +++ b/target/arm/cpu64.c
->> @@ -572,6 +572,69 @@ void aarch64_add_sve_properties(Object *obj)
->>      }
->>  }
->>  
->> +static const char * const pauth_names[] = {
->> +    "off", "impdef", "arch"
->> +};
-> 
-> Hi Richard,
-> 
-> Please add three boolean properties, rather than one enum:
-> 
-> pauth:            enable support of the pauth feature
-> pauth-fast:       enable QEMU's fast non-cryptographic hash for pauth
->                   (pauth must be enabled)
-> pauth-arch:       enable the architected algorithm for pauth
->                   (pauth must be enabled)
-> 
-> These booleans can then be added to the cpu feature probing list used by
-> qmp_query_cpu_model_expansion()
+On Tue, Jul 28, 2020 at 1:29 AM Zong Li <zong.li@sifive.com> wrote:
+>
+> The minimum granularity of PMP is 4 bytes, it is small than 4KB page
+> size, therefore, the pmp checking would be ignored if its range doesn't
+> start from the alignment of one page. This patch detects the pmp entries
+> and sets the small page size to TLB if there is a PMP entry which cover
+> the page size.
+>
+> Signed-off-by: Zong Li <zong.li@sifive.com>
+> ---
+>  target/riscv/cpu_helper.c | 10 ++++++--
+>  target/riscv/pmp.c        | 52 +++++++++++++++++++++++++++++++++++++++
+>  target/riscv/pmp.h        |  2 ++
+>  3 files changed, 62 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 2f337e418c..fd1d373b6f 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -693,6 +693,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      bool first_stage_error = true;
+>      int ret = TRANSLATE_FAIL;
+>      int mode = mmu_idx;
+> +    target_ulong tlb_size = 0;
+>
+>      env->guest_phys_fault_addr = 0;
+>
+> @@ -784,8 +785,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      }
+>
+>      if (ret == TRANSLATE_SUCCESS) {
+> -        tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+> -                     prot, mmu_idx, TARGET_PAGE_SIZE);
+> +        if (pmp_is_range_in_tlb(env, pa & TARGET_PAGE_MASK, &tlb_size)) {
+> +            tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
+> +                         prot, mmu_idx, tlb_size);
+> +        } else {
+> +            tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+> +                         prot, mmu_idx, TARGET_PAGE_SIZE);
+> +        }
+>          return true;
+>      } else if (probe) {
+>          return false;
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index aeba796484..adadf6e9ba 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -393,3 +393,55 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+>
+>      return val;
+>  }
+> +
+> +/*
+> + * Calculate the TLB size if the start address or the end address of
+> + * PMP entry is presented in thie TLB page.
+> + */
+> +static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> +    target_ulong tlb_sa, target_ulong tlb_ea)
+> +{
+> +    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
+> +    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
+> +
+> +    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
+> +        return pmp_ea - pmp_sa + 1;
+> +    }
+> +
+> +    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
+> +        return tlb_ea - pmp_sa + 1;
+> +    }
+> +
+> +    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
+> +        return pmp_ea - tlb_sa + 1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +/*
+> + * Check is there a PMP entry whcih range covers this page. If so,
 
-Why are 3 booleans better than one enum?
+s/whcih/which/g
 
-I'd forgotten about qmp_query_cpu_model_expansion(); can it not take anything
-but booleans?
+I fixed this when apply it.
 
+> + * try to find the minimum granularity for the TLB size.
+> + */
+> +bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+> +    target_ulong *tlb_size)
+> +{
+> +    int i;
+> +    target_ulong val;
+> +    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
+> +
+> +    for (i = 0; i < MAX_RISCV_PMPS; i++) {
+> +        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
+> +        if (val) {
+> +            if (*tlb_size == 0 || *tlb_size > val) {
+> +                *tlb_size = val;
+> +            }
+> +        }
+> +    }
+> +
+> +    if (*tlb_size != 0) {
+> +        return true;
+> +    }
+> +
+> +    return false;
+> +}
+> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> index 8e19793132..c70f2ea4c4 100644
+> --- a/target/riscv/pmp.h
+> +++ b/target/riscv/pmp.h
+> @@ -60,5 +60,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+>  target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+>  bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>      target_ulong size, pmp_priv_t priv, target_ulong mode);
+> +bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+> +    target_ulong *tlb_size);
 
-r~
+The indentation is wrong here (as it is in the rest of the file). I
+just fixed this up as well as the others when I applied it.
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+I have applied patch 3 and 4 of this series. Patch 1 has already been
+applied and patch 2 no longer applies due to a different fix, sorry
+about that.
+
+Alistair
+
+>
+>  #endif
+> --
+> 2.27.0
+>
+>
 
