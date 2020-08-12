@@ -2,65 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4FD242546
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 08:21:50 +0200 (CEST)
-Received: from localhost ([::1]:35260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1605242589
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 08:40:39 +0200 (CEST)
+Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5k8z-00017e-Cm
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 02:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54668)
+	id 1k5kRA-00051s-Sl
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 02:40:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5k8C-0000iU-7g
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:21:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45790)
+ id 1k5kQK-0004ZV-GI
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:39:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5k8A-00005q-3K
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:20:59 -0400
+ id 1k5kQI-00025d-Eq
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:39:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5k86-00012a-KM
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:20:54 +0000
+ id 1k5kQG-00033w-8h
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:39:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4FABC2E811F
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:20:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 39BF02E8074
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:39:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 06:14:05 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1886811@bugs.launchpad.net>
+Date: Wed, 12 Aug 2020 06:29:12 -0000
+From: Thomas Huth <1407808@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=New; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak laurent-vivier rafaeldtinoco
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
-Message-Id: <159721284567.6433.10741233517141316606.launchpad@soybean.canonical.com>
-Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
- interface start request: Operation not supported
+X-Launchpad-Bug-Commenters: nyh th-huth
+X-Launchpad-Bug-Reporter: Nadav Har'El (nyh)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20150105215424.22410.18753.malonedeb@gac.canonical.com>
+Message-Id: <159721375321.5687.8416093096758256384.launchpad@soybean.canonical.com>
+Subject: [Bug 1407808] Re: virtual console gives strange response to ANSI DSR
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2d373cc76618a557f91acac3a3490c937eeaa1e6
+X-Launchpad-Hash: 18b8fd692405e07d9732fb45c0e0d9e4955d7a15
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 02:20:55
@@ -82,65 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
+Reply-To: Bug 1407808 <1407808@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: qemu (Ubuntu Focal)
-   Importance: Undecided
-       Status: New
+** Changed in: qemu
+       Status: Incomplete =3D> Triaged
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886811
+https://bugs.launchpad.net/bugs/1407808
 
 Title:
-  systemd complains Failed to enqueue loopback interface start request:
-  Operation not supported
+  virtual console gives strange response to ANSI DSR
 
 Status in QEMU:
-  Fix Committed
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Focal:
-  New
-Status in qemu package in Debian:
-  Fix Released
+  Triaged
 
 Bug description:
-  This symptom seems similar to
-  https://bugs.launchpad.net/qemu/+bug/1823790
+  With "-serial vc" (which is the default), qemu make strange responses
+  to the ANSI DSR escape sequence (\033[6n) which can confuse guests.
 
-  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
-  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
-5914310c925
-  compiled with "./configure --static --disable-system" =
+  Terminal emulators supporting the ANSI escape sequences usually
+  support the "Device Status Report" escape sequence, \033[6n, to which
+  as a response the terminal injects as input the response \033[n;mR,
+  containing the current cursor position. An application running in the
+  guest can use this escape sequence to, for example, figure out the
+  size of the terminal it is running under, which can be useful as the
+  guest has no other standard way to figure out a "size" for the serial
+  port.
 
+  Unfortunately, it seems that qemu when run with "-serial vc" (which
+  appears to be the default), when qemu gets the \033[6n escape sequence
+  on the serial port, it just responds with a single \033, and that's
+  it! This can confuse an application, could concievably assume that a
+  terminal either supports this escape sequence and injects the correct
+  response (\033[n;mR), or doesn't support it and injects absolutely
+  nothing as input - but not something in between.
 
-  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
-ug=3D964289
-  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
-/16359
-
-  systemd in armhf and armel (both little endian 32-bit) containers fail to=
- start with
-  Failed to enqueue loopback interface start request: Operation not support=
-ed
-
-  How to reproduce on Debian (and probably Ubuntu):
-  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
- --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
-  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
-
-  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
-"ppc64"
-  (64-bit big endian), the container starts up fine.
-
-  The same symptom is also observed with "powerpc" (32-bit big endian)
-  architecture.
+  This caused a problem on one shell implementation on OSv that tried to
+  figure out the terminal's size, and had to work around this unexpected
+  behavior (see https://github.com/cloudius-
+  systems/osv/commit/b79223584be40459861d1c12e1cb67e3e49e2a12).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1407808/+subscriptions
 
