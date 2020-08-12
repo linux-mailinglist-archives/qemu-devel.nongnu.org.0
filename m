@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A37524310F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:44:31 +0200 (CEST)
-Received: from localhost ([::1]:44410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF67E243128
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:51:22 +0200 (CEST)
+Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5zTy-0007SO-44
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39614)
+	id 1k5zab-0002WX-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQZ-0002Ph-Gg
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:59 -0400
+ id 1k5zQb-0002Uv-Ur
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:41:01 -0400
 Received: from esa4.hgst.iphmx.com ([216.71.154.42]:64096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQU-0005qL-A0
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:58 -0400
+ id 1k5zQZ-0005qL-On
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:41:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597272054; x=1628808054;
+ t=1597272059; x=1628808059;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Cq3JJ2MpSltXdXGTDk4g6h8slBE4eUBzmWJR3+MONy4=;
- b=Y8fnDNWsohO1JGq4De+U6nQNkvnvouyPuwof0Lx19Un4mc1tgwf1ggGo
- 9BBNvT1jEkN4DmTm7wO8b5yb+fYB86xHKjP5kcYknEEEbutXCuXQao7nD
- 7Z6KxduFCN44mrHVTMmD4p9x/EjcaiRVYd9ilGLHGf8xcZjX43Do6Ninu
- wInAy8okkICwuiU4OTNFJYe63PEI15iZGPJffVP713t2WK+qdBr0ne5vU
- lGpUH4jt1nz4w1sToyAPcLqSTYLOnYcuda86wQZjdr04xl/9tl6pxDi0p
- TZYFQMds9Ds3N5K8fKKzXTNKTjiZ7ojW8wOMrcz51NR9YGUNyTCQShNm9 w==;
-IronPort-SDR: vzxksyaYzy0JPqvXAfWxATOa/VFuUVV7HXTuJT1MPOU+Tyr5uLCaeEDI8IjeUOi9nBpPaMu4sP
- y5g3Y+Ae2HXLTA0aOqsOghr+injqRWQRrQ4ao51yW3LJJkUjC1RGWzl2XCyI/Ehygp6CXoGUVW
- XVz2ajj137SdDV4M6CpOOCnyab5K0YH0qzB/ZJrdcdYruLuhsZu31qTLy0Pt+KyRdR4Mb4xkp6
- 5CF187fVShHcIWjVXfN8kxBEcXO5J/3NGhAN7hKmNC1o4GMQXBl9SzhhnN9ON52MVyLuPt7cFc
- rio=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144799065"
+ bh=fLfdAGVZEVydfLn7ls9NeU8+lR26vwCk/tcpTzXncLw=;
+ b=bt59q912VChTP98umtQa7uMAWWqAkmSjMLbH2IfEOFFCsQlirmYroJ4a
+ NLsuY4L6bdn3nZbzlv5KgCecJ5S9gTujaYzlXiJgA42Z7fpOnZ3M6iVEi
+ 5hQOAp1ep7D13cHCYXfE5eAJMUi1+iXLIvsmdZNIBXWYOpBuxz22gEWUa
+ sFVrDH3+LpDCe0yx6hxPeOnVMQjnSmtpG2jrsdXANeWyGaoleUqmDxmjf
+ Mlyszsj/dSAQYAvdGyjEmdmfb5VFuDuadCBTC4XtbF/6YzN1wEDdhnAi4
+ opRWGqJJB4su02sntmu8p+4yx4CaJij2oRQms7+xdq2QilG1P3srtLbqb g==;
+IronPort-SDR: My93DNMqyk9zQMo7wArfDYSZPyRbUsmqaZhEY41zAlpNgA7XwYdtiI2l51SLnM8thRPmKC4T5h
+ An47j5WGDRKSrY9BMZ7Y/z4ZNUlUQJViZmN0hc/beQCEPTDicotbJjQk1hgzDuGhckLMROddrL
+ u1in8kYXS8orzxbN+m89MaCCJVI8Wf7JCO851LA9MP+r6jiUKochOaOMSGyFEjcugh28l9M75T
+ RUQYUJ/Y+lBE9hlxe4IhzVgKhCHTGarytV6RY34Wf4bZfp9UrdEhzIRmk0+ceqwRQ72gF5JN07
+ DiM=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144799066"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:52 +0800
-IronPort-SDR: 06lz8vpcsuitd8R24fUqVXYNia/JwSWaJiYtVP8DMXAnQZiE/mmqSHisPEatgSCIyD/XedL2GJ
- Vwx7CgeX5P1w==
+IronPort-SDR: +G6C3hzbPhw4Sg4xxbzb/gE0nIf5RVPR1us2645dYGmp5F58aiLyYGpsSy5F348nU/WBShzQ5m
+ 7ApRE4UxYXFQ==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Aug 2020 15:28:43 -0700
-IronPort-SDR: CP1thwQz0Z8sWV+jU49rdnZVrFIPi1wnQxfChyD4c5GYZPFTvhUCp8pNR0IpIlxj4d+WYMZWwH
- WtVMH3HQM6Kg==
+IronPort-SDR: VNHxcisuux5nLEu2nhgxjYKbn7am1ES35igccZ2Y7GriKDNKa4KshKZOdRCHO5uhKa47OYUzuY
+ I39KES3AGbHw==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
- by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:49 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:50 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/20] target/riscv: Fix the translation of physical address
-Date: Wed, 12 Aug 2020 15:30:41 -0700
-Message-Id: <20200812223045.96803-17-alistair.francis@wdc.com>
+Subject: [PULL 17/20] target/riscv: Change the TLB page size depends on PMP
+ entries.
+Date: Wed, 12 Aug 2020 15:30:42 -0700
+Message-Id: <20200812223045.96803-18-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
 References: <20200812223045.96803-1-alistair.francis@wdc.com>
@@ -93,43 +94,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zong Li <zong.li@sifive.com>
 
-The real physical address should add the 12 bits page offset. It also
-causes the PMP wrong checking due to the minimum granularity of PMP is
-4 byte, but we always get the physical address which is 4KB alignment,
-that means, we always use the start address of the page to check PMP for
-all addresses which in the same page.
+The minimum granularity of PMP is 4 bytes, it is small than 4KB page
+size, therefore, the pmp checking would be ignored if its range doesn't
+start from the alignment of one page. This patch detects the pmp entries
+and sets the small page size to TLB if there is a PMP entry which cover
+the page size.
 
 Signed-off-by: Zong Li <zong.li@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <370a983d0f9e8a9a927b9bb8af5e7bc84b1bf9b1.1595924470.git.zong.li@sifive.com>
+Message-Id: <6b0bf48662ef26ab4c15381a08e78a74ebd7ca79.1595924470.git.zong.li@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/riscv/pmp.h        |  2 ++
+ target/riscv/cpu_helper.c | 10 ++++++--
+ target/riscv/pmp.c        | 52 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 62 insertions(+), 2 deletions(-)
 
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index 8e19793132..6a8f072871 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -60,5 +60,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+     target_ulong size, pmp_priv_t priv, target_ulong mode);
++bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
++                         target_ulong *tlb_size);
+ 
+ #endif
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 75d2ae3434..2f337e418c 100644
+index 2f337e418c..fd1d373b6f 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -543,7 +543,8 @@ restart:
-             /* for superpage mappings, make a fake leaf PTE for the TLB's
-                benefit. */
-             target_ulong vpn = addr >> PGSHIFT;
--            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
-+            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
-+                        (addr & ~TARGET_PAGE_MASK);
+@@ -693,6 +693,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     bool first_stage_error = true;
+     int ret = TRANSLATE_FAIL;
+     int mode = mmu_idx;
++    target_ulong tlb_size = 0;
  
-             /* set permissions on the TLB entry */
-             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-@@ -630,7 +631,7 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-         }
+     env->guest_phys_fault_addr = 0;
+ 
+@@ -784,8 +785,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
      }
  
--    return phys_addr;
-+    return phys_addr & TARGET_PAGE_MASK;
- }
+     if (ret == TRANSLATE_SUCCESS) {
+-        tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+-                     prot, mmu_idx, TARGET_PAGE_SIZE);
++        if (pmp_is_range_in_tlb(env, pa & TARGET_PAGE_MASK, &tlb_size)) {
++            tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
++                         prot, mmu_idx, tlb_size);
++        } else {
++            tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
++                         prot, mmu_idx, TARGET_PAGE_SIZE);
++        }
+         return true;
+     } else if (probe) {
+         return false;
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index b14feeb7da..c394e867f8 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -383,3 +383,55 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
  
- void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     return val;
+ }
++
++/*
++ * Calculate the TLB size if the start address or the end address of
++ * PMP entry is presented in thie TLB page.
++ */
++static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
++                                     target_ulong tlb_sa, target_ulong tlb_ea)
++{
++    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
++    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
++
++    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
++        return pmp_ea - pmp_sa + 1;
++    }
++
++    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
++        return tlb_ea - pmp_sa + 1;
++    }
++
++    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
++        return pmp_ea - tlb_sa + 1;
++    }
++
++    return 0;
++}
++
++/*
++ * Check is there a PMP entry which range covers this page. If so,
++ * try to find the minimum granularity for the TLB size.
++ */
++bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
++                         target_ulong *tlb_size)
++{
++    int i;
++    target_ulong val;
++    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
++
++    for (i = 0; i < MAX_RISCV_PMPS; i++) {
++        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
++        if (val) {
++            if (*tlb_size == 0 || *tlb_size > val) {
++                *tlb_size = val;
++            }
++        }
++    }
++
++    if (*tlb_size != 0) {
++        return true;
++    }
++
++    return false;
++}
 -- 
 2.27.0
 
