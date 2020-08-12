@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7ACC2428FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:03:17 +0200 (CEST)
-Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57512428FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:03:08 +0200 (CEST)
+Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5pTR-0005Bh-0W
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:03:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52554)
+	id 1k5pTH-0005AF-HM
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5pRi-0004L4-Ag
+ id 1k5pRi-0004L5-D1
  for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:01:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60632)
+Received: from indium.canonical.com ([91.189.90.7]:60660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5pRg-0000KJ-DZ
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:01:29 -0400
+ id 1k5pRg-0000KK-Cf
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:01:30 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5pRd-0001KM-Ui
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:01:25 +0000
+ id 1k5pRe-0001Jo-IP
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:01:26 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9BA8D2E810B
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:01:25 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 89D9A2E808B
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:01:26 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 11:51:54 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1826200@bugs.launchpad.net>
+Date: Wed, 12 Aug 2020 11:54:07 -0000
+From: "Laszlo Ersek \(Red Hat\)" <1717708@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=berrange@redhat.com; 
-X-Launchpad-Bug-Tags: feature-request
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Commenters: 0xab brfeng gilius lersek netrolller-3d pmaydell
+ rtfss1 shannon-zhaosl
+X-Launchpad-Bug-Reporter: oscarbg (rtfss1)
 X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <155610584995.13565.1262636932024040431.malonedeb@wampee.canonical.com>
-Message-Id: <159723311429.22066.3478789016452824280.malone@chaenomeles.canonical.com>
-Subject: [Bug 1826200] Re: RFE: populate "OEM Strings" (type 11) SMBIOS table
- strings from regular files
+References: <150558614762.29770.16367876405044972592.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159723324776.22462.3065989991441109337.malone@chaenomeles.canonical.com>
+Subject: [Bug 1717708] Re: QEMU aarch64 can't run Windows ARM64 iso's
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 21e0e058611502163c4e4ab4bf623674967142e0
+X-Launchpad-Hash: 6b162d547d92a8720345b3b5a85641108de12eda
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:10:59
@@ -62,7 +61,8 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,60 +74,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826200 <1826200@bugs.launchpad.net>
+Reply-To: Bug 1717708 <1717708@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll probably never have resources for this -- nice to have feature,
-but has not become critical in ~1.5 years. LP doesn't allow me to close
-the ticket as "Won't Fix", so I'll have to go with "Invalid". (The
-report is not invalid at all, but the ticket status should *somehow*
-reflect that we have no resources for working on this.)
+No need to keep this open any longer (no activity for 19 months). Please
+follow the links captured above to the past discussions. There's nothing
+new to add wrt. the situation.
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Invalid
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826200
+https://bugs.launchpad.net/bugs/1717708
 
 Title:
-  RFE: populate "OEM Strings" (type 11) SMBIOS table strings from
-  regular files
+  QEMU aarch64 can't run Windows ARM64 iso's
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  The feature added in
+  Hi,
+  recently Windows ARM64 ISOs have been posted on the internet..
+  just checked with latest QEMU 2.10 release from =
 
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D2d6dcbf93fb01b4a7f4=
-5a93d276d4d74b16392dd
+  https://qemu.weilnetz.de/w64/qemu-w64-setup-20170830.exe =
 
-  and exposed by libvirt as
+  "h:\qemu\qemu-system-aarch64.exe" -boot d -cdrom h:\iso\16353.1000.170825=
+-1423.RS_PRERELEASE_CLIENTPRO_OEMRET_ARM64FRE_ES-ES.ISO -m 2048 -cpu cortex=
+-a57 -smp 1 -machine virt
+  seems no video output..
+  checked various machine options for example versatilepb (says guest has n=
+ot initialized the guest)..
 
-    https://libvirt.org/formatdomain.html#elementsSysinfo
+  so don't know if it's a QEMU bug or lacking feature but can support
+  running Windows ARM64 builds (would be nice if you can add a
+  Snapdragon835 machine type which is which first machines will be
+  running..)
 
-  allows the user to specify up to 255 strings in the unofmatted area of
-  the Type 11 SMBIOS table, where each string may be of arbitrary
-  length. This feature is useful for exposing arbitrary text to
-  arbitrary guest components (in particular when strings are prefixed
-  with "application identifiers").
+  =
 
-  Right now, strings can only be specified on the QEMU command line,
-  which limits the amount of data that can be passed. Please enable
-  users to pass data from regular files too.
+  note running a Windows x64 ISO with similar parameters works (removing -c=
+pu and -machine as not needed)
 
-  For example:
-
-    $QEMU -smbios
-  type=3D11,value=3DHello,txtfile=3Dfile1.txt,txtfile=3Dfile2.txt
-
-  where "file1.txt" and "file2.txt" could be text files containing ASCII
-  application prefixes, followed by base64-encoded binary data.
+  thanks..
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826200/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1717708/+subscriptions
 
