@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4A8242936
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:18:22 +0200 (CEST)
-Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6ECF24293B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:21:23 +0200 (CEST)
+Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5pi1-0005gQ-Rs
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56954)
+	id 1k5pkw-0007fn-QP
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5pgh-0004vk-9Y
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:16:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55701)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5pjX-00072h-By
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:19:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53508
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5pgf-0002N8-A9
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:16:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k5pjV-0002cD-4s
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:19:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597234616;
+ s=mimecast20190719; t=1597234792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fo1P9qCSHHcysDUd2m2+EdbNU1aorSvviYdjPrOGs8M=;
- b=MVue6H7hiKuPgpt9JRtFwxubP4MCLHxFUmQTEKtRxayTgfN/NAGwoRMUOlLRNAFofQ4cW9
- Mo310JVMqbO7btIz2KFfYCj26/E0k9gxqPAHtCrk+nXwM1L3xO9zQw0IYSTdskwOFdE5vu
- scxaNbMmnubeossc6PhLRdEdC8JQiAU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-G_Jsr9ohMWasma0ruZeZeg-1; Wed, 12 Aug 2020 08:16:53 -0400
-X-MC-Unique: G_Jsr9ohMWasma0ruZeZeg-1
-Received: by mail-wm1-f70.google.com with SMTP id a5so825622wmj.5
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 05:16:53 -0700 (PDT)
+ bh=989288FbIlvacuy6N/3Yg9uqNHxm/HXXkikvRLzl2jc=;
+ b=LtOkFP8Y6qvNnca1a70jbtfL/SYmFtD2RmVwXLWc8m9vtoWLvOsxZAUI2iCVRDh4maZFE+
+ mOxWKHz1JOMtpy/k4BiHYKyM7/ovZi3gbenVIrOu9xfWs6HiFNnSpqxCFF1qzYRy7jA1HZ
+ noI3e3l+J8cTksKsm2XZVRXMMmCRT/k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-134-qtEv3BWwMcOF1vHMA5wkSA-1; Wed, 12 Aug 2020 08:19:49 -0400
+X-MC-Unique: qtEv3BWwMcOF1vHMA5wkSA-1
+Received: by mail-wm1-f72.google.com with SMTP id t26so829974wmn.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 05:19:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=fo1P9qCSHHcysDUd2m2+EdbNU1aorSvviYdjPrOGs8M=;
- b=UZqAogBTVh0TpX6laKdsoTFAUqrlcUB4GJLhieAt90Tj5UnBw/peRCc4cBDPWgmumc
- Cn0+tG/9DaWWFRK2K1ogTS4963ONUbtGdRObDSrP5Qu/MWucyA978ke+s8T7B/+8D3DV
- G6HBiAdQSU7jBYHPgDRtfMlGyBu1h1tn9/vDCvwt6HB8qbGewfolhh+OQ2EXKQVTPlfc
- T9WS+X+vLDjL6VLRjkPuUn/XbRLcPIkOFK2kcmwO2ubB5TmVYZNppU6AVrPqvE5kRjRF
- wILKsXMuyNGKLxxeuoXO6RzQLktfCGXkSzubRCfJB3GunXaxgophQTH21EBcDqIhky1f
- /wxQ==
-X-Gm-Message-State: AOAM533C7Rn+bmxVDKvpWhBSm2xIk+3paxSbakQIECu7Rh6+owuheZFl
- hNmmj+PvqoeDnBdoYLjqsxYGhpjhbu7hAoyWC8JO7uWXMZ7Hf9LLiohLkngG2ldne9bmfcqqK6H
- n0PTxOTh0+XEoC8c=
-X-Received: by 2002:a1c:38b:: with SMTP id 133mr7959483wmd.153.1597234611817; 
- Wed, 12 Aug 2020 05:16:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAmkvRQPkAbUN2TTZsqiIWKOU4f2YsTBSYbILtT1wO9wL7U4xAA27RnId3Tj8nQ4riGh+hfg==
-X-Received: by 2002:a1c:38b:: with SMTP id 133mr7959447wmd.153.1597234611372; 
- Wed, 12 Aug 2020 05:16:51 -0700 (PDT)
+ bh=989288FbIlvacuy6N/3Yg9uqNHxm/HXXkikvRLzl2jc=;
+ b=HAknvlHEU4zn2JwpNpXm1CZCCip91zr45kjK12zF2WOx5tISYmEp5ajWSSO7f8Mq4o
+ ZgppNJWXC9evKqhbwlg42t2os8/xv0Nso879oNhHXAagkfisQn6PBtMOuqe4KMhAbC1F
+ SaDEKUgOpC7DDXow6/SztdifB1qo9c+ogRSfTaCOkkVdE8j34JoSkvOpnTfakhoHtRoL
+ 5lxKXCOsa5wp5At+1xTbzKK32zGvMfYzkavgd7yPijuN8MN+shosZiQN9J2J1O/FLr+m
+ rTnwupWV0k4vjMjnV/5EsASyx+ST1ociqVzcGz8JxQn9IBbhmTwzoGFahacWm/FZP5CR
+ mhpQ==
+X-Gm-Message-State: AOAM5336IMfK1mZvpth2swjO0zx2M37KPRMtUad0iYtjiUiGvhVLLkUD
+ +KVp3DOtHFtYSNMOBZC6XQ0R8oPSXQ4+mQgLAOR69UNfbN+AclEmH9k4XSXeC4drdu4hDYv7msN
+ A1Ic4xY0FVis4u2w=
+X-Received: by 2002:a1c:6707:: with SMTP id b7mr8010376wmc.97.1597234786854;
+ Wed, 12 Aug 2020 05:19:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKbs0YYWdtSNS9WbhJgC1z+l+Bh096nXcsRCYlbDIFDC+la5vOq1WV2hYsWipcGhx+nvILBw==
+X-Received: by 2002:a1c:6707:: with SMTP id b7mr8010350wmc.97.1597234786568;
+ Wed, 12 Aug 2020 05:19:46 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id f6sm4995567wme.32.2020.08.12.05.16.50
+ by smtp.gmail.com with ESMTPSA id u204sm3800016wmg.9.2020.08.12.05.19.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Aug 2020 05:16:50 -0700 (PDT)
-Subject: Re: [PATCH for-5.1 v2] acceptance: use stable URLs for the Debian and
- Ubuntu installer
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200810092941.154911-1-pbonzini@redhat.com>
+ Wed, 12 Aug 2020 05:19:45 -0700 (PDT)
+Subject: Re: Acceptance Test BootLinuxAarch64.test_virt_tcg execution times
+To: Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20200806193553.GA1463846@localhost.localdomain>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -86,30 +86,31 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e0a682bf-73b1-f11d-8a6a-52c7d5e5cdd8@redhat.com>
-Date: Wed, 12 Aug 2020 14:16:49 +0200
+Message-ID: <e1eab172-5f29-dd54-c78a-fc76216fe97c@redhat.com>
+Date: Wed, 12 Aug 2020 14:19:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200810092941.154911-1-pbonzini@redhat.com>
+In-Reply-To: <20200806193553.GA1463846@localhost.localdomain>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:49:30
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 04:27:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,53 +123,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/20 11:29 AM, Paolo Bonzini wrote:
-> The kernel and initrd hashes seem to have changed for the Bionic
-> aarch64 installer, causing BootLinuxConsole.test_aarch64_xlnx_versal_virt
-> to fail.  Correct the paths to use the previous binaries instead of
-> the latest.  Do the same for the Lenny alpha installer for
-> consistency, even though those are unlikely to change.
+On 8/6/20 9:35 PM, Cleber Rosa wrote:
+> TL;DR: This is a followup from an IRC chat about the
+> tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg test
+> taking many orders of magnitute longer than other acceptance (and even
+> similar boot) tests.  I could not find an easy way for this specific
+> test (aarch64+tcg) to have a significant execution time improvement.
+> The best solution may be to filter out tests that are known to be
+> slow, and create a specific "test job" that includes them.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/acceptance/boot_linux_console.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Fisrt, if it's not clear, this specific test runs QEMU with TCG and
+> boots a Fedora 31 "cloud image" and waits until the cloud-init agent
+> notifies the test that the boot is over.
 > 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 73cc69c499..57ba6328de 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -336,13 +336,13 @@ class BootLinuxConsole(LinuxKernelTest):
->          :avocado: tags=device:arm_gicv3
->          """
->          kernel_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-> -                      'bionic-updates/main/installer-arm64/current/images/'
-> +                      'bionic-updates/main/installer-arm64/20101020ubuntu543.15/images/'
->                        'netboot/ubuntu-installer/arm64/linux')
->          kernel_hash = '5bfc54cf7ed8157d93f6e5b0241e727b6dc22c50'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->  
->          initrd_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-> -                      'bionic-updates/main/installer-arm64/current/images/'
-> +                      'bionic-updates/main/installer-arm64/20101020ubuntu543.15/images/'
->                        'netboot/ubuntu-installer/arm64/initrd.gz')
->          initrd_hash = 'd385d3e88d53e2004c5d43cbe668b458a094f772'
->          initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> @@ -822,7 +822,7 @@ class BootLinuxConsole(LinuxKernelTest):
->          :avocado: tags=machine:clipper
->          """
->          kernel_url = ('http://archive.debian.org/debian/dists/lenny/main/'
-> -                      'installer-alpha/current/images/cdrom/vmlinuz')
-> +                      'installer-alpha/20090123lenny10/images/cdrom/vmlinuz')
->          kernel_hash = '3a943149335529e2ed3e74d0d787b85fb5671ba3'
->          kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->  
+> Out of the four archtiectures tested with the same approach under
+> "tests/acceptance/boot_linux.py", aarch64 was special, in the sense
+> that many Linux "cloud images" got stuck very late in the boot
+> process.  What seemed to be a disk activity within the guest that
+> seemed to make the kernel drain its random number sources if my memory
+> serves me right.  Giving the machine a RNG device fixed it.  This can
+> still be verified Today if you comment the virtio-rng lines in the
+> aarch64 test.
 > 
+> So, even with the RNG device and the boot process not getting stuck, a
+> lot of the test time is spent with QEMU actively using CPU time
+> produced by the guest boot process.  This may or may not be the cause
+> for the slowness.
 
-Thanks, applied to my acceptance-testing tree.
+I believe this is related to the issue Richard recently addressed:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg729216.html
+
+> 
+> One approach to have a shorter test time, would be to reduce the
+> things that happen during the guest boot process.  Choosing a minimal
+> guest, such as CirrOS, would be an example of such a solution, but:
+> 
+> * With less things happening during the guest boot, less things
+>   get tested within QEMU;
+> 
+> * CirrOS can not make use of the same boot cloud-init configuration
+>   and boot verification the test currently uses;
+> 
+> So that leaves other non-minimal Linux "cloud images" as options.  But
+> still, the following things are required or nice to have:
+> 
+> * Support for cloud-init;
+> 
+> * Support for as many as possible architectures;
+> 
+> * Wide user base;
+> 
+> * Be thoroughly tested with this "boot_linux.py" test
+> 
+> So in the end, I picked Fedora 31, which was available and behaved
+> well for four different architectures with and without KVM. Today, I
+> verified if switching distros would provide an "easy fix", but the
+> results were negative.  Any ideas on how to improve the test execution
+> times are appreciated.
+> 
+> For the record, one of the ways we're trying to improve the overall
+> test experience is to allow tests to run in parallel (expected to be
+> fully supported on the upcoming version 81.0).
+> 
+> For those interested, these are the numbers I got, and how I tested
+> with other distros.  I'm using QEMU e1d322c405 with a vanilla
+> configure under a x86_64 Fedora 32 host.
+> 
+> Fedora 31 (baseline):
+> ====================
+> 
+>   $ make check-venv
+>   $ ./tests/venv/bin/avocado run -t arch:aarch64,accel:tcg --keep-tmp on -- tests/acceptance/boot_linux.py{,,,,}
+>   JOB ID     : 14802f9d5016a44d2937ed7b1fec63b2eaa06e89
+>   JOB LOG    : /home/cleber/avocado/job-results/job-2020-08-06T13.19-14802f9/job.log
+>    (1/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (153.12 s)
+>    (2/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (149.57 s)
+>    (3/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (154.45 s)
+>    (4/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (148.97 s)
+>    (5/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (150.70 s)
+>   RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+>   JOB TIME   : 757.50 s
+> 
+> Fedora 32:
+> ==========
+> 
+> 1. Tweak version and image hash:
+> 
+> ---
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+> index 0055dc7cee..44c62bd4a2 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -48,7 +48,7 @@ class BootLinuxBase(Test):
+>              image_arch = 'ppc64le'
+>          try:
+>              boot = vmimage.get(
+> -                'fedora', arch=image_arch, version='31',
+> +                'fedora', arch=image_arch, version='32',
+>                  checksum=self.chksum,
+>                  algorithm='sha256',
+>                  cache_dir=self.cache_dirs[0],
+> @@ -160,7 +160,7 @@ class BootLinuxAarch64(BootLinux):
+>      :avocado: tags=machine:gic-version=2
+>      """
+>  
+> -    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
+> +    chksum = 'b367755c664a2d7a26955bbfff985855adfa2ca15e908baf15b4b176d68d3967'
+>  
+>      def add_common_args(self):
+>          self.vm.add_args('-bios',
+> ---
+> 
+> 2. Download the image before the test:
+> 
+>   $ ./tests/venv/bin/avocado vmimage get --distro=fedora --arch aarch64 --distro-version=32
+>   The image was downloaded:
+>   Provider Version Architecture File
+>   fedora   32      aarch64      /tmp/data/cache/by_location/7049001631a4b2eabf5766cc110e66d486e09821/Fedora-Cloud-Base-32-1.6.aarch64.qcow2
+> 
+> 3. Run the tests:
+> 
+>   $ ./tests/venv/bin/avocado run -t arch:aarch64,accel:tcg --keep-tmp on -- tests/acceptance/boot_linux.py{,,,,}
+> JOB ID     : 09e740a41dc400f9fcbb9253f613734597fe0efc
+> JOB LOG    : /home/cleber/avocado/job-results/job-2020-08-06T13.53-09e740a/job.log
+>  (1/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (162.06 s)
+>  (2/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (167.78 s)
+>  (3/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (166.98 s)
+>  (4/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (171.13 s)
+>  (5/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (167.43 s)
+> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+> JOB TIME   : 836.05 s
+> 
+> Ubuntu 20.04:
+> =============
+> 
+> 1. Tweak version and image hash:
+> 
+> ---
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+> index 0055dc7cee..03c0e1bee9 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -48,7 +48,7 @@ class BootLinuxBase(Test):
+>              image_arch = 'ppc64le'
+>          try:
+>              boot = vmimage.get(
+> -                'fedora', arch=image_arch, version='31',
+> +                'ubuntu', arch=image_arch, version='20.04',
+>                  checksum=self.chksum,
+>                  algorithm='sha256',
+>                  cache_dir=self.cache_dirs[0],
+> @@ -160,7 +160,7 @@ class BootLinuxAarch64(BootLinux):
+>      :avocado: tags=machine:gic-version=2
+>      """
+>  
+> -    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
+> +    chksum = '1d9e50f3381145835b11911adf611f455d674a570814086b7d6581ecc0718770'
+>  
+>      def add_common_args(self):
+>          self.vm.add_args('-bios',
+> ---
+> 
+> 2. Download the image before the test:
+> 
+>   $ ./tests/venv/bin/avocado vmimage get --distro=ubuntu --arch aarch64 --distro-version=20.04
+>   The image was downloaded:
+>   Provider Version Architecture File
+>   ubuntu   20.04   arm64        /tmp/data/cache/by_location/19db8c6d910a3f2660c4109ffb85d73d43e5cdf2/ubuntu-20.04-server-cloudimg-arm64.img
+> 
+> 3. Run the tests:
+> 
+>   $ ./tests/venv/bin/avocado run -t arch:aarch64,accel:tcg --keep-tmp on -- tests/acceptance/boot_linux.py{,,,,}
+>   JOB ID     : 92a1bdbb5e933e6dff8b882808a191f1de3c2600
+>   JOB LOG    : /home/cleber/avocado/job-results/job-2020-08-06T12.13-92a1bdb/job.log
+>    (1/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (341.40 s)
+>    (2/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (345.82 s)
+>    (3/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (335.91 s)
+>    (4/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (320.32 s)
+>    (5/5) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg: PASS (319.79 s)
+>   RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+>   JOB TIME   : 1663.92 s
+> 
 
 
