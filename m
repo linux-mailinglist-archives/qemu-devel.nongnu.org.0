@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9EB242A8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:44:43 +0200 (CEST)
-Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2843D242A82
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:42:03 +0200 (CEST)
+Received: from localhost ([::1]:40798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5r3a-0002EE-Rp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53120)
+	id 1k5r10-0005Dm-55
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1k5nod-00089N-Rf; Wed, 12 Aug 2020 06:17:05 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4176 helo=huawei.com)
+ id 1k5nog-00089P-7h; Wed, 12 Aug 2020 06:17:09 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:59148 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1k5noY-00032I-0m; Wed, 12 Aug 2020 06:17:03 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 213C81F85F9C9859FCBC;
- Wed, 12 Aug 2020 18:16:54 +0800 (CST)
-Received: from localhost (10.174.187.253) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
- 18:16:46 +0800
+ id 1k5noa-00032R-PZ; Wed, 12 Aug 2020 06:17:05 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id E56497CACFB2AD4CC14F;
+ Wed, 12 Aug 2020 18:16:55 +0800 (CST)
+Received: from localhost (10.174.187.253) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
+ 18:16:49 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH RFC 05/10] util/: fix some comment spelling errors
-Date: Wed, 12 Aug 2020 18:14:55 +0800
-Message-ID: <20200812101500.2066-6-zhaolichang@huawei.com>
+Subject: [PATCH RFC 06/10] linux-user/: fix some comment spelling errors
+Date: Wed, 12 Aug 2020 18:14:56 +0800
+Message-ID: <20200812101500.2066-7-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200812101500.2066-1-zhaolichang@huawei.com>
 References: <20200812101500.2066-1-zhaolichang@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.253]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
+Received-SPF: pass client-ip=45.249.212.35;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:16:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:15:29
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -65,95 +65,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the util folder.
+and finally found some spelling errors in the linux-user folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 ---
- util/osdep.c             | 2 +-
- util/qemu-progress.c     | 2 +-
- util/qemu-sockets.c      | 2 +-
- util/qemu-thread-win32.c | 2 +-
- util/qht.c               | 2 +-
- util/trace-events        | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ linux-user/aarch64/signal.c              | 2 +-
+ linux-user/cris/target_syscall.h         | 4 ++--
+ linux-user/flat.h                        | 2 +-
+ linux-user/flatload.c                    | 4 ++--
+ linux-user/host/ppc64/safe-syscall.inc.S | 2 +-
+ linux-user/syscall.c                     | 4 ++--
+ 6 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/util/osdep.c b/util/osdep.c
-index 4829c07..e50dc22 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -392,7 +392,7 @@ int qemu_unlink(const char *name)
-  * Set errno if fewer than `count' bytes are written.
-  *
-  * This function don't work with non-blocking fd's.
-- * Any of the possibilities with non-bloking fd's is bad:
-+ * Any of the possibilities with non-blocking fd's is bad:
-  *   - return a short write (then name is wrong)
-  *   - busy wait adding (errno == EAGAIN) to the loop
-  */
-diff --git a/util/qemu-progress.c b/util/qemu-progress.c
-index 3c2223c..20d51f8 100644
---- a/util/qemu-progress.c
-+++ b/util/qemu-progress.c
-@@ -131,7 +131,7 @@ void qemu_progress_end(void)
- /*
-  * Report progress.
-  * @delta is how much progress we made.
-- * If @max is zero, @delta is an absolut value of the total job done.
-+ * If @max is zero, @delta is an absolute value of the total job done.
-  * Else, @delta is a progress delta since the last call, as a fraction
-  * of @max.  I.e. the delta is @delta * @max / 100. This allows
-  * relative accounting of functions which may be a different fraction of
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index b37d288..99ce2fd 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -416,7 +416,7 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
- 
-     /* At least FreeBSD and OS-X 10.6 declare AI_V4MAPPED but
-      * then don't implement it in their getaddrinfo(). Detect
--     * this and retry without the flag since that's preferrable
-+     * this and retry without the flag since that's preferable
-      * to a fatal error
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index cd521ee..d50c1ae 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -78,7 +78,7 @@ struct target_sve_context {
+     struct target_aarch64_ctx head;
+     uint16_t vl;
+     uint16_t reserved[3];
+-    /* The actual SVE data immediately follows.  It is layed out
++    /* The actual SVE data immediately follows.  It is laid out
+      * according to TARGET_SVE_SIG_{Z,P}REG_OFFSET, based off of
+      * the original struct pointer.
       */
-     if (rc == EAI_BADFLAGS &&
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index 56a8333..d207b0c 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -289,7 +289,7 @@ void qemu_event_wait(QemuEvent *ev)
-             ResetEvent(ev->event);
+diff --git a/linux-user/cris/target_syscall.h b/linux-user/cris/target_syscall.h
+index 29d6900..c7ae89d 100644
+--- a/linux-user/cris/target_syscall.h
++++ b/linux-user/cris/target_syscall.h
+@@ -4,7 +4,7 @@
+ #define UNAME_MACHINE "cris"
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
  
-             /* Tell qemu_event_set that there are waiters.  No need to retry
--             * because there cannot be a concurent busy->free transition.
-+             * because there cannot be a concurrent busy->free transition.
-              * After the CAS, the event will be either set or busy.
-              */
-             if (atomic_cmpxchg(&ev->value, EV_FREE, EV_BUSY) == EV_SET) {
-diff --git a/util/qht.c b/util/qht.c
-index 67e5d5b..b2e020c 100644
---- a/util/qht.c
-+++ b/util/qht.c
-@@ -49,7 +49,7 @@
-  * it anymore.
-  *
-  * Writers check for concurrent resizes by comparing ht->map before and after
-- * acquiring their bucket lock. If they don't match, a resize has occured
-+ * acquiring their bucket lock. If they don't match, a resize has occurred
-  * while the bucket spinlock was being acquired.
-  *
-  * Related Work:
-diff --git a/util/trace-events b/util/trace-events
-index 0ce4282..4bc0180 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -28,7 +28,7 @@ qemu_file_monitor_add_watch(void *mon, const char *dirpath, const char *filename
- qemu_file_monitor_remove_watch(void *mon, const char *dirpath, int64_t id) "File monitor %p remove watch dir='%s' id=%" PRId64
- qemu_file_monitor_new(void *mon, int fd) "File monitor %p created fd=%d"
- qemu_file_monitor_enable_watch(void *mon, const char *dirpath, int id) "File monitor %p enable watch dir='%s' id=%u"
--qemu_file_monitor_disable_watch(void *mon, const char *dirpath, int id) "Fle monitor %p disable watch dir='%s' id=%u"
-+qemu_file_monitor_disable_watch(void *mon, const char *dirpath, int id) "File monitor %p disable watch dir='%s' id=%u"
- qemu_file_monitor_event(void *mon, const char *dirpath, const char *filename, int mask, unsigned int id) "File monitor %p event dir='%s' file='%s' mask=0x%x id=%u"
- qemu_file_monitor_dispatch(void *mon, const char *dirpath, const char *filename, int ev, void *cb, void *opaque, int64_t id) "File monitor %p dispatch dir='%s' file='%s' ev=%d cb=%p opaque=%p id=%" PRId64
+-/* pt_regs not only specifices the format in the user-struct during
++/* pt_regs not only specifies the format in the user-struct during
+  * ptrace but is also the frame format used in the kernel prologue/epilogues
+  * themselves
+  */
+@@ -32,7 +32,7 @@ struct target_pt_regs {
+         unsigned long spc;
+         unsigned long ccs;
+         unsigned long srp;
+-        unsigned long erp; /* This is actually the debugged process' PC */
++        unsigned long erp; /* This is actually the debugged process's PC */
+         /* For debugging purposes; saved only when needed. */
+         unsigned long exs;
+         unsigned long eda;
+diff --git a/linux-user/flat.h b/linux-user/flat.h
+index 1e44b33..ed518e2 100644
+--- a/linux-user/flat.h
++++ b/linux-user/flat.h
+@@ -43,7 +43,7 @@ struct flat_hdr {
+ 	abi_ulong reloc_count;  /* Number of relocation records */
+ 	abi_ulong flags;
+ 	abi_ulong build_date;   /* When the program/library was built */
+-	abi_ulong filler[5];    /* Reservered, set to zero */
++	abi_ulong filler[5];    /* Reserved, set to zero */
+ };
+ 
+ #define FLAT_FLAG_RAM    0x0001 /* load program entirely into RAM */
+diff --git a/linux-user/flatload.c b/linux-user/flatload.c
+index 8fb448f..14d2999 100644
+--- a/linux-user/flatload.c
++++ b/linux-user/flatload.c
+@@ -442,7 +442,7 @@ static int load_flat_file(struct linux_binprm * bprm,
+     indx_len = (indx_len + 15) & ~(abi_ulong)15;
+ 
+     /*
+-     * Alloate the address space.
++     * Allocate the address space.
+      */
+     probe_guest_base(bprm->filename, 0,
+                      text_len + data_len + extra + indx_len);
+@@ -794,7 +794,7 @@ int load_flt_binary(struct linux_binprm *bprm, struct image_info *info)
+ #error here
+     for (i = MAX_SHARED_LIBS-1; i>0; i--) {
+             if (libinfo[i].loaded) {
+-                    /* Push previos first to call address */
++                    /* Push previous first to call address */
+                     --sp;
+                     if (put_user_ual(start_addr, sp))
+                         return -EFAULT;
+diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/linux-user/host/ppc64/safe-syscall.inc.S
+index 8ed73a5..8751331 100644
+--- a/linux-user/host/ppc64/safe-syscall.inc.S
++++ b/linux-user/host/ppc64/safe-syscall.inc.S
+@@ -84,7 +84,7 @@ safe_syscall_end:
+ 
+ 	/* code path when we didn't execute the syscall */
+ 0:	addi	3, 0, -TARGET_ERESTARTSYS
+-	ld 14, 16(1) /* restore r14 to its orginal value */
++	ld 14, 16(1) /* restore r14 to its original value */
+ 	blr
+ 	.cfi_endproc
+ 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 945fc25..373ec26 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -477,7 +477,7 @@ _syscall4(int, sys_prlimit64, pid_t, pid, int, resource,
+ 
+ 
+ #if defined(TARGET_NR_timer_create)
+-/* Maxiumum of 32 active POSIX timers allowed at any one time. */
++/* Maximum of 32 active POSIX timers allowed at any one time. */
+ static timer_t g_posix_timers[32] = { 0, } ;
+ 
+ static inline int next_free_host_timer(void)
+@@ -7768,7 +7768,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     switch(num) {
+     case TARGET_NR_exit:
+         /* In old applications this may be used to implement _exit(2).
+-           However in threaded applictions it is used for thread termination,
++           However in threaded applications it is used for thread termination,
+            and _exit_group is used for application termination.
+            Do thread termination if we have more then one thread.  */
  
 -- 
 2.26.2.windows.1
