@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F2A24311F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:48:30 +0200 (CEST)
-Received: from localhost ([::1]:60310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A69F243123
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:49:58 +0200 (CEST)
+Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5zXq-0005Sk-1a
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39576)
+	id 1k5zZF-00004w-8r
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQW-0002K2-OZ
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:56 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29819)
+ id 1k5zQY-0002NH-03
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:58 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQU-0005m7-GO
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:56 -0400
+ id 1k5zQV-0005lp-KA
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597272054; x=1628808054;
+ t=1597272055; x=1628808055;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VWIRA4MvJfHg3q+KNZoxT6diO+bgU4E92KEQUmjiKA8=;
- b=gJIhqfV3ANbQeTzKYRSnXYVEiG6XJDwI4iC10xEoKmIyzxZBKazKAjdK
- Z3x+eXniE1dUqRHR1IL4prQMvyxjBDp9LXaw4qtTxM+K4QYJR2EBKxlLv
- /P76jFcfrsRFJUH592ocZqmyEUG477Rpnw7OvkUrDzeY7kdnvXsQLqRr4
- uM6xl8mDylxvsF5wYU05GyVWNS2GC6wVVK3YSNqRcNetd7vOstqH72iCD
- p6A+hrF/CSVa6hNo0tsZlborShSrUDTOt2h+NeXd8fub/KuIeERxCZ633
- eFURC17Eup1AbffDt/LRhKXmGnlcOITKv9SHkuQ2f9yj1qIQ1MyoXLW9w w==;
-IronPort-SDR: bmz7toj7N0KWvHMVmE9NZDQgRnozprObzDm1cwz9VFDHyxHpan/LsJhOH6L3l/L/GrP2Rp+g+W
- 9cStY+wMaJEVfYj8D0HCrYzyVI69Cg4nrVV8Ck+Tg0OOeQt4hrWH7Yklq5wQmu/b0PVa5vSHOs
- fXe2AVyJZvXEUkgNPuGxXGBwTUdrxVMOhTleIyYQN8lHKa5DTsaJ0jhnApinVVyraDkfD48j8I
- oygtwxexRbnBMdWXLOQ2toWoZ7raWhAEl1dU0S5IC/wUKNMT6oHVuz6itOs1SSaklGfBMPyWHL
- j3k=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="254208931"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
+ bh=PnPVgupWkcTye0mgiZsmJRw6xGGap8+1yaKVcLcBTOY=;
+ b=Zp/J0e966D1uU8TtzPMn1QmhaGjEbEIDFaEcpQ3wSq7PZgVsIvoxPPRW
+ 0gEbrPSOf0/EdyU0AEQEM9IdOwXsIH5p092/FjSfSUAyeTKYSx+NJ8lWW
+ CPe3vpgSLBf7/lcq9qtLisAh/cYBABnjjy1Q1koK/bCfUJWK/wOTEDVG2
+ KRUUzUwvnj+N9LsnDv9Os2P1dXLcib7hC3Kdaf7kwgKQdcEbUuO52RM7T
+ IuSYV6+2TBhONLwyWjt9Ew1Wii1rEVlfBPUNt07MeIQWZxaJFPMM2xaFK
+ kdqHs9fRVlqqrsuHj/9pqWIX9yBVTX8YUnvtpYRV/fA7v8i5Rx9w6FRDN Q==;
+IronPort-SDR: jbG+2png/LKJOqPC3pWupRTwMjh/qMrTkjW8MPx0DofgbUqhyTahUzCsqpv7/CPuBZ9XXlpNsj
+ BX2C77d8g2EGGp51bmtKXCx5j6LIN2t9qi456m28y/l/4qbwb9tb8FO//PQubCIu7hzlqgPCVG
+ WFoWRbGhmbnd9TKSE9bGFBj32ds/FgffoVrq7hCuiL/20p57pX3oglV6F7SGG8ntF3mqZ4wRut
+ aqQK0Rzc6TvlOxFcn3lL4xu/vXgvrIuFQl7HGHA4hPEn7TEOAHIS1omuTn+GNca7BaSq1Tj0yE
+ t8M=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144853396"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:49 +0800
-IronPort-SDR: WA1mP93I0Jw6oip6CcELkjW5mMr+yxWbNns0UBk/qvFC7qwIgP/lSt5fSVhjRweaqGrvUnD1qy
- Php6tvWFshzQ==
+IronPort-SDR: PYAbyFbbETv/ej0io35gQIMTOyfzbtNfRYrhdVSlsB2sT29QPIPVfOBBjuBGS4wJjCdSLewh4/
+ EWG51TcC4IBg==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2020 15:27:57 -0700
-IronPort-SDR: Wrn0z1g9+AbNO6pilbNAQvd7ZN8calFwyiDNw7pnqOvZjGPRi1uhsmCD879UvJZLKzrvPHpgB5
- O2yI+kUE4yMg==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 15:28:40 -0700
+IronPort-SDR: vLwM17/dD+hKzw7kLr+9L3OVl62KLToTEbUcmJqslXrmN912/QfsqDfOg1P0ynRzXgxEEnQhVV
+ NC/mLPgBK7XQ==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
- by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:46 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:47 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/20] riscv: Fix bug in setting pmpcfg CSR for RISCV64
-Date: Wed, 12 Aug 2020 15:30:34 -0700
-Message-Id: <20200812223045.96803-10-alistair.francis@wdc.com>
+Subject: [PULL 10/20] configure: Create symbolic links for pc-bios/*.elf files
+Date: Wed, 12 Aug 2020 15:30:35 -0700
+Message-Id: <20200812223045.96803-11-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
 References: <20200812223045.96803-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
+Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:48
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:47
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -87,63 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hou Weiying <weiying_hou@outlook.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Myriad-Dreamin <camiyoru@gmail.com>, Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hou Weiying <weiying_hou@outlook.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-First, sizeof(target_ulong) equals to 4 on riscv32, so this change
-does not change the function on riscv32. Second, sizeof(target_ulong)
-equals to 8 on riscv64, and 'reg_index * 8 + i' is not a legal
-pmp_index (we will explain later), which should be 'reg_index * 4 + i'.
+Now we need to ship the OpenSBI fw_dynamic.elf image for the
+RISC-V Spike machine, it requires us to create symbolic links
+for pc-bios/*.elf files.
 
-If the parameter reg_index equals to 2 (means that we will change the
-value of pmpcfg2, or the second pmpcfg on riscv64), then
-pmpcfg_csr_write(env, 2, val) will map write tasks to
-pmp_write_cfg(env, 2 * 8 + [0...7], val). However, no cfg csr is indexed
-by value 16 or 23 on riscv64, so we consider it as a bug.
-
-We are looking for constant (e.g., define a new constant named
-RISCV_WORD_SIZE) in QEMU to help others understand code better,
-but none was found. A possible good explanation of this literal is it is
-the minimum word length on riscv is 4 bytes (32 bit).
-
-Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <SG2PR02MB263420036254AC8841F66CE393460@SG2PR02MB2634.apcprd02.prod.outlook.com>
+Message-Id: <1596439832-29238-2-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/pmp.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 2a2b9f5363..b14feeb7da 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -320,8 +320,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
- 
-     for (i = 0; i < sizeof(target_ulong); i++) {
-         cfg_val = (val >> 8 * i)  & 0xff;
--        pmp_write_cfg(env, (reg_index * sizeof(target_ulong)) + i,
--            cfg_val);
-+        pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
-     }
- }
- 
-@@ -336,7 +335,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
-     target_ulong val = 0;
- 
-     for (i = 0; i < sizeof(target_ulong); i++) {
--        val = pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i);
-+        val = pmp_read_cfg(env, (reg_index * 4) + i);
-         cfg_val |= (val << (i * 8));
-     }
-     trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
+diff --git a/configure b/configure
+index 2acc4d1465..790b21d4a5 100755
+--- a/configure
++++ b/configure
+@@ -8545,6 +8545,7 @@ LINKS="$LINKS tests/qemu-iotests/check"
+ LINKS="$LINKS python"
+ for bios_file in \
+     $source_path/pc-bios/*.bin \
++    $source_path/pc-bios/*.elf \
+     $source_path/pc-bios/*.lid \
+     $source_path/pc-bios/*.rom \
+     $source_path/pc-bios/*.dtb \
 -- 
 2.27.0
 
