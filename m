@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D769D24285D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 12:51:49 +0200 (CEST)
-Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BBC242881
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 13:02:11 +0200 (CEST)
+Received: from localhost ([::1]:36506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5oMG-0005b3-VQ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 06:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33518)
+	id 1k5oWI-0001aB-AB
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 07:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k5oKN-0003tq-KE
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 06:49:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29422
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k5oVC-00018l-BF
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 07:01:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42588
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k5oKK-0007AI-KN
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 06:49:51 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k5oV9-0000Ip-FP
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 07:01:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597229388;
+ s=mimecast20190719; t=1597230057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jQ45tqp8SaqX8OfuFH3rp5Q3ZXUef2GT5+Omm/cVV9g=;
- b=C+VwDs5YtisYavIdndrAVJ19R5VCusq3J11vWPtgQgFqng+/+t18/XxgXZ/ufR/LE7LKAj
- ZGSzgAGvouhYgSklO+o+a9Tf06Fs7/SyuDorKNTIgcq/UTfPdhEEnPm9nWCCcpph1Raa/t
- GovL1ENArp9UbUYtaaB4hjwlE6d2o3I=
+ bh=u2x5jfQeXyiAlBi6DgTColKf6gqo3uNb9SgFkqlHZtU=;
+ b=c7hrah/+RZB2tdR4WTHyvHyS3ehp/GV3N1Ms0IXiafUs0Riop1wpEVbapcXTf24S3rioiA
+ e4gObiGHdN8ARzUctAAoq4NymfmwbUtCk92SJUjXi2nNo/Oro5QAt6r/zozzpSImLhwug/
+ 4oM1rDsbv3/erMqOoxjVpGazb1gMOqg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-1niw20NON0-i_PXqcQxOJw-1; Wed, 12 Aug 2020 06:49:46 -0400
-X-MC-Unique: 1niw20NON0-i_PXqcQxOJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-501-FBWYL2fvO6OpNkLlV1Kdfw-1; Wed, 12 Aug 2020 07:00:55 -0400
+X-MC-Unique: FBWYL2fvO6OpNkLlV1Kdfw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4F1C101C8A0;
- Wed, 12 Aug 2020 10:49:44 +0000 (UTC)
-Received: from localhost (ovpn-114-96.ams2.redhat.com [10.36.114.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CF4060C84;
- Wed, 12 Aug 2020 10:49:44 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] virtio-crypto: don't modify elem->in/out_sg
-Date: Wed, 12 Aug 2020 11:49:18 +0100
-Message-Id: <20200812104918.107116-4-stefanha@redhat.com>
-In-Reply-To: <20200812104918.107116-1-stefanha@redhat.com>
-References: <20200812104918.107116-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14BCE1DE1;
+ Wed, 12 Aug 2020 11:00:54 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 812045D6BD;
+ Wed, 12 Aug 2020 11:00:52 +0000 (UTC)
+Date: Wed, 12 Aug 2020 13:00:49 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] target/arm: Add cpu property to control pauth
+Message-ID: <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
+References: <20200812065339.2030527-1-richard.henderson@linaro.org>
+ <20200812065339.2030527-2-richard.henderson@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200812065339.2030527-2-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:16:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,62 +81,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: mark.rutland@arm.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QSBudW1iZXIgb2YgaW92X2Rpc2NhcmRfZnJvbnQvYmFjaygpIG9wZXJhdGlvbnMgYXJlIG1hZGUg
-YnkKdmlydGlvLWNyeXB0by4gVGhlIGVsZW0tPmluL291dF9zZyBpb3ZlYyBhcnJheXMgYXJlIG1v
-ZGlmaWVkIGJ5IHRoZXNlCm9wZXJhdGlvbnMsIHJlc3VsdGluZyB2aXJ0cXVldWVfdW5tYXBfc2co
-KSBjYWxscyBvbiBkaWZmZXJlbnQgYWRkcmVzc2VzCnRoYW4gd2VyZSBvcmlnaW5hbGx5IG1hcHBl
-ZC4KClRoaXMgaXMgcHJvYmxlbWF0aWMgYmVjYXVzZSBkaXJ0eSBtZW1vcnkgbWF5IG5vdCBiZSBs
-b2dnZWQgY29ycmVjdGx5LApNZW1vcnlSZWdpb24gcmVmY291bnRzIG1heSBiZSBsZWFrZWQsIGFu
-ZCB0aGUgbm9uLVJBTSBib3VuY2UgYnVmZmVyIGNhbgpiZSBsZWFrZWQuCgpUYWtlIGEgY29weSBv
-ZiB0aGUgZWxlbS0+aW4vb3V0X3NnIGFycmF5cyBzbyB0aGF0IHRoZSBvcmlnaW5hbHMgYXJlCnBy
-ZXNlcnZlZC4gVGhlIGlvdl9kaXNjYXJkX3VuZG8oKSBBUEkgY291bGQgYmUgdXNlZCBpbnN0ZWFk
-ICh3aXRoIGJldHRlcgpwZXJmb3JtYW5jZSkgYnV0IHJlcXVpcmVzIGNhcmVmdWwgYXVkaXRpbmcg
-b2YgdGhlIGNvZGUsIHNvIGRvIHRoZSBzaW1wbGUKdGhpbmcgaW5zdGVhZC4KClNpZ25lZC1vZmYt
-Ynk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiBody92aXJ0aW8v
-dmlydGlvLWNyeXB0by5jIHwgMTcgKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAx
-NCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2h3L3ZpcnRpby92
-aXJ0aW8tY3J5cHRvLmMgYi9ody92aXJ0aW8vdmlydGlvLWNyeXB0by5jCmluZGV4IDZkYTEyZTMx
-NWYuLjU0ZjliYmI3ODkgMTAwNjQ0Ci0tLSBhL2h3L3ZpcnRpby92aXJ0aW8tY3J5cHRvLmMKKysr
-IGIvaHcvdmlydGlvL3ZpcnRpby1jcnlwdG8uYwpAQCAtMjI4LDYgKzIyOCw4IEBAIHN0YXRpYyB2
-b2lkIHZpcnRpb19jcnlwdG9faGFuZGxlX2N0cmwoVmlydElPRGV2aWNlICp2ZGV2LCBWaXJ0UXVl
-dWUgKnZxKQogICAgIHNpemVfdCBzOwogCiAgICAgZm9yICg7OykgeworICAgICAgICBnX2F1dG9m
-cmVlIHN0cnVjdCBpb3ZlYyAqb3V0X2lvdl9jb3B5ID0gTlVMTDsKKwogICAgICAgICBlbGVtID0g
-dmlydHF1ZXVlX3BvcCh2cSwgc2l6ZW9mKFZpcnRRdWV1ZUVsZW1lbnQpKTsKICAgICAgICAgaWYg
-KCFlbGVtKSB7CiAgICAgICAgICAgICBicmVhazsKQEAgLTI0MCw5ICsyNDIsMTIgQEAgc3RhdGlj
-IHZvaWQgdmlydGlvX2NyeXB0b19oYW5kbGVfY3RybChWaXJ0SU9EZXZpY2UgKnZkZXYsIFZpcnRR
-dWV1ZSAqdnEpCiAgICAgICAgIH0KIAogICAgICAgICBvdXRfbnVtID0gZWxlbS0+b3V0X251bTsK
-LSAgICAgICAgb3V0X2lvdiA9IGVsZW0tPm91dF9zZzsKKyAgICAgICAgb3V0X2lvdl9jb3B5ID0g
-Z19tZW1kdXAoZWxlbS0+b3V0X3NnLCBzaXplb2Yob3V0X2lvdlswXSkgKiBvdXRfbnVtKTsKKyAg
-ICAgICAgb3V0X2lvdiA9IG91dF9pb3ZfY29weTsKKwogICAgICAgICBpbl9udW0gPSBlbGVtLT5p
-bl9udW07CiAgICAgICAgIGluX2lvdiA9IGVsZW0tPmluX3NnOworCiAgICAgICAgIGlmICh1bmxp
-a2VseShpb3ZfdG9fYnVmKG91dF9pb3YsIG91dF9udW0sIDAsICZjdHJsLCBzaXplb2YoY3RybCkp
-CiAgICAgICAgICAgICAgICAgICAgICE9IHNpemVvZihjdHJsKSkpIHsKICAgICAgICAgICAgIHZp
-cnRpb19lcnJvcih2ZGV2LCAidmlydGlvLWNyeXB0byByZXF1ZXN0IGN0cmxfaGRyIHRvbyBzaG9y
-dCIpOwpAQCAtNTgyLDYgKzU4Nyw4IEBAIHZpcnRpb19jcnlwdG9faGFuZGxlX3JlcXVlc3QoVmly
-dElPQ3J5cHRvUmVxICpyZXF1ZXN0KQogICAgIGludCBxdWV1ZV9pbmRleCA9IHZpcnRpb19jcnlw
-dG9fdnEycSh2aXJ0aW9fZ2V0X3F1ZXVlX2luZGV4KHJlcXVlc3QtPnZxKSk7CiAgICAgc3RydWN0
-IHZpcnRpb19jcnlwdG9fb3BfZGF0YV9yZXEgcmVxOwogICAgIGludCByZXQ7CisgICAgZ19hdXRv
-ZnJlZSBzdHJ1Y3QgaW92ZWMgKmluX2lvdl9jb3B5ID0gTlVMTDsKKyAgICBnX2F1dG9mcmVlIHN0
-cnVjdCBpb3ZlYyAqb3V0X2lvdl9jb3B5ID0gTlVMTDsKICAgICBzdHJ1Y3QgaW92ZWMgKmluX2lv
-djsKICAgICBzdHJ1Y3QgaW92ZWMgKm91dF9pb3Y7CiAgICAgdW5zaWduZWQgaW5fbnVtOwpAQCAt
-NTk4LDkgKzYwNSwxMyBAQCB2aXJ0aW9fY3J5cHRvX2hhbmRsZV9yZXF1ZXN0KFZpcnRJT0NyeXB0
-b1JlcSAqcmVxdWVzdCkKICAgICB9CiAKICAgICBvdXRfbnVtID0gZWxlbS0+b3V0X251bTsKLSAg
-ICBvdXRfaW92ID0gZWxlbS0+b3V0X3NnOworICAgIG91dF9pb3ZfY29weSA9IGdfbWVtZHVwKGVs
-ZW0tPm91dF9zZywgc2l6ZW9mKG91dF9pb3ZbMF0pICogb3V0X251bSk7CisgICAgb3V0X2lvdiA9
-IG91dF9pb3ZfY29weTsKKwogICAgIGluX251bSA9IGVsZW0tPmluX251bTsKLSAgICBpbl9pb3Yg
-PSBlbGVtLT5pbl9zZzsKKyAgICBpbl9pb3ZfY29weSA9IGdfbWVtZHVwKGVsZW0tPmluX3NnLCBz
-aXplb2YoaW5faW92WzBdKSAqIGluX251bSk7CisgICAgaW5faW92ID0gaW5faW92X2NvcHk7CisK
-ICAgICBpZiAodW5saWtlbHkoaW92X3RvX2J1ZihvdXRfaW92LCBvdXRfbnVtLCAwLCAmcmVxLCBz
-aXplb2YocmVxKSkKICAgICAgICAgICAgICAgICAhPSBzaXplb2YocmVxKSkpIHsKICAgICAgICAg
-dmlydGlvX2Vycm9yKHZkZXYsICJ2aXJ0aW8tY3J5cHRvIHJlcXVlc3Qgb3V0aGRyIHRvbyBzaG9y
-dCIpOwotLSAKMi4yNi4yCgo=
+On Tue, Aug 11, 2020 at 11:53:38PM -0700, Richard Henderson wrote:
+> The crypto overhead of emulating pauth can be significant for
+> some workloads.  Add an enumeration property that allows the
+> feature to be turned off, on with the architected algorithm,
+> or on with an implementation defined algorithm.
+> 
+> The architected algorithm is quite expensive to emulate;
+> using another algorithm may allow hardware acceleration.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu64.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 64 insertions(+)
+> 
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index dd696183df..3181d0e2f8 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -572,6 +572,69 @@ void aarch64_add_sve_properties(Object *obj)
+>      }
+>  }
+>  
+> +static const char * const pauth_names[] = {
+> +    "off", "impdef", "arch"
+> +};
+
+Hi Richard,
+
+Please add three boolean properties, rather than one enum:
+
+pauth:            enable support of the pauth feature
+pauth-fast:       enable QEMU's fast non-cryptographic hash for pauth
+                  (pauth must be enabled)
+pauth-arch:       enable the architected algorithm for pauth
+                  (pauth must be enabled)
+
+These booleans can then be added to the cpu feature probing list used by
+qmp_query_cpu_model_expansion()
+
+> +
+> +static const QEnumLookup pauth_lookup = {
+> +    .array = pauth_names,
+> +    .size = ARRAY_SIZE(pauth_names)
+> +};
+> +
+> +static int cpu_arm_get_pauth(Object *obj, Error **errp)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    int value;
+> +
+> +    /* We will always set GPA+APA and GPI+API to the same value. */
+> +    if (FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, APA)) {
+> +        value = 2;
+> +    } else if (FIELD_EX64(cpu->isar.id_aa64isar1, ID_AA64ISAR1, API)) {
+> +        value = 1;
+> +    } else {
+> +        value = 0;
+> +    }
+> +    return value;
+> +}
+> +
+> +static void cpu_arm_set_pauth(Object *obj, int value, Error **errp)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    uint64_t t;
+> +
+> +    /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
+> +    t = cpu->isar.id_aa64isar1;
+> +    switch (value) {
+> +    case 0:
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, APA, 0);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, API, 0);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, GPA, 0);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, GPI, 0);
+> +        break;
+> +    case 1:
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, APA, 0);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, API, 1);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, GPA, 0);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, GPI, 1);
+> +        break;
+> +    case 2:
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, APA, 1);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, API, 0);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, GPA, 1);
+> +        t = FIELD_DP64(t, ID_AA64ISAR1, GPI, 0);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +    cpu->isar.id_aa64isar1 = t;
+> +}
+> +
+> +static void aarch64_add_pauth_properties(Object *obj)
+> +{
+> +    object_property_add_enum(obj, "pauth", "ARMPauthKind", &pauth_lookup,
+> +                             cpu_arm_get_pauth, cpu_arm_set_pauth);
+> +}
+> +
+>  /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+>   * otherwise, a CPU with as many features enabled as our emulation supports.
+>   * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+> @@ -720,6 +783,7 @@ static void aarch64_max_initfn(Object *obj)
+>  #endif
+>      }
+>  
+> +    aarch64_add_pauth_properties(obj);
+
+We don't yet support enabling pauth on KVM accelerated guests, so this
+call should be in the !kvm_enabled() part of this function.
+
+>      aarch64_add_sve_properties(obj);
+>      object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
+>                          cpu_max_set_sve_max_vq, NULL, NULL);
+> -- 
+> 2.25.1
+> 
+>
+
+Thanks,
+drew
 
 
