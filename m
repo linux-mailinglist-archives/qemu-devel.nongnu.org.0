@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DB7242F6A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:35:40 +0200 (CEST)
-Received: from localhost ([::1]:47022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3604A242F47
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:31:16 +0200 (CEST)
+Received: from localhost ([::1]:36832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5wXD-0004uk-8f
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55618)
+	id 1k5wSx-0000Pp-A2
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:31:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eugenis@google.com>)
- id 1k5w5J-0006wV-GI
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 15:06:49 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eugenis@google.com>)
- id 1k5w5H-0006qu-Nh
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 15:06:49 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 184so2959597wmb.0
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:06:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K42oFIs3UH2s1ljZXw2qrvpj9Qd7Ph3STv9rVq8ourw=;
- b=R8vrY3JS5QaxBGFkgoo2X5dFz/tpu9yTFCil4+1QN1Pi4Nm8JQ2VlBDs3RWBDQAV+o
- uybjH80OhheOHReEDsbdOCrxxByeTyHkZcvTrJ08xVV4VrUna+giqNMLtZ+Z3CBatGsf
- z7RWQHT2eGvgTVpUloYr9YU/BGDTy3Oh362WfNPQwC/vHRCJG0raM/HhZ6CeQ3FXmh8D
- jrzJcX3/VTWAtIoo+9EeLDmavrwgPevI26/DLxq/50cP34Lq6VtJNlLwgx9gbRv6mty1
- nxHUKP6qot73CnhdiIluL6uDAswtEX0vCORreZ/bhrK2nDTkLcQVD1otatQI5Z9EpI2E
- qaow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K42oFIs3UH2s1ljZXw2qrvpj9Qd7Ph3STv9rVq8ourw=;
- b=Y5bvpUhWG1sS39wN1t3sE2KuVp2tEC3f8VRPSNNpW/Hk5mDkomhRoRJRd2wub8Pisg
- vvjg1rPIkWEM0xmPcaI4ECQKl8gn4ziuNW5vjqsyKbM41xlXpxD4EG8YekQ/zmbJ4L2V
- PeYVypNV5oho46/Pl/hrB/iONN2KDpe/HP+ATJqbOu9x65AzoxFd+mV2OpZsdBrLJhcB
- ohnKLqOCaJn/duTFjfvxhN37Z3RdudXT7gmEQdSZvMF7m9h4ceDMP1sPOOmLAGRw2C2Y
- XFfboY6iPynPA7hBYsmV8qNIq2F3PwMkj/1jjuf66CuXxhq/TuauosxG9pDGl3ww8COf
- cTNg==
-X-Gm-Message-State: AOAM532QL3zrEOpYcAU/IK0OpkBdXfiz1RTa4LcvXFCoNyANKiUQ14T0
- K2PLG95D+fa78DWsMyfr1KU24m642Hr6rucGpHBLWw==
-X-Google-Smtp-Source: ABdhPJwCuxjzCcTUFWU3CggEbA4IqJjxDLk1KaxvnNeXbT+ZIh5+nYkK+bdBYYB+XRxulvaXPlt7cLPhBhno9W34J+0=
-X-Received: by 2002:a1c:7702:: with SMTP id t2mr941300wmi.169.1597259205218;
- Wed, 12 Aug 2020 12:06:45 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
+ id 1k5wLY-00053N-MZ; Wed, 12 Aug 2020 15:23:36 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:4810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
+ id 1k5wLW-0000Qu-Ng; Wed, 12 Aug 2020 15:23:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1597260215; x=1628796215;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=sgOyLkhLmD+vx2DwarIMU5m8PvXjjcCG07p8bd0Fzks=;
+ b=LRPKjIxwlAW51OAjryjuTD0952yp7W4UymvzA2R9rEyYZv4IxGuXnqtb
+ BDJvRrH4IyA7wgyIVM67j++ka8QqI1attWjQcL3yIHsjyc+p4OUr2OU9Y
+ FVukmizSzZUkSKrFN7lgCm/TyU0eb8LbL7s/rgUsupploZKii9VlaspI7
+ QFH41f3P64x+XOB5MQXTerUPWd3npBd41c6MRmzD6zyF6uevBdSwZF3bu
+ bAbpmw/gEh17Nf13Kg5jzOYcgWQei5H8Rc4R3/dyvHftBKRJMnyIOhzWe
+ 9z192tJUVvRlxYyzBItQi+X3oQ/EGpJ5kPox43HlukTLc4fOjOzAmWB67 A==;
+IronPort-SDR: bq9IBVh/OzjHV6moGulsoBFDvDExxxezMRyoM+vcqK+NP8+fuPvAmf9HMe87f95XaX3Lpr5XCR
+ S+jyVbC4exv2JCAOTOSHwoTjzqhZAARFM+Xwn4/zEQ13+jm4FUPnPmWEyRlRKAFgjlG71XhwLm
+ S7BM1PLQTnhkW4uLMdofa4Aue8WjTVkDA5rbg4nihDaAvoPlGLIgucYKoIauYQKE5faqI3j6kF
+ uaqJjp4S72tBcO6qGZNRzajpQgmdyQ63726+oCwVvD5USCRgV7k//xir+JCiQB0wheODnDPTjP
+ JGU=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="146029207"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 03:23:34 +0800
+IronPort-SDR: lp6BIsHYS0PPJq8a229N33K1QzQSsPK370GCCcC8ztLtORYpPJmNtBF1Gb+e6R8BupztYYOlr7
+ uYg/j0yI9wZg==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 12:10:41 -0700
+IronPort-SDR: HxFbRqBpgc3yX0nYobIkwhglqese/yCQBH8mVohhWU+LOBsOFbQbUA5FXliA0JLFPhrVW6Oc8v
+ KWndJ3aClAJQ==
+WDCIronportException: Internal
+Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.59.14])
+ by uls-op-cesaip02.wdc.com with ESMTP; 12 Aug 2020 12:23:34 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 07/13] target/riscv: Update the Hypervisor trap return/entry
+Date: Wed, 12 Aug 2020 12:13:33 -0700
+Message-Id: <e7e4e801234f2934306e734f65860f601a5745bd.1597259519.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1597259519.git.alistair.francis@wdc.com>
+References: <cover.1597259519.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-References: <20200812171946.2044791-1-richard.henderson@linaro.org>
- <CAAeHK+z=CU5dQepy+SBtVMAp-=k8BODorG768CYwoR3NEKCWFg@mail.gmail.com>
- <b2d524a2-1523-d03a-72a9-407ab03fa897@linaro.org>
- <CAAeHK+zD3ZdjpZOBny3QuYtKe-qzhmEfd9w+nr3NrzEuzHHRvw@mail.gmail.com>
-In-Reply-To: <CAAeHK+zD3ZdjpZOBny3QuYtKe-qzhmEfd9w+nr3NrzEuzHHRvw@mail.gmail.com>
-From: Evgenii Stepanov <eugenis@google.com>
-Date: Wed, 12 Aug 2020 12:06:31 -0700
-Message-ID: <CAFKCwrjSU89jiUbzd8Ys8nV6NDCJer=FbUnGWv8m0p0E+9MdVg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] target/arm: Complete ISS for MTE tag check fail
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Kevin Brodsky <kevin.brodsky@arm.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>, qemu-devel@nongnu.org, 
- alex.bennee@linaro.org, peter.maydell@linaro.org, 
- Elena Petrova <lenaptr@google.com>, Kostya Serebryany <kcc@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Collingbourne <pcc@google.com>
-Content-Type: multipart/alternative; boundary="0000000000008b0a1f05acb2e30b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=eugenis@google.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -185
-X-Spam_score: -18.6
-X-Spam_bar: ------------------
-X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 15:23:20
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 12 Aug 2020 15:34:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,98 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair.francis@wdc.com, anup.patel@wdc.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008b0a1f05acb2e30b
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu_bits.h   |  1 +
+ target/riscv/cpu_helper.c | 16 ++++++----------
+ target/riscv/op_helper.c  |  8 ++------
+ target/riscv/translate.c  | 10 ----------
+ 4 files changed, 9 insertions(+), 26 deletions(-)
 
-On Wed, Aug 12, 2020 at 11:03 AM Andrey Konovalov <andreyknvl@google.com>
-wrote:
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 43617e7c1f..fb6a3e9092 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -445,6 +445,7 @@
+ #define HSTATUS_VTSR         0x00400000
+ #define HSTATUS_HU           0x00000200
+ #define HSTATUS_GVA          0x00000040
++#define HSTATUS_SPVP         0x00000100
+ 
+ #define HSTATUS32_WPRI       0xFF8FF87E
+ #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 9ab3ca4675..79166875a9 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -922,9 +922,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+             } else if (riscv_cpu_virt_enabled(env)) {
+                 /* Trap into HS mode, from virt */
+                 riscv_cpu_swap_hypervisor_regs(env);
+-                env->hstatus = set_field(env->hstatus, HSTATUS_SP2V,
+-                                         get_field(env->hstatus, HSTATUS_SPV));
+-                env->hstatus = set_field(env->hstatus, HSTATUS_SP2P,
++                env->hstatus = set_field(env->hstatus, HSTATUS_SPVP,
+                                          get_field(env->mstatus, SSTATUS_SPP));
+                 env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+                                          riscv_cpu_virt_enabled(env));
+@@ -935,13 +933,11 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 riscv_cpu_set_force_hs_excep(env, 0);
+             } else {
+                 /* Trap into HS mode */
+-                env->hstatus = set_field(env->hstatus, HSTATUS_SP2V,
+-                                         get_field(env->hstatus, HSTATUS_SPV));
+-                env->hstatus = set_field(env->hstatus, HSTATUS_SP2P,
+-                                         get_field(env->mstatus, SSTATUS_SPP));
+-                env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+-                                         riscv_cpu_virt_enabled(env));
+-
++                if (!riscv_cpu_two_stage_lookup(env)) {
++                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
++                                             riscv_cpu_virt_enabled(env));
++                }
++                riscv_cpu_set_two_stage_lookup(env, false);
+                 htval = env->guest_phys_fault_addr;
+             }
+         }
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 3d306c343c..4b64bfe7d2 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -97,12 +97,8 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+         prev_priv = get_field(mstatus, MSTATUS_SPP);
+         prev_virt = get_field(hstatus, HSTATUS_SPV);
+ 
+-        hstatus = set_field(hstatus, HSTATUS_SPV,
+-                                 get_field(hstatus, HSTATUS_SP2V));
+-        mstatus = set_field(mstatus, MSTATUS_SPP,
+-                            get_field(hstatus, HSTATUS_SP2P));
+-        hstatus = set_field(hstatus, HSTATUS_SP2V, 0);
+-        hstatus = set_field(hstatus, HSTATUS_SP2P, 0);
++        hstatus = set_field(hstatus, HSTATUS_SPV, 0);
++        mstatus = set_field(mstatus, MSTATUS_SPP, 0);
+         mstatus = set_field(mstatus, SSTATUS_SIE,
+                             get_field(mstatus, SSTATUS_SPIE));
+         mstatus = set_field(mstatus, SSTATUS_SPIE, 1);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 9632e79cf3..f896412235 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -768,16 +768,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ #if !defined(CONFIG_USER_ONLY)
+     if (riscv_has_ext(env, RVH)) {
+         ctx->virt_enabled = riscv_cpu_virt_enabled(env);
+-        if (env->priv_ver == PRV_M &&
+-            get_field(env->mstatus, MSTATUS_MPRV) &&
+-            MSTATUS_MPV_ISSET(env)) {
+-            ctx->virt_enabled = true;
+-        } else if (env->priv == PRV_S &&
+-                   !riscv_cpu_virt_enabled(env) &&
+-                   get_field(env->hstatus, HSTATUS_SPRV) &&
+-                   get_field(env->hstatus, HSTATUS_SPV)) {
+-            ctx->virt_enabled = true;
+-        }
+     } else {
+         ctx->virt_enabled = false;
+     }
+-- 
+2.27.0
 
-> On Wed, Aug 12, 2020 at 7:52 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > On 8/12/20 10:38 AM, Andrey Konovalov wrote:
-> > > On Wed, Aug 12, 2020 at 7:19 PM Richard Henderson
-> > > <richard.henderson@linaro.org> wrote:
-> > >>
-> > >> As reported by Andrey, I was missing the complete ISS info for
-> > >> the Data Abort raised upon a synchronous tag check fail.
-> > >>
-> > >> The following should fix that.  All the twisty little rules for
-> > >> the ISS.ISV bit are already handled by merge_syn_data_abort.
-> > >> Probably the most important bit that was missing was ISS.WnR,
-> > >> as that is independent of ISS.ISV.
-> > >>
-> > >> Andrey, will you please test?
-> > >
-> > > Looks like WnR is now being set properly, but SAS is still always 0.
-> >
-> > Are you looking at ESR_EL1?
-> >
-> > On page D13-2992 of revision F.a:
-> >
-> > # ISV is 0 for all faults reported in ESR_EL1 or ESR_EL3.
-> >
-> > which means that ISS[23:14] are RES0, which includes SAS.
->
-> +more Arm and Google people
->
-> Is this known? Do we not get access size when MTE fault happens?
->
-
-It sounds like this applies to all data abort exceptions, no matter MTE or
-not.
-
---0000000000008b0a1f05acb2e30b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 12, 2020 at 11:03 AM Andr=
-ey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com">andreyknvl@google=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On Wed, Aug 12, 2020 at 7:52 PM Richard Henderson<br>
-&lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">richa=
-rd.henderson@linaro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 8/12/20 10:38 AM, Andrey Konovalov wrote:<br>
-&gt; &gt; On Wed, Aug 12, 2020 at 7:19 PM Richard Henderson<br>
-&gt; &gt; &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_bl=
-ank">richard.henderson@linaro.org</a>&gt; wrote:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; As reported by Andrey, I was missing the complete ISS info fo=
-r<br>
-&gt; &gt;&gt; the Data Abort raised upon a synchronous tag check fail.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; The following should fix that.=C2=A0 All the twisty little ru=
-les for<br>
-&gt; &gt;&gt; the ISS.ISV bit are already handled by merge_syn_data_abort.<=
-br>
-&gt; &gt;&gt; Probably the most important bit that was missing was ISS.WnR,=
-<br>
-&gt; &gt;&gt; as that is independent of ISS.ISV.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Andrey, will you please test?<br>
-&gt; &gt;<br>
-&gt; &gt; Looks like WnR is now being set properly, but SAS is still always=
- 0.<br>
-&gt;<br>
-&gt; Are you looking at ESR_EL1?<br>
-&gt;<br>
-&gt; On page D13-2992 of revision F.a:<br>
-&gt;<br>
-&gt; # ISV is 0 for all faults reported in ESR_EL1 or ESR_EL3.<br>
-&gt;<br>
-&gt; which means that ISS[23:14] are RES0, which includes SAS.<br>
-<br>
-+more Arm and Google people<br>
-<br>
-Is this known? Do we not get access size when MTE fault happens?<br></block=
-quote><div><br></div><div>It sounds like this applies to all data abort exc=
-eptions, no matter MTE or not.</div><div>=C2=A0</div></div></div>
-
---0000000000008b0a1f05acb2e30b--
 
