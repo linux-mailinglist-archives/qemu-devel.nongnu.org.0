@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ABB242A81
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:42:02 +0200 (CEST)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B05242A89
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:43:00 +0200 (CEST)
+Received: from localhost ([::1]:46484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5r0y-000590-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53152)
+	id 1k5r1v-0007Ue-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1k5noh-00089V-7L; Wed, 12 Aug 2020 06:17:09 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:59268 helo=huawei.com)
+ id 1k5nom-0008AL-Cp; Wed, 12 Aug 2020 06:17:12 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:59358 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1k5nod-00032t-Go; Wed, 12 Aug 2020 06:17:06 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 64C2ACDF4A67DC2B63FA;
- Wed, 12 Aug 2020 18:17:00 +0800 (CST)
-Received: from localhost (10.174.187.253) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
- 18:16:52 +0800
+ id 1k5noi-00033N-MA; Wed, 12 Aug 2020 06:17:12 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id D46B86527C038D38EFE7;
+ Wed, 12 Aug 2020 18:17:04 +0800 (CST)
+Received: from localhost (10.174.187.253) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
+ 18:16:54 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH RFC 07/10] block/: fix some comment spelling errors
-Date: Wed, 12 Aug 2020 18:14:57 +0800
-Message-ID: <20200812101500.2066-8-zhaolichang@huawei.com>
+Subject: [PATCH RFC 08/10] disas/: fix some comment spelling errors
+Date: Wed, 12 Aug 2020 18:14:58 +0800
+Message-ID: <20200812101500.2066-9-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200812101500.2066-1-zhaolichang@huawei.com>
 References: <20200812101500.2066-1-zhaolichang@huawei.com>
@@ -65,91 +65,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the block folder.
+and finally found some spelling errors in the disas folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 ---
- block/block-copy.c | 2 +-
- block/linux-aio.c  | 2 +-
- block/mirror.c     | 2 +-
- block/vhdx.c       | 2 +-
- block/vhdx.h       | 4 ++--
- 5 files changed, 6 insertions(+), 6 deletions(-)
+ disas/hppa.c                              | 2 +-
+ disas/libvixl/vixl/a64/constants-a64.h    | 2 +-
+ disas/libvixl/vixl/a64/decoder-a64.h      | 2 +-
+ disas/libvixl/vixl/a64/instructions-a64.h | 2 +-
+ disas/libvixl/vixl/globals.h              | 2 +-
+ disas/m68k.c                              | 8 ++++----
+ disas/ppc.c                               | 2 +-
+ 7 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index f7428a7..1dfd46a 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -318,7 +318,7 @@ static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
-  * Do copy of cluster-aligned chunk. Requested region is allowed to exceed
-  * s->len only to cover last cluster when s->len is not aligned to clusters.
-  *
-- * No sync here: nor bitmap neighter intersecting requests handling, only copy.
-+ * No sync here: nor bitmap neither intersecting requests handling, only copy.
-  *
-  * Returns 0 on success.
-  */
-diff --git a/block/linux-aio.c b/block/linux-aio.c
-index 3c0527c..772ff86 100644
---- a/block/linux-aio.c
-+++ b/block/linux-aio.c
-@@ -222,7 +222,7 @@ static void qemu_laio_process_completions(LinuxAioState *s)
+diff --git a/disas/hppa.c b/disas/hppa.c
+index 2dbd1fc..dcf9a47 100644
+--- a/disas/hppa.c
++++ b/disas/hppa.c
+@@ -2021,7 +2021,7 @@ print_insn_hppa (bfd_vma memaddr, disassemble_info *info)
+ 			fput_fp_reg (GET_FIELD (insn, 6, 10), info);
+ 		      break;
  
-     /* If we are nested we have to notify the level above that we are done
-      * by setting event_max to zero, upper level will then jump out of it's
--     * own `for` loop.  If we are the last all counters droped to zero. */
-+     * own `for` loop.  If we are the last all counters dropped to zero. */
-     s->event_max = 0;
-     s->event_idx = 0;
- }
-diff --git a/block/mirror.c b/block/mirror.c
-index e8e8844..22d5741 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -478,7 +478,7 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)
+-		      /* 'fA' will not generate a space before the regsiter
++		      /* 'fA' will not generate a space before the register
+ 			 name.  Normally that is fine.  Except that it
+ 			 causes problems with xmpyu which has no FP format
+ 			 completer.  */
+diff --git a/disas/libvixl/vixl/a64/constants-a64.h b/disas/libvixl/vixl/a64/constants-a64.h
+index 2caa73a..88af5fe 100644
+--- a/disas/libvixl/vixl/a64/constants-a64.h
++++ b/disas/libvixl/vixl/a64/constants-a64.h
+@@ -71,7 +71,7 @@ V_(ImmDPShift, 15, 10, Bits)                                                   \
+ V_(ImmAddSub, 21, 10, Bits)                                                    \
+ V_(ShiftAddSub, 23, 22, Bits)                                                  \
+                                                                                \
+-/* Add/substract extend */                                                     \
++/* Add/subtract extend */                                                      \
+ V_(ImmExtendShift, 12, 10, Bits)                                               \
+ V_(ExtendMode, 15, 13, Bits)                                                   \
+                                                                                \
+diff --git a/disas/libvixl/vixl/a64/decoder-a64.h b/disas/libvixl/vixl/a64/decoder-a64.h
+index b3f04f6..045e2a7 100644
+--- a/disas/libvixl/vixl/a64/decoder-a64.h
++++ b/disas/libvixl/vixl/a64/decoder-a64.h
+@@ -215,7 +215,7 @@ class Decoder {
+   // On entry, instruction bits 27:24 = 0x0.
+   void DecodePCRelAddressing(const Instruction* instr);
  
-     job_pause_point(&s->common.job);
+-  // Decode the add/subtract immediate instruction, and call the correspoding
++  // Decode the add/subtract immediate instruction, and call the corresponding
+   // visitors.
+   // On entry, instruction bits 27:24 = 0x1.
+   void DecodeAddSubImmediate(const Instruction* instr);
+diff --git a/disas/libvixl/vixl/a64/instructions-a64.h b/disas/libvixl/vixl/a64/instructions-a64.h
+index 7e0dbae..0496a15 100644
+--- a/disas/libvixl/vixl/a64/instructions-a64.h
++++ b/disas/libvixl/vixl/a64/instructions-a64.h
+@@ -504,7 +504,7 @@ class NEONFormatDecoder {
+   };
  
--    /* Find the number of consective dirty chunks following the first dirty
-+    /* Find the number of consecutive dirty chunks following the first dirty
-      * one, and wait for in flight requests in them. */
-     bdrv_dirty_bitmap_lock(s->dirty_bitmap);
-     while (nb_chunks * s->granularity < s->buf_size) {
-diff --git a/block/vhdx.c b/block/vhdx.c
-index 791eb90..84eedee 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1073,7 +1073,7 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
-         goto fail;
-     }
+   // Construct a format decoder with increasingly specific format maps for each
+-  // subsitution. If no format map is specified, the default is the integer
++  // substitution. If no format map is specified, the default is the integer
+   // format map.
+   explicit NEONFormatDecoder(const Instruction* instr) {
+     instrbits_ = instr->InstructionBits();
+diff --git a/disas/libvixl/vixl/globals.h b/disas/libvixl/vixl/globals.h
+index 61dc9f7..9ae6f7a 100644
+--- a/disas/libvixl/vixl/globals.h
++++ b/disas/libvixl/vixl/globals.h
+@@ -77,7 +77,7 @@ const int MBytes = 1024 * KBytes;
+ #endif
+ // This is not as powerful as template based assertions, but it is simple.
+ // It assumes that the descriptions are unique. If this starts being a problem,
+-// we can switch to a different implemention.
++// we can switch to a different implementation.
+ #define VIXL_CONCAT(a, b) a##b
+ #define VIXL_STATIC_ASSERT_LINE(line, condition) \
+   typedef char VIXL_CONCAT(STATIC_ASSERT_LINE_, line)[(condition) ? 1 : -1] \
+diff --git a/disas/m68k.c b/disas/m68k.c
+index 863409c..aefaecf 100644
+--- a/disas/m68k.c
++++ b/disas/m68k.c
+@@ -70,7 +70,7 @@ struct floatformat
+   unsigned int exp_start;
+   unsigned int exp_len;
+   /* Bias added to a "true" exponent to form the biased exponent.  It
+-     is intentionally signed as, otherwize, -exp_bias can turn into a
++     is intentionally signed as, otherwise, -exp_bias can turn into a
+      very large number (e.g., given the exp_bias of 0x3fff and a 64
+      bit long, the equation (long)(1 - exp_bias) evaluates to
+      4294950914) instead of -16382).  */
+@@ -479,7 +479,7 @@ struct m68k_opcode_alias
+       and remaining 3 bits of register shifted 9 bits in first word.
+       Indicate upper/lower in 1 bit shifted 7 bits in second word.
+       Use with `R' or `u' format.
+-   n  `m' withouth upper/lower indication. (For M[S]ACx; 4 bits split
++   n  `m' without upper/lower indication. (For M[S]ACx; 4 bits split
+       with MSB shifted 6 bits in first word and remaining 3 bits of
+       register shifted 9 bits in first word.  No upper/lower
+       indication is done.)  Use with `R' or `u' format.
+@@ -854,7 +854,7 @@ fetch_arg (unsigned char *buffer,
  
--    /* endian convert populated BAT field entires */
-+    /* endian convert populated BAT field entries */
-     for (i = 0; i < s->bat_entries; i++) {
-         s->bat[i] = le64_to_cpu(s->bat[i]);
-     }
-diff --git a/block/vhdx.h b/block/vhdx.h
-index 0b74924..e385e48 100644
---- a/block/vhdx.h
-+++ b/block/vhdx.h
-@@ -212,7 +212,7 @@ typedef struct QEMU_PACKED VHDXLogDataSector {
-     uint32_t    sequence_high;          /* 4 MSB of 8 byte sequence_number */
-     uint8_t     data[4084];             /* raw data, bytes 8-4091 (inclusive).
-                                            see the data descriptor field for the
--                                           other mising bytes */
-+                                           other missing bytes */
-     uint32_t    sequence_low;           /* 4 LSB of 8 byte sequence_number */
- } VHDXLogDataSector;
+ /* Check if an EA is valid for a particular code.  This is required
+    for the EMAC instructions since the type of source address determines
+-   if it is a EMAC-load instruciton if the EA is mode 2-5, otherwise it
++   if it is a EMAC-load instruction if the EA is mode 2-5, otherwise it
+    is a non-load EMAC instruction and the bits mean register Ry.
+    A similar case exists for the movem instructions where the register
+    mask is interpreted differently for different EAs.  */
+@@ -1080,7 +1080,7 @@ print_indexed (int basereg,
  
-@@ -257,7 +257,7 @@ typedef struct QEMU_PACKED VHDXMetadataTableHeader {
+ /* Returns number of bytes "eaten" by the operand, or
+    return -1 if an invalid operand was found, or -2 if
+-   an opcode tabe error was found.
++   an opcode table error was found.
+    ADDR is the pc for this arg to be relative to.  */
  
- #define VHDX_META_FLAGS_IS_USER         0x01    /* max 1024 entries */
- #define VHDX_META_FLAGS_IS_VIRTUAL_DISK 0x02    /* virtual disk metadata if set,
--                                                   otherwise file metdata */
-+                                                   otherwise file metadata */
- #define VHDX_META_FLAGS_IS_REQUIRED     0x04    /* parse must understand this
-                                                    entry to open the file */
- typedef struct QEMU_PACKED VHDXMetadataTableEntry {
+ static int
+diff --git a/disas/ppc.c b/disas/ppc.c
+index 63e97cf..02be878 100644
+--- a/disas/ppc.c
++++ b/disas/ppc.c
+@@ -5226,7 +5226,7 @@ operand_value_powerpc (const struct powerpc_operand *operand,
+       if ((operand->flags & PPC_OPERAND_SIGNED) != 0)
+ 	{
+ 	  /* BITM is always some number of zeros followed by some
+-	     number of ones, followed by some numer of zeros.  */
++	     number of ones, followed by some number of zeros.  */
+ 	  unsigned long top = operand->bitm;
+ 	  /* top & -top gives the rightmost 1 bit, so this
+ 	     fills in any trailing zeros.  */
 -- 
 2.26.2.windows.1
 
