@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30456242A91
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:47:06 +0200 (CEST)
-Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F6F242AA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:52:29 +0200 (CEST)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5r5t-0004xI-9O
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
+	id 1k5rB5-0008Jb-R0
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1k5non-0008Cd-6R; Wed, 12 Aug 2020 06:17:13 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:44490 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1k5noj-00033f-Sm; Wed, 12 Aug 2020 06:17:12 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 795EA7F6D0452EFC5B9A;
- Wed, 12 Aug 2020 18:17:06 +0800 (CST)
-Received: from localhost (10.174.187.253) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
- 18:16:59 +0800
-From: zhaolichang <zhaolichang@huawei.com>
-To: <qemu-trivial@nongnu.org>
-Subject: [PATCH RFC 10/10] contrib/: fix some comment spelling errors
-Date: Wed, 12 Aug 2020 18:15:00 +0800
-Message-ID: <20200812101500.2066-11-zhaolichang@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20200812101500.2066-1-zhaolichang@huawei.com>
-References: <20200812101500.2066-1-zhaolichang@huawei.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k5rAD-0007n5-Dk
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 09:51:33 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43495
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k5rAA-0006Rh-Rn
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 09:51:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597240289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G4/WsRTlT2/ybWC157mEy/ov91AYCgTRIO1QmIE5kqk=;
+ b=IadV0mHzYayJQ7hh92MOitjK9QRumwT5PKUP5CKmgsT4JueGWvNZ/4xBMlXkNY9g89BB5z
+ NlxIJkz2G7CXSwvGeA3USYYQhV11AdvmFDDFrMkMahsMUev3jnw+AU+yCOMZ0V4xMIOIV6
+ oZyv5+rAWlhDSE38NoxfU2ZTMwBe910=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-BEpKfTiNNYq0SuaUvNPD3A-1; Wed, 12 Aug 2020 09:51:25 -0400
+X-MC-Unique: BEpKfTiNNYq0SuaUvNPD3A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB37F106B244;
+ Wed, 12 Aug 2020 13:51:24 +0000 (UTC)
+Received: from localhost (ovpn-114-96.ams2.redhat.com [10.36.114.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6DE560CF9;
+ Wed, 12 Aug 2020 13:51:17 +0000 (UTC)
+Date: Wed, 12 Aug 2020 14:51:16 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Zhenyu Ye <yezhenyu2@huawei.com>
+Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
+Message-ID: <20200812135116.GA112330@stefanha-x1.localdomain>
+References: <20200810145246.1049-1-yezhenyu2@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.253]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:16:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+In-Reply-To: <20200810145246.1049-1-yezhenyu2@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 03:52:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 12 Aug 2020 09:40:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,96 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, armbru@redhat.com,
+ xiexiangyou@huawei.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found that there are many spelling errors in the comments of qemu,
-so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the contrib folder.
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: zhaolichang <zhaolichang@huawei.com>
----
- contrib/gitdm/filetypes.txt             | 6 +++---
- contrib/ivshmem-client/ivshmem-client.h | 2 +-
- contrib/libvhost-user/libvhost-user.c   | 4 ++--
- contrib/libvhost-user/libvhost-user.h   | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+On Mon, Aug 10, 2020 at 10:52:44PM +0800, Zhenyu Ye wrote:
+> Before doing qmp actions, we need to lock the qemu_global_mutex,
+> so the qmp actions should not take too long time.
+>=20
+> Unfortunately, some qmp actions need to acquire aio context and
+> this may take a long time.  The vm will soft lockup if this time
+> is too long.
+>=20
+> So add a timeout mechanism while doing qmp actions.
 
-diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
-index 2d5002f..c3a9521 100644
---- a/contrib/gitdm/filetypes.txt
-+++ b/contrib/gitdm/filetypes.txt
-@@ -22,7 +22,7 @@
- # in the gitdm sample-config directory.
- #
- # This file contains associations parameters regarding filetypes
--# (documentation, develompent, multimedia, images...)
-+# (documentation, development, multimedia, images...)
- #
- # format:
- # filetype <type> <regex> [<comment>]
-@@ -59,8 +59,8 @@ filetype code \.s$	# Assembly
- filetype code \.S$	# Assembly
- filetype code \.asm$	# Assembly
- filetype code \.awk$	# awk
--filetype code ^common$  # script fragements
--filetype code ^common.*$  # script fragements
-+filetype code ^common$  # script fragments
-+filetype code ^common.*$  # script fragments
- filetype code (qom|qmp)-\w+$  # python script fragments
- 
- #
-diff --git a/contrib/ivshmem-client/ivshmem-client.h b/contrib/ivshmem-client/ivshmem-client.h
-index fe3cc4a..fc45a38 100644
---- a/contrib/ivshmem-client/ivshmem-client.h
-+++ b/contrib/ivshmem-client/ivshmem-client.h
-@@ -174,7 +174,7 @@ int ivshmem_client_notify_all_vects(const IvshmemClient *client,
-                                     const IvshmemClientPeer *peer);
- 
- /**
-- * Broadcat a notification to all vectors of all peers
-+ * Broadcast a notification to all vectors of all peers
-  *
-  * @client: The ivshmem client
-  *
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 53f16bd..9d30ff2 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -684,7 +684,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
- 
-     /*
-      * If we are in postcopy mode and we receive a u64 payload with a 0 value
--     * we know all the postcopy client bases have been recieved, and we
-+     * we know all the postcopy client bases have been received, and we
-      * should start generating faults.
-      */
-     if (track_ramblocks &&
-@@ -973,7 +973,7 @@ vu_set_mem_table_exec(VuDev *dev, VhostUserMsg *vmsg)
-     for (i = 0; i < dev->max_queues; i++) {
-         if (dev->vq[i].vring.desc) {
-             if (map_ring(dev, &dev->vq[i])) {
--                vu_panic(dev, "remaping queue %d during setmemtable", i);
-+                vu_panic(dev, "remapping queue %d during setmemtable", i);
-             }
-         }
-     }
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 844c37c..287ac5f 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -424,7 +424,7 @@ typedef struct VuVirtqElement {
-  * @remove_watch: a remove_watch callback
-  * @iface: a VuDevIface structure with vhost-user device callbacks
-  *
-- * Intializes a VuDev vhost-user context.
-+ * Initializes a VuDev vhost-user context.
-  *
-  * Returns: true on success, false on failure.
-  **/
--- 
-2.26.2.windows.1
+aio_context_acquire_timeout() is a workaround for code that blocks the
+event loop. Ideally there should be no code that blocks the event loop.
 
+Which cases have you found where the event loop is blocked?
+
+I think they should be investigated and fixed (if possible) before
+introducing an API like aio_context_acquire_timeout().
+
+Stefan
+
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8z89QACgkQnKSrs4Gr
+c8ieYQgAubmAb4DoSwkVCoqRWjo/u0np2Iq3OTJVStXx1Q7bYXNr7XQz8pMVPkWR
+VdlxhfvLCu7lDyJbseWDkxn5DJJLdLI0A7tkmzh6eaG/jWJ2rG79l3xw/sxGXXnL
+Rup3jHCZNDxlTEqzKz1WHWRS8cCn/shk5AI9dkh9BNhH8YuaT5eviJQ3ciqg3sql
+VXUDHcQZwFgwMeFO76unAsKb/iMnVpTFkXejMTsjL/vovhyFshe9QCXvsNKnPBc3
+Mri5Kd4TW0ZjCHKLj6xYf8NqdXngKmO2dLc/nUGsjQ7rhT1E3W83d9JBJmlXFuBf
+mFVbf4LTGGJsU+EmHjYi2LiqEZplGw==
+=oaxO
+-----END PGP SIGNATURE-----
+
+--zhXaljGHf11kAtnf--
 
 
