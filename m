@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE918242E99
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 20:37:42 +0200 (CEST)
-Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89763242E98
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 20:37:35 +0200 (CEST)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5vd7-0007fj-S2
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 14:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46350)
+	id 1k5vd0-0007Vb-JF
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 14:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYh-0000L4-Bk
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40814)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYq-0000UX-AG
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYc-0002E9-8Z
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:07 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYn-0002EC-TF
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:15 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D456CAE0A;
- Wed, 12 Aug 2020 18:33:21 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 7A3EAAF90;
+ Wed, 12 Aug 2020 18:33:22 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: [PATCH v5 11/14] hvf: remove hvf specific functions from global
+Subject: [PATCH v5 12/14] whpx: remove whpx specific functions from global
  includes
-Date: Wed, 12 Aug 2020 20:32:47 +0200
-Message-Id: <20200812183250.9221-12-cfontana@suse.de>
+Date: Wed, 12 Aug 2020 20:32:48 +0200
+Message-Id: <20200812183250.9221-13-cfontana@suse.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200812183250.9221-1-cfontana@suse.de>
 References: <20200812183250.9221-1-cfontana@suse.de>
@@ -68,120 +68,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- accel/stubs/Makefile.objs  |  1 -
- accel/stubs/hvf-stub.c     | 30 ------------------------------
- include/sysemu/hvf.h       |  8 --------
- target/i386/hvf/hvf-cpus.h |  8 ++++++++
- target/i386/hvf/x86hvf.c   |  2 ++
- target/i386/hvf/x86hvf.h   |  1 -
- 6 files changed, 10 insertions(+), 40 deletions(-)
- delete mode 100644 accel/stubs/hvf-stub.c
+ accel/stubs/Makefile.objs |  1 -
+ accel/stubs/whpx-stub.c   | 47 -----------------------------------------------
+ include/sysemu/whpx.h     | 19 -------------------
+ target/i386/whpx-cpus.h   | 17 +++++++++++++++++
+ 4 files changed, 17 insertions(+), 67 deletions(-)
+ delete mode 100644 accel/stubs/whpx-stub.c
 
 diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
-index bbd14e71fb..6630954f30 100644
+index 6630954f30..3c2a2fedc4 100644
 --- a/accel/stubs/Makefile.objs
 +++ b/accel/stubs/Makefile.objs
 @@ -1,5 +1,4 @@
  obj-$(call lnot,$(CONFIG_HAX))  += hax-stub.o
--obj-$(call lnot,$(CONFIG_HVF))  += hvf-stub.o
- obj-$(call lnot,$(CONFIG_WHPX)) += whpx-stub.o
+-obj-$(call lnot,$(CONFIG_WHPX)) += whpx-stub.o
  obj-$(call lnot,$(CONFIG_KVM))  += kvm-stub.o
  obj-$(call lnot,$(CONFIG_TCG))  += tcg-stub.o
-diff --git a/accel/stubs/hvf-stub.c b/accel/stubs/hvf-stub.c
+ obj-$(call lnot,$(CONFIG_XEN))  += xen-stub.o
+diff --git a/accel/stubs/whpx-stub.c b/accel/stubs/whpx-stub.c
 deleted file mode 100644
-index e81dfe888c..0000000000
---- a/accel/stubs/hvf-stub.c
+index 1efb89f25e..0000000000
+--- a/accel/stubs/whpx-stub.c
 +++ /dev/null
-@@ -1,30 +0,0 @@
+@@ -1,47 +0,0 @@
 -/*
-- * QEMU HVF support
+- * QEMU Windows Hypervisor Platform accelerator (WHPX) stub
 - *
-- * Copyright 2017 Red Hat, Inc.
+- * Copyright Microsoft Corp. 2017
 - *
-- * This software is licensed under the terms of the GNU General Public
-- * License version 2 or later, as published by the Free Software Foundation,
-- * and may be copied, distributed, and modified under those terms.
-- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
 - * See the COPYING file in the top-level directory.
 - *
 - */
 -
 -#include "qemu/osdep.h"
 -#include "cpu.h"
--#include "sysemu/hvf.h"
+-#include "sysemu/whpx.h"
 -
--int hvf_init_vcpu(CPUState *cpu)
+-int whpx_init_vcpu(CPUState *cpu)
 -{
--    return -ENOSYS;
+-    return -1;
 -}
 -
--int hvf_vcpu_exec(CPUState *cpu)
+-int whpx_vcpu_exec(CPUState *cpu)
 -{
--    return -ENOSYS;
+-    return -1;
 -}
 -
--void hvf_vcpu_destroy(CPUState *cpu)
+-void whpx_destroy_vcpu(CPUState *cpu)
 -{
 -}
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index 6d3ee4fdb7..b4f7191dd9 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -23,14 +23,6 @@ extern bool hvf_allowed;
- #define hvf_get_supported_cpuid(func, idx, reg) 0
- #endif /* !CONFIG_HVF */
- 
--int hvf_init_vcpu(CPUState *);
--int hvf_vcpu_exec(CPUState *);
--void hvf_cpu_synchronize_state(CPUState *);
--void hvf_cpu_synchronize_post_reset(CPUState *);
--void hvf_cpu_synchronize_post_init(CPUState *);
--void hvf_cpu_synchronize_pre_loadvm(CPUState *);
--void hvf_vcpu_destroy(CPUState *);
 -
- #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
+-void whpx_vcpu_kick(CPUState *cpu)
+-{
+-}
+-
+-void whpx_cpu_synchronize_state(CPUState *cpu)
+-{
+-}
+-
+-void whpx_cpu_synchronize_post_reset(CPUState *cpu)
+-{
+-}
+-
+-void whpx_cpu_synchronize_post_init(CPUState *cpu)
+-{
+-}
+-
+-void whpx_cpu_synchronize_pre_loadvm(CPUState *cpu)
+-{
+-}
+diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
+index a84b49e749..59edf13742 100644
+--- a/include/sysemu/whpx.h
++++ b/include/sysemu/whpx.h
+@@ -13,18 +13,6 @@
+ #ifndef QEMU_WHPX_H
+ #define QEMU_WHPX_H
  
- #define HVF_STATE(obj) \
-diff --git a/target/i386/hvf/hvf-cpus.h b/target/i386/hvf/hvf-cpus.h
-index b66f4889b0..da4a990451 100644
---- a/target/i386/hvf/hvf-cpus.h
-+++ b/target/i386/hvf/hvf-cpus.h
-@@ -14,4 +14,12 @@
+-
+-int whpx_init_vcpu(CPUState *cpu);
+-int whpx_vcpu_exec(CPUState *cpu);
+-void whpx_destroy_vcpu(CPUState *cpu);
+-void whpx_vcpu_kick(CPUState *cpu);
+-
+-
+-void whpx_cpu_synchronize_state(CPUState *cpu);
+-void whpx_cpu_synchronize_post_reset(CPUState *cpu);
+-void whpx_cpu_synchronize_post_init(CPUState *cpu);
+-void whpx_cpu_synchronize_pre_loadvm(CPUState *cpu);
+-
+ #ifdef CONFIG_WHPX
  
- extern CpusAccel hvf_cpus;
+ int whpx_enabled(void);
+@@ -35,11 +23,4 @@ int whpx_enabled(void);
  
-+int hvf_init_vcpu(CPUState *);
-+int hvf_vcpu_exec(CPUState *);
-+void hvf_cpu_synchronize_state(CPUState *);
-+void hvf_cpu_synchronize_post_reset(CPUState *);
-+void hvf_cpu_synchronize_post_init(CPUState *);
-+void hvf_cpu_synchronize_pre_loadvm(CPUState *);
-+void hvf_vcpu_destroy(CPUState *);
+ #endif /* CONFIG_WHPX */
+ 
+-/* state subset only touched by the VCPU itself during runtime */
+-#define WHPX_SET_RUNTIME_STATE   1
+-/* state subset modified during VCPU reset */
+-#define WHPX_SET_RESET_STATE     2
+-/* full state set, modified during initialization or on vmload */
+-#define WHPX_SET_FULL_STATE      3
+-
+ #endif /* QEMU_WHPX_H */
+diff --git a/target/i386/whpx-cpus.h b/target/i386/whpx-cpus.h
+index 60b7be3735..165e721589 100644
+--- a/target/i386/whpx-cpus.h
++++ b/target/i386/whpx-cpus.h
+@@ -14,4 +14,21 @@
+ 
+ extern CpusAccel whpx_cpus;
+ 
++int whpx_init_vcpu(CPUState *cpu);
++int whpx_vcpu_exec(CPUState *cpu);
++void whpx_destroy_vcpu(CPUState *cpu);
++void whpx_vcpu_kick(CPUState *cpu);
 +
- #endif /* HVF_CPUS_H */
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 5cbcb32ab6..b986213c0f 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -32,6 +32,8 @@
- #include <Hypervisor/hv.h>
- #include <Hypervisor/hv_vmx.h>
- 
-+#include "hvf-cpus.h"
++void whpx_cpu_synchronize_state(CPUState *cpu);
++void whpx_cpu_synchronize_post_reset(CPUState *cpu);
++void whpx_cpu_synchronize_post_init(CPUState *cpu);
++void whpx_cpu_synchronize_pre_loadvm(CPUState *cpu);
 +
- void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
-                      SegmentCache *qseg, bool is_tr)
- {
-diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
-index 79539f7282..4fabc6d582 100644
---- a/target/i386/hvf/x86hvf.h
-+++ b/target/i386/hvf/x86hvf.h
-@@ -35,5 +35,4 @@ void hvf_get_msrs(CPUState *cpu_state);
- void vmx_clear_int_window_exiting(CPUState *cpu);
- void hvf_get_segments(CPUState *cpu_state);
- void vmx_update_tpr(CPUState *cpu);
--void hvf_cpu_synchronize_state(CPUState *cpu_state);
- #endif
++/* state subset only touched by the VCPU itself during runtime */
++#define WHPX_SET_RUNTIME_STATE   1
++/* state subset modified during VCPU reset */
++#define WHPX_SET_RESET_STATE     2
++/* full state set, modified during initialization or on vmload */
++#define WHPX_SET_FULL_STATE      3
++
+ #endif /* WHPX_CPUS_H */
 -- 
 2.16.4
 
