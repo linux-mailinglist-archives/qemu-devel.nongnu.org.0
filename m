@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92439242ECD
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 20:58:36 +0200 (CEST)
-Received: from localhost ([::1]:56938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A08D242EE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:03:25 +0200 (CEST)
+Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5vxL-0006Bw-J4
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 14:58:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52464)
+	id 1k5w20-0003Wq-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k5vv1-0002RC-2L; Wed, 12 Aug 2020 14:56:11 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42545)
+ id 1k5w0p-0002U8-RS; Wed, 12 Aug 2020 15:02:11 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k5vuy-0005PK-LC; Wed, 12 Aug 2020 14:56:10 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r4so3011025wrx.9;
- Wed, 12 Aug 2020 11:56:07 -0700 (PDT)
+ id 1k5w0o-0006EL-CO; Wed, 12 Aug 2020 15:02:11 -0400
+Received: by mail-wr1-x443.google.com with SMTP id y3so3048601wrl.4;
+ Wed, 12 Aug 2020 12:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7B2qr/BUzGQOKH4il/G8YhlkCNVM/EenlUe+FeUmbTk=;
- b=qrvHJxhzdMIrFw1I5M5BQ/+dtS8WZPOIEyfszHxLxTSbNLSUFnNGLXI85Kmlt2/KYV
- R4qPZCqBhjogA7DI1sV+/6Yd06b2UC57nxBXMKmigPJGVVU+p5sm0FmHlKmMFISjkIeZ
- +jCvzu91Xc1A1XsihiTO4moOLEplWs6NM3hQl+La68LuLj2N3/Ie/1s893DqbnkL7sV1
- AEX7gEmrjDE3Tai0aOcRg/jej9cbycEZRRj2P7i9GvlMSkoeZiKSBpfGHfabRbQC/FmX
- P6+UvgjZiSMjyh+d8I2D3Lg6gzpkCmFjZXrsGJJEgFRf2ak+gEzm3yXxQE6Me46RwPYV
- Pscg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uk5BShFRYcQUzFdAQhFuk3duAFMlAohm4jU9MUl0cfA=;
+ b=m8/5fGRWbOuh3Yy68qMUgnuoHOmPCjOb9GnFUYKXuy5U9Ob2+ckHjhxG3s+IxWhC8B
+ 5PhOydsMF5r3E5TSemdqvmJEnwzUwWPkJNoxZCxuinf8S0Y5w46G8zXxcdJNeRG5Q8BD
+ B4zwbusGCYG9nmcbVt7+6C34vURAL/5U6YtbAfh+W5tUtBpFJwRhRQsb1luiks/fR892
+ Qek0c+pflhXZEqihmixQQ01a9kXz2qzDw+agJhVchbvhhqpAmfD3mohhDhxOVK30I8Xy
+ LtynTi5e//YFuNzWjLraR6ogRmzG69KZA75bZlpKYtyTxBdFKOeGcCjcKAxLjpQo+VeI
+ pklw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7B2qr/BUzGQOKH4il/G8YhlkCNVM/EenlUe+FeUmbTk=;
- b=V4DAFYYdaIsBjMt/1Gy+yMYfG+e/7M5Ps6TFu3+VDABpeKtvP+V7aSFbUgu2oC3v4K
- +8mks50zHTr4nX9DhWnw6hjg7TECXg5cm6wo9Zx4xpDUmfRap5ajo2XnsWioCqEApVoH
- tUCWdd7kq0TpOhAGrvqjIbp5y3mpLtqtvgDdDt5wlPAlRFz+4rKiSF+JNu6O0qz7IzG4
- bitT7vEFjuZBws9R4lD1q99+RVrpoJpign9LNbu/RJPieeeVhVlXuOZ0TiSYCg241R65
- DSTB5pxPyVsNOJd75+JFPHW9iHPQ83jRQqnEp2wLDmeK67UBcOys9p4vH0CxLsSarggJ
- aWzw==
-X-Gm-Message-State: AOAM531fey9tWO4kB7HFyzMk1IWghCjMjzM23V7kKenNk170DlaPWR3/
- 6Unjl5Qdc00pQ9oj3YFhg5A=
-X-Google-Smtp-Source: ABdhPJyw8TFzrAyDALNLv5nsYsoc9D5aGK+BoRIoptqol1+5X1X6x+Bq4W2n9wIiMXpPJCj3l+cglA==
-X-Received: by 2002:adf:de08:: with SMTP id b8mr537555wrm.4.1597258566344;
- Wed, 12 Aug 2020 11:56:06 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Uk5BShFRYcQUzFdAQhFuk3duAFMlAohm4jU9MUl0cfA=;
+ b=uBbT7JCZyNt4wjrOYXW3ULk/q8sNWx9JJS7ygBN6Kf2OWvOEIRgLJAesj3ok4UA03W
+ pXKyxwaTO1TAVtvQ29ZVLoFMDKByNQFK6detubGcuAua4clcS0701aGo6NthV4dHwtz9
+ JmBkK7XxuLgkvEzkGpdGAN5Ufmdy5C9nV3RKP8nsb2iryuVvLgAY50p9nyGte5jS7ewk
+ 5Uq6eaFlcOO2lF6027vgr/kb4/vIbJUFqrAn9I9jeMfZ49fnrkCMX327mxE20BOcJBXR
+ ufO36hK42zAsJg2g3dLn2RX+2zbatTe/XAj/TAnCEWYVkQjz6CNcX7DHiUMUvqeLlhYR
+ Pt+A==
+X-Gm-Message-State: AOAM531PtEtxrSdBvNNcZBl48ncU82gAmCIiBhbt09/+CDooAF1WIKn3
+ DM95w2LIny+2lJM0+f7Q6tbOA/fd
+X-Google-Smtp-Source: ABdhPJwSSafyzxx4ZbtFWQuZopYdEokCeKz+Xh+/o3btbsxMzplGmQNKSUqgckSU7q7Qujsl1Cm38g==
+X-Received: by 2002:adf:ba05:: with SMTP id o5mr560781wrg.7.1597258927981;
+ Wed, 12 Aug 2020 12:02:07 -0700 (PDT)
+Received: from x1w.redhat.com (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id t189sm5400623wmf.47.2020.08.12.11.56.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Aug 2020 11:56:05 -0700 (PDT)
-Subject: Re: [PATCH v1 3/3] hw/intc: ibex_plic: Honour source priorities
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1595655188.git.alistair.francis@wdc.com>
- <a697ca8a31eff8eb18a88e09a28206063cf85d48.1595655188.git.alistair.francis@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7899d7e1-f33f-fb40-cace-a20b218cc89e@amsat.org>
-Date: Wed, 12 Aug 2020 20:56:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by smtp.gmail.com with ESMTPSA id z12sm5689441wrp.20.2020.08.12.12.02.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Aug 2020 12:02:07 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] hw/misc/unimp: Improve how offset/value are displayed
+Date: Wed, 12 Aug 2020 21:02:03 +0200
+Message-Id: <20200812190206.31595-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <a697ca8a31eff8eb18a88e09a28206063cf85d48.1595655188.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::443;
  envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
@@ -89,60 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@dabbelt.com
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/25/20 7:34 AM, Alistair Francis wrote:
-> This patch follows what commit aa4d30f6618dc "riscv: plic: Honour source
-> priorities" does and ensures that the highest priority interrupt will be
-> serviced first.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Jessica Clarke <jrtc27@jrtc27.com>
+This series aims to ease looking at the '-d unimp' output reported
+by the UnimplementedDevice.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+- read/write accesses are now aligned
+- the value format width uses the access size
+- the offset (address) uses the size of the memory region it belongs
 
-> ---
->  hw/intc/ibex_plic.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
-> index 669247ef08..f49fa67c91 100644
-> --- a/hw/intc/ibex_plic.c
-> +++ b/hw/intc/ibex_plic.c
-> @@ -57,6 +57,8 @@ static void ibex_plic_irqs_set_pending(IbexPlicState *s, int irq, bool level)
->  static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
->  {
->      int i;
-> +    uint32_t max_irq = 0;
-> +    uint32_t max_prio = s->threshold;
->  
->      for (i = 0; i < s->pending_num; i++) {
->          uint32_t irq_num = ctz64(s->pending[i]) + (i * 32);
-> @@ -66,14 +68,17 @@ static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
->              continue;
->          }
->  
-> -        if (s->priority[irq_num] > s->threshold) {
-> -            if (!s->claim) {
-> -                s->claim = irq_num;
-> -            }
-> -            return true;
-> +        if (s->priority[irq_num] > max_prio) {
-> +            max_irq = irq_num;
-> +            max_prio = s->priority[irq_num];
->          }
->      }
->  
-> +    if (max_irq) {
-> +        s->claim = max_irq;
-> +        return true;
-> +    }
-> +
->      return false;
->  }
->  
-> 
+Series fully reviewed.
+
+Since v1:
+- Use DIV_ROUND_UP instead of ROUND_UP (rth)
+- Added rth R-b tags
+
+$ git backport-diff -u v1 -r origin/master..
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/3:[----] [--] 'hw/misc/unimp: Display value after offset'
+002/3:[----] [--] 'hw/misc/unimp: Display the value with width of the access size'
+003/3:[0002] [FC] 'hw/misc/unimp: Display the offset with width of the region size'
+
+Philippe Mathieu-Daudé (3):
+  hw/misc/unimp: Display value after offset
+  hw/misc/unimp: Display the value with width of the access size
+  hw/misc/unimp: Display the offset with width of the region size
+
+ include/hw/misc/unimp.h |  1 +
+ hw/misc/unimp.c         | 14 ++++++++------
+ 2 files changed, 9 insertions(+), 6 deletions(-)
+
+-- 
+2.21.3
 
 
