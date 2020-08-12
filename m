@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00962427DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 11:46:48 +0200 (CEST)
-Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E7C2427D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 11:45:52 +0200 (CEST)
+Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5nLL-0000fC-MU
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 05:46:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1k5nKR-0006zQ-4l
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 05:45:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=nna4=bw=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1k5nHU-00025E-Gi
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:42:48 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:40878
+ id 1k5nHV-00026a-45
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:42:49 -0400
+Received: from gate-2.cri.epita.net ([163.5.55.20]:40886
  helo=mail-2.srv.cri.epita.fr)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=nna4=bw=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1k5nHS-0006kP-DZ
+ id 1k5nHS-0006kT-S2
  for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:42:48 -0400
 Received: from MattGorko-Laptop.localdomain (unknown [78.194.154.81])
  (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 272BE4150F;
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 96F9D415C6;
  Wed, 12 Aug 2020 11:42:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1597225365; bh=A0aJ8L9Xd2FkKoAD25PU7kRu/ARY6f/5I8YwtIoOcWk=;
+ t=1597225365; bh=btRqdaUXVRbDKjkqGiCstodc5y/Je6n9QgR65B0DETM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kpICI+W4eaNCdnpx8rZN0+RnSgjgn/FmN+eagMSPeq5uXEP3aDavNAu1zoLIOHoCC
- AgcncBbJhuaKRTkVpglLRNWbWCYIQjnwm0L7QWHVWzg1qVp7tBTA1plaAFBepDuvK6
- rwdv1db0m0pCqqMNtEeKOHHWSJxiP+FC8754oWJI=
+ b=Se968BH6gAtXshSMnb2cmrIEKara0yfaAZe2E70KuKTp1tgV1Fna0E2bEzb8iN4+s
+ ZlQI021gGsARm+ZCck+2IizIEB24rEn+YFCmfsVUksaH2Qcp8f6nkj5KnwgsNO3/hz
+ fR4OpRLmKNapqoDXCd0bpdEWOFzj0N/qbKTn5YMI=
 From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/13] hw/usb: Add U2F key base class implementation
-Date: Wed, 12 Aug 2020 11:41:26 +0200
-Message-Id: <20200812094135.20550-5-cesar.belley@lse.epita.fr>
+Subject: [PATCH 05/13] hw/usb: Add U2F key passthru mode
+Date: Wed, 12 Aug 2020 11:41:27 +0200
+Message-Id: <20200812094135.20550-6-cesar.belley@lse.epita.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200812094135.20550-1-cesar.belley@lse.epita.fr>
 References: <20200812094135.20550-1-cesar.belley@lse.epita.fr>
@@ -71,29 +71,41 @@ Cc: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the U2F key base class implementation. 
+This patch adds the U2F key pass-through mode.
 
-The U2F key base mainly takes care of the HID interfacing with guest.
-On the one hand, it retrieves the guest U2FHID packets and transmits
-them to the variant associated according to the mode: pass-through
-or emulated.
-On the other hand, it provides the public API used by its variants to
-send U2FHID packets to the guest.
+The pass-through mode consists of passing all requests made from the
+guest to the physical security key connected to the host machine and
+vice versa.
+
+In addition, the dedicated pass-through allows to have a U2F security key
+shared on several guests which is not possible with a simple host device
+assignment pass-through.
+
+The pass-through mode is associated with a device inheriting from
+u2f-key base.
+
+To work, it needs the path to a U2F hidraw, obtained from the Qemu
+command line, and passed by the user:
+
+    qemu -usb -device u2f-passthru,hidraw=/dev/hidrawX
+
+Autoscan and U2F compatibility checking features are given at the end
+of the patch series.
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
 ---
- hw/usb/u2f.c | 352 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 352 insertions(+)
- create mode 100644 hw/usb/u2f.c
+ hw/usb/u2f-passthru.c | 423 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 423 insertions(+)
+ create mode 100644 hw/usb/u2f-passthru.c
 
-diff --git a/hw/usb/u2f.c b/hw/usb/u2f.c
+diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
 new file mode 100644
-index 0000000000..bc09191f06
+index 0000000000..106b5abf9e
 --- /dev/null
-+++ b/hw/usb/u2f.c
-@@ -0,0 +1,352 @@
++++ b/hw/usb/u2f-passthru.c
+@@ -0,0 +1,423 @@
 +/*
-+ * U2F USB device.
++ * U2F USB Passthru device.
 + *
 + * Copyright (c) 2020 César Belley <cesar.belley@lse.epita.fr>
 + * Written by César Belley <cesar.belley@lse.epita.fr>
@@ -119,331 +131,402 @@ index 0000000000..bc09191f06
 +
 +#include "qemu/osdep.h"
 +#include "qemu/module.h"
++#include "qemu/main-loop.h"
++#include "qemu/error-report.h"
 +#include "qapi/error.h"
++#include "hw/qdev-properties.h"
 +#include "hw/usb.h"
-+#include "hw/usb/hid.h"
 +#include "migration/vmstate.h"
-+#include "desc.h"
 +
 +#include "u2f.h"
 +
-+/* U2F key Vendor / Product */
-+#define U2F_KEY_VENDOR_NUM     0x46f4 /* CRC16() of "QEMU" */
-+#define U2F_KEY_PRODUCT_NUM    0x0005
++#define NONCE_SIZE 8
++#define BROADCAST_CID 0xFFFFFFFF
++#define TRANSACTION_TIMEOUT 120000
 +
-+enum {
-+    STR_MANUFACTURER = 1,
-+    STR_PRODUCT,
-+    STR_SERIALNUMBER,
-+    STR_CONFIG,
-+    STR_INTERFACE
++struct transaction {
++    uint32_t cid;
++    uint16_t resp_bcnt;
++    uint16_t resp_size;
++
++    /* Nonce for broadcast isolation */
++    uint8_t nonce[NONCE_SIZE];
 +};
 +
-+static const USBDescStrings desc_strings = {
-+    [STR_MANUFACTURER]     = "QEMU",
-+    [STR_PRODUCT]          = "U2F USB key",
-+    [STR_SERIALNUMBER]     = "0",
-+    [STR_CONFIG]           = "U2F key config",
-+    [STR_INTERFACE]        = "U2F key interface"
++typedef struct U2FPassthruState U2FPassthruState;
++
++#define CURRENT_TRANSACTIONS_NUM 4
++
++struct U2FPassthruState {
++    U2FKeyState base;
++
++    /* Host device */
++    char *hidraw;
++    int hidraw_fd;
++
++    /* Current Transactions */
++    struct transaction current_transactions[CURRENT_TRANSACTIONS_NUM];
++    uint8_t current_transactions_start;
++    uint8_t current_transactions_end;
++    uint8_t current_transactions_num;
++
++    /* Transaction time checking */
++    int64_t last_transaction_time;
++    QEMUTimer timer;
 +};
 +
-+static const USBDescIface desc_iface_u2f_key = {
-+    .bInterfaceNumber              = 0,
-+    .bNumEndpoints                 = 2,
-+    .bInterfaceClass               = USB_CLASS_HID,
-+    .bInterfaceSubClass            = 0x0,
-+    .bInterfaceProtocol            = 0x0,
-+    .ndesc                         = 1,
-+    .descs = (USBDescOther[]) {
-+        {
-+            /* HID descriptor */
-+            .data = (uint8_t[]) {
-+                0x09,          /*  u8  bLength */
-+                USB_DT_HID,    /*  u8  bDescriptorType */
-+                0x10, 0x01,    /*  u16 HID_class */
-+                0x00,          /*  u8  country_code */
-+                0x01,          /*  u8  num_descriptors */
-+                USB_DT_REPORT, /*  u8  type: Report */
-+                0x22, 0,       /*  u16 len */
-+            },
-+        },
-+    },
-+    .eps = (USBDescEndpoint[]) {
-+        {
-+            .bEndpointAddress      = USB_DIR_IN | 0x01,
-+            .bmAttributes          = USB_ENDPOINT_XFER_INT,
-+            .wMaxPacketSize        = U2FHID_PACKET_SIZE,
-+            .bInterval             = 0x05,
-+        }, {
-+            .bEndpointAddress      = USB_DIR_OUT | 0x01,
-+            .bmAttributes          = USB_ENDPOINT_XFER_INT,
-+            .wMaxPacketSize        = U2FHID_PACKET_SIZE,
-+            .bInterval             = 0x05,
-+        },
-+    },
++#define TYPE_U2F_PASSTHRU "u2f-passthru"
++#define PASSTHRU_U2F_KEY(obj) \
++    OBJECT_CHECK(U2FPassthruState, (obj), TYPE_U2F_PASSTHRU)
 +
-+};
++/* Init packet sizes */
++#define PACKET_INIT_HEADER_SIZE 7
++#define PACKET_INIT_DATA_SIZE (U2FHID_PACKET_SIZE - PACKET_INIT_HEADER_SIZE)
 +
-+static const USBDescDevice desc_device_u2f_key = {
-+    .bcdUSB                        = 0x0100,
-+    .bMaxPacketSize0               = U2FHID_PACKET_SIZE,
-+    .bNumConfigurations            = 1,
-+    .confs = (USBDescConfig[]) {
-+        {
-+            .bNumInterfaces        = 1,
-+            .bConfigurationValue   = 1,
-+            .iConfiguration        = STR_CONFIG,
-+            .bmAttributes          = USB_CFG_ATT_ONE,
-+            .bMaxPower             = 15,
-+            .nif = 1,
-+            .ifs = &desc_iface_u2f_key,
-+        },
-+    },
-+};
++/* Cont packet sizes */
++#define PACKET_CONT_HEADER_SIZE 5
++#define PACKET_CONT_DATA_SIZE (U2FHID_PACKET_SIZE - PACKET_CONT_HEADER_SIZE)
 +
-+static const USBDesc desc_u2f_key = {
-+    .id = {
-+        .idVendor          = U2F_KEY_VENDOR_NUM,
-+        .idProduct         = U2F_KEY_PRODUCT_NUM,
-+        .bcdDevice         = 0,
-+        .iManufacturer     = STR_MANUFACTURER,
-+        .iProduct          = STR_PRODUCT,
-+        .iSerialNumber     = STR_SERIALNUMBER,
-+    },
-+    .full = &desc_device_u2f_key,
-+    .str  = desc_strings,
-+};
++struct packet_init {
++    uint32_t cid;
++    uint8_t cmd;
++    uint8_t bcnth;
++    uint8_t bcntl;
++    uint8_t data[PACKET_INIT_DATA_SIZE];
++} QEMU_PACKED;
 +
-+static const uint8_t u2f_key_hid_report_desc[] = {
-+    0x06, 0xd0, 0xf1, /* Usage Page (FIDO) */
-+    0x09, 0x01,       /* Usage (FIDO) */
-+    0xa1, 0x01,       /* Collection (HID Application) */
-+    0x09, 0x20,       /*    Usage (FIDO data in) */
-+    0x15, 0x00,       /*        Logical Minimum (0) */
-+    0x26, 0xFF, 0x00, /*        Logical Maximum (0xff) */
-+    0x75, 0x08,       /*        Report Size (8) */
-+    0x95, 0x40,       /*        Report Count (0x40) */
-+    0x81, 0x02,       /*        Input (Data, Variable, Absolute) */
-+    0x09, 0x21,       /*    Usage (FIDO data out) */
-+    0x15, 0x00,       /*        Logical Minimum (0) */
-+    0x26, 0xFF, 0x00, /*        Logical Maximum  (0xFF) */
-+    0x75, 0x08,       /*        Report Size (8) */
-+    0x95, 0x40,       /*        Report Count (0x40) */
-+    0x91, 0x02,       /*        Output (Data, Variable, Absolute) */
-+    0xC0              /* End Collection */
-+};
-+
-+static void u2f_key_reset(U2FKeyState *key)
++static inline uint32_t packet_get_cid(const void *packet)
 +{
-+    key->pending_in_start = 0;
-+    key->pending_in_end = 0;
-+    key->pending_in_num = 0;
++    return *((uint32_t *)packet);
 +}
 +
-+static void u2f_key_handle_reset(USBDevice *dev)
++static inline bool packet_is_init(const void *packet)
 +{
-+    U2FKeyState *key = U2F_KEY(dev);
-+
-+    u2f_key_reset(key);
++    return ((uint8_t *)packet)[4] & (1 << 7);
 +}
 +
-+static void u2f_key_handle_control(USBDevice *dev, USBPacket *p,
-+               int request, int value, int index, int length, uint8_t *data)
++static inline uint16_t packet_init_get_bcnt(
++        const struct packet_init *packet_init)
 +{
-+    U2FKeyState *key = U2F_KEY(dev);
-+    int ret;
++    uint16_t bcnt = 0;
++    bcnt |= packet_init->bcnth << 8;
++    bcnt |= packet_init->bcntl;
 +
-+    ret = usb_desc_handle_control(dev, p, request, value, index, length, data);
-+    if (ret >= 0) {
-+        return;
++    return bcnt;
++}
++
++static void u2f_passthru_reset(U2FPassthruState *key)
++{
++    timer_del(&key->timer);
++    qemu_set_fd_handler(key->hidraw_fd, NULL, NULL, key);
++    key->last_transaction_time = 0;
++    key->current_transactions_start = 0;
++    key->current_transactions_end = 0;
++    key->current_transactions_num = 0;
++}
++
++static void u2f_timeout_check(void *opaque)
++{
++    U2FPassthruState *key = opaque;
++    int64_t time = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
++
++    if (time > key->last_transaction_time + TRANSACTION_TIMEOUT) {
++        u2f_passthru_reset(key);
++    } else {
++        timer_mod(&key->timer, time + TRANSACTION_TIMEOUT / 4);
 +    }
++}
 +
-+    switch (request) {
-+    case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
-+        switch (value >> 8) {
-+        case 0x22:
-+            memcpy(data, u2f_key_hid_report_desc,
-+                   sizeof(u2f_key_hid_report_desc));
-+            p->actual_length = sizeof(u2f_key_hid_report_desc);
-+            break;
-+        default:
-+            goto fail;
++static int u2f_transaction_get_index(U2FPassthruState *key, uint32_t cid)
++{
++    for (int i = 0; i < key->current_transactions_num; ++i) {
++        int index = (key->current_transactions_start + i)
++            % CURRENT_TRANSACTIONS_NUM;
++        if (cid == key->current_transactions[index].cid) {
++            return index;
 +        }
-+        break;
-+    case HID_GET_IDLE:
-+        data[0] = key->idle;
-+        p->actual_length = 1;
-+        break;
-+    case HID_SET_IDLE:
-+        key->idle = (uint8_t)(value >> 8);
-+        break;
-+    default:
-+    fail:
-+        p->status = USB_RET_STALL;
-+        break;
 +    }
-+
++    return -1;
 +}
 +
-+static void u2f_key_recv_from_guest(U2FKeyState *key, USBPacket *p)
++static struct transaction *u2f_transaction_get(U2FPassthruState *key,
++                                               uint32_t cid)
 +{
-+    U2FKeyClass *kc = U2F_KEY_GET_CLASS(key);
-+    uint8_t packet[U2FHID_PACKET_SIZE];
-+
-+    if (kc->recv_from_guest == NULL || p->iov.size != U2FHID_PACKET_SIZE) {
-+        return;
-+    }
-+
-+    usb_packet_copy(p, packet, p->iov.size);
-+    kc->recv_from_guest(key, packet);
-+}
-+
-+static void u2f_pending_in_add(U2FKeyState *key,
-+                               const uint8_t packet[U2FHID_PACKET_SIZE])
-+{
-+    uint8_t index;
-+
-+    if (key->pending_in_num >= U2FHID_PENDING_IN_NUM) {
-+        return;
-+    }
-+
-+    index = key->pending_in_end;
-+    key->pending_in_end = (index + 1) % U2FHID_PENDING_IN_NUM;
-+    ++key->pending_in_num;
-+
-+    memcpy(key->pending_in[index], packet, U2FHID_PACKET_SIZE);
-+}
-+
-+static uint8_t *u2f_pending_in_get(U2FKeyState *key)
-+{
-+    uint8_t index;
-+
-+    if (key->pending_in_num == 0) {
++    int index = u2f_transaction_get_index(key, cid);
++    if (index < 0) {
 +        return NULL;
 +    }
-+
-+    index = key->pending_in_start;
-+    key->pending_in_start = (index + 1) % U2FHID_PENDING_IN_NUM;
-+    --key->pending_in_num;
-+
-+    return key->pending_in[index];
++    return &key->current_transactions[index];
 +}
 +
-+static void u2f_key_handle_data(USBDevice *dev, USBPacket *p)
++static struct transaction *u2f_transaction_get_from_nonce(U2FPassthruState *key,
++                                const uint8_t nonce[NONCE_SIZE])
 +{
-+    U2FKeyState *key = U2F_KEY(dev);
-+    uint8_t *packet_in;
++    for (int i = 0; i < key->current_transactions_num; ++i) {
++        int index = (key->current_transactions_start + i)
++            % CURRENT_TRANSACTIONS_NUM;
++        if (key->current_transactions[index].cid == BROADCAST_CID
++            && memcmp(nonce, key->current_transactions[index].nonce,
++                      NONCE_SIZE) == 0) {
++            return &key->current_transactions[index];
++        }
++    }
++    return NULL;
++}
 +
-+    /* Endpoint number check */
-+    if (p->ep->nr != 1) {
-+        p->status = USB_RET_STALL;
++static void u2f_transaction_close(U2FPassthruState *key, uint32_t cid)
++{
++    int index, next_index;
++    index = u2f_transaction_get_index(key, cid);
++    if (index < 0) {
++        return;
++    }
++    next_index = (index + 1) % CURRENT_TRANSACTIONS_NUM;
++
++    /* Rearrange to ensure the oldest is at the start position */
++    while (next_index != key->current_transactions_end) {
++        memcpy(&key->current_transactions[index],
++               &key->current_transactions[next_index],
++               sizeof(struct transaction));
++
++        index = next_index;
++        next_index = (index + 1) % CURRENT_TRANSACTIONS_NUM;
++    }
++
++    key->current_transactions_end = index;
++    --key->current_transactions_num;
++
++    if (key->current_transactions_num == 0) {
++        u2f_passthru_reset(key);
++    }
++}
++
++static void u2f_transaction_add(U2FPassthruState *key, uint32_t cid,
++                                const uint8_t nonce[NONCE_SIZE])
++{
++    uint8_t index;
++    struct transaction *transaction;
++
++    if (key->current_transactions_num >= CURRENT_TRANSACTIONS_NUM) {
++        /* Close the oldest transaction */
++        index = key->current_transactions_start;
++        transaction = &key->current_transactions[index];
++        u2f_transaction_close(key, transaction->cid);
++    }
++
++    /* Index */
++    index = key->current_transactions_end;
++    key->current_transactions_end = (index + 1) % CURRENT_TRANSACTIONS_NUM;
++    ++key->current_transactions_num;
++
++    /* Transaction */
++    transaction = &key->current_transactions[index];
++    transaction->cid = cid;
++    transaction->resp_bcnt = 0;
++    transaction->resp_size = 0;
++
++    /* Nonce */
++    if (nonce != NULL) {
++        memcpy(transaction->nonce, nonce, NONCE_SIZE);
++    }
++}
++
++static void u2f_passthru_read(void *opaque);
++
++static void u2f_transaction_start(U2FPassthruState *key,
++                                  const struct packet_init *packet_init)
++{
++    int64_t time;
++
++    /* Transaction */
++    if (packet_init->cid == BROADCAST_CID) {
++        u2f_transaction_add(key, packet_init->cid, packet_init->data);
++    } else {
++        u2f_transaction_add(key, packet_init->cid, NULL);
++    }
++
++    /* Time */
++    time = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
++    if (key->last_transaction_time == 0) {
++        qemu_set_fd_handler(key->hidraw_fd, u2f_passthru_read, NULL, key);
++        timer_init_ms(&key->timer, QEMU_CLOCK_VIRTUAL, u2f_timeout_check, key);
++        timer_mod(&key->timer, time + TRANSACTION_TIMEOUT / 4);
++    }
++    key->last_transaction_time = time;
++}
++
++static void u2f_passthru_recv_from_host(U2FPassthruState *key,
++                                    const uint8_t packet[U2FHID_PACKET_SIZE])
++{
++    struct transaction *transaction;
++    uint32_t cid;
++
++    /* Retrieve transaction */
++    cid = packet_get_cid(packet);
++    if (cid == BROADCAST_CID) {
++        struct packet_init *packet_init;
++        if (!packet_is_init(packet)) {
++            return;
++        }
++        packet_init = (struct packet_init *)packet;
++        transaction = u2f_transaction_get_from_nonce(key, packet_init->data);
++    } else {
++        transaction = u2f_transaction_get(key, cid);
++    }
++
++    /* Ignore no started transaction */
++    if (transaction == NULL) {
 +        return;
 +    }
 +
-+    switch (p->pid) {
-+    case USB_TOKEN_OUT:
-+        u2f_key_recv_from_guest(key, p);
-+        break;
-+    case USB_TOKEN_IN:
-+        packet_in = u2f_pending_in_get(key);
-+        if (packet_in == NULL) {
-+            p->status = USB_RET_NAK;
-+            return;
++    if (packet_is_init(packet)) {
++        struct packet_init *packet_init = (struct packet_init *)packet;
++        transaction->resp_bcnt = packet_init_get_bcnt(packet_init);
++        transaction->resp_size = PACKET_INIT_DATA_SIZE;
++
++        if (packet_init->cid == BROADCAST_CID) {
++            /* Nonce checking for legitimate response */
++            if (memcmp(transaction->nonce, packet_init->data, NONCE_SIZE)
++                != 0) {
++                return;
++            }
 +        }
-+        usb_packet_copy(p, packet_in, U2FHID_PACKET_SIZE);
-+        break;
-+    default:
-+        p->status = USB_RET_STALL;
-+        break;
++    } else {
++        transaction->resp_size += PACKET_CONT_DATA_SIZE;
 +    }
-+}
 +
-+void u2f_send_to_guest(U2FKeyState *key,
-+                       const uint8_t packet[U2FHID_PACKET_SIZE])
-+{
-+    u2f_pending_in_add(key, packet);
-+    usb_wakeup(key->ep, 0);
-+}
-+
-+static void u2f_key_unrealize(USBDevice *dev)
-+{
-+    U2FKeyState *key = U2F_KEY(dev);
-+    U2FKeyClass *kc = U2F_KEY_GET_CLASS(key);
-+
-+    if (kc->unrealize != NULL) {
-+        kc->unrealize(key);
++    /* Transaction end check */
++    if (transaction->resp_size >= transaction->resp_bcnt) {
++        u2f_transaction_close(key, cid);
 +    }
++    u2f_send_to_guest(&key->base, packet);
 +}
 +
-+static void u2f_key_realize(USBDevice *dev, Error **errp)
++static void u2f_passthru_read(void *opaque)
 +{
-+    U2FKeyState *key = U2F_KEY(dev);
-+    U2FKeyClass *kc = U2F_KEY_GET_CLASS(key);
-+    Error *local_err = NULL;
++    U2FPassthruState *key = opaque;
++    U2FKeyState *base = &key->base;
++    uint8_t packet[2 * U2FHID_PACKET_SIZE];
++    int ret;
 +
-+    usb_desc_create_serial(dev);
-+    usb_desc_init(dev);
-+    u2f_key_reset(key);
++    /* Full size base queue check */
++    if (base->pending_in_num >= U2FHID_PENDING_IN_NUM) {
++        return;
++    }
 +
-+    if (kc->realize != NULL) {
-+        kc->realize(key, &local_err);
-+        if (local_err != NULL) {
-+            error_propagate(errp, local_err);
-+            return;
++    ret = read(key->hidraw_fd, packet, sizeof(packet));
++    if (ret < 0) {
++        /* Detach */
++        if (base->dev.attached) {
++            usb_device_detach(&base->dev);
++            u2f_passthru_reset(key);
 +        }
++        return;
 +    }
-+    key->ep = usb_ep_get(dev, USB_TOKEN_IN, 1);
++    if (ret != U2FHID_PACKET_SIZE) {
++        return;
++    }
++    u2f_passthru_recv_from_host(key, packet);
 +}
 +
-+const VMStateDescription vmstate_u2f_key = {
-+    .name = "u2f-key",
++static void u2f_passthru_recv_from_guest(U2FKeyState *base,
++                                    const uint8_t packet[U2FHID_PACKET_SIZE])
++{
++    U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
++    uint8_t host_packet[U2FHID_PACKET_SIZE + 1];
++    ssize_t written;
++
++    if (packet_is_init(packet)) {
++        u2f_transaction_start(key, (struct packet_init *)packet);
++    }
++
++    host_packet[0] = 0;
++    memcpy(host_packet + 1, packet, U2FHID_PACKET_SIZE);
++
++    written = write(key->hidraw_fd, host_packet, sizeof(host_packet));
++    if (written != sizeof(host_packet)) {
++        error_report("%s: Bad written size (req 0x%lx, val 0x%lx)",
++                     TYPE_U2F_PASSTHRU, sizeof(host_packet), written);
++    }
++}
++
++static void u2f_passthru_unrealize(U2FKeyState *base)
++{
++    U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
++
++    u2f_passthru_reset(key);
++    qemu_close(key->hidraw_fd);
++}
++
++static void u2f_passthru_realize(U2FKeyState *base, Error **errp)
++{
++    U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
++    int fd;
++
++    if (key->hidraw == NULL) {
++        error_setg(errp, "%s: Missing hidraw", TYPE_U2F_PASSTHRU);
++        return;
++    }
++
++    fd = qemu_open(key->hidraw, O_RDWR);
++    if (fd < 0) {
++        error_setg(errp, "%s: Failed to open %s", TYPE_U2F_PASSTHRU,
++                   key->hidraw);
++        return;
++    }
++    key->hidraw_fd = fd;
++    u2f_passthru_reset(key);
++}
++
++static int u2f_passthru_post_load(void *opaque, int version_id)
++{
++    U2FPassthruState *key = opaque;
++    u2f_passthru_reset(key);
++    return 0;
++}
++
++static const VMStateDescription u2f_passthru_vmstate = {
++    .name = "u2f-key-passthru",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
++    .post_load = u2f_passthru_post_load,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_USB_DEVICE(dev, U2FKeyState),
-+        VMSTATE_UINT8(idle, U2FKeyState),
-+        VMSTATE_UINT8_2DARRAY(pending_in, U2FKeyState,
-+            U2FHID_PENDING_IN_NUM, U2FHID_PACKET_SIZE),
-+        VMSTATE_UINT8(pending_in_start, U2FKeyState),
-+        VMSTATE_UINT8(pending_in_end, U2FKeyState),
-+        VMSTATE_UINT8(pending_in_num, U2FKeyState),
++        VMSTATE_U2F_KEY(base, U2FPassthruState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void u2f_key_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    USBDeviceClass *uc = USB_DEVICE_CLASS(klass);
-+
-+    uc->product_desc   = "QEMU U2F USB key";
-+    uc->usb_desc       = &desc_u2f_key;
-+    uc->handle_reset   = u2f_key_handle_reset;
-+    uc->handle_control = u2f_key_handle_control;
-+    uc->handle_data    = u2f_key_handle_data;
-+    uc->handle_attach  = usb_desc_attach;
-+    uc->realize        = u2f_key_realize;
-+    uc->unrealize      = u2f_key_unrealize;
-+    dc->desc           = "QEMU U2F key";
-+    dc->vmsd           = &vmstate_u2f_key;
-+}
-+
-+static const TypeInfo u2f_key_info = {
-+    .name          = TYPE_U2F_KEY,
-+    .parent        = TYPE_USB_DEVICE,
-+    .instance_size = sizeof(U2FKeyState),
-+    .abstract      = true,
-+    .class_size    = sizeof(U2FKeyClass),
-+    .class_init    = u2f_key_class_init,
++static Property u2f_passthru_properties[] = {
++    DEFINE_PROP_STRING("hidraw", U2FPassthruState, hidraw),
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void u2f_key_register_types(void)
++static void u2f_passthru_class_init(ObjectClass *klass, void *data)
 +{
-+    type_register_static(&u2f_key_info);
-+    usb_legacy_register(TYPE_U2F_KEY, "u2f-key", NULL);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    U2FKeyClass *kc = U2F_KEY_CLASS(klass);
++
++    kc->realize = u2f_passthru_realize;
++    kc->unrealize = u2f_passthru_unrealize;
++    kc->recv_from_guest = u2f_passthru_recv_from_guest;
++    dc->desc = "QEMU U2F passthrough key";
++    dc->vmsd = &u2f_passthru_vmstate;
++    device_class_set_props(dc, u2f_passthru_properties);
 +}
 +
-+type_init(u2f_key_register_types)
++static const TypeInfo u2f_key_passthru_info = {
++    .name = TYPE_U2F_PASSTHRU,
++    .parent = TYPE_U2F_KEY,
++    .instance_size = sizeof(U2FPassthruState),
++    .class_init = u2f_passthru_class_init
++};
++
++static void u2f_key_passthru_register_types(void)
++{
++    type_register_static(&u2f_key_passthru_info);
++}
++
++type_init(u2f_key_passthru_register_types)
 -- 
 2.28.0
 
