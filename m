@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C07242F2A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:26:17 +0200 (CEST)
-Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC341242F24
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:25:10 +0200 (CEST)
+Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5wO8-0001Yc-Qp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59592)
+	id 1k5wN3-0007JB-P6
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5wLb-0005AE-Jl; Wed, 12 Aug 2020 15:23:39 -0400
+ id 1k5wLj-0005M9-LM; Wed, 12 Aug 2020 15:23:47 -0400
 Received: from esa6.hgst.iphmx.com ([216.71.154.45]:4837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5wLZ-0000UE-Th; Wed, 12 Aug 2020 15:23:39 -0400
+ id 1k5wLh-0000UE-VG; Wed, 12 Aug 2020 15:23:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597260218; x=1628796218;
+ t=1597260226; x=1628796226;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LpK/Kkf+fwylS840kCf3NVSFUj6Cc/XdSH0z+Sq7yuI=;
- b=HNqUTAXNDm/WqNRsPlroYTbW91RvXt12wwW/Z9yAG722ejA21J6qtwAe
- vF9W91IxrbxfzrMxLHlRQjqXRP/9OJuS1Xzcva7QyyVpm5fViSJZsn5kJ
- rdNLS6Rk9eQTD02KN4wbaf21FOidAZitXqDSfdbA5kEfr+0YMba634D7L
- 3zg++aqwdvLUMaq62UJmfZ87WwFBaU9DrJS+ENDkMBlsRtmekOb52tL9j
- aWI/A4vZS1KIAum0XtzSzThE2sEucayxBLu04HWn6TgquCJOCdL6T26sA
- Q15zi26K+yFM9dA94FPvUyw9gTBPnqlhvT3XE3ujam+fq7bEmyBfZY3fq g==;
-IronPort-SDR: Lnr/1QQiU3I+u5jLoh56sjbPqlkKTzJelZKrmzst7rDSvAUQ7OsM/idSOfLuy8E8CzCRoZjfbD
- YCQzh+EsYRH2PrPvDzukkJu+g7sLNjVcDNsRrdd7d75wO9ArkEPh50BLd9vus7Qx6Cmn/BMRR6
- HGg+PWVt4ny/vmKTv9X9GkOplCr5ekqah/AA9dDc8Z9QRmPxNsinTamXCw4r8eY+dG4LIR/M0V
- 6kFQ1oYRg+P5sBXevP4hfxlQCnzkipgW/C1Z+TJz9LY09KB20HEZGOeZwCZiSzv5H9/DzWs9mM
- 6Mw=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="146029209"
+ bh=QHW0eRBWKyc4PMGVbAwmtx2J+z/Y/6Gi6d4k1CzZukw=;
+ b=cykqkFKtobNAxSwzmu8NE/oKOD0mlcVWkGiiJFl4BUo4yoMcJwT9evHj
+ f4kLhBxn9qquUz/srfr7PKizrF476NeLt0vvsaXcL8bCLdcboeFThOoEM
+ pi2cPbNrddKB/ooFThp9oKGxk5YzFN4NdY5lpQGJVVjiNhOHC6DIuSx8o
+ 2lkOdNfuZgFgFAfc7wfbck9vdZj80A51+tF2CpX9tG0D3s7H0bhDJYxx5
+ Zi+wUJITI/xn07b+8bljraA7Mgbrwf5bKZZyaiHmLrSKB1bzT8e4eyBb1
+ e1DDnElhbjmBVNBImmVPwrtgTEQjeQQrNARymr/8APuyJEEdFsW3gyi0X Q==;
+IronPort-SDR: 7wZ/+qpW3jW7Y06zShSKfl0Eo6bwbXj7YHQqZuoAHtLUzikZpYGnBlKJjGKOjIgjAKjSunFd6c
+ 7Bo2X0YIzKqveyLiWqz63+EGyVobXdyqmQZOkwo22SmMZVViQDRwMr9n5pvyaBL89CgOc4XR0m
+ yr636OTOMKlIG8KcmlOawcuiN+D1/FCW5YbDcBzBu44izkctDpjpIA9SP616JrkM89hsQRRfNX
+ ryHpNABctnNWdn/0g/F2zgvJf9khczXM4/yowWnIfMWbKUgxUavk8LY/n9sD8BXCy3TkqWLNDe
+ 2ow=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="146029212"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 03:23:36 +0800
-IronPort-SDR: mCNlwNiAcf29vLpdbkdkQhi9h+viX6j+2m5ISF8zLLyVmrHQIlfjdxV0nTS+7cNdnOHiPcuVQy
- 5h1wQa+qhFbw==
+ by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 03:23:42 +0800
+IronPort-SDR: +SV5fci2oawbE7CXequNznC7sVsi2w3SAIA9px65HdpfSlZ7GKJryfIVuh24rC+jhhckDOhXER
+ XJQgTYy/uQpQ==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2020 12:10:44 -0700
-IronPort-SDR: QVLEhwbHRxQkgXlhOLRE7I8q0+ucx8R2opMC9tP2o+qLuU4KnwR0H0AQk5HNs+m9oNAJmRnI1q
- LPDbrZ+dAGXA==
+ 12 Aug 2020 12:10:49 -0700
+IronPort-SDR: GuQPNRKtWXqGL3IMbkVqT/nBZ6tajQf0j4kiOTnYGCcQq8aFo8NRRUe8tIvgbPwzVcP9d9ixmb
+ LFaIelGhOssA==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
- by uls-op-cesaip02.wdc.com with ESMTP; 12 Aug 2020 12:23:37 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 12 Aug 2020 12:23:42 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v3 08/13] target/riscv: Update the CSRs to the v0.6 Hyp
- extension
-Date: Wed, 12 Aug 2020 12:13:36 -0700
-Message-Id: <4f227b30cb1816795296c0994f1123fab143666a.1597259519.git.alistair.francis@wdc.com>
+Subject: [PATCH v3 10/13] target/riscv: Only support little endian guests
+Date: Wed, 12 Aug 2020 12:13:41 -0700
+Message-Id: <93e5d4f13eca0d2a588e407187f33c6437aeaaf9.1597259519.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1597259519.git.alistair.francis@wdc.com>
 References: <cover.1597259519.git.alistair.francis@wdc.com>
@@ -94,37 +93,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ target/riscv/csr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index fb6a3e9092..573d85da41 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -437,15 +437,17 @@
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 390ef781e4..5e50683c58 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -840,6 +840,8 @@ static int read_hstatus(CPURISCVState *env, int csrno, target_ulong *val)
+     /* We only support 64-bit VSXL */
+     *val = set_field(*val, HSTATUS_VSXL, 2);
  #endif
++    /* We only support little endian */
++    *val = set_field(*val, HSTATUS_VSBE, 0);
+     return 0;
+ }
  
- /* hstatus CSR bits */
--#define HSTATUS_SPRV         0x00000001
-+#define HSTATUS_VSBE         0x00000020
-+#define HSTATUS_GVA          0x00000040
- #define HSTATUS_SPV          0x00000080
--#define HSTATUS_SP2P         0x00000100
--#define HSTATUS_SP2V         0x00000200
-+#define HSTATUS_SPVP         0x00000100
-+#define HSTATUS_HU           0x00000200
-+#define HSTATUS_VGEIN        0x0003F000
- #define HSTATUS_VTVM         0x00100000
- #define HSTATUS_VTSR         0x00400000
--#define HSTATUS_HU           0x00000200
--#define HSTATUS_GVA          0x00000040
--#define HSTATUS_SPVP         0x00000100
-+#if defined(TARGET_RISCV64)
-+#define HSTATUS_VSXL        0x300000000
-+#endif
+@@ -851,6 +853,9 @@ static int write_hstatus(CPURISCVState *env, int csrno, target_ulong val)
+         qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
+     }
+ #endif
++    if (get_field(val, HSTATUS_VSBE) != 0) {
++        qemu_log_mask(LOG_UNIMP, "QEMU does not support big endian guests.");
++    }
+     return 0;
+ }
  
- #define HSTATUS32_WPRI       0xFF8FF87E
- #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
 -- 
 2.27.0
 
