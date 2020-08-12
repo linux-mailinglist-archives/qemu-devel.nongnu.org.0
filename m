@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612BB242823
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 12:18:18 +0200 (CEST)
-Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258E524282A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 12:20:28 +0200 (CEST)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5npp-0000uA-El
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 06:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53080)
+	id 1k5nrv-00033R-7G
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 06:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1k5noS-0007zW-Oq
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 06:16:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32100
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k5nqy-0002ZA-9E
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 06:19:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40781
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1k5noR-00031p-4c
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 06:16:52 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1k5nqw-0003Im-K9
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 06:19:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597227410;
+ s=mimecast20190719; t=1597227565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HUI2eX2F8fREXvOyu01ciqIblEGplxdpBlJ23wcYhzk=;
- b=BqNIp6rnH55oIwmkz3mtr6s+eYrf+XGTffGBAw0Ejx9u9VfkhZEHUsjCvfMZW4JdVeavKc
- XL5HCzpf7IyM0fhH5UQatan5eZhoD/C/RRQrtPefWs2tsqXYsKZyWoVGGQ/mKjVepwbKFf
- IK0BUVmbWymHab7eBjPGXCycBgFBILw=
+ bh=uUQyw7A/h4VgzSMFZRB3u174WjAxTiPIL30EVHMn/z4=;
+ b=g0hpL5hoJ0ROCCaajKV0kABoZhfX408y1NIyHBps7zG+epab4hGWl4Nx7Av9XYQ0EVp6E+
+ A1oLe7PQYvcq3pjmI6+EYFP7ZU/BCp+hwD+L68Li3rgB6zvVMc5wgGVheTJJAbrfKQ1JR0
+ 7WRgDrhAKqfql3peizDUW6LPfA8Jo1k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-e7YTDgXHPjOKzG5iOOTAQw-1; Wed, 12 Aug 2020 06:16:46 -0400
-X-MC-Unique: e7YTDgXHPjOKzG5iOOTAQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-202-O-a6E9AxPUqjLbg2wpW4Kw-1; Wed, 12 Aug 2020 06:19:23 -0400
+X-MC-Unique: O-a6E9AxPUqjLbg2wpW4Kw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E5CD106B20A;
- Wed, 12 Aug 2020 10:16:45 +0000 (UTC)
-Received: from [10.36.113.93] (ovpn-113-93.ams2.redhat.com [10.36.113.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EE365D6BD;
- Wed, 12 Aug 2020 10:16:44 +0000 (UTC)
-Subject: Re: [PATCH v2 2/5] target/arm/kvm: Make uncalled stubs explicitly
- unreachable
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20200805091640.11134-1-drjones@redhat.com>
- <20200805091640.11134-3-drjones@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <b26a7bf5-ad7c-9376-78ab-600b7ea9fed8@redhat.com>
-Date: Wed, 12 Aug 2020 12:16:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6EF618B9EC0;
+ Wed, 12 Aug 2020 10:19:22 +0000 (UTC)
+Received: from work-vm (ovpn-113-233.ams2.redhat.com [10.36.113.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 311BA19D82;
+ Wed, 12 Aug 2020 10:19:20 +0000 (UTC)
+Date: Wed, 12 Aug 2020 11:19:17 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 1/6] migration: improve error reporting of block
+ driver state name
+Message-ID: <20200812101917.GC2810@work-vm>
+References: <20200727150843.3419256-1-berrange@redhat.com>
+ <20200727150843.3419256-2-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200805091640.11134-3-drjones@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200727150843.3419256-2-berrange@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:16:38
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 04:27:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -74,7 +72,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,112 +85,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> With blockdev, a BlockDriverState may not have a device name,
+> so using a node name is required as an alternative.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-On 8/5/20 11:16 AM, Andrew Jones wrote:
-> When we compile without KVM support !defined(CONFIG_KVM) we generate
-> stubs for functions that the linker will still encounter. Sometimes
-> these stubs can be executed safely and are placed in paths where they
-> get executed with or without KVM. Other functions should never be
-> called without KVM. Those functions should be guarded by kvm_enabled(),
-> but should also be robust to refactoring mistakes. Putting a
-> g_assert_not_reached() in the function should help. Additionally,
-> the g_assert_not_reached() calls may actually help the linker remove
-> some code.
-> 
-> We remove the stubs for kvm_arm_get/put_virtual_time(), as they aren't
-> necessary at all - the only caller is in kvm.c
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  target/arm/kvm_arm.h | 44 +++++++++++++++++++++++++++-----------------
->  1 file changed, 27 insertions(+), 17 deletions(-)
+>  migration/savevm.c         | 12 ++++++------
+>  tests/qemu-iotests/267.out |  4 ++--
+>  2 files changed, 8 insertions(+), 8 deletions(-)
 > 
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index adb38514bf20..0da00eb6b20c 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -344,16 +344,10 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 45c9dd9d8a..cffee6cab7 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2655,7 +2655,7 @@ int save_snapshot(const char *name, Error **errp)
 >  
->  #else
+>      if (!bdrv_all_can_snapshot(&bs)) {
+>          error_setg(errp, "Device '%s' is writable but does not support "
+> -                   "snapshots", bdrv_get_device_name(bs));
+> +                   "snapshots", bdrv_get_device_or_node_name(bs));
+>          return ret;
+>      }
 >  
-> -static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
-> -{
-> -    /*
-> -     * This should never actually be called in the "not KVM" case,
-> -     * but set up the fields to indicate an error anyway.
-> -     */
-> -    cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
-> -    cpu->host_cpu_probe_failed = true;
-> -}
-> -
-> +/*
-> + * It's safe to call these functions without KVM support.
-> + * They should either do nothing or return "not supported".
-> + */
->  static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
-this one also is guarded by kvm_enabled() in target/arm/cpu.c
-don't you want to add g_assert_not_reached()?
+> @@ -2664,7 +2664,7 @@ int save_snapshot(const char *name, Error **errp)
+>          ret = bdrv_all_delete_snapshot(name, &bs1, errp);
+>          if (ret < 0) {
+>              error_prepend(errp, "Error while deleting snapshot on device "
+> -                          "'%s': ", bdrv_get_device_name(bs1));
+> +                          "'%s': ", bdrv_get_device_or_node_name(bs1));
+>              return ret;
+>          }
+>      }
+> @@ -2739,7 +2739,7 @@ int save_snapshot(const char *name, Error **errp)
+>      ret = bdrv_all_create_snapshot(sn, bs, vm_state_size, &bs);
+>      if (ret < 0) {
+>          error_setg(errp, "Error while creating snapshot on '%s'",
+> -                   bdrv_get_device_name(bs));
+> +                   bdrv_get_device_or_node_name(bs));
+>          goto the_end;
+>      }
 >  
->  static inline bool kvm_arm_aarch32_supported(void)
-> @@ -371,23 +365,39 @@ static inline bool kvm_arm_sve_supported(void)
->      return false;
->  }
+> @@ -2857,14 +2857,14 @@ int load_snapshot(const char *name, Error **errp)
+>      if (!bdrv_all_can_snapshot(&bs)) {
+>          error_setg(errp,
+>                     "Device '%s' is writable but does not support snapshots",
+> -                   bdrv_get_device_name(bs));
+> +                   bdrv_get_device_or_node_name(bs));
+>          return -ENOTSUP;
+>      }
+>      ret = bdrv_all_find_snapshot(name, &bs);
+>      if (ret < 0) {
+>          error_setg(errp,
+>                     "Device '%s' does not have the requested snapshot '%s'",
+> -                   bdrv_get_device_name(bs), name);
+> +                   bdrv_get_device_or_node_name(bs), name);
+>          return ret;
+>      }
 >  
-> +/*
-> + * These functions should never actually be called without KVM support.
-> + */
-> +static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +
->  static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
->  {
-> -    return -ENOENT;
-> +    g_assert_not_reached();
->  }
+> @@ -2893,7 +2893,7 @@ int load_snapshot(const char *name, Error **errp)
+>      ret = bdrv_all_goto_snapshot(name, &bs, errp);
+>      if (ret < 0) {
+>          error_prepend(errp, "Could not load snapshot '%s' on '%s': ",
+> -                      name, bdrv_get_device_name(bs));
+> +                      name, bdrv_get_device_or_node_name(bs));
+>          goto err_drain;
+>      }
 >  
->  static inline int kvm_arm_vgic_probe(void)
->  {
-> -    return 0;
-> +    g_assert_not_reached();
->  }
+> diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
+> index d6d80c099f..215902b3ad 100644
+> --- a/tests/qemu-iotests/267.out
+> +++ b/tests/qemu-iotests/267.out
+> @@ -81,11 +81,11 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+>  Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
+>  QEMU X.Y.Z monitor - type 'help' for more information
+>  (qemu) savevm snap0
+> -Error: Device '' is writable but does not support snapshots
+> +Error: Device 'file' is writable but does not support snapshots
+>  (qemu) info snapshots
+>  No available block device supports snapshots
+>  (qemu) loadvm snap0
+> -Error: Device '' is writable but does not support snapshots
+> +Error: Device 'file' is writable but does not support snapshots
+>  (qemu) quit
 >  
-> -static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq) {}
-> -static inline void kvm_arm_pmu_init(CPUState *cs) {}
-> +static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
-> +{
-> +    g_assert_not_reached();
-> +}
->  
-> -static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map) {}
-> +static inline void kvm_arm_pmu_init(CPUState *cs)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +
-> +static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-> +{
-> +    g_assert_not_reached();
-> +}
->  
-> -static inline void kvm_arm_get_virtual_time(CPUState *cs) {}
-> -static inline void kvm_arm_put_virtual_time(CPUState *cs) {}
->  #endif
->  
->  static inline const char *gic_class_name(void)
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+> -- 
+> 2.26.2
 > 
-
-Besides,
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Thanks
-
-Eric
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
