@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291BE242E55
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 19:59:23 +0200 (CEST)
-Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528A1242E26
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 19:41:19 +0200 (CEST)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5v22-0005Rc-0X
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 13:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
+	id 1k5ukX-0007oa-UY
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 13:41:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andreyknvl@google.com>)
- id 1k5ui4-0006TC-Vl
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:38:45 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35622)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k5uj2-00071T-2I
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:39:45 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:46370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andreyknvl@google.com>)
- id 1k5uhu-0003V2-SE
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:38:41 -0400
-Received: by mail-pg1-x543.google.com with SMTP id o5so1417383pgb.2
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 10:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HWMeYlelru6nIOlCg7H8kkg2dwZuhbaCw7gaGt6dzaQ=;
- b=V6Jc9idAo3A1qnevE2Yf+59XCbfx/XdmKxPErhYIM8+nrc9owNxrC2R7E/HtNFKEus
- RSQOTf+qSdh8J/9bT68+qTv+dEQELa87SgbBPMJRefvUcT3QDeawlJc1Y4zuJiTNlIhu
- j0I599ItyyOByZ9Ch27CKnRbfl9xppXi42s7yFnqKc4fU7HWmnaPqYySElMidFxFXy8+
- oOz3frgBvtm1e0Y8+Mprs7mcOYCfgUP/+htPQWMmK0ZXG8LFR0egwfaGqMf15WwaeZwV
- nhzFevaqoYud9JVjAU27K3bG2d5PP0SAkXqs99EGrmaau2yEruZwRUfiylOKjXax2fKM
- WG5w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k5uj0-0003d6-Fe
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 13:39:43 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id k13so1413342plk.13
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 10:39:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VfkYxypLEv+R/KGEQAol2keRwYVHeqVfUyfcCcZFEEw=;
+ b=zGTOtXBH3GqtLOZHKgW2qSgJnKnubvIXLDzIukudO+gT4bvhSoZkk56Hy4Q0DFaDAz
+ tYg4MLG+qOFriRSw1X1ARRCC+J4eM5gqQzN9QW4I/Wa98VwkGpKf6DW5iyg3/uWWiO0t
+ w7rcRm+6I7MV9moaSszSUs1pAFdCRjiqzDXbeGibD/Ui12jAmnFi8zCsMOX6UJrQCwEo
+ jZo49+zMA7BEZSPdHSlL2Y2Tj6juCvvgDt8wiG/RNOR76/1sUghZD8ZqCIB+oZEsQbwb
+ Rr3ItP4kZwVnuMgbZ+2VYwNI4y2gFvOOGbJdgNaxry8pzk2JCEzeoG5qiMkPzgRpnZr4
+ 1YJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HWMeYlelru6nIOlCg7H8kkg2dwZuhbaCw7gaGt6dzaQ=;
- b=JBXwWeLpeqNFJdY6RX9b3K/kg1fKM+ACSiVmjeMYBALt6C1P0tZ8qES4wAwlqhdUrE
- MQ6fT68B4XhwBKxzLl+imf9NwA5PdUVxIgBO+9Ag092Ww2tVmZkc+iZf2+xRQR9jBMeJ
- 5JD61CcDgnNhr4RornnePaF369tf9/mBMq8gkYKKsBEVgjuK+s5Id96eUkd+odVY5vIl
- 8crgLZj/bvfdpQjsPMUwgD4Z81IcYHLeyPNaAHkuS+KneZatX4LpKW2DdVWOMRTkaxmc
- j2pOuNzF4jzeZENp1r24pcz2+BNaGskPZvT53JtYAJbQTgl6sl90G0fCqLawlsw4DJBr
- NrAw==
-X-Gm-Message-State: AOAM530Be+Jk8Itp7oIUW+HYVnlpBPfPAEWphhLdV0SiApTpHWRs9zKH
- LBwipBjN1RXSL3EcNuzIaZPTSgNq0z3SMf2oJnfuhg==
-X-Google-Smtp-Source: ABdhPJw+OWsy97migmGsNRKVaOhK7JT4cO0WDoLxqQJOtp9RscVfQfaxA9J4LLrosfi51B+Lqp/JfrYS6bZ68BKOWCo=
-X-Received: by 2002:a63:af51:: with SMTP id s17mr241068pgo.286.1597253908761; 
- Wed, 12 Aug 2020 10:38:28 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VfkYxypLEv+R/KGEQAol2keRwYVHeqVfUyfcCcZFEEw=;
+ b=mN/yXS712gwnpfrCaVXlQ0LiLmgFT3khQ5Y/AHR20aGJ6ycba6ezlVb7sdeeO+JN+4
+ iHiXf53tLkVZO7sxKqEYiMy997DRY9LSfxcBUA8cFJIqHVMn/IfnvLp/56wmnii94n1J
+ X1bwtTcMB2CkUS+wd1KTaX4f88yZt4XFs/RkyuVMWRA9kfOoFtscCvrVSHGFszyWvwNU
+ IgKyA3vYGuMa2kxd50bHkUYDfvB6pBJHvmCcLEb8+FULI3Ca3/UfsmebNYO3XE/7tQfe
+ xUTkHEgFZv014++UcBTswX5IY7KW8pqYQhQRa8f6XPOU8OYzen6rDDbdxLywZn6wZH2g
+ hVYg==
+X-Gm-Message-State: AOAM530HahnfUgfuMST6bret/oxO364yxzL1TBvwWcy4ddcyDXvNiXs0
+ YMbNK6DijzdjDyuUHSAzKmNFxg==
+X-Google-Smtp-Source: ABdhPJz96Az+rO3mbUWFf3KExQOkwbuaLIyZpczuE8ElTPL9dkqYVlNB2H73VdWDJlyS12LiSuoSww==
+X-Received: by 2002:a17:90a:2225:: with SMTP id
+ c34mr1007605pje.116.1597253979260; 
+ Wed, 12 Aug 2020 10:39:39 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id x18sm3190588pfq.124.2020.08.12.10.39.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Aug 2020 10:39:38 -0700 (PDT)
+Subject: Re: [PATCH-for-5.2 1/3] hw/clock: Remove unused clock_init*()
+ functions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200806123858.30058-1-f4bug@amsat.org>
+ <20200806123858.30058-2-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <690dcfdd-d6ed-459e-6fba-1d4158f2922d@linaro.org>
+Date: Wed, 12 Aug 2020 10:39:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200812171946.2044791-1-richard.henderson@linaro.org>
-In-Reply-To: <20200812171946.2044791-1-richard.henderson@linaro.org>
-From: Andrey Konovalov <andreyknvl@google.com>
-Date: Wed, 12 Aug 2020 19:38:17 +0200
-Message-ID: <CAAeHK+z=CU5dQepy+SBtVMAp-=k8BODorG768CYwoR3NEKCWFg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] target/arm: Complete ISS for MTE tag check fail
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
- alex.bennee@linaro.org, peter.maydell@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=andreyknvl@google.com; helo=mail-pg1-x543.google.com
+In-Reply-To: <20200806123858.30058-2-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -185
-X-Spam_score: -18.6
-X-Spam_bar: ------------------
-X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 12 Aug 2020 13:58:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,41 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 12, 2020 at 7:19 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> As reported by Andrey, I was missing the complete ISS info for
-> the Data Abort raised upon a synchronous tag check fail.
->
-> The following should fix that.  All the twisty little rules for
-> the ISS.ISV bit are already handled by merge_syn_data_abort.
-> Probably the most important bit that was missing was ISS.WnR,
-> as that is independent of ISS.ISV.
->
-> Andrey, will you please test?
+On 8/6/20 5:38 AM, Philippe Mathieu-Daudé wrote:
+> clock_init*() inlined funtions are simple wrappers around
+> clock_set*() and are not used. Remove them in favor of clock_set*().
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/hw/clock.h | 13 -------------
+>  1 file changed, 13 deletions(-)
 
-Looks like WnR is now being set properly, but SAS is still always 0.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
->
->
-> r~
->
->
-> Richard Henderson (3):
->   target/arm: Export merge_syn_data_abort from tlb_helper.c
->   target/arm: Pass the entire mte descriptor to mte_check_fail
->   target/arm: Merge ISS for data abort from tag check fail
->
->  target/arm/internals.h  |  4 ++++
->  target/arm/mte_helper.c | 24 ++++++++++++++----------
->  target/arm/tlb_helper.c |  8 +++-----
->  3 files changed, 21 insertions(+), 15 deletions(-)
->
-> --
-> 2.25.1
->
+r~
 
