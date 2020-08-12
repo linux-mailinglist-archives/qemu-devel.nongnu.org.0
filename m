@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38A824258E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 08:41:49 +0200 (CEST)
-Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A5924257F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 08:33:03 +0200 (CEST)
+Received: from localhost ([::1]:40174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5kSK-0005xG-VE
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 02:41:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59016)
+	id 1k5kJq-0003dp-C5
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 02:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5kRO-0005Wp-T2
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:40:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47894)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1k5kJ7-000368-Ed
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:32:17 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5kRN-0002Gh-3W
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:40:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5kRL-00035x-Kv
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:40:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9CF602E8076
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:40:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1k5kJ5-0001NO-Sk
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 02:32:17 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a24so896172oia.6
+ for <qemu-devel@nongnu.org>; Tue, 11 Aug 2020 23:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=/NDb08H/5WaGOnb8aaWjpa/KTe4f/4VLErfVEkcDEfY=;
+ b=YtNgQxooKBYcEdUX1+u1xTMbD1ggX/t6qgMl3gywUdHw7mKmcfSc7UYeA0Aglzbi6M
+ /tuWGRGYuWE7xyisyr/krYDHQmr2aZ67mB8u3nHX6LC1WNkg7eWVQrEiVXcq03lwg4Bm
+ ZgFq/OEI/qdYsNSgVIdx4qQRbPrdR7Ub83/NZ57bdH07+w1YRhdn2K1lJIeujMrGH0SK
+ 1qZt/aigGy415Ea77FzaMOgP/J4JhbAjJEeSgfAvaWPFS2L/lUBq+cCbQeSmmFRHaUKZ
+ A7HR42PQakbRXQO9321tvEsEwbRjj25HCuwEcz3YQXQJolxSaXPlKzNZeuFTPNjdLzrE
+ VEug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=/NDb08H/5WaGOnb8aaWjpa/KTe4f/4VLErfVEkcDEfY=;
+ b=A0jumQ+XK8asrOGv8Kesz1lATrABbSeCwd2za6YAyrX5j5AV5VtGfOmS781/bgZebV
+ Ec0+eW/zgdsgHgLag1iayikOP1RUD8JsXa1zxUODN3VWKac2b8S3tVIQZAfEgI0YHpi0
+ vzAOc9AIIiWiy5pflAUOBN2pqdPjQ2QhTLhgagp+oS1axGZitfnfO8oYKQ0NivQh681o
+ c/0Uawn94cn2paSdWAMwxLEfVuOHd1YAMOWBxGhLgW29/lWumkzh/qjPYB+QpXOQyb0m
+ W94MtOGFSABO584Uk64AIzR+x2aQoEhbo8+8hfDzPAW6jc00IjGGR9UlSBZwsEHIqwWl
+ ISAA==
+X-Gm-Message-State: AOAM531PEhN4E7rAQf1nBmJy/c73IrUfJbn6eHXhGASwGtwar6aEpRHq
+ rf3yNf/tPUZIkgr5RhRgrSGGZBJ1RytteavEN/pGHw==
+X-Google-Smtp-Source: ABdhPJyZu4fszMbTQ+WnwnVIo50MnTJXj+67rYW19M+mEVSQBKEJOlCW/MV3HjlgcGnF15VNZWemjK+6Jmk5a8GyuXs=
+X-Received: by 2002:aca:aa13:: with SMTP id t19mr6365712oie.59.1597213933914; 
+ Tue, 11 Aug 2020 23:32:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 06:30:38 -0000
-From: Thomas Huth <1815911@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anarchetic glaubitz laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155015240171.6215.11220706309348619396.malonedeb@soybean.canonical.com>
-Message-Id: <159721383826.25952.15737833245600606264.malone@gac.canonical.com>
-Subject: [Bug 1815911] Re: aptitude crashes qemu-m68k with handle_cpu_signal
- received signal outside vCPU context
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: aa1e80e849270c0aa7a6688d2ff871af18a143f2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 02:20:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
+ <20200811154241.4vzuxvhbwt7ztfvh@steredhat>
+In-Reply-To: <20200811154241.4vzuxvhbwt7ztfvh@steredhat>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Wed, 12 Aug 2020 08:32:02 +0200
+Message-ID: <CABLmASH9rXQjnYYbADtaq5f4c0uqr+kv10p=hC7GR9wF-EzPUw@mail.gmail.com>
+Subject: Re: [PATCH 000/147] Meson integration for 5.2
+To: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000002950b205aca8595d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,60 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815911 <1815911@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John, can you still reproduce it with the latest version of QEMU?
+--0000000000002950b205aca8595d
+Content-Type: text/plain; charset="UTF-8"
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Hi,
 
--- =
+I just compiled qemu-system-ppc using the the meson-poc-next branch with:
+git clone -b meson-poc-next http://www.github.com/bonzini/qemu
+qemu-mesonbuild-next
+cd qemu-mesonbuild-next
+mkdir build
+cd build
+../configure --target-list="ppc-softmmu" --enable-sdl --enable-gtk
+--disable-werror
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815911
+qemu-system-ppc is invoked as follows:
 
-Title:
-  aptitude crashes qemu-m68k with handle_cpu_signal received signal
-  outside vCPU context
+./qemu-system-ppc -L pc-bios \
+-M mac99,via=pmu -m 512 -sdl \
+-serial stdio \
+-drive file=/home/hsp/Mac-disks/9.2.img,format=raw,media=disk \
+-boot c
 
-Status in QEMU:
-  Incomplete
+Both SDL and GTK GUis are not found, while the configuration overview lists:
+SDL support: YES
+GTK support: YES
 
-Bug description:
-  When building a package with sbuild on Debian, sbuild can use aptitude
-  to resolve dependencies.
+Terminal says:
+qemu-system-ppc: Display 'sdl' is not available, or
+qemu-system-ppc: Display 'gtk' is not available.
 
-  Recently, some changes introduced to aptitude or related packages
-  cause qemu to crash:
+So qemu starts with the vnc server only.
 
-  (sid-m68k-sbuild)root@nofan:/# aptitude -y --without-recommends -o Dpkg::=
-Options::=3D--force-confold -o Aptitude::CmdLine::Ignore-Trust-Violations=
-=3Dfalse -o Aptitude::ProblemResolver::StepScore=3D100 -o Aptitude::Problem=
-Resolver::SolutionCost=3D"safety, priority, non-default-versions" -o Aptitu=
-de::ProblemResolver::Hints::KeepDummy=3D"reject sbuild-build-depends-core-d=
-ummy :UNINST" -o Aptitude::ProblemResolver::Keep-All-Level=3D55000 -o Aptit=
-ude::ProblemResolver::Remove-Essential-Level=3Dmaximum install vim
-  Warning: Invalid locale (please review locale settings, this might lead t=
-o problems later):
-    locale::facet::_S_create_c_locale name not valid
-  The following NEW packages will be installed:
-    libgpm2{a} vim vim-common{a} vim-runtime{a} xxd{a} =
+Best,
+Howard
 
-  0 packages upgraded, 5 newly installed, 0 to remove and 1 not upgraded.
-  Need to get 7225 kB/7260 kB of archives. After unpacking 33.5 MB will be =
-used.
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6019=
-d1bf
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x601b=
-64ab
-  Segmentation fault
-  (sid-m68k-sbuild)root@nofan:/#
+--0000000000002950b205aca8595d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  The crash does not reproduce on real hardware running Debian unstable.
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I just compiled qemu-sys=
+tem-ppc using the the meson-poc-next branch with:</div><div>git clone -b me=
+son-poc-next <a href=3D"http://www.github.com/bonzini/qemu">http://www.gith=
+ub.com/bonzini/qemu</a> qemu-mesonbuild-next</div><div>cd qemu-mesonbuild-n=
+ext</div><div>mkdir build</div><div>cd build<br></div><div>../configure --t=
+arget-list=3D&quot;ppc-softmmu&quot; --enable-sdl --enable-gtk --disable-we=
+rror<br></div><div dir=3D"ltr"><br></div><div>qemu-system-ppc is invoked as=
+ follows:<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr">./qemu-syste=
+m-ppc -L pc-bios \<br>-M mac99,via=3Dpmu -m 512 -sdl \<br>-serial stdio \<b=
+r>-drive file=3D/home/hsp/Mac-disks/9.2.img,format=3Draw,media=3Ddisk \<br>=
+-boot c </div><div dir=3D"ltr"><br></div><div>Both SDL and GTK GUis are not=
+ found, while the configuration overview lists:</div><div>SDL support: YES<=
+br>GTK support: YES<br></div><div><br></div><div>Terminal says:</div><div>q=
+emu-system-ppc: Display &#39;sdl&#39; is not available, or<br></div><div>qe=
+mu-system-ppc: Display &#39;gtk&#39; is not available.</div><div dir=3D"ltr=
+"><br></div><div>So qemu starts with the vnc server only.</div><div><br></d=
+iv><div>Best,</div><div>Howard<br></div><div dir=3D"ltr"><br></div></div>
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1815911/+subscriptions
+--0000000000002950b205aca8595d--
 
