@@ -2,85 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382ED242A3C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:25:20 +0200 (CEST)
-Received: from localhost ([::1]:60746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE20B242A83
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:42:03 +0200 (CEST)
+Received: from localhost ([::1]:40814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5qkp-0000tT-AO
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:25:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
+	id 1k5r10-0005E1-Vr
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k5qk4-0000Si-C7
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 09:24:32 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k5qk2-0002mW-MW
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 09:24:32 -0400
-Received: by mail-wr1-x436.google.com with SMTP id a14so2031965wra.5
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 06:24:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EuH22a14Ngp3+O+hW+mT9vPNEBG9MUGijeLlSHk9I1c=;
- b=F51DG9ow9PcwCn+ErPW0SebhhDeqOZEGKYO4/x4XIqBaQl8IcKmRRl9xE3/uSEBa74
- /t0jX9qdjvqkxuuT+40h1TwehqPmRqNety5WGgST7A5WXEsZSvLjtT200vAxAHmL5V2z
- 49vjuvfY8+mPN3fdfIgi+eiDVeTkblID0yWZEYI5CpZNc5jzeNwpPwJLEi1FJuD8L5mw
- YnAfmz3s3MaQzkZujb2k7vzHe9J0ApDknzAs722uoG+v3AIad7qVHdxYG/A5x3wMn+UI
- MHyfPx4bLqKLINZIUieTOqEMso7tgItljQPdZXdyLcbPsqwLw7SuEPteGL5OmdwE+7Wo
- dEuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EuH22a14Ngp3+O+hW+mT9vPNEBG9MUGijeLlSHk9I1c=;
- b=E0LC/PQbA9SMNVt51vu24GeHD2s9hZLJtfVVGqMno7X1+kUmq3MUav5JKM78nQaGHB
- GN6pCvJa9j9oHsrBxJfK5pIPDEhYoNHePlAJAIf6XfTGAFMgabevg69Yr3MHaNq1B6/p
- sI4XSB2S9FWFaPRhBdkiuOdn829K0GCvgt5iXeKNHiO/EVFGFtMpFhiOOMuHtkz+P0cq
- 1yGdhKphZpwB8kPQmV23CnNG+IjQ4sWLfLveUkKIoo7I8/7d6V3rrZfF51i0POqcSorh
- 9p5YSpGxzxNzRAOLB6ImoeEYQBxysKFvhB6Px5K3vAsJC49zBkYTcH+4b7sdlpQFQUg4
- MTiw==
-X-Gm-Message-State: AOAM532iJS/z/J8YiCsFBJeyGDGArnv2AYWSW1Zt+q3QX0NcRtN/18+m
- REQuEeLjSw98EEJuURO4MfbUyw0U
-X-Google-Smtp-Source: ABdhPJz3D0BTxgysc19zqT9oKlZ1q4DXMApaG1KMRAjfUFxd6O8nzQdAcLIRaraSnwR3I/bfvHq2gg==
-X-Received: by 2002:adf:dd01:: with SMTP id a1mr11461818wrm.301.1597238668882; 
- Wed, 12 Aug 2020 06:24:28 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id c10sm4047337wrx.15.2020.08.12.06.24.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Aug 2020 06:24:28 -0700 (PDT)
-Subject: Re: [PATCH 000/147] Meson integration for 5.2
-To: Howard Spoelstra <hsp.cat7@gmail.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>
-References: <1597079345-42801-1-git-send-email-pbonzini@redhat.com>
- <20200811154241.4vzuxvhbwt7ztfvh@steredhat>
- <CABLmASH9rXQjnYYbADtaq5f4c0uqr+kv10p=hC7GR9wF-EzPUw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2548b5fb-97cd-2d7d-8a7e-33b93f3003cb@amsat.org>
-Date: Wed, 12 Aug 2020 15:24:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1k5nnM-0007j2-70; Wed, 12 Aug 2020 06:15:44 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:56816 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1k5nnJ-0002py-VL; Wed, 12 Aug 2020 06:15:43 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 73D8A765E23514832B4E;
+ Wed, 12 Aug 2020 18:15:28 +0800 (CST)
+Received: from localhost (10.174.187.253) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
+ 18:15:20 +0800
+From: zhaolichang <zhaolichang@huawei.com>
+To: <qemu-trivial@nongnu.org>
+Subject: [PATCH RFC 00/10] fix some comment spelling errors
+Date: Wed, 12 Aug 2020 18:14:50 +0800
+Message-ID: <20200812101500.2066-1-zhaolichang@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <CABLmASH9rXQjnYYbADtaq5f4c0uqr+kv10p=hC7GR9wF-EzPUw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.253]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=zhaolichang@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:15:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 12 Aug 2020 09:40:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,51 +57,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Howard,
+I found that there are many spelling errors in the comments of qemu,=0D
+so I used the spellcheck tool to check the spelling errors, this series fix=
+ed this=0D
+spelling errors.
 
-On 8/12/20 8:32 AM, Howard Spoelstra wrote:
-> Hi,
-> 
-> I just compiled qemu-system-ppc using the the meson-poc-next branch with:
-> git clone -b meson-poc-next http://www.github.com/bonzini/qemu
-> qemu-mesonbuild-next
+zhaolichang (10):
+  qemu/: fix some comment spelling errors
+  migration/: fix some comment spelling errors
+  docs/: fix some comment spelling errors
+  scripts/: fix some comment spelling errors
+  util/: fix some comment spelling errors
+  linux-user/: fix some comment spelling errors
+  block/: fix some comment spelling errors
+  disas/: fix some comment spelling errors
+  qapi/: fix some comment spelling errors
+  contrib/: fix some comment spelling errors
 
-I notice you refer to github while Paolo mentioned gitlab in the
-cover:
+ Changelog                                 |  2 +-
+ accel/tcg/user-exec.c                     |  2 +-
+ audio/audio.c                             |  2 +-
+ block.c                                   |  2 +-
+ block/block-copy.c                        |  2 +-
+ block/linux-aio.c                         |  2 +-
+ block/mirror.c                            |  2 +-
+ block/vhdx.c                              |  2 +-
+ block/vhdx.h                              |  4 ++--
+ configure                                 |  2 +-
+ contrib/gitdm/filetypes.txt               |  6 +++---
+ contrib/ivshmem-client/ivshmem-client.h   |  2 +-
+ contrib/libvhost-user/libvhost-user.c     |  4 ++--
+ contrib/libvhost-user/libvhost-user.h     |  2 +-
+ disas/hppa.c                              |  2 +-
+ disas/libvixl/vixl/a64/constants-a64.h    |  2 +-
+ disas/libvixl/vixl/a64/decoder-a64.h      |  2 +-
+ disas/libvixl/vixl/a64/instructions-a64.h |  2 +-
+ disas/libvixl/vixl/globals.h              |  2 +-
+ disas/m68k.c                              |  8 ++++----
+ disas/ppc.c                               |  2 +-
+ docs/COLO-FT.txt                          |  6 +++---
+ docs/devel/blkdebug.txt                   |  2 +-
+ docs/devel/migration.rst                  |  2 +-
+ docs/devel/testing.rst                    |  2 +-
+ docs/devel/tracing.txt                    |  2 +-
+ docs/interop/bitmaps.rst                  |  2 +-
+ docs/interop/dbus.rst                     |  4 ++--
+ docs/interop/nbd.txt                      |  2 +-
+ docs/interop/vhost-user-gpu.rst           |  2 +-
+ docs/interop/vhost-user.rst               |  4 ++--
+ docs/rdma.txt                             |  2 +-
+ docs/specs/ppc-spapr-hotplug.txt          |  4 ++--
+ docs/specs/ppc-spapr-xive.rst             |  4 ++--
+ docs/system/arm/aspeed.rst                |  2 +-
+ docs/system/deprecated.rst                |  8 ++++----
+ docs/system/target-avr.rst                |  4 ++--
+ docs/tools/virtiofsd.rst                  |  2 +-
+ fsdev/virtfs-proxy-helper.c               |  2 +-
+ gdbstub.c                                 |  2 +-
+ hmp-commands.hx                           |  2 +-
+ libdecnumber/decNumber.c                  |  2 +-
+ linux-user/aarch64/signal.c               |  2 +-
+ linux-user/cris/target_syscall.h          |  4 ++--
+ linux-user/flat.h                         |  2 +-
+ linux-user/flatload.c                     |  4 ++--
+ linux-user/host/ppc64/safe-syscall.inc.S  |  2 +-
+ linux-user/syscall.c                      |  4 ++--
+ migration/colo-failover.c                 |  2 +-
+ migration/colo.c                          |  2 +-
+ migration/multifd.c                       |  4 ++--
+ migration/postcopy-ram.c                  |  4 ++--
+ migration/postcopy-ram.h                  |  2 +-
+ migration/ram.c                           | 10 +++++-----
+ migration/rdma.c                          |  8 ++++----
+ migration/savevm.c                        |  4 ++--
+ qapi/block-core.json                      |  4 ++--
+ qapi/crypto.json                          |  4 ++--
+ qemu-img.c                                |  2 +-
+ qobject/qdict.c                           |  2 +-
+ rules.mak                                 |  2 +-
+ scripts/checkpatch.pl                     |  2 +-
+ scripts/clean-header-guards.pl            |  2 +-
+ scripts/decodetree.py                     |  6 +++---
+ scripts/oss-fuzz/build.sh                 |  2 +-
+ scripts/tracetool/__init__.py             |  2 +-
+ scsi/pr-manager-helper.c                  |  2 +-
+ util/osdep.c                              |  2 +-
+ util/qemu-progress.c                      |  2 +-
+ util/qemu-sockets.c                       |  2 +-
+ util/qemu-thread-win32.c                  |  2 +-
+ util/qht.c                                |  2 +-
+ util/trace-events                         |  2 +-
+ 73 files changed, 107 insertions(+), 107 deletions(-)
 
-"This is available from https://gitlab.com/bonzini/qemu.git branch"
+--=20
+2.26.2.windows.1
 
-I am not sure he maintains both sync, can you retest using the gitlab
-branch?
 
-> cd qemu-mesonbuild-next
-> mkdir build
-> cd build
-> ../configure --target-list="ppc-softmmu" --enable-sdl --enable-gtk
-> --disable-werror
-> 
-> qemu-system-ppc is invoked as follows:
-> 
-> ./qemu-system-ppc -L pc-bios \
-> -M mac99,via=pmu -m 512 -sdl \
-> -serial stdio \
-> -drive file=/home/hsp/Mac-disks/9.2.img,format=raw,media=disk \
-> -boot c
-> 
-> Both SDL and GTK GUis are not found, while the configuration overview lists:
-> SDL support: YES
-> GTK support: YES
-> 
-> Terminal says:
-> qemu-system-ppc: Display 'sdl' is not available, or
-> qemu-system-ppc: Display 'gtk' is not available.
-> 
-> So qemu starts with the vnc server only.
-> 
-> Best,
-> Howard
-> 
 
