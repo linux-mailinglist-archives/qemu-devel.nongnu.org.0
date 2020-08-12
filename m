@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F74242E9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 20:40:14 +0200 (CEST)
-Received: from localhost ([::1]:40882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482B1242E9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 20:39:03 +0200 (CEST)
+Received: from localhost ([::1]:34856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5vfZ-0003zk-L9
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 14:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46420)
+	id 1k5veQ-0001bC-A2
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 14:39:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYr-0000Y2-O2
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40890)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYq-0000Un-Do
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYo-0002EL-Nv
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:17 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k5vYo-0002EM-O3
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 14:33:16 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 215A5AF93;
+ by mx2.suse.de (Postfix) with ESMTP id BC259AF99;
  Wed, 12 Aug 2020 18:33:23 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -27,10 +27,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: [PATCH v5 13/14] hax: remove hax specific functions from global
+Subject: [PATCH v5 14/14] kvm: remove kvm specific functions from global
  includes
-Date: Wed, 12 Aug 2020 20:32:49 +0200
-Message-Id: <20200812183250.9221-14-cfontana@suse.de>
+Date: Wed, 12 Aug 2020 20:32:50 +0200
+Message-Id: <20200812183250.9221-15-cfontana@suse.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200812183250.9221-1-cfontana@suse.de>
 References: <20200812183250.9221-1-cfontana@suse.de>
@@ -68,172 +68,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- accel/stubs/hax-stub.c    | 10 ----------
- include/sysemu/hax.h      | 17 -----------------
- target/i386/hax-all.c     |  1 -
- target/i386/hax-cpus.c    |  1 -
- target/i386/hax-cpus.h    | 16 ++++++++++++++++
- target/i386/hax-mem.c     |  2 +-
- target/i386/hax-posix.c   |  3 +--
- target/i386/hax-windows.c |  2 +-
- target/i386/hax-windows.h |  2 ++
- 9 files changed, 21 insertions(+), 33 deletions(-)
+ accel/kvm/kvm-cpus.h   |  7 +++++++
+ accel/stubs/kvm-stub.c | 22 ----------------------
+ include/sysemu/kvm.h   |  7 -------
+ 3 files changed, 7 insertions(+), 29 deletions(-)
 
-diff --git a/accel/stubs/hax-stub.c b/accel/stubs/hax-stub.c
-index 7ad190cae2..1a9da83185 100644
---- a/accel/stubs/hax-stub.c
-+++ b/accel/stubs/hax-stub.c
-@@ -21,13 +21,3 @@ int hax_sync_vcpus(void)
+diff --git a/accel/kvm/kvm-cpus.h b/accel/kvm/kvm-cpus.h
+index 62fbc911d9..2060a878f0 100644
+--- a/accel/kvm/kvm-cpus.h
++++ b/accel/kvm/kvm-cpus.h
+@@ -14,4 +14,11 @@
+ 
+ extern CpusAccel kvm_cpus;
+ 
++int kvm_init_vcpu(CPUState *cpu);
++int kvm_cpu_exec(CPUState *cpu);
++void kvm_destroy_vcpu(CPUState *cpu);
++void kvm_cpu_synchronize_post_reset(CPUState *cpu);
++void kvm_cpu_synchronize_post_init(CPUState *cpu);
++void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
++
+ #endif /* KVM_CPUS_H */
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 69f8a842da..680e099463 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -32,15 +32,6 @@ bool kvm_readonly_mem_allowed;
+ bool kvm_ioeventfd_any_length_allowed;
+ bool kvm_msi_use_devid;
+ 
+-void kvm_destroy_vcpu(CPUState *cpu)
+-{
+-}
+-
+-int kvm_init_vcpu(CPUState *cpu)
+-{
+-    return -ENOSYS;
+-}
+-
+ void kvm_flush_coalesced_mmio_buffer(void)
  {
-     return 0;
  }
--
--int hax_init_vcpu(CPUState *cpu)
--{
--    return -ENOSYS;
--}
--
--int hax_smp_cpu_exec(CPUState *cpu)
--{
--    return -ENOSYS;
--}
-diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
-index 9b27e65cc7..12fb54f990 100644
---- a/include/sysemu/hax.h
-+++ b/include/sysemu/hax.h
-@@ -22,29 +22,12 @@
- #ifndef QEMU_HAX_H
- #define QEMU_HAX_H
- 
--
- int hax_sync_vcpus(void);
--int hax_init_vcpu(CPUState *cpu);
--int hax_smp_cpu_exec(CPUState *cpu);
--int hax_populate_ram(uint64_t va, uint64_t size);
--
--void hax_cpu_synchronize_state(CPUState *cpu);
--void hax_cpu_synchronize_post_reset(CPUState *cpu);
--void hax_cpu_synchronize_post_init(CPUState *cpu);
--void hax_cpu_synchronize_pre_loadvm(CPUState *cpu);
- 
- #ifdef CONFIG_HAX
- 
- int hax_enabled(void);
- 
--#include "qemu/bitops.h"
--#include "exec/memory.h"
--int hax_vcpu_destroy(CPUState *cpu);
--void hax_raise_event(CPUState *cpu);
--void hax_reset_vcpu_state(void *opaque);
--#include "target/i386/hax-interface.h"
--#include "target/i386/hax-i386.h"
--
- #else /* CONFIG_HAX */
- 
- #define hax_enabled() (0)
-diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
-index fd1ab673d7..fecfe8cd6e 100644
---- a/target/i386/hax-all.c
-+++ b/target/i386/hax-all.c
-@@ -28,7 +28,6 @@
- #include "exec/address-spaces.h"
- 
- #include "qemu-common.h"
--#include "hax-i386.h"
- #include "sysemu/accel.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-diff --git a/target/i386/hax-cpus.c b/target/i386/hax-cpus.c
-index 69a4162939..e89658ea33 100644
---- a/target/i386/hax-cpus.c
-+++ b/target/i386/hax-cpus.c
-@@ -22,7 +22,6 @@
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
--#include "hax-i386.h"
- #include "sysemu/runstate.h"
- #include "sysemu/cpus.h"
- #include "qemu/guest-random.h"
-diff --git a/target/i386/hax-cpus.h b/target/i386/hax-cpus.h
-index ac3cf1f8ae..91937c8527 100644
---- a/target/i386/hax-cpus.h
-+++ b/target/i386/hax-cpus.h
-@@ -14,4 +14,20 @@
- 
- extern CpusAccel hax_cpus;
- 
-+#include "hax-interface.h"
-+#include "hax-i386.h"
-+
-+int hax_init_vcpu(CPUState *cpu);
-+int hax_smp_cpu_exec(CPUState *cpu);
-+int hax_populate_ram(uint64_t va, uint64_t size);
-+
-+void hax_cpu_synchronize_state(CPUState *cpu);
-+void hax_cpu_synchronize_post_reset(CPUState *cpu);
-+void hax_cpu_synchronize_post_init(CPUState *cpu);
-+void hax_cpu_synchronize_pre_loadvm(CPUState *cpu);
-+
-+int hax_vcpu_destroy(CPUState *cpu);
-+void hax_raise_event(CPUState *cpu);
-+void hax_reset_vcpu_state(void *opaque);
-+
- #endif /* HAX_CPUS_H */
-diff --git a/target/i386/hax-mem.c b/target/i386/hax-mem.c
-index 6bb5a24917..71e637cf16 100644
---- a/target/i386/hax-mem.c
-+++ b/target/i386/hax-mem.c
-@@ -13,7 +13,7 @@
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
- 
--#include "target/i386/hax-i386.h"
-+#include "hax-cpus.h"
- #include "qemu/queue.h"
- 
- #define DEBUG_HAX_MEM 0
-diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
-index 6fb7867d11..735a749d4b 100644
---- a/target/i386/hax-posix.c
-+++ b/target/i386/hax-posix.c
-@@ -14,9 +14,8 @@
- #include "qemu/osdep.h"
- #include <sys/ioctl.h>
- 
--#include "target/i386/hax-i386.h"
--
- #include "sysemu/cpus.h"
-+#include "hax-cpus.h"
- 
- hax_fd hax_mod_open(void)
+@@ -49,19 +40,6 @@ void kvm_cpu_synchronize_state(CPUState *cpu)
  {
-diff --git a/target/i386/hax-windows.c b/target/i386/hax-windows.c
-index 469b48e608..6c82dfb54f 100644
---- a/target/i386/hax-windows.c
-+++ b/target/i386/hax-windows.c
-@@ -12,7 +12,7 @@
+ }
  
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "hax-i386.h"
-+#include "hax-cpus.h"
+-void kvm_cpu_synchronize_post_reset(CPUState *cpu)
+-{
+-}
+-
+-void kvm_cpu_synchronize_post_init(CPUState *cpu)
+-{
+-}
+-
+-int kvm_cpu_exec(CPUState *cpu)
+-{
+-    abort();
+-}
+-
+ bool kvm_has_sync_mmu(void)
+ {
+     return false;
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 7a5f973b6f..bb03e0c68b 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -216,10 +216,6 @@ int kvm_has_many_ioeventfds(void);
+ int kvm_has_gsi_routing(void);
+ int kvm_has_intx_set_mask(void);
  
- /*
-  * return 0 when success, -1 when driver not loaded,
-diff --git a/target/i386/hax-windows.h b/target/i386/hax-windows.h
-index 12cbd813dc..a5ce12d663 100644
---- a/target/i386/hax-windows.h
-+++ b/target/i386/hax-windows.h
-@@ -23,6 +23,8 @@
- #include <winioctl.h>
- #include <windef.h>
+-int kvm_init_vcpu(CPUState *cpu);
+-int kvm_cpu_exec(CPUState *cpu);
+-void kvm_destroy_vcpu(CPUState *cpu);
+-
+ /**
+  * kvm_arm_supports_user_irq
+  *
+@@ -479,9 +475,6 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
+ #endif /* NEED_CPU_H */
  
-+#include "hax-cpus.h"
-+
- #define HAX_INVALID_FD INVALID_HANDLE_VALUE
+ void kvm_cpu_synchronize_state(CPUState *cpu);
+-void kvm_cpu_synchronize_post_reset(CPUState *cpu);
+-void kvm_cpu_synchronize_post_init(CPUState *cpu);
+-void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
  
- static inline void hax_mod_close(struct hax_state *hax)
+ void kvm_init_cpu_signals(CPUState *cpu);
+ 
 -- 
 2.16.4
 
