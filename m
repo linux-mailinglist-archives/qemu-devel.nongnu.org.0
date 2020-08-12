@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4062429E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 14:58:31 +0200 (CEST)
-Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074712429EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 15:02:29 +0200 (CEST)
+Received: from localhost ([::1]:37764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5qKs-0003xx-RT
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 08:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38664)
+	id 1k5qOh-0006wb-Po
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 09:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5qIR-00026p-1b
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:55:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43170)
+ id 1k5qNE-00067n-R2
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 09:00:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k5qIP-0007Tc-4E
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 08:55:58 -0400
+ id 1k5qNA-00081w-Mn
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 09:00:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k5qIN-0008ME-3C
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:55:55 +0000
+ id 1k5qN7-0000EJ-MY
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 13:00:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 11AA92E8081
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 12:55:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 71AD92E8109
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 13:00:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2020 12:46:54 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1778350@bugs.launchpad.net>
+Date: Wed, 12 Aug 2020 12:51:43 -0000
+From: "Laszlo Ersek \(Red Hat\)" <1813165@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+X-Launchpad-Bug: product=linux; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow lersek mst-0 navicrej
-X-Launchpad-Bug-Reporter: navicrej (navicrej)
+X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
+ squinky86 tstrike34 vkuznets
+X-Launchpad-Bug-Reporter: Thomas (himbeere)
 X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <152976906812.26719.4060539263907295716.malonedeb@gac.canonical.com>
-Message-Id: <159723641473.5583.8716929658042542035.malone@soybean.canonical.com>
-Subject: [Bug 1778350] Re: Android-x86 4.4-r5 won't boot on QEMU since
- v2.11.0-rc2
+References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
+Message-Id: <159723670394.9711.18197255346528020388.malone@wampee.canonical.com>
+Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 063cc36c7798ae0d6ba0d70397736018b8e3fb89
+X-Launchpad-Hash: de409ec57f1e3161f95c5be33df617e5827b4f0e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 06:10:59
@@ -61,8 +61,7 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,46 +73,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1778350 <1778350@bugs.launchpad.net>
+Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No feedback for almost two years, closing.
+According to comment #12, the bug underlying this LP ticket was fixed in
+Linux kernel commit ad7dc69aeb23 ("x86/kvm/mmu: fix switch between root
+and guest MMUs", 2019-02-22), released in v5.0.
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+** Project changed: qemu =3D> linux
+
+** Changed in: linux
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1778350
+https://bugs.launchpad.net/bugs/1813165
 
 Title:
-  Android-x86 4.4-r5 won't boot on QEMU since v2.11.0-rc2
+  KVM internal error. Suberror: 1 emulation failure
 
-Status in QEMU:
-  Invalid
+Status in Linux:
+  Fix Released
 
 Bug description:
-  Try to boot from the Android-x86 4.4-r5 ISO won't boot in QEMU after 2.11=
-.0-rc2. The last known version it works is 2.11.0-rc1.
-  It also works on the 2.10.x-line, even the 2.10.2 which was released afte=
-r 2.11.0-rc2!
+  Hello Devs.
 
-  How to reproduce:
-  Download the ISO from
-  http://www.android-x86.org/releases/releasenote-4-4-r5 or directly https:=
-//www.fosshub.com/Android-x86.html/android-x86-4.4-r5.iso
+  Having problems getting VM to run with qemu 3.1.0. I should mention
+  it's a nested configuration.
 
-  Start QEMU with this command-line: qemu-system-x86_64 -cdrom
-  android-x86-4.4-r5.iso -m 1024
+  2019-01-24 13:46:08.648+0000: starting up libvirt version: 4.10.0, qemu v=
+ersion: 3.1.0, kernel: 4.14.94, hostname: one....
+  LC_ALL=3DC PATH=3D/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/=
+sbin:/usr/local/bin:/usr/local/sbin:/opt/bin HOME=3D/root USER=3Droot QEMU_=
+AUDIO_DRV=3Dnone /usr/bin/kvm -name guest=3Done-266,debug-threads=3Don -S -=
+object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
+ain-1-one-266/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,usb=3Doff,d=
+ump-guest-core=3Doff -cpu Skylake-Client-IBRS,ss=3Don,hypervisor=3Don,tsc_a=
+djust=3Don,clflushopt=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don -m 1024 -real=
+time mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid b219b45d-a2=
+f0-4128-a948-8673a7abf968 -no-user-config -nodefaults -chardev socket,id=3D=
+charmonitor,fd=3D21,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,m=
+ode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device piix3-=
+usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive file=3D/var/lib/one//da=
+tastores/0/266/disk.0,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cach=
+e=3Dnone -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dd=
+rive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1,write-cache=3Don -drive f=
+ile=3D/var/lib/one//datastores/0/266/disk.1,format=3Draw,if=3Dnone,id=3Ddri=
+ve-ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive=
+-ide0-0-0,id=3Dide0-0-0 -netdev tap,fd=3D23,id=3Dhostnet0 -device rtl8139,n=
+etdev=3Dhostnet0,id=3Dnet0,mac=3D02:00:00:76:69:85,bus=3Dpci.0,addr=3D0x3 -=
+chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3D=
+serial0 -vnc 0.0.0.0:266 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D=
+0x2 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 -sandbo=
+x on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
+=3Ddeny -msg timestamp=3Don
+  char device redirected to /dev/pts/1 (label charserial0)
+  KVM internal error. Suberror: 1
+  emulation failure
+  EAX=3D00000001 EBX=3D000f7c2c ECX=3D00000001 EDX=3D00000001
+  ESI=3D00006a26 EDI=3D3ffbdc48 EBP=3D000069e6 ESP=3D000a8000
+  EIP=3D000fd057 EFL=3D00010016 [----AP-] CPL=3D0 II=3D0 A20=3D1 SMM=3D1 HL=
+T=3D0
+  ES =3D0010 00000000 ffffffff 00c09300
+  CS =3D0000 00000000 00000fff 00809b00
+  SS =3D0010 00000000 ffffffff 00c09300
+  DS =3D0010 00000000 ffffffff 00c09300
+  FS =3D0010 00000000 ffffffff 00c09300
+  GS =3D0010 00000000 ffffffff 00c09300
+  LDT=3D0000 00000000 0000ffff 00008200
+  TR =3D0000 00000000 0000ffff 00008b00
+  GDT=3D     10387cfe 0000fe6c
+  IDT=3D     0010387c 00003810
+  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000
+  DR6=3D00000000fffecffc DR7=3D000000000e1e0400
+  EFER=3D0000000000000000
+  Code=3Dcb 66 ba 4d d0 0f 00 e9 c8 fe bc 00 80 0a 00 e8 31 3a ff ff <0f> a=
+a fa fc 66 ba 66 d0 0f 00 e9 b1 fe f3 90 f0 0f ba 2d ac 3b 0f 00 00 72 f3 8=
+b 25 a8 3b
+  2019-01-24T13:47:39.383366Z kvm: terminating on signal 15 from pid 2708 (=
+/usr/sbin/libvirtd)
 
-  On 2.11.0-rc1 and 2.10.2 after selecting to boot from CD it shows the And=
-roid splash after a short while ...
-  On 2.11.0-rc2 through the latest 2.12 line it goes to black screen shortl=
-y right after selecting to boot from CD
+  Someone has an idea whats going wrong here?
+
+  thanks and cheers
+  t.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1778350/+subscriptions
+https://bugs.launchpad.net/linux/+bug/1813165/+subscriptions
 
