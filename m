@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5BE2427DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 11:48:06 +0200 (CEST)
-Received: from localhost ([::1]:50840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622EA2427D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 11:45:39 +0200 (CEST)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5nMb-0003BR-E9
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 05:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
+	id 1k5nKE-0006rP-A1
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 05:45:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=nna4=bw=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1k5nHV-00027T-K4
+ id 1k5nHV-00027p-Qj
  for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:42:49 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:40898
+Received: from gate-2.cri.epita.net ([163.5.55.20]:40906
  helo=mail-2.srv.cri.epita.fr)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=nna4=bw=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1k5nHT-0006ke-JE
+ id 1k5nHU-0006kk-3P
  for qemu-devel@nongnu.org; Wed, 12 Aug 2020 05:42:49 -0400
 Received: from MattGorko-Laptop.localdomain (unknown [78.194.154.81])
  (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 6805C415D0;
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id CDDBA415D1;
  Wed, 12 Aug 2020 11:42:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1597225366; bh=OwWkOjwGw8qMrqElR6CbRqgks5m18RhNVLutqbUrZ10=;
+ t=1597225366; bh=iKIh0pVXn2xcd5xyw+MbSBYuutfq5VrL5AOyRI9zABo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lhWDm20zG6hkvgf2ZsA86j8yYTktzX5X2MRqzJacoRgYDj3UACg5LpzasAb+j51YK
- NXCOTWBevVR8SIySVd2yHykmONOULqfJW5KKadOgqF099uOHOMqxNKzI6UHFa7CR3B
- P0uExhTbWloC4PEC22wmR937kA0oa7A+2zHHv8SU=
+ b=NDeLpgV64JD0+biihEOHvtimcV+M2KW1v4dSKw01hqlitzCFi5kwj2MHX4n2+cT/H
+ TlqXVDDcrl0T+1IRcw0dIZ7bRbQagFiHiAyMajpGE3eztqjUP5tVhoZDc2tnmAJPH8
+ 9LlrHbkA81W+MpGl2fb/3q5U49EKwB/F3SBsbR4s=
 From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/13] hw/usb: Add U2F key build recipe
-Date: Wed, 12 Aug 2020 11:41:29 +0200
-Message-Id: <20200812094135.20550-8-cesar.belley@lse.epita.fr>
+Subject: [PATCH 08/13] configure: Add USB U2F key device
+Date: Wed, 12 Aug 2020 11:41:30 +0200
+Message-Id: <20200812094135.20550-9-cesar.belley@lse.epita.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200812094135.20550-1-cesar.belley@lse.epita.fr>
 References: <20200812094135.20550-1-cesar.belley@lse.epita.fr>
@@ -73,44 +73,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
 ---
- hw/usb/Kconfig       | 5 +++++
- hw/usb/Makefile.objs | 7 +++++++
- 2 files changed, 12 insertions(+)
+ configure | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 5e63dc75f8..3fc8fbe3c7 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -96,6 +96,11 @@ config USB_STORAGE_MTP
-     default y
-     depends on USB
+diff --git a/configure b/configure
+index 2acc4d1465..3ea5e561ff 100755
+--- a/configure
++++ b/configure
+@@ -447,6 +447,7 @@ trace_file="trace"
+ spice=""
+ rbd=""
+ smartcard=""
++u2f=""
+ libusb=""
+ usb_redir=""
+ opengl=""
+@@ -1390,6 +1391,10 @@ for opt do
+   ;;
+   --enable-smartcard) smartcard="yes"
+   ;;
++  --disable-u2f) u2f="no"
++  ;;
++  --enable-u2f) u2f="yes"
++  ;;
+   --disable-libusb) libusb="no"
+   ;;
+   --enable-libusb) libusb="yes"
+@@ -1899,6 +1904,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   libiscsi        iscsi support
+   libnfs          nfs support
+   smartcard       smartcard support (libcacard)
++  u2f             U2F support (u2f-emu)
+   libusb          libusb (for usb passthrough)
+   live-block-migration   Block migration in the main migration stream
+   usb-redir       usb network redirection support
+@@ -5250,6 +5256,20 @@ if test "$smartcard" != "no"; then
+     fi
+ fi
  
-+config USB_U2F
-+    bool
-+    default y
-+    depends on USB
++# check for u2f support
++if test "$u2f" != "no"; then
++    if $pkg_config --atleast-version=0.0.0 u2f-emu; then
++        u2f_emu_cflags=$($pkg_config --cflags u2f-emu)
++        u2f_emu_libs=$($pkg_config --libs u2f-emu)
++        u2f="yes"
++    else
++        if test "$u2f" = "yes"; then
++            feature_not_found "u2f" "Install u2f-emu"
++        fi
++        u2f="no"
++    fi
++fi
 +
- config IMX_USBPHY
-     bool
-     default y
-diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index e342ff59fa..7842a3175f 100644
---- a/hw/usb/Makefile.objs
-+++ b/hw/usb/Makefile.objs
-@@ -37,6 +37,13 @@ smartcard.mo-libs := $(SMARTCARD_LIBS)
- endif
- endif
+ # check for libusb
+ if test "$libusb" != "no" ; then
+     if $pkg_config --atleast-version=1.0.13 libusb-1.0; then
+@@ -6965,6 +6985,7 @@ echo "spice support     $spice $(echo_version $spice $spice_protocol_version/$sp
+ echo "rbd support       $rbd"
+ echo "xfsctl support    $xfs"
+ echo "smartcard support $smartcard"
++echo "U2F support       $u2f"
+ echo "libusb            $libusb"
+ echo "usb net redir     $usb_redir"
+ echo "OpenGL support    $opengl"
+@@ -7543,6 +7564,12 @@ if test "$smartcard" = "yes" ; then
+   echo "SMARTCARD_LIBS=$libcacard_libs" >> $config_host_mak
+ fi
  
-+ifeq ($(CONFIG_USB_U2F),y)
-+common-obj-y                          += u2f.o u2f-passthru.o
-+common-obj-$(CONFIG_U2F)              += u2f-emulated.o
-+u2f-emulated.o-cflags = $(U2F_CFLAGS)
-+u2f-emulated.o-libs = $(U2F_LIBS)
-+endif
++if test "$u2f" = "yes" ; then
++  echo "CONFIG_U2F=y" >> $config_host_mak
++  echo "U2F_CFLAGS=$u2f_emu_cflags" >> $config_host_mak
++  echo "U2F_LIBS=$u2f_emu_libs" >> $config_host_mak
++fi
 +
- ifeq ($(CONFIG_POSIX),y)
- common-obj-$(CONFIG_USB_STORAGE_MTP)  += dev-mtp.o
- endif
+ if test "$libusb" = "yes" ; then
+   echo "CONFIG_USB_LIBUSB=y" >> $config_host_mak
+   echo "LIBUSB_CFLAGS=$libusb_cflags" >> $config_host_mak
 -- 
 2.28.0
 
