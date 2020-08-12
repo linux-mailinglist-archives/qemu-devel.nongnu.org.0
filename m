@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3025E242F23
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:24:56 +0200 (CEST)
-Received: from localhost ([::1]:39238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C07242F2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Aug 2020 21:26:17 +0200 (CEST)
+Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5wMp-0006jX-7r
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
+	id 1k5wO8-0001Yc-Qp
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 15:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5wLW-0004wW-8L; Wed, 12 Aug 2020 15:23:34 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:4824)
+ id 1k5wLb-0005AE-Jl; Wed, 12 Aug 2020 15:23:39 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:4837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5wLU-0000SI-HQ; Wed, 12 Aug 2020 15:23:33 -0400
+ id 1k5wLZ-0000UE-Th; Wed, 12 Aug 2020 15:23:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597260212; x=1628796212;
+ t=1597260218; x=1628796218;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=i6TsF+nWPUY4kyBuHNnNc0d363KnlgxkQHE3CnRI+so=;
- b=Xd5gxuzPNipJ8kJPeYTioi2s2yb5BX5ttttn4tG45HiqMBUxpHA+6/G0
- Ds9kEPwhGBvrR+zLgLY1kBAQQ0r06nYQOgFlAbzC2zjxXhHVlKhe5PoTV
- 2IyBILGbQdPHz2+nkisKg1DTNmDwojMVlEu7i6QKsTy4TG/mgmqq0ra1j
- NTSJOqsMjLFkfAFxVkEnl+f8x9bRIHTIMe2xuznc+hIjCTYmTMlfR7YHp
- kRdqw1qiCcj1elIp2FcmOeUwK3F0qT5d2sKLJkgbi0UviGRVVrHuwfSN0
- l/vKk3mfHuwdvhjJ2R68Evxb/FQEd4hE8xXh6RxBVoLvmZUHjc5RUgPoA g==;
-IronPort-SDR: P/W7JL4aYtEIXRVRLbW9DDDlQQx1TlvWxlxundkXoPqqbH0iswoSYSKj8QTyY+xa4zkagsQbGz
- i9qvuGvmEhaWDsXKnpVF+vkdmDyFYwbLxiREcGkIeMbHXfBSluhPnKqJJK73Q5XceIwsmFF0Jx
- yF19Mpv5ol1CxpYKblQYW899UgYpF3rssc/xvVuElwuNSjtUs2r+dc2uuFc+HV1EBlKoukS8m/
- qbxXRTAeOsZCYxqWQQNliEkXL9bep5/bNgP9Xs0td9YJ/ga7vwbIo5JpMkQAcIZYoMqWQMUnW/
- 6Gk=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="146029205"
+ bh=LpK/Kkf+fwylS840kCf3NVSFUj6Cc/XdSH0z+Sq7yuI=;
+ b=HNqUTAXNDm/WqNRsPlroYTbW91RvXt12wwW/Z9yAG722ejA21J6qtwAe
+ vF9W91IxrbxfzrMxLHlRQjqXRP/9OJuS1Xzcva7QyyVpm5fViSJZsn5kJ
+ rdNLS6Rk9eQTD02KN4wbaf21FOidAZitXqDSfdbA5kEfr+0YMba634D7L
+ 3zg++aqwdvLUMaq62UJmfZ87WwFBaU9DrJS+ENDkMBlsRtmekOb52tL9j
+ aWI/A4vZS1KIAum0XtzSzThE2sEucayxBLu04HWn6TgquCJOCdL6T26sA
+ Q15zi26K+yFM9dA94FPvUyw9gTBPnqlhvT3XE3ujam+fq7bEmyBfZY3fq g==;
+IronPort-SDR: Lnr/1QQiU3I+u5jLoh56sjbPqlkKTzJelZKrmzst7rDSvAUQ7OsM/idSOfLuy8E8CzCRoZjfbD
+ YCQzh+EsYRH2PrPvDzukkJu+g7sLNjVcDNsRrdd7d75wO9ArkEPh50BLd9vus7Qx6Cmn/BMRR6
+ HGg+PWVt4ny/vmKTv9X9GkOplCr5ekqah/AA9dDc8Z9QRmPxNsinTamXCw4r8eY+dG4LIR/M0V
+ 6kFQ1oYRg+P5sBXevP4hfxlQCnzkipgW/C1Z+TJz9LY09KB20HEZGOeZwCZiSzv5H9/DzWs9mM
+ 6Mw=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="146029209"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 03:23:31 +0800
-IronPort-SDR: FBl84v5v7N/qXvzKYKCppL8fhopBzNuv47Q6MzQ0T9s7sqKEFDB3ZYOnN9pNty+ZA0iotI+9TG
- GTAcvMu6UXvA==
+ by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 03:23:36 +0800
+IronPort-SDR: mCNlwNiAcf29vLpdbkdkQhi9h+viX6j+2m5ISF8zLLyVmrHQIlfjdxV0nTS+7cNdnOHiPcuVQy
+ 5h1wQa+qhFbw==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2020 12:10:39 -0700
-IronPort-SDR: q1CVShgbAh1DsTxCETgXK7d4m8LfQfWuv9JA3nnNK09Vwn2+Q1xO6UTng9LqtrrmZ08uROlwOP
- Z25IpNxfjGBA==
+ 12 Aug 2020 12:10:44 -0700
+IronPort-SDR: QVLEhwbHRxQkgXlhOLRE7I8q0+ucx8R2opMC9tP2o+qLuU4KnwR0H0AQk5HNs+m9oNAJmRnI1q
+ LPDbrZ+dAGXA==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
- by uls-op-cesaip02.wdc.com with ESMTP; 12 Aug 2020 12:23:32 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 12 Aug 2020 12:23:37 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v3 06/13] target/riscv: Fix the interrupt cause code
-Date: Wed, 12 Aug 2020 12:13:30 -0700
-Message-Id: <85b7fdba8abd87adb83275cdc3043ce35a1ed5c3.1597259519.git.alistair.francis@wdc.com>
+Subject: [PATCH v3 08/13] target/riscv: Update the CSRs to the v0.6 Hyp
+ extension
+Date: Wed, 12 Aug 2020 12:13:36 -0700
+Message-Id: <4f227b30cb1816795296c0994f1123fab143666a.1597259519.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1597259519.git.alistair.francis@wdc.com>
 References: <cover.1597259519.git.alistair.francis@wdc.com>
@@ -93,31 +94,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/riscv/cpu_bits.h | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index b5f4264525..9ab3ca4675 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -909,14 +909,15 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index fb6a3e9092..573d85da41 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -437,15 +437,17 @@
+ #endif
  
-             if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1) &&
-                 !force_hs_execp) {
-+                /* Trap to VS mode */
-                 /*
-                  * See if we need to adjust cause. Yes if its VS mode interrupt
-                  * no if hypervisor has delegated one of hs mode's interrupt
-                  */
-                 if (cause == IRQ_VS_TIMER || cause == IRQ_VS_SOFT ||
--                    cause == IRQ_VS_EXT)
-+                    cause == IRQ_VS_EXT) {
-                     cause = cause - 1;
--                /* Trap to VS mode */
-+                }
-                 env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 0);
-             } else if (riscv_cpu_virt_enabled(env)) {
-                 /* Trap into HS mode, from virt */
+ /* hstatus CSR bits */
+-#define HSTATUS_SPRV         0x00000001
++#define HSTATUS_VSBE         0x00000020
++#define HSTATUS_GVA          0x00000040
+ #define HSTATUS_SPV          0x00000080
+-#define HSTATUS_SP2P         0x00000100
+-#define HSTATUS_SP2V         0x00000200
++#define HSTATUS_SPVP         0x00000100
++#define HSTATUS_HU           0x00000200
++#define HSTATUS_VGEIN        0x0003F000
+ #define HSTATUS_VTVM         0x00100000
+ #define HSTATUS_VTSR         0x00400000
+-#define HSTATUS_HU           0x00000200
+-#define HSTATUS_GVA          0x00000040
+-#define HSTATUS_SPVP         0x00000100
++#if defined(TARGET_RISCV64)
++#define HSTATUS_VSXL        0x300000000
++#endif
+ 
+ #define HSTATUS32_WPRI       0xFF8FF87E
+ #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
 -- 
 2.27.0
 
