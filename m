@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3A7243118
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:46:32 +0200 (CEST)
-Received: from localhost ([::1]:52764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA4B243120
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:48:33 +0200 (CEST)
+Received: from localhost ([::1]:60602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5zVv-0002S0-2v
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39730)
+	id 1k5zXs-0005a5-Ii
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQi-0002k9-Ak
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:41:08 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:64096)
+ id 1k5zQj-0002nF-JV
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:41:09 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:64105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQc-0005qL-6T
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:41:08 -0400
+ id 1k5zQc-0005s1-JU
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:41:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1597272062; x=1628808062;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6iYgSEaXu9Bo9J/ZFmcL7Vhvi/0ItyGMY2M76sAZop0=;
- b=QqrZhlckp6QtOwK2Km8KVXFYWU8F+Go+1XOBiucCPc80CkSbijtDrHJq
- sb39OAXCDsjVoSoV9HCwVetjNQjVn6FK627sssnOIRU7m9iVWbi2vHTzy
- CN+J7gvp2cjJqMV9QPxcvb87xDj/nG2g9Wq3OxIwaX1xdaI6HIgU3Opk9
- K+WsMhXDPJfyEP7XUBbkHJWUWN/uZelL3mhyb9jfqWGpamOwHr61NkKYD
- /tKqHopaLLVC6Bpb24FmWkEhAoQf4mwDhG+PD5vQtMmboIsQRq36pCmqZ
- NwIYWgZDV/s+3SDbJ1E0ghlxf2A9sj0LwbG/oo+W4D7y7i6f/WUbnqGiH Q==;
-IronPort-SDR: YILx5Sh1yJVdLbCp94Snihma0ZIFD/Ub0w6rP0bZ3z/eXGmqDf6jVzRAD3SDPy1uqwEExIvBvo
- /u9ebsgts+umV8A6K9BeOdcdkKRWdb+C9pmBX4eOewq7C6+zUmB8rV+vAbMmQzBtnnnPycRXR2
- Si1jQMrxaaMu3WqG32Pea9hSpKftGePJLimThaCzglWaQGkSqHs9N9EnX4M4UDU5ivLGXRfQ2g
- rCn6nZ3qDQ9C8+mR6NJjDP46e34CLHyz+fylafBL1FOxgZCfcKf8PLtdpLk5aEHk250KWjS9tc
- 5pM=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144799070"
+ bh=ecw+uUu8ObD0NK1lt/f/vE+UcPdy47ApeZdTtie3FrA=;
+ b=Tuw1IjAEuzt0kw/X+OP0DbXSbBnfuhZOwXMg3+OvpQCEJisTO5c1a8Ev
+ O7Hkb4bjgaI1PaVa6VXcgoaRWMVPaicRHF5E07kzdpmsvlK/pVa5WDfQ5
+ 3elb5q0X4rW3++YBlT7pg5xxgEdVKbetq0KCYOziBcYhjUI4KINsv66zS
+ bMl3y22dY05eQJziEsF1vHlNjrTlgOGG4D2F42jDU54Itk05TOTWxEtIN
+ DHMMnzqs7J+eVEWuZR5CCV6ZbFPEISPto3K17AcZHRqfbRGmRqVEXuIRo
+ +R9eMrJYyAew/YHPf/jSV8Kj5OySJAS9c2opliUYySAjlpcdG6GoFOxr4 w==;
+IronPort-SDR: bn99zlAFSxUZY3nTh2EyclWJTgYhITzNktSHk2muct5VCqRVriMoRgO1SVF/eOTvTjR/KE2ATm
+ xcmuSvS/KKuZwsGNExHxvjl/rPIiVMzFNCSmuhpXo9ZK3DO3qd6RnAAk9WXbCCQczyCVYLqghP
+ OCcK95ztfBAwln9+Z7E5GS7MoKKuZqMgnlk6sTX+ktsVhCgKbm96b3RobE0IVYbY0ssa2ZQ/VR
+ CLLoDbNPupu9lJXCLUDwldlsO9UHun5h/VSCd84zbPam3kdbkJhl8IGxcirKwDW8M4rYpfYAmT
+ y2k=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144799071"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:53 +0800
-IronPort-SDR: RBJAnQxiB7LErrs07pwxM9ejEpsvR9iO1W+aOHZ4AcIHF0KvTZpRaD5xM5ywWizxw2/jbN2jvP
- MnDYISblGuhw==
+IronPort-SDR: I1adoBX9g2wZ2ErZZcY4rp+FyEJlQuV4D1kDjudx3gDmL4n5xEX78C3r5zHuy03ojpro3C1cjE
+ iQ67TTswp/rw==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Aug 2020 15:28:44 -0700
-IronPort-SDR: JMkO84N/din34kr6xxx7MmOW+bCtejYQSXuHF8vy6oLBIfNQz9arkF/9zgtGEMMVJcKiUTIOT0
- gw4OekcDYxxQ==
+IronPort-SDR: rS/BsqfsaliAix2VApE+QKfmcCd/nECEY3UhgCvuFDAuOLxJi2BvDmGxtvZkeHlSURgSgito9w
+ SNy6ZSpEUB9A==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:50 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/20] hw/intc: ibex_plic: Don't allow repeat interrupts on
- claimed lines
-Date: Wed, 12 Aug 2020 15:30:44 -0700
-Message-Id: <20200812223045.96803-20-alistair.francis@wdc.com>
+Subject: [PULL 20/20] hw/intc: ibex_plic: Honour source priorities
+Date: Wed, 12 Aug 2020 15:30:45 -0700
+Message-Id: <20200812223045.96803-21-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
 References: <20200812223045.96803-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
@@ -88,83 +88,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Jessica Clarke <jrtc27@jrtc27.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Once an interrupt has been claimed, but before it has been compelted we
-shouldn't receive any more pending interrupts. This patche keeps track
-of this to ensure that we don't see any more interrupts until it is
-completed.
+This patch follows what commit aa4d30f6618dc "riscv: plic: Honour source
+priorities" does and ensures that the highest priority interrupt will be
+serviced first.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <394c3f070615ff2b4fab61a1cf9cb48c122913b7.1595655188.git.alistair.francis@wdc.com>
+Cc: Jessica Clarke <jrtc27@jrtc27.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <a697ca8a31eff8eb18a88e09a28206063cf85d48.1595655188.git.alistair.francis@wdc.com>
 ---
- include/hw/intc/ibex_plic.h |  1 +
- hw/intc/ibex_plic.c         | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+)
+ hw/intc/ibex_plic.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
-index ddc7909903..d8eb09b258 100644
---- a/include/hw/intc/ibex_plic.h
-+++ b/include/hw/intc/ibex_plic.h
-@@ -33,6 +33,7 @@ typedef struct IbexPlicState {
-     MemoryRegion mmio;
- 
-     uint32_t *pending;
-+    uint32_t *claimed;
-     uint32_t *source;
-     uint32_t *priority;
-     uint32_t *enable;
 diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
-index 578edd2ce0..669247ef08 100644
+index 669247ef08..f49fa67c91 100644
 --- a/hw/intc/ibex_plic.c
 +++ b/hw/intc/ibex_plic.c
-@@ -43,6 +43,14 @@ static void ibex_plic_irqs_set_pending(IbexPlicState *s, int irq, bool level)
+@@ -57,6 +57,8 @@ static void ibex_plic_irqs_set_pending(IbexPlicState *s, int irq, bool level)
+ static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
  {
-     int pending_num = irq / 32;
+     int i;
++    uint32_t max_irq = 0;
++    uint32_t max_prio = s->threshold;
  
-+    if (s->claimed[pending_num] & 1 << (irq % 32)) {
-+        /*
-+         * The interrupt has been claimed, but not compelted.
-+         * The pending bit can't be set.
-+         */
-+        return;
-+    }
-+
-     s->pending[pending_num] |= level << (irq % 32);
- }
- 
-@@ -120,6 +128,10 @@ static uint64_t ibex_plic_read(void *opaque, hwaddr addr,
-         int pending_num = s->claim / 32;
-         s->pending[pending_num] &= ~(1 << (s->claim % 32));
- 
-+        /* Set the interrupt as claimed, but not compelted */
-+        s->claimed[pending_num] |= 1 << (s->claim % 32);
-+
-+        /* Return the current claimed interrupt */
-         ret = s->claim;
- 
-         /* Update the interrupt status after the claim */
-@@ -155,6 +167,10 @@ static void ibex_plic_write(void *opaque, hwaddr addr,
-             /* Interrupt was completed */
-             s->claim = 0;
+     for (i = 0; i < s->pending_num; i++) {
+         uint32_t irq_num = ctz64(s->pending[i]) + (i * 32);
+@@ -66,14 +68,17 @@ static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
+             continue;
          }
-+        if (s->claimed[value / 32] & 1 << (value % 32)) {
-+            /* This value was already claimed, clear it. */
-+            s->claimed[value / 32] &= ~(1 << (value % 32));
-+        }
+ 
+-        if (s->priority[irq_num] > s->threshold) {
+-            if (!s->claim) {
+-                s->claim = irq_num;
+-            }
+-            return true;
++        if (s->priority[irq_num] > max_prio) {
++            max_irq = irq_num;
++            max_prio = s->priority[irq_num];
+         }
      }
  
-     ibex_plic_update(s);
-@@ -215,6 +231,7 @@ static void ibex_plic_realize(DeviceState *dev, Error **errp)
-     int i;
++    if (max_irq) {
++        s->claim = max_irq;
++        return true;
++    }
++
+     return false;
+ }
  
-     s->pending = g_new0(uint32_t, s->pending_num);
-+    s->claimed = g_new0(uint32_t, s->pending_num);
-     s->source = g_new0(uint32_t, s->source_num);
-     s->priority = g_new0(uint32_t, s->priority_num);
-     s->enable = g_new0(uint32_t, s->enable_num);
 -- 
 2.27.0
 
