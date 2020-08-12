@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6438243108
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:42:45 +0200 (CEST)
-Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978F6243111
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 00:45:13 +0200 (CEST)
+Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k5zSG-0003xg-Uw
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
+	id 1k5zUe-00007T-1E
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 18:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQT-0002GC-Se
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:53 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29822)
+ id 1k5zQV-0002IN-Tr
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:55 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=486123ee4=alistair.francis@wdc.com>)
- id 1k5zQR-0005nU-8v
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:53 -0400
+ id 1k5zQT-0005mK-VV
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 18:40:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597272051; x=1628808051;
+ t=1597272054; x=1628808054;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0hinW4AOS9dVAXrUyO3aCuRIqVjkZ84Vja4z9gCfEqI=;
- b=n4Qy0ilD8ycfkLc4NLt9wqqmgtulRLobs7RUKwMpHrLjThZYAHknnI4h
- mgRuX17DiMrqQxAQGW6Rj+vTj20mLODSKGCm5zKhowc8y3rPz/xB/naQC
- cfiE1dyARPbSanh497JATGyvWR1+LhZiHHjkqullmlI9m5sh17YyQ5XVU
- RIu3CUr+fwz9gAzi2gK89e+rrJ3DKqnhoC0Zn9YF2+g8G9ZaAFDeOVKTI
- FwcIeObpT2zybNxx47Q+r3nUnDpoF0iew6WEgsO6UzqulQ/co2l80zXd8
- lhEf2s90KS0DkmE1TsgEmbVnmdX2Oox1ZeWZAl+H3Bbi5pYKmDJ7KD7oo w==;
-IronPort-SDR: VH6Ni0wrUvwvu82f7uyaLHw8bVdqcuQDkK0v+quKazAYNsdWtrIlZhY1RXs9IvSoiQyvd2amJJ
- JzQH1r3Oh7zq78bfNlyHEelde01baTSyk6hZEh07BN9y1y3P67WYudHmfoxMWzs5hzO+NSX9WR
- l6GeoaT209wdnqvqm89Edd48VCKmfWmnGKQsY6fTg7mBx0tKqain5n9DWp7y+wID6q+Mr4edmP
- aEuOEwym6i4HMglDSvWpwLvk3mQMnemftzv+DM9b70WP+2HZGVfxfT3c2hlH4YM/L8fcUJ6uhX
- SKA=
-X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="254208925"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
+ bh=359gDMSZfCdWmjYaBw4t9fga9UEtLTY35NYUxlpDAyM=;
+ b=nEjR8tUho1HovmLlGDUA4P3cUBm7reo/kUqG0GVZgh2SYFDzySMxwLiT
+ Fp1wu0nC5uWqE3V2KBXgBhcyvBWBTDfGvMykyMHc8fdY73KN+VmLelSUy
+ Vy34BQ5rq2kW/EPBFTAwXZM115s/en4pw6ui2Ejo8G/O0lh3SnyBRj8Zg
+ zkRMt/2TMJYCqum/9AVeGNxOqiLuXTfJSrvMCpY69lvh1V9bR74NZbyaQ
+ IuwlKoi5if0uePFw488TNTVPi6+88WrsuaJQ1nh731ZC0+ofD1Oe3LB1a
+ GmEjjYNbAF5Nhf8//D+rbbohPNUEuLgthPdvorEJZM85v5XliUCjQ00f2 g==;
+IronPort-SDR: mupeBQ+T7XOyzKzxLEQVnih5xBEvUmZ0ixwXt1DdWNztjD5Ohq1oZRuW1jTfrqNjM9ZRCJIG7f
+ CfXdQy3GWo3LJtcb9hClJZ6Ly/DX1+uDPTwr3OLxr9MnqkXChqwnPLut0wPJ74a+S7z7HTeLyV
+ 9QpBhk9Z4YiNrqL0TQkuS9P+tc/8ZhigcrK0ikFgp42Z8DlyJm0JAFffJ0Ac5QEF29pyU0KJ9u
+ 08sVjU/ElrI/p/4XYbBYMQJ4198WMfN9dnSsuKzsdXcg+5LXDXN3cYxYHMXOqLLGdX7dmQ+pTM
+ ME4=
+X-IronPort-AV: E=Sophos;i="5.76,305,1592841600"; d="scan'208";a="144853394"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2020 06:40:48 +0800
-IronPort-SDR: jBU6wrqB5pfwiML5zGi2y61hv5MxgcX2y4FHIz3+D56PnuIOhpPZebLOeTRESPSCwpTf8nfwOU
- On1yg8b3HS5A==
+IronPort-SDR: SLhlLvbxrIcsPDb+Ul59M/r8RkEfaEkZ5TbMJWStAK9A7V3oQURXdJTvu5+SRNCU1ie4Ujb4gd
+ jlp+ANleMEhA==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2020 15:27:56 -0700
-IronPort-SDR: 6a2e7DP39UqrkmNW31tE8KU93iV7b2XzZkgSvFld5Xi8pUiEX6zcDzOoqMmMJTaFtF91iojoVN
- nZvui5MowPoA==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 15:28:39 -0700
+IronPort-SDR: Go991g+rXuuL2elKebBI4uoH6a4vNBgYMkEoajnJeiAdjo3Bt2eAMJ+JAze4gewagnh8H8ople
+ UCYhDuBnhr9Q==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
- by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:45 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 12 Aug 2020 15:40:46 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/20] target/riscv: Check nanboxed inputs in trans_rvf.inc.c
-Date: Wed, 12 Aug 2020 15:30:30 -0700
-Message-Id: <20200812223045.96803-6-alistair.francis@wdc.com>
+Subject: [PULL 06/20] target/riscv: Clean up fmv.w.x
+Date: Wed, 12 Aug 2020 15:30:31 -0700
+Message-Id: <20200812223045.96803-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
 References: <20200812223045.96803-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
+Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=486123ee4=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:48
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 18:40:47
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -93,157 +93,37 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-If a 32-bit input is not properly nanboxed, then the input is replaced
-with the default qnan.  The only inline expansion is for the sign-changing
-set of instructions: FSGNJ.S, FSGNJX.S, FSGNJN.S.
+Use tcg_gen_extu_tl_i64 to avoid the ifdef.
 
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-Id: <20200724002807.441147-6-richard.henderson@linaro.org>
+Message-Id: <20200626205917.4545-7-zhiwei_liu@c-sky.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200724002807.441147-7-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvf.inc.c | 71 +++++++++++++++++++------
- target/riscv/translate.c                | 18 +++++++
- 2 files changed, 73 insertions(+), 16 deletions(-)
+ target/riscv/insn_trans/trans_rvf.inc.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
-index 264d3139f1..f9a9e0643a 100644
+index f9a9e0643a..0d04677a02 100644
 --- a/target/riscv/insn_trans/trans_rvf.inc.c
 +++ b/target/riscv/insn_trans/trans_rvf.inc.c
-@@ -161,47 +161,86 @@ static bool trans_fsgnj_s(DisasContext *ctx, arg_fsgnj_s *a)
- {
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+
-     if (a->rs1 == a->rs2) { /* FMOV */
--        tcg_gen_mov_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
-+        gen_check_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
-     } else { /* FSGNJ */
--        tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rs2], cpu_fpr[a->rs1],
--                            0, 31);
-+        TCGv_i64 rs1 = tcg_temp_new_i64();
-+        TCGv_i64 rs2 = tcg_temp_new_i64();
-+
-+        gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /* This formulation retains the nanboxing of rs2. */
-+        tcg_gen_deposit_i64(cpu_fpr[a->rd], rs2, rs1, 0, 31);
-+        tcg_temp_free_i64(rs1);
-+        tcg_temp_free_i64(rs2);
-     }
--    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-     mark_fs_dirty(ctx);
-     return true;
- }
+@@ -406,11 +406,7 @@ static bool trans_fmv_w_x(DisasContext *ctx, arg_fmv_w_x *a)
+     TCGv t0 = tcg_temp_new();
+     gen_get_gpr(t0, a->rs1);
  
- static bool trans_fsgnjn_s(DisasContext *ctx, arg_fsgnjn_s *a)
- {
-+    TCGv_i64 rs1, rs2, mask;
-+
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+
-+    rs1 = tcg_temp_new_i64();
-+    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-+
-     if (a->rs1 == a->rs2) { /* FNEG */
--        tcg_gen_xori_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], INT32_MIN);
-+        tcg_gen_xori_i64(cpu_fpr[a->rd], rs1, MAKE_64BIT_MASK(31, 1));
-     } else {
--        TCGv_i64 t0 = tcg_temp_new_i64();
--        tcg_gen_not_i64(t0, cpu_fpr[a->rs2]);
--        tcg_gen_deposit_i64(cpu_fpr[a->rd], t0, cpu_fpr[a->rs1], 0, 31);
--        tcg_temp_free_i64(t0);
-+        rs2 = tcg_temp_new_i64();
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /*
-+         * Replace bit 31 in rs1 with inverse in rs2.
-+         * This formulation retains the nanboxing of rs1.
-+         */
-+        mask = tcg_const_i64(~MAKE_64BIT_MASK(31, 1));
-+        tcg_gen_andc_i64(rs2, mask, rs2);
-+        tcg_gen_and_i64(rs1, mask, rs1);
-+        tcg_gen_or_i64(cpu_fpr[a->rd], rs1, rs2);
-+
-+        tcg_temp_free_i64(mask);
-+        tcg_temp_free_i64(rs2);
-     }
--    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-+    tcg_temp_free_i64(rs1);
-+
-     mark_fs_dirty(ctx);
-     return true;
- }
+-#if defined(TARGET_RISCV64)
+-    tcg_gen_mov_i64(cpu_fpr[a->rd], t0);
+-#else
+-    tcg_gen_extu_i32_i64(cpu_fpr[a->rd], t0);
+-#endif
++    tcg_gen_extu_tl_i64(cpu_fpr[a->rd], t0);
+     gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
  
- static bool trans_fsgnjx_s(DisasContext *ctx, arg_fsgnjx_s *a)
- {
-+    TCGv_i64 rs1, rs2;
-+
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+
-+    rs1 = tcg_temp_new_i64();
-+    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-+
-     if (a->rs1 == a->rs2) { /* FABS */
--        tcg_gen_andi_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], ~INT32_MIN);
-+        tcg_gen_andi_i64(cpu_fpr[a->rd], rs1, ~MAKE_64BIT_MASK(31, 1));
-     } else {
--        TCGv_i64 t0 = tcg_temp_new_i64();
--        tcg_gen_andi_i64(t0, cpu_fpr[a->rs2], INT32_MIN);
--        tcg_gen_xor_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], t0);
--        tcg_temp_free_i64(t0);
-+        rs2 = tcg_temp_new_i64();
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /*
-+         * Xor bit 31 in rs1 with that in rs2.
-+         * This formulation retains the nanboxing of rs1.
-+         */
-+        tcg_gen_andi_i64(rs2, rs2, MAKE_64BIT_MASK(31, 1));
-+        tcg_gen_xor_i64(cpu_fpr[a->rd], rs1, rs2);
-+
-+        tcg_temp_free_i64(rs2);
-     }
--    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-+    tcg_temp_free_i64(rs1);
-+
      mark_fs_dirty(ctx);
-     return true;
- }
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 12a746da97..bf35182776 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -101,6 +101,24 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-     tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
- }
- 
-+/*
-+ * A narrow n-bit operation, where n < FLEN, checks that input operands
-+ * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.
-+ * If so, the least-significant bits of the input are used, otherwise the
-+ * input value is treated as an n-bit canonical NaN (v2.2 section 9.2).
-+ *
-+ * Here, the result is always nan-boxed, even the canonical nan.
-+ */
-+static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-+{
-+    TCGv_i64 t_max = tcg_const_i64(0xffffffff00000000ull);
-+    TCGv_i64 t_nan = tcg_const_i64(0xffffffff7fc00000ull);
-+
-+    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-+    tcg_temp_free_i64(t_max);
-+    tcg_temp_free_i64(t_nan);
-+}
-+
- static void generate_exception(DisasContext *ctx, int excp)
- {
-     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
 -- 
 2.27.0
 
