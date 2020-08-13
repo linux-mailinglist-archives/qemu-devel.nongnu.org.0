@@ -2,74 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6A32438C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:41:42 +0200 (CEST)
-Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230152438CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:43:46 +0200 (CEST)
+Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Ag1-0005qu-6Z
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51016)
+	id 1k6Ai1-0007Wz-72
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k6AcG-0000f6-5v
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 06:37:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53844
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6Agu-0006sB-Uw
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 06:42:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35954
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k6AcD-0007RV-Bh
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 06:37:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6Agr-000879-GJ
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 06:42:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597315064;
+ s=mimecast20190719; t=1597315349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r5jhfmE78Ank/M8YTF7hOoOkIT3ARZ6eZkmx0dqwLpY=;
- b=E/QQHCDXqYddVRFrzvLjvQKrcP4c8Q9pFYYBPBAv2/E3aAk1gvkx1/Y08i3bz4+zEf86qP
- BKt5OVMi3aeDq9a0OKK/o6wOO3B1njpSGza2ThREndxA+FDGeojt1hocfP7yVF0wKuFX2q
- b62ytB4fPVw7LreWtcfEEL8KqQh6K/4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-9K5J73HaP2CUSh8JV8A2jg-1; Thu, 13 Aug 2020 06:37:42 -0400
-X-MC-Unique: 9K5J73HaP2CUSh8JV8A2jg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16204800465;
- Thu, 13 Aug 2020 10:37:41 +0000 (UTC)
-Received: from gondolin (ovpn-112-216.ams2.redhat.com [10.36.112.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC8E754596;
- Thu, 13 Aug 2020 10:37:39 +0000 (UTC)
-Date: Thu, 13 Aug 2020 12:37:37 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
-Message-ID: <20200813123737.25ba11d2.cohuck@redhat.com>
-In-Reply-To: <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
-References: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
- <20200813112820.62ffd63e.cohuck@redhat.com>
- <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
-Organization: Red Hat GmbH
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gxlDasVghYbwKFLuepg+JPTEz1tT6/aO0i5RF/f86XI=;
+ b=PcHRyc/M0oQhV4WsBok0po61nqfvvIeXC4fl6dJkCUaK/sVJAdy3kcWiqunOEq1YQjorG7
+ ygDjAdaDWRworK1761qLKdrMI3aHNGQBNyhpBoOIOd+KaE8Ikw7k+yq/kvstGkcbUgHIn9
+ u8esbP1Qeb4NlSkkuaiXqtncFEIFA5A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-E6z5WD2dODyoX7ZfJ3ePzQ-1; Thu, 13 Aug 2020 06:42:27 -0400
+X-MC-Unique: E6z5WD2dODyoX7ZfJ3ePzQ-1
+Received: by mail-wm1-f69.google.com with SMTP id h6so1812444wml.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 03:42:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=gxlDasVghYbwKFLuepg+JPTEz1tT6/aO0i5RF/f86XI=;
+ b=uWdg8KxSS22FdjNERCfx5PG/Bw5hW5tzuKYHBpuiw7gK243xSIRRRIi6LTZHMULgzE
+ VdrIRkSD/WlRiWPOz0upp3p9w6BvJWz3BqjB02qFRSfZq3GlpI69g5yFKwyRQXl32nIg
+ FhXtL6Bdh9/Vyznqu3jVvkrEfb9LDEo9y1eGdKmZfVTAKp3v73DPQcLQKfPISWtATw7J
+ qDufgp3zzOqJpIWRvpko0u/Lk2oCXMqW30xj/GLJli/CNVdfC//6hKNJwLSTcphg2rOu
+ 5/2oYiYn7wX2HrMzIJoKu+4iA1tillEhT0McIo5BBJFKy1FVX5s39OPS/a2A1iMHhWg4
+ PQaA==
+X-Gm-Message-State: AOAM530IkifLIyTPYpjKgX7/X79/Sbx3lHKocM3ncEe3yAtiyU9MoPQ8
+ xkZ70WsOdrStUn9bnubJj6XVjQYXnKC6VopdxZ900c1dsjOl8ozqNz+CRAOWAVlRotSXEp+VCTS
+ 0Je+I1p8PwOT0vPI=
+X-Received: by 2002:adf:ca06:: with SMTP id o6mr3327216wrh.181.1597315346330; 
+ Thu, 13 Aug 2020 03:42:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyvHOJ4nNKWb4n1r+cRDiAds7fLbLKAx6i7xGw08iJBrR58yhEZGQFGQ1bAId8FCsGvYcyXHA==
+X-Received: by 2002:adf:ca06:: with SMTP id o6mr3327191wrh.181.1597315346038; 
+ Thu, 13 Aug 2020 03:42:26 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id e16sm9599778wrx.30.2020.08.13.03.42.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Aug 2020 03:42:25 -0700 (PDT)
+Subject: Re: [RFC 1/9] target/arm: convert isar regs to array
+To: Peng Liang <liangpeng10@huawei.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200813102657.2588720-1-liangpeng10@huawei.com>
+ <20200813102657.2588720-2-liangpeng10@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <6151cd0a-b3ff-ae68-e843-c6b294b846a8@redhat.com>
+Date: Thu, 13 Aug 2020 12:42:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200813102657.2588720-2-liangpeng10@huawei.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:44:21
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,117 +124,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
+ xiexiangyou@huawei.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Aug 2020 12:24:30 +0200
-Stefano Garzarella <sgarzare@redhat.com> wrote:
-
-> On Thu, Aug 13, 2020 at 11:28:20AM +0200, Cornelia Huck wrote:
-> > On Thu, 13 Aug 2020 11:16:56 +0200
-> > Stefano Garzarella <sgarzare@redhat.com> wrote:
-> >   
-> > > Hi,
-> > > 
-> > > Qinghua discovered that virtio-vsock-pci requires 'disable-legacy=on' in
-> > > QEMU 5.1:
-> > >     $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
-> > >     qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=5:
-> > >     device is modern-only, use disable-legacy=on
-> > > 
-> > > Bisecting I found that this behaviour starts from this commit:
-> > > 9b3a35ec82 ("virtio: verify that legacy support is not accidentally on")  
-> > 
-> > Oh, I had heard that from others already, was still trying to figure
-> > out what to do.
-> >   
-> > > 
-> > > IIUC virtio-vsock is modern-only, so I tried this patch and it works:
-> > > 
-> > > diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
-> > > index f4cf95873d..6e4cc874cd 100644
-> > > --- a/hw/virtio/vhost-user-vsock-pci.c
-> > > +++ b/hw/virtio/vhost-user-vsock-pci.c
-> > > @@ -40,6 +40,7 @@ static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> > >      VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
-> > >      DeviceState *vdev = DEVICE(&dev->vdev);
-> > > 
-> > > +    virtio_pci_force_virtio_1(vpci_dev);
-> > >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> > >  }
-> > > 
-> > > diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
-> > > index a815278e69..f641b974e9 100644
-> > > --- a/hw/virtio/vhost-vsock-pci.c
-> > > +++ b/hw/virtio/vhost-vsock-pci.c
-> > > @@ -44,6 +44,7 @@ static void vhost_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> > >      VHostVSockPCI *dev = VHOST_VSOCK_PCI(vpci_dev);
-> > >      DeviceState *vdev = DEVICE(&dev->vdev);
-> > > 
-> > > +    virtio_pci_force_virtio_1(vpci_dev);
-> > >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> > >  }
-> > > 
-> > > 
-> > > Do you think this is the right approach or is there a better way to
-> > > solve this issue?  
-> > 
-> > We basically have three possible ways to deal with this:
-> > 
-> > - Force it to modern (i.e., what you have been doing; would need the
-> >   equivalent changes in ccw as well.)  
+On 8/13/20 12:26 PM, Peng Liang wrote:
+> The isar in ARMCPU is a struct, each field of which represents an ID
+> register.  It's not convenient for us to support CPU feature in AArch64.
+> So let's change it to an array first and add an enum as the index of the
+> array for convenience.  Since we will never access high 32-bits of ID
+> registers in AArch32, it's harmless to change the ID registers in
+> AArch32 to 64-bits.
 > 
-> Oo, thanks for pointing out ccw!
-> I don't know ccw well, in this case should we set dev->max_rev to 1 or 2
-> to force to modern?
+> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+> ---
+>  hw/intc/armv7m_nvic.c  |  48 ++++----
+>  target/arm/cpu.c       | 232 +++++++++++++++++++-------------------
+>  target/arm/cpu.h       | 226 +++++++++++++++++++------------------
+>  target/arm/cpu64.c     | 170 ++++++++++++++--------------
+>  target/arm/cpu_tcg.c   | 250 +++++++++++++++++++++--------------------
+>  target/arm/helper.c    |  54 ++++-----
+>  target/arm/internals.h |  15 +--
+>  target/arm/kvm64.c     |  72 ++++++------
+>  8 files changed, 541 insertions(+), 526 deletions(-)
 
-No, ->max_rev is the wrong side of the limit :) You want
+Please consider using scripts/git.orderfile.
 
-    ccw_dev->force_revision_1 = true;
+[...]
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 9e8ed423ea..5d8074d03b 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -67,6 +67,37 @@
+>  #define ARMV7M_EXCP_PENDSV  14
+>  #define ARMV7M_EXCP_SYSTICK 15
+>  
+> +typedef enum CPUIDReg {
+> +    MIDR_EL1,
+> +    ID_ISAR0,
+> +    ID_ISAR1,
+> +    ID_ISAR2,
+> +    ID_ISAR3,
+> +    ID_ISAR4,
+> +    ID_ISAR5,
+> +    ID_ISAR6,
+> +    ID_MMFR0,
+> +    ID_MMFR1,
+> +    ID_MMFR2,
+> +    ID_MMFR3,
+> +    ID_MMFR4,
+> +    ID_AA64ISAR0,
+> +    ID_AA64ISAR1,
+> +    ID_AA64PFR0,
+> +    ID_AA64PFR1,
+> +    ID_AA64MMFR0,
+> +    ID_AA64MMFR1,
+> +    ID_AA64MMFR2,
+> +    ID_AA64DFR0,
+> +    ID_AA64DFR1,
+> +    ID_DFR0,
+> +    MVFR0,
+> +    MVFR1,
+> +    MVFR2,
+> +    DBGDIDR,
+> +    ID_MAX,
 
-in _instance_init() (see e.g. virtio-ccw-gpu.c).
+(nitpicking, drop the last comma).
 
-> 
-> >   Pro: looks like the cleanest approach.
-> >   Con: not sure if we would need backwards compatibility support,
-> >   which looks hairy.  
-> 
-> Not sure too.
+> +} CPUIDReg;
+> +
+>  /* For M profile, some registers are banked secure vs non-secure;
+>   * these are represented as a 2-element array where the first element
+>   * is the non-secure copy and the second is the secure copy.
+> @@ -890,32 +921,7 @@ struct ARMCPU {
+>       * field by reading the value from the KVM vCPU.
+>       */
+>      struct ARMISARegisters {
+> -        uint32_t id_isar0;
+> -        uint32_t id_isar1;
+> -        uint32_t id_isar2;
+> -        uint32_t id_isar3;
+> -        uint32_t id_isar4;
+> -        uint32_t id_isar5;
+> -        uint32_t id_isar6;
+> -        uint32_t id_mmfr0;
+> -        uint32_t id_mmfr1;
+> -        uint32_t id_mmfr2;
+> -        uint32_t id_mmfr3;
+> -        uint32_t id_mmfr4;
+> -        uint32_t mvfr0;
+> -        uint32_t mvfr1;
+> -        uint32_t mvfr2;
+> -        uint32_t id_dfr0;
+> -        uint32_t dbgdidr;
+> -        uint64_t id_aa64isar0;
+> -        uint64_t id_aa64isar1;
+> -        uint64_t id_aa64pfr0;
+> -        uint64_t id_aa64pfr1;
+> -        uint64_t id_aa64mmfr0;
+> -        uint64_t id_aa64mmfr1;
+> -        uint64_t id_aa64mmfr2;
+> -        uint64_t id_aa64dfr0;
+> -        uint64_t id_aa64dfr1;
+> +        uint64_t regs[ID_MAX];
+>      } isar;
 
-Yes, I'm not sure at all how to handle user-specified values for
-legacy/modern.
+Why not simply this?
 
-> 
-> > - Add vsock to the list of devices with legacy support.
-> >   Pro: Existing setups continue to work.
-> >   Con: If vsock is really virtio-1-only, we still carry around
-> >   possibly broken legacy support.  
-> 
-> I'm not sure it is virtio-1-only, but virtio-vsock was introduced in
-> 2016, so I supposed it is modern-only.
+       uint64_t isar[ID_MAX];
 
-Yes, I would guess so as well.
-
-> 
-> How can I verify that? Maybe forcing legacy mode and run some tests.
-
-Probably yes. The likeliest area with issues is probably endianness, so
-maybe with something big endian in the mix?
-
-> 
-> > - Do nothing, have users force legacy off. Bad idea, as ccw has no way
-> >   to do that on the command line.
-> > 
-> > The first option is probably best.
-> >  
-> 
-> Yeah, I agree with you!
-
-Yes, it's really a pity we only noticed this after the release; this
-was supposed to stop new devices with legacy support creeping in, not
-to break existing command lines :(
+>      uint64_t midr;
+>      uint32_t revidr;
+[...]
 
 
