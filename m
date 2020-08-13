@@ -2,116 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB642243C1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 17:02:35 +0200 (CEST)
-Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA060243C4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 17:13:50 +0200 (CEST)
+Received: from localhost ([::1]:39120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6EkU-0002tS-Ne
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 11:02:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59752)
+	id 1k6EvN-0006bT-GA
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 11:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6EjQ-0002Rp-MT
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 11:01:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50850
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6EjN-0006jg-82
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 11:01:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597330883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=56MODbKbRGNcTK2e15ggiXI1mLw/4/DPaLtMHaIzgMg=;
- b=GMgSZCD+HCSqFV1GwAMyw3mQR42k3P6/CKo3B+dWrEGfWsCY0U68Z/DWtJlcQSI1JTCp68
- uCZi+PWiV5dqLwsFrBUOrRrbkm3CwBgmLD2E9yLYM76KySEHpCECpPKPZxeZJ70P9m/vyy
- K5SyP5cfiPqOjfJPX5RN6Bt3k4N6zxg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-l3JHSU_INF-fQPbwVUZBYA-1; Thu, 13 Aug 2020 11:01:20 -0400
-X-MC-Unique: l3JHSU_INF-fQPbwVUZBYA-1
-Received: by mail-wr1-f70.google.com with SMTP id m7so2184677wrb.20
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 08:01:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k6EuZ-0005tv-W2; Thu, 13 Aug 2020 11:13:00 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:35729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k6EuY-0008BU-2j; Thu, 13 Aug 2020 11:12:59 -0400
+Received: by mail-io1-xd44.google.com with SMTP id s189so7700777iod.2;
+ Thu, 13 Aug 2020 08:12:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1PdrcMnk2+pLeGKf0LWQajnn+/kzAc69gaI14XWu8gg=;
+ b=hTe7y/qirvDWOrlxKSfn/qoQrz0ffqv79Z1REpQaUAi9ya7aZViRkOBxmKwWEDMPPW
+ N+c3hczdyhsnAGbmaAH3xhJYVlCcoFO0nJTK22IAXvfL+SuSdEDqYxKOX5FNicCJR1b9
+ TcpnekLAucxLBM5GwsY8qZc5JK6csgOXzNBoC0TdxL8cI3AfE74e8y3S34Y3hZyW1e9p
+ e8CrQi/gGLiYNaS0+UjYLtIWMKrJ0IZTN4sVbeKTiiAfPlZk3+FXVtNTf7ZoDy7dGLIu
+ W4B4xavyouk3NKV+l5kbQdBvIR5Pr9uMLPmGKAOmfolc/TQK/+jYRONiJbL5HLEAUwD8
+ SzoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=56MODbKbRGNcTK2e15ggiXI1mLw/4/DPaLtMHaIzgMg=;
- b=NSJcr1XIWL2F6YvgH7CK2PCoBZlC8zxrPbdqIaQybMpoDz1mUgJsQgyI7D7kCG2KZg
- Ml7pZJy6ilaPjGjxwGEc8KnLM1ezSK8ew8swkk2Ln+gXyTs1c5pQJNKLXf6tPY9rOIr5
- qmCVWkOrmHaA7KgtqfNu4SpqRgNGqQQo3jQRZGQDEP4fxMznzuNjHxGj6MGvrlepepsa
- luCqN3N3bOFiGJwEFL37xUGFcdmFW5dEjRrzoYnkgmJz1vAn3FA0UYIum1fpZGWRbO0b
- ptQF+/4QYCRlJj7hfJHENH8nbGXM8rOimYfENjFxTF7HxZlPjRcFRc5IX2KCunxE6Tm7
- N3PQ==
-X-Gm-Message-State: AOAM533zT7MjzNPb6g/g83PEGCiESoPo2Q+lDHrLg4owNf45CUISRa85
- um31LmINYgW99ofip5nkR6sOc83Ok6/SwZtchfTDCwz3qqKmHtzon1XLYhbENHydtEbJbTkPNVp
- QmOiMK954sK7D8ts=
-X-Received: by 2002:a1c:4c:: with SMTP id 73mr4702200wma.58.1597330878974;
- Thu, 13 Aug 2020 08:01:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0uXpb8G4OvOHL+N7t2noFIUN8lHT8Tja0P1qWvxJZB7TCIIqkN3FlynZ4W3gNI2J0a6yZ3g==
-X-Received: by 2002:a1c:4c:: with SMTP id 73mr4702173wma.58.1597330878702;
- Thu, 13 Aug 2020 08:01:18 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id q19sm10118505wrf.48.2020.08.13.08.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Aug 2020 08:01:17 -0700 (PDT)
-Subject: Re: [PATCH v4 0/9] memory: assert and define MemoryRegionOps callbacks
-To: P J P <ppandit@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
-References: <20200811114133.672647-1-ppandit@redhat.com>
- <20200813063644.GB17532@yekko.fritz.box>
- <nycvar.YSQ.7.78.906.2008131830220.306228@xnncv>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <ab3807c3-c880-8112-8aab-08d10b8ead06@redhat.com>
-Date: Thu, 13 Aug 2020 17:01:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1PdrcMnk2+pLeGKf0LWQajnn+/kzAc69gaI14XWu8gg=;
+ b=AFDL4NRrrJqdeo6WDIMgyAO2fLLMVb94hgxIj3n9U+nXFVUxzV14nlez4jLbK7aq0i
+ tcN/CW3zyKd4zkrli4cgIpI8EGEDop6DJMC73Jy86RDviQPJuWFh2/dD+PMsfjuldUYA
+ Z1kIYMfN/7vj2a4tIYmE7057rCVq4OyleaNEX+M8DCPcOuUbsEGTeAk5d2Oc4DfsXi24
+ Co4ujLkixNUpdOk6BvV72iYGNW2TaBex9oUW1y5Mcez2YGY5LZSEeGMPPgY3MVobFflV
+ GVbuxmWWpiWqzXl2+VwppYEsWcLUBZh7vdE+aXDeiNSAOIlXjyU/9KTz0yuOMvRyCf7E
+ IdNw==
+X-Gm-Message-State: AOAM533hKnk7cD98LEI7lUZrR/eXZJL3tXv2jDaMhbCsy1JPuMbrbLng
+ pi8oYASnQs456zdNmPZZLnkl238CQacv8yppYyU=
+X-Google-Smtp-Source: ABdhPJyYPam26j1mJJRtHlD6rxFg5LF0JoStb6V46GR8sfYhcWDAeW0whRXyVUHxjQ2+2yPjfHl5XSpUfUl8CVKhZoM=
+X-Received: by 2002:a05:6638:248e:: with SMTP id
+ x14mr5416401jat.135.1597331576450; 
+ Thu, 13 Aug 2020 08:12:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YSQ.7.78.906.2008131830220.306228@xnncv>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1595924470.git.zong.li@sifive.com>
+ <6b0bf48662ef26ab4c15381a08e78a74ebd7ca79.1595924470.git.zong.li@sifive.com>
+ <CAKmqyKNso-cTYuwxo5waxp9n8ifV2GR9v=x6aM-y0NjQTSsw+A@mail.gmail.com>
+ <CANXhq0obkQ4MpbyaT6VZ_9SXmNkTixX3+4RrK=5m+gF2nyhZOA@mail.gmail.com>
+In-Reply-To: <CANXhq0obkQ4MpbyaT6VZ_9SXmNkTixX3+4RrK=5m+gF2nyhZOA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 13 Aug 2020 08:02:29 -0700
+Message-ID: <CAKmqyKOSVS-AUHEj8=84o58NoWP4tmNWJ5Gq_UNUEKSXsvtwrQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] target/riscv: Change the TLB page size depends on
+ PMP entries.
+To: Zong Li <zong.li@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,38 +82,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/20 3:43 PM, P J P wrote:
-> +-- On Thu, 13 Aug 2020, David Gibson wrote --+
-> | The overall idea seems fine.  Looks like we could avoid a fair bit of 
-> | boilerplate - and slightly reduce our binary size - by introducing a global 
-> | unimplemented_write() function.
+On Wed, Aug 12, 2020 at 8:04 PM Zong Li <zong.li@sifive.com> wrote:
+>
+> On Wed, Aug 12, 2020 at 11:21 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Tue, Jul 28, 2020 at 1:29 AM Zong Li <zong.li@sifive.com> wrote:
+> > >
+> > > The minimum granularity of PMP is 4 bytes, it is small than 4KB page
+> > > size, therefore, the pmp checking would be ignored if its range doesn't
+> > > start from the alignment of one page. This patch detects the pmp entries
+> > > and sets the small page size to TLB if there is a PMP entry which cover
+> > > the page size.
+> > >
+> > > Signed-off-by: Zong Li <zong.li@sifive.com>
+> > > ---
+> > >  target/riscv/cpu_helper.c | 10 ++++++--
+> > >  target/riscv/pmp.c        | 52 +++++++++++++++++++++++++++++++++++++++
+> > >  target/riscv/pmp.h        |  2 ++
+> > >  3 files changed, 62 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > index 2f337e418c..fd1d373b6f 100644
+> > > --- a/target/riscv/cpu_helper.c
+> > > +++ b/target/riscv/cpu_helper.c
+> > > @@ -693,6 +693,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> > >      bool first_stage_error = true;
+> > >      int ret = TRANSLATE_FAIL;
+> > >      int mode = mmu_idx;
+> > > +    target_ulong tlb_size = 0;
+> > >
+> > >      env->guest_phys_fault_addr = 0;
+> > >
+> > > @@ -784,8 +785,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> > >      }
+> > >
+> > >      if (ret == TRANSLATE_SUCCESS) {
+> > > -        tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+> > > -                     prot, mmu_idx, TARGET_PAGE_SIZE);
+> > > +        if (pmp_is_range_in_tlb(env, pa & TARGET_PAGE_MASK, &tlb_size)) {
+> > > +            tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
+> > > +                         prot, mmu_idx, tlb_size);
+> > > +        } else {
+> > > +            tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+> > > +                         prot, mmu_idx, TARGET_PAGE_SIZE);
+> > > +        }
+> > >          return true;
+> > >      } else if (probe) {
+> > >          return false;
+> > > diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> > > index aeba796484..adadf6e9ba 100644
+> > > --- a/target/riscv/pmp.c
+> > > +++ b/target/riscv/pmp.c
+> > > @@ -393,3 +393,55 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+> > >
+> > >      return val;
+> > >  }
+> > > +
+> > > +/*
+> > > + * Calculate the TLB size if the start address or the end address of
+> > > + * PMP entry is presented in thie TLB page.
+> > > + */
+> > > +static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> > > +    target_ulong tlb_sa, target_ulong tlb_ea)
+> > > +{
+> > > +    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
+> > > +    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
+> > > +
+> > > +    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
+> > > +        return pmp_ea - pmp_sa + 1;
+> > > +    }
+> > > +
+> > > +    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
+> > > +        return tlb_ea - pmp_sa + 1;
+> > > +    }
+> > > +
+> > > +    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
+> > > +        return pmp_ea - tlb_sa + 1;
+> > > +    }
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +/*
+> > > + * Check is there a PMP entry whcih range covers this page. If so,
+> >
+> > s/whcih/which/g
+> >
+> > I fixed this when apply it.
+> >
+> > > + * try to find the minimum granularity for the TLB size.
+> > > + */
+> > > +bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+> > > +    target_ulong *tlb_size)
+> > > +{
+> > > +    int i;
+> > > +    target_ulong val;
+> > > +    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
+> > > +
+> > > +    for (i = 0; i < MAX_RISCV_PMPS; i++) {
+> > > +        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
+> > > +        if (val) {
+> > > +            if (*tlb_size == 0 || *tlb_size > val) {
+> > > +                *tlb_size = val;
+> > > +            }
+> > > +        }
+> > > +    }
+> > > +
+> > > +    if (*tlb_size != 0) {
+> > > +        return true;
+> > > +    }
+> > > +
+> > > +    return false;
+> > > +}
+> > > diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> > > index 8e19793132..c70f2ea4c4 100644
+> > > --- a/target/riscv/pmp.h
+> > > +++ b/target/riscv/pmp.h
+> > > @@ -60,5 +60,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+> > >  target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+> > >  bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+> > >      target_ulong size, pmp_priv_t priv, target_ulong mode);
+> > > +bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+> > > +    target_ulong *tlb_size);
+> >
+> > The indentation is wrong here (as it is in the rest of the file). I
+> > just fixed this up as well as the others when I applied it.
+> >
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > I have applied patch 3 and 4 of this series. Patch 1 has already been
+> > applied and patch 2 no longer applies due to a different fix, sorry
+> > about that.
+> >
+>
+> Thanks for your reviewing and applying. I don't follow with you about
+> patch 2, could you please also forward the information or the fix to
+> me?
 
-IIRC in v2 or v3 it was mentioned each device has to be handled
-differently, as it behaves differently, it sits on a particular bus, and
-so on. So the preferred way is to have a device-specific handler.
+This patch fixes the same problem and I find it a little simpler:
+https://patchew.org/QEMU/20200812223045.96803-1-alistair.francis@wdc.com/20200812223045.96803-10-alistair.francis@wdc.com/
 
-(This explains v4 and why these patches took so long).
+Alistair
 
-> 
-> * You mean for after this assert(3) in memory_region_init_io change is merged?  
->   This series attempts to define all missing r/w calls.
-> 
-> * There are also unassigned_mem_read/write functions, maybe those can be 
->   reused?
-> 
-> 
-> Thank you.
-> --
-> Prasad J Pandit / Red Hat Product Security Team
-> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
-> 
-
+>
+> > Alistair
+> >
+> > >
+> > >  #endif
+> > > --
+> > > 2.27.0
+> > >
+> > >
 
