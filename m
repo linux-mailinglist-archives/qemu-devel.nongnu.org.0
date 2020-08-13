@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CCB2438E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:48:28 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CFC2438D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:46:47 +0200 (CEST)
+Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6AmZ-000494-DV
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:48:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
+	id 1k6Akw-0001QD-KN
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6AjW-00082l-Bf; Thu, 13 Aug 2020 06:45:18 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43099 helo=ozlabs.org)
+ id 1k6AjW-00082k-Aw; Thu, 13 Aug 2020 06:45:18 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58937 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6AjT-0008Jq-FG; Thu, 13 Aug 2020 06:45:18 -0400
+ id 1k6AjT-0008Jr-KB; Thu, 13 Aug 2020 06:45:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS39y4ktCz9sTY; Thu, 13 Aug 2020 20:45:10 +1000 (AEST)
+ id 4BS39y5clCz9sTd; Thu, 13 Aug 2020 20:45:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597315510;
- bh=aknzG+GCuZMGFKx/m19Qd6/68FNE29h5IhEnSP0qz3w=;
+ bh=xDVoWteu1SorGiIrnsU3+9yBjjFaryc9NzlChCfH7iY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aEu+OL3tl414bePGXh+jhu66YfKZMWA4LZ+RCiIJZdtw0bqbYNEoyxwkUYwwz/H/Q
- lp+s+Qd/G4yny+dNW78Ypk6r4mjTudp/LbG/1k0TlYXcqarhB5+CEj/GXxitu7W/9g
- Z4G8mu0JwCYClbFd9C41STHiZCmwq/T9wm/x8gCY=
-Date: Thu, 13 Aug 2020 20:23:49 +1000
+ b=aOZwnFJvI3Xi8D1zVCzckZ0w6hSUtlE1y2E4dZIu/fIxOmsJxFUVwcYVIIYje2K1I
+ cgkwE+4ETHvgZ0HTnDG6jxT+/l3JSdlGF472ZO0LuER7DDp9ZQPO9a0Snzeb7g1sut
+ 1Y7gNhaLzN9n1rEiC+4kh2kUxnkrysWuc9HxutY8=
+Date: Thu, 13 Aug 2020 20:24:27 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 06/14] spapr/xive: Rework error handling of
- kvmppc_xive_[gs]et_queue_config()
-Message-ID: <20200813102349.GI181791@yekko.fritz.box>
+Subject: Re: [PATCH 07/14] spapr/xive: Rework error handling in
+ kvmppc_xive_get_queues()
+Message-ID: <20200813102427.GJ181791@yekko.fritz.box>
 References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707847357.1489912.2032291280645236480.stgit@bahia.lan>
+ <159707848069.1489912.14879208798696134531.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TKDEsImF70pdVIl+"
+ protocol="application/pgp-signature"; boundary="tAmVnWIZ6lqEAvSf"
 Content-Disposition: inline
-In-Reply-To: <159707847357.1489912.2032291280645236480.stgit@bahia.lan>
+In-Reply-To: <159707848069.1489912.14879208798696134531.stgit@bahia.lan>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -68,16 +68,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---TKDEsImF70pdVIl+
+--tAmVnWIZ6lqEAvSf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 10, 2020 at 06:54:33PM +0200, Greg Kurz wrote:
-> Since kvm_device_access() returns a negative errno on failure, convert
-> kvmppc_xive_get_queue_config() and kvmppc_xive_set_queue_config() to
-> use it for error checking. This allows to get rid of the local_err
-> boilerplate.
+On Mon, Aug 10, 2020 at 06:54:40PM +0200, Greg Kurz wrote:
+> Since kvmppc_xive_get_queue_config() has a return value, convert
+> kvmppc_xive_get_queues() to use it for error checking. This allows
+> to get rid of the local_err boiler plate.
 >=20
 > Propagate the return value so that callers may use it as well to check
 > failures.
@@ -87,115 +86,47 @@ On Mon, Aug 10, 2020 at 06:54:33PM +0200, Greg Kurz wrote:
 Applied to ppc-for-5.2.
 
 > ---
->  hw/intc/spapr_xive_kvm.c    |   35 ++++++++++++++++-------------------
->  include/hw/ppc/spapr_xive.h |    4 ++--
->  2 files changed, 18 insertions(+), 21 deletions(-)
+>  hw/intc/spapr_xive_kvm.c |   15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
 >=20
 > diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 5e088ccbf885..696623f717b7 100644
+> index 696623f717b7..4142aaffff47 100644
 > --- a/hw/intc/spapr_xive_kvm.c
 > +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -374,15 +374,15 @@ void kvmppc_xive_source_set_irq(void *opaque, int s=
-rcno, int val)
->  /*
->   * sPAPR XIVE interrupt controller (KVM)
->   */
-> -void kvmppc_xive_get_queue_config(SpaprXive *xive, uint8_t end_blk,
-> -                                  uint32_t end_idx, XiveEND *end,
-> -                                  Error **errp)
-> +int kvmppc_xive_get_queue_config(SpaprXive *xive, uint8_t end_blk,
-> +                                 uint32_t end_idx, XiveEND *end,
-> +                                 Error **errp)
+> @@ -467,23 +467,24 @@ void kvmppc_xive_reset(SpaprXive *xive, Error **err=
+p)
+>                        NULL, true, errp);
+>  }
+> =20
+> -static void kvmppc_xive_get_queues(SpaprXive *xive, Error **errp)
+> +static int kvmppc_xive_get_queues(SpaprXive *xive, Error **errp)
 >  {
->      struct kvm_ppc_xive_eq kvm_eq =3D { 0 };
->      uint64_t kvm_eq_idx;
->      uint8_t priority;
->      uint32_t server;
 > -    Error *local_err =3D NULL;
+>      int i;
 > +    int ret;
 > =20
->      assert(xive_end_is_valid(end));
+>      for (i =3D 0; i < xive->nr_ends; i++) {
+>          if (!xive_end_is_valid(&xive->endt[i])) {
+>              continue;
+>          }
 > =20
-> @@ -394,11 +394,10 @@ void kvmppc_xive_get_queue_config(SpaprXive *xive, =
-uint8_t end_blk,
->      kvm_eq_idx |=3D server << KVM_XIVE_EQ_SERVER_SHIFT &
->          KVM_XIVE_EQ_SERVER_MASK;
-> =20
-> -    kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_EQ_CONFIG, kvm_eq_idx,
-> -                      &kvm_eq, false, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> +    ret =3D kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_EQ_CONFIG, kvm_=
-eq_idx,
-> +                            &kvm_eq, false, errp);
-> +    if (ret < 0) {
-> +        return ret;
+> -        kvmppc_xive_get_queue_config(xive, SPAPR_XIVE_BLOCK_ID, i,
+> -                                     &xive->endt[i], &local_err);
+> -        if (local_err) {
+> -            error_propagate(errp, local_err);
+> -            return;
+> +        ret =3D kvmppc_xive_get_queue_config(xive, SPAPR_XIVE_BLOCK_ID, =
+i,
+> +                                           &xive->endt[i], errp);
+> +        if (ret < 0) {
+> +            return ret;
+>          }
 >      }
-> =20
->      /*
-> @@ -408,17 +407,18 @@ void kvmppc_xive_get_queue_config(SpaprXive *xive, =
-uint8_t end_blk,
->       */
->      end->w1 =3D xive_set_field32(END_W1_GENERATION, 0ul, kvm_eq.qtoggle)=
- |
->          xive_set_field32(END_W1_PAGE_OFF, 0ul, kvm_eq.qindex);
 > +
 > +    return 0;
 >  }
 > =20
-> -void kvmppc_xive_set_queue_config(SpaprXive *xive, uint8_t end_blk,
-> -                                  uint32_t end_idx, XiveEND *end,
-> -                                  Error **errp)
-> +int kvmppc_xive_set_queue_config(SpaprXive *xive, uint8_t end_blk,
-> +                                 uint32_t end_idx, XiveEND *end,
-> +                                 Error **errp)
->  {
->      struct kvm_ppc_xive_eq kvm_eq =3D { 0 };
->      uint64_t kvm_eq_idx;
->      uint8_t priority;
->      uint32_t server;
-> -    Error *local_err =3D NULL;
-> =20
->      /*
->       * Build the KVM state from the local END structure.
-> @@ -456,12 +456,9 @@ void kvmppc_xive_set_queue_config(SpaprXive *xive, u=
-int8_t end_blk,
->      kvm_eq_idx |=3D server << KVM_XIVE_EQ_SERVER_SHIFT &
->          KVM_XIVE_EQ_SERVER_MASK;
-> =20
-> -    kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_EQ_CONFIG, kvm_eq_idx,
-> -                      &kvm_eq, true, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> +    return
-> +        kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_EQ_CONFIG, kvm_eq_i=
-dx,
-> +                          &kvm_eq, true, errp);
->  }
-> =20
->  void kvmppc_xive_reset(SpaprXive *xive, Error **errp)
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index 93d09d68deb7..d0a08b618f79 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -85,10 +85,10 @@ void kvmppc_xive_set_source_config(SpaprXive *xive, u=
-int32_t lisn, XiveEAS *eas,
->  void kvmppc_xive_sync_source(SpaprXive *xive, uint32_t lisn, Error **err=
-p);
->  uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
->                              uint64_t data, bool write);
-> -void kvmppc_xive_set_queue_config(SpaprXive *xive, uint8_t end_blk,
-> +int kvmppc_xive_set_queue_config(SpaprXive *xive, uint8_t end_blk,
->                                   uint32_t end_idx, XiveEND *end,
->                                   Error **errp);
-> -void kvmppc_xive_get_queue_config(SpaprXive *xive, uint8_t end_blk,
-> +int kvmppc_xive_get_queue_config(SpaprXive *xive, uint8_t end_blk,
->                                   uint32_t end_idx, XiveEND *end,
->                                   Error **errp);
->  void kvmppc_xive_synchronize_state(SpaprXive *xive, Error **errp);
+>  /*
 >=20
 >=20
 
@@ -205,25 +136,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---TKDEsImF70pdVIl+
+--tAmVnWIZ6lqEAvSf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81FLUACgkQbDjKyiDZ
-s5IL2hAAnyodAsPnhaQ5VVl0zApDpX+qss3HbSW1W5YtHGYC8GyOhOUrA9Ucnu76
-9VqsDm7L822fTs3t7RipLGdsXFknE7x8q2/f/Dfba9ihgzJoSpXe8YO6pgsEsQib
-z6PltbO6aSiGPNAHU6N3mV01l/9puWH5K5/jBwStdjVnYGGrTP4LQBIZHZhsekQO
-nT0CnhXMgYnWCUX54GvLZLxom/dWA+WV8hkG4AP4IvbANj/hP3D+SYpeGZJrnjI3
-8JNYwmYkJuX2571hpg6NHPQtj7PxQCv7JPMMIv+GMBvgm0UVbUpQ9KQSXIi59sTc
-/PTRVylvfhOn3F4IiR/KlSsSglhtVCB1L1ALtHzFWrSlMJZyzv6cKJWAWoajzFUg
-eEay0rtcazw90s20BJCANakMDDsIX4IA8Av1LM2BS32HIXpLE2tkMe7XfzpHq7la
-YJZyuqvGpErPEV5zk6/1QJ14xl0EIWMUi1k10ldOWUatG1VNGeueIVcikhG4Wvjh
-1nYokzzhhmK7z04cDCobYRY1voKTrkVOvQ8HhDza6IUOJ3fe/hIYBK7jqcI5kQkJ
-pGXWGRR9jH/kZEUekyMdGwmkdyUmTwVyZQGt6M9Dy7EpEXv66/+Jk3cT382+uZ+l
-AQXVKCnXJmJb/uTBW0OYgor7X1SNA98dz8DYeHMEszp0sFxhOlo=
-=MYzy
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81FNsACgkQbDjKyiDZ
+s5KKFxAAtDiv/iyCTYScNCAsF/ett+4VaaKn01cZDTwWY6jdomkO2W4vTkdn1aQN
+VbBM8QaE4cPzTq7xlfCmqy3E1AaOsJiRsSedjr76vy3+nn/+2pwiqgNvODBnvsqq
+HMj+wSNVGVl0W9pzI4GZsN8hrCxqjBTQfGGky/OMVHNs4rLoXQl4mAgiJzrLFMse
+yehSCKecB+j3GKGQ3FiRmQQ+qDpG+vHqtwAfHMrvhTIABe5c6JmWTatVgxCvKkgf
+89SZP0nWy7CV0XfV4dLCN0t+BVdeXZsu0+wCpjzEEtDGI6J158BsTUlGJycmBn/b
+bgmtm0k0GJ9hDokvBw3V0yWpWLTjq3wqs4a24Yr7IZ+ciaF0LU3BsQusxVQs+MmW
+k48JR1k/FYkdkxuOgqZmrxUjKfmVU5Iwj0SDmp/cJICzxWf0OcokSVHTNqGmEXfV
+wEAwa71LALWZ8jJBHiYIwTFAFtsuiBXmThWlBXXPZ1EX+/xtqcpjwImVgU2g7i2a
+E1MB4/ZAjBFeaK/968rQpya15l9WeQozlNmJLS+ibuYfog9xW9kv5k1u5KxngiXi
+YqH4Mrrd/UeO56RGIL0nxUcN9Bag2mhfSuTL18JqMVxOu/OD/NGnwJ/0bz0k/hkp
+ZpTfrnVWeXhYXDs2Ms/qx23hFeie8Cm2t9lRHmdupsiHbMFYD3c=
+=hAbo
 -----END PGP SIGNATURE-----
 
---TKDEsImF70pdVIl+--
+--tAmVnWIZ6lqEAvSf--
 
