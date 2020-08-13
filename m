@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E476244154
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:36:22 +0200 (CEST)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1AF244151
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:34:42 +0200 (CEST)
+Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Lpd-0003IJ-CM
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36208)
+	id 1k6Lo1-0000SM-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgL-00055V-9P
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:45 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48784
+ id 1k6LgL-000575-W2
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:46 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54465
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgJ-0002rP-FL
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:44 -0400
+ id 1k6LgK-0002rd-8u
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597357602;
+ s=mimecast20190719; t=1597357603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIOaFkkXzdTCJPZGyka7/bCB1fG4IUuf8e9/N4ejP+8=;
- b=XmZNNYWJwu5cjC+RiUNu1oHpe0/nVCJaQqN0hd6aq8tJTwRcDBlHErvy7jrsTcoiE/gz0O
- pisGTb7ygHriZTCKi29qxJyN6ZGtMm8Fxi74+cUAhldKaFZrX0tD/mimEpTFouj1ZXdtNm
- Svz2EJfujfbtVkvt+d3M72r/wFa7V7M=
+ bh=yhk8jhWqtS6Q6cIdLwi91t5UwSJOb7Sz2sefHRBGYM4=;
+ b=Ei4UkeGduF1SmC3L7Bnt2OLl39+31YdOhzv8ab/3UbQg1GyIl467bd6qsTLsDv8xVqFlOm
+ Uhp0GYBtPT5jHkSearMY6CEzLFNd0tYSQPOqDq3zy3IGKOXGoAMPglHyCoH+9JFn2UH45g
+ U7APiRO2tacmlyAux/i9MhOa1waDpxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-7gQz9pOCP-OfbmGjPElGoA-1; Thu, 13 Aug 2020 18:26:41 -0400
-X-MC-Unique: 7gQz9pOCP-OfbmGjPElGoA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-102-Y4yY5yraNGWrVZo2EdSEKg-1; Thu, 13 Aug 2020 18:26:42 -0400
+X-MC-Unique: Y4yY5yraNGWrVZo2EdSEKg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20DEE57083
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33DEF83DC6E
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:41 +0000 (UTC)
 Received: from localhost (ovpn-117-153.rdu2.redhat.com [10.10.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6F105D9D2;
- Thu, 13 Aug 2020 22:26:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E403460C04;
+ Thu, 13 Aug 2020 22:26:40 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/41] versatile: Fix typo in PCI_VPB_HOST definition
-Date: Thu, 13 Aug 2020 18:25:55 -0400
-Message-Id: <20200813222625.243136-12-ehabkost@redhat.com>
+Subject: [PATCH 12/41] virtio-ccw: Fix definition of VIRTIO_CCW_BUS_GET_CLASS
+Date: Thu, 13 Aug 2020 18:25:56 -0400
+Message-Id: <20200813222625.243136-13-ehabkost@redhat.com>
 In-Reply-To: <20200813222625.243136-1-ehabkost@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -86,24 +86,29 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The macro was incorrectly defined using OBJECT_CHECK.
+
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/pci-host/versatile.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/s390x/virtio-ccw.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-index 616882a80d..7e4aa467a2 100644
---- a/hw/pci-host/versatile.c
-+++ b/hw/pci-host/versatile.c
-@@ -161,7 +161,7 @@ static const VMStateDescription pci_vpb_vmstate = {
+diff --git a/hw/s390x/virtio-ccw.h b/hw/s390x/virtio-ccw.h
+index c0e3355248..b281896f7d 100644
+--- a/hw/s390x/virtio-ccw.h
++++ b/hw/s390x/virtio-ccw.h
+@@ -65,9 +65,9 @@ typedef struct VirtioBusClass VirtioCcwBusClass;
  
- #define TYPE_VERSATILE_PCI_HOST "versatile_pci_host"
- #define PCI_VPB_HOST(obj) \
--    OBJECT_CHECK(PCIDevice, (obj), TYPE_VERSATILE_PCIHOST)
-+    OBJECT_CHECK(PCIDevice, (obj), TYPE_VERSATILE_PCI_HOST)
+ #define TYPE_VIRTIO_CCW_BUS "virtio-ccw-bus"
+ #define VIRTIO_CCW_BUS(obj) \
+-     OBJECT_CHECK(VirtioCcwBus, (obj), TYPE_VIRTIO_CCW_BUS)
++     OBJECT_CHECK(VirtioCcwBusState, (obj), TYPE_VIRTIO_CCW_BUS)
+ #define VIRTIO_CCW_BUS_GET_CLASS(obj) \
+-    OBJECT_CHECK(VirtioCcwBusState, (obj), TYPE_VIRTIO_CCW_BUS)
++    OBJECT_GET_CLASS(VirtioCcwBusClass, (obj), TYPE_VIRTIO_CCW_BUS)
+ #define VIRTIO_CCW_BUS_CLASS(klass) \
+     OBJECT_CLASS_CHECK(VirtioCcwBusClass, klass, TYPE_VIRTIO_CCW_BUS)
  
- typedef enum {
-     PCI_IMAP0 = 0x0,
 -- 
 2.26.2
 
