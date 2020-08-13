@@ -2,121 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7FB2431BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 02:33:27 +0200 (CEST)
-Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C80243206
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 03:28:24 +0200 (CEST)
+Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k61BO-0003uH-5P
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 20:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57516)
+	id 1k622Z-0001G4-96
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 21:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1k619e-0002R1-R0
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 20:31:39 -0400
-Received: from mail-bn8nam08on2077.outbound.protection.outlook.com
- ([40.107.100.77]:4416 helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1k6214-0000Ie-1o; Wed, 12 Aug 2020 21:26:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1k619b-0000bY-0U
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 20:31:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CyShPgLLUIEoeiI+dj5RtsaJgfKj0EjGh/xKHHCqV8rzNCDZZaHOnI5VH518Zzzcm68Hczxv484/wiSEEEyv41OP8ZeqRwXBNDt9WbzJHgNw/CAOA1zw5pAuWHTLs0C8fd0RGo1vEvVKbrlMliIBKvHIwtP9C/jahylBXdERXzN4x8EVtO2omyXtzsdrlGWbPT7LbCsxlWRKDw6VgE5JI9OM8HhbVpYILspJ4vEgXC8lVpIxXAiFSRsA9VHXnEE3aR9LZdo33XHNFwGACfNlten9g2Ln7Lv7cUCFXozGtOJNGjhRboFq3OSHOTA4iBY5htZUQMmli7KoUBABW39e7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tg+VtIAic2RCbeXl4dagvpFW0us4uFp3G96+zLHZX4E=;
- b=R2fqgfZY9o/mopZUKNhRe5BF/uL2PzRm6gSoD3qR5gLiteqRHDBxuHjh97Gox0Nn11Kq+sLZKwgY8kNYqvL7gwHdTOUNp3pdK9nsEkEB+oPHbCaSrDYiRVyDCXFOgrbEx5bjahXq0ewErCGYEKPFoH9qPMFne5KDHSEvq8JVsfWazBzmea07WjRil/TDS0/nezNyXFFoGJK9Y5MN3fZjWFt+9kLn7Kx5fTcbWLXqZU0i0VDLrnNvF7E67yN70uQC2BTNXEEohNSx+SwV6Xek2j58Cangq3CJvCA+2pLuMZliUPP1urlpmH0SIBuxL3WJlQnTislLuFCaf9qoLr1nww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tg+VtIAic2RCbeXl4dagvpFW0us4uFp3G96+zLHZX4E=;
- b=UfotkwUjsb0t1B3gEFKXmZA1lvnq3atfUgUso9Fe/12f2Jjniog7eZHgFYeAdyk6S3deXh0XU+CfCIqXMhQqB6EyQz4SL3brgAQ2UMPJtjp/bZfPFR90Je7R3+pmkvblF2TjvRr4m2uGU4wdO3oxubk0V2ihzLDZg3B+y21kokg=
-Received: from DM5PR12CA0015.namprd12.prod.outlook.com (2603:10b6:4:1::25) by
- SN1PR02MB3693.namprd02.prod.outlook.com (2603:10b6:802:24::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.15; Thu, 13 Aug 2020 00:31:28 +0000
-Received: from CY1NAM02FT040.eop-nam02.prod.protection.outlook.com
- (2603:10b6:4:1:cafe::2d) by DM5PR12CA0015.outlook.office365.com
- (2603:10b6:4:1::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16 via Frontend
- Transport; Thu, 13 Aug 2020 00:31:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT040.mail.protection.outlook.com (10.152.75.135) with Microsoft SMTP
- Server id 15.20.3283.16 via Frontend Transport; Thu, 13 Aug 2020 00:31:27
- +0000
-Received: from [149.199.38.66] (port=57224 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>) id 1k619J-0006yi-Ki
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 17:31:17 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>) id 1k619S-00080l-T0
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 17:31:26 -0700
-Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 07D0VL6Z029552; 
- Wed, 12 Aug 2020 17:31:21 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1k619N-0007xR-5j; Wed, 12 Aug 2020 17:31:21 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP
- CAN controller
-Date: Wed, 12 Aug 2020 17:31:08 -0700
-Message-Id: <1597278668-339715-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1k6211-00079R-K4; Wed, 12 Aug 2020 21:26:49 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07D13Jd3107345; Wed, 12 Aug 2020 21:26:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=references : from : to :
+ cc : subject : in-reply-to : date : message-id : mime-version :
+ content-type; s=pp1; bh=XbBvcv/BXI/xo+sLNGOGnqDhDL7UZmcnZDoZ0JOdoY4=;
+ b=B5gCS0sa17EFpNsm8SeOBauANEUe/H+LF0mCRsBEU2wzpH9g6nEHI0+P/kb17xZGv3kQ
+ 0y7nJ6FDUyNGg1Ko/9PpsDmXoerMg0+N20D/r9/jJzVVTM6XC45PoitwH5IKCxg1z33O
+ zh0R35LKkwgPNxtsM6GquN1SdNgSE6bfmczQx9dUN+FxNfckWz6Ouvx8+xE9EG9olkS5
+ VxgpXByAfltpUANGNx6s3EamMiEZ6M0IQtVhyIDn5WxS6Ws9MbPCMTPKmQvGNlCRZOfv
+ bF4W2pkgg4hj/zqkSrtGxE41GHV3/R1gfnYNpcdMLU0/nlZda4Kn9pgabp4CWLqqnRbs fQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32sratccjw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Aug 2020 21:26:06 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07D13OCG107604;
+ Wed, 12 Aug 2020 21:26:04 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32sratccj3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Aug 2020 21:26:04 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07D1BIqt027671;
+ Thu, 13 Aug 2020 01:26:03 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02dal.us.ibm.com with ESMTP id 32skp9qpvf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Aug 2020 01:26:03 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07D1PwVT21299708
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Aug 2020 01:25:58 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 089BDC6061;
+ Thu, 13 Aug 2020 01:26:02 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1A3ABC6055;
+ Thu, 13 Aug 2020 01:25:57 +0000 (GMT)
+Received: from morokweng.localdomain (unknown [9.211.41.173])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Thu, 13 Aug 2020 01:25:56 +0000 (GMT)
+References: <20200723025657.644724-1-bauerman@linux.ibm.com>
+ <20200723025657.644724-9-bauerman@linux.ibm.com>
+ <20200727144350.47abd7e7.cohuck@redhat.com>
+ <87a6zjuoru.fsf@morokweng.localdomain>
+ <20200730114541.4dbdd15e.cohuck@redhat.com>
+ <20200811130434.7388cfa2.cohuck@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.3
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH v3 8/8] target/s390x: Use start-powered-off CPUState
+ property
+In-reply-to: <20200811130434.7388cfa2.cohuck@redhat.com>
+Date: Wed, 12 Aug 2020 22:25:54 -0300
+Message-ID: <87a6yzxrod.fsf@morokweng.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: b862c128-c929-4723-b50c-08d83f20373a
-X-MS-TrafficTypeDiagnostic: SN1PR02MB3693:
-X-Microsoft-Antispam-PRVS: <SN1PR02MB36937A2B82BA3B1C4565B9A9BC430@SN1PR02MB3693.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(136003)(396003)(39860400002)(346002)(376002)(46966005)(7696005)(26005)(316002)(4326008)(70586007)(336012)(107886003)(356005)(8936002)(47076004)(82740400003)(5660300002)(81166007)(186003)(4744005)(70206006)(82310400002)(478600001)(8676002)(2616005)(36756003)(6666004)(2906002)(6916009)(9786002)(426003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2020 00:31:27.1002 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b862c128-c929-4723-b50c-08d83f20373a
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT040.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR02MB3693
-Received-SPF: pass client-ip=40.107.100.77; envelope-from=fnuv@xilinx.com;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 20:31:33
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-12_19:2020-08-11,
+ 2020-08-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008130006
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 21:26:43
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -130,37 +113,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?utf-8?Q?Al?= =?utf-8?Q?ex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0886eb3..14d9b73 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1536,6 +1536,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
+Cornelia Huck <cohuck@redhat.com> writes:
+
+> On Thu, 30 Jul 2020 11:45:41 +0200
+> Cornelia Huck <cohuck@redhat.com> wrote:
+>
+>> On Tue, 28 Jul 2020 21:51:33 -0300
+>> Thiago Jung Bauermann <bauerman@linux.ibm.com> wrote:
+>> 
+>> > Hi,
+>> > 
+>> > Cornelia Huck <cohuck@redhat.com> writes:
+>> >   
+>> > > On Wed, 22 Jul 2020 23:56:57 -0300
+>> > > Thiago Jung Bauermann <bauerman@linux.ibm.com> wrote:
+>> > >    
+>> > >> Instead of setting CPUState::halted to 1 in s390_cpu_initfn(), use the
+>> > >> start-powered-off property which makes cpu_common_reset() initialize it
+>> > >> to 1 in common code.
+>> > >> 
+>> > >> Note that this changes behavior by setting cs->halted to 1 on reset, which
+>> > >> didn't happen before.    
+>> > >
+>> > > I think that should be fine, as we change the cpu state to STOPPED in
+>> > > the reset function, which sets halted to 1.    
+>> > 
+>> > Nice, thanks for checking.
+>> >   
+>> > >> 
+>> > >> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+>> > >> ---
+>> > >>  target/s390x/cpu.c | 2 +-
+>> > >>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > >> 
+>> > >> NB: I was only able to test that this patch builds. I wasn't able to
+>> > >> run it.    
+>> > >
+>> > > No noticeable difference under kvm, but running under tcg seems a bit
+>> > > more sluggish than usual, and I saw some pausing on reboot (after the
+>> > > bios handover to the kernel). Not sure if it were just flukes on my
+>> > > laptop, would appreciate if someone else could give it a go.    
+>> 
+>> Experimented a bit with it again. There's a pause when switching from
+>> the bios to the kernel (after the load reset normal has been done, I
+>> guess), which is always there, but seems to get more noticeable with
+>> this patch (varying wildly, but seems longer on average.) Hard to pin
+>> down, and I don't really see a reason why that should happen, as we
+>> should end up with halted == 1 in any case. Might still be a fluke,
+>> even though I see it both on my laptop and on an LPAR (when running
+>> under tcg; not seen under kvm, which is much faster anyway.)
+>
+> Tried again, the pause now seems comparable to the pause prior to this
+> series. Might depend on the phase of the moon.
+>
+> I ran kvm unit tests on it, and it looks good. So, I'm reasonable
+> confident that this is fine, really just seems to be a fluke.
+>
+> Acked-by: Cornelia Huck <cohuck@redhat.com>
+
+Ah, that's a relief. Thank you very much for looking into this!
+
 -- 
-2.7.4
-
+Thiago Jung Bauermann
+IBM Linux Technology Center
 
