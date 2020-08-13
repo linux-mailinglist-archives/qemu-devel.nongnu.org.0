@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F166243527
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:45:48 +0200 (CEST)
-Received: from localhost ([::1]:46234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049E824358F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:54:57 +0200 (CEST)
+Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k67vn-0002ZX-7D
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41748)
+	id 1k684e-0008K7-2H
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1k67uA-0001Hl-HG; Thu, 13 Aug 2020 03:44:06 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:34783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1k67u8-0002OY-CI; Thu, 13 Aug 2020 03:44:06 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id B511756B4AAC;
- Thu, 13 Aug 2020 09:43:58 +0200 (CEST)
-Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 13 Aug
- 2020 09:43:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001a338f13f-8b53-4c2c-ba13-6cfdcd9e7581,
- 56FC6CFA6F9FB878813463EC2CBCCD0911300B36) smtp.auth=groug@kaod.org
-Date: Thu, 13 Aug 2020 09:43:56 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [for-5.2 v4 09/10] host trust limitation: Alter virtio default
- properties for protected guests
-Message-ID: <20200813094356.651f323c@bahia.lan>
-In-Reply-To: <20200727150514.GQ3040@work-vm>
-References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
- <20200724025744.69644-10-david@gibson.dropbear.id.au>
- <20200727150514.GQ3040@work-vm>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k683S-0007QV-7Q
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 03:53:42 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k683Q-0003hH-Eu
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 03:53:41 -0400
+Received: by mail-wr1-x432.google.com with SMTP id r4so4349387wrx.9
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 00:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VryNuQpXeWiH5WU29tTxI6GLH1zeaY8QVaIuFAFhGmk=;
+ b=nGkV6kFy/gBv4a6A2MQ/53FLPkOXO2Y7HzvnbINNNo3ff6Ph5Jg3fMRozX/2I9WGgs
+ XrCaS84dj+9ndXOOxJGivYrr1OT+q6zFrSVJK/SWwDY9pR2Vv8/TIDGiOhuPE8ly2v1v
+ cZ6SCRaKWYLRGGZFLxFBFGqgmLZwnobL37JzvUjoTf+VPIPMolxrLqeYQ2mXtP3hmdw1
+ 1UA06qd+knbklsQmfm22nWAJqfl0wpS6f6jUftTuTLqUhkfPHzn71UaMGNkJdXYx/3Zz
+ 7M3uTXP0NGodv2IH/76si8qgqDkJfPu17qB06emPaj9YENSu7UpV04pSvc3FaSP7rWaT
+ 94JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VryNuQpXeWiH5WU29tTxI6GLH1zeaY8QVaIuFAFhGmk=;
+ b=sf80zInZAan3YwyVJ4aAsD+q+N0OAGSSkF53AbkrWrHAVYsbB9idJcmAX7wzKPuhaM
+ ImLnLQ9LgjCy+pGcBwm1S+XRjJo3+eC1H6XtzElkFKR7aN6C0u+ibfmIh1zzs0OysAuD
+ sjZzh5mcrcuBfwE+eCd245XHq5ufYKGND6k3f9AJQrfI/zjkY86fHg4Fjf1XkfNpAHDV
+ 0KnjnIY61yge2n9cxvhM4cTcdIjCC8JEXHcMBw+89xQ3Ws0hIoTFdPBYtPIa7ryXl8dU
+ fP8qB6ZU/PLzhJBMKd8mTBQLzURYex0UTTW69wML1Y+yqW7qC3ae/S0kVKD6bjFcyEVq
+ tIXA==
+X-Gm-Message-State: AOAM530Mv0wqPouDCF8hZxwuu8LScXwTDrFjo1MQhdCLwizkLUMmRDiW
+ WBE61pPGdDzDZ962gsdwm40=
+X-Google-Smtp-Source: ABdhPJy5I+Qo+vT1H/1ihKDdpUGAh03oIdp6zTS2jXPNF0gRFJ/H31sIJMx7iPkSlidnle3YnSk/kw==
+X-Received: by 2002:adf:dcc9:: with SMTP id x9mr3002369wrm.153.1597305218640; 
+ Thu, 13 Aug 2020 00:53:38 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id a3sm7983676wme.34.2020.08.13.00.53.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Aug 2020 00:53:38 -0700 (PDT)
+Subject: Re: [PULL 00/20] riscv-to-apply queue
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200812223045.96803-1-alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4b6e707d-405e-dfb2-d804-2252b13df2be@amsat.org>
+Date: Thu, 13 Aug 2020 09:53:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20200812223045.96803-1-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: f5836199-13f5-4a5c-840c-5c8b35579b5f
-X-Ovh-Tracer-Id: 17239216424127404499
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrleefgdduvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegvhhgrsghkohhsthesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:44:00
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,84 +89,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia
- Huck <cohuck@redhat.com>, David
- Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org, ehabkost@redhat.com,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Jul 2020 16:05:14 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On 8/13/20 12:30 AM, Alistair Francis wrote:
+> The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
+> 
+>   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200812
+> 
+> for you to fetch changes up to 339332b8aa240e4ea3a56ec1b98cc9b2e1346834:
+> 
+>   hw/intc: ibex_plic: Honour source priorities (2020-08-12 12:07:58 -0700)
+> 
+> ----------------------------------------------------------------
+> The first RISC-V PR for the 5.2 window.
+> 
+> This includes:
+>  - NaNBox fixes
+>  - Vector extension improvements
+>  - a L2 cache controller
+>  - PMP fixes
+>  - Upgrade to OpenSBI v0.8 and the generic platform
+>  - Fixes for the Ibex PLIC
+> 
+> ----------------------------------------------------------------
+> Alistair Francis (3):
+>       hw/intc: ibex_plic: Update the pending irqs
+>       hw/intc: ibex_plic: Don't allow repeat interrupts on claimed lines
+>       hw/intc: ibex_plic: Honour source priorities
+> 
+> Bin Meng (7):
+>       hw/riscv: sifive_u: Add a dummy L2 cache controller device
+>       configure: Create symbolic links for pc-bios/*.elf files
+>       roms/opensbi: Upgrade from v0.7 to v0.8
+>       roms/Makefile: Build the generic platform for RISC-V OpenSBI firmware
+>       hw/riscv: Use pre-built bios image of generic platform for virt & sifive_u
+>       hw/riscv: spike: Change the default bios to use generic platform image
+>       gitlab-ci/opensbi: Update GitLab CI to build generic platform
+> 
+> Hou Weiying (1):
+>       riscv: Fix bug in setting pmpcfg CSR for RISCV64
+> 
+> LIU Zhiwei (2):
+>       target/riscv: Clean up fmv.w.x
+>       target/riscv: check before allocating TCG temps
+> 
+> Richard Henderson (5):
+>       target/riscv: Generate nanboxed results from fp helpers
+>       target/riscv: Generalize gen_nanbox_fpr to gen_nanbox_s
+>       target/riscv: Generate nanboxed results from trans_rvf.inc.c
+>       target/riscv: Check nanboxed inputs to fp helpers
+>       target/riscv: Check nanboxed inputs in trans_rvf.inc.c
+> 
+> Zong Li (2):
+>       target/riscv: Fix the translation of physical address
+>       target/riscv: Change the TLB page size depends on PMP entries.
+> 
+>  configure                                      |   1 +
+>  Makefile                                       |   4 +-
+>  include/hw/intc/ibex_plic.h                    |   1 +
+>  include/hw/riscv/sifive_u.h                    |   4 +
+>  target/riscv/internals.h                       |  16 ++++
+>  target/riscv/pmp.h                             |   2 +
+>  hw/intc/ibex_plic.c                            |  36 +++++++--
+>  hw/riscv/sifive_u.c                            |  26 ++++++-
+>  hw/riscv/spike.c                               |   9 ++-
+>  hw/riscv/virt.c                                |   4 +-
+>  target/riscv/cpu_helper.c                      |  15 +++-
+>  target/riscv/fpu_helper.c                      | 102 ++++++++++++++++---------
+>  target/riscv/insn_trans/trans_rvd.inc.c        |   8 +-
+>  target/riscv/insn_trans/trans_rvf.inc.c        |  99 +++++++++++++++---------
+>  target/riscv/pmp.c                             |  57 +++++++++++++-
+>  target/riscv/translate.c                       |  29 +++++++
+>  .gitlab-ci.d/opensbi.yml                       |  28 +++----
+>  pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 0 -> 62144 bytes
+>  pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 0 -> 558668 bytes
+>  pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin   | Bin 49520 -> 0 bytes
+>  pc-bios/opensbi-riscv32-virt-fw_jump.bin       | Bin 49504 -> 0 bytes
+>  pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 0 -> 70792 bytes
+>  pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 0 -> 620424 bytes
+>  pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin   | Bin 57936 -> 0 bytes
+>  pc-bios/opensbi-riscv64-virt-fw_jump.bin       | Bin 57920 -> 0 bytes
+>  roms/Makefile                                  |  32 +++-----
+>  roms/opensbi                                   |   2 +-
+>  27 files changed, 338 insertions(+), 137 deletions(-)
+>  create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+>  create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+>  delete mode 100644 pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+>  delete mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+> 
 
-> * David Gibson (david@gibson.dropbear.id.au) wrote:
-> > The default behaviour for virtio devices is not to use the platforms normal
-> > DMA paths, but instead to use the fact that it's running in a hypervisor
-> > to directly access guest memory.  That doesn't work if the guest's memory
-> > is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
-> > 
-> > So, if a host trust limitation mechanism is enabled, then apply the
-> > iommu_platform=on option so it will go through normal DMA mechanisms.
-> > Those will presumably have some way of marking memory as shared with the
-> > hypervisor or hardware so that DMA will work.
-> > 
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> 
-> Good, it's just too easy to forget them at the moment and get hopelessly
-> confused.
-> 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> > ---
-> >  hw/core/machine.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index b599b0ba65..2a723bf07b 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -28,6 +28,8 @@
-> >  #include "hw/mem/nvdimm.h"
-> >  #include "migration/vmstate.h"
-> >  #include "exec/host-trust-limitation.h"
-> > +#include "hw/virtio/virtio.h"
-> > +#include "hw/virtio/virtio-pci.h"
-> >  
-> >  GlobalProperty hw_compat_5_0[] = {
-> >      { "virtio-balloon-device", "page-poison", "false" },
-> > @@ -1161,6 +1163,15 @@ void machine_run_board_init(MachineState *machine)
-> >           * areas.
-> >           */
-> >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
-> > +
-> > +        /*
-> > +         * Virtio devices can't count on directly accessing guest
-> > +         * memory, so they need iommu_platform=on to use normal DMA
-> > +         * mechanisms.  That requires disabling legacy virtio support
-> > +         * for virtio pci devices
-> > +         */
-> > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy", "on");
-
-What about non-transitional devices (eg. vhost-user-fs-pci) ? They don't know
-about "disable-legacy" since they don't need it.
-
-> > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform", "on");
-> >      }
-> >  
-> >      machine_class->init(machine);
-> > -- 
-> > 2.26.2
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> 
-
+Note to Peter, there is a comment to resolve on patch #5 before
+applying this.
 
