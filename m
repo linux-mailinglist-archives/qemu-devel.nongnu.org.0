@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79082243729
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:06:24 +0200 (CEST)
-Received: from localhost ([::1]:51912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E9624377B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:18:04 +0200 (CEST)
+Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k69Bm-0002Wu-QR
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
+	id 1k69N5-0006fI-CY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1k69B3-0001yI-62; Thu, 13 Aug 2020 05:05:37 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2094 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1k69B0-0004Ce-CI; Thu, 13 Aug 2020 05:05:36 -0400
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id 21A0373400E79736B731;
- Thu, 13 Aug 2020 17:05:24 +0800 (CST)
-Received: from DGGEMM422-HUB.china.huawei.com (10.1.198.39) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Thu, 13 Aug 2020 17:05:22 +0800
-Received: from DGGEMM511-MBX.china.huawei.com ([169.254.1.170]) by
- dggemm422-hub.china.huawei.com ([10.1.198.39]) with mapi id 14.03.0487.000;
- Thu, 13 Aug 2020 17:05:15 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org"
- <qemu-trivial@nongnu.org>
-Subject: RE: [PATCH 09/11] usb/bus: Remove dead assignment in
- usb_get_fw_dev_path()
-Thread-Topic: [PATCH 09/11] usb/bus: Remove dead assignment in
- usb_get_fw_dev_path()
-Thread-Index: AQHWcUTHhXDTZfvtm0WvjC1m5FN5Fak1vs4w
-Date: Thu, 13 Aug 2020 09:05:15 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83B8A08D8@dggemm511-mbx.china.huawei.com>
-References: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
- <20200813073712.4001404-10-kuhn.chenqun@huawei.com>
-In-Reply-To: <20200813073712.4001404-10-kuhn.chenqun@huawei.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.187.50]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k69MG-00064a-RZ
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:17:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33604
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k69MD-000641-AI
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:17:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597310226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=4d326N45c3P38Xs95j13RnWNvEAC7IJ/H8+BaCHJzfU=;
+ b=fKiWkNg5RIDUfpFCZQ2s9l5S6ueCNRhnfTouCSnhd9CxKgFWkhwjdhCra6Eqsxv/eutUce
+ HBlXBRp8wQna/UoMHk3nNeLHW8b/+9Ogui6B4UbOWol9bbbBYILvBSyWm70ceqX9OYH706
+ pASCPFNeg14m4qClwiXzcVdQdXr1x64=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-uuFJXjlBOAy-8T22sPh_gQ-1; Thu, 13 Aug 2020 05:17:05 -0400
+X-MC-Unique: uuFJXjlBOAy-8T22sPh_gQ-1
+Received: by mail-wm1-f70.google.com with SMTP id c184so2186116wme.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 02:17:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=4d326N45c3P38Xs95j13RnWNvEAC7IJ/H8+BaCHJzfU=;
+ b=Kw8UQWuFzm9Bg/IFX5pnI1Rj4kPvoOCXoIqAOF6uJpt8YQrYI3ZvgwnimtAdFKEnRl
+ 0Xbpkxeuz+UqjOd4RJmj4kSC7U2XXlXDq4lmKd/WD8LdF1yHVIFMxiMLYj5O28e0OFGV
+ ZftdAQAdb4EDwrWl5edFiYa5oXDwFt6FkkwBM7d3dgPwXyIo2dzDHZqqvXVUHf1v5A2P
+ SD5D7LX6CqXPOnJGCtbzPIkq8aMrz9Go3aY72XqEC6Om/sD/vEeshPUd+Tn2T7Ehb6AE
+ ldwTX4TecTQJfxKn8I0tMDmH7OLeb3jbgnGMqRI6EVnrdgWlZZfey/pMu2nC5wpovf5r
+ rG+g==
+X-Gm-Message-State: AOAM533+sT0erv0MYFsOloqq3UR/LFZzAJUNjqCjpw3G5UUI0xZOwNsd
+ 9Ryny8WCK6sc94ZuzuV/1pnHM+iEwdG2s4Hc06IgxHCmlSrtU2DMfiIRL6lwnoZldF+7PpSNpxl
+ LUcXpNra1EgHgDeY=
+X-Received: by 2002:a1c:1f8b:: with SMTP id f133mr3415981wmf.65.1597310224283; 
+ Thu, 13 Aug 2020 02:17:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWFm9KdNHswYS/c1U1AE1rIVjetkBMw1snBQOoykzJoDmKBJlbXHTy+7DtFH6Z7QiRcxlp8w==
+X-Received: by 2002:a1c:1f8b:: with SMTP id f133mr3415963wmf.65.1597310224058; 
+ Thu, 13 Aug 2020 02:17:04 -0700 (PDT)
+Received: from steredhat.lan ([5.180.207.22])
+ by smtp.gmail.com with ESMTPSA id v16sm8515059wmj.14.2020.08.13.02.17.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Aug 2020 02:17:03 -0700 (PDT)
+Date: Thu, 13 Aug 2020 11:16:56 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
+Subject: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
+Message-ID: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 05:05:25
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,36 +93,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Pannengyuan <pannengyuan@huawei.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->  hw/usb/bus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/usb/bus.c b/hw/usb/bus.c index b17bda3b29..77d3f7ddb8
-> 100644
-> --- a/hw/usb/bus.c
-> +++ b/hw/usb/bus.c
-> @@ -612,8 +612,8 @@ static char *usb_get_fw_dev_path(DeviceState *qdev)
->              in++;
->          } else {
->              /* the device itself */
-> -            pos +=3D snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
-> -                            qdev_fw_name(qdev), nr);
-> +            snprintf(fw_path + pos, fw_len - pos,
-> "%s@%lx",qdev_fw_name(qdev),
-Sorry, a space is missing here. I will add it later in V2.
+Hi,
 
-Thanks.
-> +                     nr);
->              break;
->          }
->      }
-> --
-> 2.23.0
+Qinghua discovered that virtio-vsock-pci requires 'disable-legacy=on' in
+QEMU 5.1:
+    $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
+    qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=5:
+    device is modern-only, use disable-legacy=on
+
+Bisecting I found that this behaviour starts from this commit:
+9b3a35ec82 ("virtio: verify that legacy support is not accidentally on")
+
+IIUC virtio-vsock is modern-only, so I tried this patch and it works:
+
+diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
+index f4cf95873d..6e4cc874cd 100644
+--- a/hw/virtio/vhost-user-vsock-pci.c
++++ b/hw/virtio/vhost-user-vsock-pci.c
+@@ -40,6 +40,7 @@ static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+
++    virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+
+diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
+index a815278e69..f641b974e9 100644
+--- a/hw/virtio/vhost-vsock-pci.c
++++ b/hw/virtio/vhost-vsock-pci.c
+@@ -44,6 +44,7 @@ static void vhost_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VHostVSockPCI *dev = VHOST_VSOCK_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+
++    virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+
+
+Do you think this is the right approach or is there a better way to
+solve this issue?
+
+Thanks,
+Stefano
 
 
