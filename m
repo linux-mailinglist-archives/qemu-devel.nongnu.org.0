@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC9D24415B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:39:49 +0200 (CEST)
-Received: from localhost ([::1]:36938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B198924415A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:38:59 +0200 (CEST)
+Received: from localhost ([::1]:32826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Lsy-0008PJ-8F
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1k6LsA-0006kP-NR
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgS-0005NW-Vf
+ id 1k6LgT-0005PF-RE
  for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55376
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45593
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgR-0002tB-7W
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:52 -0400
+ id 1k6LgS-0002tQ-3l
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597357610;
+ s=mimecast20190719; t=1597357611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NA5YBIhBgCLus4frdJSyA0MQ2ir1g/iduIzPMqjp97s=;
- b=daHv6cNRhNRvYq7kLvau284plauQQt9T7Fwn/jYU5sbiZaRzOxGw+bg1agC4jNYMUypmKo
- yRXhtUpNjbLETyzqwnhCxrfGQox5v4OxEiEajhihB/E1u3+LF7Cvbi/gcerPNkTOZDNao4
- Ubu6bWg7RzZOkab2dbIJJwH0YaXK1UA=
+ bh=HUbAMvEgdVBSuFfgPzPi4rCPk+gaQRAfruJN90ASRK4=;
+ b=FY5UYL5fa0Ui7bmgLkgpoZ1lv0oOrYfm6TS/OZozhK2ewTkLISrxI8+YY70LZvfZev36wW
+ mObc/RQZd7gbu55rgjsijmtyKIAnXnctbqWPl90RMahiJP6TlnI5+X487ZU3wSPs22xRJz
+ kf59/EuH1TGicl3aDDSOCaSJEXd3pHQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-oboEsUC1NZ6r2y6b8AEwxg-1; Thu, 13 Aug 2020 18:26:48 -0400
-X-MC-Unique: oboEsUC1NZ6r2y6b8AEwxg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-364-Ij1BzrxdPzydJS0iqlFIQA-1; Thu, 13 Aug 2020 18:26:49 -0400
+X-MC-Unique: Ij1BzrxdPzydJS0iqlFIQA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EE9E57084
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EB5E1005504
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:48 +0000 (UTC)
 Received: from localhost (ovpn-117-153.rdu2.redhat.com [10.10.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 447AE1002382;
- Thu, 13 Aug 2020 22:26:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39C991992D;
+ Thu, 13 Aug 2020 22:26:48 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/41] pci: Move PCIBusClass typedef to pci.h
-Date: Thu, 13 Aug 2020 18:26:01 -0400
-Message-Id: <20200813222625.243136-18-ehabkost@redhat.com>
+Subject: [PATCH 18/41] i8254: Move PITCommonState/PITCommonClass typedefs to
+ i8254.h
+Date: Thu, 13 Aug 2020 18:26:02 -0400
+Message-Id: <20200813222625.243136-19-ehabkost@redhat.com>
 In-Reply-To: <20200813222625.243136-1-ehabkost@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -91,43 +92,54 @@ to convert the code to OBJECT_DEFINE_TYPE() in the future.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/pci/pci.h     | 1 +
- include/hw/pci/pci_bus.h | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ include/hw/timer/i8254.h          | 2 ++
+ include/hw/timer/i8254_internal.h | 8 ++++----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index c1bf7d5356..4ca7258b5b 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -396,6 +396,7 @@ typedef int (*pci_map_irq_fn)(PCIDevice *pci_dev, int irq_num);
- typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
+index e75b4a5a08..206b8f8464 100644
+--- a/include/hw/timer/i8254.h
++++ b/include/hw/timer/i8254.h
+@@ -39,6 +39,8 @@ typedef struct PITChannelInfo {
+ } PITChannelInfo;
  
- #define TYPE_PCI_BUS "PCI"
-+typedef struct PCIBusClass PCIBusClass;
- #define PCI_BUS(obj) OBJECT_CHECK(PCIBus, (obj), TYPE_PCI_BUS)
- #define PCI_BUS_CLASS(klass) OBJECT_CLASS_CHECK(PCIBusClass, (klass), TYPE_PCI_BUS)
- #define PCI_BUS_GET_CLASS(obj) OBJECT_GET_CLASS(PCIBusClass, (obj), TYPE_PCI_BUS)
-diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-index 0714f578af..347440d42c 100644
---- a/include/hw/pci/pci_bus.h
-+++ b/include/hw/pci/pci_bus.h
-@@ -10,14 +10,14 @@
-  * use accessor functions in pci.h
-  */
+ #define TYPE_PIT_COMMON "pit-common"
++typedef struct PITCommonState PITCommonState;
++typedef struct PITCommonClass PITCommonClass;
+ #define PIT_COMMON(obj) \
+      OBJECT_CHECK(PITCommonState, (obj), TYPE_PIT_COMMON)
+ #define PIT_COMMON_CLASS(klass) \
+diff --git a/include/hw/timer/i8254_internal.h b/include/hw/timer/i8254_internal.h
+index 3db462aecd..a9a600d941 100644
+--- a/include/hw/timer/i8254_internal.h
++++ b/include/hw/timer/i8254_internal.h
+@@ -50,14 +50,14 @@ typedef struct PITChannelState {
+     uint32_t irq_disabled;
+ } PITChannelState;
  
--typedef struct PCIBusClass {
-+struct PCIBusClass {
-     /*< private >*/
-     BusClass parent_class;
-     /*< public >*/
- 
-     int (*bus_num)(PCIBus *bus);
-     uint16_t (*numa_node)(PCIBus *bus);
--} PCIBusClass;
+-typedef struct PITCommonState {
++struct PITCommonState {
+     ISADevice dev;
+     MemoryRegion ioports;
+     uint32_t iobase;
+     PITChannelState channels[3];
+-} PITCommonState;
 +};
  
- enum PCIBusFlags {
-     /* This bus is the root of a PCI domain */
+-typedef struct PITCommonClass {
++struct PITCommonClass {
+     ISADeviceClass parent_class;
+ 
+     void (*set_channel_gate)(PITCommonState *s, PITChannelState *sc, int val);
+@@ -65,7 +65,7 @@ typedef struct PITCommonClass {
+                              PITChannelInfo *info);
+     void (*pre_save)(PITCommonState *s);
+     void (*post_load)(PITCommonState *s);
+-} PITCommonClass;
++};
+ 
+ int pit_get_out(PITChannelState *s, int64_t current_time);
+ int64_t pit_get_next_transition_time(PITChannelState *s, int64_t current_time);
 -- 
 2.26.2
 
