@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE3F243596
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:56:30 +0200 (CEST)
-Received: from localhost ([::1]:55832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F166243527
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:45:48 +0200 (CEST)
+Received: from localhost ([::1]:46234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6869-0001jZ-EH
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43584)
+	id 1k67vn-0002ZX-7D
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k680n-0004pj-EP
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 03:50:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k680l-0003QZ-3o
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 03:50:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k680i-0004AM-1H
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 07:50:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DCCC02E809C
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 07:50:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1k67uA-0001Hl-HG; Thu, 13 Aug 2020 03:44:06 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:34783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1k67u8-0002OY-CI; Thu, 13 Aug 2020 03:44:06 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id B511756B4AAC;
+ Thu, 13 Aug 2020 09:43:58 +0200 (CEST)
+Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 13 Aug
+ 2020 09:43:57 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001a338f13f-8b53-4c2c-ba13-6cfdcd9e7581,
+ 56FC6CFA6F9FB878813463EC2CBCCD0911300B36) smtp.auth=groug@kaod.org
+Date: Thu, 13 Aug 2020 09:43:56 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [for-5.2 v4 09/10] host trust limitation: Alter virtio default
+ properties for protected guests
+Message-ID: <20200813094356.651f323c@bahia.lan>
+In-Reply-To: <20200727150514.GQ3040@work-vm>
+References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
+ <20200724025744.69644-10-david@gibson.dropbear.id.au>
+ <20200727150514.GQ3040@work-vm>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 Aug 2020 07:41:15 -0000
-From: "Tony.LI" <1890545@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee bigboy0822 pmaydell
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159670025270.3099.13280483088179052036.malonedeb@gac.canonical.com>
-Message-Id: <159730447546.9711.1588483295452038624.malone@wampee.canonical.com>
-Subject: [Bug 1890545] Re: (ARM64) qemu-x86_64+schroot(Debian bullseye) can't
- run chrome and can't load HTML
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a8a2452fb977f5f28c2c675fdb9f79bc5886dade
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:50:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: f5836199-13f5-4a5c-840c-5c8b35579b5f
+X-Ovh-Tracer-Id: 17239216424127404499
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrleefgdduvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegvhhgrsghkohhsthesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:44:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,80 +71,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890545 <1890545@bugs.launchpad.net>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia
+ Huck <cohuck@redhat.com>, David
+ Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org, ehabkost@redhat.com,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,I have already added ioctl(), but there is one individual issue.
+On Mon, 27 Jul 2020 16:05:14 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Like this:
-ioctl(54, _IOC(_IOC_READ, 0xf5, 0x0c, 0x04) <unfinished ...>
+> * David Gibson (david@gibson.dropbear.id.au) wrote:
+> > The default behaviour for virtio devices is not to use the platforms normal
+> > DMA paths, but instead to use the fact that it's running in a hypervisor
+> > to directly access guest memory.  That doesn't work if the guest's memory
+> > is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+> > 
+> > So, if a host trust limitation mechanism is enabled, then apply the
+> > iommu_platform=on option so it will go through normal DMA mechanisms.
+> > Those will presumably have some way of marking memory as shared with the
+> > hypervisor or hardware so that DMA will work.
+> > 
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> 
+> Good, it's just too easy to forget them at the moment and get hopelessly
+> confused.
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> > ---
+> >  hw/core/machine.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index b599b0ba65..2a723bf07b 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -28,6 +28,8 @@
+> >  #include "hw/mem/nvdimm.h"
+> >  #include "migration/vmstate.h"
+> >  #include "exec/host-trust-limitation.h"
+> > +#include "hw/virtio/virtio.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> >  
+> >  GlobalProperty hw_compat_5_0[] = {
+> >      { "virtio-balloon-device", "page-poison", "false" },
+> > @@ -1161,6 +1163,15 @@ void machine_run_board_init(MachineState *machine)
+> >           * areas.
+> >           */
+> >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> > +
+> > +        /*
+> > +         * Virtio devices can't count on directly accessing guest
+> > +         * memory, so they need iommu_platform=on to use normal DMA
+> > +         * mechanisms.  That requires disabling legacy virtio support
+> > +         * for virtio pci devices
+> > +         */
+> > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy", "on");
 
-But,despite the appearance:
+What about non-transitional devices (eg. vhost-user-fs-pci) ? They don't know
+about "disable-legacy" since they don't need it.
 
-15461 open("/home/tony/.config/google-chrome/Default/Web Data",O_RDWR|O_CRE=
-AT|O_NOFOLLOW|O_CLOEXEC,0600) =3D 43
-15461 clock_gettime(1,275070715216,0,16,547700673376,4) =3D 0
-15461 fstat(43,0x0000004025148d50) =3D 0
-15461 fstat(43,0x00000040251489a0) =3D 0
-15461 stat("/home/greatwall/.config/google-chrome/Default/Web Data",0x00000=
-04025148910) =3D 0
-15461 ioctl(43,0x8004f50c,0x25148fc4) =3D -1 errno=3D25 (Inappropriate ioct=
-l for device)
-15461 pread64(43,275500011632,100,0,0,274910104856)15461 gettimeofday(27507=
-0717920,275070717904,1,547702733952,0,275070717328) =3D 0
- =3D 100
+> > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform", "on");
+> >      }
+> >  
+> >      machine_class->init(machine);
+> > -- 
+> > 2.26.2
+> > 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> 
 
-Why is there such an error(Inappropriate ioctl for device)??
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890545
-
-Title:
-  (ARM64) qemu-x86_64+schroot(Debian bullseye) can't run chrome and
-  can't load HTML
-
-Status in QEMU:
-  New
-
-Bug description:
-  First I creat a file system that is debian(bullseye amd64)on arm64
-  machine=EF=BC=8Cthen I download google-chrome=EF=BC=8Chowever, when I ran=
- Google
-  browser, some errors occurred.
-
-  $ google-chrome --no-sandbox
-  or =
-
-  $ qemu-x86_64-static google-chrome --no-sandbox
-
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1661:1661:0806/074307.502638:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  [1664:1664:0806/074307.504159:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1637:1678:0806/074308.337567:ERROR:file_path_watcher_linux.cc(315)] inot=
-ify_init() failed: Function not implemented (38)
-  Fontconfig warning: "/etc/fonts/fonts.conf", line 100: unknown element "b=
-lank"
-  qemu: unknown option 'type=3Dutility'
-  [1637:1680:0806/074313.598432:FATAL:gpu_data_manager_impl_private.cc(439)=
-] GPU process isn't usable. Goodbye.
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  Trace/breakpoint trap
-
-  Why?
-  And then I run firefox,it can be opened, but it can't load any web pages =
-and HTML.
-  I really need help=EF=BC=81
-  Thank.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890545/+subscriptions
 
