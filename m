@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448882432C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:30:42 +0200 (CEST)
-Received: from localhost ([::1]:33530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C411A2432CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:32:24 +0200 (CEST)
+Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k63wv-0003U5-BG
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:30:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58508)
+	id 1k63yZ-00069u-SL
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sC-0004nu-Lh
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:48 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55952)
+ id 1k63sD-0004qR-VW
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:49 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:54847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sA-0008Vy-Vz
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:48 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id 2so2105330pjx.5
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:46 -0700 (PDT)
+ id 1k63sC-0008WP-Ax
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:49 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id mt12so2106369pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P2SPKTHOjMFQdCqB2vtTra0ygHn5FhW2ETtwYwPvoTs=;
- b=fQZaLeAn4s323lW+P0S9LxRYeHFUfLXgtPg3qlHyHBQhbY5uC8TJSb3/cuFzgrMV3X
- BkV2FpdQtfcPW5+5v8SavMtFIbQ4ViQ7OobgNV3xf9LXXG6tvdxf3p+18MS76C87yOxh
- nDA23txSM0XaZJivpkQAk1WJ7+tI0siNJLLJIpXianuDTvFB8JVhVxH39YE+uNJQEuqW
- ukoH+DEG01eZyqN+1PuAzOZLl/WVBEsVfkuaiSRo2RPcxfTDnQCT/jk9jDynD9/KWOwU
- N9mBHSZekRjCChHTcgJ/jQZy8UjpjpEUY9Gk5mDdZc1fya5AtJUnYi1lrL7Xquyzvgna
- 7jMw==
+ bh=+PHy/gloogLnc28zgcQGUBXNqWvFE+M2jDPSBgeFXVw=;
+ b=Cg4ac55VOl6kLG6fic3H9HB5l4VzY9rGl54+Rl1RorwJzACXlKGm4NP3KvN2dDNh4A
+ 9rQvKJCrJB5hrE027HCLq5249+uPxEzAfTymhyb8AYEomVCEvY/BLL3vcf67IL6Rtsil
+ zaK/pD50x2ZfJT8kH/ku8F0B1gNXPvbe8jEjDsua4YifndQcMFR4F/UHJCXBQM4Y04nZ
+ 0i/QX0D1IlUuQCJgrHkgSTbOWe/PVAsqNg6wy8mNcSxWTc3cKiR1Ptr+sEJvDqcj58dU
+ BUYnOyo9D23zCHXKMFkHedlQ6S/KTnUrlqWA0P/AEELtbU7BkGL8J735eFWPvzp/AhCW
+ ODnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P2SPKTHOjMFQdCqB2vtTra0ygHn5FhW2ETtwYwPvoTs=;
- b=aO8sFfDIFuo2pmDpZgFleK4qSusPCPetSkfYh6fNXj34cqTmutnsNquWLA4VS1HSZB
- /aAIDTpcE+P86Ny+n8x64GlgAYFve5+fC7l1B6bN8bXHdcNM5axiy37TjhbDRpjHCZuX
- A4nKWBS6vK7Z1TQNBe7cNScWdEDsO1r4nxPXQGUFBc7IbT6OiEH3s6R4ghZttiObT6ys
- sI9+hQ8vbDBV7xWDn20Wcws+0nD0vqC/YU1SxMtKXwQoDrcupX3Ocim5AYwrz+i32XWu
- gk9IYlLL82xQ8j3SIO128Uf2CWpH6WknwMr3/PiqAIAw8yow3zr1HevvpJ9PsSaNN4ZD
- cYvw==
-X-Gm-Message-State: AOAM532kuKEiBssLhzRwo/MFNSrsYTVPGO0yh3OHBfJVO094ki6QRp5u
- SNow8EcQOfLxi5KPFTj2vNClI7M7tJw=
-X-Google-Smtp-Source: ABdhPJysmZ59JehnO4QDXa+EvZVpCELkWLPapgrKfrzdRO1yI4ufOZ0kLp1jdLKYwgXJe6Bh5uj0Ug==
-X-Received: by 2002:a17:90a:6807:: with SMTP id
- p7mr3090799pjj.42.1597289145330; 
- Wed, 12 Aug 2020 20:25:45 -0700 (PDT)
+ bh=+PHy/gloogLnc28zgcQGUBXNqWvFE+M2jDPSBgeFXVw=;
+ b=IMNdVmtlSv0SzyEXk1cmacmelUAbX8Eiqttr/qlVfX3TqwJf+spMIyYBhkdzUmehDD
+ TU4GR8se/u3Rc6+YK8s5tP3ojPyS//aJL+UobrPY6CboDoW4NlYJmFAxN6UZs4hOjcg3
+ Gl7PMXzc4YgoK2BFuY8PYT84j1iBgkT+yBUk6MS9kefJGaw1oafpTyk4cKF1Le6dwYUP
+ UGpuxSAz6M1elRpkQIpQb2PWOxbyH/84yPXouDqmfugf0zsVYtPsE0qczIQliKapTIOQ
+ k8gALNzwIUet7K83vfCtDjhQTOZfLeU02zPdldxpf1dckvWu8rYuPb009UhGTKACpR1L
+ K19A==
+X-Gm-Message-State: AOAM531HzZ6GMIP8Q8AwvV5ib3VSVZwm4lkJxKAF6fwqF6WnEMaOYu6C
+ rFIOfgSIyZWkt2eU5T/FEHoGp9GAaTE=
+X-Google-Smtp-Source: ABdhPJw13HoxQojF8PJZQtsKUyFgoQFGVl3tzVPZg+Ga389XkLxmdLZon63PqU7BZRPDqNidpvOYAg==
+X-Received: by 2002:a17:90a:e687:: with SMTP id
+ s7mr3075521pjy.48.1597289146628; 
+ Wed, 12 Aug 2020 20:25:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.44
+ by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 20:25:44 -0700 (PDT)
+ Wed, 12 Aug 2020 20:25:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/17] crypto: Rename cipher include files to .inc.c
-Date: Wed, 12 Aug 2020 20:25:24 -0700
-Message-Id: <20200813032537.2888593-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/17] crypto: Remove redundant includes
+Date: Wed, 12 Aug 2020 20:25:25 -0700
+Message-Id: <20200813032537.2888593-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200813032537.2888593-1-richard.henderson@linaro.org>
 References: <20200813032537.2888593-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,51 +89,64 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU standard procedure for included c files is to use *.inc.c.
-E.g. there are a different set of checks that are applied.
+Both qemu/osdep.h and cipherpriv.h have already been
+included by the parent cipher.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/{cipher-builtin.c => cipher-builtin.inc.c} | 0
- crypto/{cipher-gcrypt.c => cipher-gcrypt.inc.c}   | 0
- crypto/{cipher-nettle.c => cipher-nettle.inc.c}   | 0
- crypto/cipher.c                                   | 6 +++---
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename crypto/{cipher-builtin.c => cipher-builtin.inc.c} (100%)
- rename crypto/{cipher-gcrypt.c => cipher-gcrypt.inc.c} (100%)
- rename crypto/{cipher-nettle.c => cipher-nettle.inc.c} (100%)
+ crypto/cipher-builtin.inc.c | 2 --
+ crypto/cipher-gcrypt.inc.c  | 2 --
+ crypto/cipher-nettle.inc.c  | 2 --
+ 3 files changed, 6 deletions(-)
 
-diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.inc.c
-similarity index 100%
-rename from crypto/cipher-builtin.c
-rename to crypto/cipher-builtin.inc.c
-diff --git a/crypto/cipher-gcrypt.c b/crypto/cipher-gcrypt.inc.c
-similarity index 100%
-rename from crypto/cipher-gcrypt.c
-rename to crypto/cipher-gcrypt.inc.c
-diff --git a/crypto/cipher-nettle.c b/crypto/cipher-nettle.inc.c
-similarity index 100%
-rename from crypto/cipher-nettle.c
-rename to crypto/cipher-nettle.inc.c
-diff --git a/crypto/cipher.c b/crypto/cipher.c
-index 2722dc7d87..deae82c264 100644
---- a/crypto/cipher.c
-+++ b/crypto/cipher.c
-@@ -151,11 +151,11 @@ qcrypto_cipher_munge_des_rfb_key(const uint8_t *key,
- #endif /* CONFIG_GCRYPT || CONFIG_NETTLE */
+diff --git a/crypto/cipher-builtin.inc.c b/crypto/cipher-builtin.inc.c
+index 6eafd39da0..56d45b0227 100644
+--- a/crypto/cipher-builtin.inc.c
++++ b/crypto/cipher-builtin.inc.c
+@@ -18,11 +18,9 @@
+  *
+  */
  
- #ifdef CONFIG_GCRYPT
--#include "cipher-gcrypt.c"
-+#include "cipher-gcrypt.inc.c"
- #elif defined CONFIG_NETTLE
--#include "cipher-nettle.c"
-+#include "cipher-nettle.inc.c"
- #else
--#include "cipher-builtin.c"
-+#include "cipher-builtin.inc.c"
+-#include "qemu/osdep.h"
+ #include "crypto/aes.h"
+ #include "crypto/desrfb.h"
+ #include "crypto/xts.h"
+-#include "cipherpriv.h"
+ 
+ typedef struct QCryptoCipherBuiltinAESContext QCryptoCipherBuiltinAESContext;
+ struct QCryptoCipherBuiltinAESContext {
+diff --git a/crypto/cipher-gcrypt.inc.c b/crypto/cipher-gcrypt.inc.c
+index 81e4745bff..a62839914b 100644
+--- a/crypto/cipher-gcrypt.inc.c
++++ b/crypto/cipher-gcrypt.inc.c
+@@ -18,11 +18,9 @@
+  *
+  */
+ 
+-#include "qemu/osdep.h"
+ #ifdef CONFIG_QEMU_PRIVATE_XTS
+ #include "crypto/xts.h"
  #endif
+-#include "cipherpriv.h"
  
- QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
+ #include <gcrypt.h>
+ 
+diff --git a/crypto/cipher-nettle.inc.c b/crypto/cipher-nettle.inc.c
+index 0677fdfd33..256931a823 100644
+--- a/crypto/cipher-nettle.inc.c
++++ b/crypto/cipher-nettle.inc.c
+@@ -18,11 +18,9 @@
+  *
+  */
+ 
+-#include "qemu/osdep.h"
+ #ifdef CONFIG_QEMU_PRIVATE_XTS
+ #include "crypto/xts.h"
+ #endif
+-#include "cipherpriv.h"
+ 
+ #include <nettle/nettle-types.h>
+ #include <nettle/aes.h>
 -- 
 2.25.1
 
