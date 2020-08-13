@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241B8244142
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:30:18 +0200 (CEST)
-Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1D924413E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:28:24 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Ljl-0001WQ-3A
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:30:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36106)
+	id 1k6Lhv-0006gp-5X
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgC-0004tQ-JL
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58206
+ id 1k6LgE-0004v6-TK
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33907
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgA-0002ob-Rd
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:36 -0400
+ id 1k6LgD-0002oz-9L
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597357593;
+ s=mimecast20190719; t=1597357596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k+VSpcTvYE4m+WDN9scax2UPKJypo/exDIBop33H3x8=;
- b=XwpZlyr8JcHPSINtbeMBx1PlNDAMynZGTBQzUsLPoImYg15Un3s5bMAxP3PGXvjzgIm+Up
- E2fum88p/OTFXpzxgn2dA1OShWUOe8EkMk5LkSun7fgO00tXy+q8e19CZ8n/dMxDYVrzPD
- pGad5gF4DH9kyekT4A/YeSYAavLSZa4=
+ bh=c5qYDEuoNuf0oxYLBQG02SsZD1TRyWbDkkMKMfuQkGM=;
+ b=ehwlnEDn4GE5PzfmB+QQtqzliJOMSMSp/hnStaSaH49Q4pT7miZ4rieva4I7zn1Enc0Z/I
+ GzYyJJ2kuIVuxbdfweebcyUsn8PftjgoOH7dBJWLWrQxnoeYGaEwkY9Pj7ggVu/8aqbGPz
+ gzOfLUPhumy784wEdrJMCbDdc64jP8o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-4nWJ5mWIN3mumCyKwlCusw-1; Thu, 13 Aug 2020 18:26:31 -0400
-X-MC-Unique: 4nWJ5mWIN3mumCyKwlCusw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-549-nuJyvq7dPkCScIMIpN5HgQ-1; Thu, 13 Aug 2020 18:26:34 -0400
+X-MC-Unique: nuJyvq7dPkCScIMIpN5HgQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B12918B9EC1
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC2B5801AC3
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:33 +0000 (UTC)
 Received: from localhost (ovpn-117-153.rdu2.redhat.com [10.10.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7615196F3;
- Thu, 13 Aug 2020 22:26:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8348E70920;
+ Thu, 13 Aug 2020 22:26:33 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/41] e1000: Rename QOM class cast macros
-Date: Thu, 13 Aug 2020 18:25:46 -0400
-Message-Id: <20200813222625.243136-3-ehabkost@redhat.com>
+Subject: [PATCH 05/41] aspeed_timer: Fix ASPEED_TIMER macro definition
+Date: Thu, 13 Aug 2020 18:25:49 -0400
+Message-Id: <20200813222625.243136-6-ehabkost@redhat.com>
 In-Reply-To: <20200813222625.243136-1-ehabkost@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 17:30:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 18:26:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,51 +86,28 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the E1000_DEVICE_CLASS() and E1000_DEVICE_GET_CLASS()
-macros to be consistent with the E1000() instance cast macro.
-
-This will allow us to register the type cast macros using
-OBJECT_DECLARE_TYPE later.
+The macro definition had an extra semicolon.  This was never
+noticed because the macro was only being used where it didn't
+make a difference.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/net/e1000.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/hw/timer/aspeed_timer.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index a18f80e369..c4d896a9e6 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -151,9 +151,9 @@ typedef struct E1000BaseClass {
- #define E1000(obj) \
-     OBJECT_CHECK(E1000State, (obj), TYPE_E1000_BASE)
+diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_timer.h
+index 948329893c..d7c7d8ad28 100644
+--- a/include/hw/timer/aspeed_timer.h
++++ b/include/hw/timer/aspeed_timer.h
+@@ -26,7 +26,7 @@
+ #include "hw/misc/aspeed_scu.h"
  
--#define E1000_DEVICE_CLASS(klass) \
-+#define E1000_CLASS(klass) \
-      OBJECT_CLASS_CHECK(E1000BaseClass, (klass), TYPE_E1000_BASE)
--#define E1000_DEVICE_GET_CLASS(obj) \
-+#define E1000_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(E1000BaseClass, (obj), TYPE_E1000_BASE)
- 
- static void
-@@ -365,7 +365,7 @@ e1000_autoneg_timer(void *opaque)
- static void e1000_reset(void *opaque)
- {
-     E1000State *d = opaque;
--    E1000BaseClass *edc = E1000_DEVICE_GET_CLASS(d);
-+    E1000BaseClass *edc = E1000_GET_CLASS(d);
-     uint8_t *macaddr = d->conf.macaddr.a;
- 
-     timer_del(d->autoneg_timer);
-@@ -1751,7 +1751,7 @@ static void e1000_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--    E1000BaseClass *e = E1000_DEVICE_CLASS(klass);
-+    E1000BaseClass *e = E1000_CLASS(klass);
-     const E1000Info *info = data;
- 
-     k->realize = pci_e1000_realize;
+ #define ASPEED_TIMER(obj) \
+-    OBJECT_CHECK(AspeedTimerCtrlState, (obj), TYPE_ASPEED_TIMER);
++    OBJECT_CHECK(AspeedTimerCtrlState, (obj), TYPE_ASPEED_TIMER)
+ #define TYPE_ASPEED_TIMER "aspeed.timer"
+ #define TYPE_ASPEED_2400_TIMER TYPE_ASPEED_TIMER "-ast2400"
+ #define TYPE_ASPEED_2500_TIMER TYPE_ASPEED_TIMER "-ast2500"
 -- 
 2.26.2
 
