@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495E7243441
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 08:56:56 +0200 (CEST)
-Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B72F24343C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 08:55:08 +0200 (CEST)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k67AV-00089m-BG
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 02:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60350)
+	id 1k678l-0005Ev-DL
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 02:55:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k673T-0006TV-UX
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:40 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:52755)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k673S-0006SD-9L
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:38 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:51863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k673M-0004cC-Cm
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k673M-0004cI-E2
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:37 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mrggc-1kQrSt3nGe-00nlbS; Thu, 13 Aug 2020 08:49:28 +0200
+ id 1MtObA-1kyMdC2Fhu-00un0u; Thu, 13 Aug 2020 08:49:28 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/14] linux-user: Add support for a group of 2038 safe syscalls
-Date: Thu, 13 Aug 2020 08:49:14 +0200
-Message-Id: <20200813064923.263565-6-laurent@vivier.eu>
+Subject: [PULL 06/14] linux-user: Add support for a group of btrfs ioctls used
+ for subvolumes
+Date: Thu, 13 Aug 2020 08:49:15 +0200
+Message-Id: <20200813064923.263565-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200813064923.263565-1-laurent@vivier.eu>
 References: <20200813064923.263565-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dCqji8x8mJP+mxBL/CkPObTVzMKVc4hoXe0pSziuwVvevVaOgi2
- cKXXQM0JwJZ+Wva5eZFuwpDTjfSi/VIkTTIUtYyrcjJbLR7OuPgs6fFVYtQ8lsBrWtcV9d2
- PrLc+ZnYenh/IkZLFni5pFVpi5mo+0qGpkygl4hOrkeBgZ5bDr6eQORLVWpwliUoccims/o
- AVlAt6zSjLQ+yv2Wkltew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KDuER9gwmHs=:8xKKPkQ8X/toify7RglusK
- stm+cR7tiWn14lfjH/JE/DBMiQh6n9DZpeGaOZdJ1m8VW/3EWfGNp+FtK2PwVSNquh44aQ3VZ
- zixEpj4hfH2yIqRjE/BWN5Ex0TnL6KmLmR2Rv3Mc8Gx1WKEbE9U29iL/hvyXNLFEQXyH3gN9Z
- OrBNNyKANijV9gtL6yK6ibsdbB1Q7HGRLCNRmsJvRNSF+1s0uOndA53/qLLucaA+dnPz6cYTF
- ke/95D2nVbAImR/hk6lJFeXbbpGkcSshOO/WFHI4DoAT4qRnO90y1KEYP2wvAAG9og+VTWOJa
- 4y/cxEroUoUeQVuIgSuFsduvw+iXBoftaO0m+sYPPX5Xhn38edC63LVlsoBmf0uHRpWrZTZsm
- JY52cFneRwFE4ThecO1poLZiY4cDpHNdv2AyqCFh3HRP7GIjy5N96q0bB1HErgY9q5zM9z1iF
- x+C96duw0m2C5Mut6pR22/J0GPoA4IcyibuYwbR8c+B8Slrelo27aL1JwpC8jOycGn2r1bCqP
- HJ4rALbXLQSrW/C0tez1l/+hzf3NAwy1rsG+DheYcx9K0hLvzKZkUttyk7IsltIAAgrTjmj4H
- Ziwf4UB9PkUZxPpnRA1nsjVS+O0ebO7NKXHqjKuB0QlgdNoutcAC1TMzZlfWxICA+C5wyvZCE
- KB3gJyCGmFJNe1XyP4ZlfZC+/8swM//xLZD1drQwJH5jduJA516hkRm5WRdXRo2k7I+vEnB49
- 8mDfBrBouTePWVmeLRHC265FSXw1K1/EOSEv/ATWgPfq31xH8A3gbiZQ8huXcpvZDoQZsw8zK
- 14j2kcn/C6eyC2IwKX4Z2esT2HkxUUElTl4FmZVx+okFiasGifOiyF65IvgG8vWvyYjP6rI
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:KoC6zAaNCDMyXjDVi2VRR7G7Yd+aqOjsoINDfQuuw6DPQPHqI/e
+ tTW8xJl7DPuWE6e6ToolarjaW76ni4/dVsDYtAfrY3U8ez2Fp0gWLwmMkhR65yIgQ4aXBen
+ SFz5LNsOAr+he5Pj0aKgHr6YreKiHwZoR8j5+kq7CnA5L1/wbpPYF4DtahK9IOBhITpY+78
+ 8OdIxCwJBmsdnJxSN9fCA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oD/jXqUHFa0=:OjeV3eFivXww8CvuFfW+62
+ T8IAtpesxJm2hSmRI0cNB8JdsSX+gWCGEp6TZ05JRD9zOdAdw/GIq5nLmynmRjjp+vppNbk3B
+ zAxtwemiHLK7Diwp4/ObdX7LjbVtZ8Pnh5COnX3uy4LYyM2OK0WvvveCe0ahQAmJCYG8E1pSC
+ FAA6HZNS4nx2389EdVv5hrE/XdL49qYGY314OLD2l7Jj0gVNHYC+ieh0lwye0Uw4FzvL+chuc
+ 25GLOXGFoceb3GsXBpnI2hefWOjG0QSnbwujcgSDbjmwOj3pruLZ+aQSTpJ2mUDpIBzdp/MBM
+ CZTAvfm+x1ZF3PjK8fGmRDwtJ3BmeoO+X1p/4O26j18XiYp3Ar+PWbH/C5lubLRs1mOXA8O7A
+ WVtZKfeMyFndfOMIwd2Jl1kK7sFitGiPQVqfe3cXMNMtZ3AwHq0SGKBYUHa8TpqmOJFxagSCd
+ H9RoizKxEZf8dMjyTUs7AH0txxcfH/KyZzUeh83AMhvPj/eL4YBVMDexwRtwalbWQUPJlJupg
+ D0by+YJWbXzE5bP4RfcunMlmF5eb9KCWzilgPgS7Hg8lDgl4VxQQs5oOwAMj39EoF0iBIJtIA
+ D2kwRDyiBAp1RxyvM3Mc+1ZvLlg1PSnHX38G7eDfyCX1n90iFvrIh3zCicdgziBl9PyJkvX6m
+ UyulwE6AktzXFUwxcGT85fiFIKumFmpO9Tp+F5/dpKiXcYvaJ1QsywsG0n/azccZ7cdsAA+7d
+ uE8HOlPlxOEffBWmgsKqHpFKs0T6L+2tDRmltKBBRm31so3cCIfoTR8G9l8vUUpZKBIcFzcZA
+ U9PSlx5tw1mYZ/ZpdQIW9X9Ax7gJuzyEphu1tfo9bR87sWeKwHmt6T2g6SC2+F4c6fKnUEL
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:49:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:49:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,282 +76,254 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements functionality for following time64 syscalls:
+This patch implements functionality of following ioctls:
 
-*clock_getres_time64
+BTRFS_IOC_SUBVOL_CREATE - Creating a btrfs subvolume
 
-     This a year 2038 safe variant of syscall:
+    Create a btrfs subvolume. The subvolume is created using the ioctl's
+    third argument which represents a pointer to a following structure
+    type:
 
-     int clock_getres(clockid_t clockid, struct timespec *res)
-     --finding the resoultion of a specified clock--
-     man page: https://man7.org/linux/man-pages/man2/clock_getres.2.html
+    struct btrfs_ioctl_vol_args {
+	__s64 fd;
+	char name[BTRFS_PATH_NAME_MAX + 1];
+    };
 
-*timer_gettime64
-*timer_settime64
+    Before calling this ioctl, the fields of this structure should be filled
+    with aproppriate values. The fd field represents the file descriptor
+    value of the subvolume and the name field represents the subvolume
+    path.
 
-     These are year 2038 safe variants of syscalls:
+BTRFS_IOC_SUBVOL_GETFLAGS - Getting subvolume flags
 
-     int timer_settime(timer_t timerid, int flags,
-                       const struct itimerspec *new_value,
-                       struct itimerspec *old_value)
-     int timer_gettime(timer_t timerid, struct itimerspec *curr_value)
-     --arming/dissarming and fetching state of POSIX per-process timer--
-     man page: https://man7.org/linux/man-pages/man2/timer_settime.2.html
+    Read the flags of the btrfs subvolume. The flags are read using
+    the ioctl's third argument that is a pointer of __u64 (unsigned long).
+    The third argument represents a bit mask that can be composed of following
+    values:
+    BTRFS_SUBVOL_RDONLY           (1ULL << 1)
+    BTRFS_SUBVOL_QGROUP_INHERIT   (1ULL << 2)
+    BTRFS_DEVICE_SPEC_BY_ID       (1ULL << 3)
+    BTRFS_SUBVOL_SPEC_BY_ID       (1ULL << 4)
 
-*timerfd_gettime64
-*timerfd_settime64
+BTRFS_IOC_SUBVOL_SETFLAGS - Setting subvolume flags
 
-     These are year 2038 safe variants of syscalls:
+    Set the flags of the btrfs subvolume. The flags are set using the
+    ioctl's third argument that is a pointer of __u64 (unsigned long).
+    The third argument represents a bit mask that can be composed of same
+    values as in the case of previous ioctl (BTRFS_IOC_SUBVOL_GETFLAGS).
 
-     int timerfd_settime(int fd, int flags,
-                         const struct itimerspec *new_value,
-                         struct itimerspec *old_value)
-     int timerfd_gettime(int fd, struct itimerspec *curr_value)
-     --timers that notify via file descriptor--
-     man page: https://man7.org/linux/man-pages/man2/timerfd_settime.2.html
+BTRFS_IOC_SUBVOL_GETINFO - Getting subvolume information
+
+    Read information about the subvolume. The subvolume information is
+    returned in the ioctl's third argument which represents a pointer to
+    a following structure type:
+
+    struct btrfs_ioctl_get_subvol_info_args {
+	/* Id of this subvolume */
+	__u64 treeid;
+
+	/* Name of this subvolume, used to get the real name at mount point */
+	char name[BTRFS_VOL_NAME_MAX + 1];
+
+	/*
+	 * Id of the subvolume which contains this subvolume.
+	 * Zero for top-level subvolume or a deleted subvolume.
+	 */
+	__u64 parent_id;
+
+	/*
+	 * Inode number of the directory which contains this subvolume.
+	 * Zero for top-level subvolume or a deleted subvolume
+	 */
+	__u64 dirid;
+
+	/* Latest transaction id of this subvolume */
+	__u64 generation;
+
+	/* Flags of this subvolume */
+	__u64 flags;
+
+	/* UUID of this subvolume */
+	__u8 uuid[BTRFS_UUID_SIZE];
+
+	/*
+	 * UUID of the subvolume of which this subvolume is a snapshot.
+	 * All zero for a non-snapshot subvolume.
+	 */
+	__u8 parent_uuid[BTRFS_UUID_SIZE];
+
+	/*
+	 * UUID of the subvolume from which this subvolume was received.
+	 * All zero for non-received subvolume.
+	 */
+	__u8 received_uuid[BTRFS_UUID_SIZE];
+
+	/* Transaction id indicating when change/create/send/receive happened */
+	__u64 ctransid;
+	__u64 otransid;
+	__u64 stransid;
+	__u64 rtransid;
+	/* Time corresponding to c/o/s/rtransid */
+	struct btrfs_ioctl_timespec ctime;
+	struct btrfs_ioctl_timespec otime;
+	struct btrfs_ioctl_timespec stime;
+	struct btrfs_ioctl_timespec rtime;
+
+	/* Must be zero */
+	__u64 reserved[8];
+     };
+
+     All of the fields of this structure are filled after the ioctl call.
 
 Implementation notes:
 
-     Syscall 'clock_getres_time64' was implemented similarly to 'clock_getres()'.
-     The only difference was that for the conversion of 'struct timespec' from
-     host to target, function 'host_to_target_timespec64()' was used instead of
-     'host_to_target_timespec()'.
+    Ioctls BTRFS_IOC_SUBVOL_CREATE and BTRFS_IOC_SUBVOL_GETINFO have structure
+    types as third arguments. That is the reason why a corresponding definition
+    are added in file 'linux-user/syscall_types.h'.
 
-     For other syscalls, new functions 'host_to_target_itimerspec64()' and
-     'target_to_host_itimerspec64()' were added to convert the value of the
-     'struct itimerspec' from host to target and vice versa. A new type
-     'struct target__kernel_itimerspec' was added in 'syscall_defs.h'. This
-     type was defined with fields which are of the already defined type
-     'struct target_timespec'. This new 'struct target__kernel_itimerspec'
-     type is used in these new converting functions. These new functions were
-     defined similarly to 'host_to_target_itimerspec()' and 'target_to_host_itimerspec()'
-     the only difference being that 'target_to_host_timespec64()' and
-     'host_to_target_timespec64()' were used.
+    The line '#include <linux/btrfs.h>' is added in file 'linux-user/syscall.c' to
+    recognise preprocessor definitions for these ioctls. Since the file "linux/btrfs.h"
+    was added in the kernel version 3.9, it is enwrapped in an #ifdef statement
+    with parameter CONFIG_BTRFS which is defined in 'configure' if the
+    header file is present.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200722153421.295411-3-Filip.Bozuta@syrmia.com>
+Message-Id: <20200803094629.21898-2-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c      | 139 +++++++++++++++++++++++++++++++++++++-
- linux-user/syscall_defs.h |   5 ++
- 2 files changed, 143 insertions(+), 1 deletion(-)
+ configure                  |  9 +++++++++
+ linux-user/ioctls.h        | 15 +++++++++++++++
+ linux-user/syscall.c       |  3 +++
+ linux-user/syscall_defs.h  |  8 ++++++++
+ linux-user/syscall_types.h | 28 ++++++++++++++++++++++++++++
+ 5 files changed, 63 insertions(+)
 
+diff --git a/configure b/configure
+index 2acc4d1465f8..1cba4e0b80fb 100755
+--- a/configure
++++ b/configure
+@@ -5079,6 +5079,12 @@ if check_include sys/kcov.h ; then
+     kcov=yes
+ fi
+ 
++# check for btrfs filesystem support (kernel must be 3.9+)
++btrfs=no
++if check_include linux/btrfs.h ; then
++    btrfs=yes
++fi
++
+ # If we're making warnings fatal, apply this to Sphinx runs as well
+ sphinx_werror=""
+ if test "$werror" = "yes"; then
+@@ -7330,6 +7336,9 @@ fi
+ if test "$kcov" = "yes" ; then
+   echo "CONFIG_KCOV=y" >> $config_host_mak
+ fi
++if test "$btrfs" = "yes" ; then
++  echo "CONFIG_BTRFS=y" >> $config_host_mak
++fi
+ if test "$inotify" = "yes" ; then
+   echo "CONFIG_INOTIFY=y" >> $config_host_mak
+ fi
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 0713ae131162..12d14442249f 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -174,6 +174,21 @@
+      IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
+      IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
+ 
++#ifdef BTRFS_IOC_SUBVOL_CREATE
++     IOCTL(BTRFS_IOC_SUBVOL_CREATE, IOC_W,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
++#endif
++#ifdef BTRFS_IOC_SUBVOL_GETFLAGS
++     IOCTL(BTRFS_IOC_SUBVOL_GETFLAGS, IOC_R, MK_PTR(TYPE_ULONGLONG))
++#endif
++#ifdef BTRFS_IOC_SUBVOL_SETFLAGS
++     IOCTL(BTRFS_IOC_SUBVOL_SETFLAGS, IOC_W, MK_PTR(TYPE_ULONGLONG))
++#endif
++#ifdef BTRFS_IOC_GET_SUBVOL_INFO
++     IOCTL(BTRFS_IOC_GET_SUBVOL_INFO, IOC_R,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_subvol_info_args)))
++#endif
++
+ #ifdef CONFIG_USBFS
+   /* USB ioctls */
+   IOCTL(USBDEVFS_CONTROL, IOC_RW,
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index aea1160804a2..bbb61a59c72f 100644
+index bbb61a59c72f..10dd53bf999b 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1247,7 +1247,9 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
- }
+@@ -115,6 +115,9 @@
+ #ifdef HAVE_DRM_H
+ #include <libdrm/drm.h>
  #endif
- 
--#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64)
-+#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
-+    defined(TARGET_NR_timer_settime64) || \
-+    (defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD))
- static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
-                                                  abi_ulong target_addr)
- {
-@@ -6801,6 +6803,24 @@ static inline abi_long target_to_host_itimerspec(struct itimerspec *host_its,
- }
- #endif
- 
-+#if defined(TARGET_NR_timer_settime64) || \
-+    (defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD))
-+static inline abi_long target_to_host_itimerspec64(struct itimerspec *host_its,
-+                                                   abi_ulong target_addr)
-+{
-+    if (target_to_host_timespec64(&host_its->it_interval, target_addr +
-+                                  offsetof(struct target__kernel_itimerspec,
-+                                           it_interval)) ||
-+        target_to_host_timespec64(&host_its->it_value, target_addr +
-+                                  offsetof(struct target__kernel_itimerspec,
-+                                           it_value))) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    return 0;
-+}
++#ifdef CONFIG_BTRFS
++#include <linux/btrfs.h>
 +#endif
-+
- #if ((defined(TARGET_NR_timerfd_gettime) || \
-       defined(TARGET_NR_timerfd_settime)) && defined(CONFIG_TIMERFD)) || \
-       defined(TARGET_NR_timer_gettime) || defined(TARGET_NR_timer_settime)
-@@ -6819,6 +6839,26 @@ static inline abi_long host_to_target_itimerspec(abi_ulong target_addr,
- }
- #endif
+ #include "linux_loop.h"
+ #include "uname.h"
  
-+#if ((defined(TARGET_NR_timerfd_gettime64) || \
-+      defined(TARGET_NR_timerfd_settime64)) && defined(CONFIG_TIMERFD)) || \
-+      defined(TARGET_NR_timer_gettime64) || defined(TARGET_NR_timer_settime64)
-+static inline abi_long host_to_target_itimerspec64(abi_ulong target_addr,
-+                                                   struct itimerspec *host_its)
-+{
-+    if (host_to_target_timespec64(target_addr +
-+                                  offsetof(struct target__kernel_itimerspec,
-+                                           it_interval),
-+                                  &host_its->it_interval) ||
-+        host_to_target_timespec64(target_addr +
-+                                  offsetof(struct target__kernel_itimerspec,
-+                                           it_value),
-+                                  &host_its->it_value)) {
-+        return -TARGET_EFAULT;
-+    }
-+    return 0;
-+}
-+#endif
-+
- #if defined(TARGET_NR_adjtimex) || \
-     (defined(TARGET_NR_clock_adjtime) && defined(CONFIG_CLOCK_ADJTIME))
- static inline abi_long target_to_host_timex(struct timex *host_tx,
-@@ -11811,6 +11851,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
-     }
- #endif
-+#ifdef TARGET_NR_clock_getres_time64
-+    case TARGET_NR_clock_getres_time64:
-+    {
-+        struct timespec ts;
-+        ret = get_errno(clock_getres(arg1, &ts));
-+        if (!is_error(ret)) {
-+            host_to_target_timespec64(arg2, &ts);
-+        }
-+        return ret;
-+    }
-+#endif
- #ifdef TARGET_NR_clock_nanosleep
-     case TARGET_NR_clock_nanosleep:
-     {
-@@ -12405,6 +12456,32 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     }
- #endif
- 
-+#ifdef TARGET_NR_timer_settime64
-+    case TARGET_NR_timer_settime64:
-+    {
-+        target_timer_t timerid = get_timer_id(arg1);
-+
-+        if (timerid < 0) {
-+            ret = timerid;
-+        } else if (arg3 == 0) {
-+            ret = -TARGET_EINVAL;
-+        } else {
-+            timer_t htimer = g_posix_timers[timerid];
-+            struct itimerspec hspec_new = {{0},}, hspec_old = {{0},};
-+
-+            if (target_to_host_itimerspec64(&hspec_new, arg3)) {
-+                return -TARGET_EFAULT;
-+            }
-+            ret = get_errno(
-+                          timer_settime(htimer, arg2, &hspec_new, &hspec_old));
-+            if (arg4 && host_to_target_itimerspec64(arg4, &hspec_old)) {
-+                return -TARGET_EFAULT;
-+            }
-+        }
-+        return ret;
-+    }
-+#endif
-+
- #ifdef TARGET_NR_timer_gettime
-     case TARGET_NR_timer_gettime:
-     {
-@@ -12428,6 +12505,29 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     }
- #endif
- 
-+#ifdef TARGET_NR_timer_gettime64
-+    case TARGET_NR_timer_gettime64:
-+    {
-+        /* args: timer_t timerid, struct itimerspec64 *curr_value */
-+        target_timer_t timerid = get_timer_id(arg1);
-+
-+        if (timerid < 0) {
-+            ret = timerid;
-+        } else if (!arg2) {
-+            ret = -TARGET_EFAULT;
-+        } else {
-+            timer_t htimer = g_posix_timers[timerid];
-+            struct itimerspec hspec;
-+            ret = get_errno(timer_gettime(htimer, &hspec));
-+
-+            if (host_to_target_itimerspec64(arg2, &hspec)) {
-+                ret = -TARGET_EFAULT;
-+            }
-+        }
-+        return ret;
-+    }
-+#endif
-+
- #ifdef TARGET_NR_timer_getoverrun
-     case TARGET_NR_timer_getoverrun:
-     {
-@@ -12481,6 +12581,20 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
- #endif
- 
-+#if defined(TARGET_NR_timerfd_gettime64) && defined(CONFIG_TIMERFD)
-+    case TARGET_NR_timerfd_gettime64:
-+        {
-+            struct itimerspec its_curr;
-+
-+            ret = get_errno(timerfd_gettime(arg1, &its_curr));
-+
-+            if (arg2 && host_to_target_itimerspec64(arg2, &its_curr)) {
-+                return -TARGET_EFAULT;
-+            }
-+        }
-+        return ret;
-+#endif
-+
- #if defined(TARGET_NR_timerfd_settime) && defined(CONFIG_TIMERFD)
-     case TARGET_NR_timerfd_settime:
-         {
-@@ -12504,6 +12618,29 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
- #endif
- 
-+#if defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD)
-+    case TARGET_NR_timerfd_settime64:
-+        {
-+            struct itimerspec its_new, its_old, *p_new;
-+
-+            if (arg3) {
-+                if (target_to_host_itimerspec64(&its_new, arg3)) {
-+                    return -TARGET_EFAULT;
-+                }
-+                p_new = &its_new;
-+            } else {
-+                p_new = NULL;
-+            }
-+
-+            ret = get_errno(timerfd_settime(arg1, arg2, p_new, &its_old));
-+
-+            if (arg4 && host_to_target_itimerspec64(arg4, &its_old)) {
-+                return -TARGET_EFAULT;
-+            }
-+        }
-+        return ret;
-+#endif
-+
- #if defined(TARGET_NR_ioprio_get) && defined(__NR_ioprio_get)
-     case TARGET_NR_ioprio_get:
-         return get_errno(ioprio_get(arg1, arg2));
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 3c261cff0e5e..427a25f5bce5 100644
+index 427a25f5bce5..5435baea38d9 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -259,6 +259,11 @@ struct target_itimerspec {
-     struct target_timespec it_value;
- };
+@@ -972,6 +972,14 @@ struct target_rtc_pll_info {
+ #define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
+ #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
  
-+struct target__kernel_itimerspec {
-+    struct target__kernel_timespec it_interval;
-+    struct target__kernel_timespec it_value;
-+};
++/* btrfs ioctls */
++#define TARGET_BTRFS_IOC_SUBVOL_CREATE          TARGET_IOWU(BTRFS_IOCTL_MAGIC, 14)
++#define TARGET_BTRFS_IOC_SUBVOL_GETFLAGS        TARGET_IOR(BTRFS_IOCTL_MAGIC, 25,\
++                                                           abi_ullong)
++#define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, 26,\
++                                                           abi_ullong)
++#define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IORU(BTRFS_IOCTL_MAGIC, 60)
 +
- struct target_timex {
-     abi_uint modes;              /* Mode selector */
-     abi_long offset;             /* Time offset */
+ /* usb ioctls */
+ #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
+ #define TARGET_USBDEVFS_BULK TARGET_IOWRU('U', 2)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 3f1f0334649b..cfd8e1c7eea7 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -354,6 +354,34 @@ STRUCT(blkpg_partition,
+        MK_ARRAY(TYPE_CHAR, BLKPG_DEVNAMELTH), /* devname */
+        MK_ARRAY(TYPE_CHAR, BLKPG_VOLNAMELTH)) /* volname */
+ 
++STRUCT(btrfs_ioctl_vol_args,
++       TYPE_LONGLONG, /* fd */
++       MK_ARRAY(TYPE_CHAR, BTRFS_PATH_NAME_MAX + 1)) /* name */
++
++STRUCT(btrfs_ioctl_timespec,
++       TYPE_ULONGLONG, /* sec */
++       TYPE_INT) /* nsec */
++
++STRUCT(btrfs_ioctl_get_subvol_info_args,
++       TYPE_ULONGLONG, /* treeid */
++       MK_ARRAY(TYPE_CHAR, BTRFS_VOL_NAME_MAX + 1),
++       TYPE_ULONGLONG, /* parentid */
++       TYPE_ULONGLONG, /* dirid */
++       TYPE_ULONGLONG, /* generation */
++       TYPE_ULONGLONG, /* flags */
++       MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* uuid */
++       MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* parent_uuid */
++       MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* received_uuid */
++       TYPE_ULONGLONG, /* ctransid */
++       TYPE_ULONGLONG, /* otransid */
++       TYPE_ULONGLONG, /* stransid */
++       TYPE_ULONGLONG, /* rtransid */
++       MK_STRUCT(STRUCT_btrfs_ioctl_timespec), /* ctime */
++       MK_STRUCT(STRUCT_btrfs_ioctl_timespec), /* otime */
++       MK_STRUCT(STRUCT_btrfs_ioctl_timespec), /* stime */
++       MK_STRUCT(STRUCT_btrfs_ioctl_timespec), /* rtime */
++       MK_ARRAY(TYPE_ULONGLONG, 8)) /* reserved */
++
+ STRUCT(rtc_time,
+        TYPE_INT, /* tm_sec */
+        TYPE_INT, /* tm_min */
 -- 
 2.26.2
 
