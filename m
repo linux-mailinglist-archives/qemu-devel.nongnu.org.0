@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3802432D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:35:18 +0200 (CEST)
-Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4C52432C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:31:34 +0200 (CEST)
+Received: from localhost ([::1]:37034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k641N-0001De-D9
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
+	id 1k63xl-0004yl-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:31:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sG-0004wk-UD
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:52 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41904)
+ id 1k63sM-00058r-89
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:58 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sF-00008K-1I
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:52 -0400
-Received: by mail-pl1-x641.google.com with SMTP id f10so2006232plj.8
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:50 -0700 (PDT)
+ id 1k63sK-00009k-4j
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:57 -0400
+Received: by mail-pf1-x443.google.com with SMTP id m71so2107851pfd.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b5OUwYC1ijM0U3q76fWa5pbJW4qjaynWy6iI0RpDBZA=;
- b=Z34Qg9RJYkEGdiY8XgVqi5Rc5YXJmKhvp33kAxFpafyAZJcer9i6qQqe5bkcdo1123
- wmcEValt0eaYNOsBVIPqFDALa7qXq8tCmde4lsGeALatZ4PgBJy83EpjMuTqugHAzZs9
- EyOE7fz5CzRPvpLAeADS/lnTqHYuQANFitytZxK2BCQMuQhy1UezCPrO6/zkXKEZkBiv
- 9VIsXEIlKKsgC4M6AaLZ2dbff7QgakTa0rPqoSSG94yh8nuzbLlrGGB8TJsPPP2HjngJ
- RovYJHOMWgweqgiTIABSk8EF7F+ufVXFLkkgNPSr9z+Xf1GpVlXE5aDfjD658YQh5JJR
- kfQg==
+ bh=TcYIyipPkI2d2aP17J0suGRqHmTuPSrIckZvWVvyskc=;
+ b=MGTeMRERtIQu9/aSHMjQ9sttR+a5b/lKB9WXQLADMrjS6iq6xqMNdKLKpc3J8VOQ+m
+ xueKzzFSn4K8sKnqvez2Fw4b1yo5NqPO77SDeUdtrRQSvHeLDyxiBblEb4CAk8usWPnW
+ Xil7Tv/7X5qJgnTkR0RxPRE4qXQALVp3VHXdEUHTGOthy4qdfKjVx2Tsa40Dt5Z1nAjJ
+ ODx1H28xy44x0VeP6odFCMYLjQwU9lzB1qJFwa0Zu2FMPZZDAHGdTTPRwlIc/qwzmYir
+ bB0DekBSJ2XMfbDodxAJCnpzZcVNTV3eunIVREKlB+H6AXDmYW8kHIbUwddr/ZIs2oiM
+ KE3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b5OUwYC1ijM0U3q76fWa5pbJW4qjaynWy6iI0RpDBZA=;
- b=RJspRT5JKqytaFqqLHVq3PNMTxLANOFDl3R9/nrSIOu1Eksn3YC2RankJcArtf/+S4
- 7G6Sc2QlUpqHqUoZu6kTyCxWC6vzfOlhHq1sYS82GnCO09afc+56Bpb9/dNcgz6eflRS
- J5cAOTo2B0n7Chqi+tOfkaV6Y4jwS3EXgg3s0jmhpLchFTPneECSIlbRU+LniIdl52so
- p6RFLekBTJuO2br6nUmlMgecUuKyshl/a+7UDwoUoJ5ZDBuK8NScRiaVLhmCilW9a7/0
- thDRtjTaXyHXMqKdjSh9NY4lBBLQwsuZcyootM2RR4v9OLDZ3ZmoM04sc5q3foDYhl/V
- eCGw==
-X-Gm-Message-State: AOAM531CYB/xZeNPi3Igl1Dt1azq2i3Um1vSvloUG8u02i2Oxm2wfmiL
- 3LKRjwQAlc35sNo1XPjOMTOfu9cc1SA=
-X-Google-Smtp-Source: ABdhPJzuHGa0z3arZXNJig3fOWPpx3+RTFygPAJRvnWCWHs5P7lR0LvNILzq8WPOmnL127nbPkyhXw==
-X-Received: by 2002:a17:90b:784:: with SMTP id l4mr2813640pjz.96.1597289149308; 
- Wed, 12 Aug 2020 20:25:49 -0700 (PDT)
+ bh=TcYIyipPkI2d2aP17J0suGRqHmTuPSrIckZvWVvyskc=;
+ b=qQlQ6BDURlXKlThAcXDeQqzJG8CU/3QenKTE/WpNswUruxbYAo44VFajI+Akf42nTM
+ OJ8V2JtNNjMxaNUKofJ2D7xi/4/ZieOKPRzNXX+9jdzu/jsiOvkg1Ejq9nnXT/OKlllA
+ YiAMfAxoYcQ9QlSIDxxvEDjwp0P91uu2qzdWxdfATmUeT/lk978A2zhoD2PYfiPYQlj6
+ qi5b9r0rvOiTr3i0JJ3SRt00oeZwiP8uKGhP8H+vocRRznzXcT6qsDGj86IfL9huNCNV
+ +i0/9fhR5yxEY5h5ehyizwzzHzew6UmUvHvCrQ6O/xUHSxkwdV8vQT73C1Q3Okh9E6yB
+ /WsQ==
+X-Gm-Message-State: AOAM533nb7ap6rMzFA8JHscBHqu3/3Q1DnvLimnqP25Wm1zDgliCTLmh
+ x4rjkYBDNKmVr2F5spIyH+pt0kTraKU=
+X-Google-Smtp-Source: ABdhPJxaMp+LOqWJtyB2mnInBPzjrFfNtw+aJ9mSNJ6I6TT3mimxRzwu/A24db/dAX3v2oXyQT5dKQ==
+X-Received: by 2002:aa7:9904:: with SMTP id z4mr2435215pff.32.1597289154407;
+ Wed, 12 Aug 2020 20:25:54 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.48
+ by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 20:25:48 -0700 (PDT)
+ Wed, 12 Aug 2020 20:25:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/17] crypto: Use the correct const type for driver
-Date: Wed, 12 Aug 2020 20:25:27 -0700
-Message-Id: <20200813032537.2888593-8-richard.henderson@linaro.org>
+Subject: [PATCH 11/17] crypto/builtin: Remove odd-sized AES block handling
+Date: Wed, 12 Aug 2020 20:25:31 -0700
+Message-Id: <20200813032537.2888593-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200813032537.2888593-1-richard.henderson@linaro.org>
 References: <20200813032537.2888593-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,154 +88,75 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the in memory structures to be read-only.
+We verified that the data block is properly sized modulo
+AES_BLOCK_SIZE within qcrypto_builtin_cipher_{en,de}crypt.
+Therefore we will never have to handle odd sized blocks.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/cipherpriv.h         |  2 +-
- include/crypto/cipher.h     |  2 +-
- crypto/cipher-afalg.c       |  2 +-
- crypto/cipher-builtin.inc.c |  2 +-
- crypto/cipher-gcrypt.inc.c  |  2 +-
- crypto/cipher-nettle.inc.c  |  2 +-
- crypto/cipher.c             | 12 ++++++------
- 7 files changed, 12 insertions(+), 12 deletions(-)
+ crypto/cipher-builtin.inc.c | 40 +++++++++++--------------------------
+ 1 file changed, 12 insertions(+), 28 deletions(-)
 
-diff --git a/crypto/cipherpriv.h b/crypto/cipherpriv.h
-index 9228c9fc3a..b73be33bd2 100644
---- a/crypto/cipherpriv.h
-+++ b/crypto/cipherpriv.h
-@@ -47,7 +47,7 @@ qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                              const uint8_t *key,
-                              size_t nkey, Error **errp);
- 
--extern struct QCryptoCipherDriver qcrypto_cipher_afalg_driver;
-+extern const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver;
- 
- #endif
- 
-diff --git a/include/crypto/cipher.h b/include/crypto/cipher.h
-index 95a0412911..022a8d1157 100644
---- a/include/crypto/cipher.h
-+++ b/include/crypto/cipher.h
-@@ -78,7 +78,7 @@ struct QCryptoCipher {
-     QCryptoCipherAlgorithm alg;
-     QCryptoCipherMode mode;
-     void *opaque;
--    void *driver;
-+    const QCryptoCipherDriver *driver;
- };
- 
- /**
-diff --git a/crypto/cipher-afalg.c b/crypto/cipher-afalg.c
-index cd72284690..5c7c44761b 100644
---- a/crypto/cipher-afalg.c
-+++ b/crypto/cipher-afalg.c
-@@ -218,7 +218,7 @@ static void qcrypto_afalg_comm_ctx_free(QCryptoCipher *cipher)
-     qcrypto_afalg_comm_free(cipher->opaque);
- }
- 
--struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
-+const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
-     .cipher_encrypt = qcrypto_afalg_cipher_encrypt,
-     .cipher_decrypt = qcrypto_afalg_cipher_decrypt,
-     .cipher_setiv = qcrypto_afalg_cipher_setiv,
 diff --git a/crypto/cipher-builtin.inc.c b/crypto/cipher-builtin.inc.c
-index 56d45b0227..156f32f1c7 100644
+index 1444139f36..e2ae5d090c 100644
 --- a/crypto/cipher-builtin.inc.c
 +++ b/crypto/cipher-builtin.inc.c
-@@ -522,7 +522,7 @@ qcrypto_builtin_cipher_setiv(QCryptoCipher *cipher,
- }
- 
- 
--static struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
-+static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
-     .cipher_encrypt = qcrypto_builtin_cipher_encrypt,
-     .cipher_decrypt = qcrypto_builtin_cipher_decrypt,
-     .cipher_setiv = qcrypto_builtin_cipher_setiv,
-diff --git a/crypto/cipher-gcrypt.inc.c b/crypto/cipher-gcrypt.inc.c
-index a62839914b..18850fadb9 100644
---- a/crypto/cipher-gcrypt.inc.c
-+++ b/crypto/cipher-gcrypt.inc.c
-@@ -413,7 +413,7 @@ qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
- }
- 
- 
--static struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
-+static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
-     .cipher_encrypt = qcrypto_gcrypt_cipher_encrypt,
-     .cipher_decrypt = qcrypto_gcrypt_cipher_decrypt,
-     .cipher_setiv = qcrypto_gcrypt_cipher_setiv,
-diff --git a/crypto/cipher-nettle.inc.c b/crypto/cipher-nettle.inc.c
-index 0404cfc6da..6ecce5e8ea 100644
---- a/crypto/cipher-nettle.inc.c
-+++ b/crypto/cipher-nettle.inc.c
-@@ -724,7 +724,7 @@ qcrypto_nettle_cipher_setiv(QCryptoCipher *cipher,
- }
- 
- 
--static struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
-+static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
-     .cipher_encrypt = qcrypto_nettle_cipher_encrypt,
-     .cipher_decrypt = qcrypto_nettle_cipher_decrypt,
-     .cipher_setiv = qcrypto_nettle_cipher_setiv,
-diff --git a/crypto/cipher.c b/crypto/cipher.c
-index deae82c264..d3ef856009 100644
---- a/crypto/cipher.c
-+++ b/crypto/cipher.c
-@@ -165,7 +165,7 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
+@@ -80,21 +80,13 @@ static void qcrypto_cipher_aes_ecb_encrypt(const AES_KEY *key,
  {
-     QCryptoCipher *cipher;
-     void *ctx = NULL;
--    QCryptoCipherDriver *drv = NULL;
-+    const QCryptoCipherDriver *drv = NULL;
- 
- #ifdef CONFIG_AF_ALG
-     ctx = qcrypto_afalg_cipher_ctx_new(alg, mode, key, nkey, NULL);
-@@ -187,7 +187,7 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
-     cipher->alg = alg;
-     cipher->mode = mode;
-     cipher->opaque = ctx;
--    cipher->driver = (void *)drv;
-+    cipher->driver = drv;
- 
-     return cipher;
- }
-@@ -199,7 +199,7 @@ int qcrypto_cipher_encrypt(QCryptoCipher *cipher,
-                            size_t len,
-                            Error **errp)
- {
--    QCryptoCipherDriver *drv = cipher->driver;
-+    const QCryptoCipherDriver *drv = cipher->driver;
-     return drv->cipher_encrypt(cipher, in, out, len, errp);
- }
- 
-@@ -210,7 +210,7 @@ int qcrypto_cipher_decrypt(QCryptoCipher *cipher,
-                            size_t len,
-                            Error **errp)
- {
--    QCryptoCipherDriver *drv = cipher->driver;
-+    const QCryptoCipherDriver *drv = cipher->driver;
-     return drv->cipher_decrypt(cipher, in, out, len, errp);
+     const uint8_t *inptr = in;
+     uint8_t *outptr = out;
++
++    /* We have already verified that len % AES_BLOCK_SIZE == 0. */
+     while (len) {
+-        if (len > AES_BLOCK_SIZE) {
+-            AES_encrypt(inptr, outptr, key);
+-            inptr += AES_BLOCK_SIZE;
+-            outptr += AES_BLOCK_SIZE;
+-            len -= AES_BLOCK_SIZE;
+-        } else {
+-            uint8_t tmp1[AES_BLOCK_SIZE], tmp2[AES_BLOCK_SIZE];
+-            memcpy(tmp1, inptr, len);
+-            /* Fill with 0 to avoid valgrind uninitialized reads */
+-            memset(tmp1 + len, 0, sizeof(tmp1) - len);
+-            AES_encrypt(tmp1, tmp2, key);
+-            memcpy(outptr, tmp2, len);
+-            len = 0;
+-        }
++        AES_encrypt(inptr, outptr, key);
++        inptr += AES_BLOCK_SIZE;
++        outptr += AES_BLOCK_SIZE;
++        len -= AES_BLOCK_SIZE;
+     }
  }
  
-@@ -219,14 +219,14 @@ int qcrypto_cipher_setiv(QCryptoCipher *cipher,
-                          const uint8_t *iv, size_t niv,
-                          Error **errp)
+@@ -106,21 +98,13 @@ static void qcrypto_cipher_aes_ecb_decrypt(const AES_KEY *key,
  {
--    QCryptoCipherDriver *drv = cipher->driver;
-+    const QCryptoCipherDriver *drv = cipher->driver;
-     return drv->cipher_setiv(cipher, iv, niv, errp);
+     const uint8_t *inptr = in;
+     uint8_t *outptr = out;
++
++    /* We have already verified that len % AES_BLOCK_SIZE == 0. */
+     while (len) {
+-        if (len > AES_BLOCK_SIZE) {
+-            AES_decrypt(inptr, outptr, key);
+-            inptr += AES_BLOCK_SIZE;
+-            outptr += AES_BLOCK_SIZE;
+-            len -= AES_BLOCK_SIZE;
+-        } else {
+-            uint8_t tmp1[AES_BLOCK_SIZE], tmp2[AES_BLOCK_SIZE];
+-            memcpy(tmp1, inptr, len);
+-            /* Fill with 0 to avoid valgrind uninitialized reads */
+-            memset(tmp1 + len, 0, sizeof(tmp1) - len);
+-            AES_decrypt(tmp1, tmp2, key);
+-            memcpy(outptr, tmp2, len);
+-            len = 0;
+-        }
++        AES_decrypt(inptr, outptr, key);
++        inptr += AES_BLOCK_SIZE;
++        outptr += AES_BLOCK_SIZE;
++        len -= AES_BLOCK_SIZE;
+     }
  }
  
- 
- void qcrypto_cipher_free(QCryptoCipher *cipher)
- {
--    QCryptoCipherDriver *drv;
-+    const QCryptoCipherDriver *drv;
-     if (cipher) {
-         drv = cipher->driver;
-         drv->cipher_free(cipher);
 -- 
 2.25.1
 
