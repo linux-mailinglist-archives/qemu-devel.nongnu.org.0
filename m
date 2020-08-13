@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21D82438A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:34:00 +0200 (CEST)
-Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846B02438B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:39:35 +0200 (CEST)
+Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6AYZ-0001eZ-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49918)
+	id 1k6Ady-0002AA-EM
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:39:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6AX6-0008RM-A9; Thu, 13 Aug 2020 06:32:28 -0400
-Resent-Date: Thu, 13 Aug 2020 06:32:28 -0400
-Resent-Message-Id: <E1k6AX6-0008RM-A9@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6AX3-0006o9-5R; Thu, 13 Aug 2020 06:32:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597314689; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jLN3zi8M+Ku50kwPLms9jwLhQtdyER6bsMurq9/thmse9s9532BO+X2rH0vejaBpxNrd/jso/YEo7TzkRvkJq0m6WkSewOHjRpQ/K21yjSoTsmOkYYCuHNHilIsNKNqUDbvXDQ2Ym/it+Zc7zEoLNk8svxnnh5L7VaCKGe1VVec=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597314689;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=uCFSmA9YXN3XC9TerVKBDpwk6HXqxk26+iluOIYB3KQ=; 
- b=Kx8xx6s59XT9JF6931H25THwt9J4lmcl3rbFvYR+pVKwAgG4jWps/YhGWswHnK5rZ+VV2w8VG1Zvf8YuohNXvv3PUaHI2GhJ8skfkwRJj8Jhf629VRO61YW2Vu+ZwGbSmTBMfSGcBAoM9+lNdByTFWS7esYlU48t1Yo+WUshkSA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597314683703715.8650426971684;
- Thu, 13 Aug 2020 03:31:23 -0700 (PDT)
-Subject: Re: [PULL 0/9] Tracing patches
-Message-ID: <159731468176.15736.6746841650533502356@66eaa9a8a123>
-In-Reply-To: <20200813052257.226142-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1k6AXJ-0000Ie-JJ; Thu, 13 Aug 2020 06:32:41 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:35433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1k6AXG-0006qV-JV; Thu, 13 Aug 2020 06:32:41 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.114])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 5D6C156C3F6E;
+ Thu, 13 Aug 2020 12:32:33 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 13 Aug
+ 2020 12:32:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00440820938-64db-4370-9f6f-432a1066d5e5,
+ 56FC6CFA6F9FB878813463EC2CBCCD0911300B36) smtp.auth=groug@kaod.org
+Date: Thu, 13 Aug 2020 12:32:31 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 2/2] spapr/nvram: Error out if NVRAM cannot contain
+ all -prom-env data
+Message-ID: <20200813123231.7b62286c@bahia.lan>
+In-Reply-To: <20200813064336.GC17532@yekko.fritz.box>
+References: <159725212173.104309.6136813383848717434.stgit@bahia.lan>
+ <159725213748.104309.14834084670144632611.stgit@bahia.lan>
+ <a3b37d03-b8e5-fc1c-7988-4f71cb19c090@vivier.eu>
+ <20200812210654.6ee82d66@bahia.lan>
+ <20200813064336.GC17532@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefanha@redhat.com
-Date: Thu, 13 Aug 2020 03:31:23 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:32:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/uLQ7OWRoSkRY_DXd3+tJ2=k";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 126cbad8-4e67-4a56-b2ee-6a3073e08c92
+X-Ovh-Tracer-Id: 1639591739589958051
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrleehgddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhfffgjeelfeeggffgteehfedtvefhhedtgeegheffudetudduuefgvdelleeuteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepjhhsnhhofiesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:32:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,71 +73,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, lizhijian@cn.fujitsu.com, mst@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, Alistair.Francis@wdc.com,
- kraxel@redhat.com, sagark@eecs.berkeley.edu, qemu-block@nongnu.org,
- quintela@redhat.com, david@redhat.com, aleksandar.qemu.devel@gmail.com,
- marcandre.lureau@redhat.com, aleksandar.rikalo@syrmia.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, stefanha@redhat.com, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, kwolf@redhat.com, qemu-riscv@nongnu.org,
- kbastian@mail.uni-paderborn.de, mreitz@redhat.com, chen.zhang@intel.com,
- palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net,
- stefanb@linux.ibm.com
+Cc: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxMzA1MjI1Ny4yMjYx
-NDItMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA4MTMwNTIyNTcuMjI2
-MTQyLTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzldIFRyYWNpbmcgcGF0
-Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
-IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNm
-NWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJh
-bmNoICd0ZXN0JwphYjFlMGUwIHRyYWNlLWV2ZW50czogRml4IGF0dHJpYnV0aW9uIG9mIHRyYWNl
-IHBvaW50cyB0byBzb3VyY2UKYjRlNmM5NCB0cmFjZS1ldmVudHM6IERlbGV0ZSB1bnVzZWQgdHJh
-Y2UgcG9pbnRzCjk2N2IxMDAgc2NyaXB0cy9jbGVhbnVwLXRyYWNlLWV2ZW50czogRW1pdCBmaWxl
-cyBpbiBhbHBoYWJldGljYWwgb3JkZXIKYTNiNTQ4MyBzY3JpcHRzL2NsZWFudXAtdHJhY2UtZXZl
-bnRzOiBGaXggZm9yIHZjcHUgcHJvcGVydHkKYzg0NmJmNyBzb2Z0bW11OiBBZGQgbWlzc2luZyB0
-cmFjZS1ldmVudHMgZmlsZQo2M2Q1OTgyIG5ldC9jb2xvOiBNYXRjaCBpcy1lbmFibGVkIHByb2Jl
-IHRvIHRyYWNlcG9pbnQKNzVlYWI0MiBidWlsZDogRG9uJ3QgbWFrZSBvYmplY3QgZmlsZXMgZm9y
-IGR0cmFjZSBvbiBtYWNPUwoyOGIyOTUxIHNjcmlwdHMvdHJhY2V0b29sOiBVc2Ugdm9pZCBwb2lu
-dGVyIGZvciB2Y3B1CmRjNDRmOWYgc2NyaXB0cy90cmFjZXRvb2w6IEZpeCBkdHJhY2UgZ2VuZXJh
-dGlvbiBmb3IgbWFjT1MKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQg
-ZGM0NGY5ZjM5NWZmIChzY3JpcHRzL3RyYWNldG9vbDogRml4IGR0cmFjZSBnZW5lcmF0aW9uIGZv
-ciBtYWNPUykKMi85IENoZWNraW5nIGNvbW1pdCAyOGIyOTUxNTU1Y2QgKHNjcmlwdHMvdHJhY2V0
-b29sOiBVc2Ugdm9pZCBwb2ludGVyIGZvciB2Y3B1KQozLzkgQ2hlY2tpbmcgY29tbWl0IDc1ZWFi
-NDJkZTE4YyAoYnVpbGQ6IERvbid0IG1ha2Ugb2JqZWN0IGZpbGVzIGZvciBkdHJhY2Ugb24gbWFj
-T1MpCjQvOSBDaGVja2luZyBjb21taXQgNjNkNTk4MjEzMDU4IChuZXQvY29sbzogTWF0Y2ggaXMt
-ZW5hYmxlZCBwcm9iZSB0byB0cmFjZXBvaW50KQo1LzkgQ2hlY2tpbmcgY29tbWl0IGM4NDZiZjdh
-ZmVmNCAoc29mdG1tdTogQWRkIG1pc3NpbmcgdHJhY2UtZXZlbnRzIGZpbGUpCldBUk5JTkc6IGFk
-ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
-dGluZz8KIzc2OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
-aW5ncywgMTExIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgo2LzkgQ2hlY2tpbmcgY29tbWl0IGEzYjU0ODNkNDI4MyAoc2NyaXB0cy9jbGVhbnVwLXRy
-YWNlLWV2ZW50czogRml4IGZvciB2Y3B1IHByb3BlcnR5KQpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiMzMzogRklMRTogc2NyaXB0cy9jbGVhbnVwLXRyYWNlLWV2ZW50
-cy5wbDozODoKK15JICAgIGRlZmluZWQgJDMgPyAoKSA6ICgnLS1tYXgtZGVwdGgnLCAnMScpLCQK
-CkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM0OiBGSUxFOiBzY3Jp
-cHRzL2NsZWFudXAtdHJhY2UtZXZlbnRzLnBsOjM5OgorXkkgICAgJHBhdCQKCnRvdGFsOiAyIGVy
-cm9ycywgMCB3YXJuaW5ncywgMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi85IGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCgo3LzkgQ2hlY2tpbmcgY29tbWl0IDk2N2IxMDBmODUyMCAoc2NyaXB0
-cy9jbGVhbnVwLXRyYWNlLWV2ZW50czogRW1pdCBmaWxlcyBpbiBhbHBoYWJldGljYWwgb3JkZXIp
-CjgvOSBDaGVja2luZyBjb21taXQgYjRlNmM5NGRhZDY0ICh0cmFjZS1ldmVudHM6IERlbGV0ZSB1
-bnVzZWQgdHJhY2UgcG9pbnRzKQo5LzkgQ2hlY2tpbmcgY29tbWl0IGFiMWUwZTBmZjQzZCAodHJh
-Y2UtZXZlbnRzOiBGaXggYXR0cmlidXRpb24gb2YgdHJhY2UgcG9pbnRzIHRvIHNvdXJjZSkKPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4MTMw
-NTIyNTcuMjI2MTQyLTEtc3RlZmFuaGFAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+--Sig_/uLQ7OWRoSkRY_DXd3+tJ2=k
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 13 Aug 2020 16:43:36 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> On Wed, Aug 12, 2020 at 09:06:54PM +0200, Greg Kurz wrote:
+> > On Wed, 12 Aug 2020 19:29:26 +0200
+> > Laurent Vivier <laurent@vivier.eu> wrote:
+> >=20
+> > > Le 12/08/2020 =C3=A0 19:08, Greg Kurz a =C3=A9crit=C2=A0:
+> > > > Since commit 61f20b9dc5b7 ("spapr_nvram: Pre-initialize the NVRAM to
+> > > > support the -prom-env parameter"), pseries machines can pre-initial=
+ize
+> > > > the "system" partition in the NVRAM with the data passed to all -pr=
+om-env
+> > > > parameters on the QEMU command line.
+> > > >=20
+> > > > In this cases it is assumed that all the data fits in 64 KiB, but t=
+he user
+> > > > can easily pass more and crash QEMU:
+> > > >=20
+> > > > $ qemu-system-ppc64 -M pseries $(for ((x=3D0;x<128;x++)); do \
+> > > >   echo -n " -prom-env "$(for ((y=3D0;y<1024;y++)); do echo -n x ; d=
+one) ; \
+> > > >   done) # this requires ~128 Kib
+> > > > malloc(): corrupted top size
+> > > > Aborted (core dumped)
+> > > >=20
+> > > > Call chrp_nvram_create_system_partition() first, with its recently =
+added
+> > > > parameter dry_run set to true, in order to know the required size a=
+nd fail
+> > > > gracefully if it's too small.
+> > >=20
+> > > Why do you need the dry_run parameter?
+> > > Can't you fail on the normal case?
+> > >=20
+> >=20
+> > Not sure what the "normal case" stands for... but basically, only
+> > chrp_nvram_create_system_partition() knows the exact size of the
+> > partition (ie. size of the header + size of all prom-env strings
+> > including the terminal nul + padding to the upper 16-byte aligment).
+> >=20
+> > Another solution could be to pass the buffer size and errp to
+> > chrp_nvram_create_system_partition() and chrp_nvram_set_var(),
+> > and let chrp_nvram_set_var() check it won't memcpy() past the
+> > buffer. But this is more code and since this is also used by
+> > other machine types, I chose to go for the dry_run parameter.
+>=20
+> Hm, it does feel like a more natural interface to me, though, rather
+> than always having to call it twice.  Basically just add a "max_size"
+> parameter.
+>=20
+
+Ok, I can do that but we won't be able to report much to the
+user appart from "spapr-nvram (64 KiB) is too small", without
+any accurate hint to reduce the size of the -prom-env data.
+
+> > Should I improve the changelog to make this clearer or are
+> > you thinking to something else ?
+> >=20
+> > > Thanks,
+> > > Laurent
+> > >=20
+> > > >=20
+> > > > Reported-by: John Snow <jsnow@redhat.com>
+> > > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > > ---
+> > > >  hw/nvram/spapr_nvram.c |   15 +++++++++++++++
+> > > >  1 file changed, 15 insertions(+)
+> > > >=20
+> > > > diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
+> > > > index 992b818d34e7..c29d797ae1f0 100644
+> > > > --- a/hw/nvram/spapr_nvram.c
+> > > > +++ b/hw/nvram/spapr_nvram.c
+> > > > @@ -145,6 +145,7 @@ static void rtas_nvram_store(PowerPCCPU *cpu, S=
+paprMachineState *spapr,
+> > > > =20
+> > > >  static void spapr_nvram_realize(SpaprVioDevice *dev, Error **errp)
+> > > >  {
+> > > > +    ERRP_GUARD();
+> > > >      SpaprNvram *nvram =3D VIO_SPAPR_NVRAM(dev);
+> > > >      int ret;
+> > > > =20
+> > > > @@ -187,6 +188,20 @@ static void spapr_nvram_realize(SpaprVioDevice=
+ *dev, Error **errp)
+> > > >              return;
+> > > >          }
+> > > >      } else if (nb_prom_envs > 0) {
+> > > > +        int len =3D chrp_nvram_create_system_partition(nvram->buf,
+> > > > +                                                     MIN_NVRAM_SIZ=
+E / 4,
+> > > > +                                                     true);
+> > > > +
+> > > > +        /* Check the partition is large enough for all the -prom-e=
+nv data */
+> > > > +        if (nvram->size < len) {
+> > > > +            error_setg(errp, "-prom-env data requires %d bytes but=
+ spapr-nvram "
+> > > > +                       "is only %d bytes in size", len, nvram->siz=
+e);
+> > > > +            error_append_hint(errp,
+> > > > +                              "Try to pass %d less bytes to -prom-=
+env.\n",
+> > > > +                              len - nvram->size);
+> > > > +            return;
+> > > > +        }
+> > > > +
+> > > >          /* Create a system partition to pass the -prom-env variabl=
+es */
+> > > >          chrp_nvram_create_system_partition(nvram->buf, MIN_NVRAM_S=
+IZE / 4,
+> > > >                                             false);
+> > > >=20
+> > > >=20
+> > >=20
+> >=20
+>=20
+
+
+--Sig_/uLQ7OWRoSkRY_DXd3+tJ2=k
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl81Fr8ACgkQcdTV5YIv
+c9ZikA//Uc9ja7GfbXIhYZEOaMOqAjKDYswrP140J+XpCT2fkqUXOIX6+IK8GLPb
+Ycvfm9Lnaz2Mkxc3atDvapppjOT1845Yn1+rrlQrdjc255gyfzIaiVaeW9RHtOyj
+filHMKV5tdgR5sFEqryc7PIa9v87W6bgQLu3MIM3LOzRRTw/o1VFeuf+ac8oZbMF
+Hv6aadfug/6a91ErJnH30IRYSo/XeRBdM7fsSzrVMtqc1owrbeLgogWfNf7bJgw7
+JR9RRzGHlq80+RGzNiHxre0FKT7xlSjtUFr9LYTNnMW5vlXQttTjYR9FpfHxeEtx
+glKOrooI1+E5wKZXg0QP3+vHzuo4bibii6Gx3KeI5NQOTGSYM9/UeSjMVs9B6+NW
+MR7iw3XHGvg7wQq2oUcE41u5ldIGOT1i6R2s6AnB0R0vLdfkcobAXCZe3hjprDKp
+RRh3Ua/hvhf4S7G6R4qORRQrcMT/hDi5buiWwF40ia7rj64wT+vpJ5+qkpCqmqgY
+wgzRkuEJgjTOEwtbyuba5XO6Ei+a0g0tWLMrZ/zj7l+N2YoOGrHNhfHvd6G/qSsa
+gmnwZeZHjHXnpWlWUCDS9dh3zaxnVs0Hv71lFaUUgF9aa6n8xr90d+oCvAUEp8S+
+3eO9C7/xaGLrz0+td3TZIrQxJDZgYHt2JtFze5KumjkwWHO+jrg=
+=HnZe
+-----END PGP SIGNATURE-----
+
+--Sig_/uLQ7OWRoSkRY_DXd3+tJ2=k--
 
