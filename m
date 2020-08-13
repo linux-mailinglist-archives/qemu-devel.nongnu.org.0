@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC6C24390C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:02:27 +0200 (CEST)
-Received: from localhost ([::1]:49084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A930243929
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:13:50 +0200 (CEST)
+Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6B06-0006Pf-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55564)
+	id 1k6BB7-0005sQ-Cc
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k6Ayi-0005qU-Mi
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:01:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37061
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k6Aya-0001da-Qa
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:00:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597316449;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Si5NhwS7GcEPQi8MCfcvnQD3matxk43KbKWlT99iNXI=;
- b=Nf5ySvBHqhpinYHO+Q1qH1FyJA9i6njTeRlOpkWwS2n7DqE2mTdWo2RMDQzM/b6QUJ1o79
- A5afhT1bHjUaYNJfvW9NQ34i7Cmh1hFNnH10XwXmozlU0nOsfY+dPdHJPY8D6y3zLCAmZy
- hThdQOUadU+EeGLE7D/SdCA0ObjP65c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-dwc51L4QPm-Ri5owmeuDbw-1; Thu, 13 Aug 2020 07:00:46 -0400
-X-MC-Unique: dwc51L4QPm-Ri5owmeuDbw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 037C4801AC2;
- Thu, 13 Aug 2020 11:00:45 +0000 (UTC)
-Received: from gondolin (ovpn-112-216.ams2.redhat.com [10.36.112.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73D6F629DD;
- Thu, 13 Aug 2020 11:00:37 +0000 (UTC)
-Date: Thu, 13 Aug 2020 13:00:34 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peng Liang <liangpeng10@huawei.com>
-Subject: Re: [RFC 6/9] target/arm: introduce KVM_CAP_ARM_CPU_FEATURE
-Message-ID: <20200813130034.421b3368.cohuck@redhat.com>
-In-Reply-To: <20200813102657.2588720-7-liangpeng10@huawei.com>
-References: <20200813102657.2588720-1-liangpeng10@huawei.com>
- <20200813102657.2588720-7-liangpeng10@huawei.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k6B96-0003sr-CK
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:11:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k6B94-00035Y-63
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:11:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k6B91-0003no-RF
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 11:11:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B47602E80AB
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 11:11:39 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:45:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Aug 2020 11:04:26 -0000
+From: Rohit Shinde <1874678@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd rohits134
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Rohit Shinde (rohits134)
+References: <158772236083.23646.1538920873771593848.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159731666669.8968.8609334447384093617.malone@wampee.canonical.com>
+Subject: [Bug 1874678] Re: [Feature request] python-qemu package
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6a138c03da9cc3e2e03f6dd3bbb4a615b0be6ec2";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e04238b7750cd0ddd5a37564f7cda360ffc2f28f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 07:11:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,41 +72,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, qemu-arm@nongnu.org, pbonzini@redhat.com
+Reply-To: Bug 1874678 <1874678@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Aug 2020 18:26:54 +0800
-Peng Liang <liangpeng10@huawei.com> wrote:
+Hello, I am new to the community and I would like to cut my teeth with
+this bug. Is this a good starting point? If so, where should I be
+looking?
 
-> Introduce KVM_CAP_ARM_CPU_FEATURE to check whether KVM supports to set
-> CPU features in ARM.
-> 
-> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> ---
->  linux-headers/linux/kvm.h |  1 +
->  target/arm/cpu.c          |  5 +++++
->  target/arm/kvm64.c        | 14 ++++++++++++++
->  target/arm/kvm_arm.h      |  7 +++++++
->  4 files changed, 27 insertions(+)
-> 
-> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> index a28c366737..0b83d2b4bb 100644
-> --- a/linux-headers/linux/kvm.h
-> +++ b/linux-headers/linux/kvm.h
-> @@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_PPC_SECURE_GUEST 181
->  #define KVM_CAP_HALT_POLL 182
->  #define KVM_CAP_ASYNC_PF_INT 183
-> +#define KVM_CAP_ARM_CPU_FEATURE 187
->  
->  #ifdef KVM_CAP_IRQ_ROUTING
+-- =
 
-Please split out this header update into a separate patch so that it
-can be replaced by a proper headers update once the kernel code has been
-included.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874678
 
+Title:
+  [Feature request] python-qemu package
+
+Status in QEMU:
+  New
+
+Bug description:
+  It would be useful to have the python/qemu/ files published as a
+  Python pip package, so users from distribution can also use the QEMU
+  python methods (in particular for testing) without having to clone the
+  full repository.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874678/+subscriptions
 
