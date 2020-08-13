@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91D4243D9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:42:17 +0200 (CEST)
-Received: from localhost ([::1]:41532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF59243DAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:47:58 +0200 (CEST)
+Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6GIy-0007s8-Qf
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58128)
+	id 1k6GOT-0005Jr-EN
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6GFq-0002Ch-Gj; Thu, 13 Aug 2020 12:39:02 -0400
-Resent-Date: Thu, 13 Aug 2020 12:39:02 -0400
-Resent-Message-Id: <E1k6GFq-0002Ch-Gj@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6GFk-0002Uc-Un; Thu, 13 Aug 2020 12:39:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597336721; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aOHQU7E6uv05GZEqku2TAJ2C6ZnNMXDuqARqtKNtmFh8BohXxOQfBJMB3IuEXzcVY4e0W8P0UZ9lSC+ZJE8TGsd3Wvf6F4lQqkv5cfpxd+FDS1LiQSMZpaImwQN3+udFm/e6/ygStTwUfnOEAlYUXI6/To8Y4tHkpK2TFVCkx1E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597336721;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=cEJexteia1ydPDabafGK3z8ADJa7J97Kd+S5lqcUZKY=; 
- b=Q0ykR9tkVI94isyh+2awiLYVdOfxwPR/PUGy+cvfdS5PSrieTiqzEW+8JUseMTFc5O3peHjjk0PELlIHi9RzhKwR0/SA76QNDjiNzMCOvX5iwO8dG1Rd92QBoadTheK9pqsuemJdaMY/AT/D2ESnyeRY7nALgSoQb2KnKn0jibE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597336718467522.5794212143501;
- Thu, 13 Aug 2020 09:38:38 -0700 (PDT)
-Subject: Re: [RFC 0/9] Support disable/enable CPU features for AArch64
-Message-ID: <159733671752.15736.14773440514228826219@66eaa9a8a123>
-In-Reply-To: <20200813102657.2588720-1-liangpeng10@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: liangpeng10@huawei.com
-Date: Thu, 13 Aug 2020 09:38:38 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 10:17:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1k6GNW-0004rF-P9
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:46:59 -0400
+Received: from mail-m971.mail.163.com ([123.126.97.1]:39560)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liq3ea@163.com>) id 1k6GNQ-0003XB-Ts
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:46:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=3RWw/EPFpusD4YS/Bx
+ BHEuBEnEA7bbd7X3AiOWv7oAA=; b=H7F0IQtJjMiXPRWlKMAiH71fxO7iti6vHI
+ lTHG2voWdGungVOHi2/RMtib+mCvFShTcmHuyVwOuW2fkeWUkKD0IqjsHzYv1qWR
+ 8NDcZn24zfxA5TVJ/VGLNVh0ro54G8ubvQbiJSYmZPsytZfpec85fv9vDbz+y3lW
+ e+HFKGN4g=
+Received: from localhost.localdomain (unknown [115.204.177.14])
+ by smtp1 (Coremail) with SMTP id GdxpCgDXghhzbjVfVCJ4Ag--.54S4;
+ Fri, 14 Aug 2020 00:46:44 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: mst@redhat.com,
+	david@redhat.com
+Subject: [PATCH] hw: virtio-mem: detach the element fromt the virtqueue when
+ error occurs
+Date: Thu, 13 Aug 2020 09:46:37 -0700
+Message-Id: <20200813164637.58904-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: GdxpCgDXghhzbjVfVCJ4Ag--.54S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tF18XrykJFWxCry8XF47Arb_yoW8Wr43pr
+ 48AFZ8Aa1xJFWIqF4ftF1UWry8Aws7tr12k3yxZw15GF1kAFn7JF1UZFyjqry7ArZ5ZF4x
+ WFnYgr4aqas7uw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRHv3nUUUUU=
+X-Originating-IP: [115.204.177.14]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBaxV-bVet1mnlsQAAs9
+Received-SPF: pass client-ip=123.126.97.1; envelope-from=liq3ea@163.com;
+ helo=mail-m971.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 11:36:23
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,59 +64,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, liangpeng10@huawei.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com
+Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxMzEwMjY1Ny4yNTg4
-NzIwLTEtbGlhbmdwZW5nMTBAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
-aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
-bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
-VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcg
-Vj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VO
-Vj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgYWFy
-Y2g2NC1zb2Z0bW11L3RhcmdldC9hcm0vZ2Ric3R1YjY0Lm8KICBDQyAgICAgIGFhcmNoNjQtc29m
-dG1tdS90YXJnZXQvYXJtL21hY2hpbmUubwovdG1wL3FlbXUtdGVzdC9zcmMvdGFyZ2V0L2FybS9j
-cHUuYzogSW4gZnVuY3Rpb24gJ2FybV9jcHVfc2V0X2JpdF9wcm9wJzoKL3RtcC9xZW11LXRlc3Qv
-c3JjL3RhcmdldC9hcm0vY3B1LmM6MTU4Njo1OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24g
-b2YgZnVuY3Rpb24gJ2t2bV9hcm1fY3B1X2ZlYXR1cmVfc3VwcG9ydGVkJyBbLVdlcnJvcj1pbXBs
-aWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KICAgICBpZiAoIWt2bV9hcm1fY3B1X2ZlYXR1cmVf
-c3VwcG9ydGVkKCkpIHsKICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvYXJtL2NwdS5j
-OjE1ODY6NTogZXJyb3I6IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ2t2bV9hcm1fY3B1
-X2ZlYXR1cmVfc3VwcG9ydGVkJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KY2MxOiBhbGwgd2Fy
-bmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS90
-YXJnZXQvYXJtL2FyY2hfZHVtcC5vCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvdGFyZ2V0L2Fy
-bS9tb25pdG9yLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS90YXJnZXQvYXJtL2FybS1wb3dl
-cmN0bC5vCm1ha2VbMV06ICoqKiBbdGFyZ2V0L2FybS9jcHUub10gRXJyb3IgMQptYWtlWzFdOiAq
-KiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIENDICAgICAgYWFyY2g2NC1zb2Z0
-bW11L3RhcmdldC9hcm0va3ZtLXN0dWIubwptYWtlOiAqKiogW2FhcmNoNjQtc29mdG1tdS9hbGxd
-IEVycm9yIDIKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2Vi
-YWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tl
-ci5weSIsIGxpbmUgNzA5LCBpbiA8bW9kdWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NF
-cnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5k
-ICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmlu
-c3RhbmNlLnV1aWQ9NjZjODBjODcyYmY1NGQ1MDg0ZGU1NGZiY2NjNDM1M2MnLCAnLXUnLCAnMTAw
-MScsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScs
-ICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9
-JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUn
-LCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8uY2Fj
-aGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1w
-L3BhdGNoZXctdGVzdGVyLXRtcC14em1fbDlrZi9zcmMvZG9ja2VyLXNyYy4yMDIwLTA4LTEzLTEy
-LjM1LjIzLjU1MTk6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3Rt
-cC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVz
-IDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTY2YzgwYzg3
-MmJmNTRkNTA4NGRlNTRmYmNjYzQzNTNjCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3Ig
-MQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LXh6bV9sOWtmL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10g
-RXJyb3IgMgoKcmVhbCAgICAzbTE1LjAwM3MKdXNlciAgICAwbTguOTU5cwoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4MTMxMDI2NTcu
-MjU4ODcyMC0xLWxpYW5ncGVuZzEwQGh1YXdlaS5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2Vu
-dG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+If error occurs while processing the virtio request we should call
+'virtqueue_detach_element' to detach the element from the virtqueue
+before free the elem.
+
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ hw/virtio/virtio-mem.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 7740fc613f..5ac6c3ec67 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -318,8 +318,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+         if (iov_to_buf(elem->out_sg, elem->out_num, 0, &req, len) < len) {
+             virtio_error(vdev, "virtio-mem protocol violation: invalid request"
+                          " size: %d", len);
+-            g_free(elem);
+-            return;
++            goto out_free;
+         }
+ 
+         if (iov_size(elem->in_sg, elem->in_num) <
+@@ -327,8 +326,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+             virtio_error(vdev, "virtio-mem protocol violation: not enough space"
+                          " for response: %zu",
+                          iov_size(elem->in_sg, elem->in_num));
+-            g_free(elem);
+-            return;
++            goto out_free;
+         }
+ 
+         type = le16_to_cpu(req.type);
+@@ -348,12 +346,15 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+         default:
+             virtio_error(vdev, "virtio-mem protocol violation: unknown request"
+                          " type: %d", type);
+-            g_free(elem);
+-            return;
++            goto out_free;
+         }
+ 
+         g_free(elem);
+     }
++
++out_free:
++    virtqueue_detach_element(vq, elem, 0);
++    g_free(elem);
+ }
+ 
+ static void virtio_mem_get_config(VirtIODevice *vdev, uint8_t *config_data)
+-- 
+2.17.1
+
 
