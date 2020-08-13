@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD5C24344C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 08:59:04 +0200 (CEST)
-Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197BC24347A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:11:12 +0200 (CEST)
+Received: from localhost ([::1]:33102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k67CZ-00042U-ER
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 02:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
+	id 1k67OJ-0000oJ-52
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1k673e-0006ih-LU
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:50 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:42702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1k673c-0004ex-IJ
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:50 -0400
-Received: by mail-lj1-x231.google.com with SMTP id t6so4957419ljk.9
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 23:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=o/A8FCyx+K32letLTQoKf/IgU57Dq8E7yF9o2orHsiw=;
- b=ewSPeLo5EhPIN/7AP0I/Y5cOerQRZPGyY3fgNl7lE1vGwfbqwnwuZq8sC74i8ajHNz
- cva0XPmUrihN/7QwKSz16z7mkpqWHZkjnmLO7IuyvveUHbwnpwtCFDuzXEffXtx0QGhO
- sK1JhcI46eq7K/WmSo5E6Y8Wf3vHOPf7BN3FtR4K0unA3pon3I+sD9cQN9tfCY5BBPwg
- vowahzY4gh0Fhp5/5CbFhj/ICPK1koRAVDpMFKiygJlaoA/Hc2u6Sdwm6/6rviL8pONw
- wNAZekmg/AYNQjhX8+7Hn+kBHRogbJpp3WBOUhH/rFk+1Ugb+THP3hAc/rNiHkP2tdwp
- p+3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=o/A8FCyx+K32letLTQoKf/IgU57Dq8E7yF9o2orHsiw=;
- b=s30OoWOuL4WCcFvU2G42EWhtjkh0YRAP9Sb3yjNnDsIuDcsMBef0bhsDNBAQ4O4MUF
- JTn4FVTyC+mBrk7vWhD6zo07S5q4sgi9xEIrjjZTytlbsBs5rlTtl+KAanmW3XTr9E+m
- aUxBIiO0CZSNuoIATiaPORpDRTPrD5LfDcyLrnOOvVpFtdXRdQJKlURz9Tm378VtROd9
- d3QsY0s5VaRrZONBry28rnf4GCW85irMH8cncXZRHYHLmd/uRrRG2hdKOjbkC9m6znjA
- J46gHf5LkwrpsH0GhgBYykFNeQzWBLS/tfTaiUBWXx2Vym7S9jPXKOSvQTBUCq8Cs3IJ
- /Rng==
-X-Gm-Message-State: AOAM5333g8HFGjIrdS47T1iywbs18FF8390f8053tg+p/sKcMAd/TBs8
- w5hykgIpwWzVV6TQ16kA9GHvhOzV35w=
-X-Google-Smtp-Source: ABdhPJx3HxbmxRDGLL5YWfUH61KXUxVWONlzRJj2clQ02RdICEzNsoz9Pbw2fxFaajv0b7nKtS8SSw==
-X-Received: by 2002:a2e:a54f:: with SMTP id e15mr1182682ljn.115.1597301381288; 
- Wed, 12 Aug 2020 23:49:41 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id e25sm890794ljp.47.2020.08.12.23.49.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 23:49:40 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/virtio-pci Added AER capability.
-Date: Thu, 13 Aug 2020 10:19:31 +0300
-Message-Id: <20200813071931.19846-2-andrew@daynix.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200813071931.19846-1-andrew@daynix.com>
-References: <20200813071931.19846-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k67ND-0008EJ-9D
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 03:10:03 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46421 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k67N9-0006xx-Q6
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 03:10:02 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BRyPY67PBz9sTR; Thu, 13 Aug 2020 17:09:53 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1597302593;
+ bh=CDouRUfmn0DVhAqEvIlph0RBDWOAqqou106EFH3BjtY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MaH5ehXfmBMCqEJirvztntzQ5aCE6Soh9zPQ3Dvgc/L7JRI4H11UZOWbQNVmc71zh
+ Y9aDyhEs54wpszQn0q3vdg5xaGznvLQ39fzCTgGEr397nhzivHWCEjhsIC6npznqmi
+ 0uyVAGgqeW8upAnztCJYkQD6QLr33SpScQ+ZPxf8=
+Date: Thu, 13 Aug 2020 16:36:44 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH v4 0/9] memory: assert and define MemoryRegionOps callbacks
+Message-ID: <20200813063644.GB17532@yekko.fritz.box>
+References: <20200811114133.672647-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::231;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x231.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
+Content-Disposition: inline
+In-Reply-To: <20200811114133.672647-1-ppandit@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:09:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,87 +62,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1857668
-Added AER capability for virtio-pci devices.
-Also added property for devices, by default AER is enabled.
+--3uo+9/B/ebqu+fSQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/virtio/virtio-pci.c | 16 ++++++++++++++++
- hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 20 insertions(+)
+On Tue, Aug 11, 2020 at 05:11:24PM +0530, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>=20
+> Hello,
+>=20
+> * This series asserts that MemoryRegionOps objects define read/write
+>   callback methods. Thus avoids potential NULL pointer dereference.
+>   ex. -> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dbb15013ef34617=
+eb1344f5276292cadd326c21b2
+>=20
+> * Also adds various undefined MemoryRegionOps read/write functions
+>   to avoid potential assert failure.
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 8e02709605..646dfb8a0d 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1806,6 +1806,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-          */
-         pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
- 
-+        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-+            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-+                          PCI_ERR_SIZEOF, NULL);
-+            last_pcie_cap_offset += PCI_ERR_SIZEOF;
-+        }
-+
-         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
-             /* Init error enabling flags */
-             pcie_cap_deverr_init(pci_dev);
-@@ -1847,7 +1853,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
- 
- static void virtio_pci_exit(PCIDevice *pci_dev)
- {
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-+    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
-+                     !pci_bus_is_root(pci_get_bus(pci_dev));
-+
-     msix_uninit_exclusive_bar(pci_dev);
-+    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-+        pci_is_express(pci_dev)) {
-+        pcie_aer_exit(pci_dev);
-+    }
- }
- 
- static void virtio_pci_reset(DeviceState *qdev)
-@@ -1900,6 +1914,8 @@ static Property virtio_pci_properties[] = {
-                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-     DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-+    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_AER_BIT, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index e2eaaa9182..4b2491ff15 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -45,6 +45,7 @@ enum {
-     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-     VIRTIO_PCI_FLAG_INIT_PM_BIT,
-     VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-+    VIRTIO_PCI_FLAG_AER_BIT,
- };
- 
- /* Need to activate work-arounds for buggy guests at vmstate load. */
-@@ -84,6 +85,9 @@ enum {
- /* Init Function Level Reset capability */
- #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
- 
-+/* Advanced Error Reporting capability */
-+#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-+
- typedef struct {
-     MSIMessage msg;
-     int virq;
--- 
-2.27.0
+The overall idea seems fine.  Looks like we could avoid a fair bit of
+boilerplate - and slightly reduce our binary size - by introducing a
+global unimplemented_write() function.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--3uo+9/B/ebqu+fSQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8033oACgkQbDjKyiDZ
+s5Lnlw//eQ/RhQIAQrLSuTXkaHtck0mxT/ouOXa/FDftJ9jRj0TBLHjQKUcolOD9
+MRs4xbCRCXmrT5EKwFk/B7xljmybpHo+rJqZPZo6h7Ut/3FRZmLruJWMqnDw+5Kn
+6wEyGXxGjN08zt887r6bQVbyI/z8gIc+KPKzbSs58mWuSRhkX/bv0M4Ws1/GSIrY
+p9xTMQ1FJHa3ZHS5/klvbiPgtCL7pmh41Y5UPDml2e0PNmOfzdriGZfo+zrwA61q
+Rm7XcnjHVdQoqDqdyxwsabZCv58Jg2vNbC2ElMdbPNr8SH8WIMD6sot2tsbCgjnh
+i42Tzwi4HGV9xQWW6E92dfj7v1VVMM2JvVLfAmCRoc4IgxrVLC0PpI8cSO1FB+ll
+zn9AaDo3QIysBBiLIMGk/emdmZoRHwK0I9mkISjArWJ+QkpFvm6gxZbBzNKZUdj2
+ucsVXpq6/yk550hs8wtM5e9lENZqkMg/JQ8VnoYyFTv1eiQbSI+pqsqV7pUcTABo
+krGZSeavV2Tv6/GhCrZoKE0VpCJL6uVz7vSszfTb580ytgmrOoc3ARUppijnOo8k
+mZM9US8TWPNfCDAo4OU/R+IDm9DN88p9sDXuqVzsoGHnYTGWy/7bpu2ayYpl7KSy
+qio7rRu8lZa2NI7rn9E15Cu0B19KlgCZkuFTs/52TfpdfVSvm8o=
+=8UTy
+-----END PGP SIGNATURE-----
+
+--3uo+9/B/ebqu+fSQ--
 
