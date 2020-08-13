@@ -2,53 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E465B2431AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 02:10:55 +0200 (CEST)
-Received: from localhost ([::1]:36726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FA82431BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 02:33:26 +0200 (CEST)
+Received: from localhost ([::1]:46190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k60pa-0007Fw-HB
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 20:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54288)
+	id 1k61BN-0003te-2N
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 20:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k60on-0006lB-AB; Wed, 12 Aug 2020 20:10:05 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39903 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1k619d-0002Qv-EG
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 20:31:38 -0400
+Received: from mail-dm6nam12on2057.outbound.protection.outlook.com
+ ([40.107.243.57]:38983 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k60oj-0006Zc-PW; Wed, 12 Aug 2020 20:10:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BRn4s0knwz9sTM; Thu, 13 Aug 2020 10:09:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597277389;
- bh=KpWeZjc4SxL8xfOPVPcf6z/CatX54IwfQQPXxVk+P+4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kvZk5qniS8sD0jt0Gls29bNbvAazF22PAgfD/MEwn1wGN85isBoO4PqaC5SPsCXyX
- yq5EFCxMlyzU+tVL9kpP0YCzB/0yFLhPZRaoAUwx2JAzaZNN2GbzSn8MIgl7HbOH/p
- 5yNihOsMq4Goc6WoMT/fvN9rO1LZ1RAq+/eGteD8=
-Date: Thu, 13 Aug 2020 10:03:21 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2] target/ppc: Integrate icount to purr, vtb, and tbu40
-Message-ID: <20200813000321.GA17532@yekko.fritz.box>
-References: <20200811153235.4527-1-gromero@linux.ibm.com>
- <5944440c-73ac-8c21-9f02-fee91a3a2dfd@linaro.org>
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1k619Z-0000bO-7s
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 20:31:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yl+mFV+9mlSgfAFutTwR7kHjWeW3h0IJ6Dzoyr40Twwj5BjJ5TsVqmrOb8GkypFG6bTcezFUlWj+bG6d0dNhTpvG/bAV6XB+N3jgRFk36GqAOw+1M+/jr0R9Qkpb7BkAwK57uV+M88QH3RSGT9BrwWR9S8RDjmjsSXnxDbAGBt3wLFPp2SKdfAG13Lwc4HpbiaMfIPaklh5BosCQM7rNH6x7hvI8xu896pdKctT2Oh3glKUQskgqDqkND1h+3JOoRLURLdHceFqFBmA+Q8mMtulYXKCKykkjPYgPgPj2SY50DcMgiqSA7deJ+xbUgqbvBhdvnsVVx3yV1bg8heYspw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G4bU/P0757RU2BIV9V6EDPHmvu4qjb2Kg0E+sfeCRfk=;
+ b=DmTexmj6FoHdblHYsGPQTVd8o8sBZdWQDEapluPy/UkecMl+t7ko4BNAVmwhPknxwyMrClCcIBKiiw3im4+Y45y4z1taF+LEDhJD5DkTUHS7esA8j9GdOLkzJxJW+35tdSdCMgqBxzaGzsBFFl3CAO7/6qNuRe7otFW4E1EK7yuWmWaOzu86oUqL2cied4OvSAvVAr2v1htkFtfPbMGenu5n2Mi4xeA9K6zE0sFIsMC6y6zGYso5JVUF1e0k/1fqy20uApAiyZwOyivgTHm7zT55hvAp9u7W2FO60VX9Qmo7Jyxznnnx9avjXC8TXG5afYColMj6JGRg0B1PzEQ47Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G4bU/P0757RU2BIV9V6EDPHmvu4qjb2Kg0E+sfeCRfk=;
+ b=EBQu/b+O0ymAFf5hWme5Me77vSCK+gukS00ikXHwwgJYMXa8cu1S1OxZNnOV6+e5rY3JfEDjYBBtOLwigzgZ0v52nAgulgrUbG81OhQ3W6ZYbKI+Euh2aYyy6a4be4odqsXVbJo+uiSR4PjEGMQGzmtVvMs7kkJ/+eSJN94SYlE=
+Received: from CY4PR01CA0008.prod.exchangelabs.com (2603:10b6:903:1f::18) by
+ BYAPR02MB4471.namprd02.prod.outlook.com (2603:10b6:a03:56::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3261.25; Thu, 13 Aug 2020 00:31:27 +0000
+Received: from CY1NAM02FT012.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:1f:cafe::60) by CY4PR01CA0008.outlook.office365.com
+ (2603:10b6:903:1f::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16 via Frontend
+ Transport; Thu, 13 Aug 2020 00:31:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT012.mail.protection.outlook.com (10.152.75.158) with Microsoft SMTP
+ Server id 15.20.3283.16 via Frontend Transport; Thu, 13 Aug 2020 00:31:27
+ +0000
+Received: from [149.199.38.66] (port=57235 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1k619J-0006yr-Sn
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 17:31:17 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1k619T-00080l-4p
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 17:31:27 -0700
+Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 07D0VGGZ029492; 
+ Wed, 12 Aug 2020 17:31:16 -0700
+Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1k619I-0007xR-GO; Wed, 12 Aug 2020 17:31:16 -0700
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
+Date: Wed, 12 Aug 2020 17:31:04 -0700
+Message-Id: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
-Content-Disposition: inline
-In-Reply-To: <5944440c-73ac-8c21-9f02-fee91a3a2dfd@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 20:09:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 32cb5b78-e1b8-42dc-255b-08d83f203761
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4471:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB44710AB7B834AAF6C6F28589BC430@BYAPR02MB4471.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: b7lSjecV67gqywvLg6XVHCaCQYui1t+DYeLwiWchEkRwHozxMoTrsp8OV3zYPCiCPoTwviM8PLqzsD7/TFT5ZVoriWtDXNAvjS+TXps0/YL+GyTezd+Qe1rJc2LKgEsmVkdqP7lHMGg2jpLjGxW6fml22fvX2UpZV3/5+fzSmyw3ewfrWSx4gfW/f4+8cp58CAmu7BiLT8e0PYQM9xQfu//TNkaZODcvO2etNp6VO0ieM+RF1Mm+Z4Z/vi6lWoArzfuF7MzmkS1azw+YRtnlKyJWAtbix73Ay9ig4kxsSCIgbtG2nhLTTOLx1siHH1up4gYyrDU0JVBOWzjesP6H22/bhpnZ9TnzY54rC9Gmsob4NP2Fny7ML+AbaaOFT7fUlvR1Lpr6ODFDk2hh2GG+eg==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(396003)(346002)(136003)(376002)(39860400002)(46966005)(70206006)(26005)(70586007)(36756003)(2906002)(8676002)(4326008)(2616005)(186003)(5660300002)(83380400001)(7696005)(6666004)(47076004)(426003)(9786002)(356005)(316002)(82740400003)(478600001)(107886003)(81166007)(8936002)(336012)(6916009)(82310400002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2020 00:31:27.3521 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32cb5b78-e1b8-42dc-255b-08d83f203761
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT012.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4471
+Received-SPF: pass client-ip=40.107.243.57; envelope-from=fnuv@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/12 20:31:32
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,69 +128,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
- clg@kaod.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Changelog:
 
---BOKacYhQ+x31HxR3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v8 -> v9:
+    Use g_autofree to do automatic cleanup the object_get_canonical_path() used.
 
-On Wed, Aug 12, 2020 at 02:33:33PM -0700, Richard Henderson wrote:
-> On 8/11/20 8:32 AM, Gustavo Romero wrote:
-> > Currently if option '-icount auto' is passed to the QEMU TCG to enable
-> > counting instructions the VM crashes with the following error report wh=
-en
-> > Linux runs on it:
-> >=20
-> > qemu-system-ppc64: Bad icount read
-> >=20
-> > This happens because read/write access to the SPRs PURR, VTB, and TBU40
-> > is not integrated to the icount framework.
-> >=20
-> > This commit fixes that issue by making the read/write access of these
-> > SPRs aware of icount framework, adding the proper gen_io_start() calls
-> > before calling the helpers to load/store these SPRs in TCG and ensuring
-> > that the associated TBs end immediately after, accordingly to what's in
-> > docs/devel/tcg-icount.rst.
-> >=20
-> > Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-> > ---
-> >  target/ppc/translate_init.inc.c | 30 ++++++++++++++++++++++++++++++
-> >  1 file changed, 30 insertions(+)
->=20
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v7 -> v8:
+    Change CAN controller to keep one canbus per controller.
+    Add canbus connections at machine level.
+    Remove ctrl_idx from CAN controller.
 
-Applied to ppc-for-5.2, thanks.
+v6 -> v7:
+    Remove '-m 4G' option from xlnx-can-test. This option causes the fail of
+    docker-quick@centos7 build test.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+v5 -> v6:
+    Add ptimer based counter for time stamping on RX messages.
+    Fix reset issues.
+    Rebase the patches with master latest changes.
+    Added reference clock property for CAN ptimer.
 
---BOKacYhQ+x31HxR3
-Content-Type: application/pgp-signature; name="signature.asc"
+v4 -> v5:
+    Add XlnxZynqMPCAN controller id to debug messages.
+    Drop parameter errp of object_property_add().
+    Add formatting related suggestions.
 
------BEGIN PGP SIGNATURE-----
+v3 -> v4:
+    Correct formatting issues.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl80g0cACgkQbDjKyiDZ
-s5LmQg/+PfVvvwHr7AvWkGs3XRBHLfuQtuA/SbsoARKOAVoM6Rpdjdhv0U1i3QZW
-WWOGxvhvRjQwj1T68kSRMK7G1HuP/sdaSteG6FmfanwFGXyqChVe1AlKgicz2iCr
-F+ckgCxB6OopMpsW1zd6sM7etq1qgSvgbE+ZUgJExKHUzGFR7RsRnymn4Uf3MZVM
-T1QF9X80DGhL+06TY+TkBCpnli8VjkLaTADUpbZ+ldYMJ03LyZykFL7QHQNIvF34
-RKUATQo2isQvIShcXDp7i0kAKAZoV6MxyQGML6snVOeaOiIcM14JQJgpZ7rWJQPH
-G+WrIl+Ibq2wBYUAaf/s/zT06hBfdmkQjsLolnpzLu4169y0dEHNIZ/hewkd4ZgE
-7FCs9asstyuVc40KdlOMZ3roor949np1LqzpBrVGA6C98Jq4t7GTEyoewdG8gWXd
-GSZVPC7bQIUGMCBZvQIZbEn/fjM6ExntDIbwpQv23kStcuLfBpMonNNnEJ0g8T/T
-LNGJ1ntZXgl2li0P0Pk0Lz26XL9S0+Os17HcJD4j2orXcSVqrhBCNtZC7fsw7gzp
-CCuqC+G8Qpj1KXU92ecAi9VsRoEXF110LfyC1qphGLdEx0O5f20GVFUyJPbPdGCT
-1Ft7BhOnXdDRbM4OJIqysI88VlZWrGZXIevcExp6A1lAZcDQjyc=
-=THmT
------END PGP SIGNATURE-----
+v2 -> v3:
+    Rectify the build issue.
+    Rearrange the patch order.
 
---BOKacYhQ+x31HxR3--
+v1 -> v2:
+    Rename the CAN device state and address code style issues.
+    Connect the CAN device to Xlnx-ZCU102 board.
+    Add maintainer entry.
+    Add QTEST for the CAN device.
+
+Vikram Garhwal (4):
+  hw/net/can: Introduce Xilinx ZynqMP CAN controller
+  xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+  tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+  MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
+
+ MAINTAINERS                      |    8 +
+ hw/arm/xlnx-zcu102.c             |   20 +
+ hw/arm/xlnx-zynqmp.c             |   34 ++
+ hw/net/can/Makefile.objs         |    1 +
+ hw/net/can/xlnx-zynqmp-can.c     | 1165 ++++++++++++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-zynqmp.h     |    8 +
+ include/hw/net/xlnx-zynqmp-can.h |   78 +++
+ tests/qtest/Makefile.include     |    2 +
+ tests/qtest/xlnx-can-test.c      |  359 ++++++++++++
+ 9 files changed, 1675 insertions(+)
+ create mode 100644 hw/net/can/xlnx-zynqmp-can.c
+ create mode 100644 include/hw/net/xlnx-zynqmp-can.h
+ create mode 100644 tests/qtest/xlnx-can-test.c
+
+--
+2.7.4
+
 
