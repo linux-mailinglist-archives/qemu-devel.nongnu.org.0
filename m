@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A5F24392A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:13:53 +0200 (CEST)
-Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32C9243941
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:20:55 +0200 (CEST)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6BBA-0005wK-4H
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
+	id 1k6BHy-0001rW-K4
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6B7b-0000fv-5L; Thu, 13 Aug 2020 07:10:11 -0400
-Received: from ozlabs.org ([203.11.71.1]:57179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6B7Z-0002oo-6S; Thu, 13 Aug 2020 07:10:10 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS3kc2jyDz9sTd; Thu, 13 Aug 2020 21:10:00 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597317000;
- bh=foQMAWmt7AjawlqZj8XJbw5C3NIXPcleCTuzk4f8zlM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JeIIFEHziX5jWZwGSjMdpBSxdAPPzevrbhcQT1sQeGZPV/mnGEGSxdQazboP//SDq
- wFh10yTPlWXcD5RpID9BFHYm9S/A08DfSFMlH/Lt7k4XUmnKJxqm5N/VDPPhnKfKUx
- liOwvMvWmQh3wIXPh7A74WUsK1Q+WGb5a2hCOIZ4=
-Date: Thu, 13 Aug 2020 21:09:53 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 14/14] spapr/xive: Simplify error handling of
- kvmppc_xive_cpu_synchronize_state()
-Message-ID: <20200813110953.GE6255@yekko.fritz.box>
-References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707852916.1489912.8376334685349668124.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <mark.rutland@arm.com>)
+ id 1k6B7f-0000qg-Ls
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:10:15 -0400
+Received: from foss.arm.com ([217.140.110.172]:46092)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <mark.rutland@arm.com>) id 1k6B7c-0002pQ-KU
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:10:14 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07EC731B;
+ Thu, 13 Aug 2020 04:10:11 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.38.123])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDFFA3F70D;
+ Thu, 13 Aug 2020 04:10:09 -0700 (PDT)
+Date: Thu, 13 Aug 2020 12:10:06 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH 1/2] target/arm: Add cpu property to control pauth
+Message-ID: <20200813111006.GC45195@C02TD0UTHF1T.local>
+References: <20200812065339.2030527-1-richard.henderson@linaro.org>
+ <20200812065339.2030527-2-richard.henderson@linaro.org>
+ <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
+ <2219f3f9-7894-f898-0cad-43eccaa2a70d@linaro.org>
+ <20200812163107.lbubi6c7ei7i5hmw@kamzik.brq.redhat.com>
+ <20200813060321.cbr2tun6cuq25yst@kamzik.brq.redhat.com>
+ <20200813090504.GA45195@C02TD0UTHF1T.local>
+ <20200813094907.y5253jvekiqbz7n2@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="brEuL7wsLY8+TuWz"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <159707852916.1489912.8376334685349668124.stgit@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:45:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200813094907.y5253jvekiqbz7n2@kamzik.brq.redhat.com>
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=mark.rutland@arm.com; helo=foss.arm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 05:05:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,120 +62,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, peter.maydell@linaro.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Aug 13, 2020 at 11:49:07AM +0200, Andrew Jones wrote:
+> On Thu, Aug 13, 2020 at 10:05:04AM +0100, Mark Rutland wrote:
+> > On Thu, Aug 13, 2020 at 08:03:21AM +0200, Andrew Jones wrote:
+> > > Thinking about this some more, maybe we don't need pauth-arch.
+> > > If we don't, then it simplifies nicely to
+> > > 
+> > >  # Default (enabled with architected algorithm)
+> > >  -cpu max[,pauth=on][,pauth-fast=off]
+> > > 
+> > >  # Select pauth-fast
+> > >  -cpu max[,pauth=on],pauth-fast=on
+> > 
+> > One reason that users may wish to choose the IMP-DEF algorithm is for
+> > functional testing regardless of speed (since APA+GPA / API+GPI depend
+> > on whether the algo is architected or imp-def).
+> > 
+> > Given that, I think that "impdef" is a better option name than
+> > "pauth-fast", and speed is a benefit but not the only reason to use the
+> > option.
+> 
+> I was going with pauth-fast because in this case Richard identified a
+> need for a fast version. If we identify another need later, then we may
+> want to add another impdef version, e.g. pauth-foo. Maybe all the impdef
+> versions should have impdef in their name to make that more explicit?
+> 
+>  pauth-impdef-fast
+>  pauth-impdef-foo
 
---brEuL7wsLY8+TuWz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Something like that is fine by me.
 
-On Mon, Aug 10, 2020 at 06:55:29PM +0200, Greg Kurz wrote:
-> Now that kvmppc_xive_cpu_get_state() returns negative on error, use that
-> and get rid of the temporary Error object and error_propagate().
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> > How about hacing a 'pauth-algo' option which defaults to architected,
+> > e.g.
+> > 
+> > | -cpu max,pauth={on,off},pauth-algo={impdef,architected}
+> > 
+> > ... then in future the 'pauth={on,off}' bit could de extended to cover
+> > FPAC version etc independently of the algorithm, but for now that can be
+> > a boolean.
+> 
+> Keeping pauth a boolean, but creating a pauth-algo enum doesn't help us
+> much, because probing will only be possible for pauth. The prober could
+> only decide to enable pauth with the default algo or not. We could create
+> a pauth-specific probe, similar to the gic-specific probe, but, IMO, it's
+> really not necessary. If we need multiple pauth-* properties, then we can
+> have them all. It just adds a few more lines of logic to the pauth
+> finalize function.
 
-Applied to ppc-for-5.2.
+I suspect that it will be necessary in future handle multiple options to
+enumerate things like FPAC/EPAC separately from the algorithm used,
+which is why I suggested the algo being its own option now.
 
-> ---
->  hw/intc/spapr_xive_kvm.c |   14 ++++++--------
->  include/hw/ppc/xive.h    |    2 +-
->  2 files changed, 7 insertions(+), 9 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index e9a36115bed6..d871bb1a0016 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -119,7 +119,8 @@ int kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error *=
-*errp)
-> =20
->  typedef struct {
->      XiveTCTX *tctx;
-> -    Error *err;
-> +    Error **errp;
-> +    int ret;
->  } XiveCpuGetState;
-> =20
->  static void kvmppc_xive_cpu_do_synchronize_state(CPUState *cpu,
-> @@ -127,14 +128,14 @@ static void kvmppc_xive_cpu_do_synchronize_state(CP=
-UState *cpu,
->  {
->      XiveCpuGetState *s =3D arg.host_ptr;
-> =20
-> -    kvmppc_xive_cpu_get_state(s->tctx, &s->err);
-> +    s->ret =3D kvmppc_xive_cpu_get_state(s->tctx, s->errp);
->  }
-> =20
-> -void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
-> +int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
->  {
->      XiveCpuGetState s =3D {
->          .tctx =3D tctx,
-> -        .err =3D NULL,
-> +        .errp =3D errp,
->      };
-> =20
->      /*
-> @@ -143,10 +144,7 @@ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tct=
-x, Error **errp)
->      run_on_cpu(tctx->cs, kvmppc_xive_cpu_do_synchronize_state,
->                 RUN_ON_CPU_HOST_PTR(&s));
-> =20
-> -    if (s.err) {
-> -        error_propagate(errp, s.err);
-> -        return;
-> -    }
-> +    return s.ret;
->  }
-> =20
->  int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index 785c905357dc..2c42ae92d287 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -488,7 +488,7 @@ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t rin=
-g, uint8_t ipb);
->  int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **er=
-rp);
->  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
->  int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
-> -void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
-> +int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
->  int kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp);
->  int kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp);
-> =20
->=20
->=20
+I can live with whatever you folk decide on.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---brEuL7wsLY8+TuWz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81H4EACgkQbDjKyiDZ
-s5K7jA//eGSKFcbwni5heY38uEoH86QkSVkxsBQ8pjmzsq+c+d3/Qd1g2Sz41LcC
-HENxSvH9jZqNR4qTdEGUzZBwSs5pIACeZW31wCMhYV9AH7r9g3NXNyPJvctXevys
-kLV0kWhOVvJq+Z39XtsHFLbsdQjTO28DalsBSjLxhdXqXwFhuvK8fvLOqzYp+XRh
-bj/ZS8wUXuvE/x0oECa2bf/cDofT/1uRTOMpnFlweb6MQFzad2HqomEue/hSVVT4
-w4xZn0aiWcGlnwHGzi/3f5+dn8wRDmkk5YtfGhDK8er+oeyGHFTo1Q44BoC7iRb8
-fQaC8/DTyvvU5uHV3JHsUWH7ZtfuP8dmKKv9UGyGiqKSAM7rPstb+IKzH8CHMQ8H
-09x0DnH4VfuHzS6evtnfDrzP+ZCDFTpHY9UoPau40Fc4P6D1O2hDkLoTog0Y/NEK
-b6lhdsSgb3ZBADB3e6D3ZnU2/yRUxBVeyhJVN3sN4OxanxK/o61oVkRkzGWu6K0S
-uN44fcfCdcW6+dnGbJwy7ZsOYO5s2eF4ulSQaFzaQhqJCFWtfO3j7h+yCYRcfq9i
-iQ3MqqRhvPGagLoZzqSDDt7FBPCFMo6rxYihVDKIkmti4w/DUiX7bn2bYr14TeXy
-WbiS37DDP8RzeBInZlr59a2ER6Y58PlGcbkkZq35af2fz4ZtU+g=
-=YbcJ
------END PGP SIGNATURE-----
-
---brEuL7wsLY8+TuWz--
+Thanks,
+Mark.
 
