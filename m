@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C63B243E5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 19:33:47 +0200 (CEST)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BA6243E78
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 19:46:48 +0200 (CEST)
+Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6H6o-0000nj-Co
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 13:33:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41736)
+	id 1k6HJO-0007fa-HI
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 13:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6H3o-0005OL-C4
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 13:30:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6H3m-0008N0-Nr
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 13:30:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597339837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yKJ+zvoMOJhIvdM3y8QfidpmXCRYP6oT8Ci2x8cZgK4=;
- b=NI6XXjrFPmR6hMQbZaZg0F3Sf2YBqZfTzzQnbAOy3K1dU/FnT7lve1heW/CwjO77CsTxYt
- yuLrVnohJe714iSdmQB+MeHYyKLtfv53hBj88NowezvW+ptlJmvKD5hPJm+MzjNeFrHCON
- SoF87YzTFstAODCdWI3yqDdChSKECP0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-LMdHuC0eO9WdTiT6NzQZ7w-1; Thu, 13 Aug 2020 13:30:36 -0400
-X-MC-Unique: LMdHuC0eO9WdTiT6NzQZ7w-1
-Received: by mail-wm1-f69.google.com with SMTP id v8so2193589wma.6
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 10:30:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
+ id 1k6HI3-00077q-Nr; Thu, 13 Aug 2020 13:45:23 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
+ id 1k6HHv-0001aV-JR; Thu, 13 Aug 2020 13:45:23 -0400
+Received: by mail-ot1-x344.google.com with SMTP id v6so5437744ota.13;
+ Thu, 13 Aug 2020 10:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c2U0W6xs4+RlY5Ev034LKwq7JLsCY7DpPGjM9pL9G+U=;
+ b=B/hMO9/FhIz/8cmm+1RURJwB85SfM9krz9orfUaHQquuSC4gfL1GgVOpCqVGl7St7m
+ 7x+jZeO0ePPirc0R2IE2D+f2yduJchjRmm/JvxfubKSOEXZEV9Tr0rmX5DiYrMLmOoCI
+ huZKl2aCDK6sLxDkuBe+oXvNUum27usu1cMTPNK+x4uo0FvgH0QrOZLkN1l10aEPjPmq
+ lDfC2y/pcvYJj3+g4jaiZoZnqLDTZrzi4YrvGREi4aNFJmdFBQqURN9QxDSqWim5+g1V
+ h014QuQZurD2YiVqC52BvNW2F85eAaJCjmGxCrhq2H0jR3Ay7whcUdQZJugvbtfGIVPb
+ 0ofw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yKJ+zvoMOJhIvdM3y8QfidpmXCRYP6oT8Ci2x8cZgK4=;
- b=CVOq6oiB/5OdufmkNuD6eSwFvbq7TCbZp8/HDLMxCN47UFodo2KKYjoUeHhS2OTjt1
- A5vy0kU0590+F2KCjaCfS/iOJ+2NVjBYBAJDBLl5oMPzCraN9203zv5Wh9MPnixs8pIM
- nlf+s8+g9aGi2zi+MQt+lYmuGdmTpS+SLuY3f4jIilHcBKc0j8205Gvovaf9n3Q7jOPC
- chckhqmp2vNixGvl3DUA0OT/3FXDRq/H1uqSF0Kp80AW7sozyUZNzAKbff6XG0MuLJ52
- 8DPvWH+AfWefeLLPpKsdSq+91t6VsJ+FEspoCtGvbtsWdUBUJcft8p8Q55In+4nlg8PO
- HZUg==
-X-Gm-Message-State: AOAM531PfC1NYAk7gSi6cUL+WJcmHB5BC3afMymjUgBC3fDi2w5G45++
- qXxnK//miDrlgt8kmoNPhA9SpvGPhZwyKT5BAvTNtgl0J1VXlzjIMVCytxPejLK9XK/ppSyn6hN
- TE3YtQa/TKSNWkfk=
-X-Received: by 2002:adf:ed48:: with SMTP id u8mr5305159wro.64.1597339834883;
- Thu, 13 Aug 2020 10:30:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/5BLc7cWA+ODsKBfLtjJjKKL0kinxWbV8UzbJGnAm9M/YX/jkXmnknvnJ0wSVIx6a7/L5Jw==
-X-Received: by 2002:adf:ed48:: with SMTP id u8mr5305131wro.64.1597339834669;
- Thu, 13 Aug 2020 10:30:34 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id x11sm10461934wrl.28.2020.08.13.10.30.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 10:30:34 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 7/7] util/vfio-helpers: Allow opening device requesting
- for multiple IRQs
-Date: Thu, 13 Aug 2020 19:29:57 +0200
-Message-Id: <20200813172957.8289-8-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200813172957.8289-1-philmd@redhat.com>
-References: <20200813172957.8289-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c2U0W6xs4+RlY5Ev034LKwq7JLsCY7DpPGjM9pL9G+U=;
+ b=KY8cTnQUuGvs/F5EbfxsQH48sd0HXtyn+wnFWzFWaL4goByFjCsBLFdpqQi0Wy4Lvg
+ +ooToHNalTPV6aAX5o1wl94OxH5hFbx+pKKUkNhaPVBGpfdebTx83nUGYpgAQ7Zx3IxI
+ rJS4zjFcn8653tVmMYaNwSRk0shoDT9psY3wszji8oz2+Yb7OdUladVSD9MdTcQiQGK7
+ su5JRvBNoFxGIyO64f0Xry2/F07uNt+iNrAUMWeRmhOjk5BtWxhVRGA22nLa6TupuunT
+ YP2ZecXVdVCRDeq2tBgy8iDHzg6VzD8UsFwKRQZhWS9sqc0aKlxhyW1QBmDrdmoWNJ2V
+ qQQg==
+X-Gm-Message-State: AOAM533EXV0XDuHryXfcz4oBwN4rQ8tQgK8C8n0VLvXc5ZOP5nDuIIFI
+ f3bSAi1PoMZ44L6jbfYUc3ofM1Xx7iKR38Eh2/U=
+X-Google-Smtp-Source: ABdhPJxp+2SxjPjaYH3c8BkGBompCNIWzL1DtyhKC0SQAZW8W1mPKrdBlEcH/uowWepk+3GR866ewG5ZL1WbYauYJdQ=
+X-Received: by 2002:a9d:5914:: with SMTP id t20mr5132611oth.337.1597340713617; 
+ Thu, 13 Aug 2020 10:45:13 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 12:30:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
+ <20200813073712.4001404-6-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200813073712.4001404-6-kuhn.chenqun@huawei.com>
+From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+Date: Thu, 13 Aug 2020 12:44:57 -0500
+Message-ID: <CAFubqFs4hm0mQpDbnNFpYWV3PEy68m9XEs1y7gJiS5ObYUxK=A@mail.gmail.com>
+Subject: Re: [PATCH 05/11] hw/virtio/vhost-user:Remove dead assignment in
+ scrub_shadow_regions()
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=raphael.s.norwitz@gmail.com; helo=mail-ot1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,80 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-trivial@nongnu.org, pannengyuan@huawei.com, QEMU <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that our helper is ready for handling multiple IRQs, let
-qemu_vfio_open_pci() take an 'irq_count' argument.
+On Thu, Aug 13, 2020 at 2:39 AM Chen Qun <kuhn.chenqun@huawei.com> wrote:
+>
+> Clang static code analyzer show warning:
+> hw/virtio/vhost-user.c:606:9: warning: Value stored to 'mr' is never read
+>         mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
+>         ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> ---
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> ---
+>  hw/virtio/vhost-user.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index d7e2423762..9c5b4f7fbc 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -603,7 +603,7 @@ static void scrub_shadow_regions(struct vhost_dev *dev,
+>       */
+>      for (i = 0; i < dev->mem->nregions; i++) {
+>          reg = &dev->mem->regions[i];
+> -        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/qemu/vfio-helpers.h | 2 +-
- block/nvme.c                | 5 ++++-
- util/vfio-helpers.c         | 4 ++--
- 3 files changed, 7 insertions(+), 4 deletions(-)
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
-index 5c2d8ee5b3..4773b116df 100644
---- a/include/qemu/vfio-helpers.h
-+++ b/include/qemu/vfio-helpers.h
-@@ -16,7 +16,7 @@
- typedef struct QEMUVFIOState QEMUVFIOState;
- 
- QEMUVFIOState *qemu_vfio_open_pci(const char *device, int irq_type,
--                                  Error **errp);
-+                                  unsigned irq_count, Error **errp);
- void qemu_vfio_close(QEMUVFIOState *s);
- int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
-                       bool temporary, uint64_t *iova_list);
-diff --git a/block/nvme.c b/block/nvme.c
-index a5ef571492..2d7aac3903 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -106,6 +106,9 @@ QEMU_BUILD_BUG_ON(offsetof(NVMeRegs, doorbells) != 0x1000);
- #define INDEX_ADMIN     0
- #define INDEX_IO(n)     (1 + n)
- 
-+/* This driver shares a single MSIX IRQ for the admin and I/O queues */
-+#define MSIX_IRQ_COUNT  1
-+
- struct BDRVNVMeState {
-     AioContext *aio_context;
-     QEMUVFIOState *vfio;
-@@ -712,7 +715,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     }
- 
-     s->vfio = qemu_vfio_open_pci(device, VFIO_PCI_MSIX_IRQ_INDEX,
--                                 errp);
-+                                 MSIX_IRQ_COUNT, errp);
-     if (!s->vfio) {
-         ret = -EINVAL;
-         goto out;
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 7a934d1a1b..36fafef0d3 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -450,12 +450,12 @@ static void qemu_vfio_open_common(QEMUVFIOState *s)
-  * Open a PCI device, e.g. "0000:00:01.0".
-  */
- QEMUVFIOState *qemu_vfio_open_pci(const char *device, int irq_type,
--                                  Error **errp)
-+                                  unsigned irq_count, Error **errp)
- {
-     int r;
-     QEMUVFIOState *s = g_new0(QEMUVFIOState, 1);
- 
--    r = qemu_vfio_init_pci(s, device, irq_type, 1, errp);
-+    r = qemu_vfio_init_pci(s, device, irq_type, irq_count, errp);
-     if (r) {
-         g_free(s);
-         return NULL;
--- 
-2.21.3
-
+> +        vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
+>          if (fd > 0) {
+>              ++fd_num;
+>          }
+> --
+> 2.23.0
+>
+>
 
