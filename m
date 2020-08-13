@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F02243923
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:11:35 +0200 (CEST)
-Received: from localhost ([::1]:58774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC6C24390C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:02:27 +0200 (CEST)
+Received: from localhost ([::1]:49084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6B8w-0002Ne-RX
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58166)
+	id 1k6B06-0006Pf-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6B7X-0000Zg-UB; Thu, 13 Aug 2020 07:10:07 -0400
-Received: from ozlabs.org ([203.11.71.1]:35533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6B7T-0002nz-Uq; Thu, 13 Aug 2020 07:10:07 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS3kb6RNNz9sTM; Thu, 13 Aug 2020 21:09:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597316999;
- bh=TbJS5t+qCXPmwjhY5HkRknZWUtlf6R8cS2xLuwILDW4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fhGruMMSfN5T5/H9ATXeptYiOOCsjLA/qLbIPeLOKi9mL565MHa+rpi4ASJXhwsQQ
- x5AHMDuKKcza1AjBgS1nPSyyHQW2s07PoRxXQnCVhfylgSJB08SAIEiaG/R8rwa71G
- 8qc6wHt0tHQ0oBK8TwjfT9oa3lRdARDNtjcJ7ww4=
-Date: Thu, 13 Aug 2020 21:00:18 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 for-5.2 3/3] spapr/xive: Convert KVM device fd checks
- to assert()
-Message-ID: <20200813110018.GA6255@yekko.fritz.box>
-References: <159679991916.876294.8967140647442842745.stgit@bahia.lan>
- <159679994169.876294.11026653581505077112.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k6Ayi-0005qU-Mi
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:01:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37061
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k6Aya-0001da-Qa
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 07:00:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597316449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Si5NhwS7GcEPQi8MCfcvnQD3matxk43KbKWlT99iNXI=;
+ b=Nf5ySvBHqhpinYHO+Q1qH1FyJA9i6njTeRlOpkWwS2n7DqE2mTdWo2RMDQzM/b6QUJ1o79
+ A5afhT1bHjUaYNJfvW9NQ34i7Cmh1hFNnH10XwXmozlU0nOsfY+dPdHJPY8D6y3zLCAmZy
+ hThdQOUadU+EeGLE7D/SdCA0ObjP65c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-dwc51L4QPm-Ri5owmeuDbw-1; Thu, 13 Aug 2020 07:00:46 -0400
+X-MC-Unique: dwc51L4QPm-Ri5owmeuDbw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 037C4801AC2;
+ Thu, 13 Aug 2020 11:00:45 +0000 (UTC)
+Received: from gondolin (ovpn-112-216.ams2.redhat.com [10.36.112.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73D6F629DD;
+ Thu, 13 Aug 2020 11:00:37 +0000 (UTC)
+Date: Thu, 13 Aug 2020 13:00:34 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peng Liang <liangpeng10@huawei.com>
+Subject: Re: [RFC 6/9] target/arm: introduce KVM_CAP_ARM_CPU_FEATURE
+Message-ID: <20200813130034.421b3368.cohuck@redhat.com>
+In-Reply-To: <20200813102657.2588720-7-liangpeng10@huawei.com>
+References: <20200813102657.2588720-1-liangpeng10@huawei.com>
+ <20200813102657.2588720-7-liangpeng10@huawei.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
-Content-Disposition: inline
-In-Reply-To: <159679994169.876294.11026653581505077112.stgit@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:45:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:45:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,158 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 13 Aug 2020 18:26:54 +0800
+Peng Liang <liangpeng10@huawei.com> wrote:
 
---/9DWx/yDrRhgMJTb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Aug 07, 2020 at 01:32:21PM +0200, Greg Kurz wrote:
-> All callers guard these functions with an xive_in_kernel() helper. Make
-> it clear that they are only to be called when the KVM XIVE device exists.
->=20
-> Note that the check on xive is dropped in kvmppc_xive_disconnect(). It
-> really cannot be NULL since it comes from set_active_intc() which only
-> passes pointers to allocated objects.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-Applied to ppc-for-5.2.
-
+> Introduce KVM_CAP_ARM_CPU_FEATURE to check whether KVM supports to set
+> CPU features in ARM.
+> 
+> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
 > ---
-> v2: Take the helper name change into account in the changelog
-> ---
->  hw/intc/spapr_xive_kvm.c |   35 +++++++----------------------------
->  1 file changed, 7 insertions(+), 28 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 6130882be678..82a6f99f022d 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -79,10 +79,7 @@ void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error *=
-*errp)
->      uint64_t state[2];
->      int ret;
-> =20
-> -    /* The KVM XIVE device is not in use yet */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* word0 and word1 of the OS ring. */
->      state[0] =3D *((uint64_t *) &tctx->regs[TM_QW1_OS]);
-> @@ -101,10 +98,7 @@ void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error =
-**errp)
->      uint64_t state[2] =3D { 0 };
->      int ret;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      ret =3D kvm_get_one_reg(tctx->cs, KVM_REG_PPC_VP_STATE, state);
->      if (ret !=3D 0) {
-> @@ -156,10 +150,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error *=
-*errp)
->      unsigned long vcpu_id;
->      int ret;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* Check if CPU was hot unplugged and replugged. */
->      if (kvm_cpu_is_enabled(tctx->cs)) {
-> @@ -245,10 +236,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, i=
-nt srcno, Error **errp)
->      SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
->      uint64_t state =3D 0;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return -ENODEV;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      if (xive_source_irq_is_lsi(xsrc, srcno)) {
->          state |=3D KVM_XIVE_LEVEL_SENSITIVE;
-> @@ -592,10 +580,7 @@ static void kvmppc_xive_change_state_handler(void *o=
-paque, int running,
-> =20
->  void kvmppc_xive_synchronize_state(SpaprXive *xive, Error **errp)
->  {
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /*
->       * When the VM is stopped, the sources are masked and the previous
-> @@ -622,10 +607,7 @@ int kvmppc_xive_pre_save(SpaprXive *xive)
->  {
->      Error *local_err =3D NULL;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (xive->fd =3D=3D -1) {
-> -        return 0;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* EAT: there is no extra state to query from KVM */
-> =20
-> @@ -845,10 +827,7 @@ void kvmppc_xive_disconnect(SpaprInterruptController=
- *intc)
->      XiveSource *xsrc;
->      size_t esb_len;
-> =20
-> -    /* The KVM XIVE device is not in use */
-> -    if (!xive || xive->fd =3D=3D -1) {
-> -        return;
-> -    }
-> +    assert(xive->fd !=3D -1);
-> =20
->      /* Clear the KVM mapping */
->      xsrc =3D &xive->source;
->=20
->=20
+>  linux-headers/linux/kvm.h |  1 +
+>  target/arm/cpu.c          |  5 +++++
+>  target/arm/kvm64.c        | 14 ++++++++++++++
+>  target/arm/kvm_arm.h      |  7 +++++++
+>  4 files changed, 27 insertions(+)
+> 
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index a28c366737..0b83d2b4bb 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_PPC_SECURE_GUEST 181
+>  #define KVM_CAP_HALT_POLL 182
+>  #define KVM_CAP_ASYNC_PF_INT 183
+> +#define KVM_CAP_ARM_CPU_FEATURE 187
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Please split out this header update into a separate patch so that it
+can be replaced by a proper headers update once the kernel code has been
+included.
 
---/9DWx/yDrRhgMJTb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81HUIACgkQbDjKyiDZ
-s5LelQ/9GwnD8m+1cyl/p3aDS1LZ+MG87Q/xE5DBKdGEmn2oKxsx5s99A7jwoGtR
-QbHPKO1kgTUFzZPLWdNA/w0PsaiqPpzJPuyB2xo4YkRHmX//EaL+bFAFQyZHimPV
-B8FEeB9qXuvvi1jSHmliY+a2UQr3MZNZqOirH1F6wg1lFc7/3Xu6y7RrK9iEJAO/
-T6tPVcCh7JXcQQQFAhNHKOwHsxTh8kFdCyC7EQ1KhM9a9G3Ht23UrxQv1A9kiFeZ
-mfW9iTcasI+s/peICruu6EsJbgjabttJkoU732DwIQovzHVCmyTyehzC+61LrC1h
-cjls9w3GqWhlHKMDrsa8EAASK3PU6SolXdZWcVno6vPC/GOFMELOJuJESRs09Iwk
-CSdEN8xGS4ug6WFg22HjePdg3pD+fXN4ig+gy0/NrufN7yAzKTkEY+H5JFtRetBn
-+hDJq+74MpG2bv+941OS7nq1vrM5lFLxQzlJvhDGL2IUFRCrwJZHg3/5VRU/Kglq
-U6jxPR/+M2ppneVqbAjy5w2HJdhxIVgfz4dw3AtrpJu+nTg/uy/9DgaiovTS1Q93
-IvfijJ4zHkvXwn9N91l0tJ0Md/IxSrmPigSA+5hF8frxMuZ3+dVIuqFRfPxiNi+d
-946Ti/FHBkeeDnyeUhXuDWAbc4/7oQVUTHndwCe0zW3mZ2KKDJY=
-=Cho3
------END PGP SIGNATURE-----
-
---/9DWx/yDrRhgMJTb--
 
