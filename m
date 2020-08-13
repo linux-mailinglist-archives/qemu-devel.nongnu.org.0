@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB772438ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:49:51 +0200 (CEST)
-Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8A12438A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:34:20 +0200 (CEST)
+Received: from localhost ([::1]:35368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Anu-00071g-7l
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52744)
+	id 1k6AYt-0002B3-57
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6Aja-0008CI-Rh; Thu, 13 Aug 2020 06:45:22 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:48365 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1k6AXA-0008SA-Fi; Thu, 13 Aug 2020 06:32:32 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:53620 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6AjY-0008MC-NS; Thu, 13 Aug 2020 06:45:22 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS39y6KCyz9sTh; Thu, 13 Aug 2020 20:45:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597315510;
- bh=vTuhJcwd3n6xHyJID96sVvRGUlCacSW3VOZcuIF6V/k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jdric6SD9LVRi6B6G9Mh6WJEQB7D+HwxyztDXNcXFJYLSt307YRg7lmmzSiRxWpCU
- prIp4X7c9rytIRjLVMaH8fwhLosT3MHjDvvr6jp+HnkuywdT8sfds0i7t7bg+CbAPm
- VHo/0th33A4VnNB9jlB2SaGU37m5Hc1z+oPSC2QE=
-Date: Thu, 13 Aug 2020 20:25:14 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 08/14] spapr/xive: Rework error handling of
- kvmppc_xive_set_source_config()
-Message-ID: <20200813102514.GK181791@yekko.fritz.box>
-References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707848764.1489912.17078842252160674523.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1k6AX7-0006nx-5w; Thu, 13 Aug 2020 06:32:32 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id E2CF0C270BA102AEF5B5;
+ Thu, 13 Aug 2020 18:32:16 +0800 (CST)
+Received: from localhost.localdomain (10.175.104.175) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 13 Aug 2020 18:32:10 +0800
+From: Peng Liang <liangpeng10@huawei.com>
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [RFC 0/9] Support disable/enable CPU features for AArch64
+Date: Thu, 13 Aug 2020 18:26:48 +0800
+Message-ID: <20200813102657.2588720-1-liangpeng10@huawei.com>
+X-Mailer: git-send-email 2.18.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d6d1KVhp94hk3Jrm"
-Content-Disposition: inline
-In-Reply-To: <159707848764.1489912.17078842252160674523.stgit@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:45:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=liangpeng10@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:32:18
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,126 +55,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
+ xiexiangyou@huawei.com, Peng Liang <liangpeng10@huawei.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+QEMU does not support disable/enable CPU features in AArch64 for now.
+This patch series add support for CPU features in AArch64.
 
---d6d1KVhp94hk3Jrm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Firstly, we change the isar struct in ARMCPU to an array for
+convenience.  Secondly, we add support to configure CPU feautres in
+AArch64 and make sure that the ID registers can be synchronized to KVM
+so that guest can read the value we configure.  Thirdly, we add a
+mechanism to solve the dependency relationship of some CPU features.
+Last, we add a KVM_CAP_ARM_CPU_FEATURE to check whether KVM supports to
+set CPU features in AArch64.
 
-On Mon, Aug 10, 2020 at 06:54:47PM +0200, Greg Kurz wrote:
-> Since kvm_device_access() returns a negative errno on failure, convert
-> kvmppc_xive_set_source_config() to use it for error checking. This allows
-> to get rid of the local_err boilerplate.
->=20
-> Propagate the return value so that callers may use it as well to check
-> failures.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+Also export CPU features to the result of qmp query-cpu-model-expansion
+so that libvirt can get the supported CPU features.
 
-Applied to ppc-for-5.2.
+Update the ID fields to ARMv8.6 and add some CPU features according to
+the new ID fields.
 
-> ---
->  hw/intc/spapr_xive_kvm.c    |   13 ++++---------
->  include/hw/ppc/spapr_xive.h |    4 ++--
->  2 files changed, 6 insertions(+), 11 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 4142aaffff47..f2dda692183b 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -186,8 +186,8 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **e=
-rrp)
->   * XIVE Interrupt Source (KVM)
->   */
-> =20
-> -void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveE=
-AS *eas,
-> -                                   Error **errp)
-> +int kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEA=
-S *eas,
-> +                                  Error **errp)
->  {
->      uint32_t end_idx;
->      uint32_t end_blk;
-> @@ -196,7 +196,6 @@ void kvmppc_xive_set_source_config(SpaprXive *xive, u=
-int32_t lisn, XiveEAS *eas,
->      bool masked;
->      uint32_t eisn;
->      uint64_t kvm_src;
-> -    Error *local_err =3D NULL;
-> =20
->      assert(xive_eas_is_valid(eas));
-> =20
-> @@ -216,12 +215,8 @@ void kvmppc_xive_set_source_config(SpaprXive *xive, =
-uint32_t lisn, XiveEAS *eas,
->      kvm_src |=3D ((uint64_t)eisn << KVM_XIVE_SOURCE_EISN_SHIFT) &
->          KVM_XIVE_SOURCE_EISN_MASK;
-> =20
-> -    kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE_CONFIG, lisn,
-> -                      &kvm_src, true, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> +    return kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE_CONFIG, l=
-isn,
-> +                             &kvm_src, true, errp);
->  }
-> =20
->  void kvmppc_xive_sync_source(SpaprXive *xive, uint32_t lisn, Error **err=
-p)
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index d0a08b618f79..0ffbe0be0280 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -80,8 +80,8 @@ int kvmppc_xive_connect(SpaprInterruptController *intc,=
- uint32_t nr_servers,
->                          Error **errp);
->  void kvmppc_xive_disconnect(SpaprInterruptController *intc);
->  void kvmppc_xive_reset(SpaprXive *xive, Error **errp);
-> -void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveE=
-AS *eas,
-> -                                   Error **errp);
-> +int kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEA=
-S *eas,
-> +                                  Error **errp);
->  void kvmppc_xive_sync_source(SpaprXive *xive, uint32_t lisn, Error **err=
-p);
->  uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
->                              uint64_t data, bool write);
->=20
->=20
+With related KVM patch set[1], we can disable/enable CPU features in
+AArch64.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+[1] https://patchwork.kernel.org/cover/11711693/
 
---d6d1KVhp94hk3Jrm
-Content-Type: application/pgp-signature; name="signature.asc"
+Peng Liang (9):
+  target/arm: convert isar regs to array
+  target/arm: parse cpu feature related options
+  target/arm: register CPU features for property
+  target/arm: Allow ID registers to synchronize to KVM
+  target/arm: introduce CPU feature dependency mechanism
+  target/arm: introduce KVM_CAP_ARM_CPU_FEATURE
+  target/arm: Add CPU features to query-cpu-model-expansion
+  target/arm: Update ID fields
+  target/arm: Add more CPU features
 
------BEGIN PGP SIGNATURE-----
+ hw/intc/armv7m_nvic.c     |  48 +--
+ linux-headers/linux/kvm.h |   1 +
+ target/arm/cpu.c          | 753 ++++++++++++++++++++++++++++++++------
+ target/arm/cpu.h          | 245 +++++++------
+ target/arm/cpu64.c        | 271 +++++++++-----
+ target/arm/cpu_tcg.c      | 250 ++++++-------
+ target/arm/helper.c       |  85 +++--
+ target/arm/internals.h    |  15 +-
+ target/arm/kvm.c          |  38 ++
+ target/arm/kvm64.c        |  86 +++--
+ target/arm/kvm_arm.h      |  10 +
+ target/arm/monitor.c      |   2 +
+ 12 files changed, 1267 insertions(+), 537 deletions(-)
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81FQoACgkQbDjKyiDZ
-s5JLmQ//dp9CQfY93cVr3xa8E9Th8NznAaTdS1EUZou/7Zfa8MMTmSLWkuANPsg7
-TnslPZ6iXXiVLbHPjLZ2YksvqOwtV0DvsV5aNk5Yjq6kp1PZUs3Lzv5xruESucsq
-wUYuKR5+p59gEp43ku0eXZB3Wk42lUdWdQaVOt/LlQWATS0Odt1SWFOfjtlZYuar
-3icQRB+ItuOQqEhnkUme/qr6GwxprfwM9n6gxfA567wtAteeePllR/erMYwwjl9v
-UD5rwDCk93mulePCWdJB+wgBxZ4DVEHEQYlckPfFa0nFAOWYvUJlEjTig8b71c9J
-q72HC27jFk+gyyGHg9R2iYC4qzGe2ci6XPbUku7O4CpvOpJC1SDH2AEsKB9V+lUg
-pMGGIN7SpS/FVkFrsRaFmEJoeFvR++82MXgdZJcURuvPfwNFOXGS0WmGowHBvmb3
-ZGZCuCMH7pk+KcCm0aISxAETHnp2YQ4y3LDAQUVg1eKL2pTdDBZgQk9rqzso6XEP
-kvgSa2Q0w+KZrlgzRjNsfXzEzQ/mTKadXGdcJ5l0i4oA1HpEqrJ0oeKguzwrjq8z
-auNdNcdmDVxBlqFsdkMpO13sNurfNgBafUDFOyJ1GN4cfAJN5vcW2qd+nuniAhlb
-xBqKMAhkkMVlYG2Y7zOtcfgL0W+vvsDcIObxtpPQ1ZMhX+XJdPA=
-=2I2W
------END PGP SIGNATURE-----
+-- 
+2.18.4
 
---d6d1KVhp94hk3Jrm--
 
