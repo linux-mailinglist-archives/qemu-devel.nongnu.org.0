@@ -2,54 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3415E2437BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:39:03 +0200 (CEST)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B94E2437D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:43:10 +0200 (CEST)
+Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k69hO-0008Fu-9a
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38656)
+	id 1k69lN-0002SQ-3g
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k69fi-0006WN-1O; Thu, 13 Aug 2020 05:37:18 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58705 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k69ff-000076-DD; Thu, 13 Aug 2020 05:37:17 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS1gT1Hzsz9sTH; Thu, 13 Aug 2020 19:37:09 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597311429;
- bh=svypqeE3f//Y3EkkbPrMG/E3K/71Jo7VzrLuqxxTaBk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lHA2NyS5ti2qosPwhXW/VXnJpwHRiLhsIyVTzlZk0vWempnTdEzLgwJ3P4+M8Svf4
- OIBvkENsV2+Wkm6wfwwT9ZCGgge8k8SpyN7/aIVnCemA/i1B8oYvBOCVWd5A2/aH/9
- kH5BU8EOqABE4EXC8zFDm/aOxsUTBcn7ZPy0dYyU=
-Date: Thu, 13 Aug 2020 17:14:42 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 02/14] spapr/xive: Rework error handling of
- kvmppc_xive_cpu_connect()
-Message-ID: <20200813071442.GF17532@yekko.fritz.box>
-References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707844549.1489912.4862921680328017645.stgit@bahia.lan>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="B0nZA57HJSoPbsHY"
-Content-Disposition: inline
-In-Reply-To: <159707844549.1489912.4862921680328017645.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+ (Exim 4.90_1) (envelope-from <likaige@loongson.cn>)
+ id 1k69kI-0000wc-OU
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:42:02 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:52716 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <likaige@loongson.cn>) id 1k69kG-0000q4-2q
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:42:02 -0400
+Received: from bogon.localdomain (unknown [113.200.148.30])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9_bCjVfyGQIAA--.154S2;
+ Thu, 13 Aug 2020 17:41:47 +0800 (CST)
+From: Kaige Li <likaige@loongson.cn>
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: [PATCH 1/2] target/mips: Coding style update to fix checkpatch errors
+Date: Thu, 13 Aug 2020 17:41:46 +0800
+Message-Id: <1597311707-27565-1-git-send-email-likaige@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9Dx_9_bCjVfyGQIAA--.154S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw1DCF1UCw4fuF43Wr4Durg_yoWrtFy5pr
+ y7Jw45GF4DJFZIg3y7XrnFvFy5ZFn2gFZ8C3srXF13ta1Uu347ZrsFva4UAFZFqFWkKF15
+ Aan29w1YgFyxWr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkFb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+ C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8uwCF04k2
+ 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+ 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
+ IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+ AIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+ 87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07bwjjkUUUUU=
+X-CM-SenderInfo: 5olntxtjh6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=likaige@loongson.cn;
+ helo=loongson.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 05:41:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,137 +68,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This will help ensure that style guidelines are being maintained during
+subsequent changes.
 
---B0nZA57HJSoPbsHY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Kaige Li <likaige@loongson.cn>
+---
+ target/mips/translate_init.inc.c | 61 ++++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 30 deletions(-)
 
-On Mon, Aug 10, 2020 at 06:54:05PM +0200, Greg Kurz wrote:
-> Use error_setg_errno() instead of error_setg(strerror()). While here,
-> use -ret instead of errno since kvm_vcpu_enable_cap() returns a negative
-> errno on failure.
->=20
-> Use ERRP_GUARD() to ensure that errp can be passed to error_append_hint(),
-> and get rid of the local_err boilerplate.
->=20
-> Propagate the return value so that callers may use it as well to check
-> failures.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
+index 637cacc..0740819 100644
+--- a/target/mips/translate_init.inc.c
++++ b/target/mips/translate_init.inc.c
+@@ -53,8 +53,7 @@
+ 
+ /*****************************************************************************/
+ /* MIPS CPU definitions */
+-const mips_def_t mips_defs[] =
+-{
++const mips_def_t mips_defs[] = {
+     {
+         .name = "4Kc",
+         .CP0_PRid = 0x00018000,
+@@ -766,8 +765,8 @@ const mips_def_t mips_defs[] =
+         .name = "Loongson-2E",
+         .CP0_PRid = 0x6302,
+         /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
+-        .CP0_Config0 = (0x1<<17) | (0x1<<16) | (0x1<<11) | (0x1<<8) |
+-                       (0x1<<5) | (0x1<<4) | (0x1<<1),
++        .CP0_Config0 = (0x1 << 17) | (0x1 << 16) | (0x1 << 11) | (0x1 << 8) |
++                       (0x1 << 5) | (0x1 << 4) | (0x1 << 1),
+         /* Note: Config1 is only used internally,
+            Loongson-2E has only Config0.  */
+         .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
+@@ -786,8 +785,8 @@ const mips_def_t mips_defs[] =
+         .name = "Loongson-2F",
+         .CP0_PRid = 0x6303,
+         /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
+-        .CP0_Config0 = (0x1<<17) | (0x1<<16) | (0x1<<11) | (0x1<<8) |
+-                       (0x1<<5) | (0x1<<4) | (0x1<<1),
++        .CP0_Config0 = (0x1 << 17) | (0x1 << 16) | (0x1 << 11) | (0x1 << 8) |
++                       (0x1 << 5) | (0x1 << 4) | (0x1 << 1),
+         /* Note: Config1 is only used internally,
+            Loongson-2F has only Config0.  */
+         .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
+@@ -932,19 +931,19 @@ void mips_cpu_list(void)
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void no_mmu_init (CPUMIPSState *env, const mips_def_t *def)
++static void no_mmu_init(CPUMIPSState *env, const mips_def_t *def)
+ {
+     env->tlb->nb_tlb = 1;
+     env->tlb->map_address = &no_mmu_map_address;
+ }
+ 
+-static void fixed_mmu_init (CPUMIPSState *env, const mips_def_t *def)
++static void fixed_mmu_init(CPUMIPSState *env, const mips_def_t *def)
+ {
+     env->tlb->nb_tlb = 1;
+     env->tlb->map_address = &fixed_mmu_map_address;
+ }
+ 
+-static void r4k_mmu_init (CPUMIPSState *env, const mips_def_t *def)
++static void r4k_mmu_init(CPUMIPSState *env, const mips_def_t *def)
+ {
+     env->tlb->nb_tlb = 1 + ((def->CP0_Config1 >> CP0C1_MMU) & 63);
+     env->tlb->map_address = &r4k_map_address;
+@@ -956,40 +955,41 @@ static void r4k_mmu_init (CPUMIPSState *env, const mips_def_t *def)
+     env->tlb->helper_tlbinvf = r4k_helper_tlbinvf;
+ }
+ 
+-static void mmu_init (CPUMIPSState *env, const mips_def_t *def)
++static void mmu_init(CPUMIPSState *env, const mips_def_t *def)
+ {
+     env->tlb = g_malloc0(sizeof(CPUMIPSTLBContext));
+ 
+     switch (def->mmu_type) {
+-        case MMU_TYPE_NONE:
+-            no_mmu_init(env, def);
+-            break;
+-        case MMU_TYPE_R4000:
+-            r4k_mmu_init(env, def);
+-            break;
+-        case MMU_TYPE_FMT:
+-            fixed_mmu_init(env, def);
+-            break;
+-        case MMU_TYPE_R3000:
+-        case MMU_TYPE_R6000:
+-        case MMU_TYPE_R8000:
+-        default:
+-            cpu_abort(env_cpu(env), "MMU type not supported\n");
++    case MMU_TYPE_NONE:
++        no_mmu_init(env, def);
++        break;
++    case MMU_TYPE_R4000:
++        r4k_mmu_init(env, def);
++        break;
++    case MMU_TYPE_FMT:
++        fixed_mmu_init(env, def);
++        break;
++    case MMU_TYPE_R3000:
++    case MMU_TYPE_R6000:
++    case MMU_TYPE_R8000:
++    default:
++        cpu_abort(env_cpu(env), "MMU type not supported\n");
+     }
+ }
+ #endif /* CONFIG_USER_ONLY */
+ 
+-static void fpu_init (CPUMIPSState *env, const mips_def_t *def)
++static void fpu_init(CPUMIPSState *env, const mips_def_t *def)
+ {
+     int i;
+ 
+-    for (i = 0; i < MIPS_FPU_MAX; i++)
++    for (i = 0; i < MIPS_FPU_MAX; i++) {
+         env->fpus[i].fcr0 = def->CP1_fcr0;
++    }
+ 
+     memcpy(&env->active_fpu, &env->fpus[0], sizeof(env->active_fpu));
+ }
+ 
+-static void mvp_init (CPUMIPSState *env, const mips_def_t *def)
++static void mvp_init(CPUMIPSState *env, const mips_def_t *def)
+ {
+     env->mvp = g_malloc0(sizeof(CPUMIPSMVPContext));
+ 
+@@ -999,9 +999,10 @@ static void mvp_init (CPUMIPSState *env, const mips_def_t *def)
+        implemented, 5 TCs implemented. */
+     env->mvp->CP0_MVPConf0 = (1U << CP0MVPC0_M) | (1 << CP0MVPC0_TLBS) |
+                              (0 << CP0MVPC0_GS) | (1 << CP0MVPC0_PCP) |
+-// TODO: actually do 2 VPEs.
+-//                             (1 << CP0MVPC0_TCA) | (0x1 << CP0MVPC0_PVPE) |
+-//                             (0x04 << CP0MVPC0_PTC);
++/* TODO: actually do 2 VPEs.
++ *                            (1 << CP0MVPC0_TCA) | (0x1 << CP0MVPC0_PVPE) |
++ *                            (0x04 << CP0MVPC0_PTC);
++ */
+                              (1 << CP0MVPC0_TCA) | (0x0 << CP0MVPC0_PVPE) |
+                              (0x00 << CP0MVPC0_PTC);
+ #if !defined(CONFIG_USER_ONLY)
+-- 
+2.1.0
 
-Applied to ppc-for-5.2.
-
-> ---
->  hw/intc/spapr_xive_kvm.c |   21 ++++++++++-----------
->  include/hw/ppc/xive.h    |    2 +-
->  2 files changed, 11 insertions(+), 12 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 82a6f99f022d..aa1a2f915363 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -144,8 +144,9 @@ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx=
-, Error **errp)
->      }
->  }
-> =20
-> -void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
-> +int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->  {
-> +    ERRP_GUARD();
->      SpaprXive *xive =3D SPAPR_XIVE(tctx->xptr);
->      unsigned long vcpu_id;
->      int ret;
-> @@ -154,7 +155,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **=
-errp)
-> =20
->      /* Check if CPU was hot unplugged and replugged. */
->      if (kvm_cpu_is_enabled(tctx->cs)) {
-> -        return;
-> +        return 0;
->      }
-> =20
->      vcpu_id =3D kvm_arch_vcpu_id(tctx->cs);
-> @@ -162,20 +163,18 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error =
-**errp)
->      ret =3D kvm_vcpu_enable_cap(tctx->cs, KVM_CAP_PPC_IRQ_XIVE, 0, xive-=
->fd,
->                                vcpu_id, 0);
->      if (ret < 0) {
-> -        Error *local_err =3D NULL;
-> -
-> -        error_setg(&local_err,
-> -                   "XIVE: unable to connect CPU%ld to KVM device: %s",
-> -                   vcpu_id, strerror(errno));
-> -        if (errno =3D=3D ENOSPC) {
-> -            error_append_hint(&local_err, "Try -smp maxcpus=3DN with N <=
- %u\n",
-> +        error_setg_errno(errp, -ret,
-> +                         "XIVE: unable to connect CPU%ld to KVM device",
-> +                         vcpu_id);
-> +        if (ret =3D=3D -ENOSPC) {
-> +            error_append_hint(errp, "Try -smp maxcpus=3DN with N < %u\n",
->                                MACHINE(qdev_get_machine())->smp.max_cpus);
->          }
-> -        error_propagate(errp, local_err);
-> -        return;
-> +        return ret;
->      }
-> =20
->      kvm_cpu_enable(tctx->cs);
-> +    return 0;
->  }
-> =20
->  /*
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index 2f3c5af810bb..2d87ed43728a 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -487,7 +487,7 @@ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t rin=
-g, uint8_t ipb);
-> =20
->  int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **er=
-rp);
->  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
-> -void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
-> +int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
->  void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
->  void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp);
->  void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp);
->=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---B0nZA57HJSoPbsHY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl806GIACgkQbDjKyiDZ
-s5Ie4xAAh08SeIbOCRxY3zdByUg4smnWp/bUsKdjsHCIGdHi1j/+XWmaDJbWYzyi
-GP0XIKIjx7/oln1QYpWF0j0KJJNT5K9Gqp9yJjrF+SIz4mhJ0YeoV5JfL1DnGSdJ
-ybCEm4mb05uaG2DF2p99fdwi1OXiBDD6PjDbJ/wHIf0Tcy08WgRn5lPm/i8YD4WZ
-swapPLJolFxcfGoamNVBFFZGBQt0EIg6ATTJvNY6/DTmd6i6odLUdV1o7eyGb6p4
-Pxmhooe3Bxc8KiuZJvdvVUZsGCXeLQc6iDCUcSNNgP1rt7Bqj1IOg780T4LO7zlf
-uzroTEoPDKd5O/QnWu1pDIF+ehyuH7QUnxawkS/Vu/tGUZe8Pv/9z8FzIiHWE0l3
-VB8594EiFvbNhetWN7L/MOy/gT7Nipfbv9T62Arl6lhRsXxlaiRqQDEUc4qUBlpt
-PVWAutfsudn5xwgVptyzgb3CvZIrTgUMhEJvBHBGc2RaOy9TXnP6AVLYg2/92UWB
-GlGd7U6WVeAg+xIEvz6tQh+7fjwC8bE73tK0rHjUnXE4K6WdnMygkFm7brzVZY+5
-Yc18lg34hyxF+W/8PclOzwIKwPNSIpDIXyLbe/nHBL5iCq7jIgWG5C+PA0gBwbRt
-zXvtSio5OUJp1offEHn4rQok04w2ScZJVKqjYNbSFQc6m/zUk+M=
-=ph/y
------END PGP SIGNATURE-----
-
---B0nZA57HJSoPbsHY--
 
