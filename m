@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F19244175
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:47:21 +0200 (CEST)
-Received: from localhost ([::1]:39542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9912244161
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:42:10 +0200 (CEST)
+Received: from localhost ([::1]:47780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6M0G-00049A-36
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1k6LvF-0004Oz-NE
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6Lh5-0006UU-Dd
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:27:31 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53936
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6Lgz-0002wx-Pr
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:27:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597357644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7ZXV/1ReTyhHvR6+cMfT2kU+6cX+VMZVnKI2ZKJgdQ=;
- b=OQgfVM/mSdM0V3i5VjX4wI/NgO1EYReTduZ1Ui2iZHo+MJcbBZD7TJbq7nrz43l77+FsP2
- /+14vi7JPh+E7VGYtCI3lbpbo6u/rnn+yKdTAkierLTXEeTD2i6F3MvvrfarasqA76iuE/
- pSwMre+wWkdw+/UTon0R85fYpOJITu4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-9M70ODHONCaRK8d-wlPYIA-1; Thu, 13 Aug 2020 18:27:22 -0400
-X-MC-Unique: 9M70ODHONCaRK8d-wlPYIA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED5291019624
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:27:21 +0000 (UTC)
-Received: from localhost (ovpn-117-153.rdu2.redhat.com [10.10.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B48935C1A3;
- Thu, 13 Aug 2020 22:27:21 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 41/41] crypto: use QOM macros for declaration/definition of
- TLS creds types
-Date: Thu, 13 Aug 2020 18:26:25 -0400
-Message-Id: <20200813222625.243136-42-ehabkost@redhat.com>
-In-Reply-To: <20200813222625.243136-1-ehabkost@redhat.com>
-References: <20200813222625.243136-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k6Lu3-0002k2-HD
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48518)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k6Lu0-0004NI-U2
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k6Ltz-0004iv-Id
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 861B22E804F
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:51 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 17:30:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Aug 2020 22:30:17 -0000
+From: Alistair Francis <1886076@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=alistair@alistair23.me; 
+X-Launchpad-Bug-Tags: risc-v
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 laurent-vivier nroyer
+X-Launchpad-Bug-Reporter: Nicolas Royer (nroyer)
+X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
+References: <159371008164.16126.4627604650696899204.malonedeb@soybean.canonical.com>
+Message-Id: <159735781783.751.3700791949542118141.malone@chaenomeles.canonical.com>
+Subject: [Bug 1886076] Re: risc-v pmp implementation error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="7eee5e59278f8f8118989c0aaceab242e073896e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b7d97c5237854cb2b35f772f82e1ca2f67df791b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 18:40:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,303 +74,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+Reply-To: Bug 1886076 <1886076@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+This should be fixed once the current RISC-V branch is merged into
+master.
 
-This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
-families in the TLS creds types, in order to eliminate boilerplate code.
+You can see the patch that fixes this here:
+https://patchew.org/QEMU/20200812223045.96803-1-alistair.francis@wdc.com/20=
+200812223045.96803-18-alistair.francis@wdc.com/
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200723181410.3145233-5-berrange@redhat.com>
-[ehabkost: rebase, update to pass additional arguments to macro]
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- include/crypto/tlscreds.h     | 13 ++-----------
- include/crypto/tlscredsanon.h | 14 ++------------
- include/crypto/tlscredspsk.h  | 13 ++-----------
- include/crypto/tlscredsx509.h | 13 ++-----------
- crypto/tlscreds.c             | 20 +++-----------------
- crypto/tlscredsanon.c         | 24 +++++++-----------------
- crypto/tlscredspsk.c          | 26 ++++++++------------------
- crypto/tlscredsx509.c         | 24 ++++--------------------
- 8 files changed, 30 insertions(+), 117 deletions(-)
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Alistair Francis (alistair2323)
 
-diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
-index 079e376047..e9b9b8c20a 100644
---- a/include/crypto/tlscreds.h
-+++ b/include/crypto/tlscreds.h
-@@ -29,11 +29,8 @@
- #endif
- 
- #define TYPE_QCRYPTO_TLS_CREDS "tls-creds"
--typedef struct QCryptoTLSCreds QCryptoTLSCreds;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCreds, QCRYPTO_TLS_CREDS,
--                         TYPE_QCRYPTO_TLS_CREDS)
--
--typedef struct QCryptoTLSCredsClass QCryptoTLSCredsClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
-+                           QCRYPTO_TLS_CREDS, Object)
- 
- #define QCRYPTO_TLS_CREDS_DH_PARAMS "dh-params.pem"
- 
-@@ -58,10 +55,4 @@ struct QCryptoTLSCreds {
-     char *priority;
- };
- 
--
--struct QCryptoTLSCredsClass {
--    ObjectClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDS_H */
-diff --git a/include/crypto/tlscredsanon.h b/include/crypto/tlscredsanon.h
-index 3f464a3809..338b668b1d 100644
---- a/include/crypto/tlscredsanon.h
-+++ b/include/crypto/tlscredsanon.h
-@@ -25,12 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_ANON "tls-creds-anon"
--typedef struct QCryptoTLSCredsAnon QCryptoTLSCredsAnon;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsAnon, QCRYPTO_TLS_CREDS_ANON,
--                         TYPE_QCRYPTO_TLS_CREDS_ANON)
--
--
--typedef struct QCryptoTLSCredsAnonClass QCryptoTLSCredsAnonClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
-+                           QCRYPTO_TLS_CREDS_ANON, QCryptoTLSCreds)
- 
- /**
-  * QCryptoTLSCredsAnon:
-@@ -103,10 +99,4 @@ struct QCryptoTLSCredsAnon {
- #endif
- };
- 
--
--struct QCryptoTLSCredsAnonClass {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSANON_H */
-diff --git a/include/crypto/tlscredspsk.h b/include/crypto/tlscredspsk.h
-index d7e6bdb5ed..16e3f84f47 100644
---- a/include/crypto/tlscredspsk.h
-+++ b/include/crypto/tlscredspsk.h
-@@ -25,11 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_PSK "tls-creds-psk"
--typedef struct QCryptoTLSCredsPSK QCryptoTLSCredsPSK;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsPSK, QCRYPTO_TLS_CREDS_PSK,
--                         TYPE_QCRYPTO_TLS_CREDS_PSK)
--
--typedef struct QCryptoTLSCredsPSKClass QCryptoTLSCredsPSKClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
-+                           QCRYPTO_TLS_CREDS_PSK, QCryptoTLSCreds)
- 
- #define QCRYPTO_TLS_CREDS_PSKFILE "keys.psk"
- 
-@@ -98,10 +95,4 @@ struct QCryptoTLSCredsPSK {
- #endif
- };
- 
--
--struct QCryptoTLSCredsPSKClass {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSPSK_H */
-diff --git a/include/crypto/tlscredsx509.h b/include/crypto/tlscredsx509.h
-index c6d89b7881..1197f33663 100644
---- a/include/crypto/tlscredsx509.h
-+++ b/include/crypto/tlscredsx509.h
-@@ -25,11 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_X509 "tls-creds-x509"
--typedef struct QCryptoTLSCredsX509 QCryptoTLSCredsX509;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsX509, QCRYPTO_TLS_CREDS_X509,
--                         TYPE_QCRYPTO_TLS_CREDS_X509)
--
--typedef struct QCryptoTLSCredsX509Class QCryptoTLSCredsX509Class;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
-+                           QCRYPTO_TLS_CREDS_X509, QCryptoTLSCreds)
- 
- #define QCRYPTO_TLS_CREDS_X509_CA_CERT "ca-cert.pem"
- #define QCRYPTO_TLS_CREDS_X509_CA_CRL "ca-crl.pem"
-@@ -105,10 +102,4 @@ struct QCryptoTLSCredsX509 {
-     char *passwordid;
- };
- 
--
--struct QCryptoTLSCredsX509Class {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSX509_H */
-diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
-index bb3e6667b9..c238ff7d4b 100644
---- a/crypto/tlscreds.c
-+++ b/crypto/tlscreds.c
-@@ -24,6 +24,9 @@
- #include "tlscredspriv.h"
- #include "trace.h"
- 
-+OBJECT_DEFINE_ABSTRACT_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
-+                            QCRYPTO_TLS_CREDS, OBJECT)
-+
- #define DH_BITS 2048
- 
- #ifdef CONFIG_GNUTLS
-@@ -258,20 +261,3 @@ qcrypto_tls_creds_finalize(Object *obj)
-     g_free(creds->dir);
-     g_free(creds->priority);
- }
--
--
--static const TypeInfo qcrypto_tls_creds_info = {
--    .parent = TYPE_OBJECT,
--    .name = TYPE_QCRYPTO_TLS_CREDS,
--    .instance_size = sizeof(QCryptoTLSCreds),
--    .instance_init = qcrypto_tls_creds_init,
--    .instance_finalize = qcrypto_tls_creds_finalize,
--    .class_init = qcrypto_tls_creds_class_init,
--    .class_size = sizeof(QCryptoTLSCredsClass),
--    .abstract = true,
--};
--TYPE_INFO(qcrypto_tls_creds_info)
--
--
--
--
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index 16162e60b6..dc1b77e37c 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -26,6 +26,9 @@
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
-+                                   QCRYPTO_TLS_CREDS_ANON, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
- 
- #ifdef CONFIG_GNUTLS
- 
-@@ -191,20 +194,7 @@ qcrypto_tls_creds_anon_class_init(ObjectClass *oc, void *data)
- }
- 
- 
--static const TypeInfo qcrypto_tls_creds_anon_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_ANON,
--    .instance_size = sizeof(QCryptoTLSCredsAnon),
--    .instance_finalize = qcrypto_tls_creds_anon_finalize,
--    .class_size = sizeof(QCryptoTLSCredsAnonClass),
--    .class_init = qcrypto_tls_creds_anon_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--TYPE_INFO(qcrypto_tls_creds_anon_info)
--
--
--
--
-+static void
-+qcrypto_tls_creds_anon_init(Object *obj)
-+{
-+}
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index ea890f5837..0c66be3647 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -27,6 +27,10 @@
- #include "trace.h"
- 
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
-+                                   QCRYPTO_TLS_CREDS_PSK, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
-+
- #ifdef CONFIG_GNUTLS
- 
- static int
-@@ -281,21 +285,7 @@ qcrypto_tls_creds_psk_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_tls_creds_psk_prop_set_username);
- }
- 
--
--static const TypeInfo qcrypto_tls_creds_psk_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_PSK,
--    .instance_size = sizeof(QCryptoTLSCredsPSK),
--    .instance_finalize = qcrypto_tls_creds_psk_finalize,
--    .class_size = sizeof(QCryptoTLSCredsPSKClass),
--    .class_init = qcrypto_tls_creds_psk_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--TYPE_INFO(qcrypto_tls_creds_psk_info)
--
--
--
--
-+static void
-+qcrypto_tls_creds_psk_init(Object *obj)
-+{
-+}
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index 77f1beaf8b..a39555e5e6 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -28,6 +28,10 @@
- #include "trace.h"
- 
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
-+                                   QCRYPTO_TLS_CREDS_X509, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
-+
- #ifdef CONFIG_GNUTLS
- 
- #include <gnutls/x509.h>
-@@ -814,23 +818,3 @@ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_tls_creds_x509_prop_get_passwordid,
-                                   qcrypto_tls_creds_x509_prop_set_passwordid);
- }
--
--
--static const TypeInfo qcrypto_tls_creds_x509_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_X509,
--    .instance_size = sizeof(QCryptoTLSCredsX509),
--    .instance_init = qcrypto_tls_creds_x509_init,
--    .instance_finalize = qcrypto_tls_creds_x509_finalize,
--    .class_size = sizeof(QCryptoTLSCredsX509Class),
--    .class_init = qcrypto_tls_creds_x509_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--TYPE_INFO(qcrypto_tls_creds_x509_info)
--
--
--
--
--- 
-2.26.2
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886076
+
+Title:
+  risc-v pmp implementation error
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  QEMU Commit fc1bff958998910ec8d25db86cd2f53ff125f7ab
+
+  =
+
+  RISC-V PMP implementation is not correct on QEMU.
+
+  When an access is granted there is no more PMP check on the 4KB memory ra=
+nge of the accessed location.
+  A cache flush is needed in order to force a PMP check on next access to t=
+his 4KB memory range.
+  A correct implementation would be to grant access to the maximum allowed =
+area around the accessed location within the 4KB memory range.
+
+  For instance, if PMP is configured to block all accesses from 0x80003000 =
+to 0x800037FF and from 0x80003C00 to 0x80003FFF:
+  1st case:
+      1) A read access is done @0x80003900 --> access OK as expected
+      2) Then a read access is done @0x80003400 --> access OK while it must=
+ be blocked!
+  2nd case:
+      1) A read access is done @0x80003900 --> access OK as expected
+      2) Cache is flushed (__asm__ __volatile__ ("sfence.vma" : : : "memory=
+");)  =
+
+      3) A read access is done @0x80003400 --> access blocked as expected
+
+  Analysis:
+      After the 1st read @0x80003900 QEMU add the memory range 0x80003000 t=
+o 0x80003FFF into a TLB entry.
+      Then no more PMP check is done from 0x80003000 to 0x80003FFF until th=
+e TLB is flushed.
+  What should be done:
+      Only the range 0x80003800 to 0x80003BFF should be added to the TLB en=
+try.
+
+  The 4KB range is the default size of a TLB page on QEMU for RISCV.
+  The minimum size that can be set is 64Bytes. However the PMP granularity =
+can be as low as 4Bytes.
+
+  I tested a quick fix and PMP is working as expected.
+  The quick fix consist in replacing this line:
+  tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK, prot,=
+ mmu_idx, TARGET_PAGE_SIZE);
+  By this one in target/riscv/cpu_helper.c:
+  tlb_set_page(cs, address & ~0x3, pa & ~0x3, prot, mmu_idx, size);
+
+  This quick fix has to be optimized in order to consume less HW
+  resources, as explained at the beginning.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886076/+subscriptions
 
