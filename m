@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A502433C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 08:04:28 +0200 (CEST)
-Received: from localhost ([::1]:40692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4704D24342A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 08:51:52 +0200 (CEST)
+Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k66Li-0001ey-M3
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 02:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52950)
+	id 1k675a-0008H2-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 02:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k66Kt-0001Fy-HI
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:03:35 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50083
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k66Kq-0008OZ-O4
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:03:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597298610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+JUd5ZfTJnOySc9rlB7uehOL9VKawlWmIh8f8gSoooo=;
- b=YHBJlRZlohw8iD79PhGrAgcDkWvLCKwWQC2dAdnAJKb83QV0Txo9veSIy1iQpmHxXb7Zrq
- eXxszxYniuP8VJkF2noUIWqy5wZb3A32whIRaH+ueV4u/O4PCSIgsyzHaQSzm4NH4FqlB1
- 539NGwD3Gws450ZhBPJE49vduZkud8k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-XSpJpLxYMAShhQyt88FEwQ-1; Thu, 13 Aug 2020 02:03:28 -0400
-X-MC-Unique: XSpJpLxYMAShhQyt88FEwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1F551800D41;
- Thu, 13 Aug 2020 06:03:26 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B35755D9E8;
- Thu, 13 Aug 2020 06:03:24 +0000 (UTC)
-Date: Thu, 13 Aug 2020 08:03:21 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/2] target/arm: Add cpu property to control pauth
-Message-ID: <20200813060321.cbr2tun6cuq25yst@kamzik.brq.redhat.com>
-References: <20200812065339.2030527-1-richard.henderson@linaro.org>
- <20200812065339.2030527-2-richard.henderson@linaro.org>
- <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
- <2219f3f9-7894-f898-0cad-43eccaa2a70d@linaro.org>
- <20200812163107.lbubi6c7ei7i5hmw@kamzik.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k673K-0006O3-0v
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:30 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:45961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k673I-0004bh-4C
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 02:49:29 -0400
+Received: from localhost.localdomain ([82.252.135.186]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MILru-1jrnhB1Miy-00EQqs; Thu, 13 Aug 2020 08:49:25 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/14] Linux user for 5.2 patches
+Date: Thu, 13 Aug 2020 08:49:09 +0200
+Message-Id: <20200813064923.263565-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200812163107.lbubi6c7ei7i5hmw@kamzik.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QCLS3UvoO/Ba87bnCFZKbu1Sso16I52Q28w1pnUM+LFyjsXF/8H
+ W/36EO2M+KVQcgQnrCI34C+2J8L72GAl0dceB9dI3arQK8y29Th+Veb1J2k4Qdu5iE4xIKe
+ RteaQpRJMPZD53nNYR8MKugtiBELTFltkh+A5uaobekDzBq2Y4jEhcHM5TIohvuT3dPzEr1
+ pNV7nN5g36wCMXmDCWxdw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:B0GR8nrNQPY=:7fX5gILxsw1SwDOVE84wu3
+ Z9h/Mem73Q3D2XysTrq3fVUzBr0jEXqIwbovRwPidcc9JpPO/1kF8280mD4zocQenHeehF5OY
+ u0548IYaz0RmaJeln478XtTdspIXA6bo00Hjth1XzJLUTqk/TCXepp1yNg1DIwijsiQWUrlcW
+ Q4w+okngqEMH3W2WF2AgVoWmBLcuSTBS811I5BeD8RvtB+sGAMDxlavOS+8Eg1axj1g/XlJae
+ yWZn4ZQvGbG6BPPjyAicWurMCMpXEO9/y6dc1yNUXH14V8y7H8GwYobyX4U0TdiyD7w1hBmVG
+ Fgxeabe2CQ+2ZlBtl77csQY6EAIIQvCO6u8RjsW4700pMW2zCjbgX5SV3mbJOU3zt1Ba6l6rs
+ aprtQ8gFOaYCsv1wyPA0IcbJVYNEe4ICIsAHkZGS0YrE+pbF3bVCFzwk1NAb/fqCXcTvDHCi4
+ e5KZLK6J2LtT9c+V2lUC4bdDXYvH9unlEuo0awLUZcNoIK4Lo0sX4ytIh/3XpMTTCY42NzU8c
+ Dfu+5PbUrRA5SakMkn//KXOFwKeXS/Tk7QdxBxDwOi4j5tCulW6KQg5wP4NYR5B8jRwWnj3Mr
+ KNlCNMTw9uJDYNOmprOpajPSvTXobhGY640AM34aANrRo0xLZgKqtx9R2m2WIU7AzMSXPIZ45
+ m4PxU7OntkAs5kiVt9co84bD20fyLOff3YXlBswhsv7/sBNn/BgxLUPVc7sUKb5z8KwoA9wYA
+ d64LlNotBAO4kH2mm/xJP7WYmXH1sZz0/rQKc37lWTaza/+/cRNebyDRVJAxmIgUyRPRm6MfS
+ L4xr/C9upySdwq7OD5QNo8NUSd6HJWjoh9fxUnvoU3F9+xGX+6Z8lZQ2A8rwItEUII5Av9M
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:49:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,105 +68,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.rutland@arm.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 12, 2020 at 06:31:11PM +0200, Andrew Jones wrote:
-> On Wed, Aug 12, 2020 at 08:10:47AM -0700, Richard Henderson wrote:
-> > On 8/12/20 4:00 AM, Andrew Jones wrote:
-> > > On Tue, Aug 11, 2020 at 11:53:38PM -0700, Richard Henderson wrote:
-> > >> The crypto overhead of emulating pauth can be significant for
-> > >> some workloads.  Add an enumeration property that allows the
-> > >> feature to be turned off, on with the architected algorithm,
-> > >> or on with an implementation defined algorithm.
-> > >>
-> > >> The architected algorithm is quite expensive to emulate;
-> > >> using another algorithm may allow hardware acceleration.
-> > >>
-> > >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > >> ---
-> > >>  target/arm/cpu64.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++
-> > >>  1 file changed, 64 insertions(+)
-> > >>
-> > >> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> > >> index dd696183df..3181d0e2f8 100644
-> > >> --- a/target/arm/cpu64.c
-> > >> +++ b/target/arm/cpu64.c
-> > >> @@ -572,6 +572,69 @@ void aarch64_add_sve_properties(Object *obj)
-> > >>      }
-> > >>  }
-> > >>  
-> > >> +static const char * const pauth_names[] = {
-> > >> +    "off", "impdef", "arch"
-> > >> +};
-> > > 
-> > > Hi Richard,
-> > > 
-> > > Please add three boolean properties, rather than one enum:
-> > > 
-> > > pauth:            enable support of the pauth feature
-> > > pauth-fast:       enable QEMU's fast non-cryptographic hash for pauth
-> > >                   (pauth must be enabled)
-> > > pauth-arch:       enable the architected algorithm for pauth
-> > >                   (pauth must be enabled)
-> > > 
-> > > These booleans can then be added to the cpu feature probing list used by
-> > > qmp_query_cpu_model_expansion()
-> > 
-> > Why are 3 booleans better than one enum?
-> > 
-> > I'd forgotten about qmp_query_cpu_model_expansion(); can it not take anything
-> > but booleans?
-> 
-> Right. The probing works by getting a list of possible CPU features, which
-> are all boolean properties. That way the prober can try enabling/disabling
-> them without having to know about each property's set of valid values. We
-> could implement each as an enum and a second level of probing, but that
-> would complicate the probing, and I'm not sure enums gain us much over
-> multiple properties.
-> 
-> In this case, since pauth-fast and pauth-arch are mutually exclusive and
-> we want a pauth=on/off too, then we'll need a finalize function like SVE
-> has in order to support the following selections:
-> 
->  # Default (pauth-arch), explicitly selected or not
->  -cpu max[,pauth=on]
->  -cpu max[,pauth=on][,pauth-fast=off],pauth-arch=on
-> 
->  # Select pauth-fast
->  -cpu max[,pauth=on][,pauth-arch=off],pauth-fast=on
-> 
->  # Disable
->  -cpu max,pauth=off
->  -cpu max[,pauth=off],pauth-arch=off,pauth-fast=off
-> 
->  # Mutual exclusion errors
->  -cpu max,pauth=off,pauth-{arch,fast}=on
->  -cpu max,pauth=on,pauth-arch=off,pauth-fast=off
->  -cpu max[,pauth=on],pauth-arch=on,pauth-fast=on
-> 
->  # Errors because we don't want to guess what the user means
->  -cpu max[,pauth=on],pauth-arch=off
->  -cpu max[,pauth=on],pauth-fast=off
-
-Thinking about this some more, maybe we don't need pauth-arch.
-If we don't, then it simplifies nicely to
-
- # Default (enabled with architected algorithm)
- -cpu max[,pauth=on][,pauth-fast=off]
-
- # Select pauth-fast
- -cpu max[,pauth=on],pauth-fast=on
-
- # Disable
- -cpu max[,pauth-fast=off],pauth=off
-
- # Mutual exclusion errors
- -cpu max,pauth=off,pauth-fast=on
-
-Thanks,
-drew
-
+The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc=
+:=0D
+=0D
+  Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
+=0D
+for you to fetch changes up to 04275cad60c8f99e0dd7f56aecda68ceac926da8:=0D
+=0D
+  linux-user: Fix 'utimensat()' implementation (2020-08-12 10:09:58 +0200)=
+=0D
+=0D
+----------------------------------------------------------------=0D
+Add btrfs ioctls=0D
+Add clock_getres_time64, timer_gettime64, timer_settime64,=0D
+    timerfd_gettime64, timerfd_settime64=0D
+Some fixes (page protection, print_fdset, timerspec, itimerspec)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Filip Bozuta (12):=0D
+  linux-user: Fix "print_fdset()" in "strace.c" to not print ", " after=0D
+    last value=0D
+  linux-user: Modify 'target_to_host/host_to_target_itimerspec()'=0D
+  linux-user: Add support for a group of 2038 safe syscalls=0D
+  linux-user: Add support for a group of btrfs ioctls used for=0D
+    subvolumes=0D
+  linux-user: Add support for a group of btrfs ioctls used for snapshots=0D
+  linux-user: Add support for btrfs ioctls used to manipulate with=0D
+    devices=0D
+  linux-user: Add support for btrfs ioctls used to get/set features=0D
+  linux-user: Add support for a group of btrfs inode ioctls=0D
+  linux-user: Add support for two btrfs ioctls used for subvolume=0D
+  linux-user: Add support for btrfs ioctls used to manage quota=0D
+  linux-user: Add support for btrfs ioctls used to scrub a filesystem=0D
+  linux-user: Fix 'utimensat()' implementation=0D
+=0D
+Richard Henderson (2):=0D
+  linux-user: Validate mmap/mprotect prot value=0D
+  linux-user: Adjust guest page protection for the host=0D
+=0D
+ configure                  |   9 ++=0D
+ linux-user/ioctls.h        | 124 ++++++++++++++++++++++++=0D
+ linux-user/mmap.c          | 110 ++++++++++++++-------=0D
+ linux-user/strace.c        |   8 +-=0D
+ linux-user/syscall.c       | 193 +++++++++++++++++++++++++++++++------=0D
+ linux-user/syscall_defs.h  |  42 ++++++++=0D
+ linux-user/syscall_types.h | 140 +++++++++++++++++++++++++++=0D
+ 7 files changed, 563 insertions(+), 63 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
