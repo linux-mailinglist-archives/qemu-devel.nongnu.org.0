@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365092432BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:27:49 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1D82432C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:29:50 +0200 (CEST)
+Received: from localhost ([::1]:58844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k63u8-0007zu-8V
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
+	id 1k63w5-0002IR-UV
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:29:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sJ-00051g-5k
+ id 1k63sJ-00053P-SV
  for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:55 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46007)
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:50822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sG-00009C-KG
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:54 -0400
-Received: by mail-pl1-x641.google.com with SMTP id bh1so1999419plb.12
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:52 -0700 (PDT)
+ id 1k63sI-00009X-0D
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:55 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id e4so2119511pjd.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aMWNqFOgjOT3/apxgAdd5hAPkfQJszfd2f8kYZJcRqI=;
- b=sCJK6smQDaCj1Cy55ZTvvEjZzLwbYUDIRVrygL/DrUah8t1d6YbdrHcP/cWI2q2oYy
- ltGpV541MopXPqJTZ2UMehizf1IZ9QpZuMNWa/fWcwKo6EeNRLpRDIUCzdm/NX4fmsmn
- xr96muHIMez45EW2x8Bm/vj+lWrIt0Z/jpfgvbzEA8cQDPPHmhzfIM2UYMUm4pJigqZU
- 25BelOXA9hBZXSOV5iz2mQzjr8CC6LOV89WTB6C6YLG8afG1TNHPZzr/o8t4QU23dXtC
- dhmd2rhGneP43iLMiO4db5DZ772I9T5XnWmMqAvCtH/NR5JXnCbH9dgC0EM4W3oJT0nN
- fP3w==
+ bh=nOP/WB4f5EOc+9iMNgr1GvARoRc8y3IjDCJ8RShT+rk=;
+ b=ZU27wAbV9bFAD3vOJnqL/otthlPiL6zh0mPvAV8aZr4CpRznmH0NZlR4ER1nnURy9Q
+ YTrHXfW46dK+iw43XtdsWd6amV2neT690U0sZsITBByGi9ieCijEoXz98+5aLhnEKr5/
+ XCg9a6pFV1E0VS6BOQ+efHMPD7cNOWwZXqHIqIoYF05MuBuyMUYcYU48z0I0T/ssS1iS
+ E53ycr+yfmngcwGTcCLIwY4uGcdc1M/2S1jiflFNSH384Od0nkAx+BW96kJbNzWW0o+4
+ qC1ILEvhpZeY5rwo9UuL/tStNPgLpwraHMn5xDpeJpGSmg8veoHsgUfVuInsDkn37pek
+ gRMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aMWNqFOgjOT3/apxgAdd5hAPkfQJszfd2f8kYZJcRqI=;
- b=FfrUyxAjMCf6SkaYDRfXkpJwNxTd8uRM2qG3CUkBIVCIK/A6sribsHOq6cGzuOa86O
- llAfDGTEA1xdmt43cznfeOukcxcXT361kVUN7H2cjHQyd6GRBR83ZetqFd2thdrrX2Hq
- 3WQUejgzbS1sW2IhKTM+fGVnuUWNLrMMpWYDQwR0GS97iZXYA1UkRS1i/AfIRLcZl5sz
- RKHNaMOL74IxlSjUarUcrqh6I+3uR2CrBOxy195dyxa3eDor/0qF07TrXJuqPbrNrgui
- bIcWhFfve86YqfZSqYdDbBr8nEWuhIL8DswZ7GgWrTDm1qirXPX+buGsVkpYFBv8sY8f
- jdTA==
-X-Gm-Message-State: AOAM532UK1iTBcJxcrzkDYAqgIZjrSN8QgcHtqH4vAz3U2HRo+z1V7VH
- i2LNRJjB/72A+AHh0ncbCH2TQhk0ySo=
-X-Google-Smtp-Source: ABdhPJyJxCqIk7Aq5xTE659uSXgK+lzje8KKNTY2X4RDX4qCjGTmfolhYkuch+/vd+pcg5JpSCjhBA==
-X-Received: by 2002:a17:90a:630c:: with SMTP id
- e12mr2992398pjj.17.1597289150793; 
- Wed, 12 Aug 2020 20:25:50 -0700 (PDT)
+ bh=nOP/WB4f5EOc+9iMNgr1GvARoRc8y3IjDCJ8RShT+rk=;
+ b=InPQaICtb818wHpYVSZ4H8iDl7S7Sjgm/VLhCvb5ZxI2WEg/u+utajKlM6doJbvdHr
+ 57pVUi6pMgszb6Jt4oHoOK/G20WZ1QP2jsaYEos1dell5QofLRnT6agcIC+9ITVDA/k/
+ ESh4tFg/naH0CFpIq4L1aGaM/uSusvmTAHGt8tKlkZKFOm8kXDejnY9gTsoY2EuKw23L
+ ziN+EBhyGGD2HIsFclQerzzvXt13UvN9alN/tlRxFMNNYupuduynr2SsRNWcn/zxI1UG
+ JvC5HzQbCEuXZVh6r0Y0RLgrwG8BapxDO2xjQypOJ4BrhHkl861ERmba/Ar5J74UIG/C
+ 3/Ng==
+X-Gm-Message-State: AOAM5333DblMeg0tFtcTYaeMaIWZZO8oOO5XStYon3eEcMWJGsBr3WnF
+ NNpIqhoyqPR38sfLwbfjtxgWMTH3P+U=
+X-Google-Smtp-Source: ABdhPJzfAdGTY+sKFAd/gx0f2dDyOojI7UWMLl9+7hPeWalKVfTBZOyZSeSME4Jnom5EnfCTjKjQ9w==
+X-Received: by 2002:a17:90a:eac9:: with SMTP id
+ ev9mr3008655pjb.106.1597289152307; 
+ Wed, 12 Aug 2020 20:25:52 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.49
+ by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 20:25:50 -0700 (PDT)
+ Wed, 12 Aug 2020 20:25:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/17] crypto: Allocate QCryptoCipher with the subclass
-Date: Wed, 12 Aug 2020 20:25:28 -0700
-Message-Id: <20200813032537.2888593-9-richard.henderson@linaro.org>
+Subject: [PATCH 09/17] crypto: Move cipher->driver init to
+ qcrypto_*_cipher_ctx_new
+Date: Wed, 12 Aug 2020 20:25:29 -0700
+Message-Id: <20200813032537.2888593-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200813032537.2888593-1-richard.henderson@linaro.org>
 References: <20200813032537.2888593-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,548 +90,164 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merge the allocation of "opaque" into the allocation of "cipher".
-This is step one in reducing the indirection in these classes.
+The class vtable should be set by the class initializer.
+This will also allow additional subclassing, reducing the
+amount of indirection in the hierarchy.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/afalgpriv.h          |  3 ++
- crypto/cipherpriv.h         |  2 +-
- include/crypto/cipher.h     |  1 -
- crypto/cipher-afalg.c       | 20 ++++++-----
- crypto/cipher-builtin.inc.c | 68 +++++++++++++++++++------------------
- crypto/cipher-gcrypt.inc.c  | 23 +++++++------
- crypto/cipher-nettle.inc.c  | 24 +++++++------
- crypto/cipher.c             | 20 ++++-------
- 8 files changed, 84 insertions(+), 77 deletions(-)
+ crypto/cipherpriv.h         | 2 --
+ crypto/cipher-afalg.c       | 5 ++++-
+ crypto/cipher-builtin.inc.c | 4 ++++
+ crypto/cipher-gcrypt.inc.c  | 2 ++
+ crypto/cipher-nettle.inc.c  | 3 +++
+ crypto/cipher.c             | 7 -------
+ 6 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/crypto/afalgpriv.h b/crypto/afalgpriv.h
-index f6550b5c51..5a2393f1b7 100644
---- a/crypto/afalgpriv.h
-+++ b/crypto/afalgpriv.h
-@@ -15,6 +15,7 @@
- #define QCRYPTO_AFALGPRIV_H
- 
- #include <linux/if_alg.h>
-+#include "crypto/cipher.h"
- 
- #define SALG_TYPE_LEN_MAX 14
- #define SALG_NAME_LEN_MAX 64
-@@ -32,6 +33,8 @@
- typedef struct QCryptoAFAlg QCryptoAFAlg;
- 
- struct QCryptoAFAlg {
-+    QCryptoCipher base;
-+
-     int tfmfd;
-     int opfd;
-     struct msghdr *msg;
 diff --git a/crypto/cipherpriv.h b/crypto/cipherpriv.h
-index b73be33bd2..437b109b5e 100644
+index 437b109b5e..396527857d 100644
 --- a/crypto/cipherpriv.h
 +++ b/crypto/cipherpriv.h
-@@ -41,7 +41,7 @@ struct QCryptoCipherDriver {
- 
- #include "afalgpriv.h"
- 
--extern QCryptoAFAlg *
-+extern QCryptoCipher *
- qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                              QCryptoCipherMode mode,
+@@ -47,8 +47,6 @@ qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
                               const uint8_t *key,
-diff --git a/include/crypto/cipher.h b/include/crypto/cipher.h
-index 022a8d1157..56377c80fc 100644
---- a/include/crypto/cipher.h
-+++ b/include/crypto/cipher.h
-@@ -77,7 +77,6 @@
- struct QCryptoCipher {
-     QCryptoCipherAlgorithm alg;
-     QCryptoCipherMode mode;
--    void *opaque;
-     const QCryptoCipherDriver *driver;
- };
+                              size_t nkey, Error **errp);
  
+-extern const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver;
+-
+ #endif
+ 
+ #endif
 diff --git a/crypto/cipher-afalg.c b/crypto/cipher-afalg.c
-index 5c7c44761b..86e5249bd6 100644
+index 86e5249bd6..052355a8a9 100644
 --- a/crypto/cipher-afalg.c
 +++ b/crypto/cipher-afalg.c
-@@ -58,7 +58,7 @@ qcrypto_afalg_cipher_format_name(QCryptoCipherAlgorithm alg,
+@@ -58,6 +58,8 @@ qcrypto_afalg_cipher_format_name(QCryptoCipherAlgorithm alg,
      return name;
  }
  
--QCryptoAFAlg *
-+QCryptoCipher *
++static const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver;
++
+ QCryptoCipher *
  qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
                               QCryptoCipherMode mode,
-                              const uint8_t *key,
-@@ -109,7 +109,7 @@ qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+@@ -109,6 +111,7 @@ qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
      }
      afalg->cmsg = CMSG_FIRSTHDR(afalg->msg);
  
--    return afalg;
-+    return &afalg->base;
++    afalg->base.driver = &qcrypto_cipher_afalg_driver;
+     return &afalg->base;
  }
  
- static int
-@@ -117,9 +117,9 @@ qcrypto_afalg_cipher_setiv(QCryptoCipher *cipher,
-                            const uint8_t *iv,
-                            size_t niv, Error **errp)
- {
-+    QCryptoAFAlg *afalg = container_of(cipher, QCryptoAFAlg, base);
-     struct af_alg_iv *alg_iv;
-     size_t expect_niv;
--    QCryptoAFAlg *afalg = cipher->opaque;
- 
-     expect_niv = qcrypto_cipher_get_iv_len(cipher->alg, cipher->mode);
-     if (niv != expect_niv) {
-@@ -200,8 +200,9 @@ qcrypto_afalg_cipher_encrypt(QCryptoCipher *cipher,
-                              const void *in, void *out,
-                              size_t len, Error **errp)
- {
--    return qcrypto_afalg_cipher_op(cipher->opaque, in, out,
--                                   len, true, errp);
-+    QCryptoAFAlg *afalg = container_of(cipher, QCryptoAFAlg, base);
-+
-+    return qcrypto_afalg_cipher_op(afalg, in, out, len, true, errp);
+@@ -222,7 +225,7 @@ static void qcrypto_afalg_comm_ctx_free(QCryptoCipher *cipher)
+     qcrypto_afalg_comm_free(afalg);
  }
  
- static int
-@@ -209,13 +210,16 @@ qcrypto_afalg_cipher_decrypt(QCryptoCipher *cipher,
-                              const void *in, void *out,
-                              size_t len, Error **errp)
- {
--    return qcrypto_afalg_cipher_op(cipher->opaque, in, out,
--                                   len, false, errp);
-+    QCryptoAFAlg *afalg = container_of(cipher, QCryptoAFAlg, base);
-+
-+    return qcrypto_afalg_cipher_op(afalg, in, out, len, false, errp);
- }
- 
- static void qcrypto_afalg_comm_ctx_free(QCryptoCipher *cipher)
- {
--    qcrypto_afalg_comm_free(cipher->opaque);
-+    QCryptoAFAlg *afalg = container_of(cipher, QCryptoAFAlg, base);
-+
-+    qcrypto_afalg_comm_free(afalg);
- }
- 
- const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
+-const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
++static const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
+     .cipher_encrypt = qcrypto_afalg_cipher_encrypt,
+     .cipher_decrypt = qcrypto_afalg_cipher_decrypt,
+     .cipher_setiv = qcrypto_afalg_cipher_setiv,
 diff --git a/crypto/cipher-builtin.inc.c b/crypto/cipher-builtin.inc.c
-index 156f32f1c7..6a03e23040 100644
+index 6a03e23040..1444139f36 100644
 --- a/crypto/cipher-builtin.inc.c
 +++ b/crypto/cipher-builtin.inc.c
-@@ -41,6 +41,8 @@ struct QCryptoCipherBuiltinDESRFB {
+@@ -22,6 +22,8 @@
+ #include "crypto/desrfb.h"
+ #include "crypto/xts.h"
  
- typedef struct QCryptoCipherBuiltin QCryptoCipherBuiltin;
- struct QCryptoCipherBuiltin {
-+    QCryptoCipher base;
++static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
 +
-     union {
-         QCryptoCipherBuiltinAES aes;
-         QCryptoCipherBuiltinDESRFB desrfb;
-@@ -65,10 +67,7 @@ struct QCryptoCipherBuiltin {
- 
- static void qcrypto_cipher_free_aes(QCryptoCipher *cipher)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
--
--    g_free(ctxt);
--    cipher->opaque = NULL;
-+    g_free(cipher);
- }
- 
- 
-@@ -152,7 +151,8 @@ static int qcrypto_cipher_encrypt_aes(QCryptoCipher *cipher,
-                                       size_t len,
-                                       Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
-     switch (cipher->mode) {
-     case QCRYPTO_CIPHER_MODE_ECB:
-@@ -186,7 +186,8 @@ static int qcrypto_cipher_decrypt_aes(QCryptoCipher *cipher,
-                                       size_t len,
-                                       Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
-     switch (cipher->mode) {
-     case QCRYPTO_CIPHER_MODE_ECB:
-@@ -217,7 +218,9 @@ static int qcrypto_cipher_setiv_aes(QCryptoCipher *cipher,
-                                      const uint8_t *iv, size_t niv,
-                                      Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
-+
-     if (niv != AES_BLOCK_SIZE) {
-         error_setg(errp, "IV must be %d bytes not %zu",
-                    AES_BLOCK_SIZE, niv);
-@@ -232,7 +235,7 @@ static int qcrypto_cipher_setiv_aes(QCryptoCipher *cipher,
- 
- 
- 
--static QCryptoCipherBuiltin *
-+static QCryptoCipher *
- qcrypto_cipher_init_aes(QCryptoCipherMode mode,
-                         const uint8_t *key, size_t nkey,
-                         Error **errp)
-@@ -289,7 +292,7 @@ qcrypto_cipher_init_aes(QCryptoCipherMode mode,
+ typedef struct QCryptoCipherBuiltinAESContext QCryptoCipherBuiltinAESContext;
+ struct QCryptoCipherBuiltinAESContext {
+     AES_KEY enc;
+@@ -292,6 +294,7 @@ qcrypto_cipher_init_aes(QCryptoCipherMode mode,
      ctxt->encrypt = qcrypto_cipher_encrypt_aes;
      ctxt->decrypt = qcrypto_cipher_decrypt_aes;
  
--    return ctxt;
-+    return &ctxt->base;
++    ctxt->base.driver = &qcrypto_cipher_lib_driver;
+     return &ctxt->base;
  
   error:
-     g_free(ctxt);
-@@ -299,11 +302,11 @@ qcrypto_cipher_init_aes(QCryptoCipherMode mode,
- 
- static void qcrypto_cipher_free_des_rfb(QCryptoCipher *cipher)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
-     g_free(ctxt->state.desrfb.key);
-     g_free(ctxt);
--    cipher->opaque = NULL;
- }
- 
- 
-@@ -313,7 +316,8 @@ static int qcrypto_cipher_encrypt_des_rfb(QCryptoCipher *cipher,
-                                           size_t len,
-                                           Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
-     size_t i;
- 
-     if (len % 8) {
-@@ -338,7 +342,8 @@ static int qcrypto_cipher_decrypt_des_rfb(QCryptoCipher *cipher,
-                                           size_t len,
-                                           Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
-     size_t i;
- 
-     if (len % 8) {
-@@ -366,7 +371,7 @@ static int qcrypto_cipher_setiv_des_rfb(QCryptoCipher *cipher,
- }
- 
- 
--static QCryptoCipherBuiltin *
-+static QCryptoCipher *
- qcrypto_cipher_init_des_rfb(QCryptoCipherMode mode,
-                             const uint8_t *key, size_t nkey,
-                             Error **errp)
-@@ -391,7 +396,7 @@ qcrypto_cipher_init_des_rfb(QCryptoCipherMode mode,
+@@ -396,6 +399,7 @@ qcrypto_cipher_init_des_rfb(QCryptoCipherMode mode,
      ctxt->encrypt = qcrypto_cipher_encrypt_des_rfb;
      ctxt->decrypt = qcrypto_cipher_decrypt_des_rfb;
  
--    return ctxt;
-+    return &ctxt->base;
++    ctxt->base.driver = &qcrypto_cipher_lib_driver;
+     return &ctxt->base;
  }
  
- 
-@@ -421,14 +426,12 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
- }
- 
- 
--static QCryptoCipherBuiltin *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
--                                                    QCryptoCipherMode mode,
--                                                    const uint8_t *key,
--                                                    size_t nkey,
--                                                    Error **errp)
-+static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-+                                             QCryptoCipherMode mode,
-+                                             const uint8_t *key,
-+                                             size_t nkey,
-+                                             Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt;
--
-     switch (mode) {
-     case QCRYPTO_CIPHER_MODE_ECB:
-     case QCRYPTO_CIPHER_MODE_CBC:
-@@ -446,29 +449,25 @@ static QCryptoCipherBuiltin *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
- 
-     switch (alg) {
-     case QCRYPTO_CIPHER_ALG_DES_RFB:
--        ctxt = qcrypto_cipher_init_des_rfb(mode, key, nkey, errp);
--        break;
-+        return qcrypto_cipher_init_des_rfb(mode, key, nkey, errp);
-     case QCRYPTO_CIPHER_ALG_AES_128:
-     case QCRYPTO_CIPHER_ALG_AES_192:
-     case QCRYPTO_CIPHER_ALG_AES_256:
--        ctxt = qcrypto_cipher_init_aes(mode, key, nkey, errp);
--        break;
-+        return qcrypto_cipher_init_aes(mode, key, nkey, errp);
-     default:
-         error_setg(errp,
-                    "Unsupported cipher algorithm %s",
-                    QCryptoCipherAlgorithm_str(alg));
-         return NULL;
-     }
--
--    return ctxt;
- }
- 
- static void
- qcrypto_builtin_cipher_ctx_free(QCryptoCipher *cipher)
- {
--    QCryptoCipherBuiltin *ctxt;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
--    ctxt = cipher->opaque;
-     ctxt->free(cipher);
- }
- 
-@@ -480,7 +479,8 @@ qcrypto_builtin_cipher_encrypt(QCryptoCipher *cipher,
-                                size_t len,
-                                Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
-     if (len & (ctxt->blocksize - 1)) {
-         error_setg(errp, "Length %zu must be a multiple of block size %zu",
-@@ -499,7 +499,8 @@ qcrypto_builtin_cipher_decrypt(QCryptoCipher *cipher,
-                                size_t len,
-                                Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
-     if (len & (ctxt->blocksize - 1)) {
-         error_setg(errp, "Length %zu must be a multiple of block size %zu",
-@@ -516,7 +517,8 @@ qcrypto_builtin_cipher_setiv(QCryptoCipher *cipher,
-                              const uint8_t *iv, size_t niv,
-                              Error **errp)
- {
--    QCryptoCipherBuiltin *ctxt = cipher->opaque;
-+    QCryptoCipherBuiltin *ctxt
-+        = container_of(cipher, QCryptoCipherBuiltin, base);
- 
-     return ctxt->setiv(cipher, iv, niv, errp);
- }
 diff --git a/crypto/cipher-gcrypt.inc.c b/crypto/cipher-gcrypt.inc.c
-index 18850fadb9..3b3c85e265 100644
+index 3b3c85e265..7a1fbc9745 100644
 --- a/crypto/cipher-gcrypt.inc.c
 +++ b/crypto/cipher-gcrypt.inc.c
-@@ -58,6 +58,7 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+@@ -24,6 +24,7 @@
  
- typedef struct QCryptoCipherGcrypt QCryptoCipherGcrypt;
- struct QCryptoCipherGcrypt {
-+    QCryptoCipher base;
-     gcry_cipher_hd_t handle;
-     size_t blocksize;
- #ifdef CONFIG_QEMU_PRIVATE_XTS
-@@ -86,11 +87,11 @@ qcrypto_gcrypt_cipher_free_ctx(QCryptoCipherGcrypt *ctx,
- }
+ #include <gcrypt.h>
  
++static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
  
--static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
--                                                   QCryptoCipherMode mode,
--                                                   const uint8_t *key,
--                                                   size_t nkey,
--                                                   Error **errp)
-+static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-+                                             QCryptoCipherMode mode,
-+                                             const uint8_t *key,
-+                                             size_t nkey,
-+                                             Error **errp)
- {
-     QCryptoCipherGcrypt *ctx;
-     gcry_error_t err;
-@@ -257,7 +258,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+                              QCryptoCipherMode mode)
+@@ -258,6 +259,7 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
      }
  #endif
  
--    return ctx;
-+    return &ctx->base;
++    ctx->base.driver = &qcrypto_cipher_lib_driver;
+     return &ctx->base;
  
   error:
-     qcrypto_gcrypt_cipher_free_ctx(ctx, mode);
-@@ -268,7 +269,9 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
- static void
- qcrypto_gcrypt_cipher_ctx_free(QCryptoCipher *cipher)
- {
--    qcrypto_gcrypt_cipher_free_ctx(cipher->opaque, cipher->mode);
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+
-+    qcrypto_gcrypt_cipher_free_ctx(ctx, cipher->mode);
- }
- 
- 
-@@ -301,7 +304,7 @@ qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher,
-                               size_t len,
-                               Error **errp)
- {
--    QCryptoCipherGcrypt *ctx = cipher->opaque;
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-     gcry_error_t err;
- 
-     if (len & (ctx->blocksize - 1)) {
-@@ -340,7 +343,7 @@ qcrypto_gcrypt_cipher_decrypt(QCryptoCipher *cipher,
-                               size_t len,
-                               Error **errp)
- {
--    QCryptoCipherGcrypt *ctx = cipher->opaque;
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-     gcry_error_t err;
- 
-     if (len & (ctx->blocksize - 1)) {
-@@ -376,7 +379,7 @@ qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
-                             const uint8_t *iv, size_t niv,
-                             Error **errp)
- {
--    QCryptoCipherGcrypt *ctx = cipher->opaque;
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-     gcry_error_t err;
- 
-     if (niv != ctx->blocksize) {
 diff --git a/crypto/cipher-nettle.inc.c b/crypto/cipher-nettle.inc.c
-index 6ecce5e8ea..d8371d1f37 100644
+index d8371d1f37..36d57ef430 100644
 --- a/crypto/cipher-nettle.inc.c
 +++ b/crypto/cipher-nettle.inc.c
-@@ -294,6 +294,8 @@ static void twofish_decrypt_wrapper(const void *ctx, size_t length,
+@@ -34,6 +34,8 @@
+ #include <nettle/xts.h>
+ #endif
  
- typedef struct QCryptoCipherNettle QCryptoCipherNettle;
- struct QCryptoCipherNettle {
-+    QCryptoCipher base;
++static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
 +
-     /* Primary cipher context for all modes */
-     void *ctx;
-     /* Second cipher context for XTS mode only */
-@@ -355,11 +357,11 @@ qcrypto_nettle_cipher_free_ctx(QCryptoCipherNettle *ctx)
- }
- 
- 
--static QCryptoCipherNettle *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
--                                                   QCryptoCipherMode mode,
--                                                   const uint8_t *key,
--                                                   size_t nkey,
--                                                   Error **errp)
-+static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-+                                             QCryptoCipherMode mode,
-+                                             const uint8_t *key,
-+                                             size_t nkey,
-+                                             Error **errp)
- {
-     QCryptoCipherNettle *ctx;
-     uint8_t *rfbkey;
-@@ -585,7 +587,7 @@ static QCryptoCipherNettle *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+ typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
+                                                size_t length,
+                                                uint8_t *dst,
+@@ -587,6 +589,7 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
  
      ctx->iv = g_new0(uint8_t, ctx->blocksize);
  
--    return ctx;
-+    return &ctx->base;
++    ctx->base.driver = &qcrypto_cipher_lib_driver;
+     return &ctx->base;
  
   error:
-     qcrypto_nettle_cipher_free_ctx(ctx);
-@@ -596,9 +598,8 @@ static QCryptoCipherNettle *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
- static void
- qcrypto_nettle_cipher_ctx_free(QCryptoCipher *cipher)
- {
--    QCryptoCipherNettle *ctx;
-+    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
- 
--    ctx = cipher->opaque;
-     qcrypto_nettle_cipher_free_ctx(ctx);
- }
- 
-@@ -610,7 +611,7 @@ qcrypto_nettle_cipher_encrypt(QCryptoCipher *cipher,
-                               size_t len,
-                               Error **errp)
- {
--    QCryptoCipherNettle *ctx = cipher->opaque;
-+    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
- 
-     if (len & (ctx->blocksize - 1)) {
-         error_setg(errp, "Length %zu must be a multiple of block size %zu",
-@@ -663,7 +664,7 @@ qcrypto_nettle_cipher_decrypt(QCryptoCipher *cipher,
-                               size_t len,
-                               Error **errp)
- {
--    QCryptoCipherNettle *ctx = cipher->opaque;
-+    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
- 
-     if (len & (ctx->blocksize - 1)) {
-         error_setg(errp, "Length %zu must be a multiple of block size %zu",
-@@ -713,7 +714,8 @@ qcrypto_nettle_cipher_setiv(QCryptoCipher *cipher,
-                             const uint8_t *iv, size_t niv,
-                             Error **errp)
- {
--    QCryptoCipherNettle *ctx = cipher->opaque;
-+    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
-+
-     if (niv != ctx->blocksize) {
-         error_setg(errp, "Expected IV size %zu not %zu",
-                    ctx->blocksize, niv);
 diff --git a/crypto/cipher.c b/crypto/cipher.c
-index d3ef856009..6ea75bb764 100644
+index 6ea75bb764..6e25f68f5c 100644
 --- a/crypto/cipher.c
 +++ b/crypto/cipher.c
-@@ -163,30 +163,27 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
-                                   const uint8_t *key, size_t nkey,
+@@ -164,13 +164,9 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
                                    Error **errp)
  {
--    QCryptoCipher *cipher;
--    void *ctx = NULL;
-+    QCryptoCipher *cipher = NULL;
-     const QCryptoCipherDriver *drv = NULL;
+     QCryptoCipher *cipher = NULL;
+-    const QCryptoCipherDriver *drv = NULL;
  
  #ifdef CONFIG_AF_ALG
--    ctx = qcrypto_afalg_cipher_ctx_new(alg, mode, key, nkey, NULL);
--    if (ctx) {
-+    cipher = qcrypto_afalg_cipher_ctx_new(alg, mode, key, nkey, NULL);
-+    if (cipher) {
-         drv = &qcrypto_cipher_afalg_driver;
-     }
+     cipher = qcrypto_afalg_cipher_ctx_new(alg, mode, key, nkey, NULL);
+-    if (cipher) {
+-        drv = &qcrypto_cipher_afalg_driver;
+-    }
  #endif
  
--    if (!ctx) {
--        ctx = qcrypto_cipher_ctx_new(alg, mode, key, nkey, errp);
--        if (!ctx) {
-+    if (!cipher) {
-+        cipher = qcrypto_cipher_ctx_new(alg, mode, key, nkey, errp);
-+        if (!cipher) {
+     if (!cipher) {
+@@ -178,13 +174,10 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
+         if (!cipher) {
              return NULL;
          }
- 
-         drv = &qcrypto_cipher_lib_driver;
+-
+-        drv = &qcrypto_cipher_lib_driver;
      }
  
--    cipher = g_new0(QCryptoCipher, 1);
      cipher->alg = alg;
      cipher->mode = mode;
--    cipher->opaque = ctx;
-     cipher->driver = drv;
+-    cipher->driver = drv;
  
      return cipher;
-@@ -226,10 +223,7 @@ int qcrypto_cipher_setiv(QCryptoCipher *cipher,
- 
- void qcrypto_cipher_free(QCryptoCipher *cipher)
- {
--    const QCryptoCipherDriver *drv;
-     if (cipher) {
--        drv = cipher->driver;
--        drv->cipher_free(cipher);
--        g_free(cipher);
-+        cipher->driver->cipher_free(cipher);
-     }
  }
 -- 
 2.25.1
