@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5445D2437BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:38:47 +0200 (CEST)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3415E2437BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:39:03 +0200 (CEST)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k69h8-0007oO-4R
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38654)
+	id 1k69hO-0008Fu-9a
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:39:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k69fh-0006WM-V9; Thu, 13 Aug 2020 05:37:18 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:60655)
+ id 1k69fi-0006WN-1O; Thu, 13 Aug 2020 05:37:18 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58705 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k69ff-000075-Fs; Thu, 13 Aug 2020 05:37:17 -0400
+ id 1k69ff-000076-DD; Thu, 13 Aug 2020 05:37:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS1gT0hvfz9sTM; Thu, 13 Aug 2020 19:37:09 +1000 (AEST)
+ id 4BS1gT1Hzsz9sTH; Thu, 13 Aug 2020 19:37:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597311429;
- bh=Hx4wcuxgCsvDbqutSg60YdmRps8Tss4yGWwtH7OUuek=;
+ bh=svypqeE3f//Y3EkkbPrMG/E3K/71Jo7VzrLuqxxTaBk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QGbIvE3Z+HMzJwAy5aqI+L42zDPORQ56erwDugQPvHJWxFo7rre5dG6/hStUU34fj
- 8GozkNDy5wVDermthj3NMFsw4/GeiSR0NwSdW1OSKoCiBrtfzpOy8GcTWqNwBY0oWd
- EJGuh3AunbA2koe6OABYKpBJnoyRd0I2+FCGFRlI=
-Date: Thu, 13 Aug 2020 17:12:36 +1000
+ b=lHA2NyS5ti2qosPwhXW/VXnJpwHRiLhsIyVTzlZk0vWempnTdEzLgwJ3P4+M8Svf4
+ OIBvkENsV2+Wkm6wfwwT9ZCGgge8k8SpyN7/aIVnCemA/i1B8oYvBOCVWd5A2/aH/9
+ kH5BU8EOqABE4EXC8zFDm/aOxsUTBcn7ZPy0dYyU=
+Date: Thu, 13 Aug 2020 17:14:42 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 01/14] spapr: Simplify error handling in
- spapr_phb_realize()
-Message-ID: <20200813071236.GE17532@yekko.fritz.box>
+Subject: Re: [PATCH 02/14] spapr/xive: Rework error handling of
+ kvmppc_xive_cpu_connect()
+Message-ID: <20200813071442.GF17532@yekko.fritz.box>
 References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707843851.1489912.6108405733810934642.stgit@bahia.lan>
+ <159707844549.1489912.4862921680328017645.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d8Lz2Tf5e5STOWUP"
+ protocol="application/pgp-signature"; boundary="B0nZA57HJSoPbsHY"
 Content-Disposition: inline
-In-Reply-To: <159707843851.1489912.6108405733810934642.stgit@bahia.lan>
+In-Reply-To: <159707844549.1489912.4862921680328017645.stgit@bahia.lan>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -68,100 +68,103 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---d8Lz2Tf5e5STOWUP
+--B0nZA57HJSoPbsHY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 10, 2020 at 06:53:58PM +0200, Greg Kurz wrote:
-> The spapr_phb_realize() function has a local_err variable which
-> is used to:
+On Mon, Aug 10, 2020 at 06:54:05PM +0200, Greg Kurz wrote:
+> Use error_setg_errno() instead of error_setg(strerror()). While here,
+> use -ret instead of errno since kvm_vcpu_enable_cap() returns a negative
+> errno on failure.
 >=20
-> 1) check failures of spapr_irq_findone() and spapr_irq_claim()
+> Use ERRP_GUARD() to ensure that errp can be passed to error_append_hint(),
+> and get rid of the local_err boilerplate.
 >=20
-> 2) prepend extra information to the error message
->=20
-> Recent work from Markus Armbruster highlighted we get better
-> code when testing the return value of a function, rather than
-> setting up all the local_err boiler plate. For similar reasons,
-> it is now preferred to use ERRP_GUARD() and error_prepend()
-> rather than error_propagate_prepend().
->=20
-> Since spapr_irq_findone() and spapr_irq_claim() return negative
-> values in case of failure, do both changes.
->=20
-> This is just cleanup, no functional impact.
+> Propagate the return value so that callers may use it as well to check
+> failures.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 Applied to ppc-for-5.2.
 
 > ---
->  hw/ppc/spapr_pci.c |   16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
+>  hw/intc/spapr_xive_kvm.c |   21 ++++++++++-----------
+>  include/hw/ppc/xive.h    |    2 +-
+>  2 files changed, 11 insertions(+), 12 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 363cdb3f7b8d..0a418f1e6711 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index 82a6f99f022d..aa1a2f915363 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -144,8 +144,9 @@ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx=
+, Error **errp)
+>      }
+>  }
 > =20
->  static void spapr_phb_realize(DeviceState *dev, Error **errp)
+> -void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+> +int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
 >  {
 > +    ERRP_GUARD();
->      /* We don't use SPAPR_MACHINE() in order to exit gracefully if the u=
-ser
->       * tries to add a sPAPR PHB to a non-pseries machine.
->       */
-> @@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, Err=
-or **errp)
->      uint64_t msi_window_size =3D 4096;
->      SpaprTceTable *tcet;
->      const unsigned windows_supported =3D spapr_phb_windows_supported(sph=
-b);
-> -    Error *local_err =3D NULL;
+>      SpaprXive *xive =3D SPAPR_XIVE(tctx->xptr);
+>      unsigned long vcpu_id;
+>      int ret;
+> @@ -154,7 +155,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **=
+errp)
 > =20
->      if (!spapr) {
->          error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries ma=
-chine");
-> @@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev, E=
-rror **errp)
+>      /* Check if CPU was hot unplugged and replugged. */
+>      if (kvm_cpu_is_enabled(tctx->cs)) {
+> -        return;
+> +        return 0;
+>      }
 > =20
->      /* Initialize the LSI table */
->      for (i =3D 0; i < PCI_NUM_PINS; i++) {
-> -        uint32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS =
-+ i;
-> +        int irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
-> =20
->          if (smc->legacy_irq_allocation) {
-> -            irq =3D spapr_irq_findone(spapr, &local_err);
-> -            if (local_err) {
-> -                error_propagate_prepend(errp, local_err,
-> -                                        "can't allocate LSIs: ");
-> +            irq =3D spapr_irq_findone(spapr, errp);
-> +            if (irq < 0) {
-> +                error_prepend(errp, "can't allocate LSIs: ");
->                  /*
->                   * Older machines will never support PHB hotplug, ie, th=
-is is an
->                   * init only path and QEMU will terminate. No need to ro=
-llback.
-> @@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, Err=
-or **errp)
->              }
+>      vcpu_id =3D kvm_arch_vcpu_id(tctx->cs);
+> @@ -162,20 +163,18 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error =
+**errp)
+>      ret =3D kvm_vcpu_enable_cap(tctx->cs, KVM_CAP_PPC_IRQ_XIVE, 0, xive-=
+>fd,
+>                                vcpu_id, 0);
+>      if (ret < 0) {
+> -        Error *local_err =3D NULL;
+> -
+> -        error_setg(&local_err,
+> -                   "XIVE: unable to connect CPU%ld to KVM device: %s",
+> -                   vcpu_id, strerror(errno));
+> -        if (errno =3D=3D ENOSPC) {
+> -            error_append_hint(&local_err, "Try -smp maxcpus=3DN with N <=
+ %u\n",
+> +        error_setg_errno(errp, -ret,
+> +                         "XIVE: unable to connect CPU%ld to KVM device",
+> +                         vcpu_id);
+> +        if (ret =3D=3D -ENOSPC) {
+> +            error_append_hint(errp, "Try -smp maxcpus=3DN with N < %u\n",
+>                                MACHINE(qdev_get_machine())->smp.max_cpus);
 >          }
+> -        error_propagate(errp, local_err);
+> -        return;
+> +        return ret;
+>      }
 > =20
-> -        spapr_irq_claim(spapr, irq, true, &local_err);
-> -        if (local_err) {
-> -            error_propagate_prepend(errp, local_err, "can't allocate LSI=
-s: ");
-> +        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
-> +            error_prepend(errp, "can't allocate LSIs: ");
->              goto unrealize;
->          }
+>      kvm_cpu_enable(tctx->cs);
+> +    return 0;
+>  }
 > =20
+>  /*
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index 2f3c5af810bb..2d87ed43728a 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -487,7 +487,7 @@ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t rin=
+g, uint8_t ipb);
+> =20
+>  int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **er=
+rp);
+>  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
+> -void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
+> +int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
+>  void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
+>  void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp);
+>  void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp);
 >=20
 >=20
 
@@ -171,25 +174,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---d8Lz2Tf5e5STOWUP
+--B0nZA57HJSoPbsHY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl805+QACgkQbDjKyiDZ
-s5J2mBAAh6DqenOwhRCt+nJjWhR2/+UX6bBOFZw9rgQ/DZGuLkgFwl6OZ097CLdM
-0oocP/IyncP7EDY8RW2g2xneCwMR6JynkwXG1et+/oj61/nJCSt3ekFY8n4yWGok
-VgXP5IVmuQGg5soJLExcMB3rgtBIEJqSwIqKyvI7N+Q0Ax3aoWaHfzDxoUzxw851
-zzJmLrQRK8Q5cizXSfOF1bMOLNzkxB+M2Vw8RoXkQ0U5vhuzAy8kersalN1pHktN
-1Ce+WnwfaCmZdnlqKHH9hyO/699igj5U4d8Ig1eLOIJutlZuOa6JzHXEW9PKV2Ir
-vGyWwmJ3VZV9gxzNfbXoicTVRlQOJB14o+X8RsMjZUdjU2u4jHHG/4LsRE2XBXMA
-b/rdgiOFnLn1KL4H5V4BIIGDxCLgrSOvxqksNuU0jKjcwk0sj3LqfveaO3UfsmEQ
-KoqtygqGS0v8VOTWiLj8Jd+WEfg10awHsW3+ttR/0Jq1RYzttO1L+bC2hjWBri8L
-479QOxpljwEZvHLcL1nFYEyfDZvvCtWYhBCqFkSjYfB8Bg0PeKeev1muJKmtMEzr
-tdViMXmqqieN342suIMTctKwL+lR6XbDoav0amKOr3gt//pnsRHqX1B+W7sH7/jR
-ZOf8q42Y3++ZVykOIHrMana/CINyFG5hah5lXZpgAi6XvJNrHiA=
-=HKV7
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl806GIACgkQbDjKyiDZ
+s5Ie4xAAh08SeIbOCRxY3zdByUg4smnWp/bUsKdjsHCIGdHi1j/+XWmaDJbWYzyi
+GP0XIKIjx7/oln1QYpWF0j0KJJNT5K9Gqp9yJjrF+SIz4mhJ0YeoV5JfL1DnGSdJ
+ybCEm4mb05uaG2DF2p99fdwi1OXiBDD6PjDbJ/wHIf0Tcy08WgRn5lPm/i8YD4WZ
+swapPLJolFxcfGoamNVBFFZGBQt0EIg6ATTJvNY6/DTmd6i6odLUdV1o7eyGb6p4
+Pxmhooe3Bxc8KiuZJvdvVUZsGCXeLQc6iDCUcSNNgP1rt7Bqj1IOg780T4LO7zlf
+uzroTEoPDKd5O/QnWu1pDIF+ehyuH7QUnxawkS/Vu/tGUZe8Pv/9z8FzIiHWE0l3
+VB8594EiFvbNhetWN7L/MOy/gT7Nipfbv9T62Arl6lhRsXxlaiRqQDEUc4qUBlpt
+PVWAutfsudn5xwgVptyzgb3CvZIrTgUMhEJvBHBGc2RaOy9TXnP6AVLYg2/92UWB
+GlGd7U6WVeAg+xIEvz6tQh+7fjwC8bE73tK0rHjUnXE4K6WdnMygkFm7brzVZY+5
+Yc18lg34hyxF+W/8PclOzwIKwPNSIpDIXyLbe/nHBL5iCq7jIgWG5C+PA0gBwbRt
+zXvtSio5OUJp1offEHn4rQok04w2ScZJVKqjYNbSFQc6m/zUk+M=
+=ph/y
 -----END PGP SIGNATURE-----
 
---d8Lz2Tf5e5STOWUP--
+--B0nZA57HJSoPbsHY--
 
