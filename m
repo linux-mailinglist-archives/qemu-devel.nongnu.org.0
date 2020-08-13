@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7D3244150
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:34:31 +0200 (CEST)
-Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98FF244148
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:32:30 +0200 (CEST)
+Received: from localhost ([::1]:36396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Lnq-0008Rf-Rp
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
+	id 1k6Llt-000536-Tf
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgE-0004uY-Cs
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:38 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29964
+ id 1k6LgD-0004tm-P3
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:37 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51637
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k6LgB-0002of-NP
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:38 -0400
+ id 1k6LgB-0002ok-Ut
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:26:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597357594;
+ s=mimecast20190719; t=1597357595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+IPsPfjQQXtFCSiQ2JA/03hk2P6G+mxGHlD5ub3oDPg=;
- b=VyLvyuW2RtJs7tIcmWWpZb6jS4ohxVNcAJkpRXNrh1ncXRu4M/WXcSkuq/m1HkxhG/ThZ9
- CF+vDQ6oqxzAcmCC/Q2mLmWk3GSkTfN0/fKOnNShM3TutAr8dsHZF/tDTRQMYpmM3RjK4T
- ia9DQTgCYV8M04XPbjnb7ornS41TiBg=
+ bh=ubFG9258ksaM+YE1gG4xfg6uJDM8FoGJb0qcKKBZGcg=;
+ b=RB08D6JaBf0G6j6sik1fwejW+gnmy8yrXhZmKUDpWKAZoulIsbYauc27UMdciKVAvYDbJh
+ 12Ya7cXelY9fpZX0KBhWHVztpBV5eXOicTrOQGDEt/Ti//quk9S/AGmRXQe1T3aaAGiH8B
+ sl5hYjxGKfMy0VJ/Qd//q0VMlPObBUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-MwzOlMfSMyKDvhiiJrRcLg-1; Thu, 13 Aug 2020 18:26:32 -0400
-X-MC-Unique: MwzOlMfSMyKDvhiiJrRcLg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-541-IhzblaBGNUqZXHCLGOZJ9g-1; Thu, 13 Aug 2020 18:26:33 -0400
+X-MC-Unique: IhzblaBGNUqZXHCLGOZJ9g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B05FF57086
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9E7818B9EC1
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:26:32 +0000 (UTC)
 Received: from localhost (ovpn-117-153.rdu2.redhat.com [10.10.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C5005D9D2;
- Thu, 13 Aug 2020 22:26:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F81619482;
+ Thu, 13 Aug 2020 22:26:32 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/41] megasas: Rename QOM class cast macros
-Date: Thu, 13 Aug 2020 18:25:47 -0400
-Message-Id: <20200813222625.243136-4-ehabkost@redhat.com>
+Subject: [PATCH 04/41] vmw_pvscsi: Rename QOM class cast macros
+Date: Thu, 13 Aug 2020 18:25:48 -0400
+Message-Id: <20200813222625.243136-5-ehabkost@redhat.com>
 In-Reply-To: <20200813222625.243136-1-ehabkost@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -86,69 +86,51 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the MEGASAS_DEVICE_CLASS() and MEGASAS_DEVICE_GET_CLASS()
-macros to be consistent with the MEGASAS() instance cast macro.
+Rename the PVSCSI_DEVICE_CLASS() and PVSCSI_DEVICE_GET_CLASS()
+macros to be consistent with the PVSCSI() instance cast macro.
 
 This will allow us to register the type cast macros using
 OBJECT_DECLARE_TYPE later.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/scsi/megasas.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/scsi/vmw_pvscsi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index 5cfd1bf22e..390c2f2edb 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -134,9 +134,9 @@ typedef struct MegasasBaseClass {
- #define MEGASAS(obj) \
-     OBJECT_CHECK(MegasasState, (obj), TYPE_MEGASAS_BASE)
+diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+index df07ab6bfb..c071e0c7aa 100644
+--- a/hw/scsi/vmw_pvscsi.c
++++ b/hw/scsi/vmw_pvscsi.c
+@@ -64,9 +64,9 @@ typedef struct PVSCSIClass {
+ #define TYPE_PVSCSI "pvscsi"
+ #define PVSCSI(obj) OBJECT_CHECK(PVSCSIState, (obj), TYPE_PVSCSI)
  
--#define MEGASAS_DEVICE_CLASS(oc) \
-+#define MEGASAS_CLASS(oc) \
-     OBJECT_CLASS_CHECK(MegasasBaseClass, (oc), TYPE_MEGASAS_BASE)
--#define MEGASAS_DEVICE_GET_CLASS(oc) \
-+#define MEGASAS_GET_CLASS(oc) \
-     OBJECT_GET_CLASS(MegasasBaseClass, (oc), TYPE_MEGASAS_BASE)
+-#define PVSCSI_DEVICE_CLASS(klass) \
++#define PVSCSI_CLASS(klass) \
+     OBJECT_CLASS_CHECK(PVSCSIClass, (klass), TYPE_PVSCSI)
+-#define PVSCSI_DEVICE_GET_CLASS(obj) \
++#define PVSCSI_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(PVSCSIClass, (obj), TYPE_PVSCSI)
  
- #define MEGASAS_INTR_DISABLED_MASK 0xFFFFFFFF
-@@ -733,7 +733,7 @@ static int megasas_ctrl_get_info(MegasasState *s, MegasasCmd *cmd)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(s);
-     PCIDeviceClass *pci_class = PCI_DEVICE_GET_CLASS(pci_dev);
--    MegasasBaseClass *base_class = MEGASAS_DEVICE_GET_CLASS(s);
-+    MegasasBaseClass *base_class = MEGASAS_GET_CLASS(s);
-     struct mfi_ctrl_info info;
-     size_t dcmd_size = sizeof(info);
-     BusChild *kid;
-@@ -1999,7 +1999,7 @@ static uint64_t megasas_mmio_read(void *opaque, hwaddr addr,
- {
-     MegasasState *s = opaque;
-     PCIDevice *pci_dev = PCI_DEVICE(s);
--    MegasasBaseClass *base_class = MEGASAS_DEVICE_GET_CLASS(s);
-+    MegasasBaseClass *base_class = MEGASAS_GET_CLASS(s);
-     uint32_t retval = 0;
+ /* Compatibility flags for migration */
+@@ -1265,7 +1265,7 @@ static Property pvscsi_properties[] = {
  
-     switch (addr) {
-@@ -2322,7 +2322,7 @@ static const struct SCSIBusInfo megasas_scsi_info = {
- static void megasas_scsi_realize(PCIDevice *dev, Error **errp)
+ static void pvscsi_realize(DeviceState *qdev, Error **errp)
  {
-     MegasasState *s = MEGASAS(dev);
--    MegasasBaseClass *b = MEGASAS_DEVICE_GET_CLASS(s);
-+    MegasasBaseClass *b = MEGASAS_GET_CLASS(s);
-     uint8_t *pci_conf;
-     int i, bar_type;
-     Error *err = NULL;
-@@ -2506,7 +2506,7 @@ static void megasas_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
--    MegasasBaseClass *e = MEGASAS_DEVICE_CLASS(oc);
-+    MegasasBaseClass *e = MEGASAS_CLASS(oc);
-     const MegasasInfo *info = data;
+-    PVSCSIClass *pvs_c = PVSCSI_DEVICE_GET_CLASS(qdev);
++    PVSCSIClass *pvs_c = PVSCSI_GET_CLASS(qdev);
+     PCIDevice *pci_dev = PCI_DEVICE(qdev);
+     PVSCSIState *s = PVSCSI(qdev);
  
-     pc->realize = megasas_scsi_realize;
+@@ -1280,7 +1280,7 @@ static void pvscsi_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+-    PVSCSIClass *pvs_k = PVSCSI_DEVICE_CLASS(klass);
++    PVSCSIClass *pvs_k = PVSCSI_CLASS(klass);
+     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
+ 
+     k->realize = pvscsi_realizefn;
 -- 
 2.26.2
 
