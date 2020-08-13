@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735AB243D9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:42:40 +0200 (CEST)
-Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C640E243D74
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:34:23 +0200 (CEST)
+Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6GJL-00008n-Eo
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:42:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
+	id 1k6GBK-0000Od-Pt
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G95-00057f-SL
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:32:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41232
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G7R-0002UL-73
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:30:21 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21028
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G94-0001du-98
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:32:03 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G7O-0001KT-S5
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:30:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597336321;
+ s=mimecast20190719; t=1597336218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0kP3JW4cQeIixcwieAnD96+eq8w2AIytt1Mm9Uer6yc=;
- b=OQTIR83kY7KDOzUKq1BqWa68vp+EEfasYAeY44s05fq+lPVPj1QrDhmvoKu7zZmCSvD5kA
- JP2bsT8dmTlpSK6U0KMfS6XhomlgIN4+c+W91jDuwi4eLG/+RR2hkC6SgnH969quMF+Jmn
- 5PUHKVSzgNr3rAG0hCC0ItoJ/6lNAJo=
+ bh=Whh0GMguYYR2iSJ9DCBI9aUiaI5Mf2N4woVzcRw4FBE=;
+ b=EQvZJ2rZQS2RbDSkBHhjHL2h+Apkyu90sSkzi6FltKnEiFNpkmczUOTzhJnmrc4TYtJnnM
+ DimrD/S4PfBX+3LLsJ6ILhfe3uCdXB1dcBIM8mTWvTiYlh4Ie6oICf1CnyoVjHRsSwgynq
+ aqdEkjiWyGjSqS3rgOeXCn14QUqysPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-Rd_s3Bp8PomMAHaUfz7YjQ-1; Thu, 13 Aug 2020 12:30:10 -0400
-X-MC-Unique: Rd_s3Bp8PomMAHaUfz7YjQ-1
+ us-mta-468-KD4TaV2oN2uvoboU6uq3Hg-1; Thu, 13 Aug 2020 12:30:16 -0400
+X-MC-Unique: KD4TaV2oN2uvoboU6uq3Hg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0874C1DDE9;
- Thu, 13 Aug 2020 16:30:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4911410066FA;
+ Thu, 13 Aug 2020 16:30:15 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-97.ams2.redhat.com [10.36.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD7CF5C1C2;
- Thu, 13 Aug 2020 16:30:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 514025C1A3;
+ Thu, 13 Aug 2020 16:30:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 12/22] nbd/server: Simplify export shutdown
-Date: Thu, 13 Aug 2020 18:29:25 +0200
-Message-Id: <20200813162935.210070-13-kwolf@redhat.com>
+Subject: [RFC PATCH 13/22] block/export: Move refcount from NBDExport to
+ BlockExport
+Date: Thu, 13 Aug 2020 18:29:26 +0200
+Message-Id: <20200813162935.210070-14-kwolf@redhat.com>
 In-Reply-To: <20200813162935.210070-1-kwolf@redhat.com>
 References: <20200813162935.210070-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 12:29:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -66,7 +67,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,71 +84,263 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Closing export is somewhat convoluted because nbd_export_close() and
-nbd_export_put() call each other and the ways they actually end up being
-nested is not necessarily obvious.
-
-However, it is not really necessary to call nbd_export_close() from
-nbd_export_put() when putting the last reference because it only does
-three things:
-
-1. Close all clients. We're going to refcount 0 and all clients hold a
-   reference, so we know there is no active client any more.
-
-2. Close the user reference (represented by exp->name being non-NULL).
-   The same argument applies: If the export were still named, we would
-   still have a reference.
-
-3. Freeing exp->description. This is really cleanup work to be done when
-   the export is finally freed. There is no reason to already clear it
-   while clients are still in the process of shutting down.
-
-So after moving the cleanup of exp->description, the code can be
-simplified so that only nbd_export_close() calls nbd_export_put(), but
-never the other way around.
+Having a refcount makes sense for all types of block exports. It is also
+a prerequisite for keeping a list of all exports at the BlockExport
+level.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- nbd/server.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ include/block/export.h | 10 ++++++
+ include/block/nbd.h    |  2 --
+ block/export/export.c  | 14 ++++++++
+ blockdev-nbd.c         |  2 +-
+ nbd/server.c           | 72 +++++++++++++++++++-----------------------
+ 5 files changed, 58 insertions(+), 42 deletions(-)
 
+diff --git a/include/block/export.h b/include/block/export.h
+index 5424bdc85d..f44290a4a2 100644
+--- a/include/block/export.h
++++ b/include/block/export.h
+@@ -21,14 +21,24 @@ typedef struct BlockExport BlockExport;
+ typedef struct BlockExportDriver {
+     BlockExportType type;
+     BlockExport *(*create)(BlockExportOptions *, Error **);
++    void (*delete)(BlockExport *);
+ } BlockExportDriver;
+ 
+ struct BlockExport {
+     const BlockExportDriver *drv;
++
++    /*
++     * Reference count for this block export. This includes strong references
++     * both from the owner (qemu-nbd or the monitor) and clients connected to
++     * the export.
++     */
++    int refcount;
+ };
+ 
+ extern const BlockExportDriver blk_exp_nbd;
+ 
+ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp);
++void blk_exp_ref(BlockExport *exp);
++void blk_exp_unref(BlockExport *exp);
+ 
+ #endif
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 23030db3f1..af8509ab70 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -336,8 +336,6 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+ void nbd_export_set_on_eject_blk(BlockExport *exp, BlockBackend *blk);
+ void nbd_export_close(NBDExport *exp);
+ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp);
+-void nbd_export_get(NBDExport *exp);
+-void nbd_export_put(NBDExport *exp);
+ 
+ AioContext *nbd_export_aio_context(NBDExport *exp);
+ NBDExport *nbd_export_find(const char *name);
+diff --git a/block/export/export.c b/block/export/export.c
+index 12672228c7..1d5de564c7 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -49,6 +49,20 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     return drv->create(export, errp);
+ }
+ 
++void blk_exp_ref(BlockExport *exp)
++{
++    assert(exp->refcount > 0);
++    exp->refcount++;
++}
++
++void blk_exp_unref(BlockExport *exp)
++{
++    assert(exp->refcount > 0);
++    if (--exp->refcount == 0) {
++        exp->drv->delete(exp);
++    }
++}
++
+ void qmp_block_export_add(BlockExportOptions *export, Error **errp)
+ {
+     blk_exp_add(export, errp);
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index 8dd127af52..a8b7b785e7 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -232,7 +232,7 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
+     /* The list of named exports has a strong reference to this export now and
+      * our only way of accessing it is through nbd_export_find(), so we can drop
+      * the strong reference that is @exp. */
+-    nbd_export_put(exp);
++    blk_exp_unref((BlockExport*) exp);
+ 
+  out:
+     aio_context_release(aio_context);
 diff --git a/nbd/server.c b/nbd/server.c
-index eadc5b9804..4c594e6558 100644
+index 4c594e6558..2bf30bb731 100644
 --- a/nbd/server.c
 +++ b/nbd/server.c
-@@ -1678,8 +1678,6 @@ void nbd_export_close(NBDExport *exp)
+@@ -83,7 +83,6 @@ struct NBDRequestData {
+ 
+ struct NBDExport {
+     BlockExport common;
+-    int refcount;
+ 
+     BlockBackend *blk;
+     char *name;
+@@ -499,7 +498,7 @@ static int nbd_negotiate_handle_export_name(NBDClient *client, bool no_zeroes,
+     }
+ 
+     QTAILQ_INSERT_TAIL(&client->exp->clients, client, next);
+-    nbd_export_get(client->exp);
++    blk_exp_ref(&client->exp->common);
+     nbd_check_meta_export(client);
+ 
+     return 0;
+@@ -707,7 +706,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
+         client->exp = exp;
+         client->check_align = check_align;
+         QTAILQ_INSERT_TAIL(&client->exp->clients, client, next);
+-        nbd_export_get(client->exp);
++        blk_exp_ref(&client->exp->common);
+         nbd_check_meta_export(client);
+         rc = 1;
+     }
+@@ -1406,7 +1405,7 @@ void nbd_client_put(NBDClient *client)
+         g_free(client->tlsauthz);
+         if (client->exp) {
+             QTAILQ_REMOVE(&client->exp->clients, client, next);
+-            nbd_export_put(client->exp);
++            blk_exp_unref(&client->exp->common);
+         }
+         g_free(client);
+     }
+@@ -1537,7 +1536,8 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+ 
+     exp = g_new0(NBDExport, 1);
+     exp->common = (BlockExport) {
+-        .drv = &blk_exp_nbd,
++        .drv        = &blk_exp_nbd,
++        .refcount   = 1,
+     };
+ 
+     /*
+@@ -1566,7 +1566,6 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+     blk_set_enable_write_cache(blk, !writethrough);
+     blk_set_allow_aio_context_change(blk, true);
+ 
+-    exp->refcount = 1;
+     QTAILQ_INIT(&exp->clients);
+     exp->blk = blk;
+     exp->name = g_strdup(name);
+@@ -1626,8 +1625,9 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+     exp->ctx = ctx;
+     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
+ 
++    blk_exp_ref(&exp->common);
+     QTAILQ_INSERT_TAIL(&exports, exp, next);
+-    nbd_export_get(exp);
++
+     return exp;
+ 
+ fail:
+@@ -1660,7 +1660,7 @@ void nbd_export_close(NBDExport *exp)
+ {
+     NBDClient *client, *next;
+ 
+-    nbd_export_get(exp);
++    blk_exp_ref(&exp->common);
+     /*
+      * TODO: Should we expand QMP NbdServerRemoveNode enum to allow a
+      * close mode that stops advertising the export to new clients but
+@@ -1672,13 +1672,13 @@ void nbd_export_close(NBDExport *exp)
+         client_close(client, true);
+     }
+     if (exp->name) {
+-        nbd_export_put(exp);
++        blk_exp_unref(&exp->common);
+         g_free(exp->name);
+         exp->name = NULL;
          QTAILQ_REMOVE(&exports, exp, next);
          QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
      }
--    g_free(exp->description);
--    exp->description = NULL;
-     nbd_export_put(exp);
+-    nbd_export_put(exp);
++    blk_exp_unref(&exp->common);
  }
  
-@@ -1706,19 +1704,12 @@ void nbd_export_get(NBDExport *exp)
- void nbd_export_put(NBDExport *exp)
- {
-     assert(exp->refcount > 0);
--    if (exp->refcount == 1) {
--        nbd_export_close(exp);
--    }
--
--    /* nbd_export_close() may theoretically reduce refcount to 0. It may happen
--     * if someone calls nbd_export_put() on named export not through
--     * nbd_export_set_name() when refcount is 1. So, let's assert that
--     * it is > 0.
--     */
--    assert(exp->refcount > 0);
-     if (--exp->refcount == 0) {
-         assert(exp->name == NULL);
--        assert(exp->description == NULL);
-+        assert(QTAILQ_EMPTY(&exp->clients));
-+
-+        g_free(exp->description);
-+        exp->description = NULL;
+ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp)
+@@ -1695,47 +1695,41 @@ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp)
+     error_append_hint(errp, "Use mode='hard' to force client disconnect\n");
+ }
  
-         if (exp->blk) {
-             if (exp->eject_notifier_blk) {
+-void nbd_export_get(NBDExport *exp)
+-{
+-    assert(exp->refcount > 0);
+-    exp->refcount++;
+-}
+-
+-void nbd_export_put(NBDExport *exp)
++static void nbd_export_delete(BlockExport *blk_exp)
+ {
+-    assert(exp->refcount > 0);
+-    if (--exp->refcount == 0) {
+-        assert(exp->name == NULL);
+-        assert(QTAILQ_EMPTY(&exp->clients));
++    NBDExport *exp = container_of(blk_exp, NBDExport, common);
+ 
+-        g_free(exp->description);
+-        exp->description = NULL;
++    assert(exp->name == NULL);
++    assert(QTAILQ_EMPTY(&exp->clients));
+ 
+-        if (exp->blk) {
+-            if (exp->eject_notifier_blk) {
+-                notifier_remove(&exp->eject_notifier);
+-                blk_unref(exp->eject_notifier_blk);
+-            }
+-            blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
+-                                            blk_aio_detach, exp);
+-            blk_unref(exp->blk);
+-            exp->blk = NULL;
+-        }
++    g_free(exp->description);
++    exp->description = NULL;
+ 
+-        if (exp->export_bitmap) {
+-            bdrv_dirty_bitmap_set_busy(exp->export_bitmap, false);
+-            g_free(exp->export_bitmap_context);
++    if (exp->blk) {
++        if (exp->eject_notifier_blk) {
++            notifier_remove(&exp->eject_notifier);
++            blk_unref(exp->eject_notifier_blk);
+         }
++        blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
++                                        blk_aio_detach, exp);
++        blk_unref(exp->blk);
++        exp->blk = NULL;
++    }
+ 
+-        QTAILQ_REMOVE(&closed_exports, exp, next);
+-        g_free(exp);
+-        aio_wait_kick();
++    if (exp->export_bitmap) {
++        bdrv_dirty_bitmap_set_busy(exp->export_bitmap, false);
++        g_free(exp->export_bitmap_context);
+     }
++
++    QTAILQ_REMOVE(&closed_exports, exp, next);
++    g_free(exp);
++    aio_wait_kick();
+ }
+ 
+ const BlockExportDriver blk_exp_nbd = {
+     .type               = BLOCK_EXPORT_TYPE_NBD,
+     .create             = nbd_export_create,
++    .delete             = nbd_export_delete,
+ };
+ 
+ void nbd_export_close_all(void)
 -- 
 2.25.4
 
