@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651B724351F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:43:05 +0200 (CEST)
-Received: from localhost ([::1]:39698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC23243536
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:48:29 +0200 (CEST)
+Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k67tA-0008Cs-E5
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:43:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
+	id 1k67yO-0008AD-Mg
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1k67pC-00007i-Al; Thu, 13 Aug 2020 03:38:58 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4180 helo=huawei.com)
+ id 1k67pC-00008k-NW; Thu, 13 Aug 2020 03:38:58 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4179 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1k67pA-0001p6-CZ; Thu, 13 Aug 2020 03:38:57 -0400
+ id 1k67pA-0001pE-Q3; Thu, 13 Aug 2020 03:38:58 -0400
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 30AA6CA9D1453178205B;
+ by Forcepoint Email with ESMTP id 34DAAEBDE788029AA109;
  Thu, 13 Aug 2020 15:38:52 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 13 Aug 2020
- 15:38:42 +0800
+ 15:38:43 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 10/11] hw/intc: Remove redundant statement in
- exynos4210_combiner_read()
-Date: Thu, 13 Aug 2020 15:37:11 +0800
-Message-ID: <20200813073712.4001404-11-kuhn.chenqun@huawei.com>
+Subject: [PATCH 11/11] hw/display/vga:Remove redundant statement in
+ vga_draw_graphic()
+Date: Thu, 13 Aug 2020 15:37:12 +0800
+Message-ID: <20200813073712.4001404-12-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
 References: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
@@ -59,41 +59,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, pannengyuan@huawei.com,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, Gerd
+ Hoffmann <kraxel@redhat.com>, pannengyuan@huawei.com,
+ zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Clang static code analyzer show warning:
-hw/intc/exynos4210_combiner.c:231:9: warning: Value stored to 'val' is never read
-        val = s->reg_set[offset >> 2];
-
-The default value of 'val' is '0', so we can break the 'default' branch and return 'val'.
+hw/display/vga.c:1677:9: warning: Value stored to 'update' is never read
+        update = full_update;
+        ^        ~~~~~~~~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/intc/exynos4210_combiner.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/display/vga.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/intc/exynos4210_combiner.c b/hw/intc/exynos4210_combiner.c
-index b8561e4180..e2e745bbaa 100644
---- a/hw/intc/exynos4210_combiner.c
-+++ b/hw/intc/exynos4210_combiner.c
-@@ -228,8 +228,7 @@ exynos4210_combiner_read(void *opaque, hwaddr offset, unsigned size)
-             hw_error("exynos4210.combiner: overflow of reg_set by 0x"
-                     TARGET_FMT_plx "offset\n", offset);
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 061fd9ab8f..836ad50c7b 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -1674,7 +1674,6 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
+         if (!(s->cr[VGA_CRTC_MODE] & 2)) {
+             addr = (addr & ~0x8000) | ((y1 & 2) << 14);
          }
--        val = s->reg_set[offset >> 2];
--        return 0;
-+        break;
-     }
-     return val;
- }
+-        update = full_update;
+         page0 = addr & s->vbe_size_mask;
+         page1 = (addr + bwidth - 1) & s->vbe_size_mask;
+         if (full_update) {
 -- 
 2.23.0
 
