@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD13243D90
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:39:38 +0200 (CEST)
-Received: from localhost ([::1]:56198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735AB243D9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:42:40 +0200 (CEST)
+Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6GGP-0002G5-JK
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55500)
+	id 1k6GJL-00008n-Eo
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G7I-0002E9-Gl
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:30:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43448
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G95-00057f-SL
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:32:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41232
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G7G-0001Hd-Op
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:30:12 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G94-0001du-98
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:32:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597336210;
+ s=mimecast20190719; t=1597336321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/gjTbZYrXoIR0MeHZ6tOs7rNuhtSlvwBUk2TO+CPIQU=;
- b=hjMjLuwYEd27Lxwd1Jh+siXLBXBkG9tK7jnhbgFSFIJ3CW3Hg1p+dxaQLeKnxxWAOID/TG
- NFeEFUOpp0Kgb/WfCt59991xAf2vA5kHZ+irx1y+t8gHylOOebhN/ABJcShi5bwnIG+ck1
- vhhph1j+ogAMlyQ35e+Px2JwRj1Gwjo=
+ bh=0kP3JW4cQeIixcwieAnD96+eq8w2AIytt1Mm9Uer6yc=;
+ b=OQTIR83kY7KDOzUKq1BqWa68vp+EEfasYAeY44s05fq+lPVPj1QrDhmvoKu7zZmCSvD5kA
+ JP2bsT8dmTlpSK6U0KMfS6XhomlgIN4+c+W91jDuwi4eLG/+RR2hkC6SgnH969quMF+Jmn
+ 5PUHKVSzgNr3rAG0hCC0ItoJ/6lNAJo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-JAQyawrDPUOIBYEK57JbGA-1; Thu, 13 Aug 2020 12:30:06 -0400
-X-MC-Unique: JAQyawrDPUOIBYEK57JbGA-1
+ us-mta-529-Rd_s3Bp8PomMAHaUfz7YjQ-1; Thu, 13 Aug 2020 12:30:10 -0400
+X-MC-Unique: Rd_s3Bp8PomMAHaUfz7YjQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 715AB1835865;
- Thu, 13 Aug 2020 16:30:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0874C1DDE9;
+ Thu, 13 Aug 2020 16:30:09 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-97.ams2.redhat.com [10.36.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 632BE5C1BB;
- Thu, 13 Aug 2020 16:30:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD7CF5C1C2;
+ Thu, 13 Aug 2020 16:30:05 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 11/22] qemu-nbd: Use blk_exp_add() to create the export
-Date: Thu, 13 Aug 2020 18:29:24 +0200
-Message-Id: <20200813162935.210070-12-kwolf@redhat.com>
+Subject: [RFC PATCH 12/22] nbd/server: Simplify export shutdown
+Date: Thu, 13 Aug 2020 18:29:25 +0200
+Message-Id: <20200813162935.210070-13-kwolf@redhat.com>
 In-Reply-To: <20200813162935.210070-1-kwolf@redhat.com>
 References: <20200813162935.210070-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:44:21
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,149 +83,71 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this change, NBD exports are only created through the BlockExport
-interface any more. This allows us finally to move things from the NBD
-layer to the BlockExport layer if they make sense for other export
-types, too.
+Closing export is somewhat convoluted because nbd_export_close() and
+nbd_export_put() call each other and the ways they actually end up being
+nested is not necessarily obvious.
 
-blk_exp_add() returns only a weak reference, so the explicit
-nbd_export_put() goes away.
+However, it is not really necessary to call nbd_export_close() from
+nbd_export_put() when putting the last reference because it only does
+three things:
+
+1. Close all clients. We're going to refcount 0 and all clients hold a
+   reference, so we know there is no active client any more.
+
+2. Close the user reference (represented by exp->name being non-NULL).
+   The same argument applies: If the export were still named, we would
+   still have a reference.
+
+3. Freeing exp->description. This is really cleanup work to be done when
+   the export is finally freed. There is no reason to already clear it
+   while clients are still in the process of shutting down.
+
+So after moving the cleanup of exp->description, the code can be
+simplified so that only nbd_export_close() calls nbd_export_put(), but
+never the other way around.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/export.h |  2 ++
- include/block/nbd.h    |  1 +
- block/export/export.c  |  2 +-
- blockdev-nbd.c         |  8 +++++++-
- qemu-nbd.c             | 28 ++++++++++++++++++++++------
- 5 files changed, 33 insertions(+), 8 deletions(-)
+ nbd/server.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/include/block/export.h b/include/block/export.h
-index b1d7325403..5424bdc85d 100644
---- a/include/block/export.h
-+++ b/include/block/export.h
-@@ -29,4 +29,6 @@ struct BlockExport {
- 
- extern const BlockExportDriver blk_exp_nbd;
- 
-+BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp);
-+
- #endif
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 50e1a46075..23030db3f1 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -350,6 +350,7 @@ void nbd_client_new(QIOChannelSocket *sioc,
- void nbd_client_get(NBDClient *client);
- void nbd_client_put(NBDClient *client);
- 
-+void nbd_server_is_qemu_nbd(bool value);
- void nbd_server_start(SocketAddress *addr, const char *tls_creds,
-                       const char *tls_authz, uint32_t max_connections,
-                       Error **errp);
-diff --git a/block/export/export.c b/block/export/export.c
-index 2d5f92861c..12672228c7 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -36,7 +36,7 @@ static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
-     return NULL;
+diff --git a/nbd/server.c b/nbd/server.c
+index eadc5b9804..4c594e6558 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1678,8 +1678,6 @@ void nbd_export_close(NBDExport *exp)
+         QTAILQ_REMOVE(&exports, exp, next);
+         QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
+     }
+-    g_free(exp->description);
+-    exp->description = NULL;
+     nbd_export_put(exp);
  }
  
--static BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-+BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+@@ -1706,19 +1704,12 @@ void nbd_export_get(NBDExport *exp)
+ void nbd_export_put(NBDExport *exp)
  {
-     const BlockExportDriver *drv;
- 
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index d5b084acc2..8dd127af52 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -28,9 +28,15 @@ typedef struct NBDServerData {
- } NBDServerData;
- 
- static NBDServerData *nbd_server;
-+static bool is_qemu_nbd;
- 
- static void nbd_update_server_watch(NBDServerData *s);
- 
-+void nbd_server_is_qemu_nbd(bool value)
-+{
-+    is_qemu_nbd = value;
-+}
+     assert(exp->refcount > 0);
+-    if (exp->refcount == 1) {
+-        nbd_export_close(exp);
+-    }
+-
+-    /* nbd_export_close() may theoretically reduce refcount to 0. It may happen
+-     * if someone calls nbd_export_put() on named export not through
+-     * nbd_export_set_name() when refcount is 1. So, let's assert that
+-     * it is > 0.
+-     */
+-    assert(exp->refcount > 0);
+     if (--exp->refcount == 0) {
+         assert(exp->name == NULL);
+-        assert(exp->description == NULL);
++        assert(QTAILQ_EMPTY(&exp->clients));
 +
- static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
- {
-     nbd_client_put(client);
-@@ -176,7 +182,7 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
++        g_free(exp->description);
++        exp->description = NULL;
  
-     assert(exp_args->type == BLOCK_EXPORT_TYPE_NBD);
- 
--    if (!nbd_server) {
-+    if (!nbd_server && !is_qemu_nbd) {
-         error_setg(errp, "NBD server not running");
-         return NULL;
-     }
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 48aa8a9d46..d967b8fcb9 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -65,7 +65,6 @@
- 
- #define MBR_SIZE 512
- 
--static NBDExport *export;
- static int verbose;
- static char *srcpath;
- static SocketAddress *saddr;
-@@ -579,6 +578,7 @@ int main(int argc, char **argv)
-     int old_stderr = -1;
-     unsigned socket_activation;
-     const char *pid_file_name = NULL;
-+    BlockExportOptions *export_opts;
- 
-     /* The client thread uses SIGTERM to interrupt the server.  A signal
-      * handler ensures that "qemu-nbd -v -c" exits with a nice status code.
-@@ -1050,9 +1050,27 @@ int main(int argc, char **argv)
- 
-     bs->detect_zeroes = detect_zeroes;
- 
--    export = nbd_export_new(bs, export_name,
--                            export_description, bitmap, readonly, shared > 1,
--                            writethrough, &error_fatal);
-+    nbd_server_is_qemu_nbd(true);
-+
-+    export_opts = g_new(BlockExportOptions, 1);
-+    *export_opts = (BlockExportOptions) {
-+        .type               = BLOCK_EXPORT_TYPE_NBD,
-+        .has_writethrough   = true,
-+        .writethrough       = writethrough,
-+        .u.nbd = {
-+            .device             = g_strdup(bdrv_get_node_name(bs)),
-+            .has_name           = true,
-+            .name               = g_strdup(export_name),
-+            .has_description    = !!export_description,
-+            .description        = g_strdup(export_description),
-+            .has_writable       = true,
-+            .writable           = !readonly,
-+            .has_bitmap         = !!bitmap,
-+            .bitmap             = g_strdup(bitmap),
-+        },
-+    };
-+    blk_exp_add(export_opts, &error_fatal);
-+    qapi_free_BlockExportOptions(export_opts);
- 
-     if (device) {
- #if HAVE_NBD_DEVICE
-@@ -1092,9 +1110,7 @@ int main(int argc, char **argv)
-     do {
-         main_loop_wait(false);
-         if (state == TERMINATE) {
--            nbd_export_put(export);
-             nbd_export_close_all();
--            export = NULL;
-             state = TERMINATED;
-         }
-     } while (state != TERMINATED);
+         if (exp->blk) {
+             if (exp->eject_notifier_blk) {
 -- 
 2.25.4
 
