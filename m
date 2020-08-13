@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C911243D70
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:33:37 +0200 (CEST)
-Received: from localhost ([::1]:54682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F316A243D76
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:35:07 +0200 (CEST)
+Received: from localhost ([::1]:35402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6GAa-0006zp-2b
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55274)
+	id 1k6GC2-0002Bu-V0
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G72-0001eW-CR
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:29:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37481
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G75-0001ng-RM
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:29:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40824
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G70-0001CW-BN
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:29:56 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k6G72-0001D0-8a
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 12:29:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597336193;
+ s=mimecast20190719; t=1597336195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7UtbIIB/8AW+Dzn5uvnP3+ycZ/DiyZJ0vPwihVSFY1Q=;
- b=FLFt2n5n76rgwchFh/zhhYOq9/f3GDswv38EMNEuACoTnj4BczxRZdgUoRH5nP9XX8XI6v
- wXZ+3XaWdGPQLsxem4cLP48T9bsld//fe6pFzg8SO4bg8ThgYVOBA4fSajZkI+rKu8KXpI
- Lcd+tGqiJ3HpdrK9nf1LxrjdaChWhvo=
+ bh=ds+x3uGjKOJoiQrFgVPKmat43BWVK5iXn4eoYFhvg0o=;
+ b=P6IFHd843xv/tCOUn29cek20xOgCLgUotCSVUDjeqSeDWgujDqmKXCBBOgHMraErR4dLSz
+ 0jftBSkmQCDOlLcD6FkumEZuEc4BGiW4FMTg9v7EgtLQ5K3m+Pje2myLtsHZOZPqaIIZEA
+ x7Cw4K5XF6wZv2VeDTR5Kpq7nc1Dw5M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-270Wm3eHNeGL-yUHkql1kA-1; Thu, 13 Aug 2020 12:29:52 -0400
-X-MC-Unique: 270Wm3eHNeGL-yUHkql1kA-1
+ us-mta-347-PCTvLbY8NHC4H-MSMbNnPg-1; Thu, 13 Aug 2020 12:29:53 -0400
+X-MC-Unique: PCTvLbY8NHC4H-MSMbNnPg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DAEF1005504;
- Thu, 13 Aug 2020 16:29:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AA631015DC5;
+ Thu, 13 Aug 2020 16:29:52 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-97.ams2.redhat.com [10.36.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E16B05C1A3;
- Thu, 13 Aug 2020 16:29:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57E635C1A3;
+ Thu, 13 Aug 2020 16:29:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 03/22] qapi: Rename BlockExport to BlockExportOptions
-Date: Thu, 13 Aug 2020 18:29:16 +0200
-Message-Id: <20200813162935.210070-4-kwolf@redhat.com>
+Subject: [RFC PATCH 04/22] block/export: Add BlockExport infrastructure and
+ block-export-add
+Date: Thu, 13 Aug 2020 18:29:17 +0200
+Message-Id: <20200813162935.210070-5-kwolf@redhat.com>
 In-Reply-To: <20200813162935.210070-1-kwolf@redhat.com>
 References: <20200813162935.210070-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:45:42
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,144 +84,337 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The name BlockExport will be used for the struct containing the runtime
-state of block exports, so change the name of export creation options.
+We want to have a common set of commands for all types of block exports.
+Currently, this is only NBD, but we're going to add more types.
+
+This patch adds the basic BlockExport and BlockExportDriver structs and
+a QMP command block-export-add that creates a new export based on the
+given BlockExportOptions.
+
+qmp_nbd_server_add() becomes a wrapper around qmp_block_export_add().
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-export.json         | 12 ++++++------
- block/monitor/block-hmp-cmds.c |  6 +++---
- blockdev-nbd.c                 |  2 +-
- qemu-storage-daemon.c          |  8 ++++----
- 4 files changed, 14 insertions(+), 14 deletions(-)
+ qapi/block-export.json     |  9 ++++++
+ include/block/export.h     | 32 +++++++++++++++++++++
+ include/block/nbd.h        |  3 +-
+ block/export/export.c      | 57 ++++++++++++++++++++++++++++++++++++++
+ blockdev-nbd.c             | 19 ++++++++-----
+ nbd/server.c               | 15 +++++++++-
+ Makefile.objs              |  6 ++--
+ block/Makefile.objs        |  2 ++
+ block/export/Makefile.objs |  1 +
+ 9 files changed, 132 insertions(+), 12 deletions(-)
+ create mode 100644 include/block/export.h
+ create mode 100644 block/export/export.c
+ create mode 100644 block/export/Makefile.objs
 
 diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 62f4938e83..9332076a05 100644
+index 9332076a05..40369814b4 100644
 --- a/qapi/block-export.json
 +++ b/qapi/block-export.json
-@@ -54,7 +54,7 @@
-             '*tls-authz': 'str'} }
- 
- ##
--# @BlockExportNbd:
-+# @BlockExportOptionsNbd:
- #
- # An NBD block export.
- #
-@@ -75,7 +75,7 @@
- #
- # Since: 5.0
- ##
--{ 'struct': 'BlockExportNbd',
-+{ 'struct': 'BlockExportOptionsNbd',
-   'data': {'device': 'str', '*name': 'str', '*description': 'str',
-            '*writable': 'bool', '*bitmap': 'str' } }
- 
-@@ -90,7 +90,7 @@
- # Since: 1.3.0
- ##
- { 'command': 'nbd-server-add',
--  'data': 'BlockExportNbd', 'boxed': true }
-+  'data': 'BlockExportOptionsNbd', 'boxed': true }
- 
- ##
- # @NbdServerRemoveMode:
-@@ -156,17 +156,17 @@
-   'data': [ 'nbd' ] }
- 
- ##
--# @BlockExport:
-+# @BlockExportOptions:
- #
- # Describes a block export, i.e. how single node should be exported on an
- # external interface.
- #
- # Since: 4.2
- ##
--{ 'union': 'BlockExport',
-+{ 'union': 'BlockExportOptions',
-   'base': { 'type': 'BlockExportType' },
-   'discriminator': 'type',
-   'data': {
--      'nbd': 'BlockExportNbd'
-+      'nbd': 'BlockExportOptionsNbd'
+@@ -170,3 +170,12 @@
+       'nbd': 'BlockExportOptionsNbd'
     } }
  
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index fb9d87ee89..56bc83ac97 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -398,7 +398,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
-     Error *local_err = NULL;
-     BlockInfoList *block_list, *info;
-     SocketAddress *addr;
--    BlockExportNbd export;
-+    BlockExportOptionsNbd export;
++##
++# @block-export-add:
++#
++# Creates a new block export.
++#
++# Since: 5.2
++##
++{ 'command': 'block-export-add',
++  'data': 'BlockExportOptions', 'boxed': true }
+diff --git a/include/block/export.h b/include/block/export.h
+new file mode 100644
+index 0000000000..b1d7325403
+--- /dev/null
++++ b/include/block/export.h
+@@ -0,0 +1,32 @@
++/*
++ * Declarations for block exports
++ *
++ * Copyright (c) 2012, 2020 Red Hat, Inc.
++ *
++ * Authors:
++ * Paolo Bonzini <pbonzini@redhat.com>
++ * Kevin Wolf <kwolf@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ */
++
++#ifndef BLOCK_EXPORT_H
++#define BLOCK_EXPORT_H
++
++#include "qapi/qapi-types-block-export.h"
++
++typedef struct BlockExport BlockExport;
++
++typedef struct BlockExportDriver {
++    BlockExportType type;
++    BlockExport *(*create)(BlockExportOptions *, Error **);
++} BlockExportDriver;
++
++struct BlockExport {
++    const BlockExportDriver *drv;
++};
++
++extern const BlockExportDriver blk_exp_nbd;
++
++#endif
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 262f6da2ce..c8c5cb6b61 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -20,7 +20,7 @@
+ #ifndef NBD_H
+ #define NBD_H
  
-     if (writable && !all) {
-         error_setg(&local_err, "-w only valid together with -a");
-@@ -431,7 +431,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
-             continue;
-         }
+-#include "qapi/qapi-types-block-export.h"
++#include "block/export.h"
+ #include "io/channel-socket.h"
+ #include "crypto/tlscreds.h"
+ #include "qapi/error.h"
+@@ -328,6 +328,7 @@ int nbd_errno_to_system_errno(int err);
+ typedef struct NBDExport NBDExport;
+ typedef struct NBDClient NBDClient;
  
--        export = (BlockExportNbd) {
-+        export = (BlockExportOptionsNbd) {
-             .device         = info->value->device,
-             .has_writable   = true,
-             .writable       = writable,
-@@ -458,7 +458,7 @@ void hmp_nbd_server_add(Monitor *mon, const QDict *qdict)
-     bool writable = qdict_get_try_bool(qdict, "writable", false);
-     Error *local_err = NULL;
- 
--    BlockExportNbd export = {
-+    BlockExportOptionsNbd export = {
-         .device         = (char *) device,
-         .has_name       = !!name,
-         .name           = (char *) name,
++BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp);
+ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
+                           uint64_t size, const char *name, const char *desc,
+                           const char *bitmap, bool readonly, bool shared,
+diff --git a/block/export/export.c b/block/export/export.c
+new file mode 100644
+index 0000000000..3d0dacb3f2
+--- /dev/null
++++ b/block/export/export.c
+@@ -0,0 +1,57 @@
++/*
++ * Common block export infrastructure
++ *
++ * Copyright (c) 2012, 2020 Red Hat, Inc.
++ *
++ * Authors:
++ * Paolo Bonzini <pbonzini@redhat.com>
++ * Kevin Wolf <kwolf@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "block/export.h"
++#include "block/nbd.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-block-export.h"
++
++static const BlockExportDriver* blk_exp_drivers[] = {
++    &blk_exp_nbd,
++};
++
++static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
++{
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(blk_exp_drivers); i++) {
++        if (blk_exp_drivers[i]->type == type) {
++            return blk_exp_drivers[i];
++        }
++    }
++    return NULL;
++}
++
++void qmp_block_export_add(BlockExportOptions *export, Error **errp)
++{
++    const BlockExportDriver *drv;
++
++    drv = blk_exp_find_driver(export->type);
++    if (!drv) {
++        error_setg(errp, "No driver found for the requested export type");
++        return;
++    }
++
++    drv->create(export, errp);
++}
++
++void qmp_nbd_server_add(BlockExportOptionsNbd *arg, Error **errp)
++{
++    BlockExportOptions export = {
++        .type = BLOCK_EXPORT_TYPE_NBD,
++        .u.nbd = *arg,
++    };
++    qmp_block_export_add(&export, errp);
++}
 diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 0f6b80c58f..98ee1b6170 100644
+index 98ee1b6170..a1dc11bdd7 100644
 --- a/blockdev-nbd.c
 +++ b/blockdev-nbd.c
-@@ -148,7 +148,7 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+@@ -148,17 +148,20 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
      qapi_free_SocketAddress(addr_flat);
  }
  
--void qmp_nbd_server_add(BlockExportNbd *arg, Error **errp)
-+void qmp_nbd_server_add(BlockExportOptionsNbd *arg, Error **errp)
+-void qmp_nbd_server_add(BlockExportOptionsNbd *arg, Error **errp)
++BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
  {
++    BlockExportOptionsNbd *arg = &exp_args->u.nbd;
      BlockDriverState *bs = NULL;
      BlockBackend *on_eject_blk;
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index ed9d2afcf3..ed26097254 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -150,7 +150,7 @@ static void init_qmp_commands(void)
-                          qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
+-    NBDExport *exp;
++    NBDExport *exp = NULL;
+     int64_t len;
+     AioContext *aio_context;
+ 
++    assert(exp_args->type == BLOCK_EXPORT_TYPE_NBD);
++
+     if (!nbd_server) {
+         error_setg(errp, "NBD server not running");
+-        return;
++        return NULL;
+     }
+ 
+     if (!arg->has_name) {
+@@ -167,24 +170,24 @@ void qmp_nbd_server_add(BlockExportOptionsNbd *arg, Error **errp)
+ 
+     if (strlen(arg->name) > NBD_MAX_STRING_SIZE) {
+         error_setg(errp, "export name '%s' too long", arg->name);
+-        return;
++        return NULL;
+     }
+ 
+     if (arg->description && strlen(arg->description) > NBD_MAX_STRING_SIZE) {
+         error_setg(errp, "description '%s' too long", arg->description);
+-        return;
++        return NULL;
+     }
+ 
+     if (nbd_export_find(arg->name)) {
+         error_setg(errp, "NBD server already has export named '%s'", arg->name);
+-        return;
++        return NULL;
+     }
+ 
+     on_eject_blk = blk_by_name(arg->device);
+ 
+     bs = bdrv_lookup_bs(arg->device, arg->device, errp);
+     if (!bs) {
+-        return;
++        return NULL;
+     }
+ 
+     aio_context = bdrv_get_aio_context(bs);
+@@ -217,6 +220,8 @@ void qmp_nbd_server_add(BlockExportOptionsNbd *arg, Error **errp)
+ 
+  out:
+     aio_context_release(aio_context);
++    /* TODO Remove the cast: Move to server.c which can access fields of exp */
++    return (BlockExport*) exp;
  }
  
--static void init_export(BlockExport *export, Error **errp)
-+static void init_export(BlockExportOptions *export, Error **errp)
+ void qmp_nbd_server_remove(const char *name,
+diff --git a/nbd/server.c b/nbd/server.c
+index bee2ef8bd1..774325dbe5 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -18,6 +18,8 @@
+  */
+ 
+ #include "qemu/osdep.h"
++
++#include "block/export.h"
+ #include "qapi/error.h"
+ #include "qemu/queue.h"
+ #include "trace.h"
+@@ -80,6 +82,7 @@ struct NBDRequestData {
+ };
+ 
+ struct NBDExport {
++    BlockExport common;
+     int refcount;
+     void (*close)(NBDExport *exp);
+ 
+@@ -1512,10 +1515,15 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
  {
-     switch (export->type) {
-     case BLOCK_EXPORT_TYPE_NBD:
-@@ -235,14 +235,14 @@ static void process_options(int argc, char *argv[])
-         case OPTION_EXPORT:
-             {
-                 Visitor *v;
--                BlockExport *export;
-+                BlockExportOptions *export;
+     AioContext *ctx;
+     BlockBackend *blk;
+-    NBDExport *exp = g_new0(NBDExport, 1);
++    NBDExport *exp;
+     uint64_t perm;
+     int ret;
  
-                 v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
--                visit_type_BlockExport(v, NULL, &export, &error_fatal);
-+                visit_type_BlockExportOptions(v, NULL, &export, &error_fatal);
-                 visit_free(v);
++    exp = g_new0(NBDExport, 1);
++    exp->common = (BlockExport) {
++        .drv = &blk_exp_nbd,
++    };
++
+     /*
+      * NBD exports are used for non-shared storage migration.  Make sure
+      * that BDRV_O_INACTIVE is cleared and the image is ready for write
+@@ -1731,6 +1739,11 @@ void nbd_export_put(NBDExport *exp)
+     }
+ }
  
-                 init_export(export, &error_fatal);
--                qapi_free_BlockExport(export);
-+                qapi_free_BlockExportOptions(export);
-                 break;
-             }
-         case OPTION_MONITOR:
++const BlockExportDriver blk_exp_nbd = {
++    .type               = BLOCK_EXPORT_TYPE_NBD,
++    .create             = nbd_export_create,
++};
++
+ void nbd_export_close_all(void)
+ {
+     NBDExport *exp, *next;
+diff --git a/Makefile.objs b/Makefile.objs
+index d22b3b45d7..9b864ca046 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -14,7 +14,7 @@ chardev-obj-y = chardev/
+ authz-obj-y = authz/
+ 
+ block-obj-y = block/ nbd/ scsi/
+-block-obj-y += block.o blockjob.o job.o
++block-obj-y += block.o blockjob.o job.o blockdev-nbd.o
+ block-obj-y += qemu-io-cmds.o
+ block-obj-$(CONFIG_REPLICATION) += replication.o
+ 
+@@ -31,7 +31,7 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
+ # used for system emulation, too, but specified separately there)
+ 
+ storage-daemon-obj-y = block/ monitor/ qapi/ qom/ storage-daemon/
+-storage-daemon-obj-y += blockdev.o blockdev-nbd.o iothread.o job-qmp.o
++storage-daemon-obj-y += blockdev.o iothread.o job-qmp.o
+ storage-daemon-obj-$(CONFIG_WIN32) += os-win32.o
+ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
+ 
+@@ -41,7 +41,7 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
+ # single QEMU executable should support all CPUs and machines.
+ 
+ ifeq ($(CONFIG_SOFTMMU),y)
+-common-obj-y = blockdev.o blockdev-nbd.o block/
++common-obj-y = blockdev.o block/
+ common-obj-y += bootdevice.o iothread.o
+ common-obj-y += dump/
+ common-obj-y += job-qmp.o
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 19c6f371c9..55b45c2f7d 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -44,6 +44,8 @@ block-obj-y += crypto.o
+ block-obj-y += aio_task.o
+ block-obj-y += backup-top.o
+ block-obj-y += filter-compress.o
++
++block-obj-y += export/
+ common-obj-y += monitor/
+ block-obj-y += monitor/
+ 
+diff --git a/block/export/Makefile.objs b/block/export/Makefile.objs
+new file mode 100644
+index 0000000000..0c170ee6f1
+--- /dev/null
++++ b/block/export/Makefile.objs
+@@ -0,0 +1 @@
++block-obj-y += export.o
 -- 
 2.25.4
 
