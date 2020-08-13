@@ -2,54 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E3C2438F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:50:39 +0200 (CEST)
-Received: from localhost ([::1]:35012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21D82438A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:34:00 +0200 (CEST)
+Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Aog-00008E-Eo
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
+	id 1k6AYZ-0001eZ-Ur
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6Ajc-0008G2-CB; Thu, 13 Aug 2020 06:45:24 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41281 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6AjZ-0008Q2-T7; Thu, 13 Aug 2020 06:45:24 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS39z0vhHz9sTp; Thu, 13 Aug 2020 20:45:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597315511;
- bh=T7N2pP91H/oBaCfhSYazuylqsVqca4K/3ijYhV7smpg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WRuiFWCEFTsYCNft7BoNMCz5Pz7ajjnTTQkExEsPsDNPdhsa1XLtDRcAey1isfnic
- L4a9tf7V7Bt2K4DtaHJYoigLpT6kapwWlna1MnX7pnGtsLY7ce8bSX2b3aVMgLsaNX
- CxYQEYa+D5EvlT/i0SM7WDTSgCpCVfr70BO+Hra8=
-Date: Thu, 13 Aug 2020 20:30:19 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 10/14] spapr/xive: Fix error handling in
- kvmppc_xive_post_load()
-Message-ID: <20200813103019.GM181791@yekko.fritz.box>
-References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707850148.1489912.18355118622296682631.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6AX6-0008RM-A9; Thu, 13 Aug 2020 06:32:28 -0400
+Resent-Date: Thu, 13 Aug 2020 06:32:28 -0400
+Resent-Message-Id: <E1k6AX6-0008RM-A9@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6AX3-0006o9-5R; Thu, 13 Aug 2020 06:32:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597314689; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jLN3zi8M+Ku50kwPLms9jwLhQtdyER6bsMurq9/thmse9s9532BO+X2rH0vejaBpxNrd/jso/YEo7TzkRvkJq0m6WkSewOHjRpQ/K21yjSoTsmOkYYCuHNHilIsNKNqUDbvXDQ2Ym/it+Zc7zEoLNk8svxnnh5L7VaCKGe1VVec=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597314689;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=uCFSmA9YXN3XC9TerVKBDpwk6HXqxk26+iluOIYB3KQ=; 
+ b=Kx8xx6s59XT9JF6931H25THwt9J4lmcl3rbFvYR+pVKwAgG4jWps/YhGWswHnK5rZ+VV2w8VG1Zvf8YuohNXvv3PUaHI2GhJ8skfkwRJj8Jhf629VRO61YW2Vu+ZwGbSmTBMfSGcBAoM9+lNdByTFWS7esYlU48t1Yo+WUshkSA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597314683703715.8650426971684;
+ Thu, 13 Aug 2020 03:31:23 -0700 (PDT)
+Subject: Re: [PULL 0/9] Tracing patches
+Message-ID: <159731468176.15736.6746841650533502356@66eaa9a8a123>
+In-Reply-To: <20200813052257.226142-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4oQnj4jcM03NhqPN"
-Content-Disposition: inline
-In-Reply-To: <159707850148.1489912.18355118622296682631.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: stefanha@redhat.com
+Date: Thu, 13 Aug 2020 03:31:23 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:32:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,144 +67,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, lizhijian@cn.fujitsu.com, mst@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org, Alistair.Francis@wdc.com,
+ kraxel@redhat.com, sagark@eecs.berkeley.edu, qemu-block@nongnu.org,
+ quintela@redhat.com, david@redhat.com, aleksandar.qemu.devel@gmail.com,
+ marcandre.lureau@redhat.com, aleksandar.rikalo@syrmia.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au, kwolf@redhat.com, qemu-riscv@nongnu.org,
+ kbastian@mail.uni-paderborn.de, mreitz@redhat.com, chen.zhang@intel.com,
+ palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net,
+ stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---4oQnj4jcM03NhqPN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 10, 2020 at 06:55:01PM +0200, Greg Kurz wrote:
-> Now that all these functions return a negative errno on failure, check
-> that because it is preferred to local_err. And most of all, propagate it
-> because vmstate expects negative errnos.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Applied to ppc-for-5.2.
-
-> ---
->  hw/intc/spapr_xive_kvm.c |   35 ++++++++++++++++++-----------------
->  1 file changed, 18 insertions(+), 17 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 1686b036eb2d..005729ebffed 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -631,6 +631,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int versio=
-n_id)
->      Error *local_err =3D NULL;
->      CPUState *cs;
->      int i;
-> +    int ret;
-> =20
->      /* The KVM XIVE device should be in use */
->      assert(xive->fd !=3D -1);
-> @@ -641,11 +642,10 @@ int kvmppc_xive_post_load(SpaprXive *xive, int vers=
-ion_id)
->              continue;
->          }
-> =20
-> -        kvmppc_xive_set_queue_config(xive, SPAPR_XIVE_BLOCK_ID, i,
-> -                                     &xive->endt[i], &local_err);
-> -        if (local_err) {
-> -            error_report_err(local_err);
-> -            return -1;
-> +        ret =3D kvmppc_xive_set_queue_config(xive, SPAPR_XIVE_BLOCK_ID, =
-i,
-> +                                           &xive->endt[i], &local_err);
-> +        if (ret < 0) {
-> +            goto fail;
->          }
->      }
-> =20
-> @@ -660,16 +660,14 @@ int kvmppc_xive_post_load(SpaprXive *xive, int vers=
-ion_id)
->           * previously set in KVM. Since we don't do that for all interru=
-pts
->           * at reset time anymore, let's do it now.
->           */
-> -        kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
-> -        if (local_err) {
-> -            error_report_err(local_err);
-> -            return -1;
-> +        ret =3D kvmppc_xive_source_reset_one(&xive->source, i, &local_er=
-r);
-> +        if (ret < 0) {
-> +            goto fail;
->          }
-> =20
-> -        kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err=
-);
-> -        if (local_err) {
-> -            error_report_err(local_err);
-> -            return -1;
-> +        ret =3D kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &l=
-ocal_err);
-> +        if (ret < 0) {
-> +            goto fail;
->          }
->      }
-> =20
-> @@ -686,15 +684,18 @@ int kvmppc_xive_post_load(SpaprXive *xive, int vers=
-ion_id)
->      CPU_FOREACH(cs) {
->          PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> =20
-> -        kvmppc_xive_cpu_set_state(spapr_cpu_state(cpu)->tctx, &local_err=
-);
-> -        if (local_err) {
-> -            error_report_err(local_err);
-> -            return -1;
-> +        ret =3D kvmppc_xive_cpu_set_state(spapr_cpu_state(cpu)->tctx, &l=
-ocal_err);
-> +        if (ret < 0) {
-> +            goto fail;
->          }
->      }
-> =20
->      /* The source states will be restored when the machine starts runnin=
-g */
->      return 0;
-> +
-> +fail:
-> +    error_report_err(local_err);
-> +    return ret;
->  }
-> =20
->  /* Returns MAP_FAILED on error and sets errno */
->=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---4oQnj4jcM03NhqPN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81FjsACgkQbDjKyiDZ
-s5JPSw/9E42XcRROFSJCXqnEXINrHwfhpAjHT8+riatI6xll2Nrw4+61IPdqglf+
-vj0VbGVcR3He97tuQyen/Rs4x9mSz6DMcrWPSNG5FRy2nZuQ5qLSVmxlbRolFB1I
-vdY7fL94U3B+gQW8uouFahUmpx3RpPSd1W5ZL+EkqHWZHooOAegS2iTpPjxFx2HF
-qlKGOG5eBwJMCRrwNExTVknioRKjIRwB1SChQILR8b4JlDzDRdmCoIWCSnn2bwkQ
-cWnDjNcBxn/q8fc14qOj6mJl2MUM2o2Yk+d5smPWgfF2VNlC2HFC3pj8n8Qg72Qa
-3aH/2cSqRWYtI61kqADoXULTSa+UBKD7TjEbHSjNFCsRmaL5IP21zdCUdN/fnSkc
-Cq2RfSNZoz1l0xs6bY9xnWQqnL1h0d2mXvbiQTnZt21n6jkWzlVLuqbPrgxhU6AW
-d8cq3bj/pYc+frdwgI2GgG/zEKNirJPZvSxyJadz8oEDRhY5yhL+YptNytd77d/2
-7Y2yfwNOks3MU5zlIaQh18F4PHvyA5MaFz8TJyLhR3gkgLksnsL59WqOT54x78na
-r4vEyMg6a6k9mGBLy9IW91SdWDqewEXpCUOdQ+tT0mj9EsWp4M0hRDW4kJqXjYdz
-oIteXnE+Uw3Foahiyz2kHCUQ2Ky1zouO1/lGUsvQH4Dhi5N8pSY=
-=vDK2
------END PGP SIGNATURE-----
-
---4oQnj4jcM03NhqPN--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxMzA1MjI1Ny4yMjYx
+NDItMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA4MTMwNTIyNTcuMjI2
+MTQyLTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzldIFRyYWNpbmcgcGF0
+Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
+IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
+ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
+LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNm
+NWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJh
+bmNoICd0ZXN0JwphYjFlMGUwIHRyYWNlLWV2ZW50czogRml4IGF0dHJpYnV0aW9uIG9mIHRyYWNl
+IHBvaW50cyB0byBzb3VyY2UKYjRlNmM5NCB0cmFjZS1ldmVudHM6IERlbGV0ZSB1bnVzZWQgdHJh
+Y2UgcG9pbnRzCjk2N2IxMDAgc2NyaXB0cy9jbGVhbnVwLXRyYWNlLWV2ZW50czogRW1pdCBmaWxl
+cyBpbiBhbHBoYWJldGljYWwgb3JkZXIKYTNiNTQ4MyBzY3JpcHRzL2NsZWFudXAtdHJhY2UtZXZl
+bnRzOiBGaXggZm9yIHZjcHUgcHJvcGVydHkKYzg0NmJmNyBzb2Z0bW11OiBBZGQgbWlzc2luZyB0
+cmFjZS1ldmVudHMgZmlsZQo2M2Q1OTgyIG5ldC9jb2xvOiBNYXRjaCBpcy1lbmFibGVkIHByb2Jl
+IHRvIHRyYWNlcG9pbnQKNzVlYWI0MiBidWlsZDogRG9uJ3QgbWFrZSBvYmplY3QgZmlsZXMgZm9y
+IGR0cmFjZSBvbiBtYWNPUwoyOGIyOTUxIHNjcmlwdHMvdHJhY2V0b29sOiBVc2Ugdm9pZCBwb2lu
+dGVyIGZvciB2Y3B1CmRjNDRmOWYgc2NyaXB0cy90cmFjZXRvb2w6IEZpeCBkdHJhY2UgZ2VuZXJh
+dGlvbiBmb3IgbWFjT1MKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQg
+ZGM0NGY5ZjM5NWZmIChzY3JpcHRzL3RyYWNldG9vbDogRml4IGR0cmFjZSBnZW5lcmF0aW9uIGZv
+ciBtYWNPUykKMi85IENoZWNraW5nIGNvbW1pdCAyOGIyOTUxNTU1Y2QgKHNjcmlwdHMvdHJhY2V0
+b29sOiBVc2Ugdm9pZCBwb2ludGVyIGZvciB2Y3B1KQozLzkgQ2hlY2tpbmcgY29tbWl0IDc1ZWFi
+NDJkZTE4YyAoYnVpbGQ6IERvbid0IG1ha2Ugb2JqZWN0IGZpbGVzIGZvciBkdHJhY2Ugb24gbWFj
+T1MpCjQvOSBDaGVja2luZyBjb21taXQgNjNkNTk4MjEzMDU4IChuZXQvY29sbzogTWF0Y2ggaXMt
+ZW5hYmxlZCBwcm9iZSB0byB0cmFjZXBvaW50KQo1LzkgQ2hlY2tpbmcgY29tbWl0IGM4NDZiZjdh
+ZmVmNCAoc29mdG1tdTogQWRkIG1pc3NpbmcgdHJhY2UtZXZlbnRzIGZpbGUpCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzc2OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
+aW5ncywgMTExIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgo2LzkgQ2hlY2tpbmcgY29tbWl0IGEzYjU0ODNkNDI4MyAoc2NyaXB0cy9jbGVhbnVwLXRy
+YWNlLWV2ZW50czogRml4IGZvciB2Y3B1IHByb3BlcnR5KQpFUlJPUjogY29kZSBpbmRlbnQgc2hv
+dWxkIG5ldmVyIHVzZSB0YWJzCiMzMzogRklMRTogc2NyaXB0cy9jbGVhbnVwLXRyYWNlLWV2ZW50
+cy5wbDozODoKK15JICAgIGRlZmluZWQgJDMgPyAoKSA6ICgnLS1tYXgtZGVwdGgnLCAnMScpLCQK
+CkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM0OiBGSUxFOiBzY3Jp
+cHRzL2NsZWFudXAtdHJhY2UtZXZlbnRzLnBsOjM5OgorXkkgICAgJHBhdCQKCnRvdGFsOiAyIGVy
+cm9ycywgMCB3YXJuaW5ncywgMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi85IGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCgo3LzkgQ2hlY2tpbmcgY29tbWl0IDk2N2IxMDBmODUyMCAoc2NyaXB0
+cy9jbGVhbnVwLXRyYWNlLWV2ZW50czogRW1pdCBmaWxlcyBpbiBhbHBoYWJldGljYWwgb3JkZXIp
+CjgvOSBDaGVja2luZyBjb21taXQgYjRlNmM5NGRhZDY0ICh0cmFjZS1ldmVudHM6IERlbGV0ZSB1
+bnVzZWQgdHJhY2UgcG9pbnRzKQo5LzkgQ2hlY2tpbmcgY29tbWl0IGFiMWUwZTBmZjQzZCAodHJh
+Y2UtZXZlbnRzOiBGaXggYXR0cmlidXRpb24gb2YgdHJhY2UgcG9pbnRzIHRvIHNvdXJjZSkKPT09
+IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4MTMw
+NTIyNTcuMjI2MTQyLTEtc3RlZmFuaGFAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
