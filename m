@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9912244161
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:42:10 +0200 (CEST)
-Received: from localhost ([::1]:47780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FA6244180
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:52:20 +0200 (CEST)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6LvF-0004Oz-NE
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39322)
+	id 1k6M55-0001qF-E3
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6Lu3-0002k2-HD
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48518)
+ id 1k6Lu4-0002lf-88
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6Lu0-0004NI-U2
+ id 1k6Lu1-0004NU-Kg
  for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k6Ltz-0004iv-Id
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:51 +0000
+ id 1k6Lu0-0004fc-GT
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 861B22E804F
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7B7F12E8082
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 Aug 2020 22:30:17 -0000
+Date: Thu, 13 Aug 2020 22:31:24 -0000
 From: Alistair Francis <1886076@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: alistair2323 laurent-vivier nroyer
 X-Launchpad-Bug-Reporter: Nicolas Royer (nroyer)
 X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
 References: <159371008164.16126.4627604650696899204.malonedeb@soybean.canonical.com>
-Message-Id: <159735781783.751.3700791949542118141.malone@chaenomeles.canonical.com>
+Message-Id: <159735788449.501.18093835598628746906.malone@chaenomeles.canonical.com>
 Subject: [Bug 1886076] Re: risc-v pmp implementation error
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="7eee5e59278f8f8118989c0aaceab242e073896e";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b7d97c5237854cb2b35f772f82e1ca2f67df791b
+X-Launchpad-Hash: ff5b8834cafd351e46c25d68b47c717c48e64661
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 18:40:51
@@ -61,8 +61,7 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,15 +77,11 @@ Reply-To: Bug 1886076 <1886076@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should be fixed once the current RISC-V branch is merged into
-master.
-
-You can see the patch that fixes this here:
-https://patchew.org/QEMU/20200812223045.96803-1-alistair.francis@wdc.com/20=
-200812223045.96803-18-alistair.francis@wdc.com/
+I'm marking this as fix committed, although the fix isn't yet in master
+it's in the RISC-V tree and will be in master soon.
 
 ** Changed in: qemu
-     Assignee: (unassigned) =3D> Alistair Francis (alistair2323)
+       Status: New =3D> Fix Committed
 
 -- =
 
