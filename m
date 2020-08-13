@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1324F2435AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 10:03:28 +0200 (CEST)
-Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F21B2435B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 10:04:51 +0200 (CEST)
+Received: from localhost ([::1]:43094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k68Ct-0006Jf-4W
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 04:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46210)
+	id 1k68EE-0008OW-3W
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 04:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k68Be-0005Fr-Qv
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 04:02:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54048
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k68DG-0007oM-Ob
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 04:03:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59322
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k68Bc-0004qr-UQ
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 04:02:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k68DE-00051e-UB
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 04:03:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597305727;
+ s=mimecast20190719; t=1597305828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F+nOizNOTNLEnHX6nKIbOZVjlnBLKRLsDYaPTwRgt/k=;
- b=LlBT0uv1EPqi3JfPeW+Rj7o8VzOudL6WVxX4S4RiMACXNmILutf3iY+PyrblQyT5vBsXW1
- WSdxpTEd5H5cnYJThtfBeUnDxGQnFZ1lzhjlYBWRhCufMUGP7dJzuZJEfLGvZ8iovXHglc
- oihOWZHf+yjLR8QMvV6Mjgniaz4R+W4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-AK-u_L_uM0yY5mgYVvUSeA-1; Thu, 13 Aug 2020 04:02:06 -0400
-X-MC-Unique: AK-u_L_uM0yY5mgYVvUSeA-1
-Received: by mail-wr1-f69.google.com with SMTP id f14so1727891wrm.22
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 01:02:06 -0700 (PDT)
+ bh=ge6BUD5QkhQcAFA43bDV9YuDNqmUxi9SrjW2dz1WfUc=;
+ b=Ifh3q6hDMWxJi5+Nu9OBbx98dZ9xIy9QeaFqwjMQdv88liqkUk7S8mNQ/Q1M4FcENT7+nl
+ ZJXLFEjsIwIX6te3GrAGPQgWO8uETMlN2ZzQSyxxtp3ScW8e9kNVc5RJpPQD/iVlv7fTQO
+ DDi0Kr/jwWOEZdFYXLHF3Nf31kuxe6Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-tQJjIlSOPD2XodUeHKXj7g-1; Thu, 13 Aug 2020 04:03:45 -0400
+X-MC-Unique: tQJjIlSOPD2XodUeHKXj7g-1
+Received: by mail-wr1-f72.google.com with SMTP id f7so1745098wrs.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 01:03:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=F+nOizNOTNLEnHX6nKIbOZVjlnBLKRLsDYaPTwRgt/k=;
- b=J3CDaibmeYpR74/qTjk0swGGn6UTWKuhhI02No8j75XJE0vH1c9qt2K+tAHJE+VgTR
- VhyEvFgfYpPZoeNML1g/+7yIwH43zMj09J2FHO80mQVJKwzprEhmBWecJzLPYEpSjt7R
- ht4I7lgpPU+iXZrSlwtclnQtP1TOmU8AwcGTXf6EyH9qGZP8DP4DdtyMVaJ8xBlQszvj
- +UWZNzNuaONHoecHmbR4DBTYSnOR6cn9YQKdJTO0+nQ0PI6gPzR27/u0VfF8V/FXZYnR
- 9DC/KzfQC2So/W9mAEcXaCBrnuyxcSzc3KRape5Rg0X3TRo2dw782Ql4HjIuy9hH0ROd
- EJ1g==
-X-Gm-Message-State: AOAM533YaAibs6TJmoKutj7lOr6GotkcTHVDkkeaOFwWHOvOF0Jy1/L4
- RDe9s9CmLe+bgyp1jAU54DHeXo+9peIw/NUhxP2mcEvg2/H2y/9T7KoZV1mxopBAvJ5c5ne9QyX
- 6uAhA3gdN0n5PP/8=
-X-Received: by 2002:adf:fb87:: with SMTP id a7mr2977881wrr.390.1597305725349; 
- Thu, 13 Aug 2020 01:02:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkb5QhsVZ6AnL6gENDzkK+JUSHTxyRRhoyxn+mdZyEarlYfW1JaIKo9HEILzDnW/DZGzWPwA==
-X-Received: by 2002:adf:fb87:: with SMTP id a7mr2977861wrr.390.1597305725162; 
- Thu, 13 Aug 2020 01:02:05 -0700 (PDT)
+ bh=ge6BUD5QkhQcAFA43bDV9YuDNqmUxi9SrjW2dz1WfUc=;
+ b=r3LnyiYL4c9dJEjFIGAcdtj22avKt7RTSU83vlwL3TPXKPDmshG3TA8FHx/z5fDqaI
+ iaXATN40kGvIutOV1nPc6R9bwJooTaVdbirfPifDRzD9hLzCWe3XZRFcBQI4NQrNJ1jI
+ 2Wp8r2Y14FLCDhIsiZKsSUHQUoiR7B5K8ws2Y4tqRqLv0bzPVUg+mjVttmnjpKMiJTpp
+ v3DZaYSGNQ1+tA35wJEFWSKDT9nDycdIUyOPRy066fPS7gWBKeOysKhYrNGP8Yd/SnEc
+ Kd70Xx9KKHI9H1uETZKjZn3jLgtNZYbc2squyO/c1dav6Gkv1td635wvXplPLCWhmnEF
+ pXZg==
+X-Gm-Message-State: AOAM530Vm18eGebSkMx1YqjKuQsYXp0XLu1VFaf31vF5TEp3Axf7WmfF
+ Us5nhu0rh5L1b74ITqNHIC/+H+FtJV1mqPL0sRBqBR67NpC7GF1yEKAL3izXBSXAVxJZrrCGS21
+ gBbIJX4m2l2n4fVk=
+X-Received: by 2002:a7b:cb98:: with SMTP id m24mr3390472wmi.10.1597305824839; 
+ Thu, 13 Aug 2020 01:03:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySLDR8RACVjpOF2WSsSjsrYwvbcvDT1c41+/aBc9FGoDkMfLwUbxY83YKP0JPrcsV6UGBaUw==
+X-Received: by 2002:a7b:cb98:: with SMTP id m24mr3390460wmi.10.1597305824710; 
+ Thu, 13 Aug 2020 01:03:44 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 62sm8909442wrq.31.2020.08.13.01.02.04
+ by smtp.gmail.com with ESMTPSA id s19sm10153800wrb.54.2020.08.13.01.03.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Aug 2020 01:02:04 -0700 (PDT)
-Subject: Re: [PATCH 07/17] crypto: Use the correct const type for driver
+ Thu, 13 Aug 2020 01:03:44 -0700 (PDT)
+Subject: Re: [PATCH 10/17] crypto: Constify cipher data tables
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200813032537.2888593-1-richard.henderson@linaro.org>
- <20200813032537.2888593-8-richard.henderson@linaro.org>
+ <20200813032537.2888593-11-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,12 +87,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <3cd3d18f-2097-07a4-cee5-e494a0808058@redhat.com>
-Date: Thu, 13 Aug 2020 10:02:03 +0200
+Message-ID: <d01bf064-3312-e964-9681-a67c706a442b@redhat.com>
+Date: Thu, 13 Aug 2020 10:03:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200813032537.2888593-8-richard.henderson@linaro.org>
+In-Reply-To: <20200813032537.2888593-11-richard.henderson@linaro.org>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -100,9 +100,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:45:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:44:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -128,18 +128,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/13/20 5:25 AM, Richard Henderson wrote:
-> This allows the in memory structures to be read-only.
-> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  crypto/cipherpriv.h         |  2 +-
->  include/crypto/cipher.h     |  2 +-
->  crypto/cipher-afalg.c       |  2 +-
->  crypto/cipher-builtin.inc.c |  2 +-
->  crypto/cipher-gcrypt.inc.c  |  2 +-
->  crypto/cipher-nettle.inc.c  |  2 +-
->  crypto/cipher.c             | 12 ++++++------
->  7 files changed, 12 insertions(+), 12 deletions(-)
+>  crypto/cipher.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
