@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FA6244180
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:52:20 +0200 (CEST)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03D224418B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 00:58:24 +0200 (CEST)
+Received: from localhost ([::1]:37674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6M55-0001qF-E3
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
+	id 1k6MAx-0006u0-HB
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 18:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6Lu4-0002lf-88
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48548)
+ id 1k6Lu3-0002jO-6P
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6Lu1-0004NU-Kg
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:55 -0400
+ id 1k6Lu0-0004NG-Tm
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 18:40:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k6Lu0-0004fc-GT
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:52 +0000
+ id 1k6Lty-0004hQ-K3
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B7F12E8082
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 966372E8082
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 22:40:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 Aug 2020 22:31:24 -0000
-From: Alistair Francis <1886076@bugs.launchpad.net>
+Date: Thu, 13 Aug 2020 22:33:00 -0000
+From: Alistair Francis <1889411@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=alistair@alistair23.me; 
-X-Launchpad-Bug-Tags: risc-v
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 laurent-vivier nroyer
-X-Launchpad-Bug-Reporter: Nicolas Royer (nroyer)
+X-Launchpad-Bug-Commenters: alistair2323 lewurm-gmx
+X-Launchpad-Bug-Reporter: Bernhard Urban-Forster (lewurm-gmx)
 X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
-References: <159371008164.16126.4627604650696899204.malonedeb@soybean.canonical.com>
-Message-Id: <159735788449.501.18093835598628746906.malone@chaenomeles.canonical.com>
-Subject: [Bug 1886076] Re: risc-v pmp implementation error
+References: <159602652086.4898.17497826293618974596.malonedeb@soybean.canonical.com>
+Message-Id: <159735798057.1171.1143695421583675623.malone@chaenomeles.canonical.com>
+Subject: [Bug 1889411] Re: RISC-V: Unable to unwind the stack upon signals
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="7eee5e59278f8f8118989c0aaceab242e073896e";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ff5b8834cafd351e46c25d68b47c717c48e64661
+X-Launchpad-Hash: c275bda05748c83388f6383186a0f2625eb05a9a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 18:40:51
@@ -73,78 +71,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886076 <1886076@bugs.launchpad.net>
+Reply-To: Bug 1889411 <1889411@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm marking this as fix committed, although the fix isn't yet in master
-it's in the RISC-V tree and will be in master soon.
-
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+Can you test with mainline GDB and not a fork?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886076
+https://bugs.launchpad.net/bugs/1889411
 
 Title:
-  risc-v pmp implementation error
+  RISC-V: Unable to unwind the stack upon signals
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  QEMU Commit fc1bff958998910ec8d25db86cd2f53ff125f7ab
+  Consider the following program:
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  #define NOINLINE __attribute__ ((noinline))
+
+  void NOINLINE abort_me(void) { abort(); /* trigger SIGABRT */ }
+
+  void NOINLINE level1(void) { abort_me(); }
+
+  void NOINLINE level2(void) { level1(); }
+
+  void NOINLINE level3(void) { level2(); }
+
+  void NOINLINE level4(void) { level3();}
+
+  int main(void) {
+  	level4();
+  	return 0;
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  $ riscv64-linux-gnu-gcc -march=3Drv64imafdc -O0 -g c.c
+  $ qemu-riscv64 -g 31337 ./c &
+  $ riscv64-unknown-linux-gnu-gdb -q -ex 'target remote localhost:31337' -e=
+x 'b abort_me' -ex c -ex bt ./c
+  Reading symbols from c...
+  Remote debugging using localhost:31337
+  Reading symbols from /home/lewurm/riscv/sysroot/lib/ld-linux-riscv64-lp64=
+d.so.1...
+  0x0000004000804f30 in _start () from /home/lewurm/riscv/sysroot/lib/ld-li=
+nux-riscv64-lp64d.so.1
+  Breakpoint 1 at 0x4000000632: file c.c, line 7.
+  Continuing.
+
+  Breakpoint 1, abort_me () at c.c:7
+  7               abort(); /* trigger SIGABRT */
+  #0  abort_me () at c.c:7
+  #1  0x0000004000000642 in level1 () at c.c:11
+  #2  0x0000004000000658 in level2 () at c.c:15
+  #3  0x000000400000066e in level3 () at c.c:19
+  #4  0x0000004000000684 in level4 () at c.c:23
+  #5  0x000000400000069a in main () at c.c:27
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  So far so good, I get a proper backtrace as expected. If I let the
+  signal trigger however, gdb is not able to unwind the stack:
+
+  (gdb) c
+  Continuing.
+
+  Program received signal SIGABRT, Aborted.
+  0x0000004000858074 in ?? ()
+  (gdb) bt
+  #0  0x0000004000858074 in ?? ()
+
+
+  I get the same behaviour for SIGSEGV and SIGILL, I didn't try other
+  signals. Apparently this scenario works on real hardware (see linked
+  gdb issue below), and presumably it would work with system qemu (I
+  haven't tested that yet though). So my guess is that qemu does
+  something differently around signal handling than the linux kernel.
 
   =
 
-  RISC-V PMP implementation is not correct on QEMU.
-
-  When an access is granted there is no more PMP check on the 4KB memory ra=
-nge of the accessed location.
-  A cache flush is needed in order to force a PMP check on next access to t=
-his 4KB memory range.
-  A correct implementation would be to grant access to the maximum allowed =
-area around the accessed location within the 4KB memory range.
-
-  For instance, if PMP is configured to block all accesses from 0x80003000 =
-to 0x800037FF and from 0x80003C00 to 0x80003FFF:
-  1st case:
-      1) A read access is done @0x80003900 --> access OK as expected
-      2) Then a read access is done @0x80003400 --> access OK while it must=
- be blocked!
-  2nd case:
-      1) A read access is done @0x80003900 --> access OK as expected
-      2) Cache is flushed (__asm__ __volatile__ ("sfence.vma" : : : "memory=
-");)  =
-
-      3) A read access is done @0x80003400 --> access blocked as expected
-
-  Analysis:
-      After the 1st read @0x80003900 QEMU add the memory range 0x80003000 t=
-o 0x80003FFF into a TLB entry.
-      Then no more PMP check is done from 0x80003000 to 0x80003FFF until th=
-e TLB is flushed.
-  What should be done:
-      Only the range 0x80003800 to 0x80003BFF should be added to the TLB en=
-try.
-
-  The 4KB range is the default size of a TLB page on QEMU for RISCV.
-  The minimum size that can be set is 64Bytes. However the PMP granularity =
-can be as low as 4Bytes.
-
-  I tested a quick fix and PMP is working as expected.
-  The quick fix consist in replacing this line:
-  tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK, prot,=
- mmu_idx, TARGET_PAGE_SIZE);
-  By this one in target/riscv/cpu_helper.c:
-  tlb_set_page(cs, address & ~0x3, pa & ~0x3, prot, mmu_idx, size);
-
-  This quick fix has to be optimized in order to consume less HW
-  resources, as explained at the beginning.
+  Full reproducer: https://gist.github.com/lewurm/befb9ddf5894bad9628b1df77=
+258598b
+  RISC-V GDB issue: https://github.com/riscv/riscv-binutils-gdb/issues/223
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886076/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1889411/+subscriptions
 
