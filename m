@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46C72432B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:27:09 +0200 (CEST)
-Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF622432BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:28:43 +0200 (CEST)
+Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k63tU-0006JC-Hu
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58462)
+	id 1k63v1-0000wR-1M
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:28:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63s8-0004jL-Tg
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:44 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:38613)
+ id 1k63sA-0004kH-Cb
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:46 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63s7-0008UC-BS
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:44 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id ep8so2101180pjb.3
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:42 -0700 (PDT)
+ id 1k63s8-0008UW-Om
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:25:46 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id mw10so2104922pjb.2
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A5uJbNu7KhMXozinpokK4dHKz2PI9j6DphdzziNCjIw=;
- b=CVXlmHiUSZ1o1UuKBH6qTEGG55bIak/MLaxqN37o8tl6g8s+ko0r0O7tUjD6K3bg17
- yQ+DD57GuaG9ZeZguoQlU+omlTAColokyF1nxH+fpWg2/99AcoqkNdJfuYtqqgok8k/k
- MgclWTev6z01uRLRtQjn//ZE9CM7WMqPNMcLd4/9CJbPI14pQxUiqiLxhA3xr3gdYiSz
- fXWas2osKONBpp8rLmJL+zLmTGG+BXnLewYLLBjju1g0aVZTF1WRj07HfnMlW4V0AR09
- wya7FUE+pv3nBRJLW1wQdwhaoPGYuIxcw4WQdwlE8e9yt+z6+eoWb+WWntKyJ0RrmjXt
- cfvw==
+ bh=x/8I1E6U1kT8gsX6JaE/+oNAkXGuibBh0+8jWx18CRY=;
+ b=D9BdHJWixCVHf/isjihr1og6IfZHmeqhejt0K5X+Mh3g6hREn6UhOqzv1kq0ZuNcqr
+ Nr54XRx67l2GmQZIGU3V4iyh7OdTBUs4eL0zqj8CBAvEAho+6am8hghc15tblRvyJKij
+ kRYSDKgvY2nKHqOeQGvJMcEFc7i4shNN/VxqZWsmGJvl9UxAy8BiJa7K+JQV8xvep7EY
+ bP485WE8Y3B9gnBsrHjXT9uDtQLB+qP/oJP9TRRogc9X/ct1nL97d5ipwH6lP79C/KIq
+ pbkKW0pi/ca6BIsPpT6zdkcvZvnSONERFdw/ST7z9YM0LVXR/7CM72fzfk4tW4vxwRQX
+ mwnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A5uJbNu7KhMXozinpokK4dHKz2PI9j6DphdzziNCjIw=;
- b=JjwnQSjpDPrmb8eqwVWLEkzaz3FnZe+mYoXIXRqbtQMtPcUoJorAlvv3ausxtQfvFT
- U5dHj8Acv9NIQWETLaYTI5A2z981OyqmLHxN/tzJregEjHGsYY2thzNQmgrPrLeoCQqA
- OybAiL+0962BtM8/rwDyv5IgWqXRCOxS28gxrZFcMffDwq25h3DNzWsEh4lG1r1+XBVO
- F24xbyP3TdjACyLqlhD6eP0+QmIUONCoQsi29HlubcQ6FfGV+tuz/CvzF2cKCQl8Ps3P
- MdYEllpCeioSlccHbJV+sH5jWwJLbNurwCGiXkMHXlXXKNvdyHForRdcaNZEy3cqi94b
- PGqw==
-X-Gm-Message-State: AOAM532fQd4fRAlhho/8g3ry/7ClT9S+Up71QGMmyGgTeaa+L1oloGYv
- 8K/DOePsu54H8sfgRaIn0MZT8IzSPwA=
-X-Google-Smtp-Source: ABdhPJxxsr0gY4eFpdWGMy51BGEzGM+mHfij1tnnvRcU7aQuDyDnju0OMq7CYjEmFAF63fWT8//Ipw==
-X-Received: by 2002:a17:902:82c2:: with SMTP id
- u2mr2176851plz.239.1597289141727; 
- Wed, 12 Aug 2020 20:25:41 -0700 (PDT)
+ bh=x/8I1E6U1kT8gsX6JaE/+oNAkXGuibBh0+8jWx18CRY=;
+ b=R9HsjLOk14PXf3HHOi2PF6j5Kk+NgzSwzn5eGhpko4No0KpaZ4cOfcv66AevELaE5W
+ RmzPwxO1pHgSvUN7xv7RU2IB66O7N53cpcOwyc/NsZ5A0ZH84GyNBxGmPRyK78Wm+9Dl
+ 13pumNOb2lA01DXBjJ/AtOBbmk+YPX9tnviiZydw/FSJ6YpDLe609KR+dxMZEeQREqmG
+ b/tcTCCTD88cUgjpPu3GRLhNI+tyEkKpKxAVWzXoJPGpN2ImQbPHch4Qdh0Bnd/DQrkE
+ DPS7C/EuHq0yfW7uTUwfvnLerxB93WoD9XA/s55BQU+BToJ71yTVv9rbGCrbBL4yPxzU
+ gUZA==
+X-Gm-Message-State: AOAM531sJNJ/gws8wr0zFIHjVsOl1htNoaqbWvRP30id9iCzjJJZhcbS
+ IsWRF9JKABajBDOj/xPrEumZPv6UB80=
+X-Google-Smtp-Source: ABdhPJy2XAADVcCnopGFkbaf6oHY6RDVMfD6hcM7CjnKYImAswC917lVlL1jrQkTv9c5s28UMnOwpg==
+X-Received: by 2002:a17:902:40a:: with SMTP id
+ 10mr2211995ple.180.1597289142930; 
+ Wed, 12 Aug 2020 20:25:42 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.40
+ by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 20:25:41 -0700 (PDT)
+ Wed, 12 Aug 2020 20:25:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/17] crypto: Move QCryptoCipher typedef to qemu/typedefs.h
-Date: Wed, 12 Aug 2020 20:25:21 -0700
-Message-Id: <20200813032537.2888593-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/17] crypto: Move QCryptoCipherDriver typedef to
+ qemu/typedefs.h
+Date: Wed, 12 Aug 2020 20:25:22 -0700
+Message-Id: <20200813032537.2888593-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200813032537.2888593-1-richard.henderson@linaro.org>
 References: <20200813032537.2888593-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,37 +90,37 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows header files to declare pointers without pulling
-in the entire crypto subsystem.
+This will allow the pointer to be used in crypto/cipher.h,
+and not just in code using cipherpriv.h.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/crypto/cipher.h | 2 --
+ crypto/cipherpriv.h     | 2 --
  include/qemu/typedefs.h | 1 +
  2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/crypto/cipher.h b/include/crypto/cipher.h
-index 5928e5ecc7..95a0412911 100644
---- a/include/crypto/cipher.h
-+++ b/include/crypto/cipher.h
-@@ -23,8 +23,6 @@
+diff --git a/crypto/cipherpriv.h b/crypto/cipherpriv.h
+index 0823239f41..9228c9fc3a 100644
+--- a/crypto/cipherpriv.h
++++ b/crypto/cipherpriv.h
+@@ -17,8 +17,6 @@
  
  #include "qapi/qapi-types-crypto.h"
  
--typedef struct QCryptoCipher QCryptoCipher;
+-typedef struct QCryptoCipherDriver QCryptoCipherDriver;
 -
- /* See also "QCryptoCipherAlgorithm" and "QCryptoCipherMode"
-  * enums defined in qapi/crypto.json */
- 
+ struct QCryptoCipherDriver {
+     int (*cipher_encrypt)(QCryptoCipher *cipher,
+                           const void *in,
 diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 427027a970..45b9c57717 100644
+index 45b9c57717..d4ca469b6b 100644
 --- a/include/qemu/typedefs.h
 +++ b/include/qemu/typedefs.h
-@@ -95,6 +95,7 @@ typedef struct PostcopyDiscardState PostcopyDiscardState;
- typedef struct Property Property;
+@@ -96,6 +96,7 @@ typedef struct Property Property;
  typedef struct PropertyInfo PropertyInfo;
  typedef struct QBool QBool;
-+typedef struct QCryptoCipher QCryptoCipher;
+ typedef struct QCryptoCipher QCryptoCipher;
++typedef struct QCryptoCipherDriver QCryptoCipherDriver;
  typedef struct QDict QDict;
  typedef struct QEMUBH QEMUBH;
  typedef struct QemuConsole QemuConsole;
