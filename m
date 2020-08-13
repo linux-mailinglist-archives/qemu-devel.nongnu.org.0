@@ -2,49 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0F02438BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:40:00 +0200 (CEST)
-Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3E42438E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:48:55 +0200 (CEST)
+Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6AeN-0003Ek-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50070)
+	id 1k6An0-0004pn-JY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:48:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k6AXI-0000IB-B1; Thu, 13 Aug 2020 06:32:41 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4188 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k6Aja-0008CK-S7; Thu, 13 Aug 2020 06:45:22 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58949 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k6AXF-0006qZ-HB; Thu, 13 Aug 2020 06:32:40 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 378D9D8E5E5DE70B5005;
- Thu, 13 Aug 2020 18:32:32 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.175) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 13 Aug 2020 18:32:23 +0800
-From: Peng Liang <liangpeng10@huawei.com>
-To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC 9/9] target/arm: Add more CPU features
-Date: Thu, 13 Aug 2020 18:26:57 +0800
-Message-ID: <20200813102657.2588720-10-liangpeng10@huawei.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20200813102657.2588720-1-liangpeng10@huawei.com>
-References: <20200813102657.2588720-1-liangpeng10@huawei.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k6AjY-0008ME-On; Thu, 13 Aug 2020 06:45:22 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BS39z0KLCz9sTj; Thu, 13 Aug 2020 20:45:10 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1597315511;
+ bh=q4gYJWkIdYjm9hJUn0/xiTHgYeLWh7RS1NWQY8LP+6c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gMF2bjCHtkD7xFunJa98527QPOOQev5LZC/UGN474Bnrq3Kpw4+dTb+hCSWlfZyNI
+ 2EV5EIpmDlEDLTL2WsbAtNvxKggHuEnGOsRL7pb8eiXplk20z0msLNOTduOqUJAnu0
+ ezRQ2TazWxndsE3yq4u6mt3nHzlvjaU6Q9dIbwxg=
+Date: Thu, 13 Aug 2020 20:28:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 09/14] spapr/kvm: Fix error handling in
+ kvmppc_xive_pre_save()
+Message-ID: <20200813102842.GL181791@yekko.fritz.box>
+References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
+ <159707849455.1489912.6034461176847728064.stgit@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=liangpeng10@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:32:27
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="p7S+EREVcBHk3zUG"
+Content-Disposition: inline
+In-Reply-To: <159707849455.1489912.6034461176847728064.stgit@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:45:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,36 +62,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
- xiexiangyou@huawei.com, Peng Liang <liangpeng10@huawei.com>,
- pbonzini@redhat.com
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add i8mm, bf16, and dgh CPU features for AArch64.
 
-Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-Signed-off-by: Peng Liang <liangpeng10@huawei.com>
----
- target/arm/cpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+--p7S+EREVcBHk3zUG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0f620e8afe..9e2ddbc3ed 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1319,6 +1319,9 @@ static struct CPUFeatureInfo cpu_features[] = {
-     FIELD_INFO(ID_AA64ISAR1, FRINTTS, false, 1, 0, false),
-     FIELD_INFO(ID_AA64ISAR1, SB, false, 1, 0, false),
-     FIELD_INFO(ID_AA64ISAR1, SPECRES, false, 1, 0, false),
-+    FIELD_INFO(ID_AA64ISAR1, I8MM, false, 1, 0, false),
-+    FIELD_INFO(ID_AA64ISAR1, BF16, false, 1, 0, false),
-+    FIELD_INFO(ID_AA64ISAR1, DGH, false, 1, 0, false),
- 
-     FIELD_INFO(ID_AA64PFR0, EL0, false, 1, 0, false),
-     FIELD_INFO(ID_AA64PFR0, EL1, false, 1, 0, false),
--- 
-2.18.4
+On Mon, Aug 10, 2020 at 06:54:54PM +0200, Greg Kurz wrote:
+> Now that kvmppc_xive_get_queues() returns a negative errno on failure, ch=
+eck
+> with that because it is preferred to local_err. And most of all, propagate
+> it because vmstate expects negative errnos.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
+Fixed a conflict and applied to ppc-for-5.2.
+
+> ---
+>  hw/intc/spapr_xive_kvm.c |    7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index f2dda692183b..1686b036eb2d 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -604,16 +604,17 @@ void kvmppc_xive_synchronize_state(SpaprXive *xive,=
+ Error **errp)
+>  int kvmppc_xive_pre_save(SpaprXive *xive)
+>  {
+>      Error *local_err =3D NULL;
+> +    int ret;
+> =20
+>      assert(xive->fd !=3D -1);
+> =20
+>      /* EAT: there is no extra state to query from KVM */
+> =20
+>      /* ENDT */
+> -    kvmppc_xive_get_queues(xive, &local_err);
+> -    if (local_err) {
+> +    ret =3D kvmppc_xive_get_queues(xive, &local_err);
+> +    if (ret < 0) {
+>          error_report_err(local_err);
+> -        return -1;
+> +        return ret;
+>      }
+> =20
+>      return 0;
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--p7S+EREVcBHk3zUG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81FdoACgkQbDjKyiDZ
+s5LW2g//bVyimU08Lhv86FfCJe1g1KHA+hCGJfjY4VrqFcbux/z+k3RFzEOO5P9V
+ebDFL0+gIocYaxNVh2lE0hu1D6bm4XOzfGCG5/3+CnWQSKcIMRC+5hGggRG6NvTK
+vP5AufCsy7UEMbogcO5iXQzAG9adOsi6sA/cRpg95IBZXMUQWh9VtYf3Be0Ym6gY
+Ubw6i+6VFvu4ZoEKu8yVlWUKxN5QDo17liXbI0nfnZMJo1gZ3nSeQGWzlmiHea+5
+ljInDKWY6nOS0AJm6TKIkkZ1q/p6d9uNdcpFWWN9q7EGQVlfVAr3JLnxMN3K65HU
+szgLC/iqklcLRPIKlmSz330vv0XhnLq2xS+bL16OKHNAd2Pp7qzW0C1HAG5ExqT2
+2sRsTXah/h4z3ywPKKWM1Eijr6lKug0+6jMKo3lB/VtwJbtZnTVsL+As5xkwFxrR
+DP8853YaFoDHD0Q8oEZRNcnG+vlEMVFI2+z3TJhjvI4zuyrjVMW/SsjcHMUf9FPD
+ZvJc7QqiFy2aC7efSmZ9g1M6QjgO3v97fvOtV/58AhXL2TAQMkX1Z+Tm1RMlslpx
+3n/x2KVL01yONQUmN0RfvZdpQUC7EhFIZ98lgTqj6sPZcSukYzzTVrbiEWg4JJMv
+tX/oa/XyauWcYgNBl3lGhhFy+KG7Oc/0riKx0oO6VEtoB0UkUt8=
+=yub7
+-----END PGP SIGNATURE-----
+
+--p7S+EREVcBHk3zUG--
 
