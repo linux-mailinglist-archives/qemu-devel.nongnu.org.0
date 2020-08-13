@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959952438A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:34:49 +0200 (CEST)
-Received: from localhost ([::1]:37248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296292438B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:37:07 +0200 (CEST)
+Received: from localhost ([::1]:46536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6AZM-0002vg-Ii
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49992)
+	id 1k6Aba-0006nc-40
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k6AXE-00008M-3Y; Thu, 13 Aug 2020 06:32:36 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4181 helo=huawei.com)
+ id 1k6AXF-0000AU-9Q; Thu, 13 Aug 2020 06:32:37 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4185 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k6AXA-0006oz-Ef; Thu, 13 Aug 2020 06:32:35 -0400
+ id 1k6AXD-0006pp-5o; Thu, 13 Aug 2020 06:32:36 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 10802DDD0521AA55BFD7;
- Thu, 13 Aug 2020 18:32:27 +0800 (CST)
+ by Forcepoint Email with ESMTP id 25E88F768B5D1C296E35;
+ Thu, 13 Aug 2020 18:32:32 +0800 (CST)
 Received: from localhost.localdomain (10.175.104.175) by
  DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 13 Aug 2020 18:32:20 +0800
+ 14.3.487.0; Thu, 13 Aug 2020 18:32:21 +0800
 From: Peng Liang <liangpeng10@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC 5/9] target/arm: introduce CPU feature dependency mechanism
-Date: Thu, 13 Aug 2020 18:26:53 +0800
-Message-ID: <20200813102657.2588720-6-liangpeng10@huawei.com>
+Subject: [RFC 6/9] target/arm: introduce KVM_CAP_ARM_CPU_FEATURE
+Date: Thu, 13 Aug 2020 18:26:54 +0800
+Message-ID: <20200813102657.2588720-7-liangpeng10@huawei.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200813102657.2588720-1-liangpeng10@huawei.com>
 References: <20200813102657.2588720-1-liangpeng10@huawei.com>
@@ -64,182 +64,89 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some CPU features are dependent on other CPU features.  For example,
-ID_AA64PFR0_EL1.FP field and ID_AA64PFR0_EL1.AdvSIMD must have the same
-value, which means FP and ADVSIMD are dependent on each other, FPHP and
-ADVSIMDHP are dependent on each other.
-
-This commit introduces a mechanism for CPU feature dependency in
-AArch64.  We build a directed graph from the CPU feature dependency
-relationship, each edge from->to means the `to` CPU feature is dependent
-on the `from` CPU feature.  And we will automatically enable/disable CPU
-feature according to the directed graph.
-
-For example, a, b, and c CPU features are in relationship a->b->c, which
-means c is dependent on b and b is dependent on a.  If c is enabled by
-user, then a and b is enabled automatically.  And if a is disabled by
-user, then b and c is disabled automatically.
+Introduce KVM_CAP_ARM_CPU_FEATURE to check whether KVM supports to set
+CPU features in ARM.
 
 Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Peng Liang <liangpeng10@huawei.com>
 ---
- target/arm/cpu.c | 129 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 129 insertions(+)
+ linux-headers/linux/kvm.h |  1 +
+ target/arm/cpu.c          |  5 +++++
+ target/arm/kvm64.c        | 14 ++++++++++++++
+ target/arm/kvm_arm.h      |  7 +++++++
+ 4 files changed, 27 insertions(+)
 
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index a28c366737..0b83d2b4bb 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_PPC_SECURE_GUEST 181
+ #define KVM_CAP_HALT_POLL 182
+ #define KVM_CAP_ASYNC_PF_INT 183
++#define KVM_CAP_ARM_CPU_FEATURE 187
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 113cf4a9e7..4e67b8f22c 100644
+index 4e67b8f22c..3fc54cb3a4 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1418,6 +1418,103 @@ static struct CPUFeatureInfo cpu_features[] = {
-     },
- };
+@@ -1539,6 +1539,11 @@ static void arm_cpu_set_bit_prop(Object *obj, Visitor *v, const char *name,
+     Error *local_err = NULL;
+     bool value;
  
-+typedef struct CPUFeatureDep {
-+    CPUFeatureInfo from, to;
-+} CPUFeatureDep;
-+
-+static const CPUFeatureDep feature_dependencies[] = {
-+    {
-+        .from = FIELD_INFO(ID_AA64PFR0, FP, true, 0, 0xf, false),
-+        .to = FIELD_INFO(ID_AA64PFR0, ADVSIMD, true, 0, 0xf, false),
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64PFR0, ADVSIMD, true, 0, 0xf, false),
-+        .to = FIELD_INFO(ID_AA64PFR0, FP, true, 0, 0xf, false),
-+    },
-+    {
-+        .from = {
-+            .reg = ID_AA64PFR0, .length = R_ID_AA64PFR0_FP_LENGTH,
-+            .shift = R_ID_AA64PFR0_FP_SHIFT, .sign = true, .min_value = 1,
-+            .ni_value = 0, .name = "FPHP", .is_32bit = false,
-+        },
-+        .to = {
-+            .reg = ID_AA64PFR0, .length = R_ID_AA64PFR0_ADVSIMD_LENGTH,
-+            .shift = R_ID_AA64PFR0_ADVSIMD_SHIFT, .sign = true, .min_value = 1,
-+            .ni_value = 0, .name = "ADVSIMDHP", .is_32bit = false,
-+        },
-+    },
-+    {
-+        .from = {
-+            .reg = ID_AA64PFR0, .length = R_ID_AA64PFR0_ADVSIMD_LENGTH,
-+            .shift = R_ID_AA64PFR0_ADVSIMD_SHIFT, .sign = true, .min_value = 1,
-+            .ni_value = 0, .name = "ADVSIMDHP", .is_32bit = false,
-+        },
-+        .to = {
-+            .reg = ID_AA64PFR0, .length = R_ID_AA64PFR0_FP_LENGTH,
-+            .shift = R_ID_AA64PFR0_FP_SHIFT, .sign = true, .min_value = 1,
-+            .ni_value = 0, .name = "FPHP", .is_32bit = false,
-+        },
-+    },
-+    {
-+
-+        .from = FIELD_INFO(ID_AA64ISAR0, AES, false, 1, 0, false),
-+        .to = {
-+            .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_AES_LENGTH,
-+            .shift = R_ID_AA64ISAR0_AES_SHIFT, .sign = false, .min_value = 2,
-+            .ni_value = 1, .name = "PMULL", .is_32bit = false,
-+        },
-+    },
-+    {
-+
-+        .from = FIELD_INFO(ID_AA64ISAR0, SHA2, false, 1, 0, false),
-+        .to = {
-+            .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_SHA2_LENGTH,
-+            .shift = R_ID_AA64ISAR0_SHA2_SHIFT, .sign = false, .min_value = 2,
-+            .ni_value = 1, .name = "SHA512", .is_32bit = false,
-+        },
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64ISAR1, LRCPC, false, 1, 0, false),
-+        .to = {
-+            .reg = ID_AA64ISAR1, .length = R_ID_AA64ISAR1_LRCPC_LENGTH,
-+            .shift = R_ID_AA64ISAR1_LRCPC_SHIFT, .sign = false, .min_value = 2,
-+            .ni_value = 1, .name = "ILRCPC", .is_32bit = false,
-+        },
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64ISAR0, SM3, false, 1, 0, false),
-+        .to = FIELD_INFO(ID_AA64ISAR0, SM4, false, 1, 0, false),
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64ISAR0, SM4, false, 1, 0, false),
-+        .to = FIELD_INFO(ID_AA64ISAR0, SM3, false, 1, 0, false),
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64ISAR0, SHA1, false, 1, 0, false),
-+        .to = FIELD_INFO(ID_AA64ISAR0, SHA2, false, 1, 0, false),
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64ISAR0, SHA1, false, 1, 0, false),
-+        .to = FIELD_INFO(ID_AA64ISAR0, SHA3, false, 1, 0, false),
-+    },
-+    {
-+        .from = FIELD_INFO(ID_AA64ISAR0, SHA3, false, 1, 0, false),
-+        .to = {
-+            .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_SHA2_LENGTH,
-+            .shift = R_ID_AA64ISAR0_SHA2_SHIFT, .sign = false, .min_value = 2,
-+            .ni_value = 1, .name = "SHA512", .is_32bit = false,
-+        },
-+    },
-+    {
-+        .from = {
-+            .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_SHA2_LENGTH,
-+            .shift = R_ID_AA64ISAR0_SHA2_SHIFT, .sign = false, .min_value = 2,
-+            .ni_value = 1, .name = "SHA512", .is_32bit = false,
-+        },
-+        .to = FIELD_INFO(ID_AA64ISAR0, SHA3, false, 1, 0, false),
-+    },
-+};
-+
- static void arm_cpu_get_bit_prop(Object *obj, Visitor *v, const char *name,
-                                  void *opaque, Error **errp)
- {
-@@ -1454,13 +1551,45 @@ static void arm_cpu_set_bit_prop(Object *obj, Visitor *v, const char *name,
-     }
- 
-     if (value) {
-+        if (object_property_get_bool(obj, feat->name, NULL)) {
-+            return;
-+        }
-         isar->regs[feat->reg] = deposit64(isar->regs[feat->reg],
-                                           feat->shift, feat->length,
-                                           feat->min_value);
-+        /* Auto enable the features which current feature is dependent on. */
-+        for (int i = 0; i < ARRAY_SIZE(feature_dependencies); ++i) {
-+            const CPUFeatureDep *d = &feature_dependencies[i];
-+            if (strcmp(d->to.name, feat->name) != 0) {
-+                continue;
-+            }
-+
-+            object_property_set_bool(obj, d->from.name, true, &local_err);
-+            if (local_err) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+        }
-     } else {
-+        if (!object_property_get_bool(obj, feat->name, NULL)) {
-+            return;
-+        }
-         isar->regs[feat->reg] = deposit64(isar->regs[feat->reg],
-                                           feat->shift, feat->length,
-                                           feat->ni_value);
-+        /* Auto disable the features which are dependent on current feature. */
-+        for (int i = 0; i < ARRAY_SIZE(feature_dependencies); ++i) {
-+            const CPUFeatureDep *d = &feature_dependencies[i];
-+            if (strcmp(d->from.name, feat->name) != 0) {
-+                continue;
-+            }
-+
-+            object_property_set_bool(obj, d->to.name, false, &local_err);
-+            if (local_err) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+        }
-     }
++    if (!kvm_arm_cpu_feature_supported()) {
++        warn_report("KVM doesn't support to set CPU feature in arm.  "
++                    "Setting to `%s` is ignored.", name);
++        return;
++    }
+     if (dev->realized) {
+         qdev_prop_set_after_realize(dev, name, errp);
+         return;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index be2d0cda0d..e7470477d5 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -664,6 +664,20 @@ bool kvm_arm_sve_supported(void)
+     return kvm_check_extension(kvm_state, KVM_CAP_ARM_SVE);
  }
  
++bool kvm_arm_cpu_feature_supported(void)
++{
++    static bool cpu_feature_initialized;
++    static bool cpu_feature_supported;
++
++    if (!cpu_feature_initialized) {
++        cpu_feature_supported = kvm_check_extension(kvm_state,
++                                                    KVM_CAP_ARM_CPU_FEATURE);
++        cpu_feature_initialized = true;
++    }
++
++    return cpu_feature_supported;
++}
++
+ QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
+ 
+ void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 99035494ae..c2481ce464 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -290,6 +290,13 @@ bool kvm_arm_pmu_supported(void);
+  */
+ bool kvm_arm_sve_supported(void);
+ 
++/**
++ * kvm_arm_cpu_feature_supported:
++ *
++ * Returns true if KVM can set CPU features and false otherwise.
++ */
++bool kvm_arm_cpu_feature_supported(void);
++
+ /**
+  * kvm_arm_get_max_vm_ipa_size:
+  * @ms: Machine state handle
 -- 
 2.18.4
 
