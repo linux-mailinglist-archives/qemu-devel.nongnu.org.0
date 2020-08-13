@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C7A244071
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 23:31:59 +0200 (CEST)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF60C2440CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 23:39:14 +0200 (CEST)
+Received: from localhost ([::1]:34006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6KpK-00072A-26
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 17:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52648)
+	id 1k6KwM-0004uX-1f
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 17:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k6Knu-0005pH-Vd
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 17:30:30 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:32982)
+ id 1k6KsJ-0001OW-T9; Thu, 13 Aug 2020 17:35:03 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:40842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k6Knt-00050f-2C
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 17:30:30 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id g14so8939315iom.0
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 14:30:28 -0700 (PDT)
+ id 1k6KsG-0005a8-KK; Thu, 13 Aug 2020 17:35:03 -0400
+Received: by mail-il1-x144.google.com with SMTP id p18so2983921ilm.7;
+ Thu, 13 Aug 2020 14:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZRASCjq07u8rSoC9dPeipnSstfIMDmcFUM3c9LTfpns=;
- b=LQ+LpH/UQl9Fi1m7vuTqCilyRh7Mi9dQoz8sSbMqgJPlIbpzSHP0ST508wUUOxdBja
- OQu0qOG0R3ACnW+QtEUWbwa+Bn80cq9QsxSIvvZa0q5uSF+LCh81d6KeDIsUkiF8cWyI
- UHV90HXP82sbmAZoNx+xU72N/tHOY1+hRaNUFguwnU3mQXMrc4tykUSPFLZWIo3sVyqC
- QOPmdJPnZr9pgRU3qaKyY3Rg71dvsjnr4wi4dC4T2M5LaT/WmvBRXDlOKxXt6CrxWFTc
- 8D3K3CSL9p8PG4ZyF2hwOjuUSbzltvKw1qs+M0MY/bwv8XglAV2LwnguXCS5tNLdkcow
- uJaw==
+ :cc; bh=haBWXR/HLGXs3nRRpYu/283Ffq55CLzPSR0ukHqJw1M=;
+ b=kWmSsELC1bnQkRQaBO3RX3sbcwmo+iZwC7solz9V7CORJYSqhcuPBAz9F11Iy+p9+f
+ 61bv7KgYS7phmoaVTmHQ2On7ML1H4q0iHPnv6+jNSbWiT+QTI1NIrkrc0CeixCT6wBtn
+ AeNW0thu/5hRD8tbSBKpjXVrJ0Dv0g80e7au6sSEOfIvFJ2IQVWwjU2vGY9Gbqqh++dj
+ RRnXEMl1BXc3cKr9Rr8gdvmWwQZXtdbPHRB0XjPR0VbpnvB6jtbXaMbHtYEzG0sQbZds
+ H8fqeI1PAmVZN9jPDRnBSQjmc++Soz+7Vv3KVRapPgJLCCR7a1RRpc0JgoGv4ttVmck5
+ 6qwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZRASCjq07u8rSoC9dPeipnSstfIMDmcFUM3c9LTfpns=;
- b=UOSA0y6VZDDi8XUruq+bcMMEh9zjOiQ0Qu7nfRnv63nfTfuEG47lngZEqMv6TvTZwP
- D/kBVNuJ/Lw6NXly/JWGLDh9kwozpHZRNa/Mw0NPpRObKat52TrCXA+bFPWrkD0J7yMV
- YlMM65GWPQz3WuZF5vbljQOpq8O3Qi+yMWCLZK00Z06m7S0Ud/yyPeZJdYglBLqDQ5w7
- EJk6Gj1z8+n4YODrMKd2QRgbH3LBICTBglvhXkLuV74vsMzwhUy1n+QHO8BHulLrdAqJ
- AiAvjklWLfccDvsGxibh4txOXrs5fFzrK0H4T9fFFfcLYg+JcoOOtbNY4MIoyx2NZdff
- zplQ==
-X-Gm-Message-State: AOAM532IcHJE2rvc73LAbUtzvme6bXY9W/Dw1ruVeQWjCzGCZovNzZP0
- oWZpO23xaK1VthWOY9/Jgx4xr4nRtC5mK6akh3c=
-X-Google-Smtp-Source: ABdhPJyrc5kggmrvV3LAqHPDYN2qcvveda0uwt3OvES8v1tdnLd2vtPvwJYEfSSuoKqrjxaKam/Fd0vSiUZA4GL/4+g=
-X-Received: by 2002:a6b:400e:: with SMTP id k14mr6547866ioa.175.1597354227852; 
- Thu, 13 Aug 2020 14:30:27 -0700 (PDT)
+ bh=haBWXR/HLGXs3nRRpYu/283Ffq55CLzPSR0ukHqJw1M=;
+ b=iSXMiGgpu9QkKhJ6QHwWBT+bYlSk0EpVtQ1QWpZeAe4UP4zTLQkVbIJfvQPdpc/WS/
+ EZCziTIVzu2/sER3sGi88aRn4gvZwEirDh8+y0JvNwVgY2rTK4XO9/NwQe4paJawDmVF
+ K7/c+Snidx3hAFGtM1Q17yudoVwKWHeiCwlvQDlmcr0kH4b+WznYGufe0aWJQFcb4Afq
+ c0WV81R/nlLuiTBRNGyJ8WXlP/7bvYwdRjz6mHZQF33fOMK8v2k6IBf8d9aLdoWEq0WJ
+ mvwCXo+/QOSew+IOAtb2pJ0Z5VbOoVOXP3/wzk6Z37fVdyw1d+uPS9OlMv2VyNcbtzQp
+ MEvw==
+X-Gm-Message-State: AOAM532IPkjTFIsylj41ywuewHqJNhI1erxvKoHMPnlyrGYSTJUW9AR8
+ txy17TThobo/FGujuNwhBxZW3/9u0HLZ1MKAgLw=
+X-Google-Smtp-Source: ABdhPJyPHBE1pB98dsZLPJPjk00rwUJLX8cCs4Kg3FZk+GFsAaN3cAd9ORkJcToqwxNMG8Vc/InueeRYilHYgKCEInE=
+X-Received: by 2002:a05:6e02:ed4:: with SMTP id
+ i20mr6483773ilk.267.1597354498735; 
+ Thu, 13 Aug 2020 14:34:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200812223045.96803-1-alistair.francis@wdc.com>
- <20200812223045.96803-6-alistair.francis@wdc.com>
- <39d42765-01de-2439-093d-c0246d81a7ce@c-sky.com>
- <CAKmqyKMBpR0R4C+81GVjjcq39rHDJ9YHUTekopogxnsh1UYWhQ@mail.gmail.com>
- <dca8e8bb-5f30-84e1-c2a1-02b281c24c79@linaro.org>
-In-Reply-To: <dca8e8bb-5f30-84e1-c2a1-02b281c24c79@linaro.org>
+References: <20200731024708.32725-1-green.wan@sifive.com>
+ <20200731024708.32725-2-green.wan@sifive.com>
+ <CAKmqyKP=P92SzwnLh-UmBcvt20_PTjMNZpTVKE6w-KyDd0PDMQ@mail.gmail.com>
+ <CAJivOr4pqLnh_46KT7YsuENOVkmnn39_NOG8cyUYSsT3H5cVwA@mail.gmail.com>
+In-Reply-To: <CAJivOr4pqLnh_46KT7YsuENOVkmnn39_NOG8cyUYSsT3H5cVwA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Aug 2020 14:19:57 -0700
-Message-ID: <CAKmqyKNKwUixJBKfKs6EedN0ZxpZ-SCQduyvbKb-gf1R=4odUg@mail.gmail.com>
-Subject: Re: [PULL 05/20] target/riscv: Check nanboxed inputs in
- trans_rvf.inc.c
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 13 Aug 2020 14:24:30 -0700
+Message-ID: <CAKmqyKOa6T0BE=AuJcQRfe-WSGMuiCgCis7JweKzarR30Ga0nA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] hw/riscv: sifive_u: Add file-backed OTP.
+To: Green Wan <green.wan@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -70,8 +67,8 @@ X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,62 +81,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chih-Min Chao <chihmin.chao@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 9:48 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, Aug 12, 2020 at 9:12 PM Green Wan <green.wan@sifive.com> wrote:
 >
-> On 8/13/20 7:46 AM, Alistair Francis wrote:
-> >> Hi Alistair,
-> >>
-> >> As Chih-Min said, it's wrong here.  He has given the correct patch code
-> >> https://www.mail-archive.com/qemu-devel@nongnu.org/msg728540.html
-> >>
-> >> We can either  squash the code to this patch or add an separate patch
-> >> later. I prefer the former.
-> >> Thanks very much.
-> >
-> > Richard are you ok if I squash this diff into the patch and send a PR v2?
-> >
-> > diff --git a/target/riscv/insn_trans/trans_rvf.inc.c
-> > b/target/riscv/insn_trans/trans_rvf.inc.c
-> > index f9a9e0643a..76f281d275 100644
-> > --- a/target/riscv/insn_trans/trans_rvf.inc.c
-> > +++ b/target/riscv/insn_trans/trans_rvf.inc.c
-> > @@ -201,7 +201,8 @@ static bool trans_fsgnjn_s(DisasContext *ctx,
-> > arg_fsgnjn_s *a)
-> >           * This formulation retains the nanboxing of rs1.
-> >           */
-> >          mask = tcg_const_i64(~MAKE_64BIT_MASK(31, 1));
-> > -        tcg_gen_andc_i64(rs2, mask, rs2);
-> > +        tcg_gen_not_i64(rs2, rs2);         // forget to inverse rs2
-> > +        tcg_gen_andc_i64(rs2, rs2, mask);  //mask needs to be
+> Hi Alistair,
 >
-> Ah, well.  Yes, it's a bug.  However,
+> Thanks for the feedback and tips. Not sure whether I get it right. I gave a try with -drive and -device options as below.
 >
->    ~rs2 & ~mask
-> = ~(rs2 | mask)
->
-> so a better fix could be
->
-> -    tcg_gen_andc_i64(rs2, mask, rs2);
-> +    tcg_gen_nor_i64(rs2, rs2, mask);
+> $ qemu-system-riscv64 -M sifive_u -drive if=none,format=raw,file=otp.img -device riscv.sifive.u.otp
+> qemu-system-riscv64: -device riscv.sifive.u.otp: Parameter 'driver' expects pluggable device type
 
-Fixed.
+You don't need the -device, -drive should be enough (and then the OTP
+device needs to be re-written to support it).
 
 Alistair
 
 >
+> Then I dump "info qtree". The device, "riscv.sifive.u.otp", belongs to 'System' bus. (dump list by 'info qdm') and all devices on 'System' bus seem not available with "-device". Any suggestions for specifying the device?
 >
-> As an aside, I think perhaps I should have added a ppc-style rotate-and-insert
-> primitive to handle this sort of bitfield insert, since the best set of host
-> insns to perform this operation, when the start of the field is not bit 0, is
-> difficult to predict from the translator.
+> Thanks,
+> - Green
 >
->
-> r~
+> On Tue, Aug 11, 2020 at 6:24 AM Alistair Francis <alistair23@gmail.com> wrote:
+>>
+>> ,()On Thu, Jul 30, 2020 at 7:49 PM Green Wan <green.wan@sifive.com> wrote:
+>> >
+>> > Add a file-backed implementation for OTP of sifive_u machine. The
+>> > machine property for file-backed is disabled in default. Do file
+>> > open, mmap and close for every OTP read/write in case keep the
+>> > update-to-date snapshot of OTP.
+>>
+>> I don't think this is the correct way to write to the file.
+>>
+>> QEMU has backends that should do this for you. For example QEMU
+>> includes the -blockdev/-driver or -mtdblock command line arguments.
+>>
+>> This implementation should look more like an SD card in terms of
+>> interface. You will probably want to call drive_get_next() (probably
+>> with IF_MTD, but that's up to you).
+>>
+>> The hw/arm/xlnx-zcu102.c file has a good example of attaching an SD
+>> card by setting the drive property.
+>>
+>> Alistair
+>>
+>> >
+>> > Signed-off-by: Green Wan <green.wan@sifive.com>
+>> > ---
+>> >  hw/riscv/sifive_u.c             | 26 +++++++++++
+>> >  hw/riscv/sifive_u_otp.c         | 83 +++++++++++++++++++++++++++++++++
+>> >  include/hw/riscv/sifive_u.h     |  2 +
+>> >  include/hw/riscv/sifive_u_otp.h |  1 +
+>> >  4 files changed, 112 insertions(+)
+>> >
+>> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+>> > index e5682c38a9..c818496918 100644
+>> > --- a/hw/riscv/sifive_u.c
+>> > +++ b/hw/riscv/sifive_u.c
+>> > @@ -87,6 +87,7 @@ static const struct MemmapEntry {
+>> >  };
+>> >
+>> >  #define OTP_SERIAL          1
+>> > +#define OTP_FILE            "NULL"
+>> >  #define GEM_REVISION        0x10070109
+>> >
+>> >  static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>> > @@ -387,6 +388,8 @@ static void sifive_u_machine_init(MachineState *machine)
+>> >      object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_U_SOC);
+>> >      object_property_set_uint(OBJECT(&s->soc), "serial", s->serial,
+>> >                               &error_abort);
+>> > +    object_property_set_str(OBJECT(&s->soc), "otp-file", s->otp_file,
+>> > +                             &error_abort);
+>> >      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+>> >
+>> >      /* register RAM */
+>> > @@ -526,6 +529,21 @@ static void sifive_u_machine_set_uint32_prop(Object *obj, Visitor *v,
+>> >      visit_type_uint32(v, name, (uint32_t *)opaque, errp);
+>> >  }
+>> >
+>> > +static void sifive_u_machine_get_str_prop(Object *obj, Visitor *v,
+>> > +                                             const char *name, void *opaque,
+>> > +                                             Error **errp)
+>> > +{
+>> > +    visit_type_str(v, name, (char **)opaque, errp);
+>> > +}
+>> > +
+>> > +static void sifive_u_machine_set_str_prop(Object *obj, Visitor *v,
+>> > +                                             const char *name, void *opaque,
+>> > +                                             Error **errp)
+>> > +{
+>> > +    visit_type_str(v, name, (char **)opaque, errp);
+>> > +}
+>> > +
+>> > +
+>> >  static void sifive_u_machine_instance_init(Object *obj)
+>> >  {
+>> >      SiFiveUState *s = RISCV_U_MACHINE(obj);
+>> > @@ -551,6 +569,12 @@ static void sifive_u_machine_instance_init(Object *obj)
+>> >                          sifive_u_machine_get_uint32_prop,
+>> >                          sifive_u_machine_set_uint32_prop, NULL, &s->serial);
+>> >      object_property_set_description(obj, "serial", "Board serial number");
+>> > +
+>> > +    s->otp_file = (char *)OTP_FILE;
+>> > +    object_property_add(obj, "otp-file", "string",
+>> > +                        sifive_u_machine_get_str_prop,
+>> > +                        sifive_u_machine_set_str_prop, NULL, &s->otp_file);
+>> > +    object_property_set_description(obj, "otp-file", "file-backed otp file");
+>> >  }
+>> >
+>> >  static void sifive_u_machine_class_init(ObjectClass *oc, void *data)
+>> > @@ -709,6 +733,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>> >      }
+>> >
+>> >      qdev_prop_set_uint32(DEVICE(&s->otp), "serial", s->serial);
+>> > +    qdev_prop_set_string(DEVICE(&s->otp), "otp-file", s->otp_file);
+>> >      if (!sysbus_realize(SYS_BUS_DEVICE(&s->otp), errp)) {
+>> >          return;
+>> >      }
+>> > @@ -737,6 +762,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>> >
+>> >  static Property sifive_u_soc_props[] = {
+>> >      DEFINE_PROP_UINT32("serial", SiFiveUSoCState, serial, OTP_SERIAL),
+>> > +    DEFINE_PROP_STRING("otp-file", SiFiveUSoCState, otp_file),
+>> >      DEFINE_PROP_END_OF_LIST()
+>> >  };
+>> >
+>> > diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
+>> > index f6ecbaa2ca..e359f30fdb 100644
+>> > --- a/hw/riscv/sifive_u_otp.c
+>> > +++ b/hw/riscv/sifive_u_otp.c
+>> > @@ -24,6 +24,62 @@
+>> >  #include "qemu/log.h"
+>> >  #include "qemu/module.h"
+>> >  #include "hw/riscv/sifive_u_otp.h"
+>> > +#include <stdio.h>
+>> > +#include <stdlib.h>
+>> > +#include <sys/types.h>
+>> > +#include <sys/stat.h>
+>> > +#include <unistd.h>
+>> > +#include <fcntl.h>
+>> > +#include <sys/mman.h>
+>> > +#include <string.h>
+>> > +
+>> > +#define TRACE_PREFIX            "FU540_OTP: "
+>> > +#define SIFIVE_FU540_OTP_SIZE   (SIFIVE_U_OTP_NUM_FUSES * 4)
+>> > +
+>> > +static int32_t sifive_u_otp_backed_open(const char *filename, int32_t *fd,
+>> > +                                        uint32_t **map)
+>> > +{
+>> > +    /* open and mmap OTP image file */
+>> > +    if (filename && strcmp(filename, "NULL") != 0) {
+>> > +        *fd = open(filename, O_RDWR);
+>> > +
+>> > +        if (*fd < 0) {
+>> > +            qemu_log_mask(LOG_TRACE,
+>> > +                          TRACE_PREFIX "Warning: can't open otp file<%s>\n",
+>> > +                          filename);
+>> > +            return -1;
+>> > +        } else {
+>> > +
+>> > +            *map = (unsigned int *)mmap(0,
+>> > +                                         SIFIVE_FU540_OTP_SIZE,
+>> > +                                         PROT_READ | PROT_WRITE | PROT_EXEC,
+>> > +                                         MAP_FILE | MAP_SHARED,
+>> > +                                         *fd,
+>> > +                                         0);
+>> > +
+>> > +            if (*map == MAP_FAILED) {
+>> > +                qemu_log_mask(LOG_TRACE,
+>> > +                              TRACE_PREFIX "Warning: can't mmap otp file<%s>\n",
+>> > +                              filename);
+>> > +                close(*fd);
+>> > +                return -2;
+>> > +            }
+>> > +        }
+>> > +    } else {
+>> > +        /* filename is 'NULL' */
+>> > +        return -3;
+>> > +    }
+>> > +
+>> > +    return 0;
+>> > +}
+>> > +
+>> > +static int32_t sifive_u_otp_backed_close(int fd, unsigned int *map)
+>> > +{
+>> > +    munmap(map, SIFIVE_FU540_OTP_SIZE);
+>> > +    close(fd);
+>> > +
+>> > +    return 0;
+>> > +}
+>> >
+>> >  static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+>> >  {
+>> > @@ -46,6 +102,20 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+>> >          if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
+>> >              (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
+>> >              (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
+>> > +
+>> > +            int32_t fd;
+>> > +            uint32_t *map;
+>> > +            uint64_t val;
+>> > +
+>> > +            /* open and mmap OTP image file */
+>> > +            if (0 == sifive_u_otp_backed_open(s->otp_file, &fd, &map)) {
+>> > +                val = (uint64_t)(map[s->pa]);
+>> > +
+>> > +                /* close and unmmap */
+>> > +                sifive_u_otp_backed_close(fd, map);
+>> > +                return val;
+>> > +            }
+>> > +
+>> >              return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
+>> >          } else {
+>> >              return 0xff;
+>> > @@ -78,6 +148,8 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+>> >  {
+>> >      SiFiveUOTPState *s = opaque;
+>> >      uint32_t val32 = (uint32_t)val64;
+>> > +    int32_t fd;
+>> > +    uint32_t *map;
+>> >
+>> >      switch (addr) {
+>> >      case SIFIVE_U_OTP_PA:
+>> > @@ -123,6 +195,16 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+>> >          s->ptrim = val32;
+>> >          break;
+>> >      case SIFIVE_U_OTP_PWE:
+>> > +        /* open and mmap OTP image file */
+>> > +        if (0 == sifive_u_otp_backed_open(s->otp_file, &fd, &map)) {
+>> > +            /* store value */
+>> > +            map[s->pa] &= ~(s->pdin << s->paio);
+>> > +            map[s->pa] |= (s->pdin << s->paio);
+>> > +
+>> > +            /* close and unmmap */
+>> > +            sifive_u_otp_backed_close(fd, map);
+>> > +        }
+>> > +
+>> >          s->pwe = val32;
+>> >          break;
+>> >      default:
+>> > @@ -143,6 +225,7 @@ static const MemoryRegionOps sifive_u_otp_ops = {
+>> >
+>> >  static Property sifive_u_otp_properties[] = {
+>> >      DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
+>> > +    DEFINE_PROP_STRING("otp-file", SiFiveUOTPState, otp_file),
+>> >      DEFINE_PROP_END_OF_LIST(),
+>> >  };
+>> >
+>> > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+>> > index aba4d0181f..966723da1d 100644
+>> > --- a/include/hw/riscv/sifive_u.h
+>> > +++ b/include/hw/riscv/sifive_u.h
+>> > @@ -46,6 +46,7 @@ typedef struct SiFiveUSoCState {
+>> >      CadenceGEMState gem;
+>> >
+>> >      uint32_t serial;
+>> > +    char *otp_file;
+>> >  } SiFiveUSoCState;
+>> >
+>> >  #define TYPE_RISCV_U_MACHINE MACHINE_TYPE_NAME("sifive_u")
+>> > @@ -65,6 +66,7 @@ typedef struct SiFiveUState {
+>> >      bool start_in_flash;
+>> >      uint32_t msel;
+>> >      uint32_t serial;
+>> > +    char *otp_file;
+>> >  } SiFiveUState;
+>> >
+>> >  enum {
+>> > diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
+>> > index 639297564a..f3d71ce82d 100644
+>> > --- a/include/hw/riscv/sifive_u_otp.h
+>> > +++ b/include/hw/riscv/sifive_u_otp.h
+>> > @@ -75,6 +75,7 @@ typedef struct SiFiveUOTPState {
+>> >      uint32_t fuse[SIFIVE_U_OTP_NUM_FUSES];
+>> >      /* config */
+>> >      uint32_t serial;
+>> > +    char *otp_file;
+>> >  } SiFiveUOTPState;
+>> >
+>> >  #endif /* HW_SIFIVE_U_OTP_H */
+>> > --
+>> > 2.17.1
+>> >
+>> >
 
