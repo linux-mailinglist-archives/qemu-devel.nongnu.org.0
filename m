@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB07124419F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 01:08:24 +0200 (CEST)
-Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2512E2441A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 01:13:25 +0200 (CEST)
+Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6MKd-0002l5-Tc
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 19:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
+	id 1k6MPT-0005KY-IB
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 19:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6MJs-0002MU-I7
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 19:07:36 -0400
-Resent-Date: Thu, 13 Aug 2020 19:07:36 -0400
-Resent-Message-Id: <E1k6MJs-0002MU-I7@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21311)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k6MOe-0004gj-Lp
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 19:12:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20595
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6MJq-0007JK-8n
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 19:07:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597360048; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WhysP3NzKQDcYLQLYnOUnr+1cne5PT9TXtO8VnTk4IrsX862NutJeZVqrHDetWvYMwdYz5CNgWkBR/jZg2LVrEkGUxXT6ni1cOipwnfKsPFWRJIgmRqQ55rBMO1hI1ydt1EqbSoMAuv44Kokk0bAwdpjcPjvqSjHwAB8g1u47MY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597360048;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=MPsFB0Ho9XSa5ofGzJ7L04OfOfBE2bBqAjx0ldO3vLA=; 
- b=UzwY8Uhr0DmGvvWn1ZOmO6auh29zhctGPyhtcwYbYVk9pEZqRnaQ+R7plnHkRsb8xCEMV+u6ZfXsIgZngt1lsRZwfBsHuHrkbp/RYJKq4IaqlZa5IGU+lN9NiUGnOWrkr7LWoajh4edf7q0GqxFXBpXF9lX4ii/QSq3lPIW8J/U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597360045905794.3370801479635;
- Thu, 13 Aug 2020 16:07:25 -0700 (PDT)
-Subject: Re: [PATCH 00/41] qom: Automated conversion of type checking
- boilerplate
-Message-ID: <159736004490.30474.18322987546659397934@66eaa9a8a123>
-In-Reply-To: <20200813222625.243136-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k6MOb-000800-Qf
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 19:12:32 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-QhwQ4DrKNHiNpaORIA_2kw-1; Thu, 13 Aug 2020 19:12:23 -0400
+X-MC-Unique: QhwQ4DrKNHiNpaORIA_2kw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69831800D53;
+ Thu, 13 Aug 2020 23:12:22 +0000 (UTC)
+Received: from bahia.lan (ovpn-113-39.ams2.redhat.com [10.36.113.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65B2A10021AA;
+ Thu, 13 Aug 2020 23:12:20 +0000 (UTC)
+Subject: [PATCH v2] nvram: Exit QEMU if NVRAM cannot contain all -prom-env data
+From: Greg Kurz <groug@kaod.org>
+To: Thomas Huth <thuth@redhat.com>
+Date: Fri, 14 Aug 2020 01:12:19 +0200
+Message-ID: <159736033937.350502.12402444542194031035.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ehabkost@redhat.com
-Date: Thu, 13 Aug 2020 16:07:25 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 19:01:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.31.81; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 18:26:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,67 +67,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxMzIyMjYyNS4yNDMx
-MzYtMS1laGFia29zdEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
-Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
-bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
-TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
-Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBody9jaGFy
-L2Ntc2RrLWFwYi11YXJ0Lm8KICBDQyAgICAgIGh3L2NoYXIvZGVidWdjb24ubwpJbiBmaWxlIGlu
-Y2x1ZGVkIGZyb20gL3RtcC9xZW11LXRlc3Qvc3JjL2h3L2NoYXIveGVuX2NvbnNvbGUuYzoyOTow
-OgovdG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9ody94ZW4veGVuLWxlZ2FjeS1iYWNrZW5kLmg6
-MTM6MTogZXJyb3I6IHVua25vd24gdHlwZSBuYW1lICdYZW5MZWdhY3lEZXZpY2UnCiBERUNMQVJF
-X0lOU1RBTkNFX0NIRUNLRVIoWGVuTGVnYWN5RGV2aWNlLCBYRU5CQUNLRU5EX0RFVklDRSwKIF4K
-SW4gZmlsZSBpbmNsdWRlZCBmcm9tIC90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL2NoYXJkZXYv
-Y2hhci5oOjc6MCwKICAgICAgICAgICAgICAgICBmcm9tIC90bXAvcWVtdS10ZXN0L3NyYy9pbmNs
-dWRlL2NoYXJkZXYvY2hhci1mZS5oOjQsCiAgICAgICAgICAgICAgICAgZnJvbSAvdG1wL3FlbXUt
-dGVzdC9zcmMvaHcvY2hhci94ZW5fY29uc29sZS5jOjI4OgovdG1wL3FlbXUtdGVzdC9zcmMvaW5j
-bHVkZS9ody94ZW4veGVuLWxlZ2FjeS1iYWNrZW5kLmg6IEluIGZ1bmN0aW9uICdYRU5CQUNLRU5E
-X0RFVklDRSc6Ci90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL2h3L3hlbi94ZW4tbGVnYWN5LWJh
-Y2tlbmQuaDoxMzoyNjogZXJyb3I6ICdYZW5MZWdhY3lEZXZpY2UnIHVuZGVjbGFyZWQgKGZpcnN0
-IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKQogREVDTEFSRV9JTlNUQU5DRV9DSEVDS0VSKFhlbkxlZ2Fj
-eURldmljZSwgWEVOQkFDS0VORF9ERVZJQ0UsCiAgICAgICAgICAgICAgICAgICAgICAgICAgXgov
-dG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9xb20vb2JqZWN0Lmg6ODYzOjc6IG5vdGU6IGluIGRl
-ZmluaXRpb24gb2YgbWFjcm8gJ09CSkVDVF9DSEVDSycKLS0tCi90bXAvcWVtdS10ZXN0L3NyYy9p
-bmNsdWRlL2h3L3hlbi94ZW4tbGVnYWN5LWJhY2tlbmQuaDoxMzoxOiBub3RlOiBpbiBleHBhbnNp
-b24gb2YgbWFjcm8gJ0RFQ0xBUkVfSU5TVEFOQ0VfQ0hFQ0tFUicKIERFQ0xBUkVfSU5TVEFOQ0Vf
-Q0hFQ0tFUihYZW5MZWdhY3lEZXZpY2UsIFhFTkJBQ0tFTkRfREVWSUNFLAogXgovdG1wL3FlbXUt
-dGVzdC9zcmMvaW5jbHVkZS9xb20vb2JqZWN0Lmg6ODYzOjEzOiBlcnJvcjogZXhwZWN0ZWQgZXhw
-cmVzc2lvbiBiZWZvcmUgJyknIHRva2VuCiAgICAgKCh0eXBlICopb2JqZWN0X2R5bmFtaWNfY2Fz
-dF9hc3NlcnQoT0JKRUNUKG9iaiksIChuYW1lKSwgXAogICAgICAgICAgICAgXgovdG1wL3FlbXUt
-dGVzdC9zcmMvaW5jbHVkZS9xb20vb2JqZWN0Lmg6NTcyOjE0OiBub3RlOiBpbiBleHBhbnNpb24g
-b2YgbWFjcm8gJ09CSkVDVF9DSEVDSycKLS0tCiAgQ0MgICAgICBody9jb3JlL25taS5vCiAgQ0Mg
-ICAgICBody9jb3JlL3ZtLWNoYW5nZS1zdGF0ZS1oYW5kbGVyLm8KICBDQyAgICAgIGh3L2NvcmUv
-cWRldi1wcm9wZXJ0aWVzLXN5c3RlbS5vCm1ha2U6ICoqKiBbaHcvY2hhci94ZW5fY29uc29sZS5v
-XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNl
-YmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2Nr
-ZXIucHkiLCBsaW5lIDcwOSwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNz
-RXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFu
-ZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5p
-bnN0YW5jZS51dWlkPWY3Y2E5NTYzZGY5MTQ2OTQ5MzYxNzA0MjY2YjdiNjk2JywgJy11JywgJzEw
-MDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUn
-LCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdW
-PScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1l
-JywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5j
-YWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90
-bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWU4anYxMXRhL3NyYy9kb2NrZXItc3JjLjIwMjAtMDgtMTMt
-MTkuMDQuNDcuOTUxMjovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdS9jZW50b3M3JywgJy92YXIv
-dG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0
-dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9ZjdjYTk1
-NjNkZjkxNDY5NDkzNjE3MDQyNjZiN2I2OTYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJv
-ciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10
-bXAtZThqdjExdGEvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3
-XSBFcnJvciAyCgpyZWFsICAgIDJtMzguNDEzcwp1c2VyICAgIDBtOC40OTJzCgoKVGhlIGZ1bGwg
-bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDgxMzIyMjYy
-NS4yNDMxMzYtMS1laGFia29zdEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRv
-czcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
-dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
-byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Since commit 61f20b9dc5b7 ("spapr_nvram: Pre-initialize the NVRAM to
+support the -prom-env parameter"), pseries machines can pre-initialize
+the "system" partition in the NVRAM with the data passed to all -prom-env
+parameters on the QEMU command line.
+
+In this case it is assumed that all the data fits in 64 KiB, but the user
+can easily pass more and crash QEMU:
+
+$ qemu-system-ppc64 -M pseries $(for ((x=3D0;x<128;x++)); do \
+  echo -n " -prom-env " ; printf "%0.sx" {1..1024}; \
+  done) # this requires ~128 Kib
+malloc(): corrupted top size
+Aborted (core dumped)
+
+This happens because we don't check if all the prom-env data fits in
+the NVRAM and chrp_nvram_set_var() happily memcpy() it passed the
+buffer.
+
+This crash affects basically all ppc/ppc64 machine types that use -prom-env=
+:
+- pseries (all versions)
+- g3beige
+- mac99
+
+and also sparc/sparc64 machine types:
+- LX
+- SPARCClassic
+- SPARCbook
+- SS-10
+- SS-20
+- SS-4
+- SS-5
+- SS-600MP
+- Voyager
+- sun4u
+- sun4v
+
+Add a max_len argument to chrp_nvram_create_system_partition() so that
+it can check the available size before writing to memory.
+
+Since NVRAM is populated at machine init, it seems reasonable to consider
+this error as fatal. So, instead of reporting an error when we detect that
+the NVRAM is too small and adapt all machine types to handle it, we simply
+exit QEMU in all cases. This is still better than crashing. If someone
+wants another behavior, I guess this can be reworked later.
+
+Tested with:
+
+$ yes q | \
+  (for arch in ppc ppc64 sparc sparc64; do \
+       echo =3D=3D $arch =3D=3D; \
+       qemu=3D${arch}-softmmu/qemu-system-$arch; \
+       for mach in $($qemu -M help | awk '! /^Supported/ { print $1 }'); do=
+ \
+           echo $mach; \
+           $qemu -M $mach -monitor stdio -nodefaults -nographic \
+           $(for ((x=3D0;x<128;x++)); do \
+                 echo -n " -prom-env " ; printf "%0.sx" {1..1024}; \
+             done) >/dev/null; \
+        done; echo; \
+   done)
+
+Without the patch, affected machine types cause QEMU to report some
+memory corruption and crash:
+
+malloc(): corrupted top size
+
+free(): invalid size
+
+*** stack smashing detected ***: terminated
+
+With the patch, QEMU prints the following message and exits:
+
+NVRAM is too small. Try to pass less data to -prom-env
+
+It seems that the conditions for the crash have always existed, but it
+affects pseries, the machine type I care for, since commit 61f20b9dc5b7
+only.
+
+Fixes: 61f20b9dc5b7 ("spapr_nvram: Pre-initialize the NVRAM to support the =
+-prom-env parameter")
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1867739
+Reported-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+v2: - fixed system partition size for sparc/sparc64 (Laurent)
+---
+ hw/nvram/chrp_nvram.c         |   24 +++++++++++++++++++++---
+ hw/nvram/mac_nvram.c          |    2 +-
+ hw/nvram/spapr_nvram.c        |    3 ++-
+ hw/sparc/sun4m.c              |    2 +-
+ hw/sparc64/sun4u.c            |    2 +-
+ include/hw/nvram/chrp_nvram.h |    3 ++-
+ 6 files changed, 28 insertions(+), 8 deletions(-)
+
+diff --git a/hw/nvram/chrp_nvram.c b/hw/nvram/chrp_nvram.c
+index d969f267048e..d4d10a7c03c7 100644
+--- a/hw/nvram/chrp_nvram.c
++++ b/hw/nvram/chrp_nvram.c
+@@ -21,14 +21,21 @@
+=20
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
++#include "qemu/error-report.h"
+ #include "hw/nvram/chrp_nvram.h"
+ #include "sysemu/sysemu.h"
+=20
+-static int chrp_nvram_set_var(uint8_t *nvram, int addr, const char *str)
++static int chrp_nvram_set_var(uint8_t *nvram, int addr, const char *str,
++                              int max_len)
+ {
+     int len;
+=20
+     len =3D strlen(str) + 1;
++
++    if (max_len < len) {
++        return -1;
++    }
++
+     memcpy(&nvram[addr], str, len);
+=20
+     return addr + len;
+@@ -38,19 +45,26 @@ static int chrp_nvram_set_var(uint8_t *nvram, int addr,=
+ const char *str)
+  * Create a "system partition", used for the Open Firmware
+  * environment variables.
+  */
+-int chrp_nvram_create_system_partition(uint8_t *data, int min_len)
++int chrp_nvram_create_system_partition(uint8_t *data, int min_len, int max=
+_len)
+ {
+     ChrpNvramPartHdr *part_header;
+     unsigned int i;
+     int end;
+=20
++    if (max_len < sizeof(*part_header)) {
++        goto fail;
++    }
++
+     part_header =3D (ChrpNvramPartHdr *)data;
+     part_header->signature =3D CHRP_NVPART_SYSTEM;
+     pstrcpy(part_header->name, sizeof(part_header->name), "system");
+=20
+     end =3D sizeof(ChrpNvramPartHdr);
+     for (i =3D 0; i < nb_prom_envs; i++) {
+-        end =3D chrp_nvram_set_var(data, end, prom_envs[i]);
++        end =3D chrp_nvram_set_var(data, end, prom_envs[i], max_len - end)=
+;
++        if (end =3D=3D -1) {
++            goto fail;
++        }
+     }
+=20
+     /* End marker */
+@@ -65,6 +79,10 @@ int chrp_nvram_create_system_partition(uint8_t *data, in=
+t min_len)
+     chrp_nvram_finish_partition(part_header, end);
+=20
+     return end;
++
++fail:
++    error_report("NVRAM is too small. Try to pass less data to -prom-env")=
+;
++    exit(EXIT_FAILURE);
+ }
+=20
+ /**
+diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
+index beec1c4e4d11..11f2d31cdb20 100644
+--- a/hw/nvram/mac_nvram.c
++++ b/hw/nvram/mac_nvram.c
+@@ -141,7 +141,7 @@ static void pmac_format_nvram_partition_of(MacIONVRAMSt=
+ate *nvr, int off,
+=20
+     /* OpenBIOS nvram variables partition */
+     sysp_end =3D chrp_nvram_create_system_partition(&nvr->data[off],
+-                                                  DEF_SYSTEM_SIZE) + off;
++                                                  DEF_SYSTEM_SIZE, len) + =
+off;
+=20
+     /* Free space partition */
+     chrp_nvram_create_free_partition(&nvr->data[sysp_end], len - sysp_end)=
+;
+diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
+index 15d08281d411..386513499f59 100644
+--- a/hw/nvram/spapr_nvram.c
++++ b/hw/nvram/spapr_nvram.c
+@@ -188,7 +188,8 @@ static void spapr_nvram_realize(SpaprVioDevice *dev, Er=
+ror **errp)
+         }
+     } else if (nb_prom_envs > 0) {
+         /* Create a system partition to pass the -prom-env variables */
+-        chrp_nvram_create_system_partition(nvram->buf, MIN_NVRAM_SIZE / 4)=
+;
++        chrp_nvram_create_system_partition(nvram->buf, MIN_NVRAM_SIZE / 4,
++                                           nvram->size);
+         chrp_nvram_create_free_partition(&nvram->buf[MIN_NVRAM_SIZE / 4],
+                                          nvram->size - MIN_NVRAM_SIZE / 4)=
+;
+     }
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 9be930415f8e..cf7dfa4af5de 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -143,7 +143,7 @@ static void nvram_init(Nvram *nvram, uint8_t *macaddr,
+     memset(image, '\0', sizeof(image));
+=20
+     /* OpenBIOS nvram variables partition */
+-    sysp_end =3D chrp_nvram_create_system_partition(image, 0);
++    sysp_end =3D chrp_nvram_create_system_partition(image, 0, 0x1fd0);
+=20
+     /* Free space partition */
+     chrp_nvram_create_free_partition(&image[sysp_end], 0x1fd0 - sysp_end);
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 9e30203dcc44..37310b73e6c2 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -136,7 +136,7 @@ static int sun4u_NVRAM_set_params(Nvram *nvram, uint16_=
+t NVRAM_size,
+     memset(image, '\0', sizeof(image));
+=20
+     /* OpenBIOS nvram variables partition */
+-    sysp_end =3D chrp_nvram_create_system_partition(image, 0);
++    sysp_end =3D chrp_nvram_create_system_partition(image, 0, 0x1fd0);
+=20
+     /* Free space partition */
+     chrp_nvram_create_free_partition(&image[sysp_end], 0x1fd0 - sysp_end);
+diff --git a/include/hw/nvram/chrp_nvram.h b/include/hw/nvram/chrp_nvram.h
+index 09941a9be454..4a0f5c21b884 100644
+--- a/include/hw/nvram/chrp_nvram.h
++++ b/include/hw/nvram/chrp_nvram.h
+@@ -50,7 +50,8 @@ chrp_nvram_finish_partition(ChrpNvramPartHdr *header, uin=
+t32_t size)
+     header->checksum =3D sum & 0xff;
+ }
+=20
+-int chrp_nvram_create_system_partition(uint8_t *data, int min_len);
++/* chrp_nvram_create_system_partition() failure is fatal */
++int chrp_nvram_create_system_partition(uint8_t *data, int min_len, int max=
+_len);
+ int chrp_nvram_create_free_partition(uint8_t *data, int len);
+=20
+ #endif
+
+
 
