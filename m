@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3471E243F9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 22:03:59 +0200 (CEST)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC82B243FA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 22:09:30 +0200 (CEST)
+Received: from localhost ([::1]:36184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6JSA-0008It-80
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 16:03:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1k6JXV-00037S-Iy
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 16:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6JR7-00072D-Ni
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:02:53 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:35322)
+ id 1k6JWQ-0002MW-0C
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:08:22 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:32879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6JR6-0002uz-3L
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:02:53 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id t6so3267211pjr.0
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 13:02:51 -0700 (PDT)
+ id 1k6JWO-0003cN-FJ
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:08:21 -0400
+Received: by mail-pf1-x442.google.com with SMTP id u20so3382843pfn.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 13:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fb5Y49cmdeZbmdDx5YZDyQ2EhM1utpNhLqY0w1DdTAE=;
- b=NW9Ru9KgJ+JXWJtLt3TmJXIgcddizv5ba3KDl1ZJd48AUohxL7qxm6tttwmQCIQkEw
- fv7LexCG5UgMz/KZR9h2RJaMbYTOU6yCW9BR+tFaZKvqACkKZj5BGr28haxZn8VA6knu
- IX2ZEgIUPjkp2VobDFanJ3Bq+oEJqwseCK9uo7HS6THNAEgMcBEx3VvQHs/0tSLIho7N
- Gt6F6geh6+rA0XsKqV1R3QvNwG3K2bl6VJYqki+Fq4/42UeUgKugfjX6Vi+zDFFwnbxV
- j0v2JmMOs3H7cD3kJCFMKFS2kfBJ84umB704V72vFBgxnC3vdXV4buJaPmapQ7YMCpGS
- Ch4Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=q8BMy77L7yRRc+dkxt7BhLbozbyveZleog+97Dhxu9s=;
+ b=Rzo7tTcpfXUOaMs/dQyNhv2gUqMyPe2BiPffJuqZ9W8TWmuX5767O3wD8fa9B4Lavt
+ jGKfEUTquco0t+NK7AXRSXD6SC3+4UOEk4/New1S/rIgHGJ4TVOkI536l2mY60WpkmpY
+ eOPVZ/z0wnsZIpbzes+z4LaSq/+IrKyMEY7bEOHAS3LRaueRvxicL6wlER1G7Prt2wMj
+ hQ8h3sX5tX76Bt07h5A2CY7dzwQuQHKmEYJZM6lPmY1+wk4FxbqApcaNU2GDDJNSgHcL
+ H2IxvAOID2mylcW4wqb59qlGUmGn8uwzoLyFASuS9kd8t3hYwCmpNGgtkG0De1w15x5F
+ Z2ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fb5Y49cmdeZbmdDx5YZDyQ2EhM1utpNhLqY0w1DdTAE=;
- b=lomAPhQiaZ2vAzljxX5vUm4m07fW4WRavtqRxFME+2ikrSzKxiJhyOEN8IZTc/1P79
- C90QyGGxPvQu25LwVLlxMTcTWz8o0hT7XF3YCf4o9eGpmhhe5cPUXMZx96r6CRv26g75
- NG5+UE99i/o0fZLbQY59toluisswsIgvsT7D3jjs5tUjFrYd9ofiSJtyHMwtDBYPAOXB
- J5LmHJGyRq0NknIbqX7NykjHdT359xUn8OJEHgjGxHLMXLMtPovI+tB5k6ih0yUepkIi
- HPl7WbzKNEFXHsnO+t918tYmRfMsHW0iRTfacP9eEnFnw1N8HJhIwXD4FLUtFdqGqCqr
- t1dw==
-X-Gm-Message-State: AOAM532xOYY5bALWaN729/IUH/CmHPOz/4T0ifPodubG4zkQN9E21KSl
- An3ovBU/y3b97BJuYimg+o5cB2Ac/Cw=
-X-Google-Smtp-Source: ABdhPJzg5YUxeE2QFCPhJlTNtHjqCx5elZi5oNeBpd21vQYWSR2qK0P9bM5PHB9aRBahHY7ft6SVWg==
-X-Received: by 2002:a17:902:b701:: with SMTP id
- d1mr5201070pls.92.1597348970163; 
- Thu, 13 Aug 2020 13:02:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=q8BMy77L7yRRc+dkxt7BhLbozbyveZleog+97Dhxu9s=;
+ b=UrSlnEDDOnregjuCoTDUlEY8+OL/bGPjaW2Zuz6oZF0l/5PWVYkxnq1Tswe0VsKM0b
+ 9kqP07FbydYQ75Q23sWrH5lKQo83GYDeZa5bd9mHTQbRQCKY7fvyKAI6v0/CF/+TOSGg
+ tSi1RD8ap2OqhKLBCb4w1woE4jixHK1qTng4LwP57WOkytr2wcfP0D0wFrFsUg6yDXPD
+ sfsrJQ9JganNzBK82kRchmNgjb2kBYAiqvmt7/UeMphaLXnVJyLCjD2wF/GrDoMHHxq9
+ ze5xMatao5d7bAzctBcAUi8RHoHlO81izTtpeO70wQASvtBoPm3lv4nJayg/wTswa1sw
+ /usQ==
+X-Gm-Message-State: AOAM531yFwNnb0tfY/qCwMz4wBLCOQ75HuI/G9EfTFQldjJcMO+mrknD
+ Hum/wIfKxn/P62HBrJSVRFDipCNC+Fc=
+X-Google-Smtp-Source: ABdhPJyPx/DHDKdlfuNSIx87JxLCWr4ngoVEkagH1XlLl0M1ivoUdxekthdXX5X6qwKT8l6DkJBnsw==
+X-Received: by 2002:aa7:9585:: with SMTP id z5mr5633628pfj.11.1597349298422;
+ Thu, 13 Aug 2020 13:08:18 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id h12sm6871103pfr.143.2020.08.13.13.02.48
+ by smtp.gmail.com with ESMTPSA id y196sm6811642pfc.202.2020.08.13.13.08.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 13:02:49 -0700 (PDT)
+ Thu, 13 Aug 2020 13:08:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] target/arm: Use object_property_add_bool for "sve"
- property
-Date: Thu, 13 Aug 2020 13:02:43 -0700
-Message-Id: <20200813200243.3036772-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 0/2] target/arm: Fix syndrome for MTE tag check fail
+Date: Thu, 13 Aug 2020 13:08:14 -0700
+Message-Id: <20200813200816.3037186-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200813200243.3036772-1-richard.henderson@linaro.org>
-References: <20200813200243.3036772-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,76 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.rutland@arm.com, peter.maydell@linaro.org, drjones@redhat.com,
- alex.bennee@linaro.org
+Cc: andreyknvl@google.com, vincenzo.frascino@arm.com, alex.bennee@linaro.org,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The interface for object_property_add_bool is simpler,
-making the code easier to understand.
+Supercedes: <20200812171946.2044791-1-richard.henderson@linaro.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu64.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+We missed filling in the WnR bit for the syndrome reported
+into ESR_ELx for the Tag Check Fail Data Abort.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 0227862d39..cce0da0b90 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -488,6 +488,12 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
-     cpu->sve_max_vq = max_vq;
- }
- 
-+/*
-+ * Note that cpu_arm_get/set_sve_vq cannot use the simpler
-+ * object_property_add_bool interface because they make use
-+ * of the contents of "name" to determine which bit on which
-+ * to operate.
-+ */
- static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-@@ -529,26 +535,17 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
-     set_bit(vq - 1, cpu->sve_vq_init);
- }
- 
--static void cpu_arm_get_sve(Object *obj, Visitor *v, const char *name,
--                            void *opaque, Error **errp)
-+static bool cpu_arm_get_sve(Object *obj, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
--    bool value = cpu_isar_feature(aa64_sve, cpu);
--
--    visit_type_bool(v, name, &value, errp);
-+    return cpu_isar_feature(aa64_sve, cpu);
- }
- 
--static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
--                            void *opaque, Error **errp)
-+static void cpu_arm_set_sve(Object *obj, bool value, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
--    bool value;
-     uint64_t t;
- 
--    if (!visit_type_bool(v, name, &value, errp)) {
--        return;
--    }
--
-     if (value && kvm_enabled() && !kvm_arm_sve_supported()) {
-         error_setg(errp, "'sve' feature not supported by KVM on this host");
-         return;
-@@ -563,8 +560,7 @@ void aarch64_add_sve_properties(Object *obj)
- {
-     uint32_t vq;
- 
--    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
--                        cpu_arm_set_sve, NULL, NULL);
-+    object_property_add_bool(obj, "sve", cpu_arm_get_sve, cpu_arm_set_sve);
- 
-     for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
-         char name[8];
+
+r~
+
+
+Richard Henderson (2):
+  target/arm: Pass the entire mte descriptor to mte_check_fail
+  target/arm: Fill in the WnR syndrome bit in mte_check_fail
+
+ target/arm/mte_helper.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
 -- 
 2.25.1
 
