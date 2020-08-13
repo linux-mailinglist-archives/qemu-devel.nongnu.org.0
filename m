@@ -2,75 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63A424387C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:28:42 +0200 (CEST)
-Received: from localhost ([::1]:57286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFF42438D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 12:47:04 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6ATR-0007fy-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
+	id 1k6AlD-000234-9b
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 06:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jwsu1986@gmail.com>)
- id 1k6ASZ-0007Fq-J5
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 06:27:47 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:42377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jwsu1986@gmail.com>)
- id 1k6ASX-0006DI-Md
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 06:27:47 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id a34so3020409ybj.9
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 03:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kOlta3RtVWhJDmv6PKP0PlqBpkyEBT2kG0o2TcOR2l8=;
- b=U7OC7EaGl2RSNMQqxc3jvsLcMvguYHwFLPsK2f2T9cMty4WAmlNBIIMuLxinSwkC1n
- ieNAvTULglZfHFEVLW9rG7FLz/Be5Wn77Lna+WM54nczz/vZdDkV8LWqsEnUKf4WJgGt
- E9e0oG4Mbi8Wm59MgTmM18qRHS7iBS4fmYEWId2H4+H6BvvTZtfYoj4yCVzHEFVkolHA
- eGlQaceSLFhnMHSPwvK0nhZcQWWJQ8KL6qFaJ5igAwjLAdj1F6vHhf0iw7tQzeDUUNh9
- aBfxKdIyR8lPEcOQPuc8+VGyNKUReLGmn7TX8ZJOZitHRMMuOe6k93QllI1i2vYEk9An
- VoXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kOlta3RtVWhJDmv6PKP0PlqBpkyEBT2kG0o2TcOR2l8=;
- b=ECxiVySn3QKMohSERYvBHvAUi0YF2QXvzZDtXIqNrQhqqHBbakpW8B+C1Km0c01fuM
- EtXAXfUyWGMGE8PndDmYLOCejCwa2z3UMOCPor+7nRLSS+Pirvs7JxIw9JYz/Wqndxuc
- sB0SV4J6pyzc5BT+D8u3OF+4xL1vEIZ88WnkiooqTKPslU1nqPjtc9fO5pgPqtVPSu66
- wttOYe1+h9sbqJXKZqmhU47ABqH1R1RLo146MWBNBic6DUsIcEKzj2/RNyJHfrnuCBCc
- CRMeQowV/O2y1VZ6OyKoCmmG7TVJi8Fd2WQoXb03lkXoIaD8HALcAPhtHB3cMyJfmki4
- 8DwA==
-X-Gm-Message-State: AOAM532adlH4+Q2JwV5wtMk/rgFu5FBV68nZRGLsue4ge81kMnaDEUjx
- 2B9ZzllOyDoodrx1PZSBKLTPwzzamD1SQ+Qw0yQ=
-X-Google-Smtp-Source: ABdhPJwDKn8z2yOv0JUqqt6wR4ED5tGshvsP1PrGVD/EOq7JE7FPu3+rqw4bKTWEi6U8pQvyJAGgnawyG4mzxBiYmSQ=
-X-Received: by 2002:a25:fc22:: with SMTP id v34mr5395627ybd.393.1597314463158; 
- Thu, 13 Aug 2020 03:27:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k6AjW-00082m-E5; Thu, 13 Aug 2020 06:45:18 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:49771 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k6AjS-0008Jn-Pg; Thu, 13 Aug 2020 06:45:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BS39y0WKVz9sTM; Thu, 13 Aug 2020 20:45:10 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1597315510;
+ bh=6PaY7OjYzqapm+BLBgmKmNyCrXorqjuBpZOaECjrOwg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UlLZFLCJf8R6gKSUYV+pgQDZO7imxi1kCzp23otbwwrE56kp3CkksfS96tpO+hhKa
+ T93iz520HxJwLrPY4+zQlZirP4/k8BPK8un7dnXydSyiNvjLJahVNAjdXvLwAvoqbi
+ YeAF+X0SAli0YAflayfKYPH3Muin41MtIj5++CNo=
+Date: Thu, 13 Aug 2020 20:15:15 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 03/14] spapr/xive: Rework error handling of
+ kvmppc_xive_source_reset()
+Message-ID: <20200813101515.GF181791@yekko.fritz.box>
+References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
+ <159707845245.1489912.9151822670764690034.stgit@bahia.lan>
 MIME-Version: 1.0
-References: <20200621021004.5559-1-dereksu@qnap.com>
- <20200731094940.7a26e583@luklap>
-In-Reply-To: <20200731094940.7a26e583@luklap>
-From: Derek Su <jwsu1986@gmail.com>
-Date: Thu, 13 Aug 2020 18:27:32 +0800
-Message-ID: <CAFKS8hWT1ieRkZcV4Q1ReC4X2wAXKteWB1VkEB7NesT2T-s_Kg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/1] COLO: migrate dirty ram pages before colo
- checkpoint
-To: Lukas Straub <lukasstraub2@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
- envelope-from=jwsu1986@gmail.com; helo=mail-yb1-xb43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mrJd9p1Ce66CJMxE"
+Content-Disposition: inline
+In-Reply-To: <159707845245.1489912.9151822670764690034.stgit@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:45:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,121 +62,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, chyang@qnap.com, quintela@redhat.com,
- Derek Su <dereksu@qnap.com>, dgilbert@redhat.com, qemu-devel@nongnu.org,
- ctcheng@qnap.com
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 31, 2020 at 3:52 PM Lukas Straub <lukasstraub2@web.de> wrote:
->
-> On Sun, 21 Jun 2020 10:10:03 +0800
-> Derek Su <dereksu@qnap.com> wrote:
->
-> > This series is to reduce the guest's downtime during colo checkpoint
-> > by migrating dirty ram pages as many as possible before colo checkpoint=
-.
-> >
-> > If the iteration count reaches COLO_RAM_MIGRATE_ITERATION_MAX or
-> > ram pending size is lower than 'x-colo-migrate-ram-threshold',
-> > stop the ram migration and do colo checkpoint.
-> >
-> > Test environment:
-> > The both primary VM and secondary VM has 1GiB ram and 10GbE NIC
-> > for FT traffic.
-> > One fio buffer write job runs on the guest.
-> > The result shows the total primary VM downtime is decreased by ~40%.
-> >
-> > Please help to review it and suggestions are welcomed.
-> > Thanks.
->
-> Hello Derek,
-> Sorry for the late reply.
-> I think this is not a good idea, because it unnecessarily introduces a de=
-lay between checkpoint request and the checkpoint itself and thus impairs n=
-etwork bound workloads due to increased network latency. Workloads that are=
- independent from network don't cause many checkpoints anyway, so it doesn'=
-t help there either.
->
 
-Hello, Lukas & Zhanghailiang
+--mrJd9p1Ce66CJMxE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your opinions.
-I went through my patch, and I feel a little confused and would like
-to dig into it more.
+On Mon, Aug 10, 2020 at 06:54:12PM +0200, Greg Kurz wrote:
+> Since kvmppc_xive_source_reset_one() has a return value, convert
+> kvmppc_xive_source_reset() to use it for error checking. This
+> allows to get rid of the local_err boiler plate.
+>=20
+> Propagate the return value so that callers may use it as well to check
+> failures.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-In this patch, colo_migrate_ram_before_checkpoint() is before
-COLO_MESSAGE_CHECKPOINT_REQUEST,
-so the SVM and PVM should not enter the pause state.
+Applied to ppc-for-5.2.
 
-In the meanwhile, the packets to PVM/SVM can still be compared and
-notify inconsistency if mismatched, right?
-Is it possible to introduce extra network latency?
+> ---
+>  hw/intc/spapr_xive_kvm.c |   13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index aa1a2f915363..d801bf5cd11c 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -248,24 +248,25 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, =
+int srcno, Error **errp)
+>                               true, errp);
+>  }
+> =20
+> -static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+> +static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+>  {
+>      SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>      int i;
+> =20
+>      for (i =3D 0; i < xsrc->nr_irqs; i++) {
+> -        Error *local_err =3D NULL;
+> +        int ret;
+> =20
+>          if (!xive_eas_is_valid(&xive->eat[i])) {
+>              continue;
+>          }
+> =20
+> -        kvmppc_xive_source_reset_one(xsrc, i, &local_err);
+> -        if (local_err) {
+> -            error_propagate(errp, local_err);
+> -            return;
+> +        ret =3D kvmppc_xive_source_reset_one(xsrc, i, errp);
+> +        if (ret < 0) {
+> +            return ret;
+>          }
+>      }
+> +
+> +    return 0;
+>  }
+> =20
+>  /*
+>=20
+>=20
 
-In my test (randwrite to disk by fio with direct=3D0),
-the ping from another client to the PVM  using generic colo and colo
-used this patch are below.
-The network latency does not increase as my expectation.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-generic colo
-```
-64 bytes from 192.168.80.18: icmp_seq=3D87 ttl=3D64 time=3D28.109 ms
-64 bytes from 192.168.80.18: icmp_seq=3D88 ttl=3D64 time=3D16.747 ms
-64 bytes from 192.168.80.18: icmp_seq=3D89 ttl=3D64 time=3D2388.779 ms
-<----checkpoint start
-64 bytes from 192.168.80.18: icmp_seq=3D90 ttl=3D64 time=3D1385.792 ms
-64 bytes from 192.168.80.18: icmp_seq=3D91 ttl=3D64 time=3D384.896 ms
-<----checkpoint end
-64 bytes from 192.168.80.18: icmp_seq=3D92 ttl=3D64 time=3D3.895 ms
-64 bytes from 192.168.80.18: icmp_seq=3D93 ttl=3D64 time=3D1.020 ms
-64 bytes from 192.168.80.18: icmp_seq=3D94 ttl=3D64 time=3D0.865 ms
-64 bytes from 192.168.80.18: icmp_seq=3D95 ttl=3D64 time=3D0.854 ms
-64 bytes from 192.168.80.18: icmp_seq=3D96 ttl=3D64 time=3D28.359 ms
-64 bytes from 192.168.80.18: icmp_seq=3D97 ttl=3D64 time=3D12.309 ms
-64 bytes from 192.168.80.18: icmp_seq=3D98 ttl=3D64 time=3D0.870 ms
-64 bytes from 192.168.80.18: icmp_seq=3D99 ttl=3D64 time=3D2371.733 ms
-64 bytes from 192.168.80.18: icmp_seq=3D100 ttl=3D64 time=3D1371.440 ms
-64 bytes from 192.168.80.18: icmp_seq=3D101 ttl=3D64 time=3D366.414 ms
-64 bytes from 192.168.80.18: icmp_seq=3D102 ttl=3D64 time=3D0.818 ms
-64 bytes from 192.168.80.18: icmp_seq=3D103 ttl=3D64 time=3D0.997 ms
-```
+--mrJd9p1Ce66CJMxE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-colo used this patch
-```
-64 bytes from 192.168.80.18: icmp_seq=3D72 ttl=3D64 time=3D1.417 ms
-64 bytes from 192.168.80.18: icmp_seq=3D73 ttl=3D64 time=3D0.931 ms
-64 bytes from 192.168.80.18: icmp_seq=3D74 ttl=3D64 time=3D0.876 ms
-64 bytes from 192.168.80.18: icmp_seq=3D75 ttl=3D64 time=3D1184.034 ms
-<----checkpoint start
-64 bytes from 192.168.80.18: icmp_seq=3D76 ttl=3D64 time=3D181.297 ms
-<----checkpoint end
-64 bytes from 192.168.80.18: icmp_seq=3D77 ttl=3D64 time=3D0.865 ms
-64 bytes from 192.168.80.18: icmp_seq=3D78 ttl=3D64 time=3D0.858 ms
-64 bytes from 192.168.80.18: icmp_seq=3D79 ttl=3D64 time=3D1.247 ms
-64 bytes from 192.168.80.18: icmp_seq=3D80 ttl=3D64 time=3D0.946 ms
-64 bytes from 192.168.80.18: icmp_seq=3D81 ttl=3D64 time=3D0.855 ms
-64 bytes from 192.168.80.18: icmp_seq=3D82 ttl=3D64 time=3D0.868 ms
-64 bytes from 192.168.80.18: icmp_seq=3D83 ttl=3D64 time=3D0.749 ms
-64 bytes from 192.168.80.18: icmp_seq=3D84 ttl=3D64 time=3D2.154 ms
-64 bytes from 192.168.80.18: icmp_seq=3D85 ttl=3D64 time=3D1499.186 ms
-64 bytes from 192.168.80.18: icmp_seq=3D86 ttl=3D64 time=3D496.173 ms
-64 bytes from 192.168.80.18: icmp_seq=3D87 ttl=3D64 time=3D0.854 ms
-64 bytes from 192.168.80.18: icmp_seq=3D88 ttl=3D64 time=3D0.774 ms
-```
+-----BEGIN PGP SIGNATURE-----
 
-Thank you.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81ErMACgkQbDjKyiDZ
+s5JlcA/+MkURW8J2ut4SWPNCj9IQGxxEGSYKJhfUJ6grberhg333KU+NDposqE5n
+8/iqEnXZ/mZpHPZfqn4t6kVysA1F60IDTH4vZy/xOy36HEu2G7C8xF0ujmPAREIr
+9uphbB8vpaFgRm0wDi54XaHWDGT5WW20IgVWkoH09viLAVhy24JTH7ZOrbe3EbAq
+lQ/oSOLzI4opXNjROSViCg2ajTpKy0kN33FE0GDMm4RC9SXD2QVj5haKTuppWFsw
+GwsVbNRimK5RbUiyPeDZ+ISUoVnu2N89CsX/wl5yS728bjssO+naw+CP+/I5hfMx
+q+XfrtLM4NrTmRbvM5ogM+toUV7WBymJfuKMaO38CekwwrsDv7/cQxtw1P+4UuRj
+BlorFYAgy9xzV8LMJMqhO4uZXzT1OXqLMexTsMZh8NW1MQapRU90cd4KlF9OBj0o
+c8R4mFrUqpxl84TklEEA1gJVG0UICwPF0991hqF/Xqz906zmXxMKdZx4TI51S0O0
+Fvkw8kN3lD3DJKsMLpkbFJFV6PS1po2254M5KgjLZcheloyNAQ+dK+e7iWWC28w1
+JrWLjiOCTFVOHKWbxRomaeX3m8OWxBCI8rTV1Lp8or6G5UGo37AEkHYq3I3BtOg9
+BsVOP6TCtnT5VTvFl+MsYt1tPvOZKrifvp/PTkkRbp9IJmH7C+o=
+=8yGo
+-----END PGP SIGNATURE-----
 
-Regards,
-Derek
-
-> Hailang did have a patch to migrate ram between checkpoints, which should=
- help all workloads, but it wasn't merged back then. I think you can pick i=
-t up again, rebase and address David's and Eric's comments:
-> https://lore.kernel.org/qemu-devel/20200217012049.22988-3-zhang.zhanghail=
-iang@huawei.com/T/#u
->
-> Hailang, are you ok with that?
->
-> Regards,
-> Lukas Straub
+--mrJd9p1Ce66CJMxE--
 
