@@ -2,107 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D97B243DA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:44:59 +0200 (CEST)
-Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E9C243D94
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 18:40:31 +0200 (CEST)
+Received: from localhost ([::1]:33548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6GLa-00035W-Av
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56938)
+	id 1k6GHG-0004XC-85
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 12:40:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k6GBa-0002H7-1g; Thu, 13 Aug 2020 12:34:38 -0400
-Received: from mail-vi1eur05on2124.outbound.protection.outlook.com
- ([40.107.21.124]:11105 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k6GBW-0001qP-DQ; Thu, 13 Aug 2020 12:34:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OObBKBZvyGA8ih67NsOivJ4NNwc1fokDpIUTib1nUIiEdk0hxO8vLRRc1H7ZEvJ+LuCPZrfwRbZYBtif66hA5UTSsMbdIhTPaGN4noT5Y6MPOtZbg6dpGcvQtvylFs8lxPmpjSNgxUAq/YB0WITr08y2zN4QWSUjtJTbwzCBsGr/J3YMkCIH+BFEGfOL0EmvfB4ojLwPi8TZlqqd77N3DTJXXDXz45AEyd7OgF2gE9Iig7T0sHkNrbuWblDpTyaHpXtzgAm2x8jOuVnAVkTdfNUqZVCjuILpeEAqf2XH6xKeSikd96poYjbmUrqEoBcdu6D5f8ZzQoqVF04m1SSszA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ogJXA3CPOlrHFsw6GmfTR8N6E/84NHPrSZAu11reiWg=;
- b=gGeGFWFVUb99jBMWvauxp/JAeP4GoXJg0YxXUaXnJ5CYS2uHfzztnV6J6dEOZOsg05psluyjCh6wp7o+cGjXIU3SMeHLkhHOWwakRXxahIvMhxq8lOxSapzzqZBr1SPebn7jkD+VbCYe5Nw9YHo8h2Y6YFIfZ8kMppwRnwjEo7EWgazVRPr+lehNTNOGs/jLAGoOsNnl/cKgZ2fngij8OgSaOZi7j/kzWY+0tRjLVvfAVZ6Mlj5BKXSQKr3PIkgsmXIsubWjQXT0FYDwDvpNWqDwe0e/6mxdNFW3+CPICH983Ly1V8BTgBMaB1mOvWALFLSR+pv/H4Snbs19G9QZSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ogJXA3CPOlrHFsw6GmfTR8N6E/84NHPrSZAu11reiWg=;
- b=SPRKYRrcvorGlLhIB+RvGO5mMAiiqASmp5czt2DsHc7g8pVrKS515JbaTQumNNnalA21p6V7LLGIStX0Y7vaYHf5TplFQZ9lbDY7e5fRuzLNYz4j89AirSFn0R5byLvEM7VkFMIE4UUIP0mqXBN9zj3SV7+hgVTyEbbhVMxqplE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5493.eurprd08.prod.outlook.com (2603:10a6:20b:102::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.20; Thu, 13 Aug
- 2020 16:34:30 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3283.015; Thu, 13 Aug 2020
- 16:34:30 +0000
-Subject: Re: What is bs->reqs_lock for?
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu block <qemu-block@nongnu.org>
-References: <ebea1375-8bc0-2b0a-051f-28b2afa02a1c@virtuozzo.com>
- <2c237be3-7e28-f61a-d339-5765089fe65c@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <e6d75774-300d-c38d-3f07-0cbc39aff54e@virtuozzo.com>
-Date: Thu, 13 Aug 2020 19:34:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <2c237be3-7e28-f61a-d339-5765089fe65c@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR08CA0026.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::39) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6GCA-0003ho-CR; Thu, 13 Aug 2020 12:35:14 -0400
+Resent-Date: Thu, 13 Aug 2020 12:35:14 -0400
+Resent-Message-Id: <E1k6GCA-0003ho-CR@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6GC7-0001tj-DA; Thu, 13 Aug 2020 12:35:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597336482; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gMASWnRFzrZwhak/LzXYapBKC9TOxWDbMWSH8WnNoC94KH80FfhtGsfBtpwA6PjwSh5ufamW/MwzvkHESL/f6hVmXTmN/X8umiRmftKbQOTOtVZAKx+7hij67u9mGTuxkUYmNMo5xjnwpkKvcULShlRgij3/jUzycHUoqCGZArU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597336482;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=n5WBm6wxH0x+r3O4iJHicD0Z83O3uOrTcdriZF8lx3M=; 
+ b=AZhG11/8+TmHWIiUOZUzFmVgb9x9gyA0m6MNuAv0wB5E/D9qhPP/7K4FPQ26OscMbDIvngjoajT9H0sFhYjK1rzA9KnTi0z7nyjQfaW0VUZeOgSQcQ4C3KEWBf0Rm+/QLOFNQ/R+qWJQOKiB+pvik4t8NJxWwjmOD226vVT54tI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597336478728430.1531814030461;
+ Thu, 13 Aug 2020 09:34:38 -0700 (PDT)
+Subject: Re: [RFC 0/9] Support disable/enable CPU features for AArch64
+Message-ID: <159733647760.15736.9146033731205988201@66eaa9a8a123>
+In-Reply-To: <20200813102657.2588720-1-liangpeng10@huawei.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.139) by
- AM0PR08CA0026.eurprd08.prod.outlook.com (2603:10a6:208:d2::39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.15 via Frontend Transport; Thu, 13 Aug 2020 16:34:29 +0000
-X-Originating-IP: [185.215.60.139]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a8271732-f532-4507-1272-08d83fa6c06a
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5493:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54931B7095933F3B816BE187C1430@AM7PR08MB5493.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yThguTOUCudE303OM0E6Ggd2KChC7e5VfNR0i/ODi0xcRqb9bUnu7UpgJCNSo8aA7Y9N3ScEGtpQiXiuzB+IibAawvgswtmDm6rrbK50JXixg4KdViTyPH3SQUQM/bT9RSUxifSfPSIQvDusfMAo0lSttOfxJqKH/MA6ao46xdJffJC5naQFt1E3r5fmeJdbo04dck/P9Z0gq/D3Q6Ss3l1M9tb8D+b0NdOskrsDs4Cjgh+sMu70hBrKaEa5lVNTRV1VzmFesi6eraECA/DP+RtHlYlNVKALMjWaXRzgYmh7e32EuvhZOAAQfcsf0lM3kt8i3lo7VS4j43aRhTybIQZOAEWkt/0YScvip+qLqdlVKMIbLibMxbahctjtcjr3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(136003)(396003)(39840400004)(346002)(31686004)(86362001)(31696002)(16576012)(6486002)(4326008)(36756003)(8936002)(83380400001)(110136005)(54906003)(316002)(478600001)(26005)(52116002)(16526019)(186003)(2616005)(956004)(8676002)(66946007)(66476007)(66556008)(5660300002)(53546011)(2906002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: XA7titxRFrDZXmVw2j+xDlz8gPdjJjofO/sLxpCyUbguH9TQO3XJ8rXdmDcCrlWFZcHh900GEADbSyNTB+FYhKYFzT7ja0AXNauo7K3ZpB/WOb/tK759V9n/WF29O7GAMmA9eFFipKA9bADT4e5/jpW6TCw7WXHZ4ksyCtczR505Ybqz3SgPdQT2MhTM0NBT2DPsC/cAg07gSA53XAL8SYkl13jt/mO0BSv8d5pIHki/H0v7f0QkoL1tWA4BPifi/OfxG6dN00s8qDGNI86fXDRBZcZy2CETx39JrEc79xs6LE+6kJ0nLUhF0Hq8KBUINVaRv2/WKsEV330/oyj3DM5J2wkFqlz6WpCapLCqkxEua3gJ1XJPlkilhPd/1jl3y91T2/lUBZteiWQQmvQLAxgRLU9mH14x7nrFMPou7jak2q8/86URgNKU1YFn0jO/la9jrzj+pSImbHbI3HqjkuOWIcyaG8vUjDqef3/dO/jRwQzGjK3FpooBdFIOWmmSYVQbgV33/cEvOed0urjLBwKLlTZTMmAaNh7R4gjVHpw/JtcfN+mtESOz1UqMwQKNlxbo1+aHpD2yvSWaqKN/vi0Ci9HokxjZDSoPDQl3dPpl9gnctjWJeHeJ0xliGkeu55OFu8KKUAwEFXssRcKX3w==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8271732-f532-4507-1272-08d83fa6c06a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2020 16:34:30.0065 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uSmPOE7cbOvfnBDMbKTnN5ZuAUcqXAX3dS0IW4k2mQBQb9t2N+edardRvz0Hr4sC4tJYp8e2dq/W0bd9pYTo+F6AW0UtVM8vKN3U2H4RIzM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5493
-Received-SPF: pass client-ip=40.107.21.124;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 12:34:31
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: liangpeng10@huawei.com
+Date: Thu, 13 Aug 2020 09:34:38 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 10:17:15
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,43 +67,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, liangpeng10@huawei.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-13.08.2020 18:54, Paolo Bonzini wrote:
-> On 13/08/20 16:57, Vladimir Sementsov-Ogievskiy wrote:
->> Hi!
->>
->> Sorry my stupid question, but which kind of concurrent access
->> bs->reqs_lock prevents?
->>
->> In my understanding the whole logic of request tracking for the bs is
->> going in the coroutine, so, we don't have parallel access anyway? How
->> can parallel access to bs->tracked_requests happen?
-> 
-> Different iothreads can access the same BlockDriverState, and block/io.c
-> is not protected by the AioContext lock (in fact almost nothing, or
-> nothing, needs it in the I/O path).
-> 
-
-I thought bs is attached to one aio context and aio context attached to one iothread.
-And all normal request processing of the bs is done in this one iothread.
-And when we need to access bs externally, we do it in
-aio_context_acquire / aio_context_release, which protects from parallel access to
-BlockDriverState fields...
-
-But you say, that block/io.c is not protected by AioContext lock..
-
-Does it mean that everything must be thread-safe in block/io.c and all block drivers?
-
-Are tracked_requests different from other fields? A lot of other BlockDriverState
-fields are not protected by any mutex.. For example: total_sectors, file, backing..
-
-Could you give an example of parallel access to tracked_requests?
-
--- 
-Best regards,
-Vladimir
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxMzEwMjY1Ny4yNTg4
+NzIwLTEtbGlhbmdwZW5nMTBAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGRvY2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
+bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
+c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRv
+Y2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWlu
+Z3dAZmVkb3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAg
+ICAgYWFyY2g2NC1zb2Z0bW11L3RhcmdldC9hcm0vdHJhbnNsYXRlLWE2NC5vCiAgQ0MgICAgICBh
+YXJjaDY0LXNvZnRtbXUvdGFyZ2V0L2FybS9oZWxwZXItYTY0Lm8KL3RtcC9xZW11LXRlc3Qvc3Jj
+L3RhcmdldC9hcm0vY3B1LmM6IEluIGZ1bmN0aW9uICdhcm1fY3B1X3NldF9iaXRfcHJvcCc6Ci90
+bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvYXJtL2NwdS5jOjE1ODY6MTA6IGVycm9yOiBpbXBsaWNp
+dCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAna3ZtX2FybV9jcHVfZmVhdHVyZV9zdXBwb3J0ZWQn
+OyBkaWQgeW91IG1lYW4gJ2t2bV9hcm1fcG11X3N1cHBvcnRlZCc/IFstV2Vycm9yPWltcGxpY2l0
+LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogMTU4NiB8ICAgICBpZiAoIWt2bV9hcm1fY3B1X2ZlYXR1
+cmVfc3VwcG9ydGVkKCkpIHsKICAgICAgfCAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fgogICAgICB8ICAgICAgICAgIGt2bV9hcm1fcG11X3N1cHBvcnRlZAovdG1wL3FlbXUt
+dGVzdC9zcmMvdGFyZ2V0L2FybS9jcHUuYzoxNTg2OjEwOiBlcnJvcjogbmVzdGVkIGV4dGVybiBk
+ZWNsYXJhdGlvbiBvZiAna3ZtX2FybV9jcHVfZmVhdHVyZV9zdXBwb3J0ZWQnIFstV2Vycm9yPW5l
+c3RlZC1leHRlcm5zXQpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwpt
+YWtlWzFdOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IHRhcmdldC9hcm0v
+Y3B1Lm9dIEVycm9yIDEKbWFrZVsxXTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4u
+Li4KbWFrZTogKioqIFtNYWtlZmlsZTo1Mjc6IGFhcmNoNjQtc29mdG1tdS9hbGxdIEVycm9yIDIK
+VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2Vy
+L2RvY2tlci5weSIsIGxpbmUgNzA5LCBpbiA8bW9kdWxlPgogICAgc3lzLmV4aXQobWFpbigpKQot
+LS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3Mu
+Q2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1
+bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9ODI0OThhYjQ4YjlkNGU4M2E2
+ZTNkNTUxODUyZjdjZTcnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21w
+PXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFf
+Q09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9
+JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScs
+ICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1w
+L2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0wNXB1eWNyby9z
+cmMvZG9ja2VyLXNyYy4yMDIwLTA4LTEzLTEyLjMwLjU1LjMwNTYzOi92YXIvdG1wL3FlbXU6eixy
+bycsICdxZW11L2ZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJl
+dHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20u
+cWVtdS5pbnN0YW5jZS51dWlkPTgyNDk4YWI0OGI5ZDRlODNhNmUzZDU1MTg1MmY3Y2U3Cm1ha2Vb
+MV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBg
+L3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTA1cHV5Y3JvL3NyYycKbWFrZTogKioqIFtkb2Nr
+ZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDNtNDIuOTk3cwp1c2Vy
+ICAgIDBtOS4yODVzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
+dy5vcmcvbG9ncy8yMDIwMDgxMzEwMjY1Ny4yNTg4NzIwLTEtbGlhbmdwZW5nMTBAaHVhd2VpLmNv
+bS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
+bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
+UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
