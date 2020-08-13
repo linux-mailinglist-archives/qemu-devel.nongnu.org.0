@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FDA243926
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:11:44 +0200 (CEST)
-Received: from localhost ([::1]:59372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A5F24392A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 13:13:53 +0200 (CEST)
+Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6B95-0002cL-6a
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:11:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
+	id 1k6BBA-0005wK-4H
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 07:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6B7a-0000fL-Rq; Thu, 13 Aug 2020 07:10:10 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52861)
+ id 1k6B7b-0000fv-5L; Thu, 13 Aug 2020 07:10:11 -0400
+Received: from ozlabs.org ([203.11.71.1]:57179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6B7Y-0002om-S5; Thu, 13 Aug 2020 07:10:10 -0400
+ id 1k6B7Z-0002oo-6S; Thu, 13 Aug 2020 07:10:10 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BS3kc1lF1z9sTY; Thu, 13 Aug 2020 21:10:00 +1000 (AEST)
+ id 4BS3kc2jyDz9sTd; Thu, 13 Aug 2020 21:10:00 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597317000;
- bh=UYzL5wYR5QCWT463jScFfMjBJZWAUwSoER2Ibw++y2A=;
+ bh=foQMAWmt7AjawlqZj8XJbw5C3NIXPcleCTuzk4f8zlM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kS0tXKSb6ZNH0PtbRsV/jhXDFtSj7p3umNgGRSAuRPqlVff4uSno7+Iw4XfEAf5Qi
- GVjw1gvmo7jWnYVrkc4rkXNqfhDUxS4KI6LXEVmaDvtsr7K9CTVz9j7kMxRxYi3WYa
- C+uNAUildFXMw7nl6hZEQkcPJaCMtTxlA3Ktvb2k=
-Date: Thu, 13 Aug 2020 21:07:38 +1000
+ b=JeIIFEHziX5jWZwGSjMdpBSxdAPPzevrbhcQT1sQeGZPV/mnGEGSxdQazboP//SDq
+ wFh10yTPlWXcD5RpID9BFHYm9S/A08DfSFMlH/Lt7k4XUmnKJxqm5N/VDPPhnKfKUx
+ liOwvMvWmQh3wIXPh7A74WUsK1Q+WGb5a2hCOIZ4=
+Date: Thu, 13 Aug 2020 21:09:53 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 13/14] ppc/xive: Simplify error handling in
- xive_tctx_realize()
-Message-ID: <20200813110738.GD6255@yekko.fritz.box>
+Subject: Re: [PATCH 14/14] spapr/xive: Simplify error handling of
+ kvmppc_xive_cpu_synchronize_state()
+Message-ID: <20200813110953.GE6255@yekko.fritz.box>
 References: <159707843034.1489912.1082061742626355958.stgit@bahia.lan>
- <159707852234.1489912.16410314514265848075.stgit@bahia.lan>
+ <159707852916.1489912.8376334685349668124.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sgneBHv3152wZ8jf"
+ protocol="application/pgp-signature"; boundary="brEuL7wsLY8+TuWz"
 Content-Disposition: inline
-In-Reply-To: <159707852234.1489912.16410314514265848075.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <159707852916.1489912.8376334685349668124.stgit@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 06:45:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -68,48 +68,86 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sgneBHv3152wZ8jf
+--brEuL7wsLY8+TuWz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 10, 2020 at 06:55:22PM +0200, Greg Kurz wrote:
-> Now that kvmppc_xive_cpu_connect() returns a negative errno on failure,
-> use that and get rid of the local_err boilerplate.
+On Mon, Aug 10, 2020 at 06:55:29PM +0200, Greg Kurz wrote:
+> Now that kvmppc_xive_cpu_get_state() returns negative on error, use that
+> and get rid of the temporary Error object and error_propagate().
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Applied to ppc-for-5.2
+Applied to ppc-for-5.2.
 
 > ---
->  hw/intc/xive.c |    5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  hw/intc/spapr_xive_kvm.c |   14 ++++++--------
+>  include/hw/ppc/xive.h    |    2 +-
+>  2 files changed, 7 insertions(+), 9 deletions(-)
 >=20
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 17ca5a1916b4..489e6256ef70 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -662,7 +662,6 @@ static void xive_tctx_realize(DeviceState *dev, Error=
- **errp)
->      XiveTCTX *tctx =3D XIVE_TCTX(dev);
->      PowerPCCPU *cpu;
->      CPUPPCState *env;
-> -    Error *local_err =3D NULL;
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index e9a36115bed6..d871bb1a0016 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -119,7 +119,8 @@ int kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error *=
+*errp)
 > =20
->      assert(tctx->cs);
->      assert(tctx->xptr);
-> @@ -683,9 +682,7 @@ static void xive_tctx_realize(DeviceState *dev, Error=
- **errp)
+>  typedef struct {
+>      XiveTCTX *tctx;
+> -    Error *err;
+> +    Error **errp;
+> +    int ret;
+>  } XiveCpuGetState;
 > =20
->      /* Connect the presenter to the VCPU (required for CPU hotplug) */
->      if (xive_in_kernel(tctx->xptr)) {
-> -        kvmppc_xive_cpu_connect(tctx, &local_err);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> +        if (kvmppc_xive_cpu_connect(tctx, errp) < 0) {
->              return;
->          }
->      }
+>  static void kvmppc_xive_cpu_do_synchronize_state(CPUState *cpu,
+> @@ -127,14 +128,14 @@ static void kvmppc_xive_cpu_do_synchronize_state(CP=
+UState *cpu,
+>  {
+>      XiveCpuGetState *s =3D arg.host_ptr;
+> =20
+> -    kvmppc_xive_cpu_get_state(s->tctx, &s->err);
+> +    s->ret =3D kvmppc_xive_cpu_get_state(s->tctx, s->errp);
+>  }
+> =20
+> -void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
+> +int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
+>  {
+>      XiveCpuGetState s =3D {
+>          .tctx =3D tctx,
+> -        .err =3D NULL,
+> +        .errp =3D errp,
+>      };
+> =20
+>      /*
+> @@ -143,10 +144,7 @@ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tct=
+x, Error **errp)
+>      run_on_cpu(tctx->cs, kvmppc_xive_cpu_do_synchronize_state,
+>                 RUN_ON_CPU_HOST_PTR(&s));
+> =20
+> -    if (s.err) {
+> -        error_propagate(errp, s.err);
+> -        return;
+> -    }
+> +    return s.ret;
+>  }
+> =20
+>  int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index 785c905357dc..2c42ae92d287 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -488,7 +488,7 @@ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t rin=
+g, uint8_t ipb);
+>  int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **er=
+rp);
+>  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
+>  int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
+> -void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
+> +int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
+>  int kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp);
+>  int kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp);
+> =20
 >=20
 >=20
 
@@ -119,25 +157,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---sgneBHv3152wZ8jf
+--brEuL7wsLY8+TuWz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81HvkACgkQbDjKyiDZ
-s5J+kQ//cTqe2EZYjt+iaDrjYHMc0Didv4CvIhsrP1tQVPkkjtjRDmKEMqJaSvQJ
-liiR3B1KM8BG0iImIdc6uxn5CC9yEgFOJ/tSASYabo10x6GxLhEOko2TJqZm34SZ
-S/CEROXf8Ny3nr+sE6quyZK5Tgterf+ZAeNoMQ/MkKpqRUWtZkIhNo1H11IuetlG
-Rd6zmvGr9lW+RxTInzuwkzy4vfAUj22TaO25qMYYHEw5aicHlVh3sGrLB0spEvwM
-3uqlz0a0raPFwhsPLPbZS9n3TgGvkFysgtoaHUcQTYGfaBtB7q9urvuHYo2TbA1Q
-KAlzvKnPg/W0PYQ19h3di91sYKkxTRXcOPCnZhfCuN8s7WEWQKUM9g6PzJOncxfu
-gn/ORKRgWcXnksbNZCJgPgHS0sNq3P2VTv7xbB5wWj6olDJfXgcamPzZPwgr2lVR
-S2S/2yL8CXyTPCAPpV51smtlP99O6DDrUiHGO7qJjL9oWREJVcu6t6k/0ExZ2k9Z
-dE8PRTZ8gbH5RqTAmDPiO62GmgISVIrdoa9rGNRCYsPslBvFWXDUq1UvB+7r4AL2
-SeOMYmNijvPT3NKto00i4p95M7aT/sLmFIjtdA+upM6CKhKpX8DAXraGwdrPZuzZ
-R1JgR5VJPRvD636DmRG5u9pBRBfF8XhPKBq3WB7enwJCg7uJpfg=
-=gSkE
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl81H4EACgkQbDjKyiDZ
+s5K7jA//eGSKFcbwni5heY38uEoH86QkSVkxsBQ8pjmzsq+c+d3/Qd1g2Sz41LcC
+HENxSvH9jZqNR4qTdEGUzZBwSs5pIACeZW31wCMhYV9AH7r9g3NXNyPJvctXevys
+kLV0kWhOVvJq+Z39XtsHFLbsdQjTO28DalsBSjLxhdXqXwFhuvK8fvLOqzYp+XRh
+bj/ZS8wUXuvE/x0oECa2bf/cDofT/1uRTOMpnFlweb6MQFzad2HqomEue/hSVVT4
+w4xZn0aiWcGlnwHGzi/3f5+dn8wRDmkk5YtfGhDK8er+oeyGHFTo1Q44BoC7iRb8
+fQaC8/DTyvvU5uHV3JHsUWH7ZtfuP8dmKKv9UGyGiqKSAM7rPstb+IKzH8CHMQ8H
+09x0DnH4VfuHzS6evtnfDrzP+ZCDFTpHY9UoPau40Fc4P6D1O2hDkLoTog0Y/NEK
+b6lhdsSgb3ZBADB3e6D3ZnU2/yRUxBVeyhJVN3sN4OxanxK/o61oVkRkzGWu6K0S
+uN44fcfCdcW6+dnGbJwy7ZsOYO5s2eF4ulSQaFzaQhqJCFWtfO3j7h+yCYRcfq9i
+iQ3MqqRhvPGagLoZzqSDDt7FBPCFMo6rxYihVDKIkmti4w/DUiX7bn2bYr14TeXy
+WbiS37DDP8RzeBInZlr59a2ER6Y58PlGcbkkZq35af2fz4ZtU+g=
+=YbcJ
 -----END PGP SIGNATURE-----
 
---sgneBHv3152wZ8jf--
+--brEuL7wsLY8+TuWz--
 
