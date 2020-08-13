@@ -2,36 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C490243518
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:41:53 +0200 (CEST)
-Received: from localhost ([::1]:33616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4229D243523
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 09:45:25 +0200 (CEST)
+Received: from localhost ([::1]:44750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k67s0-0005jr-9B
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:41:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40754)
+	id 1k67vQ-0001xt-8k
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 03:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1k67p4-0008Gm-4L; Thu, 13 Aug 2020 03:38:50 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:33548 helo=huawei.com)
+ id 1k67p6-0008KK-Qe; Thu, 13 Aug 2020 03:38:52 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33550 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1k67p0-0001lI-Rr; Thu, 13 Aug 2020 03:38:49 -0400
+ id 1k67p1-0001lJ-3S; Thu, 13 Aug 2020 03:38:52 -0400
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id D9554ACE0E4F1CCFC9E6;
+ by Forcepoint Email with ESMTP id DD39D8BFA7CA37F59BD0;
  Thu, 13 Aug 2020 15:38:31 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 13 Aug 2020
- 15:38:20 +0800
+ 15:38:25 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 00/11] trivial patchs for static code analyzer fixes
-Date: Thu, 13 Aug 2020 15:37:01 +0800
-Message-ID: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
+Subject: [PATCH 01/11] hw/arm/virt-acpi-build:Remove dead assignment in
+ build_madt()
+Date: Thu, 13 Aug 2020 15:37:02 +0800
+Message-ID: <20200813073712.4001404-2-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
+References: <20200813073712.4001404-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.32;
@@ -56,42 +59,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chen Qun <kuhn.chenqun@huawei.com>, pannengyuan@huawei.com,
- zhang.zhanghailiang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, pannengyuan@huawei.com,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-arm@nongnu.org, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
-   This series fix trivial warnings reported by the Clang static code analyzer.
+Clang static code analyzer show warning:
+hw/arm/virt-acpi-build.c:641:5: warning: Value stored to 'madt' is never read
+    madt = acpi_data_push(table_data, sizeof *madt);
+    ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Chen Qun (11):
-  hw/arm/virt-acpi-build:Remove dead assignment in build_madt()
-  hw/arm/omap1:Remove redundant statement in omap_clkdsp_read()
-  target/arm/translate-a64:Remove dead assignment in
-    handle_scalar_simd_shli()
-  target/arm/translate-a64:Remove redundant statement in
-    disas_simd_two_reg_misc_fp16()
-  hw/virtio/vhost-user:Remove dead assignment in scrub_shadow_regions()
-  hw/net/virtio-net:Remove redundant statement in
-    virtio_net_rsc_tcp_ctrl_check()
-  vfio/platform: Remove dead assignment in vfio_intp_interrupt()
-  tcg/optimize: Remove redundant statement in tcg_optimize()
-  usb/bus: Remove dead assignment in usb_get_fw_dev_path()
-  hw/intc: Remove redundant statement in exynos4210_combiner_read()
-  hw/display/vga:Remove redundant statement in vga_draw_graphic()
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+---
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-arm@nongnu.org
+---
+ hw/arm/virt-acpi-build.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
- hw/arm/omap1.c                | 1 -
- hw/arm/virt-acpi-build.c      | 3 +--
- hw/display/vga.c              | 1 -
- hw/intc/exynos4210_combiner.c | 3 +--
- hw/net/virtio-net.c           | 1 -
- hw/usb/bus.c                  | 4 ++--
- hw/vfio/platform.c            | 2 +-
- hw/virtio/vhost-user.c        | 2 +-
- target/arm/translate-a64.c    | 7 ++-----
- tcg/optimize.c                | 1 -
- 10 files changed, 8 insertions(+), 17 deletions(-)
-
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 91f0df7b13..f830f9b779 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -633,12 +633,11 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     int madt_start = table_data->len;
+     const MemMapEntry *memmap = vms->memmap;
+     const int *irqmap = vms->irqmap;
+-    AcpiMultipleApicTable *madt;
+     AcpiMadtGenericDistributor *gicd;
+     AcpiMadtGenericMsiFrame *gic_msi;
+     int i;
+ 
+-    madt = acpi_data_push(table_data, sizeof *madt);
++    acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
+ 
+     gicd = acpi_data_push(table_data, sizeof *gicd);
+     gicd->type = ACPI_APIC_GENERIC_DISTRIBUTOR;
 -- 
 2.23.0
 
