@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63698243E4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 19:29:16 +0200 (CEST)
-Received: from localhost ([::1]:57076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF06243E54
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 19:31:51 +0200 (CEST)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6H2R-0003Vu-Ff
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 13:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
+	id 1k6H4w-0006BJ-5b
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 13:31:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k6H1W-0002wL-TQ
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 13:28:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43518
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6H3J-0004YN-U6
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 13:30:11 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47477
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k6H1U-00082K-Rz
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 13:28:18 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-7J4FDTsuMsqrsWkj8dTkyQ-1; Thu, 13 Aug 2020 13:28:14 -0400
-X-MC-Unique: 7J4FDTsuMsqrsWkj8dTkyQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745FE1005504;
- Thu, 13 Aug 2020 17:28:12 +0000 (UTC)
-Received: from bahia.lan (ovpn-113-39.ams2.redhat.com [10.36.113.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D68F600E2;
- Thu, 13 Aug 2020 17:28:11 +0000 (UTC)
-Subject: [PATCH] spapr/xive: Use xive_source_esb_len()
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 13 Aug 2020 19:28:10 +0200
-Message-ID: <159733969034.320580.6571451425779179477.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k6H3G-0008DR-CZ
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 13:30:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597339805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iIsO47OICOrprzBG+svo3nIxF/amwSjvmDFey5k/vy8=;
+ b=dXV0hb/rGsnjNXtoJ89nbjumNMqbbldHB/2SwnHkTD3ERGkhzOmVzP51gmC1EtqbMh985L
+ 0dFtFibmImLJ2yMEL0HOHxLOdkfhY2O8TaBgyJ0KX1SZLNDvF2h6EGK5zvdaieQLhOvVzh
+ uix0ePIRA7CFd+qJUnji9qMb+VIqnU8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-to_hg7rCMvOICrQu19A-lQ-1; Thu, 13 Aug 2020 13:30:01 -0400
+X-MC-Unique: to_hg7rCMvOICrQu19A-lQ-1
+Received: by mail-wr1-f69.google.com with SMTP id b8so2362336wrr.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 10:30:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iIsO47OICOrprzBG+svo3nIxF/amwSjvmDFey5k/vy8=;
+ b=Wqe3AfdZ8dECPDmm+QSx7YrDnlAg6C3MMDLBNoOnTyy9BR5wYzZclbd5Ao/ixTPxzO
+ LXQA2TTYNBtcr+xFzPUYhSAHTxge0KOZLbdB/tj1hnGHQrjq71CobMoZD5ZdUXt0XUcZ
+ rBKQ2Dh2Ms+T9t4Wt4UCmpIDFjNFTaArkByM8alyhFvA8ZY7a6X7La3rtEvpF2fZxGiA
+ ScGfFp7wsVNQFBeQsDbGkYso1xAUn6ZRdD3MN4SMmNCGeKM5T9HXQGuZVec+KlzbFy3H
+ JOKdNRTmdSwCYzBVDucOy4c+e4A6AnYJYiqmAcC1EpCmYLmRY4EKoKnvJhtiYmdF5Jw4
+ hj4Q==
+X-Gm-Message-State: AOAM530+Uay3/COk8ZcGYXOqm+pZ0W2EZ+ntgbnTrR49Bl8KKucPSKgv
+ DIomN3kqVI0rxW/gAul87Nu3l6SOz9MwGHfhyLA2X9aI4U1Bgp7atz3sSLhXk0FJaQaklDvJJcF
+ +M9IbS0diMO5eMJw=
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr5616015wmn.78.1597339800352; 
+ Thu, 13 Aug 2020 10:30:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+CELtMHvuCDb5wFGuZi6g7JGF7EKyGM3dlMlK9DHFcGtQnHdXoX9vQLGBp9lQFINNW923vw==
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr5615987wmn.78.1597339800105; 
+ Thu, 13 Aug 2020 10:30:00 -0700 (PDT)
+Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id 3sm9710997wms.36.2020.08.13.10.29.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Aug 2020 10:29:59 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 0/7] util/vfio-helpers: Add support for multiple IRQs
+Date: Thu, 13 Aug 2020 19:29:50 +0200
+Message-Id: <20200813172957.8289-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.31.120; envelope-from=groug@kaod.org;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:45:42
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 12:29:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,56 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-static inline size_t xive_source_esb_len(XiveSource *xsrc)
-{
-    return (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-}
+This series intends to setup the VFIO helper to allow
+binding notifiers on different IRQs. Only MSIX IRQ type
+considered so far.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
-Follow-up on "ppc/xive: Rework setup of XiveSource::esb_mmio"
-http://patchwork.ozlabs.org/project/qemu-devel/patch/159679992680.876294.75=
-20540158586170894.stgit@bahia.lan/
----
- hw/intc/spapr_xive.c     |    2 +-
- hw/intc/spapr_xive_kvm.c |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Stefan suggested me to publish earlier to discuss.
+If not too bad feedbacks I'll add some documentation in
+"qemu/vfio-helpers.h" before reposting.
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 3c84f64dc464..4bd0d606ba17 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -336,7 +336,7 @@ static void spapr_xive_realize(DeviceState *dev, Error =
-**errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
-=20
-     /* Set the mapping address of the END ESB pages after the source ESBs =
-*/
--    xive->end_base =3D xive->vc_base + (1ull << xsrc->esb_shift) * xsrc->n=
-r_irqs;
-+    xive->end_base =3D xive->vc_base + xive_source_esb_len(xsrc);
-=20
-     /*
-      * Allocate the routing tables
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 82a6f99f022d..3263b982239a 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -831,7 +831,7 @@ void kvmppc_xive_disconnect(SpaprInterruptController *i=
-ntc)
-=20
-     /* Clear the KVM mapping */
-     xsrc =3D &xive->source;
--    esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-+    esb_len =3D xive_source_esb_len(xsrc);
-=20
-     if (xsrc->esb_mmap) {
-         memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
+(NVMe block driver series will follow).
 
+Based-on: <20200812185014.18267-1-philmd@redhat.com>
+"block/nvme: Various cleanups required to use multiple queues"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg729395.html
+Supersedes: <20200811172845.16698-1-philmd@redhat.com>
+
+Philippe Mathieu-Daudé (7):
+  util/vfio-helpers: Store eventfd using int32_t type
+  util/vfio-helpers: Move IRQ 'type' from pci_init_irq() to open_pci()
+  util/vfio-helpers: Introduce 'irq_count' variable
+  util/vfio-helpers: Check the device allow up to 'irq_count' IRQs
+  util/vfio-helpers: Support multiple eventfd
+  util/vfio-helpers: Allow to set EventNotifier to particular IRQ
+  util/vfio-helpers: Allow opening device requesting for multiple IRQs
+
+ include/qemu/vfio-helpers.h |  5 +++--
+ block/nvme.c                |  9 +++++---
+ util/vfio-helpers.c         | 42 ++++++++++++++++++++++++++++++-------
+ util/trace-events           |  1 +
+ 4 files changed, 45 insertions(+), 12 deletions(-)
+
+-- 
+2.21.3
 
 
