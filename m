@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24FA2432CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:32:28 +0200 (CEST)
-Received: from localhost ([::1]:40328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1284A2432D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 05:33:49 +0200 (CEST)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k63ye-0006JZ-0K
-	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58646)
+	id 1k63zw-00083Z-5y
+	for lists+qemu-devel@lfdr.de; Wed, 12 Aug 2020 23:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sO-0005EM-D8
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:26:00 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35917)
+ id 1k63sQ-0005IM-VK
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:26:02 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k63sM-0000A2-In
- for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:26:00 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id p37so2124553pgl.3
- for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:58 -0700 (PDT)
+ id 1k63sO-0000AE-1R
+ for qemu-devel@nongnu.org; Wed, 12 Aug 2020 23:26:01 -0400
+Received: by mail-pg1-x543.google.com with SMTP id h12so2114949pgm.7
+ for <qemu-devel@nongnu.org>; Wed, 12 Aug 2020 20:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dJVKjiEkOYni5kS+6oXRQCkue35GHv0VpKcWBZdFBBk=;
- b=fsFpya0W+7tQF58WN/FjXL1mu4h31IJ/l+AlLL5xRGa1ANaljw9PKxzv1NWJfVi2Db
- E7/NcjUHIYsFGSVp2zqZVR5+iAYlEKMouTRtC8hDwdh+8NMYxgEooiJOmeeS1VAn5KIo
- nQlaNImeB+gXpEPCh3rVcc6B0ghDxNWXqgaYmjY5bU9Zpj5M1H2G4QewQEJab5Q/vBfo
- zNmH5sFV8rBwKFuV0db7DE8ZiQ3ZHmGY+uPDZkNTTrAiM/jPuY3m3xNPXQ217x9PSvEi
- ziLRL0I/fE0VQcTPWtV0I0i/F0Mr/QRbwA5Tn5jHtDjtKGHX1aKBlXBzwu9Sq6cr5NBD
- XB+A==
+ bh=XfDBqVtcFp4u69HfrPx2aYbk0EB30OybSYsl3oZkJuM=;
+ b=BCg5WWAYUJo/5l2JLBQpDtWdfMAusmXw+9wpC/wXOIbC3IOETdp/nPNe6WbdxMj7dd
+ Cg14wYAHL4XVLRF8uuOfhOc0RUFeVJpyGqFxfS8erzXM1RXtzY5eKzh3Heq3YH68X7KP
+ fKakJHd9x0j260R8P/P2/IYM5CFZypOYeLyCcpjjxZe+DGLX+VhRCCL86kL6fEfcatW5
+ q19d6FWx8vmD83V6SHIicqB6SdvCnGSjsVmk0m41OuxyQFxMMQUBODD2vZqItT26KKib
+ IJwQeJGWgTKMKOLPU9u1iX1N23HkkjsLgDL3iGJ2dhenlddpiZKjEH9d8cog67Pop8ya
+ IaVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dJVKjiEkOYni5kS+6oXRQCkue35GHv0VpKcWBZdFBBk=;
- b=Yf++E5susFA7mXHtSq3ZsH2gA6RdMlpMYpdhPgGOZ85BdC7Norr+0koW/qYWbVllrr
- BAjiKlp8Z3v3LrmVvXPIM0nA4uhDvEGNBUYCaLiuv8FHdCPYZFz/ncjatirzMG3HxE8E
- DD/3PCIIYpqNTU63eVXwc09gtEMHQINICecK8ULQWm4NDroPYP9jptsXqUjai+4Hfy9n
- 0e8Z8kOOn4E4owG2tRyhsd+fRj+GdlK/NYNLs09escardMtstBIeslG8c17Cxs4zxwg0
- jknXKmy9r9M8eXK9FD7ZdQ3F4O1tAgHg4iCfkQiZTUkV7YPtLaiomP1HGBT1fF1C24mo
- y0dw==
-X-Gm-Message-State: AOAM532pQUKfDO5dPHqZIgOBMxTKmZLZSoskHcfvRAEnyMnFgYW4djRl
- H0kzEJSY9j1eUECASzSbZe0Rr9bk5To=
-X-Google-Smtp-Source: ABdhPJxHVRPGD+ZCBih54kfyVpetWDZ91KT3SUY3K5YdG8Ysu4o/gKAhqqeuqk9Z5gkKSnPavXsdHg==
-X-Received: by 2002:a62:c182:: with SMTP id i124mr2344803pfg.225.1597289156789; 
- Wed, 12 Aug 2020 20:25:56 -0700 (PDT)
+ bh=XfDBqVtcFp4u69HfrPx2aYbk0EB30OybSYsl3oZkJuM=;
+ b=E6nGJkacJU5g86dwbJfOTJD9+441V+Nd4gHTJnHCMfbTvVnukSUEkB8shdBO9ipZFp
+ /9T/429IHdKt/cQDwxK9y2kmfw1yAiZvs5miyhdqsNkSADkzKAhpjApKX01mSWQtixJF
+ 3N7yZtd9691FClELO8JxINjm0nEVGtmVGUQSqLJqOXyMACKR8s0MtibbGizqdWxMBlH7
+ CWtzEyWNiniai9lRnOL34gPYmvP75bUKFMbcHV+j6kECcooIXpc5btnguYXjKfjPEcV7
+ hXoCU8iCJPoA/efIQc7eclEySNu/g2/r1jxq6jJVKJUc9Yt/2ICTSyzsUim0N8URU8/D
+ e50A==
+X-Gm-Message-State: AOAM531Q57pYFLN72GL6yU699t80P4Gk4uTQJl51g2LeDWeqZvigQTfl
+ NR0v05W26QJb5JTUioiZ52naeZOzj70=
+X-Google-Smtp-Source: ABdhPJyNsyF+QKsLw5xWIuYAQyirE2pvNKWOgXfXkKdIn7klz0uBX4YKzYxA16T6/c6Z6HQZan+t2A==
+X-Received: by 2002:a05:6a00:7c8:: with SMTP id
+ n8mr2455089pfu.123.1597289158079; 
+ Wed, 12 Aug 2020 20:25:58 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.55
+ by smtp.gmail.com with ESMTPSA id m19sm3633164pgd.21.2020.08.12.20.25.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 20:25:56 -0700 (PDT)
+ Wed, 12 Aug 2020 20:25:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/17] crypto/builtin: Move AES_cbc_encrypt into
- cipher-builtin.inc.c
-Date: Wed, 12 Aug 2020 20:25:33 -0700
-Message-Id: <20200813032537.2888593-14-richard.henderson@linaro.org>
+Subject: [PATCH 14/17] crypto/builtin: Split and simplify AES_encrypt_cbc
+Date: Wed, 12 Aug 2020 20:25:34 -0700
+Message-Id: <20200813032537.2888593-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200813032537.2888593-1-richard.henderson@linaro.org>
 References: <20200813032537.2888593-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,165 +89,140 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By making the function private, we will be able to make further
-simplifications.  Re-indent the migrated code and fix the missing
-braces for CODING_STYLE.
+Split into encrypt/decrypt functions, dropping the "enc" argument.
+Now that the function is private to this file, we know that "len"
+is a multiple of AES_BLOCK_SIZE.  So drop the odd block size code.
+
+Name the functions do_aes_*crypt_cbc to match the *_ecb functions.
+Reorder and re-type the arguments to match as well.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/crypto/aes.h        |  4 ---
- crypto/aes.c                | 51 ---------------------------------
- crypto/cipher-builtin.inc.c | 56 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 56 insertions(+), 55 deletions(-)
+ crypto/cipher-builtin.inc.c | 91 +++++++++++++++----------------------
+ 1 file changed, 36 insertions(+), 55 deletions(-)
 
-diff --git a/include/crypto/aes.h b/include/crypto/aes.h
-index 12fb321b89..ba297d6a73 100644
---- a/include/crypto/aes.h
-+++ b/include/crypto/aes.h
-@@ -16,7 +16,6 @@ typedef struct aes_key_st AES_KEY;
- #define AES_set_decrypt_key QEMU_AES_set_decrypt_key
- #define AES_encrypt QEMU_AES_encrypt
- #define AES_decrypt QEMU_AES_decrypt
--#define AES_cbc_encrypt QEMU_AES_cbc_encrypt
- 
- int AES_set_encrypt_key(const unsigned char *userKey, const int bits,
- 	AES_KEY *key);
-@@ -27,9 +26,6 @@ void AES_encrypt(const unsigned char *in, unsigned char *out,
- 	const AES_KEY *key);
- void AES_decrypt(const unsigned char *in, unsigned char *out,
- 	const AES_KEY *key);
--void AES_cbc_encrypt(const unsigned char *in, unsigned char *out,
--		     const unsigned long length, const AES_KEY *key,
--		     unsigned char *ivec, const int enc);
- 
- extern const uint8_t AES_sbox[256];
- extern const uint8_t AES_isbox[256];
-diff --git a/crypto/aes.c b/crypto/aes.c
-index 0f6a195af8..159800df65 100644
---- a/crypto/aes.c
-+++ b/crypto/aes.c
-@@ -1599,54 +1599,3 @@ void AES_decrypt(const unsigned char *in, unsigned char *out,
- }
- 
- #endif /* AES_ASM */
--
--void AES_cbc_encrypt(const unsigned char *in, unsigned char *out,
--                     const unsigned long length, const AES_KEY *key,
--                     unsigned char *ivec, const int enc)
--{
--
--        unsigned long n;
--        unsigned long len = length;
--        unsigned char tmp[AES_BLOCK_SIZE];
--
--        assert(in && out && key && ivec);
--
--        if (enc) {
--                while (len >= AES_BLOCK_SIZE) {
--                        for(n=0; n < AES_BLOCK_SIZE; ++n)
--                                tmp[n] = in[n] ^ ivec[n];
--                        AES_encrypt(tmp, out, key);
--                        memcpy(ivec, out, AES_BLOCK_SIZE);
--                        len -= AES_BLOCK_SIZE;
--                        in += AES_BLOCK_SIZE;
--                        out += AES_BLOCK_SIZE;
--                }
--                if (len) {
--                        for(n=0; n < len; ++n)
--                                tmp[n] = in[n] ^ ivec[n];
--                        for(n=len; n < AES_BLOCK_SIZE; ++n)
--                                tmp[n] = ivec[n];
--                        AES_encrypt(tmp, tmp, key);
--                        memcpy(out, tmp, AES_BLOCK_SIZE);
--                        memcpy(ivec, tmp, AES_BLOCK_SIZE);
--                }
--        } else {
--                while (len >= AES_BLOCK_SIZE) {
--                        memcpy(tmp, in, AES_BLOCK_SIZE);
--                        AES_decrypt(in, out, key);
--                        for(n=0; n < AES_BLOCK_SIZE; ++n)
--                                out[n] ^= ivec[n];
--                        memcpy(ivec, tmp, AES_BLOCK_SIZE);
--                        len -= AES_BLOCK_SIZE;
--                        in += AES_BLOCK_SIZE;
--                        out += AES_BLOCK_SIZE;
--                }
--                if (len) {
--                        memcpy(tmp, in, AES_BLOCK_SIZE);
--                        AES_decrypt(tmp, tmp, key);
--                        for(n=0; n < len; ++n)
--                                out[n] = tmp[n] ^ ivec[n];
--                        memcpy(ivec, tmp, AES_BLOCK_SIZE);
--                }
--        }
--}
 diff --git a/crypto/cipher-builtin.inc.c b/crypto/cipher-builtin.inc.c
-index 4d971a2b82..416d44b38e 100644
+index 416d44b38e..4295f93af5 100644
 --- a/crypto/cipher-builtin.inc.c
 +++ b/crypto/cipher-builtin.inc.c
-@@ -100,6 +100,62 @@ static void do_aes_decrypt_ecb(const void *vctx, size_t len,
+@@ -100,61 +100,44 @@ static void do_aes_decrypt_ecb(const void *vctx, size_t len,
      }
  }
  
-+static void AES_cbc_encrypt(const unsigned char *in, unsigned char *out,
-+                            const unsigned long length, const AES_KEY *key,
-+                            unsigned char *ivec, const int enc)
+-static void AES_cbc_encrypt(const unsigned char *in, unsigned char *out,
+-                            const unsigned long length, const AES_KEY *key,
+-                            unsigned char *ivec, const int enc)
++static void do_aes_encrypt_cbc(const AES_KEY *key, size_t len, uint8_t *out,
++                               const uint8_t *in, uint8_t *ivec)
+ {
+-    unsigned long n;
+-    unsigned long len = length;
+-    unsigned char tmp[AES_BLOCK_SIZE];
++    uint8_t tmp[AES_BLOCK_SIZE];
++    size_t n;
+ 
+-    assert(in && out && key && ivec);
+-
+-    if (enc) {
+-        while (len >= AES_BLOCK_SIZE) {
+-            for (n = 0; n < AES_BLOCK_SIZE; ++n) {
+-                tmp[n] = in[n] ^ ivec[n];
+-            }
+-            AES_encrypt(tmp, out, key);
+-            memcpy(ivec, out, AES_BLOCK_SIZE);
+-            len -= AES_BLOCK_SIZE;
+-            in += AES_BLOCK_SIZE;
+-            out += AES_BLOCK_SIZE;
+-        }
+-        if (len) {
+-            for (n = 0; n < len; ++n) {
+-                tmp[n] = in[n] ^ ivec[n];
+-            }
+-            for (n = len; n < AES_BLOCK_SIZE; ++n) {
+-                tmp[n] = ivec[n];
+-            }
+-            AES_encrypt(tmp, tmp, key);
+-            memcpy(out, tmp, AES_BLOCK_SIZE);
+-            memcpy(ivec, tmp, AES_BLOCK_SIZE);
+-        }
+-    } else {
+-        while (len >= AES_BLOCK_SIZE) {
+-            memcpy(tmp, in, AES_BLOCK_SIZE);
+-            AES_decrypt(in, out, key);
+-            for (n = 0; n < AES_BLOCK_SIZE; ++n) {
+-                out[n] ^= ivec[n];
+-            }
+-            memcpy(ivec, tmp, AES_BLOCK_SIZE);
+-            len -= AES_BLOCK_SIZE;
+-            in += AES_BLOCK_SIZE;
+-            out += AES_BLOCK_SIZE;
+-        }
+-        if (len) {
+-            memcpy(tmp, in, AES_BLOCK_SIZE);
+-            AES_decrypt(tmp, tmp, key);
+-            for (n = 0; n < len; ++n) {
+-                out[n] = tmp[n] ^ ivec[n];
+-            }
+-            memcpy(ivec, tmp, AES_BLOCK_SIZE);
++    /* We have already verified that len % AES_BLOCK_SIZE == 0. */
++    while (len) {
++        for (n = 0; n < AES_BLOCK_SIZE; ++n) {
++            tmp[n] = in[n] ^ ivec[n];
+         }
++        AES_encrypt(tmp, out, key);
++        memcpy(ivec, out, AES_BLOCK_SIZE);
++        len -= AES_BLOCK_SIZE;
++        in += AES_BLOCK_SIZE;
++        out += AES_BLOCK_SIZE;
+     }
+ }
+ 
++static void do_aes_decrypt_cbc(const AES_KEY *key, size_t len, uint8_t *out,
++                               const uint8_t *in, uint8_t *ivec)
 +{
-+    unsigned long n;
-+    unsigned long len = length;
-+    unsigned char tmp[AES_BLOCK_SIZE];
++    uint8_t tmp[AES_BLOCK_SIZE];
++    size_t n;
 +
-+    assert(in && out && key && ivec);
-+
-+    if (enc) {
-+        while (len >= AES_BLOCK_SIZE) {
-+            for (n = 0; n < AES_BLOCK_SIZE; ++n) {
-+                tmp[n] = in[n] ^ ivec[n];
-+            }
-+            AES_encrypt(tmp, out, key);
-+            memcpy(ivec, out, AES_BLOCK_SIZE);
-+            len -= AES_BLOCK_SIZE;
-+            in += AES_BLOCK_SIZE;
-+            out += AES_BLOCK_SIZE;
++    /* We have already verified that len % AES_BLOCK_SIZE == 0. */
++    while (len) {
++        memcpy(tmp, in, AES_BLOCK_SIZE);
++        AES_decrypt(in, out, key);
++        for (n = 0; n < AES_BLOCK_SIZE; ++n) {
++            out[n] ^= ivec[n];
 +        }
-+        if (len) {
-+            for (n = 0; n < len; ++n) {
-+                tmp[n] = in[n] ^ ivec[n];
-+            }
-+            for (n = len; n < AES_BLOCK_SIZE; ++n) {
-+                tmp[n] = ivec[n];
-+            }
-+            AES_encrypt(tmp, tmp, key);
-+            memcpy(out, tmp, AES_BLOCK_SIZE);
-+            memcpy(ivec, tmp, AES_BLOCK_SIZE);
-+        }
-+    } else {
-+        while (len >= AES_BLOCK_SIZE) {
-+            memcpy(tmp, in, AES_BLOCK_SIZE);
-+            AES_decrypt(in, out, key);
-+            for (n = 0; n < AES_BLOCK_SIZE; ++n) {
-+                out[n] ^= ivec[n];
-+            }
-+            memcpy(ivec, tmp, AES_BLOCK_SIZE);
-+            len -= AES_BLOCK_SIZE;
-+            in += AES_BLOCK_SIZE;
-+            out += AES_BLOCK_SIZE;
-+        }
-+        if (len) {
-+            memcpy(tmp, in, AES_BLOCK_SIZE);
-+            AES_decrypt(tmp, tmp, key);
-+            for (n = 0; n < len; ++n) {
-+                out[n] = tmp[n] ^ ivec[n];
-+            }
-+            memcpy(ivec, tmp, AES_BLOCK_SIZE);
-+        }
++        memcpy(ivec, tmp, AES_BLOCK_SIZE);
++        len -= AES_BLOCK_SIZE;
++        in += AES_BLOCK_SIZE;
++        out += AES_BLOCK_SIZE;
 +    }
 +}
-+
-+
+ 
  static int qcrypto_cipher_encrypt_aes(QCryptoCipher *cipher,
                                        const void *in,
-                                       void *out,
+@@ -170,9 +153,8 @@ static int qcrypto_cipher_encrypt_aes(QCryptoCipher *cipher,
+         do_aes_encrypt_ecb(&ctxt->state.aes.key, len, out, in);
+         break;
+     case QCRYPTO_CIPHER_MODE_CBC:
+-        AES_cbc_encrypt(in, out, len,
+-                        &ctxt->state.aes.key.enc,
+-                        ctxt->state.aes.iv, 1);
++        do_aes_encrypt_cbc(&ctxt->state.aes.key.enc, len, out, in,
++                           ctxt->state.aes.iv);
+         break;
+     case QCRYPTO_CIPHER_MODE_XTS:
+         xts_encrypt(&ctxt->state.aes.key,
+@@ -204,9 +186,8 @@ static int qcrypto_cipher_decrypt_aes(QCryptoCipher *cipher,
+         do_aes_decrypt_ecb(&ctxt->state.aes.key, len, out, in);
+         break;
+     case QCRYPTO_CIPHER_MODE_CBC:
+-        AES_cbc_encrypt(in, out, len,
+-                        &ctxt->state.aes.key.dec,
+-                        ctxt->state.aes.iv, 0);
++        do_aes_decrypt_cbc(&ctxt->state.aes.key.dec, len, out, in,
++                           ctxt->state.aes.iv);
+         break;
+     case QCRYPTO_CIPHER_MODE_XTS:
+         xts_decrypt(&ctxt->state.aes.key,
 -- 
 2.25.1
 
