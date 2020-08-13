@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E482437D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:43:07 +0200 (CEST)
-Received: from localhost ([::1]:59036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C33C2437F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 11:51:27 +0200 (CEST)
+Received: from localhost ([::1]:39072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k69lK-0002MH-Ef
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
+	id 1k69tN-0006CG-Nw
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 05:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <likaige@loongson.cn>)
- id 1k69kI-0000wS-8k
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:42:02 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:52722 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <likaige@loongson.cn>) id 1k69kF-0000q5-Vg
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:42:02 -0400
-Received: from bogon.localdomain (unknown [113.200.148.30])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9_bCjVfyGQIAA--.154S3;
- Thu, 13 Aug 2020 17:41:48 +0800 (CST)
-From: Kaige Li <likaige@loongson.cn>
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [PATCH 2/2] target/mips: Add definition of Loongson-3A3000 CPU
-Date: Thu, 13 Aug 2020 17:41:47 +0800
-Message-Id: <1597311707-27565-2-git-send-email-likaige@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1597311707-27565-1-git-send-email-likaige@loongson.cn>
-References: <1597311707-27565-1-git-send-email-likaige@loongson.cn>
-X-CM-TRANSID: AQAAf9Dx_9_bCjVfyGQIAA--.154S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww43urWDAr1kXw1kXr1DWrg_yoW8XrWkp3
- WkJrW3Ww15Xry3Z3yfGryDKF45JrZY9Fy8CaySkr1xA3y8u3y5Xr4jyF1ayFnYqr1DJ3Z3
- Ja1vvF4UGw4xC3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBYb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
- 8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_Jrv_JF4l8cAvFVAK0II2c7xJM28CjxkF
- 64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcV
- CY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv
- 6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
- 02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE
- 4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
- 0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Wlk3UUUUU==
-X-CM-SenderInfo: 5olntxtjh6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=likaige@loongson.cn;
- helo=loongson.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 05:41:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k69sQ-0005hq-64
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:50:26 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40414
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1k69sN-0001ld-Cc
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 05:50:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597312222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LpT/aRV3dmDeTa485YJRSYwYHQ0M6zzHx1vcEnvxN4c=;
+ b=J/vfqnvyZYKNyW6FMatAMt81ZlxiEXsKQFwOi9tS1hjLK2SlYhndkuFbiS/DI+zcTysfF5
+ 1bOOp1nk/uRE+CvB7WqtFAIGQWzSTQn3fORxsVvusyfZrwwEVDgrW6WPTByOHpfvAqIqHW
+ 6ZLxN1l8g6uzEQck6d/DVLxokPj5kGo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-VElY13BcPdaBRncIxd8Aiw-1; Thu, 13 Aug 2020 05:49:13 -0400
+X-MC-Unique: VElY13BcPdaBRncIxd8Aiw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8BA279EC0;
+ Thu, 13 Aug 2020 09:49:11 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6217960BA7;
+ Thu, 13 Aug 2020 09:49:10 +0000 (UTC)
+Date: Thu, 13 Aug 2020 11:49:07 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH 1/2] target/arm: Add cpu property to control pauth
+Message-ID: <20200813094907.y5253jvekiqbz7n2@kamzik.brq.redhat.com>
+References: <20200812065339.2030527-1-richard.henderson@linaro.org>
+ <20200812065339.2030527-2-richard.henderson@linaro.org>
+ <20200812110049.ghtvl7dmtspkfdor@kamzik.brq.redhat.com>
+ <2219f3f9-7894-f898-0cad-43eccaa2a70d@linaro.org>
+ <20200812163107.lbubi6c7ei7i5hmw@kamzik.brq.redhat.com>
+ <20200813060321.cbr2tun6cuq25yst@kamzik.brq.redhat.com>
+ <20200813090504.GA45195@C02TD0UTHF1T.local>
+MIME-Version: 1.0
+In-Reply-To: <20200813090504.GA45195@C02TD0UTHF1T.local>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,53 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, peter.maydell@linaro.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add definition of the Loongson-3A3000 processor in QEMU.
+On Thu, Aug 13, 2020 at 10:05:04AM +0100, Mark Rutland wrote:
+> On Thu, Aug 13, 2020 at 08:03:21AM +0200, Andrew Jones wrote:
+> > Thinking about this some more, maybe we don't need pauth-arch.
+> > If we don't, then it simplifies nicely to
+> > 
+> >  # Default (enabled with architected algorithm)
+> >  -cpu max[,pauth=on][,pauth-fast=off]
+> > 
+> >  # Select pauth-fast
+> >  -cpu max[,pauth=on],pauth-fast=on
+> 
+> One reason that users may wish to choose the IMP-DEF algorithm is for
+> functional testing regardless of speed (since APA+GPA / API+GPI depend
+> on whether the algo is architected or imp-def).
+> 
+> Given that, I think that "impdef" is a better option name than
+> "pauth-fast", and speed is a benefit but not the only reason to use the
+> option.
 
-Signed-off-by: Kaige Li <likaige@loongson.cn>
----
- target/mips/translate_init.inc.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+I was going with pauth-fast because in this case Richard identified a
+need for a fast version. If we identify another need later, then we may
+want to add another impdef version, e.g. pauth-foo. Maybe all the impdef
+versions should have impdef in their name to make that more explicit?
 
-diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
-index 0740819..2e98aff 100644
---- a/target/mips/translate_init.inc.c
-+++ b/target/mips/translate_init.inc.c
-@@ -829,6 +829,30 @@ const mips_def_t mips_defs[] = {
-         .PABITS = 48,
-         .insn_flags = CPU_LOONGSON3A,
-         .mmu_type = MMU_TYPE_R4000,
-+   },
-+   {
-+        .name = "Loongson-3A3000",
-+        .CP0_PRid = 0x14630d,
-+        /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
-+        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C0_AT) |
-+                       (MMU_TYPE_R4000 << CP0C0_MT),
-+        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-+                       (2 << CP0C1_IS) | (5 << CP0C1_IL) | (3 << CP0C1_IA) |
-+                       (2 << CP0C1_DS) | (5 << CP0C1_DL) | (3 << CP0C1_DA) |
-+                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
-+        .CP0_Config2 = MIPS_CONFIG2 | (5 << CP0C2_SS) | (5 << CP0C2_SL) |
-+                       (15 << CP0C2_SA),
-+        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA),
-+        .SYNCI_Step = 16,
-+        .CCRes = 2,
-+        .CP0_Status_rw_bitmask = 0x7DDBFFFF,
-+        .CP1_fcr0 = (0x5 << FCR0_PRID) | (0x1 << FCR0_REV) | (0x1 << FCR0_F64),
-+        .CP1_fcr31 = 0,
-+        .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-+        .SEGBITS = 48,
-+        .PABITS = 48,
-+        .insn_flags = CPU_LOONGSON3A,
-+        .mmu_type = MMU_TYPE_R4000,
-     },
-     {
-         .name = "Loongson-3A4000",
--- 
-2.1.0
+ pauth-impdef-fast
+ pauth-impdef-foo
+ ...
+
+That seems a bit verbose, though, and we can document that pauth-* are
+impdefs and that the default is architected.
+
+> 
+> How about hacing a 'pauth-algo' option which defaults to architected,
+> e.g.
+> 
+> | -cpu max,pauth={on,off},pauth-algo={impdef,architected}
+> 
+> ... then in future the 'pauth={on,off}' bit could de extended to cover
+> FPAC version etc independently of the algorithm, but for now that can be
+> a boolean.
+>
+
+Keeping pauth a boolean, but creating a pauth-algo enum doesn't help us
+much, because probing will only be possible for pauth. The prober could
+only decide to enable pauth with the default algo or not. We could create
+a pauth-specific probe, similar to the gic-specific probe, but, IMO, it's
+really not necessary. If we need multiple pauth-* properties, then we can
+have them all. It just adds a few more lines of logic to the pauth
+finalize function.
+
+Thanks,
+drew
 
 
