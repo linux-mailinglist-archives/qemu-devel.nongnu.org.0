@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2621243FAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 22:09:38 +0200 (CEST)
-Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29C8243FC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 22:21:52 +0200 (CEST)
+Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6JXd-0003Dp-OM
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 16:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60132)
+	id 1k6JjT-0006LO-I1
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 16:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6JWS-0002Oc-Mb
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:08:24 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6JWR-0003da-54
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:08:24 -0400
-Received: by mail-pl1-x642.google.com with SMTP id r4so3121680pls.2
- for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 13:08:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a9KU3BFjLPcvWd1ynHXjJMFI8AkA4Hb5hz2Tk+NCbVg=;
- b=WMrYJVlGhGObuqXg4p/j7BSxZFF8fQpAIGxwV6E1xqQLVqi/gpw8ko+r/v3rUBxYbI
- /s4Ox6IuWo1Dd5TuAnk8C9oJT6GpxC8jecbMoS6AJHPW7NL4IiIXTzYvwNFqlS37tily
- GVRIG1wFqBpu8mUJSSikGNFKBQKH7hs0HEmBddnTCRGJhIn/Du2ZjL386FvJPUB3U9O1
- MZaymyawwAtUSW6HF9N2Fr+SqF02g+tC1i8AgSjxFk+cc6G3ZSM8eLduqtWUOdc5F50J
- um9m+ADZ11Oz043tEmMTO5ZF6gH0wy61p6lCCsFIJ3hKSHj19N+6Iz9IJERfnKdBk166
- +Zng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a9KU3BFjLPcvWd1ynHXjJMFI8AkA4Hb5hz2Tk+NCbVg=;
- b=VuHpk7FXnUxmLmcuJQnTeqHwAOd8ljtQ0BJJrhloAsAs4kOL8XK9SDPsH4pRCGNUWa
- n4iI44oKQpXKyvR6pqFqNKVK1lLIrcBZSD5GCkhlpG2pNuaSROTup+bprDkNIpYVFUPR
- jInR3W9QmNH6wpNE7pWhOhwk9rOMInYLmrhrdp/fOPxR7IYVgxJbaeLK5ziTV1QRTQi6
- GJLf9cVxGAxohSRfgazDawnPImDLIG9S2gi7/LdzLcg1q7cCkx5vtGjGJM4KH7C0QRxM
- JIq4cO7GtwcHq/Wd+rmK7lm0Wq84OiZmCQErYN0Zq8ZnpHkh7Q5ZbFz2CIs8ohSc4Mrn
- ns5g==
-X-Gm-Message-State: AOAM5304O1BRBVtBMvX4hnW110rRehyOEnNrvd41rIkcjtAnp3eJYTtF
- XRI5477GVi8yogD397U9CscerRC1X+A=
-X-Google-Smtp-Source: ABdhPJzlLM5EQU2ChY5Aqs/hAwTuajBfDa2O99yKBH2XXoAmZxwOEKk+mcLvcutyUvFp8XnDWdf//Q==
-X-Received: by 2002:a17:90a:1682:: with SMTP id
- o2mr6943714pja.227.1597349301471; 
- Thu, 13 Aug 2020 13:08:21 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm6811642pfc.202.2020.08.13.13.08.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 13:08:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] target/arm: Fill in the WnR syndrome bit in
- mte_check_fail
-Date: Thu, 13 Aug 2020 13:08:16 -0700
-Message-Id: <20200813200816.3037186-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200813200816.3037186-1-richard.henderson@linaro.org>
-References: <20200813200816.3037186-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1k6Jik-0005uN-PW
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:21:06 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41518
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1k6Jig-0005VB-Kr
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 16:21:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597350060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UdQ4Ia0Wo56ZLfwSBE8QPPvralKE1hTBqrk9VtSWYkM=;
+ b=FnzmlAtzMelQWAynSvSCsTZVoKkUgEsJdUonP7m7daP5ZFOpgvLnFS05nKD4Fav85IWfyt
+ gWpcXnk4kmYH+oeLwA8TY+6zjv1E4p0smu6FVANJdHO48IFwFLsfW5yKf5Ul8jYGqFIhMy
+ h0bpg8QfM1dbJA4NE9j7FRnmCOmD/fM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-iimAmIv5MAG7heeORJ-YOA-1; Thu, 13 Aug 2020 16:20:59 -0400
+X-MC-Unique: iimAmIv5MAG7heeORJ-YOA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E04401DDE8;
+ Thu, 13 Aug 2020 20:20:57 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-166.ams2.redhat.com
+ [10.36.112.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 836EB5D9D2;
+ Thu, 13 Aug 2020 20:20:49 +0000 (UTC)
+Subject: Re: [PATCH] hw: virtio-gpu: remove duplicated 'virtqueue_pop'
+To: Li Qiang <liq3ea@163.com>, mst@redhat.com, kraxel@redhat.com
+References: <20200813153614.39917-1-liq3ea@163.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <47b9f12f-2874-1e1c-2fc1-7ea1a81cc401@redhat.com>
+Date: Thu, 13 Aug 2020 22:20:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200813153614.39917-1-liq3ea@163.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 02:03:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,50 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andreyknvl@google.com, vincenzo.frascino@arm.com, alex.bennee@linaro.org,
- peter.maydell@linaro.org
+Cc: liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to AArch64.TagCheckFault, none of the other ISS values are
-provided, so we do not need to go so far as merge_syn_data_abort.
-But we were missing the WnR bit.
+On 08/13/20 17:36, Li Qiang wrote:
+> Just use 'while (true)' to avoid duplicated.
+> No function change.
+> 
+> Signed-off-by: Li Qiang <liq3ea@163.com>
+> ---
+>  hw/display/virtio-gpu.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 5f0dd7c150..9cef313f5e 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -869,13 +869,15 @@ static void virtio_gpu_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>      }
+>  #endif
+>  
+> -    cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+> -    while (cmd) {
+> +    while (true) {
+> +        cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+> +        if (!cmd) {
+> +            break;
+> +        }
+>          cmd->vq = vq;
+>          cmd->error = 0;
+>          cmd->finished = false;
+>          QTAILQ_INSERT_TAIL(&g->cmdq, cmd, next);
+> -        cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+>      }
+>  
+>      virtio_gpu_process_cmdq(g);
+> 
 
-Tested-by: Andrey Konovalov <andreyknvl@google.com>
-Reported-by: Andrey Konovalov <andreyknvl@google.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/mte_helper.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+There are (at least) three styles:
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index a40454588d..891306f5b0 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -519,7 +519,7 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
- {
-     int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
-     ARMMMUIdx arm_mmu_idx = core_to_aa64_mmu_idx(mmu_idx);
--    int el, reg_el, tcf, select;
-+    int el, reg_el, tcf, select, is_write, syn;
-     uint64_t sctlr;
- 
-     reg_el = regime_el(env, arm_mmu_idx);
-@@ -547,9 +547,10 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
-          */
-         cpu_restore_state(env_cpu(env), ra, true);
-         env->exception.vaddress = dirty_ptr;
--        raise_exception(env, EXCP_DATA_ABORT,
--                        syn_data_abort_no_iss(el != 0, 0, 0, 0, 0, 0, 0x11),
--                        exception_target_el(env));
-+
-+        is_write = FIELD_EX32(desc, MTEDESC, WRITE);
-+        syn = syn_data_abort_no_iss(el != 0, 0, 0, 0, 0, is_write, 0x11);
-+        raise_exception(env, EXCP_DATA_ABORT, syn, exception_target_el(env));
-         /* noreturn, but fall through to the assert anyway */
- 
-     case 0:
--- 
-2.25.1
+(1)
+
+    thing = get_next();
+    while (is_valid(thing)) {
+        ...
+        thing = get_next();
+    }
+
+(2)
+
+    while (true) {
+        thing = get_next();
+        if (!is_valid(thing)) {
+            break;
+        }
+        ...
+     }
+
+(3)
+
+    while (is_valid(thing = get_next())) {
+        ...
+    }
+
+My opinion:
+
+- If the get_next() invocation is simple, then style (1) is perfectly fine.
+
+- Style (2) is the worst of all.
+
+- If style (1) is not appropriate for whatever reason, then style (3) is frequently a good replacement. Style (3) is sometimes rejected by coding style documents though. Style (3) is not usable if is_valid() is a function-like macro that does not evaluate its argument exactly once. Frequently, is_valid() is simply open-coded with C operators (using extra parens), for example:
+
+    while ((cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command)))) {
+
+or more verbosely
+
+    while ((cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command))) !=
+           NULL) {
+
+If we really dislike style (1), then I'd propose style (3). I think the present patch (style (2)) is a step back.
+
+Just my opinion of course; I don't feel too strongly about this.
+
+Laszlo
 
 
