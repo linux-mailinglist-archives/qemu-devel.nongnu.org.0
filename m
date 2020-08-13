@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22508243F2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 21:08:42 +0200 (CEST)
-Received: from localhost ([::1]:49044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11697243F49
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Aug 2020 21:21:34 +0200 (CEST)
+Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Iae-0007gS-TE
-	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 15:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45332)
+	id 1k6In7-0003XH-3g
+	for lists+qemu-devel@lfdr.de; Thu, 13 Aug 2020 15:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k6IZo-000794-66
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 15:07:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58902
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k6IZk-0004oi-Ug
- for qemu-devel@nongnu.org; Thu, 13 Aug 2020 15:07:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597345663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=wIdHwM4GQus7FW0Q9der1IBWqhubCenOY7nipuivsfI=;
- b=Hf1mGbaz/6x33BveAPkHNf/nlmfXcwgtUdkWcz9FyQ1KSbEpu2GXiJH2g0G4/PvEtce1zR
- MRqjOyZQxf87b9n6/wlrdo38pZhIwiC/T91PyvakA5jUlXlZR5UZEMayNFf5fflKm2y5Sx
- iEiLNGmEsle6QKcnTwHYisSBuYQ+8ws=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-5ANmcTXmMPi5CRifDp66Ig-1; Thu, 13 Aug 2020 15:07:41 -0400
-X-MC-Unique: 5ANmcTXmMPi5CRifDp66Ig-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 323D3800D53;
- Thu, 13 Aug 2020 19:07:40 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-8.ams2.redhat.com [10.36.112.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 392B06FDB3;
- Thu, 13 Aug 2020 19:07:28 +0000 (UTC)
-Subject: Re: [PULL 3/3] configure: Allow to build tools without pixman
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200724164258.24886-1-kraxel@redhat.com>
- <20200724164258.24886-4-kraxel@redhat.com>
- <f1fbe9b9-575e-b55f-8596-754a82654b5c@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <2abe330a-37e2-fda6-d531-79fb5805afc7@redhat.com>
-Date: Thu, 13 Aug 2020 21:07:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k6ImK-0002tf-Ni
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 15:20:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k6ImI-0006NE-DY
+ for qemu-devel@nongnu.org; Thu, 13 Aug 2020 15:20:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k6ImG-0006iT-Ar
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 19:20:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4B0E22E809C
+ for <qemu-devel@nongnu.org>; Thu, 13 Aug 2020 19:20:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <f1fbe9b9-575e-b55f-8596-754a82654b5c@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 03:45:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 Aug 2020 19:13:51 -0000
+From: Thomas Huth <1815911@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anarchetic glaubitz laurent-vivier th-huth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155015240171.6215.11220706309348619396.malonedeb@soybean.canonical.com>
+Message-Id: <159734603277.2284.1532512487986891979.launchpad@soybean.canonical.com>
+Subject: [Bug 1815911] Re: aptitude crashes qemu-m68k with handle_cpu_signal
+ received signal outside vCPU context
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="7eee5e59278f8f8118989c0aaceab242e073896e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9c4fb4feb695f047c0dc55ae6ea35bc1e928e04f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 15:20:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,56 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Rafael Kitover <rkitover@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1815911 <1815911@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/08/2020 18.26, Philippe Mathieu-Daudé wrote:
-> Hi,
-> 
-> On 7/24/20 6:42 PM, Gerd Hoffmann wrote:
->> From: Thomas Huth <thuth@redhat.com>
->>
->> If pixman is not installed, it is currently not possible to run:
->>
->>  .../configure  --disable-system --enable-tools
->>
->> Seems like there was a dependency from one of the required source
->> files to pixman in the past, but since commit 1ac0206b2ae1ffaeec56
->> ("qemu-timer.c: Trim list of included headers"), this dependency
->> should be gone. Thus allow to compile the tools without pixman now.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> Message-id: 20200723141123.14765-1-thuth@redhat.com
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->> ---
->>  configure | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/configure b/configure
->> index 4bd80ed507aa..2acc4d1465f8 100755
->> --- a/configure
->> +++ b/configure
->> @@ -4065,7 +4065,7 @@ fi
->>  ##########################################
->>  # pixman support probe
->>  
->> -if test "$want_tools" = "no" && test "$softmmu" = "no"; then
->> +if test "$softmmu" = "no"; then
->>    pixman_cflags=
->>    pixman_libs=
->>  elif $pkg_config --atleast-version=0.21.8 pixman-1 > /dev/null 2>&1; then
->>
-> 
-> This commit broke my '--disable-system --disable-user --enable-tools' build:
-> 
-> $ make vhost-user-gpu
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-Yes, there is already a patch on the list to fix this. Look for:
-"configure: Require pixman for vhost-user-gpu". I hope Gerd can pick it
-up for his next pull request.
+-- =
 
- Thomas
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1815911
 
+Title:
+  aptitude crashes qemu-m68k with handle_cpu_signal received signal
+  outside vCPU context
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  When building a package with sbuild on Debian, sbuild can use aptitude
+  to resolve dependencies.
+
+  Recently, some changes introduced to aptitude or related packages
+  cause qemu to crash:
+
+  (sid-m68k-sbuild)root@nofan:/# aptitude -y --without-recommends -o Dpkg::=
+Options::=3D--force-confold -o Aptitude::CmdLine::Ignore-Trust-Violations=
+=3Dfalse -o Aptitude::ProblemResolver::StepScore=3D100 -o Aptitude::Problem=
+Resolver::SolutionCost=3D"safety, priority, non-default-versions" -o Aptitu=
+de::ProblemResolver::Hints::KeepDummy=3D"reject sbuild-build-depends-core-d=
+ummy :UNINST" -o Aptitude::ProblemResolver::Keep-All-Level=3D55000 -o Aptit=
+ude::ProblemResolver::Remove-Essential-Level=3Dmaximum install vim
+  Warning: Invalid locale (please review locale settings, this might lead t=
+o problems later):
+    locale::facet::_S_create_c_locale name not valid
+  The following NEW packages will be installed:
+    libgpm2{a} vim vim-common{a} vim-runtime{a} xxd{a} =
+
+  0 packages upgraded, 5 newly installed, 0 to remove and 1 not upgraded.
+  Need to get 7225 kB/7260 kB of archives. After unpacking 33.5 MB will be =
+used.
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6019=
+d1bf
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x601b=
+64ab
+  Segmentation fault
+  (sid-m68k-sbuild)root@nofan:/#
+
+  The crash does not reproduce on real hardware running Debian unstable.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1815911/+subscriptions
 
