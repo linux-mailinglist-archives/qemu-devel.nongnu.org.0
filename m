@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D9D244A6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 15:31:27 +0200 (CEST)
-Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB36244B2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 16:23:43 +0200 (CEST)
+Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Znp-0002uI-Kx
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 09:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50072)
+	id 1k6acQ-0002Dm-6T
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 10:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6Zmg-0002Cv-Ma; Fri, 14 Aug 2020 09:30:14 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6Zmd-0001DY-UR; Fri, 14 Aug 2020 09:30:14 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c80so7493458wme.0;
- Fri, 14 Aug 2020 06:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+WN5+x/S52yPuJmxO8+ZTxpwug077ztvG/3BJTOgOtQ=;
- b=u3Pg4IoZRdTabEyPnFwUFrjkW18lkd9OvNH4S65UX57GRl2JJVQ7/wrjE1ASlJm3LR
- QHpopIwG8USNPwNLlfDAm/53eTXGSQJD77W/+q8FqsUE+0yVlPrBC8l35PeyYRn/MDWy
- kwVHcwElnxrZO/PIGtF2bQm27lMCn/NCbZ+YJn33yLVoFzqncjpU/EMNXJgAHkTSQpBJ
- kGJXh5NjaD0gKX23Bq//UOv9b1BG6LPq5auDNGNRDrUbVxK8x7sVrJmDZUQeeMA7SGyB
- 7Yx76Qc5jlms5IUUFHjXZfUPtU/Nr0Gs7o4yeqg7NkGUUb91wdw8dwBHZ+HGve11/0te
- ohxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+WN5+x/S52yPuJmxO8+ZTxpwug077ztvG/3BJTOgOtQ=;
- b=plVJj51As/Eqtepn/8OVY247zPObN3BFmFClz7wblbTmH71JZUzjyQ2Dglc/rrKBBE
- sqVFf9Q6n6IHEBSge5mMdzGIK3BVPr3dP32Hbzp4XwwuvL1NhAzzETo+iI0h70puWkJO
- l5/HkRXSqIJ/llMZ28GYk4kcQVBTgw5pkaq8cjQjAPuT0gCx61vXEu1mSN01ALZbVwyb
- 0mpxIELYqwJ3oT8Xo2UxT/XGKW6zViyYiSPNpLBIE/e3hCELU+X8F6P/KjM1WLyQMeOw
- usJMyMMqp+UTuytuKOcq/KgDj4fwvx/m0NOPypW0snkt4ZG3Zm5HZ62pkAJXfHc88mNO
- VGMQ==
-X-Gm-Message-State: AOAM532lanCKKo0mFkTn1j+iIlZ61jodOOiSu+S32arFcZmfhZHXCC0o
- xcngQ9OoAyX3q9tVFCBn9oW4//BhZT4=
-X-Google-Smtp-Source: ABdhPJxkmQ4gixIw9LePIBH+v7mf1/iTJIn5q6ONVI8iOMZILkAc0jcyfl0zWd0PO0AOs9SWsN6Jtw==
-X-Received: by 2002:a1c:4e0d:: with SMTP id g13mr2542782wmh.177.1597411809547; 
- Fri, 14 Aug 2020 06:30:09 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id j4sm14708003wmi.48.2020.08.14.06.30.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 06:30:08 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/net/xilinx_axienet: Remove unused code
-Date: Fri, 14 Aug 2020 15:30:07 +0200
-Message-Id: <20200814133007.16850-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6abd-0001gc-N5; Fri, 14 Aug 2020 10:22:53 -0400
+Resent-Date: Fri, 14 Aug 2020 10:22:53 -0400
+Resent-Message-Id: <E1k6abd-0001gc-N5@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6abb-0007z3-3q; Fri, 14 Aug 2020 10:22:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597414961; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=NcblWl5vdc2SAfBl0ckZZmNeSLrzYL5LMCfvfBjUigWDrCOsbze1a4o/6b5/xxgoaPG2QMRa41TkoLG8bfWYskO+PsKipTXJCwAv1HI53bKeOr6GrraZ4Jo7Bntdan8txiPwf+rzqEA61oNk8ZOnTPv+d71I5hdipdo+SRS+sbY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597414961;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=pH7N1ygogiwm0ZUDgFFQfHaXkWCVC7NNvdWZCjY2yeo=; 
+ b=MI39hJR+g/so3nCgdkxReveN7QBidnREo5MU9ruSS5RcSQn6H9TkBiUJmb1fsyfJEfDbWyAvfhDSunxJTswyzUUZwMa2p7c2IsULvljq921RFPVQ7WmOxhKn6xulSZPqts2m5QKoulmc17+7mBNbgtqNfRgLwT7X0zF/Zv4/a4o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597414959054450.433102470956;
+ Fri, 14 Aug 2020 07:22:39 -0700 (PDT)
+Subject: Re: [PATCH] hw/block/nand: Decommission the NAND museum
+Message-ID: <159741495800.4317.10689667632180842440@66eaa9a8a123>
+In-Reply-To: <20200814132118.12450-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: f4bug@amsat.org
+Date: Fri, 14 Aug 2020 07:22:39 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 10:22:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,63 +67,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, mreitz@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the MDIOBus fields are unused.  The ADVERTISE_10HALF
-definition is unused.  Remove unused code.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/net/xilinx_axienet.c | 23 -----------------------
- 1 file changed, 23 deletions(-)
-
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index 1e48eb70c9..2e89f236b4 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -54,7 +54,6 @@
-      TYPE_XILINX_AXI_ENET_CONTROL_STREAM)
- 
- /* Advertisement control register. */
--#define ADVERTISE_10HALF        0x0020  /* Try for 10mbps half-duplex  */
- #define ADVERTISE_10FULL        0x0040  /* Try for 10mbps full-duplex  */
- #define ADVERTISE_100HALF       0x0080  /* Try for 100mbps half-duplex */
- #define ADVERTISE_100FULL       0x0100  /* Try for 100mbps full-duplex */
-@@ -169,28 +168,6 @@ tdk_init(struct PHY *phy)
- }
- 
- struct MDIOBus {
--    /* bus.  */
--    int mdc;
--    int mdio;
--
--    /* decoder.  */
--    enum {
--        PREAMBLE,
--        SOF,
--        OPC,
--        ADDR,
--        REQ,
--        TURNAROUND,
--        DATA
--    } state;
--    unsigned int drive;
--
--    unsigned int cnt;
--    unsigned int addr;
--    unsigned int opc;
--    unsigned int req;
--    unsigned int data;
--
-     struct PHY *devs[32];
- };
- 
--- 
-2.21.3
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNDEzMjExOC4xMjQ1
+MC0xLWY0YnVnQGFtc2F0Lm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
+ci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5FVFdP
+Uks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9MTQg
+TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAgY2hlY2stdW5pdDog
+dGVzdHMvdGVzdC1jaGFyClVuZXhwZWN0ZWQgZXJyb3IgaW4gb2JqZWN0X3Byb3BlcnR5X3RyeV9h
+ZGQoKSBhdCAvdG1wL3FlbXUtdGVzdC9zcmMvcW9tL29iamVjdC5jOjExODE6CmF0dGVtcHQgdG8g
+YWRkIGR1cGxpY2F0ZSBwcm9wZXJ0eSAnc2VyaWFsLWlkJyB0byBvYmplY3QgKHR5cGUgJ2NvbnRh
+aW5lcicpCkVSUk9SIHRlc3QtY2hhciAtIHRvbyBmZXcgdGVzdHMgcnVuIChleHBlY3RlZCAzOCwg
+Z290IDkpCm1ha2U6ICoqKiBbY2hlY2stdW5pdF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBm
+b3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMjQKICBURVNU
+ICAgIGlvdGVzdC1xY293MjogMDI1Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
+dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
+bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
+dXVpZD1mY2JmOWFhYTMzNzg0MzZlODliNDAwZTY2OTZlZGU5MCcsICctdScsICcxMDAxJywgJy0t
+c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
+VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
+LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
+SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11
+LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hl
+dy10ZXN0ZXItdG1wLTJfbDY2eGM3L3NyYy9kb2NrZXItc3JjLjIwMjAtMDgtMTQtMTAuMTAuMDMu
+MTYwNzE6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3RtcC9xZW11
+L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZp
+bHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWZjYmY5YWFhMzM3ODQz
+NmU4OWI0MDBlNjY5NmVkZTkwCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtl
+WzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTJfbDY2
+eGM3L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3Ig
+MgoKcmVhbCAgICAxMm0zNS40ODRzCnVzZXIgICAgMG05LjQ0NXMKCgpUaGUgZnVsbCBsb2cgaXMg
+YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwODE0MTMyMTE4LjEyNDUw
+LTEtZjRidWdAYW1zYXQub3JnL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVz
+c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
+Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
+dmVsQHJlZGhhdC5jb20=
 
