@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5E9244413
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 06:02:49 +0200 (CEST)
-Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E013624440C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 06:01:01 +0200 (CEST)
+Received: from localhost ([::1]:43344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6QvY-0003XC-Fy
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 00:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
+	id 1k6Qtl-0001um-5Q
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 00:00:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6Qtj-0002IU-2I; Fri, 14 Aug 2020 00:00:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:34997)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1k6Qsb-0001R2-Aj; Thu, 13 Aug 2020 23:59:45 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34262 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k6Qte-0001Q5-G1; Fri, 14 Aug 2020 00:00:53 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BSV8m6lcyz9sR4; Fri, 14 Aug 2020 14:00:39 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597377640;
- bh=zXIfcgBzxOpRrD+l0claEEOPK4TesCg69zKtJEnPVXs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QNdhp10tH8pC015HEjf+6j3mD0V4qEkvE+6ikF4DME7/WIq5pkllE2Rq3oD1Z1siC
- 84MS5eGTEq2bfh2mKXOPxrpu2bykNHF/H11EHZw3WYt4g1bWegY3OnHmFuCoVUjnyM
- TgF373EUvYMR2VbZ6gq9GrLvvh/8/8H4qf+Nl510=
-Date: Fri, 14 Aug 2020 13:36:17 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Gustavo Romero <gromero@linux.vnet.ibm.com>
-Subject: Re: [PATCH] spapr/xive: Use xive_source_esb_len()
-Message-ID: <20200814033617.GD12805@yekko.fritz.box>
-References: <159733969034.320580.6571451425779179477.stgit@bahia.lan>
- <b5cfd02b-abf7-8d03-7ae2-1f483bf7b0bc@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1k6QsZ-0001CY-7e; Thu, 13 Aug 2020 23:59:45 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 83E80C7706C26F28BB17;
+ Fri, 14 Aug 2020 11:59:28 +0800 (CST)
+Received: from huawei.com (10.174.187.31) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Fri, 14 Aug 2020
+ 11:59:20 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-riscv@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [PATCH] target/riscv: Fix bug in getting trap cause name for
+ trace_riscv_trap
+Date: Fri, 14 Aug 2020 11:58:19 +0800
+Message-ID: <20200814035819.1214-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rqzD5py0kzyFAOWN"
-Content-Disposition: inline
-In-Reply-To: <b5cfd02b-abf7-8d03-7ae2-1f483bf7b0bc@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 00:00:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.31]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=jiangyifei@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/13 23:59:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,103 +57,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, victor.zhangxiaofeng@huawei.com,
+ Yifei Jiang <jiangyifei@huawei.com>, Alistair.Francis@wdc.com,
+ yinyipeng1@huawei.com, palmer@dabbelt.com, wu.wubin@huawei.com,
+ dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When the cause number is equal to or greater than 23, print "(unknown)" in
+trace_riscv_trap. The max valid number of riscv_excp_names is 23, so the last
+excpetion "guest_store_page_fault" can not be printed.
 
---rqzD5py0kzyFAOWN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In addition, the current check of cause is invalid for riscv_intr_names. So
+introduce riscv_cpu_get_trap_name to get the trap cause name.
 
-On Thu, Aug 13, 2020 at 05:38:59PM -0300, Gustavo Romero wrote:
-> Hi Greg,
->=20
-> On 8/13/20 2:28 PM, Greg Kurz wrote:
-> > static inline size_t xive_source_esb_len(XiveSource *xsrc)
-> > {
-> >      return (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-> > }
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> > Follow-up on "ppc/xive: Rework setup of XiveSource::esb_mmio"
-> > http://patchwork.ozlabs.org/project/qemu-devel/patch/159679992680.87629=
-4.7520540158586170894.stgit@bahia.lan/
-> > ---
-> >   hw/intc/spapr_xive.c     |    2 +-
-> >   hw/intc/spapr_xive_kvm.c |    2 +-
-> >   2 files changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> > index 3c84f64dc464..4bd0d606ba17 100644
-> > --- a/hw/intc/spapr_xive.c
-> > +++ b/hw/intc/spapr_xive.c
-> > @@ -336,7 +336,7 @@ static void spapr_xive_realize(DeviceState *dev, Er=
-ror **errp)
-> >       sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
-> >       /* Set the mapping address of the END ESB pages after the source =
-ESBs */
-> > -    xive->end_base =3D xive->vc_base + (1ull << xsrc->esb_shift) * xsr=
-c->nr_irqs;
-> > +    xive->end_base =3D xive->vc_base + xive_source_esb_len(xsrc);
-> >       /*
-> >        * Allocate the routing tables
-> > diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> > index 82a6f99f022d..3263b982239a 100644
-> > --- a/hw/intc/spapr_xive_kvm.c
-> > +++ b/hw/intc/spapr_xive_kvm.c
-> > @@ -831,7 +831,7 @@ void kvmppc_xive_disconnect(SpaprInterruptControlle=
-r *intc)
-> >       /* Clear the KVM mapping */
-> >       xsrc =3D &xive->source;
-> > -    esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-> > +    esb_len =3D xive_source_esb_len(xsrc);
->=20
-> hrm I'd like to not add another level of indirection here.
-> In this specific case I think it's more clear to read just
->=20
-> 1ull << xsrc->esb_shift) * xsrc->nr_irqs
->=20
-> and get the idea of one IRQ per ESB page (or pair of pages,
-> for trigger and management), than one having to look at
-> what is inside "a box" called xive_source_esb_len().
->=20
-> Wrapping it under another function doesn't help more when
-> reading the code, XIVE is already tricky enough :)
+Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+---
+ target/riscv/cpu.c        | 11 +++++++++++
+ target/riscv/cpu.h        |  1 +
+ target/riscv/cpu_helper.c |  4 ++--
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
-Given that we're already using it in some places, I'd prefer to use it
-in all the places that it's correct to do so.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 228b9bdb5d..bcdce85c5e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -96,6 +96,17 @@ const char * const riscv_intr_names[] = {
+     "reserved"
+ };
+ 
++const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
++{
++    if (async) {
++        return (cause < ARRAY_SIZE(riscv_intr_names)) ?
++               riscv_intr_names[cause] : "(unknown)";
++    } else {
++        return (cause < ARRAY_SIZE(riscv_excp_names)) ?
++               riscv_excp_names[cause] : "(unknown)";
++    }
++}
++
+ static void set_misa(CPURISCVState *env, target_ulong misa)
+ {
+     env->misa_mask = env->misa = misa;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index a804a5d0ba..7c72979f6a 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -312,6 +312,7 @@ extern const char * const riscv_fpr_regnames[];
+ extern const char * const riscv_excp_names[];
+ extern const char * const riscv_intr_names[];
+ 
++const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
+ void riscv_cpu_do_interrupt(CPUState *cpu);
+ int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 75d2ae3434..2e047f0948 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -877,8 +877,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         }
+     }
+ 
+-    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval, cause < 23 ?
+-        (async ? riscv_intr_names : riscv_excp_names)[cause] : "(unknown)");
++    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval,
++        riscv_cpu_get_trap_name(cause, async));
+ 
+     if (env->priv <= PRV_S &&
+             cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
+-- 
+2.19.1
 
-Applied to ppc-for-5.2.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---rqzD5py0kzyFAOWN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl82BrAACgkQbDjKyiDZ
-s5KRGRAApVJbfQrMcN7oPvZLkhA24Prk/d2y7OFTwXj86YmKdQ+dhiUo51S7ct36
-ff5gTcwAZ4uPr1xkFsWCycPyuSuFipbpHjAaHRpNqOrHdPARC8gPC1a3OAwJ8y+3
-/kBsmPge1DQvbjX/WWxxnw62Q/22PvV1oj6jrav8O3cYswakzCyAoHvrI9Xs4Ipt
-G2UGZKISIiHisBkzE9/43c1pZU76ZQUo1C6CXhkFGNzC+xGEs02A3KoyqOrhMouf
-dC4BXI3SRFsnbVG1xyHKiaqSlNRQkakI/RBlcigNocdAg+cuBMnlWluZV8zuIl+o
-5WmH/kFsaSLkK/f7u8CY9jX8pztzrhp0HcZoJqYr6KquBrhaOzJ5PRYfncMXJYKG
-epthbP46yt5yvmdGfnUhJtsV/KuWDORSrhVP3oSOuGp0E+ysZoFPSa8QVj9alHY1
-Lg2fPKJbUB4TlI2wrQ8D3O5NskzHvlZe8rOY8jDx4iNGYE+eix719oWXI+PWsCeS
-6Ro+GvaI4EE1ORodpaLahd6PuR17tudp8Ir2gC/E7N3oypjM1Nm7yTUlDCjJBOvi
-nmMA/tEoH8gY4o24UOJsc1xG0a8hBOTO0pOmbieetIPT9du6BmilL8Qx0mgLarrk
-oxWRFJzcuEyKi94fld3OmgEZ+nSl9LMCruFvZ4csnx5hpW4HM/U=
-=dc5p
------END PGP SIGNATURE-----
-
---rqzD5py0kzyFAOWN--
 
