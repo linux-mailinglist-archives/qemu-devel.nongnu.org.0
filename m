@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF6F244BE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:22:50 +0200 (CEST)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54170244BF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:23:58 +0200 (CEST)
+Received: from localhost ([::1]:37152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6bXd-0007yc-Sp
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:22:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51698)
+	id 1k6bYj-00012h-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQS-0003e8-Fx
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:24 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:55665)
+ id 1k6bQT-0003gx-K5
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:25 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:55675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQQ-0007bQ-CH
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:24 -0400
+ id 1k6bQR-0007eB-LP
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597418123; x=1628954123;
+ t=1597418124; x=1628954124;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bS/x/2k+Xp6SqEpT+yZi1E8PzCi+JO9pFNGq4PWFuug=;
- b=AxVd1rUAramrgwMIRI36EvxY9cq4M5Z3Wz0RktEj6gHQW4RWxh/KcEko
- vLNk2DNXSYHD9gACJiNgKnGFkPZpzmeec9tjK/BrSRLwSj++MCKi+TFXV
- qcGXyH1ieqFy/FwGYUo8k0XAFPhsxy50UGHN98JRfSwbBSn/smSmN0fs2
- qTB/ROpca6NF59F2w2ZEE+UTEfEq48GFiiCvqekB844bvFYL6E/Pumpui
- y3+c34uPYkBFXNaLmfWJd3JpTviQ75chslOJzNZUHLyxeueDttTTqv9id
- bczM9wENveSxrWaMch9HpB/ZTK1wuPXyeKIitVlOk+YSmInsRIcyRXSE3 w==;
-IronPort-SDR: MReZ5FJQ9J5rgYb3dOYX0jhrXNCxGGmVKSAhyZJQe+dIeSkVEnTRuUGowm6bUB0AMmIX2JOMKx
- JADKJDy/zE4F+6+Sa1YuW7bNtMMpSuT9m7t95HuN9D/r9Ioq3D0W6DFDmPeV39bVQRK8ivp40s
- muizXotdqpISyZCftTs0CxKB6kftc0KZEnW+wbiss0z8gQX1yg1uxB2nJcXtr5NqGAqqj03vl/
- UnzIhM0G9CzFn0ZCRMKcqViIv9KesIK9sEKhrTxFpTwwu6RucVLrKztuI0CaByrT0F/3Qq75Rz
- aHA=
-X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="144994818"
+ bh=doNpaViVbQXhUPoI0l7z7b/wPhI0669bus90ugj418U=;
+ b=JA71S2Sfg5XSrMF8Zx36TQHoSe9ewdxGr1D72d4U0NXl6ULiaVTR06PM
+ tHIngkRumKk2g03Coa9AK2GD5EHF0tC9a56CktFTbPka8BDQaP84yVAXo
+ B1yNMuhnoRQyTzjLMYc7MzojY7v77GuAHAd32K+5bkqRHsIcGTF7Uyxa8
+ QSA/7oAJTWmUQ092o1cHacwvXCzXEZ9sUUDK9FlNnP8WQmFi49HNDki9t
+ HCWLHu/3U1Cu/20saB9Wo+r05A0EJwZbRCWUrfUjD8+6HCSMnCWRH18PC
+ L/whG3eBxm+awhTr09nhdy4YEvBIQirkHAgh3HSkSljcy6OhlnvMmWWR/ g==;
+IronPort-SDR: cN3Jn3erD4LUeszbHIRl/RPvhbXpliNEXdCAdW6GES4IewBvi4d/OKjzrjJarnEBnP/cw3P6Iz
+ WlqdtjB2RUt44yU4FqnaT2OpbeR8333/m4A6wOcFVDr/bviIxAz+5r1GNwQizuUumxefSWYYBh
+ pa9ZLSRvSfZ8bLhnELBU3c21rimI5uvpNYaBYes6hp1bvwyRvyuflqfLezadqsOLeI0HPbTtTX
+ KFjZZG/YEduwj5ApXczP7ONDLwS9/BviZPRIS3LGKM+QDLcHcUVXXlIiua16Aw4FX0oRhDmjh/
+ nkY=
+X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="144994823"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 23:15:13 +0800
-IronPort-SDR: EdoE3FP3qbZtfDnPP+YyqyR+ygUkiwNBAhrzGfxvQajxYOsW+NehCiTSqo2n78xf/UwiJKkVn9
- Whga0H3gi0Zw==
+IronPort-SDR: x0bY89ktMYhivImDWNsdhJwQq6pMlvnnoagng6o/CDRRsKoqz21AEeHVXsatGO9TwMuTNtKVhW
+ gTPUnmI3Cbwg==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Aug 2020 08:02:17 -0700
-IronPort-SDR: rMjl+EhWH7H5lDzrpocaKywtKgsWIl24uHM0D8zPuSzeyEQLAOgGB2DnwieYUKirrfY9TdMuDb
- ThYRvUJNa+7w==
+IronPort-SDR: 1zbXZZS3IsS8qcF72iAlHV1x59O3dNpROH1oEELAPK5GpdFqXBDVFRtpSQBF4GxfJJ5azFKaUa
+ JoSaqcsfufMw==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip02.wdc.com with ESMTP; 14 Aug 2020 08:15:12 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 05/20] target/riscv: Check nanboxed inputs in trans_rvf.inc.c
-Date: Fri, 14 Aug 2020 08:04:51 -0700
-Message-Id: <20200814150506.2070566-6-alistair.francis@wdc.com>
+Subject: [PULL v2 06/20] target/riscv: Clean up fmv.w.x
+Date: Fri, 14 Aug 2020 08:04:52 -0700
+Message-Id: <20200814150506.2070566-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814150506.2070566-1-alistair.francis@wdc.com>
 References: <20200814150506.2070566-1-alistair.francis@wdc.com>
@@ -93,157 +93,37 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-If a 32-bit input is not properly nanboxed, then the input is replaced
-with the default qnan.  The only inline expansion is for the sign-changing
-set of instructions: FSGNJ.S, FSGNJX.S, FSGNJN.S.
+Use tcg_gen_extu_tl_i64 to avoid the ifdef.
 
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-Id: <20200724002807.441147-6-richard.henderson@linaro.org>
+Message-Id: <20200626205917.4545-7-zhiwei_liu@c-sky.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200724002807.441147-7-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvf.inc.c | 71 +++++++++++++++++++------
- target/riscv/translate.c                | 18 +++++++
- 2 files changed, 73 insertions(+), 16 deletions(-)
+ target/riscv/insn_trans/trans_rvf.inc.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
-index 264d3139f1..832f01db6f 100644
+index 832f01db6f..138e317723 100644
 --- a/target/riscv/insn_trans/trans_rvf.inc.c
 +++ b/target/riscv/insn_trans/trans_rvf.inc.c
-@@ -161,47 +161,86 @@ static bool trans_fsgnj_s(DisasContext *ctx, arg_fsgnj_s *a)
- {
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+
-     if (a->rs1 == a->rs2) { /* FMOV */
--        tcg_gen_mov_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
-+        gen_check_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
-     } else { /* FSGNJ */
--        tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rs2], cpu_fpr[a->rs1],
--                            0, 31);
-+        TCGv_i64 rs1 = tcg_temp_new_i64();
-+        TCGv_i64 rs2 = tcg_temp_new_i64();
-+
-+        gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /* This formulation retains the nanboxing of rs2. */
-+        tcg_gen_deposit_i64(cpu_fpr[a->rd], rs2, rs1, 0, 31);
-+        tcg_temp_free_i64(rs1);
-+        tcg_temp_free_i64(rs2);
-     }
--    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-     mark_fs_dirty(ctx);
-     return true;
- }
+@@ -406,11 +406,7 @@ static bool trans_fmv_w_x(DisasContext *ctx, arg_fmv_w_x *a)
+     TCGv t0 = tcg_temp_new();
+     gen_get_gpr(t0, a->rs1);
  
- static bool trans_fsgnjn_s(DisasContext *ctx, arg_fsgnjn_s *a)
- {
-+    TCGv_i64 rs1, rs2, mask;
-+
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+
-+    rs1 = tcg_temp_new_i64();
-+    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-+
-     if (a->rs1 == a->rs2) { /* FNEG */
--        tcg_gen_xori_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], INT32_MIN);
-+        tcg_gen_xori_i64(cpu_fpr[a->rd], rs1, MAKE_64BIT_MASK(31, 1));
-     } else {
--        TCGv_i64 t0 = tcg_temp_new_i64();
--        tcg_gen_not_i64(t0, cpu_fpr[a->rs2]);
--        tcg_gen_deposit_i64(cpu_fpr[a->rd], t0, cpu_fpr[a->rs1], 0, 31);
--        tcg_temp_free_i64(t0);
-+        rs2 = tcg_temp_new_i64();
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /*
-+         * Replace bit 31 in rs1 with inverse in rs2.
-+         * This formulation retains the nanboxing of rs1.
-+         */
-+        mask = tcg_const_i64(~MAKE_64BIT_MASK(31, 1));
-+        tcg_gen_nor_i64(rs2, rs2, mask);
-+        tcg_gen_and_i64(rs1, mask, rs1);
-+        tcg_gen_or_i64(cpu_fpr[a->rd], rs1, rs2);
-+
-+        tcg_temp_free_i64(mask);
-+        tcg_temp_free_i64(rs2);
-     }
--    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-+    tcg_temp_free_i64(rs1);
-+
-     mark_fs_dirty(ctx);
-     return true;
- }
+-#if defined(TARGET_RISCV64)
+-    tcg_gen_mov_i64(cpu_fpr[a->rd], t0);
+-#else
+-    tcg_gen_extu_i32_i64(cpu_fpr[a->rd], t0);
+-#endif
++    tcg_gen_extu_tl_i64(cpu_fpr[a->rd], t0);
+     gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
  
- static bool trans_fsgnjx_s(DisasContext *ctx, arg_fsgnjx_s *a)
- {
-+    TCGv_i64 rs1, rs2;
-+
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-+
-+    rs1 = tcg_temp_new_i64();
-+    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
-+
-     if (a->rs1 == a->rs2) { /* FABS */
--        tcg_gen_andi_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], ~INT32_MIN);
-+        tcg_gen_andi_i64(cpu_fpr[a->rd], rs1, ~MAKE_64BIT_MASK(31, 1));
-     } else {
--        TCGv_i64 t0 = tcg_temp_new_i64();
--        tcg_gen_andi_i64(t0, cpu_fpr[a->rs2], INT32_MIN);
--        tcg_gen_xor_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], t0);
--        tcg_temp_free_i64(t0);
-+        rs2 = tcg_temp_new_i64();
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /*
-+         * Xor bit 31 in rs1 with that in rs2.
-+         * This formulation retains the nanboxing of rs1.
-+         */
-+        tcg_gen_andi_i64(rs2, rs2, MAKE_64BIT_MASK(31, 1));
-+        tcg_gen_xor_i64(cpu_fpr[a->rd], rs1, rs2);
-+
-+        tcg_temp_free_i64(rs2);
-     }
--    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-+    tcg_temp_free_i64(rs1);
-+
      mark_fs_dirty(ctx);
-     return true;
- }
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 12a746da97..bf35182776 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -101,6 +101,24 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-     tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
- }
- 
-+/*
-+ * A narrow n-bit operation, where n < FLEN, checks that input operands
-+ * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.
-+ * If so, the least-significant bits of the input are used, otherwise the
-+ * input value is treated as an n-bit canonical NaN (v2.2 section 9.2).
-+ *
-+ * Here, the result is always nan-boxed, even the canonical nan.
-+ */
-+static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-+{
-+    TCGv_i64 t_max = tcg_const_i64(0xffffffff00000000ull);
-+    TCGv_i64 t_nan = tcg_const_i64(0xffffffff7fc00000ull);
-+
-+    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-+    tcg_temp_free_i64(t_max);
-+    tcg_temp_free_i64(t_nan);
-+}
-+
- static void generate_exception(DisasContext *ctx, int excp)
- {
-     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
 -- 
 2.27.0
 
