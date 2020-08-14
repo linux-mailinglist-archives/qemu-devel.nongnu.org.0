@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F379244BCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:19:25 +0200 (CEST)
-Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9C1244BD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:20:26 +0200 (CEST)
+Received: from localhost ([::1]:51684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6bUK-0001SU-15
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51606)
+	id 1k6bVJ-0003mI-3k
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:20:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQQ-0003X2-CF
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:22 -0400
+ id 1k6bQU-0003hq-0H
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:26 -0400
 Received: from esa1.hgst.iphmx.com ([68.232.141.245]:2504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQM-0007f7-6c
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:22 -0400
+ id 1k6bQQ-0007f7-MI
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597418118; x=1628954118;
+ t=1597418122; x=1628954122;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gxsKxLCPKdN4SFMA7S86ikuFrMubMYW40PaLwjnm0Jk=;
- b=YcdzBE8owc4iPEBwS0zixU7zT7L+ldm1Nj0SFu0OMHya3Phxya4CDjWY
- UpZombNvEUOFx62mjmBoUpqxM3AHJKfiaVW3cja6dHP1Z5dxOfsNDYGWY
- 5TV3N/n8XkdLXZCxhRCeM6/zgAEuEA40dz25SiSoAxZMxWssOo+FXFQ+l
- 0J7kE3Y6WCCokn6TtSY6EcgXbVbAWLv0ElpctUK9Hr3XlyWUMEc3AjqrD
- Es6Hl3LLlnyjee0rYjflESXbCc/MbWH4ammyWRm+DZyIa4+CuZUW0JmDu
- fpyN+NdtexoiLiNFvcOMV9NeXhOlbeCrjH53OVkjOB2x7zcQhxzXRr2JJ w==;
-IronPort-SDR: 0OOOdh4ReyEU2FFsXEFLjftH2uJ7wnmBMbv+WGPoT2hgfA4xV0jM7ApI9Bqm5hMLNIjdGA6OWJ
- aDxFGkns/c9An9H9NF/B5V/FDbGGPlzBmFo465ViMUUgjCpgiz8Zy2YUZVe5UY8Gexu/b9vMuF
- qZw2VQxmef8j9cftcSIh2TlCpflJi1Ix/xeZEVoadmoLz9mYLfX7IyKM6AyX0jQ9fPcyyrhxeb
- wPnWb9+zWqh4DbZ1JPWv0ldaJLfwb/Ime63rzFSK5Rv2JivfJruR95+NY+Y89QDaqCs0BLkmli
- /aA=
-X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="254369412"
+ bh=Cq3JJ2MpSltXdXGTDk4g6h8slBE4eUBzmWJR3+MONy4=;
+ b=Q+V22kMizGVQdYJYKjcN/9BEQXOIuYAMZm//s8j211w4c15UmXwylD2W
+ HKk3FY+9wTUnp4flKppMAv/I2ZAQ0YXPmPoaU5LTizZ09KAlFzoxPz/r5
+ okqdk39Rr25v91bqj29EmMmMCbUHDalyfUSDYmhg94dqNPtq9KjSFZhIU
+ 8I+1afE5H++MAfcZywEfTwRdrY6wRg3EZLZw7roQleHl1R5yO/0/dTaxa
+ tFy+LOFgckLWlaJPvu3RrHkgfMvbcVdo8LAIwdhyZ/76RihF9SIkHsJSL
+ Hk4mkPfST1K31G4WbOkurgRNiCbWJlLNng5EPkwTe+X2dPsYouRBkqEYz g==;
+IronPort-SDR: qXASkT2yfI5THj3q8+Cz3Ae3qw0x6OwwISQoJ5mB942A4/zyW7LIGFnVrXXKvfvXPSsZZhAJtB
+ yxiRHS+CZRmTTBEsnarFhInirrnVAU062k6TFYCnpuWf2LGDu5ACoqh0hf4JJgbnjIZjlGeJ49
+ JgJIKJbQ+8ewyPkNVE3lJUfgojH8Eqb7O9O8MY6moHW7B+eFA/wOCc5b+5z4bIv0SHiY3LcKvR
+ 6xnnlG+JIVWHLHgYAby/CcP3SLc/1B1I4+TvSlEVU5OyxP72hRmzyoRKlRq+gn3TkwqL0mO1UB
+ gpM=
+X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="254369413"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 23:15:15 +0800
-IronPort-SDR: 4blB2LMx10oUGvXa70U/u8yVGtzpK8KRlfFIdRjrL8DELoWutKLqZD8wgSybYm5ILeqClCUjQT
- PT7z4kck83Bg==
+IronPort-SDR: GDoPO4L5PiZ+AftC2UGcdzPeV42jwx6R0mbGGhi8M+yDD4fdbx5g+gZUxbUQR3jiQ3OlR5AKSe
+ ehxwfPFeZ/mQ==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Aug 2020 08:02:21 -0700
-IronPort-SDR: hQp48j/rw0UmNPilU7aw9nQEYKFcUCLI7Gqca9Xc9qqDcG4dPebQXT+v9ufLjlNBkjYwvc2FQe
- u+JIpyIdd6hw==
+IronPort-SDR: hUkl20Fq3LASW33aKLJ4k83uiiwwosZX2F3gAJhADQp9a1g1YsOY1+OO/GwcVi01ovFI9/f54Z
+ AwUd6gt6Wr7A==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip02.wdc.com with ESMTP; 14 Aug 2020 08:15:16 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 15/20] gitlab-ci/opensbi: Update GitLab CI to build generic
- platform
-Date: Fri, 14 Aug 2020 08:05:01 -0700
-Message-Id: <20200814150506.2070566-16-alistair.francis@wdc.com>
+Subject: [PULL v2 16/20] target/riscv: Fix the translation of physical address
+Date: Fri, 14 Aug 2020 08:05:02 -0700
+Message-Id: <20200814150506.2070566-17-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814150506.2070566-1-alistair.francis@wdc.com>
 References: <20200814150506.2070566-1-alistair.francis@wdc.com>
@@ -88,69 +87,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, Zong Li <zong.li@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Zong Li <zong.li@sifive.com>
 
-This updates the GitLab CI opensbi job to build opensbi bios images
-for the generic platform.
+The real physical address should add the 12 bits page offset. It also
+causes the PMP wrong checking due to the minimum granularity of PMP is
+4 byte, but we always get the physical address which is 4KB alignment,
+that means, we always use the start address of the page to check PMP for
+all addresses which in the same page.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Anup Patel <anup@brainfault.org>
+Signed-off-by: Zong Li <zong.li@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1596439832-29238-7-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <370a983d0f9e8a9a927b9bb8af5e7bc84b1bf9b1.1595924470.git.zong.li@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- .gitlab-ci.d/opensbi.yml | 28 ++++++++++------------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ target/riscv/cpu_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index 62088ec5ec..5b13047e2a 100644
---- a/.gitlab-ci.d/opensbi.yml
-+++ b/.gitlab-ci.d/opensbi.yml
-@@ -35,18 +35,14 @@ build-opensbi:
-    when: always
-  artifacts:
-    paths: # 'artifacts.zip' will contains the following files:
--   - pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
--   - pc-bios/opensbi-riscv32-virt-fw_jump.bin
--   - pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
--   - pc-bios/opensbi-riscv64-virt-fw_jump.bin
--   - opensbi32-virt-stdout.log
--   - opensbi32-virt-stderr.log
--   - opensbi64-virt-stdout.log
--   - opensbi64-virt-stderr.log
--   - opensbi32-sifive_u-stdout.log
--   - opensbi32-sifive_u-stderr.log
--   - opensbi64-sifive_u-stdout.log
--   - opensbi64-sifive_u-stderr.log
-+   - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
-+   - pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
-+   - pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
-+   - pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
-+   - opensbi32-generic-stdout.log
-+   - opensbi32-generic-stderr.log
-+   - opensbi64-generic-stdout.log
-+   - opensbi64-generic-stderr.log
-  image: $CI_REGISTRY_IMAGE:opensbi-cross-build
-  variables:
-    GIT_DEPTH: 3
-@@ -55,10 +51,6 @@ build-opensbi:
-  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
-  - echo "=== Using ${JOBS} simultaneous jobs ==="
-  - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi32-virt 2>&1 1>opensbi32-virt-stdout.log | tee -a opensbi32-virt-stderr.log >&2
-+ - make -j${JOBS} -C roms opensbi32-generic 2>&1 1>opensbi32-generic-stdout.log | tee -a opensbi32-generic-stderr.log >&2
-  - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi64-virt 2>&1 1>opensbi64-virt-stdout.log | tee -a opensbi64-virt-stderr.log >&2
-- - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi32-sifive_u 2>&1 1>opensbi32-sifive_u-stdout.log | tee -a opensbi32-sifive_u-stderr.log >&2
-- - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi64-sifive_u 2>&1 1>opensbi64-sifive_u-stdout.log | tee -a opensbi64-sifive_u-stderr.log >&2
-+ - make -j${JOBS} -C roms opensbi64-generic 2>&1 1>opensbi64-generic-stdout.log | tee -a opensbi64-generic-stderr.log >&2
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 75d2ae3434..2f337e418c 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -543,7 +543,8 @@ restart:
+             /* for superpage mappings, make a fake leaf PTE for the TLB's
+                benefit. */
+             target_ulong vpn = addr >> PGSHIFT;
+-            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
++            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
++                        (addr & ~TARGET_PAGE_MASK);
+ 
+             /* set permissions on the TLB entry */
+             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+@@ -630,7 +631,7 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+         }
+     }
+ 
+-    return phys_addr;
++    return phys_addr & TARGET_PAGE_MASK;
+ }
+ 
+ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
 -- 
 2.27.0
 
