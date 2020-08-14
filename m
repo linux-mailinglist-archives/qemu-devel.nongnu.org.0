@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BB6244C02
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:24:23 +0200 (CEST)
-Received: from localhost ([::1]:39366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C357244BE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:23:28 +0200 (CEST)
+Received: from localhost ([::1]:35806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6bZ8-0001vd-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51866)
+	id 1k6bYF-0000TG-5y
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQW-0003ps-Qu
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:28 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:2522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQV-0007mz-0j
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597418126; x=1628954126;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ecw+uUu8ObD0NK1lt/f/vE+UcPdy47ApeZdTtie3FrA=;
- b=puhPthOfHE4Ex/QL0RxfssZlYzoCxflkFakDEjQ06AqIVc4CgFzPSZih
- LfdOy8nS4FTGdqUUo/ORv0ANyzAtL2TQryrcdd5vtqXjXhxE6F9GlzusH
- 3TSzAkF3XbRtCB9A4Q/PIl0zLOGmSZ4CgyX0jLm5JKWMkEl/QGB6GeFON
- ofxswONtNTPYxYy1tzCqlyCjfzNUiOcirFteb7iH97iIgYahGygeFjhAP
- mWWScJhbV2jkJlsSZ4ifBx4UakzzGXGsNLkIHgz04DILq2rBhJqnFVnG3
- jzyZerNeJmnfhLYBtMViPdAztpycPMIWCaXzl5PtfnDXkMNAGisWUxuFR g==;
-IronPort-SDR: hn86VZwWg/MDDCWv3LxfsHM10Fhn0jc/E9jE+DzSonCgcn6isbxymME6jBZrkkWCwSsTPktfhB
- 1r7u11ZS9bm8YW6r1Iz/70uhAk9pvjVuAwxXnYj2fojfASLMsfq8IL87CDpsBZzgSj1dULS7vL
- xxbwYsUeE9X+Afxg6jJJp4IMcHM2Aw1X2iYkUzLK/KNO+Hh046VoARwe+WrJLHVEm/86Rc9MqJ
- RqgdZT7wtEMQMUMCdbDwGVW+G/2e1CfnDfM8TTdlK4ymwf8OF2s/CBMsWZIXKxI0cb9Si4ICBa
- PX0=
-X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="254369421"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 23:15:16 +0800
-IronPort-SDR: 0XJIA9NwW8hVWThXABktL6Yx/tJvaEr18tXEEZDhVDYh4oG5RNN8qddoU4PohMnMfEcF/FZUxN
- 6WQmW1bTgYew==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2020 08:02:22 -0700
-IronPort-SDR: GSEr9/Xf1gSPWaenqC6Qg4l85q/oEzh8zU593PezpQdDXrQLZkVKdUQXpYgphiOA8Dq1yr8+ye
- 7a1JFSrgdChw==
-WDCIronportException: Internal
-Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.59.14])
- by uls-op-cesaip02.wdc.com with ESMTP; 14 Aug 2020 08:15:17 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 20/20] hw/intc: ibex_plic: Honour source priorities
-Date: Fri, 14 Aug 2020 08:05:06 -0700
-Message-Id: <20200814150506.2070566-21-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200814150506.2070566-1-alistair.francis@wdc.com>
-References: <20200814150506.2070566-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k6bRO-0005eY-03; Fri, 14 Aug 2020 11:16:22 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:46366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k6bRM-0008PZ-32; Fri, 14 Aug 2020 11:16:21 -0400
+Received: by mail-il1-x142.google.com with SMTP id c6so8688535ilo.13;
+ Fri, 14 Aug 2020 08:16:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xtt73A/X2cf9b6MoJt/wCCC2aLBtUWrgTkG2A7fVThY=;
+ b=sEV/yKY5jwRsO9e8gzS+Lr6CCwqhW5gDQV8UyI4edo10Xvmze2YvC9yFxuq+6IxjMw
+ c6kRpBXxaWdE6Gi7arExCOWZpPY5ZUCI5SxJ5hsbVbl4h1TlzfzCChvGK+xWaH+xMdtz
+ vW0oBRVuUQOUAiCY0QZPwER4sIOM8p55uc/nrsx6166xHedtDna9Nz71d1SsWCic0uVB
+ jnBeqycZWrfSwVZYnPc6R+xIWXUFZII72mSA8STPWT7mRvKw7YxUsdf9pHE7G+tgaR1j
+ fzj7co7uAYwoqq7jANztHgubXh5zMbXNCeh0KiNiQgBEJUjiYf46k3Tp/Vh8vG6lMCPu
+ hHew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xtt73A/X2cf9b6MoJt/wCCC2aLBtUWrgTkG2A7fVThY=;
+ b=tWmR98Yt6nJIKQmroPfjow2rQJ0dCaiYXiJJlcP9cd8FSS8tvW4/egKx1OazJGCNAj
+ T+ZYIsXy8AC+DWMVUp8N9E/zdpAAWBCbFoZkOlqGwLDpe35QVWqrEA5B50kCVmrKBVXT
+ vY/W5yyf9ZMYa6k4UOm2WXrtfkePFGeG5RLsMBKcCLwygEEZtvxkd4u9KK4Cjv0/VN83
+ jpsvANZsz/LRijCwVE5Bq2Ojla1IhamTXVAYyxRfLLdAwwCZvOd0tCEV2iTqICwJcVSz
+ 8J3gOIVGBzth9n3v8mkriZHWd9RNgX72ouWGQ6eHue0/Qz/lxys7mzABSbPvMcRTASwM
+ DaAQ==
+X-Gm-Message-State: AOAM531/kgTckAwRbgDoYnrPRuoFpnKJoriix0h+/3f4lOI/E6Pfa1a5
+ ujEj9Hyh2LQAIKb6nIRKF2qSVlPUCaadl1vfRYM=
+X-Google-Smtp-Source: ABdhPJwZbYCGfxH5de72bUmxp7hKi84tnBoyvlLeQTOL8qFn2d7gKUaq2i4fMLMBFJVIByyLFUg6jVAD61fbg8eeDD0=
+X-Received: by 2002:a05:6e02:ef3:: with SMTP id
+ j19mr3067780ilk.227.1597418177525; 
+ Fri, 14 Aug 2020 08:16:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=4887bfbec=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 11:15:16
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200814133007.16850-1-f4bug@amsat.org>
+In-Reply-To: <20200814133007.16850-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 14 Aug 2020 08:05:48 -0700
+Message-ID: <CAKmqyKPxRQWNSq9N=5d=VhD7Lt=eKds-Fs=3J=-Gz4rRF=0vdw@mail.gmail.com>
+Subject: Re: [PATCH] hw/net/xilinx_axienet: Remove unused code
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,61 +80,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jessica Clarke <jrtc27@jrtc27.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch follows what commit aa4d30f6618dc "riscv: plic: Honour source
-priorities" does and ensures that the highest priority interrupt will be
-serviced first.
+On Fri, Aug 14, 2020 at 6:30 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Most of the MDIOBus fields are unused.  The ADVERTISE_10HALF
+> definition is unused.  Remove unused code.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Cc: Jessica Clarke <jrtc27@jrtc27.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <a697ca8a31eff8eb18a88e09a28206063cf85d48.1595655188.git.alistair.francis@wdc.com>
----
- hw/intc/ibex_plic.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
-index 669247ef08..f49fa67c91 100644
---- a/hw/intc/ibex_plic.c
-+++ b/hw/intc/ibex_plic.c
-@@ -57,6 +57,8 @@ static void ibex_plic_irqs_set_pending(IbexPlicState *s, int irq, bool level)
- static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
- {
-     int i;
-+    uint32_t max_irq = 0;
-+    uint32_t max_prio = s->threshold;
- 
-     for (i = 0; i < s->pending_num; i++) {
-         uint32_t irq_num = ctz64(s->pending[i]) + (i * 32);
-@@ -66,14 +68,17 @@ static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
-             continue;
-         }
- 
--        if (s->priority[irq_num] > s->threshold) {
--            if (!s->claim) {
--                s->claim = irq_num;
--            }
--            return true;
-+        if (s->priority[irq_num] > max_prio) {
-+            max_irq = irq_num;
-+            max_prio = s->priority[irq_num];
-         }
-     }
- 
-+    if (max_irq) {
-+        s->claim = max_irq;
-+        return true;
-+    }
-+
-     return false;
- }
- 
--- 
-2.27.0
+Alistair
 
+> ---
+>  hw/net/xilinx_axienet.c | 23 -----------------------
+>  1 file changed, 23 deletions(-)
+>
+> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+> index 1e48eb70c9..2e89f236b4 100644
+> --- a/hw/net/xilinx_axienet.c
+> +++ b/hw/net/xilinx_axienet.c
+> @@ -54,7 +54,6 @@
+>       TYPE_XILINX_AXI_ENET_CONTROL_STREAM)
+>
+>  /* Advertisement control register. */
+> -#define ADVERTISE_10HALF        0x0020  /* Try for 10mbps half-duplex  *=
+/
+>  #define ADVERTISE_10FULL        0x0040  /* Try for 10mbps full-duplex  *=
+/
+>  #define ADVERTISE_100HALF       0x0080  /* Try for 100mbps half-duplex *=
+/
+>  #define ADVERTISE_100FULL       0x0100  /* Try for 100mbps full-duplex *=
+/
+> @@ -169,28 +168,6 @@ tdk_init(struct PHY *phy)
+>  }
+>
+>  struct MDIOBus {
+> -    /* bus.  */
+> -    int mdc;
+> -    int mdio;
+> -
+> -    /* decoder.  */
+> -    enum {
+> -        PREAMBLE,
+> -        SOF,
+> -        OPC,
+> -        ADDR,
+> -        REQ,
+> -        TURNAROUND,
+> -        DATA
+> -    } state;
+> -    unsigned int drive;
+> -
+> -    unsigned int cnt;
+> -    unsigned int addr;
+> -    unsigned int opc;
+> -    unsigned int req;
+> -    unsigned int data;
+> -
+>      struct PHY *devs[32];
+>  };
+>
+> --
+> 2.21.3
+>
+>
 
