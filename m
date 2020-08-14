@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6B124480C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:31:55 +0200 (CEST)
-Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B759244849
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:50:08 +0200 (CEST)
+Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6X06-0000Cx-6F
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
+	id 1k6XHj-0008Ng-5g
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6VwM-0005bF-Cb; Fri, 14 Aug 2020 05:23:58 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:47055)
+ id 1k6VwO-0005fM-6s; Fri, 14 Aug 2020 05:24:00 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6VwK-0004Kx-2t; Fri, 14 Aug 2020 05:23:58 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f12so7710078wru.13;
- Fri, 14 Aug 2020 02:23:54 -0700 (PDT)
+ id 1k6VwM-0004LQ-Li; Fri, 14 Aug 2020 05:23:59 -0400
+Received: by mail-wr1-x444.google.com with SMTP id l2so7724832wrc.7;
+ Fri, 14 Aug 2020 02:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zwJXHp3KJLJ5yU+uajIVCj2N/BC26XZ5i/dgkGinGQQ=;
- b=HiP7ahUEXNgf0zHb1YrynIGJLWkYqtD8ozMErmvzrSFXlBj0ZE89dUnWMGjWuFBXTQ
- SCqF02phu2xm3KAi3O30o2kacRymmqf9ZO66OFl/tljXm/FPBUV1PSVH2WiBA3LyYHbR
- vXp7q4XEhRfYbXJl98MdqDXV/xSgvtdr8dq1LZI9w8zTIljAVddJb3xdFzNPJECKYiXj
- iQVpoNezTurv0p1MKES2vV3D8KbJBMIgaTGJ8rTx81Bq9a5A0fR/HM1t+0Rr0oFdaZB8
- HanM64pR3Fg6J6uH52OHU8lwNITL3si8wR3rSVVVzu793mYFE4228s/VDzEqtoIEw3kX
- ExYA==
+ bh=L7idNJovpPa5jNi2WSWeMXFjb9mKtDeVDPABH+yZP/4=;
+ b=uIP+dyNkfSEZjBU5XargAH/VUHjSwv6A+ZPVKDkMNnZ8K/CD0u88ATnjiQHP6OmwkZ
+ cm7TNL8ZqNiuw8tBvIi5Jy5EwNp4uRwwNp0m4Q/K0WN0hYRgZzqoqBl+PQidWyxr5Xdz
+ ELe6eW0nm+Vf2j7CEURYjUEyH4QB8vEds+aTmqeoNDLZV78srXwhfSyX7ILjW8GqzUg2
+ IxLRlDXMYXxbRCIjTXyko6/QR8SKB5KhnXm+OrHagIKFGAgvvYDQJuVYhK+O3GQzHGv/
+ +cHcND44UMVZzYjpeNXiXdrzziTKtR4pjh87KhRZsfHsU7LOj3y7Ehz1s6/a22v4hajc
+ cv9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zwJXHp3KJLJ5yU+uajIVCj2N/BC26XZ5i/dgkGinGQQ=;
- b=lqRV030kfOcU2xqPgMPr6ItIk3QTzwKkk1OgIoRvSQ7yamJqVL3+aHk74CBq1D/lYn
- AIhxR4G2C+pz5G4w+9UeG3A3wNUJlCbxXWHxitvCwu2dQGiCj0LntafHNvdBbEe2Wjuh
- 4R45iCG0+sxvyLHX5BeK2QY13IGmg3sfd8LbPRZ27nQhKQvakKD+QuglcvDqVtNVMbcO
- eU1jrVyY12EVGJjuU9NHkPdXhq2klssN2sVDTmPOQL4cavlYXEGG29XImTdqEx8vvkCl
- 44wL8UI2Sn70dcwDRNX7oNvPBYypZKPtFzogDT1r2ycNofUnAaZKelLvRR1YrHXNKw1k
- xe0A==
-X-Gm-Message-State: AOAM533WiPgkQWnnlO5XYIYLUZVFHmgz5B7Immi2kwz0synhMhjdMQjI
- lAqMv3T3zubaHxKwKFqwO3dABzPk+Hs=
-X-Google-Smtp-Source: ABdhPJz1fSVWJGjTNSoq/QR3uzElI33jak2hSSYcN0WkCWl/AFHhJhh89LQ9dQbymkqCfbAzAu/peg==
-X-Received: by 2002:a5d:51c3:: with SMTP id n3mr1932481wrv.104.1597397033717; 
- Fri, 14 Aug 2020 02:23:53 -0700 (PDT)
+ bh=L7idNJovpPa5jNi2WSWeMXFjb9mKtDeVDPABH+yZP/4=;
+ b=cb2h+pUIXrLzsrvcSceYbOtKkWSgsl+J0V8I4Vong2Aj4M+Jzf5YbwnQ0mHWgQkrvE
+ kNtieVW8tqETJo6KGzZoGrmBhUCB4UJJFVF6yTpUUiwgMeppuYuPj0zgVt/5HDYPMego
+ XwryAJLn5pFYWfeery0Lga35dBqMDX36WQBXdvtHJdmPp4UjBh+kGCYcV2R1fjdnDKRc
+ 3+UCEFGzs6WjJ4qPZo2jHJ64wWyNvKkxSZ3irNNPRnorHafFykBpBPqM23cDPO3/I000
+ lHQZnAIKzDc71AytBi7IL12USv4CHUjGlZE5bk6FX612w5Z6/oDfrG/T6EBStjHOMvTA
+ /r6g==
+X-Gm-Message-State: AOAM532THVW0ryvLQJmWstw1gxXMyA6d8pC37p71/53ybR3pxr4YLv8j
+ YxUkl9HVkjqdZ+XS8QpUjAoXvvOyhm4=
+X-Google-Smtp-Source: ABdhPJxiVf/tLEDOOaLJsHw3v915clNa0sjwQvt37LCOhfjGfRhi1UY6zEMOND9YuLK3iik4D88GkQ==
+X-Received: by 2002:a5d:42c5:: with SMTP id t5mr1896854wrr.370.1597397036430; 
+ Fri, 14 Aug 2020 02:23:56 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id b11sm12889395wrq.32.2020.08.14.02.23.52
+ by smtp.gmail.com with ESMTPSA id b11sm12889395wrq.32.2020.08.14.02.23.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:23:53 -0700 (PDT)
+ Fri, 14 Aug 2020 02:23:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] hw/sd: Add sdbus_write_data() to write multiples bytes on
+Subject: [PATCH 6/7] hw/sd: Add sdbus_read_data() to read multiples bytes on
  the data line
-Date: Fri, 14 Aug 2020 11:23:43 +0200
-Message-Id: <20200814092346.21825-5-f4bug@amsat.org>
+Date: Fri, 14 Aug 2020 11:23:45 +0200
+Message-Id: <20200814092346.21825-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200814092346.21825-1-f4bug@amsat.org>
 References: <20200814092346.21825-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -95,7 +95,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a sdbus_write_data() method to write multiple bytes on the
+Add a sdbus_read_data() method to read multiple bytes on the
 data line of a SD bus.
 We might improve the tracing later, for now keep logging each
 byte individually.
@@ -107,49 +107,49 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  2 files changed, 24 insertions(+)
 
 diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index 14ffc7f475..3ae3e8939b 100644
+index 3ae3e8939b..ac02d61a7a 100644
 --- a/include/hw/sd/sd.h
 +++ b/include/hw/sd/sd.h
-@@ -175,6 +175,15 @@ void sdbus_write_byte(SDBus *sd, uint8_t value);
-  * Return: byte value read
+@@ -184,6 +184,15 @@ uint8_t sdbus_read_byte(SDBus *sd);
+  * Write multiple bytes of data on the data lines of a SD bus.
   */
- uint8_t sdbus_read_byte(SDBus *sd);
+ void sdbus_write_data(SDBus *sdbus, const void *buf, size_t length);
 +/**
-+ * Write data to a SD bus.
++ * Read data from a SD bus.
 + * @sdbus: bus
-+ * @buf: data to write
-+ * @length: number of bytes to write
++ * @buf: buffer to read data into
++ * @length: number of bytes to read
 + *
-+ * Write multiple bytes of data on the data lines of a SD bus.
++ * Read multiple bytes of data on the data lines of a SD bus.
 + */
-+void sdbus_write_data(SDBus *sdbus, const void *buf, size_t length);
++void sdbus_read_data(SDBus *sdbus, void *buf, size_t length);
  bool sdbus_data_ready(SDBus *sd);
  bool sdbus_get_inserted(SDBus *sd);
  bool sdbus_get_readonly(SDBus *sd);
 diff --git a/hw/sd/core.c b/hw/sd/core.c
-index a3b620b802..9c2781ebf9 100644
+index 9c2781ebf9..957d116f1a 100644
 --- a/hw/sd/core.c
 +++ b/hw/sd/core.c
-@@ -114,6 +114,21 @@ void sdbus_write_byte(SDBus *sdbus, uint8_t value)
-     }
+@@ -144,6 +144,21 @@ uint8_t sdbus_read_byte(SDBus *sdbus)
+     return value;
  }
  
-+void sdbus_write_data(SDBus *sdbus, const void *buf, size_t length)
++void sdbus_read_data(SDBus *sdbus, void *buf, size_t length)
 +{
 +    SDState *card = get_card(sdbus);
-+    const uint8_t *data = buf;
++    uint8_t *data = buf;
 +
 +    if (card) {
 +        SDCardClass *sc = SD_CARD_GET_CLASS(card);
 +
 +        for (size_t i = 0; i < length; i++) {
-+            trace_sdbus_write(sdbus_name(sdbus), data[i]);
-+            sc->write_byte(card, data[i]);
++            data[i] = sc->read_byte(card);
++            trace_sdbus_read(sdbus_name(sdbus), data[i]);
 +        }
 +    }
 +}
 +
- uint8_t sdbus_read_byte(SDBus *sdbus)
+ bool sdbus_data_ready(SDBus *sdbus)
  {
      SDState *card = get_card(sdbus);
 -- 
