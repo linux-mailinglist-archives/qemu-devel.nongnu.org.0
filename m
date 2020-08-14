@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB0024478E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:59:09 +0200 (CEST)
-Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E5F24479C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:03:22 +0200 (CEST)
+Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WUK-0006u8-DU
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44166)
+	id 1k6WYT-0005l9-A6
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:03:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vnk-0007vc-1b
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:15:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44537
+ id 1k6VnJ-0006l6-HV
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:37 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55763
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vnh-00039v-Av
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:15:03 -0400
+ id 1k6VnG-00031o-Bx
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396500;
+ s=mimecast20190719; t=1597396473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rU4n9sn0xbo37T4jGj6ROAEzLR5VNUSmn/MPgqW3AxU=;
- b=a6gX3fEU379iVmvArVDyeT9YgJaQ1x+sktavwU1ZTHpbcQBuNgMwbDN870Ymh0dvZplc4n
- kpZllGT8WdJpPyS9n/r/2xvZ0wwGtAPw3gBsTVrNs0eE9uP+xdWO3zlKqgGfncqljXeTHa
- 43/oVB9SWjYapn4jYwR8ej0K4PUFvds=
+ bh=TP9gaoXiZGPIAqc5VwKmI9CRGkxUjv4ejHiQdZ/kS5M=;
+ b=JlxxRHGiViTZHW6sfYe9feELao9XMexX9GL1KdC6DhKaiv6NXGEJ2jRIJofqnVuIJo3ioo
+ f54azCCLRpoUpDT3pAY2u+/ydat/wxCnOEO/igYqgGfiG2fZGflRm4PcqAITwFsHenhIQW
+ lNctrlC8zgCS7xC6PODLert5i9+QskI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-5XvTvpzlPYqCCwnYGdWWaQ-1; Fri, 14 Aug 2020 05:14:59 -0400
-X-MC-Unique: 5XvTvpzlPYqCCwnYGdWWaQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-306-7Ig3wI9tPHuu10PtgzsXtQ-1; Fri, 14 Aug 2020 05:14:30 -0400
+X-MC-Unique: 7Ig3wI9tPHuu10PtgzsXtQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2394359
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4E041853DAF
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9D765D9D2;
- Fri, 14 Aug 2020 09:14:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65F91600E4;
+ Fri, 14 Aug 2020 09:14:29 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 125/150] meson: convert hw/acpi
-Date: Fri, 14 Aug 2020 05:13:01 -0400
-Message-Id: <20200814091326.16173-126-pbonzini@redhat.com>
+Subject: [PATCH 083/150] meson: convert disas directory to Meson
+Date: Fri, 14 Aug 2020 05:12:19 -0400
+Message-Id: <20200814091326.16173-84-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 01:57:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -91,97 +91,136 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/acpi/Makefile.objs | 26 --------------------------
- hw/acpi/meson.build   | 25 +++++++++++++++++++++++++
- hw/meson.build        |  1 +
- 4 files changed, 26 insertions(+), 27 deletions(-)
- delete mode 100644 hw/acpi/Makefile.objs
- create mode 100644 hw/acpi/meson.build
+ Makefile.objs               |  2 --
+ disas/Makefile.objs         | 30 ------------------------------
+ disas/libvixl/Makefile.objs |  5 -----
+ disas/libvixl/meson.build   |  7 +++++++
+ disas/meson.build           | 27 +++++++++++++++++++++++++++
+ meson.build                 |  1 +
+ 6 files changed, 35 insertions(+), 37 deletions(-)
+ delete mode 100644 disas/Makefile.objs
+ delete mode 100644 disas/libvixl/Makefile.objs
+ create mode 100644 disas/libvixl/meson.build
+ create mode 100644 disas/meson.build
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 4bdb674ef0..ebae00af6e 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -1,6 +1,5 @@
- ifeq ($(CONFIG_SOFTMMU), y)
- devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
--devices-dirs-y += acpi/
- endif
+diff --git a/Makefile.objs b/Makefile.objs
+index 7158031c0c..3b32a4c9bb 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -74,8 +74,6 @@ endif # CONFIG_SOFTMMU
+ # Target-independent parts used in system and user emulation
  
- common-obj-y += $(devices-dirs-y)
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
+ common-obj-y += hw/
+-common-obj-y += qom/
+-common-obj-y += disas/
+ 
+ ######################################################################
+ # Resource file for Windows executables
+diff --git a/disas/Makefile.objs b/disas/Makefile.objs
 deleted file mode 100644
-index 72886c7965..0000000000
---- a/hw/acpi/Makefile.objs
+index 3c1cdce026..0000000000
+--- a/disas/Makefile.objs
 +++ /dev/null
-@@ -1,26 +0,0 @@
--ifeq ($(CONFIG_ACPI),y)
--common-obj-$(CONFIG_ACPI_X86) += core.o piix4.o pcihp.o
--common-obj-$(CONFIG_ACPI_X86_ICH) += ich9.o tco.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu_hotplug.o
--common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) += memory_hotplug.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
--common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
--common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
--common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
--common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
--common-obj-$(CONFIG_ACPI_APEI) += ghes.o
--common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
--common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
+@@ -1,30 +0,0 @@
 -
--common-obj-y += acpi_interface.o
--common-obj-y += bios-linker-loader.o
--common-obj-y += aml-build.o utils.o
--common-obj-$(CONFIG_ACPI_PCI) += pci.o
--common-obj-$(CONFIG_TPM) += tpm.o
+-common-obj-$(CONFIG_ALPHA_DIS) += alpha.o
+-common-obj-$(CONFIG_ARM_DIS) += arm.o
+-common-obj-$(CONFIG_ARM_A64_DIS) += arm-a64.o
+-common-obj-$(CONFIG_ARM_A64_DIS) += libvixl/
+-libvixldir = $(SRC_PATH)/disas/libvixl
+-# The -Wno-sign-compare is needed only for gcc 4.6, which complains about
+-# some signed-unsigned equality comparisons in libvixl which later gcc
+-# versions do not.
+-arm-a64.o-cflags := -I$(libvixldir) -Wno-sign-compare
+-common-obj-$(CONFIG_CRIS_DIS) += cris.o
+-common-obj-$(CONFIG_HPPA_DIS) += hppa.o
+-common-obj-$(CONFIG_I386_DIS) += i386.o
+-common-obj-$(CONFIG_M68K_DIS) += m68k.o
+-common-obj-$(CONFIG_MICROBLAZE_DIS) += microblaze.o
+-common-obj-$(CONFIG_MIPS_DIS) += mips.o
+-common-obj-$(CONFIG_NANOMIPS_DIS) += nanomips.o
+-common-obj-$(CONFIG_NIOS2_DIS) += nios2.o
+-common-obj-$(CONFIG_MOXIE_DIS) += moxie.o
+-common-obj-$(CONFIG_PPC_DIS) += ppc.o
+-common-obj-$(CONFIG_RISCV_DIS) += riscv.o
+-common-obj-$(CONFIG_S390_DIS) += s390.o
+-common-obj-$(CONFIG_SH4_DIS) += sh4.o
+-common-obj-$(CONFIG_SPARC_DIS) += sparc.o
+-common-obj-$(CONFIG_LM32_DIS) += lm32.o
+-common-obj-$(CONFIG_XTENSA_DIS) += xtensa.o
 -
--common-obj-$(CONFIG_IPMI) += ipmi.o
--common-obj-$(call lnot,$(CONFIG_IPMI)) += ipmi-stub.o
--else
--common-obj-y += acpi-stub.o aml-build-stub.o
--endif
--common-obj-$(CONFIG_ALL) += acpi-stub.o aml-build-stub.o acpi-x86-stub.o ipmi-stub.o
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+-# TODO: As long as the TCG interpreter and its generated code depend
+-# on the QEMU target, we cannot compile the disassembler here.
+-#common-obj-$(CONFIG_TCI_DIS) += tci.o
+diff --git a/disas/libvixl/Makefile.objs b/disas/libvixl/Makefile.objs
+deleted file mode 100644
+index 99a637f6a0..0000000000
+--- a/disas/libvixl/Makefile.objs
++++ /dev/null
+@@ -1,5 +0,0 @@
+-common-obj-$(CONFIG_ARM_A64_DIS) = vixl/utils.o \
+-               vixl/compiler-intrinsics.o \
+-               vixl/a64/instructions-a64.o \
+-               vixl/a64/decoder-a64.o \
+-               vixl/a64/disasm-a64.o
+diff --git a/disas/libvixl/meson.build b/disas/libvixl/meson.build
 new file mode 100644
-index 0000000000..dd69577212
+index 0000000000..5e2eb33e8e
 --- /dev/null
-+++ b/hw/acpi/meson.build
-@@ -0,0 +1,25 @@
-+acpi_ss = ss.source_set()
-+acpi_ss.add(files(
-+  'acpi_interface.c',
-+  'aml-build.c',
-+  'bios-linker-loader.c',
-+  'utils.c',
++++ b/disas/libvixl/meson.build
+@@ -0,0 +1,7 @@
++libvixl_ss.add(files(
++  'vixl/a64/decoder-a64.cc',
++  'vixl/a64/disasm-a64.cc',
++  'vixl/a64/instructions-a64.cc',
++  'vixl/compiler-intrinsics.cc',
++  'vixl/utils.cc',
 +))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
-+acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
-+acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-+softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c'))
-+softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
-+                                                  'acpi-x86-stub.c', 'ipmi-stub.c'))
-diff --git a/hw/meson.build b/hw/meson.build
-index ffa3f06dc0..55ca2b2b61 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -1,3 +1,4 @@
-+subdir('acpi')
- subdir('adc')
- subdir('audio')
- subdir('block')
+diff --git a/disas/meson.build b/disas/meson.build
+new file mode 100644
+index 0000000000..0527d69128
+--- /dev/null
++++ b/disas/meson.build
+@@ -0,0 +1,27 @@
++libvixl_ss = ss.source_set()
++subdir('libvixl')
++
++common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
++common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
++common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
++common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
++common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
++common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
++common_ss.add(when: 'CONFIG_I386_DIS', if_true: files('i386.c'))
++common_ss.add(when: 'CONFIG_LM32_DIS', if_true: files('lm32.c'))
++common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
++common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
++common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
++common_ss.add(when: 'CONFIG_MOXIE_DIS', if_true: files('moxie.c'))
++common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.cpp'))
++common_ss.add(when: 'CONFIG_NIOS2_DIS', if_true: files('nios2.c'))
++common_ss.add(when: 'CONFIG_PPC_DIS', if_true: files('ppc.c'))
++common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
++common_ss.add(when: 'CONFIG_S390_DIS', if_true: files('s390.c'))
++common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
++common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
++common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
++
++# TODO: As long as the TCG interpreter and its generated code depend
++# on the QEMU target, we cannot compile the disassembler here.
++#common_ss.add(when: 'CONFIG_TCI_DIS', if_true: files('tci.c'))
+diff --git a/meson.build b/meson.build
+index 8955ca280e..16c8c3a337 100644
+--- a/meson.build
++++ b/meson.build
+@@ -669,6 +669,7 @@ common_ss.add(files('cpus-common.c'))
+ 
+ subdir('softmmu')
+ subdir('backends')
++subdir('disas')
+ subdir('migration')
+ subdir('monitor')
+ subdir('net')
 -- 
 2.26.2
 
