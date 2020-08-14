@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53317244E4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:05:17 +0200 (CEST)
-Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0ECC244E53
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:06:42 +0200 (CEST)
+Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6e4q-0001iU-Dq
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:05:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1k6e6E-0003g6-1F
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6e3c-0000Sv-Gb
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:04:00 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37700)
+ id 1k6e5T-00034S-LF
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:05:55 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6e3b-0003vH-5Z
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:04:00 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y3so9109575wrl.4
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:03:58 -0700 (PDT)
+ id 1k6e5Q-0004Ef-W4
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:05:55 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 3so8651192wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+80pBPQDiXfAC9dVlzhj/xoqF2WY/PBN7ftRjmVQv5I=;
- b=Bz741luAx6WKUl6E+DPyEFhP/WvAPHjZMdP8gAuoRJkzDERPy6qq7LiHJtO9INruQQ
- YRWt6qN2qFQpka6kCUrcPmZR8zYdsMQD64N/3ep7xoYG6OeKGQAefOPNHq0jrTMgqUdK
- uAOJyOwAMbPk264IoLiugHna/b4UVq94aRl7L/+Jqim6nfQxIZqn/0aKtJkJaYpOtE6n
- EBiyqNZRp2Np+KjO2OgBbgcGhVEXyMzeK/UkEnikVyl7TP8o4x50F5ERsz+lm3RLgete
- 343WUblr0zyJZiKeV2dqwglwqtre1Qlf7LyZDPdashXmjDKVMimDkoazOSeXwu51YIYi
- 3KeA==
+ bh=WitJbOpTxk6zlIDA1wT4dVYzgY4J3Pun1+YTvgArosc=;
+ b=WayDzb9TnNVD/IDY0VK0/kN+sW6lcKcLIbcCZQ357elxwT0SQAL2wTbEQTqA4iyRJD
+ bKM9q+k17bQdJGa4uvkRMmq3lZyBwaAk5BWetJ7pIAQndem72uW+FCTPsz+WebcaY0+C
+ nW8wJ//hcWHNMKYtDLG8CLN0g42kxbVbPYyf0CilVUwe1fmj9ZFpGtRx5/NclBPxurxj
+ k/syan4Zua7C+YpRc3iU/FHyo90RiHmx1CoCJWTRvKLu69OI01N2F1r0sCI08+XJEntA
+ 4u1oN3W6Hs7XMONj8up7rAJp8P2OnvGM4BcUSQvmkdFQrLX/8CqfND2BSgHFSnYGfbgf
+ VnJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+80pBPQDiXfAC9dVlzhj/xoqF2WY/PBN7ftRjmVQv5I=;
- b=qWpKGh+dXGw2WfDfhLCPLo+/Kc3ziBBvROdXbsmtuCwfl9KWI0JDpcqub/P/j5L9N8
- iONNNPCKQ6VzkcKqSqTaoyl08Qo4ZziNdcC/RjoNytUZcSg4QTBPNnzUxBiKkAiug1VG
- UJOQf7WeBjEHsTENEESNaFDFO8bOoOc9azxzbeoVbNhm7h2I0b53ykX89xAx2/4RYdeB
- pkiBXTArUVHdMN92m2Y+sHx+JbYpVu3uL2KSXc9FzthUMHx0bwoJtQpLIqCDhxc/KA5f
- luwFVcRZ3lURLlkANOGP/K/GNFfoCzaUrVU14tdKMcPl8aZot/MFiZNNBOmjBWhRUjqF
- QQDg==
-X-Gm-Message-State: AOAM531GCI4Rpo6uTQ6jZi53XcdLOO+glyEpx9ZZ5hh0PhES7tUQdELJ
- OoeUOhpmdm39lg8LfUa01aDwAZoMeko=
-X-Google-Smtp-Source: ABdhPJwh1shFD9pbD+u9ySYNABjLPXNPqMp75EvfHh2sr2sw1niUBD1OHa499qsU2PwADVsS6DhMEQ==
-X-Received: by 2002:adf:b602:: with SMTP id f2mr3567297wre.186.1597428237787; 
- Fri, 14 Aug 2020 11:03:57 -0700 (PDT)
+ bh=WitJbOpTxk6zlIDA1wT4dVYzgY4J3Pun1+YTvgArosc=;
+ b=Mi9zOsTH4Iqp2uVbG7vSLqh/a76WkKSnEpk5QalyHuqJN5hmUEnWb0ws27EsrV1ySf
+ uaGGA6HnqAGqW7veHvr+W6QQDtRdDSz4qnI2tVeybB49RfiTfRWzbznqNqTWv4+9tfGx
+ GrFORUIWtKzPv8LjeSUXL1FsawM9QF2hAr3C7sHcQxkRtOL3yRfsk24I0ea4TtLHPkhL
+ 9pXwMZcJxiE6geeFlvrC5r4AdeTqaSQ0lqRF6HddehX8/CWRv3870+Ty6b2sIgsOmd4J
+ 3JPNnUMoovG0JV9x7hHBgvjzHE0AYG4DMNBC4lMqEsFGbf+f4lzmYnNQAwNWGuI/pXQy
+ 9cLQ==
+X-Gm-Message-State: AOAM533hhbOb4nmICIPhdL2q8h9eTzdDAA/B9WUI6O/7LAX3oq0Rkpwq
+ +KbSNxsPG6tQ+QzZHKVwZII=
+X-Google-Smtp-Source: ABdhPJya5ngD4cpij4XlBVTIto7c1FrwthCSeN85CE5LzUj0Y5eDK2wmjelWFl1oi58mTK2rQ/w9/A==
+X-Received: by 2002:a7b:c95a:: with SMTP id i26mr3740712wml.106.1597428351655; 
+ Fri, 14 Aug 2020 11:05:51 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id p14sm18906275wrg.96.2020.08.14.11.03.56
+ by smtp.gmail.com with ESMTPSA id h189sm17051523wme.17.2020.08.14.11.05.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 11:03:57 -0700 (PDT)
-Subject: Re: [PATCH 22/41] can_emu: Delete macros for non-existing typedef
+ Fri, 14 Aug 2020 11:05:50 -0700 (PDT)
+Subject: Re: [PATCH 30/41] qom: Make type checker functions accept const
+ pointers
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-23-ehabkost@redhat.com>
+ <20200813222625.243136-31-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f0e9a90b-76a2-9ee4-d2f3-dcded798f22a@amsat.org>
-Date: Fri, 14 Aug 2020 20:03:56 +0200
+Message-ID: <ea42c253-d249-4da0-2543-558839855b5e@amsat.org>
+Date: Fri, 14 Aug 2020 20:05:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-23-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-31-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,33 +97,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/14/20 12:26 AM, Eduardo Habkost wrote:
-> CanBusClass doesn't exist.  This will break when we automatically
-> convert the code to use OBJECT_DEFINE_TYPE().  Delete the macros
-> that reference the non-existing typedef.
+> The existing type check macros all unconditionally drop const
+> qualifiers from their arguments.  Keep this behavior in the
+> macros generated by DECLARE_*CHECKER* by now.
+> 
+> In the future, we might use _Generic to preserve const-ness of
+> the cast function arguments.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 > ---
->  include/net/can_emu.h | 4 ----
->  1 file changed, 4 deletions(-)
+>  include/qom/object.h | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/include/net/can_emu.h b/include/net/can_emu.h
-> index fce9770928..7e90fd8a45 100644
-> --- a/include/net/can_emu.h
-> +++ b/include/net/can_emu.h
-> @@ -100,10 +100,6 @@ struct CanBusClientState {
->  };
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 4cd84998c2..1d6a520d35 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -567,7 +567,7 @@ struct Object
+>   */
+>  #define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
+>      static inline G_GNUC_UNUSED InstanceType * \
+> -    OBJ_NAME(void *obj) \
+> +    OBJ_NAME(const void *obj) \
+>      { return OBJECT_CHECK(InstanceType, obj, TYPENAME); }
 >  
->  #define TYPE_CAN_BUS "can-bus"
-> -#define CAN_BUS_CLASS(klass) \
-> -     OBJECT_CLASS_CHECK(CanBusClass, (klass), TYPE_CAN_BUS)
-> -#define CAN_BUS_GET_CLASS(obj) \
-> -     OBJECT_GET_CLASS(CanBusClass, (obj), TYPE_CAN_BUS)
->  #define CAN_BUS(obj) \
->       OBJECT_CHECK(CanBusState, (obj), TYPE_CAN_BUS)
+>  /**
+> @@ -581,14 +581,16 @@ struct Object
+>   *
+>   * This macro will provide the three standard type cast functions for a
+>   * QOM type.
+> + *
+> + *FIXME: Use _Generic to make this const-safe
+>   */
+>  #define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
+>      static inline G_GNUC_UNUSED ClassType * \
+> -    OBJ_NAME##_GET_CLASS(void *obj) \
+> +    OBJ_NAME##_GET_CLASS(const void *obj) \
+>      { return OBJECT_GET_CLASS(ClassType, obj, TYPENAME); } \
+>      \
+>      static inline G_GNUC_UNUSED ClassType * \
+> -    OBJ_NAME##_CLASS(void *klass) \
+> +    OBJ_NAME##_CLASS(const void *klass) \
+>      { return OBJECT_CLASS_CHECK(ClassType, klass, TYPENAME); }
 >  
+>  /**
 > 
 
 
