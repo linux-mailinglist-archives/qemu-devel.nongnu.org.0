@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4630C244CD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:40:57 +0200 (CEST)
-Received: from localhost ([::1]:60744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9679B244CDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:42:33 +0200 (CEST)
+Received: from localhost ([::1]:39832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6clE-0005QI-AU
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46560)
+	id 1k6cmm-00008Q-IN
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6cjr-0004CL-Lr
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:31 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36645)
+ id 1k6cjt-0004Dy-F1
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:33 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6cjp-0002KH-Q0
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:31 -0400
-Received: by mail-wr1-x442.google.com with SMTP id 88so8910733wrh.3
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:39:29 -0700 (PDT)
+ id 1k6cjr-0002KV-Ut
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:33 -0400
+Received: by mail-wm1-x341.google.com with SMTP id k20so8436903wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+vZKMxDAk/vtC5bjb2De5DWR9pVCk7ac3nopYj/xQZQ=;
- b=bWkRrO9fkbz+xIXQnkj7lKtLTDatmyFCxnl36tMgE4/cQKBlGyO21nPKBLnYfMUVw1
- MOSiyhuLp+y+hCPTfkpVo086Y3czlnHq+83gfbOaRsAHHcRm4cnJ3yW/FFFmI0tXZYft
- mw+zVbNkM99mO1/4gUvSgAXxKD4vazy8q9e4ZE8QQyYUV4Rx+c2/mmj7keZsWUocscS6
- RX4glLOiEXnCFiEMFltHObkuTX1XqEQ0zmcVVnGMeFiMQFFk/9iPLJ6c+5Qkv9FE6vMQ
- 3jwb3G077h+F8qOl6n/qnSbLWHyshS++UWzX6FgQjaHeRCTh/HlRsq8q+LXHtHhM1xDG
- u5tA==
+ bh=hn4hL0y7ZpwSzMH1FWPCmjokpRtbCkZjalyMESN2N7M=;
+ b=YFDrudV0p8Rt+yk6Zwx8X6WsKXIdMtw4EQucHrPL25x5aWmibCh/FqOQQLNLMw+5nr
+ YICGcUU0ql9nca4oLJ8flwdPl0PT3SgwuZeiQDZ/WyP1isKtYOh5j7AXmY1bXnOfsgbD
+ b3SdO2nhEUUwYKS+lx8CkUhyV7J1h3xyUv22F1Z9ArRFYq63Vaq2maPdoe+KBUQE+Yew
+ SMvh87A+W4ZLVIbss83TWUgabpJYX/YOcnJA69LNhP5rsSWkJWdNGVo+Ceb6qFzPNc9J
+ Ql+O6fd9FgF7XFCAakxD9fleATw2/RFodjeYJA0Biflj9pi5QIN6Dc87NANFWVi5kPFV
+ 7D1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+vZKMxDAk/vtC5bjb2De5DWR9pVCk7ac3nopYj/xQZQ=;
- b=pcsqCN/I67Z0pAjq/8L4nGPv2U3YamzHBJKTL9jV0YZRRgFOyGsX1a64N24tWJQf9h
- xV1gbwJr/9ZIos8LzNzfnGXKELbe0qvT4HpDuws8BsmUJBUM7ZFoyyQna0QsJPW1AlJq
- /lXLD37k/+v44oY4KD3rBEN2tXUPTJ+bSYsvoEf2caltXxEC0xbw951D2ItF+3pRQ53A
- Z+gkYhltlFUlDgV8W8V3HJaN7IorRUDufxwkG0vekleovnTjrNkujCv7enHdwT2VK0gj
- 5vj0XfK9qcdCXu7nijMOCQRqTi8Wfcb8yXx3t5Tyfnh1l+jlXao+oBtT6F171WF4FKSk
- iwIA==
-X-Gm-Message-State: AOAM532xft8N+K40syKl11+VJX5I0dcTlRaFWn0Bp125+mfSCEAGKjbh
- nmBkvoGnObHSehjG3vEHneNYzo2N8lo=
-X-Google-Smtp-Source: ABdhPJyrg9H8J6ymKpOmZ85sTdvxJWOvdKByTux6BmHVIIBM9jYb54drThGHhVHuK92X+DgjgO/G5g==
-X-Received: by 2002:adf:edd0:: with SMTP id v16mr3710820wro.271.1597423168411; 
- Fri, 14 Aug 2020 09:39:28 -0700 (PDT)
+ bh=hn4hL0y7ZpwSzMH1FWPCmjokpRtbCkZjalyMESN2N7M=;
+ b=asjz0Su9/V5uIBL9xA/h9TZyaocnOHWH/Wm7m7JvERoHluWisMh39rX8pRdK6bsQvn
+ TJ4oVGeQwnKCItqjPG6nw7ae0kjOcbkixtVrAiHXSQhB8zDJIrNY267UnBsTp/tMpScv
+ 5dJsFnVUb12yqHsV8OgSKc2UWnFXtaHBA1TB26S+jMnyOJCpqQdfHoACUoP2P9V6im4H
+ sCLNEYBMlP9kJy6dV62QU0JNG6S0O16aBjHN2AKvpw8sPK+4lm1B4mSFiIOOovTyarkO
+ j+jCVtPQ4hQTWTZTVnePZdD9eXbx9PaRgonkhjjJsXAVky5qtJvaPnGkNo03pVZklgTU
+ gM1Q==
+X-Gm-Message-State: AOAM5312IuB4MbEVzusTPs0OjxBfHJhtu1meDVt7wcKTjr9TFW6kt/b0
+ 9PBt62mMxaTW9yW33CTfGhngkXCloac=
+X-Google-Smtp-Source: ABdhPJyNStCYxJDisiWbuES7fx01TmZg1wUt51sqBa3IW3EoCQ4MsqjZtZMrzW1OUeO6kCkrXFc1TQ==
+X-Received: by 2002:a1c:a9ce:: with SMTP id s197mr3095243wme.45.1597423170178; 
+ Fri, 14 Aug 2020 09:39:30 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id p14sm18417178wrg.96.2020.08.14.09.39.27
+ by smtp.gmail.com with ESMTPSA id p14sm18417178wrg.96.2020.08.14.09.39.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 09:39:27 -0700 (PDT)
+ Fri, 14 Aug 2020 09:39:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] hw/avr/atmega: Introduce the I/O clock
-Date: Fri, 14 Aug 2020 18:39:20 +0200
-Message-Id: <20200814163924.11662-2-f4bug@amsat.org>
+Subject: [PATCH 2/5] hw/timer/avr_timer16: Use the Clock API
+Date: Fri, 14 Aug 2020 18:39:21 +0200
+Message-Id: <20200814163924.11662-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200814163924.11662-1-f4bug@amsat.org>
 References: <20200814163924.11662-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -95,57 +95,109 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the Clock API to model the I/O clock. As we don't model
-the Clock Control Unit, the XTAL is its unique clock source.
+Expose the 'clkt' clock source. Connect the MCU I/O clock to it.
+Drop the now unused 'cpu-frequency-hz' static property.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/avr/atmega.h | 2 ++
- hw/avr/atmega.c | 4 ++++
- 2 files changed, 6 insertions(+)
+ include/hw/timer/avr_timer16.h |  3 ++-
+ hw/avr/atmega.c                |  3 +--
+ hw/timer/avr_timer16.c         | 12 ++++--------
+ 3 files changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
-index 0928cb0ce6..c91317107f 100644
---- a/hw/avr/atmega.h
-+++ b/hw/avr/atmega.h
-@@ -14,6 +14,7 @@
- #include "hw/char/avr_usart.h"
- #include "hw/timer/avr_timer16.h"
- #include "hw/misc/avr_power.h"
+diff --git a/include/hw/timer/avr_timer16.h b/include/hw/timer/avr_timer16.h
+index 982019d242..fb1ef5d3be 100644
+--- a/include/hw/timer/avr_timer16.h
++++ b/include/hw/timer/avr_timer16.h
+@@ -31,6 +31,7 @@
+ #include "hw/sysbus.h"
+ #include "qemu/timer.h"
+ #include "hw/hw.h"
 +#include "hw/clock.h"
- #include "target/avr/cpu.h"
  
- #define TYPE_ATMEGA_MCU     "ATmega"
-@@ -35,6 +36,7 @@ typedef struct AtmegaMcuState {
-     /*< public >*/
+ enum NextInterrupt {
+     OVERFLOW,
+@@ -52,6 +53,7 @@ typedef struct AVRTimer16State {
+     MemoryRegion iomem;
+     MemoryRegion imsk_iomem;
+     MemoryRegion ifr_iomem;
++    Clock *clkin;
+     QEMUTimer *timer;
+     qemu_irq capt_irq;
+     qemu_irq compa_irq;
+@@ -84,7 +86,6 @@ typedef struct AVRTimer16State {
+     uint8_t ifr;
  
-     AVRCPU cpu;
-+    Clock *ioclk;
-     MemoryRegion flash;
-     MemoryRegion eeprom;
-     MemoryRegion sram;
+     uint8_t id;
+-    uint64_t cpu_freq_hz;
+     uint64_t freq_hz;
+     uint64_t period_ns;
+     uint64_t reset_time_ns;
 diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-index 7131224431..9d814de499 100644
+index 9d814de499..f14b558140 100644
 --- a/hw/avr/atmega.c
 +++ b/hw/avr/atmega.c
-@@ -15,6 +15,7 @@
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
- #include "sysemu/sysemu.h"
+@@ -332,8 +332,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+         devname = g_strdup_printf("timer%zu", i);
+         object_initialize_child(OBJECT(dev), devname, &s->timer[i],
+                                 TYPE_AVR_TIMER16);
+-        object_property_set_uint(OBJECT(&s->timer[i]), "cpu-frequency-hz",
+-                                 s->xtal_freq_hz, &error_abort);
++        qdev_connect_clock_in(DEVICE(&s->timer[i]), "clkt", s->ioclk);
+         sbd = SYS_BUS_DEVICE(&s->timer[i]);
+         sysbus_realize(sbd, &error_abort);
+         sysbus_mmio_map(sbd, 0, OFFSET_DATA + mc->dev[idx].addr);
+diff --git a/hw/timer/avr_timer16.c b/hw/timer/avr_timer16.c
+index c48555da52..7634fe6587 100644
+--- a/hw/timer/avr_timer16.c
++++ b/hw/timer/avr_timer16.c
+@@ -35,6 +35,7 @@
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "hw/irq.h"
 +#include "hw/qdev-clock.h"
  #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "hw/boards.h" /* FIXME memory_region_allocate_system_memory for sram */
-@@ -231,6 +232,9 @@ static void atmega_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "\"xtal-frequency-hz\" property must be provided.");
-         return;
+ #include "hw/timer/avr_timer16.h"
+ #include "trace.h"
+@@ -167,7 +168,7 @@ static void avr_timer16_clksrc_update(AVRTimer16State *t16)
+         break;
      }
-+    s->ioclk = qdev_init_clock_out(dev, "ioclk");
-+    /* Clock Control Unit not implemented: directly distribute from xtal */
-+    clock_set_hz(s->ioclk, s->xtal_freq_hz);
+     if (divider) {
+-        t16->freq_hz = t16->cpu_freq_hz / divider;
++        t16->freq_hz = clock_get_hz(t16->clkin) / divider;
+         t16->period_ns = NANOSECONDS_PER_SECOND / t16->freq_hz;
+         trace_avr_timer16_clksrc_update(t16->freq_hz, t16->period_ns,
+                                         (uint64_t)(1e6 / t16->freq_hz));
+@@ -544,8 +545,6 @@ static const MemoryRegionOps avr_timer16_ifr_ops = {
  
-     /* CPU */
-     object_initialize_child(OBJECT(dev), "cpu", &s->cpu, mc->cpu_type);
+ static Property avr_timer16_properties[] = {
+     DEFINE_PROP_UINT8("id", struct AVRTimer16State, id, 0),
+-    DEFINE_PROP_UINT64("cpu-frequency-hz", struct AVRTimer16State,
+-                       cpu_freq_hz, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -564,6 +563,8 @@ static void avr_timer16_init(Object *obj)
+ {
+     AVRTimer16State *s = AVR_TIMER16(obj);
+ 
++    s->clkin = qdev_init_clock_in(DEVICE(obj), "clkt", NULL, s);
++
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->capt_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compa_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compb_irq);
+@@ -587,11 +588,6 @@ static void avr_timer16_realize(DeviceState *dev, Error **errp)
+ {
+     AVRTimer16State *s = AVR_TIMER16(dev);
+ 
+-    if (s->cpu_freq_hz == 0) {
+-        error_setg(errp, "AVR timer16: cpu-frequency-hz property must be set");
+-        return;
+-    }
+-
+     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, avr_timer16_interrupt, s);
+     s->enabled = true;
+ }
 -- 
 2.21.3
 
