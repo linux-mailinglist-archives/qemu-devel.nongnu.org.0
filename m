@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CF0244798
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:02:38 +0200 (CEST)
-Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03032447AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:06:09 +0200 (CEST)
+Received: from localhost ([::1]:43386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WXk-0004BI-Tq
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
+	id 1k6WbA-0002eE-TG
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnO-0006ye-Bm
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56941
+ id 1k6VnU-0007GN-Ap
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:48 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26564
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnL-00034n-Hf
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:42 -0400
+ id 1k6VnP-00035h-6u
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396478;
+ s=mimecast20190719; t=1597396482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sg9YVJRv6wW6cfJ0v4OQv28WxAZBM0uAS+h3Qkeg40s=;
- b=DhiOVemvrbJFjUqtBpKRyVTA+pwla+NQciUhO4O4u7LjTNhbb4zNBaOjl5NEKXBLpozNkN
- AHPptHxdQw9I946ANnYEfLJPPP6BZ1sc7BDKaDmZFFTVtGkgKeS3FKQExwD3W3FWLFCrPZ
- cHw0UvTyGoTuYvlxYfeZaFZPUwBKgIo=
+ bh=bdZIMAMnoqGyH9qLhE37JTAtwVaZ5pf9xbmcPjCZVHk=;
+ b=DpfSu9dieQwwFIgCoC4z212OaRC2Kf1rNIQrhCV9z/+aILQ+P/DYS6eoo5vBwptCUS+sJx
+ Wux99ugXP7V7NpvsDetIXWeU1jfLRyo7DYFtWwWkgAV53rD6WIJnI2Do0NFdceJwd6RvsL
+ Y5hGIM1ESqxZ2uUZFf0TNdL6HP8zfhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-M61JCvmIPsOmohs0VsO7iA-1; Fri, 14 Aug 2020 05:14:36 -0400
-X-MC-Unique: M61JCvmIPsOmohs0VsO7iA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-147-DfRY1pEPPcCLVPPI7KSZ_Q-1; Fri, 14 Aug 2020 05:14:40 -0400
+X-MC-Unique: DfRY1pEPPcCLVPPI7KSZ_Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1125801AC5
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C10A31005504
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AED10600E4;
- Fri, 14 Aug 2020 09:14:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2FAF60C04;
+ Fri, 14 Aug 2020 09:14:36 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 098/150] meson: convert hw/ssi
-Date: Fri, 14 Aug 2020 05:12:34 -0400
-Message-Id: <20200814091326.16173-99-pbonzini@redhat.com>
+Subject: [PATCH 100/150] meson: convert hw/scsi
+Date: Fri, 14 Aug 2020 05:12:36 -0400
+Message-Id: <20200814091326.16173-101-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -91,69 +91,91 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/ssi/Makefile.objs | 10 ----------
- hw/ssi/meson.build   |  9 +++++++++
- 4 files changed, 10 insertions(+), 11 deletions(-)
- delete mode 100644 hw/ssi/Makefile.objs
- create mode 100644 hw/ssi/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/meson.build        |  1 +
+ hw/scsi/Makefile.objs | 15 ---------------
+ hw/scsi/meson.build   | 26 ++++++++++++++++++++++++++
+ 4 files changed, 27 insertions(+), 16 deletions(-)
+ delete mode 100644 hw/scsi/Makefile.objs
+ create mode 100644 hw/scsi/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index f60fd019ac..e50eb04635 100644
+index 6f9c0b7983..b6461c2f5e 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -26,7 +26,6 @@ devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
+@@ -24,7 +24,6 @@ devices-dirs-y += nvram/
+ devices-dirs-y += pci/
+ devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
  devices-dirs-y += pcmcia/
- devices-dirs-$(CONFIG_SCSI) += scsi/
- devices-dirs-y += sd/
--devices-dirs-y += ssi/
+-devices-dirs-$(CONFIG_SCSI) += scsi/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 1fb1687e1e..75644266f2 100644
+index a73f4aebde..d4abb67715 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -4,6 +4,7 @@ subdir('nubus')
+@@ -2,6 +2,7 @@ subdir('core')
+ subdir('mem')
+ subdir('nubus')
  subdir('rtc')
++subdir('scsi')
+ subdir('sd')
  subdir('semihosting')
  subdir('smbios')
-+subdir('ssi')
- subdir('timer')
- subdir('tpm')
- subdir('usb')
-diff --git a/hw/ssi/Makefile.objs b/hw/ssi/Makefile.objs
+diff --git a/hw/scsi/Makefile.objs b/hw/scsi/Makefile.objs
 deleted file mode 100644
-index 07a85f1967..0000000000
---- a/hw/ssi/Makefile.objs
+index 54b36ed8b1..0000000000
+--- a/hw/scsi/Makefile.objs
 +++ /dev/null
-@@ -1,10 +0,0 @@
--common-obj-$(CONFIG_PL022) += pl022.o
--common-obj-$(CONFIG_SSI) += ssi.o
--common-obj-$(CONFIG_XILINX_SPI) += xilinx_spi.o
--common-obj-$(CONFIG_XILINX_SPIPS) += xilinx_spips.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_smc.o
--common-obj-$(CONFIG_STM32F2XX_SPI) += stm32f2xx_spi.o
--common-obj-$(CONFIG_MSF2) += mss-spi.o
+@@ -1,15 +0,0 @@
+-common-obj-y += scsi-disk.o emulation.o
+-common-obj-y += scsi-generic.o scsi-bus.o
+-common-obj-$(CONFIG_LSI_SCSI_PCI) += lsi53c895a.o
+-common-obj-$(CONFIG_MPTSAS_SCSI_PCI) += mptsas.o mptconfig.o mptendian.o
+-common-obj-$(CONFIG_MEGASAS_SCSI_PCI) += megasas.o
+-common-obj-$(CONFIG_VMW_PVSCSI_SCSI_PCI) += vmw_pvscsi.o
+-common-obj-$(CONFIG_ESP) += esp.o
+-common-obj-$(CONFIG_ESP_PCI) += esp-pci.o
+-obj-$(CONFIG_SPAPR_VSCSI) += spapr_vscsi.o
 -
--common-obj-$(CONFIG_OMAP) += omap_spi.o
--common-obj-$(CONFIG_IMX) += imx_spi.o
-diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
+-ifeq ($(CONFIG_VIRTIO_SCSI),y)
+-obj-y += virtio-scsi.o virtio-scsi-dataplane.o
+-obj-$(CONFIG_VHOST_SCSI) += vhost-scsi-common.o vhost-scsi.o
+-obj-$(CONFIG_VHOST_USER_SCSI) += vhost-scsi-common.o vhost-user-scsi.o
+-endif
+diff --git a/hw/scsi/meson.build b/hw/scsi/meson.build
 new file mode 100644
-index 0000000000..f1f5c287d0
+index 0000000000..923a34f344
 --- /dev/null
-+++ b/hw/ssi/meson.build
-@@ -0,0 +1,9 @@
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_smc.c'))
-+softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-spi.c'))
-+softmmu_ss.add(when: 'CONFIG_PL022', if_true: files('pl022.c'))
-+softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
-+softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_SPIPS', if_true: files('xilinx_spips.c'))
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_spi.c'))
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_spi.c'))
++++ b/hw/scsi/meson.build
+@@ -0,0 +1,26 @@
++scsi_ss = ss.source_set()
++scsi_ss.add(files(
++  'emulation.c',
++  'scsi-bus.c',
++  'scsi-disk.c',
++  'scsi-generic.c',
++))
++scsi_ss.add(when: 'CONFIG_ESP', if_true: files('esp.c'))
++scsi_ss.add(when: 'CONFIG_ESP_PCI', if_true: files('esp-pci.c'))
++scsi_ss.add(when: 'CONFIG_LSI_SCSI_PCI', if_true: files('lsi53c895a.c'))
++scsi_ss.add(when: 'CONFIG_MEGASAS_SCSI_PCI', if_true: files('megasas.c'))
++scsi_ss.add(when: 'CONFIG_MPTSAS_SCSI_PCI', if_true: files('mptsas.c', 'mptconfig.c', 'mptendian.c'))
++scsi_ss.add(when: 'CONFIG_VMW_PVSCSI_SCSI_PCI', if_true: files('vmw_pvscsi.c'))
++softmmu_ss.add_all(when: 'CONFIG_SCSI', if_true: scsi_ss)
++
++specific_scsi_ss = ss.source_set()
++
++virtio_scsi_ss = ss.source_set()
++virtio_scsi_ss.add(files('virtio-scsi.c', 'virtio-scsi-dataplane.c'))
++virtio_scsi_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-common.c', 'vhost-scsi.c'))
++virtio_scsi_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-scsi-common.c', 'vhost-user-scsi.c'))
++specific_scsi_ss.add_all(when: 'CONFIG_VIRTIO_SCSI', if_true: virtio_scsi_ss)
++
++specific_scsi_ss.add(when: 'CONFIG_SPAPR_VSCSI', if_true: files('spapr_vscsi.c'))
++
++specific_ss.add_all(when: 'CONFIG_SCSI', if_true: specific_scsi_ss)
 -- 
 2.26.2
 
