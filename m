@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539912446D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:17:22 +0200 (CEST)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A852446D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:15:28 +0200 (CEST)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Vpx-0002Fl-9H
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42498)
+	id 1k6Vo6-00071X-ST
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:15:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VmT-0004tk-8W
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38533
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k6VmV-0004xt-Ks
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VmL-0002nt-C1
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:44 -0400
+ id 1k6VmM-0002oA-As
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396416;
+ s=mimecast20190719; t=1597396417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rQj9GTIn5cWLBAfzKEFV9zDy5qEmbI6P53ZkPnnFQjI=;
- b=gS/RDdJRSUXNknOjJc7YrD5ySYZ/2J0gtjRTqjEotwNIynjqf2DwfvUrtqVl+7C5w+C2cR
- aTOYjC8gOMEKhyiPKpH4VCVCrmCkiFFyC3CkGff3TOWayk4GaO233IpMiBDGOsmeHqPp+P
- Gmy4eQ41gLTU3AAluDm+l07oHr3x/T0=
+ bh=wCwinYbY8KogL6MVGmLHlxl2ZdviDPrAvyQ0cEAXXVE=;
+ b=IsiWYzVaoIdJM+M810g/G5UcI3CuSU8kwOqDX+GyDEYoWL98V9G68mMvudvNXmB3JdYmfx
+ AE4hj0cGfLnobqWZcW69PQFwuqjI9qr723sPi1ktJM5fNP5mQHAT86BaXiKBr7kJIyUtv3
+ wVHebh1fW+fvZqxTKub+/3EdyofJfi8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-lHot4DowOxKq3r0dFrigGQ-1; Fri, 14 Aug 2020 05:13:35 -0400
-X-MC-Unique: lHot4DowOxKq3r0dFrigGQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-580-XxPUrIuoO9Wm66c1Wm2FEQ-1; Fri, 14 Aug 2020 05:13:35 -0400
+X-MC-Unique: XxPUrIuoO9Wm66c1Wm2FEQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A46C1015DC0
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FB4E85B67B
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 078B860C04;
- Fri, 14 Aug 2020 09:13:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 342D3709D2
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:34 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 009/150] tests/vm: check for Python YAML parser in the Makefile
-Date: Fri, 14 Aug 2020 05:11:05 -0400
-Message-Id: <20200814091326.16173-10-pbonzini@redhat.com>
+Subject: [PATCH 010/150] tests/docker: add test script for static linux-user
+ builds
+Date: Fri, 14 Aug 2020 05:11:06 -0400
+Message-Id: <20200814091326.16173-11-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 01:57:54
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,75 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to do it in the configure file if it is only used for a help message.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                 | 9 ---------
- tests/vm/Makefile.include | 4 +++-
- 2 files changed, 3 insertions(+), 10 deletions(-)
+ tests/docker/test-static | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100755 tests/docker/test-static
 
-diff --git a/configure b/configure
-index 1c17a0f27f..625c14c500 100755
---- a/configure
-+++ b/configure
-@@ -959,13 +959,6 @@ do
-     fi
- done
- 
--# Check for existence of python3 yaml, needed to
--# import yaml config files into vm-build.
--python_yaml="no"
--if $(python3 -c "import yaml" 2> /dev/null); then
--    python_yaml="yes"
--fi
--
- : ${smbd=${SMBD-/usr/sbin/smbd}}
- 
- # Default objcc to clang if available, otherwise use CC
-@@ -6844,7 +6837,6 @@ if test "$docs" != "no"; then
-     echo "sphinx-build      $sphinx_build"
- fi
- echo "genisoimage       $genisoimage"
--echo "python_yaml       $python_yaml"
- echo "slirp support     $slirp $(echo_version $slirp $slirp_version)"
- if test "$slirp" != "no" ; then
-     echo "smbd              $smbd"
-@@ -7945,7 +7937,6 @@ echo "PYTHON=$python" >> $config_host_mak
- echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
- echo "SPHINX_WERROR=$sphinx_werror" >> $config_host_mak
- echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
--echo "PYTHON_YAML=$python_yaml" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
- if $iasl -h > /dev/null 2>&1; then
-   echo "IASL=$iasl" >> $config_host_mak
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index a599d1994d..257e2edbb3 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -17,6 +17,8 @@ IMAGE_FILES := $(patsubst %, $(IMAGES_DIR)/%.img, $(IMAGES))
- 
- .PRECIOUS: $(IMAGE_FILES)
- 
-+HAVE_PYTHON_YAML = $(shell $(PYTHON) -c "import yaml" 2> /dev/null && echo yes)
+diff --git a/tests/docker/test-static b/tests/docker/test-static
+new file mode 100755
+index 0000000000..372ef6fac7
+--- /dev/null
++++ b/tests/docker/test-static
+@@ -0,0 +1,24 @@
++#!/bin/bash -e
++#
++# Compile QEMU user mode emulators as static binaries on Linux.
++#
++# Copyright (c) 2020 Red Hat Inc.
++#
++# Authors:
++#  Paolo Bonzini <pbonzini@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2
++# or (at your option) any later version. See the COPYING file in
++# the top-level directory.
 +
- # 'vm-help' target was historically named 'vm-test'
- vm-help vm-test:
- 	@echo "vm-help: Test QEMU in preconfigured virtual machines"
-@@ -56,7 +58,7 @@ endif
- 	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
- 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
- 	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
--ifeq ($(PYTHON_YAML),yes)
-+ifeq ($(HAVE_PYTHON_YAML),yes)
- 	@echo "    QEMU_CONFIG=/path/conf.yml   - Change path to VM configuration .yml file."
- else
- 	@echo "    (install python3-yaml to enable support for yaml file to configure a VM.)"
++. common.rc
++
++cd "$BUILD_DIR"
++
++build_qemu \
++    --disable-system \
++    --disable-tools \
++    --disable-guest-agent \
++    --disable-docs \
++    --static
++install_qemu
 -- 
 2.26.2
 
