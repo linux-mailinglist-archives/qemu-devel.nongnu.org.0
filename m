@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E0A244BA1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:09:06 +0200 (CEST)
-Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1861B244C1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:27:56 +0200 (CEST)
+Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6bKL-0003Uq-8Q
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46850)
+	id 1k6bcZ-0000Q9-55
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k6bJd-000301-9S; Fri, 14 Aug 2020 11:08:21 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:43125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k6bJa-0005Fe-Li; Fri, 14 Aug 2020 11:08:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.235])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2BE8E5085A46;
- Fri, 14 Aug 2020 17:08:14 +0200 (CEST)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 14 Aug
- 2020 17:08:14 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005f2f51d1e-2c74-4e2b-91d5-1f8ad162394c,
- 373B2072066AFC5654FE77EA66C144DA3E99FD02) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] spapr/xive: Allocate IPIs from the vCPU contexts
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20200814150358.1682513-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <42e8bb9f-c052-5abb-9ffe-0700bfe3904d@kaod.org>
-Date: Fri, 14 Aug 2020 17:08:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6bZy-0004lL-KU; Fri, 14 Aug 2020 11:25:14 -0400
+Resent-Date: Fri, 14 Aug 2020 11:25:14 -0400
+Resent-Message-Id: <E1k6bZy-0004lL-KU@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21351)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6bZv-0001jY-KK; Fri, 14 Aug 2020 11:25:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597418703; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jjdx0bh8neylRGUDdx1hhtPOFtr4knQPHQDlye/UVDRmVajhsuWIDjm08k2ABTlKadnoHgxHx7JP/NoW0OLKyGa7O6DgmC7hG3ZA4qqxiyIdPhuHG7WEaDdQkSSeOk8o7lm++20Q033eA5x10YgUrtcH0hzTMZ5vpvreQGekCNQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597418703;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=vfUb17nn2fBVNoSV2y3uAj6CAHyNR3Ty/On+fHfI9r0=; 
+ b=FTV22VJOHTSa42BOVyqVANeSNMKf5EIkiyOkC1GSAvXFt4TEsIhyutuFSSP/mcmJLrtRoAfhY6qadQlLai2W8TZ3+m/iufIG3lCD/8vyJHNFWMnc+J8DBS5f/zpA3c8p5tjiL4GKjxQ/8Z8ZeT8zD49dDl0knOsy5/qF8CiUBuA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597418700833352.36484035920955;
+ Fri, 14 Aug 2020 08:25:00 -0700 (PDT)
+Subject: Re: [PATCH] ide:do nothing for identify cmd if no any device attached
+Message-ID: <159741869977.4317.12600913538742599756@66eaa9a8a123>
+In-Reply-To: <20200814043657.5815-1-RockCui-oc@zhaoxin.com>
 MIME-Version: 1.0
-In-Reply-To: <20200814150358.1682513-1-clg@kaod.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 16342f1d-4a3b-4a3a-a32e-1463220d3640
-X-Ovh-Tracer-Id: 12168163244321508259
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrleejgdektdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 11:08:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: RockCui-oc@zhaoxin.com
+Date: Fri, 14 Aug 2020 08:25:00 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 10:22:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,127 +67,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Gustavo Romero <gromero@linux.ibm.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: CobeChen@zhaoxin.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, RockCui-oc@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-This works as expected with a 128 vCPUs guest with pinned vcpus. The
-first 64 IPIs are allocated on the first chip and the remaining 64
-on the second chip.
-
-Still, this is more an RFC. We have time before the end of the merge
-window.
-
-Thanks,
-
-C.  
-
-
-On 8/14/20 5:03 PM, Cédric Le Goater wrote:
-> When QEMU switches to the XIVE interrupt mode, it performs a
-> kvmppc_xive_source_reset() which creates all the guest interrupts at
-> the level of the KVM device. These interrupts are backed by real HW
-> interrupts from the IPI interrupt pool of the XIVE controller.
-> 
-> Currently, this is done from the QEMU main thread, which results in
-> allocating all interrupts from the chip on which QEMU is running. IPIs
-> are not distributed across the system and the load is not well
-> balanced across the interrupt controllers.
-> 
-> Change the vCPU IPI allocation to run from the vCPU context in order
-> to allocate the associated XIVE IPI interrupt on the chip on which the
-> vCPU is running. This gives a chance to a better distribution of the
-> IPIs when the guest has a lot of vCPUs. When the vCPUs are pinned, it
-> makes the IPI local to the chip of the vCPU which reduces rerouting
-> between interrupt controllers and gives better performance.
-> 
-> This is only possible for running vCPUs. The IPIs of hot plugable
-> vCPUs will still be allocated in the context of the QEMU main thread.
-> 
-> Device interrupts are treated the same. To improve placement, we would
-> need some information on the chip owning the virtual source or HW
-> source in case of passthrough. This requires changes in PAPR.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  hw/intc/spapr_xive_kvm.c | 50 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index c6958f2da218..553fd7fd8f56 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -223,6 +223,47 @@ void kvmppc_xive_sync_source(SpaprXive *xive, uint32_t lisn, Error **errp)
->                        NULL, true, errp);
->  }
->  
-> +/*
-> + * Allocate the IPIs from the vCPU context. This will allocate the
-> + * XIVE IPI interrupt on the chip on which the vCPU is running. This
-> + * gives a better distribution of IPIs when the guest has a lot of
-> + * vCPUs. When the vCPU are pinned, the IPIs are local which reduces
-> + * rerouting between interrupt controllers and gives better
-> + * performance.
-> + */
-> +typedef struct {
-> +    SpaprXive *xive;
-> +    int ipi;
-> +    Error *err;
-> +    int rc;
-> +} XiveInitIPI;
-> +
-> +static void kvmppc_xive_reset_ipi_on_cpu(CPUState *cs, run_on_cpu_data arg)
-> +{
-> +    XiveInitIPI *s = arg.host_ptr;
-> +    uint64_t state = 0;
-> +
-> +    s->rc = kvm_device_access(s->xive->fd, KVM_DEV_XIVE_GRP_SOURCE, s->ipi,
-> +                              &state, true, &s->err);
-> +}
-> +
-> +static int kvmppc_xive_reset_ipi(SpaprXive *xive, int ipi, Error **errp)
-> +{
-> +    PowerPCCPU *cpu = spapr_find_cpu(ipi);
-> +    XiveInitIPI s = {
-> +        .xive = xive,
-> +        .ipi  = ipi,
-> +        .err  = NULL,
-> +        .rc   = 0,
-> +    };
-> +
-> +    run_on_cpu(CPU(cpu), kvmppc_xive_reset_ipi_on_cpu, RUN_ON_CPU_HOST_PTR(&s));
-> +    if (s.err) {
-> +        error_propagate(errp, s.err);
-> +    }
-> +    return s.rc;
-> +}
-> +
->  /*
->   * At reset, the interrupt sources are simply created and MASKED. We
->   * only need to inform the KVM XIVE device about their type: LSI or
-> @@ -230,11 +271,20 @@ void kvmppc_xive_sync_source(SpaprXive *xive, uint32_t lisn, Error **errp)
->   */
->  int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->  {
-> +    MachineState *machine = MACHINE(qdev_get_machine());
->      SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
->      uint64_t state = 0;
->  
->      assert(xive->fd != -1);
->  
-> +    /*
-> +     * IPIs are special. Allocate the IPIs from the vCPU context for
-> +     * those running. Hotplugged CPUs will the QEMU context.
-> +     */
-> +    if (srcno < machine->smp.cpus) {
-> +        return kvmppc_xive_reset_ipi(xive, srcno, errp);
-> +    }
-> +
->      if (xive_source_irq_is_lsi(xsrc, srcno)) {
->          state |= KVM_XIVE_LEVEL_SENSITIVE;
->          if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-> 
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNDA0MzY1Ny41ODE1
+LTEtUm9ja0N1aS1vY0B6aGFveGluLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwODE0MDQzNjU3LjU4
+MTUtMS1Sb2NrQ3VpLW9jQHpoYW94aW4uY29tClN1YmplY3Q6IFtQQVRDSF0gaWRlOmRvIG5vdGhp
+bmcgZm9yIGlkZW50aWZ5IGNtZCBpZiBubyBhbnkgZGV2aWNlIGF0dGFjaGVkCgo9PT0gVEVTVCBT
+Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVs
+bCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxn
+b3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2Uu
+Lgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRk
+MWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmMwZWUy
+ZjUgaWRlOmRvIG5vdGhpbmcgZm9yIGlkZW50aWZ5IGNtZCBpZiBubyBhbnkgZGV2aWNlIGF0dGFj
+aGVkCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMjc6
+IEZJTEU6IGh3L2lkZS9jb3JlLmM6MjA3NzoKKyAgICBpZiAoKCFidXMtPmlmc1swXS5ibGsgJiYg
+IWJ1cy0+aWZzWzFdLmJsaykgfHwgJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1
+c2UgdGFicwojMjg6IEZJTEU6IGh3L2lkZS9jb3JlLmM6MjA3ODoKK15JKHMgIT0gYnVzLT5pZnMg
+JiYgIXMtPmJsaykpIHskCgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDExIGxpbmVzIGNo
+ZWNrZWQKCkNvbW1pdCBjMGVlMmY1YWJiZjMgKGlkZTpkbyBub3RoaW5nIGZvciBpZGVudGlmeSBj
+bWQgaWYgbm8gYW55IGRldmljZSBhdHRhY2hlZCkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+PT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRo
+ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4
+MTQwNDM2NTcuNTgxNS0xLVJvY2tDdWktb2NAemhhb3hpbi5jb20vdGVzdGluZy5jaGVja3BhdGNo
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
