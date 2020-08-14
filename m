@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAEA244E4A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:02:54 +0200 (CEST)
-Received: from localhost ([::1]:48398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6705F244E4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:03:06 +0200 (CEST)
+Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6e2X-0006DJ-Cr
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36114)
+	id 1k6e2j-0006er-AX
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:03:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6e17-000519-Sv
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:01:25 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46983)
+ id 1k6e1U-0005NP-W5
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:01:49 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6e16-0003lv-64
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:01:25 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f12so9066202wru.13
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:01:23 -0700 (PDT)
+ id 1k6e1T-0003of-HH
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:01:48 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f18so8855560wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Zls6EdTy6Z2QsaIfy2W7iRMrRgmvLmgC4RKZKLFouxo=;
- b=hNRRIfaXjUZ/5mDt/bzZ7aOqesWGWkM9y9QaG1RBo8Tx7Vw5L4iG11XvhErb9PA/iN
- 2+r0/H0eqcoQ1XuB8NjN3tPHjmGcuHdO+Wr9RNFN3KuSLM8PdERghOQjvXFIgAEdAihd
- Nj/Ap2azNeTtg7aBTNTg1aVncyvy+rVvB8lCnUT89+ZHZXQ8H1p6R+D5XmUhfmfcNca5
- aj24/Iyid7mgIp+KE7k809+6+d0D3dcXXcl5C1SQWlgBItDSaXl72znZIcbOQZYy9doH
- 7l1eLimA3JT8hfhPCaRoWuYBj9qTfa2D/fpYfua66Qz2wLJczVqCDrkSpGP9CcFukUpW
- C/Fg==
+ bh=3DLe9RlJeEEZsdwQOKcIWqfNAA0O+DiKJP2WJ4IP2qY=;
+ b=gL1dqEuwYgs1ZE9R6IzYN2tpSUICJBoimXu4MY1TGVHZ88vbc0TQFW7+uf1J9MusS4
+ fHQ25Sk4SZj9C2kkrfdgDU1fO/UFvG2qTw6pHx6rRbnu2+7yFZ4pDAVny8Q8+uFr31sw
+ NPOb+cCi15X/eXGsHZnD76jCI3459R90O7iXCaTNT/Te4HccrNyhmPRmxYnK6BI0PHVI
+ vYeu5/1wFKPZ2mjPnccJz3NxXTmN6by9vwBbbG2i4arxzHQVy2GDfoXpWqIOYO83NfOj
+ H12/tMr4UrR4BlCH3WrF7a70jBBIIZFG4XDSA/31ETwk1gv7T0fyfmgTl8a9QpoHnrVb
+ cDGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Zls6EdTy6Z2QsaIfy2W7iRMrRgmvLmgC4RKZKLFouxo=;
- b=A+mbAUIoiy0hPEJv2HhWEM6xUOwySDfRBeJSIGcDd8E4B2TQuUnRnPceVjAaSKeMTG
- 3KBIwTMwEdaw9vYsNukxRQLfojBz5UZ7qKg3xkLrsFFjUmGDvxmIXYWY1hUyvC17LrV2
- KRXPKvgbm5jg6Aci6VKUQxG95eQa4ivsW8CVTQ508Hw6B6/KicRIxu72mIalqqOINVFP
- rkQMrqIOFpdC+kpMUk2OMnw+oyGm9gFdX8fvw8aJon+phI+XrkKaBkCrxk2ERMgPNht+
- 6uxaJwDC+jVyWp3XN0yi+CgsC2QWIxcXXxqLCSoKae+LBC0Upv3tQi5Iv1yvAu74LXn4
- fccQ==
-X-Gm-Message-State: AOAM533ZC68uJlO5AJvKKqyfo7SU5fb7ZvJCda/buJqjDYVEEIvfi1l5
- HA57m5C0e8IY7763N1kmWws=
-X-Google-Smtp-Source: ABdhPJzXoiDlIn9KWeg0+3bHYN6vfqNuMmfpqOGRfgX/ejCbv25XwzAwjR3v6K1ZyXZL9AYaSG7nqw==
-X-Received: by 2002:adf:97d3:: with SMTP id t19mr3547603wrb.138.1597428082909; 
- Fri, 14 Aug 2020 11:01:22 -0700 (PDT)
+ bh=3DLe9RlJeEEZsdwQOKcIWqfNAA0O+DiKJP2WJ4IP2qY=;
+ b=UFLNJGBwBhrcVFgHixR1CMOfXM1/osTORH0JoCha2IpWn3Y/qWaKXaAQBAXTfaa2Uh
+ EzVGXaMu496lV2ZNL9SPSQ77jp5tUrdSgf4Q5Yr4YcvYfqPFigTNKrsmWAK0EFbOHJTZ
+ duu+gpL7mKMHX7g6r3pW9oNumYD56VZBaGihBdRYkcu+Vxwx6uME5r1OdHEo5TccOoiD
+ PxMcluVQpfxAvFA/Wq6lE/fhwQER06d+hg4yb/qXNp/yFamLDigdygbBA+8MZdlTZ7Rn
+ IepfpcXxEn05hK4a+omHxd6QRxGLVZrZVylgUh2IzvAH63mi3wFHbnjg0rQIb9UcngB0
+ shbA==
+X-Gm-Message-State: AOAM532KIZLudZL+jCxI/fsT5LHj3tsYJd71llJXr4PRa6IVnFqbLgog
+ 7UY+D+1w2RN3GMsRpjX9cZg=
+X-Google-Smtp-Source: ABdhPJx6brp6Q+wbkkHW7R/Sm01JPg+KSWVEpN4RNCvjSa+vrEDQHdbWLHibCmCtSSSbPr49N7VsKQ==
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+ x19mr3685163wmj.174.1597428105899; 
+ Fri, 14 Aug 2020 11:01:45 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id h6sm16911761wrv.40.2020.08.14.11.01.22
+ by smtp.gmail.com with ESMTPSA id b2sm15106427wmj.47.2020.08.14.11.01.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 11:01:22 -0700 (PDT)
-Subject: Re: [PATCH 15/41] tulip: Move TulipState typedef to header
+ Fri, 14 Aug 2020 11:01:45 -0700 (PDT)
+Subject: Re: [PATCH 16/41] throttle-groups: Move ThrottleGroup typedef to
+ header
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-16-ehabkost@redhat.com>
+ <20200813222625.243136-17-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9892cdec-f4df-b512-dab9-4aedc9c79698@amsat.org>
-Date: Fri, 14 Aug 2020 20:01:21 +0200
+Message-ID: <06f3a14d-413f-6e22-3bf6-546bc1629bbc@amsat.org>
+Date: Fri, 14 Aug 2020 20:01:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-16-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-17-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -95,7 +97,7 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/20 12:25 AM, Eduardo Habkost wrote:
+On 8/14/20 12:26 AM, Eduardo Habkost wrote:
 > Move typedef closer to the type check macros, to make it easier
 > to convert the code to OBJECT_DEFINE_TYPE() in the future.
 > 
@@ -104,44 +106,44 @@ On 8/14/20 12:25 AM, Eduardo Habkost wrote:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 > ---
->  hw/net/tulip.h | 1 +
->  hw/net/tulip.c | 4 ++--
+>  include/block/throttle-groups.h | 1 +
+>  block/throttle-groups.c         | 4 ++--
 >  2 files changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/net/tulip.h b/hw/net/tulip.h
-> index 5271aad8d5..c3fcd4d4e1 100644
-> --- a/hw/net/tulip.h
-> +++ b/hw/net/tulip.h
-> @@ -5,6 +5,7 @@
->  #include "net/net.h"
+> diff --git a/include/block/throttle-groups.h b/include/block/throttle-groups.h
+> index 712a8e64b4..5e77db700f 100644
+> --- a/include/block/throttle-groups.h
+> +++ b/include/block/throttle-groups.h
+> @@ -59,6 +59,7 @@ typedef struct ThrottleGroupMember {
+>  } ThrottleGroupMember;
 >  
->  #define TYPE_TULIP "tulip"
-> +typedef struct TULIPState TULIPState;
->  #define TULIP(obj) OBJECT_CHECK(TULIPState, (obj), TYPE_TULIP)
+>  #define TYPE_THROTTLE_GROUP "throttle-group"
+> +typedef struct ThrottleGroup ThrottleGroup;
+>  #define THROTTLE_GROUP(obj) OBJECT_CHECK(ThrottleGroup, (obj), TYPE_THROTTLE_GROUP)
 >  
->  #define CSR(_x) ((_x) << 3)
-> diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-> index 4487fd61cf..ca69f7ea5e 100644
-> --- a/hw/net/tulip.c
-> +++ b/hw/net/tulip.c
-> @@ -18,7 +18,7 @@
->  #include "trace.h"
->  #include "net/eth.h"
+>  const char *throttle_group_get_name(ThrottleGroupMember *tgm);
+> diff --git a/block/throttle-groups.c b/block/throttle-groups.c
+> index 98fea7fd47..4e28365d8d 100644
+> --- a/block/throttle-groups.c
+> +++ b/block/throttle-groups.c
+> @@ -63,7 +63,7 @@ static void timer_cb(ThrottleGroupMember *tgm, bool is_write);
+>   * access some other ThrottleGroupMember's timers only after verifying that
+>   * that ThrottleGroupMember has throttled requests in the queue.
+>   */
+> -typedef struct ThrottleGroup {
+> +struct ThrottleGroup {
+>      Object parent_obj;
 >  
-> -typedef struct TULIPState {
-> +struct TULIPState {
->      PCIDevice dev;
->      MemoryRegion io;
->      MemoryRegion memory;
-> @@ -44,7 +44,7 @@ typedef struct TULIPState {
+>      /* refuse individual property change if initialization is complete */
+> @@ -79,7 +79,7 @@ typedef struct ThrottleGroup {
 >  
->      uint32_t rx_status;
->      uint8_t filter[16][6];
-> -} TULIPState;
+>      /* This field is protected by the global QEMU mutex */
+>      QTAILQ_ENTRY(ThrottleGroup) list;
+> -} ThrottleGroup;
 > +};
 >  
->  static const VMStateDescription vmstate_pci_tulip = {
->      .name = "tulip",
+>  /* This is protected by the global QEMU mutex */
+>  static QTAILQ_HEAD(, ThrottleGroup) throttle_groups =
 > 
 
 
