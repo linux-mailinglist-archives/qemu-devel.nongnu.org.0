@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845E6244CF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:48:42 +0200 (CEST)
-Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A20244D32
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:59:34 +0200 (CEST)
+Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6csj-0002N6-I4
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:48:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
+	id 1k6d3F-0005WV-IU
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6clg-000767-J0
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:41:24 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33590)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k6d2I-0004Nu-On
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:58:34 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6cle-0002de-Qt
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:41:24 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p20so8916384wrf.0
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:41:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k6d2G-0004eC-6X
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:58:34 -0400
+Received: by mail-pf1-x442.google.com with SMTP id r11so4818527pfl.11
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6j2hSGTw+VUf8E9AqnZ1VilYmcnzl3giVdcSPPp7dSE=;
- b=J/xlQqy+NYAm3cfSeAPZuKKh49Ox4X9NkaeVyYQAnqJlbaUKX9O7ARgEaphEnw0D0a
- 69Hkmxc2PNs0xD+CCvWoJYSpJRhfslFkJLTd42fY2hWkDWZUhqhue80PyvoBo+X1kw/l
- oRRH9NmtgMeO4EbnavOVolQVVbmdf6zzzCQGsnbcC4m9w/DDyDFotodEJeK9ChXvpdDC
- 31WrPFXocT37CUR6qqukHbdLjhAJpXudUMQiwFpTp8rnjWN62Iy9LfbKvyyEJEgcDF66
- s7p/DP2/9qPEIOd924SDNLPgUZVEZgBX3W8yspOa8WSf827o/TxPQjAMht9ycWTsGHaP
- TUkQ==
+ bh=cmFP6hNCn9mUKVqqW0srBpswncbnGOgdB4gEI3EcDDA=;
+ b=P7zx4TrANJCUKxf/fBfqa1Y+K/me/cvU8DEVbUXUx1q6gWyMNu+cNRh/kI2vXGXcek
+ 5IpW/seDVA+u6gRU1mTEje99lO2VLmBDRKrIGyFewAh8o2GzQ3vApcqvx6mtVz5SJPon
+ 8z2kILkaxnHn0Lwz1ftgm8w+arZ/JqFOVUWmlLhvhUxqY4MlNk/bPKynwYNLKAJqDWQV
+ noNDgljOAiOqU7qZ61rvQlP2/4ReQrdDscM3l/jPzXtOxs15H78Rm5pBCBZ9r+aYwPLw
+ sc/eHEBGBcQjmYlYHOPB7RTMIF1+paDNZ+3UI3WLDut8S7aH3LvCtOqVvY3hCCRP58z0
+ v/GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6j2hSGTw+VUf8E9AqnZ1VilYmcnzl3giVdcSPPp7dSE=;
- b=LL2t0aQ9ivanUL8nkBxCvW4DcDkUbXmLCWIKP2aAV8p0auX170x8RfiYaBxI6HJN5N
- amgvXA9Xiyy15G7S4jJy9F8J+8Nk2glVITpAf8UK4JkyafXvrb6y6SS0ijmqsmU2I6Sr
- 2fWR/Sr7wvJfbU+ajmixgTexb9VTBBbOceTBJgO0Tz752JzI4CNGOZOIpYlNRiRFJvjE
- NzQ4Fr6bnta/qvrlHqLxgTwYz3oc432pt4GrMA9MxJvVTwpuW2XyUSLzRpadjX/zIb8t
- 9FIeHvm6BEKORLIJbCcC8fXVl3wJ+UID/Pa/cgdw4bLhf4NTQbBBoxfHarwtwFYLDbwX
- yUPA==
-X-Gm-Message-State: AOAM530nol0QthGzkTp46NXlULA0Xf/KMhRu4mjkd52sh2f6baPdgIsv
- 1cmjs/fkcRuXtr8NFs/WHGI=
-X-Google-Smtp-Source: ABdhPJw2UIBNBLfABaXx9bLUI2aEIuAPpxFIKO+NBBNiivHtIWZsw7iouMbFU7p6AqXGYhxbFj1Dow==
-X-Received: by 2002:adf:e904:: with SMTP id f4mr3428953wrm.300.1597423280660; 
- Fri, 14 Aug 2020 09:41:20 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 62sm17291084wrq.31.2020.08.14.09.41.18
+ bh=cmFP6hNCn9mUKVqqW0srBpswncbnGOgdB4gEI3EcDDA=;
+ b=Kjk3q1o+4hEqb/zs68Y1S74/sFTRQDwC6Emx3e3wZTzH3q5spJqo3Dj3PPrbJ4pxai
+ DcciDAzlubpioKrWB5BB1qi4oz7/SoXKWbEykwkm95Uwbv5Bwbe43GvjIQnQkQIDxy79
+ y3ywtDUVXXg5wKjLe0Ri1WBfVEjde4u/wlW2Txr8A5ru5PneKjYQxBJmAd4EQB0WanPO
+ XHSXJqVepZDWHxQStqz4QFoC9wWKHhaEO7X67MVtoqLKfPLvdXChIyIEVGOL375YrAM9
+ Dk8/VGq5shYvCi8W6Rzkg90XhQ4JZ+V8uAkFzaNojt4zTokjB09Mz1bIDoDW79/zGU0J
+ 3joQ==
+X-Gm-Message-State: AOAM532T08diu0pdj9lqCOxeCDoYh5E1dVb3ip/HMSdepu/HC/CBo0Hi
+ 6DLswWEZFwAO7Tidbok3tAC8bA==
+X-Google-Smtp-Source: ABdhPJzhsJpU+eL4pPH7R8RKBJGSnv3gr3B/JL1ROsD6bkuVKcrbbtbH9mWt/ykc/HBhpdXdUuemGg==
+X-Received: by 2002:a63:e118:: with SMTP id z24mr2281766pgh.230.1597424310550; 
+ Fri, 14 Aug 2020 09:58:30 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id x15sm10037705pfr.208.2020.08.14.09.58.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 09:41:20 -0700 (PDT)
-Subject: Re: [PATCH] hw/block/nand: Decommission the NAND museum
-To: qemu-devel@nongnu.org, no-reply@patchew.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <159741495800.4317.10689667632180842440@66eaa9a8a123>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e51a61de-b4f8-5d44-f811-e99eb2bd0c0a@amsat.org>
-Date: Fri, 14 Aug 2020 18:41:18 +0200
+ Fri, 14 Aug 2020 09:58:29 -0700 (PDT)
+Subject: Re: [PATCH 1/7] block/null: Make more explicit the driver default
+ size is 1GiB
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200814082841.27000-1-f4bug@amsat.org>
+ <20200814082841.27000-2-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2d12e9c0-dc03-ad99-be33-427a001282f1@linaro.org>
+Date: Fri, 14 Aug 2020 09:58:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <159741495800.4317.10689667632180842440@66eaa9a8a123>
+In-Reply-To: <20200814082841.27000-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,33 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/20 4:22 PM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200814132118.12450-1-f4bug@amsat.org/
-> Hi,
+On 8/14/20 1:28 AM, Philippe Mathieu-Daudé wrote:
+> As it is not obvious the default size for the null block driver
+> is 1 GiB, replace the obfuscated '1 << 30' magic value by a
+> definition using IEC binary prefixes.
 > 
-> This series failed the docker-quick@centos7 build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> make docker-image-centos7 V=1 NETWORK=1
-> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
->   TEST    check-unit: tests/test-char
-> Unexpected error in object_property_try_add() at /tmp/qemu-test/src/qom/object.c:1181:
-> attempt to add duplicate property 'serial-id' to object (type 'container')
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  block/null.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Unrelated, this is a bug Marc-André is tracking.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> ERROR test-char - too few tests run (expected 38, got 9)
-> make: *** [check-unit] Error 1
-> make: *** Waiting for unfinished jobs....
->   TEST    iotest-qcow2: 024
->   TEST    iotest-qcow2: 025
+r~
 
