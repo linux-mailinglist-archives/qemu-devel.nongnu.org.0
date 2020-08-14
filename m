@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D79244E50
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:05:59 +0200 (CEST)
-Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D34244E4E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:04:46 +0200 (CEST)
+Received: from localhost ([::1]:55196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6e5W-0002o6-AQ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36318)
+	id 1k6e4L-0000d6-PC
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6e27-0006Kq-IM
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:02:27 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39661)
+ id 1k6e36-0007vh-10
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:03:28 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6e25-0003pc-Vh
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:02:27 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g75so8624294wme.4
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:02:25 -0700 (PDT)
+ id 1k6e33-0003sf-FE
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:03:26 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f7so9117442wrw.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:03:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ixljhcPxpjv2vd8J7lewF+1Xl2YtOq6ZO52rl6pTbGs=;
- b=GMOnAasZd3Pi7GXdrXoGUtScM/SgAuFrVsA97Y0d0cMA534FVol7qjI5tR+0f54toZ
- u1GO6ExE1IVZHZGR0dOPsOO7/84LIW0sTI5EQ4oSggkg/xXpcQq7Zueygtz0bLgSXHlJ
- QTOYJlmS9zywhkDu4Eh7HGJgnyvZ7HVRzCUhLwuMeJyJHUtOyt0hLHApvfH7k8S+BaMx
- +aPlYHYvX6+gv1GxALY+RV7eeOiFrslln4lLu+q5GCvwKPi73FLyNq6Bi4I5e8TRw/6o
- tyc8H/wyYF2Gn3QKqHRvjTlxO8sbcB0q49wlrKHlM2yGzmKiyV/zr2bxjCZcyQk6kWI5
- oWMQ==
+ bh=3UPXS15TldMHs3waluVKOVQRZ5QzUEQC3rtvpiZShCo=;
+ b=GfN7vXi8SHYAvkuApR/TGqh1cPPI2Y+X98K33ZD1agn0ns8I3c1fhaSeH0mHtIF4ss
+ 93CQ9pGlkvVX7NGRKJzA3Blf/Zb+qWi/dxj7uu90ExsIKmjnqDV28pHKMTmAXZJPnWpx
+ QQu1bH1KWjth4YIayrBkVbCTtDg86REaUf4AdbKL1EpLTF9c7DxQJcn5GA3Yvw98cQkO
+ BjY/PpSRHyZKfBCOPVPIPAjwREpD7tbDyd1LAJ+1NDuAeKchnLmLhpcKoHCcON/xWfSG
+ ahQsx7PYsC/K73RdBIvaMI3N8za3UjK0x1Onk4AWViknzS6o+g+hRH3rzMtnMj6xpkML
+ zXRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ixljhcPxpjv2vd8J7lewF+1Xl2YtOq6ZO52rl6pTbGs=;
- b=UEB7qS4Yz9VTXqt6WHA7Zjat8ExZqsuBKQ2W+n+XsCWkZ/TMMFq+/fR8ILc+Y62dOW
- nLbPS4pbAn+hJ+l0crpi6BvDt/qCqt6zQvr8LEEP+eT+JKFHY6QiOwpxm74Ml/tn9XSE
- wjL5S3Eq8mmJzq3t14d6P+krotcGMEpTM3ozXXHDqbGxi1TLLR/CSAHshJjoqUZlS7oF
- ESFmNnJuYCjrOEeMVQ3u34we4Jb4JgkPLNxafxzTi4HiZqC+XQmX6tOtJCGLlnN1qVoi
- 8mx9qv4jxkSBYsDLxWtyA/QqSe6pWfUyt0FzDiOj3XWQMCIyzkhPBWX2ATSv+UB8+rqD
- lyuQ==
-X-Gm-Message-State: AOAM5310il5qgt1lA/lT5/u/XT2sX6SHF/GK8oLORYjYvf7JgVAIV0O1
- AchMkT32YltDW7PFlOrsAoY=
-X-Google-Smtp-Source: ABdhPJwzlSSHfBxqk8gqGx5a4HVnndwlnfry2MeVBE699jB60RCqkqJBZ1VC/eZ6GpxOLA1J7W4Tqw==
-X-Received: by 2002:a1c:b7c2:: with SMTP id h185mr3813225wmf.168.1597428144649; 
- Fri, 14 Aug 2020 11:02:24 -0700 (PDT)
+ bh=3UPXS15TldMHs3waluVKOVQRZ5QzUEQC3rtvpiZShCo=;
+ b=ZTNLSpkkey60NGENKTWYfHWL+ssoVdPYpMBTUjg+SgvILU13DV7lbxklJN2y4i0Tup
+ NVsS4PwU2dsZ0zmEQfqNi6v4LxWgJaw86LGxXmMpdLMKWvUPfoq8Sqhhm0X5sa3XjD7Y
+ AA70c0o400SuTZWA4dAUr+BnyFY03YwHHKr0zpjmx634Ooi8bLdJ3CR3Rm2ZYyUbAb6P
+ XKVklOdKOBA2LA9UITnMjy1KCSwi8d7r2UrT6bNNWn6R5B4YPZxNkixd8Kw0q5TVdOrV
+ 0alnOFsJ9ZJ/2fw9S+vNLqNPTgkPMDSX4mh/9prpkd0FItiL/wOyRBXWtJIRjNJrXouw
+ bBXQ==
+X-Gm-Message-State: AOAM533kxFe2hRT0wzdNQwLWRkwAuAPCRM59pNI6SZez76cuBCjWlqoj
+ X+yaBs0DuTBElNu7dbWNuKbB39kqM5k=
+X-Google-Smtp-Source: ABdhPJxKIbKSvBWGQSANVt87Jt0eeconVKFSJ/ZRYlB34nx4gB6WAo3bW/Osl2iJD1kR4ItQK8mmVw==
+X-Received: by 2002:a5d:6702:: with SMTP id o2mr3647037wru.364.1597428203325; 
+ Fri, 14 Aug 2020 11:03:23 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id a23sm18202803wme.0.2020.08.14.11.02.23
+ by smtp.gmail.com with ESMTPSA id b123sm16631989wme.20.2020.08.14.11.03.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 11:02:24 -0700 (PDT)
-Subject: Re: [PATCH 18/41] i8254: Move PITCommonState/PITCommonClass typedefs
- to i8254.h
+ Fri, 14 Aug 2020 11:03:22 -0700 (PDT)
+Subject: Re: [PATCH 23/41] nubus: Delete unused NUBUS_BRIDGE macro
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-19-ehabkost@redhat.com>
+ <20200813222625.243136-24-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9332495f-a762-0eae-fcac-a6b7a89357eb@amsat.org>
-Date: Fri, 14 Aug 2020 20:02:23 +0200
+Message-ID: <a243c583-a40d-ad2b-c778-330e2f964026@amsat.org>
+Date: Fri, 14 Aug 2020 20:03:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-19-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-24-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,62 +96,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/14/20 12:26 AM, Eduardo Habkost wrote:
-> Move typedef closer to the type check macros, to make it easier
-> to convert the code to OBJECT_DEFINE_TYPE() in the future.
+> The macro never worked because the NubusBridge typedef doesn't
+> exist.  Delete it.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 > ---
->  include/hw/timer/i8254.h          | 2 ++
->  include/hw/timer/i8254_internal.h | 8 ++++----
->  2 files changed, 6 insertions(+), 4 deletions(-)
+>  include/hw/nubus/nubus.h | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
-> index e75b4a5a08..206b8f8464 100644
-> --- a/include/hw/timer/i8254.h
-> +++ b/include/hw/timer/i8254.h
-> @@ -39,6 +39,8 @@ typedef struct PITChannelInfo {
->  } PITChannelInfo;
+> diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+> index a8634e54c5..c350948262 100644
+> --- a/include/hw/nubus/nubus.h
+> +++ b/include/hw/nubus/nubus.h
+> @@ -29,7 +29,6 @@
+>  #define NUBUS_BUS(obj) OBJECT_CHECK(NubusBus, (obj), TYPE_NUBUS_BUS)
 >  
->  #define TYPE_PIT_COMMON "pit-common"
-> +typedef struct PITCommonState PITCommonState;
-> +typedef struct PITCommonClass PITCommonClass;
->  #define PIT_COMMON(obj) \
->       OBJECT_CHECK(PITCommonState, (obj), TYPE_PIT_COMMON)
->  #define PIT_COMMON_CLASS(klass) \
-> diff --git a/include/hw/timer/i8254_internal.h b/include/hw/timer/i8254_internal.h
-> index 3db462aecd..a9a600d941 100644
-> --- a/include/hw/timer/i8254_internal.h
-> +++ b/include/hw/timer/i8254_internal.h
-> @@ -50,14 +50,14 @@ typedef struct PITChannelState {
->      uint32_t irq_disabled;
->  } PITChannelState;
+>  #define TYPE_NUBUS_BRIDGE "nubus-bridge"
+> -#define NUBUS_BRIDGE(obj) OBJECT_CHECK(NubusBridge, (obj), TYPE_NUBUS_BRIDGE)
 >  
-> -typedef struct PITCommonState {
-> +struct PITCommonState {
->      ISADevice dev;
->      MemoryRegion ioports;
->      uint32_t iobase;
->      PITChannelState channels[3];
-> -} PITCommonState;
-> +};
->  
-> -typedef struct PITCommonClass {
-> +struct PITCommonClass {
->      ISADeviceClass parent_class;
->  
->      void (*set_channel_gate)(PITCommonState *s, PITChannelState *sc, int val);
-> @@ -65,7 +65,7 @@ typedef struct PITCommonClass {
->                               PITChannelInfo *info);
->      void (*pre_save)(PITCommonState *s);
->      void (*post_load)(PITCommonState *s);
-> -} PITCommonClass;
-> +};
->  
->  int pit_get_out(PITChannelState *s, int64_t current_time);
->  int64_t pit_get_next_transition_time(PITChannelState *s, int64_t current_time);
+>  typedef struct NubusBus {
+>      BusState qbus;
 > 
 
 
