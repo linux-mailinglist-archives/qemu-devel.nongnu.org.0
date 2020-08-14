@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27516244E47
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:01:19 +0200 (CEST)
-Received: from localhost ([::1]:44480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31315244E4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 20:03:01 +0200 (CEST)
+Received: from localhost ([::1]:49034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6e10-0004WD-6g
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1k6e2e-0006U3-7Z
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 14:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6dzY-0003ut-Ub
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 13:59:48 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38201)
+ id 1k6e0b-0004bK-KP
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:00:53 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:56035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6dzX-0003RC-F0
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 13:59:48 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t14so8624652wmi.3
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 10:59:47 -0700 (PDT)
+ id 1k6e0a-0003jW-6M
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 14:00:53 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 9so8162009wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 11:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ji1ko9vpk19uFPhsEdQhHCJvX7AH6GDLdEydPoJFjsI=;
- b=eIfWT/fSu5TVWQP2RFRKJhOVl4Gjkr9ekXunr2bvOFz5YkHrXHuGySr5+pzTxEslc5
- V9QSDU4Lg0w0VB8Xhwf3mH4/Q3qnq93ovowx5Im7KH+2LeDXTvrehHfdIx05XFbg1CxU
- 8nc/FrrCHKdURqEKltwBirQ141XrolUrqrzBV6tDuKA7OFrV+JJXBuMjP85NQuTUBk4D
- KSMKqkxJ+sKx09QqwNikFA8iCFBPaSS9SnGPjw1AhZSATliQGZbRcMrw++H2YbxlK0Ou
- EERTAghXvIReG3ANKba7dQtnN7/uRVNTN/YvtN0aV/0xsUu0at4drEpJwnms7MnJQoOu
- WGnA==
+ bh=R5Gdza+ElQrzCj9ShIMK7rozY7qDx/PrHAaTaHDiBfM=;
+ b=lLuA96Dpvq7jjO4bVMLYjbyI6sod1Jsc9/FSBJcGQ+MT4kK3o2/e3MMONGr5suhcLg
+ whwE3b6/FJ5s/TrsWvTGE5FhRHtMIHcNogxR/IylB7Cpn83NDSJOMJsgxAUpizpdSUOH
+ iJo7DZ832T1/twT43z0jCaCX2JM1pVszSevIsJdMzao4Q7IQyHSTFrwvcq8Ae1MfIP5W
+ c3fJvFVoArX6nhicBcTh61J3gEVB0MDti8BdBo97ZGJCBnBPRtyqz+8r4RUGv9ob7/gt
+ JMGbIdXbhE9Yx8lt3cIV1cliZmEQElv3PAOMDm1SdBuF1q7Lmhe5+QLRb6sZJMEE2/d+
+ EfcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ji1ko9vpk19uFPhsEdQhHCJvX7AH6GDLdEydPoJFjsI=;
- b=byq955x3H2fe7fhtSw/0Kov7V/p0SFxzovrJkDD1VW9d+lHKT6J8OWyy4F+LRJZ6pG
- xuEShTmLEOPEL8U8Z8hS3Zz30QB43W97NY/1fFSsRvv9FFLKFcUQ7iSLPBDjTBM8t7Ir
- 4l04BuE8h6q1oA7RzqP0yFNmhXAyaa3wIlrwnNIHCwyes2fQuMxTxATWUoKtqHUJPSMB
- 3eBsF6R3XS7CJIbxf83Ng93bgFZSsrvdM5z8m4SuRKlDx+odiB9ZhqtUMagPW5/AOPLC
- ahIB67IeUw0QqHMJMc/n/LfKC9nnWezrh3llEScXS5hCGGMuofrGw7jEtYV9DJH5c3U7
- matw==
-X-Gm-Message-State: AOAM531KQ6ilNgWTMRQFIUZNCN+oh9atmz4dO4taEdqldqHSDLQlbYIN
- xBTD4JVMMkmCfyHEjXBzicg=
-X-Google-Smtp-Source: ABdhPJwRf2amAZ/I4dSmmynDNo0K2+jGq8zgwVLc8Y0CjwOd1Pf5QBvgYaUT700VxX8W1A2xA2Z1IQ==
-X-Received: by 2002:a1c:c90d:: with SMTP id f13mr3582709wmb.25.1597427985951; 
- Fri, 14 Aug 2020 10:59:45 -0700 (PDT)
+ bh=R5Gdza+ElQrzCj9ShIMK7rozY7qDx/PrHAaTaHDiBfM=;
+ b=sczXFz6g7anex+/ROF2LCC/xZYOb5W8gE3Byn+jmz723Ws98Gl4RGPSH4rqfQFFU5p
+ X3fAaNjZ0Ix+GS8q39BJ/AHdenZUzo2Z41JG5cmXqdDRTDgsadS3ngXd4LMCHVeaqPFw
+ wZVfBo8K5nwISzLv3KYfepOdONiFkzLldxbSqTGtUh8cg8OMRJLNamYnguzgInajAjYy
+ kvXGwyKBdO0laVl4g8OfzUiEG5TichS9gVZkE7cWTMZgkQhzpOYsFhCDLdSq1Bxb/JpY
+ lcTQcsqEvd5fAbCGY7cXBsEP0rNw/J4qPaub/fZMOcAFJRtCjNGmOZ6QB7z2q8KtpDcu
+ YiNw==
+X-Gm-Message-State: AOAM532Xzgrgx60BMoRpjmO3idMGqvaMloCExeu3ySowDcHp2J179bvU
+ xJ4gB/1ieiuC7Eit3dnf+rYKAVp2crg=
+X-Google-Smtp-Source: ABdhPJxr/31f7t3kWj6FYZw7gtOAQGRP2/Z6ZfsgMq9RsQ+CerUheN95T/rcYbZ9zzDh9uSAjoSGiw==
+X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr3687406wmh.118.1597428050730; 
+ Fri, 14 Aug 2020 11:00:50 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id y142sm17437558wmd.3.2020.08.14.10.59.45
+ by smtp.gmail.com with ESMTPSA id m14sm16864579wrx.76.2020.08.14.11.00.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 10:59:45 -0700 (PDT)
-Subject: Re: [PATCH 11/41] versatile: Fix typo in PCI_VPB_HOST definition
+ Fri, 14 Aug 2020 11:00:50 -0700 (PDT)
+Subject: Re: [PATCH 14/41] hcd-dwc2: Rename USB_*CLASS macros for consistency
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-12-ehabkost@redhat.com>
+ <20200813222625.243136-15-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4cef7686-6450-1485-9d26-499e1f9f3bab@amsat.org>
-Date: Fri, 14 Aug 2020 19:59:44 +0200
+Message-ID: <5c329e66-e40d-6bb4-b25a-4288e4832ba8@amsat.org>
+Date: Fri, 14 Aug 2020 20:00:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-12-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-15-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,30 +96,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/14/20 12:25 AM, Eduardo Habkost wrote:
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
->  hw/pci-host/versatile.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Rename the DWC2_CLASS to DWC2_USB_CLASS and DWC2_GET_CLASS to
+> DWC2_USB_GET_CLASS, for consistency with the DWC2_USB macro.
 > 
-> diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-> index 616882a80d..7e4aa467a2 100644
-> --- a/hw/pci-host/versatile.c
-> +++ b/hw/pci-host/versatile.c
-> @@ -161,7 +161,7 @@ static const VMStateDescription pci_vpb_vmstate = {
->  
->  #define TYPE_VERSATILE_PCI_HOST "versatile_pci_host"
->  #define PCI_VPB_HOST(obj) \
-> -    OBJECT_CHECK(PCIDevice, (obj), TYPE_VERSATILE_PCIHOST)
-> +    OBJECT_CHECK(PCIDevice, (obj), TYPE_VERSATILE_PCI_HOST)
-
-Uh, since cd93dbf375 ("versatile_pci: Update to realize and instance
-init functions") 7 years ago...
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+> ---
+>  hw/usb/hcd-dwc2.h | 4 ++--
+>  hw/usb/hcd-dwc2.c | 8 ++++----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/usb/hcd-dwc2.h b/hw/usb/hcd-dwc2.h
+> index 4ba809a07b..54111d835e 100644
+> --- a/hw/usb/hcd-dwc2.h
+> +++ b/hw/usb/hcd-dwc2.h
+> @@ -182,9 +182,9 @@ struct DWC2Class {
+>  #define TYPE_DWC2_USB   "dwc2-usb"
+>  #define DWC2_USB(obj) \
+>      OBJECT_CHECK(DWC2State, (obj), TYPE_DWC2_USB)
+> -#define DWC2_CLASS(klass) \
+> +#define DWC2_USB_CLASS(klass) \
+>      OBJECT_CLASS_CHECK(DWC2Class, (klass), TYPE_DWC2_USB)
+> -#define DWC2_GET_CLASS(obj) \
+> +#define DWC2_USB_GET_CLASS(obj) \
+>      OBJECT_GET_CLASS(DWC2Class, (obj), TYPE_DWC2_USB)
 >  
->  typedef enum {
->      PCI_IMAP0 = 0x0,
+>  #endif
+> diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+> index 56f91f6bee..97688d21bf 100644
+> --- a/hw/usb/hcd-dwc2.c
+> +++ b/hw/usb/hcd-dwc2.c
+> @@ -1155,7 +1155,7 @@ static void dwc2_work_timer(void *opaque)
+>  
+>  static void dwc2_reset_enter(Object *obj, ResetType type)
+>  {
+> -    DWC2Class *c = DWC2_GET_CLASS(obj);
+> +    DWC2Class *c = DWC2_USB_GET_CLASS(obj);
+>      DWC2State *s = DWC2_USB(obj);
+>      int i;
+>  
+> @@ -1239,7 +1239,7 @@ static void dwc2_reset_enter(Object *obj, ResetType type)
+>  
+>  static void dwc2_reset_hold(Object *obj)
+>  {
+> -    DWC2Class *c = DWC2_GET_CLASS(obj);
+> +    DWC2Class *c = DWC2_USB_GET_CLASS(obj);
+>      DWC2State *s = DWC2_USB(obj);
+>  
+>      trace_usb_dwc2_reset_hold();
+> @@ -1253,7 +1253,7 @@ static void dwc2_reset_hold(Object *obj)
+>  
+>  static void dwc2_reset_exit(Object *obj)
+>  {
+> -    DWC2Class *c = DWC2_GET_CLASS(obj);
+> +    DWC2Class *c = DWC2_USB_GET_CLASS(obj);
+>      DWC2State *s = DWC2_USB(obj);
+>  
+>      trace_usb_dwc2_reset_exit();
+> @@ -1382,7 +1382,7 @@ static Property dwc2_usb_properties[] = {
+>  static void dwc2_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> -    DWC2Class *c = DWC2_CLASS(klass);
+> +    DWC2Class *c = DWC2_USB_CLASS(klass);
+>      ResettableClass *rc = RESETTABLE_CLASS(klass);
+>  
+>      dc->realize = dwc2_realize;
 > 
 
 
