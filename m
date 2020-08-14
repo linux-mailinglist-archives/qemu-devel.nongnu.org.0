@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FFF2447EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:24:59 +0200 (CEST)
-Received: from localhost ([::1]:50090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2136A2447E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:23:13 +0200 (CEST)
+Received: from localhost ([::1]:41976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WtO-0006UI-3B
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:24:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46154)
+	id 1k6Wrg-0003Da-6Q
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:23:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k6VuC-0002Gc-AH
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:21:44 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:50078 helo=huawei.com)
+ id 1k6VuE-0002LM-Ea
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:21:46 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4243 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k6VuA-00045x-0S
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:21:43 -0400
+ id 1k6VuA-00047Y-Jx
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:21:46 -0400
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 8C22410A61A5239A6855;
- Fri, 14 Aug 2020 17:21:33 +0800 (CST)
+ by Forcepoint Email with ESMTP id 9CCF5F0F267A2D4F4D18;
+ Fri, 14 Aug 2020 17:21:38 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Fri, 14 Aug 2020
- 17:21:27 +0800
+ 17:21:28 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 06/10] migration/dirtyrate: Compare page hash results for
- recorded sampled page
-Date: Fri, 14 Aug 2020 17:32:09 +0800
-Message-ID: <1597397532-68043-7-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v2 07/10] migration/dirtyrate: skip sampling ramblock with
+ size below MIN_RAMBLOCK_SIZE
+Date: Fri, 14 Aug 2020 17:32:10 +0800
+Message-ID: <1597397532-68043-8-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1597397532-68043-1-git-send-email-zhengchuan@huawei.com>
 References: <1597397532-68043-1-git-send-email-zhengchuan@huawei.com>
@@ -38,9 +38,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:21:34
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:21:39
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -67,98 +67,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zheng Chuan <zhengchuan@huawei.com>
 
-Compare page hash results for recorded sampled page.
+In order to sample real RAM, skip ramblock with size below
+MIN_RAMBLOCK_SIZE which is 128M as default.
 
 Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
-Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 ---
- migration/dirtyrate.c | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+ migration/dirtyrate.c | 24 ++++++++++++++++++++++++
+ migration/dirtyrate.h |  5 +++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 11c0051..f136067 100644
+index f136067..3dc9feb 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -206,6 +206,79 @@ static int record_ramblock_hash_info(struct DirtyRateConfig config,
-     return 0;
+@@ -179,6 +179,24 @@ alloc_ramblock_dirty_info(int *block_index,
+     return block_dinfo;
  }
  
-+static int calc_page_dirty_rate(struct RamblockDirtyInfo *info)
++static int skip_sample_ramblock(RAMBlock *block)
 +{
-+    uint8_t *md = NULL;
-+    int i;
-+    int ret = 0;
++    int64_t ramblock_size;
 +
-+    md = g_try_new0(uint8_t, qcrypto_hash_len);
-+    if (!md)
-+        return -1;
++    /* ramblock size in MB */
++    ramblock_size = qemu_ram_get_used_length(block) >> 20;
 +
-+    for (i = 0; i < info->sample_pages_count; i++) {
-+        ret = get_ramblock_vfn_hash(info, info->sample_page_vfn[i], &md);
-+        if (ret < 0) {
-+            goto out;
-+        }
-+
-+        if (memcmp(md, info->hash_result + i * qcrypto_hash_len, qcrypto_hash_len) != 0) {
-+            info->sample_dirty_count++;
-+        }
-+    }
-+
-+out:
-+    g_free(md);
-+    return ret;
-+}
-+
-+static bool find_page_matched(RAMBlock *block, struct RamblockDirtyInfo *infos,
-+                               int count, struct RamblockDirtyInfo **matched)
-+{
-+    int i;
-+
-+    for (i = 0; i < count; i++) {
-+        if (!strcmp(infos[i].idstr, qemu_ram_get_idstr(block))) {
-+            break;
-+        }
-+    }
-+
-+    if (i == count) {
-+        return false;
-+    }
-+
-+    if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-+        infos[i].ramblock_pages !=
-+            (qemu_ram_get_used_length(block) >> 12)) {
-+        return false;
-+    }
-+
-+    *matched = &infos[i];
-+    return true;
-+}
-+
-+static int compare_page_hash_info(struct RamblockDirtyInfo *info, int block_index)
-+{
-+    struct RamblockDirtyInfo *block_dinfo = NULL;
-+    RAMBlock *block = NULL;
-+
-+    RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+        block_dinfo = NULL;
-+        if (!find_page_matched(block, info, block_index + 1, &block_dinfo)) {
-+            continue;
-+        }
-+        if (calc_page_dirty_rate(block_dinfo) < 0) {
-+            return -1;
-+        }
-+        update_dirtyrate_stat(block_dinfo);
-+    }
-+    if (!dirty_stat.total_sample_count) {
++    /*
++     * Consider ramblock with size larger than 128M is what we
++     * want to sample.
++     */
++    if (ramblock_size < MIN_RAMBLOCK_SIZE) {
 +        return -1;
 +    }
 +
 +    return 0;
 +}
 +
- static void calculate_dirtyrate(struct DirtyRateConfig config)
+ static int record_ramblock_hash_info(struct DirtyRateConfig config,
+                                      struct RamblockDirtyInfo **block_dinfo, int *block_index)
  {
-     /* todo */
+@@ -188,6 +206,9 @@ static int record_ramblock_hash_info(struct DirtyRateConfig config,
+     int index = 0;
+ 
+     RAMBLOCK_FOREACH_MIGRATABLE(block) {
++        if (skip_sample_ramblock(block) < 0) {
++            continue;
++        }
+         dinfo = alloc_ramblock_dirty_info(&index, dinfo);
+         if (dinfo == NULL)
+             return -1;
+@@ -263,6 +284,9 @@ static int compare_page_hash_info(struct RamblockDirtyInfo *info, int block_inde
+     RAMBlock *block = NULL;
+ 
+     RAMBLOCK_FOREACH_MIGRATABLE(block) {
++        if (skip_sample_ramblock(block) < 0) {
++            continue;
++        }
+         block_dinfo = NULL;
+         if (!find_page_matched(block, info, block_index + 1, &block_dinfo)) {
+             continue;
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 0812b16..fce2e3b 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -31,6 +31,11 @@
+ 
+ #define QCRYPTO_HASH_LEN                          16
+ 
++/*
++ * minimum ramblock size to sampled
++ */
++#define MIN_RAMBLOCK_SIZE                        128
++
+ /* Take 1s as default for calculation duration */
+ #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
+ 
 -- 
 1.8.3.1
 
