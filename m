@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A61244718
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:35:25 +0200 (CEST)
-Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11DB24471D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:36:49 +0200 (CEST)
+Received: from localhost ([::1]:43046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6W7Q-0008Uf-ST
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
+	id 1k6W8m-0003VX-N8
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vmn-0005Ue-3A
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:05 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56980
+ id 1k6Vmp-0005aL-6l
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27843
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vmd-0002tf-RY
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:04 -0400
+ id 1k6Vme-0002tl-7o
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597396435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wSFq4XG23nvjl8np0OHbaTtGBQYRLreC3mQMtJGV8FM=;
- b=CA8jLU51W7Ll2utg9ftOjaa7+JLcEiLvX2KMchg6FS77kxIz1Q2O+uuOG/jNGW0s4BWmfZ
- pc6gNqnqIyU7f4IP10anIVoutQviROHwK5kRnZQp5Ys9W/Ncb7XZAa3591rIXvEVPCksUI
- bYVEERe39mho24kp+4+KSG7CAZqN2Hc=
+ bh=rS5JrAYDji1jF/NGi6MqC3zFhSOX+4YN+U7okg6wvKw=;
+ b=HoUll0UvcxfsiQdOnXpcaWUs/3TKUazEEDe0b2m+Ne/oyjxuJTwgHcWbPSsbCa2YFPZ37a
+ xyK5giq4n2bOtFM1kfX8HxHRn5S/H/IfQ2bv+K5+ubDKqHN9rYEY8hD4vyhAgBwy+RDWHH
+ dQUjy+7cil1jLS9M3VpWhK39LuZnmEU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-dwVgKfBvMaikgdLRr_dL9w-1; Fri, 14 Aug 2020 05:13:53 -0400
-X-MC-Unique: dwVgKfBvMaikgdLRr_dL9w-1
+ us-mta-488-oZEikx8iNRu2YPo53z7cdA-1; Fri, 14 Aug 2020 05:13:53 -0400
+X-MC-Unique: oZEikx8iNRu2YPo53z7cdA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6962C1DDE1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90A485B67B
  for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25E3E747B9;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8549C747B9;
  Fri, 14 Aug 2020 09:13:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 037/150] contrib/elf2dmp: convert to meson
-Date: Fri, 14 Aug 2020 05:11:33 -0400
-Message-Id: <20200814091326.16173-38-pbonzini@redhat.com>
+Subject: [PATCH 038/150] meson: add macos dependencies
+Date: Fri, 14 Aug 2020 05:11:34 -0400
+Message-Id: <20200814091326.16173-39-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -88,114 +88,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+There is no probing in configure, so no need to pass them as
+variables to meson. Do a regular meson dependency() instead.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                      | 4 ----
- Makefile.objs                 | 6 ------
- configure                     | 3 ---
- contrib/elf2dmp/Makefile.objs | 4 ----
- contrib/elf2dmp/meson.build   | 5 +++++
- meson.build                   | 6 ++++++
- 6 files changed, 11 insertions(+), 17 deletions(-)
- delete mode 100644 contrib/elf2dmp/Makefile.objs
- create mode 100644 contrib/elf2dmp/meson.build
+ meson.build | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 208e98dd4d..653c16bb0d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -293,7 +293,6 @@ dummy := $(call unnest-vars,, \
-                 authz-obj-y \
-                 chardev-obj-y \
-                 qga-obj-y \
--                elf2dmp-obj-y \
-                 qga-vss-dll-obj-y \
-                 block-obj-y \
-                 block-obj-m \
-@@ -503,9 +502,6 @@ ifneq ($(EXESUF),)
- qemu-ga: qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
- endif
- 
--elf2dmp$(EXESUF): $(elf2dmp-obj-y)
--	$(call LINK, $^)
--
- module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
- 	$(call quiet-command,$(PYTHON) $< $@ \
- 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
-diff --git a/Makefile.objs b/Makefile.objs
-index 336a684ff3..1486254a2c 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -100,9 +100,3 @@ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
- # extracted into a QAPI schema module, or perhaps a separate schema.
- qga-obj-y = qga/
- qga-vss-dll-obj-y = qga/
--
--######################################################################
--# contrib
--elf2dmp-obj-y = contrib/elf2dmp/
--
--######################################################################
-diff --git a/configure b/configure
-index f64454b090..789569279c 100755
---- a/configure
-+++ b/configure
-@@ -6680,9 +6680,6 @@ if test "$want_tools" = "yes" ; then
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
-     tools="qemu-nbd\$(EXESUF) qemu-storage-daemon\$(EXESUF) $tools"
-   fi
--  if [ "$curl" = "yes" ]; then
--      tools="elf2dmp\$(EXESUF) $tools"
--  fi
- fi
- if test "$softmmu" = yes ; then
-   if test "$linux" = yes; then
-diff --git a/contrib/elf2dmp/Makefile.objs b/contrib/elf2dmp/Makefile.objs
-deleted file mode 100644
-index 1505716916..0000000000
---- a/contrib/elf2dmp/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--elf2dmp-obj-y = main.o addrspace.o download.o pdb.o qemu_elf.o
--
--download.o-cflags := $(CURL_CFLAGS)
--download.o-libs   := $(CURL_LIBS)
-diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
-new file mode 100644
-index 0000000000..b3de173316
---- /dev/null
-+++ b/contrib/elf2dmp/meson.build
-@@ -0,0 +1,5 @@
-+if 'CONFIG_CURL' in config_host
-+  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
-+             dependencies: [glib, curl],
-+             install: true)
-+endif
 diff --git a/meson.build b/meson.build
-index 193881c888..fbbe20de59 100644
+index fbbe20de59..be0a9975bf 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -106,6 +106,11 @@ if 'CONFIG_VIRGL' in config_host
-   virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
-                              link_args: config_host['VIRGL_LIBS'].split())
+@@ -46,6 +46,10 @@ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ socket = []
+ version_res = []
++coref = []
++iokit = []
++cocoa = []
++hvf = []
+ if host_machine.system() == 'windows'
+   socket = cc.find_library('ws2_32')
+ 
+@@ -53,6 +57,11 @@ if host_machine.system() == 'windows'
+   version_res = win.compile_resources('version.rc',
+                                       depend_files: files('pc-bios/qemu-nsis.ico'),
+                                       include_directories: include_directories('.'))
++elif host_machine.system() == 'darwin'
++  coref = dependency('appleframeworks', modules: 'CoreFoundation')
++  iokit = dependency('appleframeworks', modules: 'IOKit')
++  cocoa = dependency('appleframeworks', modules: 'Cocoa')
++  hvf = dependency('appleframeworks', modules: 'Hypervisor')
  endif
-+curl = not_found
-+if 'CONFIG_CURL' in config_host
-+  curl = declare_dependency(compile_args: config_host['CURL_CFLAGS'].split(),
-+                            link_args: config_host['CURL_LIBS'].split())
-+endif
- 
- target_dirs = config_host['TARGET_DIRS'].split()
- have_user = false
-@@ -270,6 +275,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
- 
- if have_tools
-   subdir('contrib/rdmacm-mux')
-+  subdir('contrib/elf2dmp')
- 
-   if 'CONFIG_VHOST_USER' in config_host
-     subdir('contrib/libvhost-user')
+ glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
+                           link_args: config_host['GLIB_LIBS'].split())
 -- 
 2.26.2
 
