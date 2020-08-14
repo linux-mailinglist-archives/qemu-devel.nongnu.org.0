@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C049244777
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:55:55 +0200 (CEST)
-Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A123224478B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:57:30 +0200 (CEST)
+Received: from localhost ([::1]:33396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WRG-0008TL-7l
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43480)
+	id 1k6WSn-0003XV-KF
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnB-0006Sl-Uf
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46670
+ id 1k6VnC-0006UQ-MI
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26589
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vn7-0002zw-6Y
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:29 -0400
+ id 1k6Vn7-0002zu-7A
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597396464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=swsGZPYVqTZuHwcOdkC0ZeXnKhtaGiE82N987gLlcYI=;
- b=YA1mzjWAuPSeaQZCO1/FwVqrPbMn2vZcaSWwwWb/NPBAWD/y0qIfWE5lvJq0kPHomixLse
- HRHoTHWYKYwHdcwB+jXLx29rrVFsspJ07untj/tJFTRenGZwxfxgee6u3oED0yTz+ntXYK
- 5Thnt5mh0greEdIVjW53UYZGeItmrio=
+ bh=2m9BLaRc2vYcN4AzbMEg1k1RBUEJSYEg5EY4KfBueFg=;
+ b=L0u28SKZWjRQR4XkV18vGjuUIx6EeZOd952A7LisE/1FWh87JEd6uXSIsHR6tuysbqogmz
+ O+ZzO96ZHwWIBPSZV8mjTnMac0FJrNGwMRAO+5UXst+4avBO4dlIfnRgTu03BVvDdXS0zV
+ rUIGnYeb/NHI4ou5iZAKe49vYou4y/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-IEwobLJiNleUbSMYjcHNkA-1; Fri, 14 Aug 2020 05:14:22 -0400
-X-MC-Unique: IEwobLJiNleUbSMYjcHNkA-1
+ us-mta-382-HTlPOMZzMICDtq3vi9Dy4Q-1; Fri, 14 Aug 2020 05:14:22 -0400
+X-MC-Unique: HTlPOMZzMICDtq3vi9Dy4Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACCA185B67C
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14B0D1853DA0
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:22 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C2C5747C3
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7688747B9;
+ Fri, 14 Aug 2020 09:14:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 073/150] meson: convert most of softmmu/
-Date: Fri, 14 Aug 2020 05:12:09 -0400
-Message-Id: <20200814091326.16173-74-pbonzini@redhat.com>
+Subject: [PATCH 074/150] meson: convert trace/
+Date: Fri, 14 Aug 2020 05:12:10 -0400
+Message-Id: <20200814091326.16173-75-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 03:37:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,68 +83,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leave out main.c, it's special due to fuzzing.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build           |  2 ++
- softmmu/Makefile.objs | 14 +-------------
- softmmu/meson.build   | 10 ++++++++++
- 3 files changed, 13 insertions(+), 13 deletions(-)
- create mode 100644 softmmu/meson.build
+ trace/Makefile.objs | 8 --------
+ trace/meson.build   | 5 ++++-
+ 2 files changed, 4 insertions(+), 9 deletions(-)
+ delete mode 100644 trace/Makefile.objs
 
-diff --git a/meson.build b/meson.build
-index 7dba00a1dc..98ba7a09f6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -641,6 +641,8 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
- 
- common_ss.add(files('cpus-common.c'))
- 
-+subdir('softmmu')
+diff --git a/trace/Makefile.objs b/trace/Makefile.objs
+deleted file mode 100644
+index a429474618..0000000000
+--- a/trace/Makefile.objs
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# -*- mode: makefile -*-
+-
+-
+-##################################################
+-# Translation level
+-
+-obj-y += generated-helpers.o
+-obj-y += control-target.o
+diff --git a/trace/meson.build b/trace/meson.build
+index cab36a248b..9c3c128164 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -1,3 +1,5 @@
++specific_ss.add(files('control-target.c'))
 +
- # needed for fuzzing binaries
- subdir('tests/qtest/libqos')
+ trace_events_files = []
+ foreach dir : [ '.' ] + trace_events_subdirs
+   trace_events_file = meson.source_root() / dir / 'trace-events'
+@@ -61,12 +63,13 @@ foreach d : [
+   ['generated-helpers.h', 'tcg-helper-h'],
+   ['generated-helpers-wrappers.h', 'tcg-helper-wrapper-h'],
+ ]
+-  custom_target(d[0],
++  gen = custom_target(d[0],
+                 output: d[0],
+                 input: meson.source_root() / 'trace-events',
+                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
+                 build_by_default: true, # to be removed when added to a target
+                 capture: true)
++  specific_ss.add(gen)
+ endforeach
  
-diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
-index c036887500..ec74d8a9fa 100644
---- a/softmmu/Makefile.objs
-+++ b/softmmu/Makefile.objs
-@@ -1,14 +1,2 @@
- softmmu-main-y = softmmu/main.o
--
--obj-y += arch_init.o
--obj-y += cpus.o
--obj-y += cpu-throttle.o
--obj-y += balloon.o
--obj-y += ioport.o
--obj-y += memory.o
--obj-y += memory_mapping.o
--
--obj-y += qtest.o
--
--obj-y += vl.o
--vl.o-cflags := $(SDL_CFLAGS)
-+main.o-cflags := $(SDL_CFLAGS)
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-new file mode 100644
-index 0000000000..95d38df259
---- /dev/null
-+++ b/softmmu/meson.build
-@@ -0,0 +1,10 @@
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
-+  'arch_init.c',
-+  'balloon.c',
-+  'cpus.c',
-+  'cpu-throttle.c',
-+  'ioport.c',
-+  'memory.c',
-+  'memory_mapping.c',
-+  'qtest.c',
-+  'vl.c'))
+ if 'CONFIG_TRACE_UST' in config_host
 -- 
 2.26.2
 
