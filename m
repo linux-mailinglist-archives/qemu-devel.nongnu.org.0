@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185B624518A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:07:19 +0200 (CEST)
-Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8918424518C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:08:40 +0200 (CEST)
+Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zeI-0003XH-5a
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1k6zfb-0005dZ-KO
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1k6zdD-0002LH-KK; Sat, 15 Aug 2020 13:06:11 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39650)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k6zeP-0004Mr-PS
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:07:25 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:35041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1k6zdC-0001Nf-2T; Sat, 15 Aug 2020 13:06:11 -0400
-Received: by mail-qt1-x841.google.com with SMTP id w9so9324292qts.6;
- Sat, 15 Aug 2020 10:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=C8DYrGMe3y/eVzf4pXQ5QA0B3zmxOvZQB53ARGNc55o=;
- b=qY5qZTA0p9G/ilHt/4N2AYlygJQ9zrO8zKkstj/82g21j3Z8fCgmNrpSVZF640E8ad
- zoPVZNecnlF0xyTfn71wWKYVDvEECWnCL4MscR04D44Xx0Knofxq6Z1bUsuTBpW7zlcS
- N2x3zc3wVIVJimwr9oltUyob0t/BabHUPYSSesv8Lr9OxYVOHb/PR3alyjxDpLJk4F2H
- fM2qOExcRkYU81OQJbX9Zx4OAoF8huoT2dPlAd1xEunHYExqoWqC8kv23/t+DCDT2MsJ
- h6luOzMZGKCL4PdQCp7DWdNAKp52LU2fcuFC9UGhnB2tNc+WIGuL3TZj1p8lxAAhnYk8
- Rl8w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k6zeO-0001So-8i
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:07:25 -0400
+Received: by mail-il1-x141.google.com with SMTP id q14so7622011ilm.2
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 10:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3ArlhIf63DPyzBXDe5j7/Mnm8PQPZAMAlpFUhxnKNcQ=;
+ b=WS1aUiEb3MKDSe7YiCQGT2nIBYfnbFkvz4wc3dW7E9uPqRjBDIjzlaBrf+dSIcIS1s
+ f8DlExRXFeebUx1qcfFqNSdTSRmCmsd35EphraTJuI4EhPtpM89IkZ4xeZpQkBqapYk5
+ mubjhUiZJDjPUrST2wDtuHXqQZrBFvm60C4yHsC9l4OUHpl0xqAMvQ//mza5Z4A+cAI7
+ caPSoHFlYNNYWh5Nbf5tQIIQPLMaTT8khPKKULVx5F6eYWlku8t+0fIT2VB0j0SU38Az
+ voUf5rNgE34E5rDxy3V9j3hHzEQle6hxXtZu78nj6/AaaanA7uW2xzw8e8ZfFZqBVjEv
+ 1BdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=C8DYrGMe3y/eVzf4pXQ5QA0B3zmxOvZQB53ARGNc55o=;
- b=i+1a358VZJu60xmJDP+o3+iH2TyWtAIQn6s7oR2Qgsd3KEY76dVUZC4e4pCSRCO1aY
- 4aH/ZPFz/yTTb6muPk7GKdYWV667F8PSvPtbjSvJvci2wl7P4Khtb8TS0Z+6bNDMVERF
- C16GbOLr3Yz3YkoHXoT1E2MLQEDcw3eqPgStXVMeKQFDonVYHmnuc0c35gjTBx1jMw7v
- z1JWQFJZXVNNVEzr1fKGl/+K1KE0RMrXVz9uSK+riNlkozMtSzc76GqKyw8HpK2iM1L+
- Bd8H3XNj0+1UP5PbUbI7QweU7OX0U50DIF922hknW09aHd7nJvetmJe1rS45USHxDQSe
- 9c7A==
-X-Gm-Message-State: AOAM530G33cIr7jX/7OlaGogMGwzFmlx3h4fD3lWesQwmWFCWQ8UsJq6
- z7cJtz+LM81FCbhZrSkXuP5bqS08rMItCQ==
-X-Google-Smtp-Source: ABdhPJyHKq14iTpKYc5wJdXofWA+1bw5OnGOmJEZleZvtQYkThyO13voRwfd9A4CwN83abl0C4k+4w==
-X-Received: by 2002:ac8:44b9:: with SMTP id a25mr3618711qto.356.1597438480966; 
- Fri, 14 Aug 2020 13:54:40 -0700 (PDT)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:303f:d1dc:35d8:e9f6:c8b])
- by smtp.gmail.com with ESMTPSA id p33sm12301018qtp.49.2020.08.14.13.54.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 13:54:40 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 02/10] numa: introduce MachineClass::forbid_asymmetrical_numa
-Date: Fri, 14 Aug 2020 17:54:16 -0300
-Message-Id: <20200814205424.543857-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200814205424.543857-1-danielhb413@gmail.com>
-References: <20200814205424.543857-1-danielhb413@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3ArlhIf63DPyzBXDe5j7/Mnm8PQPZAMAlpFUhxnKNcQ=;
+ b=p92d6LBRaT75MLmppIRwgZ9oJh9GAd9g1D+HKvFbJgeuTkijVxSRn96p5bCUPhUAVd
+ eFzbgQQ6sNtH3SSh1O6gRrvl5bHrclkUS++tSxRaTnCXwwuXWD8mHQnRicb+ifUbqKjC
+ MHrjjiP0JCwBCIB99zj408gAjyTwuZk+2rS7ZHdg7egmXkJn5JeYtmI0IWprbResdoJM
+ DbF/hGntePcZyZv/0HuQ+A7gWKUABEiC6rIf6jQfRz8ZTkuUoOzu1v6VVX4IS6pmjzoe
+ BJHsOBH/M3IP+dKmUOGA7x0WsdQpJh+tyaiCcS/1oHKTYsDuy2XJXLv3uM6VZz0XY5bq
+ RgCw==
+X-Gm-Message-State: AOAM532nezgCHeCOzWyCVY/X3MJCgA7mOBcUXQ3/jXbfKOisDfyACXNf
+ C5gXESY7GiuQUZ93lAmem7D8L1qS3SQLRw==
+X-Google-Smtp-Source: ABdhPJztVVOAB305CXHFnDjv+Eb4UsVjBkwT/oWbY/4+ev0QxOlTGqQaywjP598T4hjXW8C3NNCa3A==
+X-Received: by 2002:a63:9256:: with SMTP id s22mr2836891pgn.75.1597439246514; 
+ Fri, 14 Aug 2020 14:07:26 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id q11sm10298131pfn.170.2020.08.14.14.07.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Aug 2020 14:07:25 -0700 (PDT)
+Subject: Re: [PATCH v5 14/14] kvm: remove kvm specific functions from global
+ includes
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20200812183250.9221-1-cfontana@suse.de>
+ <20200812183250.9221-15-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1426bf6f-b587-60bf-cdc6-5659139539eb@linaro.org>
+Date: Fri, 14 Aug 2020 14:07:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x841.google.com
+In-Reply-To: <20200812183250.9221-15-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=richard.henderson@linaro.org; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,72 +94,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Richard Henderson <rth@twiddle.net>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pSeries machine does not support asymmetrical NUMA configurations.
+On 8/12/20 11:32 AM, Claudio Fontana wrote:
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  accel/kvm/kvm-cpus.h   |  7 +++++++
+>  accel/stubs/kvm-stub.c | 22 ----------------------
+>  include/sysemu/kvm.h   |  7 -------
+>  3 files changed, 7 insertions(+), 29 deletions(-)
 
-CC: Eduardo Habkost <ehabkost@redhat.com>
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/core/numa.c      | 7 +++++++
- hw/ppc/spapr.c      | 1 +
- include/hw/boards.h | 1 +
- 3 files changed, 9 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index d1a94a14f8..1e81233c1d 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -547,6 +547,7 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
-  */
- static void validate_numa_distance(MachineState *ms)
- {
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-     int src, dst;
-     bool is_asymmetrical = false;
-     int nb_numa_nodes = ms->numa_state->num_nodes;
-@@ -575,6 +576,12 @@ static void validate_numa_distance(MachineState *ms)
-     }
- 
-     if (is_asymmetrical) {
-+        if (mc->forbid_asymmetrical_numa) {
-+            error_report("This machine type does not support "
-+                         "asymmetrical numa distances.");
-+            exit(EXIT_FAILURE);
-+        }
-+
-         for (src = 0; src < nb_numa_nodes; src++) {
-             for (dst = 0; dst < nb_numa_nodes; dst++) {
-                 if (src != dst && numa_info[src].distance[dst] == 0) {
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index dd2fa4826b..3b16edaf4c 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4512,6 +4512,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-      */
-     mc->numa_mem_align_shift = 28;
-     mc->auto_enable_numa = true;
-+    mc->forbid_asymmetrical_numa = true;
- 
-     smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
-     smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index bc5b82ad20..dc6cdd1c53 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -215,6 +215,7 @@ struct MachineClass {
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
-+    bool forbid_asymmetrical_numa;
-     const char *default_ram_id;
- 
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
--- 
-2.26.2
 
+r~
 
