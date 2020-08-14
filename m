@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C33244CFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:50:26 +0200 (CEST)
-Received: from localhost ([::1]:44466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845E6244CF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:48:42 +0200 (CEST)
+Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6cuP-0005Ji-KH
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47524)
+	id 1k6csj-0002N6-I4
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1k6cmU-0000ib-Fd; Fri, 14 Aug 2020 12:42:14 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:36508)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6clg-000767-J0
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:41:24 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1k6cmS-0002kz-NK; Fri, 14 Aug 2020 12:42:14 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y6so4426733plt.3;
- Fri, 14 Aug 2020 09:42:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6cle-0002de-Qt
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:41:24 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p20so8916384wrf.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=oAXhBscEjBxoVrn8A4ECG0YzNXRBy4UTeqzsNHK0BBA=;
- b=TQMnCi1xj6ZpoMBiJKg820sA4hVaiNB/+DjxuyBAA+JeD1rCkFgxH88yQXl0avczYu
- RL/tCejW2kG7p+ufUJ824OylpE0GxVaOV5Bhcf9tbej1+4rneB3DGkqZ52p54eBLsVGl
- +jYx20dmmUxS3jTPjGqbLrTZeJczX3ujY9qPZUY4Qd3UU7ZYnDhhqMgIes0R2fwkGAZO
- YDe+jTTHN+a4KeE2QQodqdAah6B7Ogv1CL4ea1aeX1wjiwSrWzpvQ9FbwI4xirrGhhMj
- 2dMBf91Rik3+IbCUgH44mjjsYBLI0bPrDMLGx5Os+VyFmkBIPE7r/c1xSXviNQvBZMry
- DeWA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6j2hSGTw+VUf8E9AqnZ1VilYmcnzl3giVdcSPPp7dSE=;
+ b=J/xlQqy+NYAm3cfSeAPZuKKh49Ox4X9NkaeVyYQAnqJlbaUKX9O7ARgEaphEnw0D0a
+ 69Hkmxc2PNs0xD+CCvWoJYSpJRhfslFkJLTd42fY2hWkDWZUhqhue80PyvoBo+X1kw/l
+ oRRH9NmtgMeO4EbnavOVolQVVbmdf6zzzCQGsnbcC4m9w/DDyDFotodEJeK9ChXvpdDC
+ 31WrPFXocT37CUR6qqukHbdLjhAJpXudUMQiwFpTp8rnjWN62Iy9LfbKvyyEJEgcDF66
+ s7p/DP2/9qPEIOd924SDNLPgUZVEZgBX3W8yspOa8WSf827o/TxPQjAMht9ycWTsGHaP
+ TUkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=oAXhBscEjBxoVrn8A4ECG0YzNXRBy4UTeqzsNHK0BBA=;
- b=Rmeq/C9zIKyvfT/kvZqMXFVl45fpuwO47ctjzStTTr7d3tPBTz0mGr9gxyZrMYGcIi
- cHK+OGNAdzFSWVzvawfNUcds/m0SRcngtpJ1QAV7zS0eZUsZTYI1RzJy+fX7/mIly7/b
- b41RDac/wcHWFLvA+/Mqw+T0K2OY2LLK/Ay9JiKDOUXmbN7fXmgS6ZEaBcSp/fwTq6KZ
- L3Dv9lE3VRUqqo0VkWiTgt11RBJ8XzmjWTh0jok3mqMjPwEDR9mXvcdoXyLyXA/dwfis
- ncBhWIo768Ls08UhR4aPgwcTu318+l+vUDTPmFTrReB13jngW6xkpqpSsm6lgRG3MRQL
- kYkA==
-X-Gm-Message-State: AOAM531gVMzGSPYD2ld87UpRrQsawkR1Av2EB+9/PFhX51VJhJGpayEA
- OZAglUk8QKJnYQ+7+AfWThI=
-X-Google-Smtp-Source: ABdhPJxhVUGzR01RAsxsmyVaB4WwRX9+8to1XGZ7QMEAk5t3Nc6lTk1Qtgc1pMDn4pbeKz86fIaU1A==
-X-Received: by 2002:a17:90a:1fca:: with SMTP id
- z10mr2907301pjz.209.1597423330966; 
- Fri, 14 Aug 2020 09:42:10 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com (unknown-146-144.windriver.com.
- [147.11.146.144])
- by smtp.gmail.com with ESMTPSA id 16sm9836332pfi.161.2020.08.14.09.42.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Aug 2020 09:42:10 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 18/18] hw/riscv: microchip_pfsoc: Document the software used
- for testing
-Date: Sat, 15 Aug 2020 00:40:56 +0800
-Message-Id: <1597423256-14847-19-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
-References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x642.google.com
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6j2hSGTw+VUf8E9AqnZ1VilYmcnzl3giVdcSPPp7dSE=;
+ b=LL2t0aQ9ivanUL8nkBxCvW4DcDkUbXmLCWIKP2aAV8p0auX170x8RfiYaBxI6HJN5N
+ amgvXA9Xiyy15G7S4jJy9F8J+8Nk2glVITpAf8UK4JkyafXvrb6y6SS0ijmqsmU2I6Sr
+ 2fWR/Sr7wvJfbU+ajmixgTexb9VTBBbOceTBJgO0Tz752JzI4CNGOZOIpYlNRiRFJvjE
+ NzQ4Fr6bnta/qvrlHqLxgTwYz3oc432pt4GrMA9MxJvVTwpuW2XyUSLzRpadjX/zIb8t
+ 9FIeHvm6BEKORLIJbCcC8fXVl3wJ+UID/Pa/cgdw4bLhf4NTQbBBoxfHarwtwFYLDbwX
+ yUPA==
+X-Gm-Message-State: AOAM530nol0QthGzkTp46NXlULA0Xf/KMhRu4mjkd52sh2f6baPdgIsv
+ 1cmjs/fkcRuXtr8NFs/WHGI=
+X-Google-Smtp-Source: ABdhPJw2UIBNBLfABaXx9bLUI2aEIuAPpxFIKO+NBBNiivHtIWZsw7iouMbFU7p6AqXGYhxbFj1Dow==
+X-Received: by 2002:adf:e904:: with SMTP id f4mr3428953wrm.300.1597423280660; 
+ Fri, 14 Aug 2020 09:41:20 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id 62sm17291084wrq.31.2020.08.14.09.41.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Aug 2020 09:41:20 -0700 (PDT)
+Subject: Re: [PATCH] hw/block/nand: Decommission the NAND museum
+To: qemu-devel@nongnu.org, no-reply@patchew.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <159741495800.4317.10689667632180842440@66eaa9a8a123>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e51a61de-b4f8-5d44-f811-e99eb2bd0c0a@amsat.org>
+Date: Fri, 14 Aug 2020 18:41:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <159741495800.4317.10689667632180842440@66eaa9a8a123>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,65 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: kwolf@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On 8/14/20 4:22 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20200814132118.12450-1-f4bug@amsat.org/
+> Hi,
+> 
+> This series failed the docker-quick@centos7 build test. Please find the testing commands and
+> their output below. If you have Docker installed, you can probably reproduce it
+> locally.
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> make docker-image-centos7 V=1 NETWORK=1
+> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
+> === TEST SCRIPT END ===
+> 
+>   TEST    check-unit: tests/test-char
+> Unexpected error in object_property_try_add() at /tmp/qemu-test/src/qom/object.c:1181:
+> attempt to add duplicate property 'serial-id' to object (type 'container')
 
-Add some useful comments to document the software used for testing.
-including how to patch HSS to bypass the DDR memory initialization,
-HSS and Yocto BSP build instructions, etc.
+Unrelated, this is a bug Marc-André is tracking.
 
-To launch this machine for testing:
-$ qemu-system-riscv64 -M microchip-icicle-kit -smp 5 \
-    -bios path/to/hss.bin -sd path/to/sdcard.img \
-    -nic user,model=cadence_gem \
-    -nic tap,ifname=tap,model=cadence_gem \
-    -display none -serial stdio \
-    -chardev socket,id=serial1,path=serial1.sock,server,wait \
-    -serial chardev:serial1
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
----
-
- hw/riscv/microchip_pfsoc.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index e8b7f86..1575fef 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -56,6 +56,27 @@
- /*
-  * The BIOS image used by this machine is called Hart Software Services (HSS).
-  * See https://github.com/polarfire-soc/hart-software-services
-+ *
-+ * As of now the DDR memory controller in the Microchip PolarFire SoC has not
-+ * been modeled. Simply creating unimplemented devices does not make HSS happy.
-+ * Emulating the DDR memory controller is tedious, so a patched HSS should be
-+ * used as the BIOS for this machine.
-+ *
-+ * To patch HSS, open boards/icicle-kit-es/hss_board_init.c in the HSS source
-+ * tree, find the boardInitFunctions[] array that contains the initialization
-+ * routines for this board, and remove the line that contains 'HSS_DDRInit'.
-+ *
-+ * QEMU does not support eMMC hence the SD configuration shall be used in the
-+ * HSS and Yocto BSP build. The eMMC configuration is not supported.
-+ *
-+ * Instructions to build HSS:
-+ *   $ cp boards/icicle-kit-es/def_config.sdcard .config
-+ *   $ make BOARD=icicle-kit-es
-+ *
-+ * For Yocto build, "MACHINE=icicle-kit-es-sd" should be specified, otherwise
-+ * when booting Linux kernel the rootfs cannot be mounted. The generated image
-+ * is something like: mpfs-dev-cli-icicle-kit-es-sd.rootfs.wic. Resize the file
-+ * with 'qemu-image' to a power of 2 before passing to QEMU '-sd' command line.
-  */
- #define BIOS_FILENAME   "hss.bin"
- #define RESET_VECTOR    0x20220000
--- 
-2.7.4
-
+> ERROR test-char - too few tests run (expected 38, got 9)
+> make: *** [check-unit] Error 1
+> make: *** Waiting for unfinished jobs....
+>   TEST    iotest-qcow2: 024
+>   TEST    iotest-qcow2: 025
 
