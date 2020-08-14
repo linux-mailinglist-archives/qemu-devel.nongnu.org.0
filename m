@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE102447AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:06:56 +0200 (CEST)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486852447D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:17:41 +0200 (CEST)
+Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Wbv-0004Ug-2D
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
+	id 1k6WmK-0000OW-2k
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vo6-00008Z-Nf
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:15:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24913
- helo=us-smtp-1.mimecast.com)
+ id 1k6VoA-0000I7-R6
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:15:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24917
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vny-0003FE-EB
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:15:26 -0400
+ id 1k6Vnz-0003Fc-BR
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:15:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396517;
+ s=mimecast20190719; t=1597396518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0e5FKkFRXvlxGursemcyiejOhEWvnPyI1vu1t4zWdbw=;
- b=aJWWRbfYiXg3r20mRW7Ff9rgBgbOv8GXtPA6HdFkRpyKYiBpMFkype1BuXblp16oWDxv6x
- 3rk2EZUxKo8yaKHXH025SslorF5P8il1p+AbMwNvgjjmm32/7rX1hPCHUtn4i46IZiftpZ
- aPZAX+y0eHWcZ0hwl7IksaXZpiVSmm8=
+ bh=iinyQkPxYA/wt6wSTrfMJV7EMO26zpeX1rkT8irlni8=;
+ b=gmdXdDR1CS7LqTNs+BfW149qF3jiHFVlBGMgKlqAq60vsxT1QE1mtZycMnHUMkmHgwwC3f
+ AriSeh8lJBGyfBch8iW4JVwui4Y6E9EnZrStDi84UPFIk/jKecUZurx1z0P+MU0A/GhRXD
+ 7suUEePdHHPlRa+mNgb2VYFYANAhwA4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-SlKb0UmJOluPTq8Bikj2Zg-1; Fri, 14 Aug 2020 05:15:15 -0400
-X-MC-Unique: SlKb0UmJOluPTq8Bikj2Zg-1
+ us-mta-485-CtmbPYb9Oy2b8WiafYghZQ-1; Fri, 14 Aug 2020 05:15:16 -0400
+X-MC-Unique: CtmbPYb9Oy2b8WiafYghZQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BD2D1853DA0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B40FA1DDE0
  for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:15:15 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF0E55C1C2
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:15:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72A855C1BD;
+ Fri, 14 Aug 2020 09:15:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 145/150] meson: move SDL and SDL-image detection to meson
-Date: Fri, 14 Aug 2020 05:13:21 -0400
-Message-Id: <20200814091326.16173-146-pbonzini@redhat.com>
+Subject: [PATCH 147/150] meson: convert po/
+Date: Fri, 14 Aug 2020 05:13:23 -0400
+Message-Id: <20200814091326.16173-148-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 03:37:30
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,310 +82,355 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Meson warns if xgettext is not found.  In the future we may want to add
+a required argument to i18n.gettext(); in the meanwhile, I am adding a
+--enable-gettext/--disable-gettext option and feature detection in
+configure.  This preserves QEMU's default behavior of detecting system
+features, without any warning, if neither --enable-* nor --disable-*
+is requested.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/meson.build |   2 +-
- configure           | 142 +++-----------------------------------------
- meson.build         |  27 ++++++---
- meson_options.txt   |   2 +
- ui/meson.build      |   4 +-
- 5 files changed, 33 insertions(+), 144 deletions(-)
- create mode 100644 meson_options.txt
+ Makefile          |  5 +---
+ configure         | 21 +++++++++++++-
+ meson.build       |  3 ++
+ meson_options.txt |  1 +
+ po/LINGUAS        |  8 +++++
+ po/Makefile       | 52 ---------------------------------
+ po/POTFILES       |  1 +
+ po/meson.build    |  7 +++++
+ po/messages.po    | 74 -----------------------------------------------
+ tests/vm/freebsd  |  1 +
+ tests/vm/netbsd   |  1 +
+ tests/vm/openbsd  |  1 +
+ 12 files changed, 44 insertions(+), 131 deletions(-)
+ create mode 100644 po/LINGUAS
+ delete mode 100644 po/Makefile
+ create mode 100644 po/POTFILES
+ create mode 100644 po/meson.build
+ delete mode 100644 po/messages.po
 
-diff --git a/chardev/meson.build b/chardev/meson.build
-index 2122505599..a0aaafa069 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -36,7 +36,7 @@ softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
- 
- chardev_modules = []
- 
--if config_host.has_key('CONFIG_BRLAPI') and config_host.has_key('CONFIG_SDL')
-+if config_host.has_key('CONFIG_BRLAPI') and sdl.found()
-   chardev_modules += [['baum', files('baum.c'), [sdl, brlapi]]]
- endif
- 
+diff --git a/Makefile b/Makefile
+index a69ec9d94b..84c9e2bd26 100644
+--- a/Makefile
++++ b/Makefile
+@@ -209,7 +209,7 @@ distclean: clean ninja-distclean
+ 	rm -f config-host.mak config-host.h*
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-disas.mak config.status
+-	rm -f po/*.mo tests/qemu-iotests/common.env
++	rm -f tests/qemu-iotests/common.env
+ 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+ 	rm -f *-config-target.h *-config-devices.mak *-config-devices.h
+@@ -287,9 +287,6 @@ endif
+ 	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
+ 	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
+ 		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+-ifdef CONFIG_GTK
+-	$(MAKE) -C po $@
+-endif
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
+ 	set -e; for x in $(KEYMAPS); do \
+ 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
 diff --git a/configure b/configure
-index 53212313e4..6222231409 100755
+index 140274ae4b..a00f4ca0e3 100755
 --- a/configure
 +++ b/configure
-@@ -376,8 +376,8 @@ curses=""
- docs=""
- fdt=""
- netmap="no"
--sdl=""
--sdl_image=""
-+sdl="auto"
-+sdl_image="auto"
- virtfs=""
- mpath=""
- vnc="yes"
-@@ -1088,13 +1088,13 @@ for opt do
-     # configure to be used by RPM and similar macros that set
-     # lots of directory switches by default.
-   ;;
--  --disable-sdl) sdl="no"
-+  --disable-sdl) sdl="disabled"
-   ;;
--  --enable-sdl) sdl="yes"
-+  --enable-sdl) sdl="enabled"
-   ;;
--  --disable-sdl-image) sdl_image="no"
-+  --disable-sdl-image) sdl_image="disabled"
-   ;;
--  --enable-sdl-image) sdl_image="yes"
-+  --enable-sdl-image) sdl_image="enabled"
-   ;;
-   --disable-qom-cast-debug) qom_cast_debug="no"
-   ;;
-@@ -2386,7 +2386,7 @@ if test "$cocoa" = "yes"; then
-         error_exit "Cocoa and GTK UIs cannot both be enabled at once"
-     fi
-     gtk=no
--    sdl=no
-+    sdl=disabled
- fi
+@@ -522,6 +522,7 @@ rng_none="no"
+ secret_keyring=""
+ libdaxctl=""
+ meson=""
++gettext=""
  
- # Some versions of Mac OS X incorrectly define SIZE_MAX
-@@ -3285,125 +3285,6 @@ if test "$vte" != "no"; then
+ bogus_os="no"
+ malloc_trim=""
+@@ -1112,6 +1113,10 @@ for opt do
+   ;;
+   --enable-vnc) vnc="enabled"
+   ;;
++  --disable-gettext) gettext="false"
++  ;;
++  --enable-gettext) gettext="true"
++  ;;
+   --oss-lib=*) oss_lib="$optarg"
+   ;;
+   --audio-drv-list=*) audio_drv_list="$optarg"
+@@ -2983,6 +2988,19 @@ if test "$whpx" != "no" ; then
      fi
  fi
  
--##########################################
--# SDL probe
--
--# Look for sdl configuration program (pkg-config or sdl2-config).  Try
--# sdl2-config even without cross prefix, and favour pkg-config over sdl2-config.
--
--sdl_probe ()
--{
--  if $pkg_config sdl2 --exists; then
--    sdlconfig="$pkg_config sdl2"
--    sdlversion=$($sdlconfig --modversion 2>/dev/null)
--  elif has "$sdl2_config"; then
--    sdlconfig="$sdl2_config"
--    sdlversion=$($sdlconfig --version)
--  else
--    if test "$sdl" = "yes" ; then
--      feature_not_found "sdl" "Install SDL2-devel"
--    fi
--    sdl=no
--    # no need to do the rest
--    return
--  fi
--  if test -n "$cross_prefix" && test "$(basename "$sdlconfig")" = sdl2-config; then
--    echo warning: using "\"$sdlconfig\"" to detect cross-compiled sdl >&2
--  fi
--
--  cat > $TMPC << EOF
--#include <SDL.h>
--#undef main /* We don't want SDL to override our main() */
--int main( void ) { return SDL_Init (SDL_INIT_VIDEO); }
--EOF
--  sdl_cflags=$($sdlconfig --cflags 2>/dev/null)
--  sdl_cflags="$sdl_cflags -Wno-undef"  # workaround 2.0.8 bug
--  if test "$static" = "yes" ; then
--    if $pkg_config sdl2 --exists; then
--      sdl_libs=$($pkg_config sdl2 --static --libs 2>/dev/null)
--    else
--      sdl_libs=$($sdlconfig --static-libs 2>/dev/null)
--    fi
--  else
--    sdl_libs=$($sdlconfig --libs 2>/dev/null)
--  fi
--  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
--    sdl=yes
--
--    # static link with sdl ? (note: sdl.pc's --static --libs is broken)
--    if test "$sdl" = "yes" && test "$static" = "yes" ; then
--      if test $? = 0 && echo $sdl_libs | grep -- -laa > /dev/null; then
--         sdl_libs="$sdl_libs $(aalib-config --static-libs 2>/dev/null)"
--         sdl_cflags="$sdl_cflags $(aalib-config --cflags 2>/dev/null)"
--      fi
--      if compile_prog "$sdl_cflags" "$sdl_libs" ; then
--	:
--      else
--        sdl=no
--      fi
--    fi # static link
--  else # sdl not found
--    if test "$sdl" = "yes" ; then
--      feature_not_found "sdl" "Install SDL2 devel"
--    fi
--    sdl=no
--  fi # sdl compile test
--}
--
--sdl_image_probe ()
--{
--    if test "$sdl_image" != "no" ; then
--        if $pkg_config SDL2_image --exists; then
--            if test "$static" = "yes"; then
--                sdl_image_libs=$($pkg_config SDL2_image --libs --static 2>/dev/null)
--            else
--                sdl_image_libs=$($pkg_config SDL2_image --libs 2>/dev/null)
--            fi
--            sdl_image_cflags=$($pkg_config SDL2_image --cflags 2>/dev/null)
--            sdl_image=yes
--
--            sdl_cflags="$sdl_cflags $sdl_image_cflags"
--            sdl_libs="$sdl_libs $sdl_image_libs"
--        else
--            if test "$sdl_image" = "yes" ; then
--                feature_not_found "sdl_image" "Install SDL Image devel"
--            else
--                sdl_image=no
--            fi
--        fi
--    fi
--}
--
--if test "$sdl" != "no" ; then
--  sdl_probe
--fi
--
--if test "$sdl" = "yes" ; then
--  sdl_image_probe
--else
--  if test "$sdl_image" = "yes"; then
--    echo "warning: SDL Image requested, but SDL is not available, disabling"
--  fi
--  sdl_image=no
--fi
--
--if test "$sdl" = "yes" ; then
--  cat > $TMPC <<EOF
--#include <SDL.h>
--#if defined(SDL_VIDEO_DRIVER_X11)
--#include <X11/XKBlib.h>
--#else
--#error No x11 support
--#endif
--int main(void) { return 0; }
--EOF
--  if compile_prog "$sdl_cflags $x11_cflags" "$sdl_libs $x11_libs" ; then
--    need_x11=yes
--    sdl_cflags="$sdl_cflags $x11_cflags"
--    sdl_libs="$sdl_libs $x11_libs"
--  fi
--fi
--
++##########################################
++# gettext probe
++if test "$gettext" != "false" ; then
++  if has xgettext; then
++    gettext=true
++  else
++    if test "$gettext" = "true" ; then
++      feature_not_found "gettext" "Install xgettext binary"
++    fi
++    gettext=false
++  fi
++fi
++
  ##########################################
- # RDMA needs OpenFabrics libraries
- if test "$rdma" != "no" ; then
-@@ -7004,14 +6885,6 @@ if test "$have_x11" = "yes" && test "$need_x11" = "yes"; then
-   echo "X11_CFLAGS=$x11_cflags" >> $config_host_mak
-   echo "X11_LIBS=$x11_libs" >> $config_host_mak
- fi
--if test "$sdl" = "yes" ; then
--  echo "CONFIG_SDL=m" >> $config_host_mak
--  echo "SDL_CFLAGS=$sdl_cflags" >> $config_host_mak
--  echo "SDL_LIBS=$sdl_libs" >> $config_host_mak
--  if test "$sdl_image" = "yes" ; then
--      echo "CONFIG_SDL_IMAGE=y" >> $config_host_mak
--  fi
--fi
- if test "$cocoa" = "yes" ; then
-   echo "CONFIG_COCOA=y" >> $config_host_mak
- fi
-@@ -8394,6 +8267,7 @@ NINJA=$PWD/ninjatool $meson setup \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+ # Sparse probe
+ if test "$sparse" != "no" ; then
+@@ -8045,7 +8063,7 @@ DIRS="$DIRS docs docs/interop fsdev scsi"
+ DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
+ DIRS="$DIRS roms/seabios"
+ LINKS="Makefile"
+-LINKS="$LINKS tests/tcg/lm32/Makefile po/Makefile"
++LINKS="$LINKS tests/tcg/lm32/Makefile"
+ LINKS="$LINKS tests/tcg/Makefile.target"
+ LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+@@ -8172,6 +8190,7 @@ NINJA=$PWD/ninjatool $meson setup \
          -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-+	-Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
++	-Dgettext=$gettext \
          $cross_arg \
          "$PWD" "$source_path"
  
 diff --git a/meson.build b/meson.build
-index 39f931a75e..476dc33c19 100644
+index 67cd2a05c9..dd2cffc6aa 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -11,6 +11,7 @@ cc = meson.get_compiler('c')
- config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
- config_all_disas = keyval.load(meson.current_build_dir() / 'config-all-disas.mak')
- enable_modules = 'CONFIG_MODULES' in config_host
-+enable_static = 'CONFIG_STATIC' in config_host
- build_docs = 'BUILD_DOCS' in config_host
- config_host_data = configuration_data()
- genh = []
-@@ -214,13 +215,23 @@ brlapi = not_found
- if 'CONFIG_BRLAPI' in config_host
-   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
- endif
-+
-+sdl = dependency('sdl2', method: 'config-tool', required: get_option('sdl'),
-+                 static: enable_static)
-+sdl_image = not_found
- sdlwindows = false
--sdl = not_found
--if 'CONFIG_SDL' in config_host
--  sdl = declare_dependency(compile_args: config_host['SDL_CFLAGS'].split(),
--                           link_args: config_host['SDL_LIBS'].split())
--  sdlwindows = config_host['SDL_LIBS'].contains('-mwindows')
-+if sdl.found()
-+  sdlwindows = sdl.get_configtool_variable('libs').split().contains('-mwindows')
-+  sdl_image = dependency('sdl-image', required: get_option('sdl_image'),
-+                         static: enable_static)
-+else
-+  if get_option('sdl_image').enabled()
-+    error('sdl-image required, but SDL was @0@',
-+          get_option('sdl').disabled() ? 'disabled' : 'not found')
-+  endif
-+  sdl_image = not_found
- endif
-+
- rbd = not_found
- if 'CONFIG_RBD' in config_host
-   rbd = declare_dependency(link_args: config_host['RBD_LIBS'].split())
-@@ -359,6 +370,8 @@ endif
+@@ -1109,6 +1109,9 @@ subdir('tools')
+ subdir('pc-bios')
+ subdir('tests')
+ subdir('docs')
++if 'CONFIG_GTK' in config_host
++  subdir('po')
++endif
  
- # Create config-host.h
- 
-+config_host_data.set('CONFIG_SDL', sdl.found())
-+config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
-@@ -1230,8 +1243,8 @@ if targetos == 'darwin'
-   summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
- endif
- # TODO: add back version
--summary_info += {'SDL support':       config_host.has_key('CONFIG_SDL')}
--summary_info += {'SDL image support': config_host.has_key('CONFIG_SDL_IMAGE')}
-+summary_info += {'SDL support':       sdl.found()}
-+summary_info += {'SDL image support': sdl_image.found()}
- # TODO: add back version
- summary_info += {'GTK support':       config_host.has_key('CONFIG_GTK')}
- summary_info += {'GTK GL support':    config_host.has_key('CONFIG_GTK_GL')}
+ if build_docs
+   makeinfo = find_program('makeinfo', required: build_docs)
 diff --git a/meson_options.txt b/meson_options.txt
-new file mode 100644
-index 0000000000..e548211f34
---- /dev/null
+index 67455c57bc..e5f45243ce 100644
+--- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -0,0 +1,2 @@
-+option('sdl', type : 'feature', value : 'auto')
-+option('sdl_image', type : 'feature', value : 'auto')
-diff --git a/ui/meson.build b/ui/meson.build
-index d9c70661cd..7bbb952a90 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -54,11 +54,11 @@ if config_host.has_key('CONFIG_GTK') and config_host.has_key('CONFIG_VTE')
-   ui_modules += [['gtk', gtk_ss.sources(), gtk_ss.dependencies()]]
- endif
+@@ -1,3 +1,4 @@
++option('gettext', type : 'boolean', value : true)
+ option('sdl', type : 'feature', value : 'auto')
+ option('sdl_image', type : 'feature', value : 'auto')
+ option('vnc', type : 'feature', value : 'enabled')
+diff --git a/po/LINGUAS b/po/LINGUAS
+new file mode 100644
+index 0000000000..cc4b5c3b36
+--- /dev/null
++++ b/po/LINGUAS
+@@ -0,0 +1,8 @@
++bg
++de_DE
++fr_FR
++hu
++it
++sv
++tr
++zh_CN
+diff --git a/po/Makefile b/po/Makefile
+deleted file mode 100644
+index c041f4c858..0000000000
+--- a/po/Makefile
++++ /dev/null
+@@ -1,52 +0,0 @@
+-# This makefile is very special as it's meant to build as part of the build
+-# process and also within the source tree to update the translation files.
+-
+-# Set SRC_PATH for in-tree builds without configuration.
+-SRC_PATH=..
+-
+-# The default target must come before any include statements.
+-all:
+-
+-.PHONY:	all build clean install update
+-
+-%.mo: %.po
+-	$(call quiet-command, msgfmt -o $@ $<,"GEN","$@")
+-
+--include ../config-host.mak
+-include $(SRC_PATH)/rules.mak
+-
+-PO_PATH=$(SRC_PATH)/po
+-
+-VERSION=$(shell cat $(SRC_PATH)/VERSION)
+-SRCS=$(filter-out $(PO_PATH)/messages.po,$(wildcard $(PO_PATH)/*.po))
+-OBJS=$(patsubst $(PO_PATH)/%.po,%.mo,$(SRCS))
+-
+-vpath %.po $(PO_PATH)
+-
+-all:
+-	@echo "Use 'make update' to update translation files or use 'make build'"
+-	@echo "or 'make install' to build and install the translation files."
+-
+-update: $(SRCS)
+-
+-build: $(OBJS)
+-
+-clean:
+-	rm -f $(OBJS)
+-
+-install: $(OBJS)
+-	for obj in $(OBJS); do \
+-	    base=$$(basename $$obj .mo); \
+-	    $(INSTALL) -d $(DESTDIR)$(prefix)/share/locale/$$base/LC_MESSAGES; \
+-	    $(INSTALL) -m644 $$obj $(DESTDIR)$(prefix)/share/locale/$$base/LC_MESSAGES/qemu.mo; \
+-	done
+-
+-$(PO_PATH)/messages.po: $(SRC_PATH)/ui/gtk.c
+-	$(call quiet-command, ( cd $(SRC_PATH) && \
+-          xgettext -o - --from-code=UTF-8 --foreign-user --no-location \
+-	    --package-name=QEMU --package-version=$(VERSION) \
+-	    --msgid-bugs-address=qemu-devel@nongnu.org -k_ -C ui/gtk.c | \
+-	  sed -e s/CHARSET/UTF-8/) >$@,"GEN","$@")
+-
+-$(PO_PATH)/%.po: $(PO_PATH)/messages.po
+-	$(call quiet-command, msgmerge -q $@ $< > $@.bak && mv $@.bak $@,"GEN","$@")
+diff --git a/po/POTFILES b/po/POTFILES
+new file mode 100644
+index 0000000000..d34d5ed9aa
+--- /dev/null
++++ b/po/POTFILES
+@@ -0,0 +1 @@
++ui/gtk.c
+diff --git a/po/meson.build b/po/meson.build
+new file mode 100644
+index 0000000000..1387fd979a
+--- /dev/null
++++ b/po/meson.build
+@@ -0,0 +1,7 @@
++i18n = import('i18n')
++
++if get_option('gettext')
++  i18n.gettext(meson.project_name(),
++               args: '--msgid-bugs-address=qemu-devel@nongnu.org',
++               preset: 'glib')
++endif
+diff --git a/po/messages.po b/po/messages.po
+deleted file mode 100644
+index 065bd459a0..0000000000
+--- a/po/messages.po
++++ /dev/null
+@@ -1,74 +0,0 @@
+-# SOME DESCRIPTIVE TITLE.
+-# This file is put in the public domain.
+-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+-#
+-#, fuzzy
+-msgid ""
+-msgstr ""
+-"Project-Id-Version: QEMU 2.12.91\n"
+-"Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
+-"POT-Creation-Date: 2018-07-18 07:56+0200\n"
+-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+-"Language-Team: LANGUAGE <LL@li.org>\n"
+-"Language: \n"
+-"MIME-Version: 1.0\n"
+-"Content-Type: text/plain; charset=UTF-8\n"
+-"Content-Transfer-Encoding: 8bit\n"
+-
+-msgid " - Press Ctrl+Alt+G to release grab"
+-msgstr ""
+-
+-msgid " [Paused]"
+-msgstr ""
+-
+-msgid "_Pause"
+-msgstr ""
+-
+-msgid "_Reset"
+-msgstr ""
+-
+-msgid "Power _Down"
+-msgstr ""
+-
+-msgid "_Quit"
+-msgstr ""
+-
+-msgid "_Fullscreen"
+-msgstr ""
+-
+-msgid "_Copy"
+-msgstr ""
+-
+-msgid "Zoom _In"
+-msgstr ""
+-
+-msgid "Zoom _Out"
+-msgstr ""
+-
+-msgid "Best _Fit"
+-msgstr ""
+-
+-msgid "Zoom To _Fit"
+-msgstr ""
+-
+-msgid "Grab On _Hover"
+-msgstr ""
+-
+-msgid "_Grab Input"
+-msgstr ""
+-
+-msgid "Show _Tabs"
+-msgstr ""
+-
+-msgid "Detach Tab"
+-msgstr ""
+-
+-msgid "Show Menubar"
+-msgstr ""
+-
+-msgid "_Machine"
+-msgstr ""
+-
+-msgid "_View"
+-msgstr ""
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index b34b14fc53..5f866e09c4 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -39,6 +39,7 @@ class FreeBSDVM(basevm.BaseVM):
+         "bash",
+         "gmake",
+         "gsed",
++        "gettext",
  
--if config_host.has_key('CONFIG_SDL')
-+if sdl.found()
-   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
+         # libs: crypto
+         "gnutls",
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 93d48b6fdd..ffb65a89be 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -37,6 +37,7 @@ class NetBSDVM(basevm.BaseVM):
+         "bash",
+         "gmake",
+         "gsed",
++        "gettext",
  
-   sdl_ss = ss.source_set()
--  sdl_ss.add(pixman, glib, files(
-+  sdl_ss.add(sdl, sdl_image, pixman, glib, files(
-     'sdl2-2d.c',
-     'sdl2-input.c',
-     'sdl2.c',
+         # libs: crypto
+         "gnutls",
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 7e27fda642..8356646f21 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -36,6 +36,7 @@ class OpenBSDVM(basevm.BaseVM):
+         "bash",
+         "gmake",
+         "gsed",
++        "gettext",
+ 
+         # libs: usb
+         "libusb1",
 -- 
 2.26.2
 
