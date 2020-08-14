@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBF3244C1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:28:04 +0200 (CEST)
-Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39399244C24
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:29:54 +0200 (CEST)
+Received: from localhost ([::1]:33918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6bch-0000ce-AG
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52092)
+	id 1k6beT-00034o-7W
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQh-00048t-UC
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:39 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:55679)
+ id 1k6bQj-0004Ad-Om
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:41 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:55665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQf-0007fN-2Q
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:39 -0400
+ id 1k6bQf-0007bQ-GO
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597418137; x=1628954137;
+ t=1597418138; x=1628954138;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PnPVgupWkcTye0mgiZsmJRw6xGGap8+1yaKVcLcBTOY=;
- b=Gyoug52DF1m2i9cbYaqC/xstcWc1lLoIY47QeBtZZDFRS8OtsNEOBha/
- 0zFJipnQ+xj4FCxf2704RJSrEmbOVNg3vQy7xiD/kB3jbbnNQab9+6hRD
- qZdqDwz6voUWGUBQSQwFDYvDhUx+8VsXJQsHjB2Sp0LdhsYjNctdjlRpE
- 8NcX4Y206qvGuxsq0n9LGsg1wxDp+ajsEGerdGUa7umyhmPGPY+uPphW4
- 3iSn66z3a5/VipYFhzbOLgJKtwTjVms5Fg0EsHDCQKDJgQvfkucPZHUbm
- 3ubjH9XbWRa1BMM2jKHPZSQlanlJ0sm3akEuSHFcwP6o2RM8OAIOh7qeU Q==;
-IronPort-SDR: W3Ss87R/KrhqAM9dLDjxeGFjQMZeQiKcjlyx2U20swwzeu8kpT95UpMLW/kCZE8aKgI+9bm7UB
- UeuNUQ51xBMSjWRh5SS1BWbu6cKwUg5idMwJEpVdlz3hmJ1RYFEU1PbXW8fnSLzDqqMzIBGN0y
- QR9ICGdsDOfCtbIG82wj5Edb6xzxDXXL9LiNO8ydfwYTlPXGRCPEw6EiRH5Ig55sgd4zjc+q99
- Q+9E2l2s7doGO+ChuxUy9NVghZPhFlKo3mKgl3llg+Kv561X9kmKqvA2G3jiK0Rr+x39/E2b9r
- Vh8=
-X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="144994829"
+ bh=9/GVwxO9Y3Bxpp+1tZOJ0aoCrDUf93MJirTx6uG5M4Y=;
+ b=oVztXuPRvgVJLmMi6HXUlmbvGkvWFriGHyK6ZMZjgrm6RuotNzZaRI+7
+ Mk3g3kkDe7RQ03qIds+4jBIkhKmx3n+HEVhb+4Un0hVIomBRNXEhulkc4
+ cWhmEOP34dOoDSRu8ceM/wLIq/RVdBSO9Fs8RjZ3WG4ehj2RBJuvmxsoh
+ Cpo64dU3vdUPDuQgHNHMsNak+pjZ80dtVBv9tUUbRXA7NHiFs8j59DEFZ
+ m0K6zfvNuEsvXA8E/SWppWCxQtdD9P62J032zZTkSH9iQYtxRgqoUJAcG
+ MVH1Ua+sONTsV8cFThmRxeC+4NSI0dVWuapt+D+IFsbOOLIla94T1lESE Q==;
+IronPort-SDR: 4YNcPE18HmRjSE/MxlCAFxFXVAYoJF5xjHwuPL0XfrORotMvw2rNvgHsJCHZ6yD7eQFIfeJ3NS
+ pmX8aCO4Yhninf/yyk9o9hO6fs9dK1nN5O0V9TPOcnXWUICupwk688qjWJeGyxHH2+wfy9FDY2
+ 8WYmNN7gGfD3b3IvGJp8yOjM537qdOj34MzfwR0+PA0TdM1qIm2t2BgcJR6hEFr5sE7o4Jl4Xx
+ awpuVRu6bhlqe9kke5d5OV/M2n7E7j2wSnO7CIyCzkz/5g/sZrcwpl+iWh//MtLtu06dKF7G9N
+ kos=
+X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="144994830"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 23:15:14 +0800
-IronPort-SDR: 8Io5ky9Oszt9gDALyh8ONq3Hr4iktZNu0npzNEajKGAp5Ys1Ueymz7p9+pesUKOQwOk1X4w5ca
- a+0R18cwQvbg==
+IronPort-SDR: QuS1W5Fe0B3N+NKYS/n6Z+PGwKPu3l3AU7Fc5IncQ/LjKP1VlsQxxTP77qtHtXOrH3Q0jGT+Lr
+ cQ1j0aZ0Sepg==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Aug 2020 08:02:18 -0700
-IronPort-SDR: PUHFSyTpCSZjZoG3+cUmWTJeSgxrEZaJecTzmkuwtW0+MJyLpNgvDKkFul2bXTPY3BdbLbnQ3o
- tX/fA6Bc3TDw==
+IronPort-SDR: 4zvEzZrZhLXidSDfRUvmpkuQ3yC4Md7+vTrGUqLFWC8JLE93xN8LA5V1iIH0+KE/aIYYKsUADu
+ jt76TMZBMNzg==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip02.wdc.com with ESMTP; 14 Aug 2020 08:15:13 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/20] configure: Create symbolic links for pc-bios/*.elf
- files
-Date: Fri, 14 Aug 2020 08:04:56 -0700
-Message-Id: <20200814150506.2070566-11-alistair.francis@wdc.com>
+Subject: [PULL v2 11/20] roms/opensbi: Upgrade from v0.7 to v0.8
+Date: Fri, 14 Aug 2020 08:04:57 -0700
+Message-Id: <20200814150506.2070566-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814150506.2070566-1-alistair.francis@wdc.com>
 References: <20200814150506.2070566-1-alistair.francis@wdc.com>
@@ -88,37 +87,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
+Cc: Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Now we need to ship the OpenSBI fw_dynamic.elf image for the
-RISC-V Spike machine, it requires us to create symbolic links
-for pc-bios/*.elf files.
+Upgrade OpenSBI from v0.7 to v0.8.
+
+The v0.8 release includes the following commits:
+
+1bb00ab lib: No need to provide default PMP region using platform callbacks
+a9eac67 include: sbi_platform: Combine reboot and shutdown into one callback
+6585fab lib: utils: Add SiFive test device
+4781545 platform: Add Nuclei UX600 platform
+3a326af scripts: adapt binary archive script for Nuclei UX600
+5bdf022 firmware: fw_base: Remove CSR_MTVEC update check
+e6c1345 lib: utils/serial: Skip baudrate config if input frequency is zero
+01a8c8e lib: utils: Improve fdt_parse_uart8250() API
+0a0093b lib: utils: Add fdt_parse_uart8250_node() function
+243b0d0 lib: utils: Remove redundant clint_ipi_sync() declaration
+e3ad7c1 lib: utils: Rename fdt_parse_clint() to fdt_parse_compat_addr()
+a39cd6f lib: utils: Add FDT match table based node lookup
+dd33b9e lib: utils: Make fdt_get_node_addr_size() public function
+66185b3 lib: utils: Add fdt_parse_sifive_uart_node() function
+19e966b lib: utils: Add fdt_parse_hart_id() function
+44dd7be lib: utils: Add fdt_parse_max_hart_id() API
+f0eb503 lib: utils: Add fdt_parse_plic_node() function
+1ac794c include: Add array_size() macro
+8ff2b94 lib: utils: Add simple FDT timer framework
+76f0f81 lib: utils: Add simple FDT ipi framework
+75322a6 lib: utils: Add simple FDT irqchip framework
+76a8940 lib: utils: Add simple FDT serial framework
+7cc6fa4 lib: utils: Add simple FDT reset framework
+4d06353 firmware: fw_base: Introduce optional fw_platform_init()
+f1aa9e5 platform: Add generic FDT based platform support
+1f21b99 lib: sbi: Print platform hart count at boot time
+2ba7087 scripts: Add generic platform to create-binary-archive.sh
+4f18c6e platform: generic: Add Sifive FU540 TLB flush range limit override
+13717a8 platform: Remove qemu/virt directory
+65c06b0 platform: Remove spike directory
+d626037 docs: Add missing links in platform.md
+7993ca2 include: sbi: Remove redundant page table related defines
+5338679 lib: sbi_tlb: Fix remote TLB HFENCE VVMA implementation
+dc38929 lib: sbi: Improve misa_string() implementation
+433bac7 docs: platform/generic: Add details about stdout-path DT property
+b4efa70 docs: platform/generic: Add details about IPI and timer expectations
+dfd9dd6 docs: Add platform requirements document
+c2286b6 docs: Fix ordering of pages in table of contents
+7be75f5 docs: Don't use italic text in page title
+63a513e lib: Rename unprivileged trap handler
+aef9a60 lib: Add csr detect support
+13ca20d lib: Create a separate math helper function file
+79d0fad lib: utils: Update reserved memory fdt node even if PMP is not present
+6a053f6 lib: Add support for hart specific features
+b2df751 platform: Move platform features to hart
+4938024 platform: fpga: Remove redundant platform specific features
+ec0d2a7 lib: timer: Provide a hart based timer feature
+1f235ec lib: Add platform features in boot time print
+22c4334 lib: Add hart features in boot time print
+36833ab lib: Optimize inline assembly for unprivilege access functions
+38a4b54 firmware: Correct spelling mistakes
+28b4052 lib: sbi: detect features before everything else in sbi_hart_init()
+4984183 lib: sbi: Improve get_feature_str() implementation and usage
+3aa1036 lib: sbi: Remove extra spaces from boot time prints
+3a8fc81 lib: sbi: Print platform HART count just before boot HART id
+63b0f5f include: sbi: Use scratch pointer as parmeter in HART feature APIs
+2966510 lib: sbi: Few cosmetic improvements to HART feature detection
+a38bea9 lib: sbi_hart: Detect number of supported PMP regions
+89ba634 include: sbi: Add firmware extension constants
+73d6ef3 lib: utils: Remove redundant parameters from PLIC init functions
+446a9c6 lib: utils: Allow PLIC functions to be used for multiple PLICs
+2c685c2 lib: utils: Extend fdt_find_match() Implementation
+d30bb68 lib: utils/irqchip: Initialize all matching irqchip DT nodes
+a9a9751 lib: utils: Allow CLINT functions to be used for multiple CLINTs
+569dd64 lib: utils: Add fdt_parse_clint_node() function
+6956e83 lib: utils/ipi: Initialize all matching ipi DT nodes
+a63f05f lib: utils/timer: Initialize all matching timer DT nodes
+30b6040 Makefile: Fix builtin DTB compilation for out-of-tree platforms
+64f1408 firmware: fw_base: Make builtin DTB available to fw_platform_init()
+4ce6b7a firmware: fw_base: Don't OR forced FW_OPTIONS
+86ec534 firmware: Allow fw_platform_init() to return updated FDT location
+c6c65ee Makefile: Preprocess builtin DTS
+4e3876d Makefile: Add mechanism for platforms to have multiple builtin DTBs
+72019ee platform: kendryte/k210: Use new mechanism of builtin DTB
+51f0e4a firmware: Remove FW_PAYLOAD_FDT and related documentation
+1b8c012 lib: Add RISC-V hypervisor v0.6.1 support
+79bfd67 docs: Use doxygen config to mark the main page
+106b888 docs: Remove redundant documentation about combined payload use case
+9802906 platform: Add AE350 platform specific SBI handler
+32f87e5 platform: Add AE350 cache control SBIs
+e2c3f01 lib: Fix __sbi_hfence_gvma_vmid_gpa() and __sbi_hfence_vvma_asid_va()
+6966ad0 platform/lib: Allow the OS to map the regions that are protected by PMP
+518e85c platform: Update Nuclei ux600 platform support
+d5725c2 lib: Don't print delegation CSRs if there is no S-Mode
+637b348 lib: Fix the SBI_HART_HAS_MCOUNTEREN feature check
+db56ef3 platform: Add support for Shakti C-class SoC from IIT-M
+9bd5f8f lib: sbi: Fix 32/64 bits variable compatibility
+2314101 lib: Don't return any invalid error from SBI ecall
+a98258d include: Bump-up version to 0.8
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Anup Patel <anup@brainfault.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1596439832-29238-2-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1596439832-29238-3-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ roms/opensbi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 2acc4d1465..790b21d4a5 100755
---- a/configure
-+++ b/configure
-@@ -8545,6 +8545,7 @@ LINKS="$LINKS tests/qemu-iotests/check"
- LINKS="$LINKS python"
- for bios_file in \
-     $source_path/pc-bios/*.bin \
-+    $source_path/pc-bios/*.elf \
-     $source_path/pc-bios/*.lid \
-     $source_path/pc-bios/*.rom \
-     $source_path/pc-bios/*.dtb \
+diff --git a/roms/opensbi b/roms/opensbi
+index 9f1b72ce66..a98258d0b5 160000
+--- a/roms/opensbi
++++ b/roms/opensbi
+@@ -1 +1 @@
+-Subproject commit 9f1b72ce66d659e91013b358939e832fb27223f5
++Subproject commit a98258d0b537a295f517bbc8d813007336731fa9
 -- 
 2.27.0
 
