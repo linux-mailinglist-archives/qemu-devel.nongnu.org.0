@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A7024481E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:33:29 +0200 (CEST)
-Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C48124483C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:46:07 +0200 (CEST)
+Received: from localhost ([::1]:42552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6X1c-00038H-BY
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46824)
+	id 1k6XDq-0004Z4-HW
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:46:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6VwP-0005iv-Iv; Fri, 14 Aug 2020 05:24:01 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6VwN-0004Ld-TA; Fri, 14 Aug 2020 05:24:01 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r4so7706052wrx.9;
- Fri, 14 Aug 2020 02:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+SM9WQG7FQprX3XJR8P9C1nTjo7SJFd726jcTzAOzTs=;
- b=lKenzRGtng+h3EN1lYVeitQ9FA8NUTByJSLwVswW6+8cq0RubPlHxnkcEAWWfvWXQd
- Z76MbaBJYKr+vPd5UtzUZT9UMxIf+82WGFHsezWx508b05JGNsVsH+G1a/435OyvGxtC
- DpjkT4kKE6n007wQv4WCiUuDm0nQb3GwEMcOsgdl6j+VaRJ9yz+v8KnzOOhL1ieDH0ZU
- EtCCGRoE68dX+EpA1CPrkMiQrBSfURrDLXXxAwjUg7W7By48l4COGQTvRgD/y/QHl9gs
- BQsPhOHTMnePVUqfPg0H16igr+gHLfW2I0wDKBWmx/yoIRAIixJHuFtDAq2XEdSEcduY
- 3PgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+SM9WQG7FQprX3XJR8P9C1nTjo7SJFd726jcTzAOzTs=;
- b=fd1cmLnsh9tdfSTdsP0XsXM0RgA8weqwY9WRozwUUcD8BeQYymqyrVZ2oshyQrM61V
- lmSwCF7/Wziuhn5+mkxKGTyfS+Ve0DfyymJVYdqxdfzBvTuiZ+Wmor5Dj8v1ZCN+1WHQ
- NMQE/CRFE4YLMgKQP/jJHv8H7oqgTz/vUfGwgKYa7dFkQwAvLc5NXgCzYSBZikS/yxit
- FHd/wGrR3b0TEoX94FWpy32OoGT5g3aiGvLbejnlIJVGwU55ZQyH62NPyeftj5yz3EjR
- 9eiu/+VXqul8bBLR8uYJIPrSLwWfm3drTOZisCHf1udOolbb/2uFkUqY11Dt1uEAIgm0
- cgsQ==
-X-Gm-Message-State: AOAM532a+gkTpcbLKcBuMx7ngBicwVWWzmzSOGDDg2HlRzbYXeR17N5t
- NGmodTRtIaQ3eODdN6mD/8mG1WsfEUA=
-X-Google-Smtp-Source: ABdhPJxN+CAx/ohXO0v5w5KSXf1j38EcrWXeo6yNfELU91Lw34ilbdB6fjkXGSuQzuDbuxKwrweksg==
-X-Received: by 2002:adf:f849:: with SMTP id d9mr1855286wrq.295.1597397037625; 
- Fri, 14 Aug 2020 02:23:57 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id b11sm12889395wrq.32.2020.08.14.02.23.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:23:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] hw/sd: Use sdbus_read_data() instead of sdbus_read_byte()
- when possible
-Date: Fri, 14 Aug 2020 11:23:46 +0200
-Message-Id: <20200814092346.21825-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200814092346.21825-1-f4bug@amsat.org>
-References: <20200814092346.21825-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k6VuH-0002Qr-In
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:21:49 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:50250 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k6VuF-00048E-0T
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:21:49 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 957BE796626E20C50BC6;
+ Fri, 14 Aug 2020 17:21:33 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Fri, 14 Aug 2020
+ 17:21:25 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH v2 03/10] migration/dirtyrate: Add dirtyrate statistics series
+ functions
+Date: Fri, 14 Aug 2020 17:32:06 +0800
+Message-ID: <1597397532-68043-4-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1597397532-68043-1-git-send-email-zhengchuan@huawei.com>
+References: <1597397532-68043-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:21:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,156 +60,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, ann.zhuangyanying@huawei.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the recently added sdbus_read_data() to read multiple
-bytes at once, instead of looping calling sdbus_read_byte().
+From: Zheng Chuan <zhengchuan@huawei.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Add dirtyrate statistics to record/update dirtyrate info.
+
+Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
 ---
- hw/sd/allwinner-sdhost.c  | 10 +++-------
- hw/sd/milkymist-memcard.c |  7 ++-----
- hw/sd/sdhci.c             | 28 ++++++++--------------------
- 3 files changed, 13 insertions(+), 32 deletions(-)
+ migration/dirtyrate.c | 30 ++++++++++++++++++++++++++++++
+ migration/dirtyrate.h | 10 ++++++++++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-index eea5659c5f..f9eb92c09e 100644
---- a/hw/sd/allwinner-sdhost.c
-+++ b/hw/sd/allwinner-sdhost.c
-@@ -337,9 +337,7 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index bb0ebe9..8708090 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -24,6 +24,7 @@
+ #include "dirtyrate.h"
  
-         /* Read from SD bus */
-         } else {
--            for (uint32_t i = 0; i < buf_bytes; i++) {
--                buf[i] = sdbus_read_byte(&s->sdbus);
--            }
-+            sdbus_read_data(&s->sdbus, buf, buf_bytes);
-             cpu_physical_memory_write((desc->addr & DESC_SIZE_MASK) + num_done,
-                                        buf, buf_bytes);
-         }
-@@ -518,10 +516,8 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-         break;
-     case REG_SD_FIFO:      /* Read/Write FIFO */
-         if (sdbus_data_ready(&s->sdbus)) {
--            res = sdbus_read_byte(&s->sdbus);
--            res |= sdbus_read_byte(&s->sdbus) << 8;
--            res |= sdbus_read_byte(&s->sdbus) << 16;
--            res |= sdbus_read_byte(&s->sdbus) << 24;
-+            sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
-+            le32_to_cpus(&res);
-             allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
-             allwinner_sdhost_auto_stop(s);
-             allwinner_sdhost_update_irq(s);
-diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-index 12e091a46e..be89a93876 100644
---- a/hw/sd/milkymist-memcard.c
-+++ b/hw/sd/milkymist-memcard.c
-@@ -151,11 +151,8 @@ static uint64_t memcard_read(void *opaque, hwaddr addr,
-         if (!s->enabled) {
-             r = 0xffffffff;
-         } else {
--            r = 0;
--            r |= sdbus_read_byte(&s->sdbus) << 24;
--            r |= sdbus_read_byte(&s->sdbus) << 16;
--            r |= sdbus_read_byte(&s->sdbus) << 8;
--            r |= sdbus_read_byte(&s->sdbus);
-+            sdbus_read_data(&s->sdbus, &r, sizeof(r));
-+            be32_to_cpus(&r);
-         }
-         break;
-     case R_CLK2XDIV:
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index ddf3691561..1785d7e1f7 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -399,8 +399,6 @@ static void sdhci_end_transfer(SDHCIState *s)
- /* Fill host controller's read buffer with BLKSIZE bytes of data from card */
- static void sdhci_read_block_from_card(SDHCIState *s)
+ CalculatingDirtyRateState CalculatingState = CAL_DIRTY_RATE_INIT;
++static struct DirtyRateStat dirty_stat;
+ 
+ static int dirty_rate_set_state(int new_state)
  {
--    int index = 0;
--    uint8_t data;
-     const uint16_t blk_size = s->blksize & BLOCK_SIZE_MASK;
+@@ -40,6 +41,35 @@ static int dirty_rate_set_state(int new_state)
+     return 0;
+ }
  
-     if ((s->trnmod & SDHC_TRNS_MULTI) &&
-@@ -408,12 +406,9 @@ static void sdhci_read_block_from_card(SDHCIState *s)
-         return;
-     }
- 
--    for (index = 0; index < blk_size; index++) {
--        data = sdbus_read_byte(&s->sdbus);
--        if (!FIELD_EX32(s->hostctl2, SDHC_HOSTCTL2, EXECUTE_TUNING)) {
--            /* Device is not in tuning */
--            s->fifo_buffer[index] = data;
--        }
-+    if (!FIELD_EX32(s->hostctl2, SDHC_HOSTCTL2, EXECUTE_TUNING)) {
-+        /* Device is not in tuning */
-+        sdbus_read_data(&s->sdbus, s->fifo_buffer, blk_size);
-     }
- 
-     if (FIELD_EX32(s->hostctl2, SDHC_HOSTCTL2, EXECUTE_TUNING)) {
-@@ -574,7 +569,7 @@ static void sdhci_write_dataport(SDHCIState *s, uint32_t value, unsigned size)
- static void sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
++static void reset_dirtyrate_stat(void)
++{
++    dirty_stat.total_dirty_samples = 0;
++    dirty_stat.total_sample_count = 0;
++    dirty_stat.total_block_mem_MB = 0;
++    dirty_stat.dirty_rate = 0;
++}
++
++static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
++{
++    dirty_stat.total_dirty_samples += info->sample_dirty_count;
++    dirty_stat.total_sample_count += info->sample_pages_count;
++    /* size of 4K pages in MB */
++    dirty_stat.total_block_mem_MB += info->ramblock_pages / 256;
++}
++
++static void update_dirtyrate(uint64_t msec)
++{
++    uint64_t dirty_rate;
++    unsigned int total_dirty_samples = dirty_stat.total_dirty_samples;
++    unsigned int total_sample_count = dirty_stat.total_sample_count;
++    size_t total_block_mem_MB = dirty_stat.total_block_mem_MB;
++
++    dirty_rate = total_dirty_samples * total_block_mem_MB *
++                 1000 / (total_sample_count * msec);
++
++    dirty_stat.dirty_rate = dirty_rate;
++}
++
+ static void calculate_dirtyrate(struct DirtyRateConfig config)
  {
-     bool page_aligned = false;
--    unsigned int n, begin;
-+    unsigned int begin;
-     const uint16_t block_size = s->blksize & BLOCK_SIZE_MASK;
-     uint32_t boundary_chk = 1 << (((s->blksize & ~BLOCK_SIZE_MASK) >> 12) + 12);
-     uint32_t boundary_count = boundary_chk - (s->sdmasysad % boundary_chk);
-@@ -596,9 +591,7 @@ static void sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
-                 SDHC_DAT_LINE_ACTIVE;
-         while (s->blkcnt) {
-             if (s->data_count == 0) {
--                for (n = 0; n < block_size; n++) {
--                    s->fifo_buffer[n] = sdbus_read_byte(&s->sdbus);
--                }
-+                sdbus_read_data(&s->sdbus, s->fifo_buffer, block_size);
-             }
-             begin = s->data_count;
-             if (((boundary_count + begin) < block_size) && page_aligned) {
-@@ -662,13 +655,10 @@ static void sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
- /* single block SDMA transfer */
- static void sdhci_sdma_transfer_single_block(SDHCIState *s)
- {
--    int n;
-     uint32_t datacnt = s->blksize & BLOCK_SIZE_MASK;
+     /* todo */
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 9650566..af57c80 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -57,6 +57,16 @@ struct RamblockDirtyInfo {
+     uint8_t *hash_result; /* array of hash result for sampled pages */
+ };
  
-     if (s->trnmod & SDHC_TRNS_READ) {
--        for (n = 0; n < datacnt; n++) {
--            s->fifo_buffer[n] = sdbus_read_byte(&s->sdbus);
--        }
-+        sdbus_read_data(&s->sdbus, s->fifo_buffer, datacnt);
-         dma_memory_write(s->dma_as, s->sdmasysad, s->fifo_buffer, datacnt);
-     } else {
-         dma_memory_read(s->dma_as, s->sdmasysad, s->fifo_buffer, datacnt);
-@@ -731,7 +721,7 @@ static void get_adma_description(SDHCIState *s, ADMADescr *dscr)
++/*
++ * Store calculate statistics for each measure.
++ */
++struct DirtyRateStat {
++    unsigned int total_dirty_samples; /* total dirty pages for this measure */
++    unsigned int total_sample_count; /* total sampled pages for this measure */
++    size_t total_block_mem_MB; /* size of sampled pages in MB */
++    int64_t dirty_rate; /* dirty rate for this measure */
++};
++
+ void *get_dirtyrate_thread(void *arg);
+ #endif
  
- static void sdhci_do_adma(SDHCIState *s)
- {
--    unsigned int n, begin, length;
-+    unsigned int begin, length;
-     const uint16_t block_size = s->blksize & BLOCK_SIZE_MASK;
-     ADMADescr dscr = {};
-     int i;
-@@ -765,9 +755,7 @@ static void sdhci_do_adma(SDHCIState *s)
-             if (s->trnmod & SDHC_TRNS_READ) {
-                 while (length) {
-                     if (s->data_count == 0) {
--                        for (n = 0; n < block_size; n++) {
--                            s->fifo_buffer[n] = sdbus_read_byte(&s->sdbus);
--                        }
-+                        sdbus_read_data(&s->sdbus, s->fifo_buffer, block_size);
-                     }
-                     begin = s->data_count;
-                     if ((length + begin) < block_size) {
 -- 
-2.21.3
+1.8.3.1
 
 
