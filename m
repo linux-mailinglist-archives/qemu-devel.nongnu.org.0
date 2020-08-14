@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E911244774
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:55:03 +0200 (CEST)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AEB244745
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:45:25 +0200 (CEST)
+Received: from localhost ([::1]:55994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WQQ-0006nH-B5
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43576)
+	id 1k6WH6-0003Kd-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnH-0006hC-V3
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58851
- helo=us-smtp-1.mimecast.com)
+ id 1k6VnI-0006ho-6X
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52210
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnF-00031Y-OR
+ id 1k6VnF-00031a-P2
  for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597396472;
@@ -26,29 +26,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fYMnZuiIIEGk1re0qdViwwbxVv1Y632VA7IDZ+i6x4M=;
- b=C0fFbrC4m2pLHhz/FN/gvxOU4o9K1EQihOagFzy1f1eIItSAtampZQCquNUtGlNOR12wx8
- kvyJbnjchX3lodq+r+wxrhw/WmpxWEvG6kveJ9f+8yR34P0OBsb/VGOyzpRcdTr5UegOV4
- otxSlY30MiqT175I/R7kavP4CVLYXYk=
+ bh=vJYRzFczP3G71nLXPxT7FoelYpxmkicx4WZGHD1y9RM=;
+ b=OqAZutl6TX2UPZcwlrta5FuM08BmnFsTPjPGYUzPkxIOxpTlvK25y+KZu4s9Aox9SnbpHU
+ YrW2FIylBTVN/k45ix89qKrSKR5DjKy4EPuA5IPEfmWRGtDk72AbrIQ3Zp+ut4ezcTLIeE
+ l1Iqkraia7UaRYYsIgmtaYyuw9sBwYY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-0-602JgPNvaRgYjEG33CgQ-1; Fri, 14 Aug 2020 05:14:30 -0400
-X-MC-Unique: 0-602JgPNvaRgYjEG33CgQ-1
+ us-mta-152-K6CSCTktPpW6dnADr1Glpg-1; Fri, 14 Aug 2020 05:14:31 -0400
+X-MC-Unique: K6CSCTktPpW6dnADr1Glpg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4504B1DDE8
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3007A881276
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9F8469C9D;
- Fri, 14 Aug 2020 09:14:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D54EF600E4;
+ Fri, 14 Aug 2020 09:14:29 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 082/150] meson: convert fsdev/
-Date: Fri, 14 Aug 2020 05:12:18 -0400
-Message-Id: <20200814091326.16173-83-pbonzini@redhat.com>
+Subject: [PATCH 084/150] meson: convert qapi-specific to meson
+Date: Fri, 14 Aug 2020 05:12:20 -0400
+Message-Id: <20200814091326.16173-85-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,18 +59,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:35
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 01:57:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,76 +91,79 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs       |  4 +---
- configure           |  1 -
- fsdev/Makefile.objs | 12 ------------
- fsdev/meson.build   | 10 ++++++++++
- 4 files changed, 11 insertions(+), 16 deletions(-)
- delete mode 100644 fsdev/Makefile.objs
+ Makefile.objs      |  2 --
+ Makefile.target    |  1 -
+ qapi/Makefile.objs | 15 ---------------
+ qapi/meson.build   | 10 +++++++---
+ 4 files changed, 7 insertions(+), 21 deletions(-)
+ delete mode 100644 qapi/Makefile.objs
 
 diff --git a/Makefile.objs b/Makefile.objs
-index c00851a0cd..7158031c0c 100644
+index 3b32a4c9bb..c332323b81 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -39,9 +39,7 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
- # single QEMU executable should support all CPUs and machines.
+@@ -64,8 +64,6 @@ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF
+ common-obj-y += hw/
+ common-obj-m += hw/
  
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-$(CONFIG_LINUX) = fsdev/
+-common-obj-y += qapi/
 -
--common-obj-y += accel/
-+common-obj-y = accel/
+ common-obj-y += libqmp.fa
  
- common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
- common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
-diff --git a/configure b/configure
-index c2aa600084..6188b46129 100755
---- a/configure
-+++ b/configure
-@@ -3702,7 +3702,6 @@ int main(void)
- EOF
-   if compile_prog "" "$cap_libs" ; then
-     cap_ng=yes
--    libs_tools="$cap_libs $libs_tools"
-   else
-     if test "$cap_ng" = "yes" ; then
-       feature_not_found "cap_ng" "Install libcap-ng devel"
-diff --git a/fsdev/Makefile.objs b/fsdev/Makefile.objs
+ endif # CONFIG_SOFTMMU
+diff --git a/Makefile.target b/Makefile.target
+index bf3fda92c1..386378b9c8 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -157,7 +157,6 @@ ifdef CONFIG_SOFTMMU
+ obj-y += softmmu/
+ obj-y += gdbstub.o
+ obj-y += hw/
+-obj-y += qapi/
+ LIBS := $(libs_softmmu) $(LIBS)
+ 
+ # Temporary until emulators are linked by Meson
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
 deleted file mode 100644
-index 42cd70c367..0000000000
---- a/fsdev/Makefile.objs
+index c0a31be1a1..0000000000
+--- a/qapi/Makefile.objs
 +++ /dev/null
-@@ -1,12 +0,0 @@
--# Lots of the fsdev/9pcode is pulled in by vl.c via qemu_fsdev_add.
--# only pull in the actual 9p backend if we also enabled virtio or xen.
--ifeq ($(CONFIG_FSDEV_9P),y)
--common-obj-y = qemu-fsdev.o 9p-marshal.o 9p-iov-marshal.o
--else
--common-obj-y = qemu-fsdev-dummy.o
--endif
--common-obj-y += qemu-fsdev-opts.o qemu-fsdev-throttle.o
+@@ -1,15 +0,0 @@
+-QAPI_TARGET_MODULES = machine-target misc-target
 -
--# Toplevel always builds this; targets without virtio will put it in
--# common-obj-y
--common-obj-$(CONFIG_ALL) += qemu-fsdev-dummy.o
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index 30e2319960..7dd1cc9bfb 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -1,3 +1,13 @@
-+fsdev_ss = ss.source_set()
-+fsdev_ss.add(files('qemu-fsdev-opts.c', 'qemu-fsdev-throttle.c'))
-+fsdev_ss.add(when: 'CONFIG_ALL', if_true: files('qemu-fsdev-dummy.c'))
-+fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
-+  '9p-iov-marshal.c',
-+  '9p-marshal.c',
-+  'qemu-fsdev.c',
-+), if_false: files('qemu-fsdev-dummy.c'))
-+softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
-+
- have_virtfs_proxy_helper = have_tools and libattr.found() and libcap_ng.found() and 'CONFIG_VIRTFS' in config_host
- if have_virtfs_proxy_helper
-   executable('virtfs-proxy-helper',
+-obj-y = qapi-introspect.o
+-obj-y += $(QAPI_TARGET_MODULES:%=qapi-types-%.o)
+-obj-y += qapi-types.o
+-obj-y += $(QAPI_TARGET_MODULES:%=qapi-visit-%.o)
+-obj-y += qapi-visit.o
+-obj-y += $(QAPI_TARGET_MODULES:%=qapi-events-%.o)
+-obj-y += qapi-events.o
+-obj-y += $(QAPI_TARGET_MODULES:%=qapi-commands-%.o)
+-obj-y += qapi-commands.o
+-obj-y += qapi-init-commands.o
+-
+-QAPI_MODULES_STORAGE_DAEMON = block-core char common control crypto
+-QAPI_MODULES_STORAGE_DAEMON += introspect job qom sockets pragma transaction
+diff --git a/qapi/meson.build b/qapi/meson.build
+index f45b80bbfa..2b2872a41d 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -114,8 +114,12 @@ foreach output : qapi_util_outputs
+   i = i + 1
+ endforeach
+ 
+-# These are still handled by the Makefile
+-i += qapi_nonmodule_outputs.length()
+-i += qapi_specific_outputs.length()
++foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
++  if output.endswith('.h')
++    genh += qapi_files[i]
++  endif
++  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
++  i = i + 1
++endforeach
+ 
+ qapi_doc_texi = qapi_files[i]
 -- 
 2.26.2
 
