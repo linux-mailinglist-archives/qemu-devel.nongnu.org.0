@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26E624477C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:56:56 +0200 (CEST)
-Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A99024478D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:58:43 +0200 (CEST)
+Received: from localhost ([::1]:39580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WSF-0002ZF-SK
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43800)
+	id 1k6WTy-00067J-4i
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnQ-00075Q-Qa
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25516)
+ id 1k6VnS-00079l-3o
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:46 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39045
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnM-00035D-RQ
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:44 -0400
+ id 1k6VnQ-00035w-2E
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396480;
+ s=mimecast20190719; t=1597396483;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r0H/PbuCy1aEOaKCgJR+ud8u9tQH9sGL3dOMQQTQs3A=;
- b=a4UibH6Fo9EwpxvkZxw7I3EOjCJyQAT63QUO+rLGp30VAZ8o7CxiVdJ8xh/0+eXZotuce2
- ZlKpX4LS5WeqE30ihuC499pG+/G6CleNxF+rH1VwhZocYUhhT9PJXOtvw4xy7hZN2h0pNk
- ouvfVXEOhCF7pD4Dej83bhr96m3dWZI=
+ bh=RdmpmrMElCNaVrxMEyBFO3Mxt6qDIJ7MNPRDYW7tDkI=;
+ b=SQb0Ctb0gEdddFw0UUiT9h9i6jZU/QzWuXRoHig05/ial5g+OWYBy2SvLl5DPVGCWmrC2m
+ DXYoI9njf6ynsbp3UXrGkvb5PY1cMXOp5Jo03Jlhqq5Bjj/cDR5JiF7lCRQ68Beb3d/Fhr
+ nItIqcK24pu3MIgvkrztEeuGIZOgSmE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-LJ660BR0Pl6sNw-3LOJ5KQ-1; Fri, 14 Aug 2020 05:14:37 -0400
-X-MC-Unique: LJ660BR0Pl6sNw-3LOJ5KQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-44-onjIHcNmM6-zXSB3ppN0ng-1; Fri, 14 Aug 2020 05:14:41 -0400
+X-MC-Unique: onjIHcNmM6-zXSB3ppN0ng-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57DEF1015DC0
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 859291853DA0
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:40 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 175BC600E4;
- Fri, 14 Aug 2020 09:14:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42A0760C04;
+ Fri, 14 Aug 2020 09:14:40 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 099/150] meson: convert hw/sd
-Date: Fri, 14 Aug 2020 05:12:35 -0400
-Message-Id: <20200814091326.16173-100-pbonzini@redhat.com>
+Subject: [PATCH 102/150] meson: convert hw/pci-host
+Date: Fri, 14 Aug 2020 05:12:38 -0400
+Message-Id: <20200814091326.16173-103-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:42
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 01:57:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,74 +91,106 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs    |  1 -
- hw/meson.build      |  1 +
- hw/sd/Makefile.objs | 12 ------------
- hw/sd/meson.build   | 12 ++++++++++++
- 4 files changed, 13 insertions(+), 13 deletions(-)
- delete mode 100644 hw/sd/Makefile.objs
- create mode 100644 hw/sd/meson.build
+ hw/Makefile.objs          |  2 +-
+ hw/meson.build            |  1 +
+ hw/pci-host/Makefile.objs | 24 ------------------------
+ hw/pci-host/meson.build   | 31 +++++++++++++++++++++++++++++++
+ 4 files changed, 33 insertions(+), 25 deletions(-)
+ delete mode 100644 hw/pci-host/Makefile.objs
+ create mode 100644 hw/pci-host/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index e50eb04635..6f9c0b7983 100644
+index f28da5869d..0038cf89d9 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -25,7 +25,6 @@ devices-dirs-y += pci/
- devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
- devices-dirs-y += pcmcia/
- devices-dirs-$(CONFIG_SCSI) += scsi/
--devices-dirs-y += sd/
+@@ -22,7 +22,7 @@ devices-dirs-y += net/
+ devices-dirs-y += rdma/
+ devices-dirs-y += nvram/
+ devices-dirs-y += pci/
+-devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
++devices-dirs-$(CONFIG_PCI) += pci-bridge/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 75644266f2..a73f4aebde 100644
+index ed25644237..ca36e486e7 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -2,6 +2,7 @@ subdir('core')
+@@ -1,6 +1,7 @@
+ subdir('core')
  subdir('mem')
  subdir('nubus')
++subdir('pci-host')
+ subdir('pcmcia')
  subdir('rtc')
-+subdir('sd')
- subdir('semihosting')
- subdir('smbios')
- subdir('ssi')
-diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
+ subdir('scsi')
+diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
 deleted file mode 100644
-index 0d1df1721c..0000000000
---- a/hw/sd/Makefile.objs
+index e422e0aca0..0000000000
+--- a/hw/pci-host/Makefile.objs
 +++ /dev/null
-@@ -1,12 +0,0 @@
--common-obj-$(CONFIG_PL181) += pl181.o
--common-obj-$(CONFIG_SSI_SD) += ssi-sd.o
--common-obj-$(CONFIG_SD) += sd.o core.o sdmmc-internal.o
--common-obj-$(CONFIG_SDHCI) += sdhci.o
--common-obj-$(CONFIG_SDHCI_PCI) += sdhci-pci.o
+@@ -1,24 +0,0 @@
+-common-obj-$(CONFIG_PAM) += pam.o
 -
--common-obj-$(CONFIG_ALLWINNER_H3) += allwinner-sdhost.o
--common-obj-$(CONFIG_MILKYMIST) += milkymist-memcard.o
--common-obj-$(CONFIG_OMAP) += omap_mmc.o
--common-obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
--common-obj-$(CONFIG_RASPI) += bcm2835_sdhost.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_sdhci.o
-diff --git a/hw/sd/meson.build b/hw/sd/meson.build
+-# PPC devices
+-common-obj-$(CONFIG_PREP_PCI) += prep.o
+-common-obj-$(CONFIG_GRACKLE_PCI) += grackle.o
+-# NewWorld PowerMac
+-common-obj-$(CONFIG_UNIN_PCI) += uninorth.o
+-# PowerPC E500 boards
+-common-obj-$(CONFIG_PPCE500_PCI) += ppce500.o
+-
+-# ARM devices
+-common-obj-$(CONFIG_VERSATILE_PCI) += versatile.o
+-
+-common-obj-$(CONFIG_PCI_SABRE) += sabre.o
+-common-obj-$(CONFIG_PCI_BONITO) += bonito.o
+-common-obj-$(CONFIG_PCI_I440FX) += i440fx.o
+-common-obj-$(CONFIG_XEN_IGD_PASSTHROUGH) += xen_igd_pt.o
+-common-obj-$(CONFIG_PCI_EXPRESS_Q35) += q35.o
+-common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) += gpex.o
+-common-obj-$(CONFIG_PCI_EXPRESS_XILINX) += xilinx-pcie.o
+-
+-common-obj-$(CONFIG_PCI_EXPRESS_DESIGNWARE) += designware.o
+-obj-$(CONFIG_POWERNV) += pnv_phb4.o pnv_phb4_pec.o
+-obj-$(CONFIG_POWERNV) += pnv_phb3.o pnv_phb3_msi.o pnv_phb3_pbcq.o
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
 new file mode 100644
-index 0000000000..b43e59bd00
+index 0000000000..cd52f6ff1c
 --- /dev/null
-+++ b/hw/sd/meson.build
-@@ -0,0 +1,12 @@
-+softmmu_ss.add(when: 'CONFIG_PL181', if_true: files('pl181.c'))
-+softmmu_ss.add(when: 'CONFIG_SD', if_true: files('sd.c', 'core.c', 'sdmmc-internal.c'))
-+softmmu_ss.add(when: 'CONFIG_SDHCI', if_true: files('sdhci.c'))
-+softmmu_ss.add(when: 'CONFIG_SDHCI_PCI', if_true: files('sdhci-pci.c'))
-+softmmu_ss.add(when: 'CONFIG_SSI_SD', if_true: files('ssi-sd.c'))
++++ b/hw/pci-host/meson.build
+@@ -0,0 +1,31 @@
++pci_ss = ss.source_set()
++pci_ss.add(when: 'CONFIG_PAM', if_true: files('pam.c'))
++pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_Q35', if_true: files('q35.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
++pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
++pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
++pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
 +
-+softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-memcard.c'))
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_mmc.c'))
-+softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_mmci.c'))
-+softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_sdhost.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_sdhci.c'))
-+softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-sdhost.c'))
++# PPC devices
++pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
++pci_ss.add(when: 'CONFIG_GRACKLE_PCI', if_true: files('grackle.c'))
++# NewWorld PowerMac
++pci_ss.add(when: 'CONFIG_UNIN_PCI', if_true: files('uninorth.c'))
++# PowerPC E500 boards
++pci_ss.add(when: 'CONFIG_PPCE500_PCI', if_true: files('ppce500.c'))
++
++# ARM devices
++pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('versatile.c'))
++
++softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
++
++specific_ss.add(when: 'CONFIG_POWERNV', if_true: files(
++  'pnv_phb3.c',
++  'pnv_phb3_msi.c',
++  'pnv_phb3_pbcq.c',
++  'pnv_phb4.c',
++  'pnv_phb4_pec.c'
++))
 -- 
 2.26.2
 
