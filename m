@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4F62447C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:12:54 +0200 (CEST)
-Received: from localhost ([::1]:50150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC192447C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:14:47 +0200 (CEST)
+Received: from localhost ([::1]:59312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Whh-0008UT-5S
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46728)
+	id 1k6WjW-0003n8-3s
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6VwI-0005QR-4O; Fri, 14 Aug 2020 05:23:54 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33386)
+ id 1k6VwN-0005dO-Df; Fri, 14 Aug 2020 05:23:59 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6VwG-0004KG-9t; Fri, 14 Aug 2020 05:23:53 -0400
-Received: by mail-wr1-x430.google.com with SMTP id p20so7751501wrf.0;
- Fri, 14 Aug 2020 02:23:51 -0700 (PDT)
+ id 1k6VwL-0004LE-KG; Fri, 14 Aug 2020 05:23:59 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a5so7731015wrm.6;
+ Fri, 14 Aug 2020 02:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+/2SLK598ki9weuwoeMpo5eHHltzo6y+gY/RQh6VyAk=;
- b=PX12473c23LrbCmGbqsqd0i8e3/cdApRFg7qEOgnBPptG/gkERKztbM59bK3qHH6y7
- q80yfgzBYfGlgElyAq5VYZvPyq+KJMJbDnSjrzn8vTckyLSupraujbpoeKqNDN4hJMEy
- eFFGfySCVfVHgIPucQ/8A0mB1Nkm6+y4Uf2rQxpg7qBaG5ozC0Hh4wH5A0DMsESvteuU
- YhtCVF1EbCK6g7Q+pcGN+2C+Z5h3SYTMSXQOnRAMPRuOlM1Jgq5vSj2wqoMiUkyylPmR
- ff07PZbEGGHQVqPjmA4Ik55FV1zpKm8d3xcSaGiXUl4QbkP+aBhDXZ7DFFQ9je7LRrc2
- pubw==
+ bh=aLPTEwW8IgyfTmT0h1xzh2aMoPhT9+v6krhNFnB9JEQ=;
+ b=QCAV0i9qsFINmIhKsoAX/iB8/CeY2K3JOfrLM1OKkDnM44nXnW7OFUPOxm1lX1/3Rw
+ e4mdfnW5R4yGSQwGIJoxiVeTCl8JiZHENfKZ/qj36kY+r3sik1sOKjPJZ/VD+3okCXgi
+ R+N4iA2QvS6tfZVpIr6eG4JgbRrQ7uQqjLi9DdFJwRH1RRiL3L+tagRx7cUl1UBgvO/V
+ TKQ8yqPtF9IFk+Ab9p7qtIv2lBZUSo/zyH/nXTeUyWXnKnffkrOma3TeLRbxbCgflU8t
+ L5Thmtd/AFLEuk7HCnIFaHI1EjkZ/vsiJwgrZnfCBIPVe9rOAaOy3UHG6W/3QP7VUiHK
+ 8PRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+/2SLK598ki9weuwoeMpo5eHHltzo6y+gY/RQh6VyAk=;
- b=lR2/eyFHFvERebIhz70YtHiwps2mF2fn/HLXj2FWE15zRZZ4yqLzmzuMAUPSfIUcXn
- MBWB6B1x9LfJ2HAZ8N0FY2E2eKaxOqJTRL3BKqKvp725fR/uM1ZZq0TUpMK+fyhVnnPt
- 9mIWGjOLA1TZEB4Pc7kyFj+6XWXQXi0siE/krtnP7ZI7AXdrTbizsTgPBxi9pDmMzJ73
- tP7jbt3Ka5kE+6MBB6IZ7qD6fu/7zJ0TM8jOJoXrbb3nPTFNKyL5W2AcuBxfwdsgFDhF
- UbgrJGIPZmlM95ROQ/0FOgaucfQiCaJGxkTz6DsZ+RzjYxQs7qbZ0Db9xq+Y5cwaCSku
- dnUg==
-X-Gm-Message-State: AOAM532EziSmx4+zy2Ij4Cgmh+ajv9w0G03hs3oXXCGt3IweytGbYHSp
- ZeZyUdbIOXMrkEHkYJ1qsNyBX+hhkWM=
-X-Google-Smtp-Source: ABdhPJwZA41u3GgvezYq4b8hIR0u1WEW5lshX5MCe0UC4Tyc522pC0Qabo37eAPQ0Mev/tKsjvhdEg==
-X-Received: by 2002:a5d:6047:: with SMTP id j7mr1828972wrt.315.1597397029912; 
- Fri, 14 Aug 2020 02:23:49 -0700 (PDT)
+ bh=aLPTEwW8IgyfTmT0h1xzh2aMoPhT9+v6krhNFnB9JEQ=;
+ b=eq5HwMmb5eHMju+DjwzfeKr2p64lOtnknzpdzQCvqMQjy92yrLNcakpFrFgZ6Rx3Qt
+ YnTEjgFU/VM6dh1xOBujylT51+1tm8RiuGBoa0RaBqxmXy7oQe40NaKa8ITJBHOuJVay
+ Cv1yBLzxBzwZySKPkL/YC3lm6grjTyWqcbSDPdEyG7iLMqMcYI+ECUficsL3odBCYbBF
+ +1LUdifu4fhOFWd0lZA+W2n211hKXbHY5nbopzWNd9ci4aBW+r5cy/PIeZq903m3UYKO
+ Z0tOPW3O4hKCExgAM8Gqi3AISYdMOEfbqQpFlXLNcATamv5rbxZl7T63NPgyzw7n7EjB
+ kctg==
+X-Gm-Message-State: AOAM532nUpGcImjZ8KMzR6H3gxydF90+PZT3AiUpNLSKc8QEwpeEXot7
+ 058jvUa5RnJrorvZgDKjfQZjecOC/Ps=
+X-Google-Smtp-Source: ABdhPJx1WiV97w8YG2HFyop4igZGjblk6Taew3kw1v527htk2VOINl+X+yAbEXGQIB9eP/v0sA5ZrQ==
+X-Received: by 2002:adf:c552:: with SMTP id s18mr1799513wrf.209.1597397035016; 
+ Fri, 14 Aug 2020 02:23:55 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id b11sm12889395wrq.32.2020.08.14.02.23.48
+ by smtp.gmail.com with ESMTPSA id b11sm12889395wrq.32.2020.08.14.02.23.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:23:49 -0700 (PDT)
+ Fri, 14 Aug 2020 02:23:54 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] hw/sd: Rename read/write_data() as read/write_byte()
-Date: Fri, 14 Aug 2020 11:23:40 +0200
-Message-Id: <20200814092346.21825-2-f4bug@amsat.org>
+Subject: [PATCH 5/7] hw/sd: Use sdbus_write_data() instead of sdbus_write_byte
+ when possible
+Date: Fri, 14 Aug 2020 11:23:44 +0200
+Message-Id: <20200814092346.21825-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200814092346.21825-1-f4bug@amsat.org>
 References: <20200814092346.21825-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -94,186 +95,137 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The read/write_data() methods write do a single byte access
-on the data line of a SD card. Rename them as read/write_byte().
-Add some documentation (not in "hw/sd/sdcard_legacy.h" which we
-are going to remove soon).
+Use the recently added sdbus_write_data() to write multiple
+bytes at once, instead of looping calling sdbus_write_byte().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/sd/sd.h            | 19 +++++++++++++++++--
- include/hw/sd/sdcard_legacy.h |  4 ++--
- hw/sd/core.c                  |  4 ++--
- hw/sd/omap_mmc.c              |  8 ++++----
- hw/sd/sd.c                    | 16 ++++++++--------
- 5 files changed, 33 insertions(+), 18 deletions(-)
+ hw/sd/allwinner-sdhost.c  | 14 +++++---------
+ hw/sd/milkymist-memcard.c |  7 +++----
+ hw/sd/sdhci.c             | 18 ++++--------------
+ 3 files changed, 12 insertions(+), 27 deletions(-)
 
-diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index 8767ab817c..b58b5a19af 100644
---- a/include/hw/sd/sd.h
-+++ b/include/hw/sd/sd.h
-@@ -104,8 +104,23 @@ typedef struct {
-     /*< public >*/
+diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+index c004aa39da..eea5659c5f 100644
+--- a/hw/sd/allwinner-sdhost.c
++++ b/hw/sd/allwinner-sdhost.c
+@@ -333,10 +333,7 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
+         if (is_write) {
+             cpu_physical_memory_read((desc->addr & DESC_SIZE_MASK) + num_done,
+                                       buf, buf_bytes);
+-
+-            for (uint32_t i = 0; i < buf_bytes; i++) {
+-                sdbus_write_byte(&s->sdbus, buf[i]);
+-            }
++            sdbus_write_data(&s->sdbus, buf, buf_bytes);
  
-     int (*do_command)(SDState *sd, SDRequest *req, uint8_t *response);
--    void (*write_data)(SDState *sd, uint8_t value);
--    uint8_t (*read_data)(SDState *sd);
-+    /**
-+     * Write a byte to a SD card.
-+     * @sd: card
-+     * @value: byte to write
-+     *
-+     * Write a byte on the data lines of a SD card.
-+     */
-+    void (*write_byte)(SDState *sd, uint8_t value);
-+    /**
-+     * Read a byte from a SD card.
-+     * @sd: card
-+     *
-+     * Read a byte from the data lines of a SD card.
-+     *
-+     * Return: byte value read
-+     */
-+    uint8_t (*read_byte)(SDState *sd);
-     bool (*data_ready)(SDState *sd);
-     void (*set_voltage)(SDState *sd, uint16_t millivolts);
-     uint8_t (*get_dat_lines)(SDState *sd);
-diff --git a/include/hw/sd/sdcard_legacy.h b/include/hw/sd/sdcard_legacy.h
-index 8681f8089b..0dc3889555 100644
---- a/include/hw/sd/sdcard_legacy.h
-+++ b/include/hw/sd/sdcard_legacy.h
-@@ -34,8 +34,8 @@
- /* Legacy functions to be used only by non-qdevified callers */
- SDState *sd_init(BlockBackend *blk, bool is_spi);
- int sd_do_command(SDState *card, SDRequest *request, uint8_t *response);
--void sd_write_data(SDState *card, uint8_t value);
--uint8_t sd_read_data(SDState *card);
-+void sd_write_byte(SDState *card, uint8_t value);
-+uint8_t sd_read_byte(SDState *card);
- void sd_set_cb(SDState *card, qemu_irq readonly, qemu_irq insert);
- 
- /* sd_enable should not be used -- it is only used on the nseries boards,
-diff --git a/hw/sd/core.c b/hw/sd/core.c
-index abec48bccb..79d96576ea 100644
---- a/hw/sd/core.c
-+++ b/hw/sd/core.c
-@@ -110,7 +110,7 @@ void sdbus_write_data(SDBus *sdbus, uint8_t value)
-     if (card) {
-         SDCardClass *sc = SD_CARD_GET_CLASS(card);
- 
--        sc->write_data(card, value);
-+        sc->write_byte(card, value);
-     }
- }
- 
-@@ -122,7 +122,7 @@ uint8_t sdbus_read_data(SDBus *sdbus)
-     if (card) {
-         SDCardClass *sc = SD_CARD_GET_CLASS(card);
- 
--        value = sc->read_data(card);
-+        value = sc->read_byte(card);
-     }
-     trace_sdbus_read(sdbus_name(sdbus), value);
- 
-diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
-index 7d33c59226..1f946908fe 100644
---- a/hw/sd/omap_mmc.c
-+++ b/hw/sd/omap_mmc.c
-@@ -232,10 +232,10 @@ static void omap_mmc_transfer(struct omap_mmc_s *host)
-             if (host->fifo_len > host->af_level)
-                 break;
- 
--            value = sd_read_data(host->card);
-+            value = sd_read_byte(host->card);
-             host->fifo[(host->fifo_start + host->fifo_len) & 31] = value;
-             if (-- host->blen_counter) {
--                value = sd_read_data(host->card);
-+                value = sd_read_byte(host->card);
-                 host->fifo[(host->fifo_start + host->fifo_len) & 31] |=
-                         value << 8;
-                 host->blen_counter --;
-@@ -247,10 +247,10 @@ static void omap_mmc_transfer(struct omap_mmc_s *host)
-                 break;
- 
-             value = host->fifo[host->fifo_start] & 0xff;
--            sd_write_data(host->card, value);
-+            sd_write_byte(host->card, value);
-             if (-- host->blen_counter) {
-                 value = host->fifo[host->fifo_start] >> 8;
--                sd_write_data(host->card, value);
-+                sd_write_byte(host->card, value);
-                 host->blen_counter --;
-             }
- 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 5c6f5c94f3..7c9d956f11 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -1809,7 +1809,7 @@ static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
- #define APP_READ_BLOCK(a, len)	memset(sd->data, 0xec, len)
- #define APP_WRITE_BLOCK(a, len)
- 
--void sd_write_data(SDState *sd, uint8_t value)
-+void sd_write_byte(SDState *sd, uint8_t value)
+         /* Read from SD bus */
+         } else {
+@@ -548,6 +545,7 @@ static void allwinner_sdhost_write(void *opaque, hwaddr offset,
+                                    uint64_t value, unsigned size)
  {
-     int i;
+     AwSdHostState *s = AW_SDHOST(opaque);
++    uint32_t u32;
  
-@@ -1818,7 +1818,7 @@ void sd_write_data(SDState *sd, uint8_t value)
+     trace_allwinner_sdhost_write(offset, value, size);
  
-     if (sd->state != sd_receivingdata_state) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "sd_write_data: not in Receiving-Data state\n");
-+                      "%s: not in Receiving-Data state\n", __func__);
-         return;
-     }
- 
-@@ -1940,7 +1940,7 @@ void sd_write_data(SDState *sd, uint8_t value)
+@@ -654,11 +652,9 @@ static void allwinner_sdhost_write(void *opaque, hwaddr offset,
+         s->startbit_detect = value;
          break;
- 
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "sd_write_data: unknown command\n");
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: unknown command\n", __func__);
+     case REG_SD_FIFO:      /* Read/Write FIFO */
+-        sdbus_write_byte(&s->sdbus, value & 0xff);
+-        sdbus_write_byte(&s->sdbus, (value >> 8) & 0xff);
+-        sdbus_write_byte(&s->sdbus, (value >> 16) & 0xff);
+-        sdbus_write_byte(&s->sdbus, (value >> 24) & 0xff);
+-        allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
++        u32 = cpu_to_le32(value);
++        sdbus_write_data(&s->sdbus, &u32, sizeof(u32));
++        allwinner_sdhost_update_transfer_cnt(s, sizeof(u32));
+         allwinner_sdhost_auto_stop(s);
+         allwinner_sdhost_update_irq(s);
          break;
-     }
- }
-@@ -1959,7 +1959,7 @@ static const uint8_t sd_tuning_block_pattern[SD_TUNING_BLOCK_SIZE] = {
-     0xbb, 0xff, 0xf7, 0xff,         0xf7, 0x7f, 0x7b, 0xde,
- };
- 
--uint8_t sd_read_data(SDState *sd)
-+uint8_t sd_read_byte(SDState *sd)
+diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
+index e8d055bb89..12e091a46e 100644
+--- a/hw/sd/milkymist-memcard.c
++++ b/hw/sd/milkymist-memcard.c
+@@ -181,6 +181,7 @@ static void memcard_write(void *opaque, hwaddr addr, uint64_t value,
+                           unsigned size)
  {
-     /* TODO: Append CRCs */
-     uint8_t ret;
-@@ -1970,7 +1970,7 @@ uint8_t sd_read_data(SDState *sd)
+     MilkymistMemcardState *s = opaque;
++    uint32_t val32;
  
-     if (sd->state != sd_sendingdata_state) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "sd_read_data: not in Sending-Data state\n");
-+                      "%s: not in Sending-Data state\n", __func__);
-         return 0x00;
-     }
+     trace_milkymist_memcard_memory_write(addr, value);
  
-@@ -2076,7 +2076,7 @@ uint8_t sd_read_data(SDState *sd)
+@@ -209,10 +210,8 @@ static void memcard_write(void *opaque, hwaddr addr, uint64_t value,
+         if (!s->enabled) {
+             break;
+         }
+-        sdbus_write_byte(&s->sdbus, (value >> 24) & 0xff);
+-        sdbus_write_byte(&s->sdbus, (value >> 16) & 0xff);
+-        sdbus_write_byte(&s->sdbus, (value >> 8) & 0xff);
+-        sdbus_write_byte(&s->sdbus, value & 0xff);
++        val32 = cpu_to_be32(value);
++        sdbus_write_data(&s->sdbus, &val32, sizeof(val32));
          break;
- 
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "sd_read_data: unknown command\n");
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: unknown command\n", __func__);
-         return 0x00;
+     case R_ENABLE:
+         s->regs[addr] = value;
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index b897b1121b..ddf3691561 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -496,8 +496,6 @@ static uint32_t sdhci_read_dataport(SDHCIState *s, unsigned size)
+ /* Write data from host controller FIFO to card */
+ static void sdhci_write_block_to_card(SDHCIState *s)
+ {
+-    int index = 0;
+-
+     if (s->prnsts & SDHC_SPACE_AVAILABLE) {
+         if (s->norintstsen & SDHC_NISEN_WBUFRDY) {
+             s->norintsts |= SDHC_NIS_WBUFRDY;
+@@ -514,9 +512,7 @@ static void sdhci_write_block_to_card(SDHCIState *s)
+         }
      }
  
-@@ -2192,8 +2192,8 @@ static void sd_class_init(ObjectClass *klass, void *data)
-     sc->get_dat_lines = sd_get_dat_lines;
-     sc->get_cmd_line = sd_get_cmd_line;
-     sc->do_command = sd_do_command;
--    sc->write_data = sd_write_data;
--    sc->read_data = sd_read_data;
-+    sc->write_byte = sd_write_byte;
-+    sc->read_byte = sd_read_byte;
-     sc->data_ready = sd_data_ready;
-     sc->enable = sd_enable;
-     sc->get_inserted = sd_get_inserted;
+-    for (index = 0; index < (s->blksize & BLOCK_SIZE_MASK); index++) {
+-        sdbus_write_byte(&s->sdbus, s->fifo_buffer[index]);
+-    }
++    sdbus_write_data(&s->sdbus, s->fifo_buffer, s->blksize & BLOCK_SIZE_MASK);
+ 
+     /* Next data can be written through BUFFER DATORT register */
+     s->prnsts |= SDHC_SPACE_AVAILABLE;
+@@ -641,9 +637,7 @@ static void sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
+                             &s->fifo_buffer[begin], s->data_count - begin);
+             s->sdmasysad += s->data_count - begin;
+             if (s->data_count == block_size) {
+-                for (n = 0; n < block_size; n++) {
+-                    sdbus_write_byte(&s->sdbus, s->fifo_buffer[n]);
+-                }
++                sdbus_write_data(&s->sdbus, s->fifo_buffer, block_size);
+                 s->data_count = 0;
+                 if (s->trnmod & SDHC_TRNS_BLK_CNT_EN) {
+                     s->blkcnt--;
+@@ -678,9 +672,7 @@ static void sdhci_sdma_transfer_single_block(SDHCIState *s)
+         dma_memory_write(s->dma_as, s->sdmasysad, s->fifo_buffer, datacnt);
+     } else {
+         dma_memory_read(s->dma_as, s->sdmasysad, s->fifo_buffer, datacnt);
+-        for (n = 0; n < datacnt; n++) {
+-            sdbus_write_byte(&s->sdbus, s->fifo_buffer[n]);
+-        }
++        sdbus_write_data(&s->sdbus, s->fifo_buffer, datacnt);
+     }
+     s->blkcnt--;
+ 
+@@ -814,9 +806,7 @@ static void sdhci_do_adma(SDHCIState *s)
+                                     s->data_count - begin);
+                     dscr.addr += s->data_count - begin;
+                     if (s->data_count == block_size) {
+-                        for (n = 0; n < block_size; n++) {
+-                            sdbus_write_byte(&s->sdbus, s->fifo_buffer[n]);
+-                        }
++                        sdbus_write_data(&s->sdbus, s->fifo_buffer, block_size);
+                         s->data_count = 0;
+                         if (s->trnmod & SDHC_TRNS_BLK_CNT_EN) {
+                             s->blkcnt--;
 -- 
 2.21.3
 
