@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80F4244BC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:18:35 +0200 (CEST)
-Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D9A244BD9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 17:21:45 +0200 (CEST)
+Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6bTW-0007z6-DA
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51516)
+	id 1k6bWa-000697-PQ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 11:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQO-0003PT-2z
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:20 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:55665)
+ id 1k6bQR-0003aX-DD
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:23 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:55675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4887bfbec=alistair.francis@wdc.com>)
- id 1k6bQK-0007bQ-Vq
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:19 -0400
+ id 1k6bQK-0007eB-Vp
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 11:15:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1597418117; x=1628954117;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=C0XaOZXVZ1mP0mMppQ0w8h2usGXgNAwdJMoBgibbfz0=;
- b=F4H4eGUEaqv5DFgKAaE/i9KubA7H6U9bk6ZAeaQd+iS4b+xmKnhwXBqG
- dJxbepAVuLrblUh336qYu0cfyWIOZKpqYDPFg3L8vDNLvNhh2RFm/QUn4
- OAHiF37/tYtnB2Di3gHE0tVO2NMe1guvDJt6W/FjbeURffyRpYq9qILmp
- Qulgk8rApZIMf5FR0dOpfnJvF74HQS/j423lftdW+R4OvljXu6/77U49W
- 4IcXygprCT29uzt7chHNcOPO8PdDBVXloMjwzCOk4Fi12vg6Sebyoc6cl
- jfj/KQ+LfDgEK5PQ5lbCVqX1Rdwzuz87dkhfLGPBlYIuE0Ax93zPMH5nu g==;
-IronPort-SDR: JJHLXo8QM028KkrmEeonZ4fUf4hIBdxA8MWtKux4zD6yZIgmZY/ubkw13BcF4LD6UdG+zdMwAC
- fnbdpvyOBdwVcxvzy1oGycwaMWYLAdp2L1FMp0G+Rx5oDBd1iD5UOnPG/DkYawF8lHjB6KCVZI
- 661G9h4zD85CPjyPkx/IjHurZd1ukqQTip++JgzmpVFkKnulPnBdFByTqgUDXH8/oMayyIwr/R
- PkQ2FshoAP2fyBTUHHM0e4fLGIdETm1SUI/NziIc3GlKnMa3ckV3AvxyOK/sJsALc5jXc/eZQY
- IHQ=
-X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="144994802"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=/sYwq4jJBFVrhAN6HvnU9aC89Zg8os3gcPnGisptQJw=;
+ b=ZAYosU2787TF9WTS2onBTnUqzPMJ8hOh+/IaDXDYn7NkLly+Xv/1YP7t
+ MBHHmwwpP4Hiz8xCKxPl693ZeVbN/sp972nwLhuRXVTImSWQls7HQR1Ke
+ 3JLipIc/sY8gAVKQWs6wpDzxvIrZCb47CP04wc89JLDmjlCCFDREJpgOK
+ QaXIhIu0l9AjB10Kae+h+YCHsnt6YxAE7KRo5sA2mGJhL5xqmk3zgdH6E
+ O4mSXcsE76HyWUPa9CGheE4qXE6C7K+Q+ZPtdR2Cf8ZWK2J3m6s4P2+/o
+ fmyys6wbREWHx43ITI60v2WEnRGzCyiLJkzNUMkQMUaQx4OpfTBClPyj6 w==;
+IronPort-SDR: 9yLeTZKHIhAm/1O/9AF+EEnLqJHlA7jRCrip3pnTcfJ5zlUoDp0Vi6mthnWzb+fWnfN7EQZXv+
+ LztzwEd12d/Bvi5bv+hiJhTl8dI0bVJknKLvCw/axohRsMzYQoex1aFKX4eHvBBPJr2GiM/Zhn
+ qSVA9VpGngdhHY4mm/LSAwk6a9MW7OWkJM/TW34si4beWW/SzQcHL8TzsxgRLK6ekdpqOectEs
+ WszCVGUZ+6OphZXrrjjJeP2VEiZZwKwBRkdjFL4XMnSQ+aUr69WRt5WFHjPi5Zdwsr4HjsCTbs
+ KaQ=
+X-IronPort-AV: E=Sophos;i="5.76,312,1592841600"; d="scan'208";a="144994803"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 23:15:12 +0800
-IronPort-SDR: xoWChVXGgrVJ1fqpNiIhWScjeCvS14F6tA4S3zp0pt7WT5NAUco2jCRudb1ZvxxQqlG3PC8nAC
- RDVRBJ4PCB6A==
+IronPort-SDR: 2So8M/8TjkRo3it4q6h92CQUNm6IiaLnRCPF0IKT+vw3An2p4kCyls11m4Qrl+z8YxzLIJBEti
+ KT27n0EGuKqw==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Aug 2020 08:02:16 -0700
-IronPort-SDR: hKoZRoC1mSIZ858HjvVpNdYwFW+y74GhWCSR54M2dyHpdzEmG5GwlVFJtEBOi1vDbwJMflZ5dv
- d+HqgRZYTHUA==
+IronPort-SDR: H1SZ8i+o4A2qoeYeZnl1PGyH5KrzEIzIXQExwPpVDCss8uCU3W42+wprMOnsB/4NNNuPQ25nWM
+ 52nX9V5SCSNA==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.14])
  by uls-op-cesaip02.wdc.com with ESMTP; 14 Aug 2020 08:15:11 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/20] riscv-to-apply queue
-Date: Fri, 14 Aug 2020 08:04:46 -0700
-Message-Id: <20200814150506.2070566-1-alistair.francis@wdc.com>
+Subject: [PULL v2 01/20] target/riscv: Generate nanboxed results from fp
+ helpers
+Date: Fri, 14 Aug 2020 08:04:47 -0700
+Message-Id: <20200814150506.2070566-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200814150506.2070566-1-alistair.francis@wdc.com>
+References: <20200814150506.2070566-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=4887bfbec=alistair.francis@wdc.com;
@@ -86,100 +88,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
+From: Richard Henderson <richard.henderson@linaro.org>
 
-  Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
+Make sure that all results from single-precision scalar helpers
+are properly nan-boxed to 64-bits.
 
-are available in the Git repository at:
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-Id: <20200724002807.441147-2-richard.henderson@linaro.org>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/internals.h  |  5 +++++
+ target/riscv/fpu_helper.c | 42 +++++++++++++++++++++------------------
+ 2 files changed, 28 insertions(+), 19 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200814
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index 37d33820ad..9f4ba7d617 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -38,4 +38,9 @@ target_ulong fclass_d(uint64_t frs1);
+ #define SEW32 2
+ #define SEW64 3
+ 
++static inline uint64_t nanbox_s(float32 f)
++{
++    return f | MAKE_64BIT_MASK(32, 32);
++}
++
+ #endif
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index 4379756dc4..72541958a7 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -81,10 +81,16 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
+     set_float_rounding_mode(softrm, &env->fp_status);
+ }
+ 
++static uint64_t do_fmadd_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
++                           uint64_t frs3, int flags)
++{
++    return nanbox_s(float32_muladd(frs1, frs2, frs3, flags, &env->fp_status));
++}
++
+ uint64_t helper_fmadd_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+                         uint64_t frs3)
+ {
+-    return float32_muladd(frs1, frs2, frs3, 0, &env->fp_status);
++    return do_fmadd_s(env, frs1, frs2, frs3, 0);
+ }
+ 
+ uint64_t helper_fmadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+@@ -96,8 +102,7 @@ uint64_t helper_fmadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+ uint64_t helper_fmsub_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+                         uint64_t frs3)
+ {
+-    return float32_muladd(frs1, frs2, frs3, float_muladd_negate_c,
+-                          &env->fp_status);
++    return do_fmadd_s(env, frs1, frs2, frs3, float_muladd_negate_c);
+ }
+ 
+ uint64_t helper_fmsub_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+@@ -110,8 +115,7 @@ uint64_t helper_fmsub_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+ uint64_t helper_fnmsub_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+                          uint64_t frs3)
+ {
+-    return float32_muladd(frs1, frs2, frs3, float_muladd_negate_product,
+-                          &env->fp_status);
++    return do_fmadd_s(env, frs1, frs2, frs3, float_muladd_negate_product);
+ }
+ 
+ uint64_t helper_fnmsub_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+@@ -124,8 +128,8 @@ uint64_t helper_fnmsub_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+ uint64_t helper_fnmadd_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+                          uint64_t frs3)
+ {
+-    return float32_muladd(frs1, frs2, frs3, float_muladd_negate_c |
+-                          float_muladd_negate_product, &env->fp_status);
++    return do_fmadd_s(env, frs1, frs2, frs3,
++                      float_muladd_negate_c | float_muladd_negate_product);
+ }
+ 
+ uint64_t helper_fnmadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+@@ -137,37 +141,37 @@ uint64_t helper_fnmadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
+ 
+ uint64_t helper_fadd_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float32_add(frs1, frs2, &env->fp_status);
++    return nanbox_s(float32_add(frs1, frs2, &env->fp_status));
+ }
+ 
+ uint64_t helper_fsub_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float32_sub(frs1, frs2, &env->fp_status);
++    return nanbox_s(float32_sub(frs1, frs2, &env->fp_status));
+ }
+ 
+ uint64_t helper_fmul_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float32_mul(frs1, frs2, &env->fp_status);
++    return nanbox_s(float32_mul(frs1, frs2, &env->fp_status));
+ }
+ 
+ uint64_t helper_fdiv_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float32_div(frs1, frs2, &env->fp_status);
++    return nanbox_s(float32_div(frs1, frs2, &env->fp_status));
+ }
+ 
+ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float32_minnum(frs1, frs2, &env->fp_status);
++    return nanbox_s(float32_minnum(frs1, frs2, &env->fp_status));
+ }
+ 
+ uint64_t helper_fmax_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float32_maxnum(frs1, frs2, &env->fp_status);
++    return nanbox_s(float32_maxnum(frs1, frs2, &env->fp_status));
+ }
+ 
+ uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t frs1)
+ {
+-    return float32_sqrt(frs1, &env->fp_status);
++    return nanbox_s(float32_sqrt(frs1, &env->fp_status));
+ }
+ 
+ target_ulong helper_fle_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+@@ -209,23 +213,23 @@ uint64_t helper_fcvt_lu_s(CPURISCVState *env, uint64_t frs1)
+ 
+ uint64_t helper_fcvt_s_w(CPURISCVState *env, target_ulong rs1)
+ {
+-    return int32_to_float32((int32_t)rs1, &env->fp_status);
++    return nanbox_s(int32_to_float32((int32_t)rs1, &env->fp_status));
+ }
+ 
+ uint64_t helper_fcvt_s_wu(CPURISCVState *env, target_ulong rs1)
+ {
+-    return uint32_to_float32((uint32_t)rs1, &env->fp_status);
++    return nanbox_s(uint32_to_float32((uint32_t)rs1, &env->fp_status));
+ }
+ 
+ #if defined(TARGET_RISCV64)
+ uint64_t helper_fcvt_s_l(CPURISCVState *env, uint64_t rs1)
+ {
+-    return int64_to_float32(rs1, &env->fp_status);
++    return nanbox_s(int64_to_float32(rs1, &env->fp_status));
+ }
+ 
+ uint64_t helper_fcvt_s_lu(CPURISCVState *env, uint64_t rs1)
+ {
+-    return uint64_to_float32(rs1, &env->fp_status);
++    return nanbox_s(uint64_to_float32(rs1, &env->fp_status));
+ }
+ #endif
+ 
+@@ -266,7 +270,7 @@ uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ 
+ uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
+ {
+-    return float64_to_float32(rs1, &env->fp_status);
++    return nanbox_s(float64_to_float32(rs1, &env->fp_status));
+ }
+ 
+ uint64_t helper_fcvt_d_s(CPURISCVState *env, uint64_t rs1)
+-- 
+2.27.0
 
-for you to fetch changes up to f57d45853ead8f3ff2c295a6b93b386b56396020:
-
-  hw/intc: ibex_plic: Honour source priorities (2020-08-13 14:20:03 -0700)
-
-----------------------------------------------------------------
-The first RISC-V PR for the 5.2 window.
-
-This includes:
- - NaNBox fixes
- - Vector extension improvements
- - a L2 cache controller
- - PMP fixes
- - Upgrade to OpenSBI v0.8 and the generic platform
- - Fixes for the Ibex PLIC
-
-----------------------------------------------------------------
-Alistair Francis (3):
-      hw/intc: ibex_plic: Update the pending irqs
-      hw/intc: ibex_plic: Don't allow repeat interrupts on claimed lines
-      hw/intc: ibex_plic: Honour source priorities
-
-Bin Meng (7):
-      hw/riscv: sifive_u: Add a dummy L2 cache controller device
-      configure: Create symbolic links for pc-bios/*.elf files
-      roms/opensbi: Upgrade from v0.7 to v0.8
-      roms/Makefile: Build the generic platform for RISC-V OpenSBI firmware
-      hw/riscv: Use pre-built bios image of generic platform for virt & sifive_u
-      hw/riscv: spike: Change the default bios to use generic platform image
-      gitlab-ci/opensbi: Update GitLab CI to build generic platform
-
-Hou Weiying (1):
-      riscv: Fix bug in setting pmpcfg CSR for RISCV64
-
-LIU Zhiwei (2):
-      target/riscv: Clean up fmv.w.x
-      target/riscv: check before allocating TCG temps
-
-Richard Henderson (5):
-      target/riscv: Generate nanboxed results from fp helpers
-      target/riscv: Generalize gen_nanbox_fpr to gen_nanbox_s
-      target/riscv: Generate nanboxed results from trans_rvf.inc.c
-      target/riscv: Check nanboxed inputs to fp helpers
-      target/riscv: Check nanboxed inputs in trans_rvf.inc.c
-
-Zong Li (2):
-      target/riscv: Fix the translation of physical address
-      target/riscv: Change the TLB page size depends on PMP entries.
-
- configure                                      |   1 +
- Makefile                                       |   4 +-
- include/hw/intc/ibex_plic.h                    |   1 +
- include/hw/riscv/sifive_u.h                    |   4 +
- target/riscv/internals.h                       |  16 ++++
- target/riscv/pmp.h                             |   2 +
- hw/intc/ibex_plic.c                            |  36 +++++++--
- hw/riscv/sifive_u.c                            |  26 ++++++-
- hw/riscv/spike.c                               |   9 ++-
- hw/riscv/virt.c                                |   4 +-
- target/riscv/cpu_helper.c                      |  15 +++-
- target/riscv/fpu_helper.c                      | 102 ++++++++++++++++---------
- target/riscv/insn_trans/trans_rvd.inc.c        |   8 +-
- target/riscv/insn_trans/trans_rvf.inc.c        |  99 +++++++++++++++---------
- target/riscv/pmp.c                             |  57 +++++++++++++-
- target/riscv/translate.c                       |  29 +++++++
- .gitlab-ci.d/opensbi.yml                       |  28 +++----
- pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 0 -> 62144 bytes
- pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 0 -> 558668 bytes
- pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin   | Bin 49520 -> 0 bytes
- pc-bios/opensbi-riscv32-virt-fw_jump.bin       | Bin 49504 -> 0 bytes
- pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 0 -> 70792 bytes
- pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 0 -> 620424 bytes
- pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin   | Bin 57936 -> 0 bytes
- pc-bios/opensbi-riscv64-virt-fw_jump.bin       | Bin 57920 -> 0 bytes
- roms/Makefile                                  |  32 +++-----
- roms/opensbi                                   |   2 +-
- 27 files changed, 338 insertions(+), 137 deletions(-)
- create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
- create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
- delete mode 100644 pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
- delete mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
- create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
- create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
- delete mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
- delete mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
 
