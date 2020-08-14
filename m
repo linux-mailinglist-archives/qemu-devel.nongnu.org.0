@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D90245161
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:13:58 +0200 (CEST)
-Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF672245185
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:58:40 +0200 (CEST)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6yog-0006cN-0h
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57636)
+	id 1k6zVv-00083Q-PM
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6ynb-0005sK-1C
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:12:51 -0400
-Resent-Date: Sat, 15 Aug 2020 12:12:51 -0400
-Resent-Message-Id: <E1k6ynb-0005sK-1C@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6ynY-0002zT-O1
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:12:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597507961; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WPzMIOIqFqoeAqwZvtLWYwZ0v4zaOYRiBeUmAQqv/5lJUjZZCbOAWg6xS+1nZDeXHKKqO0urr+WUMmMO6F12tuaE4IAbTetGGP0dx48h9o1mneKhkLHdgi7WXhVDWxC0VOumvqXNMV7Qer+aDo6NvkhNao1GbDO3UuyWZVs7nnE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597507961;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=o1hhBVGyw+mcD9ciLCYu3znqkNHCmihSuRAkD9UCbZo=; 
- b=bFbvCPMwrBZZezbFFItH3MNQtYW4Dkf+xcWEakti2EJNgFkxtz7RQUuoeK5BxFH/qo/uSIb6xx0nQwXv46JHXrZ+IKjsTou1iRsaiaUYVDqrNMzMNPwqRa336TKKyH6Psn4fX0K86CrJhIcodHq4iqRyzFuVZXNTW5eNOjWwgqA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597507959525169.8270167022025;
- Sat, 15 Aug 2020 09:12:39 -0700 (PDT)
-Subject: Re: [PATCH] Fixes: Fallthrough warning on line 270 of
- qemu/qapi/opts-visitor.c
-Message-ID: <159750795847.7155.1670749874930682593@66eaa9a8a123>
-In-Reply-To: <20200815151148.10571-1-rohit.shinde12194@gmail.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1k6zV6-0007Um-73; Sat, 15 Aug 2020 12:57:48 -0400
+Received: from mail-vs1-xe44.google.com ([2607:f8b0:4864:20::e44]:41246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1k6zV4-0000Qv-KZ; Sat, 15 Aug 2020 12:57:47 -0400
+Received: by mail-vs1-xe44.google.com with SMTP id y8so6207844vsq.8;
+ Sat, 15 Aug 2020 09:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QhUbY4D4iyRK40TzD9Y23365Paz8ar+9JQzeCK3jAbI=;
+ b=W32MdrbsOEQev3So74vDtyL6MuBhOlGqrcpDqSgXcdFOacc2hM3wUh9iQM734pwC7l
+ iQRYObiVZz04q2Sb2vew4IGr7knyLwwtRwIK1jUZ28JuptPM6ifHX97sonv+ZKeDP5MA
+ e5Lm2PVjOncm505Er76Oi5w8ViKfamQHU4UNLfiac+mL+fA9E9pCk27mO1H1WLPfYOXG
+ AVnbdUuSkbhM7alcsyv0zehtLqzHYhKhjB5xv6OcpSwWHXv1FENDWI5uHsn2zPpHam2c
+ M5N+VcqGIS5NkSQNlEJAswpN9Ag9I/EJKLJfNQbdV0Sc1nePFYNhEOxjfMoojpUbGGa3
+ U9mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QhUbY4D4iyRK40TzD9Y23365Paz8ar+9JQzeCK3jAbI=;
+ b=GtCUaS+qOb5LpJvxZhIDM+zdPslN4TzOK1p3qLGN4VaZvOnxyJ+sm5RFiglTAPyhs7
+ BFY/InGnsBTGJy0KYPMnbYwEH8frUSOdCAonMXtokHY5u0D1/mcH6MzMRGkXqyeYqdFk
+ RBZeyo0OppqRLSpl/sJoGJoLv7niMkqcueL+ORd9LbcK0x8a0bNRLeIWyJnvVmvEoXTA
+ Hu//K46uKUq4ZwTmXdJm9UylXGnstAVLIQ1fVUC+x08cTPvLGunwrBd9G3e4mIolfnlr
+ cdfYbF4sJK6LiJzrwY69hCfqP/rLZkFu8wMTERp5qjYLCAtWzg6Y1vpWgmxcF5UtduS6
+ ErpQ==
+X-Gm-Message-State: AOAM532tt3Jpj1LXkoyzjH5VvgCpfu5AVaC9QGlI5InjYGHc1zZHVIKQ
+ ujUCbolEkma5lsgY7uPichmveywEaIGsoA==
+X-Google-Smtp-Source: ABdhPJwQKPZyG6C+NjbJvTmmEOV3QDDLSpN3z5ZBpp4cCh3YkIrGX8qKLgg5wzPURhYCXqXm1jSEkw==
+X-Received: by 2002:a05:6214:12b4:: with SMTP id
+ w20mr4421242qvu.32.1597438486131; 
+ Fri, 14 Aug 2020 13:54:46 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:303f:d1dc:35d8:e9f6:c8b])
+ by smtp.gmail.com with ESMTPSA id p33sm12301018qtp.49.2020.08.14.13.54.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Aug 2020 13:54:45 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 05/10] spapr: make ibm,
+ max-associativity-domains scale with user input
+Date: Fri, 14 Aug 2020 17:54:19 -0300
+Message-Id: <20200814205424.543857-6-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200814205424.543857-1-danielhb413@gmail.com>
+References: <20200814205424.543857-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rohit.shinde12194@gmail.com
-Date: Sat, 15 Aug 2020 09:12:39 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 11:03:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e44;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,47 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: rohit.shinde12194@gmail.com, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNTE1MTE0OC4xMDU3
-MS0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
-ZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
-ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
-ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRv
-czcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9X
-X0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAg
-cWFwaS9xYXBpLXR5cGVzLXRyYW5zYWN0aW9uLm8KICBDQyAgICAgIHFhcGkvcWFwaS1idWlsdGlu
-LXZpc2l0Lm8KL3RtcC9xZW11LXRlc3Qvc3JjL3FhcGkvb3B0cy12aXNpdG9yLmM6IEluIGZ1bmN0
-aW9uICdvcHRzX25leHRfbGlzdCc6Ci90bXAvcWVtdS10ZXN0L3NyYy9xYXBpL29wdHMtdmlzaXRv
-ci5jOjI2OTo5OiBlcnJvcjogZW1wdHkgZGVjbGFyYXRpb24gWy1XZXJyb3JdCiAgICAgICAgIF9f
-YXR0cmlidXRlX18oKGZhbGx0aHJvdWdoKSk7CiAgICAgICAgIF4KY2MxOiBhbGwgd2FybmluZ3Mg
-YmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKbWFrZTogKioqIFtxYXBpL29wdHMtdmlzaXRvci5vXSBF
-cnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNlYmFj
-ayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIu
-cHkiLCBsaW5lIDcwOSwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJy
-b3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAn
-WydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0
-YW5jZS51dWlkPWNiYWVkOWUwYmFmOTRiYTlhZGZkMDY3ZmM4OWQ3ZGYyJywgJy11JywgJzEwMDEn
-LCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAn
-VEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScs
-ICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywg
-J0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hl
-L3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9w
-YXRjaGV3LXRlc3Rlci10bXAtYjB6eGo3eWcvc3JjL2RvY2tlci1zcmMuMjAyMC0wOC0xNS0xMi4x
-MC40MS40MzE0Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11L2NlbnRvczcnLCAnL3Zhci90bXAv
-cWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAy
-LgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1jYmFlZDllMGJh
-Zjk0YmE5YWRmZDA2N2ZjODlkN2RmMgptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEK
-bWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1i
-MHp4ajd5Zy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVy
-cm9yIDIKCnJlYWwgICAgMW01Ny44ODVzCnVzZXIgICAgMG02LjUyOHMKCgpUaGUgZnVsbCBsb2cg
-aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwODE1MTUxMTQ4LjEw
-NTcxLTEtcm9oaXQuc2hpbmRlMTIxOTRAZ21haWwuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNl
-bnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
-IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
-ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+The ibm,max-associativity-domains is considering that only a single
+associativity domain can exist in the same NUMA level. This is true
+today because we do not support any type of NUMA distance user
+customization, and all nodes are in the same distance to each other.
+
+To enhance NUMA distance support in the pSeries machine we need to
+make this limit flexible. This patch rewrites the max-associativity
+logic to consider that multiple associativity domains can co-exist
+in the same NUMA level. We're using the legacy_numa() helper to
+avoid leaking unneeded guest changes.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 073a59c47d..b0c4b80a23 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -919,13 +919,20 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+         cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
+         cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
+     };
+-    uint32_t maxdomain = cpu_to_be32(spapr->extra_numa_nodes > 1 ? 1 : 0);
++
++    /* The maximum domains for a given NUMA level, supposing that every
++     * additional NUMA node belongs to the same domain (aside from the
++     * 4th level, where we must support all available NUMA domains), is
++     * total number of domains - 1. */
++    uint32_t total_nodes_number = ms->numa_state->num_nodes +
++                                  spapr->extra_numa_nodes;
++    uint32_t maxdomain = cpu_to_be32(total_nodes_number - 1);
+     uint32_t maxdomains[] = {
+         cpu_to_be32(4),
+         maxdomain,
+         maxdomain,
+         maxdomain,
+-        cpu_to_be32(ms->numa_state->num_nodes + spapr->extra_numa_nodes),
++        cpu_to_be32(total_nodes_number),
+     };
+ 
+     _FDT(rtas = fdt_add_subnode(fdt, 0, "rtas"));
+@@ -962,6 +969,13 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+                      qemu_hypertas->str, qemu_hypertas->len));
+     g_string_free(qemu_hypertas, TRUE);
+ 
++    if (spapr_machine_using_legacy_numa(spapr)) {
++        maxdomain = cpu_to_be32(spapr->extra_numa_nodes > 1 ? 1 : 0);
++        maxdomains[1] = maxdomain;
++        maxdomains[2] = maxdomain;
++        maxdomains[3] = maxdomain;
++    }
++
+     if (smc->pre_5_1_assoc_refpoints) {
+         nr_refpoints = 2;
+     }
+-- 
+2.26.2
+
 
