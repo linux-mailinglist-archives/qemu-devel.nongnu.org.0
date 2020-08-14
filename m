@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C472A2446D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:15:19 +0200 (CEST)
-Received: from localhost ([::1]:34186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A4C2446CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:15:18 +0200 (CEST)
+Received: from localhost ([::1]:34164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Vny-0006tR-LI
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42462)
+	id 1k6Vnx-0006sb-DM
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:15:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VmS-0004sE-06
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23519
+ id 1k6VmR-0004s1-F2
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20940
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VmJ-0002n1-Qj
+ id 1k6VmK-0002na-Ks
  for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:13:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396414;
+ s=mimecast20190719; t=1597396416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EMlbhp5fTK8J6EyIxi+TH4Gxywk6oqtzcXV/xxOWG0c=;
- b=AJ7qFcGFqpiqJeYegKghwbZdODF08ItcVXNBwAkp6oAbuiCF4hKwDf5JJFzHExhS8L6hHe
- lTrNj+i0SxhKirpY47sKExDhbbUpxmr8/s8iw5etUtz16FADVATxg+Ccv0DA3wGcnxqvFo
- hkW35DSLn4kSaXi+M5gRyR6uzSE+CQk=
+ bh=dVGF3E7lJx6P6MKIaUk/hhZTTCuLXFQFlFFNyp8bJj4=;
+ b=HxJZ1tLhmQVLniOY/jRXFy1Uw02Pi0HDW6gs68W6N/DKQ/SPXzaD7Sy0qUGav7QuErVEYk
+ X1af6dT+rZF1MG9uliQ3dP/cm3K0ygQEmwxs/+3G59l2HUnd2ml5dmMMms/QZcdvCxMHoA
+ lQmdE0QT0JX14+hXHKY+8YKSZfLjZDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-M3j6EmNyP6mgCs4P3tuaOg-1; Fri, 14 Aug 2020 05:13:31 -0400
-X-MC-Unique: M3j6EmNyP6mgCs4P3tuaOg-1
+ us-mta-336-SgSsNjgsM0GVRZ3HRbcPFw-1; Fri, 14 Aug 2020 05:13:31 -0400
+X-MC-Unique: SgSsNjgsM0GVRZ3HRbcPFw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A78971853DA0
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 138551005504
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:31 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A65EE60C04;
- Fri, 14 Aug 2020 09:13:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C346860C04;
+ Fri, 14 Aug 2020 09:13:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 002/150] optionrom: simplify Makefile
-Date: Fri, 14 Aug 2020 05:10:58 -0400
-Message-Id: <20200814091326.16173-3-pbonzini@redhat.com>
+Subject: [PATCH 003/150] pc-bios/s390-ccw: do not use rules.mak
+Date: Fri, 14 Aug 2020 05:10:59 -0400
+Message-Id: <20200814091326.16173-4-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -69,8 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,128 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Make it independent from the rules.mak, and clean up to use pattern rules.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/optionrom/Makefile | 67 +++++++++++++++++++++++---------------
- 1 file changed, 41 insertions(+), 26 deletions(-)
+ pc-bios/s390-ccw/Makefile | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index e33a24da0d..51cb6ca9d8 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -1,13 +1,16 @@
--all: build-all
-+CURRENT_MAKEFILE := $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
-+SRC_DIR := $(dir $(CURRENT_MAKEFILE))
-+TOPSRC_DIR := $(SRC_DIR)/../..
-+VPATH = $(SRC_DIR)
-+
-+all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
- # Dummy command so that make thinks it has done something
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index 50bc880272..cc0f77baa6 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -3,10 +3,26 @@ all: build-all
  	@true
  
  include ../../config-host.mak
 -include $(SRC_PATH)/rules.mak
--
--$(call set-vpath, $(SRC_PATH)/pc-bios/optionrom)
  
--.PHONY : all clean build-all
 +quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
-+cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
++cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null > /dev/null \
++	      2>&1 && echo OK), $1, $2)
++
++VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
++set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
+ $(call set-vpath, $(SRC_PATH)/pc-bios/s390-ccw)
  
- # Compiling with no optimization creates ROMs that are too large
- ifeq ($(lastword $(filter -O%, -O0 $(CFLAGS))),-O0)
-@@ -15,48 +18,60 @@ override CFLAGS += -O2
- endif
- override CFLAGS += -march=i486
- 
--# Drop -fstack-protector and the like
--QEMU_CFLAGS := $(filter -W%, $(QEMU_CFLAGS)) $(CFLAGS_NOPIE) -ffreestanding
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -m16)
--ifeq ($(filter -m16, $(QEMU_CFLAGS)),)
 +# Flags for dependency generation
-+override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
++QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
 +
-+override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
-+override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
-+override CFLAGS += $(call cc-option, -fno-stack-protector)
-+override CFLAGS += $(call cc-option, -m16)
-+
-+ifeq ($(filter -m16, $(CFLAGS)),)
- # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
- # On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
- # respect to the rest of the code.  clang does not have -fno-toplevel-reorder,
- # but it places all asm blocks at the beginning and we're relying on it for
- # the option ROM header.  So just force clang not to use the integrated
- # assembler, which doesn't support .code16gcc.
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-toplevel-reorder)
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -no-integrated-as)
--QEMU_CFLAGS += -m32 -include $(SRC_PATH)/pc-bios/optionrom/code16gcc.h
-+override CFLAGS += $(call cc-option, -fno-toplevel-reorder)
-+override CFLAGS += $(call cc-option, -no-integrated-as)
-+override CFLAGS += -m32 -include $(SRC_DIR)/code16gcc.h
- endif
- 
--QEMU_INCLUDES += -I$(SRC_PATH)
--
- Wa = -Wa,
--ASFLAGS += -32
--QEMU_CFLAGS += $(call cc-c-option, $(QEMU_CFLAGS), $(Wa)-32)
-+override ASFLAGS += -32
-+override CFLAGS += $(call cc-option, $(Wa)-32)
- 
--build-all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
- 
--# suppress auto-removal of intermediate files
--.SECONDARY:
-+LD_I386_EMULATION ?= elf_i386
-+override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
-+override LDFLAGS += $(LDFLAGS_NOPIE)
- 
-+all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
-+
-+pvh.img: pvh.o pvh_main.o
- 
- %.o: %.S
--	$(call quiet-command,$(CPP) $(QEMU_INCLUDES) $(QEMU_DGFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
- 
--pvh.img: pvh.o pvh_main.o
--	$(call quiet-command,$(LD) $(LDFLAGS_NOPIE) -m $(LD_I386_EMULATION) -T $(SRC_PATH)/pc-bios/optionrom/flat.lds -s -o $@ $^,"BUILD","$(TARGET_DIR)$@")
 +%.o: %.c
-+	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
- 
- %.img: %.o
--	$(call quiet-command,$(LD) $(LDFLAGS_NOPIE) -m $(LD_I386_EMULATION) -T $(SRC_PATH)/pc-bios/optionrom/flat.lds -s -o $@ $<,"BUILD","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(LD) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
- 
- %.raw: %.img
--	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
- 
- %.bin: %.raw
--	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/signrom.py $< $@,"SIGN","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"SIGN","$@")
++	$(call quiet-command,$(CC) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
++	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
 +
-+include $(wildcard *.d)
++%.o: %.S
++	$(call quiet-command,$(CCAS) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
++	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
++
+ .PHONY : all clean build-all
  
- clean:
- 	rm -f *.o *.d *.raw *.img *.bin *~
-+
-+# suppress auto-removal of intermediate files
-+.SECONDARY:
-+
-+.PHONY: all clean
+ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
 -- 
 2.26.2
 
