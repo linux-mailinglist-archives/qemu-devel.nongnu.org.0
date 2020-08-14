@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED11244715
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:34:14 +0200 (CEST)
-Received: from localhost ([::1]:57804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A61244718
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:35:25 +0200 (CEST)
+Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6W6H-0006TG-Jz
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42980)
+	id 1k6W7Q-0008Uf-ST
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:35:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vmo-0005YS-Ow
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26441
- helo=us-smtp-1.mimecast.com)
+ id 1k6Vmn-0005Ue-3A
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56980
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6Vme-0002tp-Ae
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:06 -0400
+ id 1k6Vmd-0002tf-RY
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597396435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xbYHJL//ztJiZjfH5z3x4hZTbCpcjyjATP2wgnA/h5M=;
- b=A5C8UJ4eT7vPOqsqK7R5QnaZUgm4fY277St6fQSLdlzZJO34aIdFT6Yd2R7JSy5/kvyGZ3
- +QY4HlSATDisFf+cVU4U9oBFoJ+dTaNK6xoTKeunAdmsgrldIjhVoYU+PZz5i/DaXlwD29
- M1glIeB7fUpSG3EmI/8Ly7d7AwSlScc=
+ bh=wSFq4XG23nvjl8np0OHbaTtGBQYRLreC3mQMtJGV8FM=;
+ b=CA8jLU51W7Ll2utg9ftOjaa7+JLcEiLvX2KMchg6FS77kxIz1Q2O+uuOG/jNGW0s4BWmfZ
+ pc6gNqnqIyU7f4IP10anIVoutQviROHwK5kRnZQp5Ys9W/Ncb7XZAa3591rIXvEVPCksUI
+ bYVEERe39mho24kp+4+KSG7CAZqN2Hc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-CCbC-J07Np-9hrOVKR_D8g-1; Fri, 14 Aug 2020 05:13:52 -0400
-X-MC-Unique: CCbC-J07Np-9hrOVKR_D8g-1
+ us-mta-154-dwVgKfBvMaikgdLRr_dL9w-1; Fri, 14 Aug 2020 05:13:53 -0400
+X-MC-Unique: dwVgKfBvMaikgdLRr_dL9w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A1681DDE0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6962C1DDE1
  for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:13:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9D54747C3;
- Fri, 14 Aug 2020 09:13:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25E3E747B9;
+ Fri, 14 Aug 2020 09:13:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 036/150] contrib/ivshmem: convert to meson
-Date: Fri, 14 Aug 2020 05:11:32 -0400
-Message-Id: <20200814091326.16173-37-pbonzini@redhat.com>
+Subject: [PATCH 037/150] contrib/elf2dmp: convert to meson
+Date: Fri, 14 Aug 2020 05:11:33 -0400
+Message-Id: <20200814091326.16173-38-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,18 +59,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 03:37:30
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 01:57:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,130 +91,111 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                             | 9 ---------
- Makefile.objs                        | 2 --
- configure                            | 3 ---
- contrib/ivshmem-client/Makefile.objs | 1 -
- contrib/ivshmem-client/meson.build   | 4 ++++
- contrib/ivshmem-server/Makefile.objs | 1 -
- contrib/ivshmem-server/meson.build   | 4 ++++
- meson.build                          | 5 +++++
- 8 files changed, 13 insertions(+), 16 deletions(-)
- delete mode 100644 contrib/ivshmem-client/Makefile.objs
- create mode 100644 contrib/ivshmem-client/meson.build
- delete mode 100644 contrib/ivshmem-server/Makefile.objs
- create mode 100644 contrib/ivshmem-server/meson.build
+ Makefile                      | 4 ----
+ Makefile.objs                 | 6 ------
+ configure                     | 3 ---
+ contrib/elf2dmp/Makefile.objs | 4 ----
+ contrib/elf2dmp/meson.build   | 5 +++++
+ meson.build                   | 6 ++++++
+ 6 files changed, 11 insertions(+), 17 deletions(-)
+ delete mode 100644 contrib/elf2dmp/Makefile.objs
+ create mode 100644 contrib/elf2dmp/meson.build
 
 diff --git a/Makefile b/Makefile
-index 4ce8d2b0c6..208e98dd4d 100644
+index 208e98dd4d..653c16bb0d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -294,8 +294,6 @@ dummy := $(call unnest-vars,, \
+@@ -293,7 +293,6 @@ dummy := $(call unnest-vars,, \
+                 authz-obj-y \
                  chardev-obj-y \
                  qga-obj-y \
-                 elf2dmp-obj-y \
--                ivshmem-client-obj-y \
--                ivshmem-server-obj-y \
+-                elf2dmp-obj-y \
                  qga-vss-dll-obj-y \
                  block-obj-y \
                  block-obj-m \
-@@ -508,13 +506,6 @@ endif
- elf2dmp$(EXESUF): $(elf2dmp-obj-y)
- 	$(call LINK, $^)
+@@ -503,9 +502,6 @@ ifneq ($(EXESUF),)
+ qemu-ga: qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
+ endif
  
--ifdef CONFIG_IVSHMEM
--ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
+-elf2dmp$(EXESUF): $(elf2dmp-obj-y)
 -	$(call LINK, $^)
--ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
--	$(call LINK, $^)
--endif
 -
  module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
  	$(call quiet-command,$(PYTHON) $< $@ \
  	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
 diff --git a/Makefile.objs b/Makefile.objs
-index 2f2d4b2066..336a684ff3 100644
+index 336a684ff3..1486254a2c 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -104,7 +104,5 @@ qga-vss-dll-obj-y = qga/
- ######################################################################
- # contrib
- elf2dmp-obj-y = contrib/elf2dmp/
--ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
--ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
- 
- ######################################################################
+@@ -100,9 +100,3 @@ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
+ # extracted into a QAPI schema module, or perhaps a separate schema.
+ qga-obj-y = qga/
+ qga-vss-dll-obj-y = qga/
+-
+-######################################################################
+-# contrib
+-elf2dmp-obj-y = contrib/elf2dmp/
+-
+-######################################################################
 diff --git a/configure b/configure
-index ca397dbfa5..f64454b090 100755
+index f64454b090..789569279c 100755
 --- a/configure
 +++ b/configure
 @@ -6680,9 +6680,6 @@ if test "$want_tools" = "yes" ; then
    if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
      tools="qemu-nbd\$(EXESUF) qemu-storage-daemon\$(EXESUF) $tools"
    fi
--  if [ "$ivshmem" = "yes" ]; then
--    tools="ivshmem-client\$(EXESUF) ivshmem-server\$(EXESUF) $tools"
+-  if [ "$curl" = "yes" ]; then
+-      tools="elf2dmp\$(EXESUF) $tools"
 -  fi
-   if [ "$curl" = "yes" ]; then
-       tools="elf2dmp\$(EXESUF) $tools"
-   fi
-diff --git a/contrib/ivshmem-client/Makefile.objs b/contrib/ivshmem-client/Makefile.objs
+ fi
+ if test "$softmmu" = yes ; then
+   if test "$linux" = yes; then
+diff --git a/contrib/elf2dmp/Makefile.objs b/contrib/elf2dmp/Makefile.objs
 deleted file mode 100644
-index bfab2d20dd..0000000000
---- a/contrib/ivshmem-client/Makefile.objs
+index 1505716916..0000000000
+--- a/contrib/elf2dmp/Makefile.objs
 +++ /dev/null
-@@ -1 +0,0 @@
--ivshmem-client-obj-y = ivshmem-client.o main.o
-diff --git a/contrib/ivshmem-client/meson.build b/contrib/ivshmem-client/meson.build
+@@ -1,4 +0,0 @@
+-elf2dmp-obj-y = main.o addrspace.o download.o pdb.o qemu_elf.o
+-
+-download.o-cflags := $(CURL_CFLAGS)
+-download.o-libs   := $(CURL_LIBS)
+diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
 new file mode 100644
-index 0000000000..1b171efb4f
+index 0000000000..b3de173316
 --- /dev/null
-+++ b/contrib/ivshmem-client/meson.build
-@@ -0,0 +1,4 @@
-+executable('ivshmem-client', files('ivshmem-client.c', 'main.c'),
-+           dependencies: glib,
-+           build_by_default: targetos == 'linux',
-+           install: false)
-diff --git a/contrib/ivshmem-server/Makefile.objs b/contrib/ivshmem-server/Makefile.objs
-deleted file mode 100644
-index c060dd3698..0000000000
---- a/contrib/ivshmem-server/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--ivshmem-server-obj-y = ivshmem-server.o main.o
-diff --git a/contrib/ivshmem-server/meson.build b/contrib/ivshmem-server/meson.build
-new file mode 100644
-index 0000000000..3a53942201
---- /dev/null
-+++ b/contrib/ivshmem-server/meson.build
-@@ -0,0 +1,4 @@
-+executable('ivshmem-server', files('ivshmem-server.c', 'main.c'),
-+           dependencies: [qemuutil, rt],
-+           build_by_default: targetos == 'linux',
-+           install: false)
++++ b/contrib/elf2dmp/meson.build
+@@ -0,0 +1,5 @@
++if 'CONFIG_CURL' in config_host
++  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
++             dependencies: [glib, curl],
++             install: true)
++endif
 diff --git a/meson.build b/meson.build
-index c28285d797..193881c888 100644
+index 193881c888..fbbe20de59 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -90,6 +90,7 @@ libcap_ng = not_found
- if 'CONFIG_LIBCAP_NG' in config_host
-   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
+@@ -106,6 +106,11 @@ if 'CONFIG_VIRGL' in config_host
+   virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
+                              link_args: config_host['VIRGL_LIBS'].split())
  endif
-+rt = cc.find_library('rt', required: false)
- libiscsi = not_found
- if 'CONFIG_LIBISCSI' in config_host
-   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
-@@ -279,6 +280,10 @@ if have_tools
-     subdir('contrib/vhost-user-input')
-     subdir('contrib/vhost-user-scsi')
-   endif
-+  if 'CONFIG_IVSHMEM' in config_host
-+    subdir('contrib/ivshmem-client')
-+    subdir('contrib/ivshmem-server')
-+  endif
- endif
++curl = not_found
++if 'CONFIG_CURL' in config_host
++  curl = declare_dependency(compile_args: config_host['CURL_CFLAGS'].split(),
++                            link_args: config_host['CURL_LIBS'].split())
++endif
  
- subdir('tools')
+ target_dirs = config_host['TARGET_DIRS'].split()
+ have_user = false
+@@ -270,6 +275,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
+ 
+ if have_tools
+   subdir('contrib/rdmacm-mux')
++  subdir('contrib/elf2dmp')
+ 
+   if 'CONFIG_VHOST_USER' in config_host
+     subdir('contrib/libvhost-user')
 -- 
 2.26.2
 
