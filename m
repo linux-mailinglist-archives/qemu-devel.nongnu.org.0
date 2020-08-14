@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D4C244CDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:42:32 +0200 (CEST)
-Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C391F244CE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:44:08 +0200 (CEST)
+Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6cml-00007C-Ck
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:42:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
+	id 1k6coI-0003cx-5Z
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6cju-0004Fe-Aa
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:34 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39892)
+ id 1k6cjv-0004HW-8R
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:35 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6cjs-0002Kg-S6
+ id 1k6cjt-0002Kl-RD
  for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:39:34 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g75so8436419wme.4
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:39:32 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id p14so7986768wmg.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9pWOckZfWxmm5Cx0x7GbXw26/l3P0TjnIk9rBNWTYh0=;
- b=e4/SGrC/gjRY9eB+jKzpcw/ZKQVD3IvyoIvxku/1gSHImXI0ZQqdKoCcdvIyWizRdC
- Lwi19O6WIEXGtS27VsF1LeyU7qiHr3VUC0hR0jIVHoIaU7+POdHWi8RW3FigH3aNZ9Pt
- r0ds0lxTG4/0nDW3h91O4pD87AcuN2WWtlHbFB8ZLswwZTv98Dmb/epwTbAGkwD64Mkn
- jmDYveLIsGXE//6imTS880c0xtE8kviiSkR734ERlYzwA1+1wM1ZqRc4Yed5FH7SI42F
- lXc01GA2O67IEqrzsTinnYQq2KFuhG+S+9hrkivENRsrzcwuJDvptWOjMf5fycAEyjcu
- UGpA==
+ bh=T47mf/KpXo4rEcEG9yBWBrQa7uEEYMLMPzhxvqfRUeU=;
+ b=uUUnGR5cmO6R7x2qS/iHcvETmU//nunsed1iXUpq8OwlfxwChQE3cbFfLBpI6TPBrH
+ JNuc6PQt/5VrUG9YeBu0YrcdmJDVDbC2SzokTzF5ZGAcK4hPyfDuIQCARB2RYMCk+rVT
+ fyeCLIquyg5oNiLtPj+nl7cjXr2X7sqNSIHsuyW2PYcUlIMtK3Q9Wwsop8/onCVafmm/
+ VupKT2pUxapfiI6r6IU5UVXAWtPwk9JSmhGNLHdAxHiQoVEaCkC1WWPX/XHfOyiussQy
+ tMkHqvuoPWnvezX/xX+tvodzZEdzs5JKRpP5gxobnlYPYLtrI+kS9cGHPEpow0Z4pqXw
+ l9Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9pWOckZfWxmm5Cx0x7GbXw26/l3P0TjnIk9rBNWTYh0=;
- b=E0diWdzDV3YMvlJKsSN4Kg5rBb90F9d92iOulvJq6wosHtJdfHYTw/GKnRWQnhKjQR
- zPUYehhKNuWpa0yPDT5yVt3A2hrRsm6aM+h/spg5SZ0Dex3oRb7jgbq3bom+ZH7IoqLp
- agMrQgGGIJlkWOthWYaP8DcR9s1STzZCe07Pg5VIMJM4NWr+/a5yg8tJJVT8SjRaY809
- iwhL6l6dnqSaOZ/TEOdTXgqZ99RpaiutAMp9kVwk9h0ZhfKoQRl9VUV5V7rgFwRhKWPJ
- wxfZpMv8mMecceokYmZ96tv4O4eQ8Gi7Z7mJaTDwjDsGWSZBdgf2qQeEimmefEZzI0OI
- 9TiA==
-X-Gm-Message-State: AOAM5303pABwowZkPtx92KCtegG/W1nCy7cK9FyqizKMyxKsBNv8wEfr
- d2Hko91WOaTMrpfa8v+VOD4RgYI8PbM=
-X-Google-Smtp-Source: ABdhPJxi2ZNmSxqhoXZzRHX6u8ec9FSvomBl4hAHsxq7v0y9mv756RKGyzEPrT3d3Q+H8uJDL1Sr/w==
-X-Received: by 2002:a7b:cb4d:: with SMTP id v13mr3466832wmj.56.1597423171284; 
- Fri, 14 Aug 2020 09:39:31 -0700 (PDT)
+ bh=T47mf/KpXo4rEcEG9yBWBrQa7uEEYMLMPzhxvqfRUeU=;
+ b=hg9VtvzZz0imp0vUWYuoOEcgSHb+HViKX1A7z6Aou3hrunfT1vT2eT/sEvfZLxi+tE
+ wQQ+JOWgz0xHQhm5bOINsg1V1GaACMMFGiW+0W5F0yBn7Zq76rr9f5Nc8pyTP+vk+kOZ
+ tb5l01pIWiWVYp/4BwdTefSBJImeoYf0Y12ZZptaOhWclcaGoMeIDxieputUrPU8Ll5S
+ ucuwhFcu/qWhDWWB4GDj81iF0OjRqCp0MluVdP0Xrmh8WG7l/v2HbiBaG/4DgMbRAP/F
+ YCq1YAmqA77x5it7wBS93YFuviDDwwAYqzZf5t/jAnlAppmfEg5tFA7wnzprd0G8KYWg
+ /Eug==
+X-Gm-Message-State: AOAM530VZ4rYY7MaFf3RjOb5nBQw6TKqkY0TrpoBZ8+yEwg6sCkNa85g
+ cF4aFcUXznpNo2NFu1sdTqGNA7VaAow=
+X-Google-Smtp-Source: ABdhPJwx4BLy118NDBYSpV+Xgi2IxqepKLKDyM+A7VCEqCbBe8mtYqzaE3dYPoTL21maH7xIkMPOUA==
+X-Received: by 2002:a7b:c941:: with SMTP id i1mr3219351wml.73.1597423172417;
+ Fri, 14 Aug 2020 09:39:32 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id p14sm18417178wrg.96.2020.08.14.09.39.30
+ by smtp.gmail.com with ESMTPSA id p14sm18417178wrg.96.2020.08.14.09.39.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 09:39:30 -0700 (PDT)
+ Fri, 14 Aug 2020 09:39:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] hw/char/avr_usart: Restrict register definitions to source
-Date: Fri, 14 Aug 2020 18:39:22 +0200
-Message-Id: <20200814163924.11662-4-f4bug@amsat.org>
+Subject: [PATCH 4/5] hw/char/avr_usart: Use the Clock API
+Date: Fri, 14 Aug 2020 18:39:23 +0200
+Message-Id: <20200814163924.11662-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200814163924.11662-1-f4bug@amsat.org>
 References: <20200814163924.11662-1-f4bug@amsat.org>
@@ -95,97 +95,74 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nothing out of our model implementation is supposed to access its
-registers. Keep the definitions local.
+Expose the 'xck' clock source. Connect the MCU I/O clock to it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/char/avr_usart.h | 30 ------------------------------
- hw/char/avr_usart.c         | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 30 deletions(-)
+ include/hw/char/avr_usart.h | 2 ++
+ hw/avr/atmega.c             | 1 +
+ hw/char/avr_usart.c         | 3 +++
+ 3 files changed, 6 insertions(+)
 
 diff --git a/include/hw/char/avr_usart.h b/include/hw/char/avr_usart.h
-index 5739aaf26f..46d6c76e50 100644
+index 46d6c76e50..13cfd5ea07 100644
 --- a/include/hw/char/avr_usart.h
 +++ b/include/hw/char/avr_usart.h
-@@ -26,36 +26,6 @@
+@@ -25,6 +25,7 @@
+ #include "hw/sysbus.h"
  #include "chardev/char-fe.h"
  #include "hw/hw.h"
++#include "hw/clock.h"
  
--/* Offsets of registers. */
--#define USART_DR   0x06
--#define USART_CSRA  0x00
--#define USART_CSRB  0x01
--#define USART_CSRC  0x02
--#define USART_BRRH 0x05
--#define USART_BRRL 0x04
--
--/* Relevant bits in regiters. */
--#define USART_CSRA_RXC    (1 << 7)
--#define USART_CSRA_TXC    (1 << 6)
--#define USART_CSRA_DRE    (1 << 5)
--#define USART_CSRA_MPCM   (1 << 0)
--
--#define USART_CSRB_RXCIE  (1 << 7)
--#define USART_CSRB_TXCIE  (1 << 6)
--#define USART_CSRB_DREIE  (1 << 5)
--#define USART_CSRB_RXEN   (1 << 4)
--#define USART_CSRB_TXEN   (1 << 3)
--#define USART_CSRB_CSZ2   (1 << 2)
--#define USART_CSRB_RXB8   (1 << 1)
--#define USART_CSRB_TXB8   (1 << 0)
--
--#define USART_CSRC_MSEL1  (1 << 7)
--#define USART_CSRC_MSEL0  (1 << 6)
--#define USART_CSRC_PM1    (1 << 5)
--#define USART_CSRC_PM0    (1 << 4)
--#define USART_CSRC_CSZ1   (1 << 2)
--#define USART_CSRC_CSZ0   (1 << 1)
--
  #define TYPE_AVR_USART "avr-usart"
  #define AVR_USART(obj) \
-     OBJECT_CHECK(AVRUsartState, (obj), TYPE_AVR_USART)
+@@ -51,6 +52,7 @@ typedef struct {
+     /* Baud Rate Registers (low/high byte) */
+     uint8_t brrh;
+     uint8_t brrl;
++    Clock *clkin;
+ 
+     /* Receive Complete */
+     qemu_irq rxc_irq;
+diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+index f14b558140..b6e86a4531 100644
+--- a/hw/avr/atmega.c
++++ b/hw/avr/atmega.c
+@@ -302,6 +302,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+         object_initialize_child(OBJECT(dev), devname, &s->usart[i],
+                                 TYPE_AVR_USART);
+         qdev_prop_set_chr(DEVICE(&s->usart[i]), "chardev", serial_hd(i));
++        qdev_connect_clock_in(DEVICE(&s->usart[i]), "xck", s->ioclk);
+         sbd = SYS_BUS_DEVICE(&s->usart[i]);
+         sysbus_realize(sbd, &error_abort);
+         sysbus_mmio_map(sbd, 0, OFFSET_DATA + mc->dev[USART(i)].addr);
 diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
-index fbe2a112b7..fd0b488ef9 100644
+index fd0b488ef9..4a43492082 100644
 --- a/hw/char/avr_usart.c
 +++ b/hw/char/avr_usart.c
-@@ -25,6 +25,36 @@
+@@ -23,6 +23,7 @@
+ #include "hw/char/avr_usart.h"
+ #include "qemu/log.h"
  #include "hw/irq.h"
++#include "hw/qdev-clock.h"
  #include "hw/qdev-properties.h"
  
-+/* Offsets of registers. */
-+#define USART_DR   0x06
-+#define USART_CSRA  0x00
-+#define USART_CSRB  0x01
-+#define USART_CSRC  0x02
-+#define USART_BRRH 0x05
-+#define USART_BRRL 0x04
-+
-+/* Relevant bits in regiters. */
-+#define USART_CSRA_RXC    (1 << 7)
-+#define USART_CSRA_TXC    (1 << 6)
-+#define USART_CSRA_DRE    (1 << 5)
-+#define USART_CSRA_MPCM   (1 << 0)
-+
-+#define USART_CSRB_RXCIE  (1 << 7)
-+#define USART_CSRB_TXCIE  (1 << 6)
-+#define USART_CSRB_DREIE  (1 << 5)
-+#define USART_CSRB_RXEN   (1 << 4)
-+#define USART_CSRB_TXEN   (1 << 3)
-+#define USART_CSRB_CSZ2   (1 << 2)
-+#define USART_CSRB_RXB8   (1 << 1)
-+#define USART_CSRB_TXB8   (1 << 0)
-+
-+#define USART_CSRC_MSEL1  (1 << 7)
-+#define USART_CSRC_MSEL0  (1 << 6)
-+#define USART_CSRC_PM1    (1 << 5)
-+#define USART_CSRC_PM0    (1 << 4)
-+#define USART_CSRC_CSZ1   (1 << 2)
-+#define USART_CSRC_CSZ0   (1 << 1)
-+
- static int avr_usart_can_receive(void *opaque)
+ /* Offsets of registers. */
+@@ -307,12 +308,14 @@ static void avr_usart_pr(void *opaque, int irq, int level)
+ static void avr_usart_init(Object *obj)
  {
-     AVRUsartState *usart = opaque;
+     AVRUsartState *s = AVR_USART(obj);
++
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rxc_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->dre_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->txc_irq);
+     memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USART, 7);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+     qdev_init_gpio_in(DEVICE(s), avr_usart_pr, 1);
++    s->clkin = qdev_init_clock_in(DEVICE(obj), "xck", NULL, s);
+     s->enabled = true;
+ }
+ 
 -- 
 2.21.3
 
