@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CC4244776
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:55:46 +0200 (CEST)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F61A24478A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 11:57:22 +0200 (CEST)
+Received: from localhost ([::1]:60968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6WR7-000892-SA
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43984)
+	id 1k6WSf-0003Gf-Jq
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 05:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnZ-0007VL-Tp
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33160
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k6Vnc-0007d2-NY
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k6VnX-00037p-SE
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:53 -0400
+ id 1k6VnZ-00038L-Ij
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:14:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597396491;
+ s=mimecast20190719; t=1597396492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H9FavuJqmxsGLhsOxpQUaI0es2WjXRSahOLPo6Hf8MQ=;
- b=dULcs+J7KSKmsnJgaVUc/vwO9cCSbaOC26YA6UNDf6VAh/ULQ+94BR7TdRx9NyoAq2lx2d
- emWdS7ukmL5w344sgVqrNeYGVk4ysLC14YyQgxhJllMtn1G1ww+iGbMM5rilVJ3GLjtPk5
- FeN8/JdgPsg0Vr1koGZ4XP4xY+wABSk=
+ bh=2uZT/s+uo12wT2bnnDViCCQzfljp43iiPWFYn7ZUdE0=;
+ b=bf18lNwaShxs7uDQ8/K2HX7dFPBlwXIG9qT22uhFqOhD+BDH3GGMOaRGcEJFVGdQ57Lngy
+ Fuu8ZXcv2P8hXHuxZoSKQqPWIy9WXEQmv4BPOz8aYDQfOBjhPNi1HCDkEmw0HcelB5bSk4
+ eBLQDWOAbn1+ddRnePpG1iiGclZ1gEs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-1FE6vcEoN2Cd7S-NWITBKA-1; Fri, 14 Aug 2020 05:14:49 -0400
-X-MC-Unique: 1FE6vcEoN2Cd7S-NWITBKA-1
+ us-mta-523-fHP1vD7qP5-K_va_FRipHg-1; Fri, 14 Aug 2020 05:14:50 -0400
+X-MC-Unique: fHP1vD7qP5-K_va_FRipHg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6C711853DA0
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:14:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0C8F1853DAD;
+ Fri, 14 Aug 2020 09:14:49 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73D2C69C9D;
- Fri, 14 Aug 2020 09:14:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E58B600E4;
+ Fri, 14 Aug 2020 09:14:49 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 113/150] meson: convert hw/input
-Date: Fri, 14 Aug 2020 05:12:49 -0400
-Message-Id: <20200814091326.16173-114-pbonzini@redhat.com>
+Subject: [PATCH 115/150] meson: convert hw/i2c
+Date: Fri, 14 Aug 2020 05:12:51 -0400
+Message-Id: <20200814091326.16173-116-pbonzini@redhat.com>
 In-Reply-To: <20200814091326.16173-1-pbonzini@redhat.com>
 References: <20200814091326.16173-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 01:57:54
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,93 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Corey Minyard <cminyard@mvista.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs       |  1 -
- hw/input/Makefile.objs | 18 ------------------
- hw/input/meson.build   | 18 ++++++++++++++++++
- hw/meson.build         |  1 +
- 4 files changed, 19 insertions(+), 19 deletions(-)
- delete mode 100644 hw/input/Makefile.objs
- create mode 100644 hw/input/meson.build
+ hw/Makefile.objs     |  1 -
+ hw/i2c/Makefile.objs | 14 --------------
+ hw/i2c/meson.build   | 16 ++++++++++++++++
+ hw/meson.build       |  1 +
+ 4 files changed, 17 insertions(+), 15 deletions(-)
+ delete mode 100644 hw/i2c/Makefile.objs
+ create mode 100644 hw/i2c/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 80b104168a..3feccd83d7 100644
+index 02c5c0d94e..22eb804730 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -12,7 +12,6 @@ devices-dirs-y += gpio/
+@@ -10,7 +10,6 @@ devices-dirs-y += display/
+ devices-dirs-y += dma/
+ devices-dirs-y += gpio/
  devices-dirs-$(CONFIG_HYPERV) += hyperv/
- devices-dirs-$(CONFIG_I2C) += i2c/
- devices-dirs-y += ide/
--devices-dirs-y += input/
+-devices-dirs-$(CONFIG_I2C) += i2c/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
+diff --git a/hw/i2c/Makefile.objs b/hw/i2c/Makefile.objs
 deleted file mode 100644
-index abc1ff03c0..0000000000
---- a/hw/input/Makefile.objs
+index f2c61eaa8b..0000000000
+--- a/hw/i2c/Makefile.objs
 +++ /dev/null
-@@ -1,18 +0,0 @@
--common-obj-$(CONFIG_ADB) += adb.o adb-mouse.o adb-kbd.o
--common-obj-y += hid.o
--common-obj-$(CONFIG_LM832X) += lm832x.o
--common-obj-$(CONFIG_PCKBD) += pckbd.o
--common-obj-$(CONFIG_PL050) += pl050.o
--common-obj-$(CONFIG_PS2) += ps2.o
--common-obj-$(CONFIG_STELLARIS_INPUT) += stellaris_input.o
--common-obj-$(CONFIG_TSC2005) += tsc2005.o
--
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input.o
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-hid.o
--common-obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host.o
--common-obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input.o
--
--common-obj-$(CONFIG_MILKYMIST) += milkymist-softusb.o
--common-obj-$(CONFIG_PXA2XX) += pxa2xx_keypad.o
--common-obj-$(CONFIG_TSC210X) += tsc210x.o
--common-obj-$(CONFIG_LASIPS2) += lasips2.o
-diff --git a/hw/input/meson.build b/hw/input/meson.build
+@@ -1,14 +0,0 @@
+-common-obj-$(CONFIG_I2C) += core.o
+-common-obj-$(CONFIG_SMBUS) += smbus_slave.o smbus_master.o
+-common-obj-$(CONFIG_SMBUS_EEPROM) += smbus_eeprom.o
+-common-obj-$(CONFIG_VERSATILE_I2C) += versatile_i2c.o
+-common-obj-$(CONFIG_ACPI_X86_ICH) += smbus_ich9.o
+-common-obj-$(CONFIG_ACPI_SMBUS) += pm_smbus.o
+-common-obj-$(CONFIG_BITBANG_I2C) += bitbang_i2c.o
+-common-obj-$(CONFIG_EXYNOS4) += exynos4210_i2c.o
+-common-obj-$(CONFIG_IMX_I2C) += imx_i2c.o
+-common-obj-$(CONFIG_ASPEED_SOC) += aspeed_i2c.o
+-common-obj-$(CONFIG_NRF51_SOC) += microbit_i2c.o
+-common-obj-$(CONFIG_MPC_I2C) += mpc_i2c.o
+-common-obj-$(CONFIG_OMAP) += omap_i2c.o
+-common-obj-$(CONFIG_PPC4XX) += ppc4xx_i2c.o
+diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
 new file mode 100644
-index 0000000000..e7285b15ae
+index 0000000000..3a511539ad
 --- /dev/null
-+++ b/hw/input/meson.build
-@@ -0,0 +1,18 @@
-+softmmu_ss.add(files('hid.c'))
-+softmmu_ss.add(when: 'CONFIG_ADB', if_true: files('adb.c', 'adb-mouse.c', 'adb-kbd.c'))
-+softmmu_ss.add(when: 'CONFIG_LM832X', if_true: files('lm832x.c'))
-+softmmu_ss.add(when: 'CONFIG_PCKBD', if_true: files('pckbd.c'))
-+softmmu_ss.add(when: 'CONFIG_PL050', if_true: files('pl050.c'))
-+softmmu_ss.add(when: 'CONFIG_PS2', if_true: files('ps2.c'))
-+softmmu_ss.add(when: 'CONFIG_STELLARIS_INPUT', if_true: files('stellaris_input.c'))
-+softmmu_ss.add(when: 'CONFIG_TSC2005', if_true: files('tsc2005.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-hid.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host.c'))
-+softmmu_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-softusb.c'))
-+softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_keypad.c'))
-+softmmu_ss.add(when: 'CONFIG_TSC210X', if_true: files('tsc210x.c'))
-+softmmu_ss.add(when: 'CONFIG_LASIPS2', if_true: files('lasips2.c'))
++++ b/hw/i2c/meson.build
+@@ -0,0 +1,16 @@
++i2c_ss = ss.source_set()
++i2c_ss.add(when: 'CONFIG_I2C', if_true: files('core.c'))
++i2c_ss.add(when: 'CONFIG_SMBUS', if_true: files('smbus_slave.c', 'smbus_master.c'))
++i2c_ss.add(when: 'CONFIG_ACPI_SMBUS', if_true: files('pm_smbus.c'))
++i2c_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('smbus_ich9.c'))
++i2c_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_i2c.c'))
++i2c_ss.add(when: 'CONFIG_BITBANG_I2C', if_true: files('bitbang_i2c.c'))
++i2c_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_i2c.c'))
++i2c_ss.add(when: 'CONFIG_IMX_I2C', if_true: files('imx_i2c.c'))
++i2c_ss.add(when: 'CONFIG_MPC_I2C', if_true: files('mpc_i2c.c'))
++i2c_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('microbit_i2c.c'))
++i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
++i2c_ss.add(when: 'CONFIG_VERSATILE_I2C', if_true: files('versatile_i2c.c'))
++i2c_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_i2c.c'))
++i2c_ss.add(when: 'CONFIG_PPC4XX', if_true: files('ppc4xx_i2c.c'))
++softmmu_ss.add_all(when: 'CONFIG_I2C', if_true: i2c_ss)
 diff --git a/hw/meson.build b/hw/meson.build
-index 986e710287..b15c8d0970 100644
+index 4d7c31c652..983edc1d47 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('input')
++subdir('i2c')
+ subdir('ide')
+ subdir('input')
  subdir('intc')
- subdir('ipack')
- subdir('ipmi')
 -- 
 2.26.2
 
