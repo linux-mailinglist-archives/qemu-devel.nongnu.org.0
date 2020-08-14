@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA74244825
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:37:00 +0200 (CEST)
-Received: from localhost ([::1]:40502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6020724481F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:34:51 +0200 (CEST)
+Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6X51-0000QV-Aa
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49102)
+	id 1k6X2w-0005Cp-D8
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k6W5M-0005QH-TO
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:33:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22806)
+ id 1k6WAs-00013u-Ec
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:38:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40006
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k6W5L-0005XL-3z
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:33:16 -0400
+ id 1k6WAq-0006FF-5y
+ for qemu-devel@nongnu.org; Fri, 14 Aug 2020 05:38:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597397594;
+ s=mimecast20190719; t=1597397935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=caug1tB4z0DsZh9Y7yoUcHX4OyVjZusMpSMtp0xzkPg=;
- b=jJ9T1DiJsGb9tiLjRuf2iePMu2bleJ6gxqONwTBY8iyYm++Ak0uTwlND11ErXW5ji/FJtI
- w7wo7VEPMlpTpuD6nzbogRLw5FtU1PFhsADCXV/GW92TKK4syLH2MEddUSA/6qiVuxocrx
- C0BNs4N7cOtopCtwGM4MEtyeat4113E=
+ bh=TLLBO/lfs0pEBlgFPExznbHS6KzdYgGc1qa06kgLUcQ=;
+ b=MotO6IrUEBuIh1DSZ2+emOrqopq33lq/LGMTzxrvFEPrhhm6+5+JZMwTW0igkShCbvz6PH
+ gQi5kujipQGJs9eYkSXLGb6x2xM2Ds/q73sT068Ts1TsSUei/zuzj6DNt2ecdpM83bpUqa
+ H61soLsWWHSbru8s6u2fRApoSsy/q38=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-9EFWN5VgMa-MEk7kAQwAjQ-1; Fri, 14 Aug 2020 05:33:10 -0400
-X-MC-Unique: 9EFWN5VgMa-MEk7kAQwAjQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-156-GgIwkXIWNSKv-2ekLVjQSQ-1; Fri, 14 Aug 2020 05:38:53 -0400
+X-MC-Unique: GgIwkXIWNSKv-2ekLVjQSQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D5C081CBE5;
- Fri, 14 Aug 2020 09:33:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0992B1015DC0;
+ Fri, 14 Aug 2020 09:38:52 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.192.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF19A1992D;
- Fri, 14 Aug 2020 09:33:07 +0000 (UTC)
-Date: Fri, 14 Aug 2020 11:33:04 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A87F5D9F3;
+ Fri, 14 Aug 2020 09:38:50 +0000 (UTC)
+Date: Fri, 14 Aug 2020 11:38:47 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 3/3] target/arm: Use object_property_add_bool for
- "sve" property
-Message-ID: <20200814093304.5e6k4lfgguj3yx7b@kamzik.brq.redhat.com>
+Subject: Re: [PATCH v2 1/3] target/arm: Add cpu properties to control pauth
+Message-ID: <20200814093847.rlrp752toycz5m7b@kamzik.brq.redhat.com>
 References: <20200813200243.3036772-1-richard.henderson@linaro.org>
- <20200813200243.3036772-4-richard.henderson@linaro.org>
+ <20200813200243.3036772-2-richard.henderson@linaro.org>
+ <20200814091726.l7g43rz2t6op3vci@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200813200243.3036772-4-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200814091726.l7g43rz2t6op3vci@kamzik.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:13:42
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 03:37:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,77 +87,244 @@ Cc: mark.rutland@arm.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 01:02:43PM -0700, Richard Henderson wrote:
-> The interface for object_property_add_bool is simpler,
-> making the code easier to understand.
+On Fri, Aug 14, 2020 at 11:17:30AM +0200, Andrew Jones wrote:
+> On Thu, Aug 13, 2020 at 01:02:41PM -0700, Richard Henderson wrote:
+> > The crypto overhead of emulating pauth can be significant for
+> > some workloads.  Add two boolean properties that allows the
+> > feature to be turned off, on with the architected algorithm,
+> > or on with an implementation defined algorithm.
+> > 
+> > We need two intermediate booleans to control the state while
+> > parsing properties lest we clobber ID_AA64ISAR1 into an invalid
+> > intermediate state.
+> > 
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> > v2: Use boolean properties instead of an enum (drjones).
+> > ---
+> >  target/arm/cpu.h     | 10 ++++++++++
+> >  target/arm/cpu.c     | 13 +++++++++++++
+> >  target/arm/cpu64.c   | 40 ++++++++++++++++++++++++++++++++++++----
+> >  target/arm/monitor.c |  1 +
+> >  4 files changed, 60 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> > index 9e8ed423ea..44901923c8 100644
+> > --- a/target/arm/cpu.h
+> > +++ b/target/arm/cpu.h
+> > @@ -196,9 +196,11 @@ typedef struct {
+> >  #ifdef TARGET_AARCH64
+> >  # define ARM_MAX_VQ    16
+> >  void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
+> > +void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
+> >  #else
+> >  # define ARM_MAX_VQ    1
+> >  static inline void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp) { }
+> > +static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
+> >  #endif
+> >  
+> >  typedef struct ARMVectorReg {
+> > @@ -938,6 +940,14 @@ struct ARMCPU {
+> >      uint64_t reset_cbar;
+> >      uint32_t reset_auxcr;
+> >      bool reset_hivecs;
+> > +
+> > +    /*
+> > +     * Intermediate values used during property parsing.
+> > +     * Once finalized, the values should be read from ID_AA64ISAR1.
+> > +     */
+> > +    bool prop_pauth;
+> > +    bool prop_pauth_impdef;
+> > +
+> >      /* DCZ blocksize, in log_2(words), ie low 4 bits of DCZID_EL0 */
+> >      uint32_t dcz_blocksize;
+> >      uint64_t rvbar;
+> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> > index 111579554f..c719562d3d 100644
+> > --- a/target/arm/cpu.c
+> > +++ b/target/arm/cpu.c
+> > @@ -1307,6 +1307,19 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+> >              error_propagate(errp, local_err);
+> >              return;
+> >          }
+> > +
+> > +        /*
+> > +         * KVM does not support modifications to this feature.
+> > +         * We have not registered the cpu properties when KVM
+> > +         * is in use, so the user will not be able to set them.
+> > +         */
+> > +        if (!kvm_enabled()) {
+> > +            arm_cpu_pauth_finalize(cpu, &local_err);
+> > +            if (local_err != NULL) {
+> > +                error_propagate(errp, local_err);
+> > +                return;
+> > +            }
+> > +        }
+> >      }
+> >  }
+> >  
+> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> > index dd696183df..0227862d39 100644
+> > --- a/target/arm/cpu64.c
+> > +++ b/target/arm/cpu64.c
+> > @@ -28,6 +28,8 @@
+> >  #include "sysemu/kvm.h"
+> >  #include "kvm_arm.h"
+> >  #include "qapi/visitor.h"
+> > +#include "hw/qdev-properties.h"
+> > +
+> >  
+> >  #ifndef CONFIG_USER_ONLY
+> >  static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+> > @@ -572,6 +574,36 @@ void aarch64_add_sve_properties(Object *obj)
+> >      }
+> >  }
+> >  
+> > +void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
+> > +{
+> > +    int arch_val = 0, impdef_val = 0;
+> > +    uint64_t t;
+> > +
+> > +    /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
+> > +    if (cpu->prop_pauth) {
+> > +        if (cpu->prop_pauth_impdef) {
+> > +            impdef_val = 1;
+> > +        } else {
+> > +            arch_val = 1;
+> > +        }
+> > +    } else if (cpu->prop_pauth_impdef) {
+> > +        error_setg(errp, "cannot enable pauth-impdef without pauth");
+> > +        error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
+> > +    }
+> > +
+> > +    t = cpu->isar.id_aa64isar1;
+> > +    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
+> > +    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
+> > +    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
+> > +    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
+> > +    cpu->isar.id_aa64isar1 = t;
+> > +}
+> > +
+> > +static Property arm_cpu_pauth_property =
+> > +    DEFINE_PROP_BOOL("pauth", ARMCPU, prop_pauth, true);
+> > +static Property arm_cpu_pauth_impdef_property =
+> > +    DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
+> > +
+> >  /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+> >   * otherwise, a CPU with as many features enabled as our emulation supports.
+> >   * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+> > @@ -627,10 +659,6 @@ static void aarch64_max_initfn(Object *obj)
+> >          t = FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
+> >          t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
+> >          t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
+> > -        t = FIELD_DP64(t, ID_AA64ISAR1, APA, 1); /* PAuth, architected only */
+> > -        t = FIELD_DP64(t, ID_AA64ISAR1, API, 0);
+> > -        t = FIELD_DP64(t, ID_AA64ISAR1, GPA, 1);
+> > -        t = FIELD_DP64(t, ID_AA64ISAR1, GPI, 0);
+> >          t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
+> >          t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
+> >          t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
+> > @@ -718,6 +746,10 @@ static void aarch64_max_initfn(Object *obj)
+> >          cpu->ctr = 0x80038003; /* 32 byte I and D cacheline size, VIPT icache */
+> >          cpu->dcz_blocksize = 7; /*  512 bytes */
+> >  #endif
+> > +
+> > +        /* Default to PAUTH on, with the architected algorithm. */
+> > +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
+> > +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu64.c | 24 ++++++++++--------------
->  1 file changed, 10 insertions(+), 14 deletions(-)
+> Many of our CPU properties have descriptions added with
+> object_property_set_description(), maybe we should add
+> descriptions for these as well. And, maybe I should look
+> into generating descriptions for each of the sve* properties
+> too.
 > 
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 0227862d39..cce0da0b90 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -488,6 +488,12 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
->      cpu->sve_max_vq = max_vq;
+> >      }
+> >  
+> >      aarch64_add_sve_properties(obj);
+> > diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+> > index ba6e01abd0..2c7be32b33 100644
+> > --- a/target/arm/monitor.c
+> > +++ b/target/arm/monitor.c
+> > @@ -104,6 +104,7 @@ static const char *cpu_model_advertised_features[] = {
+> >      "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
+> >      "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
+> >      "kvm-no-adjvtime",
+> > +    "pauth", "pauth-impdef",
+> >      NULL
+> >  };
+> >  
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> 
+> With the qtest change below I tested the property setting. Maybe we should
+> add that diff to this patch.
+> 
+> In any case,
+> 
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> 
+> Thanks,
+> drew
+> 
+> 
+> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+> index f7e062c1891e..bfe08b9b84f0 100644
+> --- a/tests/qtest/arm-cpu-features.c
+> +++ b/tests/qtest/arm-cpu-features.c
+> @@ -427,6 +427,18 @@ static void sve_tests_sve_off_kvm(const void *data)
+>      qtest_quit(qts);
 >  }
 >  
-> +/*
-> + * Note that cpu_arm_get/set_sve_vq cannot use the simpler
-> + * object_property_add_bool interface because they make use
-> + * of the contents of "name" to determine which bit on which
-> + * to operate.
-> + */
->  static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
->                                 void *opaque, Error **errp)
->  {
-> @@ -529,26 +535,17 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
->      set_bit(vq - 1, cpu->sve_vq_init);
->  }
->  
-> -static void cpu_arm_get_sve(Object *obj, Visitor *v, const char *name,
-> -                            void *opaque, Error **errp)
-> +static bool cpu_arm_get_sve(Object *obj, Error **errp)
->  {
->      ARMCPU *cpu = ARM_CPU(obj);
-> -    bool value = cpu_isar_feature(aa64_sve, cpu);
-> -
-> -    visit_type_bool(v, name, &value, errp);
-> +    return cpu_isar_feature(aa64_sve, cpu);
->  }
->  
-> -static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
-> -                            void *opaque, Error **errp)
-> +static void cpu_arm_set_sve(Object *obj, bool value, Error **errp)
->  {
->      ARMCPU *cpu = ARM_CPU(obj);
-> -    bool value;
->      uint64_t t;
->  
-> -    if (!visit_type_bool(v, name, &value, errp)) {
-> -        return;
-> -    }
-> -
->      if (value && kvm_enabled() && !kvm_arm_sve_supported()) {
->          error_setg(errp, "'sve' feature not supported by KVM on this host");
->          return;
-> @@ -563,8 +560,7 @@ void aarch64_add_sve_properties(Object *obj)
->  {
->      uint32_t vq;
->  
-> -    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
-> -                        cpu_arm_set_sve, NULL, NULL);
-> +    object_property_add_bool(obj, "sve", cpu_arm_get_sve, cpu_arm_set_sve);
->  
->      for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
->          char name[8];
-> -- 
-> 2.25.1
-> 
->
+> +static void pauth_tests_default(QTestState *qts, const char *cpu_type)
+> +{
+> +    assert_has_feature_enabled(qts, "max", "pauth");
+> +    assert_has_feature_disabled(qts, "max", "pauth-impdef");
+> +    assert_set_feature(qts, "max", "pauth", false);
+> +    assert_set_feature(qts, "max", "pauth", true);
+> +    assert_set_feature(qts, "max", "pauth-impdef", true);
+> +    assert_set_feature(qts, "max", "pauth-impdef", false);
+> +    assert_error(qts, "max", "cannot enable pauth-impdef without pauth",
+> +                 "{ 'pauth': false, 'pauth-impdef': true }");
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Eh, all the '"max"' uses above should be 'cpu_type', like below.
+
+Thanks,
+drew
+
+
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index f7e062c1891e..176b7f2fdd05 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -427,6 +427,18 @@ static void sve_tests_sve_off_kvm(const void *data)
+     qtest_quit(qts);
+ }
+ 
++static void pauth_tests_default(QTestState *qts, const char *cpu_type)
++{
++    assert_has_feature_enabled(qts, cpu_type, "pauth");
++    assert_has_feature_disabled(qts, cpu_type, "pauth-impdef");
++    assert_set_feature(qts, cpu_type, "pauth", false);
++    assert_set_feature(qts, cpu_type, "pauth", true);
++    assert_set_feature(qts, cpu_type, "pauth-impdef", true);
++    assert_set_feature(qts, cpu_type, "pauth-impdef", false);
++    assert_error(qts, cpu_type, "cannot enable pauth-impdef without pauth",
++                 "{ 'pauth': false, 'pauth-impdef': true }");
++}
++
+ static void test_query_cpu_model_expansion(const void *data)
+ {
+     QTestState *qts;
+@@ -461,6 +473,7 @@ static void test_query_cpu_model_expansion(const void *data)
+         assert_has_feature_enabled(qts, "cortex-a57", "aarch64");
+ 
+         sve_tests_default(qts, "max");
++        pauth_tests_default(qts, "max");
+ 
+         /* Test that features that depend on KVM generate errors without. */
+         assert_error(qts, "max",
 
 
