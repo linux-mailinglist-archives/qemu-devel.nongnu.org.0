@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37FB724513D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:24:52 +0200 (CEST)
-Received: from localhost ([::1]:55252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A7A24513A
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:22:55 +0200 (CEST)
+Received: from localhost ([::1]:46886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6y39-0004ty-9L
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:24:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60752)
+	id 1k6y1G-0001Ql-FR
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1k6xyx-00073Y-4V; Sat, 15 Aug 2020 11:20:31 -0400
-Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34]:45369)
+ id 1k6xyF-0005pw-9g; Sat, 15 Aug 2020 11:19:47 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:37938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1k6xyv-0002J4-1t; Sat, 15 Aug 2020 11:20:30 -0400
-Received: by mail-vk1-xa34.google.com with SMTP id j7so2623207vkk.12;
- Sat, 15 Aug 2020 08:20:28 -0700 (PDT)
+ id 1k6xyD-00026P-Cn; Sat, 15 Aug 2020 11:19:47 -0400
+Received: by mail-qk1-x731.google.com with SMTP id 77so11087988qkm.5;
+ Sat, 15 Aug 2020 08:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5njM7C5XfgSvx6bHiN8HLMYG6CwV6Nqjs2xvulr+tFs=;
- b=VkA+N4Z/Fxp7Lx/xgWyhoWW13NfzVmozeg/LNc59BraQWLHIukeJVFYdeuzUwGsj8F
- rJ2vPrtcUrmdp22i01ZuTv3mmiibWs7dRBPZMI1iQRKYjIpS4ivwoaGtiTAVGv74HSbq
- R3FcLt6jKp7Nl3iWvtkfpYJjfWMA5kMmgZ98iOHWHnuk1V97ecZvQPJHKeYzUtiyHQia
- IzlXkTntFde4B83eMf8GW1IDJ9c8cjl5KiWw0dgjuV/sxYtbV6rLqFG+C9AubbyuR+Rx
- dwKFQoLiFXe4OKssgTNMbm74iP98Ky/Xc7cCF3OYPdfCkcJ1bQI8KypIDawgob9o6eoL
- Tmcw==
+ bh=d2aeaGkVtyhLHxRTnglxsmaRe1/zdnOa+obmvojxAqs=;
+ b=nPhx5OcIeEzG9ytkTifV9w4J/H/jmI+n5tlNQaDNUJ0/uSlOUJ3Dl/pND8+SZf97kS
+ tfydWfvhKK1D+OH9LQPZGdMiAuS0dQlPl4uAf4CxgGSjvoeW0vD6AKStn2/5IqmbBjPo
+ KdFXVHYHvv/pXH1mcJuaIRMAAmUgC2Cx9WaYgQMjuXRdRFqt66qo0453ap050gmFW9U8
+ DmKzeoF/pP3JykYJEsNB2wfcLskwRXF24j1fPTUJ3Kr6vPeokCuss7z+/dGQL8ZVAh9G
+ uycdJABfVx7bW0mxCxDC84AmMsqCoTUog0EQRHIqVi9N+HYQy5/swXatNlqlV+7WdMRZ
+ 4fnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5njM7C5XfgSvx6bHiN8HLMYG6CwV6Nqjs2xvulr+tFs=;
- b=Y2ayOxPMmdHP98sf7T1uuOm+26YzHelT8EeLde7vOT//KHQJcm8kv2akDS/tt0c6Kc
- Ko5KbcdDshKMIJK2ViqaJxbeLx9RLoCeNTL+BsI6KOBww4ZFWGTkJfLFcxiahRaGledW
- t0KOQ3xarj7lU5zaeHcTQi/8/GSU+utXlxrwz25nQX1wCrTnimjo2eIAiV5d/lVuVSUm
- /EStq4Eke4RwvThxtb4ENwBQotN0D/idNi7OfICAm9S+7070JCy5mKsVaR40wgMfaBUl
- TExHLSK2xg/aSBx2ZT1HX+AUmO+UWS/rSF+pQDQzG9eN2PYOM9OnK7cnZ5VoyNe3jdpG
- /0uQ==
-X-Gm-Message-State: AOAM532a/35GIfHbuirQ0TkHm19nsiaFpMFFX58y2kS0y7jtQMH69AUY
- N07kPmgXbUwimLnqWlD1vptwBjbL3HfgBQ==
-X-Google-Smtp-Source: ABdhPJw13N5RVWW9bEP5Qlw1OTijdx49xyhHpHdZDnrr7rJZM56ho0DmcyT/SKwFDsNYucHkQP2vEw==
-X-Received: by 2002:ad4:438e:: with SMTP id s14mr4340185qvr.18.1597438479050; 
- Fri, 14 Aug 2020 13:54:39 -0700 (PDT)
+ bh=d2aeaGkVtyhLHxRTnglxsmaRe1/zdnOa+obmvojxAqs=;
+ b=Ix1AdKgT5yhK/9RWgMMKnDXifApXLQuNcMLNk+Y7PgqoQpRrqTUKeuIUKXapSpGaT/
+ OO961ha9QcO+lGwimYfn1XN8mG3A4TbSk9BE1RhnAEzR36n9fjYMH85sKQkhi9S2uJfP
+ WnRMO+n7VeeYssADaHzpQc2lKd7yynSK1Jvuvq3CvrHFsoROfwGBJsB989HXYr3qgi5p
+ ehDUT6N79BqUKCBzYNrT4Cm97I2Fv0e+VX5SDo7UPw3UW4Py7w49EIB6PjbLsXJZWMcc
+ ONTUVqoO/xAEe4Sbr29jyA1/KGLi39s8OP4i3B1BT1vgOYlhT9M4CwVEAUZiDm7QRSv7
+ cSNA==
+X-Gm-Message-State: AOAM533gqEchz8OKxhUZ+3Ha+NOuGKm2wng0blsyGvwwcuNZa5wfVfCJ
+ JcNOoMMZEnVa2J3rDq0f7tHkdTVnY/lcsg==
+X-Google-Smtp-Source: ABdhPJwvT2SohpZxKh+oLUHKrzbPhDyFxksu3Y0/5paNkRPeJcKiMud2eLTIWqZwkwNG4lXsJCmJWQ==
+X-Received: by 2002:ac8:490d:: with SMTP id e13mr3666701qtq.198.1597438492855; 
+ Fri, 14 Aug 2020 13:54:52 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:303f:d1dc:35d8:e9f6:c8b])
- by smtp.gmail.com with ESMTPSA id p33sm12301018qtp.49.2020.08.14.13.54.37
+ by smtp.gmail.com with ESMTPSA id p33sm12301018qtp.49.2020.08.14.13.54.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 13:54:38 -0700 (PDT)
+ Fri, 14 Aug 2020 13:54:52 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/10] hw: add compat machines for 5.2
-Date: Fri, 14 Aug 2020 17:54:15 -0300
-Message-Id: <20200814205424.543857-2-danielhb413@gmail.com>
+Subject: [PATCH 09/10] spapr: consider user input when defining spapr guest
+ NUMA
+Date: Fri, 14 Aug 2020 17:54:23 -0300
+Message-Id: <20200814205424.543857-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200814205424.543857-1-danielhb413@gmail.com>
 References: <20200814205424.543857-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -83,235 +84,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+This patch puts all the pieces together to finally allow user
+input when defining the NUMA topology of the spapr guest.
 
-Add 5.2 machine types for arm/i440fx/q35/s390x/spapr.
+The logic is centered in the new spapr_init_numa_assoc_domains()
+function. This is called once at machine_init(), if we're not
+using legacy_numa mode, to initiate the numa_assoc_domain matrix
+introduced in the previous patch. We can divide the logic in two
+that are mashed together in the body of this function.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+First stage is to sanitize the user input from numa_state. Due to
+the nature of what ACPI allows the user to do (directly define
+the distances the guest will see in the DT) versus what PAPR
+allows (we can hint at associativity relations, the OS must decide
+what to do), we had to bake in kernel logic in here. The kernel
+allows 4 levels of NUMA, where the last one is always the node_id
+itself, with distance = 10. The other levels doubles the distances
+of previous levels, meaning that the pSeries kernel will only
+show distances of 20, 40, 80 and 160 (in case no match is found).
+This first stage is then to get the distances defined by the user
+and approximate them to those discrete values:
+
+- user distance 11 to 30 will be interpreted as 20
+- user distance 31 to 60 will be interpreted as 40
+- user distance 61 to 120 will be interpreted as 80
+- user distance 121 and beyond will be interpreted as 160
+- user distance 10 stays 10
+
+The other stage is defining the associativity domains based
+on the NUMA level match. Again, more than one strategy exists
+for this same problem, with different results. The approach
+taken is to re-use any existing associativity values to the
+new matches, instead of overwriting them with a new associativity
+match. This decision is necessary because neither we, nor the
+pSeries kernel, supports multiple associativity domains for
+each resource, meaning that we have to decide what to preserve.
+With the current logic, the associativities established by
+the earlier nodes take precedence, i.e. associativities defined
+by the first node are retained along all other nodes.
+
+These decisions have direct impact on how the user will interact
+with the NUMA topology, and none of them are perfect. To keep
+this commit message no longer than it already is, let's update the
+existing documentation in ppc-spapr-numa.rst with more in depth
+details and design considerations/drawbacks in the next patch.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/arm/virt.c              |  9 ++++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- 9 files changed, 71 insertions(+), 6 deletions(-)
+ hw/ppc/spapr.c | 109 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ecfee362a1..acf9bfbece 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2546,10 +2546,17 @@ static void machvirt_machine_init(void)
- }
- type_init(machvirt_machine_init);
- 
-+static void virt_machine_5_2_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
-+
- static void virt_machine_5_1_options(MachineClass *mc)
- {
-+    virt_machine_5_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
-+DEFINE_VIRT_MACHINE(5, 1)
- 
- static void virt_machine_5_0_options(MachineClass *mc)
- {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 8d1a90c6cf..cf5f2dfaeb 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -28,6 +28,9 @@
- #include "hw/mem/nvdimm.h"
- #include "migration/vmstate.h"
- 
-+GlobalProperty hw_compat_5_1[] = {};
-+const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
-+
- GlobalProperty hw_compat_5_0[] = {
-     { "pci-host-bridge", "x-config-reg-migration-enabled", "off" },
-     { "virtio-balloon-device", "page-poison", "false" },
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 47c5ca3e34..9aa813949c 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -97,6 +97,9 @@
- #include "fw_cfg.h"
- #include "trace.h"
- 
-+GlobalProperty pc_compat_5_1[] = {};
-+const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
-+
- GlobalProperty pc_compat_5_0[] = {
- };
- const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b789e83f9a..c5ba70ca17 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -426,7 +426,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
- }
- 
--static void pc_i440fx_5_1_machine_options(MachineClass *m)
-+static void pc_i440fx_5_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -435,6 +435,18 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
-+                      pc_i440fx_5_2_machine_options);
-+
-+static void pc_i440fx_5_1_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_5_2_machine_options(m);
-+    m->alias = NULL;
-+    m->is_default = false;
-+    compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-+    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
-                       pc_i440fx_5_1_machine_options);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index a3e607a544..0cb9c18cd4 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -353,7 +353,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_5_1_machine_options(MachineClass *m)
-+static void pc_q35_5_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -361,6 +361,17 @@ static void pc_q35_5_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
-+                   pc_q35_5_2_machine_options);
-+
-+static void pc_q35_5_1_machine_options(MachineClass *m)
-+{
-+    pc_q35_5_2_machine_options(m);
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-+    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-+}
-+
- DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
-                    pc_q35_5_1_machine_options);
- 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index a5bb0736e2..dd2fa4826b 100644
+index 4f50ab21ee..0d60d06cf4 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -4581,15 +4581,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
-     }                                                                \
-     type_init(spapr_machine_register_##suffix)
- 
-+/*
-+ * pseries-5.2
-+ */
-+static void spapr_machine_5_2_class_options(MachineClass *mc)
-+{
-+    /* Defaults for the latest behaviour inherited from the base class */
-+}
-+
-+DEFINE_SPAPR_MACHINE(5_2, "5.2", true);
-+
- /*
-  * pseries-5.1
-  */
- static void spapr_machine_5_1_class_options(MachineClass *mc)
- {
--    /* Defaults for the latest behaviour inherited from the base class */
-+    spapr_machine_5_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+@@ -222,6 +222,109 @@ void spapr_set_associativity(uint32_t *assoc, int node_id, int cpu_index,
+     assoc[4] = cpu_to_be32(node_id);
  }
  
--DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
-+DEFINE_SPAPR_MACHINE(5_1, "5.1", false);
- 
- /*
-  * pseries-5.0
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index e72c61d2ea..f4ea6a9545 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -801,14 +801,26 @@ bool css_migration_enabled(void)
-     }                                                                         \
-     type_init(ccw_machine_register_##suffix)
- 
-+static void ccw_machine_5_2_instance_options(MachineState *machine)
++static void spapr_numa_assoc_assign_domain(SpaprMachineClass *smc,
++                                           uint8_t nodeA, uint8_t nodeB,
++                                           uint8_t numaLevel,
++                                           uint8_t curr_domain)
 +{
++    uint8_t assoc_A, assoc_B;
++
++    assoc_A = smc->numa_assoc_domains[nodeA][numaLevel];
++    assoc_B = smc->numa_assoc_domains[nodeB][numaLevel];
++
++    /* No associativity domains on both. Assign and move on */
++    if ((assoc_A | assoc_B) == 0) {
++        smc->numa_assoc_domains[nodeA][numaLevel] = curr_domain;
++        smc->numa_assoc_domains[nodeB][numaLevel] = curr_domain;
++        return;
++    }
++
++    /* Use the existing assoc domain of any of the nodes to not
++     * disrupt previous associations already defined */
++    if (assoc_A != 0) {
++        smc->numa_assoc_domains[nodeB][numaLevel] = assoc_A;
++    } else {
++        smc->numa_assoc_domains[nodeA][numaLevel] = assoc_B;
++    }
 +}
 +
-+static void ccw_machine_5_2_class_options(MachineClass *mc)
++static void spapr_init_numa_assoc_domains(MachineState *machine)
 +{
-+}
-+DEFINE_CCW_MACHINE(5_2, "5.2", true);
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
++    int nb_numa_nodes = machine->numa_state->num_nodes;
++    NodeInfo *numa_info = machine->numa_state->nodes;
++    uint8_t existing_nodes[nb_numa_nodes];
++    int i, j, src_node, dst_node, index = 0;
 +
- static void ccw_machine_5_1_instance_options(MachineState *machine)
- {
-+    ccw_machine_5_2_instance_options(machine);
- }
- 
- static void ccw_machine_5_1_class_options(MachineClass *mc)
- {
-+    ccw_machine_5_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
- }
--DEFINE_CCW_MACHINE(5_1, "5.1", true);
-+DEFINE_CCW_MACHINE(5_1, "5.1", false);
- 
- static void ccw_machine_5_0_instance_options(MachineState *machine)
- {
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 426ce5f625..bc5b82ad20 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -319,6 +319,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
- 
-+extern GlobalProperty hw_compat_5_1[];
-+extern const size_t hw_compat_5_1_len;
++    /* We don't have information about any extra NUMA nodes that
++     * the machine might create at this point (e.g. NVLink2 GPUs).
++     * Assigning associativity domains with low numbers might have
++     * unintended consequences in the presence of GPUs, which are
++     * supposed to always be at maximum distance of everything else,
++     * because we might end up using a GPU numa_id identifier by
++     * accident.
++     *
++     * Starting this counter at MAX_NODES avoids any possible
++     * collision since no NUMA id can reach this value. */
++    uint8_t assoc_domain = MAX_NODES;
 +
- extern GlobalProperty hw_compat_5_0[];
- extern const size_t hw_compat_5_0_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 3d7ed3a55e..fe52e165b2 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -193,6 +193,9 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
- 
-+extern GlobalProperty pc_compat_5_1[];
-+extern const size_t pc_compat_5_1_len;
++    /* We will assume that the NUMA nodes might be sparsed. This
++     * preliminary fetch step is required to avoid having to search
++     * for an existing NUMA node more than once. */
++    for (i = 0; i < MAX_NODES; i++) {
++        if (numa_info[i].present) {
++            existing_nodes[index++] = i;
++            if (index == nb_numa_nodes) {
++                break;
++            }
++        }
++    }
 +
- extern GlobalProperty pc_compat_5_0[];
- extern const size_t pc_compat_5_0_len;
++    /* Start iterating through the existing numa nodes to
++     * define associativity groups */
++    for (i = 0; i < nb_numa_nodes; i++) {
++        uint8_t distance = 20;
++        uint8_t lower_end = 10;
++        uint8_t upper_end = 0;
++
++        src_node = existing_nodes[i];
++
++        /* Calculate all associativity domains src_node belongs to. */
++        for(index = 0; index < 3; index++) {
++            upper_end = distance/2 + distance;
++
++            for(j = i + 1; j < nb_numa_nodes; j++) {
++                uint8_t node_dist;
++
++                dst_node = existing_nodes[j];
++                node_dist = numa_info[src_node].distance[dst_node];
++
++                if (node_dist > lower_end && node_dist <= upper_end) {
++                    spapr_numa_assoc_assign_domain(smc, src_node, dst_node,
++                                                   2 - index, assoc_domain);
++                                                   assoc_domain++;
++                }
++            }
++
++            lower_end = upper_end;
++            distance *= 2;
++        }
++    }
++
++    /* Zero (0) is considered a valid associativity domain identifier.
++     * To avoid NUMA nodes having matches where it wasn't intended, fill
++     * the zeros with unique identifiers. */
++    for (i = 0; i < nb_numa_nodes; i++) {
++        src_node = existing_nodes[i];
++        for (j = 0; j < 3; j++) {
++            if (smc->numa_assoc_domains[src_node][j] == 0) {
++                smc->numa_assoc_domains[src_node][j] = assoc_domain;
++                assoc_domain++;
++            }
++        }
++    }
++ }
++
+ static int spapr_fixup_cpu_numa_dt(void *fdt, int offset, PowerPCCPU *cpu,
+                                    MachineState *machine)
+ {
+@@ -2887,6 +2990,12 @@ static void spapr_machine_init(MachineState *machine)
+     spapr->current_numa_id = 0;
+     spapr->extra_numa_nodes = 0;
  
++    /* We don't need to init the NUMA matrix if we're running in
++     * legacy NUMA mode. */
++    if (!spapr_machine_using_legacy_numa(spapr)) {
++        spapr_init_numa_assoc_domains(machine);
++    }
++
+     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+         ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
+                               spapr->max_compat_pvr)) {
 -- 
 2.26.2
 
