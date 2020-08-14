@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CA3244679
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 10:30:47 +0200 (CEST)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9906B244682
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 10:33:37 +0200 (CEST)
+Received: from localhost ([::1]:38242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6V6s-0006JZ-1S
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 04:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52278)
+	id 1k6V9c-0002CC-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 04:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6V54-0003Z9-0S; Fri, 14 Aug 2020 04:28:54 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43152)
+ id 1k6V55-0003cv-DD; Fri, 14 Aug 2020 04:28:55 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6V52-0004Mg-DW; Fri, 14 Aug 2020 04:28:53 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a15so7579617wrh.10;
- Fri, 14 Aug 2020 01:28:51 -0700 (PDT)
+ id 1k6V53-0004N4-Sv; Fri, 14 Aug 2020 04:28:54 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f1so7614599wro.2;
+ Fri, 14 Aug 2020 01:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h98y0GZ9oBKT9+HT3S78Zkh8zS/hG43uNb/8d1WCmb4=;
- b=agL5RyD3B5RKHtua7k8mphgl+uyS4aSxW3jFgGqAsF9A3hz8WynkJrwZTmpeKuhLKo
- LmqbI3a0OZJej2vKM+UB/rHU1mCgBJ+xnUh+yCuq+Mz/N2EgCiu8yTVtBxvnczXQAOSf
- 2r5QbosILrhBXPNifdei4TqWFY26AiSOdkn8dIgWHMiHffBB5C7tUa89agxdjGHcSwJI
- MB2eG5hX5A26ZSgwF9UAcwAHw4zXGwE0PBXFaQ1QWBba8AVTvIJz+76t3JtCTG5fZtYW
- HsjXZZ4m9+jtN5fzEX7ZtLijYQaCgxEuQZqYgim/sGMP8Qydcj/piFqsjFZY0T4EzXnK
- wFAg==
+ bh=etBgOERj9PnsiIU1OWuoGsH2uwmn42946LFCXfF1LJ4=;
+ b=VWynQV41LpgWgKjmmFdhEmpTOhhwsGjcU8NfGDsfDSBd67cjZgeRMVTMh1Qmx1UOrw
+ VD8r/jc80h1JOdxHyAoisVXB+OAEGzHY6j4lxZ+OuzeHrHhCYbsKClWJ7KsO0+8zEro3
+ m5AI3nK9KVAyQT8KH7tRbs25bkwmiQ0S0dNyNmwvKr12ywwV6IEJTvtSwFrU343kN8iX
+ l+z26Y/ml+bfAsu9gYZtjhrtlrlbaUduOKEwY/cqUYBAdlh/gpCmXZs5He+nlFCazzCL
+ td6Ga7kkj5D7nWhue2q3pJDPl1XAX5Zi9DvO6K+/txYDK9STDeFggHbB6afIoTVKhTDb
+ tJng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=h98y0GZ9oBKT9+HT3S78Zkh8zS/hG43uNb/8d1WCmb4=;
- b=ulpdN5DEvtl0D/+tBuUsZdxl8LsAc8KwCUfXHmISxjxsoLigYckrHU4Ru5N7mpFMG7
- mQR4Fq0OmVS5Dx+J6u0DLAVFg0zXG0yyFE9NEIMxl7X/rp11G3ZKrJbQX9lmG7LVZdKU
- HdBTElr8jCKlcE/yubWkGVYlyQIoorHXW5iUJAc6ubIZvD4O2hJVxghiNKY+EfCVvSzH
- cd9UGxICpe0AzSJ3RliUMSD6Gm5ihlEG/qPfVI6Gb08hwAu9nASgu+Pq6dMvLO8BZryk
- LGFThpxk9iThvimzsw8XJ2Dxv7SLlq2jhQ47axxnaxgcMbrSCLaql6BYhDDw4ztnQlbO
- YmdA==
-X-Gm-Message-State: AOAM531Riu6xzEGppSl+F54nLRcPLBpix8R3JSi/dy53GwO4D3Y/LXNy
- q2lTDsvf3ZhAr5ZsmabdA6CXHpevvys=
-X-Google-Smtp-Source: ABdhPJyqUHRXbTjgYIcejArh90LLSHiqaC6dVOeMFts9Tr4fDdG6T46mXoo4vZmRIAv79XbADQ1R0g==
-X-Received: by 2002:adf:ed85:: with SMTP id c5mr1670129wro.307.1597393730132; 
- Fri, 14 Aug 2020 01:28:50 -0700 (PDT)
+ bh=etBgOERj9PnsiIU1OWuoGsH2uwmn42946LFCXfF1LJ4=;
+ b=qb0YR766hl9myooHvYGT+3dVFVsmwIdPWe6yRYV2la6Z/5of3xR3M7XCTL8j9gv+jy
+ C/SjybmFRIqmJqgANlvTcMXCaetQsxoYzDRLlZQhvKkcNvnq+mwd+De3BmpCyqqUIM0T
+ mIN6OiLfgVGrqYC1uqpdoouJ69misgCxzCdyCS8FfTxQg/zuicQoJB/CzzIZWRWbWyjU
+ NJuM5Q8GMfMWWuz4BXu5pD7FASDVPX+iC7PUb0c6vGcr1jgCJuPkxYXjQVzbLCZ8HAOU
+ Gsgxm7AMSXy205UG2BTddQ1TbrGaJ96KtrquBZlCvGUJrJjyu3+jF/naQ7ANeEXAP9XN
+ 0VeQ==
+X-Gm-Message-State: AOAM533jO1MBYcy7qnw6HveR1vFYv1i9pEjIHHsjfiRYk47C5crsO2zq
+ YRkj7sMThNhogykETOqyiFEWXZShPpA=
+X-Google-Smtp-Source: ABdhPJypItJ7BS6Ak46+S8EZ9vXwvMoQjuorvxaRyWao6o3rJrHTJemFZR/5laAy5CMBPoYrmJHK/g==
+X-Received: by 2002:a5d:5588:: with SMTP id i8mr1698627wrv.177.1597393731525; 
+ Fri, 14 Aug 2020 01:28:51 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id d14sm14668107wre.44.2020.08.14.01.28.49
+ by smtp.gmail.com with ESMTPSA id d14sm14668107wre.44.2020.08.14.01.28.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 01:28:49 -0700 (PDT)
+ Fri, 14 Aug 2020 01:28:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] hw/ide/atapi: Replace magic '512' value by
- BDRV_SECTOR_SIZE
-Date: Fri, 14 Aug 2020 10:28:39 +0200
-Message-Id: <20200814082841.27000-6-f4bug@amsat.org>
+Subject: [PATCH 6/7] hw/ide/pci: Replace magic '512' value by BDRV_SECTOR_SIZE
+Date: Fri, 14 Aug 2020 10:28:40 +0200
+Message-Id: <20200814082841.27000-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200814082841.27000-1-f4bug@amsat.org>
 References: <20200814082841.27000-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -99,36 +98,22 @@ Use self-explicit definitions instead of magic '512' value.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ide/atapi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/ide/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-index 17a9d635d8..14a2b0bb2f 100644
---- a/hw/ide/atapi.c
-+++ b/hw/ide/atapi.c
-@@ -824,9 +824,9 @@ static void cmd_get_configuration(IDEState *s, uint8_t *buf)
-      *
-      *      Only a problem if the feature/profiles grow.
-      */
--    if (max_len > 512) {
-+    if (max_len > BDRV_SECTOR_SIZE) {
-         /* XXX: assume 1 sector */
--        max_len = 512;
-+        max_len = BDRV_SECTOR_SIZE;
-     }
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 5e85c4ad17..b50091b615 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -138,7 +138,7 @@ static int32_t bmdma_prepare_buf(const IDEDMA *dma, int32_t limit)
+     int l, len;
  
-     memset(buf, 0, max_len);
-@@ -1186,8 +1186,8 @@ static void cmd_read_dvd_structure(IDEState *s, uint8_t* buf)
-         }
-     }
- 
--    memset(buf, 0, max_len > IDE_DMA_BUF_SECTORS * 512 + 4 ?
--           IDE_DMA_BUF_SECTORS * 512 + 4 : max_len);
-+    memset(buf, 0, max_len > IDE_DMA_BUF_SECTORS * BDRV_SECTOR_SIZE + 4 ?
-+           IDE_DMA_BUF_SECTORS * BDRV_SECTOR_SIZE + 4 : max_len);
- 
-     switch (format) {
-         case 0x00 ... 0x7f:
+     pci_dma_sglist_init(&s->sg, pci_dev,
+-                        s->nsector / (BMDMA_PAGE_SIZE / 512) + 1);
++                        s->nsector / (BMDMA_PAGE_SIZE / BDRV_SECTOR_SIZE) + 1);
+     s->io_buffer_size = 0;
+     for(;;) {
+         if (bm->cur_prd_len == 0) {
 -- 
 2.21.3
 
