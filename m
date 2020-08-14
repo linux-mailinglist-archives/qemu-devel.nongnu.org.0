@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA5D244A57
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 15:22:10 +0200 (CEST)
-Received: from localhost ([::1]:51926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012AF244A5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 15:24:55 +0200 (CEST)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6Zer-0007DZ-KG
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 09:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48046)
+	id 1k6ZhW-0008Vk-41
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 09:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6Ze8-0006oK-HR; Fri, 14 Aug 2020 09:21:24 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33210)
+ id 1k6ZgC-0007tn-2F; Fri, 14 Aug 2020 09:23:32 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6Ze6-0000IJ-TZ; Fri, 14 Aug 2020 09:21:24 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p20so8355890wrf.0;
- Fri, 14 Aug 2020 06:21:22 -0700 (PDT)
+ id 1k6ZgA-0000Vl-IM; Fri, 14 Aug 2020 09:23:31 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f1so8356695wro.2;
+ Fri, 14 Aug 2020 06:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KX6DJ+Ei+Qrvb3oO254QYRvydw3ZRBmD8xqPfn8fpEQ=;
- b=XBGpfMcMOvUvxAyohxZjFG9AMkoBANlBf1hKUORiwOSSDj2Rr+JxjR8dATADKi2Bb6
- KeVBuzmXue4BVYGraUpGpfMSy+HtuccLvKN0dbLbkIJjs2XRanJhGjuJapvoIojDEeeE
- Qn+qdCRPP3HkDk3YmXHtVkIEsYxw6clQ22hk5SpDYBbVZ5heDna8yy9rId8p1z6ygVl0
- R2rMbtwgyysVnKuXeMjzHx/N47DROAyEIlNiy4XwYJaM5vY6nwcVze4mW1zvIU7vkzht
- B3oMIBz5JiyZnhzMrrvGPVcgek5qoGiF/qjYoARwgDG6rINl+c7QUNFxBQpAOKvi2mNv
- mRPQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ckF2DqXRF898Cr5olz33UXtEKnXaCp8Tdxdp+D4NReU=;
+ b=SGDmECnX8wrYZuZ0Jj2igl2UGhngRT4SbCwQFCAlT4B7+CiWBVDtLNQPV1YCTSGK/W
+ zzzPMMBnQ0zRE6P4JM8Q+qnX1IHbM8mLbcshYI5DULwVh4CL0edd16CWYPuNPQSqp7mK
+ G9rxUZsLHM7LRDjUFqzTxFEDcZw/eTbFbUz6YM0n5/FJAAXNEx0/ia6CIM4ZMdzDLZr2
+ oBxsscVRmFuuyEU5jyz3k8TphIGG7+O0la83LEVR93tMbQG6ZdshMEb28JL2qAuPHiuK
+ b/cd2i/ljM3ZaWNi3cUDSxRI/a9AHgd1liv1+SqImnf9/BQtSzNPLk7yfGjW/f5YLokK
+ Xpug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=KX6DJ+Ei+Qrvb3oO254QYRvydw3ZRBmD8xqPfn8fpEQ=;
- b=TM+xslHcSlwlNMX33z0/KJxeVztn4tX5Ya/RwxRO9X2ath1Vqv7ws5xiARJziFNCCb
- hiiqznWb6MmJFRax8NO7MLGnpM1h9r+93kwdvVtylod3I8jHOH1EMjGnuMZ2WbkhDq/I
- KVZreH6x5/BF/FXdg6jLfmTqu1Lt1Z/8p/qo2Afh9i3cpeGJcuhTyCrpDDS6bXzKgLNc
- KcXOZa8gpxsBVzDCryZzxUoaBj934/PDdbCcY0V3J1lW8WlFc5fhDfHpt0DVzokuFDcI
- rGBfJchDJ0T+AVJ9Mk9yxonDZ2JxREI86imFTUcYNap2s0pruYIi1EAvFfpK9WQ11Fyg
- FVJA==
-X-Gm-Message-State: AOAM533agS/IZ0V6CpKVyD6VvU+XIXXoJxWsyVXq/vezdlmWJ7+lT/+K
- m0guwgdGUg07bpPKVwvdRspLWJXvVak=
-X-Google-Smtp-Source: ABdhPJyOmPWb36pOE7uI4ozo2u5VknifaRkPQQLRofmNbecF7x4PZkSSHnuZ19tFx8myqeoGD5rLPQ==
-X-Received: by 2002:adf:fe0c:: with SMTP id n12mr2624675wrr.48.1597411280593; 
- Fri, 14 Aug 2020 06:21:20 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ckF2DqXRF898Cr5olz33UXtEKnXaCp8Tdxdp+D4NReU=;
+ b=ZgfDsqffT/nqeWNOZjRw7pg0u4KRto6B9FcptNobLSJf1ce4aTQcIjTssybl/ejPlp
+ UrKKDRWduiEwo4kCfnurybgb7hxb2PT1gUjdVdZS2yZDLHjUfsymiU4fKPX17ICqE/Qz
+ GKkv15T54SNQBCTfrDkr0a9eUIaERFL9scLGGeW7XJlaxW7JMZclnls73FKp4JLqcGKn
+ bAV8sKYat1LIF5+8qcoefTNRquLioNRxdU2aVSfbEUbBtNd/S7dcCyjKy4C6A9Yd6q3A
+ wuFogrUlJLdAUA747NILUEmAqDq0w6OxmlhyVrptDF0jrJkDfu35/tScJvhVScNnj732
+ TbYA==
+X-Gm-Message-State: AOAM530rNin7VQEByDfqEAinKczOA8MpfU4hE9256Ju3MjO0djr/km+6
+ 4YNjCijEK54XCqc7kixf3R7/HwxUe5M=
+X-Google-Smtp-Source: ABdhPJxQLG1J89Jr4qnHXBvJg9ys8GoSzZAo1aFX60q5OcJWs/M8w6k3KQ9j0cfWHjK7u2sWldSedQ==
+X-Received: by 2002:a5d:61c8:: with SMTP id q8mr2650817wrv.160.1597411408027; 
+ Fri, 14 Aug 2020 06:23:28 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id t25sm14199667wmj.18.2020.08.14.06.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 06:21:19 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id g7sm16284338wrv.82.2020.08.14.06.23.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Aug 2020 06:23:27 -0700 (PDT)
+Subject: Re: [PATCH] hw/block/nand: Decommission the NAND museum
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nand: Decommission the NAND museum
-Date: Fri, 14 Aug 2020 15:21:18 +0200
-Message-Id: <20200814132118.12450-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
+References: <20200814132118.12450-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <75f7421f-3ea4-ff6c-2c92-0ea9b5b8fdc1@amsat.org>
+Date: Fri, 14 Aug 2020 15:23:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200814132118.12450-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::444;
  envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
@@ -83,71 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
  qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the QEMU equivalent of this Linux commit (but 7 years later):
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f7025a43a9da2
+I forgot to Cc qemu-arm@, doing it now since most of the users
+of this are ARM machines.
 
-    The MTD subsystem has its own small museum of ancient NANDs
-    in a form of the CONFIG_MTD_NAND_MUSEUM_IDS configuration option.
-    The museum contains stone age NANDs with 256 bytes pages, as well
-    as iron age NANDs with 512 bytes per page and up to 8MiB page size.
-
-    It is with great sorrow that I inform you that the museum is being
-    decommissioned. The MTD subsystem is out of budget for Kconfig
-    options and already has too many of them, and there is a general
-    kernel trend to simplify the configuration menu.
-
-    We remove the stone age exhibits along with closing the museum,
-    but some of the iron age ones are transferred to the regular NAND
-    depot. Namely, only those which have unique device IDs are
-    transferred, and the ones which have conflicting device IDs are
-    removed.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/block/nand.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/hw/block/nand.c b/hw/block/nand.c
-index 654e0cb5d1..7d7ccc9aa4 100644
---- a/hw/block/nand.c
-+++ b/hw/block/nand.c
-@@ -137,7 +137,7 @@ static void mem_and(uint8_t *dest, const uint8_t *src, size_t n)
- # define ADDR_SHIFT		16
- # include "nand.c"
- 
--/* Information based on Linux drivers/mtd/nand/nand_ids.c */
-+/* Information based on Linux drivers/mtd/nand/raw/nand_ids.c */
- static const struct {
-     int size;
-     int width;
-@@ -153,15 +153,14 @@ static const struct {
-     [0xe8] = { 1,	8,	8, 4, 0 },
-     [0xec] = { 1,	8,	8, 4, 0 },
-     [0xea] = { 2,	8,	8, 4, 0 },
--    [0xd5] = { 4,	8,	9, 4, 0 },
-     [0xe3] = { 4,	8,	9, 4, 0 },
-     [0xe5] = { 4,	8,	9, 4, 0 },
--    [0xd6] = { 8,	8,	9, 4, 0 },
- 
--    [0x39] = { 8,	8,	9, 4, 0 },
--    [0xe6] = { 8,	8,	9, 4, 0 },
--    [0x49] = { 8,	16,	9, 4, NAND_BUSWIDTH_16 },
--    [0x59] = { 8,	16,	9, 4, NAND_BUSWIDTH_16 },
-+    [0x6b] = { 4,        8,        9, 4, 0 },
-+    [0xe3] = { 4,        8,        9, 4, 0 },
-+    [0xe5] = { 4,        8,        9, 4, 0 },
-+    [0xd6] = { 8,        8,        9, 4, 0 },
-+    [0xe6] = { 8,        8,        9, 4, 0 },
- 
-     [0x33] = { 16,	8,	9, 5, 0 },
-     [0x73] = { 16,	8,	9, 5, 0 },
--- 
-2.21.3
-
+On 8/14/20 3:21 PM, Philippe Mathieu-Daudé wrote:
+> This is the QEMU equivalent of this Linux commit (but 7 years later):
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f7025a43a9da2
+> 
+>     The MTD subsystem has its own small museum of ancient NANDs
+>     in a form of the CONFIG_MTD_NAND_MUSEUM_IDS configuration option.
+>     The museum contains stone age NANDs with 256 bytes pages, as well
+>     as iron age NANDs with 512 bytes per page and up to 8MiB page size.
+> 
+>     It is with great sorrow that I inform you that the museum is being
+>     decommissioned. The MTD subsystem is out of budget for Kconfig
+>     options and already has too many of them, and there is a general
+>     kernel trend to simplify the configuration menu.
+> 
+>     We remove the stone age exhibits along with closing the museum,
+>     but some of the iron age ones are transferred to the regular NAND
+>     depot. Namely, only those which have unique device IDs are
+>     transferred, and the ones which have conflicting device IDs are
+>     removed.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/block/nand.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/block/nand.c b/hw/block/nand.c
+> index 654e0cb5d1..7d7ccc9aa4 100644
+> --- a/hw/block/nand.c
+> +++ b/hw/block/nand.c
+> @@ -137,7 +137,7 @@ static void mem_and(uint8_t *dest, const uint8_t *src, size_t n)
+>  # define ADDR_SHIFT		16
+>  # include "nand.c"
+>  
+> -/* Information based on Linux drivers/mtd/nand/nand_ids.c */
+> +/* Information based on Linux drivers/mtd/nand/raw/nand_ids.c */
+>  static const struct {
+>      int size;
+>      int width;
+> @@ -153,15 +153,14 @@ static const struct {
+>      [0xe8] = { 1,	8,	8, 4, 0 },
+>      [0xec] = { 1,	8,	8, 4, 0 },
+>      [0xea] = { 2,	8,	8, 4, 0 },
+> -    [0xd5] = { 4,	8,	9, 4, 0 },
+>      [0xe3] = { 4,	8,	9, 4, 0 },
+>      [0xe5] = { 4,	8,	9, 4, 0 },
+> -    [0xd6] = { 8,	8,	9, 4, 0 },
+>  
+> -    [0x39] = { 8,	8,	9, 4, 0 },
+> -    [0xe6] = { 8,	8,	9, 4, 0 },
+> -    [0x49] = { 8,	16,	9, 4, NAND_BUSWIDTH_16 },
+> -    [0x59] = { 8,	16,	9, 4, NAND_BUSWIDTH_16 },
+> +    [0x6b] = { 4,        8,        9, 4, 0 },
+> +    [0xe3] = { 4,        8,        9, 4, 0 },
+> +    [0xe5] = { 4,        8,        9, 4, 0 },
+> +    [0xd6] = { 8,        8,        9, 4, 0 },
+> +    [0xe6] = { 8,        8,        9, 4, 0 },
+>  
+>      [0x33] = { 16,	8,	9, 5, 0 },
+>      [0x73] = { 16,	8,	9, 5, 0 },
+> 
 
