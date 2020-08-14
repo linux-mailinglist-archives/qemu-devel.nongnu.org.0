@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1548024485C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:54:40 +0200 (CEST)
-Received: from localhost ([::1]:32860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CFC824481A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 12:33:15 +0200 (CEST)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6XM7-00043z-5b
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50204)
+	id 1k6X1O-0002h6-Ku
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 06:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1k6W9d-0006ii-Ai; Fri, 14 Aug 2020 05:37:41 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:42538 helo=huawei.com)
+ id 1k6W9i-0006wl-8K; Fri, 14 Aug 2020 05:37:46 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4194 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1k6W9b-00063z-AW; Fri, 14 Aug 2020 05:37:40 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 974DDB647A421D7CE8D9;
- Fri, 14 Aug 2020 17:37:35 +0800 (CST)
+ id 1k6W9f-00066R-Dc; Fri, 14 Aug 2020 05:37:45 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id AA92BFE0730BE1EFE97F;
+ Fri, 14 Aug 2020 17:37:40 +0800 (CST)
 Received: from opensource.huawei.com (10.175.100.152) by
  DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 14 Aug 2020 17:37:29 +0800
+ 14.3.487.0; Fri, 14 Aug 2020 17:37:30 +0800
 From: Pan Nengyuan <pannengyuan@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 09/12] blockdev: Fix a memleak in drive_backup_prepare()
-Date: Fri, 14 Aug 2020 12:02:38 -0400
-Message-ID: <20200814160241.7915-10-pannengyuan@huawei.com>
+Subject: [PATCH 10/12] block/file-posix: fix a possible undefined behavior
+Date: Fri, 14 Aug 2020 12:02:39 -0400
+Message-ID: <20200814160241.7915-11-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200814160241.7915-1-pannengyuan@huawei.com>
 References: <20200814160241.7915-1-pannengyuan@huawei.com>
@@ -35,9 +35,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.100.152]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
+Received-SPF: pass client-ip=45.249.212.190;
  envelope-from=pannengyuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:21:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 05:37:26
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -59,37 +59,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
  qemu-block@nongnu.org, Pan Nengyuan <pannengyuan@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- euler.robot@huawei.com, kuhn.chenqun@huawei.com
+ Max Reitz <mreitz@redhat.com>, euler.robot@huawei.com, kuhn.chenqun@huawei.com,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'local_err' seems forgot to propagate in error path, it'll cause
-a memleak. Fix it.
+local_err is not initialized to NULL, it will cause a assert error as below:
+qemu/util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
 
+Fixes: c6447510690
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 ---
 Cc: Kevin Wolf <kwolf@redhat.com>
 Cc: Max Reitz <mreitz@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Aarushi Mehta <mehta.aaru20@gmail.com>
 Cc: qemu-block@nongnu.org
 ---
- blockdev.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/file-posix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 3848a9c8ab..842ac289c1 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1801,6 +1801,7 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-     if (set_backing_hd) {
-         bdrv_set_backing_hd(target_bs, source, &local_err);
-         if (local_err) {
-+            error_propagate(errp, local_err);
-             goto unref;
-         }
-     }
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 9a00d4190a..697a7d9eea 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2113,7 +2113,7 @@ static void raw_aio_attach_aio_context(BlockDriverState *bs,
+ #endif
+ #ifdef CONFIG_LINUX_IO_URING
+     if (s->use_linux_io_uring) {
+-        Error *local_err;
++        Error *local_err = NULL;
+         if (!aio_setup_linux_io_uring(new_context, &local_err)) {
+             error_reportf_err(local_err, "Unable to use linux io_uring, "
+                                          "falling back to thread pool: ");
 -- 
 2.18.2
 
