@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80863244C85
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:16:41 +0200 (CEST)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E79244CBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Aug 2020 18:31:46 +0200 (CEST)
+Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6cNk-0007Ni-AZ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:16:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41006)
+	id 1k6ccL-0002sE-GN
+	for lists+qemu-devel@lfdr.de; Fri, 14 Aug 2020 12:31:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6cMt-0006rh-Ut
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:15:47 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:33801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6cMr-0007sb-Sj
- for qemu-devel@nongnu.org; Fri, 14 Aug 2020 12:15:47 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id c10so5802892pjn.1
- for <qemu-devel@nongnu.org>; Fri, 14 Aug 2020 09:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Tc++8Na5cDnfChJBn04qcGXcsQWdWKCUlmR4LLPi5go=;
- b=NntJVDfuMMP+tlDBU/2Xk0KCpZnvSXRrcNwAj/Y3F99sbr5dkHteld7rEFrJaj4sfJ
- kzeFWHivBTkXumAOXRvPV4L+GvfYmjGhbmc40aV3nK76SCLUuLXBeNPvWJaTd+t9Ht9h
- uR3ZZUJb7h/z/nfI28svy0+ReJ8+IgysSobOuEFIJHZ4TGdngmPyIhG/wAyPNelLuYi9
- FkEJnyt3DAEqCGCKiOooBJl2wYv9mh19fPumZR8zUwHKD9A4oJurTUqLmCi9k7bjKxL5
- WnFmgevCg03CAv2YMcDYbtCVW6sf19Xj09fs8w0r8a0BkrlrFL7i32dUW3JdOtYH1LIi
- yCwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tc++8Na5cDnfChJBn04qcGXcsQWdWKCUlmR4LLPi5go=;
- b=DZ3QAR2IuQ665knIkwmgvMnIEbISEDveBar5HAW+9qUq7+w6q1AQFkEInBWsLD7Rv9
- J11/uJfi89enW3fE9sWT+OsZHdFbRL30I8ZAZiYSSTdbxPsGbZ1w3bDqvPtto/J+oZR3
- QdtEzU1BT2qRcXl4ry+nN/4x+3ipzrSSDh8nreVfmngQKRgPs7vsH9BmnG7mowpZMwlJ
- 5Gox19P9Mu1IeDvb57Jg9FUEfUyOJk1zp3rNvSzpLC7JCQhdGvY/axVSvDFStG9L9qJr
- CMqtUWUL7RJZoAEB+teXfpYjDNhNUGZJ6j8n6cE/unSrBY2gKW7nM65nPK3cvsdi3yPG
- Dnpg==
-X-Gm-Message-State: AOAM532d+XLU4zIIUVw5yvqedvltRgopkHU7O5FbAaShK2wXIfx2/ud2
- 4+NhQZSS/s4WfYF00AU3bo/zWw==
-X-Google-Smtp-Source: ABdhPJzr9Fvt6iRRs2WWLp+wxHzys0A+TmFqw026KJSTcW26PJBmkHm1i+mfilgi8elDv3g4dt6NtQ==
-X-Received: by 2002:a17:90a:fd82:: with SMTP id
- cx2mr2984914pjb.67.1597421742816; 
- Fri, 14 Aug 2020 09:15:42 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id g5sm9770896pfh.168.2020.08.14.09.15.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 09:15:42 -0700 (PDT)
-Subject: Re: [PATCH 2/3] softfloat: add APIs to handle alternative sNaN
- propagation
-To: Chih-Min Chao <chihmin.chao@sifive.com>
-References: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com>
- <1596102747-20226-3-git-send-email-chihmin.chao@sifive.com>
- <aa334be5-e325-8d96-a3ee-00c82cfe2c4d@linaro.org>
- <CAEiOBXXOj5TcseHqpCaB-vR=3wFquP2ScjKGSrPXombesyD1jg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bd0acee8-1786-a3ff-99bb-4d8e317abcde@linaro.org>
-Date: Fri, 14 Aug 2020 09:15:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6cbT-0002LZ-Jx; Fri, 14 Aug 2020 12:30:51 -0400
+Resent-Date: Fri, 14 Aug 2020 12:30:51 -0400
+Resent-Message-Id: <E1k6cbT-0002LZ-Jx@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6cbR-0001FX-As; Fri, 14 Aug 2020 12:30:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597422623; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=cDZuqN1P8q0bowm/AhcqCAZfSpqvi5cXSzFRuSttWo4R6RkKxUsg0mREh4UY8cmuj32BJ6tSMk7Jj/WO4ua7IeGS3+rAMB5z/VcqRKPTOabClQp6UMLu9gCBt7m5bCFmJDpYL/OvxhHQZhdr/6tmgzgeoM2tRtjb8Jyw/C0NzNY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597422623;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=gPUyi1WXmeSKx83CvBNfqD7zChjMJ0h1NcuHbroY/4Y=; 
+ b=FVi+6x0cuVlzLKsU5tnXZcauO0237XshpyVP+uUNBH6bZqTKvZ+fyIV9WEfWFXivv2dSKrr52XEvIXj4guEfOwrTsXxHDB8SMOhCFZAqV5yJa/IuNVmBOqdPMfrlZsCS0L6neUJByhmib6WnJLvNz6HndhKUn2nci67OQ40CwVg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597422620487660.1926051958811;
+ Fri, 14 Aug 2020 09:30:20 -0700 (PDT)
+Subject: Re: [PATCH v2 0/9] preallocate filter
+Message-ID: <159742261921.5486.13267217170966703336@66eaa9a8a123>
+In-Reply-To: <20200814130348.20625-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEiOBXXOj5TcseHqpCaB-vR=3wFquP2ScjKGSrPXombesyD1jg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Fri, 14 Aug 2020 09:30:20 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 12:16:06
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,20 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/20 1:59 AM, Chih-Min Chao wrote:
-> By the way,  the other patches have been queued in softfloat-next. 
-> Do I need to resend the other two patches in the next version or just this one ?
-
-Just this one.  Thanks.
-
-
-r~
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNDEzMDM0OC4yMDYy
+NS0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
+aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
+bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcg
+Vj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VO
+Vj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAgY2hl
+Y2stdW5pdDogdGVzdHMvdGVzdC1jaGFyClVuZXhwZWN0ZWQgZXJyb3IgaW4gb2JqZWN0X3Byb3Bl
+cnR5X3RyeV9hZGQoKSBhdCAvdG1wL3FlbXUtdGVzdC9zcmMvcW9tL29iamVjdC5jOjExODE6CmF0
+dGVtcHQgdG8gYWRkIGR1cGxpY2F0ZSBwcm9wZXJ0eSAnc2VyaWFsLWlkJyB0byBvYmplY3QgKHR5
+cGUgJ2NvbnRhaW5lcicpCkVSUk9SIHRlc3QtY2hhciAtIHRvbyBmZXcgdGVzdHMgcnVuIChleHBl
+Y3RlZCAzOCwgZ290IDkpCm1ha2U6ICoqKiBbY2hlY2stdW5pdF0gRXJyb3IgMQptYWtlOiAqKiog
+V2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAw
+MjkKICBURVNUICAgIGNoZWNrLXF0ZXN0LXg4Nl82NDogdGVzdHMvcXRlc3QvaGQtZ2VvLXRlc3QK
+LS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNz
+LkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdy
+dW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTkzM2UzOTEzNGQzMzQyOGNi
+OTFjOTVhN2YxZWNlOWU2JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29t
+cD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJB
+X0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVH
+PScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hl
+JywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90
+bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXU4b2RoNDdj
+L3NyYy9kb2NrZXItc3JjLjIwMjAtMDgtMTQtMTIuMTYuMjEuMjkyNTA6L3Zhci90bXAvcWVtdTp6
+LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10n
+IHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1j
+b20ucWVtdS5pbnN0YW5jZS51dWlkPTkzM2UzOTEzNGQzMzQyOGNiOTFjOTVhN2YxZWNlOWU2Cm1h
+a2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9y
+eSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXU4b2RoNDdjL3NyYycKbWFrZTogKioqIFtk
+b2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxM201OC43NDNz
+CnVzZXIgICAgMG04LjU2N3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9w
+YXRjaGV3Lm9yZy9sb2dzLzIwMjAwODE0MTMwMzQ4LjIwNjI1LTEtdnNlbWVudHNvdkB2aXJ0dW96
+em8uY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
+YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
+cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
+b20=
 
