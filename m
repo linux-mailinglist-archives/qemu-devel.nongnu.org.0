@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328A1245135
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:18:21 +0200 (CEST)
-Received: from localhost ([::1]:58976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B78224512E
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:13:37 +0200 (CEST)
+Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xwq-00032K-6n
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
+	id 1k6xsG-0003ZE-9c
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:13:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xph-0001AU-UJ
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:10:57 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36065)
+ id 1k6xoF-0007M2-HM
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:09:27 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xpg-0000Ic-4p
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:10:57 -0400
-Received: by mail-oi1-x243.google.com with SMTP id l204so10830715oib.3
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:10:55 -0700 (PDT)
+ id 1k6xoE-00086U-1E
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:09:27 -0400
+Received: by mail-oi1-x244.google.com with SMTP id z22so10849427oid.1
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:09:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4Rvz56oO5wS/gMgAnvaeiayH0Bj18HTZcfeBlsrcvaU=;
- b=sx0twEdKFmR1s1b/dP1mQSBuUNbQdOfQHeh7IlxU0ysmGTucYigzneu4qe2kIOY+WS
- cz4zWnBzeuHgOuGEA7mrZHfxkjFyLknxaJNYB34UUb4GCU64hoCC8GmU10Drs+FPQJNM
- 7Vd60kPL8jshCIBki9EFqG6lvXJXALjobFsfh2U6xgRpM+AyS82GFJXxJQQbMhD7Ju6+
- cV/1S8sZbT9wzdveN4KH17CiQaS2FNsWfi+Y+4zXO/hd+8boAlnhMgdsw0SyjbRQhEeF
- DgYRakxscZhZelH/WBQGbPozFYYppys7TAhgURYHSNtz5EMb0zpqLBZhS8kYHTHY/BY8
- CAIw==
+ bh=5T3vvH/LeqXm8DwXHoU8lE0ToBXpq9dGcDYSNnFUKmE=;
+ b=imDuAz+VINPDTqxtRFNeWk2wUhDG8SBBd+ymndewh2LddV6a+gXMjiX3wzyDouoE32
+ Zhmh4XqLsXaid392T2IEpNWqxagvJXq+c8Ch2SnWnlqAstSDTz+8G2u//JMqMdehe3f7
+ +K9b04QufDlIGoXlMbivsYSn3VKd86tx+lU+kteUxzzXzn8DECUE2/jXKCr19Uf2BPtq
+ NRA/j52dNbVETwyCnx3ai5+lB06oe8GQRqCRF+QDVuL+P3fLvC1a0j5Gh/PUXGl1bX0x
+ rBTD61IVqHCHTcg//w6OMhimH9elR9AS9YZ/Z052zUfX60jm4aour/2f+eIkFRp1b69l
+ bNtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4Rvz56oO5wS/gMgAnvaeiayH0Bj18HTZcfeBlsrcvaU=;
- b=br+2cPmB450yQhdC1We4sjLVwoLwvgkZRg94oe8QbxBMBScRUrbhC1viBNfugZxJDK
- 8Rv5xP76/5HnvXlYNspFQylxsuYIL5XIDgV2RF3A1I/ypCxJqnMlnQS6tFi5goaeefTT
- xD7UVij4vNjj65Co+e7dobch2qmWzFejYLq7vD/ZVHXEehOfzTBA9Ih75/yP3BP4EsPf
- xVu88prxrWuCkTui/0Ef2871SI/JiInYoDtZS+8kDENoqAiw77lbKyqtVfKlQHBEO7rb
- Je+EJIG01D/1KYmqtKkl5Aofkw3Um91kMJUNhjk6CfQ9rcsyPgMLA9QKY6XRAu572GqO
- VGTA==
-X-Gm-Message-State: AOAM5329nrhexc6aImIGJ+BnT1KwgfF/ENU6NljCekHX7u5O4Lw0jQf2
- JkJCCkSMcfn52oxS+C2My5hXZwA2GHd0ng==
-X-Google-Smtp-Source: ABdhPJwtioCtXoEeUPyW18e1rdlB07N3HB8mkB+aEIlDmV+9i60+5GQMeqI0BovQBokdEqpZWU283g==
-X-Received: by 2002:a17:90b:3009:: with SMTP id
- hg9mr3599594pjb.38.1597438864337; 
- Fri, 14 Aug 2020 14:01:04 -0700 (PDT)
+ bh=5T3vvH/LeqXm8DwXHoU8lE0ToBXpq9dGcDYSNnFUKmE=;
+ b=aO65KSu/BLD3T5XToTOPMxpi8UGRB9Asa4QO8G490on8HURzsQeDf4c0INc/Lg19Ut
+ Ztg4h2mLpDGk2hd7XB0Qnqd1bReqImAm2qBHx4t1rQ0N+yKs7RiyFpY2o0/vmlTX9vre
+ bcEuxiyCnfNwiTYIM7cRXk/zIEf7g+7aQ7nT5HuY9CJqchy2q15EisZb6K5lke7u+7Xu
+ OIDwxUukhXI45p42o55sHWYthveQ7yPAk8hipeoEOvuwSMuVH7v48ydzoEPXFWMfjQnN
+ 3unOgOFjsh/EhqO0qgEwbR4RJTaukvoJtYjYNlTgRsCkwyzwJMnyXENW7Wq4c7a1Kxqz
+ nuGg==
+X-Gm-Message-State: AOAM530PRMrtbBDvVvVjQC7Rc2TOEzbW92LFsJaBgyxy1KIyVRX90fpt
+ OUkbZC5y8q7XFxc6NG89nWe7lXAlf6aeIg==
+X-Google-Smtp-Source: ABdhPJyXOQrWwXUUS9JSv2KF7xvzMJR2gQpBvpIhEKhR3mhfWpcg5Jg9jr/ubjlLYFb98e4LmT37cg==
+X-Received: by 2002:a17:90a:ce8c:: with SMTP id
+ g12mr2466429pju.23.1597439022217; 
+ Fri, 14 Aug 2020 14:03:42 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id o134sm10019221pfg.200.2020.08.14.14.01.02
+ by smtp.gmail.com with ESMTPSA id v128sm10445803pfc.14.2020.08.14.14.03.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Aug 2020 14:01:03 -0700 (PDT)
-Subject: Re: [PATCH v5 10/14] cpus: add handle_interrupt to the CpusAccel
- interface
+ Fri, 14 Aug 2020 14:03:41 -0700 (PDT)
+Subject: Re: [PATCH v5 12/14] whpx: remove whpx specific functions from global
+ includes
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>
 References: <20200812183250.9221-1-cfontana@suse.de>
- <20200812183250.9221-11-cfontana@suse.de>
+ <20200812183250.9221-13-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ee2b8640-2446-32f8-47c3-b327db42f7b7@linaro.org>
-Date: Fri, 14 Aug 2020 14:01:01 -0700
+Message-ID: <eec337ae-50a7-1c05-8bea-2089567223aa@linaro.org>
+Date: Fri, 14 Aug 2020 14:03:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200812183250.9221-11-cfontana@suse.de>
+In-Reply-To: <20200812183250.9221-13-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -105,36 +105,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/12/20 11:32 AM, Claudio Fontana wrote:
-> +static void generic_handle_interrupt(CPUState *cpu, int mask)
-> +{
-> +    cpu->interrupt_request |= mask;
-> +
-> +    if (!qemu_cpu_is_self(cpu)) {
-> +        qemu_cpu_kick(cpu);
-> +    }
-> +}
-> +
-> +void cpu_interrupt(CPUState *cpu, int mask)
-> +{
-> +    if (cpus_accel && cpus_accel->handle_interrupt) {
-> +        cpus_accel->handle_interrupt(cpu, mask);
-> +    } else {
-> +        generic_handle_interrupt(cpu, mask);
-> +    }
-> +}
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  accel/stubs/Makefile.objs |  1 -
+>  accel/stubs/whpx-stub.c   | 47 -----------------------------------------------
+>  include/sysemu/whpx.h     | 19 -------------------
+>  target/i386/whpx-cpus.h   | 17 +++++++++++++++++
+>  4 files changed, 17 insertions(+), 67 deletions(-)
+>  delete mode 100644 accel/stubs/whpx-stub.c
 
-First, by this point you have converted all of the accelerators, so I would
-expect cpus_accel to always be non-null.  I would expect a patch immediately
-preceding this one to place an assert to that effect somewhere in the startup
-code, and to remove all of the checks.
-
-Second, I would prefer that all methods be non-null, so that you don't need to
-check that either.  This patch would add generic_handle_interrupt (perhaps
-named cpus_accel_default_handle_interrupt declared in sysemu/cpus.h?) to the
-CpusAccel structure of all except TCG.
-
-Similarly for all other methods that are checking non-null-ness of the method
-pointer.  Perhaps assert non-null for each method in cpus_register_accel().
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
