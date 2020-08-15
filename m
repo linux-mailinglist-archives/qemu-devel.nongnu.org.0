@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A2924515F
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:12:16 +0200 (CEST)
-Received: from localhost ([::1]:59310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926E2245163
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:15:44 +0200 (CEST)
+Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6yn1-0004WM-He
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57028)
+	id 1k6yqN-0008Qv-MJ
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:15:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6yla-0003Qg-T0
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:10:47 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:39723)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1k6yom-0007LG-2y; Sat, 15 Aug 2020 12:14:04 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6ylY-0002nd-K3
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:10:46 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id n25so6174399vsq.6
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=o2sKGEby6/++OxhF3tijZoQWTqB0BkWs415h6IKC4gs=;
- b=e1Bkj8ZiuJXDakOROrU4mKxdMB6iW14Bz+nFnPYTXJoxAlWbF5gim1khLYYJOAwgHa
- Rb4+UfKjb2KAP73kGsukvIdSxZV/rWMTH40ZwnLskNKNOG2r75Yz0RunFcuWij2o2xy/
- v56j5t9eyaaWv6kzxt1KO2/DenkjbzMFysfG8H1b/VLACx0NhxA+5st/w7CJwHxZL4Q2
- nVhCLl8GJ5erW18ccJPbxsCeOE6e39HE635DOad30zrF+uAhPnIMyIofkBiGvmn+s3NH
- DZFHQBoPsH6/N1NOzJc2J9yf6czHmhnrd0Vtpdb1XrKYOKlyvy2e+xUTZblj5mdtb6JO
- 1obQ==
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1k6yok-00035A-E5; Sat, 15 Aug 2020 12:14:03 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a24so10951019oia.6;
+ Sat, 15 Aug 2020 09:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Rz1Bn0O+S+J/XTgmJoZptTZ3JFxX1OXOQheVdd25VFs=;
+ b=pcUN0Sg6NBjaTaKCgFvA9WG5Z8FEGQX1O6t8VvlA/NL3tkse9IQ58KU8QtU2VkeRSP
+ n5yzzoct7THb6hi95SJPdA0WTehr/my7TQRaa29Xg19rIcnWSKR8qDr0YGKBMSju5xgC
+ QjIBACZJhzsgQGD7/j+8Mj1QGVORQUR83PW3BFbwcfgRy3FW6raDAvFm2/rsDnesq/Gd
+ LoTVGAhk4b7p4nfkBp0TkMCPTGZaen1NNKaKCkOVX1QPIIJNlGFr8+FQ38vP40fa+0bj
+ T5KKWwPyfilwoy6CvatB4AZ3y9hxP7iJq+YgLb3tWsvIXKIzc588JTGgka3e7yvuKSC5
+ a6xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=o2sKGEby6/++OxhF3tijZoQWTqB0BkWs415h6IKC4gs=;
- b=V/vSgE8CmsRb7z41EYuogqKHn4zdYoqMn4Vh5NZP14tMMAKZJXUikzYWRCj9TY9KDw
- ERZbFEFcY59Vc/dyDm9+2ZebKvqJR/3+f6Kq3LF+B0wc7H1Y0rsajQ3Yl3Qo6gbnecvi
- x/g//j2K0mplQfHOxfC5txvTBR1+p8ZtZ9fUPR3Pq6iQeb1kQEiqSkzqLA0z0j6Mou3I
- yvhcY2x468IQK9vzCC8KCzoAterR/c9TMMwpnJjZjxDHj5gxdJ0GtslxOsjwDBIezpeo
- 1tAZanfHpTEszQWoUwgO18HJVvz3jRHGPVs+NM4Xe+7Tsnuax+94Mx6FXKCDyt+3kfdV
- sO2g==
-X-Gm-Message-State: AOAM531AuiwUK1IM6+rz0XbmMRgRc/OODO86hsmWI2OISRCgAeVTgGps
- WBHmyRNN0/KmWZgXM1puZfCAW8jdPAdgIg==
-X-Google-Smtp-Source: ABdhPJxSnui93vCrOieaxTuGLOIjaMykCjLL0LWA8Nvm+JpzE5HXTtvWSnXUpftceClHpy7YzYqNpw==
-X-Received: by 2002:a62:3641:: with SMTP id d62mr2843375pfa.82.1597455133107; 
- Fri, 14 Aug 2020 18:32:13 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.32.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:32:12 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 19/20] target/arm: Convert integer multiply-add (indexed) to
- gvec for aa64 advsimd
-Date: Fri, 14 Aug 2020 18:31:44 -0700
-Message-Id: <20200815013145.539409-20-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
-References: <20200815013145.539409-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Rz1Bn0O+S+J/XTgmJoZptTZ3JFxX1OXOQheVdd25VFs=;
+ b=Ma/M8FoUN+EScc0xwnhk3Px7Ee/zrlH12uZSkre3kUghtfHVqLE+mn0lkDfQ29T1Y+
+ RefCfiM8p4vjg/In/tNMi1Os+xANbRU3rm9qwmwhBEwQV2RbdusPY3Io2GRqxo+2VO+7
+ koudrJk5/J5E+PJ20SQJg0oyjAeG8/8d2ElrRZNgwsNS1i9kO1bOiC3IGM3eJiwOiiE+
+ UAvSLLCMSZjuw6hAp/yOq/GkBrPCJ5dbmbCGwRFFYVbxfICkSQgF41fee0JQ553jLq3Z
+ V0cf5sja3Nw8E2cndo4NMd96wbmzlF2gORNbdaH2VnNMF3T6gwQtJWBJNGQRBnxo19VG
+ 8VhA==
+X-Gm-Message-State: AOAM530Odpm/cYYJsnHFFzfrPFz9lyIVKyPX6R4a8EV1F7ScR4zIgvKK
+ VQswLL5X94attQCeej6OzTCC8pOYMlMDQDt/QHyo6OrGajA=
+X-Google-Smtp-Source: ABdhPJwmL9ilK3QZaYsWyYrWqFp5AGOB3zk4LrA+Cp4YB6D9betCEHIByOJ5fafzbCLSNdoYoVsJDClKk05FnrYXCIQ=
+X-Received: by 2002:aca:fd46:: with SMTP id b67mr3333039oii.150.1597461623940; 
+ Fri, 14 Aug 2020 20:20:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e42;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe42.google.com
+References: <20200814082841.27000-1-f4bug@amsat.org>
+ <20200814082841.27000-4-f4bug@amsat.org>
+In-Reply-To: <20200814082841.27000-4-f4bug@amsat.org>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Sat, 15 Aug 2020 11:19:48 +0800
+Message-ID: <CAKXe6SJ-OvymYFD5d3R_Nq-tP5PQ0ScnU66UgVVfypgyNZx1uw@mail.gmail.com>
+Subject: Re: [PATCH 3/7] hw/ide/core: Replace magic '512' value by
+ BDRV_SECTOR_SIZE
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,124 +80,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Qemu Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/helper.h        | 14 ++++++++++++++
- target/arm/translate-a64.c | 34 ++++++++++++++++++++++++++++++++++
- target/arm/vec_helper.c    | 25 +++++++++++++++++++++++++
- 3 files changed, 73 insertions(+)
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E4=BA=8E2020=E5=B9=B48=E6=9C=
+=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:31=E5=86=99=E9=81=93=
+=EF=BC=9A
+>
+> Use self-explicit definitions instead of magic '512' value.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index d0573a53c8..378bb1898b 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -762,6 +762,20 @@ DEF_HELPER_FLAGS_4(gvec_mul_idx_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_mul_idx_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_mul_idx_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_5(gvec_mla_idx_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_mla_idx_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_mla_idx_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(gvec_mls_idx_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_mls_idx_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_mls_idx_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
- #ifdef TARGET_AARCH64
- #include "helper-a64.h"
- #include "helper-sve.h"
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index d08960a1c8..c74c6e854c 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -13523,6 +13523,40 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
-             return;
-         }
-         break;
-+
-+    case 0x10: /* MLA */
-+        if (!is_long && !is_scalar) {
-+            static gen_helper_gvec_4 * const fns[3] = {
-+                gen_helper_gvec_mla_idx_h,
-+                gen_helper_gvec_mla_idx_s,
-+                gen_helper_gvec_mla_idx_d,
-+            };
-+            tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
-+                               vec_full_reg_offset(s, rn),
-+                               vec_full_reg_offset(s, rm),
-+                               vec_full_reg_offset(s, rd),
-+                               is_q ? 16 : 8, vec_full_reg_size(s),
-+                               index, fns[size - 1]);
-+            return;
-+        }
-+        break;
-+
-+    case 0x14: /* MLS */
-+        if (!is_long && !is_scalar) {
-+            static gen_helper_gvec_4 * const fns[3] = {
-+                gen_helper_gvec_mls_idx_h,
-+                gen_helper_gvec_mls_idx_s,
-+                gen_helper_gvec_mls_idx_d,
-+            };
-+            tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
-+                               vec_full_reg_offset(s, rn),
-+                               vec_full_reg_offset(s, rm),
-+                               vec_full_reg_offset(s, rd),
-+                               is_q ? 16 : 8, vec_full_reg_size(s),
-+                               index, fns[size - 1]);
-+            return;
-+        }
-+        break;
-     }
- 
-     if (size == 3) {
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index aa1de36921..fb53684ce3 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -731,6 +731,31 @@ DO_MUL_IDX(gvec_mul_idx_d, uint64_t, )
- 
- #undef DO_MUL_IDX
- 
-+#define DO_MLA_IDX(NAME, TYPE, OP, H) \
-+void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc)   \
-+{                                                                          \
-+    intptr_t i, j, oprsz = simd_oprsz(desc), segment = 16 / sizeof(TYPE);  \
-+    intptr_t idx = simd_data(desc);                                        \
-+    TYPE *d = vd, *n = vn, *m = vm, *a = va;                               \
-+    for (i = 0; i < oprsz / sizeof(TYPE); i += segment) {                  \
-+        TYPE mm = m[H(i + idx)];                                           \
-+        for (j = 0; j < segment; j++) {                                    \
-+            d[i + j] = a[i + j] OP n[i + j] * mm;                          \
-+        }                                                                  \
-+    }                                                                      \
-+    clear_tail(d, oprsz, simd_maxsz(desc));                                \
-+}
-+
-+DO_MLA_IDX(gvec_mla_idx_h, uint16_t, +, H2)
-+DO_MLA_IDX(gvec_mla_idx_s, uint32_t, +, H4)
-+DO_MLA_IDX(gvec_mla_idx_d, uint64_t, +,   )
-+
-+DO_MLA_IDX(gvec_mls_idx_h, uint16_t, -, H2)
-+DO_MLA_IDX(gvec_mls_idx_s, uint32_t, -, H4)
-+DO_MLA_IDX(gvec_mls_idx_d, uint64_t, -,   )
-+
-+#undef DO_MLA_IDX
-+
- #define DO_FMUL_IDX(NAME, TYPE, H) \
- void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
- {                                                                          \
--- 
-2.25.1
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
+> ---
+>  hw/ide/core.c | 23 ++++++++++++-----------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/ide/core.c b/hw/ide/core.c
+> index f76f7e5234..bcb2aa85fc 100644
+> --- a/hw/ide/core.c
+> +++ b/hw/ide/core.c
+> @@ -121,7 +121,7 @@ static void ide_identify(IDEState *s)
+>      put_le16(p + 0, 0x0040);
+>      put_le16(p + 1, s->cylinders);
+>      put_le16(p + 3, s->heads);
+> -    put_le16(p + 4, 512 * s->sectors); /* XXX: retired, remove ? */
+> +    put_le16(p + 4, BDRV_SECTOR_SIZE * s->sectors); /* XXX: retired, rem=
+ove ? */
+>      put_le16(p + 5, 512); /* XXX: retired, remove ? */
+>      put_le16(p + 6, s->sectors);
+>      padstr((char *)(p + 10), s->drive_serial_str, 20); /* serial number =
+*/
+> @@ -864,7 +864,7 @@ static void ide_dma_cb(void *opaque, int ret)
+>          }
+>      }
+>
+> -    if (s->io_buffer_size > s->nsector * 512) {
+> +    if (s->io_buffer_size > s->nsector * BDRV_SECTOR_SIZE) {
+>          /*
+>           * The PRDs were longer than needed for this request.
+>           * The Active bit must remain set after the request completes.
+> @@ -877,7 +877,7 @@ static void ide_dma_cb(void *opaque, int ret)
+>
+>      sector_num =3D ide_get_sector(s);
+>      if (n > 0) {
+> -        assert(n * 512 =3D=3D s->sg.size);
+> +        assert(n * BDRV_SECTOR_SIZE =3D=3D s->sg.size);
+>          dma_buf_commit(s, s->sg.size);
+>          sector_num +=3D n;
+>          ide_set_sector(s, sector_num);
+> @@ -894,17 +894,17 @@ static void ide_dma_cb(void *opaque, int ret)
+>      /* launch next transfer */
+>      n =3D s->nsector;
+>      s->io_buffer_index =3D 0;
+> -    s->io_buffer_size =3D n * 512;
+> +    s->io_buffer_size =3D n * BDRV_SECTOR_SIZE;
+>      prep_size =3D s->bus->dma->ops->prepare_buf(s->bus->dma, s->io_buffe=
+r_size);
+>      /* prepare_buf() must succeed and respect the limit */
+> -    assert(prep_size >=3D 0 && prep_size <=3D n * 512);
+> +    assert(prep_size >=3D 0 && prep_size <=3D n * BDRV_SECTOR_SIZE);
+>
+>      /*
+>       * Now prep_size stores the number of bytes in the sglist, and
+>       * s->io_buffer_size stores the number of bytes described by the PRD=
+s.
+>       */
+>
+> -    if (prep_size < n * 512) {
+> +    if (prep_size < n * BDRV_SECTOR_SIZE) {
+>          /*
+>           * The PRDs are too short for this request. Error condition!
+>           * Reset the Active bit and don't raise the interrupt.
+> @@ -1412,7 +1412,8 @@ static bool cmd_identify(IDEState *s, uint8_t cmd)
+>              ide_cfata_identify(s);
+>          }
+>          s->status =3D READY_STAT | SEEK_STAT;
+> -        ide_transfer_start(s, s->io_buffer, 512, ide_transfer_stop);
+> +        ide_transfer_start(s, s->io_buffer, BDRV_SECTOR_SIZE,
+> +                           ide_transfer_stop);
+>          ide_set_irq(s->bus);
+>          return false;
+>      } else {
+> @@ -1482,7 +1483,7 @@ static bool cmd_write_multiple(IDEState *s, uint8_t=
+ cmd)
+>      n =3D MIN(s->nsector, s->req_nb_sectors);
+>
+>      s->status =3D SEEK_STAT | READY_STAT;
+> -    ide_transfer_start(s, s->io_buffer, 512 * n, ide_sector_write);
+> +    ide_transfer_start(s, s->io_buffer, BDRV_SECTOR_SIZE * n, ide_sector=
+_write);
+>
+>      s->media_changed =3D 1;
+>
+> @@ -1524,7 +1525,7 @@ static bool cmd_write_pio(IDEState *s, uint8_t cmd)
+>
+>      s->req_nb_sectors =3D 1;
+>      s->status =3D SEEK_STAT | READY_STAT;
+> -    ide_transfer_start(s, s->io_buffer, 512, ide_sector_write);
+> +    ide_transfer_start(s, s->io_buffer, BDRV_SECTOR_SIZE, ide_sector_wri=
+te);
+>
+>      s->media_changed =3D 1;
+>
+> @@ -1678,7 +1679,7 @@ static bool cmd_identify_packet(IDEState *s, uint8_=
+t cmd)
+>  {
+>      ide_atapi_identify(s);
+>      s->status =3D READY_STAT | SEEK_STAT;
+> -    ide_transfer_start(s, s->io_buffer, 512, ide_transfer_stop);
+> +    ide_transfer_start(s, s->io_buffer, BDRV_SECTOR_SIZE, ide_transfer_s=
+top);
+>      ide_set_irq(s->bus);
+>      return false;
+>  }
+> @@ -2559,7 +2560,7 @@ static void ide_init1(IDEBus *bus, int unit)
+>      s->unit =3D unit;
+>      s->drive_serial =3D drive_serial++;
+>      /* we need at least 2k alignment for accessing CDROMs using O_DIRECT=
+ */
+> -    s->io_buffer_total_len =3D IDE_DMA_BUF_SECTORS*512 + 4;
+> +    s->io_buffer_total_len =3D IDE_DMA_BUF_SECTORS * BDRV_SECTOR_SIZE + =
+4;
+>      s->io_buffer =3D qemu_memalign(2048, s->io_buffer_total_len);
+>      memset(s->io_buffer, 0, s->io_buffer_total_len);
+>
+> --
+> 2.21.3
+>
+>
 
