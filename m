@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A6824514C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:38:53 +0200 (CEST)
-Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21182245145
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:30:46 +0200 (CEST)
+Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6yGi-0000kx-P0
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:38:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43034)
+	id 1k6y8r-0005Eg-6m
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6yFm-0008JZ-Pw; Sat, 15 Aug 2020 11:37:54 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:37681)
+ id 1k6y6s-0003Y2-Bf
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:28:42 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k6yFk-0005tX-Sq; Sat, 15 Aug 2020 11:37:54 -0400
-Received: by mail-ej1-x644.google.com with SMTP id qc22so12988061ejb.4;
- Sat, 15 Aug 2020 08:37:52 -0700 (PDT)
+ id 1k6y6q-00042U-TS
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:28:42 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r4so10813210wrx.9
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Jwn93nCLQsLbsAInELikNQ4EGWhPisDaP4ZotgmSLIg=;
- b=OcaVJ9+mYdIl28SvAmUiCpMkRDaImQSE6JjT4xiJU74LmynB7SL26JegQL5RLkbLl9
- oy5DrGge9n6tgdi2kmKMZYUNp6gK6oVuZV4T73yxeNUiRlqRqZ0yf/kzKzgGupWN4Dtd
- kdOqJfVri5S/kX7wnMeknDrPSvnQY2ynikgpBntnpTDWCj0TJD3koGZekIxWqRRfKq4o
- CMIFY35vK8VL1Yd7UagMVao5YITuu8HY9nOZv+VSM/5Kn15U62LFZiMdGs7SOTxzUwcE
- kDXn7p5M31hDvBJw+lC7Qhi+5j6VaIJm35cxedn7w4ut6wJSMGSMN5dw83FffashYYZj
- 5pmQ==
+ bh=Ma5FUYg4vXSJw4cuYVtDdTnkFCbiMYuHWJ5Pvghpa7w=;
+ b=EGuPlsH23YSyCm69Unn6NjAmk29jVIHe1V6FCx3SIc8ZJfxiOVy5lU//u+5/YS8asY
+ jgykCN6DtCKQ4ZtU0Ts7z4MMbcQpM7WbupZXJZbXVAeab2L/TPq92ylc8b03UvemrkN3
+ uROmUVdDIOspJME2ObP+O2wTs22Req0Zjxv6uA9LPPAYS5i6BodOh6/cEyIKfRwbp+sK
+ 8SbY+lx3IP3MAC0KGgs/ivSsBVPPzshipggwrYndqEf4pRUP+niuvZdwy7kGsGIouPRw
+ acZJAMipXzL1SIWmgqqnbJINCY0y6Q9+cxZsXJXvatrclZ5Olu5Our7nuSCWsNoLpsNM
+ ZFag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Jwn93nCLQsLbsAInELikNQ4EGWhPisDaP4ZotgmSLIg=;
- b=orWnVe0hUrpFYCkpjdBIwWoDeUNnwHG8JebQWtzaBRi6PcVelZ2SOxMzg4cmzNGfMU
- XVdlBObI+dyBLs/aUrPUVMM6w4KT2aJCJ7eJo0a+t1SeSryeq5kEtcF3pDohdZwuPA7F
- hvS2Ryozn6KAqtC15i4TYPutfRGbSZ+S/DNt/DCHHkDnUWY28elpZe9vjQazP1eDRFOf
- IL4+dLMFNcexwH+/lxgFwVC6LBlnN2zVTAeYlxSAy/PtwBKtdllbLdtUtolTtq3rSBSO
- 9FWdd8uuhmKpECnmMTVVhAp/kmPhSqjOO+xkD/KTwa9gQY/9xsKoQiZUoT6BNJngXNVq
- /hAg==
-X-Gm-Message-State: AOAM532Lpe7nKNoK5WClTmwEo6ykx56KtuVruI1PsF9AF5EJH1Obqs6V
- NFpTeQXXFYMb63S9U079hRIrot21t4c=
-X-Google-Smtp-Source: ABdhPJwnsl/fKYYDbNR1ZyKmU5PpV1hI1qWjRNNP0haEoj0MFTAQ/+L/JdvbWCvnFOv3PwmSovKXuw==
-X-Received: by 2002:adf:e94c:: with SMTP id m12mr6143615wrn.109.1597481752708; 
- Sat, 15 Aug 2020 01:55:52 -0700 (PDT)
+ bh=Ma5FUYg4vXSJw4cuYVtDdTnkFCbiMYuHWJ5Pvghpa7w=;
+ b=gTHJ5OMaKjsrUtNtUg6/SlFNymOrQKsqAKmfrCrGHyQ7IXU1+hLTnPjBZgskJBPWHc
+ K+hfA3fugp7zmvfhl1E3gI+apcmMoaYAFuGZhbgTtryZ3yURWuylhy9at2TPd1XC3I43
+ ZusXuXS+C20NZlI53XvjUhy7AtlNnwHioz7S5yx+RDDtxZlvyjlgC2opD3CP5gTGUKIH
+ jnsf5t0CYwwSHdE9LstQ+qz0cR6z84JtT042iaGIG6Y2O3F6hsE+ivuPXij0i6RHAYCz
+ Pdlr52PZyQG2+KgbhKbjQH5dJUxOzDUrc6QKbcKFCWYdwfcr49xYeqlCMGHnzDwEK7Ns
+ viNQ==
+X-Gm-Message-State: AOAM532MJT7XQZUtwi85/QbXIBM7IGTnLpIxICuyPF2uCDDDOj5LbxFA
+ jMaCPFOvKIL4bioYT2Jv7cQ=
+X-Google-Smtp-Source: ABdhPJyEZ4snArM1MQ8tRELH9NzmpICqr8SU9Ei+5Drc0w5JCFiyT2rBtdj9n8hvSvGWpbz0yMQ3Dw==
+X-Received: by 2002:adf:a287:: with SMTP id s7mr7908026wra.103.1597505319701; 
+ Sat, 15 Aug 2020 08:28:39 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id m8sm20005051wro.75.2020.08.15.01.55.51
+ by smtp.gmail.com with ESMTPSA id b139sm23217742wmd.19.2020.08.15.08.28.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 Aug 2020 01:55:52 -0700 (PDT)
-Subject: Re: [PATCH 11/18] hw/riscv: microchip_pfsoc: Connect a Cadence SDHCI
- controller and an SD card
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
- <1597423256-14847-12-git-send-email-bmeng.cn@gmail.com>
+ Sat, 15 Aug 2020 08:28:39 -0700 (PDT)
+Subject: Re: [PATCH] Fixes: Fallthrough warning on line 270 of
+ qemu/qapi/opts-visitor.c
+To: Rohit Shinde <rohit.shinde12194@gmail.com>, qemu-devel@nongnu.org
+References: <20200815151245.10640-1-rohit.shinde12194@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6d6ca0b5-0cff-e76b-46a9-9a69bf6b0099@amsat.org>
-Date: Sat, 15 Aug 2020 10:55:51 +0200
+Message-ID: <6bf3132c-e795-2368-0c27-4124dbcda8e3@amsat.org>
+Date: Sat, 15 Aug 2020 17:28:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1597423256-14847-12-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <20200815151245.10640-1-rohit.shinde12194@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,175 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: armbru@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/20 6:40 PM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+This is v3 with no change w.r.t. v1/v2 (except this time you correctly
+Cc'ed the maintainers). Maybe something is wrong in your setup?
+
+On 8/15/20 5:12 PM, Rohit Shinde wrote:
+> Added the fallthrough comment so that the compiler doesn't emit an error on compiling with the -Wimplicit-fallthrough flag.
 > 
-> Microchip PolarFire SoC integrates one Cadence SDHCI controller.
-> On the Icicle Kit board, one eMMC chip and an external SD card
-> connect to this controller depending on different configuration.
-> 
-> As QEMU does not support eMMC yet, we just emulate the SD card
-> configuration. To test this, the Hart Software Services (HSS)
-> should choose the SD card configuration:
-> 
-> $ cp boards/icicle-kit-es/def_config.sdcard .config
-> $ make BOARD=icicle-kit-es
-> 
-> The SD card image can be built from the Yocto BSP at:
-> https://github.com/polarfire-soc/meta-polarfire-soc-yocto-bsp
-> 
-> Note the generated SD card image should be resized before use:
-> $ qemu-img resize /path/to/sdcard.img 4G
-> 
-> Launch QEMU with the following command:
-> $ qemu-system-riscv64 -nographic -M microchip-icicle-kit -sd sdcard.img
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Rohit Shinde <rohit.shinde12194@gmail.com>
 > ---
+>  qapi/opts-visitor.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  hw/riscv/Kconfig                   |  1 +
->  hw/riscv/microchip_pfsoc.c         | 26 ++++++++++++++++++++++++++
->  include/hw/riscv/microchip_pfsoc.h |  4 ++++
->  3 files changed, 31 insertions(+)
-> 
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index ceb7c16..7412db9 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -55,3 +55,4 @@ config MICROCHIP_PFSOC
->      select SIFIVE
->      select UNIMP
->      select MCHP_PFSOC_MMUART
-> +    select CADENCE_SDHCI
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index f6b375c..7c09078 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -12,6 +12,7 @@
->   * 1) PLIC (Platform Level Interrupt Controller)
->   * 2) eNVM (Embedded Non-Volatile Memory)
->   * 3) MMUARTs (Multi-Mode UART)
-> + * 4) Cadence eMMC/SDHC controller and an SD card connected to it
->   *
->   * This board currently generates devicetree dynamically that indicates at least
->   * two harts and up to five harts.
-> @@ -75,6 +76,7 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
->      [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
->      [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
-> +    [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-> @@ -111,6 +113,11 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
->      qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type",
->                           TYPE_RISCV_CPU_SIFIVE_U54);
->      qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", RESET_VECTOR);
-> +
-> +    object_initialize_child(obj, "sd-controller", &s->sdhci,
-> +                            TYPE_CADENCE_SDHCI);
-> +    object_initialize_child(OBJECT(&s->sdhci), "sd-controller.sdhci",
-> +                            &s->sdhci.slot, TYPE_SYSBUS_SDHCI);
-
-OK now I see this patch, so NAck. TYPE_SYSBUS_SDHCI has to be
-initialized in TYPE_CADENCE_SDHCI, not in all TYPE_CADENCE_SDHCI
-users.
-
->  }
+> diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
+> index 7781c23a42..43cf60d3a0 100644
+> --- a/qapi/opts-visitor.c
+> +++ b/qapi/opts-visitor.c
+> @@ -266,6 +266,7 @@ opts_next_list(Visitor *v, GenericList *tail, size_t size)
+>          }
+>          ov->list_mode = LM_IN_PROGRESS;
+>          /* range has been completed, fall through in order to pop option */
+> +        __attribute__((fallthrough));
 >  
->  static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-> @@ -223,6 +230,13 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->          memmap[MICROCHIP_PFSOC_MPUCFG].base,
->          memmap[MICROCHIP_PFSOC_MPUCFG].size);
->  
-> +    /* SDHCI */
-
-Consider setting the SDHCI DMA MR here.
-
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-> +                    memmap[MICROCHIP_PFSOC_EMMC_SD].base);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci.slot), 0,
-> +        qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_EMMC_SD_IRQ));
-> +
->      /* MMUARTs */
->      s->serial0 = mchp_pfsoc_mmuart_create(system_memory,
->          memmap[MICROCHIP_PFSOC_MMUART0].base,
-> @@ -290,6 +304,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
->      MemoryRegion *system_memory = get_system_memory();
->      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-> +    DriveInfo *dinfo = drive_get_next(IF_SD);
->  
->      /* Sanity check on RAM size */
->      if (machine->ram_size < mc->default_ram_size) {
-> @@ -312,6 +327,17 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->  
->      /* Load the firmware */
->      riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
-> +
-> +    /* Attach an SD card */
-> +    if (dinfo) {
-> +        SDHCIState *sdhci = &(s->soc.sdhci.slot);
-
-NAck again, you are not supposed to access this field here.
-This is why in the previous patch I asked why the "sd-bus" property
-was not propagated from child to parent.
-
-Thanks,
-
-Phil.
-
-> +        DeviceState *card = qdev_new(TYPE_SD_CARD);
-> +        BusState *bus = qdev_get_child_bus(DEVICE(sdhci), "sd-bus");
-> +
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, bus, &error_fatal);
-> +    }
->  }
->  
->  static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
-> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> index a5efa1d..d810ee8 100644
-> --- a/include/hw/riscv/microchip_pfsoc.h
-> +++ b/include/hw/riscv/microchip_pfsoc.h
-> @@ -23,6 +23,7 @@
->  #define HW_MICROCHIP_PFSOC_H
->  
->  #include "hw/char/mchp_pfsoc_mmuart.h"
-> +#include "hw/sd/cadence_sdhci.h"
->  
->  typedef struct MicrochipPFSoCState {
->      /*< private >*/
-> @@ -39,6 +40,7 @@ typedef struct MicrochipPFSoCState {
->      MchpPfSoCMMUartState *serial2;
->      MchpPfSoCMMUartState *serial3;
->      MchpPfSoCMMUartState *serial4;
-> +    CadenceSDHCIState sdhci;
->  } MicrochipPFSoCState;
->  
->  #define TYPE_MICROCHIP_PFSOC    "microchip.pfsoc"
-> @@ -74,6 +76,7 @@ enum {
->      MICROCHIP_PFSOC_MMUART0,
->      MICROCHIP_PFSOC_SYSREG,
->      MICROCHIP_PFSOC_MPUCFG,
-> +    MICROCHIP_PFSOC_EMMC_SD,
->      MICROCHIP_PFSOC_MMUART1,
->      MICROCHIP_PFSOC_MMUART2,
->      MICROCHIP_PFSOC_MMUART3,
-> @@ -85,6 +88,7 @@ enum {
->  };
->  
->  enum {
-> +    MICROCHIP_PFSOC_EMMC_SD_IRQ = 88,
->      MICROCHIP_PFSOC_MMUART0_IRQ = 90,
->      MICROCHIP_PFSOC_MMUART1_IRQ = 91,
->      MICROCHIP_PFSOC_MMUART2_IRQ = 92,
+>      case LM_IN_PROGRESS: {
+>          const QemuOpt *opt;
 > 
 
 
