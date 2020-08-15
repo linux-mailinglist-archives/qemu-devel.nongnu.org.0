@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3AF2245137
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:19:50 +0200 (CEST)
-Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA5B245139
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:21:46 +0200 (CEST)
+Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xyH-0005AC-T4
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
+	id 1k6y09-0008D3-G5
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k6xqe-0002tO-HV
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:11:56 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:46083)
+ id 1k6xrZ-00046W-CC
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:12:53 -0400
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:42886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k6xqb-0000Wk-Ru
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:11:56 -0400
-Received: by mail-qt1-x844.google.com with SMTP id o22so9154511qtt.13
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:11:53 -0700 (PDT)
+ id 1k6xrX-0000jk-Pu
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:12:53 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id b2so5696357qvp.9
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=QM//LrDWGGGhJjEJLnCRBQiCm5i3PZw6ntawugMtwbE=;
- b=RDuWQ0W2ArdnCj026iFG7RlRS5XaBFyPwXjaiIwm8G1iS3CL5Z/BrzmRExHudpMvVj
- SOF/mXhB2pLFMMBbwcqTjlZZCA7IlWjAVOK2U6waMfow+Vpp01bB+xoyEu8fv27x8rWw
- +wDWMskb6LLb844A9wFuJePwANbnWCnZvV0odPW9++tBQ+5J65esYrVOrgSI6J0Wi5Uh
- dXjuH5xTpX8Rvj/r8pVA0VHobQixYyoQofaVgdXKsCZiHF2I6vM/mlNzbfKFm6UIIGh6
- RcFrJgBydcAdx/zmU+1VDFBHyn12N9yD+sqWmfVLE9x9iG7b7tI7GNrA4qUDa2bWX8pl
- ntzQ==
+ b=hhsk2zFHNi6DTEt4TgySbvXeEaRIgubuVPAkNGSGQM9n7mFUSCr5vt8X7ENLJqgvLK
+ UwEE88dZPqZAEYtaV3oysbdilQa+7UuUKEX381Oii+WnhUF2ePh1PjV9ivWBwNTI3SCa
+ PIY+y4a7XHJ05WrxG1N4OA91NW+b+az/AHLtiCh+8gGp/kK6/B+uV8i/45RZY4LvtEFA
+ zPhEdj5iUgFYoM1bMxLqoeYP985pnM8m2XQzB4VsbKvJ/ZceFbCykzQjE6YaJh2whCy6
+ +MlCbRVD/2W5/yaHgVtsy3Iu3/Ow4nqlxTDP5Sql0ennWwuGlzUD7ZYDNYhb4cn1T0LS
+ kEjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=QM//LrDWGGGhJjEJLnCRBQiCm5i3PZw6ntawugMtwbE=;
- b=ZjUFb+pjl792a05HzcN3bJ/Wl0YivB+z5a0ViJ8qk0VKQa3KlPYCa3ktsVLJYv9z5g
- 304Zw0zeVrhsd3KUR3BmcREvbsL5z5XxsCj2oVG2M3pdWQIA6mm8fVIqa4oRDSVNhKzJ
- KZSEI23lT2H92nfjMfe9arijhjL2dl2TlqPFMSs7zXUYxOyxk/qmq2MdhYrrZu8BMmuO
- z1VgS0E2rYtzItIN+/wOQx+vrgszWPzGR5EXU8x/btitMnIp5emCxexYLWhFfWYR/Eej
- D60mKXAOF8Z9wANM6vL4sYnBtBOqWafQ5/4BriabyGmS3/0wldECuVVDyPA1qqu8F2kb
- EZIw==
-X-Gm-Message-State: AOAM531e6b2eRmRXIPDaY8+0LAbggETfcORfNA+itc0s1ItVML5zf3qY
- 49DVwpz9OaWdqaCFkeZ62pFGpx6qUzIFiA==
-X-Google-Smtp-Source: ABdhPJy0N0CclBWwtH7XYQ9RtEprpyRe2NL5o9AhkD08/CACS9PtUan4RK7SCVnrNU9bjk+8C10IOA==
-X-Received: by 2002:ac8:520f:: with SMTP id r15mr6753561qtn.116.1597504312313; 
- Sat, 15 Aug 2020 08:11:52 -0700 (PDT)
+ b=D2waZSPl1GzJML72YwNJyRg4wUjnWi+O9aook7u1LvPSu4twuUduTkcAlPJ5g57mi+
+ A21V4smHRbyhex550HV6NStQP8XPgP6LREcj+QYoZYdMFfV1BDGovePWD3tg2ha/6j3h
+ J8kKlDNoBf2jtYZAJ/gH/pls/YiQ7x56o0TgSk0EzlQtTdDMURXUgjZqd5JNapmfFkej
+ SvWB34OFdBe4/Kmj7uSAJy+U578wifrSiA7FveOqjfyvco+tzNqTxr/cnZ+Ai5GS0rVZ
+ jPeZeEQmEt6RvS+3o30nvja68h70jp441w4RDSncxjzoNbsTOJDJUqHzpbZNtiOexsHu
+ DmZw==
+X-Gm-Message-State: AOAM5323Ft/0kcrWJPbRTEyG4p+KOrcwYI2mRnIm40cCIHyBX5+6BpKX
+ 8jSxh809Xu8VQBHT20TqReB/baLUJBkSdQ==
+X-Google-Smtp-Source: ABdhPJxCgVtHl9zYuaSbpKBCwHqfRpiJEvy6Klc3mVqfzTYkI+9PLCYgu51iDuavLL/Ls+T0zxNsNg==
+X-Received: by 2002:a0c:d44e:: with SMTP id r14mr7353017qvh.105.1597504370477; 
+ Sat, 15 Aug 2020 08:12:50 -0700 (PDT)
 Received: from ubuntu.localdomain (pool-108-35-56-31.nwrknj.fios.verizon.net.
  [108.35.56.31])
- by smtp.gmail.com with ESMTPSA id w44sm14203233qtj.86.2020.08.15.08.11.51
+ by smtp.gmail.com with ESMTPSA id z197sm11754989qkb.66.2020.08.15.08.12.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Aug 2020 08:11:51 -0700 (PDT)
+ Sat, 15 Aug 2020 08:12:49 -0700 (PDT)
 From: Rohit Shinde <rohit.shinde12194@gmail.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] Fixes: Fallthrough warning on line 270 of
  qemu/qapi/opts-visitor.c
-Date: Sat, 15 Aug 2020 11:11:48 -0400
-Message-Id: <20200815151148.10571-1-rohit.shinde12194@gmail.com>
+Date: Sat, 15 Aug 2020 11:12:45 -0400
+Message-Id: <20200815151245.10640-1-rohit.shinde12194@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
- envelope-from=rohit.shinde12194@gmail.com; helo=mail-qt1-x844.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
+ envelope-from=rohit.shinde12194@gmail.com; helo=mail-qv1-xf44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -85,7 +85,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rohit Shinde <rohit.shinde12194@gmail.com>
+Cc: Rohit Shinde <rohit.shinde12194@gmail.com>, armbru@redhat.com,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
