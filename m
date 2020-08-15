@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41958245173
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:32:26 +0200 (CEST)
-Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31770245180
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:48:21 +0200 (CEST)
+Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6z6W-0007AE-N6
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34014)
+	id 1k6zLw-0003aR-8M
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6z4o-0006Jv-FW; Sat, 15 Aug 2020 12:30:40 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34027)
+ id 1k6zKP-00029l-Ki; Sat, 15 Aug 2020 12:46:45 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6z4n-0005QG-0Y; Sat, 15 Aug 2020 12:30:38 -0400
-Received: by mail-oi1-x243.google.com with SMTP id z22so11001101oid.1;
- Sat, 15 Aug 2020 09:30:35 -0700 (PDT)
+ id 1k6zKO-0007Pz-5K; Sat, 15 Aug 2020 12:46:45 -0400
+Received: by mail-oi1-x244.google.com with SMTP id l84so10993842oig.10;
+ Sat, 15 Aug 2020 09:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=So1m/CQpgJE8oIUdFCwbc+hiP/OZYh6ibudoP8u5D9I=;
- b=UCzJqenvC+PgihmW1jn6ZoUS+ogucGCeKLg+x81tH0jL0qC6EqA8ivq9uziN2udh0b
- 5XxC/dzAMEZJoxjig06BqDGHkkXpZVJGGz1fsp5w6jovVIULRNZjCXx2AjdebqQF/Wcy
- pHaPzUmxC2FuK1ORzbxaok12YPLUxEV/LZ3c4dR7pvfbF9KtArBNEyU6LxCbFv9sfQ+f
- 6KObcQSsfSQclDzN4TRbFIpfsIBlBYlBUUu98SCXWW2PuerLX6uRa/VN6DGEAl6p6tKd
- J/gU0f9rrOQz5mJbjZe23Xoi8TMEDkwdi6M0DlRAqguDrRYK6//QbOe8K6SeFNZdgvI5
- plAA==
+ bh=yFwLmxJnp3jOYVVvDIrDmut0VUohVTnthkzH21KEIkk=;
+ b=HBQer5BVwfux9u196xt8sNQtKViz/PInG8YS5j/JvmGEv/AVvltpOcwa9eKSDvCv4g
+ qtb0nZyPEb4wCpvzqTNeOf12owr9PIK1Yze8k6VDaF8lH4MxsEtvQTGQU3LK/uivNrS7
+ sXrV78TEiAbWmACTgdAtBwlxGp+a9YZ8ezyTou9oIzsSCMZhISc8rSHC/aSyM74XHgef
+ 4jxC/s464+PObf35+hndDKMkf8qJyDg6dc1Z/myKs6HL9fU03pHqoSBVwGnRjMBM9ZJB
+ YR5xJHWy4eYpqsJD/ua+pmBU+0E0NvIOANEWSQvvkXrGcbOruSJq3gK2zh3taxMJgJA+
+ /etg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=So1m/CQpgJE8oIUdFCwbc+hiP/OZYh6ibudoP8u5D9I=;
- b=ndoW8PWM2oO+AkFystAoWYe2ffp0jBelTOd+Zuxu8A1mvka52Njf3AMYp5awz7s0zp
- RfhPwylIO6NhI+Qp6fPbkGrZHDamPwTXB6hDuyqZhwgHubZbmoa3T6qwsCr0LsQeMl1T
- 0p7z2axAzU0pVtBsSb0OCukpLPMklXOa+3mIgCe3HRxmD4YbcZsSZ3zz2Iu81CsR3uLq
- kMXDbsjeH2Yllx6i2WRAqDu9jf+GMjFPigvnpuYPrYZpHmgxvb+IXhD/UsrTEHk1qvhY
- BnyNQMhq0Z7C+tqzo/AjsiyVeROwCnmkICKG5+a6nAWVmln0Wx53lTW6+Qle/BhKjMqc
- Le8A==
-X-Gm-Message-State: AOAM532LPpq1yaRVleJPIHjypS8eymZ/leDgUuM6jsxKPaGrHAoz3qH+
- Z7wZUbrC5enS+camFeXPmtKx4t7/+aPtT7Ou5R59gaf/Z2I=
-X-Google-Smtp-Source: ABdhPJw3AL7SLiktmxetz4Dbdwi/r9N1u9uNuROjELQO+raN1Bas6l4dEgbeDsbqXuHBwaWeUJhlYp5OEOFjp37lt54=
-X-Received: by 2002:aca:c0c1:: with SMTP id q184mr3589966oif.56.1597461748500; 
- Fri, 14 Aug 2020 20:22:28 -0700 (PDT)
+ bh=yFwLmxJnp3jOYVVvDIrDmut0VUohVTnthkzH21KEIkk=;
+ b=Xg5r6+0huWWnDZB6DDeo0jt0jLQ1yTxJEHdR2WH9owS5pT/D3G45LWRbAzHrcr1wyO
+ ipqLMZkA10lY9UxLMELhgrp3H74YJFbGw7L0cScL+J/IbNm1UrSOp76LVv86Z+DIGpga
+ Z/ES3C/2aeS3WYb9/MNC2X7YgYyBLUriwSrVSq4I0UGHT+zfiyVjGncmQoKfhZ+hZjHG
+ Vpw9Ojeyoiaipe/OOJn8lqhVfONu7ECXzYAqpV9T5Xv53M/2brT7BhjZ+qvafJw3WK/T
+ fovb0RRPkTnygKlJNeqFD5HiwST7yCq7CsVUU/xS2JHssjUvHytt1lqfpdZQuyNsbzlb
+ xYAg==
+X-Gm-Message-State: AOAM532uCWvAfXBuD/8Pq2xBCkbYeBuDSs7pd+wAcQ0J7HeL8/0RYcto
+ 2RRwPvHAtnEgxyps6und1UWdfUfl4FuFHmvF3WIkAgOO34c=
+X-Google-Smtp-Source: ABdhPJzzuYVetT4+ZXhwBckUjnr0zqO2Fan7+qwCeZLvdzBqJLb6ag3pJK87esozpa6kAB+Apk0RpxIPbQ+4TVtYzx0=
+X-Received: by 2002:aca:fd46:: with SMTP id b67mr3337749oii.150.1597461832007; 
+ Fri, 14 Aug 2020 20:23:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200814082841.27000-1-f4bug@amsat.org>
- <20200814082841.27000-5-f4bug@amsat.org>
-In-Reply-To: <20200814082841.27000-5-f4bug@amsat.org>
+ <20200814082841.27000-7-f4bug@amsat.org>
+In-Reply-To: <20200814082841.27000-7-f4bug@amsat.org>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Sat, 15 Aug 2020 11:21:52 +0800
-Message-ID: <CAKXe6SKa0H7umV+=2p_Sq_6m1HOAQsHO9hNxKgUOKa--LZt9RQ@mail.gmail.com>
-Subject: Re: [PATCH 4/7] hw/ide/ahci: Replace magic '512' value by
+Date: Sat, 15 Aug 2020 11:23:16 +0800
+Message-ID: <CAKXe6SJ_EhUOEOaX4SH6c0o8nHZc79PYzBXDyFihbRvtMs=w=Q@mail.gmail.com>
+Subject: Re: [PATCH 6/7] hw/ide/pci: Replace magic '512' value by
  BDRV_SECTOR_SIZE
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -10
@@ -89,7 +89,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E4=BA=8E2020=E5=B9=B48=E6=9C=
-=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:31=E5=86=99=E9=81=93=
+=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:33=E5=86=99=E9=81=93=
 =EF=BC=9A
 >
 > Use self-explicit definitions instead of magic '512' value.
@@ -99,36 +99,24 @@ Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E4=BA=8E2020=E5=B9=B48=E6=9C=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
->  hw/ide/ahci.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  hw/ide/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-> index 009120f88b..b696c6291a 100644
-> --- a/hw/ide/ahci.c
-> +++ b/hw/ide/ahci.c
-> @@ -1151,7 +1151,7 @@ static void process_ncq_command(AHCIState *s, int p=
-ort, uint8_t *cmd_fis,
->      if (!ncq_tfs->sector_count) {
->          ncq_tfs->sector_count =3D 0x10000;
->      }
-> -    size =3D ncq_tfs->sector_count * 512;
-> +    size =3D ncq_tfs->sector_count * BDRV_SECTOR_SIZE;
->      ahci_populate_sglist(ad, &ncq_tfs->sglist, ncq_tfs->cmdh, size, 0);
+> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+> index 5e85c4ad17..b50091b615 100644
+> --- a/hw/ide/pci.c
+> +++ b/hw/ide/pci.c
+> @@ -138,7 +138,7 @@ static int32_t bmdma_prepare_buf(const IDEDMA *dma, i=
+nt32_t limit)
+>      int l, len;
 >
->      if (ncq_tfs->sglist.size < size) {
-> @@ -1703,7 +1703,8 @@ static int ahci_state_post_load(void *opaque, int v=
-ersion_id)
->                  return -1;
->              }
->              ahci_populate_sglist(ncq_tfs->drive, &ncq_tfs->sglist,
-> -                                 ncq_tfs->cmdh, ncq_tfs->sector_count * =
-512,
-> +                                 ncq_tfs->cmdh,
-> +                                 ncq_tfs->sector_count * BDRV_SECTOR_SIZ=
-E,
->                                   0);
->              if (ncq_tfs->sector_count !=3D ncq_tfs->sglist.size >> 9) {
->                  return -1;
+>      pci_dma_sglist_init(&s->sg, pci_dev,
+> -                        s->nsector / (BMDMA_PAGE_SIZE / 512) + 1);
+> +                        s->nsector / (BMDMA_PAGE_SIZE / BDRV_SECTOR_SIZE=
+) + 1);
+>      s->io_buffer_size =3D 0;
+>      for(;;) {
+>          if (bm->cur_prd_len =3D=3D 0) {
 > --
 > 2.21.3
 >
