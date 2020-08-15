@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AAA245133
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:16:48 +0200 (CEST)
-Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAF3245123
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:03:31 +0200 (CEST)
+Received: from localhost ([::1]:32936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xvL-00006d-MQ
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57168)
+	id 1k6xiT-0005fn-Q1
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xtO-0006o3-NB
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:14:46 -0400
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:46489)
+ id 1k6xed-0002Gm-VF
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 10:59:31 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:45065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xtM-000185-M9
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:14:46 -0400
-Received: by mail-vs1-xe43.google.com with SMTP id b26so6109234vsa.13
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:14:44 -0700 (PDT)
+ id 1k6xec-0005br-0h
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 10:59:31 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id f193so5946388pfa.12
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 07:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a6sddQ4a7J3ma5R9bNKguwF3w7koXzfGsjqJtD8mfho=;
- b=X10e0JN16bMkT8rBKbYO3BHenJUORxUWQVjak0G+QKgEcbyt4DB0uHnytL7vwpAO+a
- NwxwXz7FjAeGU0LmyKOMB0pMGxPo+UWJ1S4zjb+XaFGjXws9eycSdNF1xZK4Lvu5w7Jr
- Co4tarm7RPg7D/kYnLxijq5KqIKCfBCBSsIksLWNfUQt2DpqKP/oflHZrXhv/LJnPAPP
- SvDhhS1B60DA1iIgr/KirJgUR7yfFrn7gOuixzyJcYTxkFIkB5aO0uN91G8O0sU08ZI2
- 8MNM/O42zhLLuCUHlCUZniGqJBMvOB+DKRt4um9BM4KVpsMDkmXG1Cmj8GCz5P1zqBy4
- ri4A==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FI/r/KPM3NamuEvu+F9mW+RliiWbhgVxKmNTvx6BQcc=;
+ b=tY8QGWDcFtWOVpQJZV0liCOS04JLlmA+FB8vkBPVaUAkjzJWRbZ+qL2u8k2wtCWGTp
+ 3YdCfIr+k6HZxtWNVQ1Egi7Mofiq82yxK1dIRNgxayxrq7r3UonSJFfy7YhEcpRkw5pP
+ s+lIXKL43zbsR5402wVvQ90q/01MmwnBnMOLGgtAtKaSxq8WWNtfCJDUjNVbX8dknKBr
+ sjO+74OkbcioE/8OP1ORS0oKdzw6dw9FxybxOeXfdCE6tJZhU7ZxAeztbln9EkPYcbRG
+ bTkf2LP0LntNX0xEnlU5NecLQxpUS1GWU399tE940judQvptUKW+d4lwnpHiqPfLGreb
+ IF4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a6sddQ4a7J3ma5R9bNKguwF3w7koXzfGsjqJtD8mfho=;
- b=dcIAT+sCWdB1XuP+SMZfdWszHb+r+Q3BUxTP5B45n33EjJlKtnNMhuNpnJ2gTY8L4i
- OpGFlzf3DUIMe+Uq17sS0NY448HIUMTbWQOO7NBPMZwdrR9F9ibvT7uSXTSwztVtFR1W
- BXQQppZYkpUBXMg8bo4whtUGJOCwJwr/L3zh6nP7dGgdy4+QYzM2001TLZehKsqqATS/
- Stg5MQ3irTBJYOKzLjcU3p6Zxa/DA6mMaxmU31lUwnMXAShdRlxU+oanj3EBbgnn+MwH
- YfrBIJck74UMqghrS2v4UcnTsJKqvWBYwHQ2Lfb0W+GQ/Qq0cItPpqyrIkdVWp0gQM73
- lkVA==
-X-Gm-Message-State: AOAM532XjN3mDQmKZVaAIUGp6GutIGNHqe0LGnfX2BQ54u7w0Dwnlo0j
- tbwyZcLE9iSiAUozkSVNTv7Vd2KVbPbJvw==
-X-Google-Smtp-Source: ABdhPJzFqQ5HOjkA6XGGVFzA9jk/Ld+5xowspS0FhgWywTjkkzakZnOopaadGnWM4x8MPIvl8UNMfg==
-X-Received: by 2002:aa7:924b:: with SMTP id 11mr680979pfp.185.1597455129593;
- Fri, 14 Aug 2020 18:32:09 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.32.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:32:08 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FI/r/KPM3NamuEvu+F9mW+RliiWbhgVxKmNTvx6BQcc=;
+ b=nDFSRQekty2oLcA8fQjMHZBJlFcz0uZjRN3JyddbsMQuqZC+jXXdTkKVP8gkz/J414
+ A5kfGPwOW1Cgcub7KBl1L6uyqDtiiAN7bCuobpE3FTXA7Mv9CrlpJM6WZcP/CxSELw4P
+ 0rGqJO3KPA6BXNLTj+8LuMqOCwwuTogS7GlF02XhInc2IcidnmMRhOe+VnWFaTTd/bBg
+ 9ffKhhubLzm1qbN9WhucozVH+aYDJrHGDxUDRAe4XkLwksVg346c3eHTsrgkTe38hjSQ
+ 1uOrGDp7CFGG4z0gpPsMmrYKxBwUir6uKbuAGJu8NRQPMSSK9qs/H+hI9WQpQJXmUS5F
+ x65Q==
+X-Gm-Message-State: AOAM531iseNk1FvTVBeeKdil3PsNt7cngGa0A4L/F2tEg2nAx8kGAm9G
+ l8MJmC27qulkPk5FYRafozWpQpxdiEAdbA==
+X-Google-Smtp-Source: ABdhPJw0LwMD3EbR1FBKH852hmnoFvx+VhSkX3kEnC3/GndsGW0vzotWC3zGi6/oUfpLjWlwj3q9YQ==
+X-Received: by 2002:a63:1a66:: with SMTP id a38mr3737132pgm.253.1597469360358; 
+ Fri, 14 Aug 2020 22:29:20 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id v78sm11468635pfc.121.2020.08.14.22.29.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Aug 2020 22:29:19 -0700 (PDT)
+Subject: Re: [RFC v3 26/71] target/riscv: rvv-1.0: update vext_max_elems() for
+ load/store insns
+To: Frank Chang <frank.chang@sifive.com>
+References: <20200806104709.13235-1-frank.chang@sifive.com>
+ <20200806104709.13235-27-frank.chang@sifive.com>
+ <90f01984-54a4-2a56-c52f-d1f4332b39d4@linaro.org>
+ <CAE_xrPiJRRV3FYtfve6LMOF6LNEYGfhmi9CiabxqUBEew9igLg@mail.gmail.com>
+ <5706a1ca-1dd9-22cd-08ce-c70780111bfc@linaro.org>
+ <CAE_xrPgSbzzJqHYTeSND4wQDJUMoMYPmmcH97VE6hRcxh2S54A@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 16/20] target/arm: Fix sve_zip_p vs odd vector lengths
-Date: Fri, 14 Aug 2020 18:31:41 -0700
-Message-Id: <20200815013145.539409-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
-References: <20200815013145.539409-1-richard.henderson@linaro.org>
+Message-ID: <de85d715-924a-8156-7424-5c35fd585fb3@linaro.org>
+Date: Fri, 14 Aug 2020 22:29:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAE_xrPgSbzzJqHYTeSND4wQDJUMoMYPmmcH97VE6hRcxh2S54A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e43;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,88 +94,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wrote too much with low-half zip (zip1) with vl % 512 != 0.
+On 8/14/20 7:52 PM, Frank Chang wrote:
+>     probe_pages(env, base + stride * i, nf * esz, ra, access_type);
+> and
+>     target_ulong addr = base + stride * i + k * esz;
+> 
+> If we pass ctzl(sizeof(type)) in GEN_VEXT_LD_STRIDE(),
+> I would still have to do: (1 << esz) to get the correct element size in the
+> above calculations.
+> Would it eliminate the performance gain we have in vext_max_elems() instead?
 
-Adjust all of the x + (y << s) to x | (y << s) as a style fix.
+Well, no, it will improve performance, because you'll write
 
-Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/sve_helper.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+  addr = base + stride * i + (k << esz)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index fcb46f150f..b8651ae173 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -1870,6 +1870,7 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-     intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
-     int esz = extract32(pred_desc, SIMD_DATA_SHIFT, 2);
-     intptr_t high = extract32(pred_desc, SIMD_DATA_SHIFT + 2, 1);
-+    int esize = 1 << esz;
-     uint64_t *d = vd;
-     intptr_t i;
- 
-@@ -1882,33 +1883,35 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-         mm = extract64(mm, high * half, half);
-         nn = expand_bits(nn, esz);
-         mm = expand_bits(mm, esz);
--        d[0] = nn + (mm << (1 << esz));
-+        d[0] = nn | (mm << esize);
-     } else {
--        ARMPredicateReg tmp_n, tmp_m;
-+        ARMPredicateReg tmp;
- 
-         /* We produce output faster than we consume input.
-            Therefore we must be mindful of possible overlap.  */
--        if ((vn - vd) < (uintptr_t)oprsz) {
--            vn = memcpy(&tmp_n, vn, oprsz);
--        }
--        if ((vm - vd) < (uintptr_t)oprsz) {
--            vm = memcpy(&tmp_m, vm, oprsz);
-+        if (vd == vn) {
-+            vn = memcpy(&tmp, vn, oprsz);
-+            if (vd == vm) {
-+                vm = vn;
-+            }
-+        } else if (vd == vm) {
-+            vm = memcpy(&tmp, vm, oprsz);
-         }
-         if (high) {
-             high = oprsz >> 1;
-         }
- 
--        if ((high & 3) == 0) {
-+        if ((oprsz & 7) == 0) {
-             uint32_t *n = vn, *m = vm;
-             high >>= 2;
- 
--            for (i = 0; i < DIV_ROUND_UP(oprsz, 8); i++) {
-+            for (i = 0; i < oprsz / 8; i++) {
-                 uint64_t nn = n[H4(high + i)];
-                 uint64_t mm = m[H4(high + i)];
- 
-                 nn = expand_bits(nn, esz);
-                 mm = expand_bits(mm, esz);
--                d[i] = nn + (mm << (1 << esz));
-+                d[i] = nn | (mm << esize);
-             }
-         } else {
-             uint8_t *n = vn, *m = vm;
-@@ -1920,7 +1923,7 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
- 
-                 nn = expand_bits(nn, esz);
-                 mm = expand_bits(mm, esz);
--                d16[H2(i)] = nn + (mm << (1 << esz));
-+                d16[H2(i)] = nn | (mm << esize);
-             }
-         }
-     }
--- 
-2.25.1
+I.e. strength-reduce the multiply to a shift.
+
+
+r~
 
 
