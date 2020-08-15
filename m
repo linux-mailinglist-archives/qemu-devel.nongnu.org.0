@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE222451AC
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:06:06 +0200 (CEST)
-Received: from localhost ([::1]:38692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CEB2451BA
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:34:30 +0200 (CEST)
+Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k70ZB-0005pI-Ng
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:06:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51758)
+	id 1k710f-0008OT-3m
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k70VF-0000pN-BO
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:01 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:57328 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k70VD-0007DU-6y
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:01 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 102351BFD4E5DDCEF8C1;
- Sat, 15 Aug 2020 10:11:17 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Sat, 15 Aug 2020
- 10:11:10 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 10/10] migration/dirtyrate: Implement
- qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
-Date: Sat, 15 Aug 2020 10:23:00 +0800
-Message-ID: <1597458180-16945-11-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k70zv-0007zf-Ig
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:33:43 -0400
+Resent-Date: Sat, 15 Aug 2020 14:33:43 -0400
+Resent-Message-Id: <E1k70zv-0007zf-Ig@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k70zt-0001xf-6i
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:33:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597516383; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=eNG6qaZnzd3OWHxXoZ6Cs3UmgZzgMyafJbaNpMWiA1ZjKe0JvtIID2Cd3zBM5Os8G/hUAfJ0i52/umW8GANWbv3Qg3awra4oDI2z+9+FOdgV93NRWPzVtR0azU96os6chwxOyhNXOWj2pyoh1+bFV3rH7QV6AhVTNGBU+jBkLDs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597516383;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=L8L2iBSHiYweTwlUi4vb+Js9kR8/GGpw2TeOqRZleCQ=; 
+ b=a1hpa/fx8WXnt183H+8EDQ3woy36R/d6/eBGPl1nK8IQkklaC8zXWPgWi8vnW6ynk0ndgKcdXXPV5jsfhLJQ969FLJnCe5rpsH9Pd321Egvyfzuo9RuYdrdVfkRohkmVT4Mm2cOTqQvubq8GWgCsMEq3I69nqIKFeAIIK9c/+7g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597516380968209.94617623150975;
+ Sat, 15 Aug 2020 11:33:00 -0700 (PDT)
+Subject: Re: [PATCH v2 00/10] *** A Method for evaluating dirty page rate ***
+Message-ID: <159751637970.18357.3653672638697672703@66eaa9a8a123>
 In-Reply-To: <1597458180-16945-1-git-send-email-zhengchuan@huawei.com>
-References: <1597458180-16945-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 14:01:48
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: zhengchuan@huawei.com
+Date: Sat, 15 Aug 2020 11:33:00 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 13:12:31
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,143 +69,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
- alex.chen@huawei.com, ann.zhuangyanying@huawei.com, fangying1@huawei.com
+Reply-To: qemu-devel@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, linyilu@huawei.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, alex.chen@huawei.com,
+ ann.zhuangyanying@huawei.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zheng Chuan <zhengchuan@huawei.com>
-
-Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
-
-Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
----
- migration/dirtyrate.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
- qapi/migration.json   | 42 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 98 insertions(+)
-
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index d487030..bf8fe9e 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -66,6 +66,39 @@ static int dirty_rate_set_state(int new_state)
-     return 0;
- }
- 
-+static struct DirtyRateInfo *query_dirty_rate_info(void)
-+{
-+    int64_t dirty_rate = dirty_stat.dirty_rate;
-+    struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
-+
-+    switch(CalculatingState) {
-+    case CAL_DIRTY_RATE_INIT:
-+        info->dirty_rate = -1;
-+        info->status = g_strdup("Not start measuring");
-+        break;
-+    case CAL_DIRTY_RATE_ACTIVE:
-+        info->dirty_rate = -1;
-+        info->status = g_strdup("Still measuring");
-+        break;
-+    case CAL_DIRTY_RATE_END:
-+        info->dirty_rate = dirty_rate;
-+        info->status = g_strdup("Measured");
-+        break;
-+    default:
-+        info->dirty_rate = -1;
-+        info->status = g_strdup("Unknown status");
-+        break;
-+    }
-+
-+    /*
-+     * Only support query once for each calculation,
-+     * reset as CAL_DIRTY_RATE_INIT after query
-+     */
-+    (void)dirty_rate_set_state(CAL_DIRTY_RATE_INIT);
-+
-+    return info;
-+}
-+
- static void reset_dirtyrate_stat(void)
- {
-     dirty_stat.total_dirty_samples = 0;
-@@ -390,3 +423,26 @@ void *get_dirtyrate_thread(void *arg)
- 
-     return NULL;
- }
-+
-+void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-+{
-+    static struct DirtyRateConfig config;
-+    QemuThread thread;
-+
-+    /*
-+     * We don't begin calculating thread only when it's in calculating status.
-+     */
-+    if (CalculatingState == CAL_DIRTY_RATE_ACTIVE) {
-+        return;
-+    }
-+
-+    config.sample_period_seconds = get_sample_page_period(calc_time);
-+    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-+    qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
-+                       (void *)&config, QEMU_THREAD_DETACHED);
-+}
-+
-+struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
-+{
-+    return query_dirty_rate_info();
-+}
-diff --git a/qapi/migration.json b/qapi/migration.json
-index d500055..ccc7a4e 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1621,3 +1621,45 @@
- ##
- { 'event': 'UNPLUG_PRIMARY',
-   'data': { 'device-id': 'str' } }
-+
-+##
-+# @DirtyRateInfo:
-+#
-+# Information about current dirty page rate of vm.
-+#
-+# @dirty-rate: @dirtyrate describing the dirty page rate of vm
-+#          in units of MB/s.
-+#          If this field return '-1', it means querying is not
-+#          start or not complete.
-+#
-+# @status: @status containing dirtyrate query status includes
-+#       status with 'not start measuring' or
-+#       'Still measuring' or 'measured'(since 5.2)
-+##
-+{ 'struct': 'DirtyRateInfo',
-+  'data': {'dirty-rate': 'int64',
-+           'status': 'str'} }
-+
-+##
-+# @calc-dirty-rate:
-+#
-+# start calculating dirty page rate for vm
-+#
-+# @calc-time: time in units of second for sample dirty pages
-+#
-+# Since: 5.2
-+#
-+# Example:
-+#   {"command": "cal-dirty-rate", "data": {"calc-time": 1} }
-+#
-+##
-+{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
-+
-+##
-+# @query-dirty-rate:
-+#
-+# query dirty page rate in units of MB/s for vm
-+#
-+# Since: 5.2
-+##
-+{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
--- 
-1.8.3.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTk3NDU4MTgwLTE2OTQ1LTEt
+Z2l0LXNlbmQtZW1haWwtemhlbmdjaHVhbkBodWF3ZWkuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
+IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
+b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMTU5NzQ1
+ODE4MC0xNjk0NS0xLWdpdC1zZW5kLWVtYWlsLXpoZW5nY2h1YW5AaHVhd2VpLmNvbQpTdWJqZWN0
+OiBbUEFUQ0ggdjIgMDAvMTBdICoqKiBBIE1ldGhvZCBmb3IgZXZhbHVhdGluZyBkaXJ0eSBwYWdl
+IHJhdGUgKioqCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
+cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
+aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
+M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5l
+dyBicmFuY2ggJ3Rlc3QnCjk4OTVhOTUgbWlncmF0aW9uL2RpcnR5cmF0ZTogSW1wbGVtZW50IHFt
+cF9jYWxfZGlydHlfcmF0ZSgpL3FtcF9nZXRfZGlydHlfcmF0ZSgpIGZ1bmN0aW9uCmIxZTYyYjAg
+bWlncmF0aW9uL2RpcnR5cmF0ZTogSW1wbGVtZW50IGNhbGN1bGF0ZV9kaXJ0eXJhdGUoKSBmdW5j
+dGlvbgo0MjIzNjhmIG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEltcGxlbWVudCBnZXRfc2FtcGxlX3Bh
+Z2VfcGVyaW9kKCkgYW5kIGJsb2NrX3NhbXBsZV9wYWdlX3BlcmlvZCgpCmI4MzY5NmEgbWlncmF0
+aW9uL2RpcnR5cmF0ZTogc2tpcCBzYW1wbGluZyByYW1ibG9jayB3aXRoIHNpemUgYmVsb3cgTUlO
+X1JBTUJMT0NLX1NJWkUKMWU4MDdjMCBtaWdyYXRpb24vZGlydHlyYXRlOiBDb21wYXJlIHBhZ2Ug
+aGFzaCByZXN1bHRzIGZvciByZWNvcmRlZCBzYW1wbGVkIHBhZ2UKMzgzZDMwYSBtaWdyYXRpb24v
+ZGlydHlyYXRlOiBSZWNvcmQgaGFzaCByZXN1bHRzIGZvciBlYWNoIHNhbXBsZWQgcGFnZQo5NWEz
+NjFmIG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IG1vdmUgUkFNQkxPQ0tfRk9SRUFDSF9NSUdSQVRBQkxF
+IGludG8gcmFtLmgKMDdkMjI0ZiBtaWdyYXRpb24vZGlydHlyYXRlOiBBZGQgZGlydHlyYXRlIHN0
+YXRpc3RpY3Mgc2VyaWVzIGZ1bmN0aW9ucwpkZmQ5NDc2IG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEFk
+ZCBSYW1sb2NrRGlydHlJbmZvIHRvIHN0b3JlIHNhbXBsZWQgcGFnZSBpbmZvCjFiM2JhMDcgbWln
+cmF0aW9uL2RpcnR5cmF0ZTogQWRkIGdldF9kaXJ0eXJhdGVfdGhyZWFkKCkgZnVuY3Rpb24KCj09
+PSBPVVRQVVQgQkVHSU4gPT09CjEvMTAgQ2hlY2tpbmcgY29tbWl0IDFiM2JhMDc1NTg3YSAobWln
+cmF0aW9uL2RpcnR5cmF0ZTogQWRkIGdldF9kaXJ0eXJhdGVfdGhyZWFkKCkgZnVuY3Rpb24pCldB
+Uk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMg
+bmVlZCB1cGRhdGluZz8KIzI2OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9y
+cywgMSB3YXJuaW5ncywgMTE1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMTAgaGFzIHN0eWxlIHBy
+b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
+cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
+biBNQUlOVEFJTkVSUy4KMi8xMCBDaGVja2luZyBjb21taXQgZGZkOTQ3NjI2ZGM1IChtaWdyYXRp
+b24vZGlydHlyYXRlOiBBZGQgUmFtbG9ja0RpcnR5SW5mbyB0byBzdG9yZSBzYW1wbGVkIHBhZ2Ug
+aW5mbykKMy8xMCBDaGVja2luZyBjb21taXQgMDdkMjI0ZjI3NzJiIChtaWdyYXRpb24vZGlydHly
+YXRlOiBBZGQgZGlydHlyYXRlIHN0YXRpc3RpY3Mgc2VyaWVzIGZ1bmN0aW9ucykKNC8xMCBDaGVj
+a2luZyBjb21taXQgOTVhMzYxZjAwODE3IChtaWdyYXRpb24vZGlydHlyYXRlOiBtb3ZlIFJBTUJM
+T0NLX0ZPUkVBQ0hfTUlHUkFUQUJMRSBpbnRvIHJhbS5oKQpFUlJPUjogTWFjcm9zIHdpdGggbXVs
+dGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AK
+IzYyOiBGSUxFOiBtaWdyYXRpb24vcmFtLmg6NDI6CisjZGVmaW5lIFJBTUJMT0NLX0ZPUkVBQ0hf
+Tk9UX0lHTk9SRUQoYmxvY2spICAgICAgICAgICAgXAorICAgIElOVEVSTkFMX1JBTUJMT0NLX0ZP
+UkVBQ0goYmxvY2spICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgaWYgKHJhbWJsb2NrX2lz
+X2lnbm9yZWQoYmxvY2spKSB7fSBlbHNlCgpFUlJPUjogdHJhaWxpbmcgc3RhdGVtZW50cyBzaG91
+bGQgYmUgb24gbmV4dCBsaW5lCiM2NDogRklMRTogbWlncmF0aW9uL3JhbS5oOjQ0OgorICAgICAg
+ICBpZiAocmFtYmxvY2tfaXNfaWdub3JlZChibG9jaykpIHt9IGVsc2UKCkVSUk9SOiBNYWNyb3Mg
+d2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNob3VsZCBiZSBlbmNsb3NlZCBpbiBhIGRvIC0gd2hp
+bGUgbG9vcAojNjY6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uaDo0NjoKKyNkZWZpbmUgUkFNQkxPQ0tf
+Rk9SRUFDSF9NSUdSQVRBQkxFKGJsb2NrKSAgICAgICAgICAgICBcCisgICAgSU5URVJOQUxfUkFN
+QkxPQ0tfRk9SRUFDSChibG9jaykgICAgICAgICAgICAgICAgICAgXAorICAgICAgICBpZiAoIXFl
+bXVfcmFtX2lzX21pZ3JhdGFibGUoYmxvY2spKSB7fSBlbHNlCgpFUlJPUjogdHJhaWxpbmcgc3Rh
+dGVtZW50cyBzaG91bGQgYmUgb24gbmV4dCBsaW5lCiM2ODogRklMRTogbWlncmF0aW9uL3JhbS5o
+OjQ4OgorICAgICAgICBpZiAoIXFlbXVfcmFtX2lzX21pZ3JhdGFibGUoYmxvY2spKSB7fSBlbHNl
+CgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3Rh
+dGVtZW50CiM2ODogRklMRTogbWlncmF0aW9uL3JhbS5oOjQ4OgorICAgICAgICBpZiAoIXFlbXVf
+cmFtX2lzX21pZ3JhdGFibGUoYmxvY2spKSB7fSBlbHNlClsuLi5dCisgICAgICAgIGlmICghcWVt
+dV9yYW1faXNfbWlncmF0YWJsZShibG9jaykpIHt9IGVsc2UKWy4uLl0KCnRvdGFsOiA1IGVycm9y
+cywgMCB3YXJuaW5ncywgNDUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8xMCBoYXMgc3R5bGUgcHJv
+YmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBw
+b3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGlu
+IE1BSU5UQUlORVJTLgoKNS8xMCBDaGVja2luZyBjb21taXQgMzgzZDMwYWQ0MWRlIChtaWdyYXRp
+b24vZGlydHlyYXRlOiBSZWNvcmQgaGFzaCByZXN1bHRzIGZvciBlYWNoIHNhbXBsZWQgcGFnZSkK
+V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzOiBGSUxFOiBtaWdyYXRpb24vZGly
+dHlyYXRlLmM6Nzk6CitzdGF0aWMgaW50IGdldF9yYW1ibG9ja192Zm5faGFzaChzdHJ1Y3QgUmFt
+YmxvY2tEaXJ0eUluZm8gKmluZm8sIHVuc2lnbmVkIGxvbmcgdmZuLAoKRVJST1I6ICJmb28qIGJh
+ciIgc2hvdWxkIGJlICJmb28gKmJhciIKIzU5OiBGSUxFOiBtaWdyYXRpb24vZGlydHlyYXRlLmM6
+MTA1OgorICAgIEdSYW5kKiByYW5kID0gZ19yYW5kX25ldygpOwoKRVJST1I6IGxpbmUgb3ZlciA5
+MCBjaGFyYWN0ZXJzCiM2OTogRklMRTogbWlncmF0aW9uL2RpcnR5cmF0ZS5jOjExNToKKyAgICBp
+bmZvLT5oYXNoX3Jlc3VsdCA9IGdfdHJ5X21hbGxvYzBfbihzYW1wbGVfcGFnZXNfY291bnQsIHNp
+emVvZih1aW50OF90KSAqIHFjcnlwdG9faGFzaF9sZW4pOwoKV0FSTklORzogbGluZSBvdmVyIDgw
+IGNoYXJhY3RlcnMKIzc1OiBGSUxFOiBtaWdyYXRpb24vZGlydHlyYXRlLmM6MTIxOgorICAgIGlu
+Zm8tPnNhbXBsZV9wYWdlX3ZmbiA9IGdfdHJ5X21hbGxvYzBfbihzYW1wbGVfcGFnZXNfY291bnQs
+IHNpemVvZih1bnNpZ25lZCBsb25nKSk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojODQ6IEZJTEU6IG1pZ3JhdGlvbi9kaXJ0eXJhdGUuYzoxMzA6CisgICAgICAgIGluZm8tPnNh
+bXBsZV9wYWdlX3ZmbltpXSA9IGdfcmFuZF9pbnRfcmFuZ2UocmFuZCwgMCwgaW5mby0+cmFtYmxv
+Y2tfcGFnZXMgLSAxKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM5NzogRklM
+RTogbWlncmF0aW9uL2RpcnR5cmF0ZS5jOjE0MzoKK3N0YXRpYyB2b2lkIGdldF9yYW1ibG9ja19k
+aXJ0eV9pbmZvKFJBTUJsb2NrICpibG9jaywgc3RydWN0IFJhbWJsb2NrRGlydHlJbmZvICppbmZv
+LAoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMDM6IEZJTEU6IG1pZ3JhdGlvbi9k
+aXJ0eXJhdGUuYzoxNDk6CisgICAgaW5mby0+c2FtcGxlX3BhZ2VzX2NvdW50ID0gKHFlbXVfcmFt
+X2dldF91c2VkX2xlbmd0aChibG9jaykgKiBzYW1wbGVfcGFnZXNfcGVyX2dpZ2FieXRlcykgPj4g
+MzA7CgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMg
+c3RhdGVtZW50CiMxMjY6IEZJTEU6IG1pZ3JhdGlvbi9kaXJ0eXJhdGUuYzoxNzI6CisgICAgaWYg
+KCFibG9ja19kaW5mbykKWy4uLl0KCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTM3
+OiBGSUxFOiBtaWdyYXRpb24vZGlydHlyYXRlLmM6MTgzOgorICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHN0cnVjdCBSYW1ibG9ja0RpcnR5SW5mbyAqKmJsb2NrX2RpbmZvLCBp
+bnQgKmJsb2NrX2luZGV4KQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwg
+YXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMTQ2OiBGSUxFOiBtaWdyYXRpb24vZGlydHlyYXRlLmM6
+MTkyOgorICAgICAgICBpZiAoZGluZm8gPT0gTlVMTCkKWy4uLl0KCnRvdGFsOiA2IGVycm9ycywg
+NCB3YXJuaW5ncywgMTY0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvMTAgaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KCjYvMTAgQ2hlY2tpbmcgY29tbWl0IDFlODA3YzAxNWM1MSAobWlncmF0aW9u
+L2RpcnR5cmF0ZTogQ29tcGFyZSBwYWdlIGhhc2ggcmVzdWx0cyBmb3IgcmVjb3JkZWQgc2FtcGxl
+ZCBwYWdlKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRo
+aXMgc3RhdGVtZW50CiMyODogRklMRTogbWlncmF0aW9uL2RpcnR5cmF0ZS5jOjIxNjoKKyAgICBp
+ZiAoIW1kKQpbLi4uXQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM3OiBGSUxF
+OiBtaWdyYXRpb24vZGlydHlyYXRlLmM6MjI1OgorICAgICAgICBpZiAobWVtY21wKG1kLCBpbmZv
+LT5oYXNoX3Jlc3VsdCArIGkgKiBxY3J5cHRvX2hhc2hfbGVuLCBxY3J5cHRvX2hhc2hfbGVuKSAh
+PSAwKSB7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzI6IEZJTEU6IG1pZ3Jh
+dGlvbi9kaXJ0eXJhdGUuYzoyNjA6CitzdGF0aWMgaW50IGNvbXBhcmVfcGFnZV9oYXNoX2luZm8o
+c3RydWN0IFJhbWJsb2NrRGlydHlJbmZvICppbmZvLCBpbnQgYmxvY2tfaW5kZXgpCgp0b3RhbDog
+MSBlcnJvcnMsIDIgd2FybmluZ3MsIDc5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMTAgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
+ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
+QVRDSCBpbiBNQUlOVEFJTkVSUy4KCjcvMTAgQ2hlY2tpbmcgY29tbWl0IGI4MzY5NmFiNGU0MSAo
+bWlncmF0aW9uL2RpcnR5cmF0ZTogc2tpcCBzYW1wbGluZyByYW1ibG9jayB3aXRoIHNpemUgYmVs
+b3cgTUlOX1JBTUJMT0NLX1NJWkUpCjgvMTAgQ2hlY2tpbmcgY29tbWl0IDQyMjM2OGZiMzI4YiAo
+bWlncmF0aW9uL2RpcnR5cmF0ZTogSW1wbGVtZW50IGdldF9zYW1wbGVfcGFnZV9wZXJpb2QoKSBh
+bmQgYmxvY2tfc2FtcGxlX3BhZ2VfcGVyaW9kKCkpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFy
+YWN0ZXJzCiMzODogRklMRTogbWlncmF0aW9uL2RpcnR5cmF0ZS5jOjQ3OgorICAgIGlmIChzZWMg
+PD0gTUlOX0ZFVENIX0RJUlRZUkFURV9USU1FX1NFQyB8fCBzZWMgPiBNQVhfRkVUQ0hfRElSVFlS
+QVRFX1RJTUVfU0VDKSB7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDM3IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDgvMTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOS8xMCBDaGVja2lu
+ZyBjb21taXQgYjFlNjJiMDNiNDM3IChtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgY2Fs
+Y3VsYXRlX2RpcnR5cmF0ZSgpIGZ1bmN0aW9uKQoxMC8xMCBDaGVja2luZyBjb21taXQgOTg5NWE5
+NTViYjY5IChtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgcW1wX2NhbF9kaXJ0eV9yYXRl
+KCkvcW1wX2dldF9kaXJ0eV9yYXRlKCkgZnVuY3Rpb24pCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBi
+ZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygnCiMyNTogRklMRTogbWlncmF0aW9uL2RpcnR5
+cmF0ZS5jOjc0OgorICAgIHN3aXRjaChDYWxjdWxhdGluZ1N0YXRlKSB7Cgp0b3RhbDogMSBlcnJv
+cnMsIDAgd2FybmluZ3MsIDExMCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xMCBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
+IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
+ZXcub3JnL2xvZ3MvMTU5NzQ1ODE4MC0xNjk0NS0xLWdpdC1zZW5kLWVtYWlsLXpoZW5nY2h1YW5A
+aHVhd2VpLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
+bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
+UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
