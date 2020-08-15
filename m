@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C1A24517C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:40:43 +0200 (CEST)
-Received: from localhost ([::1]:32824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61AC324517E
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:46:42 +0200 (CEST)
+Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zEY-0004ya-NL
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
+	id 1k6zKL-00013c-DC
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:46:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zCo-00030o-Fz
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:38:54 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38529)
+ id 1k6zJ2-0008Kz-1Y
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:45:20 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zCm-0006Nm-Rm
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:38:54 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 128so5978633pgd.5
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:38:52 -0700 (PDT)
+ id 1k6zJ0-0007Ag-2j
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:45:19 -0400
+Received: by mail-oi1-x243.google.com with SMTP id z22so11029220oid.1
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:45:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=prxXYpsbQ4iXO9C0JgcLsKT0yklnyu64rFTxXlR5v4g=;
- b=q0aae6Y/AQrV72qpxt74vS2aXvJ/85YEHfzMo7gMXqjmBb2wtrvZnQMKXiOQxZbBeQ
- 7uw/MoAeg18fgcWKiS/V9fjcX+0xZm9mmGwo17UT5/1t1Mw1JMAmhShi2fxYNDN9OGz9
- sn/9TP/Zcen2rS49iiUpes8ssBskTwbNI4aNn/G31g7SoyURTifVAsJpXIA3Hr1O1DAb
- Jv781uwNvJ3RdlnIqdeZxLy+Pfhn7IqcSHpfMPaMr2Mbs8h4qb2nYrTc4HpiRVgRVjR9
- GDqKRt4G82nxJnLM/VSMF6xKEXcMxmOxrT4uTJYXq/HL32iqv0voNi9qwf3aYsK1jpxs
- 9pyg==
+ bh=yiKdEsXrfNBH7/8vYLZc3MqLfFg4s03EnbAK1DMKZss=;
+ b=FQSzufEJpHgEXdXVj7RJ7hNTKcgoV79nx+d0e7Am/nx1wtlmpnEm0lEwmqvYPpf7Rx
+ wiU3dTxhItSJFWg+aMzhwylk7/8x/O6ZYHRKFQ/d4zRkBb8eEtJrkKK2p2eLW+CwoLaB
+ cOSf+HdNoWbe1VApVrQTY578+Rqwxf5uHEXau22dC3u1y+1s6XagZzsqfXsIZHkw+uBe
+ H1XgQ7XzX7GAvyv+bpnL8emy6jSckYdXc+Ah7XPy0FFEG9shQTx8Hjl7I3QogUiynPR3
+ wAE+6np2CPBt6Grj7sOsTV9xnRdyWZsrugH0fT2W4BehbhadwxrkhtZqxwQQydwxsjgR
+ QYzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=prxXYpsbQ4iXO9C0JgcLsKT0yklnyu64rFTxXlR5v4g=;
- b=epIppV8trpoJ+AY5CJhdcG8YQoncIv20+ybt1/jT0mcK4fkbawlWRzCWn0j72w9adp
- fqh5oJV7cyY3/EIfnZ3QVDHwPtV2akp/tKsXnowJ2xoFThHvl9153J9PVeXtKjdWtTJ4
- YyDdn+2J/pkSRKpMLbJz+fsGe78OdH5pDFI1Mp7IO4n4h/m+3kpALq7zUlDFYBbwXXxn
- hO4+BA2R/TteqJDQGVploShy9lum4/pXS/0YX0AhwonXXEAyAvaeylLAqKmRIjWOgvdw
- GQdWLetba6Z31YW+Tnai7811YkmHO5QRpU4k5sb4vFHURjZn2A5cLjrEhISechMw0bIg
- gPSw==
-X-Gm-Message-State: AOAM532rYlAlAX4RpW7tr4sT/m7TC+VqIo2KTxHLGznufAM/dNPaeXRc
- YGzn2t7GgXFk2zmbUg7yfYvaDAdz7QzUhQ==
-X-Google-Smtp-Source: ABdhPJxY+tFn0hIYbjFqJONJQq0hYNVfHozx+s3/Gs0lZ9xCWdVKRSaCVVi3ns4pvn9OS7SkZiirLQ==
-X-Received: by 2002:a63:6744:: with SMTP id b65mr3062787pgc.42.1597441185658; 
- Fri, 14 Aug 2020 14:39:45 -0700 (PDT)
+ bh=yiKdEsXrfNBH7/8vYLZc3MqLfFg4s03EnbAK1DMKZss=;
+ b=sFbmI3B4q+sheJm3V+00g0ADVIRuaGKVUK0nL+JFZGsYxSQJLwEDVJsnO7hFnJnLnC
+ kTQmCArGoIf/mym1Nn8a4GLELR0kdtzAjYcuDsInEdiXjokIHydHdzyAxTdBZAoZBhgw
+ /9eqW6q5MNTF1TUaXbW3XhRZnJ1htrrGRBsKOCQDnf7BFtAwGVjm6IGmT2HpaoP8mSvy
+ F3MuI/XMr9cT6S1l/YSXrEBkuxDSPkvvx1sh5EuREsfxm/SV4+ZI/DQTG1KMQEhSZNzW
+ GU5l5JY4o44r7SBUR1UvqhyjRGKQYA7FUgIyG+QgUHWYTd1I77TGkuTKO1bAHxP/joli
+ oRLw==
+X-Gm-Message-State: AOAM531b2q8HVd1n4UAiGro3FqDQuFLgVqUYa3Q7a71A72gHVT2YrBwX
+ uYoRlZpyMRQx+W/CB+P2BqylqSdS1FtjFA==
+X-Google-Smtp-Source: ABdhPJysIL824KIrlrx0ofsgHQEmTPDH+0vwgUV2dcjPhNsTZw4Ogb0HeUVr2ttW2p6vpY6X7RUo9Q==
+X-Received: by 2002:a17:90a:a590:: with SMTP id
+ b16mr4368232pjq.131.1597455113171; 
+ Fri, 14 Aug 2020 18:31:53 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q83sm10417249pfc.31.2020.08.14.14.39.44
+ by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 14:39:44 -0700 (PDT)
+ Fri, 14 Aug 2020 18:31:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] target/arm: Use object_property_add_bool for "sve"
- property
-Date: Fri, 14 Aug 2020 14:39:38 -0700
-Message-Id: <20200814213938.369628-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/20] target/arm: Rearrange {sve,fp}_check_access assert
+Date: Fri, 14 Aug 2020 18:31:29 -0700
+Message-Id: <20200815013145.539409-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200814213938.369628-1-richard.henderson@linaro.org>
-References: <20200814213938.369628-1-richard.henderson@linaro.org>
+In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
+References: <20200815013145.539409-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,77 +85,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.rutland@arm.com, peter.maydell@linaro.org, drjones@redhat.com,
- alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The interface for object_property_add_bool is simpler,
-making the code easier to understand.
+We want to ensure that access is checked by the time we ask
+for a specific fp/vector register.  We want to ensure that
+we do not emit two lots of code to raise an exception.
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+But sometimes it's difficult to cleanly organize the code
+such that we never pass through sve_check_access exactly once.
+Allow multiple calls so long as the result is true, that is,
+no exception to be raised.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu64.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+ target/arm/translate.h     |  1 +
+ target/arm/translate-a64.c | 27 ++++++++++++++++-----------
+ 2 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 0227862d39..cce0da0b90 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -488,6 +488,12 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
-     cpu->sve_max_vq = max_vq;
- }
- 
-+/*
-+ * Note that cpu_arm_get/set_sve_vq cannot use the simpler
-+ * object_property_add_bool interface because they make use
-+ * of the contents of "name" to determine which bit on which
-+ * to operate.
-+ */
- static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 16f2699ad7..ad7972eb22 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -64,6 +64,7 @@ typedef struct DisasContext {
+      * that it is set at the point where we actually touch the FP regs.
+      */
+     bool fp_access_checked;
++    bool sve_access_checked;
+     /* ARMv8 single-step state (this is distinct from the QEMU gdbstub
+      * single-step support).
+      */
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 534c3ff5f3..42aa695dff 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1175,18 +1175,18 @@ static void do_vec_ld(DisasContext *s, int destidx, int element,
+  * unallocated-encoding checks (otherwise the syndrome information
+  * for the resulting exception will be incorrect).
+  */
+-static inline bool fp_access_check(DisasContext *s)
++static bool fp_access_check(DisasContext *s)
  {
-@@ -529,26 +535,17 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
-     set_bit(vq - 1, cpu->sve_vq_init);
- }
+-    assert(!s->fp_access_checked);
+-    s->fp_access_checked = true;
++    if (s->fp_excp_el) {
++        assert(!s->fp_access_checked);
++        s->fp_access_checked = true;
  
--static void cpu_arm_get_sve(Object *obj, Visitor *v, const char *name,
--                            void *opaque, Error **errp)
-+static bool cpu_arm_get_sve(Object *obj, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
--    bool value = cpu_isar_feature(aa64_sve, cpu);
+-    if (!s->fp_excp_el) {
+-        return true;
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
++        return false;
+     }
 -
--    visit_type_bool(v, name, &value, errp);
-+    return cpu_isar_feature(aa64_sve, cpu);
+-    gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+-                       syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
+-    return false;
++    s->fp_access_checked = true;
++    return true;
  }
  
--static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
--                            void *opaque, Error **errp)
-+static void cpu_arm_set_sve(Object *obj, bool value, Error **errp)
+ /* Check that SVE access is enabled.  If it is, return true.
+@@ -1195,10 +1195,14 @@ static inline bool fp_access_check(DisasContext *s)
+ bool sve_access_check(DisasContext *s)
  {
-     ARMCPU *cpu = ARM_CPU(obj);
--    bool value;
-     uint64_t t;
+     if (s->sve_excp_el) {
+-        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_sve_access_trap(),
+-                           s->sve_excp_el);
++        assert(!s->sve_access_checked);
++        s->sve_access_checked = true;
++
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_sve_access_trap(), s->sve_excp_el);
+         return false;
+     }
++    s->sve_access_checked = true;
+     return fp_access_check(s);
+ }
  
--    if (!visit_type_bool(v, name, &value, errp)) {
--        return;
--    }
--
-     if (value && kvm_enabled() && !kvm_arm_sve_supported()) {
-         error_setg(errp, "'sve' feature not supported by KVM on this host");
-         return;
-@@ -563,8 +560,7 @@ void aarch64_add_sve_properties(Object *obj)
- {
-     uint32_t vq;
+@@ -14548,6 +14552,7 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
+     s->base.pc_next += 4;
  
--    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
--                        cpu_arm_set_sve, NULL, NULL);
-+    object_property_add_bool(obj, "sve", cpu_arm_get_sve, cpu_arm_set_sve);
+     s->fp_access_checked = false;
++    s->sve_access_checked = false;
  
-     for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
-         char name[8];
+     if (dc_isar_feature(aa64_bti, s)) {
+         if (s->base.num_insns == 1) {
 -- 
 2.25.1
 
