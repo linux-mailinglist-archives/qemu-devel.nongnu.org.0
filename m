@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECC92451A5
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:57:08 +0200 (CEST)
-Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AACF2451B3
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:10:55 +0200 (CEST)
+Received: from localhost ([::1]:53614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k70QV-0007Ny-3i
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:57:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1k70dq-0003Hh-4j
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k70PT-0006ul-Vn
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:56:03 -0400
-Resent-Date: Sat, 15 Aug 2020 13:56:03 -0400
-Resent-Message-Id: <E1k70PT-0006ul-Vn@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k70PQ-0006e0-Vn
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:56:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597514153; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Zg1gjcNw6MA/u/SuLdPNeMdoNeQE469Wr9dW1n4c/NlHH2KEuxEJSjXM04LQnEpPg+4ha2zObuYIMk8dSctkIgFMzR/RybYT+HtxYnvn7X+ojqlBuXCLWiFIwk9wAaUQEk38e/Ckeb0Z8o0QvXhf9hZpDAMdI4R8pcwfiEelX5c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597514153;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=/LtJ5zkl1+w6n+q77wvaHHVqiii7IyHTjlcZDRAiGtM=; 
- b=ixxayAhwkDU3vUE8mblVGhWiz/VpQHxWBIWLlLXWlc8LA8KVrnTUGr50EMKGC7oE0AhM+3gOxylws63gmbvLHfhDtKhHlHXr0ZBWJuZU3ApmML4djAC7ql/Ja5RgNLMPcduYWBHgoyNLv//pJFwPsRgn0SAnAhVPLhVQZK8UREo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159751414998748.94297666554894;
- Sat, 15 Aug 2020 10:55:49 -0700 (PDT)
-Subject: Re: [PATCH 00/20] target/arm: SVE2 preparatory patches
-Message-ID: <159751414902.18357.11056108006317870716@66eaa9a8a123>
-In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1k70bo-0001WF-9B; Sat, 15 Aug 2020 14:08:48 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2921 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1k70bm-0007xM-Bz; Sat, 15 Aug 2020 14:08:47 -0400
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.56])
+ by Forcepoint Email with ESMTP id 9D67721F0B33AE8474F6;
+ Sat, 15 Aug 2020 10:19:06 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Sat, 15 Aug 2020 10:19:06 +0800
+Received: from [10.174.185.187] (10.174.185.187) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Sat, 15 Aug 2020 10:19:05 +0800
+Subject: Re: [RFC 7/9] target/arm: Add CPU features to
+ query-cpu-model-expansion
+To: Andrew Jones <drjones@redhat.com>
+References: <20200813102657.2588720-1-liangpeng10@huawei.com>
+ <20200813102657.2588720-8-liangpeng10@huawei.com>
+ <20200813125602.drapo7wyzg57k3jy@kamzik.brq.redhat.com>
+From: Peng Liang <liangpeng10@huawei.com>
+Message-ID: <c14eb457-5c64-b888-2b94-fcd5e4383c70@huawei.com>
+Date: Sat, 15 Aug 2020 10:19:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
+In-Reply-To: <20200813125602.drapo7wyzg57k3jy@kamzik.brq.redhat.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Sat, 15 Aug 2020 10:55:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 11:03:55
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.187]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=liangpeng10@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 14:08:35
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,102 +69,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ xiexiangyou 00584000 <xiexiangyou@huawei.com>, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, zhukeqian 00502301 <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNTAxMzE0NS41Mzk0
-MDktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA4MTUw
-MTMxNDUuNTM5NDA5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggMDAvMjBdIHRhcmdldC9hcm06IFNWRTIgcHJlcGFyYXRvcnkgcGF0Y2hlcwoKPT09IFRFU1Qg
-U0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251
-bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFs
-Z29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNl
-Li4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0
-ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9q
-ZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDgxMjE4MzI1MC45MjIx
-LTEtY2ZvbnRhbmFAc3VzZS5kZSAtPiBwYXRjaGV3LzIwMjAwODEyMTgzMjUwLjkyMjEtMS1jZm9u
-dGFuYUBzdXNlLmRlCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDA4MTQwODI4NDEu
-MjcwMDAtMS1mNGJ1Z0BhbXNhdC5vcmcgLT4gcGF0Y2hldy8yMDIwMDgxNDA4Mjg0MS4yNzAwMC0x
-LWY0YnVnQGFtc2F0Lm9yZwogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwODE1MDEz
-MTQ1LjUzOTQwOS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIw
-MDgxNTAxMzE0NS41Mzk0MDktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZWU5ZTcwYyB0YXJnZXQvYXJtOiBDb252ZXJ0IHNxeywg
-cn1kbXVsaCB0byBndmVjIGZvciBhYTY0IGFkdnNpbWQKNjhkMzEyMCB0YXJnZXQvYXJtOiBDb252
-ZXJ0IGludGVnZXIgbXVsdGlwbHktYWRkIChpbmRleGVkKSB0byBndmVjIGZvciBhYTY0IGFkdnNp
-bWQKNDkxNWQ2OSB0YXJnZXQvYXJtOiBDb252ZXJ0IGludGVnZXIgbXVsdGlwbHkgKGluZGV4ZWQp
-IHRvIGd2ZWMgZm9yIGFhNjQgYWR2c2ltZAo0ZWRlMTU4IHRhcmdldC9hcm06IEZpeCBzdmVfcHVu
-cGtfcCB2cyBvZGQgdmVjdG9yIGxlbmd0aHMKOTRhYWU4ZCB0YXJnZXQvYXJtOiBGaXggc3ZlX3pp
-cF9wIHZzIG9kZCB2ZWN0b3IgbGVuZ3RocwpkZDdkYzMzIHRhcmdldC9hcm06IEZpeCBzdmVfdXpw
-X3AgdnMgb2RkIHZlY3RvciBsZW5ndGhzCmIzMjMzOGIgdGFyZ2V0L2FybTogR2VuZXJhbGl6ZSBp
-bmxfcXJkbWxhaF8qIGhlbHBlciBmdW5jdGlvbnMKMDk1ZWExNiB0YXJnZXQvYXJtOiBUaWR5IFNW
-RSB0c3ppbW0gc2hpZnQgZm9ybWF0cwplMzRkNjJjIHRhcmdldC9hcm06IFNwbGl0IG91dCBnZW5f
-Z3ZlY19vb2xfenoKYzBkODJiOSB0YXJnZXQvYXJtOiBTcGxpdCBvdXQgZ2VuX2d2ZWNfb29sX3p6
-egphOTlkYmFjIHRhcmdldC9hcm06IFNwbGl0IG91dCBnZW5fZ3ZlY19vb2xfenpwCmNmYjI4ZDEg
-dGFyZ2V0L2FybTogTWVyZ2UgaGVscGVyX3N2ZV9jbHJfKiBhbmQgaGVscGVyX3N2ZV9tb3Z6XyoK
-MDU5MmM3YSB0YXJnZXQvYXJtOiBTcGxpdCBvdXQgZ2VuX2d2ZWNfb29sX3p6enAKNmU1ZmMyNSB0
-YXJnZXQvYXJtOiBVc2UgdGNnX2dlbl9ndmVjX2JpdHNlbCBmb3IgdHJhbnNfU0VMX3BwcHAKMDU0
-MTVmMiB0YXJnZXQvYXJtOiBDbGVhbiB1cCA0LW9wZXJhbmQgcHJlZGljYXRlIGV4cGFuc2lvbgo3
-YWRiY2NjIHRhcmdldC9hcm06IE1lcmdlIGRvX3ZlY3RvcjJfcCBpbnRvIGRvX21vdl9wCmM3Y2Q4
-NzUgdGFyZ2V0L2FybTogUmVhcnJhbmdlIHtzdmUsZnB9X2NoZWNrX2FjY2VzcyBhc3NlcnQKYTg2
-MzkwYiB0YXJnZXQvYXJtOiBTcGxpdCBvdXQgZ2VuX2d2ZWNfZm5fenp6LCBkb196enpfZm4KMjg5
-ZjE1MiB0YXJnZXQvYXJtOiBTcGxpdCBvdXQgZ2VuX2d2ZWNfZm5fenoKNGJiYzk2YSBxZW11L2lu
-dDEyODogQWRkIGludDEyOF9sc2hpZnQKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjAgQ2hlY2tp
-bmcgY29tbWl0IDRiYmM5NmEwZTZhNSAocWVtdS9pbnQxMjg6IEFkZCBpbnQxMjhfbHNoaWZ0KQoy
-LzIwIENoZWNraW5nIGNvbW1pdCAyODlmMTUyYTgxOTQgKHRhcmdldC9hcm06IFNwbGl0IG91dCBn
-ZW5fZ3ZlY19mbl96eikKMy8yMCBDaGVja2luZyBjb21taXQgYTg2MzkwYjdhOTcyICh0YXJnZXQv
-YXJtOiBTcGxpdCBvdXQgZ2VuX2d2ZWNfZm5fenp6LCBkb196enpfZm4pCjQvMjAgQ2hlY2tpbmcg
-Y29tbWl0IGM3Y2Q4NzU4NmM4OCAodGFyZ2V0L2FybTogUmVhcnJhbmdlIHtzdmUsZnB9X2NoZWNr
-X2FjY2VzcyBhc3NlcnQpCjUvMjAgQ2hlY2tpbmcgY29tbWl0IDdhZGJjY2M4NDRlYSAodGFyZ2V0
-L2FybTogTWVyZ2UgZG9fdmVjdG9yMl9wIGludG8gZG9fbW92X3ApCjYvMjAgQ2hlY2tpbmcgY29t
-bWl0IDA1NDE1ZjI4N2FkYiAodGFyZ2V0L2FybTogQ2xlYW4gdXAgNC1vcGVyYW5kIHByZWRpY2F0
-ZSBleHBhbnNpb24pCjcvMjAgQ2hlY2tpbmcgY29tbWl0IDZlNWZjMjViZDdiMCAodGFyZ2V0L2Fy
-bTogVXNlIHRjZ19nZW5fZ3ZlY19iaXRzZWwgZm9yIHRyYW5zX1NFTF9wcHBwKQo4LzIwIENoZWNr
-aW5nIGNvbW1pdCAwNTkyYzdhN2U4YTUgKHRhcmdldC9hcm06IFNwbGl0IG91dCBnZW5fZ3ZlY19v
-b2xfenp6cCkKOS8yMCBDaGVja2luZyBjb21taXQgY2ZiMjhkMTc0YWU1ICh0YXJnZXQvYXJtOiBN
-ZXJnZSBoZWxwZXJfc3ZlX2Nscl8qIGFuZCBoZWxwZXJfc3ZlX21vdnpfKikKMTAvMjAgQ2hlY2tp
-bmcgY29tbWl0IGE5OWRiYWNlNjJmNiAodGFyZ2V0L2FybTogU3BsaXQgb3V0IGdlbl9ndmVjX29v
-bF96enApCjExLzIwIENoZWNraW5nIGNvbW1pdCBjMGQ4MmI5MDQ4ZDQgKHRhcmdldC9hcm06IFNw
-bGl0IG91dCBnZW5fZ3ZlY19vb2xfenp6KQoxMi8yMCBDaGVja2luZyBjb21taXQgZTM0ZDYyY2Ew
-MzFmICh0YXJnZXQvYXJtOiBTcGxpdCBvdXQgZ2VuX2d2ZWNfb29sX3p6KQoxMy8yMCBDaGVja2lu
-ZyBjb21taXQgMDk1ZWExNjRlOTA2ICh0YXJnZXQvYXJtOiBUaWR5IFNWRSB0c3ppbW0gc2hpZnQg
-Zm9ybWF0cykKMTQvMjAgQ2hlY2tpbmcgY29tbWl0IGIzMjMzOGIyMzI0NyAodGFyZ2V0L2FybTog
-R2VuZXJhbGl6ZSBpbmxfcXJkbWxhaF8qIGhlbHBlciBmdW5jdGlvbnMpCjE1LzIwIENoZWNraW5n
-IGNvbW1pdCBkZDdkYzMzZjUyM2IgKHRhcmdldC9hcm06IEZpeCBzdmVfdXpwX3AgdnMgb2RkIHZl
-Y3RvciBsZW5ndGhzKQoxNi8yMCBDaGVja2luZyBjb21taXQgOTRhYWU4ZDY1N2JiICh0YXJnZXQv
-YXJtOiBGaXggc3ZlX3ppcF9wIHZzIG9kZCB2ZWN0b3IgbGVuZ3RocykKMTcvMjAgQ2hlY2tpbmcg
-Y29tbWl0IDRlZGUxNThkNDUyZSAodGFyZ2V0L2FybTogRml4IHN2ZV9wdW5wa19wIHZzIG9kZCB2
-ZWN0b3IgbGVuZ3RocykKMTgvMjAgQ2hlY2tpbmcgY29tbWl0IDQ5MTVkNjk2YjRhOSAodGFyZ2V0
-L2FybTogQ29udmVydCBpbnRlZ2VyIG11bHRpcGx5IChpbmRleGVkKSB0byBndmVjIGZvciBhYTY0
-IGFkdnNpbWQpCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVu
-dGhlc2lzICcpJwojNzY6IEZJTEU6IHRhcmdldC9hcm0vdmVjX2hlbHBlci5jOjczMDoKK0RPX01V
-TF9JRFgoZ3ZlY19tdWxfaWR4X2QsIHVpbnQ2NF90LCApCgpFUlJPUjogc3BhY2UgcHJvaGliaXRl
-ZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzkzOiBGSUxFOiB0YXJnZXQvYXJt
-L3ZlY19oZWxwZXIuYzo3NTE6CitET19GTVVMX0lEWChndmVjX2ZtdWxfaWR4X2QsIGZsb2F0NjQs
-ICkKCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgNzQgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
-MTgvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE5LzIwIENoZWNraW5nIGNvbW1pdCA2
-OGQzMTIwYjJjODIgKHRhcmdldC9hcm06IENvbnZlcnQgaW50ZWdlciBtdWx0aXBseS1hZGQgKGlu
-ZGV4ZWQpIHRvIGd2ZWMgZm9yIGFhNjQgYWR2c2ltZCkKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQg
-YmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMxMDU6IEZJTEU6IHRhcmdldC9hcm0v
-dmVjX2hlbHBlci5jOjc1MToKK0RPX01MQV9JRFgoZ3ZlY19tbGFfaWR4X2QsIHVpbnQ2NF90LCAr
-LCAgICkKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhl
-c2lzICcpJwojMTA5OiBGSUxFOiB0YXJnZXQvYXJtL3ZlY19oZWxwZXIuYzo3NTU6CitET19NTEFf
-SURYKGd2ZWNfbWxzX2lkeF9kLCB1aW50NjRfdCwgLSwgICApCgp0b3RhbDogMiBlcnJvcnMsIDAg
-d2FybmluZ3MsIDkxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE5LzIwIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgoyMC8yMCBDaGVja2luZyBjb21taXQgZWU5ZTcwY2JkMTI1ICh0YXJnZXQvYXJt
-OiBDb252ZXJ0IHNxeywgcn1kbXVsaCB0byBndmVjIGZvciBhYTY0IGFkdnNpbWQpCj09PSBPVVRQ
-VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwODE1MDEzMTQ1
-LjUzOTQwOS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNo
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 8/13/2020 8:56 PM, Andrew Jones wrote:
+> On Thu, Aug 13, 2020 at 06:26:55PM +0800, Peng Liang wrote:
+>> Add CPU features to the result of query-cpu-model-expansion so that
+>> other applications (such as libvirt) can know the supported CPU
+>> features.
+>>
+>> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+>> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+>> ---
+>>  target/arm/cpu.c     | 41 +++++++++++++++++++++++++++++++++++++++++
+>>  target/arm/cpu.h     |  2 ++
+>>  target/arm/monitor.c |  2 ++
+>>  3 files changed, 45 insertions(+)
+>>
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 3fc54cb3a4..0f620e8afe 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -25,6 +25,8 @@
+>>  #include "qemu/module.h"
+>>  #include "qapi/error.h"
+>>  #include "qapi/visitor.h"
+>> +#include "qapi/qmp/qdict.h"
+>> +#include "qom/qom-qobject.h"
+>>  #include "cpu.h"
+>>  #include "internals.h"
+>>  #include "exec/exec-all.h"
+>> @@ -1515,6 +1517,45 @@ static const CPUFeatureDep feature_dependencies[] = {
+>>      },
+>>  };
+>>  
+>> +static char *strtolower(char *src)
+>> +{
+>> +    char *start = src;
+>> +
+>> +    for (; *src; ++src) {
+>> +        *src = tolower(*src);
+>> +    }
+>> +
+>> +    return start;
+>> +}
+> 
+> Shouldn't need this. The CPU property names should already be lowercase.
+> 
+
+For convenience, we use the field part defined in FIELD macro as the name of
+a CPU feature.  So, the names of CPU features are upper...
+
+>> +
+>> +void arm_cpu_features_to_dict(ARMCPU *cpu, QDict *features)
+>> +{
+>> +    Object *obj = OBJECT(cpu);
+>> +    const char *name;
+>> +    ObjectProperty *prop;
+>> +    bool is_32bit = !arm_feature(&cpu->env, ARM_FEATURE_AARCH64);
+>> +    int i;
+>> +
+>> +    for (i = 0; i < ARRAY_SIZE(cpu_features); ++i) {
+>> +        if (is_32bit != cpu_features[i].is_32bit) {
+>> +            continue;
+>> +        }
+>> +
+>> +        name = cpu_features[i].name;
+>> +        prop = object_property_find(obj, name, NULL);
+>> +        if (prop) {
+>> +            QObject *value;
+>> +            g_autofree char *tmp;
+>> +
+>> +            assert(prop->get);
+>> +            value = object_property_get_qobject(obj, name, &error_abort);
+>> +            tmp = strtolower(g_strdup(name));
+>> +
+>> +            qdict_put_obj(features, tmp, value);
+>> +        }
+>> +    }
+>> +}
+>> +
+>>  static void arm_cpu_get_bit_prop(Object *obj, Visitor *v, const char *name,
+>>                                   void *opaque, Error **errp)
+>>  {
+>> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+>> index 5d8074d03b..da68b7f8f4 100644
+>> --- a/target/arm/cpu.h
+>> +++ b/target/arm/cpu.h
+>> @@ -3933,4 +3933,6 @@ static inline bool isar_feature_any_tts2uxn(const ARMISARegisters *id)
+>>  #define cpu_isar_feature(name, cpu) \
+>>      ({ ARMCPU *cpu_ = (cpu); isar_feature_##name(&cpu_->isar); })
+>>  
+>> +void arm_cpu_features_to_dict(ARMCPU *cpu, QDict *features);
+>> +
+>>  #endif
+>> diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+>> index ba6e01abd0..f8eb29efec 100644
+>> --- a/target/arm/monitor.c
+>> +++ b/target/arm/monitor.c
+>> @@ -225,6 +225,8 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+>>          }
+>>      }
+>>  
+>> +    arm_cpu_features_to_dict(ARM_CPU(obj), qdict_out);
+> 
+> Since nobody is looking for these features in qdict_in, then none
+> of these features can be changed by QMP user. How does the QMP
+> user probe whether or not the feature will work when enabled?
+> 
+> Thanks,
+> drew
+> 
+
+My fault, I'll correct it.
+
+Thanks,
+Peng
+
+>> +
+>>      if (!qdict_size(qdict_out)) {
+>>          qobject_unref(qdict_out);
+>>      } else {
+>> -- 
+>> 2.18.4
+>>
+> 
+> .
+> 
+
 
