@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90411245124
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:03:59 +0200 (CEST)
-Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29016245143
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:29:43 +0200 (CEST)
+Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xiw-0006aM-GY
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:03:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
+	id 1k6y7q-0003VY-3o
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xd7-0008UF-9D
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 10:57:57 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:40338)
+ id 1k6y53-0007vk-6Q
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:26:49 -0400
+Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:42417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xd2-0005Hq-JL
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 10:57:56 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id s15so5687718qvv.7
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 07:57:51 -0700 (PDT)
+ id 1k6y51-0003gM-Bc
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:26:48 -0400
+Received: by mail-vs1-xe41.google.com with SMTP id q13so6126273vsn.9
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HNjgEQCzoNGIiEGwjQluN/mSWTCRv8H7Gh+UybIw+Yg=;
- b=jMTlG/VzuCjqx/dYdpfWBph9sVf8XGPYS//OZSGCgcNyGHMPxhihCcYzbC/mLc+zJ2
- fY9qo5Jf3GfS7mx0Um0jOYqtofcMB4qcH7Hd22gv6rl1ere4d/ntKTkzDMYf4NFdkZ2o
- RTCkIoGbbs539Ss38r5cSxc1vcOmkRP29K9qmZeZidwL1PyJiviHz2UqlYofpAMF5u9q
- E5lPgXfhwpO630Bkg5WYDbxRSqogOSmBGkUMk6SfqLKk0zVFTLy9Ddo5mfB+bJ8FgN34
- o3FMD2e8+lRQTgfhnE6LxYgeGwQvL45u/UO4ASjljL61k0xOIStjYV7jcQZyFPBkuLEj
- biVQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SYhTH7/NoKSZMnkGd9mMb4nrqyxVnLFVoR2e/Dwfxy0=;
+ b=YebU2m56OOBYOl+xeB0Xu+Cg4A9AkuO8hy4+NFP+uKIwYR0wepCJJ7XSpJwsRvrn+8
+ kiP6OCUsbEqkz5wjbkFQ4L6+/Qzv3iQ+1IejuISOvYUvAyqbfEoE034TlFciSCUtualk
+ c0lnPWRlwWsGbIvaOEBRRFbFaXO72919u4Z2bTDs8vT89sarlQm7hOZ6g/v+bZQwiyOZ
+ MzFof9KfbCAR7194J0vTMmBXYvb1a+a+2gHAxJs+o7l+i63VMn1eTxjKCudzzhKen6Eu
+ 83ZukN/gANdnHwdZWAeCe/hOdHAvS/sV7VLUllkJ1s0MlLohLWf1rYAKL2Z20vExarm2
+ yJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HNjgEQCzoNGIiEGwjQluN/mSWTCRv8H7Gh+UybIw+Yg=;
- b=qsatuYcbg9rHbS5UgVVQF0pJDh+Niib/K205FLWY5FF+YvvjiKSxNUO4z4sik9nu+i
- quGlnTMDZ8a04XTPVg88OokK+TV/9HBtJCT9SbVEC//KtRO2ztiFi8gIPIq4MoRSs2j0
- 0URsEVR5hzYPPbNp5+8VWs/BOUU1QX7EZgPCv9lPqcCWFwh1+8ic7LbXFsbnvwMrOovn
- htep/3HD0JAzBVPRiUD81WkBoHn3HPrslq6qCfExZuNBLjvN4SwdzZBrOcTGq5tpPHZF
- SlkhQfsebU/3xHxiFUNzfEFcKzjpkNN++J/ZORunHttA6GjKj+pdTmmHHft5GGNQAerZ
- lfEg==
-X-Gm-Message-State: AOAM532RcRf5/hEYGJiYYhwxxJQ67v7rwzXBJ1MXOImGu5vR2ANBuDWT
- M1cCrycXwOGfQbEYA4hpSCGeL4oRPEMchw==
-X-Google-Smtp-Source: ABdhPJxAfjeZKtNrgFV32E/NV/JpK9zTdacK0Oc4D+01Nvgu1KbSQidOu5Mx+fovK3M4cRT+zW6hJw==
-X-Received: by 2002:a62:cf85:: with SMTP id b127mr3685231pfg.89.1597455107937; 
- Fri, 14 Aug 2020 18:31:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SYhTH7/NoKSZMnkGd9mMb4nrqyxVnLFVoR2e/Dwfxy0=;
+ b=HoYlJYPN/1ANkNlUMezT3O/WerMGjlWThJ6t19ur/XCWWv396QIqepxrbBE62CakHe
+ CvksUQ+0YQH7crBEDCRmmzv5rTz5AwaYdx8P9V+pQyxoxiuztJ7h9WKl83aTuHG5fE32
+ MELJWVrRCb2qa+UbI86M8jhVwDePKyqMhrfp/aXTcLvl+95L9D9fKqlGtdB3Rn/yx93k
+ HpohniIZ09G3IW5RH4UfSYUlXyntaYKACa6KQ4KWilDDOAt5GvhMpn2rl/691mAa5iJ+
+ Ti2VjNEoPLFyFyJM9NE0JLhQsJdui0V9niP6whiGUsd6yRFDVUgZ6OdPVnwCBC8Omlcf
+ MDRw==
+X-Gm-Message-State: AOAM530HMGCMCb59rXDGI14iAQqgcAaeZqtspDFuzQuwgSn29zwn2MrA
+ jvgOjEoMAjHfnGkIh6jNRZViFNEoODt/8w==
+X-Google-Smtp-Source: ABdhPJy7s8q1Hf0lUvQjlh+j5gLNlLuefI6LGQqoPDX5yXTekv/pHi/+h18+PMsQiOnce6LM4DUIjg==
+X-Received: by 2002:a17:902:bd09:: with SMTP id
+ p9mr4005177pls.322.1597455109367; 
+ Fri, 14 Aug 2020 18:31:49 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.46
+ by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:31:47 -0700 (PDT)
+ Fri, 14 Aug 2020 18:31:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/20] target/arm: SVE2 preparatory patches
-Date: Fri, 14 Aug 2020 18:31:25 -0700
-Message-Id: <20200815013145.539409-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/20] qemu/int128: Add int128_lshift
+Date: Fri, 14 Aug 2020 18:31:26 -0700
+Message-Id: <20200815013145.539409-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
+References: <20200815013145.539409-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e41;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,49 +89,47 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is collection of cleanups and changes that are required by
-SVE2, but do not directly implement it.  The final 3 patches are
-relevant to Peter's aa32 neon work.
+Add left-shift to match the existing right-shift.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/int128.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-r~
-
-
-Richard Henderson (20):
-  qemu/int128: Add int128_lshift
-  target/arm: Split out gen_gvec_fn_zz
-  target/arm: Split out gen_gvec_fn_zzz, do_zzz_fn
-  target/arm: Rearrange {sve,fp}_check_access assert
-  target/arm: Merge do_vector2_p into do_mov_p
-  target/arm: Clean up 4-operand predicate expansion
-  target/arm: Use tcg_gen_gvec_bitsel for trans_SEL_pppp
-  target/arm: Split out gen_gvec_ool_zzzp
-  target/arm: Merge helper_sve_clr_* and helper_sve_movz_*
-  target/arm: Split out gen_gvec_ool_zzp
-  target/arm: Split out gen_gvec_ool_zzz
-  target/arm: Split out gen_gvec_ool_zz
-  target/arm: Tidy SVE tszimm shift formats
-  target/arm: Generalize inl_qrdmlah_* helper functions
-  target/arm: Fix sve_uzp_p vs odd vector lengths
-  target/arm: Fix sve_zip_p vs odd vector lengths
-  target/arm: Fix sve_punpk_p vs odd vector lengths
-  target/arm: Convert integer multiply (indexed) to gvec for aa64
-    advsimd
-  target/arm: Convert integer multiply-add (indexed) to gvec for aa64
-    advsimd
-  target/arm: Convert sq{,r}dmulh to gvec for aa64 advsimd
-
- include/qemu/int128.h      |  16 ++
- target/arm/helper-sve.h    |   5 -
- target/arm/helper.h        |  28 +++
- target/arm/translate.h     |   1 +
- target/arm/sve.decode      |  35 ++--
- target/arm/sve_helper.c    | 129 +++++-------
- target/arm/translate-a64.c | 110 ++++++++--
- target/arm/translate-sve.c | 399 +++++++++++++++----------------------
- target/arm/vec_helper.c    | 182 ++++++++++++-----
- 9 files changed, 492 insertions(+), 413 deletions(-)
-
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index 5c9890db8b..76ea405922 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -63,6 +63,11 @@ static inline Int128 int128_rshift(Int128 a, int n)
+     return a >> n;
+ }
+ 
++static inline Int128 int128_lshift(Int128 a, int n)
++{
++    return a << n;
++}
++
+ static inline Int128 int128_add(Int128 a, Int128 b)
+ {
+     return a + b;
+@@ -217,6 +222,17 @@ static inline Int128 int128_rshift(Int128 a, int n)
+     }
+ }
+ 
++static inline Int128 int128_lshift(Int128 a, int n)
++{
++    uint64_t l = a.lo << (n & 63);
++    if (n >= 64) {
++        return int128_make128(0, l);
++    } else if (n > 0) {
++        return int128_make128(l, (a.hi << n) | (a.lo >> (64 - n)));
++    }
++    return a;
++}
++
+ static inline Int128 int128_add(Int128 a, Int128 b)
+ {
+     uint64_t lo = a.lo + b.lo;
 -- 
 2.25.1
 
