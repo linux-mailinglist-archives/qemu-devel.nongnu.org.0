@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C189E24513B
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:23:30 +0200 (CEST)
-Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D161B245128
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:08:05 +0200 (CEST)
+Received: from localhost ([::1]:48542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6y1p-0002nK-Q7
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
+	id 1k6xmu-0003rB-Qm
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>)
- id 1k6y0I-0000uN-NW; Sat, 15 Aug 2020 11:21:55 -0400
-Received: from m12-15.163.com ([220.181.12.15]:36704)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1k6xlM-0002AJ-UM
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:06:28 -0400
+Received: from mail-m9763.mail.163.com ([123.126.97.63]:41318)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liq3ea@163.com>)
- id 1k6y0E-0002d3-BW; Sat, 15 Aug 2020 11:21:54 -0400
+ (envelope-from <liq3ea@163.com>) id 1k6xlJ-0007SE-G0
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:06:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=DYWgwGOWxvXXl+rLYR
- ibBTA/Wz/8JdXJEH+FKv6wEmE=; b=Wf9jQrrLNt3k+YsDifALtID9/g3ZUzf70d
- zbeETqOrSEhhp+WIPnE0jS42uB/h8cQ1vXMWyc26HGD9e2x19K6zy9Z+e1IJwP1D
- IzVJXbgaA8i70ARHKfowIPFsbRUfjOWnokI3FIMsSwRm4rmTE4klOZYe4O61a0dF
- MVW+RW2/0=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=W4LN/xZpHEZmo9POvK
+ UpY0DPWTuEFUi8n4lDp6jU9qE=; b=fT+8YfYnQtTwQsd4DquO1va4bVxxURMoGu
+ /MPWtaRamd3ubLj2Wkh0H8A3s96HvUUa1ua0DyX+bgsUlMu43t+0kct9w9cffvTy
+ umbN4rILS3URTKlD3FXXXKl4RPxwGxL1JjzyehlBPh+RRJRVuaemumuG/XD5pfXU
+ xUrICPwjs=
 Received: from localhost.localdomain (unknown [115.204.244.155])
- by smtp1 (Coremail) with SMTP id GdxpCgA3w4MF7zdfSkGDAA--.134S4;
- Sat, 15 Aug 2020 22:19:53 +0800 (CST)
+ by smtp1 (Coremail) with SMTP id GdxpCgA3w4MF7zdfSkGDAA--.134S5;
+ Sat, 15 Aug 2020 22:20:00 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: hare@suse.com,
 	pbonzini@redhat.com,
 	fam@euphon.net
-Subject: [PATCH 0/2] Fix the assert failure in scsi_dma_complete
-Date: Sat, 15 Aug 2020 07:19:38 -0700
-Message-Id: <20200815141940.44025-1-liq3ea@163.com>
+Subject: [PATCH 1/2] hw: megasas: return -1 when 'megasas_map_sgl' fails
+Date: Sat, 15 Aug 2020 07:19:39 -0700
+Message-Id: <20200815141940.44025-2-liq3ea@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: GdxpCgA3w4MF7zdfSkGDAA--.134S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF4rWr47GF4DJrWrurWrGrg_yoW3trc_G3
- s7Xw1kJwnxZry5KF109rs8ArWxJFZrta4qvr4IqrsrC34Syr1xG3yDC3s5Crn3Za1DCFn7
- G395ZrZ3Ars5XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1fgA3UUUUU==
+In-Reply-To: <20200815141940.44025-1-liq3ea@163.com>
+References: <20200815141940.44025-1-liq3ea@163.com>
+X-CM-TRANSID: GdxpCgA3w4MF7zdfSkGDAA--.134S5
+X-Coremail-Antispam: 1Uf129KBjvdXoW7JF4DZrWrWrW8XrW3uryxuFg_yoWDuFc_Aw
+ 1093WkJr47Zr47J3sYqw1jyr12qwnrXFyDAr4aqasxAw13GasrGw4DX39rZFWkCw48urs8
+ twnayrZxAws5WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1b18JUUUUU==
 X-Originating-IP: [115.204.244.155]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBoQqBbVQHLOqJwgAAsZ
-Received-SPF: pass client-ip=220.181.12.15; envelope-from=liq3ea@163.com;
- helo=m12-15.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 03:52:36
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBoRGBbVQHLOqJ+AAAs4
+Received-SPF: pass client-ip=123.126.97.63; envelope-from=liq3ea@163.com;
+ helo=mail-m9763.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 03:37:13
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,27 +71,38 @@ Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently in 'megasas_map_sgl' when 'iov_count=0' will just return
-success however the 'cmd' doens't contain any iov. This will cause
-the assert in 'scsi_dma_complete' failed. This is because in
-'dma_blk_cb' the 'dbs->sg_cur_index == dbs->sg->nsg' will be true
-and just call 'dma_complete'. However now there is no aiocb returned.
+The caller of 'megasas_map_sgl' will only check if the return
+is zero or not. If it return 0 it means success, as in the next
+patch we will consider 'iov_count=0' is an error, so let's
+return -1 to indicate a failure.
 
-This is the LP#1878263:
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ hw/scsi/megasas.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--->https://bugs.launchpad.net/qemu/+bug/1878263
-
-To solve this we will consider the 'iov_count=0' is an error.
-In the first patch, I uses -1 to indicate an error and in the second
-patch I consider 'iov_count=0' is an error.
-
-Li Qiang (2):
-  hw: megasas: return -1 when 'megasas_map_sgl' fails
-  hw: megasas: consider 'iov_count=0' is an error in megasas_map_sgl
-
- hw/scsi/megasas.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 5cfd1bf22e..d6c9680c36 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -281,7 +281,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+     if (iov_count > MEGASAS_MAX_SGE) {
+         trace_megasas_iovec_sgl_overflow(cmd->index, iov_count,
+                                          MEGASAS_MAX_SGE);
+-        return iov_count;
++        return -1;
+     }
+     pci_dma_sglist_init(&cmd->qsg, PCI_DEVICE(s), iov_count);
+     for (i = 0; i < iov_count; i++) {
+@@ -311,7 +311,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+     return 0;
+ unmap:
+     qemu_sglist_destroy(&cmd->qsg);
+-    return iov_count - i;
++    return -1;
+ }
+ 
+ /*
 -- 
 2.17.1
 
