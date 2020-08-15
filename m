@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E760245136
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:18:22 +0200 (CEST)
-Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9A4245129
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:09:02 +0200 (CEST)
+Received: from localhost ([::1]:53020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xwr-00034V-Gy
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55748)
+	id 1k6xnp-0005fP-Uu
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6xrW-00040d-2j; Sat, 15 Aug 2020 11:12:50 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6xrU-0000iT-6O; Sat, 15 Aug 2020 11:12:49 -0400
-Received: by mail-ot1-x343.google.com with SMTP id a65so9920432otc.8;
- Sat, 15 Aug 2020 08:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9kLxRkTN0kt8bAx6tDCmMfExdOIUYccVgus6RbjzPc4=;
- b=IckwC/8X3pmMQFc21rs5AX3l+hPmY0bDumcNELUZti0Mjb3SgID/O+8oVO2DLI6t62
- jz/aglpOCMXwNtW4Ap4Y7yUCWzawWu/ySfNvq94R/eWKRPMjIHX13chVSiGEkMvRmXHg
- rgGzVg4SesA90cKHBSOSYG63bb4xGSfcdP9XWANGNfp2/966gt1cUU4V4xMmZRSGw4VZ
- 7Dl/BtkbD6OS74azdHeJsmYSYGq6J+ZfSa/jle57YLkkfPkdrkKaKk3tc+Nx+JUnUZTf
- /7R1RjtuItP9Y14qly5TO14dhxTc8O8MeO8+8jkO6oW9jmOo6su1cmJHErbGqiD58g5c
- eIsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9kLxRkTN0kt8bAx6tDCmMfExdOIUYccVgus6RbjzPc4=;
- b=HNE7dFMGF79Iulh3SJQgTV2GB8d23LpY6QvvkfWYHwQvdHLYOrInhq8SUWWc5ED/O5
- QxslqVgyo1JODYMz8IIPdrCGh38dy+xqXLMXLPNomsL9IKQjrXWu8WBWeDSenUREFAHm
- bsT53EXFEVVSLRvFe1+Os9BHm+c5wr6MwDAAyGO0ufMHXYdnh1Eca4D0d9dDL/1iir4B
- JqErogt4d5x75YHERaBiXeYPklO4KZmZNMoty8PTjJXNs1vjR+DgYj9uGGPCa7EUj0r0
- GskbIrX3Y5IbrY6KnIjfvR5dqUH9GGKH3nVCIH+iA5aTKWn9ZqIxH5nqEHr8HGFh7uKc
- rVog==
-X-Gm-Message-State: AOAM530yZFukOa+h6MOUGrbZXGKN0jZkaJIVXs2eJQDwigqi//fqFpJH
- Y7aPSZTQ+ehUYWnpjfMk00RDJx7juHrN9GlHYxa+PKRh8AU=
-X-Google-Smtp-Source: ABdhPJx46NrV7+VMVPeHgYZA3yKeYBlQCqW0oDrOVRijhtugZpjn6MZDL2zKCATKw3VcANWeuQqburI/jxHFCPrzpms=
-X-Received: by 2002:a05:6830:796:: with SMTP id
- w22mr5009945ots.353.1597501361463; 
- Sat, 15 Aug 2020 07:22:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6xj0-0007Zn-1h
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:04:02 -0400
+Resent-Date: Sat, 15 Aug 2020 11:04:02 -0400
+Resent-Message-Id: <E1k6xj0-0007Zn-1h@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k6xix-0006kl-Ah
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:04:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597503823; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WABeNNztFdJEK9P/l3B+7PAs6gz09ZF/BB8oFzLqj7Ia9L9BO5cros4lwzrqkdQczjzXWK64yPFbWhX4FJ9+xASP0CVSGGs9q4yVjiLpWInjsCsmQTAb8c8nRU5kfUIci7xR52jvjhOFEVSF6fsg9i4eokmQlZXog1hoSadRZ9k=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597503823;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Xb5G8OluQ+eo3yP3hmMtLLK8nYR2f0NjHEc3vKNU9jg=; 
+ b=Mb7SpYMgEyPfBjtczI/bfKgHDY7AAAt9ubTtM3xCgQTTa0Ta/mvgzMOzxxlo/y9qcgax5lH0MbY1zynxjc+S2DjqWaCLSOgEc+lkDptS8F1Qc7PDUawpv22ma8YbzFVzUYHRWsRWEKqGMf/1so36wsbOYA26MuWPWQmarlNu9AY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597503819461550.3223398469286;
+ Sat, 15 Aug 2020 08:03:39 -0700 (PDT)
+Subject: Re: [PATCH] Fixes: Fallthrough warning on line 270 of
+ qemu/qapi/opts-visitor.c
+Message-ID: <159750381841.7155.8719372713269184992@66eaa9a8a123>
+In-Reply-To: <20200815130046.5344-1-rohit.shinde12194@gmail.com>
 MIME-Version: 1.0
-References: <20200815141940.44025-1-liq3ea@163.com>
- <20200815141940.44025-3-liq3ea@163.com>
-In-Reply-To: <20200815141940.44025-3-liq3ea@163.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Sat, 15 Aug 2020 22:22:04 +0800
-Message-ID: <CAKXe6SK9if2JpWrrcabcRZCAbBNH0rHC-YdYz6_QvMCavU+vow@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw: megasas: consider 'iov_count=0' is an error in
- megasas_map_sgl
-To: Li Qiang <liq3ea@163.com>, Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: rohit.shinde12194@gmail.com
+Date: Sat, 15 Aug 2020 08:03:39 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 11:03:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,50 +70,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- hare@suse.com, Qemu Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: mdroth@linux.vnet.ibm.com, rohit.shinde12194@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oh, sorry to forget to CC Alexander Bulekov.
-
-Thanks,
-Li Qiang
-
-Li Qiang <liq3ea@163.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8815=E6=97=A5=E5=91=
-=A8=E5=85=AD =E4=B8=8B=E5=8D=8810:20=E5=86=99=E9=81=93=EF=BC=9A
->
-> Currently in 'megasas_map_sgl' when 'iov_count=3D0' will just return
-> success however the 'cmd' doens't contain any iov. This will cause
-> the assert in 'scsi_dma_complete' failed. This is because in
-> 'dma_blk_cb' the 'dbs->sg_cur_index =3D=3D dbs->sg->nsg' will be true
-> and just call 'dma_complete'. However now there is no aiocb returned.
->
-> This fixes the LP#1878263:
->
-> -->https://bugs.launchpad.net/qemu/+bug/1878263
->
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Li Qiang <liq3ea@163.com>
-> ---
->  hw/scsi/megasas.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-> index d6c9680c36..9562c58a2d 100644
-> --- a/hw/scsi/megasas.c
-> +++ b/hw/scsi/megasas.c
-> @@ -278,7 +278,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCm=
-d *cmd, union mfi_sgl *sgl)
->
->      cmd->flags =3D le16_to_cpu(cmd->frame->header.flags);
->      iov_count =3D cmd->frame->header.sge_count;
-> -    if (iov_count > MEGASAS_MAX_SGE) {
-> +    if (!iov_count || iov_count > MEGASAS_MAX_SGE) {
->          trace_megasas_iovec_sgl_overflow(cmd->index, iov_count,
->                                           MEGASAS_MAX_SGE);
->          return -1;
-> --
-> 2.17.1
->
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNTEzMDA0Ni41MzQ0
+LTEtcm9oaXQuc2hpbmRlMTIxOTRAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
+IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
+Cm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA4MTUxMzAw
+NDYuNTM0NC0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0hdIEZp
+eGVzOiBGYWxsdGhyb3VnaCB3YXJuaW5nIG9uIGxpbmUgMjcwIG9mIHFlbXUvcWFwaS9vcHRzLXZp
+c2l0b3IuYwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBh
+cnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
+bmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
+cGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6
+Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBh
+dGNoZXcvMjAyMDA4MTUxMzAwNDYuNTM0NC0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbSAt
+PiBwYXRjaGV3LzIwMjAwODE1MTMwMDQ2LjUzNDQtMS1yb2hpdC5zaGluZGUxMjE5NEBnbWFpbC5j
+b20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplZTEzYWQwIEZpeGVzOiBGYWxsdGhy
+b3VnaCB3YXJuaW5nIG9uIGxpbmUgMjcwIG9mIHFlbXUvcWFwaS9vcHRzLXZpc2l0b3IuYwoKPT09
+IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IE1pc3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZShzKQoK
+dG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA3IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBlZTEz
+YWQwM2E5ODEgKEZpeGVzOiBGYWxsdGhyb3VnaCB3YXJuaW5nIG9uIGxpbmUgMjcwIG9mIHFlbXUv
+cWFwaS9vcHRzLXZpc2l0b3IuYykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBV
+VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
+ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4MTUxMzAwNDYu
+NTM0NC0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
