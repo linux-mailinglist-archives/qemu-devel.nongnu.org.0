@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE6A24514E
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:48:44 +0200 (CEST)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B615245157
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:00:16 +0200 (CEST)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6yQF-0004EB-VX
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48136)
+	id 1k6ybP-0005kp-2o
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:00:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6yP1-0003BW-I4; Sat, 15 Aug 2020 11:47:27 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36522)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6ya2-0004bO-SQ; Sat, 15 Aug 2020 11:58:50 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:35583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6yOz-0007ZW-SM; Sat, 15 Aug 2020 11:47:27 -0400
-Received: by mail-oi1-x242.google.com with SMTP id l204so10899710oib.3;
- Sat, 15 Aug 2020 08:47:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6ya1-000115-9Z; Sat, 15 Aug 2020 11:58:50 -0400
+Received: by mail-ej1-x641.google.com with SMTP id a26so13054299ejc.2;
+ Sat, 15 Aug 2020 08:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7Jnq2PjERJLs/GO9/4baZQ//w2zkwIz0zzZeTVJKRcU=;
- b=TUogl15Ihu9IJh05cXZppSTXCvVb63Ib0zuv3MFKpFp7YWgBFDSoPALaKUmC8v+c4d
- /qlXqwJ8nb0xfoLza982lNCf8aS23WRotVIZVj0/OkN+P5rUsFpxeE6+2h8UflXeidZ5
- IVDuiyhzZzw8gxGOcg4md9YlrZ7lOBY26C/RvSi+Ij9lvW752uoYvK0mRS/QGS1wFera
- ecLS7Z63xneyVPtIptSeCqUR/HB52ZjRZQTFZVvFvkzHLsN/C8yfZuOcR1uJNZm7FR2G
- 9VpGtmK/LoTA2gSGxlznanvOhKur16z2E1nplFNaxpNlN96a3Kq1j983ZhVQfRYYKdWc
- sUgw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=23ClA1zj5xFJ/0MPwFI0Fld8oSCrUIsEogBg4Ief7j4=;
+ b=YkTBr86YEckUL1Q6GdC5yh5BlLbjrHsGM3RT4t3K4tzG390qdJBs8YnBfb32JHfash
+ yJAmcV14RkNFPxZ5XL9xZzN81TkLZmbxKhWhWbuhvTFqkgo9xsNy6ZC64svjGZunQwst
+ xWwCYwrCJSrZT/MOlKpgMaGjJlLWirnLhVT2JJLI/oyqGr0k07NoT+3aNTxqSVnJH2JT
+ PUXMy7/UqUHfMuAVUFwArzEZqO8ob4Js2LeO3hmqV2sPscaoEYNAIUFMaryJEDwGJrRl
+ vmy6m/+BrYGRcUO4/qVwAv/m8Z7WGQWnzBvsq58+JYiYNKWDiXHRGKInaZxGtQVBlwvx
+ 2l5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7Jnq2PjERJLs/GO9/4baZQ//w2zkwIz0zzZeTVJKRcU=;
- b=HGVow6aGhHjZm+WUd7fKkgOj8jn/28mHk0wtHx4LdVFUg7AkbkbVQoSzCC3e8h8loH
- wc3duyGufZ3I8H19S4emEljPVhXOHYrPbulfn+1teNH9NY2+JzUxGaUT0/vwfUMlOPnq
- XfhSU7zQ/iErkwsuW1HKeo9JKpXTdx5G9LLwEPaXHVbDAj3lkL8zoSJO3LoOxUWZ+BKh
- nSCco46tn+8XcfWF3WqItO/VUuxEJmjhmTCOgjdiiPS+4qKdhM204m1+v7a3MLwHzri3
- HIZk139mU0Dusj1OxPfvz8kI8mFamDD3bNQkSSC9EPLuUZTMb1n0wkJdlHjvukkHwght
- 8Edw==
-X-Gm-Message-State: AOAM532PvWMRes6tHQqwHXFtcazlD6wxoGsUwMr4ui1nGwBix2RgAPQB
- gFkThXxjCrfT+BeXcYm7BcaZ3rbaIUhtNehf7g0pVbk25h8=
-X-Google-Smtp-Source: ABdhPJyBm61wARtWHsmce0n7gjQyDw+KSNq/H2UHw3rm6ix30D9v0MkrG8zIRVMjR/J/EbGzA/63Hdscld+CfhiRSi8=
-X-Received: by 2002:aca:1117:: with SMTP id 23mr3486076oir.97.1597461878912;
- Fri, 14 Aug 2020 20:24:38 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=23ClA1zj5xFJ/0MPwFI0Fld8oSCrUIsEogBg4Ief7j4=;
+ b=mMOWvA9ZMmnpPqtOEkC482z9QLHaZMZjFMQYJ+pTQuD3JhYwWom1VXB7pM1DZ9/Xqs
+ xC8wpFvGNFjMF0Walx5wzY9BwKtILWa6LN6EMrJaNhTlm3GS1O9ZanHoGIefF0HXZkFQ
+ NrMte0Kb5plNCaF+sNH+jtz73FsgvLxduVegK8RhTsx/cm0qbMt078rhafGSrQuEm62s
+ 0FZtcQlucVEm1yJEZemTwF4zt4xkI7tNiIKtuDZ4fsJ0EIU4YG+wxslqZtCPLt8f6d2N
+ flwcs5nfTrrXcSWkLpzZVLil7YLw+scTdEUV7HIvqHR2cagvre2menToBRu24kvRqzAh
+ BEdA==
+X-Gm-Message-State: AOAM532jSA+9epSxCxXIae5lgYyI0SnVYRrV4GNlq7AF630BObGK/hch
+ BVxJJ0G2z7to9y5FtlGkj1c6LetlHWU=
+X-Google-Smtp-Source: ABdhPJyCh2JMbov66bRCSzNwslYV0cujTQZRClFPFsv/CyvYv17PXy4cYPTjCJPM+yP+oPdO2Gskqg==
+X-Received: by 2002:adf:94c3:: with SMTP id 61mr5783672wrr.289.1597480706228; 
+ Sat, 15 Aug 2020 01:38:26 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id u204sm20580087wmg.9.2020.08.15.01.38.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Aug 2020 01:38:25 -0700 (PDT)
+Subject: Re: [PATCH 08/18] hw/sd: sd: Correctly set the high capacity bit
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
+ <1597423256-14847-9-git-send-email-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3b8ef426-77ce-d3b2-594b-045cae5ec94f@amsat.org>
+Date: Sat, 15 Aug 2020 10:38:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200814082841.27000-1-f4bug@amsat.org>
- <20200814082841.27000-8-f4bug@amsat.org>
-In-Reply-To: <20200814082841.27000-8-f4bug@amsat.org>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Sat, 15 Aug 2020 11:24:02 +0800
-Message-ID: <CAKXe6SKLqZ6HRFLENFkZCX3kkWUPQVD=OH0cqY7iwo77876azw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] hw/scsi/scsi-disk: Replace magic '512' value by
- BDRV_SECTOR_SIZE
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x242.google.com
+In-Reply-To: <1597423256-14847-9-git-send-email-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,200 +92,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Qemu Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E4=BA=8E2020=E5=B9=B48=E6=9C=
-=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:34=E5=86=99=E9=81=93=
-=EF=BC=9A
->
-> Use self-explicit definitions instead of magic '512' value.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 8/14/20 6:40 PM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> Per the SD spec, Standard Capacity SD Memory Card (SDSC) supports
+> capacity up to and including 2 GiB.
+> 
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Fixes: 2d7adea4fe ("hw/sd: Support SDHC size cards")
 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  hw/scsi/scsi-disk.c | 44 +++++++++++++++++++++++---------------------
->  1 file changed, 23 insertions(+), 21 deletions(-)
->
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index 8ce68a9dd6..7612035a4e 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -71,7 +71,7 @@ typedef struct SCSIDiskClass {
->
->  typedef struct SCSIDiskReq {
->      SCSIRequest req;
-> -    /* Both sector and sector_count are in terms of qemu 512 byte blocks=
-.  */
-> +    /* Both sector and sector_count are in terms of BDRV_SECTOR_SIZE byt=
-es.  */
->      uint64_t sector;
->      uint32_t sector_count;
->      uint32_t buflen;
-> @@ -141,7 +141,7 @@ static void scsi_init_iovec(SCSIDiskReq *r, size_t si=
-ze)
->          r->buflen =3D size;
->          r->iov.iov_base =3D blk_blockalign(s->qdev.conf.blk, r->buflen);
->      }
-> -    r->iov.iov_len =3D MIN(r->sector_count * 512, r->buflen);
-> +    r->iov.iov_len =3D MIN(r->sector_count * BDRV_SECTOR_SIZE, r->buflen=
-);
->      qemu_iovec_init_external(&r->qiov, &r->iov, 1);
->  }
->
-> @@ -311,7 +311,7 @@ static void scsi_read_complete_noio(SCSIDiskReq *r, i=
-nt ret)
->          goto done;
->      }
->
-> -    n =3D r->qiov.size / 512;
-> +    n =3D r->qiov.size / BDRV_SECTOR_SIZE;
->      r->sector +=3D n;
->      r->sector_count -=3D n;
->      scsi_req_data(&r->req, r->qiov.size);
-> @@ -505,7 +505,7 @@ static void scsi_write_complete_noio(SCSIDiskReq *r, =
-int ret)
->          goto done;
->      }
->
-> -    n =3D r->qiov.size / 512;
-> +    n =3D r->qiov.size / BDRV_SECTOR_SIZE;
->      r->sector +=3D n;
->      r->sector_count -=3D n;
->      if (r->sector_count =3D=3D 0) {
-> @@ -1284,7 +1284,7 @@ static int scsi_disk_emulate_mode_sense(SCSIDiskReq=
- *r, uint8_t *outbuf)
->          } else { /* MODE_SENSE_10 */
->              outbuf[7] =3D 8; /* Block descriptor length  */
->          }
-> -        nb_sectors /=3D (s->qdev.blocksize / 512);
-> +        nb_sectors /=3D (s->qdev.blocksize / BDRV_SECTOR_SIZE);
->          if (nb_sectors > 0xffffff) {
->              nb_sectors =3D 0;
->          }
-> @@ -1342,7 +1342,7 @@ static int scsi_disk_emulate_read_toc(SCSIRequest *=
-req, uint8_t *outbuf)
->      start_track =3D req->cmd.buf[6];
->      blk_get_geometry(s->qdev.conf.blk, &nb_sectors);
->      trace_scsi_disk_emulate_read_toc(start_track, format, msf >> 1);
-> -    nb_sectors /=3D s->qdev.blocksize / 512;
-> +    nb_sectors /=3D s->qdev.blocksize / BDRV_SECTOR_SIZE;
->      switch (format) {
->      case 0:
->          toclen =3D cdrom_read_toc(nb_sectors, outbuf, msf, start_track);
-> @@ -1738,9 +1738,10 @@ static void scsi_write_same_complete(void *opaque,=
- int ret)
->
->      block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
->
-> -    data->nb_sectors -=3D data->iov.iov_len / 512;
-> -    data->sector +=3D data->iov.iov_len / 512;
-> -    data->iov.iov_len =3D MIN(data->nb_sectors * 512, data->iov.iov_len)=
-;
-> +    data->nb_sectors -=3D data->iov.iov_len / BDRV_SECTOR_SIZE;
-> +    data->sector +=3D data->iov.iov_len / BDRV_SECTOR_SIZE;
-> +    data->iov.iov_len =3D MIN(data->nb_sectors * BDRV_SECTOR_SIZE,
-> +                            data->iov.iov_len);
->      if (data->iov.iov_len) {
->          block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
->                           data->iov.iov_len, BLOCK_ACCT_WRITE);
-> @@ -1805,9 +1806,10 @@ static void scsi_disk_emulate_write_same(SCSIDiskR=
-eq *r, uint8_t *inbuf)
->
->      data =3D g_new0(WriteSameCBData, 1);
->      data->r =3D r;
-> -    data->sector =3D r->req.cmd.lba * (s->qdev.blocksize / 512);
-> -    data->nb_sectors =3D nb_sectors * (s->qdev.blocksize / 512);
-> -    data->iov.iov_len =3D MIN(data->nb_sectors * 512, SCSI_WRITE_SAME_MA=
-X);
-> +    data->sector =3D r->req.cmd.lba * (s->qdev.blocksize / BDRV_SECTOR_S=
-IZE);
-> +    data->nb_sectors =3D nb_sectors * (s->qdev.blocksize / BDRV_SECTOR_S=
-IZE);
-> +    data->iov.iov_len =3D MIN(data->nb_sectors * BDRV_SECTOR_SIZE,
-> +                            SCSI_WRITE_SAME_MAX);
->      data->iov.iov_base =3D buf =3D blk_blockalign(s->qdev.conf.blk,
->                                                data->iov.iov_len);
->      qemu_iovec_init_external(&data->qiov, &data->iov, 1);
-> @@ -1980,7 +1982,7 @@ static int32_t scsi_disk_emulate_command(SCSIReques=
-t *req, uint8_t *buf)
->          if ((req->cmd.buf[8] & 1) =3D=3D 0 && req->cmd.lba) {
->              goto illegal_request;
->          }
-> -        nb_sectors /=3D s->qdev.blocksize / 512;
-> +        nb_sectors /=3D s->qdev.blocksize / BDRV_SECTOR_SIZE;
->          /* Returned value is the address of the last sector.  */
->          nb_sectors--;
->          /* Remember the new size for read/write sanity checking. */
-> @@ -2049,7 +2051,7 @@ static int32_t scsi_disk_emulate_command(SCSIReques=
-t *req, uint8_t *buf)
->              if ((req->cmd.buf[14] & 1) =3D=3D 0 && req->cmd.lba) {
->                  goto illegal_request;
->              }
-> -            nb_sectors /=3D s->qdev.blocksize / 512;
-> +            nb_sectors /=3D s->qdev.blocksize / BDRV_SECTOR_SIZE;
->              /* Returned value is the address of the last sector.  */
->              nb_sectors--;
->              /* Remember the new size for read/write sanity checking. */
-> @@ -2180,8 +2182,8 @@ static int32_t scsi_disk_dma_command(SCSIRequest *r=
-eq, uint8_t *buf)
->          if (!check_lba_range(s, r->req.cmd.lba, len)) {
->              goto illegal_lba;
->          }
-> -        r->sector =3D r->req.cmd.lba * (s->qdev.blocksize / 512);
-> -        r->sector_count =3D len * (s->qdev.blocksize / 512);
-> +        r->sector =3D r->req.cmd.lba * (s->qdev.blocksize / BDRV_SECTOR_=
-SIZE);
-> +        r->sector_count =3D len * (s->qdev.blocksize / BDRV_SECTOR_SIZE)=
-;
->          break;
->      case WRITE_6:
->      case WRITE_10:
-> @@ -2211,8 +2213,8 @@ static int32_t scsi_disk_dma_command(SCSIRequest *r=
-eq, uint8_t *buf)
->          if (!check_lba_range(s, r->req.cmd.lba, len)) {
->              goto illegal_lba;
->          }
-> -        r->sector =3D r->req.cmd.lba * (s->qdev.blocksize / 512);
-> -        r->sector_count =3D len * (s->qdev.blocksize / 512);
-> +        r->sector =3D r->req.cmd.lba * (s->qdev.blocksize / BDRV_SECTOR_=
-SIZE);
-> +        r->sector_count =3D len * (s->qdev.blocksize / BDRV_SECTOR_SIZE)=
-;
->          break;
->      default:
->          abort();
-> @@ -2229,9 +2231,9 @@ static int32_t scsi_disk_dma_command(SCSIRequest *r=
-eq, uint8_t *buf)
->      }
->      assert(r->iov.iov_len =3D=3D 0);
->      if (r->req.cmd.mode =3D=3D SCSI_XFER_TO_DEV) {
-> -        return -r->sector_count * 512;
-> +        return -r->sector_count * BDRV_SECTOR_SIZE;
->      } else {
-> -        return r->sector_count * 512;
-> +        return r->sector_count * BDRV_SECTOR_SIZE;
+> 
+>  hw/sd/sd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index 51f5900..5e7fc3f 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -313,7 +313,7 @@ static void sd_ocr_powerup(void *opaque)
+>      /* card power-up OK */
+>      sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_POWER_UP, 1);
+>  
+> -    if (sd->size > 1 * GiB) {
+> +    if (sd->size > 2 * GiB) {
+
+But you need to fix sd_set_csd() too, else this is incomplete.
+
+Thanks,
+
+Phil.
+
+>          sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_CAPACITY, 1);
 >      }
 >  }
->
-> @@ -2243,7 +2245,7 @@ static void scsi_disk_reset(DeviceState *dev)
->      scsi_device_purge_requests(&s->qdev, SENSE_CODE(RESET));
->
->      blk_get_geometry(s->qdev.conf.blk, &nb_sectors);
-> -    nb_sectors /=3D s->qdev.blocksize / 512;
-> +    nb_sectors /=3D s->qdev.blocksize / BDRV_SECTOR_SIZE;
->      if (nb_sectors) {
->          nb_sectors--;
->      }
-> --
-> 2.21.3
->
->
+> 
+
 
