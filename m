@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03CE24517A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:39:28 +0200 (CEST)
-Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41958245173
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:32:26 +0200 (CEST)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zDL-00038K-Sy
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35824)
+	id 1k6z6W-0007AE-N6
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6zCS-0002dF-6s; Sat, 15 Aug 2020 12:38:32 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34642)
+ id 1k6z4o-0006Jv-FW; Sat, 15 Aug 2020 12:30:40 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1k6zCQ-0006LN-PH; Sat, 15 Aug 2020 12:38:31 -0400
-Received: by mail-ot1-x343.google.com with SMTP id k12so10119384otr.1;
- Sat, 15 Aug 2020 09:38:29 -0700 (PDT)
+ id 1k6z4n-0005QG-0Y; Sat, 15 Aug 2020 12:30:38 -0400
+Received: by mail-oi1-x243.google.com with SMTP id z22so11001101oid.1;
+ Sat, 15 Aug 2020 09:30:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=6x8ZgXFNj8hCFkssNg2uV681vQahkWv9jYTpIedwZ/4=;
- b=cZvvyjSg6bNTpoyEYxGlFZonbx3JpNsomRoxGxNk+xTecYhnsan+d6bxSmOjm/N2NJ
- htjTsibb5ft3xQ1rW3mhnM/WzL6818jTzRtGwXNHm7PixNjF+jx9tzSmI/jUq689Swl1
- Z11mxhvX6FzLOmL67OXYpvXS41G8/v0n3AC7V8AKldKIWe6dkj7PV8r/EzZ09zykW0jV
- 4eM2Jj34RzWM/5wRY1MNDj32fXU0Jzq/3goY3YRBR4z96thRjvVAc+bZv5isYEJZewq3
- cOhcKsbIPpq6iK2ggevtw2F2Xga9oE9IeA0YR0SZcJ18J2KgTi6BiNlKgEVkqLnb/QLn
- tx5g==
+ bh=So1m/CQpgJE8oIUdFCwbc+hiP/OZYh6ibudoP8u5D9I=;
+ b=UCzJqenvC+PgihmW1jn6ZoUS+ogucGCeKLg+x81tH0jL0qC6EqA8ivq9uziN2udh0b
+ 5XxC/dzAMEZJoxjig06BqDGHkkXpZVJGGz1fsp5w6jovVIULRNZjCXx2AjdebqQF/Wcy
+ pHaPzUmxC2FuK1ORzbxaok12YPLUxEV/LZ3c4dR7pvfbF9KtArBNEyU6LxCbFv9sfQ+f
+ 6KObcQSsfSQclDzN4TRbFIpfsIBlBYlBUUu98SCXWW2PuerLX6uRa/VN6DGEAl6p6tKd
+ J/gU0f9rrOQz5mJbjZe23Xoi8TMEDkwdi6M0DlRAqguDrRYK6//QbOe8K6SeFNZdgvI5
+ plAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6x8ZgXFNj8hCFkssNg2uV681vQahkWv9jYTpIedwZ/4=;
- b=JgwA0kpRDrei/ZLdw5+gPAyl4xb7g3ny+CSw6kvEV4Oz35fmWeY2mikGdyrvGVe1QW
- NdyF4e4qs6NtWBnjljjnL51qaHLFYk8Qor08Gg+Sj6jdhSld4reG1gGxh8C/uCSzFpOg
- +67VyL/6m5g8rhcqnxcdjqvRU8BR8tDltTNcEOs5HM84Oehq8NJlxdYh0nxawE05+TH8
- bRFmr7dcz8zHAySiulgU6jYJ2ir3SIS8nKF1VE2rdGMru1+ez0MWocGAEE0VNh8prJH3
- lfwoxGE5hnARs5SMp74kt52QWwTyK+K0k1dGBR0BNmrWULTCXn1jrwuH+vlOD1Hpu7t/
- 00VQ==
-X-Gm-Message-State: AOAM531c5wAkK829qDAHORuF34D1GgUrYTfYsdMHnn6J0X1flHcvMChP
- 48X6hzatbHPMQ8KM9BB/MIOWWTgRfU80wzDcZCNnpsa8nFw=
-X-Google-Smtp-Source: ABdhPJwCPpQrHBOZbhwDh8t1l9RqMOcHwwSk2FqJjeLb0Mmy4cOOR6a3c8GH8s3VAIltZnm1rT9UTlkAKlTchq1ZMOk=
-X-Received: by 2002:a9d:2926:: with SMTP id d35mr3843883otb.181.1597461350344; 
- Fri, 14 Aug 2020 20:15:50 -0700 (PDT)
+ bh=So1m/CQpgJE8oIUdFCwbc+hiP/OZYh6ibudoP8u5D9I=;
+ b=ndoW8PWM2oO+AkFystAoWYe2ffp0jBelTOd+Zuxu8A1mvka52Njf3AMYp5awz7s0zp
+ RfhPwylIO6NhI+Qp6fPbkGrZHDamPwTXB6hDuyqZhwgHubZbmoa3T6qwsCr0LsQeMl1T
+ 0p7z2axAzU0pVtBsSb0OCukpLPMklXOa+3mIgCe3HRxmD4YbcZsSZ3zz2Iu81CsR3uLq
+ kMXDbsjeH2Yllx6i2WRAqDu9jf+GMjFPigvnpuYPrYZpHmgxvb+IXhD/UsrTEHk1qvhY
+ BnyNQMhq0Z7C+tqzo/AjsiyVeROwCnmkICKG5+a6nAWVmln0Wx53lTW6+Qle/BhKjMqc
+ Le8A==
+X-Gm-Message-State: AOAM532LPpq1yaRVleJPIHjypS8eymZ/leDgUuM6jsxKPaGrHAoz3qH+
+ Z7wZUbrC5enS+camFeXPmtKx4t7/+aPtT7Ou5R59gaf/Z2I=
+X-Google-Smtp-Source: ABdhPJw3AL7SLiktmxetz4Dbdwi/r9N1u9uNuROjELQO+raN1Bas6l4dEgbeDsbqXuHBwaWeUJhlYp5OEOFjp37lt54=
+X-Received: by 2002:aca:c0c1:: with SMTP id q184mr3589966oif.56.1597461748500; 
+ Fri, 14 Aug 2020 20:22:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200814082841.27000-1-f4bug@amsat.org>
- <20200814082841.27000-2-f4bug@amsat.org>
-In-Reply-To: <20200814082841.27000-2-f4bug@amsat.org>
+ <20200814082841.27000-5-f4bug@amsat.org>
+In-Reply-To: <20200814082841.27000-5-f4bug@amsat.org>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Sat, 15 Aug 2020 11:15:14 +0800
-Message-ID: <CAKXe6S+X0ALv9RFOHs+gzYeWX_u2x3qMA3Y+jiMxA+1Rm3cD3A@mail.gmail.com>
-Subject: Re: [PATCH 1/7] block/null: Make more explicit the driver default
- size is 1GiB
+Date: Sat, 15 Aug 2020 11:21:52 +0800
+Message-ID: <CAKXe6SKa0H7umV+=2p_Sq_6m1HOAQsHO9hNxKgUOKa--LZt9RQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] hw/ide/ahci: Replace magic '512' value by
+ BDRV_SECTOR_SIZE
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -10
@@ -89,51 +89,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E4=BA=8E2020=E5=B9=B48=E6=9C=
-=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:29=E5=86=99=E9=81=93=
+=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:31=E5=86=99=E9=81=93=
 =EF=BC=9A
 >
-> As it is not obvious the default size for the null block driver
-> is 1 GiB, replace the obfuscated '1 << 30' magic value by a
-> definition using IEC binary prefixes.
+> Use self-explicit definitions instead of magic '512' value.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
->  block/null.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  hw/ide/ahci.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/block/null.c b/block/null.c
-> index 15e1d56746..8354def367 100644
-> --- a/block/null.c
-> +++ b/block/null.c
-> @@ -11,6 +11,7 @@
->   */
+> diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+> index 009120f88b..b696c6291a 100644
+> --- a/hw/ide/ahci.c
+> +++ b/hw/ide/ahci.c
+> @@ -1151,7 +1151,7 @@ static void process_ncq_command(AHCIState *s, int p=
+ort, uint8_t *cmd_fis,
+>      if (!ncq_tfs->sector_count) {
+>          ncq_tfs->sector_count =3D 0x10000;
+>      }
+> -    size =3D ncq_tfs->sector_count * 512;
+> +    size =3D ncq_tfs->sector_count * BDRV_SECTOR_SIZE;
+>      ahci_populate_sglist(ad, &ncq_tfs->sglist, ncq_tfs->cmdh, size, 0);
 >
->  #include "qemu/osdep.h"
-> +#include "qemu/units.h"
->  #include "qapi/error.h"
->  #include "qapi/qmp/qdict.h"
->  #include "qapi/qmp/qstring.h"
-> @@ -21,6 +22,7 @@
->
->  #define NULL_OPT_LATENCY "latency-ns"
->  #define NULL_OPT_ZEROES  "read-zeroes"
-> +#define NULL_OPT_SIZE    (1 * GiB)
->
->  typedef struct {
->      int64_t length;
-> @@ -86,7 +88,7 @@ static int null_file_open(BlockDriverState *bs, QDict *=
-options, int flags,
->      opts =3D qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
->      qemu_opts_absorb_qdict(opts, options, &error_abort);
->      s->length =3D
-> -        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 1 << 30);
-> +        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, NULL_OPT_SIZE);
->      s->latency_ns =3D
->          qemu_opt_get_number(opts, NULL_OPT_LATENCY, 0);
->      if (s->latency_ns < 0) {
+>      if (ncq_tfs->sglist.size < size) {
+> @@ -1703,7 +1703,8 @@ static int ahci_state_post_load(void *opaque, int v=
+ersion_id)
+>                  return -1;
+>              }
+>              ahci_populate_sglist(ncq_tfs->drive, &ncq_tfs->sglist,
+> -                                 ncq_tfs->cmdh, ncq_tfs->sector_count * =
+512,
+> +                                 ncq_tfs->cmdh,
+> +                                 ncq_tfs->sector_count * BDRV_SECTOR_SIZ=
+E,
+>                                   0);
+>              if (ncq_tfs->sector_count !=3D ncq_tfs->sglist.size >> 9) {
+>                  return -1;
 > --
 > 2.21.3
 >
