@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2042245160
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:12:48 +0200 (CEST)
-Received: from localhost ([::1]:33258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991DB24515B
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:08:25 +0200 (CEST)
+Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6ynX-0005P6-QA
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
+	id 1k6yjI-0007OT-LC
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6ylV-0003LB-CW
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:10:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43546)
+ id 1k6yiB-0006B9-G2
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:07:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6ylT-0002mA-F1
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:10:41 -0400
+ id 1k6yi9-0002Hn-LW
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:07:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k6ud2-0006xG-1Y
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 11:45:40 +0000
+ id 1k6ud0-0006vU-GC
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 11:45:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 020CD2E80D2
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 11:45:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 697872E80E7
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 11:45:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 Aug 2020 11:37:16 -0000
-From: Ech <1891748@bugs.launchpad.net>
+Date: Sat, 15 Aug 2020 11:38:55 -0000
+From: - <1891749@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: i386 linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ech1965
-X-Launchpad-Bug-Reporter: Ech (ech1965)
-X-Launchpad-Bug-Modifier: Ech (ech1965)
-Message-Id: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Subject: [Bug 1891748] [NEW] qemu-arm-static 5.1 can't run gcc
+X-Launchpad-Bug-Commenters: xyz378537
+X-Launchpad-Bug-Reporter: - (xyz378537)
+X-Launchpad-Bug-Modifier: - (xyz378537)
+Message-Id: <159749153602.26349.12174585441877803100.malonedeb@soybean.canonical.com>
+Subject: [Bug 1891749] [NEW] CGA Mode 6 is only 100 pixels tall,
+ when it's supposed to be 200
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: dcf917a4b689d61919e498b8fa6aa84c031b22ce
+X-Launchpad-Hash: 6197ef693ab10c6d5940ec7d1c722bdc6f187c09
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 12:06:21
@@ -70,58 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
+Reply-To: Bug 1891749 <1891749@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Public bug reported:
 
-Issue discovered while trying to build pikvm (1)
-
-Long story short: when using qemu-arm-static 5.1, gcc exits whith
-message:
-
-Allocating guest commpage: Operation not permitted
-
-
-when using qemu-arm-static v5.0, gcc "works"
-
-Steps to reproduce will follow
-
-(1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
+I have written a program that used CGA Mode 6 (640x200 black and white).
+However qemu-system-i386 only displays the first 100 pixels, effectively
+limiting the resolution of mode 6 to 640x100. When running the same
+program on a real computer it uses the whole 640x200 pixels.
 
 ** Affects: qemu
      Importance: Undecided
          Status: New
 
+
+** Tags: i386 linux-user
+
+** Tags added: linux-user
+
+** Tags removed: li
+
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891748
+https://bugs.launchpad.net/bugs/1891749
 
 Title:
-  qemu-arm-static 5.1 can't run gcc
+  CGA Mode 6 is only 100 pixels tall, when it's supposed to be 200
 
 Status in QEMU:
   New
 
 Bug description:
-  Issue discovered while trying to build pikvm (1)
-
-  Long story short: when using qemu-arm-static 5.1, gcc exits whith
-  message:
-
-  Allocating guest commpage: Operation not permitted
-
-  =
-
-  when using qemu-arm-static v5.0, gcc "works"
-
-  Steps to reproduce will follow
-
-  (1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
+  I have written a program that used CGA Mode 6 (640x200 black and
+  white). However qemu-system-i386 only displays the first 100 pixels,
+  effectively limiting the resolution of mode 6 to 640x100. When running
+  the same program on a real computer it uses the whole 640x200 pixels.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891748/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1891749/+subscriptions
 
