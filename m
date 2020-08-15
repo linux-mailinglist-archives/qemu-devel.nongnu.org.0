@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB8B2451A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:04:23 +0200 (CEST)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962202451AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:04:32 +0200 (CEST)
+Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k70XV-0002OQ-R0
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:04:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
+	id 1k70Xf-0002bT-Jw
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k70VF-0000pI-5n
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:01 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:57326 helo=huawei.com)
+ id 1k70VJ-0000uk-N5
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:05 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:57582 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k70VD-0007DV-10
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:00 -0400
+ id 1k70VH-0007E2-RI
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:05 -0400
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 03637AA08AA0E28D99EA;
+ by Forcepoint Email with ESMTP id 1A38440DCC001D5839C9;
  Sat, 15 Aug 2020 10:11:17 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS401-HUB.china.huawei.com
  (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Sat, 15 Aug 2020
  10:11:06 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 02/10] migration/dirtyrate: Add RamlockDirtyInfo to store
- sampled page info
-Date: Sat, 15 Aug 2020 10:22:52 +0800
-Message-ID: <1597458180-16945-3-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v2 03/10] migration/dirtyrate: Add dirtyrate statistics series
+ functions
+Date: Sat, 15 Aug 2020 10:22:53 +0800
+Message-ID: <1597458180-16945-4-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1597458180-16945-1-git-send-email-zhengchuan@huawei.com>
 References: <1597458180-16945-1-git-send-email-zhengchuan@huawei.com>
@@ -67,44 +67,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zheng Chuan <zhengchuan@huawei.com>
 
-Add RamlockDirtyInfo to store sampled page info of each ramblock.
+Add dirtyrate statistics to record/update dirtyrate info.
 
 Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
 ---
- migration/dirtyrate.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ migration/dirtyrate.c | 30 ++++++++++++++++++++++++++++++
+ migration/dirtyrate.h | 10 ++++++++++
+ 2 files changed, 40 insertions(+)
 
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index bb0ebe9..8708090 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -24,6 +24,7 @@
+ #include "dirtyrate.h"
+ 
+ CalculatingDirtyRateState CalculatingState = CAL_DIRTY_RATE_INIT;
++static struct DirtyRateStat dirty_stat;
+ 
+ static int dirty_rate_set_state(int new_state)
+ {
+@@ -40,6 +41,35 @@ static int dirty_rate_set_state(int new_state)
+     return 0;
+ }
+ 
++static void reset_dirtyrate_stat(void)
++{
++    dirty_stat.total_dirty_samples = 0;
++    dirty_stat.total_sample_count = 0;
++    dirty_stat.total_block_mem_MB = 0;
++    dirty_stat.dirty_rate = 0;
++}
++
++static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
++{
++    dirty_stat.total_dirty_samples += info->sample_dirty_count;
++    dirty_stat.total_sample_count += info->sample_pages_count;
++    /* size of 4K pages in MB */
++    dirty_stat.total_block_mem_MB += info->ramblock_pages / 256;
++}
++
++static void update_dirtyrate(uint64_t msec)
++{
++    uint64_t dirty_rate;
++    unsigned int total_dirty_samples = dirty_stat.total_dirty_samples;
++    unsigned int total_sample_count = dirty_stat.total_sample_count;
++    size_t total_block_mem_MB = dirty_stat.total_block_mem_MB;
++
++    dirty_rate = total_dirty_samples * total_block_mem_MB *
++                 1000 / (total_sample_count * msec);
++
++    dirty_stat.dirty_rate = dirty_rate;
++}
++
+ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ {
+     /* todo */
 diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-index 914c363..9650566 100644
+index 9650566..af57c80 100644
 --- a/migration/dirtyrate.h
 +++ b/migration/dirtyrate.h
-@@ -19,6 +19,11 @@
-  */
- #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            256
+@@ -57,6 +57,16 @@ struct RamblockDirtyInfo {
+     uint8_t *hash_result; /* array of hash result for sampled pages */
+ };
  
 +/*
-+ * Record ramblock idstr
++ * Store calculate statistics for each measure.
 + */
-+#define RAMBLOCK_INFO_MAX_LEN                     256
-+
- /* Take 1s as default for calculation duration */
- #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
- 
-@@ -39,6 +44,19 @@ typedef enum {
-     CAL_DIRTY_RATE_END,
- } CalculatingDirtyRateState;
- 
-+/*
-+ * Store dirtypage info for each ramblock.
-+ */
-+struct RamblockDirtyInfo {
-+    char idstr[RAMBLOCK_INFO_MAX_LEN]; /* idstr for each ramblock */
-+    uint8_t *ramblock_addr; /* base address of ramblock we measure */
-+    size_t ramblock_pages; /* sum of dividation by 4K pages for ramblock */
-+    size_t *sample_page_vfn; /* relative offset address for sampled page */
-+    unsigned int sample_pages_count; /* sum of sampled pages */
-+    unsigned int sample_dirty_count; /* sum of dirty pages we measure */
-+    uint8_t *hash_result; /* array of hash result for sampled pages */
++struct DirtyRateStat {
++    unsigned int total_dirty_samples; /* total dirty pages for this measure */
++    unsigned int total_sample_count; /* total sampled pages for this measure */
++    size_t total_block_mem_MB; /* size of sampled pages in MB */
++    int64_t dirty_rate; /* dirty rate for this measure */
 +};
 +
  void *get_dirtyrate_thread(void *arg);
