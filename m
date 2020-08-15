@@ -2,55 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E57245127
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:07:57 +0200 (CEST)
-Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A0324512D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:11:59 +0200 (CEST)
+Received: from localhost ([::1]:35424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xmm-0003WU-OH
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48316)
+	id 1k6xqg-0001jS-L5
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1k6xif-00070V-L2
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:03:41 -0400
-Received: from mail-m9763.mail.163.com ([123.126.97.63]:46538)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1k6xiZ-0006bQ-Jm
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:03:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=GRipXL1wXwapZA2mgs
- copNepRvF0IcwJJiMPyjZeykA=; b=azujKpAGdyW1XusGyBUlmjlsJOX41GpsTh
- CC75MfhSPyS9asHJGeQy7lduiMoUzP/ga8CGmVJl97jlifd1OGuOakfa77y7uY97
- /4gj4iSYi3dBHg2CO2r6Kuc9wsT3nMkcfuarJ9Wt0ZFsPcVtliDQ93qCZWcpx9L1
- c1R/km92g=
-Received: from localhost.localdomain (unknown [115.204.244.155])
- by smtp5 (Coremail) with SMTP id HdxpCgBn0O7WjDdfslvODQ--.349S4;
- Sat, 15 Aug 2020 15:20:56 +0800 (CST)
-From: Li Qiang <liq3ea@163.com>
-To: jsnow@redhat.com,
-	alxndr@bu.edu
-Subject: [PATCH] hw: ide: check the pointer before do dma memory unmap
-Date: Sat, 15 Aug 2020 00:20:52 -0700
-Message-Id: <20200815072052.73228-1-liq3ea@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: HdxpCgBn0O7WjDdfslvODQ--.349S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF4UGr4fuF17Zr1kZFy7Jrb_yoWfCrb_X3
- yfX348Wa95Jayj9w13tw4rJ347t395Jr1kurySgry3uF17Jay3JFW8t3ZrWrW3tFZrtrW3
- GF1F9FWrurWDKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1fWFUUUUUU==
-X-Originating-IP: [115.204.244.155]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFBmBbVaD6+TB1AAAsu
-Received-SPF: pass client-ip=123.126.97.63; envelope-from=liq3ea@163.com;
- helo=mail-m9763.mail.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 03:37:13
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6xl0-0001i0-4l; Sat, 15 Aug 2020 11:06:06 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6xkw-0007P7-Ne; Sat, 15 Aug 2020 11:06:05 -0400
+Received: by mail-wr1-x443.google.com with SMTP id c15so10776133wrs.11;
+ Sat, 15 Aug 2020 08:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rzvzX/q48G/5lbz2V3/I6m58sYU6eRhRCBMzPGbBvao=;
+ b=MD+Tbwl/NiEmrNjqFUYF2dly6NDOMm1VPajKXKAPw+3E/sAH/X6HLRE4CoUL+0VDfD
+ NgT1OG4PrvCQhigqDcT4kGZfETMYdG5RdtSkTmbSrIF/hy3zUL7okuVo0iVyPoWvHIKj
+ zNFEMLHEvdgYVR/MIKBynYdi+C7N/9PF5hpLs/dvfLqp2p1FbO7oLrtDJYTzh+6ZrDYZ
+ iDJreeTwpQP0wV85IAoLOiTAnOfAQJXGRIzFvqLtQguP2cwu/Lb5Ta+R6wCldIe3YvE9
+ h6dGMRpG8DOoxiIy5M9UfIqQtCYZN+//zAKoTAU8z67LN4stcNrYzwF8REFU27LaEVWM
+ uNvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rzvzX/q48G/5lbz2V3/I6m58sYU6eRhRCBMzPGbBvao=;
+ b=N1JAeHZCfCXUCQzULfW+V13Iir+yJUQvbnj6ijyC19tzEG8ZGs3hc/Nri+AAWlNyyc
+ u/ebBjWb+N6KWhYFntHmOwMK0RQzeym/kLgLOI6RW1rVLnVD1SvlAvQ3wYrS4c69nEr5
+ JrXXRwjt4Gz+sbp0b19M5THIP9lSPqGza/H2uI3xESnqznePqEW5WZvKzOjg4+IAB5ho
+ QzR7YYsUG5//4Ox+53PpWm7yyfkSwJaLN2rchX8hgrXvUV3+Z34TfeR0Th+2gxvdciJe
+ Rqami9QdDnjw4U3wjbbaOq228DkrU0fj7cGAgFXKbHtolu0MN+8fil3CFEANTLGwWtw0
+ TcoA==
+X-Gm-Message-State: AOAM531s/MeVfBiK7eSSgkr37PK0RorZP3BpbEcZdpS41ErWLlNcyuC8
+ 5VhNH2DlfZ46PCKco+A72uefehu++Fk=
+X-Google-Smtp-Source: ABdhPJzhefN+OqShOL9GDpbiANzbWKZ4wXJUOIyepQWiEuxyVvcecVH0FzabPr26p5jWgKmbtJOliw==
+X-Received: by 2002:adf:e6cc:: with SMTP id y12mr6070223wrm.391.1597482001665; 
+ Sat, 15 Aug 2020 02:00:01 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id 69sm21639810wmb.8.2020.08.15.02.00.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Aug 2020 02:00:01 -0700 (PDT)
+Subject: Re: [PATCH 13/18] hw/riscv: microchip_pfsoc: Connect a DMA controller
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
+ <1597423256-14847-14-git-send-email-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e96742b4-3d58-e9b7-def9-3fb1fb89f750@amsat.org>
+Date: Sat, 15 Aug 2020 11:00:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <1597423256-14847-14-git-send-email-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,42 +92,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 'map_page' we need to check the return value of
-'dma_memory_map' to ensure the we actully maped something.
-Otherwise, we will hit an assert in 'address_space_unmap'.
-This is because we can't find the MR with the NULL buffer.
-This is the LP#1884693:
+On 8/14/20 6:40 PM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> Connect a DMA controller to Microchip PolarFire SoC. Note interrupt
+> has not been connected due to missing information in the manual how
+> interrupts are routed to PLIC.
+> 
+> On the Icicle Kit board, the HSS firmware utilizes the on-chip DMA
+> controller to move the 2nd stage bootloader in the system memory.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>  hw/riscv/Kconfig                   |  1 +
+>  hw/riscv/microchip_pfsoc.c         | 10 ++++++++++
+>  include/hw/riscv/microchip_pfsoc.h |  3 +++
+>  3 files changed, 14 insertions(+)
+> 
+> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> index 7412db9..9323701 100644
+> --- a/hw/riscv/Kconfig
+> +++ b/hw/riscv/Kconfig
+> @@ -55,4 +55,5 @@ config MICROCHIP_PFSOC
+>      select SIFIVE
+>      select UNIMP
+>      select MCHP_PFSOC_MMUART
+> +    select MCHP_PFSOC_DMA
+>      select CADENCE_SDHCI
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 7c09078..1c67cbc 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -13,6 +13,7 @@
+>   * 2) eNVM (Embedded Non-Volatile Memory)
+>   * 3) MMUARTs (Multi-Mode UART)
+>   * 4) Cadence eMMC/SDHC controller and an SD card connected to it
+> + * 5) DMA (Direct Memory Access Controller)
+>   *
+>   * This board currently generates devicetree dynamically that indicates at least
+>   * two harts and up to five harts.
+> @@ -71,6 +72,7 @@ static const struct MemmapEntry {
+>      [MICROCHIP_PFSOC_BUSERR_UNIT4] =    {  0x1704000,     0x1000 },
+>      [MICROCHIP_PFSOC_CLINT] =           {  0x2000000,    0x10000 },
+>      [MICROCHIP_PFSOC_L2CC] =            {  0x2010000,     0x1000 },
+> +    [MICROCHIP_PFSOC_DMA] =             {  0x3000000,   0x100000 },
+>      [MICROCHIP_PFSOC_L2LIM] =           {  0x8000000,  0x2000000 },
+>      [MICROCHIP_PFSOC_PLIC] =            {  0xc000000,  0x4000000 },
+>      [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
+> @@ -114,6 +116,9 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
+>                           TYPE_RISCV_CPU_SIFIVE_U54);
+>      qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", RESET_VECTOR);
+>  
+> +    object_initialize_child(obj, "dma-controller", &s->dma,
+> +                            TYPE_MCHP_PFSOC_DMA);
+> +
+>      object_initialize_child(obj, "sd-controller", &s->sdhci,
+>                              TYPE_CADENCE_SDHCI);
 
--->https://bugs.launchpad.net/qemu/+bug/1884693
+I haven't looked at the chip specs, but maybe you can add the SD
+controller after the DMA controller so so you can directly link
+a DMA address space to it.
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Li Qiang <liq3ea@163.com>
----
- hw/ide/ahci.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 009120f88b..63e9fccdbe 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -250,6 +250,11 @@ static void map_page(AddressSpace *as, uint8_t **ptr, uint64_t addr,
-     }
- 
-     *ptr = dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEVICE);
-+
-+    if (!*ptr) {
-+        return;
-+    }
-+
-     if (len < wanted) {
-         dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE, len);
-         *ptr = NULL;
--- 
-2.17.1
+>      object_initialize_child(OBJECT(&s->sdhci), "sd-controller.sdhci",
+> @@ -220,6 +225,11 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>          memmap[MICROCHIP_PFSOC_PLIC].size);
+>      g_free(plic_hart_config);
+>  
+> +    /* DMA */
+> +    sysbus_realize(SYS_BUS_DEVICE(&s->dma), errp);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->dma), 0,
+> +                    memmap[MICROCHIP_PFSOC_DMA].base);
+> +
+>      /* SYSREG */
+>      create_unimplemented_device("microchip.pfsoc.sysreg",
+>          memmap[MICROCHIP_PFSOC_SYSREG].base,
+> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+> index d810ee8..7825935 100644
+> --- a/include/hw/riscv/microchip_pfsoc.h
+> +++ b/include/hw/riscv/microchip_pfsoc.h
+> @@ -23,6 +23,7 @@
+>  #define HW_MICROCHIP_PFSOC_H
+>  
+>  #include "hw/char/mchp_pfsoc_mmuart.h"
+> +#include "hw/dma/mchp_pfsoc_dma.h"
+>  #include "hw/sd/cadence_sdhci.h"
+>  
+>  typedef struct MicrochipPFSoCState {
+> @@ -40,6 +41,7 @@ typedef struct MicrochipPFSoCState {
+>      MchpPfSoCMMUartState *serial2;
+>      MchpPfSoCMMUartState *serial3;
+>      MchpPfSoCMMUartState *serial4;
+> +    MchpPfSoCDMAState dma;
+>      CadenceSDHCIState sdhci;
+>  } MicrochipPFSoCState;
+>  
+> @@ -71,6 +73,7 @@ enum {
+>      MICROCHIP_PFSOC_BUSERR_UNIT4,
+>      MICROCHIP_PFSOC_CLINT,
+>      MICROCHIP_PFSOC_L2CC,
+> +    MICROCHIP_PFSOC_DMA,
+>      MICROCHIP_PFSOC_L2LIM,
+>      MICROCHIP_PFSOC_PLIC,
+>      MICROCHIP_PFSOC_MMUART0,
+> 
 
 
