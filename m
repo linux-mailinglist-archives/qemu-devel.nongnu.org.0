@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C5224517D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:45:34 +0200 (CEST)
-Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03CE24517A
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:39:28 +0200 (CEST)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zJF-00081q-Ee
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:45:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37304)
+	id 1k6zDL-00038K-Sy
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k6zID-0007bY-Bp
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:44:29 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33181)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1k6zCS-0002dF-6s; Sat, 15 Aug 2020 12:38:32 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k6zIB-00073r-Nz
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:44:28 -0400
-Received: by mail-oi1-x244.google.com with SMTP id n128so7168228oif.0
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1k6zCQ-0006LN-PH; Sat, 15 Aug 2020 12:38:31 -0400
+Received: by mail-ot1-x343.google.com with SMTP id k12so10119384otr.1;
+ Sat, 15 Aug 2020 09:38:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nNxcyvydBKW7um7acp/fp1BhM/4SQTbKf0bBRIbObWA=;
- b=WS1wj6+Luh3GU2QmWNRtvgIkTaGEaoC8uIU+t0s2qurInNUA6hZHkgBnShAy0vJYPp
- Fbpi9wQXm/eDVNcbPBl93Uyg5nhuqZrICobe41YTiipWlzCGwNZ4K69eKRgl0rLuSbcM
- dLYFpjmwPoNFrANxpQv0XxtXrjXALKinaF25h1BW7D5HqWa4qoR73Zf4Wl+48Av3Prhp
- bQvA71tsVmuyC2SsIAHSp15H7ct0pyS40A1rWICu2ztqDBjhTNQzNjSJbN4unaYqA1nr
- QzOIXb+PudAi0cjtSPIVS7KBO7N76fkWGUmWR951T4QZ+ljbMZ0Ijm4cVXl8JYDrs2rP
- Y3xg==
+ :cc:content-transfer-encoding;
+ bh=6x8ZgXFNj8hCFkssNg2uV681vQahkWv9jYTpIedwZ/4=;
+ b=cZvvyjSg6bNTpoyEYxGlFZonbx3JpNsomRoxGxNk+xTecYhnsan+d6bxSmOjm/N2NJ
+ htjTsibb5ft3xQ1rW3mhnM/WzL6818jTzRtGwXNHm7PixNjF+jx9tzSmI/jUq689Swl1
+ Z11mxhvX6FzLOmL67OXYpvXS41G8/v0n3AC7V8AKldKIWe6dkj7PV8r/EzZ09zykW0jV
+ 4eM2Jj34RzWM/5wRY1MNDj32fXU0Jzq/3goY3YRBR4z96thRjvVAc+bZv5isYEJZewq3
+ cOhcKsbIPpq6iK2ggevtw2F2Xga9oE9IeA0YR0SZcJ18J2KgTi6BiNlKgEVkqLnb/QLn
+ tx5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nNxcyvydBKW7um7acp/fp1BhM/4SQTbKf0bBRIbObWA=;
- b=T6+LZNgQlqH5ovsIQFtBQXkt0FLzbPxMbYXFLPQpgdJkzPnwU7pW8VrYBuxaHNivsK
- ObWGsoVyECuH09PmFIl3qay76OB1x3CW90vLDiTvRQmoLtSKzK0SVkCKeAERNoxkUnWz
- f8ruJY9mAd5AkThJfMShaxy2nMJTsZ0eNysks2wJ1TfsuPCgP4cIYcXJ9qFS2Wq4BXAb
- ONUJbvYikloe3RxGBweLop9PbnTUycrXlBWl7hD8VXy7ZgoQqw6fZzYauo7bY8kqjrO6
- kB65YBdDKz76qWp0NPUb5L2yzCPAla4CB2t4mJT7db0fi+EqfmZCvwegacULySR6OkFF
- JBxw==
-X-Gm-Message-State: AOAM533nm8rz0xFN3fFmSNfDPzZcEPTrdmSADt+3Kq9vzizKBEVodir3
- gYzciYKdCIo8JLkpVF7gYBquf3ebMUha8oN3aTDskmFqFas=
-X-Google-Smtp-Source: ABdhPJwks7FCHLO+icCm1f/bxIWRNnwBbQGIm4b/hUFuy5n0R20aqcOqtkDL+DEury7bEBOne5qQYFbmVUy+gtIrJf0=
-X-Received: by 2002:aca:bd89:: with SMTP id n131mr3125624oif.78.1597458353242; 
- Fri, 14 Aug 2020 19:25:53 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6x8ZgXFNj8hCFkssNg2uV681vQahkWv9jYTpIedwZ/4=;
+ b=JgwA0kpRDrei/ZLdw5+gPAyl4xb7g3ny+CSw6kvEV4Oz35fmWeY2mikGdyrvGVe1QW
+ NdyF4e4qs6NtWBnjljjnL51qaHLFYk8Qor08Gg+Sj6jdhSld4reG1gGxh8C/uCSzFpOg
+ +67VyL/6m5g8rhcqnxcdjqvRU8BR8tDltTNcEOs5HM84Oehq8NJlxdYh0nxawE05+TH8
+ bRFmr7dcz8zHAySiulgU6jYJ2ir3SIS8nKF1VE2rdGMru1+ez0MWocGAEE0VNh8prJH3
+ lfwoxGE5hnARs5SMp74kt52QWwTyK+K0k1dGBR0BNmrWULTCXn1jrwuH+vlOD1Hpu7t/
+ 00VQ==
+X-Gm-Message-State: AOAM531c5wAkK829qDAHORuF34D1GgUrYTfYsdMHnn6J0X1flHcvMChP
+ 48X6hzatbHPMQ8KM9BB/MIOWWTgRfU80wzDcZCNnpsa8nFw=
+X-Google-Smtp-Source: ABdhPJwCPpQrHBOZbhwDh8t1l9RqMOcHwwSk2FqJjeLb0Mmy4cOOR6a3c8GH8s3VAIltZnm1rT9UTlkAKlTchq1ZMOk=
+X-Received: by 2002:a9d:2926:: with SMTP id d35mr3843883otb.181.1597461350344; 
+ Fri, 14 Aug 2020 20:15:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200806104709.13235-1-frank.chang@sifive.com>
- <20200806104709.13235-27-frank.chang@sifive.com>
- <90f01984-54a4-2a56-c52f-d1f4332b39d4@linaro.org>
- <CAE_xrPiJRRV3FYtfve6LMOF6LNEYGfhmi9CiabxqUBEew9igLg@mail.gmail.com>
- <5706a1ca-1dd9-22cd-08ce-c70780111bfc@linaro.org>
-In-Reply-To: <5706a1ca-1dd9-22cd-08ce-c70780111bfc@linaro.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sat, 15 Aug 2020 10:25:42 +0800
-Message-ID: <CAE_xrPi93pRQccEncy00SO6cax0_GGRw-HUFF0uFzQ0f2P67kA@mail.gmail.com>
-Subject: Re: [RFC v3 26/71] target/riscv: rvv-1.0: update vext_max_elems() for
- load/store insns
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b0614605ace14148"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=frank.chang@sifive.com; helo=mail-oi1-x244.google.com
+References: <20200814082841.27000-1-f4bug@amsat.org>
+ <20200814082841.27000-2-f4bug@amsat.org>
+In-Reply-To: <20200814082841.27000-2-f4bug@amsat.org>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Sat, 15 Aug 2020 11:15:14 +0800
+Message-ID: <CAKXe6S+X0ALv9RFOHs+gzYeWX_u2x3qMA3Y+jiMxA+1Rm3cD3A@mail.gmail.com>
+Subject: Re: [PATCH 1/7] block/null: Make more explicit the driver default
+ size is 1GiB
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,123 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Qemu Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b0614605ace14148
-Content-Type: text/plain; charset="UTF-8"
-
-On Sat, Aug 15, 2020 at 2:36 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 8/13/20 7:48 PM, Frank Chang wrote:
-> > esz is passed from e.g. GEN_VEXT_LD_STRIDE() macro:
-> >
-> >> #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)        \
-> >> void HELPER(NAME)(void *vd, void * v0, target_ulong base,  \
-> >>                   target_ulong stride, CPURISCVState *env, \
-> >>                   uint32_t desc)                           \
-> >> {                                                          \
-> >>     uint32_t vm = vext_vm(desc);                           \
-> >>     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN, \
-> >>                      sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);       \
-> >> }
-> >>
-> >> GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
-> >
-> > which is calculated by sizeof(ETYPE), so the results would be: 1, 2, 4,
-> 8.
-> > and vext_max_elems() is called by e.g. vext_ldst_stride():
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E4=BA=8E2020=E5=B9=B48=E6=9C=
+=8814=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:29=E5=86=99=E9=81=93=
+=EF=BC=9A
 >
-> Ah, yes.
+> As it is not obvious the default size for the null block driver
+> is 1 GiB, replace the obfuscated '1 << 30' magic value by a
+> definition using IEC binary prefixes.
 >
-> >> uint32_t max_elems = vext_max_elems(desc, esz);
-> >
-> > I can add another parameter to the macro and pass the hard-coded
-> log2(esz) number
-> > if it's the better way instead of using ctzl().
-> > Or if there's another approach to get the log2(esz) number more
-> elegantly?
->
-> Using ctzl(sizeof(type)) in the GEN_VEXT_LD_STRIDE macro will work well.
-> This
-> will be constant folded by the compiler.
->
->
-> r~
->
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Nice, didn't come up with the compiler optimization.
-Will fix the codes and send out a new version of patchset.
-Thanks for the tips.
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
-Frank Chang
-
---000000000000b0614605ace14148
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Aug 15, 2020 at 2:36 AM Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
-son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On 8/13/20 7:48 PM, Frank Chang wr=
-ote:<br>
-&gt; esz is passed from e.g.=C2=A0GEN_VEXT_LD_STRIDE() macro:<br>
-&gt; <br>
-&gt;&gt; #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 \<br>
-&gt;&gt; void HELPER(NAME)(void *vd, void * v0, target_ulong base,=C2=A0 \<=
-br>
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tar=
-get_ulong stride, CPURISCVState *env, \<br>
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uin=
-t32_t desc)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt; {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt; =C2=A0 =C2=A0 uint32_t vm =3D vext_vm(desc);=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0\<br>
-&gt;&gt; =C2=A0 =C2=A0 vext_ldst_stride(vd, v0, base, stride, env, desc, vm=
-, LOAD_FN, \<br>
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0sizeof(ETYPE), GETPC(), MMU_DATA_LOAD); =C2=A0 =C2=A0 =C2=A0 \<br=
+> ---
+>  block/null.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-&gt;&gt; }<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0GEN_VEXT_LD_STRIDE(vlse8_v, =C2=A0int8_t, =C2=A0lde_b)<br>
-&gt; <br>
-&gt; which is calculated by sizeof(ETYPE), so the results would be: 1, 2, 4=
-, 8.<br>
-&gt; and vext_max_elems() is called by e.g. vext_ldst_stride():<br>
-<br>
-Ah, yes.<br>
-<br>
-&gt;&gt; uint32_t max_elems =3D vext_max_elems(desc, esz);<br>
-&gt; <br>
-&gt; I can add another parameter to the macro and pass the hard-coded log2(=
-esz) number<br>
-&gt; if it&#39;s the better way instead of using=C2=A0ctzl().<br>
-&gt; Or if there&#39;s another approach to get the log2(esz) number more el=
-egantly?<br>
-<br>
-Using ctzl(sizeof(type)) in the GEN_VEXT_LD_STRIDE macro will work well.=C2=
-=A0 This<br>
-will be constant folded by the compiler.<br>
-<br>
-<br>
-r~<br></blockquote><div><br></div><div>Nice, didn&#39;t come up with the co=
-mpiler optimization.</div><div>Will fix the codes and send out a new versio=
-n of patchset.</div><div>Thanks for the tips.</div><div><br></div><div>Fran=
-k Chang=C2=A0<br></div></div></div>
-
---000000000000b0614605ace14148--
+> diff --git a/block/null.c b/block/null.c
+> index 15e1d56746..8354def367 100644
+> --- a/block/null.c
+> +++ b/block/null.c
+> @@ -11,6 +11,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/qdict.h"
+>  #include "qapi/qmp/qstring.h"
+> @@ -21,6 +22,7 @@
+>
+>  #define NULL_OPT_LATENCY "latency-ns"
+>  #define NULL_OPT_ZEROES  "read-zeroes"
+> +#define NULL_OPT_SIZE    (1 * GiB)
+>
+>  typedef struct {
+>      int64_t length;
+> @@ -86,7 +88,7 @@ static int null_file_open(BlockDriverState *bs, QDict *=
+options, int flags,
+>      opts =3D qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+>      qemu_opts_absorb_qdict(opts, options, &error_abort);
+>      s->length =3D
+> -        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, 1 << 30);
+> +        qemu_opt_get_size(opts, BLOCK_OPT_SIZE, NULL_OPT_SIZE);
+>      s->latency_ns =3D
+>          qemu_opt_get_number(opts, NULL_OPT_LATENCY, 0);
+>      if (s->latency_ns < 0) {
+> --
+> 2.21.3
+>
+>
 
