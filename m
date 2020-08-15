@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9A4245129
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:09:02 +0200 (CEST)
-Received: from localhost ([::1]:53020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AF2245137
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:19:50 +0200 (CEST)
+Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xnp-0005fP-Uu
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
+	id 1k6xyH-0005AC-T4
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6xj0-0007Zn-1h
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:04:02 -0400
-Resent-Date: Sat, 15 Aug 2020 11:04:02 -0400
-Resent-Message-Id: <E1k6xj0-0007Zn-1h@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6xix-0006kl-Ah
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:04:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597503823; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WABeNNztFdJEK9P/l3B+7PAs6gz09ZF/BB8oFzLqj7Ia9L9BO5cros4lwzrqkdQczjzXWK64yPFbWhX4FJ9+xASP0CVSGGs9q4yVjiLpWInjsCsmQTAb8c8nRU5kfUIci7xR52jvjhOFEVSF6fsg9i4eokmQlZXog1hoSadRZ9k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597503823;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Xb5G8OluQ+eo3yP3hmMtLLK8nYR2f0NjHEc3vKNU9jg=; 
- b=Mb7SpYMgEyPfBjtczI/bfKgHDY7AAAt9ubTtM3xCgQTTa0Ta/mvgzMOzxxlo/y9qcgax5lH0MbY1zynxjc+S2DjqWaCLSOgEc+lkDptS8F1Qc7PDUawpv22ma8YbzFVzUYHRWsRWEKqGMf/1so36wsbOYA26MuWPWQmarlNu9AY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597503819461550.3223398469286;
- Sat, 15 Aug 2020 08:03:39 -0700 (PDT)
-Subject: Re: [PATCH] Fixes: Fallthrough warning on line 270 of
+ (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
+ id 1k6xqe-0002tO-HV
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:11:56 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:46083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
+ id 1k6xqb-0000Wk-Ru
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:11:56 -0400
+Received: by mail-qt1-x844.google.com with SMTP id o22so9154511qtt.13
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:11:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QM//LrDWGGGhJjEJLnCRBQiCm5i3PZw6ntawugMtwbE=;
+ b=RDuWQ0W2ArdnCj026iFG7RlRS5XaBFyPwXjaiIwm8G1iS3CL5Z/BrzmRExHudpMvVj
+ SOF/mXhB2pLFMMBbwcqTjlZZCA7IlWjAVOK2U6waMfow+Vpp01bB+xoyEu8fv27x8rWw
+ +wDWMskb6LLb844A9wFuJePwANbnWCnZvV0odPW9++tBQ+5J65esYrVOrgSI6J0Wi5Uh
+ dXjuH5xTpX8Rvj/r8pVA0VHobQixYyoQofaVgdXKsCZiHF2I6vM/mlNzbfKFm6UIIGh6
+ RcFrJgBydcAdx/zmU+1VDFBHyn12N9yD+sqWmfVLE9x9iG7b7tI7GNrA4qUDa2bWX8pl
+ ntzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QM//LrDWGGGhJjEJLnCRBQiCm5i3PZw6ntawugMtwbE=;
+ b=ZjUFb+pjl792a05HzcN3bJ/Wl0YivB+z5a0ViJ8qk0VKQa3KlPYCa3ktsVLJYv9z5g
+ 304Zw0zeVrhsd3KUR3BmcREvbsL5z5XxsCj2oVG2M3pdWQIA6mm8fVIqa4oRDSVNhKzJ
+ KZSEI23lT2H92nfjMfe9arijhjL2dl2TlqPFMSs7zXUYxOyxk/qmq2MdhYrrZu8BMmuO
+ z1VgS0E2rYtzItIN+/wOQx+vrgszWPzGR5EXU8x/btitMnIp5emCxexYLWhFfWYR/Eej
+ D60mKXAOF8Z9wANM6vL4sYnBtBOqWafQ5/4BriabyGmS3/0wldECuVVDyPA1qqu8F2kb
+ EZIw==
+X-Gm-Message-State: AOAM531e6b2eRmRXIPDaY8+0LAbggETfcORfNA+itc0s1ItVML5zf3qY
+ 49DVwpz9OaWdqaCFkeZ62pFGpx6qUzIFiA==
+X-Google-Smtp-Source: ABdhPJy0N0CclBWwtH7XYQ9RtEprpyRe2NL5o9AhkD08/CACS9PtUan4RK7SCVnrNU9bjk+8C10IOA==
+X-Received: by 2002:ac8:520f:: with SMTP id r15mr6753561qtn.116.1597504312313; 
+ Sat, 15 Aug 2020 08:11:52 -0700 (PDT)
+Received: from ubuntu.localdomain (pool-108-35-56-31.nwrknj.fios.verizon.net.
+ [108.35.56.31])
+ by smtp.gmail.com with ESMTPSA id w44sm14203233qtj.86.2020.08.15.08.11.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Aug 2020 08:11:51 -0700 (PDT)
+From: Rohit Shinde <rohit.shinde12194@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Fixes: Fallthrough warning on line 270 of
  qemu/qapi/opts-visitor.c
-Message-ID: <159750381841.7155.8719372713269184992@66eaa9a8a123>
-In-Reply-To: <20200815130046.5344-1-rohit.shinde12194@gmail.com>
+Date: Sat, 15 Aug 2020 11:11:48 -0400
+Message-Id: <20200815151148.10571-1-rohit.shinde12194@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rohit.shinde12194@gmail.com
-Date: Sat, 15 Aug 2020 08:03:39 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 11:03:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=rohit.shinde12194@gmail.com; helo=mail-qt1-x844.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,38 +85,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, rohit.shinde12194@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Rohit Shinde <rohit.shinde12194@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNTEzMDA0Ni41MzQ0
-LTEtcm9oaXQuc2hpbmRlMTIxOTRAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
-IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
-Cm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA4MTUxMzAw
-NDYuNTM0NC0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0hdIEZp
-eGVzOiBGYWxsdGhyb3VnaCB3YXJuaW5nIG9uIGxpbmUgMjcwIG9mIHFlbXUvcWFwaS9vcHRzLXZp
-c2l0b3IuYwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBh
-cnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
-bmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
-cGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6
-Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBh
-dGNoZXcvMjAyMDA4MTUxMzAwNDYuNTM0NC0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbSAt
-PiBwYXRjaGV3LzIwMjAwODE1MTMwMDQ2LjUzNDQtMS1yb2hpdC5zaGluZGUxMjE5NEBnbWFpbC5j
-b20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplZTEzYWQwIEZpeGVzOiBGYWxsdGhy
-b3VnaCB3YXJuaW5nIG9uIGxpbmUgMjcwIG9mIHFlbXUvcWFwaS9vcHRzLXZpc2l0b3IuYwoKPT09
-IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IE1pc3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZShzKQoK
-dG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA3IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBlZTEz
-YWQwM2E5ODEgKEZpeGVzOiBGYWxsdGhyb3VnaCB3YXJuaW5nIG9uIGxpbmUgMjcwIG9mIHFlbXUv
-cWFwaS9vcHRzLXZpc2l0b3IuYykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4MTUxMzAwNDYu
-NTM0NC0xLXJvaGl0LnNoaW5kZTEyMTk0QGdtYWlsLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+Added the fallthrough comment so that the compiler doesn't emit an error on compiling with the -Wimplicit-fallthrough flag.
+
+Signed-off-by: Rohit Shinde <rohit.shinde12194@gmail.com>
+---
+ qapi/opts-visitor.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
+index 7781c23a42..43cf60d3a0 100644
+--- a/qapi/opts-visitor.c
++++ b/qapi/opts-visitor.c
+@@ -266,6 +266,7 @@ opts_next_list(Visitor *v, GenericList *tail, size_t size)
+         }
+         ov->list_mode = LM_IN_PROGRESS;
+         /* range has been completed, fall through in order to pop option */
++        __attribute__((fallthrough));
+ 
+     case LM_IN_PROGRESS: {
+         const QemuOpt *opt;
+-- 
+2.25.1
+
 
