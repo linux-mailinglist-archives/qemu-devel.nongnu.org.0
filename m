@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AC324517E
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:46:42 +0200 (CEST)
-Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEEF245184
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:56:26 +0200 (CEST)
+Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zKL-00013c-DC
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:46:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
+	id 1k6zTl-0006Zd-08
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zJ2-0008Kz-1Y
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:45:20 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34213)
+ id 1k6zSg-00062Z-6e
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:55:18 -0400
+Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:42873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zJ0-0007Ag-2j
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:45:19 -0400
-Received: by mail-oi1-x243.google.com with SMTP id z22so11029220oid.1
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:45:17 -0700 (PDT)
+ id 1k6zSe-0008PE-GI
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:55:17 -0400
+Received: by mail-vs1-xe42.google.com with SMTP id q13so6199972vsn.9
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yiKdEsXrfNBH7/8vYLZc3MqLfFg4s03EnbAK1DMKZss=;
- b=FQSzufEJpHgEXdXVj7RJ7hNTKcgoV79nx+d0e7Am/nx1wtlmpnEm0lEwmqvYPpf7Rx
- wiU3dTxhItSJFWg+aMzhwylk7/8x/O6ZYHRKFQ/d4zRkBb8eEtJrkKK2p2eLW+CwoLaB
- cOSf+HdNoWbe1VApVrQTY578+Rqwxf5uHEXau22dC3u1y+1s6XagZzsqfXsIZHkw+uBe
- H1XgQ7XzX7GAvyv+bpnL8emy6jSckYdXc+Ah7XPy0FFEG9shQTx8Hjl7I3QogUiynPR3
- wAE+6np2CPBt6Grj7sOsTV9xnRdyWZsrugH0fT2W4BehbhadwxrkhtZqxwQQydwxsjgR
- QYzQ==
+ bh=Op8+nIvDwpXgHA5KB5m5Q5E20k6FFVqok3W8zuTgmJQ=;
+ b=SWBW/y7m3+PdaFt/aEfgwdLYM4xUYOO17egAyx0QX5bMmY7zUS1lWiXgArxER7vnw6
+ ab99bz1uQiinq8jZkO3ohdw/cycWCP5Mm00VzBf2UQfBpgAAReD9Yvxxe+up2iKlRRb0
+ 9lioC+hyaLBS+YCrr2EeZAhDRcZyIlwHVUSCAgjpTtqsYmo5ABE3kGQdi77me/47hfpp
+ kwjg+wTaKG2QlAPNaEELUNzq9mTnG8BX5b5FsNakrnYIBDXqsDhLa4fw3If9ZK3YKBax
+ kkHCAptEGkXErDKmK0yTay3HHkGJ+/g9MAzvzk34s1R4CwWZJ3iINy6Sr0ZZnPTGXlAj
+ 7BPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yiKdEsXrfNBH7/8vYLZc3MqLfFg4s03EnbAK1DMKZss=;
- b=sFbmI3B4q+sheJm3V+00g0ADVIRuaGKVUK0nL+JFZGsYxSQJLwEDVJsnO7hFnJnLnC
- kTQmCArGoIf/mym1Nn8a4GLELR0kdtzAjYcuDsInEdiXjokIHydHdzyAxTdBZAoZBhgw
- /9eqW6q5MNTF1TUaXbW3XhRZnJ1htrrGRBsKOCQDnf7BFtAwGVjm6IGmT2HpaoP8mSvy
- F3MuI/XMr9cT6S1l/YSXrEBkuxDSPkvvx1sh5EuREsfxm/SV4+ZI/DQTG1KMQEhSZNzW
- GU5l5JY4o44r7SBUR1UvqhyjRGKQYA7FUgIyG+QgUHWYTd1I77TGkuTKO1bAHxP/joli
- oRLw==
-X-Gm-Message-State: AOAM531b2q8HVd1n4UAiGro3FqDQuFLgVqUYa3Q7a71A72gHVT2YrBwX
- uYoRlZpyMRQx+W/CB+P2BqylqSdS1FtjFA==
-X-Google-Smtp-Source: ABdhPJysIL824KIrlrx0ofsgHQEmTPDH+0vwgUV2dcjPhNsTZw4Ogb0HeUVr2ttW2p6vpY6X7RUo9Q==
-X-Received: by 2002:a17:90a:a590:: with SMTP id
- b16mr4368232pjq.131.1597455113171; 
- Fri, 14 Aug 2020 18:31:53 -0700 (PDT)
+ bh=Op8+nIvDwpXgHA5KB5m5Q5E20k6FFVqok3W8zuTgmJQ=;
+ b=RuV9xAquiD5yc3xFv1iMObXn7xUwyT5A4xGevZ60JxyoVUd7Cf6hxLB9aEX82uQBkR
+ jLecBBqG5WxYXd/gfV23dob2sjaZIyb3RFfZBoOKBYnKMt9N2k2ErmT9Ml26gmt11NE+
+ gptcr0OZXhKogeoT7jaEK8mdjE+bdqp0xkV0MTKBWs1++n4898kCfxPLR+Gfy6HzBxtb
+ EG/oSxRm3YeePxxzkJPOL+qbvstbBKv/D/Gwgo1rEPMnooHmmAeLayeOyA2eFeS+sqfI
+ J6Ok/SgsdUMPlNBpDwzusMXmPgGjVQ17TXJIHo8+yzvMq0cmkUGge4S7wc7GDeoNeg5h
+ VF8Q==
+X-Gm-Message-State: AOAM531OA/3XfuKvhy7nn0l9GrWQnyj4nVqvekoMUVdK+uRHLwOAl6eI
+ kdbP3PaLCKUuISH70cfUb9MYISY6Ps4+4Q==
+X-Google-Smtp-Source: ABdhPJzl4Jr+b9wWrX87a5QaJFdjYVdanp/z7vDvDgb6nbmZaKTuxtqsxCnAV8VGmBYW9I1CX32rmg==
+X-Received: by 2002:a62:d111:: with SMTP id z17mr3757649pfg.221.1597455128053; 
+ Fri, 14 Aug 2020 18:32:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.52
+ by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.32.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:31:52 -0700 (PDT)
+ Fri, 14 Aug 2020 18:32:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/20] target/arm: Rearrange {sve,fp}_check_access assert
-Date: Fri, 14 Aug 2020 18:31:29 -0700
-Message-Id: <20200815013145.539409-5-richard.henderson@linaro.org>
+Subject: [PATCH 15/20] target/arm: Fix sve_uzp_p vs odd vector lengths
+Date: Fri, 14 Aug 2020 18:31:40 -0700
+Message-Id: <20200815013145.539409-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
 References: <20200815013145.539409-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e42;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,94 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to ensure that access is checked by the time we ask
-for a specific fp/vector register.  We want to ensure that
-we do not emit two lots of code to raise an exception.
+Missed out on compressing the second half of a predicate
+with length vl % 512 > 256.
 
-But sometimes it's difficult to cleanly organize the code
-such that we never pass through sve_check_access exactly once.
-Allow multiple calls so long as the result is true, that is,
-no exception to be raised.
+Adjust all of the x + (y << s) to x | (y << s) as a
+general style fix.
 
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.h     |  1 +
- target/arm/translate-a64.c | 27 ++++++++++++++++-----------
- 2 files changed, 17 insertions(+), 11 deletions(-)
+ target/arm/sve_helper.c | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 16f2699ad7..ad7972eb22 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -64,6 +64,7 @@ typedef struct DisasContext {
-      * that it is set at the point where we actually touch the FP regs.
-      */
-     bool fp_access_checked;
-+    bool sve_access_checked;
-     /* ARMv8 single-step state (this is distinct from the QEMU gdbstub
-      * single-step support).
-      */
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 534c3ff5f3..42aa695dff 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1175,18 +1175,18 @@ static void do_vec_ld(DisasContext *s, int destidx, int element,
-  * unallocated-encoding checks (otherwise the syndrome information
-  * for the resulting exception will be incorrect).
-  */
--static inline bool fp_access_check(DisasContext *s)
-+static bool fp_access_check(DisasContext *s)
- {
--    assert(!s->fp_access_checked);
--    s->fp_access_checked = true;
-+    if (s->fp_excp_el) {
-+        assert(!s->fp_access_checked);
-+        s->fp_access_checked = true;
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 4758d46f34..fcb46f150f 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -1938,7 +1938,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+     if (oprsz <= 8) {
+         l = compress_bits(n[0] >> odd, esz);
+         h = compress_bits(m[0] >> odd, esz);
+-        d[0] = extract64(l + (h << (4 * oprsz)), 0, 8 * oprsz);
++        d[0] = l | (h << (4 * oprsz));
+     } else {
+         ARMPredicateReg tmp_m;
+         intptr_t oprsz_16 = oprsz / 16;
+@@ -1952,23 +1952,35 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+             h = n[2 * i + 1];
+             l = compress_bits(l >> odd, esz);
+             h = compress_bits(h >> odd, esz);
+-            d[i] = l + (h << 32);
++            d[i] = l | (h << 32);
+         }
  
--    if (!s->fp_excp_el) {
--        return true;
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-+                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
-+        return false;
-     }
--
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
--                       syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
--    return false;
-+    s->fp_access_checked = true;
-+    return true;
- }
- 
- /* Check that SVE access is enabled.  If it is, return true.
-@@ -1195,10 +1195,14 @@ static inline bool fp_access_check(DisasContext *s)
- bool sve_access_check(DisasContext *s)
- {
-     if (s->sve_excp_el) {
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_sve_access_trap(),
--                           s->sve_excp_el);
-+        assert(!s->sve_access_checked);
-+        s->sve_access_checked = true;
+-        /* For VL which is not a power of 2, the results from M do not
+-           align nicely with the uint64_t for D.  Put the aligned results
+-           from M into TMP_M and then copy it into place afterward.  */
++        /*
++         * For VL which is not a multiple of 512, the results from M do not
++         * align nicely with the uint64_t for D.  Put the aligned results
++         * from M into TMP_M and then copy it into place afterward.
++         */
+         if (oprsz & 15) {
+-            d[i] = compress_bits(n[2 * i] >> odd, esz);
++            int final_shift = (oprsz & 15) * 2;
 +
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-+                           syn_sve_access_trap(), s->sve_excp_el);
-         return false;
++            l = n[2 * i + 0];
++            h = n[2 * i + 1];
++            l = compress_bits(l >> odd, esz);
++            h = compress_bits(h >> odd, esz);
++            d[i] = l | (h << final_shift);
+ 
+             for (i = 0; i < oprsz_16; i++) {
+                 l = m[2 * i + 0];
+                 h = m[2 * i + 1];
+                 l = compress_bits(l >> odd, esz);
+                 h = compress_bits(h >> odd, esz);
+-                tmp_m.p[i] = l + (h << 32);
++                tmp_m.p[i] = l | (h << 32);
+             }
+-            tmp_m.p[i] = compress_bits(m[2 * i] >> odd, esz);
++            l = m[2 * i + 0];
++            h = m[2 * i + 1];
++            l = compress_bits(l >> odd, esz);
++            h = compress_bits(h >> odd, esz);
++            tmp_m.p[i] = l | (h << final_shift);
+ 
+             swap_memmove(vd + oprsz / 2, &tmp_m, oprsz / 2);
+         } else {
+@@ -1977,7 +1989,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+                 h = m[2 * i + 1];
+                 l = compress_bits(l >> odd, esz);
+                 h = compress_bits(h >> odd, esz);
+-                d[oprsz_16 + i] = l + (h << 32);
++                d[oprsz_16 + i] = l | (h << 32);
+             }
+         }
      }
-+    s->sve_access_checked = true;
-     return fp_access_check(s);
- }
- 
-@@ -14548,6 +14552,7 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
-     s->base.pc_next += 4;
- 
-     s->fp_access_checked = false;
-+    s->sve_access_checked = false;
- 
-     if (dc_isar_feature(aa64_bti, s)) {
-         if (s->base.num_insns == 1) {
 -- 
 2.25.1
 
