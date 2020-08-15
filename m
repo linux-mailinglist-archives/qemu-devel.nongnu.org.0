@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ABB24512F
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:13:59 +0200 (CEST)
-Received: from localhost ([::1]:41676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AAA245133
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:16:48 +0200 (CEST)
+Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xsb-0004Kw-W3
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1k6xvL-00006d-MQ
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:16:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xo2-0006xh-4a
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:09:14 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34964)
+ id 1k6xtO-0006o3-NB
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:14:46 -0400
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:46489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6xnz-00084J-QY
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:09:13 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k4so10835933oik.2
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:09:11 -0700 (PDT)
+ id 1k6xtM-000185-M9
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:14:46 -0400
+Received: by mail-vs1-xe43.google.com with SMTP id b26so6109234vsa.13
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x4ut4WZwpjGYcQOKgnzpo5v3a5LcV3S0PAGa2UNZBIM=;
- b=gG284Da9hxLVdfCl2ISzxrSvmsk5ZP0k51X88l8lXXLnObQbs90FdTMvR9cQyxUt5a
- bz1NGhhyfB77FrbgaCevsPfna37TtKCBV2X7h3/Q0ll9SfTIX7Kepk96K6dBwnCo2lyI
- gfJSdrLrSiquGZdQkthb39w1NzYsSA9l92LzgdKz9XDth/Xx005Dobe2lLDb9IdqyLBZ
- x/WK1BSeSrDzGApKWz9oq2Q8quDU4mLVbiYolNNPlvfa8AphAcN/6UZsBzzaJcKZG/K+
- axyq8+CB9YEpw6i2NVEHDJuDAJpdIAZMNCIsJKv3dIn35wcrMhnY1pz5WvM51Vwdw4+i
- ACBw==
+ bh=a6sddQ4a7J3ma5R9bNKguwF3w7koXzfGsjqJtD8mfho=;
+ b=X10e0JN16bMkT8rBKbYO3BHenJUORxUWQVjak0G+QKgEcbyt4DB0uHnytL7vwpAO+a
+ NwxwXz7FjAeGU0LmyKOMB0pMGxPo+UWJ1S4zjb+XaFGjXws9eycSdNF1xZK4Lvu5w7Jr
+ Co4tarm7RPg7D/kYnLxijq5KqIKCfBCBSsIksLWNfUQt2DpqKP/oflHZrXhv/LJnPAPP
+ SvDhhS1B60DA1iIgr/KirJgUR7yfFrn7gOuixzyJcYTxkFIkB5aO0uN91G8O0sU08ZI2
+ 8MNM/O42zhLLuCUHlCUZniGqJBMvOB+DKRt4um9BM4KVpsMDkmXG1Cmj8GCz5P1zqBy4
+ ri4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x4ut4WZwpjGYcQOKgnzpo5v3a5LcV3S0PAGa2UNZBIM=;
- b=DcbvLZNiqcTwHEJ5OweuB/QJsRyzwSxZIJq0BX8C+MZsWLnFe2EWqFzO8JJjGitKuJ
- xxY2i2rnAJA/8d797LqhFkqJii8r6wqmw7BV4EKw1qQSjYJ+8uz06i3v7xZgFazjEouX
- mafucE/2KCSYdtJ7yDZ7PdX7rrKdig1lPC6Fg0fRe+yraZtMfQgJXLVbcKBtr/sQKaHB
- gHTt/UT15T/4JGuRl0hO85cSyt1pBfhwxDqICdNgZjtfjigFvNGu8Ku3ThoYJHqaEoxP
- majyftnzci0VmQfLfJaQA5hjEyLbGHapbX6lR7EaZOy1h+V9nZHKI2DjFS24YTVyTpXv
- Umsg==
-X-Gm-Message-State: AOAM5320HHlYgkYNy4mNTIhVDJoQ90YI5541TjRWRNjQpOk1mXLh8iC2
- S8hVFqFknOxXkUSh5ox4wtg7iXS4czMpXQ==
-X-Google-Smtp-Source: ABdhPJyiwS3I+JtLT7keKFwqQDP+rbA+2OWyTRWzX2sTneA+UJSMG/le4reA+ciRNXCh6kTFTHidfg==
-X-Received: by 2002:a17:90a:a101:: with SMTP id
- s1mr3993200pjp.205.1597455116091; 
- Fri, 14 Aug 2020 18:31:56 -0700 (PDT)
+ bh=a6sddQ4a7J3ma5R9bNKguwF3w7koXzfGsjqJtD8mfho=;
+ b=dcIAT+sCWdB1XuP+SMZfdWszHb+r+Q3BUxTP5B45n33EjJlKtnNMhuNpnJ2gTY8L4i
+ OpGFlzf3DUIMe+Uq17sS0NY448HIUMTbWQOO7NBPMZwdrR9F9ibvT7uSXTSwztVtFR1W
+ BXQQppZYkpUBXMg8bo4whtUGJOCwJwr/L3zh6nP7dGgdy4+QYzM2001TLZehKsqqATS/
+ Stg5MQ3irTBJYOKzLjcU3p6Zxa/DA6mMaxmU31lUwnMXAShdRlxU+oanj3EBbgnn+MwH
+ YfrBIJck74UMqghrS2v4UcnTsJKqvWBYwHQ2Lfb0W+GQ/Qq0cItPpqyrIkdVWp0gQM73
+ lkVA==
+X-Gm-Message-State: AOAM532XjN3mDQmKZVaAIUGp6GutIGNHqe0LGnfX2BQ54u7w0Dwnlo0j
+ tbwyZcLE9iSiAUozkSVNTv7Vd2KVbPbJvw==
+X-Google-Smtp-Source: ABdhPJzFqQ5HOjkA6XGGVFzA9jk/Ld+5xowspS0FhgWywTjkkzakZnOopaadGnWM4x8MPIvl8UNMfg==
+X-Received: by 2002:aa7:924b:: with SMTP id 11mr680979pfp.185.1597455129593;
+ Fri, 14 Aug 2020 18:32:09 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.54
+ by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.32.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:31:54 -0700 (PDT)
+ Fri, 14 Aug 2020 18:32:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/20] target/arm: Clean up 4-operand predicate expansion
-Date: Fri, 14 Aug 2020 18:31:31 -0700
-Message-Id: <20200815013145.539409-7-richard.henderson@linaro.org>
+Subject: [PATCH 16/20] target/arm: Fix sve_zip_p vs odd vector lengths
+Date: Fri, 14 Aug 2020 18:31:41 -0700
+Message-Id: <20200815013145.539409-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
 References: <20200815013145.539409-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e43;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,213 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the check for !S into do_pppp_flags, which allows to merge in
-do_vecop4_p.  Split out gen_gvec_fn_ppp without sve_access_check,
-to mirror gen_gvec_fn_zzz.
+Wrote too much with low-half zip (zip1) with vl % 512 != 0.
 
+Adjust all of the x + (y << s) to x | (y << s) as a style fix.
+
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 111 ++++++++++++++-----------------------
- 1 file changed, 43 insertions(+), 68 deletions(-)
+ target/arm/sve_helper.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index d310709de3..13a0194d59 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -179,31 +179,13 @@ static void do_dupi_z(DisasContext *s, int rd, uint64_t word)
- }
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index fcb46f150f..b8651ae173 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -1870,6 +1870,7 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+     intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
+     int esz = extract32(pred_desc, SIMD_DATA_SHIFT, 2);
+     intptr_t high = extract32(pred_desc, SIMD_DATA_SHIFT + 2, 1);
++    int esize = 1 << esz;
+     uint64_t *d = vd;
+     intptr_t i;
  
- /* Invoke a vector expander on three Pregs.  */
--static bool do_vector3_p(DisasContext *s, GVecGen3Fn *gvec_fn,
--                         int esz, int rd, int rn, int rm)
-+static void gen_gvec_fn_ppp(DisasContext *s, GVecGen3Fn *gvec_fn,
-+                            int rd, int rn, int rm)
- {
--    if (sve_access_check(s)) {
--        unsigned psz = pred_gvec_reg_size(s);
--        gvec_fn(esz, pred_full_reg_offset(s, rd),
--                pred_full_reg_offset(s, rn),
--                pred_full_reg_offset(s, rm), psz, psz);
--    }
--    return true;
--}
--
--/* Invoke a vector operation on four Pregs.  */
--static bool do_vecop4_p(DisasContext *s, const GVecGen4 *gvec_op,
--                        int rd, int rn, int rm, int rg)
--{
--    if (sve_access_check(s)) {
--        unsigned psz = pred_gvec_reg_size(s);
--        tcg_gen_gvec_4(pred_full_reg_offset(s, rd),
--                       pred_full_reg_offset(s, rn),
--                       pred_full_reg_offset(s, rm),
--                       pred_full_reg_offset(s, rg),
--                       psz, psz, gvec_op);
--    }
--    return true;
-+    unsigned psz = pred_gvec_reg_size(s);
-+    gvec_fn(MO_64, pred_full_reg_offset(s, rd),
-+            pred_full_reg_offset(s, rn),
-+            pred_full_reg_offset(s, rm), psz, psz);
- }
+@@ -1882,33 +1883,35 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+         mm = extract64(mm, high * half, half);
+         nn = expand_bits(nn, esz);
+         mm = expand_bits(mm, esz);
+-        d[0] = nn + (mm << (1 << esz));
++        d[0] = nn | (mm << esize);
+     } else {
+-        ARMPredicateReg tmp_n, tmp_m;
++        ARMPredicateReg tmp;
  
- /* Invoke a vector move on two Pregs.  */
-@@ -1067,6 +1049,11 @@ static bool do_pppp_flags(DisasContext *s, arg_rprr_s *a,
-     int mofs = pred_full_reg_offset(s, a->rm);
-     int gofs = pred_full_reg_offset(s, a->pg);
- 
-+    if (!a->s) {
-+        tcg_gen_gvec_4(dofs, nofs, mofs, gofs, psz, psz, gvec_op);
-+        return true;
-+    }
-+
-     if (psz == 8) {
-         /* Do the operation and the flags generation in temps.  */
-         TCGv_i64 pd = tcg_temp_new_i64();
-@@ -1126,19 +1113,24 @@ static bool trans_AND_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_and_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else if (a->rn == a->rm) {
--        if (a->pg == a->rn) {
--            return do_mov_p(s, a->rd, a->rn);
--        } else {
--            return do_vector3_p(s, tcg_gen_gvec_and, 0, a->rd, a->rn, a->pg);
-+
-+    if (!a->s) {
-+        if (!sve_access_check(s)) {
-+            return true;
-+        }
-+        if (a->rn == a->rm) {
-+            if (a->pg == a->rn) {
-+                do_mov_p(s, a->rd, a->rn);
-+            } else {
-+                gen_gvec_fn_ppp(s, tcg_gen_gvec_and, a->rd, a->rn, a->pg);
+         /* We produce output faster than we consume input.
+            Therefore we must be mindful of possible overlap.  */
+-        if ((vn - vd) < (uintptr_t)oprsz) {
+-            vn = memcpy(&tmp_n, vn, oprsz);
+-        }
+-        if ((vm - vd) < (uintptr_t)oprsz) {
+-            vm = memcpy(&tmp_m, vm, oprsz);
++        if (vd == vn) {
++            vn = memcpy(&tmp, vn, oprsz);
++            if (vd == vm) {
++                vm = vn;
 +            }
-+            return true;
-+        } else if (a->pg == a->rn || a->pg == a->rm) {
-+            gen_gvec_fn_ppp(s, tcg_gen_gvec_and, a->rd, a->rn, a->rm);
-+            return true;
++        } else if (vd == vm) {
++            vm = memcpy(&tmp, vm, oprsz);
          }
--    } else if (a->pg == a->rn || a->pg == a->rm) {
--        return do_vector3_p(s, tcg_gen_gvec_and, 0, a->rd, a->rn, a->rm);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
+         if (high) {
+             high = oprsz >> 1;
+         }
+ 
+-        if ((high & 3) == 0) {
++        if ((oprsz & 7) == 0) {
+             uint32_t *n = vn, *m = vm;
+             high >>= 2;
+ 
+-            for (i = 0; i < DIV_ROUND_UP(oprsz, 8); i++) {
++            for (i = 0; i < oprsz / 8; i++) {
+                 uint64_t nn = n[H4(high + i)];
+                 uint64_t mm = m[H4(high + i)];
+ 
+                 nn = expand_bits(nn, esz);
+                 mm = expand_bits(mm, esz);
+-                d[i] = nn + (mm << (1 << esz));
++                d[i] = nn | (mm << esize);
+             }
+         } else {
+             uint8_t *n = vn, *m = vm;
+@@ -1920,7 +1923,7 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+ 
+                 nn = expand_bits(nn, esz);
+                 mm = expand_bits(mm, esz);
+-                d16[H2(i)] = nn + (mm << (1 << esz));
++                d16[H2(i)] = nn | (mm << esize);
+             }
+         }
      }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_bic_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1162,13 +1154,14 @@ static bool trans_BIC_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_bic_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else if (a->pg == a->rn) {
--        return do_vector3_p(s, tcg_gen_gvec_andc, 0, a->rd, a->rn, a->rm);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
-+
-+    if (!a->s && a->pg == a->rn) {
-+        if (sve_access_check(s)) {
-+            gen_gvec_fn_ppp(s, tcg_gen_gvec_andc, a->rd, a->rn, a->rm);
-+        }
-+        return true;
-     }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_eor_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1192,11 +1185,7 @@ static bool trans_EOR_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_eor_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
--    }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_sel_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1222,11 +1211,11 @@ static bool trans_SEL_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_sel_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
-+
-     if (a->s) {
-         return false;
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
-     }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_orr_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1250,13 +1239,11 @@ static bool trans_ORR_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_orr_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else if (a->pg == a->rn && a->rn == a->rm) {
-+
-+    if (!a->s && a->pg == a->rn && a->rn == a->rm) {
-         return do_mov_p(s, a->rd, a->rn);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
-     }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_orn_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1280,11 +1267,7 @@ static bool trans_ORN_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_orn_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
--    }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_nor_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1308,11 +1291,7 @@ static bool trans_NOR_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_nor_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
--    }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- static void gen_nand_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
-@@ -1336,11 +1315,7 @@ static bool trans_NAND_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_nand_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
--    if (a->s) {
--        return do_pppp_flags(s, a, &op);
--    } else {
--        return do_vecop4_p(s, &op, a->rd, a->rn, a->rm, a->pg);
--    }
-+    return do_pppp_flags(s, a, &op);
- }
- 
- /*
 -- 
 2.25.1
 
