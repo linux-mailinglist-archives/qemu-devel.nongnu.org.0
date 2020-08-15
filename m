@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E484A24512B
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:09:50 +0200 (CEST)
-Received: from localhost ([::1]:56422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FE924513C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:23:46 +0200 (CEST)
+Received: from localhost ([::1]:51710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xob-00075x-Vq
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49608)
+	id 1k6y25-0003MV-3C
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k6xk0-0000Rn-KN
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:05:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59521
- helo=us-smtp-1.mimecast.com)
+ id 1k6xy0-0005S1-HW
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:19:32 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26700
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1k6xjy-00072b-S8
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:05:04 -0400
+ id 1k6xxx-00022w-Gj
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:19:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597503902;
+ s=mimecast20190719; t=1597504768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=U3jb7gJ3WbiTExY2AZW20/+QPsj/5JIJwp4Qd6tcVJk=;
- b=cedsg4qKVoqYz6W/xNyA+WV+fzbE0Gnk1WhPi4djGBs87xVfi/aOCLAeFNnYQab+R7ydGf
- 4i9ZCb2jHTPLN4Z/2ntio8RwrzvotS2a5YpdA22SU1HPI08oSacL03WG5psLb3CaeOzmGm
- YuEV4xGs6/7xykX3sbaf3ymA7ZFlOEU=
+ bh=q1imAkULvth5PHCHqSf2NcPALwbxgjmMgsRZwc6yxT8=;
+ b=jPxlmqPZ22YLaEaWUaabN1o+0WOalB21EpAAWAnRicQnhq/QXmnfeuSIm3RlBeM4EiTHAy
+ KaEzG4Mp8kuW6Mk/BQ72SSXInt8AsojdseOBwyAm60F75vMRonnCrwaZSFfpubUphcgRMs
+ EWzpnVsH/yaU2hS/ch++pTvF+Y+Tzxw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-TSo0FaTVPn-fmJJUc6Q28g-1; Sat, 15 Aug 2020 03:03:07 -0400
-X-MC-Unique: TSo0FaTVPn-fmJJUc6Q28g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-1-FwaL-3rnMdiyjDiQmmSEfQ-1; Sat, 15 Aug 2020 03:17:43 -0400
+X-MC-Unique: FwaL-3rnMdiyjDiQmmSEfQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 505711005E5D;
- Sat, 15 Aug 2020 07:03:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1B9C801AC3;
+ Sat, 15 Aug 2020 07:17:42 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.192.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15078702FF;
- Sat, 15 Aug 2020 07:02:57 +0000 (UTC)
-Date: Sat, 15 Aug 2020 09:02:54 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C304B5C1BD;
+ Sat, 15 Aug 2020 07:17:40 +0000 (UTC)
+Date: Sat, 15 Aug 2020 09:17:37 +0200
 From: Andrew Jones <drjones@redhat.com>
-To: Peng Liang <liangpeng10@huawei.com>
-Subject: Re: [RFC 7/9] target/arm: Add CPU features to
- query-cpu-model-expansion
-Message-ID: <20200815070254.ed3cxwcexmyypcgc@kamzik.brq.redhat.com>
-References: <20200813102657.2588720-1-liangpeng10@huawei.com>
- <20200813102657.2588720-8-liangpeng10@huawei.com>
- <20200813125602.drapo7wyzg57k3jy@kamzik.brq.redhat.com>
- <c14eb457-5c64-b888-2b94-fcd5e4383c70@huawei.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 7/7] target/arm/cpu: spe: Enable spe to work with host cpu
+Message-ID: <20200815071737.4eql77uemlw2nddx@kamzik.brq.redhat.com>
+References: <cover.1596768588.git.haibo.xu@linaro.org>
+ <bf909c1f4904a22be0804cae9fd6f38ba4862563.1596768588.git.haibo.xu@linaro.org>
+ <20200810111640.ykejphmuyirncjwv@kamzik.brq.redhat.com>
+ <CAJc+Z1F_vFdJuy2kZnj0gZSOd_8-=rSfWFHjQSPU5XEKQ2KZkg@mail.gmail.com>
+ <20200811164954.s2sdjzpqpdh2orks@kamzik.brq.redhat.com>
+ <13da2df2-7d90-9512-d1b1-8d7c5f43971c@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <c14eb457-5c64-b888-2b94-fcd5e4383c70@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <13da2df2-7d90-9512-d1b1-8d7c5f43971c@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 02:52:02
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/14 17:09:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,67 +85,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou 00584000 <xiexiangyou@huawei.com>, qemu-arm@nongnu.org,
- pbonzini@redhat.com, zhukeqian 00502301 <zhukeqian1@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ philmd@redhat.com, qemu-devel@nongnu.org, Haibo Xu <haibo.xu@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 15, 2020 at 10:19:05AM +0800, Peng Liang wrote:
-> On 8/13/2020 8:56 PM, Andrew Jones wrote:
-> > On Thu, Aug 13, 2020 at 06:26:55PM +0800, Peng Liang wrote:
-> >> Add CPU features to the result of query-cpu-model-expansion so that
-> >> other applications (such as libvirt) can know the supported CPU
-> >> features.
-> >>
-> >> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-> >> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> >> ---
-> >>  target/arm/cpu.c     | 41 +++++++++++++++++++++++++++++++++++++++++
-> >>  target/arm/cpu.h     |  2 ++
-> >>  target/arm/monitor.c |  2 ++
-> >>  3 files changed, 45 insertions(+)
-> >>
-> >> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> >> index 3fc54cb3a4..0f620e8afe 100644
-> >> --- a/target/arm/cpu.c
-> >> +++ b/target/arm/cpu.c
-> >> @@ -25,6 +25,8 @@
-> >>  #include "qemu/module.h"
-> >>  #include "qapi/error.h"
-> >>  #include "qapi/visitor.h"
-> >> +#include "qapi/qmp/qdict.h"
-> >> +#include "qom/qom-qobject.h"
-> >>  #include "cpu.h"
-> >>  #include "internals.h"
-> >>  #include "exec/exec-all.h"
-> >> @@ -1515,6 +1517,45 @@ static const CPUFeatureDep feature_dependencies[] = {
-> >>      },
-> >>  };
-> >>  
-> >> +static char *strtolower(char *src)
-> >> +{
-> >> +    char *start = src;
-> >> +
-> >> +    for (; *src; ++src) {
-> >> +        *src = tolower(*src);
-> >> +    }
-> >> +
-> >> +    return start;
-> >> +}
-> > 
-> > Shouldn't need this. The CPU property names should already be lowercase.
-> > 
+On Fri, Aug 14, 2020 at 12:28:25PM -0700, Richard Henderson wrote:
+> On 8/11/20 9:49 AM, Andrew Jones wrote:
+> > Yes, except you need to drop the ARM_FEATURE_SPE define and use the ID
+> > register bit instead like "sve_supported" does.
 > 
-> For convenience, we use the field part defined in FIELD macro as the name of
-> a CPU feature.  So, the names of CPU features are upper...
+> On a related note, I think we have a latent bug, or at least a mis-feature:
+> 
+>     sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
+> ...
+>     /* Add feature bits that can't appear until after VCPU init. */
+>     if (sve_supported) {
+>         t = ahcf->isar.id_aa64pfr0;
+>         t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+>         ahcf->isar.id_aa64pfr0 = t;
+>     }
+> 
+> 
+> Should it in fact be
+> 
+>     if (!sve_supported) {
+>         t = ahcf->isar.id_aa64pfr0;
+>         t = FIELD_DP64(t, ID_AA64PFR0, SVE, 0);
+>         ahcf->isar.id_aa64pfr0 = t;
+>     }
+> 
+> ?
+> 
+> Forcing the value to 1 here is going to be wrong the moment we have an SVE2
+> enabled cpu.
 
-But then the command line requires capital letters for property names,
-which isn't very convenient to the user. The field names could be
-converted to lowercase when generating the property names.
+Indeed. I think KVM should add a KVM_CAP_ARM_SVE2 cap. Then, we keep the
+code similar to the way it is now, but set ID_AA64PFR0 appropriately
+based on which CAPs are present. I think we probably need that CAP anyway
+in order to ensure a guest that is using SVE2 cannot be migrated to a host
+that only has SVE.
 
-Thanks,
+> 
+> Similarly, SPE has more than one "enabled" value for PMSVer.
+>
+
+I'll take a look at the KVM series for SPE next week to see if
+the UAPI will allow us to determine what values are possible.
+
+Thanks for the heads up about this.
+
 drew
 
 
