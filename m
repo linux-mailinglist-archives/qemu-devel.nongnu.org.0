@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FCB245146
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:31:31 +0200 (CEST)
-Received: from localhost ([::1]:50234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A83245155
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:59:32 +0200 (CEST)
+Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6y9a-0006CN-O5
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:31:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37664)
+	id 1k6yah-0004wG-FK
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6y6U-0002oW-Ko
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:28:18 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:39770)
+ (Exim 4.90_1) (envelope-from <jwsu1986@gmail.com>)
+ id 1k6yZS-0004EL-Cl
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:58:14 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:41580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6y6S-00040C-Qi
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:28:18 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id f9so5653082pju.4
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=D1VJrUQknShqmnmzu8X8w1cJRuHx820LA67l/SpR/wI=;
- b=WmVif8ArPf0sdlGrhV/s/zKZGtvIaxy/aOyK09OYvPdy1oSxGR/pblFFX7sTBnZxVj
- rgYuuolNwN0G3RqTYUnL9AOR0TKKNCCov/uFEKu2KcE62MXZjMeJwFHqb13XcnQbP9NH
- F/MyD8YVDCB7K+frcYVEx4gl2O3q09F/b+ZPNFofurzUZS2iDQ88/1+K3dgf/VI/PLz7
- iHzmUInH0x0GdkdHNm91F6rCqXtH7nVokTtTvekG8BmC6MzVNX1ui/Okle3vOYJnWrH+
- /1RFKCugh3a3MQcsgPN+Q90nh1JWdS68qVQICNGq4jZ6iP/s/taoRX6D4uqvE3S+XFPv
- DWIQ==
+ (Exim 4.90_1) (envelope-from <jwsu1986@gmail.com>)
+ id 1k6yZQ-0000y5-FS
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:58:14 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id x6so2537567ooe.8
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0HvHiQb1V3eUFkfQxdrYwjGhgTwhAt664AGIbyX0pXg=;
+ b=IFBjHLmUgkXhoBJPAXyqTvutblwzcvoqjcFoSgvK5t0ztIXyX2vzJ1Ve4wyZBeeE4j
+ 5r5iL0d2G4DIe6qDJtPBT341WaAl7u+GoPUxA4kVDXMtdWv7OP5RKhxOGVFPVTu42ELk
+ Wb4kX6V6vsQivjFgJttpthqoz7mFt/5TPNZllNKY/wVVuLKDzy85KpCMP1pnh4YkqjH1
+ KK2pJTxqTEJM/8P9uqHc5NpJzf9F77wkRnIx3R2VS1H5pIq94so2Nhoc7KIMbnESGkQ5
+ guhTb3yonz0jOW0uv/XDxRdXqmxFrUlUWhsYJUz3b2tvqK8giZSdFvM7xii64B4jBkJW
+ d7QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=D1VJrUQknShqmnmzu8X8w1cJRuHx820LA67l/SpR/wI=;
- b=ZUMp3PvBcy//An/314dcFzERoJbUGlEHAR384E2lfKjrt2QJ8M3BtAXroz4s/FWVb5
- Du9xYPK7AzyP7Mmc0sDlOjmBCS4NB8HeTeUjNycwmHRaJ1W64DgZgAvDLh8e2WNRrkkT
- yStC+kmIlBfIbDyqjxBS3d7EqGkxWsv3q8eNd7/+h+j+AXZQNScO+kjGGJoJUuvKfIYs
- KqKDrO3x9eCEMryu5b2A630LZx/dg42G+BxvPWp8LFOH0fWOwCL7F8E0cezDsShBEnf5
- KpSwjNf144YNt0xmqRmhLc+PeD0iqyFPSGCuGpvag15vp+aD4k2uZzMs/PyNKhn1DmI/
- jaBA==
-X-Gm-Message-State: AOAM5321PLyC18018pF5UVvecltQaOAe0Iu2cTmpBnZVRY/eoucM9SGG
- movwJlseLoIuM7anxNHG3ll76+SRGpdpPg==
-X-Google-Smtp-Source: ABdhPJwX8ilxBh5q0IfY1WH99QRcdmPu68ss52Ytcvq14V4uPRQsEUr14yJFQPLO0Qh9FImTcz9V/A==
-X-Received: by 2002:aa7:9552:: with SMTP id w18mr695754pfq.150.1597455134318; 
- Fri, 14 Aug 2020 18:32:14 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.32.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:32:13 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 20/20] target/arm: Convert sq{,
- r}dmulh to gvec for aa64 advsimd
-Date: Fri, 14 Aug 2020 18:31:45 -0700
-Message-Id: <20200815013145.539409-21-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
-References: <20200815013145.539409-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0HvHiQb1V3eUFkfQxdrYwjGhgTwhAt664AGIbyX0pXg=;
+ b=jBkAQ0kVGcCj5TnXGVRG7QWBUmaXSUWcKHMLqUbkjAmbwkHR7Y9CU1+95//8hVcTx3
+ gUgUDeSReFB7wzaBO9b/TiS6eiL8bnQ13VEEieySGYj86OYqDN6MDkIt1MmViRwkLNiO
+ G/LL90qFYWX46lYeuWJXR/6oT1HXDi+1rjaTkZkdn6xN+c5B+gpAW6d3VCT/itLHW7TP
+ jmpAINv9rzqJ65/CFr/bi3AKHhmMZ2shbdc/tOXkq+o7kj1xGzjQWjoUmB13KUHqIOEP
+ 3/GSDzbunZzA8LDlKQL7SMYM3f0Kt+nV+3Ad+wZjoCjNtiuyPmnLI5i4L0qF1/+agBYs
+ nd9A==
+X-Gm-Message-State: AOAM533e5DTjkttsdaAsDFUjkuWeaEtED8iCOcZY2qcUejWVBwbvP4of
+ 3U6yK/eJFVZDJt9mOr19kt/axkVE6+cajBrIK6baVzAnVMx4cK9P
+X-Google-Smtp-Source: ABdhPJznHnCNsDSC+BQXmIOzj+K3avcY+kBPcV+gmlaQ+woJF1vENWNO42/MyCjQcW9NzFi5ggcT3WUmqXgIyrm4dpA=
+X-Received: by 2002:a25:cc50:: with SMTP id l77mr7873161ybf.84.1597459570435; 
+ Fri, 14 Aug 2020 19:46:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+References: <20200621021004.5559-1-dereksu@qnap.com>
+ <20200731094940.7a26e583@luklap>
+ <CAFKS8hWT1ieRkZcV4Q1ReC4X2wAXKteWB1VkEB7NesT2T-s_Kg@mail.gmail.com>
+ <d42f662dc48c4e42b6bf687563bfc3c9@huawei.com>
+In-Reply-To: <d42f662dc48c4e42b6bf687563bfc3c9@huawei.com>
+From: Derek Su <jwsu1986@gmail.com>
+Date: Sat, 15 Aug 2020 10:45:59 +0800
+Message-ID: <CAFKS8hX7qqjUqCf-F8bKmiLnu21j7SdAaCDe=BZM+4y+aXZgCw@mail.gmail.com>
+Subject: Re: [PATCH v1 0/1] COLO: migrate dirty ram pages before colo
+ checkpoint
+To: Zhanghailiang <zhang.zhanghailiang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=jwsu1986@gmail.com; helo=mail-oo1-xc41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,163 +83,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Lukas Straub <lukasstraub2@web.de>, "chyang@qnap.com" <chyang@qnap.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, Derek Su <dereksu@qnap.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "ctcheng@qnap.com" <ctcheng@qnap.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/helper.h        | 10 ++++++++
- target/arm/translate-a64.c | 33 ++++++++++++++++++--------
- target/arm/vec_helper.c    | 48 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 81 insertions(+), 10 deletions(-)
+On Sat, Aug 15, 2020 at 9:42 AM Zhanghailiang
+<zhang.zhanghailiang@huawei.com> wrote:
+>
+> > -----Original Message-----
+> > From: Derek Su [mailto:jwsu1986@gmail.com]
+> > Sent: Thursday, August 13, 2020 6:28 PM
+> > To: Lukas Straub <lukasstraub2@web.de>
+> > Cc: Derek Su <dereksu@qnap.com>; qemu-devel@nongnu.org; Zhanghailiang
+> > <zhang.zhanghailiang@huawei.com>; chyang@qnap.com; quintela@redhat.com;
+> > dgilbert@redhat.com; ctcheng@qnap.com
+> > Subject: Re: [PATCH v1 0/1] COLO: migrate dirty ram pages before colo
+> > checkpoint
+> >
+> > On Fri, Jul 31, 2020 at 3:52 PM Lukas Straub <lukasstraub2@web.de> wrote:
+> > >
+> > > On Sun, 21 Jun 2020 10:10:03 +0800
+> > > Derek Su <dereksu@qnap.com> wrote:
+> > >
+> > > > This series is to reduce the guest's downtime during colo checkpoint
+> > > > by migrating dirty ram pages as many as possible before colo checkpoint.
+> > > >
+> > > > If the iteration count reaches COLO_RAM_MIGRATE_ITERATION_MAX or ram
+> > > > pending size is lower than 'x-colo-migrate-ram-threshold', stop the
+> > > > ram migration and do colo checkpoint.
+> > > >
+> > > > Test environment:
+> > > > The both primary VM and secondary VM has 1GiB ram and 10GbE NIC for
+> > > > FT traffic.
+> > > > One fio buffer write job runs on the guest.
+> > > > The result shows the total primary VM downtime is decreased by ~40%.
+> > > >
+> > > > Please help to review it and suggestions are welcomed.
+> > > > Thanks.
+> > >
+> > > Hello Derek,
+> > > Sorry for the late reply.
+> > > I think this is not a good idea, because it unnecessarily introduces a delay
+> > between checkpoint request and the checkpoint itself and thus impairs network
+> > bound workloads due to increased network latency. Workloads that are
+> > independent from network don't cause many checkpoints anyway, so it doesn't
+> > help there either.
+> > >
+> >
+>
+> Hi Derek,
+>
+> Actually, There is a quit interesting question we should think:
+> What will happen if VM continues to run after detected a mismatched state between PVM and SVM,
+> According to the rules of COLO, we should stop VMs immediately to sync the state between PVM and SVM,
+> But here, you choose them to continue to run for a while, then there may be more client's network packages
+> Coming, and may cause more memory pages dirty, another side effect is the new network packages will not
+> Be sent out with high probability, because their replies should be different since the state between PVM and SVM is different.
+>
+> So, IMHO, it makes non-sense to let VMs to continue to run after detected them in different state.
+> Besides, I don't think it is easy to construct this case in tests.
+>
+>
+> Thanks,
+> Hailiang
+>
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 378bb1898b..3ca73a1764 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -776,6 +776,16 @@ DEF_HELPER_FLAGS_5(gvec_mls_idx_s, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(gvec_mls_idx_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_5(neon_sqdmulh_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_sqdmulh_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(neon_sqrdmulh_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_sqrdmulh_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
- #ifdef TARGET_AARCH64
- #include "helper-a64.h"
- #include "helper-sve.h"
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index c74c6e854c..d4da12268c 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -697,6 +697,20 @@ static void gen_gvec_op3_fpst(DisasContext *s, bool is_q, int rd, int rn,
-     tcg_temp_free_ptr(fpst);
- }
- 
-+/* Expand a 3-operand + qc + operation using an out-of-line helper.  */
-+static void gen_gvec_op3_qc(DisasContext *s, bool is_q, int rd, int rn,
-+                            int rm, gen_helper_gvec_3_ptr *fn)
-+{
-+    TCGv_ptr qc_ptr = tcg_temp_new_ptr();
-+
-+    tcg_gen_addi_ptr(qc_ptr, cpu_env, offsetof(CPUARMState, vfp.qc));
-+    tcg_gen_gvec_3_ptr(vec_full_reg_offset(s, rd),
-+                       vec_full_reg_offset(s, rn),
-+                       vec_full_reg_offset(s, rm), qc_ptr,
-+                       is_q ? 16 : 8, vec_full_reg_size(s), 0, fn);
-+    tcg_temp_free_ptr(qc_ptr);
-+}
-+
- /* Set ZF and NF based on a 64 bit result. This is alas fiddlier
-  * than the 32 bit equivalent.
-  */
-@@ -11753,6 +11767,15 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-             gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_mla, size);
-         }
-         return;
-+    case 0x16: /* SQDMULH, SQRDMULH */
-+        {
-+            static gen_helper_gvec_3_ptr * const fns[2][2] = {
-+                { gen_helper_neon_sqdmulh_h, gen_helper_neon_sqrdmulh_h },
-+                { gen_helper_neon_sqdmulh_s, gen_helper_neon_sqrdmulh_s },
-+            };
-+            gen_gvec_op3_qc(s, is_q, rd, rn, rm, fns[size - 1][u]);
-+        }
-+        return;
-     case 0x11:
-         if (!u) { /* CMTST */
-             gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_cmtst, size);
-@@ -11864,16 +11887,6 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-                 genenvfn = fns[size][u];
-                 break;
-             }
--            case 0x16: /* SQDMULH, SQRDMULH */
--            {
--                static NeonGenTwoOpEnvFn * const fns[2][2] = {
--                    { gen_helper_neon_qdmulh_s16, gen_helper_neon_qrdmulh_s16 },
--                    { gen_helper_neon_qdmulh_s32, gen_helper_neon_qrdmulh_s32 },
--                };
--                assert(size == 1 || size == 2);
--                genenvfn = fns[size - 1][u];
--                break;
--            }
-             default:
-                 g_assert_not_reached();
-             }
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index fb53684ce3..73d62c4e4f 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -109,6 +109,30 @@ void HELPER(gvec_qrdmlsh_s16)(void *vd, void *vn, void *vm,
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
-+void HELPER(neon_sqdmulh_h)(void *vd, void *vn, void *vm,
-+                            void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int16_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 2; ++i) {
-+        d[i] = do_sqrdmlah_h(n[i], m[i], 0, false, false, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
-+void HELPER(neon_sqrdmulh_h)(void *vd, void *vn, void *vm,
-+                             void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int16_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 2; ++i) {
-+        d[i] = do_sqrdmlah_h(n[i], m[i], 0, false, true, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
- /* Signed saturating rounding doubling multiply-accumulate high half, 32-bit */
- static int32_t do_sqrdmlah_s(int32_t src1, int32_t src2, int32_t src3,
-                              bool neg, bool round, uint32_t *sat)
-@@ -172,6 +196,30 @@ void HELPER(gvec_qrdmlsh_s32)(void *vd, void *vn, void *vm,
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
-+void HELPER(neon_sqdmulh_s)(void *vd, void *vn, void *vm,
-+                            void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int32_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 4; ++i) {
-+        d[i] = do_sqrdmlah_s(n[i], m[i], 0, false, false, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
-+void HELPER(neon_sqrdmulh_s)(void *vd, void *vn, void *vm,
-+                             void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int32_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 4; ++i) {
-+        d[i] = do_sqrdmlah_s(n[i], m[i], 0, false, true, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
- /* Integer 8 and 16-bit dot-product.
-  *
-  * Note that for the loops herein, host endianness does not matter
--- 
-2.25.1
+Hello, Hailiang
 
+Thanks. I got your point.
+In my tests, the mismatch between packets does not happen, so the
+network latency does not increase.
+
+By the way, I've tried your commit addressing this issue.
+It is useful for low dirty memory and low dirty rate workload.
+
+But in high "buffered IO read/write" workload, it results in PVM
+resends massive and same dirty ram pages  every cycle triggered
+by DEFAULT_RAM_PENDING_CHECK (default 1 second) timer, so hurt the IO
+performance and without improvement of downtime?
+Do you have any thoughts about this?
+
+Is it possible to separate the checkpoint invoked by the periodic
+timer and the packet mismatch and to use a different strategy
+to cope with the long downtime issue?
+
+Thanks.
+
+Regards,
+Derek
+
+> s> Hello, Lukas & Zhanghailiang
+> >
+> > Thanks for your opinions.
+> > I went through my patch, and I feel a little confused and would like to dig into it
+> > more.
+> >
+> > In this patch, colo_migrate_ram_before_checkpoint() is before
+> > COLO_MESSAGE_CHECKPOINT_REQUEST, so the SVM and PVM should not enter
+> > the pause state.
+> >
+> > In the meanwhile, the packets to PVM/SVM can still be compared and notify
+> > inconsistency if mismatched, right?
+> > Is it possible to introduce extra network latency?
+> >
+> > In my test (randwrite to disk by fio with direct=0), the ping from another client to
+> > the PVM  using generic colo and colo used this patch are below.
+> > The network latency does not increase as my expectation.
+> >
+> > generic colo
+> > ```
+> > 64 bytes from 192.168.80.18: icmp_seq=87 ttl=64 time=28.109 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=88 ttl=64 time=16.747 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=89 ttl=64 time=2388.779 ms
+> > <----checkpoint start
+> > 64 bytes from 192.168.80.18: icmp_seq=90 ttl=64 time=1385.792 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=91 ttl=64 time=384.896 ms
+> > <----checkpoint end
+> > 64 bytes from 192.168.80.18: icmp_seq=92 ttl=64 time=3.895 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=93 ttl=64 time=1.020 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=94 ttl=64 time=0.865 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=95 ttl=64 time=0.854 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=96 ttl=64 time=28.359 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=97 ttl=64 time=12.309 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=98 ttl=64 time=0.870 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=99 ttl=64 time=2371.733 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=100 ttl=64 time=1371.440 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=101 ttl=64 time=366.414 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=102 ttl=64 time=0.818 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=103 ttl=64 time=0.997 ms ```
+> >
+> > colo used this patch
+> > ```
+> > 64 bytes from 192.168.80.18: icmp_seq=72 ttl=64 time=1.417 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=73 ttl=64 time=0.931 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=74 ttl=64 time=0.876 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=75 ttl=64 time=1184.034 ms
+> > <----checkpoint start
+> > 64 bytes from 192.168.80.18: icmp_seq=76 ttl=64 time=181.297 ms
+> > <----checkpoint end
+> > 64 bytes from 192.168.80.18: icmp_seq=77 ttl=64 time=0.865 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=78 ttl=64 time=0.858 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=79 ttl=64 time=1.247 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=80 ttl=64 time=0.946 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=81 ttl=64 time=0.855 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=82 ttl=64 time=0.868 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=83 ttl=64 time=0.749 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=84 ttl=64 time=2.154 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=85 ttl=64 time=1499.186 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=86 ttl=64 time=496.173 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=87 ttl=64 time=0.854 ms
+> > 64 bytes from 192.168.80.18: icmp_seq=88 ttl=64 time=0.774 ms ```
+> >
+> > Thank you.
+> >
+> > Regards,
+> > Derek
+> >
+> > > Hailang did have a patch to migrate ram between checkpoints, which should
+> > help all workloads, but it wasn't merged back then. I think you can pick it up again,
+> > rebase and address David's and Eric's comments:
+> > > https://lore.kernel.org/qemu-devel/20200217012049.22988-3-zhang.zhangh
+> > > ailiang@huawei.com/T/#u
+> > >
+> > > Hailang, are you ok with that?
+> > >
+> > > Regards,
+> > > Lukas Straub
 
