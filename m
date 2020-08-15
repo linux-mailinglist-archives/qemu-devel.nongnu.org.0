@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18B2245138
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:20:21 +0200 (CEST)
-Received: from localhost ([::1]:37900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E736D245142
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 17:28:33 +0200 (CEST)
+Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6xym-00060Z-RB
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58706)
+	id 1k6y6i-00027V-VL
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 11:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6xve-0001yK-32
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:17:06 -0400
-Resent-Date: Sat, 15 Aug 2020 11:17:06 -0400
-Resent-Message-Id: <E1k6xve-0001yK-32@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21399)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k6xvZ-0001eH-SC
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:17:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597504611; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=NSATkHUNeQVkEmg+vh9Ci0MTQjkP7BEjscaX9/wYklvYpzMyB0iLI/d4hWVVGXY3FZOlXoXXjUZRPsZTkRP5ps5L2F5CtvlwD4uSUqmxgU2/c44PnkD/QADr064QLSKjapuriLZkV/nzI1VHZEEpBv21Q+Z8sFghzGiccLpAtyo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597504611;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=gZQNbp7wnBRo5skkuFkrCvtI1fdvRLdGuJjCJr/pwlU=; 
- b=egTGHNbNKg3OpCb3iWKeDkfEculELCe5UKV//kz4Y1Q+wAuoo/3nBN996O0WLOpzuCYmH5gyOrVCreCsDm221X+MH6gP0W7rAF0GcRPHXW1cmX+mw3hKsrUrWaSYeJaHTs4SBQGjerwSLZKBx3yez+MiMTZ9Ai9yLeg3e00jxwE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597504607337478.68156212775943;
- Sat, 15 Aug 2020 08:16:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6y2t-0005KY-DT
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:24:35 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37256)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k6y2r-0003FN-HX
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 11:24:35 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k8so10312606wma.2
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 08:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i5/VDadN6rQer72jCuvXRfOgBZxeteYTAR+TNZRmS2c=;
+ b=u7ZZ1pP8OVmNry0wRFkO+812TwxeFHnq3O0/oDTj7Wzr3Ug4jGD5OkP5hvIKbgyMHT
+ YqDpYc5K512c8L62M+fY9JMZQ5nmkXBdIGizo/qE/WxL7ZKLp5Z+Krp8+qZxyprMIMDB
+ sRiBnqCcZWifJMe7Q4maa227TRLwJPdrPEudUlGt1X01K0Ib6v48KoPNGk9+t6YCCg0M
+ EDFkayzg5ROvkQm2LekSRKTbPONbVCHA1HP5z50kUuSHeQy8zpGmAb0l88lFDSjj4WFT
+ rr///yFBwl7CiTIcWxzaJENTvRu34lD4b1CQA9arZBDSKoCQeorF63VKKiZMpIwIqUro
+ M1rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i5/VDadN6rQer72jCuvXRfOgBZxeteYTAR+TNZRmS2c=;
+ b=aTY5lHCwwFaBCx6tUM1XSJI/9378+ibSyLekMDrRFGdbI90vOSiWtcLdby9anTqaZP
+ Qi0eNxYOoKoLiGUiVivmGAua49GQNUQzSo4Z30v1fS6JsEAeDKnyCOEjrMw46S+KqsFV
+ jgyNJ4wiaYiA+L1L+WJBUK0uqCuCoAicinP4syCwPMWXJ3Pvt1fbfJ1Bijlbw9i8ponX
+ tAbODbkySnMmbrhmzewK88wW0e17hK9Fe5ajBA7T9n529iJgfQkWheBVj6T2J7+yMJy7
+ NstwOf0QqC50MTpBtfzh+7kx6s+/XU9bUQB25uJiUKiZaxj/9AKQbTotaygMJsWmNIIg
+ PkCg==
+X-Gm-Message-State: AOAM532PNrIXdQsRHu2FFbV6oWJeF3Ebue3kFstWh/22fV+7VT1t4DLC
+ Rm5GY9r2N2F/pIMNSxsBpp8=
+X-Google-Smtp-Source: ABdhPJzDAdWxbrJD6Z403AhuFnOjUUOpv1dr51ms8F8Zn47UPwepfg2j8P6ubg5vLyiZiQncaEVeZw==
+X-Received: by 2002:a1c:5a41:: with SMTP id o62mr7296688wmb.16.1597505071751; 
+ Sat, 15 Aug 2020 08:24:31 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id 3sm20434066wms.36.2020.08.15.08.24.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Aug 2020 08:24:31 -0700 (PDT)
 Subject: Re: [PATCH] Fixes: Fallthrough warning on line 270 of
  qemu/qapi/opts-visitor.c
-Message-ID: <159750460630.7155.8519395038959578037@66eaa9a8a123>
-In-Reply-To: <20200815130046.5344-1-rohit.shinde12194@gmail.com>
+To: Rohit Shinde <rohit.shinde12194@gmail.com>, qemu-devel@nongnu.org
+References: <20200815130046.5344-1-rohit.shinde12194@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d915c2a8-deba-1d88-d7d8-d16b8dcaf6d4@amsat.org>
+Date: Sat, 15 Aug 2020 17:24:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rohit.shinde12194@gmail.com
-Date: Sat, 15 Aug 2020 08:16:47 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 11:03:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200815130046.5344-1-rohit.shinde12194@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,48 +91,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, rohit.shinde12194@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com
+Cc: armbru@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxNTEzMDA0Ni41MzQ0
-LTEtcm9oaXQuc2hpbmRlMTIxOTRAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxl
-ZCB0aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRl
-c3RpbmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2Vy
-IGluc3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBU
-RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9z
-NyBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1df
-RU5WPTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBx
-YXBpL3FhcGktdmlzaXQtYmxvY2subwogIENDICAgICAgcWFwaS9xYXBpLXZpc2l0LWNoYXIubwov
-dG1wL3FlbXUtdGVzdC9zcmMvcWFwaS9vcHRzLXZpc2l0b3IuYzogSW4gZnVuY3Rpb24gJ29wdHNf
-bmV4dF9saXN0JzoKL3RtcC9xZW11LXRlc3Qvc3JjL3FhcGkvb3B0cy12aXNpdG9yLmM6MjY5Ojk6
-IGVycm9yOiBlbXB0eSBkZWNsYXJhdGlvbiBbLVdlcnJvcl0KICAgICAgICAgX19hdHRyaWJ1dGVf
-XygoZmFsbHRocm91Z2gpKTsKICAgICAgICAgXgpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVh
-dGVkIGFzIGVycm9ycwptYWtlOiAqKiogW3FhcGkvb3B0cy12aXNpdG9yLm9dIEVycm9yIDEKbWFr
-ZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2ViYWNrIChtb3N0IHJl
-Y2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxpbmUg
-NzA5LCBpbiA8bW9kdWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2Rl
-LCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAn
-LW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9
-MGIzNThjMjQ1YmZiNGYxZWJjYzQ3YmQ2NjBmMjQzZDMnLCAnLXUnLCAnMTAwMycsICctLXNlY3Vy
-aXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElT
-VD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9
-MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NBQ0hFX0RJ
-Uj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9j
-a2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRl
-c3Rlci10bXAtaGJmcDk1N3Avc3JjL2RvY2tlci1zcmMuMjAyMC0wOC0xNS0xMS4xNC40NC4xNTAy
-NjovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdS9jZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVu
-JywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVy
-PS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MGIzNThjMjQ1YmZiNGYxZWJj
-YzQ3YmQ2NjBmMjQzZDMKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06
-IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtaGJmcDk1N3Av
-c3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpy
-ZWFsICAgIDJtMi4yNDlzCnVzZXIgICAgMG03Ljg3MHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
-YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwODE1MTMwMDQ2LjUzNDQtMS1yb2hp
-dC5zaGluZGUxMjE5NEBnbWFpbC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Hi Rohit,
+
+Congratulation for your first patch! It is in very
+good shape already :)
+
+It is easier for the reviewers if you start the patch subject with
+the name of the subsystem concerned, or the file modified:
+
+"qapi/opts-visitor: Add missing fallthrough annotations"
+
+On 8/15/20 3:00 PM, Rohit Shinde wrote:
+> Added the fallthrough comment so that the compiler doesn't emit an error on compiling with the -Wimplicit-fallthrough flag.
+
+If possible align the description to 72 chars.
+
+> 
+> Signed off by: Rohit Shinde
+
+The tag is written "Signed-off-by" with '-', then your "name <email>":
+
+Signed-off-by: Rohit Shinde <rohit.shinde12194@gmail.com>
+
+If you configure your git client, using 'git-commit -s' will
+automatically add the S-o-b tag:
+
+$ git config user.name "Rohit Shinde"
+$ git config user.email "rohit.shinde12194@gmail.com"
+$ git commit -s
+
+> ---
+>  qapi/opts-visitor.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
+> index 7781c23a42..43cf60d3a0 100644
+> --- a/qapi/opts-visitor.c
+> +++ b/qapi/opts-visitor.c
+> @@ -266,6 +266,7 @@ opts_next_list(Visitor *v, GenericList *tail, size_t size)
+>          }
+>          ov->list_mode = LM_IN_PROGRESS;
+>          /* range has been completed, fall through in order to pop option */
+> +        __attribute__((fallthrough));
+
+C uses attributes when declaring a type/variable/function.
+Here this is inside a function body, not a declaration.
+A simple "/* fallthrough */" comment will make the compiler happy.
+You can see a similar patch for example:
+https://git.qemu.org/?p=qemu.git;a=blobdiff;f=disas/sh4.c;h=dcdbdf26d8;hp=55ef865a3;hb=ccb237090f;hpb=7aa12aa215
+
+When you find an issue that might have already been fixed elsewhere
+in the repository, 'git-log -p' is your friend. Since the commits are
+patches already accepted/merged, they might be a good source to learn
+(how the issue was fixed, how the bug was described, ...).
+
+Regards,
+
+Phil.
+
+>  
+>      case LM_IN_PROGRESS: {
+>          const QemuOpt *opt;
+> 
+
 
