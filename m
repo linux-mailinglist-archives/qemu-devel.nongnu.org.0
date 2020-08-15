@@ -2,53 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B722451B6
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:12:29 +0200 (CEST)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03222451B2
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 20:09:04 +0200 (CEST)
+Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k70fM-0005eL-CN
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53540)
+	id 1k70c3-0001Pn-P0
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 14:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k70dY-0003qF-W5; Sat, 15 Aug 2020 14:10:37 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2101 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k70VU-0001KZ-N0
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:17 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:39950 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1k70dX-0008Fl-8v; Sat, 15 Aug 2020 14:10:36 -0400
-Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.53])
- by Forcepoint Email with ESMTP id DCACFF626E9E62984702;
- Sat, 15 Aug 2020 10:19:28 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Sat, 15 Aug 2020 10:19:28 +0800
-Received: from [10.174.185.187] (10.174.185.187) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Sat, 15 Aug 2020 10:19:28 +0800
-Subject: Re: [RFC 5/9] target/arm: introduce CPU feature dependency mechanism
-To: Andrew Jones <drjones@redhat.com>
-References: <20200813102657.2588720-1-liangpeng10@huawei.com>
- <20200813102657.2588720-6-liangpeng10@huawei.com>
- <20200813124821.psavdkhddg4duar6@kamzik.brq.redhat.com>
-From: Peng Liang <liangpeng10@huawei.com>
-Message-ID: <1e7160d1-96e7-7581-cdc9-cb4ad44aca72@huawei.com>
-Date: Sat, 15 Aug 2020 10:19:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k70VS-0007F7-OW
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 14:02:16 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id E3AC91247FBDD6645ADD;
+ Sat, 15 Aug 2020 10:11:11 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Sat, 15 Aug 2020
+ 10:11:04 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH v2 00/10] *** A Method for evaluating dirty page rate ***
+Date: Sat, 15 Aug 2020 10:22:50 +0800
+Message-ID: <1597458180-16945-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200813124821.psavdkhddg4duar6@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.187]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggema765-chm.china.huawei.com (10.1.198.207)
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=liangpeng10@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 14:10:31
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 14:02:09
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -68,45 +57,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou 00584000 <xiexiangyou@huawei.com>, qemu-arm@nongnu.org,
- pbonzini@redhat.com, zhukeqian 00502301 <zhukeqian1@huawei.com>
+Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, ann.zhuangyanying@huawei.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/2020 8:48 PM, Andrew Jones wrote:
-> On Thu, Aug 13, 2020 at 06:26:53PM +0800, Peng Liang wrote:
->> Some CPU features are dependent on other CPU features.  For example,
->> ID_AA64PFR0_EL1.FP field and ID_AA64PFR0_EL1.AdvSIMD must have the same
->> value, which means FP and ADVSIMD are dependent on each other, FPHP and
->> ADVSIMDHP are dependent on each other.
->>
->> This commit introduces a mechanism for CPU feature dependency in
->> AArch64.  We build a directed graph from the CPU feature dependency
->> relationship, each edge from->to means the `to` CPU feature is dependent
->> on the `from` CPU feature.  And we will automatically enable/disable CPU
->> feature according to the directed graph.
->>
->> For example, a, b, and c CPU features are in relationship a->b->c, which
->> means c is dependent on b and b is dependent on a.  If c is enabled by
->> user, then a and b is enabled automatically.  And if a is disabled by
->> user, then b and c is disabled automatically.
-> 
-> And what if a is mutually exclusive with b? I.e. a and b can both be
-> disabled, but only a or b may be enabled.
-> 
-> Thanks,
-> drew
-> 
-> .
-> 
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
 
-Currently, a and b will be both enabled or disabled.  For example, a and b are
-in relationship a->b, which means b is dependent on a.  If -cpu host,a=off,b=on,
-then both a and b are enabled.  If -cpu host,b=on,a=off, then both a and b are
-disabled.  Maybe we should report an error to user in this scenario?
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
 
-Thanks,
-Peng
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                    |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)        |
+------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1188MB/s |   536MB/s ~ 1044MB/s (cpu throttle triggered) |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4152MB/s |     608MB/s ~ 4125MB/s (migation failed)      |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
+
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
+
+Zheng Chuan (10):
+  migration/dirtyrate: Add get_dirtyrate_thread() function
+  migration/dirtyrate: Add RamlockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement get_sample_page_period() and
+    block_sample_page_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+
+ migration/Makefile.objs |   1 +
+ migration/dirtyrate.c   | 448 ++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h   |  86 ++++++++++
+ migration/ram.c         |  11 +-
+ migration/ram.h         |  10 ++
+ qapi/migration.json     |  42 +++++
+ 6 files changed, 588 insertions(+), 10 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
+
 
