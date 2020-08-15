@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33609245190
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:15:31 +0200 (CEST)
-Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7380B2451A4
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:49:41 +0200 (CEST)
+Received: from localhost ([::1]:43794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zmE-0008Eg-8g
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:15:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
+	id 1k70JI-0003Q8-82
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k6zlE-0007mZ-Cn
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:14:28 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40988)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k70IE-00030V-5c
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:48:34 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k6zlC-000220-Dt
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:14:28 -0400
-Received: by mail-pg1-x542.google.com with SMTP id s15so5999457pgc.8
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 10:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+zjJEW76GFXrK6U2q/vJE64GK4mCTpYjSjiBB706RAk=;
- b=YMWWW4MDLYzvEBN8lNbCIR+jk+J8Q5TGfRiRH3dNiT8iRhvrrfMzCd1Ykgl+/UkPN/
- MuMP0vZJ+QbC0e/ykIPRlGeBbmmYkxpXLaRFKoygrOUx3RFROyujBlVLLk23UoCUmMjT
- /dK8K2Vk0O3YZUcSGkDdHKkE41aplM+n7qqNj/SCi1gBEknqkJVcUClk6P8t8ebYdHvT
- RFJdDnyDY9RG2H+GdMSnIJWxzdWMNlFghiaxs/LLQWvhrHHUDFFChmhUsm99kWjjzpYV
- 7sR88QYAjmQarmqAb0wByPTzTwxH94VrO8S+kH3oWwdfIYF1wqGtidt49beRrAxV6HHQ
- ovEw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k70IC-0005kX-CW
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:48:33 -0400
+Received: by mail-oi1-x244.google.com with SMTP id l84so11103054oig.10
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 10:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AwlieOmSDn/Rt8TnNZpP6jW//R9aevOAUmcoQvuaIu0=;
+ b=zLmIOPoCrjmObGTyfj3dii+4lVz+oI81GQNI6AnXJGyoc/Ky43uQFq1D4IFK6R+JFQ
+ xShIrmEy/qly+8q39OZBFHIK6lriSs8y5My3qnC3xNHYSzBwkMeAHriIVxGjdCi+cEFD
+ 2GUQyDWjJy+PeBn4mQkBjaHnJ/BlnKJ/NGGreH9x2D+gpAJB2itiTNjRzb0t1wZVjwNS
+ pd7VkpN24S4eqQxxpbmrFIIFc7cQcg395noD0c+HBgYmtmZWyhofMmd9DedhIJxkc+q8
+ 1skWUYDLdhojlz8iOFlT7cb7IHFysu2K1s12o0zOSuhhB0LTQQf32mcaj3ZN/q7Ol6NC
+ 9caQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+zjJEW76GFXrK6U2q/vJE64GK4mCTpYjSjiBB706RAk=;
- b=JvkurbnCE0LCt+VFlmhIK86SdLTNHXpODreo9a/vxkWgScSmoZK9lDkIotEJh6it7Q
- IXYtbEwyktFH4u+bTJ6Nmb8u9dd4G8Yeg+lew/z7GgcqmWV2+wPjJMswJNKJlHT7qYov
- c27xesE/InX2/hp2xmHjX2WJB3DIpmjHXkPX9z40vs/JCItWRhNJxbuusMz+ZbXRc/6H
- 2u/xuz2exI9xvKyuLAGCB2OuISSb+8JeyFtJAKPRDs+C4QGtJp+8GJEl9UBaO8XeQt4P
- 7JxBjurIo9sG/Dk01/glS3qL8gmd+mYS+6hrIDw5vXy/qWrsTpmGuJfvGFKPhNy3VjTB
- nVtA==
-X-Gm-Message-State: AOAM533TQIgb1KoVkdWJc0MyFt1cuWYLTGWFm+Ep6vuw6Osaooe33/Qv
- Atgzcwb/jYOBVvRG2UabyVear515NMbo5bIpkBg=
-X-Google-Smtp-Source: ABdhPJwUePYmmm9uFt6LdDc9rZ7N394efinTzr6AKys80Cs/zCWNmMKAtXHc+z+7rwYQ09OrP3Gtq9jz466tHRW9QUw=
-X-Received: by 2002:a62:17c1:: with SMTP id 184mr5671263pfx.136.1597511664554; 
- Sat, 15 Aug 2020 10:14:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AwlieOmSDn/Rt8TnNZpP6jW//R9aevOAUmcoQvuaIu0=;
+ b=cdhgKDzfWe7VT9I4mMP8LOwRRChZCenHDyNEyr1q8aZQGIyb8KOYTK+FTZ2E+YHa4Y
+ cgtew8MMI2JF4dJ/o9P7TMjXD3wCnhDKRRoNRaQWx2aq2HP9EYD9n0sMSoJUWimhFloC
+ ncqZfO+wzMmPurvi6yA5Z8eRIR8nDA7GpFeFJNK6rEReBxJmthsxfrNZpIb1nxP8yGtD
+ aiW9SrhbNx7JqNtz2XjbG122tpybBfzcrofPStLCVtg6Q2qlbxls/dRe7R7ksC5Y8kar
+ COGTlKeFEg0i0FWdZRxn82hKMXBqShwWzqKViPaPu6OuFgNQE45RbXvzwVplI86NGsLU
+ bvdQ==
+X-Gm-Message-State: AOAM530JubLVji4nRG2XXNRxCnIWeYmSvzIUyD9iM3cNyMT5y0AZdiYo
+ gPhi8AekxTulCfbGB43+KUGCE44CAHm/vw==
+X-Google-Smtp-Source: ABdhPJwSufAFPq1rt6hopWCIpgdlMaT2T2FNmFIqfvnoyNNQYvEEn1Mzk2Sf25gijORRk6yS0kbWxg==
+X-Received: by 2002:a17:90a:c207:: with SMTP id
+ e7mr4568675pjt.172.1597455111984; 
+ Fri, 14 Aug 2020 18:31:51 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Aug 2020 18:31:51 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 03/20] target/arm: Split out gen_gvec_fn_zzz, do_zzz_fn
+Date: Fri, 14 Aug 2020 18:31:28 -0700
+Message-Id: <20200815013145.539409-4-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
+References: <20200815013145.539409-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20200815130046.5344-1-rohit.shinde12194@gmail.com>
- <d915c2a8-deba-1d88-d7d8-d16b8dcaf6d4@amsat.org>
-In-Reply-To: <d915c2a8-deba-1d88-d7d8-d16b8dcaf6d4@amsat.org>
-From: Rohit Shinde <rohit.shinde12194@gmail.com>
-Date: Sat, 15 Aug 2020 13:14:13 -0400
-Message-ID: <CA+Ai=tBw1bKJjHMLS=wbh2_WEU04TWPJohRxTggUV2k3gnb6gw@mail.gmail.com>
-Subject: Re: [PATCH] Fixes: Fallthrough warning on line 270 of
- qemu/qapi/opts-visitor.c
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000004a575d05acedabef"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=rohit.shinde12194@gmail.com; helo=mail-pg1-x542.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,219 +85,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004a575d05acedabef
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Model gen_gvec_fn_zzz on gen_gvec_fn3 in translate-a64.c, but
+indicating which kind of register and in which order.
 
-Hey Philippe,
+Model do_zzz_fn on the other do_foo functions that take an
+argument set and verify sve enabled.
 
-Thanks for the detailed comments! I have a couple of questions.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/translate-sve.c | 43 +++++++++++++++++++++-----------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 28e27c55b5..b0fa38db1c 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -153,16 +153,13 @@ static void gen_gvec_fn_zz(DisasContext *s, GVecGen2Fn *gvec_fn,
+ }
+ 
+ /* Invoke a vector expander on three Zregs.  */
+-static bool do_vector3_z(DisasContext *s, GVecGen3Fn *gvec_fn,
+-                         int esz, int rd, int rn, int rm)
++static void gen_gvec_fn_zzz(DisasContext *s, GVecGen3Fn *gvec_fn,
++                            int esz, int rd, int rn, int rm)
+ {
+-    if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        gvec_fn(esz, vec_full_reg_offset(s, rd),
+-                vec_full_reg_offset(s, rn),
+-                vec_full_reg_offset(s, rm), vsz, vsz);
+-    }
+-    return true;
++    unsigned vsz = vec_full_reg_size(s);
++    gvec_fn(esz, vec_full_reg_offset(s, rd),
++            vec_full_reg_offset(s, rn),
++            vec_full_reg_offset(s, rm), vsz, vsz);
+ }
+ 
+ /* Invoke a vector move on two Zregs.  */
+@@ -274,24 +271,32 @@ const uint64_t pred_esz_masks[4] = {
+  *** SVE Logical - Unpredicated Group
+  */
+ 
++static bool do_zzz_fn(DisasContext *s, arg_rrr_esz *a, GVecGen3Fn *gvec_fn)
++{
++    if (sve_access_check(s)) {
++        gen_gvec_fn_zzz(s, gvec_fn, a->esz, a->rd, a->rn, a->rm);
++    }
++    return true;
++}
++
+ static bool trans_AND_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_and, 0, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_and);
+ }
+ 
+ static bool trans_ORR_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_or, 0, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_or);
+ }
+ 
+ static bool trans_EOR_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_xor, 0, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_xor);
+ }
+ 
+ static bool trans_BIC_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_andc, 0, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_andc);
+ }
+ 
+ /*
+@@ -300,32 +305,32 @@ static bool trans_BIC_zzz(DisasContext *s, arg_rrr_esz *a)
+ 
+ static bool trans_ADD_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_add, a->esz, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_add);
+ }
+ 
+ static bool trans_SUB_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_sub, a->esz, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_sub);
+ }
+ 
+ static bool trans_SQADD_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_ssadd, a->esz, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_ssadd);
+ }
+ 
+ static bool trans_SQSUB_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_sssub, a->esz, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_sssub);
+ }
+ 
+ static bool trans_UQADD_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_usadd, a->esz, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_usadd);
+ }
+ 
+ static bool trans_UQSUB_zzz(DisasContext *s, arg_rrr_esz *a)
+ {
+-    return do_vector3_z(s, tcg_gen_gvec_ussub, a->esz, a->rd, a->rn, a->rm);
++    return do_zzz_fn(s, a, tcg_gen_gvec_ussub);
+ }
+ 
+ /*
+-- 
+2.25.1
 
-   1. I'll modify the patch to just include a fallthrough comment instead
-   of an attribute. How do I include the v4 version number in the patch? Do=
- I
-   erase the last commit on my branch or fork from the master and start the
-   work again and label it as v4?
-   2. I am trying to find some issues of interest, starting through which I
-   can go to bigger contributions. Do you have any suggestions on how I mig=
-ht
-   do that? For now, I am trying to tackle the bite sized issues to find my
-   way around the code base. I would like to move to substantial contributi=
-ons.
-   3. I have a background in CS theory, but its been 2 years since I
-   graduated from my Master's so I am a bit rusty on some stuff. How much C=
-S
-   theory (like compilers and OS) do I need to know if I want to contribute=
-?
-
-
-Thanks,
-Rohit.
-
-On Sat, Aug 15, 2020 at 11:24 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg>
-wrote:
-
-> Hi Rohit,
->
-> Congratulation for your first patch! It is in very
-> good shape already :)
->
-> It is easier for the reviewers if you start the patch subject with
-> the name of the subsystem concerned, or the file modified:
->
-> "qapi/opts-visitor: Add missing fallthrough annotations"
->
-> On 8/15/20 3:00 PM, Rohit Shinde wrote:
-> > Added the fallthrough comment so that the compiler doesn't emit an erro=
-r
-> on compiling with the -Wimplicit-fallthrough flag.
->
-> If possible align the description to 72 chars.
->
-> >
-> > Signed off by: Rohit Shinde
->
-> The tag is written "Signed-off-by" with '-', then your "name <email>":
->
-> Signed-off-by: Rohit Shinde <rohit.shinde12194@gmail.com>
->
-> If you configure your git client, using 'git-commit -s' will
-> automatically add the S-o-b tag:
->
-> $ git config user.name "Rohit Shinde"
-> $ git config user.email "rohit.shinde12194@gmail.com"
-> $ git commit -s
->
-> > ---
-> >  qapi/opts-visitor.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
-> > index 7781c23a42..43cf60d3a0 100644
-> > --- a/qapi/opts-visitor.c
-> > +++ b/qapi/opts-visitor.c
-> > @@ -266,6 +266,7 @@ opts_next_list(Visitor *v, GenericList *tail, size_=
-t
-> size)
-> >          }
-> >          ov->list_mode =3D LM_IN_PROGRESS;
-> >          /* range has been completed, fall through in order to pop
-> option */
-> > +        __attribute__((fallthrough));
->
-> C uses attributes when declaring a type/variable/function.
-> Here this is inside a function body, not a declaration.
-> A simple "/* fallthrough */" comment will make the compiler happy.
-> You can see a similar patch for example:
->
-> https://git.qemu.org/?p=3Dqemu.git;a=3Dblobdiff;f=3Ddisas/sh4.c;h=3Ddcdbd=
-f26d8;hp=3D55ef865a3;hb=3Dccb237090f;hpb=3D7aa12aa215
->
-> When you find an issue that might have already been fixed elsewhere
-> in the repository, 'git-log -p' is your friend. Since the commits are
-> patches already accepted/merged, they might be a good source to learn
-> (how the issue was fixed, how the bug was described, ...).
-
-
-> Regards,
->
-> Phil.
->
-> >
-> >      case LM_IN_PROGRESS: {
-> >          const QemuOpt *opt;
-> >
->
->
-
---0000000000004a575d05acedabef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hey Philippe,<div><br></div><div>Thanks f=
-or the detailed comments! I have a couple of questions.</div><div><br></div=
-><div><ol><li>I&#39;ll modify the patch to just include a fallthrough comme=
-nt instead of an attribute. How do I include the v4 version number in the p=
-atch? Do I erase the last commit on my branch or fork from the master and s=
-tart the work again and label it as v4?</li><li>I am trying to find some is=
-sues of interest, starting through which I can go to bigger contributions. =
-Do you have any suggestions on how I might do that? For now, I am trying to=
- tackle the bite sized issues to find my way around the code base. I would =
-like to move to substantial contributions.</li><li>I have a background in C=
-S theory, but its been 2 years since I graduated from my Master&#39;s so I =
-am a bit rusty on some stuff. How much CS theory (like compilers and OS) do=
- I need to know if I want to contribute?</li></ol><div><br></div><div>Thank=
-s,</div><div>Rohit.</div></div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Sat, Aug 15, 2020 at 11:24 AM Philippe Ma=
-thieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi R=
-ohit,<br>
-<br>
-Congratulation for your first patch! It is in very<br>
-good shape already :)<br>
-<br>
-It is easier for the reviewers if you start the patch subject with<br>
-the name of the subsystem concerned, or the file modified:<br>
-<br>
-&quot;qapi/opts-visitor: Add missing fallthrough annotations&quot;<br>
-<br>
-On 8/15/20 3:00 PM, Rohit Shinde wrote:<br>
-&gt; Added the fallthrough comment so that the compiler doesn&#39;t emit an=
- error on compiling with the -Wimplicit-fallthrough flag.<br>
-<br>
-If possible align the description to 72 chars.<br>
-<br>
-&gt; <br>
-&gt; Signed off by: Rohit Shinde<br>
-<br>
-The tag is written &quot;Signed-off-by&quot; with &#39;-&#39;, then your &q=
-uot;name &lt;email&gt;&quot;:<br>
-<br>
-Signed-off-by: Rohit Shinde &lt;<a href=3D"mailto:rohit.shinde12194@gmail.c=
-om" target=3D"_blank">rohit.shinde12194@gmail.com</a>&gt;<br>
-<br>
-If you configure your git client, using &#39;git-commit -s&#39; will<br>
-automatically add the S-o-b tag:<br>
-<br>
-$ git config <a href=3D"http://user.name" rel=3D"noreferrer" target=3D"_bla=
-nk">user.name</a> &quot;Rohit Shinde&quot;<br>
-$ git config user.email &quot;<a href=3D"mailto:rohit.shinde12194@gmail.com=
-" target=3D"_blank">rohit.shinde12194@gmail.com</a>&quot;<br>
-$ git commit -s<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 qapi/opts-visitor.c | 1 +<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-&gt; <br>
-&gt; diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c<br>
-&gt; index 7781c23a42..43cf60d3a0 100644<br>
-&gt; --- a/qapi/opts-visitor.c<br>
-&gt; +++ b/qapi/opts-visitor.c<br>
-&gt; @@ -266,6 +266,7 @@ opts_next_list(Visitor *v, GenericList *tail, size=
-_t size)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ov-&gt;list_mode =3D LM_IN_PROGRESS;=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* range has been completed, fall th=
-rough in order to pop option */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 __attribute__((fallthrough));<br>
-<br>
-C uses attributes when declaring a type/variable/function.<br>
-Here this is inside a function body, not a declaration.<br>
-A simple &quot;/* fallthrough */&quot; comment will make the compiler happy=
-.<br>
-You can see a similar patch for example:<br>
-<a href=3D"https://git.qemu.org/?p=3Dqemu.git;a=3Dblobdiff;f=3Ddisas/sh4.c;=
-h=3Ddcdbdf26d8;hp=3D55ef865a3;hb=3Dccb237090f;hpb=3D7aa12aa215" rel=3D"nore=
-ferrer" target=3D"_blank">https://git.qemu.org/?p=3Dqemu.git;a=3Dblobdiff;f=
-=3Ddisas/sh4.c;h=3Ddcdbdf26d8;hp=3D55ef865a3;hb=3Dccb237090f;hpb=3D7aa12aa2=
-15</a><br>
-<br>
-When you find an issue that might have already been fixed elsewhere<br>
-in the repository, &#39;git-log -p&#39; is your friend. Since the commits a=
-re<br>
-patches already accepted/merged, they might be a good source to learn<br>
-(how the issue was fixed, how the bug was described, ...).=C2=A0</blockquot=
-e><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Regards,<br>
-<br>
-Phil.<br>
-<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 case LM_IN_PROGRESS: {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const QemuOpt *opt;<br>
-&gt; <br>
-<br>
-</blockquote></div></div>
-
---0000000000004a575d05acedabef--
 
