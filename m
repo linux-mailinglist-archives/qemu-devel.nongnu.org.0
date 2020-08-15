@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EDF245159
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:07:43 +0200 (CEST)
-Received: from localhost ([::1]:42582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333F424515C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:08:59 +0200 (CEST)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6yic-00063K-64
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55716)
+	id 1k6yjq-00009F-7D
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6yhO-0004zJ-2v
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:06:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43350)
+ id 1k6yiD-0006FV-ST
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:07:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k6yhM-0002BD-0F
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:06:25 -0400
+ id 1k6yiC-0002Hy-8Q
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:07:17 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k6urq-0007av-9M
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 12:00:58 +0000
+ id 1k6urr-0007bl-0H
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 12:00:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3A2CD2E80D2
+ by loganberry.canonical.com (Postfix) with ESMTP id F09722E80D2
  for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 12:00:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 Aug 2020 11:48:36 -0000
+Date: Sat, 15 Aug 2020 11:51:57 -0000
 From: Ech <1891748@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: ech1965
 X-Launchpad-Bug-Reporter: Ech (ech1965)
 X-Launchpad-Bug-Modifier: Ech (ech1965)
 References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <159749211630.26646.5137162522034118708.malone@soybean.canonical.com>
+Message-Id: <159749231757.21888.3817240973030618249.malone@chaenomeles.canonical.com>
 Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 115b8eb2affd329f369565b14064980d3bfdcd8f
+X-Launchpad-Hash: fe8167c22eb31e843475a5a4d0ceb42e12bb0b9a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/15 12:06:21
@@ -76,23 +76,13 @@ Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Steps to reproduce
+Additional info,
 
-1. Download and extract attached tarball.
-
-$ make # will build the docker container
-
-$ make run # will enter the container
-
-# once in the container, run
-
-# /qemu-arm-static-50 /bin/bash /runme.sh
+error message text ( "Allocating guest commpage" ) found in this commit:
 
 
-
-** Attachment added: "qemu-1891748-1.tgz"
-   https://bugs.launchpad.net/qemu/+bug/1891748/+attachment/5401727/+files/=
-qemu-1891748-1.tgz
+https://fossies.org/diffs/qemu/5.0.0_vs_5.1.0-rc0/linux-user/elfload.c-diff=
+.html
 
 -- =
 
