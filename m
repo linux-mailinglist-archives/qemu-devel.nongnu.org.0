@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEEF245184
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:56:26 +0200 (CEST)
-Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C5224517D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 18:45:34 +0200 (CEST)
+Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zTl-0006Zd-08
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1k6zJF-00081q-Ee
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 12:45:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zSg-00062Z-6e
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:55:18 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:42873)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1k6zID-0007bY-Bp
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:44:29 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zSe-0008PE-GI
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:55:17 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id q13so6199972vsn.9
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Op8+nIvDwpXgHA5KB5m5Q5E20k6FFVqok3W8zuTgmJQ=;
- b=SWBW/y7m3+PdaFt/aEfgwdLYM4xUYOO17egAyx0QX5bMmY7zUS1lWiXgArxER7vnw6
- ab99bz1uQiinq8jZkO3ohdw/cycWCP5Mm00VzBf2UQfBpgAAReD9Yvxxe+up2iKlRRb0
- 9lioC+hyaLBS+YCrr2EeZAhDRcZyIlwHVUSCAgjpTtqsYmo5ABE3kGQdi77me/47hfpp
- kwjg+wTaKG2QlAPNaEELUNzq9mTnG8BX5b5FsNakrnYIBDXqsDhLa4fw3If9ZK3YKBax
- kkHCAptEGkXErDKmK0yTay3HHkGJ+/g9MAzvzk34s1R4CwWZJ3iINy6Sr0ZZnPTGXlAj
- 7BPw==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1k6zIB-00073r-Nz
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 12:44:28 -0400
+Received: by mail-oi1-x244.google.com with SMTP id n128so7168228oif.0
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 09:44:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nNxcyvydBKW7um7acp/fp1BhM/4SQTbKf0bBRIbObWA=;
+ b=WS1wj6+Luh3GU2QmWNRtvgIkTaGEaoC8uIU+t0s2qurInNUA6hZHkgBnShAy0vJYPp
+ Fbpi9wQXm/eDVNcbPBl93Uyg5nhuqZrICobe41YTiipWlzCGwNZ4K69eKRgl0rLuSbcM
+ dLYFpjmwPoNFrANxpQv0XxtXrjXALKinaF25h1BW7D5HqWa4qoR73Zf4Wl+48Av3Prhp
+ bQvA71tsVmuyC2SsIAHSp15H7ct0pyS40A1rWICu2ztqDBjhTNQzNjSJbN4unaYqA1nr
+ QzOIXb+PudAi0cjtSPIVS7KBO7N76fkWGUmWR951T4QZ+ljbMZ0Ijm4cVXl8JYDrs2rP
+ Y3xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Op8+nIvDwpXgHA5KB5m5Q5E20k6FFVqok3W8zuTgmJQ=;
- b=RuV9xAquiD5yc3xFv1iMObXn7xUwyT5A4xGevZ60JxyoVUd7Cf6hxLB9aEX82uQBkR
- jLecBBqG5WxYXd/gfV23dob2sjaZIyb3RFfZBoOKBYnKMt9N2k2ErmT9Ml26gmt11NE+
- gptcr0OZXhKogeoT7jaEK8mdjE+bdqp0xkV0MTKBWs1++n4898kCfxPLR+Gfy6HzBxtb
- EG/oSxRm3YeePxxzkJPOL+qbvstbBKv/D/Gwgo1rEPMnooHmmAeLayeOyA2eFeS+sqfI
- J6Ok/SgsdUMPlNBpDwzusMXmPgGjVQ17TXJIHo8+yzvMq0cmkUGge4S7wc7GDeoNeg5h
- VF8Q==
-X-Gm-Message-State: AOAM531OA/3XfuKvhy7nn0l9GrWQnyj4nVqvekoMUVdK+uRHLwOAl6eI
- kdbP3PaLCKUuISH70cfUb9MYISY6Ps4+4Q==
-X-Google-Smtp-Source: ABdhPJzl4Jr+b9wWrX87a5QaJFdjYVdanp/z7vDvDgb6nbmZaKTuxtqsxCnAV8VGmBYW9I1CX32rmg==
-X-Received: by 2002:a62:d111:: with SMTP id z17mr3757649pfg.221.1597455128053; 
- Fri, 14 Aug 2020 18:32:08 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.32.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:32:07 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 15/20] target/arm: Fix sve_uzp_p vs odd vector lengths
-Date: Fri, 14 Aug 2020 18:31:40 -0700
-Message-Id: <20200815013145.539409-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
-References: <20200815013145.539409-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nNxcyvydBKW7um7acp/fp1BhM/4SQTbKf0bBRIbObWA=;
+ b=T6+LZNgQlqH5ovsIQFtBQXkt0FLzbPxMbYXFLPQpgdJkzPnwU7pW8VrYBuxaHNivsK
+ ObWGsoVyECuH09PmFIl3qay76OB1x3CW90vLDiTvRQmoLtSKzK0SVkCKeAERNoxkUnWz
+ f8ruJY9mAd5AkThJfMShaxy2nMJTsZ0eNysks2wJ1TfsuPCgP4cIYcXJ9qFS2Wq4BXAb
+ ONUJbvYikloe3RxGBweLop9PbnTUycrXlBWl7hD8VXy7ZgoQqw6fZzYauo7bY8kqjrO6
+ kB65YBdDKz76qWp0NPUb5L2yzCPAla4CB2t4mJT7db0fi+EqfmZCvwegacULySR6OkFF
+ JBxw==
+X-Gm-Message-State: AOAM533nm8rz0xFN3fFmSNfDPzZcEPTrdmSADt+3Kq9vzizKBEVodir3
+ gYzciYKdCIo8JLkpVF7gYBquf3ebMUha8oN3aTDskmFqFas=
+X-Google-Smtp-Source: ABdhPJwks7FCHLO+icCm1f/bxIWRNnwBbQGIm4b/hUFuy5n0R20aqcOqtkDL+DEury7bEBOne5qQYFbmVUy+gtIrJf0=
+X-Received: by 2002:aca:bd89:: with SMTP id n131mr3125624oif.78.1597458353242; 
+ Fri, 14 Aug 2020 19:25:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e42;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe42.google.com
+References: <20200806104709.13235-1-frank.chang@sifive.com>
+ <20200806104709.13235-27-frank.chang@sifive.com>
+ <90f01984-54a4-2a56-c52f-d1f4332b39d4@linaro.org>
+ <CAE_xrPiJRRV3FYtfve6LMOF6LNEYGfhmi9CiabxqUBEew9igLg@mail.gmail.com>
+ <5706a1ca-1dd9-22cd-08ce-c70780111bfc@linaro.org>
+In-Reply-To: <5706a1ca-1dd9-22cd-08ce-c70780111bfc@linaro.org>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Sat, 15 Aug 2020 10:25:42 +0800
+Message-ID: <CAE_xrPi93pRQccEncy00SO6cax0_GGRw-HUFF0uFzQ0f2P67kA@mail.gmail.com>
+Subject: Re: [RFC v3 26/71] target/riscv: rvv-1.0: update vext_max_elems() for
+ load/store insns
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000b0614605ace14148"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=frank.chang@sifive.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,88 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missed out on compressing the second half of a predicate
-with length vl % 512 > 256.
+--000000000000b0614605ace14148
+Content-Type: text/plain; charset="UTF-8"
 
-Adjust all of the x + (y << s) to x | (y << s) as a
-general style fix.
+On Sat, Aug 15, 2020 at 2:36 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/sve_helper.c | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+> On 8/13/20 7:48 PM, Frank Chang wrote:
+> > esz is passed from e.g. GEN_VEXT_LD_STRIDE() macro:
+> >
+> >> #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)        \
+> >> void HELPER(NAME)(void *vd, void * v0, target_ulong base,  \
+> >>                   target_ulong stride, CPURISCVState *env, \
+> >>                   uint32_t desc)                           \
+> >> {                                                          \
+> >>     uint32_t vm = vext_vm(desc);                           \
+> >>     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN, \
+> >>                      sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);       \
+> >> }
+> >>
+> >> GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
+> >
+> > which is calculated by sizeof(ETYPE), so the results would be: 1, 2, 4,
+> 8.
+> > and vext_max_elems() is called by e.g. vext_ldst_stride():
+>
+> Ah, yes.
+>
+> >> uint32_t max_elems = vext_max_elems(desc, esz);
+> >
+> > I can add another parameter to the macro and pass the hard-coded
+> log2(esz) number
+> > if it's the better way instead of using ctzl().
+> > Or if there's another approach to get the log2(esz) number more
+> elegantly?
+>
+> Using ctzl(sizeof(type)) in the GEN_VEXT_LD_STRIDE macro will work well.
+> This
+> will be constant folded by the compiler.
+>
+>
+> r~
+>
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 4758d46f34..fcb46f150f 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -1938,7 +1938,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-     if (oprsz <= 8) {
-         l = compress_bits(n[0] >> odd, esz);
-         h = compress_bits(m[0] >> odd, esz);
--        d[0] = extract64(l + (h << (4 * oprsz)), 0, 8 * oprsz);
-+        d[0] = l | (h << (4 * oprsz));
-     } else {
-         ARMPredicateReg tmp_m;
-         intptr_t oprsz_16 = oprsz / 16;
-@@ -1952,23 +1952,35 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-             h = n[2 * i + 1];
-             l = compress_bits(l >> odd, esz);
-             h = compress_bits(h >> odd, esz);
--            d[i] = l + (h << 32);
-+            d[i] = l | (h << 32);
-         }
- 
--        /* For VL which is not a power of 2, the results from M do not
--           align nicely with the uint64_t for D.  Put the aligned results
--           from M into TMP_M and then copy it into place afterward.  */
-+        /*
-+         * For VL which is not a multiple of 512, the results from M do not
-+         * align nicely with the uint64_t for D.  Put the aligned results
-+         * from M into TMP_M and then copy it into place afterward.
-+         */
-         if (oprsz & 15) {
--            d[i] = compress_bits(n[2 * i] >> odd, esz);
-+            int final_shift = (oprsz & 15) * 2;
-+
-+            l = n[2 * i + 0];
-+            h = n[2 * i + 1];
-+            l = compress_bits(l >> odd, esz);
-+            h = compress_bits(h >> odd, esz);
-+            d[i] = l | (h << final_shift);
- 
-             for (i = 0; i < oprsz_16; i++) {
-                 l = m[2 * i + 0];
-                 h = m[2 * i + 1];
-                 l = compress_bits(l >> odd, esz);
-                 h = compress_bits(h >> odd, esz);
--                tmp_m.p[i] = l + (h << 32);
-+                tmp_m.p[i] = l | (h << 32);
-             }
--            tmp_m.p[i] = compress_bits(m[2 * i] >> odd, esz);
-+            l = m[2 * i + 0];
-+            h = m[2 * i + 1];
-+            l = compress_bits(l >> odd, esz);
-+            h = compress_bits(h >> odd, esz);
-+            tmp_m.p[i] = l | (h << final_shift);
- 
-             swap_memmove(vd + oprsz / 2, &tmp_m, oprsz / 2);
-         } else {
-@@ -1977,7 +1989,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-                 h = m[2 * i + 1];
-                 l = compress_bits(l >> odd, esz);
-                 h = compress_bits(h >> odd, esz);
--                d[oprsz_16 + i] = l + (h << 32);
-+                d[oprsz_16 + i] = l | (h << 32);
-             }
-         }
-     }
--- 
-2.25.1
+Nice, didn't come up with the compiler optimization.
+Will fix the codes and send out a new version of patchset.
+Thanks for the tips.
 
+Frank Chang
+
+--000000000000b0614605ace14148
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Aug 15, 2020 at 2:36 AM Richard H=
+enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
+son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 8/13/20 7:48 PM, Frank Chang wr=
+ote:<br>
+&gt; esz is passed from e.g.=C2=A0GEN_VEXT_LD_STRIDE() macro:<br>
+&gt; <br>
+&gt;&gt; #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 \<br>
+&gt;&gt; void HELPER(NAME)(void *vd, void * v0, target_ulong base,=C2=A0 \<=
+br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tar=
+get_ulong stride, CPURISCVState *env, \<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uin=
+t32_t desc)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt;&gt; {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt; =C2=A0 =C2=A0 uint32_t vm =3D vext_vm(desc);=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0\<br>
+&gt;&gt; =C2=A0 =C2=A0 vext_ldst_stride(vd, v0, base, stride, env, desc, vm=
+, LOAD_FN, \<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0sizeof(ETYPE), GETPC(), MMU_DATA_LOAD); =C2=A0 =C2=A0 =C2=A0 \<br=
+>
+&gt;&gt; }<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0GEN_VEXT_LD_STRIDE(vlse8_v, =C2=A0int8_t, =C2=A0lde_b)<br>
+&gt; <br>
+&gt; which is calculated by sizeof(ETYPE), so the results would be: 1, 2, 4=
+, 8.<br>
+&gt; and vext_max_elems() is called by e.g. vext_ldst_stride():<br>
+<br>
+Ah, yes.<br>
+<br>
+&gt;&gt; uint32_t max_elems =3D vext_max_elems(desc, esz);<br>
+&gt; <br>
+&gt; I can add another parameter to the macro and pass the hard-coded log2(=
+esz) number<br>
+&gt; if it&#39;s the better way instead of using=C2=A0ctzl().<br>
+&gt; Or if there&#39;s another approach to get the log2(esz) number more el=
+egantly?<br>
+<br>
+Using ctzl(sizeof(type)) in the GEN_VEXT_LD_STRIDE macro will work well.=C2=
+=A0 This<br>
+will be constant folded by the compiler.<br>
+<br>
+<br>
+r~<br></blockquote><div><br></div><div>Nice, didn&#39;t come up with the co=
+mpiler optimization.</div><div>Will fix the codes and send out a new versio=
+n of patchset.</div><div>Thanks for the tips.</div><div><br></div><div>Fran=
+k Chang=C2=A0<br></div></div></div>
+
+--000000000000b0614605ace14148--
 
