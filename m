@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B65924518B
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:07:31 +0200 (CEST)
-Received: from localhost ([::1]:38098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F05245189
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Aug 2020 19:06:41 +0200 (CEST)
+Received: from localhost ([::1]:34350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k6zeU-0003rS-Ht
-	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42606)
+	id 1k6zdf-0002L9-TW
+	for lists+qemu-devel@lfdr.de; Sat, 15 Aug 2020 13:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zdT-0002m4-Cb
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:06:27 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35375)
+ id 1k6zck-0001uK-OF
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:05:42 -0400
+Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:41300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k6zdR-0001Oe-Ng
- for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:06:27 -0400
-Received: by mail-oi1-x243.google.com with SMTP id k4so11055205oik.2
- for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 10:06:25 -0700 (PDT)
+ id 1k6zci-0001Fn-RZ
+ for qemu-devel@nongnu.org; Sat, 15 Aug 2020 13:05:42 -0400
+Received: by mail-vs1-xe42.google.com with SMTP id y8so6214799vsq.8
+ for <qemu-devel@nongnu.org>; Sat, 15 Aug 2020 10:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AQeYh8suqz3vP9Br20s8Z+PHQd0HdWmpnfFfXQ0gVk0=;
- b=t2I2BFiVfxZRRTbfGq6Pp8+KC7+vdcTG7s5uPvYm5KTwr7LPY8+qxlUceEO7cRkVii
- gtqwVWEtHqLa3ySJvJi/ZDBT1bvvU75Wqt4BrncS1AMw0TthNkV9lsHDNtHhT+jBh4vu
- glijcRgpMjAQ4oqO1S4Hjh5JOIxsyKLTp4mtLSWJazvHXxWOiBghvAbidl4Pimw2qryi
- ZV9TQPS84gKMtVk6xKoIedIUohdMWyk332yW7YHeOuVgs5cqnXu5KLJW6Vh80HyMTayv
- 7GdN0GGziLd8Gd3nEeoOXZY4ZfJdIhWf5I+4pYe7w3cL6mkjlJ50qAudPY8zrRF7pPTv
- x3Mw==
+ bh=13iDMrHB1KJoXoePiZR2R7O74YXAoVM8bGBrZHlUo/Q=;
+ b=ZXaSMdBA1dKdayya5wF/mC1h5ohEFE3DXamlItJIzh+iz1gwu1zhmY971tu5h1CEIV
+ K+oB5ZrXfK82etO8HzqMYnhzZUEbEQ/scApzwXX8F6knQ++jQxkoPUBOihfuJrCWItQ6
+ Smzlpy3xqMivwQtyJKv6beiwhpAH4ACg5r/v6hSzWekjl+tHKG6vd6cPy5gdJ6vNgfFO
+ ULaMBMNZyd2cKsewyfS5O/ig759hktDgOusQTIxezlOpGw7PHEPAB+86pmziRNmZnuj7
+ Wdh9PkM/hx3hxZteCNwy4j6Df1qwRnP/DHWMlg/4kkwQdJjS9mTUvPdeF7hMO7d61Xu0
+ je1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AQeYh8suqz3vP9Br20s8Z+PHQd0HdWmpnfFfXQ0gVk0=;
- b=a+kxizJjRLXkdaB+UZOQ6yNCGSbuNFJoNPaT2iqcYPsc2PpP6GfmQIyME3D8IpQasN
- oJ/z2zNcQU+tWY7oRuKyZvpdthx9RBC06nywLgFrvTzMTZN5wUxveMR0eqwMjwyfIxlN
- bqT5aC9KdtbtoTPDEs9AoaSKAwu+6mKOjosuWqRpW4+5l11ngxAGadf55dNv37unjZdQ
- RpwJO6v6TSwX/SOxYtYPYSCETENasyjxpNZPr/D0niz4rf8pyZhh+AEg3hWYVEXqBFU7
- Qm6VjwxsFM1FDDb9qePzGWe9az8gJP+lm7K97YyQJFuViwfOPDQNyqI+mhyvm1KYtUhj
- ahHw==
-X-Gm-Message-State: AOAM531yHXShWL3r3bpz+sVLp++yG5tV3L1z16RGEfkutT/vE/Lt7KgW
- NbklA+0w2+MHaRBrQm9LSsZ/qLyrKgnLGA==
-X-Google-Smtp-Source: ABdhPJyXSe+HVnKwHo1cJeOw1w3YJUvvbvNIdA+j0ZhxJOi7dg9pOB+/vtMmktr9rqycYpW1OwFXpg==
-X-Received: by 2002:a17:90a:eb09:: with SMTP id
- j9mr4558758pjz.192.1597455114402; 
- Fri, 14 Aug 2020 18:31:54 -0700 (PDT)
+ bh=13iDMrHB1KJoXoePiZR2R7O74YXAoVM8bGBrZHlUo/Q=;
+ b=Nl4PTEIcVP+dFfD44fLqNH7jMDZ3eBVnxtcWgzmFP97e5vVvr2itmd7MHgQ5f+ZQmJ
+ sLuO/ci0RS63R6SXj/rapWfj7MGEVwgfMvQOfF2kyuDNXR68SFAe1Y/N7+h1M5S4TZjz
+ ix6Zp91U4f485Mphq8CKbB5KD8dng99C8bCBC3DvC9XqJvAK2TypWIL2nqn2SiScZSNV
+ xe0FnbITrg+3KZWYCmn3qV1sxO7t6nTSbGdhDg4+1wTtaCkp8g6QfvJIFaX2/cWvrl2X
+ VT3dQ8HeTVZ+L7Uxp41YF/cRS710AMznyXhScIc5xlvfisOmhMc12pnv2Fj/le4+ZXmZ
+ 4Rgg==
+X-Gm-Message-State: AOAM530+CFBqo2tKHHUulRSZ6HOGf6Q13aPHrH2/mZKRW1SDmL+ROOzv
+ WD8R17oz6l/nrGruVEXwmQ4ltc6w2TlFNg==
+X-Google-Smtp-Source: ABdhPJwaagQ+DJMkz++nuby27VgKrRCmUKLdrTR1B7mTLuv2eJuJyWbm0xiqfTipvP7gLuuDwDgOBw==
+X-Received: by 2002:a62:17c1:: with SMTP id 184mr3619805pfx.136.1597455121146; 
+ Fri, 14 Aug 2020 18:32:01 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.53
+ by smtp.gmail.com with ESMTPSA id y196sm10625528pfc.202.2020.08.14.18.31.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 18:31:53 -0700 (PDT)
+ Fri, 14 Aug 2020 18:32:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/20] target/arm: Merge do_vector2_p into do_mov_p
-Date: Fri, 14 Aug 2020 18:31:30 -0700
-Message-Id: <20200815013145.539409-6-richard.henderson@linaro.org>
+Subject: [PATCH 10/20] target/arm: Split out gen_gvec_ool_zzp
+Date: Fri, 14 Aug 2020 18:31:35 -0700
+Message-Id: <20200815013145.539409-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200815013145.539409-1-richard.henderson@linaro.org>
 References: <20200815013145.539409-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e42;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,50 +88,74 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the only user of the function.
+Model after gen_gvec_fn_zzz et al.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ target/arm/translate-sve.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index b0fa38db1c..d310709de3 100644
+index ea6058f7ef..3361e1c01f 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -178,18 +178,6 @@ static void do_dupi_z(DisasContext *s, int rd, uint64_t word)
-     tcg_gen_gvec_dup_imm(MO_64, vec_full_reg_offset(s, rd), vsz, vsz, word);
+@@ -142,6 +142,17 @@ static int pred_gvec_reg_size(DisasContext *s)
+     return size_for_gvec(pred_full_reg_size(s));
  }
  
--/* Invoke a vector expander on two Pregs.  */
--static bool do_vector2_p(DisasContext *s, GVecGen2Fn *gvec_fn,
--                         int esz, int rd, int rn)
--{
--    if (sve_access_check(s)) {
--        unsigned psz = pred_gvec_reg_size(s);
--        gvec_fn(esz, pred_full_reg_offset(s, rd),
--                pred_full_reg_offset(s, rn), psz, psz);
--    }
--    return true;
--}
--
- /* Invoke a vector expander on three Pregs.  */
- static bool do_vector3_p(DisasContext *s, GVecGen3Fn *gvec_fn,
-                          int esz, int rd, int rn, int rm)
-@@ -221,7 +209,12 @@ static bool do_vecop4_p(DisasContext *s, const GVecGen4 *gvec_op,
- /* Invoke a vector move on two Pregs.  */
- static bool do_mov_p(DisasContext *s, int rd, int rn)
++/* Invoke an out-of-line helper on 2 Zregs and a predicate. */
++static void gen_gvec_ool_zzp(DisasContext *s, gen_helper_gvec_3 *fn,
++                             int rd, int rn, int pg, int data)
++{
++    unsigned vsz = vec_full_reg_size(s);
++    tcg_gen_gvec_3_ool(vec_full_reg_offset(s, rd),
++                       vec_full_reg_offset(s, rn),
++                       pred_full_reg_offset(s, pg),
++                       vsz, vsz, data, fn);
++}
++
+ /* Invoke an out-of-line helper on 3 Zregs and a predicate. */
+ static void gen_gvec_ool_zzzp(DisasContext *s, gen_helper_gvec_4 *fn,
+                               int rd, int rn, int rm, int pg, int data)
+@@ -415,11 +426,7 @@ static bool do_zpz_ool(DisasContext *s, arg_rpr_esz *a, gen_helper_gvec_3 *fn)
+         return false;
+     }
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn),
+-                           pred_full_reg_offset(s, a->pg),
+-                           vsz, vsz, 0, fn);
++        gen_gvec_ool_zzp(s, fn, a->rd, a->rn, a->pg, 0);
+     }
+     return true;
+ }
+@@ -603,11 +610,7 @@ static bool do_movz_zpz(DisasContext *s, int rd, int rn, int pg,
+     };
+ 
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, rd),
+-                           vec_full_reg_offset(s, rn),
+-                           pred_full_reg_offset(s, pg),
+-                           vsz, vsz, invert, fns[esz]);
++        gen_gvec_ool_zzp(s, fns[esz], rd, rn, pg, invert);
+     }
+     return true;
+ }
+@@ -616,11 +619,7 @@ static bool do_zpzi_ool(DisasContext *s, arg_rpri_esz *a,
+                         gen_helper_gvec_3 *fn)
  {
--    return do_vector2_p(s, tcg_gen_gvec_mov, 0, rd, rn);
-+    if (sve_access_check(s)) {
-+        unsigned psz = pred_gvec_reg_size(s);
-+        tcg_gen_gvec_mov(MO_8, pred_full_reg_offset(s, rd),
-+                         pred_full_reg_offset(s, rn), psz, psz);
-+    }
-+    return true;
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn),
+-                           pred_full_reg_offset(s, a->pg),
+-                           vsz, vsz, a->imm, fn);
++        gen_gvec_ool_zzp(s, fn, a->rd, a->rn, a->pg, a->imm);
+     }
+     return true;
  }
- 
- /* Set the cpu flags as per a return from an SVE helper.  */
 -- 
 2.25.1
 
