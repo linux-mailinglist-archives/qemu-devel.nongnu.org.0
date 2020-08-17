@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0ED92468A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:47:55 +0200 (CEST)
-Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F6024689F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:47:12 +0200 (CEST)
+Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gQU-00042U-M5
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40534)
+	id 1k7gPm-0002LR-No
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGg-0003WH-Cz
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:46 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33571)
+ id 1k7gGh-0003Zq-PV
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:47 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGe-00063J-RN
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:46 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p20so15282098wrf.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:44 -0700 (PDT)
+ id 1k7gGf-00063U-PU
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:47 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id z18so15240511wrm.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v1AguchhlgmoLPXUlF2TKI6VdFVr+arnC+mhG7/d0Ac=;
- b=Jb8+JRaGdLvthom2BJLr2o2bNmokGtmKSPmLPW9xiVq6uh6X25gDccPpYleJrDxyyj
- UEZna2ynDW5WhwmTcHs0jUE1fdt5Nj07NyIHolAIIC8R/dPa53bFrU0aosx4QkfzjpyG
- +ai+DxOGX9yelvpy9WHvsT1WuGWg5z3TSV4Xd9afgfdOwIVvTvtdlveZW97uKzwkyzTq
- X995OSx0Qu2hC13gmekRAyr2Zr84rH7m1EydbTwnFXFauLM4f2Pqll1e9npZD/XUSig4
- nnWmIAyRWHbGlVUGL7jKesYspeL/lL8wGV+BAobNOPg4J6ninyKrzw+iAt1Cu1JD3gop
- 4y5w==
+ bh=dspYanX3zf7a9yxolnnruaw1M3atSamdkc1hvEVqzGE=;
+ b=bVS4MP7OD0Kk3M6bl9iuuY6LTLaC1GxovV8fQcQrNNUOcjQrWdf/TW9FLIG8uMCRIz
+ vwBHSGcdXRuvK0VKMKf7+C6iryNR5ysVY9Vx3X3hKfyBr3VZDovLq8oL/YVRM4V+BhOd
+ nQNYTVYnq67KAedV3eH1+mGvtZ1TxOY8aG/bRob2OblUmonunBeJK2azHkhbL/PSuFBt
+ qpqkajgNXzRF2oDVjbOcqY7LeCwec9a7qobxQPhRKF9uXdqD4nwXl8MzEyO1NmDR5N1k
+ CVkQmGEQ9pBYyejfoFKGLNqeIsfHCC3SXq+pLLfgcHfaojLN6tUB59WEoVcNae0kXGkk
+ 7YNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v1AguchhlgmoLPXUlF2TKI6VdFVr+arnC+mhG7/d0Ac=;
- b=mr3wOreMkwygdNGTnVe56Z0xL4xivh2hH+qopqLntZ9zQD68Hn6peO6bEDjS044Q9h
- 3nmGhiXTEjClXi22ZSM9NnX0wzMYWsvDAvHoq1kaL6E9qIXL4EezkKj0wWjEDkdgsklE
- CDGp7xd02uBqmLvLGoDCaSWzdE+qjZBiyRefUiRPUe2uP7UopUD73DctyHLKMCqeJG4B
- W5xYWyoWkHTtGUOkAh2VLInCqUXjnn89SCAJiOJ23Z2XLI6C28M7er5ZDM6feV7Cwxr1
- sdRGTUYPPmwpJ9I6ugwAuXiHsQtQW+JQ/ZXsgh3K4BcuSvbxRZKo08L4FH48MB4fcvTz
- wChA==
-X-Gm-Message-State: AOAM532KxS26krQ2a1GAKKnpWVj9Ke9k4/3hkdKz3l4dvVo3Qh/J2FFz
- iUWl58LtaZxh6du7NhPhHvxUuGNYFC0=
-X-Google-Smtp-Source: ABdhPJwrFUh5hV+S/fiKU4I+CKicW3beEM8xbtuNaxv7uhXMHDyydxSuqoP7x9KkpOyl4jJhm1XtNg==
-X-Received: by 2002:adf:b353:: with SMTP id k19mr15503324wrd.159.1597675063261; 
- Mon, 17 Aug 2020 07:37:43 -0700 (PDT)
+ bh=dspYanX3zf7a9yxolnnruaw1M3atSamdkc1hvEVqzGE=;
+ b=oJtzsiK2IyW2Gt09LO8l9hGimvZk+cr6NB2VXCso0zHQCT5+tXNJNWpofT8+dMks0G
+ FtNkTyAjBIRVdBmRAMfgy4T+FoM+u/812WNxJMFoe2Y3KZIPNMw/7Q6ZLqh2fOtBQJo2
+ XYp9x2AtCVpFfYyiGMlYT8208eZ6sYyhqBgZRr23lIbkqtRzVU+IMB0SOvQ7aY0z6Ax0
+ 9wIngiNuQrLBKD4pxDZ8O5HEjG2FuT0vodLhg6nD18yFYFGU+jVvuV+TRrPrImZMqiPl
+ 6jTwgz67ripdQ/VIeT2ZBiTTVh3CGyfC1pZIDs6yPk9y5OMWnqych08Q/3b5MEZM1P1S
+ EluQ==
+X-Gm-Message-State: AOAM531d78I+rzIuxW6nuxwqgBzSCexspN+GsnTn+9pt0CQzvN8quJq5
+ 9vBm6PWSVpV8ZvhKairx+9PUzk5wlzc=
+X-Google-Smtp-Source: ABdhPJxm18IhDgtyUK3NJHGPa/63dgzgkJSxxgTCMOQB849PF+zBOfwO3bGZmrUBuHOLo4l7hHh3CA==
+X-Received: by 2002:adf:fb87:: with SMTP id a7mr16896296wrr.390.1597675064179; 
+ Mon, 17 Aug 2020 07:37:44 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.42
+ i22sm34966603wrb.45.2020.08.17.07.37.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:37:42 -0700 (PDT)
+ Mon, 17 Aug 2020 07:37:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 016/150] configure: generate Meson cross file
-Date: Mon, 17 Aug 2020 16:35:09 +0200
-Message-Id: <20200817143723.343284-17-pbonzini@redhat.com>
+Subject: [PATCH 017/150] build-sys hack: link with whole .fa archives
+Date: Mon, 17 Aug 2020 16:35:10 +0200
+Message-Id: <20200817143723.343284-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,97 +92,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+In order to link the *-obj-y files into tests, we will make static
+libraries of them in Meson, and then link them as whole archives
+into the tests.  To separate regular static libraries from link-whole
+libraries, give them a different file extension.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 68 +++++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 59 insertions(+), 9 deletions(-)
+ rules.mak | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/configure b/configure
-index f99baba99e..994e9844aa 100755
---- a/configure
-+++ b/configure
-@@ -8580,21 +8580,71 @@ echo "# Automatically generated by configure - do not modify" > "$iotests_common
- echo >> "$iotests_common_env"
- echo "export PYTHON='$python'" >> "$iotests_common_env"
+diff --git a/rules.mak b/rules.mak
+index e79a4005a7..5ab42def82 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -39,6 +39,13 @@ find-symbols = $(if $1, $(sort $(shell $(NM) -P -g $1 | $2)))
+ defined-symbols = $(call find-symbols,$1,awk '$$2!="U"{print $$1}')
+ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
  
-+cross="config-meson.cross"
-+cross_arg=
++WL := -Wl,
++ifdef CONFIG_DARWIN
++whole-archive = $(WL)-force_load,$1
++else
++whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
++endif
 +
-+if test -n "$cross_prefix"; then
-+    echo "# Automatically generated by configure - do not modify" > $cross
-+    echo "[binaries]" >> $cross
-+    echo "c = '$cc'" >> $cross
-+    echo "cpp = '$cxx'" >> $cross
-+    echo "ar = '$ar'" >> $cross
-+    echo "nm = '$nm'" >> $cross
-+    echo "pkgconfig = '$pkg_config_exe'" >> $cross
-+    echo "ranlib = '$ranlib'" >> $cross
-+    echo "strip = '$strip'" >> $cross
-+    echo "windres = '$windres'" >> $cross
-+
-+    echo "[host_machine]" >> $cross
-+
-+    # Hack: Meson expects an absolute path for the *build* machine
-+    # for the prefix, so add a slash in front of a Windows path that
-+    # includes a drive letter.
-+    #
-+    # See https://github.com/mesonbuild/meson/issues/7577.
-+    if test "$mingw32" = "yes" ; then
-+        echo "system = 'windows'" >> $cross
-+        case $prefix in
-+            ?:*) pre_prefix=/ ;;
-+        esac
-+    fi
-+    case "$ARCH" in
-+        i386|x86_64)
-+            echo "cpu_family = 'x86'" >> $cross
-+            ;;
-+        ppc64le)
-+            echo "cpu_family = 'ppc64'" >> $cross
-+            ;;
-+        *)
-+            echo "cpu_family = '$ARCH'" >> $cross
-+            ;;
-+    esac
-+    echo "cpu = '$cpu'" >> $cross
-+    if test "$bigendian" = "yes" ; then
-+        echo "endian = 'big'" >> $cross
-+    else
-+        echo "endian = 'little'" >> $cross
-+    fi
-+
-+    cross_arg="--cross-file=$cross"
-+fi
-+
- rm -rf meson-private/ meson-logs/ meson-info/
- NINJA=$PWD/ninjatool $meson setup \
--        --prefix "$prefix" \
--        --libdir "$libdir" \
--        --libexecdir "$libexecdir" \
--        --bindir "$bindir" \
--        --includedir "$includedir" \
--        --datadir "$datadir" \
--        --mandir "$mandir" \
--        --sysconfdir "$sysconfdir" \
--        --localstatedir "$local_statedir" \
-+        --prefix "${pre_prefix}$prefix" \
-+        --libdir "${pre_prefix}$libdir" \
-+        --libexecdir "${pre_prefix}$libexecdir" \
-+        --bindir "${pre_prefix}$bindir" \
-+        --includedir "${pre_prefix}$includedir" \
-+        --datadir "${pre_prefix}$datadir" \
-+        --mandir "${pre_prefix}$mandir" \
-+        --sysconfdir "${pre_prefix}$sysconfdir" \
-+        --localstatedir "${pre_prefix}$local_statedir" \
-         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
-         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-+        $cross_arg \
-         "$PWD" "$source_path"
+ # All the .mo objects in -m variables are also added into corresponding -y
+ # variable in unnest-vars, but filtered out here, when LINK is called.
+ #
+@@ -54,11 +61,12 @@ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
+ # This is necessary because the exectuable itself may not use the function, in
+ # which case the function would not be linked in. Then the DSO loading will
+ # fail because of the missing symbol.
+-process-archive-undefs = $(filter-out %.a %.mo,$1) \
++process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
+                 $(addprefix $(WL_U), \
+-                     $(filter $(call defined-symbols,$(filter %.a, $1)), \
++                     $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
+                               $(call undefined-symbols,$(filter %.mo,$1)))) \
+-                $(filter %.a,$1)
++		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
++		$(filter %.a,$1)
  
- if test "$?" -ne 0 ; then
+ extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
+ expand-objs = $(strip $(sort $(filter %.o,$1)) \
+@@ -122,7 +130,7 @@ LD_REL := $(CC) -nostdlib $(LD_REL_FLAGS)
+ modules:
+ 
+ %$(EXESUF): %.o
+-	$(call LINK,$(filter %.o %.a %.mo, $^))
++	$(call LINK,$(filter %.o %.a %.mo %.fa, $^))
+ 
+ %.a:
+ 	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
+@@ -378,7 +386,7 @@ define unnest-vars
+                 $(error $o added in $v but $o-objs is not set)))
+         $(shell mkdir -p ./ $(sort $(dir $($v))))
+         # Include all the .d files
+-        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$($v))))
++        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
+         $(eval $v := $(filter-out %/,$($v))))
+ endef
+ 
 -- 
 2.26.2
 
