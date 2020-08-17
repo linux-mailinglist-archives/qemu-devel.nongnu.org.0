@@ -2,60 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD23245B03
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 05:21:13 +0200 (CEST)
-Received: from localhost ([::1]:55136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64850245AF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 05:10:14 +0200 (CEST)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7Vhw-0001W0-HG
-	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 23:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
+	id 1k7VXJ-0007zZ-9W
+	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 23:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k7VhA-000113-IQ
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:20:24 -0400
-Resent-Date: Sun, 16 Aug 2020 23:20:24 -0400
-Resent-Message-Id: <E1k7VhA-000113-IQ@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k7Vh8-0001l7-7H
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:20:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597634402; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jkvPFXYManV8suCgQ8IEOYsU3BB6x3fvHHelbzDAJdkBiXvA3zKCosc1W10oCzmbFah0bLk2LYvebDEfb+MjS+PWS+O621S4LYurve/Nqrz+UcuLkeh/Cw/JNNR0Bpg5eXrJ84ySRNV0CNlM0szrF1yz7vIXtBZIZpnGRr79wCg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597634402;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=+fvdGVOllunjFC/zSibYSglkb1Z1QW2D0+K2Y4pFc/M=; 
- b=TK+UaG4nb+Z3S+wZ8jq6A6fkmopc+iWJJgr0AFXprZLzHbCr3uL7cp5I4eWwqHzpDGW2pKtEgzf71Qe2avn2NhzqvxhB8ul+SrdNoex1+uvvcxCYTA8+7qKq8pVHr+eJE2vIF0H6UZ2jtd671EyZDUQFzLmBRlD4g4xs8ISiaiE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597634398621790.0186919106437;
- Sun, 16 Aug 2020 20:19:58 -0700 (PDT)
-Subject: Re: [PATCH v3 00/10] *** A Method for evaluating dirty page rate ***
-Message-ID: <159763439703.28013.16223124632696494268@66eaa9a8a123>
-In-Reply-To: <1597634433-18809-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k7VW9-0006Bo-MI
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:09:01 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4195 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1k7VW7-0008IV-GK
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:09:01 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id E2E631EA2BCB6CCBDFA9;
+ Mon, 17 Aug 2020 11:08:48 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Mon, 17 Aug 2020
+ 11:08:42 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH v3 00/10] *** A Method for evaluating dirty page rate ***
+Date: Mon, 17 Aug 2020 11:20:23 +0800
+Message-ID: <1597634433-18809-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: zhengchuan@huawei.com
-Date: Sun, 16 Aug 2020 20:19:58 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/16 23:20:18
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/16 23:08:49
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,92 +57,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, linyilu@huawei.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, alex.chen@huawei.com,
- ann.zhuangyanying@huawei.com, fangying1@huawei.com
+Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, ann.zhuangyanying@huawei.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTk3NjM0NDMzLTE4ODA5LTEt
-Z2l0LXNlbmQtZW1haWwtemhlbmdjaHVhbkBodWF3ZWkuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
-IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
-b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMTU5NzYz
-NDQzMy0xODgwOS0xLWdpdC1zZW5kLWVtYWlsLXpoZW5nY2h1YW5AaHVhd2VpLmNvbQpTdWJqZWN0
-OiBbUEFUQ0ggdjMgMDAvMTBdICoqKiBBIE1ldGhvZCBmb3IgZXZhbHVhdGluZyBkaXJ0eSBwYWdl
-IHJhdGUgKioqCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
-LzE1OTc2MzQ0MzMtMTg4MDktMS1naXQtc2VuZC1lbWFpbC16aGVuZ2NodWFuQGh1YXdlaS5jb20g
-LT4gcGF0Y2hldy8xNTk3NjM0NDMzLTE4ODA5LTEtZ2l0LXNlbmQtZW1haWwtemhlbmdjaHVhbkBo
-dWF3ZWkuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKY2U2ZmUwZCBtaWdyYXRp
-b24vZGlydHlyYXRlOiBJbXBsZW1lbnQgcW1wX2NhbF9kaXJ0eV9yYXRlKCkvcW1wX2dldF9kaXJ0
-eV9yYXRlKCkgZnVuY3Rpb24KOTZjZTAwNyBtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQg
-Y2FsY3VsYXRlX2RpcnR5cmF0ZSgpIGZ1bmN0aW9uCjQyNjQyZDQgbWlncmF0aW9uL2RpcnR5cmF0
-ZTogSW1wbGVtZW50IGdldF9zYW1wbGVfcGFnZV9wZXJpb2QoKSBhbmQgYmxvY2tfc2FtcGxlX3Bh
-Z2VfcGVyaW9kKCkKM2E0ZDRhMiBtaWdyYXRpb24vZGlydHlyYXRlOiBza2lwIHNhbXBsaW5nIHJh
-bWJsb2NrIHdpdGggc2l6ZSBiZWxvdyBNSU5fUkFNQkxPQ0tfU0laRQozMWYzNWI3IG1pZ3JhdGlv
-bi9kaXJ0eXJhdGU6IENvbXBhcmUgcGFnZSBoYXNoIHJlc3VsdHMgZm9yIHJlY29yZGVkIHNhbXBs
-ZWQgcGFnZQphM2Q1ODJkIG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IFJlY29yZCBoYXNoIHJlc3VsdHMg
-Zm9yIGVhY2ggc2FtcGxlZCBwYWdlCjg1YzY0NDcgbWlncmF0aW9uL2RpcnR5cmF0ZTogbW92ZSBS
-QU1CTE9DS19GT1JFQUNIX01JR1JBVEFCTEUgaW50byByYW0uaApjN2M5NGNjIG1pZ3JhdGlvbi9k
-aXJ0eXJhdGU6IEFkZCBkaXJ0eXJhdGUgc3RhdGlzdGljcyBzZXJpZXMgZnVuY3Rpb25zCmE3NmMw
-ZDAgbWlncmF0aW9uL2RpcnR5cmF0ZTogQWRkIFJhbWxvY2tEaXJ0eUluZm8gdG8gc3RvcmUgc2Ft
-cGxlZCBwYWdlIGluZm8KN2Y2MDkyYyBtaWdyYXRpb24vZGlydHlyYXRlOiBBZGQgZ2V0X2RpcnR5
-cmF0ZV90aHJlYWQoKSBmdW5jdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMCBDaGVja2lu
-ZyBjb21taXQgN2Y2MDkyYzUyZDVjIChtaWdyYXRpb24vZGlydHlyYXRlOiBBZGQgZ2V0X2RpcnR5
-cmF0ZV90aHJlYWQoKSBmdW5jdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQg
-ZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjY6IApuZXcgZmlsZSBt
-b2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMTUgbGluZXMgY2hlY2tl
-ZAoKUGF0Y2ggMS8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzEwIENoZWNraW5nIGNv
-bW1pdCBhNzZjMGQwOGU5M2QgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEFkZCBSYW1sb2NrRGlydHlJ
-bmZvIHRvIHN0b3JlIHNhbXBsZWQgcGFnZSBpbmZvKQozLzEwIENoZWNraW5nIGNvbW1pdCBjN2M5
-NGNjNGMxN2QgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEFkZCBkaXJ0eXJhdGUgc3RhdGlzdGljcyBz
-ZXJpZXMgZnVuY3Rpb25zKQo0LzEwIENoZWNraW5nIGNvbW1pdCA4NWM2NDQ3M2FiNzAgKG1pZ3Jh
-dGlvbi9kaXJ0eXJhdGU6IG1vdmUgUkFNQkxPQ0tfRk9SRUFDSF9NSUdSQVRBQkxFIGludG8gcmFt
-LmgpCkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNob3VsZCBiZSBlbmNs
-b3NlZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojNjM6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uaDo0MjoK
-KyNkZWZpbmUgUkFNQkxPQ0tfRk9SRUFDSF9OT1RfSUdOT1JFRChibG9jaykgICAgICAgICAgICBc
-CisgICAgSU5URVJOQUxfUkFNQkxPQ0tfRk9SRUFDSChibG9jaykgICAgICAgICAgICAgICAgICAg
-XAorICAgICAgICBpZiAocmFtYmxvY2tfaXNfaWdub3JlZChibG9jaykpIHt9IGVsc2UKCkVSUk9S
-OiB0cmFpbGluZyBzdGF0ZW1lbnRzIHNob3VsZCBiZSBvbiBuZXh0IGxpbmUKIzY1OiBGSUxFOiBt
-aWdyYXRpb24vcmFtLmg6NDQ6CisgICAgICAgIGlmIChyYW1ibG9ja19pc19pZ25vcmVkKGJsb2Nr
-KSkge30gZWxzZQoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxk
-IGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiM2NzogRklMRTogbWlncmF0aW9uL3Jh
-bS5oOjQ2OgorI2RlZmluZSBSQU1CTE9DS19GT1JFQUNIX01JR1JBVEFCTEUoYmxvY2spICAgICAg
-ICAgICAgIFwKKyAgICBJTlRFUk5BTF9SQU1CTE9DS19GT1JFQUNIKGJsb2NrKSAgICAgICAgICAg
-ICAgICAgICBcCisgICAgICAgIGlmICghcWVtdV9yYW1faXNfbWlncmF0YWJsZShibG9jaykpIHt9
-IGVsc2UKCkVSUk9SOiB0cmFpbGluZyBzdGF0ZW1lbnRzIHNob3VsZCBiZSBvbiBuZXh0IGxpbmUK
-IzY5OiBGSUxFOiBtaWdyYXRpb24vcmFtLmg6NDg6CisgICAgICAgIGlmICghcWVtdV9yYW1faXNf
-bWlncmF0YWJsZShibG9jaykpIHt9IGVsc2UKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2Fy
-eSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzY5OiBGSUxFOiBtaWdyYXRpb24vcmFt
-Lmg6NDg6CisgICAgICAgIGlmICghcWVtdV9yYW1faXNfbWlncmF0YWJsZShibG9jaykpIHt9IGVs
-c2UKWy4uLl0KKyAgICAgICAgaWYgKCFxZW11X3JhbV9pc19taWdyYXRhYmxlKGJsb2NrKSkge30g
-ZWxzZQpbLi4uXQoKdG90YWw6IDUgZXJyb3JzLCAwIHdhcm5pbmdzLCA0NSBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCA0LzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzEwIENoZWNraW5nIGNv
-bW1pdCBhM2Q1ODJkODgwOTMgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IFJlY29yZCBoYXNoIHJlc3Vs
-dHMgZm9yIGVhY2ggc2FtcGxlZCBwYWdlKQo2LzEwIENoZWNraW5nIGNvbW1pdCAzMWYzNWI3M2U3
-NjEgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IENvbXBhcmUgcGFnZSBoYXNoIHJlc3VsdHMgZm9yIHJl
-Y29yZGVkIHNhbXBsZWQgcGFnZSkKNy8xMCBDaGVja2luZyBjb21taXQgM2E0ZDRhMjA3ODEyICht
-aWdyYXRpb24vZGlydHlyYXRlOiBza2lwIHNhbXBsaW5nIHJhbWJsb2NrIHdpdGggc2l6ZSBiZWxv
-dyBNSU5fUkFNQkxPQ0tfU0laRSkKOC8xMCBDaGVja2luZyBjb21taXQgNDI2NDJkNDVjZjI5ICht
-aWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgZ2V0X3NhbXBsZV9wYWdlX3BlcmlvZCgpIGFu
-ZCBibG9ja19zYW1wbGVfcGFnZV9wZXJpb2QoKSkKOS8xMCBDaGVja2luZyBjb21taXQgOTZjZTAw
-NzQyZDIzIChtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgY2FsY3VsYXRlX2RpcnR5cmF0
-ZSgpIGZ1bmN0aW9uKQoxMC8xMCBDaGVja2luZyBjb21taXQgY2U2ZmUwZDEyNGM1IChtaWdyYXRp
-b24vZGlydHlyYXRlOiBJbXBsZW1lbnQgcW1wX2NhbF9kaXJ0eV9yYXRlKCkvcW1wX2dldF9kaXJ0
-eV9yYXRlKCkgZnVuY3Rpb24pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
-ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
-aGV3Lm9yZy9sb2dzLzE1OTc2MzQ0MzMtMTg4MDktMS1naXQtc2VuZC1lbWFpbC16aGVuZ2NodWFu
-QGh1YXdlaS5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
+
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
+
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
+
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                    |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)        |
+------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1188MB/s |   536MB/s ~ 1044MB/s (cpu throttle triggered) |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4152MB/s |     608MB/s ~ 4125MB/s (migation failed)      |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
+
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
+
+Zheng Chuan (10):
+  migration/dirtyrate: Add get_dirtyrate_thread() function
+  migration/dirtyrate: Add RamlockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement get_sample_page_period() and
+    block_sample_page_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+
+ migration/Makefile.objs |   1 +
+ migration/dirtyrate.c   | 448 ++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h   |  86 ++++++++++
+ migration/ram.c         |  11 +-
+ migration/ram.h         |  10 ++
+ qapi/migration.json     |  42 +++++
+ 6 files changed, 588 insertions(+), 10 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
+
 
