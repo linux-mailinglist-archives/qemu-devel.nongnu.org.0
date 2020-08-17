@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EDF2478C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 23:23:37 +0200 (CEST)
-Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988852478E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 23:34:19 +0200 (CEST)
+Received: from localhost ([::1]:39374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7mbQ-0008KV-17
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 17:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51950)
+	id 1k7mlm-0003Di-4e
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 17:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k7mZe-0007aK-21
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 17:21:46 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:44000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1k7mZ2-0006x4-L4
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 17:21:45 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07HLHRBS186685;
- Mon, 17 Aug 2020 21:21:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=uBM546asiZlUssVJFwrvsGq0Vg2j2VA9Os6AYc6Fcnw=;
- b=NNVZeIW/HW37/Gt53gt+cYt1VUo4nJOZDXMTEHem8o0NUj7rCBQbdX5Bj/DxELKhMS/3
- NdoZIQHSVRC2U7MhHYC5yiazHUqFuj/ASA5ef2nEnnUIjoyYxsKzhbAmmXzTcNru1PwQ
- tGb1YAnvpN1tMHI7OoblE1zJ/07pu6W/0i+m7ami+gRmorvzoRvTDeb8LY+rfFH+2x3Z
- cjKMJqZ/aEBnw3SLe10qb4KQR5eyHxtZybwW6scnN9bg1/kQWr4xreHcNw0JtG6/hOfl
- fV+39Lrqw7ZWoecAo2X8MMFl0+TaN+Evkb2idj1Ow8za6/U+0RCABnBhs/x8eazlqjaX 8w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 32x8bn16e2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 17 Aug 2020 21:21:02 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07HLHhuB171380;
- Mon, 17 Aug 2020 21:21:02 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 32xsm136k0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Aug 2020 21:21:02 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07HLL0EO005135;
- Mon, 17 Aug 2020 21:21:00 GMT
-Received: from [10.39.206.110] (/10.39.206.110)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Aug 2020 14:20:59 -0700
-Subject: Re: [PATCH V1 18/32] osdep: import MADV_DOEXEC
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-19-git-send-email-steven.sistare@oracle.com>
- <51c859fb-3340-e361-1945-0ec2a393a34d@oracle.com>
- <20200817144856.16c703da@x1.home>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <1750879d-70f8-72db-0eb3-86caa75ad3a0@oracle.com>
-Date: Mon, 17 Aug 2020 17:20:57 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1k7mke-0002kN-C5
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 17:33:08 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1k7mkc-0008DG-Ki
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 17:33:08 -0400
+Received: by mail-wr1-x435.google.com with SMTP id c15so16306493wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:mime-version:from:to:date:subject;
+ bh=WMfGtsf8NwV+MNrj65Au+yOs+j8tojrNnFciV4QFH9g=;
+ b=WXOKxMG/p0XNwXhnu4c1V8CtMv22nOeGe1B+kWDviQVyNfeAw84bxiIeyhWVDzzDdQ
+ +5bR3/h3HXeFMtGfx0JdVFK98dmtfRoPonQtlZauqgl29CDjo9EcUG8r4KMwHGKEhkPF
+ waxk+GTReisVosQY0+mnZk4iljkFTKdFu7g+OoI1c+rRC1JzJ3M1dDyg+DgCgorxQb5E
+ 3FrqLAz/NsRe9RN+sfvvysbEPcUKu8GiwFXdABy/VDsZGUexh34CYbfymA44p8NUjKGT
+ nZ7NpP8nFKIWOcZExXzVUm8xBAIbfBU0ZJvjuOFVvN3RoO1s0VCMNtySndYDuAepZEXx
+ FMkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
+ bh=WMfGtsf8NwV+MNrj65Au+yOs+j8tojrNnFciV4QFH9g=;
+ b=gnK9T2HHR9li6RREz8oGiR6sQroLvRPNyg64+C3GvbSEqdvBGZCYIvkKq4kDsbt50l
+ YnwYf5EM06+L1rzCG7UGTG1vog7xIXnd6H+yNqT5NPZQB6DhNlMQyjGvJDgZEVNDBKX3
+ z9LSKjWZWlW3ppXA9iU3EyTFmvGEbT05R0nGfwZ8PU1fsRJKmmDD+TFD7S1hameYcA4h
+ IYo6kZjcbxHHoePkYCfKDQnADrNzql/h6yWp4xLBqYTqoBuI3dGUV8IlpRDlQ7kmj2Iq
+ XD+ZVWGA7l+57cm43MS5zx/zkj8etZ6EX3DX5dto3jI7Ka5gAQEZJSxJAnPDcMjFjlvF
+ ojGw==
+X-Gm-Message-State: AOAM533KxRHZriIBP3qtDdz+gbTspX3HjIVu8WtZff+6MK4T6HRlA4Lx
+ eOJd02nUfUcr1HH6VGx1lToLOZBBEOE=
+X-Google-Smtp-Source: ABdhPJy9dqwHb8YE7PBE/7aHI56TWiKYQHyc7gvbGl/gTM8uNgZpd4XRtbW/ei+N+Lt1/UFUZ9DKuA==
+X-Received: by 2002:a5d:4942:: with SMTP id r2mr15987628wrs.285.1597699984097; 
+ Mon, 17 Aug 2020 14:33:04 -0700 (PDT)
+Received: from [127.0.1.1] ([197.58.59.51])
+ by smtp.gmail.com with ESMTPSA id e5sm34411198wrc.37.2020.08.17.14.33.00
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Aug 2020 14:33:03 -0700 (PDT)
+Message-ID: <5f3af78f.1c69fb81.97a7e.4eea@mx.google.com>
+Content-Type: multipart/alternative;
+ boundary="===============2016997837605296470=="
 MIME-Version: 1.0
-In-Reply-To: <20200817144856.16c703da@x1.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9716
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0
- malwarescore=0 mlxscore=0 phishscore=0 spamscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008170145
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9716
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- lowpriorityscore=0
- impostorscore=0 suspectscore=0 adultscore=0 spamscore=0 malwarescore=0
- mlxlogscore=999 priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008170145
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 17:21:05
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 17 Aug 2020 23:32:56 +0200
+Subject: [REPORT] Nightly Performance Tests - Monday, August 17, 2020
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x435.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
+ MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,99 +82,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/2020 4:48 PM, Alex Williamson wrote:
-> On Mon, 17 Aug 2020 14:30:51 -0400
-> Steven Sistare <steven.sistare@oracle.com> wrote:
-> 
->> On 7/30/2020 11:14 AM, Steve Sistare wrote:
->>> Anonymous memory segments used by the guest are preserved across a re-exec
->>> of qemu, mapped at the same VA, via a proposed madvise(MADV_DOEXEC) option
->>> in the Linux kernel. For the madvise patches, see:
->>>
->>> https://lore.kernel.org/lkml/1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com/
->>>
->>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->>> ---
->>>  include/qemu/osdep.h | 7 +++++++
->>>  1 file changed, 7 insertions(+)  
->>
->> Hi Alex,
->>   The MADV_DOEXEC functionality, which is a pre-requisite for the entire qemu 
->> live update series, is getting a chilly reception on lkml.  We could instead 
->> create guest memory using memfd_create and preserve the fd across exec.  However, 
->> the subsequent mmap(fd) will return a different VA than was used previously, 
->> which  is a problem for memory that was registered with vfio, as the original VA 
->> is remembered in the kernel struct vfio_dma and used in various kernel functions, 
->> such as vfio_iommu_replay.
->>
->> To fix, we could provide a VFIO_IOMMU_REMAP_DMA ioctl taking iova, size, and
->> new_vaddr.  The implementation finds an exact match for (iova, size) and replaces 
->> vaddr with new_vaddr.  Flags cannot be changed.
->>
->> memfd_create plus VFIO_IOMMU_REMAP_DMA would replace MADV_DOEXEC.
->> vfio on any form of shared memory (shm, dax, etc) could also be preserved across
->> exec with shmat/mmap plus VFIO_IOMMU_REMAP_DMA.
->>
->> What do you think
-> 
-> Your new REMAP ioctl would have parameters identical to the MAP_DMA
-> ioctl, so I think we should just use one of the flag bits on the
-> existing MAP_DMA ioctl for this variant.
+--===============2016997837605296470==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Sounds good.
+<html><body><pre>
+Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+Host Memory      : 15.49 GB
 
-> Reading through the discussion on the kernel side there seems to be
-> some confusion around why vfio needs the vaddr beyond the user call to
-> MAP_DMA though.  Originally this was used to test for virtually
-> contiguous mappings for merging and splitting purposes.  This is
-> defunct in the v2 interface, however the vaddr is now used largely for
-> mdev devices.  If an mdev device is not backed by an IOMMU device and
-> does not share a container with an IOMMU device, then a user MAP_DMA
-> ioctl essentially just registers the translation within the vfio
-> container.  The mdev vendor driver can then later either request pages
-> to be pinned for device DMA or can perform copy_to/from_user() to
-> simulate DMA via the CPU.
-> 
-> Therefore I don't see that there's a simple re-architecture of the vfio
-> IOMMU backend that could drop vaddr use.  
+Start Time (UTC) : 2020-08-17 21:00:02
+End Time (UTC)   : 2020-08-17 21:32:56
+Execution Time   : 0:32:54.277771
 
-Yes.  I did not explain on lkml as you do here (thanks), but I reached the 
-same conclusion.
+Status           : SUCCESS
 
-> I'm a bit concerned this new
-> remap proposal also raises the question of how do we prevent userspace
-> remapping vaddrs racing with asynchronous kernel use of the previous
-> vaddrs.  
+--------------------------------------------------------
+            SUMMARY REPORT - COMMIT d0ed6a69
+--------------------------------------------------------
+                    AVERAGE RESULTS
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 118 484 532     -0.021%     -0.021%
+alpha              1 838 408 254     -0.027%     -0.027%
+arm                7 887 995 569       -----       -----
+hppa               4 124 996 446       -----       -----
+m68k               2 453 419 250      -0.02%     -0.021%
+mips               1 812 637 396     -0.017%     -0.017%
+mipsel             1 947 725 268       -----       -----
+mips64             1 862 496 009     -0.019%     -0.018%
+mips64el           1 984 212 701     -0.023%     -0.023%
+ppc                2 394 318 517     -0.027%     -0.027%
+ppc64              2 488 040 654     -0.031%     -0.031%
+ppc64le            2 470 197 723     -0.025%     -0.024%
+riscv64            1 367 775 048     -0.031%      -0.03%
+s390x              3 058 500 465     -0.016%     -0.015%
+sh4                2 278 492 108     -0.024%     -0.024%
+sparc64            3 187 005 638     -0.029%     -0.028%
+x86_64             1 734 476 702     -0.039%     -0.039%
+--------------------------------------------------------
 
-Agreed.  After a quick glance at the code, holding iommu->lock during 
-remap might be sufficient, but it needs more study.
+                   DETAILED RESULTS
+--------------------------------------------------------
+Test Program: dijkstra_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            3 019 613 375       -----       -----
+alpha              3 078 112 807     -0.011%     -0.011%
+arm               15 982 081 632       -----       -----
+hppa               7 012 014 478       -----       -----
+m68k               3 914 629 819       -----       -----
+mips               2 979 141 054     -0.011%     -0.011%
+mipsel             3 141 391 180       -----       -----
+mips64             3 163 713 165     -0.015%     -0.015%
+mips64el           3 314 105 649       -----       -----
+ppc                4 692 147 232       -----       -----
+ppc64              4 875 585 401       -----       -----
+ppc64le            4 859 856 713       -----       -----
+riscv64            2 150 267 506     -0.012%     -0.012%
+s390x              4 455 509 097       -----       -----
+sh4                3 816 843 006       -----       -----
+sparc64            4 399 787 202       -----       -----
+x86_64             2 441 371 659      -0.03%      -0.03%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: dijkstra_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 177 687 572       -----       -----
+alpha              1 462 695 833     -0.023%     -0.023%
+arm                8 048 442 356       -----       -----
+hppa               5 053 364 798       -----       -----
+m68k               1 683 344 745      -0.02%     -0.019%
+mips               1 473 262 443     -0.018%     -0.018%
+mipsel             1 475 326 897     -0.023%     -0.022%
+mips64             1 683 560 967     -0.017%     -0.017%
+mips64el           1 663 469 676     -0.029%     -0.029%
+ppc                1 978 580 290     -0.019%     -0.019%
+ppc64              2 160 088 912     -0.013%     -0.012%
+ppc64le            2 151 841 073     -0.027%     -0.026%
+riscv64            1 323 229 277     -0.029%     -0.029%
+s390x              2 880 511 627     -0.012%     -0.012%
+sh4                1 938 788 554     -0.017%     -0.017%
+sparc64            2 768 224 289     -0.022%     -0.022%
+x86_64             1 521 726 637     -0.031%     -0.031%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: matmult_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            1 408 042 239       -----       -----
+alpha              3 009 131 606     -0.012%     -0.011%
+arm                8 453 191 424       -----       -----
+hppa               3 334 593 493       -----       -----
+m68k               3 309 164 187       -----     -0.011%
+mips               2 252 644 413       -----       -----
+mipsel             3 166 010 236     -0.011%     -0.011%
+mips64             2 266 660 280     -0.013%     -0.013%
+mips64el           3 179 409 047     -0.016%     -0.016%
+ppc                3 108 562 496     -0.012%     -0.012%
+ppc64              3 186 407 268       -----       -----
+ppc64le            3 186 105 564     -0.016%     -0.016%
+riscv64            1 218 227 327     -0.033%     -0.033%
+s390x              2 715 958 418     -0.016%     -0.015%
+sh4                3 330 301 508     -0.014%     -0.014%
+sparc64            3 197 867 346     -0.019%     -0.019%
+x86_64             1 244 925 540     -0.037%     -0.037%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: matmult_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64              595 215 772     -0.112%     -0.112%
+alpha                369 955 753     -0.093%     -0.089%
+arm                  735 847 070     -0.046%     -0.045%
+hppa                 666 411 949     -0.057%     -0.055%
+m68k                 406 853 401     -0.092%     -0.092%
+mips                 497 080 253     -0.064%     -0.064%
+mipsel               497 032 444     +0.031%      +0.03%
+mips64               478 688 768     -0.038%     -0.038%
+mips64el             462 213 489     -0.075%      -0.08%
+ppc                  338 164 189     -0.112%     -0.116%
+ppc64                390 044 099      -0.29%      -0.29%
+ppc64le              390 235 716     -0.074%     -0.069%
+riscv64              348 992 188     -0.095%     -0.091%
+s390x                491 498 130     -0.068%     -0.068%
+sh4                  399 097 245     -0.084%     -0.087%
+sparc64              490 133 825     -0.198%     -0.195%
+x86_64               399 616 483     -0.077%     -0.083%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 645 742 660     -0.014%     -0.014%
+alpha              1 899 562 380     -0.017%     -0.018%
+arm                8 113 109 063       -----       -----
+hppa               3 098 469 712       -----       -----
+m68k               4 302 046 990       -----       -----
+mips               2 060 965 452       -----       -----
+mipsel             2 061 404 227     -0.016%     -0.017%
+mips64             1 933 228 800     -0.016%     -0.015%
+mips64el           1 930 636 064     -0.012%     -0.012%
+ppc                2 673 959 835     -0.014%     -0.015%
+ppc64              2 623 577 249     +0.012%     +0.011%
+ppc64le            2 580 240 702     -0.044%     -0.043%
+riscv64            1 575 021 467     -0.019%     -0.017%
+s390x              2 437 149 697     -0.013%     -0.012%
+sh4                2 520 103 128     -0.019%     -0.019%
+sparc64            3 882 355 918       -----       -----
+x86_64             1 969 779 237     -0.028%     -0.027%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 131 273 662       -----       -----
+alpha              1 460 088 037     -0.022%     -0.022%
+arm                3 372 531 122     -0.011%       -----
+hppa               2 196 131 760     -0.017%     -0.017%
+m68k               1 779 453 300     -0.018%     -0.018%
+mips               1 500 100 234     -0.022%     -0.021%
+mipsel             1 502 804 039       -----     +0.012%
+mips64             1 497 349 736     -0.034%     -0.034%
+mips64el           1 476 629 779     -0.017%     -0.018%
+ppc                1 667 588 374     -0.023%     -0.023%
+ppc64              1 779 200 846     -0.029%     -0.028%
+ppc64le            1 728 565 206     +0.017%     +0.019%
+riscv64            1 288 899 773      -0.02%     -0.019%
+s390x              2 113 931 520     -0.016%     -0.016%
+sh4                1 878 437 892     -0.019%     -0.017%
+sparc64            3 353 727 341     +0.015%     +0.015%
+x86_64             1 751 619 045     -0.054%     -0.053%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_string
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 529 808 615     -0.014%     -0.014%
+alpha              1 793 315 155     -0.019%     -0.019%
+arm                7 155 793 785       -----       -----
+hppa               4 595 956 434       -----       -----
+m68k               2 294 970 438     -0.015%     -0.015%
+mips               2 113 124 191       -----       -----
+mipsel             2 110 049 451     -0.016%     -0.016%
+mips64             1 967 925 432     -0.015%     -0.015%
+mips64el           1 950 320 902     -0.013%     -0.012%
+ppc                2 428 055 964     -0.016%     -0.015%
+ppc64              2 404 893 975     +0.013%     +0.013%
+ppc64le            2 385 487 511     -0.044%     -0.045%
+riscv64            1 563 271 752     -0.019%     -0.019%
+s390x              3 934 077 088       -----       -----
+sh4                2 097 733 836     -0.023%     -0.023%
+sparc64            4 131 596 670     +0.022%     +0.022%
+x86_64             2 864 598 377     -0.034%     -0.034%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: search_string
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 440 492 367     -0.027%     -0.027%
+alpha              1 634 404 461     -0.021%     -0.021%
+arm               11 242 968 106       -----       -----
+hppa               7 043 028 948       -----       -----
+m68k               1 936 891 123     -0.017%     -0.017%
+mips               1 624 781 129     -0.021%      -0.02%
+mipsel             1 627 783 674     -0.017%     -0.015%
+mips64             1 908 840 924       -----       -----
+mips64el           1 896 917 007     -0.019%     -0.017%
+ppc                2 267 489 756     -0.018%     -0.018%
+ppc64              2 484 527 488     +0.057%     +0.057%
+ppc64le            2 479 249 302     -0.012%     -0.012%
+riscv64            1 474 291 096     -0.023%     -0.021%
+s390x              5 439 368 148       -----       -----
+sh4                2 246 631 696     -0.015%     -0.015%
+sparc64            3 272 352 518     -0.029%     -0.029%
+x86_64             1 682 176 638     -0.019%     -0.019%
+--------------------------------------------------------
 
-> Are we expecting guest drivers/agents to quiesce the device,
-> or maybe relying on clearing bus-master, for PCI devices, to halt DMA?
 
-No.  We want to support any guest, and the guest is not aware that qemu
-live update is occurring.
+</pre></body></html>
 
-> The vfio migration interface we've developed does have a mechanism to
-> stop a device, would we need to use this here?  If we do have a
-> mechanism to quiesce the device, is the only reason we're not unmapping
-> everything and remapping it into the new address space the latency in
-> performing that operation?  Thanks,
-
-Same answer - we don't require that the guest has vfio migration support.
-
-- Steve
+--===============2016997837605296470==--
 
