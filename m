@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BEC246C86
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:21:03 +0200 (CEST)
-Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44544246C98
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:22:37 +0200 (CEST)
+Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hsc-00042W-Cm
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42412)
+	id 1k7hu8-00083h-A4
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqi-00028N-0U
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:04 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36191)
+ id 1k7hqj-00029D-Az
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:05 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqg-00052w-Dz
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:03 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 88so15598754wrh.3
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:01 -0700 (PDT)
+ id 1k7hqh-000539-HL
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:05 -0400
+Received: by mail-wm1-x344.google.com with SMTP id t14so14376058wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Vou0MK3wF2fBtWQ3jzXUST9E3PrwDChKhOUwUYVwMds=;
- b=FIl5vYlbKsO2sMgZaK5cLjOIOjd/NhKyNG9F/cPgbtPONAzjnJ/Wqimc7Vyl5gn7hH
- aRK9u7we7oNZjvBL4xeqDTkNCG7i7yyRB71xLd/AXQW2vzflSxzsM4Za+8+/OTApOpFU
- 5ruQwzL0X5Uvj777/oGaAOyGu26NxDjdRfebkFx78UYbiGRk8F4EEVdzeDWxWl3OYTAv
- vPJx6XNKj7/cGCR8IgDOebEAXOiz5zZolLhK1mi/DoFaaW3DwD4lsiXS75x7Zvi7Jf2P
- D4CEpk6YwpWVzrq6P40UZFrs+9RGeMlOR4H2aMYZKY2aiDzbUC6meo6/wz8Z6it/Pi+J
- zYfw==
+ bh=5o+8zFBOWm3p7LnG75e3VpkH6O/dHPqDS3Ofte53ZGM=;
+ b=DCEfY4y/rGKcmZ/42cFavRPdYlWV26f4P28jXg9EKe5X4GNvty+sBalaztPiHlGyR/
+ sunTBtPsCrOC5HO8sDbjUpiIeMPM686eHW2wlUrFcFXz8K1q36imW4/0S4FvYnhk9rbS
+ d2EAOI6QHby65JbpavxwG69Wa8byfzEXPGkBESDDpHih+iLxKAIm47yw0ZQ2q2GEoiNT
+ xBIi6Ax2bnihvrMeXBPVyC4UffR/ScbnJW9j6vTPPSStONori8eynwE4JyZXVkr5VCef
+ /CV7CPhcyqgMeyppfUH8e0IxJbLXnMnuDYR5yyoy/DUuORGevV93enVDisu1kgbWSSUd
+ QRzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Vou0MK3wF2fBtWQ3jzXUST9E3PrwDChKhOUwUYVwMds=;
- b=t1LW1TYbpC2pjDn4RccElvOLtTV/VkTzX6jdAOogVETbmo41duBhZx9p3NrGRJm8EE
- KnbP3Zi9AkFDiJuTKQr5sSyerVZ20zsw7FPJFKd5JYuJBfJIXWzHT1zMW5Lp57pak0/P
- 3MUXvZjMAxpSmvdDtLd73kfaja1nagoNpkhSIhnpB/plqTRB1ZVz5VSjLCyPVO57iPKc
- KI2z6W+REgbp4lG1HKGY1tumP9S7+NGGmcPLfzn2eawc607k2a4Yp+7tC0dYNrvr3V2D
- VN+BK10LzFJLaY03YXDlcLzbNwSwQS64QdrZ6z+xTLARhq7m2t8Q/Bz3cGFyKkZI8VjX
- Yjag==
-X-Gm-Message-State: AOAM531aCdOwGtckeaVmugl5hKIlR0+2Pbc4HV7PCLd4QBlyrDJ0zbay
- EPyekIocbjnQ+uOWY+iEJkJWcRdKPc0=
-X-Google-Smtp-Source: ABdhPJwJzd2hqVH1B/S3bou44JmYFzrrpUAEO8NpQ1f+yP671tsFeF0vxh3iAd+VP/0s5ADlnKhJsA==
-X-Received: by 2002:a5d:414e:: with SMTP id c14mr17461019wrq.57.1597681139651; 
- Mon, 17 Aug 2020 09:18:59 -0700 (PDT)
+ bh=5o+8zFBOWm3p7LnG75e3VpkH6O/dHPqDS3Ofte53ZGM=;
+ b=QX/sFYCsDxfpjJqzzvE4doj2c8dId+sEy++knZ0C63TgX3NM/yEwt334sXUccuzUAm
+ eUqpXtV6F4eNbV95M6rl5vq3CEsCmou3f45f/gVdX+wE7DXVoX3VKyaHwMQwO79TF01C
+ W6413nYV3wU0re/JANnt5ffvC993d4SQyeW1H6xAjYSozgYtu3t1aLckQlMQ9ifc7EvT
+ oHwrJMbuAYY8F1hL8fdkmGDKVdTFjtd+bpnGQVXNoyXXG0IS8C0wsh+x1dsLEDlxWcU2
+ GJxbXPu/NH+/IX4ePeZB3FHQPGYQ2Vt5xVumaOB4Xi/DjkDWIZL66NNa7iN2wZY6x/45
+ O+sg==
+X-Gm-Message-State: AOAM530kZ2JG2gBiw7LfT9NRXhuqncRrZrsQeZ5WxRZTa437ct8/DRSP
+ jRXoWTf7N4CUU6QYpLCaALB2h+5mAho=
+X-Google-Smtp-Source: ABdhPJyHcxr5wezhzOujaWzLrh4Rv8l/9ijVgGmz/MujOMmh0Jj/P4w86JkwR9vfFE1RsfJIVpor2g==
+X-Received: by 2002:a7b:c242:: with SMTP id b2mr15933169wmj.90.1597681141078; 
+ Mon, 17 Aug 2020 09:19:01 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.18.58
+ by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.18.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 09:18:58 -0700 (PDT)
+ Mon, 17 Aug 2020 09:19:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org, Stephen Checkoway <stephen.checkoway@oberlin.edu>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH 2/9] qtest: Add local qtest_mem_as() getter
-Date: Mon, 17 Aug 2020 18:18:46 +0200
-Message-Id: <20200817161853.593247-3-f4bug@amsat.org>
+Subject: [RFC PATCH 3/9] qtest: Directly use global address_space_memory when
+ no CPU available
+Date: Mon, 17 Aug 2020 18:18:47 +0200
+Message-Id: <20200817161853.593247-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817161853.593247-1-f4bug@amsat.org>
 References: <20200817161853.593247-1-f4bug@amsat.org>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -101,130 +102,42 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refactor the access to the default address space introducing the
-qtest_mem_as() getter. This will help us to use another address
-space in the next commit.
+Currently all qtest MMIO access are dispatched via the first CPU
+available. This limitation doesn't allow use to use the 'none'
+machine to run tests. Unleash this limitation by selecting the
+global address_space_memory when no CPU is available.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- softmmu/qtest.c | 32 +++++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ softmmu/qtest.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index 5672b75c35..81b5110783 100644
+index 81b5110783..7f018d2faf 100644
 --- a/softmmu/qtest.c
 +++ b/softmmu/qtest.c
-@@ -273,6 +273,12 @@ static void qtest_irq_handler(void *opaque, int n, int level)
-     }
+@@ -19,6 +19,7 @@
+ #include "chardev/char-fe.h"
+ #include "exec/ioport.h"
+ #include "exec/memory.h"
++#include "exec/address-spaces.h"
+ #include "hw/irq.h"
+ #include "sysemu/accel.h"
+ #include "sysemu/cpus.h"
+@@ -276,6 +277,13 @@ static void qtest_irq_handler(void *opaque, int n, int level)
+ /* Default address space for MMIO accesses */
+ static AddressSpace *qtest_mem_as(void)
+ {
++    if (!first_cpu) {
++        /*
++         * The 'none' machine doesn't have any CPU,
++         * directly access the main address space.
++         */
++        return &address_space_memory;
++    }
+     return first_cpu->as;
  }
  
-+/* Default address space for MMIO accesses */
-+static AddressSpace *qtest_mem_as(void)
-+{
-+    return first_cpu->as;
-+}
-+
- static void qtest_process_command(CharBackend *chr, gchar **words)
- {
-     const gchar *command;
-@@ -434,22 +440,22 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
- 
-         if (words[0][5] == 'b') {
-             uint8_t data = value;
--            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                 &data, 1);
-         } else if (words[0][5] == 'w') {
-             uint16_t data = value;
-             tswap16s(&data);
--            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                 &data, 2);
-         } else if (words[0][5] == 'l') {
-             uint32_t data = value;
-             tswap32s(&data);
--            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                 &data, 4);
-         } else if (words[0][5] == 'q') {
-             uint64_t data = value;
-             tswap64s(&data);
--            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                 &data, 8);
-         }
-         qtest_send_prefix(chr);
-@@ -468,21 +474,21 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
- 
-         if (words[0][4] == 'b') {
-             uint8_t data;
--            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                &data, 1);
-             value = data;
-         } else if (words[0][4] == 'w') {
-             uint16_t data;
--            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                &data, 2);
-             value = tswap16(data);
-         } else if (words[0][4] == 'l') {
-             uint32_t data;
--            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                &data, 4);
-             value = tswap32(data);
-         } else if (words[0][4] == 'q') {
--            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                &value, 8);
-             tswap64s(&value);
-         }
-@@ -503,7 +509,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-         g_assert(len);
- 
-         data = g_malloc(len);
--        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
-+        address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
-                            len);
- 
-         enc = g_malloc(2 * len + 1);
-@@ -529,7 +535,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-         g_assert(ret == 0);
- 
-         data = g_malloc(len);
--        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
-+        address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
-                            len);
-         b64_data = g_base64_encode(data, len);
-         qtest_send_prefix(chr);
-@@ -564,7 +570,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-                 data[i] = 0;
-             }
-         }
--        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
-+        address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
-                             len);
-         g_free(data);
- 
-@@ -587,7 +593,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-         if (len) {
-             data = g_malloc(len);
-             memset(data, pattern, len);
--            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
-                                 data, len);
-             g_free(data);
-         }
-@@ -621,7 +627,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-             out_len = MIN(out_len, len);
-         }
- 
--        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
-+        address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
-                             len);
- 
-         qtest_send_prefix(chr);
 -- 
 2.26.2
 
