@@ -2,73 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91DD246AFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:47:12 +0200 (CEST)
-Received: from localhost ([::1]:38928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA83F246B2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:50:08 +0200 (CEST)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hLr-0007i8-P9
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
+	id 1k7hOh-0006Hl-T0
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gLS-0004H3-FH
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35082)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k7gS7-0000A8-2D
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:49:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45683
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gLP-0006xy-7i
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:42 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k7gS5-0007a9-Ap
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:49:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597675358;
+ s=mimecast20190719; t=1597675772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GAaZUA7+BY6e8BumbNUXRJSmw7xFqATVRXaDn0VDaIU=;
- b=D8MEBCEzeVnENaR9OFSo9+61ne+CSZ8bRNVc3BynTOvJIIvH6PC/7txhdG0IENFBk2Qcdg
- 3R8EGwBpYw6IPgvHhOSI648qsCmVfoPBlBU5zmk6qDA4ym6wUzvyn4bvJ0eTet1oiOk4Qs
- /BggRnd5k8lKZHJVH+Ak0+9lgqfECI4=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=++R9jk/knd+I4XwM67l3d/NnFJxabr9zfjaro2z5vi8=;
+ b=gWm98fqaFdjese/xepi8wMephPbXeyB3aOpR6XYmNWPCnkfaoypgTHKlTjkZQKW8irVe5o
+ TvQzt89xWvDBBoGcrRRp+yOZlx4KHpUFF6Qu/cnPrEXFT3MQvj4VjGCMwCmh7bbkL7MTc/
+ 8ce0omUCnxdnYewxbrLb3XKzvj4JZbc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-eLlvDvUhNPCPdaLNl5lSGg-1; Mon, 17 Aug 2020 10:42:35 -0400
-X-MC-Unique: eLlvDvUhNPCPdaLNl5lSGg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-218-gXY78hErMC-Rkmb4ud0AZQ-1; Mon, 17 Aug 2020 10:49:30 -0400
+X-MC-Unique: gXY78hErMC-Rkmb4ud0AZQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B75F1DDEB
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:34 +0000 (UTC)
-Received: from donizetti.redhat.com (ovpn-113-20.ams2.redhat.com
- [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9322D756AB
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:33 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 150/150] docs: convert build system documentation to rST
-Date: Mon, 17 Aug 2020 16:40:53 +0200
-Message-Id: <20200817144053.345107-55-pbonzini@redhat.com>
-In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
-References: <20200817143723.343284-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51A66185E52D;
+ Mon, 17 Aug 2020 14:49:29 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-146.ams2.redhat.com
+ [10.36.113.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2244454596;
+ Mon, 17 Aug 2020 14:49:27 +0000 (UTC)
+Subject: Re: [RFC PATCH 13/22] block/export: Move refcount from NBDExport to
+ BlockExport
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200813162935.210070-1-kwolf@redhat.com>
+ <20200813162935.210070-14-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5ddfd71a-fcb5-cfdc-1adb-5715188b8e44@redhat.com>
+Date: Mon, 17 Aug 2020 16:49:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200813162935.210070-14-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.003
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 01:24:49
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="f4RCuWaB0ZuOmCYxxZA1eDv7gzDTV1H4o"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 05:13:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,592 +108,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- .../{build-system.txt => build-system.rst}    | 310 ++++++++----------
- docs/devel/index.rst                          |   1 +
- tests/qapi-schema/meson.build                 |   6 +-
- 3 files changed, 145 insertions(+), 172 deletions(-)
- rename docs/devel/{build-system.txt => build-system.rst} (62%)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--f4RCuWaB0ZuOmCYxxZA1eDv7gzDTV1H4o
+Content-Type: multipart/mixed; boundary="zI1m8zvY6C2QjiagS2ls2Aix4Ew6qnrRJ"
 
-diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.rst
-similarity index 62%
-rename from docs/devel/build-system.txt
-rename to docs/devel/build-system.rst
-index 2ced8ca474..58bf392430 100644
---- a/docs/devel/build-system.txt
-+++ b/docs/devel/build-system.rst
-@@ -1,5 +1,6 @@
--    The QEMU build system architecture
--    ==================================
-+==================================
-+The QEMU build system architecture
-+==================================
- 
- This document aims to help developers understand the architecture of the
- QEMU build system. As with projects using GNU autotools, the QEMU build
-@@ -26,7 +27,7 @@ Because QEMU uses the Meson build system under the hood, only VPATH
- builds are supported.  There are two general ways to invoke configure &
- perform a build:
- 
-- - VPATH, build artifacts outside of QEMU source tree entirely
-+ - VPATH, build artifacts outside of QEMU source tree entirely::
- 
-      cd ../
-      mkdir build
-@@ -34,7 +35,7 @@ perform a build:
-      ../qemu/configure
-      make
- 
-- - VPATH, build artifacts in a subdir of QEMU source tree
-+ - VPATH, build artifacts in a subdir of QEMU source tree::
- 
-      mkdir build
-      cd build
-@@ -52,21 +53,21 @@ following tasks:
-  - Add a Meson build option to meson_options.txt.
- 
-  - Add support to the command line arg parser to handle any new
--   --enable-XXX / --disable-XXX flags required by the feature XXX.
-+   `--enable-XXX`/`--disable-XXX` flags required by the feature.
- 
-  - Add information to the help output message to report on the new
-    feature flag.
- 
-  - Add code to perform the actual feature check.
- 
-- - Add code to include the feature status in config-host.h
-+ - Add code to include the feature status in `config-host.h`
- 
-  - Add code to print out the feature status in the configure summary
-    upon completion.
- 
- 
- Taking the probe for SDL as an example, we have the following pieces
--in configure:
-+in configure::
- 
-   # Initial variable state
-   sdl=auto
-@@ -89,11 +90,11 @@ in configure:
-   # Meson invocation
-   -Dsdl=$sdl
- 
--In meson_options.txt:
-+In meson_options.txt::
- 
-   option('sdl', type : 'feature', value : 'auto')
- 
--In meson.build:
-+In meson.build::
- 
-   # Detect dependency
-   sdl = dependency('sdl2',
-@@ -114,63 +115,51 @@ Helper functions
- The configure script provides a variety of helper functions to assist
- developers in checking for system features:
- 
-- - do_cc $ARGS...
--
-+`do_cc $ARGS...`
-    Attempt to run the system C compiler passing it $ARGS...
- 
-- - do_cxx $ARGS...
--
-+`do_cxx $ARGS...`
-    Attempt to run the system C++ compiler passing it $ARGS...
- 
-- - compile_object $CFLAGS
--
-+`compile_object $CFLAGS`
-    Attempt to compile a test program with the system C compiler using
-    $CFLAGS. The test program must have been previously written to a file
-    called $TMPC.
- 
-- - compile_prog $CFLAGS $LDFLAGS
--
-+`compile_prog $CFLAGS $LDFLAGS`
-    Attempt to compile a test program with the system C compiler using
-    $CFLAGS and link it with the system linker using $LDFLAGS. The test
-    program must have been previously written to a file called $TMPC.
- 
-- - has $COMMAND
--
-+`has $COMMAND`
-    Determine if $COMMAND exists in the current environment, either as a
-    shell builtin, or executable binary, returning 0 on success.
- 
-- - path_of $COMMAND
--
-+`path_of $COMMAND`
-    Return the fully qualified path of $COMMAND, printing it to stdout,
-    and returning 0 on success.
- 
-- - check_define $NAME
--
-+`check_define $NAME`
-    Determine if the macro $NAME is defined by the system C compiler
- 
-- - check_include $NAME
--
-+`check_include $NAME`
-    Determine if the include $NAME file is available to the system C
-    compiler
- 
-- - write_c_skeleton
--
-+`write_c_skeleton`
-    Write a minimal C program main() function to the temporary file
-    indicated by $TMPC
- 
-- - feature_not_found $NAME $REMEDY
--
-+`feature_not_found $NAME $REMEDY`
-    Print a message to stderr that the feature $NAME was not available
-    on the system, suggesting the user try $REMEDY to address the
-    problem.
- 
-- - error_exit $MESSAGE $MORE...
--
-+`error_exit $MESSAGE $MORE...`
-    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
-    configure script with non-zero status
- 
-- - query_pkg_config $ARGS...
--
-+`query_pkg_config $ARGS...`
-    Run pkg-config passing it $ARGS. If QEMU is doing a static build,
-    then --static will be automatically added to $ARGS
- 
-@@ -182,9 +171,13 @@ The Meson build system is currently used to describe the build
- process for:
- 
- 1) executables, which include:
-+
-    - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
-+
-    - System emulators - qemu-system-$ARCH
-+
-    - Userspace emulators - qemu-$ARCH
-+
-    - Some (but not all) unit tests
- 
- 2) documentation
-@@ -200,9 +193,9 @@ to list the files and their dependency on various configuration
- symbols.
- 
- Various subsystems that are common to both tools and emulators have
--their own sourceset, for example block_ss for the block device subsystem,
--chardev_ss for the character device subsystem, etc.  These sourcesets
--are then turned into static libraries as follows:
-+their own sourceset, for example `block_ss` for the block device subsystem,
-+`chardev_ss` for the character device subsystem, etc.  These sourcesets
-+are then turned into static libraries as follows::
- 
-     libchardev = static_library('chardev', chardev_ss.sources(),
-                                 name_suffix: 'fa',
-@@ -210,7 +203,7 @@ are then turned into static libraries as follows:
- 
-     chardev = declare_dependency(link_whole: libchardev)
- 
--The special ".fa" suffix is needed as long as unit tests are built with
-+The special `.fa` suffix is needed as long as unit tests are built with
- the older Makefile infrastructure, and will go away later.
- 
- Files linked into emulator targets there can be split into two distinct groups
-@@ -221,24 +214,24 @@ In the target-independent set lives various general purpose helper code,
- such as error handling infrastructure, standard data structures,
- platform portability wrapper functions, etc. This code can be compiled
- once only and the .o files linked into all output binaries.
--Target-independent code lives in the common_ss, softmmu_ss and user_ss
--sourcesets.  common_ss is linked into all emulators, softmmu_ss only
--in system emulators, user_ss only in user-mode emulators.
-+Target-independent code lives in the `common_ss`, `softmmu_ss` and
-+`user_ss` sourcesets.  `common_ss` is linked into all emulators, `softmmu_ss`
-+only in system emulators, `user_ss` only in user-mode emulators.
- 
- In the target-dependent set lives CPU emulation, device emulation and
- much glue code. This sometimes also has to be compiled multiple times,
- once for each target being built.
- 
--All binaries link with a static library libqemuutil.a, which is then
--linked to all the binaries.  libqemuutil.a is built from several
-+All binaries link with a static library `libqemuutil.a`, which is then
-+linked to all the binaries.  `libqemuutil.a` is built from several
- sourcesets; most of them however host generated code, and the only two
--of general interest are util_ss and stub_ss.
-+of general interest are `util_ss` and `stub_ss`.
- 
- The separation between these two is purely for documentation purposes.
--util_ss contains generic utility files.  Even though this code is only
-+`util_ss` contains generic utility files.  Even though this code is only
- linked in some binaries, sometimes it requires hooks only in some of
- these and depend on other functions that are not fully implemented by
--all QEMU binaries.  stub_ss links dummy stubs that will only be linked
-+all QEMU binaries.  `stub_ss` links dummy stubs that will only be linked
- into the binary if the real implementation is not present.  In a way,
- the stubs can be thought of as a portable implementation of the weak
- symbols concept.
-@@ -246,45 +239,43 @@ symbols concept.
- The following files concur in the definition of which files are linked
- into each emulator:
- 
--- default-configs/*.mak
-+`default-configs/*.mak`
-+  The files under default-configs/ control what emulated hardware is built
-+  into each QEMU system and userspace emulator targets. They merely contain
-+  a list of config variable definitions like the machines that should be
-+  included. For example, default-configs/aarch64-softmmu.mak has::
- 
--The files under default-configs/ control what emulated hardware is built
--into each QEMU system and userspace emulator targets. They merely contain
--a list of config variable definitions like the machines that should be
--included. For example, default-configs/aarch64-softmmu.mak has:
-+    include arm-softmmu.mak
-+    CONFIG_XLNX_ZYNQMP_ARM=y
-+    CONFIG_XLNX_VERSAL=y
- 
--  include arm-softmmu.mak
--  CONFIG_XLNX_ZYNQMP_ARM=y
--  CONFIG_XLNX_VERSAL=y
-+`*/Kconfig`
-+  These files are processed together with `default-configs/*.mak` and
-+  describe the dependencies between various features, subsystems and
-+  device models.  They are described in kconfig.rst.
- 
- These files rarely need changing unless new devices / hardware need to
- be enabled for a particular system/userspace emulation target
- 
--- */Kconfig
--
--These files are processed together with default-configs/*.mak and
--describe the dependencies between various features, subsystems and
--device models.  They are described in kconfig.rst.
--
- 
- Support scripts
- ---------------
- 
- Meson has a special convention for invoking Python scripts: if their
--first line is "#! /usr/bin/env python3" and the file is *not* executable,
-+first line is `#! /usr/bin/env python3` and the file is *not* executable,
- find_program() arranges to invoke the script under the same Python
- interpreter that was used to invoke Meson.  This is the most common
- and preferred way to invoke support scripts from Meson build files,
- because it automatically uses the value of configure's --python= option.
- 
--In case the script is not written in Python, use a "#! /usr/bin/env ..."
-+In case the script is not written in Python, use a `#! /usr/bin/env ...`
- line and make the script executable.
- 
- Scripts written in Python, where it is desirable to make the script
- executable (for example for test scripts that developers may want to
- invoke from the command line, such as tests/qapi-schema/test-qapi.py),
--should be invoked through the "python" variable in meson.build. For
--example:
-+should be invoked through the `python` variable in meson.build. For
-+example::
- 
-   test('QAPI schema regression tests', python,
-        args: files('test-qapi.py'),
-@@ -307,35 +298,35 @@ rules and wraps them so that e.g. submodules are built before QEMU.
- The resulting build system is largely non-recursive in nature, in
- contrast to common practices seen with automake.
- 
--Tests are also ran by the Makefile with the traditional "make check"
--phony target.  Meson test suites such as "unit" can be ran with "make
--check-unit" too.  It is also possible to run tests defined in meson.build
--with "meson test".
-+Tests are also ran by the Makefile with the traditional `make check`
-+phony target.  Meson test suites such as `unit` can be ran with `make
-+check-unit` too.  It is also possible to run tests defined in meson.build
-+with `meson test`.
- 
- The following text is only relevant for unit tests which still have to
- be converted to Meson.
- 
--All binaries should link to libqemuutil.a, e.g.:
-+All binaries should link to `libqemuutil.a`, e.g.:
- 
-    qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
- 
--On Windows, all binaries have the suffix '.exe', so all Makefile rules
-+On Windows, all binaries have the suffix `.exe`, so all Makefile rules
- which create binaries must include the $(EXESUF) variable on the binary
- name. e.g.
- 
-    qemu-img$(EXESUF): qemu-img.o ..snip..
- 
--This expands to '.exe' on Windows, or '' on other platforms.
-+This expands to `.exe` on Windows, or an empty string on other platforms.
- 
- Variable naming
- ---------------
- 
- The QEMU convention is to define variables to list different groups of
- object files. These are named with the convention $PREFIX-obj-y.  The
--Meson "chardev" variable in the previous example corresponds to a
-+Meson `chardev` variable in the previous example corresponds to a
- variable 'chardev-obj-y'.
- 
--Likewise, tests that are executed by "make check-unit" are grouped into
-+Likewise, tests that are executed by `make check-unit` are grouped into
- a variable check-unit-y, like this:
- 
-   check-unit-y += tests/test-visitor-serialization$(EXESUF)
-@@ -355,8 +346,8 @@ On Windows this expands to
- 
-   check-unit-n += tests/vmstate.exe
- 
--Since the "check-unit" target only runs tests included in "$(check-unit-y)",
--POSIX specific tests listed in $(util-obj-n) are ignored on the Windows
-+Since the `check-unit` target only runs tests included in `$(check-unit-y)`,
-+POSIX specific tests listed in `$(util-obj-n)` are ignored on the Windows
- platform builds.
- 
- 
-@@ -397,47 +388,37 @@ The following key files are statically defined in the source tree, with
- the rules needed to build QEMU. Their behaviour is influenced by a
- number of dynamically created files listed later.
- 
--- Makefile
--
--The main entry point used when invoking make to build all the components
--of QEMU. The default 'all' target will naturally result in the build of
--every component. Makefile takes care of recursively building submodules
--directly via a non-recursive set of rules.
--
--- Makefile.objs
--
--Defines *-obj-y files corresponding to 
--
--- */meson.build
--
--The meson.build file in the root directory is the main entry point for the
--Meson build system, and it coordinates the configuration and build of all
--executables.  Build rules for various subdirectories are included in
--other meson.build files spread throughout the QEMU source tree.
--
--- rules.mak
--
--This file provides the generic helper rules for invoking build tools, in
--particular the compiler and linker.
--
--- tests/Makefile.include
--
--Rules for building the unit tests. This file is included directly by the
--top level Makefile, so anything defined in this file will influence the
--entire build system. Care needs to be taken when writing rules for tests
--to ensure they only apply to the unit test execution / build.
--
--- tests/docker/Makefile.include
--
--Rules for Docker tests. Like tests/Makefile, this file is included
--directly by the top level Makefile, anything defined in this file will
--influence the entire build system.
--
--- tests/vm/Makefile.include
--
--Rules for VM-based tests. Like tests/Makefile, this file is included
--directly by the top level Makefile, anything defined in this file will
--influence the entire build system.
-+`Makefile`
-+  The main entry point used when invoking make to build all the components
-+  of QEMU. The default 'all' target will naturally result in the build of
-+  every component. Makefile takes care of recursively building submodules
-+  directly via a non-recursive set of rules.
-+
-+`*/meson.build`
-+  The meson.build file in the root directory is the main entry point for the
-+  Meson build system, and it coordinates the configuration and build of all
-+  executables.  Build rules for various subdirectories are included in
-+  other meson.build files spread throughout the QEMU source tree.
-+
-+`rules.mak`
-+  This file provides the generic helper rules for invoking build tools, in
-+  particular the compiler and linker.
-+
-+`tests/Makefile.include`
-+  Rules for building the unit tests. This file is included directly by the
-+  top level Makefile, so anything defined in this file will influence the
-+  entire build system. Care needs to be taken when writing rules for tests
-+  to ensure they only apply to the unit test execution / build.
-+
-+`tests/docker/Makefile.include`
-+  Rules for Docker tests. Like tests/Makefile, this file is included
-+  directly by the top level Makefile, anything defined in this file will
-+  influence the entire build system.
-+
-+`tests/vm/Makefile.include`
-+  Rules for VM-based tests. Like tests/Makefile, this file is included
-+  directly by the top level Makefile, anything defined in this file will
-+  influence the entire build system.
- 
- Dynamically created files
- -------------------------
-@@ -450,79 +431,70 @@ Makefile.
- 
- Built by configure:
- 
--- config-host.mak
--
--When configure has determined the characteristics of the build host it
--will write a long list of variables to config-host.mak file. This
--provides the various install directories, compiler / linker flags and a
--variety of CONFIG_* variables related to optionally enabled features.
--This is imported by the top level Makefile and meson.build in order to
--tailor the build output.
--
--config-host.mak is also used as a dependency checking mechanism. If make
--sees that the modification timestamp on configure is newer than that on
--config-host.mak, then configure will be re-run.
-+`config-host.mak`
-+  When configure has determined the characteristics of the build host it
-+  will write a long list of variables to config-host.mak file. This
-+  provides the various install directories, compiler / linker flags and a
-+  variety of `CONFIG_*` variables related to optionally enabled features.
-+  This is imported by the top level Makefile and meson.build in order to
-+  tailor the build output.
- 
--The variables defined here are those which are applicable to all QEMU
--build outputs. Variables which are potentially different for each
--emulator target are defined by the next file...
-+  config-host.mak is also used as a dependency checking mechanism. If make
-+  sees that the modification timestamp on configure is newer than that on
-+  config-host.mak, then configure will be re-run.
- 
--- $TARGET-NAME/config-target.mak
-+  The variables defined here are those which are applicable to all QEMU
-+  build outputs. Variables which are potentially different for each
-+  emulator target are defined by the next file...
- 
--TARGET-NAME is the name of a system or userspace emulator, for example,
--x86_64-softmmu denotes the system emulator for the x86_64 architecture.
--This file contains the variables which need to vary on a per-target
--basis. For example, it will indicate whether KVM or Xen are enabled for
--the target and any other potential custom libraries needed for linking
--the target.
-+`$TARGET-NAME/config-target.mak`
-+  TARGET-NAME is the name of a system or userspace emulator, for example,
-+  x86_64-softmmu denotes the system emulator for the x86_64 architecture.
-+  This file contains the variables which need to vary on a per-target
-+  basis. For example, it will indicate whether KVM or Xen are enabled for
-+  the target and any other potential custom libraries needed for linking
-+  the target.
- 
- 
- Built by Meson:
- 
--- ${TARGET-NAME}-config-devices.mak
--
--TARGET-NAME is again the name of a system or userspace emulator. The
--config-devices.mak file is automatically generated by make using the
--scripts/make_device_config.sh program, feeding it the
--default-configs/$TARGET-NAME file as input.
--
--- config-host.h
--- $TARGET-NAME/config-target.h
--- $TARGET-NAME/config-devices.h
-+`${TARGET-NAME}-config-devices.mak`
-+  TARGET-NAME is again the name of a system or userspace emulator. The
-+  config-devices.mak file is automatically generated by make using the
-+  scripts/make_device_config.sh program, feeding it the
-+  default-configs/$TARGET-NAME file as input.
- 
--These files are used by source code to determine what features
--are enabled.  They are generated from the contents of the corresponding
--*.h files using the scripts/create_config program. This extracts
--relevant variables and formats them as C preprocessor macros.
-+`config-host.h`, `$TARGET-NAME/config-target.h`, `$TARGET-NAME/config-devices.h`
-+  These files are used by source code to determine what features
-+  are enabled.  They are generated from the contents of the corresponding
-+  `*.h` files using the scripts/create_config program. This extracts
-+  relevant variables and formats them as C preprocessor macros.
- 
--- build.ninja
-+`build.ninja`
-+  The build rules.
- 
- 
- Built by Makefile:
- 
--- Makefile.ninja:
-+`Makefile.ninja`
-+  A Makefile conversion of the build rules in build.ninja.  The conversion
-+  is straightforward and, were it necessary to debug the rules produced
-+  by Meson, it should be enough to look at build.ninja.  The conversion
-+  is performed by scripts/ninjatool.py.
- 
--A Makefile conversion of the build rules in build.ninja.  The conversion
--is straightforward and, were it necessary to debug the rules produced
--by Meson, it should be enough to look at build.ninja.  The conversion
--is performed by scripts/ninjatool.py.
--
--- Makefile.mtest:
--
--The Makefile definitions that let "make check" run tests defined in
--meson.build.  The rules are produced from Meson's JSON description of
--tests (obtained with "meson introspect --tests") through the script
--scripts/mtest2make.py.
-+`Makefile.mtest`
-+  The Makefile definitions that let "make check" run tests defined in
-+  meson.build.  The rules are produced from Meson's JSON description of
-+  tests (obtained with "meson introspect --tests") through the script
-+  scripts/mtest2make.py.
- 
- 
- Useful make targets
--===================
--
--- help
-+-------------------
- 
-+`help`
-   Print a help message for the most common build targets.
- 
--- print-VAR
--
-+`print-VAR`
-   Print the value of the variable VAR. Useful for debugging the build
-   system.
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index ae6eac7c9c..04773ce076 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -13,6 +13,7 @@ Contents:
- .. toctree::
-    :maxdepth: 2
- 
-+   build-system
-    kconfig
-    loads-stores
-    memory
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index ae17017504..c87d141417 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -205,14 +205,14 @@ test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas
- diff = find_program('diff')
- 
- qapi_doc = custom_target('QAPI doc',
--                         output: ['doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
-+                         output: ['doc-good-qapi-doc.texi',
-+                                  'doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
-                                   'doc-good-qapi-emit-events.c', 'doc-good-qapi-emit-events.h',
-                                   'doc-good-qapi-events.c', 'doc-good-qapi-events.h',
-                                   'doc-good-qapi-init-commands.c', 'doc-good-qapi-init-commands.h',
-                                   'doc-good-qapi-introspect.c', 'doc-good-qapi-introspect.h',
-                                   'doc-good-qapi-types.c', 'doc-good-qapi-types.h',
--                                  'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h',
--                                  'doc-good-qapi-doc.texi' ],
-+                                  'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h' ],
-                          input: files('doc-good.json'),
-                          command: [ qapi_gen, '-o', meson.current_build_dir(),
-                                     '-p', 'doc-good-', '@INPUT0@' ],
--- 
-2.26.2
+--zI1m8zvY6C2QjiagS2ls2Aix4Ew6qnrRJ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 13.08.20 18:29, Kevin Wolf wrote:
+> Having a refcount makes sense for all types of block exports. It is also
+> a prerequisite for keeping a list of all exports at the BlockExport
+> level.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  include/block/export.h | 10 ++++++
+>  include/block/nbd.h    |  2 --
+>  block/export/export.c  | 14 ++++++++
+>  blockdev-nbd.c         |  2 +-
+>  nbd/server.c           | 72 +++++++++++++++++++-----------------------
+>  5 files changed, 58 insertions(+), 42 deletions(-)
+
+[...]
+
+> diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+> index 8dd127af52..a8b7b785e7 100644
+> --- a/blockdev-nbd.c
+> +++ b/blockdev-nbd.c
+> @@ -232,7 +232,7 @@ BlockExport *nbd_export_create(BlockExportOptions *ex=
+p_args, Error **errp)
+>      /* The list of named exports has a strong reference to this export n=
+ow and
+>       * our only way of accessing it is through nbd_export_find(), so we =
+can drop
+>       * the strong reference that is @exp. */
+> -    nbd_export_put(exp);
+> +    blk_exp_unref((BlockExport*) exp);
+
+:/
+
+Less so because of the asterisk, but more so because of =E2=80=9Canother
+instance of a cast because we can=E2=80=99t access a BlockExport=E2=80=99s =
+fields.
+
+>   out:
+>      aio_context_release(aio_context);
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 4c594e6558..2bf30bb731 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+
+[...]
+
+> @@ -1537,7 +1536,8 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+> =20
+>      exp =3D g_new0(NBDExport, 1);
+>      exp->common =3D (BlockExport) {
+> -        .drv =3D &blk_exp_nbd,
+> +        .drv        =3D &blk_exp_nbd,
+> +        .refcount   =3D 1,
+>      };
+
+This makes me wish...  Ah, for patch 16, I see. :)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--zI1m8zvY6C2QjiagS2ls2Aix4Ew6qnrRJ--
+
+--f4RCuWaB0ZuOmCYxxZA1eDv7gzDTV1H4o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl86mPYACgkQ9AfbAGHV
+z0BJdQgArMhQ97iyCKLT65PlIigfyeUan/HD7TdQBSBMLYAtsCE4SArl6npUcC3D
+h7EPHEAKxINq+NKwFKdsfnrqSEWIJd5CUg9cxEUTCcgk0EJaC+Qlo1y3/KJyn8K5
+wZQA0lWpjECdMA6tBvv+gOkWHKHpTgMiPw6IubYKNaETbQ+PypWsz82WIj8HScmj
+97NmA+OlPZbN009DZxJyHg81lKXBme+ds1nUtY6WMxAzTTjzN6g8DSU/wg2YcxRp
+gai2/vry82X3OBEkj4iDUBsEPUDu81hk+ZWvYPfbvZKY16qnnSn5UNuyqb6gUcgo
+UDHfOJqSeCo3f4EOKj+8KEkVkqMC8A==
+=/jyl
+-----END PGP SIGNATURE-----
+
+--f4RCuWaB0ZuOmCYxxZA1eDv7gzDTV1H4o--
 
 
