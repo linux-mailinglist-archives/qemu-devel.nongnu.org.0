@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F389E246932
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:15:34 +0200 (CEST)
-Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953C5246936
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:16:26 +0200 (CEST)
+Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7grF-0003pd-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:15:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41614)
+	id 1k7gs5-00062G-K0
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHn-0005o8-Ce
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:55 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35230)
+ id 1k7gHo-0005qH-68
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:56 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHl-0006IJ-E9
+ id 1k7gHm-0006If-FS
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:55 -0400
-Received: by mail-wr1-x432.google.com with SMTP id f1so15277527wro.2
+Received: by mail-wr1-x42f.google.com with SMTP id a15so15236629wrh.10
  for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uhqRQfxgZKwJ96ol0mbenRayAvfbDPlr1SxB4DAAIBo=;
- b=A40VzTOQYLbyjaSvMWyTsc7kh7qGpKau+iZfS6s41N6h1M7JENGsYhhm6aYIy/3OHI
- 2GKoD7lfIk7ml2CuYEHKWczB43HCnd9snBCgKCjpPo27AgSivfXiYF4Q3qeQgCVzstNt
- EH1kTkGCi0QULtohC5SjrUOVqbAn4pOCMoNk8HIVv2n9URWc9bHF/9cvEgqRnmu9Y499
- QGCPb1VFCmsQtST0+W19B0ufe/idO3/ZGLLwtFH2BzrS8QMiJXwyAWnuwor0UQjpcwy6
- /3zm4Fr44xAGPbpW1VXzvo6xgyCdpORl9FkdztjCKjbhtFhVunyf4tWtWlNQBocnlFn0
- GEog==
+ bh=5zJ/gMBs+ekLNo528KUwmyOGqZXXOiNxoFGixHsiJLc=;
+ b=ePuOgY/Wa+z8hkncOL5irz3sDtdSxSKcJD0/K4rhouxaPTodVl/Kv2F6ZqK25cetXQ
+ lpFmYuZT14f6MQPWYjJOYBFi9cOkI3MM8roMc412tuIg+dbJrQkMdPzxI9BYfS8j8552
+ joqszGTHZFqgEWfoHlmMCZLntrfW2gmUDt/9Rxhj18Xsd2gzC+A387zphuxg1519e61Z
+ n6o0CxiWxGvl1jsJJldmPDt0d556bK7ADWdhjXejD9/vg9JHs/P/kwS2bfv3szQey7+c
+ aAM/GzscXKGZQ8zQlcyGBqbqWx3IZxOKp4i0Ckz2KvcQaFaBc6NiCvcVkqOMN4w51XNg
+ chuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uhqRQfxgZKwJ96ol0mbenRayAvfbDPlr1SxB4DAAIBo=;
- b=P8/5c4ZlSpoebJyBS7I/WqphMLFfeDlvWlU6ERJC7p+z6FHpfrOSPfOp1hsOZgiC1B
- MAyjL6ogcKaPjwGt8tF5lHf2fqap3oMBby9O4Z8IDKDZJsSNBzqsVSIrVvH7wnobRI1l
- kIsT0VQr1slLwYnVPkfDNKQVOOqVwYBI7mI41xOMsVLFpLki9I0Zm+kEKrMcUyYSAE1S
- XloTSgwANrOrTrgziRqqcepa/2jQaNkdfxGvRhyaJ3o53XxhIwKzavRSmc/X5JgSXL6D
- 2hIkdYDP09MwSJGBW7/8U2inqCFkkBj4KwDi6HvQGK0F9Oe2G3KrzuJxcMMp+vGSe8Vx
- 14Iw==
-X-Gm-Message-State: AOAM5328dxyb2U9x+TVa+Z+DPbaBaTLA/uuPI1hmjNLtw1TyegSMv2x4
- HHT91jiWlO+PJtEjHBqPy/oaxgJ1mKk=
-X-Google-Smtp-Source: ABdhPJyIYGFbDFYK4emxkzrjkwz2qq56MBnmwHDJv9T78/O3OL/m+rweKiZz9tFSPSNFb6QoXUMHng==
-X-Received: by 2002:a5d:544a:: with SMTP id w10mr16080777wrv.317.1597675131907; 
- Mon, 17 Aug 2020 07:38:51 -0700 (PDT)
+ bh=5zJ/gMBs+ekLNo528KUwmyOGqZXXOiNxoFGixHsiJLc=;
+ b=ufiUz8QdraWBOd7ZYpQYMxGaQTjnf94lSJi5++eo6ns4LlWYkpGvWA+x5290by6Y6l
+ 6WrOFxNG6/1/T24E6wWXaxxf5GNmTh0alQCMUyy7lK2qVOji/IM1SV9UgKySHa3UFNI0
+ zWjIJc1MGMaqraS2KQMVqRY/KPD3FuEVeC7+EenqPvRUNyV8obPbnJ1w4wRKeCPFt7/P
+ We9lVdfCdFn9bzYbKFvhcTE4Cm2Y3a2SFg7puMil4ER3I+FUCxOYLPyzW4VUWbUNpJcF
+ fdc/zpNScAe/Sws4Doi/nE+XwsZdEjU74XOO5syZEMIBKXtRcyEZ9YtoXHEqkxzdE13T
+ JVBA==
+X-Gm-Message-State: AOAM530SfV2y54J+P2tB5Kalh6W6rTkebHhC7Mit0XgNAsLTre8fJkhL
+ +zWpFDOzH0mnPaI6m+l9ranDBoRabLM=
+X-Google-Smtp-Source: ABdhPJz2cAOxnI2Mnspf0ROHyaItRUxzeFatAx6wdNyywb2vTsZhlqvShQI3ZwQ1/yYjh7W4XDdzRQ==
+X-Received: by 2002:adf:efd2:: with SMTP id i18mr15259326wrp.32.1597675132859; 
+ Mon, 17 Aug 2020 07:38:52 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.51 for <qemu-devel@nongnu.org>
+ i22sm34966603wrb.45.2020.08.17.07.38.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:51 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 087/150] meson: convert hw/nubus
-Date: Mon, 17 Aug 2020 16:36:20 +0200
-Message-Id: <20200817143723.343284-88-pbonzini@redhat.com>
+Subject: [PATCH 088/150] meson: convert hw/smbios
+Date: Mon, 17 Aug 2020 16:36:21 +0200
+Message-Id: <20200817143723.343284-89-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,63 +87,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs       | 1 -
- hw/meson.build         | 1 +
- hw/nubus/Makefile.objs | 4 ----
- hw/nubus/meson.build   | 7 +++++++
- 4 files changed, 8 insertions(+), 5 deletions(-)
- delete mode 100644 hw/nubus/Makefile.objs
- create mode 100644 hw/nubus/meson.build
+ hw/Makefile.objs        |  1 -
+ hw/meson.build          |  1 +
+ hw/smbios/Makefile.objs | 10 ----------
+ hw/smbios/meson.build   | 13 +++++++++++++
+ 4 files changed, 14 insertions(+), 11 deletions(-)
+ delete mode 100644 hw/smbios/Makefile.objs
+ create mode 100644 hw/smbios/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 6a7ca0fcfe..86bc201a55 100644
+index 86bc201a55..73c49ddd3b 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
 @@ -35,7 +35,6 @@ devices-dirs-$(CONFIG_VFIO) += vfio/
  devices-dirs-y += virtio/
  devices-dirs-y += watchdog/
  devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
--devices-dirs-$(CONFIG_NUBUS) += nubus/
- devices-dirs-y += smbios/
+-devices-dirs-y += smbios/
  endif
  
+ common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 66a2f6cddd..03ef30212e 100644
+index 03ef30212e..dccc2d19a6 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,3 +1,4 @@
+@@ -1,4 +1,5 @@
  subdir('core')
-+subdir('nubus')
+ subdir('nubus')
  subdir('semihosting')
++subdir('smbios')
  subdir('xen')
-diff --git a/hw/nubus/Makefile.objs b/hw/nubus/Makefile.objs
+diff --git a/hw/smbios/Makefile.objs b/hw/smbios/Makefile.objs
 deleted file mode 100644
-index 135ba7878d..0000000000
---- a/hw/nubus/Makefile.objs
+index 23bb2bac07..0000000000
+--- a/hw/smbios/Makefile.objs
 +++ /dev/null
-@@ -1,4 +0,0 @@
--common-obj-y += nubus-device.o
--common-obj-y += nubus-bus.o
--common-obj-y += nubus-bridge.o
--common-obj-$(CONFIG_Q800) += mac-nubus-bridge.o
-diff --git a/hw/nubus/meson.build b/hw/nubus/meson.build
+@@ -1,10 +0,0 @@
+-ifeq ($(CONFIG_SMBIOS),y)
+-common-obj-y += smbios.o
+-common-obj-$(CONFIG_IPMI) += smbios_type_38.o
+-common-obj-$(call lnot,$(CONFIG_IPMI)) += smbios_type_38-stub.o
+-else
+-common-obj-y += smbios-stub.o
+-endif
+-
+-common-obj-$(CONFIG_ALL) += smbios-stub.o
+-common-obj-$(CONFIG_ALL) += smbios_type_38-stub.o
+diff --git a/hw/smbios/meson.build b/hw/smbios/meson.build
 new file mode 100644
-index 0000000000..9287c633aa
+index 0000000000..9e762c7108
 --- /dev/null
-+++ b/hw/nubus/meson.build
-@@ -0,0 +1,7 @@
-+nubus_ss = ss.source_set()
-+nubus_ss.add(files('nubus-device.c'))
-+nubus_ss.add(files('nubus-bus.c'))
-+nubus_ss.add(files('nubus-bridge.c'))
-+nubus_ss.add(when: 'CONFIG_Q800', if_true: files('mac-nubus-bridge.c'))
++++ b/hw/smbios/meson.build
+@@ -0,0 +1,13 @@
++smbios_ss = ss.source_set()
++smbios_ss.add(files('smbios.c'))
++smbios_ss.add(when: 'CONFIG_IPMI',
++              if_true: files('smbios_type_38.c'),
++              if_false: files('smbios_type_38-stub.c'))
 +
-+softmmu_ss.add_all(when: 'CONFIG_NUBUS', if_true: nubus_ss)
++softmmu_ss.add_all(when: 'CONFIG_SMBIOS', if_true: smbios_ss)
++softmmu_ss.add(when: 'CONFIG_SMBIOS', if_false: files('smbios-stub.c'))
++
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files(
++  'smbios-stub.c',
++  'smbios_type_38-stub.c',
++))
 -- 
 2.26.2
 
