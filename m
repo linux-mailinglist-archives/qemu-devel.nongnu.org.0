@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5A92467EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:03:38 +0200 (CEST)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027C62467EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:04:59 +0200 (CEST)
+Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7fjd-0005MV-39
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:03:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59442)
+	id 1k7fkw-00089W-1v
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1k7fhz-0003K3-Nk; Mon, 17 Aug 2020 10:01:56 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:38216)
+ id 1k7fi1-0003LT-5s; Mon, 17 Aug 2020 10:01:57 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:44241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1k7fhw-0001XC-LX; Mon, 17 Aug 2020 10:01:55 -0400
-Received: by mail-lj1-x244.google.com with SMTP id m22so17575665ljj.5;
- Mon, 17 Aug 2020 07:01:51 -0700 (PDT)
+ id 1k7fhy-0001Xe-Vx; Mon, 17 Aug 2020 10:01:56 -0400
+Received: by mail-lf1-x143.google.com with SMTP id x24so8402389lfe.11;
+ Mon, 17 Aug 2020 07:01:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BfvYle3AyXZXtRgGPAz105k3QnmpEvKZtYecnlYInTY=;
- b=RhTy0gqh9Yly0157weuxmBvUxq8VjOW1EFeb1iJeIftEi/dL1SVY4JGprwb8u10vSK
- AwupqxcTryarWb8I3k1FoDrODibDX42iZknZe0SbL1mk+9eotvQIwQzAIGkViPlQ2y9y
- Qv4DLyKz4FoJB84Qt3xCgibLN07k3KiOhF37VQCOoXb/7HAb6P2Ge3DzrvDs48yzk/WL
- lIdqHsusRR3RgUNed5L4MuoAcZoxM8BpqUvwKCXnZecV6obu3u+DTU6cQxReYbVKfqx5
- KYJYFTn3agn1coFOTEzy3Kc9lemr/OPwv45tT6JTJA8jHz+MgKz/f7GTDrV+mQ1TgXN1
- NKNw==
+ bh=gRwNidHb/xzDXEvtr3z3PMKv/URa1A0x7rFiibmqh6s=;
+ b=snY6vt1CXWl9LUwqROGVCqaHldkYLhrO/SVpV3q/z4WM0N2XlnhMRL/SzOG9DSPrRc
+ FDoe2FwWKc8XpOmnxFcXytqiQJga++uIwM83vpwTTTBFwEaFcxzkO3M0JXuQxzXasX7V
+ z/z1+M5o87cjnkHmXK3ClPxprKJRxTn3ODdXW4Z6myOd8anyX7wyGARXnPCffLYvKDOe
+ W2rFyG5Hfklphw63swW1CXstQNuGF0qjnH1rA4CFfn8BZyh8fFqConQC27VvBUPhzq5H
+ b4NpfGQNLSWsyJvKmxBOmTyldw17qYRa5y9XBJ4Xugfb9uZkUIzYTcRzVlZxHFTCdGUT
+ bfWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BfvYle3AyXZXtRgGPAz105k3QnmpEvKZtYecnlYInTY=;
- b=KCHz2As0ABMph1aPgz1zj8EuJG9dF7zjxzfvflmLbvQeaur3dn3GcwNwp8AoLlh/Vw
- z6CXR27R8/YQ+PnGOiQ/kYjhoNFB87QMfY8SfgPuRCP0Vh2++zO/Gyag1uQJSTfI/JTH
- oRVcMKRXrKClQ8wydqzY552xzNk2LjzyA7pzD5q8cwxPxlaZpP8b4fcUc2EwBaFZET7x
- I0EMgf+slSJlKpdfw+4dOs3cjFfqZHDDmE1wTqLEMB+oHZxc9GNPF5BpMEQ6zVgYWi5X
- lB/T/TcoMlXHrNL3xXhyJ84b/biawxKN7nVm5rGDrLySGcDAOBZrMqzDMevom++WwdUi
- KssQ==
-X-Gm-Message-State: AOAM532KzaRTa5qelxjIpzr7GxG9yfdwdwxdE+ocKbWPnVRboYvR6eYZ
- KXFiz1SWg0Gb/idoXFC7zVcsaFjAfmWopkwx
-X-Google-Smtp-Source: ABdhPJzMvQzyBO7QqU37PJDf0WR3Xmr8FnD78Al4zAgaPcQx/SWS/a66sBBPHq8CxWEeImqvdMgJMg==
-X-Received: by 2002:a2e:8e70:: with SMTP id t16mr7975048ljk.81.1597672910407; 
- Mon, 17 Aug 2020 07:01:50 -0700 (PDT)
+ bh=gRwNidHb/xzDXEvtr3z3PMKv/URa1A0x7rFiibmqh6s=;
+ b=XLUqk/BgijLTKv70Pv72hXZriobZPAhFwBtAovU9gYj8np53x9GYIbR8b40LjfvztY
+ 7Hf0KvPzWDr8HPD+uT7N4fMYxU74XuMisMG4kc9oRpYyH6tp4OEuInL/bSw4lY9yEVt5
+ hElaPAxoeG9NBJjFw/zVcTioPjwQFccA6jBIslBI7VvDqQxL4a1Q0UprBFFwtdgfmpNa
+ IAEdj0/uFEIFpcC2RC2xyYoOsCIzkDSqfkEsWmuiH7WEkhDY7NdjxI9QFcksR81eSVH6
+ +gYlmJHou959RQF47c3RSNKEbCy0+CS4UKkPkQGgK863BiGdGWAGjQEZlCt8+mtqP04W
+ sU3g==
+X-Gm-Message-State: AOAM531DJzqoSNZh+V48pdkdWKMDExifHoEuWauuk8LHdS0NQLuRiSDR
+ utm7tPwUSEQblJYi8rOhd+fkFF+6zTtxweQf
+X-Google-Smtp-Source: ABdhPJzJkRodM4UO4geVDmC1nu9978k3vs7vvm1TKrYnC02NfGsRg/jpRFt0W3g8M97xR4h5hAd9Zg==
+X-Received: by 2002:a19:cb51:: with SMTP id b78mr7459536lfg.130.1597672912623; 
+ Mon, 17 Aug 2020 07:01:52 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id 29sm5111941ljv.72.2020.08.17.07.01.49
+ by smtp.gmail.com with ESMTPSA id c4sm5040593ljk.70.2020.08.17.07.01.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:01:49 -0700 (PDT)
+ Mon, 17 Aug 2020 07:01:52 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/5] target/microblaze: mbar: Add support for data-access
- barriers
-Date: Mon, 17 Aug 2020 16:01:42 +0200
-Message-Id: <20200817140144.373403-4-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 4/5] target/microblaze: swx: Use atomic_cmpxchg
+Date: Mon, 17 Aug 2020 16:01:43 +0200
+Message-Id: <20200817140144.373403-5-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200817140144.373403-1-edgar.iglesias@gmail.com>
 References: <20200817140144.373403-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x244.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -10
@@ -93,29 +92,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add support for data-access barriers.
+Use atomic_cmpxchg to implement the atomic cmpxchg sequence.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/translate.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/microblaze/translate.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index c1be76d4c8..c58f334a0f 100644
+index c58f334a0f..530c15e5ad 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1233,6 +1233,11 @@ static void dec_br(DisasContext *dc)
+@@ -1075,14 +1075,16 @@ static void dec_store(DisasContext *dc)
+         swx_skip = gen_new_label();
+         tcg_gen_brcond_tl(TCG_COND_NE, env_res_addr, addr, swx_skip);
  
-         LOG_DIS("mbar %d\n", mbar_imm);
- 
-+        /* Data access memory barrier.  */
-+        if ((mbar_imm & 2) == 0) {
-+            tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-+        }
+-        /* Compare the value loaded at lwx with current contents of
+-           the reserved location.
+-           FIXME: This only works for system emulation where we can expect
+-           this compare and the following write to be atomic. For user
+-           emulation we need to add atomicity between threads.  */
++        /*
++         * Compare the value loaded at lwx with current contents of
++         * the reserved location.
++         */
+         tval = tcg_temp_new_i32();
+-        tcg_gen_qemu_ld_i32(tval, addr, cpu_mmu_index(&dc->cpu->env, false),
+-                            MO_TEUL);
 +
-         /* mbar IMM & 16 decodes to sleep.  */
-         if (mbar_imm & 16) {
-             TCGv_i32 tmp_hlt = tcg_const_i32(EXCP_HLT);
++        tcg_gen_atomic_cmpxchg_i32(tval, addr, env_res_val,
++                                   cpu_R[dc->rd], mem_index,
++                                   mop);
++
+         tcg_gen_brcond_i32(TCG_COND_NE, env_res_val, tval, swx_skip);
+         write_carryi(dc, 0);
+         tcg_temp_free_i32(tval);
+@@ -1108,7 +1110,10 @@ static void dec_store(DisasContext *dc)
+                 break;
+         }
+     }
+-    tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
++
++    if (!ex) {
++        tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
++    }
+ 
+     /* Verify alignment if needed.  */
+     if (dc->cpu->cfg.unaligned_exceptions && size > 1) {
 -- 
 2.25.1
 
