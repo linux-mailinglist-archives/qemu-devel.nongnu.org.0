@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E528246CE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:32:28 +0200 (CEST)
-Received: from localhost ([::1]:33820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBBD246CF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:39:00 +0200 (CEST)
+Received: from localhost ([::1]:47234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7i3f-0008Op-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45820)
+	id 1k7i9z-00069O-5N
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k7i2E-0006pv-6B
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29645
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k7i9B-0005Np-Se
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:38:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k7i2C-0006qF-Fb
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:57 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k7i99-0007gL-Ia
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:38:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597681855;
+ s=mimecast20190719; t=1597682286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yc1VOsjRPXpIHQ/MkEJCgXChN2T2RDJ5oVL6QI0b+Fk=;
- b=L1Im34xOXCJb0S6eNya8ldgRsIIQ/uSPhZQSxwVXAkwuIX/lnfXMTusyPlBsJ8qqLtZXlG
- 2lF6cI31DRQeWPO1R+tjkXp/CWH99vRxXGgwVmuhP+we1jKUHU3jxbsIDpDJ52bhuV46J/
- 9TQIfX6052sFtX1L9e2o4qE2NX4dDgA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-mP7l8UiDOmeMhpnZzvB0nQ-1; Mon, 17 Aug 2020 12:30:53 -0400
-X-MC-Unique: mP7l8UiDOmeMhpnZzvB0nQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37D47185E531;
- Mon, 17 Aug 2020 16:30:52 +0000 (UTC)
-Received: from gondolin (ovpn-112-230.ams2.redhat.com [10.36.112.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C666BABA;
- Mon, 17 Aug 2020 16:30:51 +0000 (UTC)
-Date: Mon, 17 Aug 2020 18:30:48 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Jason J. Herne" <jjherne@linux.ibm.com>
-Subject: Re: [PATCH] pc-bios: s390x: Only set lowcore iplb address on
- list-directed IPL
-Message-ID: <20200817183048.30cb6f9e.cohuck@redhat.com>
-In-Reply-To: <20200817141734.5109-1-jjherne@linux.ibm.com>
-References: <20200817141734.5109-1-jjherne@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=kzTceLykt/J0pmt8gKcDNliXiiAqyQwhZk3z9UUkoQw=;
+ b=eCOp/erGhM+KFK7ytSsckojk2qC1AmNA5WWtWrlXtNNDXpLt3EuJYCcI84FnF0lTny/DYT
+ e5/AIkrqT41YDlY+etqIZkLzqgNyPCfx7mh/gBiugCqXaFHXViZYrATsydmI7hdf8cseOB
+ lPbTFaa6zRwgE6HmTXlCmzuQ6+2p5hs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-gMYzk7eMOh6fqZhFHl7npw-1; Mon, 17 Aug 2020 12:38:05 -0400
+X-MC-Unique: gMYzk7eMOh6fqZhFHl7npw-1
+Received: by mail-wm1-f70.google.com with SMTP id c184so4229080wme.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:38:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kzTceLykt/J0pmt8gKcDNliXiiAqyQwhZk3z9UUkoQw=;
+ b=JvFmqt4Rr+8I8lIlCEgnGCobs9kMB8pLRDwDK/MKR2fJHSEJJE4S+kTAiE1UXtZkg7
+ M3TcYDncBjryw/Sr90vaFRdUpMSxSgjPJcVR676yKwLnz2eJBA9WhhqyYNONk5WFqKej
+ CUuq5bSC/fxLvgQFrsWbzsaKzhm8F7rS76C7mLVYt+fi7neqB6J+JpKY2L+2vBqJtphx
+ HjcCfPFT4EYeToVRA1Mupt5HZnm/709sEywNoDBxngCaAgAPX1ZsiN9Mf13DkAorRFKS
+ 8+aHXsvwcYMDIcuL6ETzFaMAYWe6gXLwzhmgF57CE83FFami96LC5CtnH4LmSgRE3yJH
+ DXeg==
+X-Gm-Message-State: AOAM531v+eMdjaqN50TCIbws1/1kma7h5tV/phrV9BBqXI478cg6Muyq
+ chfRbtaOYgoFRNJwuMBrHVJNpP1Su/fdXTDnZ/giNCD34ommvOEJVUrap+qkcdSlBkB14/0lyQ0
+ AOGzYlia/1LkCbtM=
+X-Received: by 2002:a5d:6348:: with SMTP id b8mr16009472wrw.362.1597682283685; 
+ Mon, 17 Aug 2020 09:38:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKQehD//OgZctf/YxaukLgD0a5AryeWch5yDWM9X1ZxmTTf+iFApWPaKJTj3Q+0JkPzw8/cw==
+X-Received: by 2002:a5d:6348:: with SMTP id b8mr16009446wrw.362.1597682283464; 
+ Mon, 17 Aug 2020 09:38:03 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id p25sm29384601wma.39.2020.08.17.09.38.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Aug 2020 09:38:02 -0700 (PDT)
+Subject: Re: [PATCH 0/2] block; scsi-generic: Fix max transfer size calculation
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Max Reitz <mreitz@redhat.com>, Fam Zheng <famz@redhat.com>,
+ Maxim Levitsky <mlevitsky@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200811225122.17342-1-dmitry.fomichev@wdc.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d01fb82b-7f09-ddcc-4161-36cfd6e65f22@redhat.com>
+Date: Mon, 17 Aug 2020 18:38:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200811225122.17342-1-dmitry.fomichev@wdc.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 03:34:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,48 +102,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Damien Le Moal <damien.lemoal@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Aug 2020 10:17:34 -0400
-"Jason J. Herne" <jjherne@linux.ibm.com> wrote:
-
-> The POP states that the IPLB location is only written to 0x14 for
-> list-directed IPL. Some operating systems expect 0x14 to not change on
-> boot and will fail IPL if it does change.
+On 12/08/20 00:51, Dmitry Fomichev wrote:
+> When a host-managed zoned device is passed through to the
+> guest system using scsi-generic driver, the maximum i/o size for the
+> drive at the guest may end up being larger than at the host, causing
+> i/o errors while accessing the backing zoned drive at the host system.
 > 
-> Fixes: 9bfc04f9ef6802fff0
-
-Should be
-
-Fixes: 9bfc04f9ef68 ("pc-bios: s390x: Save iplb location in lowcore")
-
-> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
-> Reviewed-by: Janosch Frank <frankja@de.ibm.com>
-> ---
->  pc-bios/s390-ccw/jump2ipl.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Two problems prevent correct setting of the maximum i/o transfer size
+> at the guest in this configuration. One issue is specific to
+> host-managed zone devices - scsi-generic driver doesn't recognize the
+> SCSI type of HM-zoned devices. The other problem is that file-posix
+> code for finding max_segments system value doesn't correctly handle
+> SG nodes.
 > 
-> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-> index 767012bf0c..5e3e13f4b0 100644
-> --- a/pc-bios/s390-ccw/jump2ipl.c
-> +++ b/pc-bios/s390-ccw/jump2ipl.c
-> @@ -33,7 +33,10 @@ void jump_to_IPL_code(uint64_t address)
->  {
->      /* store the subsystem information _after_ the bootmap was loaded */
->      write_subsystem_identification();
-> -    write_iplb_location();
-> +
-> +    if (iplb.pbt != S390_IPL_TYPE_CCW) {
-> +            write_iplb_location();
-> +    }
+> The following two patches fix these problems.
+> 
+> Based-on: <20200424084338.26803-16-armbru@redhat.com>
+> 
+> Dmitry Fomichev (2):
+>   file-posix: Correctly read max_segments of SG nodes
+>   scsi-generic: Fix HM-zoned device scan
+> 
+>  block/file-posix.c       | 55 +++++++++++++++++++++++-----------------
+>  hw/scsi/scsi-generic.c   | 10 +++++---
+>  include/scsi/constants.h |  1 +
+>  3 files changed, 39 insertions(+), 27 deletions(-)
+> 
 
-What happens for ipl types other than CCW and FCP? IOW, should that
-rather be a positive check for S390_IPL_TYPE_FCP?
+The patches are more or less unrelated; I have queued the second, while
+the first is outside my maintenance area.
 
->  
->      /* prevent unknown IPL types in the guest */
->      if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
+Paolo
 
 
