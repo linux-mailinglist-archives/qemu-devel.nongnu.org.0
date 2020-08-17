@@ -2,101 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660B3246BB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:01:49 +0200 (CEST)
-Received: from localhost ([::1]:34834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC71246BD2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:03:34 +0200 (CEST)
+Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7ha0-0007Zu-9N
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:01:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
+	id 1k7hbg-0002gr-Uj
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k7hOF-0006AC-78
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:49:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36402
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k7hOQ-0006fu-6b
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:49:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21904
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k7hOC-0000D0-LG
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:49:38 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k7hOO-0000EX-G8
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:49:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597679376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AD7XX2dWA3kInjb3AnPDqrsH6LkT3sqqGE4nQ1AOxxk=;
- b=gaHnxnKoCSz0j6/sF6izcc4UAgPd2GwhnMnSGzeA1f4DqrsFC1gAIZgn33Aegb4jbWOzyO
- mxIVO2qoVcFzdHrSJbNxXCRA6VgoutK8StG5XqDYCLw73fl+nkPOVF3mVhNy10X+qVCv4r
- 7JmQmYvCgEs5QFy8/9BpKoApo4Lj01w=
+ s=mimecast20190719; t=1597679387;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TwBVhsWJZEZmx5Wieuh92VR9knOxu5v1DrOJYG+qhBM=;
+ b=I7sZ8kN5EgsEY5+0slXea1aSF+9m3V3QeCPDam3MXsM1x0EvD86xY82mNxGu5A4NSKLalZ
+ g76QzpV7AtVijR0QPj+MQQje4cfsOnUKHbbNUHiDeIQPZX3nzklF3QZE1F+3J7moCzzJg9
+ kSAKQu/o+Z8N7f38zyWrnxcnTNJKYwc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-V0Haojm0Mj-Ht_5Fzd6b-A-1; Mon, 17 Aug 2020 11:49:33 -0400
-X-MC-Unique: V0Haojm0Mj-Ht_5Fzd6b-A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-471-5tI_DLV2O-2IBzZly39kOA-1; Mon, 17 Aug 2020 11:49:41 -0400
+X-MC-Unique: 5tI_DLV2O-2IBzZly39kOA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D0F10066FA;
- Mon, 17 Aug 2020 15:49:32 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-146.ams2.redhat.com
- [10.36.113.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8224510021AA;
- Mon, 17 Aug 2020 15:49:31 +0000 (UTC)
-Subject: Re: [RFC PATCH 15/22] block/export: Move device to BlockExportOptions
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200813162935.210070-1-kwolf@redhat.com>
- <20200813162935.210070-16-kwolf@redhat.com>
- <a163c834-bfc8-897a-c91f-8458b50dfdb6@redhat.com>
- <20200817152733.GQ11402@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <005af944-6061-deee-d1e1-20f299d780cb@redhat.com>
-Date: Mon, 17 Aug 2020 17:49:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C352181F001
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 15:49:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C03E5756AB;
+ Mon, 17 Aug 2020 15:49:39 +0000 (UTC)
+Date: Mon, 17 Aug 2020 16:49:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 02/41] e1000: Rename QOM class cast macros
+Message-ID: <20200817154936.GH4775@redhat.com>
+References: <20200813222625.243136-1-ehabkost@redhat.com>
+ <20200813222625.243136-3-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200817152733.GQ11402@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200813222625.243136-3-ehabkost@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="J5VHFuzTxML3EejJ7MibVJTVY7UQy8icF"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 03:34:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,105 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---J5VHFuzTxML3EejJ7MibVJTVY7UQy8icF
-Content-Type: multipart/mixed; boundary="RF2jMYiJY5qxqPjzGIQSrNRQm3kug1hxC"
+On Thu, Aug 13, 2020 at 06:25:46PM -0400, Eduardo Habkost wrote:
+> Rename the E1000_DEVICE_CLASS() and E1000_DEVICE_GET_CLASS()
+> macros to be consistent with the E1000() instance cast macro.
+> 
+> This will allow us to register the type cast macros using
+> OBJECT_DECLARE_TYPE later.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  hw/net/e1000.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
---RF2jMYiJY5qxqPjzGIQSrNRQm3kug1hxC
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 17.08.20 17:27, Kevin Wolf wrote:
-> Am 17.08.2020 um 17:13 hat Max Reitz geschrieben:
->> On 13.08.20 18:29, Kevin Wolf wrote:
->>> Every block export needs a block node to export, so move the 'device'
->>> option from BlockExportOptionsNbd to BlockExportOptions.
->>>
->>> To maintain compatibility in nbd-server-add, BlockExportOptionsNbd need=
-s
->>> to be wrapped by a new type NbdServerAddOptions that adds 'device' back
->>> because nbd-server-add doesn't use the BlockExportOptions base type.
->>>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>>  qapi/block-export.json         | 27 +++++++++++++++++++++------
->>>  block/export/export.c          | 26 ++++++++++++++++++++------
->>>  block/monitor/block-hmp-cmds.c |  6 +++---
->>>  blockdev-nbd.c                 |  4 ++--
->>>  qemu-nbd.c                     |  2 +-
->>>  5 files changed, 47 insertions(+), 18 deletions(-)
->>
->> (Code diff looks good, just a question on the interface:)
->>
->>> diff --git a/qapi/block-export.json b/qapi/block-export.json
->>> index 4ce163411f..d68f3bf87e 100644
->>> --- a/qapi/block-export.json
->>> +++ b/qapi/block-export.json
->>
->> [...]
->>
->>> @@ -167,6 +179,8 @@
->>>  # Describes a block export, i.e. how single node should be exported on=
- an
->>>  # external interface.
->>>  #
->>> +# @device: The device name or node name of the node to be exported
->>> +#
->>
->> Wouldn=E2=80=99t it be better to restrict ourselves to a node name here?
->> (Bluntly ignoring the fact that doing so would make this patch an
->> incompatible change, which would require some reordering in this series,
->> unless we decide to just ignore that intra-series incompatibility.)
->=20
-> We already have intra-series incompatibility, so I wouldn't mind that.
->=20
->> OTOH...  What does =E2=80=9Cbetter=E2=80=9D mean.  It won=E2=80=99t hurt=
- anyone to keep this as
->> @device.  It=E2=80=99s just that I feel like if we had no legacy burden =
-and did
->> this all from scratch, we would just make it @node-name.
->>
->> Did you deliberately decide against @node-name?
->=20
-> At first I thought I could still share code between nbd-server-add and
-> block-export-add, but that's not the case. Then I guess the only other
-> reason I have is consistency with other QMP commands. I won't pretend
-> it's a strong one.
-
-If =E2=80=9Cusing @node-name would be more natural=E2=80=9D doesn=E2=80=99t=
- resonate with you,
-then I suppose we should just leave it as @device.  It isn=E2=80=99t harder=
- to
-handle for qemu, and maybe it makes transitioning easier for some users
-(although I can=E2=80=99t quite imagine how).
-
-Max
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
---RF2jMYiJY5qxqPjzGIQSrNRQm3kug1hxC--
-
---J5VHFuzTxML3EejJ7MibVJTVY7UQy8icF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl86pwkACgkQ9AfbAGHV
-z0DvCgf+NWL5o0x3pTwK5BOLDbo3bDDRX6+4gYYQszYp5Vdws25Yj586ZLT64DQC
-zoKszhEllBLs2d63d7BwAulvIEAY5lZ0RvP3/EZx+gwdhgzBK7fDmqNVubH/TghZ
-m3jDabupDvT25lbyWFIbRq9FilGW3iAgG05BD5EY+83Ej35Gwa/sA7ihDfXC1QrO
-j5UBeaxwM2atZx5ht370mfP4UV1G5XhLaIm7ewIYkKP/YIBQpzCSe32GI2d89jk6
-HRGL6gT+omxRcSep6IreoEKKT+hvs8Yk+59wTHkAWPuh4sOIGm0kotcdzpLH4U57
-KArmg+VJcAVX28SPll3mCYyvnX77zw==
-=irSF
------END PGP SIGNATURE-----
-
---J5VHFuzTxML3EejJ7MibVJTVY7UQy8icF--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
