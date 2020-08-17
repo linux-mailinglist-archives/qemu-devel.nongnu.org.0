@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FB6245B12
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 05:37:08 +0200 (CEST)
-Received: from localhost ([::1]:41324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF39245B24
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 05:45:38 +0200 (CEST)
+Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7VxL-0008FC-RG
-	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 23:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
+	id 1k7W5Z-00018g-Gx
+	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 23:45:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k7VwU-0007W4-6j
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:36:14 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:36114)
+ (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
+ id 1k7W4i-0000jJ-9F
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:44:44 -0400
+Received: from [203.148.12.81] (port=12059 helo=ZXSHCAS1.zhaoxin.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k7VwS-0003uS-Db
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:36:13 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id ha11so7042530pjb.1
- for <qemu-devel@nongnu.org>; Sun, 16 Aug 2020 20:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mUierV1dAg+z/vyemFbUwCUry/g8qLX/FU5ux+FkLnY=;
- b=AH0q4VNsxMF3hxNwtInum2tGAj6OULUtiq+p3hE8LgnWZTRoJDT0dNYqCHihmO5I00
- i1KZY2GICK/rpr5d2lSkYUA/yvQHiXl3WkJxRxWs0dRumBgsCdB57RohtvIeLh4R7PhS
- vaMPob48RcJtlYalTsVghwk0O7uJxz8FVtICW9IJMfukBUw/M5IaA9DxYTigzIRAGbuI
- v0wY1QVuTJGiGMMm6qufJKNbe1EsK0eYr7EG7TtoV/d+nL/1U8nkz5+woyxvEzbIs218
- FfzMoq+/p/iBQVy5K/2bNe5/zlg33N0KWT3Biu66JyklBYTrrNCuQGGiarVevhCafyuV
- 1zzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mUierV1dAg+z/vyemFbUwCUry/g8qLX/FU5ux+FkLnY=;
- b=iKqA0TLN01dz0MzWn07dSbUNBaTREYSK4Q/LAzdCXox1QAx3BvfgBuxQhByHGoJTrW
- z/48f5opef7JcflHruPEMV29MssuCEpFrH1Uqbm9n7RwZRqrJ1TKYiqrclTMTSjYocOp
- xyhEZF9whazRmu6+rsHpRYoGguFIhOq8ZgTyjAFHxTIpGhrC6AQde3uajmKuCd45FIjL
- M/pc68nErmQSyKYtErKeWiiUlHZ4k5ImcGcNeLvrUNyXdRaTDwL9Vob+tiLWutIsK33f
- jAntYbj2x3SNPfrGCUdGgHJ8zEW6pOVDaa7AAEQEMEd+rtGlntQC1zPl/wJ41YmlA/A5
- lR6Q==
-X-Gm-Message-State: AOAM5320n7ZN3Ur6thlN0/ELluZfBBOO8docut1nsWBAQGe/CJ2X2whC
- 1nTWVT/9qHnSHK+seo1e3HyRjDwkqzqjUCVAhSA=
-X-Google-Smtp-Source: ABdhPJxS3Jj9R5Wsu3rhcZcGsI6GQLVfwFsoPp8s21DlCVLPm7xJOmy5/y78T4b6g/NalB4+I+lXK+FG/aztr8UaRmA=
-X-Received: by 2002:a17:90a:191a:: with SMTP id
- 26mr2231338pjg.197.1597635370517; 
- Sun, 16 Aug 2020 20:36:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
+ id 1k7W4f-00053x-Jz
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:44:43 -0400
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS1.zhaoxin.com
+ (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Mon, 17 Aug
+ 2020 11:38:14 +0800
+Received: from zhaoxin-ubuntu20.04 (124.64.19.137) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Mon, 17 Aug
+ 2020 11:38:13 +0800
+From: "zhaoxin\\RockCuioc" <RockCui-oc@zhaoxin.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] ide:do nothing for identify cmd if no any device attached
+Date: Mon, 17 Aug 2020 11:38:03 +0800
+Message-ID: <20200817033803.14014-1-RockCui-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200816023127.22268-1-rohit.shinde12194@gmail.com>
- <9abbbc9d-b5d5-fdd1-e6ff-c89071189f7f@linaro.org>
- <CA+Ai=tB3QW7+vt4qSrfSBornPmPJ+1rVajvvXf=p4kg3FG2+ZA@mail.gmail.com>
- <125714a6-e441-629f-e9ab-d04ce8b0d94e@linaro.org>
- <CA+Ai=tAy1C3UwxPw26Jkbm7+DGA_mrryG8Sekm9t9Bk3ZhPTow@mail.gmail.com>
- <3824d0e6-1db2-04b4-8731-6d45a2d0f014@linaro.org>
-In-Reply-To: <3824d0e6-1db2-04b4-8731-6d45a2d0f014@linaro.org>
-From: Rohit Shinde <rohit.shinde12194@gmail.com>
-Date: Sun, 16 Aug 2020 23:36:00 -0400
-Message-ID: <CA+Ai=tDJUVdPRT=NMbp6a5ZN4pwUe6JTtSKEZ0=LxPC2unZAqg@mail.gmail.com>
-Subject: Re: [PATCH v4] qapi/opts-visitor: Fixed fallthrough compiler warning
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000bd87a705ad0a7866"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=rohit.shinde12194@gmail.com; helo=mail-pj1-x1041.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [124.64.19.137]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 203.148.12.81 (failed)
+Received-SPF: pass client-ip=203.148.12.81;
+ envelope-from=RockCui-oc@zhaoxin.com; helo=ZXSHCAS1.zhaoxin.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/16 23:38:19
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,102 +61,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: CobeChen@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bd87a705ad0a7866
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This patch is for avoiding win7 IDE driver polling 0x1f7 when
+no any device attached. During Win7 VM boot procedure, if use virtio for
+disk and there is no any device be attached on hda & hdb, the win7 IDE driver
+would poll 0x1f7 for a while. This action may be stop windows LOGO atomic for
+a while too on a poor performance CPU.
 
-On Sun, Aug 16, 2020 at 11:26 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Signed-off-by: zhaoxin\RockCuioc <RockCui-oc@zhaoxin.com>
+---
+ hw/ide/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> On 8/16/20 5:57 PM, Rohit Shinde wrote:
-> > I misread the comment. The comment /* fallthrough */ was meant to stop
-> the
-> > compiler warning from occurring. I am trying to complete the bite sized
-> task
-> > mentioned here <https://wiki.qemu.org/Contribute/BiteSizedTasks> under
-> > "Compiler driven cleanups". I wanted to take that up to get more
-> familiar with
-> > the codebase.
->
-> Fine, but the current comment matches the compiler regexp, so this instan=
-ce
-> isn't part of that cleanup.
->
-But when I was compiling with the -Wimplicit-fallthrough option, the
-compiler gave an error at that very line. That's why I came up on that
-specific line in that file first.
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index d997a78e47..26d86f4b40 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -2073,8 +2073,9 @@ void ide_exec_cmd(IDEBus *bus, uint32_t val)
+     s = idebus_active_if(bus);
+     trace_ide_exec_cmd(bus, s, val);
+ 
+-    /* ignore commands to non existent slave */
+-    if (s != bus->ifs && !s->blk) {
++    /* ignore commands if no any device exist or non existent slave */
++    if ((!bus->ifs[0].blk && !bus->ifs[1].blk) ||
++        (s != bus->ifs && !s->blk)) {
+         return;
+     }
+ 
+-- 
+2.17.1
 
-I am pasting the error that I got below:
-
-home/rohit/Desktop/open-source/qemu/qapi/opts-visitor.c: In function
-=E2=80=98opts_next_list=E2=80=99:
-/home/rohit/Desktop/open-source/qemu/qapi/opts-visitor.c:267:23: error:
-this statement may fall through [-Werror=3Dimplicit-fallthrough=3D]
-  267 |         ov->list_mode =3D LM_IN_PROGRESS;
-      |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-/home/rohit/Desktop/open-source/qemu/qapi/opts-visitor.c:270:5: note: here
-  270 |     case LM_IN_PROGRESS: {
-      |     ^~~~
-
-Sending it again, because I forgot to reply all.
-
-Thanks,
-Rohit.
-
->
->
-> r~
->
->
-
---000000000000bd87a705ad0a7866
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Aug 16, 2020 at 11:26 PM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 8/16/20 5:57 PM, Rohit Shinde wrote:<br>
-&gt; I misread the comment. The comment /* fallthrough */ was meant to stop=
- the<br>
-&gt; compiler warning from occurring. I am trying to complete the bite size=
-d task<br>
-&gt; mentioned here &lt;<a href=3D"https://wiki.qemu.org/Contribute/BiteSiz=
-edTasks" rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/Contrib=
-ute/BiteSizedTasks</a>&gt;=C2=A0under<br>
-&gt; &quot;Compiler driven cleanups&quot;. I wanted to take that up to get =
-more familiar with<br>
-&gt; the codebase.<br>
-<br>
-Fine, but the current comment matches the compiler regexp, so this instance=
-<br>
-isn&#39;t part of that cleanup.<br></blockquote><div>But when I was compili=
-ng with the -Wimplicit-fallthrough option, the compiler gave an error at th=
-at very line. That&#39;s why I came up on that specific line in that file f=
-irst.=C2=A0</div><div><br></div><div>I am pasting the error that I got belo=
-w:</div><div>=C2=A0<br></div>home/rohit/Desktop/open-source/qemu/qapi/opts-=
-visitor.c: In function =E2=80=98opts_next_list=E2=80=99:<br>/home/rohit/Des=
-ktop/open-source/qemu/qapi/opts-visitor.c:267:23: error: this statement may=
- fall through [-Werror=3Dimplicit-fallthrough=3D]<br>=C2=A0 267 | =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 ov-&gt;list_mode =3D LM_IN_PROGRESS;<br>=C2=A0 =C2=A0 =
-=C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~<br>/hom=
-e/rohit/Desktop/open-source/qemu/qapi/opts-visitor.c:270:5: note: here<br>=
-=C2=A0 270 | =C2=A0 =C2=A0 case LM_IN_PROGRESS: {<br>=C2=A0 =C2=A0 =C2=A0 |=
- =C2=A0 =C2=A0 ^~~~<br><div><br></div><div>Sending it again, because I forg=
-ot to reply all.</div><div><br></div><div>Thanks,</div><div>Rohit.=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<br>
-r~<br>
-<br>
-</blockquote></div></div>
-
---000000000000bd87a705ad0a7866--
 
