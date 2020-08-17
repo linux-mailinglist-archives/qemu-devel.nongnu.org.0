@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140A2246C42
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:12:30 +0200 (CEST)
-Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40FF246C09
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:08:26 +0200 (CEST)
+Received: from localhost ([::1]:42810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hkL-0004f3-1w
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
+	id 1k7hgP-0005ag-TY
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hbc-0003k2-LY
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27898
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k7hbp-0004Fp-KD
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32584
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hba-0002c2-On
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:28 -0400
+ id 1k7hbn-0002fF-RM
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597680206;
+ s=mimecast20190719; t=1597680219;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vKbn5XHvnLrVEI6RQ3d89O/YLSmgTYPcwAsRQGKh4UY=;
- b=Tcv3WfuVmZgVgcqz2ix5PjCLx7DVYqK2dKTB/pMzWz8gSGo2DddsgMLtw/lF7xwECqLwW3
- 8BV7wWgD374dutfyZvZ/+oPf5osnA1Qg8cBe6tEVGYWt65THnPEWkEQp6Luv34jbTBuX7Y
- PAS2SPlUSBfnUSiJ2NkjdrKwzvf66sE=
+ bh=Jbx++qOWbt5UH+sMVe64rbxtzu7ykC5ioSBPrNwk+Ck=;
+ b=EyC8hg1SD8spA6YCXRKEmuEc+5pc/Jb1uAz8cFhF/fYAfBX94/UtWBK0Ar/Bhf1wS/819o
+ UceqEx2SAknqQx/nn39jmicQmF+yirwyKC5SmO619CBlSJQVhM4NvYN5IHzDZ4w22X0B4L
+ 9nOrmRYR6KQszlje6xQquweRVY/OQ8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-Dd5WWcAiOriTAWHuy1Uv9w-1; Mon, 17 Aug 2020 12:03:21 -0400
-X-MC-Unique: Dd5WWcAiOriTAWHuy1Uv9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-259-PE5tzi2VMKa79VCSkUIbGg-1; Mon, 17 Aug 2020 12:03:37 -0400
+X-MC-Unique: PE5tzi2VMKa79VCSkUIbGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 440F31DDE9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:03:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60289185E52B
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:03:36 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4067110098A5;
- Mon, 17 Aug 2020 16:03:19 +0000 (UTC)
-Date: Mon, 17 Aug 2020 17:03:16 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43438784B5;
+ Mon, 17 Aug 2020 16:03:35 +0000 (UTC)
+Date: Mon, 17 Aug 2020 17:03:32 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 23/41] nubus: Delete unused NUBUS_BRIDGE macro
-Message-ID: <20200817160316.GX4775@redhat.com>
+Subject: Re: [PATCH 24/41] platform-bus: Delete macros for non-existing typedef
+Message-ID: <20200817160332.GY4775@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-24-ehabkost@redhat.com>
+ <20200813222625.243136-25-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-24-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-25-ehabkost@redhat.com>
 User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 03:34:42
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,14 +91,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 06:26:07PM -0400, Eduardo Habkost wrote:
-> The macro never worked because the NubusBridge typedef doesn't
-> exist.  Delete it.
+On Thu, Aug 13, 2020 at 06:26:08PM -0400, Eduardo Habkost wrote:
+> PlatformBusDeviceClass doesn't exist.  This will break when we
+> automatically convert the code to use OBJECT_DEFINE_TYPE().
+> Delete the macros that reference the non-existing typedef.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  include/hw/nubus/nubus.h | 1 -
->  1 file changed, 1 deletion(-)
+>  include/hw/platform-bus.h | 4 ----
+>  1 file changed, 4 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
