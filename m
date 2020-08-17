@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7E9246C7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:17:34 +0200 (CEST)
-Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC458246CC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:27:41 +0200 (CEST)
+Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hpF-0006eH-7l
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39966)
+	id 1k7hz2-0001DY-PQ
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hjH-0004bp-9s
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:11:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44913
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hjF-0003uR-Bd
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:11:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597680680;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0DqEia3v6LiAaxY7RyNm3rBtYiHMQHeaYD9Lpl0pLNM=;
- b=GT36yr+lUJephkyn1+bmTFd0cceDDvggQhiezuoMvLdcJ5arSuaZj8p4uNDUSWjkGHY/ql
- lM81NWHKQm+uBa+3R/MKfNEBpkelhU27VkJlHXFceCuyygXIVfH7wFULT+qMMxhFnSCVTK
- 7sc4Uh9iYstRwV8mlAORVVuLlW80EXM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-nqMh-XXWNvauCsg1v0nOTQ-1; Mon, 17 Aug 2020 12:11:18 -0400
-X-MC-Unique: nqMh-XXWNvauCsg1v0nOTQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C5C781F01B
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:11:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CFB70756AB;
- Mon, 17 Aug 2020 16:11:14 +0000 (UTC)
-Date: Mon, 17 Aug 2020 17:11:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 33/41] [automated] Delete duplicate QOM typedefs
-Message-ID: <20200817161111.GE4775@redhat.com>
-References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-34-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k7htf-0008GA-Fd; Mon, 17 Aug 2020 12:22:07 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:40934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k7htd-0005TR-Ke; Mon, 17 Aug 2020 12:22:07 -0400
+Received: by mail-io1-xd44.google.com with SMTP id b17so18177541ion.7;
+ Mon, 17 Aug 2020 09:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6KIZ6JfOxYuwBpB4xSx5INRXqVKVkmQ/oSHbpTyBmM4=;
+ b=OaJZcGdZ788/Q2U2bqCzTlBo2FZ3T8JXWRy6vKz7nSgiwxp8UKllDaLlXIIpOXJNwT
+ xbWD73p8KIm8E/SGWrAM6lUqURd37mxNw3zyBFkTYV5LyhOi6RbLX7zeEW/nAIAsdo8i
+ OQdSA91xx4jQMKz5/kCjakojqlX2R7Iq/xzQSqPrPrxeXj62l+X64Ev/dRHiX8dTg2mT
+ DbynK5ekFYrzafMZoFFe790yv14Azbo2Hf19yv7/xTl8+Md4fF5pOBMq1utCjBEayw26
+ Rb7a8RoTTKNv54lhuU1dRbzsNdpChtLIqn6utNRw9itazKkfvN5oEEMq4qFIN8dePC6x
+ +CmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6KIZ6JfOxYuwBpB4xSx5INRXqVKVkmQ/oSHbpTyBmM4=;
+ b=MMHQa63pF6N0TZ4iGlovzKvv66I4dCOrKQ7QSMztOXRfT6lVW5JR4Vom53t0sZcXbi
+ W8lwjhLLZ6f1+6iYiD8JJ+R+hizIZlFxSzK+gsoxGVvDlQ23b6NkY8mWDFD96DYS79YY
+ hwCNNULYtQ4yVrYBaMGnWggj2qBUQCYmz3XEk9y2ixB1b1VLssuGD5qN7p3/BUS+9rQ/
+ ePx2YAUIDYfiVW51L17cJOtBISKQ7cpysSVhjA4FZvpn3Imb6usa12i7ABR69qJS/4Mt
+ 7NWwQFRPAlxAq3z1+0+ogEhlZjLwhSCyOU5PsIZNdyCmjtVGoaki9kxWfMFztjmwNJxf
+ cDaQ==
+X-Gm-Message-State: AOAM530KaMVhQRfEXX11gc52nNmKw+Q2il1JhnHsrWwvxNKCk/x/O1CY
+ 2O+J5+uwJLycbZQv2AZbOBjd+6jxmkfdBVhQUPo=
+X-Google-Smtp-Source: ABdhPJz/dkJ/x811rr1PkmhC127A+06hflCLL+0TP3V3J+GnbheBL8rvk7/IY4bO/LFV4p+BKkTDtOwhSu+MfUh9eyg=
+X-Received: by 2002:a6b:6016:: with SMTP id r22mr12978647iog.42.1597681323948; 
+ Mon, 17 Aug 2020 09:22:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-34-ehabkost@redhat.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 05:03:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200817140144.373403-1-edgar.iglesias@gmail.com>
+ <20200817140144.373403-5-edgar.iglesias@gmail.com>
+In-Reply-To: <20200817140144.373403-5-edgar.iglesias@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 17 Aug 2020 09:11:32 -0700
+Message-ID: <CAKmqyKMDKY3moMwpd56VYzPuQtR91qZV=oaoqdLbq1RnZzyuSg@mail.gmail.com>
+Subject: Re: [PATCH v1 4/5] target/microblaze: swx: Use atomic_cmpxchg
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,30 +78,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 06:26:17PM -0400, Eduardo Habkost wrote:
-> Generated using:
-> 
->  $ ./scripts/codeconverter/converter.py -i \
->    --pattern=QOMDuplicatedTypedefs $(git grep -l '' -- '*.[ch]')
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+On Mon, Aug 17, 2020 at 7:04 AM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> Use atomic_cmpxchg to implement the atomic cmpxchg sequence.
+>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  include/crypto/secret_keyring.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>  target/microblaze/translate.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+>
+> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+> index c58f334a0f..530c15e5ad 100644
+> --- a/target/microblaze/translate.c
+> +++ b/target/microblaze/translate.c
+> @@ -1075,14 +1075,16 @@ static void dec_store(DisasContext *dc)
+>          swx_skip = gen_new_label();
+>          tcg_gen_brcond_tl(TCG_COND_NE, env_res_addr, addr, swx_skip);
+>
+> -        /* Compare the value loaded at lwx with current contents of
+> -           the reserved location.
+> -           FIXME: This only works for system emulation where we can expect
+> -           this compare and the following write to be atomic. For user
+> -           emulation we need to add atomicity between threads.  */
+> +        /*
+> +         * Compare the value loaded at lwx with current contents of
+> +         * the reserved location.
+> +         */
+>          tval = tcg_temp_new_i32();
+> -        tcg_gen_qemu_ld_i32(tval, addr, cpu_mmu_index(&dc->cpu->env, false),
+> -                            MO_TEUL);
+> +
+> +        tcg_gen_atomic_cmpxchg_i32(tval, addr, env_res_val,
+> +                                   cpu_R[dc->rd], mem_index,
+> +                                   mop);
+> +
+>          tcg_gen_brcond_i32(TCG_COND_NE, env_res_val, tval, swx_skip);
+>          write_carryi(dc, 0);
+>          tcg_temp_free_i32(tval);
+> @@ -1108,7 +1110,10 @@ static void dec_store(DisasContext *dc)
+>                  break;
+>          }
+>      }
+> -    tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
+> +
+> +    if (!ex) {
+> +        tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
+> +    }
+>
+>      /* Verify alignment if needed.  */
+>      if (dc->cpu->cfg.unaligned_exceptions && size > 1) {
+> --
+> 2.25.1
+>
+>
 
