@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573BB246412
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 12:07:15 +0200 (CEST)
-Received: from localhost ([::1]:59586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D714124641B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 12:08:18 +0200 (CEST)
+Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7c2s-0006N7-D4
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 06:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34682)
+	id 1k7c3t-0008A9-Tl
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 06:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1k7c1G-0004PL-PC; Mon, 17 Aug 2020 06:05:34 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38904)
+ id 1k7c1J-0004Yb-UQ; Mon, 17 Aug 2020 06:05:37 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:46091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1k7c1F-0005vf-6M; Mon, 17 Aug 2020 06:05:34 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id ep8so7456715pjb.3;
- Mon, 17 Aug 2020 03:05:32 -0700 (PDT)
+ id 1k7c1H-0005w1-Be; Mon, 17 Aug 2020 06:05:37 -0400
+Received: by mail-pl1-x630.google.com with SMTP id k13so7236447plk.13;
+ Mon, 17 Aug 2020 03:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=FLsZaHfTlGGMrLVb9xBYGkrs8wCV+0uRwO1rdXjYExo=;
- b=U78S4HWEhq7rnktFlX8hnfuPH16sQTVv6WOy98zFdElIB/3IrOZzSr9yxIG08STkob
- 0svYk4kwzO7w2k9AZ2cB3OqjmUYwTIew/YekDJ2l4agmBT/VENE9MQZKwUThRRHGMtgu
- m5F2z4sUk/5Km9jqzWHQaeI1rC1MvfMMZvgt/6xlczMAgTNf7j+cV+LugeDQ4CRS7oFu
- 9MKxScy68K49m+2ZwskVKjlJLyTtwljnihJrB4qCU3POr80N+IFQAlhGr0V8/LoQVPpU
- rQBUfK7wl8FGHs1vfPCQYDpPgFKdsONpUZSBhVASFmRgbyjFE1izk9qESIJW2Jth4njX
- 0kbQ==
+ bh=TZSFaUvQ2xQv8zqSVhEg+ZWd2KUAInCeUJORoC/+/eg=;
+ b=LQOQqdYX9sR5FYEWnIte8ZJbZvaiunIhQrz1eQlukupORDJdLV952sEj45dcHPDO3T
+ OarK/xBKIdavEI8/qDgmH9Pm05BmF584HTRCvLzloqNdj04oXUZQ8lIr1jiU9mvvY8IP
+ t0hvWZdPlxkeYg/KeK31wnnC2MH7KsScYag6BjWBzbT4OXCOYeEcF2T84RAZjBBxA6F9
+ eSJM7sBh2rYKzTWtJHmCWwJZdrdYTYXn1ZwS2Bm6+HKi3mYt0Fsa1RwSpynw7taqHCpG
+ dAeyQvsuHPhUUo+cyZPzrbdtIqske1zV8dXu3UqHFfw/367aQ/aJZdqRAeH4whkQ4PoY
+ vhIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=FLsZaHfTlGGMrLVb9xBYGkrs8wCV+0uRwO1rdXjYExo=;
- b=ikX6eOV9+YcUsd4Wz9F0ZN4dt4uEmx58HD7hElSMri25wRYQOqCQFuhvvU9X6kd7hz
- S2fPPV0LGVJ+tmmwsmetTDpfTYwvQGwQFCu3xtC7a2zRYbUn81VxfwLiUJnbNRqGbSXK
- sobYqvKSKsAMgW7tEI1mxFVwH7dw5JkeMoooVyBdT1/6/8MUppVkjfTSCtkjGft9WYfb
- imTza0IK9tVYTyYFt3YWR/oXaOLNfrG6bXjO2s1juNL3bB60+byaP4mFo/L2rb7QQ4Sg
- nqWqdxKj8pYS0NLxBWXK9qzuRCz9KGKvhZ27W8xM2Cco7+GGbjJQtX27tPKKxvoaz6Eb
- Zyng==
-X-Gm-Message-State: AOAM533hD1AhvloHPss2b1K2ABTjE3MaWp+rguiOor+UMkzMpgNGvjNq
- 8/Z6pdln3104kRrUfERT3UU=
-X-Google-Smtp-Source: ABdhPJwOnLv+NbCC8A6oMz0LwCx0fnSPRwrfXsfqQHJdRp+tK6qkRab7yVWbVWrpeAEELDUuLCUF6g==
-X-Received: by 2002:a17:902:7603:: with SMTP id
- k3mr3849320pll.113.1597658731320; 
- Mon, 17 Aug 2020 03:05:31 -0700 (PDT)
+ bh=TZSFaUvQ2xQv8zqSVhEg+ZWd2KUAInCeUJORoC/+/eg=;
+ b=I2kSw7SzZ+OOFK5a31FUqo6/0E96Hb0PhDwdCOSnZMUtsyjg0FzxmbN9L2k/iPjuK7
+ Ib0CGl64E8VQvd/5dfRSnpssft3Q9RDrnO2yio46EZKtQwQE3MJJbo7fNwxijxphH2HV
+ NpoIleWv79dOArZ/AdpdDCo/5LWdHcvlMt67mVcqdfs6LR+klk2plyBxfExQ1CgpAltC
+ ILe3f15fpKf8tK/Va6mEkFwWjrhssAe5YkUo1e1Ns/TRkCcsHKDpA7DRyM00HGDIev3z
+ hyYmWScqWDtz+5WGNuTv95/BkZgCN2nQv5KVtXhlAFSd5mWwxcJzMN1KAgW/lTenquSW
+ 2gvA==
+X-Gm-Message-State: AOAM531+v8UjhgNW2iwbmJ5LI+rxObynaestXPUYKF74rc2AXYtSVV8e
+ hVv2ArhcE1HhGeeXha1CXaY=
+X-Google-Smtp-Source: ABdhPJzSJ6RZWthvbOK5QnW/qcU/O3CZTsz2qQ3XRQEO1/FTXytYT77Wfafon2vk55ws+gnxu4GNJQ==
+X-Received: by 2002:a17:902:654c:: with SMTP id
+ d12mr11137667pln.147.1597658733544; 
+ Mon, 17 Aug 2020 03:05:33 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-146-144.windriver.com.
  [147.11.146.144])
- by smtp.gmail.com with ESMTPSA id e20sm17036743pjr.28.2020.08.17.03.05.29
+ by smtp.gmail.com with ESMTPSA id e20sm17036743pjr.28.2020.08.17.03.05.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Aug 2020 03:05:30 -0700 (PDT)
+ Mon, 17 Aug 2020 03:05:33 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: [PATCH v2 2/3] hw/sd: sd: Correct the maximum size of a Standard
- Capacity SD Memory Card
-Date: Mon, 17 Aug 2020 18:05:21 +0800
-Message-Id: <1597658722-12922-3-git-send-email-bin.meng@windriver.com>
+Subject: [PATCH v2 3/3] hw/sd: Add Cadence SDHCI emulation
+Date: Mon, 17 Aug 2020 18:05:22 +0800
+Message-Id: <1597658722-12922-4-git-send-email-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1597658722-12922-1-git-send-email-bin.meng@windriver.com>
 References: <1597658722-12922-1-git-send-email-bin.meng@windriver.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,51 +86,316 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the SD spec, Standard Capacity SD Memory Card (SDSC) supports
-capacity up to and including 2 GiB.
+Cadence SD/SDIO/eMMC Host Controller (SD4HC) is an SDHCI compatible
+controller. The SDHCI compatible registers start from offset 0x200,
+which are called Slot Register Set (SRS) in its datasheet.
 
-Fixes: 2d7adea4fe ("hw/sd: Support SDHC size cards")
+This creates a Cadence SDHCI model built on top of the existing
+generic SDHCI model. Cadence specific Host Register Set (HRS) is
+implemented to make guest software happy.
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 ---
 
 Changes in v2:
-- fix SDSC size check in sd_set_csd() too
+- use 's' for the model state
+- call device_cold_reset() in cadence_sdhci_reset()
+- add .impl in cadence_sdhci_ops
+- move Cadence specific register defines to cadence_sdhci.c
+- use 'sdhci' instead of 'slot' to represent SDHCIState
+- use sysbus_mmio_get_region() to access SDHCI model's memory region
+- initialize TYPE_SYSBUS_SDHCI in the instance_init() so that users
+  of Cadence SDHCI do not have to do that themselves
+- propergate irq and 'sd-bus' from generic-sdhci
 
- hw/sd/sd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/sd/Kconfig                 |   4 +
+ hw/sd/Makefile.objs           |   1 +
+ hw/sd/cadence_sdhci.c         | 200 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/sd/cadence_sdhci.h |  46 ++++++++++
+ 4 files changed, 251 insertions(+)
+ create mode 100644 hw/sd/cadence_sdhci.c
+ create mode 100644 include/hw/sd/cadence_sdhci.h
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 3226404..254d713 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -50,6 +50,8 @@
- 
- //#define DEBUG_SD 1
- 
-+#define SDSC_MAX_CAPACITY   (2 * GiB)
+diff --git a/hw/sd/Kconfig b/hw/sd/Kconfig
+index c5e1e55..633b9af 100644
+--- a/hw/sd/Kconfig
++++ b/hw/sd/Kconfig
+@@ -19,3 +19,7 @@ config SDHCI_PCI
+     default y if PCI_DEVICES
+     depends on PCI
+     select SDHCI
 +
- typedef enum {
-     sd_r0 = 0,    /* no response */
-     sd_r1,        /* normal response command */
-@@ -313,7 +315,7 @@ static void sd_ocr_powerup(void *opaque)
-     /* card power-up OK */
-     sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_POWER_UP, 1);
- 
--    if (sd->size > 1 * GiB) {
-+    if (sd->size > SDSC_MAX_CAPACITY) {
-         sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_CAPACITY, 1);
-     }
- }
-@@ -385,7 +387,7 @@ static void sd_set_csd(SDState *sd, uint64_t size)
-     uint32_t sectsize = (1 << (SECTOR_SHIFT + 1)) - 1;
-     uint32_t wpsize = (1 << (WPGROUP_SHIFT + 1)) - 1;
- 
--    if (size <= 1 * GiB) { /* Standard Capacity SD */
-+    if (size <= SDSC_MAX_CAPACITY) { /* Standard Capacity SD */
-         sd->csd[0] = 0x00;	/* CSD structure */
-         sd->csd[1] = 0x26;	/* Data read access-time-1 */
-         sd->csd[2] = 0x00;	/* Data read access-time-2 */
++config CADENCE_SDHCI
++    bool
++    select SDHCI
+diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
+index 0d1df17..4d500a6 100644
+--- a/hw/sd/Makefile.objs
++++ b/hw/sd/Makefile.objs
+@@ -10,3 +10,4 @@ common-obj-$(CONFIG_OMAP) += omap_mmc.o
+ common-obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
+ common-obj-$(CONFIG_RASPI) += bcm2835_sdhost.o
+ common-obj-$(CONFIG_ASPEED_SOC) += aspeed_sdhci.o
++common-obj-$(CONFIG_CADENCE_SDHCI) += cadence_sdhci.o
+diff --git a/hw/sd/cadence_sdhci.c b/hw/sd/cadence_sdhci.c
+new file mode 100644
+index 0000000..4f01d63
+--- /dev/null
++++ b/hw/sd/cadence_sdhci.c
+@@ -0,0 +1,200 @@
++/*
++ * Cadence SDHCI emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/error-report.h"
++#include "qemu/log.h"
++#include "qapi/error.h"
++#include "migration/vmstate.h"
++#include "hw/irq.h"
++#include "hw/sd/cadence_sdhci.h"
++#include "sdhci-internal.h"
++
++/* HRS - Host Register Set (specific to Cadence) */
++
++#define CADENCE_SDHCI_HRS00             0x00    /* general information */
++#define CADENCE_SDHCI_HRS00_SWR             BIT(0)
++#define CADENCE_SDHCI_HRS00_POR_VAL         0x00010000
++
++#define CADENCE_SDHCI_HRS04             0x10    /* PHY access port */
++#define CADENCE_SDHCI_HRS04_WR              BIT(24)
++#define CADENCE_SDHCI_HRS04_RD              BIT(25)
++#define CADENCE_SDHCI_HRS04_ACK             BIT(26)
++
++#define CADENCE_SDHCI_HRS06             0x18    /* eMMC control */
++#define CADENCE_SDHCI_HRS06_TUNE_UP         BIT(15)
++
++/* SRS - Slot Register Set (SDHCI-compatible) */
++
++#define CADENCE_SDHCI_SRS_BASE          0x200
++
++#define TO_REG(addr)    ((addr) / sizeof(uint32_t))
++
++static void cadence_sdhci_instance_init(Object *obj)
++{
++    CadenceSDHCIState *s = CADENCE_SDHCI(obj);
++
++    object_initialize_child(OBJECT(s), "cadence-sdhci.sdhci",
++                            &s->sdhci, TYPE_SYSBUS_SDHCI);
++}
++
++static void cadence_sdhci_reset(DeviceState *dev)
++{
++    CadenceSDHCIState *s = CADENCE_SDHCI(dev);
++
++    memset(s->regs, 0, CADENCE_SDHCI_REG_SIZE);
++    s->regs[TO_REG(CADENCE_SDHCI_HRS00)] = CADENCE_SDHCI_HRS00_POR_VAL;
++
++    device_cold_reset(DEVICE(&s->sdhci));
++}
++
++static uint64_t cadence_sdhci_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    uint32_t val = 0;
++    CadenceSDHCIState *s = opaque;
++
++    if (addr < CADENCE_SDHCI_REG_SIZE) {
++        val = s->regs[TO_REG(addr)];
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Out-of-bounds read at 0x%" HWADDR_PRIx "\n",
++                      __func__, addr);
++    }
++
++    return (uint64_t)val;
++}
++
++static void cadence_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
++                                unsigned int size)
++{
++    CadenceSDHCIState *s = opaque;
++    uint32_t val32 = (uint32_t)val;
++
++    switch (addr) {
++    case CADENCE_SDHCI_HRS00:
++        /*
++         * The only writable bit is SWR (software reset) and it automatically
++         * clears to zero, so essentially this register remains unchanged.
++         */
++        if (val32 & CADENCE_SDHCI_HRS00_SWR) {
++            cadence_sdhci_reset(DEVICE(s));
++        }
++
++        break;
++    case CADENCE_SDHCI_HRS04:
++        /*
++         * Only emulate the ACK bit behavior when read or write transaction
++         * are requested.
++         */
++        if (val32 & (CADENCE_SDHCI_HRS04_WR | CADENCE_SDHCI_HRS04_RD)) {
++            val32 |= CADENCE_SDHCI_HRS04_ACK;
++        } else {
++            val32 &= ~CADENCE_SDHCI_HRS04_ACK;
++        }
++
++        s->regs[TO_REG(addr)] = val32;
++        break;
++    case CADENCE_SDHCI_HRS06:
++        if (val32 & CADENCE_SDHCI_HRS06_TUNE_UP) {
++            val32 &= ~CADENCE_SDHCI_HRS06_TUNE_UP;
++        }
++
++        s->regs[TO_REG(addr)] = val32;
++        break;
++    default:
++        if (addr < CADENCE_SDHCI_REG_SIZE) {
++            s->regs[TO_REG(addr)] = val32;
++        } else {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Out-of-bounds write at 0x%" HWADDR_PRIx "\n",
++                          __func__, addr);
++        }
++    }
++}
++
++static const MemoryRegionOps cadence_sdhci_ops = {
++    .read = cadence_sdhci_read,
++    .write = cadence_sdhci_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    }
++};
++
++static void cadence_sdhci_realize(DeviceState *dev, Error **errp)
++{
++    CadenceSDHCIState *s = CADENCE_SDHCI(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    SysBusDevice *sbd_sdhci = SYS_BUS_DEVICE(&s->sdhci);
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &cadence_sdhci_ops,
++                          s, TYPE_CADENCE_SDHCI, 0x1000);
++    sysbus_init_mmio(sbd, &s->iomem);
++
++    sysbus_realize(sbd_sdhci, errp);
++    memory_region_add_subregion(&s->iomem, CADENCE_SDHCI_SRS_BASE,
++                                sysbus_mmio_get_region(sbd_sdhci, 0));
++
++    /* propagate irq and "sd-bus" from generic-sdhci */
++    sysbus_pass_irq(sbd, sbd_sdhci);
++    s->bus = qdev_get_child_bus(DEVICE(sbd_sdhci), "sd-bus");
++}
++
++static const VMStateDescription vmstate_cadence_sdhci = {
++    .name = TYPE_CADENCE_SDHCI,
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, CadenceSDHCIState, CADENCE_SDHCI_NUM_REGS),
++        VMSTATE_END_OF_LIST(),
++    },
++};
++
++static void cadence_sdhci_class_init(ObjectClass *classp, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(classp);
++
++    dc->desc = "Cadence SD/SDIO/eMMC Host Controller (SD4HC)";
++    dc->realize = cadence_sdhci_realize;
++    dc->reset = cadence_sdhci_reset;
++    dc->vmsd = &vmstate_cadence_sdhci;
++}
++
++static TypeInfo cadence_sdhci_info = {
++    .name          = TYPE_CADENCE_SDHCI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(CadenceSDHCIState),
++    .instance_init = cadence_sdhci_instance_init,
++    .class_init    = cadence_sdhci_class_init,
++};
++
++static void cadence_sdhci_register_types(void)
++{
++    type_register_static(&cadence_sdhci_info);
++}
++
++type_init(cadence_sdhci_register_types)
+diff --git a/include/hw/sd/cadence_sdhci.h b/include/hw/sd/cadence_sdhci.h
+new file mode 100644
+index 0000000..9b52115
+--- /dev/null
++++ b/include/hw/sd/cadence_sdhci.h
+@@ -0,0 +1,46 @@
++/*
++ * Cadence SDHCI emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef CADENCE_SDHCI_H
++#define CADENCE_SDHCI_H
++
++#include "hw/sd/sdhci.h"
++
++#define CADENCE_SDHCI_REG_SIZE  0x100
++#define CADENCE_SDHCI_NUM_REGS  (CADENCE_SDHCI_REG_SIZE / sizeof(uint32_t))
++
++typedef struct CadenceSDHCIState {
++    SysBusDevice parent;
++
++    MemoryRegion iomem;
++    BusState *bus;
++
++    uint32_t regs[CADENCE_SDHCI_NUM_REGS];
++
++    SDHCIState sdhci;
++} CadenceSDHCIState;
++
++#define TYPE_CADENCE_SDHCI  "cadence.sdhci"
++#define CADENCE_SDHCI(obj)  OBJECT_CHECK(CadenceSDHCIState, (obj), \
++                                         TYPE_CADENCE_SDHCI)
++
++#endif /* CADENCE_SDHCI_H */
 -- 
 2.7.4
 
