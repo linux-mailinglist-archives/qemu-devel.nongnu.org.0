@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938B9246A96
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:38:59 +0200 (CEST)
-Received: from localhost ([::1]:58186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51554246ABE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:42:15 +0200 (CEST)
+Received: from localhost ([::1]:43916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hDu-0000Vj-Jq
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
+	id 1k7hH4-0006IP-9i
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gL6-0003Ss-JX
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46244
+ id 1k7gL9-0003Wz-2s
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46757
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKz-0006uq-AE
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:20 -0400
+ id 1k7gL1-0006v2-D0
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597675332;
+ s=mimecast20190719; t=1597675333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LUDrUqyo3AjXYCoO1iHgGJHDWckggrdI65rQfMWBGLk=;
- b=BzzI3FbXNbMWPRYVzc8pw963KZ3tNfGGmyb7wovzWE0VrhLv33UkcFZrPCZhBRjUShrUZB
- V1/NrIG/HPQwKVO96JDUJNwO0RuFOVMMIg0GyfMZH9e/A4l55pVZswbt9JsKONskq2ThZL
- gBlsY4bCdPLTkWRJZy4uvk6hd99oNns=
+ bh=Dg2JWI65NOsNjS/YwjpdPhY7QCsZlisOKNHsoupPru8=;
+ b=ejavc9jOWD0/J6kRKtA23vIdJz0pJH7LAJq3yPPUsQeYc+zN5MuNQD7rBED0l7bqm0VlNQ
+ FWwhQc++AbX8MUOTRcmJ0gym1Dgei+jXJ5BPDux6kCVI45pX7+NADbvUOeM4l4HW4IKiy2
+ wCGhH6Fk3BIZcOawC75M1OFL3aENrW8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-bL3wpj5DMcG6HmlTzl4s_Q-1; Mon, 17 Aug 2020 10:42:10 -0400
-X-MC-Unique: bL3wpj5DMcG6HmlTzl4s_Q-1
+ us-mta-52-RlY2frIWMpyFOYNKvx8AVw-1; Mon, 17 Aug 2020 10:42:11 -0400
+X-MC-Unique: RlY2frIWMpyFOYNKvx8AVw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D787801AB0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7565381F000
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:10 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C31C756AB;
- Mon, 17 Aug 2020 14:42:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C15E70C3D;
+ Mon, 17 Aug 2020 14:42:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 130/150] meson: bsd-user
-Date: Mon, 17 Aug 2020 16:40:33 +0200
-Message-Id: <20200817144053.345107-35-pbonzini@redhat.com>
+Subject: [PATCH 131/150] meson: cpu-emu
+Date: Mon, 17 Aug 2020 16:40:34 +0200
+Message-Id: <20200817144053.345107-36-pbonzini@redhat.com>
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -92,69 +92,210 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.target        |  3 ---
- bsd-user/Makefile.objs |  2 --
- bsd-user/meson.build   | 10 ++++++++++
- meson.build            |  4 ++++
- 4 files changed, 14 insertions(+), 5 deletions(-)
- delete mode 100644 bsd-user/Makefile.objs
- create mode 100644 bsd-user/meson.build
+ Makefile.target         | 12 ------------
+ configure               | 10 +++++++++-
+ meson.build             | 37 +++++++++++++++++++++++++++++++++++++
+ scripts/feature_to_c.sh | 24 ++++++++----------------
+ 4 files changed, 54 insertions(+), 29 deletions(-)
 
 diff --git a/Makefile.target b/Makefile.target
-index a68859d7c2..5c099fa79f 100644
+index 5c099fa79f..c180b4cb38 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -141,9 +141,6 @@ ifdef CONFIG_BSD_USER
- QEMU_CFLAGS+=-I$(SRC_PATH)/bsd-user -I$(SRC_PATH)/bsd-user/$(TARGET_ABI_DIR) \
- 			 -I$(SRC_PATH)/bsd-user/$(HOST_VARIANT_DIR)
- 
--obj-y += bsd-user/
--obj-y += gdbstub.o
--
- endif #CONFIG_BSD_USER
+@@ -108,15 +108,6 @@ obj-y += $(LIBQEMU)
+ obj-y += trace/
  
  #########################################################
-diff --git a/bsd-user/Makefile.objs b/bsd-user/Makefile.objs
-deleted file mode 100644
-index 5e77f57782..0000000000
---- a/bsd-user/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--obj-y = main.o bsdload.o elfload.o mmap.o signal.o strace.o syscall.o \
--	        uaccess.o
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-new file mode 100644
-index 0000000000..0369549340
---- /dev/null
-+++ b/bsd-user/meson.build
-@@ -0,0 +1,10 @@
-+bsd_user_ss.add(files(
-+  'bsdload.c',
-+  'elfload.c',
-+  'main.c',
-+  'mmap.c',
-+  'signal.c',
-+  'strace.c',
-+  'syscall.c',
-+  'uaccess.c',
-+))
+-# cpu emulator library
+-obj-y += exec.o exec-vary.o
+-obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
+-obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
+-obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
+-obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
+-obj-$(CONFIG_TCG) += fpu/softfloat.o
+-obj-y += disas.o
+-obj-$(call notempty,$(TARGET_XML_FILES)) += gdbstub-xml.o
+ LIBS := $(libs_cpu) $(LIBS)
+ 
+ obj-$(CONFIG_PLUGIN) += plugins/
+@@ -200,9 +191,6 @@ ifdef CONFIG_DARWIN
+ 	$(call quiet-command,SetFile -a C $@,"SETFILE","$(TARGET_DIR)$@")
+ endif
+ 
+-gdbstub-xml.c: $(TARGET_XML_FILES) $(SRC_PATH)/scripts/feature_to_c.sh
+-	$(call quiet-command,rm -f $@ && $(SHELL) $(SRC_PATH)/scripts/feature_to_c.sh $@ $(TARGET_XML_FILES),"GEN","$(TARGET_DIR)$@")
+-
+ clean: clean-target
+ 	rm -f *.a *~ $(PROGS)
+ 	rm -f $(shell find . -name '*.[od]')
+diff --git a/configure b/configure
+index 82dbdd50e3..1da66ee537 100755
+--- a/configure
++++ b/configure
+@@ -5429,9 +5429,13 @@ case "$capstone" in
+       LIBCAPSTONE=libcapstone.a
+     fi
+     libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
++    capstone_libs="-L$PWD/capstone -lcapstone"
++    capstone_cflags="-I${source_path}/capstone/include"
+     ;;
+ 
+   system)
++    capstone_libs="$($pkg_config --libs capstone)"
++    capstone_cflags="$($pkg_config --cflags capstone)"
+     QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+     libs_cpu="$($pkg_config --libs capstone) $libs_cpu"
+     ;;
+@@ -7663,6 +7667,8 @@ if test "$ivshmem" = "yes" ; then
+ fi
+ if test "$capstone" != "no" ; then
+   echo "CONFIG_CAPSTONE=y" >> $config_host_mak
++  echo "CAPSTONE_CFLAGS=$capstone_cflags" >> $config_host_mak
++  echo "CAPSTONE_LIBS=$capstone_libs" >> $config_host_mak
+ fi
+ if test "$debug_mutex" = "yes" ; then
+   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
+@@ -7683,6 +7689,8 @@ fi
+ 
+ if test "$libpmem" = "yes" ; then
+   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
++  echo "LIBPMEM_LIBS=$libpmem_libs" >> $config_host_mak
++  echo "LIBPMEM_CFLAGS=$libpmem_cflags" >> $config_host_mak
+ fi
+ 
+ if test "$libdaxctl" = "yes" ; then
+@@ -8181,7 +8189,7 @@ fi
+ list=""
+ if test ! -z "$gdb_xml_files" ; then
+   for x in $gdb_xml_files; do
+-    list="$list $source_path/gdb-xml/$x"
++    list="$list gdb-xml/$x"
+   done
+   echo "TARGET_XML_FILES=$list" >> $config_target_mak
+ fi
 diff --git a/meson.build b/meson.build
-index edb981699d..10e06acff0 100644
+index 10e06acff0..2cfc183e92 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -701,8 +701,12 @@ subdir('net')
- subdir('replay')
- subdir('hw')
- subdir('accel')
-+subdir('bsd-user')
- subdir('linux-user')
+@@ -341,6 +341,16 @@ if 'CONFIG_USB_LIBUSB' in config_host
+   libusb = declare_dependency(compile_args: config_host['LIBUSB_CFLAGS'].split(),
+                               link_args: config_host['LIBUSB_LIBS'].split())
+ endif
++capstone = not_found
++if 'CONFIG_CAPSTONE' in config_host
++  capstone = declare_dependency(compile_args: config_host['CAPSTONE_CFLAGS'].split(),
++                                link_args: config_host['CAPSTONE_LIBS'].split())
++endif
++libpmem = not_found
++if 'CONFIG_LIBPMEM' in config_host
++  libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
++                               link_args: config_host['LIBPMEM_LIBS'].split())
++endif
  
-+bsd_user_ss.add(files('gdbstub.c'))
-+specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+@@ -525,6 +535,8 @@ target_softmmu_arch = {}
+ # Trace files #
+ ###############
+ 
++# TODO: add each directory to the subdirs from its own meson.build, once
++# we have those
+ trace_events_subdirs = [
+   'accel/kvm',
+   'accel/tcg',
+@@ -693,6 +705,20 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ common_ss.add(files('cpus-common.c'))
+ 
+ subdir('softmmu')
 +
- linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
- specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
++specific_ss.add(files('disas.c', 'exec.c', 'gdbstub.c'), capstone, libpmem)
++specific_ss.add(files('exec-vary.c'))
++specific_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'fpu/softfloat.c',
++  'tcg/optimize.c',
++  'tcg/tcg-common.c',
++  'tcg/tcg-op-gvec.c',
++  'tcg/tcg-op-vec.c',
++  'tcg/tcg-op.c',
++  'tcg/tcg.c',
++))
++specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c', 'tcg/tci.c'))
++
+ subdir('backends')
+ subdir('disas')
+ subdir('migration')
+@@ -784,6 +810,8 @@ common_all = static_library('common',
+                             dependencies: common_all.dependencies(),
+                             name_suffix: 'fa')
  
++feature_to_c = find_program('scripts/feature_to_c.sh')
++
+ foreach target : target_dirs
+   config_target = config_target_mak[target]
+   target_name = config_target['TARGET_NAME']
+@@ -830,6 +858,15 @@ foreach target : target_dirs
+     endif
+   endif
+ 
++  if 'TARGET_XML_FILES' in config_target
++    gdbstub_xml = custom_target(target + '-gdbstub-xml.c',
++                                output: target + '-gdbstub-xml.c',
++                                input: files(config_target['TARGET_XML_FILES'].split()),
++                                command: [feature_to_c, '@INPUT@'],
++                                capture: true)
++    arch_srcs += gdbstub_xml
++  endif
++
+   t = target_arch[arch].apply(config_target, strict: false)
+   arch_srcs += t.sources()
+ 
+diff --git a/scripts/feature_to_c.sh b/scripts/feature_to_c.sh
+index c8ce9b88f6..b1169899c1 100644
+--- a/scripts/feature_to_c.sh
++++ b/scripts/feature_to_c.sh
+@@ -19,16 +19,8 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, see <http://www.gnu.org/licenses/>.
+ 
+-output=$1
+-shift
+-
+-if test -z "$output" || test -z "$1"; then
+-  echo "Usage: $0 OUTPUTFILE INPUTFILE..."
+-  exit 1
+-fi
+-
+-if test -e "$output"; then
+-  echo "Output file \"$output\" already exists; refusing to overwrite."
++if test -z "$1"; then
++  echo "Usage: $0 INPUTFILE..."
+   exit 1
+ fi
+ 
+@@ -60,17 +52,17 @@ for input; do
+       printf "'\''\\n'\'', \n"
+     } END {
+       print "  0 };"
+-    }' < $input >> $output
++    }' < $input
+ done
+ 
+-echo >> $output
+-echo "const char *const xml_builtin[][2] = {" >> $output
++echo
++echo "const char *const xml_builtin[][2] = {"
+ 
+ for input; do
+   basename=$(echo $input | sed 's,.*/,,')
+   arrayname=xml_feature_$(echo $input | sed 's,.*/,,; s/[-.]/_/g')
+-  echo "  { \"$basename\", $arrayname }," >> $output
++  echo "  { \"$basename\", $arrayname },"
+ done
+ 
+-echo "  { (char *)0, (char *)0 }" >> $output
+-echo "};" >> $output
++echo "  { (char *)0, (char *)0 }"
++echo "};"
 -- 
 2.26.2
 
