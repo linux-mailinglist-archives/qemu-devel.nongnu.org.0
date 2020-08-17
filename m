@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9553B245A5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 02:58:10 +0200 (CEST)
-Received: from localhost ([::1]:34746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4258245A6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 03:31:31 +0200 (CEST)
+Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7TTV-0005tp-3B
-	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 20:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46104)
+	id 1k7Tzm-00021v-GT
+	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 21:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k7TSp-0005UY-MV
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 20:57:27 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44721)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k7Tz3-0001Xe-IZ
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 21:30:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1k7TSn-0002JK-KH
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 20:57:27 -0400
-Received: by mail-pl1-x641.google.com with SMTP id y10so5112940plr.11
- for <qemu-devel@nongnu.org>; Sun, 16 Aug 2020 17:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7zlZk3GKzoTit/XWuBAHjBdnMzBNhoyRYauuJQwjvMs=;
- b=pgfYYbcotXfFrgtfTZAOKUrJRnY5OUkKMY8zxI2ztdZ+g9cNgelhmX3ksUktCDmp1+
- I0Pq1og9gDhHh2aGhC/XfsqhdwPZNZW1LzQPtlVyUReDGigL4l6UjnXAPs+aOT1cTqyW
- uK/zCnV3ooPmq0pAeUcwpqRkaxlSWhao6TXG6NfEQwDBmgAeop8IwwinNGx/wGhA4dBb
- ILj7AGZQv/kDIISh4K2hfLlpllrOM/bMR+smF1MEqnhFYwnhNhVq5KcpMn7RL99hC7ed
- ZXCOtdEb4RiyJIl6LP9HXyqDJSCaoLxrZsfLwR4KvcVNm7mD+cKqttbw5brCj+ofbSUZ
- ECbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7zlZk3GKzoTit/XWuBAHjBdnMzBNhoyRYauuJQwjvMs=;
- b=MlINgpg8jZ+zww3Ce2riaY+aL7BSQeoNnfsI2SyjVMNmJcJBpxRPLh9HqzX3f1sewI
- y/HRcyMS77iaCWTMkRDEjkzUM+CeOwWYHAlk7PcBUocVSMl2w39RbMgB4y7IgpHQX9v/
- kZtAnOzjZpHT0eTW4eBeP2dpaxsVackG82SpId9/pGkj3W+lM8+drBlxDkAEbvM920T1
- /S2weAp2UckBTUnOFBjtwBNKwnvXKEK14ML+FvlnCC3FtN63WffeopUkn9jZ5ZwzIWnF
- 4rgyR2jrNqhRT8cKmPYudE03Al9cn6xjgtdmEtFll1+8abdMaaCKtLnXAgRmii6OVliC
- 58sQ==
-X-Gm-Message-State: AOAM533nFx8xORUY1a43g3oOOueELaiXjpcprvoMQZkigUbXpTVIKNm9
- jx+CRQjuazdvAHvWqViMIqlmeO33lO4U5lvTxwo=
-X-Google-Smtp-Source: ABdhPJx/q6DzN0i0C5+NXEB5C9bLL71dvtqKl2x2rKoLu42ZQ9fj+tI3hnv2k7bHnqmJD9Rq0Ab57yzGhLa1Qr5qd2Q=
-X-Received: by 2002:a17:90a:ac0b:: with SMTP id
- o11mr11130085pjq.191.1597625844032; 
- Sun, 16 Aug 2020 17:57:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k7Tz1-0005d1-AU
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 21:30:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k7Tyz-0007dQ-9a
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:30:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 436772E804E
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:30:41 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200816023127.22268-1-rohit.shinde12194@gmail.com>
- <9abbbc9d-b5d5-fdd1-e6ff-c89071189f7f@linaro.org>
- <CA+Ai=tB3QW7+vt4qSrfSBornPmPJ+1rVajvvXf=p4kg3FG2+ZA@mail.gmail.com>
- <125714a6-e441-629f-e9ab-d04ce8b0d94e@linaro.org>
-In-Reply-To: <125714a6-e441-629f-e9ab-d04ce8b0d94e@linaro.org>
-From: Rohit Shinde <rohit.shinde12194@gmail.com>
-Date: Sun, 16 Aug 2020 20:57:13 -0400
-Message-ID: <CA+Ai=tAy1C3UwxPw26Jkbm7+DGA_mrryG8Sekm9t9Bk3ZhPTow@mail.gmail.com>
-Subject: Re: [PATCH v4] qapi/opts-visitor: Fixed fallthrough compiler warning
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000eae9c805ad084012"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=rohit.shinde12194@gmail.com; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 17 Aug 2020 01:22:29 -0000
+From: Michael Slade <1891829@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: serial
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mslade
+X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Modifier: Michael Slade (mslade)
+References: <159762208982.14812.18418944831865683616.malonedeb@gac.canonical.com>
+Message-Id: <159762734984.27474.8936951290732945319.malone@soybean.canonical.com>
+Subject: [Bug 1891829] Re: High bits(s) sometimes set high on rcvd serial
+ bytes when char size < 8 bits
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: db442991861f40d2edebc8d928c2c71d3cd2741e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/16 20:00:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,99 +73,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, armbru@redhat.com
+Reply-To: Bug 1891829 <1891829@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000eae9c805ad084012
-Content-Type: text/plain; charset="UTF-8"
+I will hopefully submit a patch for review soon.
 
-On Sun, Aug 16, 2020 at 6:52 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+-- =
 
-> On 8/16/20 9:55 AM, Rohit Shinde wrote:
-> > Hey Richard,
-> >
-> >  1. So I should fork off the master again?
->
-> Yes.
->
-> There need to be special circumstances for not posting a patch set
-> relative to
-> master, and even then your cover letter would need to detail against what
-> base
-> the patch set applies.
->
-> >  2. I just checked and my version of the code doesn't contain that line,
-> so I
-> >     am unsure on how that line got there. I was trying to fix the
-> compiler
-> >     warnings. Could you please guide me on how I create the next version
-> of a
-> >     patch?
->
-> That makes no sense at all.  The line was added at the same time as the
-> code
-> above it, in d8754f40acb.
->
-I misread the comment. The comment /* fallthrough */ was meant to stop the
-compiler warning from occurring. I am trying to complete the bite sized
-task mentioned here <https://wiki.qemu.org/Contribute/BiteSizedTasks> under
-"Compiler driven cleanups". I wanted to take that up to get more familiar
-with the codebase.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1891829
 
->
-> There should be nothing to fix.
->
->
-> r~
->
+Title:
+  High bits(s) sometimes set high on rcvd serial bytes when char size <
+  8 bits
 
---000000000000eae9c805ad084012
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Status in QEMU:
+  New
 
-<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Sun, Aug 16, 2020 at 6:52 PM Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
-son@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">On 8/16/20 9:55 AM, Rohit Shinde wrote:<br>
-&gt; Hey Richard,<br>
-&gt; <br>
-&gt;=C2=A0 1. So I should=C2=A0fork off the master again?<br>
-<br>
-Yes.<br>
-<br>
-There need to be special circumstances for not posting a patch set relative=
- to<br>
-master, and even then your cover letter would need to detail against what b=
-ase<br>
-the patch set applies.<br>
-<br>
-&gt;=C2=A0 2. I just checked and my version of the code doesn&#39;t contain=
- that line, so I<br>
-&gt;=C2=A0 =C2=A0 =C2=A0am unsure on how that line got there. I was trying =
-to fix the compiler<br>
-&gt;=C2=A0 =C2=A0 =C2=A0warnings. Could you please guide me on how I create=
- the next version of a<br>
-&gt;=C2=A0 =C2=A0 =C2=A0patch?<br>
-<br>
-That makes no sense at all.=C2=A0 The line was added at the same time as th=
-e code<br>
-above it, in d8754f40acb.<br></blockquote><div>I misread the comment. The c=
-omment /* fallthrough */ was meant to stop the compiler warning from occurr=
-ing. I am trying to complete the bite sized task mentioned <a href=3D"https=
-://wiki.qemu.org/Contribute/BiteSizedTasks">here</a>=C2=A0under &quot;Compi=
-ler driven cleanups&quot;. I wanted to take that up to get more familiar wi=
-th the codebase.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-There should be nothing to fix.<br>
-<br>
-<br>
-r~<br>
-</blockquote></div></div>
+Bug description:
+  I *believe* (not confirmed) that the old standard PC serial ports,
+  when configured with a character size of 7 bits or less, should set
+  non-data bits to 0 when the CPU reads received chars from the read
+  register.  qemu doesn't do this.
 
---000000000000eae9c805ad084012--
+  Windows 1.01 will not make use of a serial mouse when bit 7 is 1.  The
+  ID byte that the mouse sends on reset is ignored.  I added a temporary
+  hack to set bit 7 to 0 on all incoming bytes, and this convinced
+  windows 1.01 to use the mouse.
+
+  note 1:  This was using a real serial mouse through a passed-through
+  serial port.  The emulated msmouse doesn't work for other reasons.
+
+  note 2:  The USB serial port I am passing through to the guest sets
+  non-data bits to 1.  Not sure if this is the USB hardware or linux.
+
+  note 3:  I also needed to add an -icount line to slow down the guest
+  CPU, so that certain cpu-sensitive timing code in the guest didn't
+  give up too quickly.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1891829/+subscriptions
 
