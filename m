@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D1924690C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:07:20 +0200 (CEST)
-Received: from localhost ([::1]:45234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D421246910
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:08:26 +0200 (CEST)
+Received: from localhost ([::1]:51144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gjH-0003kc-Vy
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
+	id 1k7gkL-000687-0J
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHY-0005CP-Le
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:40 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33240)
+ id 1k7gHa-0005Gi-CB
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:42 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHW-0006Ey-Up
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:40 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f18so13347432wmc.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:38 -0700 (PDT)
+ id 1k7gHY-0006FG-DB
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:41 -0400
+Received: by mail-wr1-x433.google.com with SMTP id f7so15277502wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q89jAjyHBRq6xfP3HIT0eKnoY4vV+s645d2y/Ix2bG4=;
- b=t2Zu0UfQzzVFV1nHFdnDfv1HHeHlCG6iLHSvLwcwljkIyPPQxZhhhUTJCzQ2ndlbWW
- jUYDziK4NJbkvUVVLN+b58bR6iZ/VvdijQ8SLq06aMgllkOYzqqXV2/FwcrWP/76DHUv
- wHbKD9Q7sbH3UzzVpoYCuMBNoVl2A9fzruwlp7Cd/XLkiK+SqECYVWzN1Ois8ZTXI/cT
- XEFBjihdUPWYFOa+mLoCeVmkMytB1hpUJtevdlKoCYTrjzHdugUPBuvRAftWAJ9cs+Ha
- aBIHmAvz9iJaNocQdzL0MJfoByccbJ//zCSQwGjsvBO5zO9DGnVx/dr9ZVDe5uwIPrEx
- q7Yg==
+ bh=2m9BLaRc2vYcN4AzbMEg1k1RBUEJSYEg5EY4KfBueFg=;
+ b=WRFPMaCNdVXthCpZyQJrCLCKQLwppToc9gDtCQTOVvoBDHHgD4H4BIOZTuMiszpY+T
+ ONDMwcaR0ub3eAear9oebFe9TZMTEWxpCOgPNBhnKmPSgeJZJgHz98Z2k0FwZVeJEim8
+ pCICcC8MdKFryrf/vmjI3x2m5lfuaweVabZoenBzz6mo+MjeIDdcf/9sFPqXAEmtJLA2
+ stSK4iAC0TXKE2QnnmWr2qcuHMJ4qdiZDM/+PbaGAfeYbJcp4VnZD8SI8PcAnoWxYGHK
+ Miit+pnnMCZlMqrEE0yEaJoJZK1/C2YGFD7XrPfdZyyF741LHc9pmGV2qxEptRI3kSDW
+ vgmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q89jAjyHBRq6xfP3HIT0eKnoY4vV+s645d2y/Ix2bG4=;
- b=DG984yj+1ukhRsGjHScTRCnffL+HfqJhdG6qYZKp/FEc9arJ5hvsFB4XQA8P7FV7c1
- ys13K8uFgP3qSmC8Gz2nQmrHkV7MbZYh6O/58rEJSTi46aqmblAMGo11uMoKQ2quUyxV
- TbgiQ+QIuUGPi1TEVWHCoLNDFKsFEWCvAyXRQc8LUGh/3icLyJJpewrqyIu7AIXWwy97
- ZPM/vEEpAsrlgL/wrBq3xQ4/G14UQuzZyTphtKONEBhbc+UsEL6L/4jH285PMCePfpjb
- Edxjvm08o/l2fLuIb28XTJIciD6sPH8ccGFzW055Ija5VkFb+747bEzmmInRBJeXzGPZ
- FMdA==
-X-Gm-Message-State: AOAM532srrdK3S3tkNm5DVA+Zioo3Wb59tj7xLuybkHMDaDA2+spO7R0
- FyI5z8AJYKzUkUQIZLKH4ilZ4cnv0mw=
-X-Google-Smtp-Source: ABdhPJwWdcZOtj23YVy6DZnCx6HfgZengAoBNYwOpweV4R1vpBl51hg0tJ2GofINiUTcdCvG0ukzzQ==
-X-Received: by 2002:a05:600c:2116:: with SMTP id
- u22mr14803455wml.35.1597675117398; 
- Mon, 17 Aug 2020 07:38:37 -0700 (PDT)
+ bh=2m9BLaRc2vYcN4AzbMEg1k1RBUEJSYEg5EY4KfBueFg=;
+ b=TPw5OOZsY/DQw21puQ3c+Nxqzcb5GKpULEMER9ZQqCPQsAYX/LNrd55vMWBu4i0Gsu
+ 9wFOdluNON7+I1A63tF0u6h+Mu7NdZIm/czUryAoaB8VoosZPO2hl2pkJBaphqScnjJJ
+ SMVis0tBXylWKpHSQP6R/kj/l7+lco2U2VTGgNLymL5ebi+i2zeN69RomkLUV1qIAkLs
+ MQ8fGzpa8au8h3s/BAoeY+lV18WOsItzconTjBFxWyT1MIMANL4vbRPVNt0K5DMKvQ1h
+ Av1SbCuaAMw+nlGS4p6MK+742Y8DqBe32EJg3HSrEEPzSmI+2E57DaLPuf072fjN0E8l
+ Bbcw==
+X-Gm-Message-State: AOAM530II33MlYr0SJonlpdou3zxJMUPurZ8MJ6IYq6mCEE5jBSTpCdH
+ CmvjXYD7frYruh28x2fJhGvUsBfPbX4=
+X-Google-Smtp-Source: ABdhPJz1K2/uJ6oUYsYk8zTaW939TXAmxnBGicwvcRGM/2hJ0u4iwSDEZ7siwuh2XmKByRw4On7+KQ==
+X-Received: by 2002:adf:ef4d:: with SMTP id c13mr17074204wrp.198.1597675118327; 
+ Mon, 17 Aug 2020 07:38:38 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.36 for <qemu-devel@nongnu.org>
+ i22sm34966603wrb.45.2020.08.17.07.38.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:36 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 072/150] meson: convert most of softmmu/
-Date: Mon, 17 Aug 2020 16:36:05 +0200
-Message-Id: <20200817143723.343284-73-pbonzini@redhat.com>
+Subject: [PATCH 073/150] meson: convert trace/
+Date: Mon, 17 Aug 2020 16:36:06 +0200
+Message-Id: <20200817143723.343284-74-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,68 +87,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leave out main.c, it's special due to fuzzing.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build           |  2 ++
- softmmu/Makefile.objs | 14 +-------------
- softmmu/meson.build   | 10 ++++++++++
- 3 files changed, 13 insertions(+), 13 deletions(-)
- create mode 100644 softmmu/meson.build
+ trace/Makefile.objs | 8 --------
+ trace/meson.build   | 5 ++++-
+ 2 files changed, 4 insertions(+), 9 deletions(-)
+ delete mode 100644 trace/Makefile.objs
 
-diff --git a/meson.build b/meson.build
-index a9e52e56c7..9169e9d880 100644
---- a/meson.build
-+++ b/meson.build
-@@ -641,6 +641,8 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
- 
- common_ss.add(files('cpus-common.c'))
- 
-+subdir('softmmu')
+diff --git a/trace/Makefile.objs b/trace/Makefile.objs
+deleted file mode 100644
+index a429474618..0000000000
+--- a/trace/Makefile.objs
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# -*- mode: makefile -*-
+-
+-
+-##################################################
+-# Translation level
+-
+-obj-y += generated-helpers.o
+-obj-y += control-target.o
+diff --git a/trace/meson.build b/trace/meson.build
+index cab36a248b..9c3c128164 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -1,3 +1,5 @@
++specific_ss.add(files('control-target.c'))
 +
- # needed for fuzzing binaries
- subdir('tests/qtest/libqos')
+ trace_events_files = []
+ foreach dir : [ '.' ] + trace_events_subdirs
+   trace_events_file = meson.source_root() / dir / 'trace-events'
+@@ -61,12 +63,13 @@ foreach d : [
+   ['generated-helpers.h', 'tcg-helper-h'],
+   ['generated-helpers-wrappers.h', 'tcg-helper-wrapper-h'],
+ ]
+-  custom_target(d[0],
++  gen = custom_target(d[0],
+                 output: d[0],
+                 input: meson.source_root() / 'trace-events',
+                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
+                 build_by_default: true, # to be removed when added to a target
+                 capture: true)
++  specific_ss.add(gen)
+ endforeach
  
-diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
-index c036887500..ec74d8a9fa 100644
---- a/softmmu/Makefile.objs
-+++ b/softmmu/Makefile.objs
-@@ -1,14 +1,2 @@
- softmmu-main-y = softmmu/main.o
--
--obj-y += arch_init.o
--obj-y += cpus.o
--obj-y += cpu-throttle.o
--obj-y += balloon.o
--obj-y += ioport.o
--obj-y += memory.o
--obj-y += memory_mapping.o
--
--obj-y += qtest.o
--
--obj-y += vl.o
--vl.o-cflags := $(SDL_CFLAGS)
-+main.o-cflags := $(SDL_CFLAGS)
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-new file mode 100644
-index 0000000000..95d38df259
---- /dev/null
-+++ b/softmmu/meson.build
-@@ -0,0 +1,10 @@
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
-+  'arch_init.c',
-+  'balloon.c',
-+  'cpus.c',
-+  'cpu-throttle.c',
-+  'ioport.c',
-+  'memory.c',
-+  'memory_mapping.c',
-+  'qtest.c',
-+  'vl.c'))
+ if 'CONFIG_TRACE_UST' in config_host
 -- 
 2.26.2
 
