@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3A5246316
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:20:40 +0200 (CEST)
-Received: from localhost ([::1]:47520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9670324632D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:22:43 +0200 (CEST)
+Received: from localhost ([::1]:58852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7bJn-0007XY-Ay
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46654)
+	id 1k7bLm-0003hf-LS
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7atQ-0003KD-LU
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:53:24 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:34380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7atP-0005OI-0h
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:53:24 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id i10so2258148pgk.1
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6kkcYautSYvytvSbaEQJQyjXHNh36DVL7LgNPrrKZR0=;
- b=Yf+JB7JGL3mKa2gEm/WdhCluqAQc/JagAXXbxYOY9irtKedfYxMWX1TqomFyAUjr5E
- z7aMt7EvlZYqZG/2a14t7C5eQIL9Jls6PSJ8cj10aanTv/k3Q1rK61H8UaGGN7eTLDWn
- Oj3XYR0OMyh5/rmBy2QbgOJYAS7zw74RA8StaN5gHy1F25tUeX9CdDqw7nRJEjnB4Q1+
- noCQ17BoApwE4PNahIXEq+E8qvZ4ggZf5spZl5Ibovi9sRQwPS09zBINK5hCi7VPJjDL
- JLrGyppErDq5BoqxhqjQfJ2uJE2+uReMqw3RuqeiLlBPLW47X1QhHw6XinJDBYHwaHPX
- g3mQ==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k7ay2-0004Tx-2z
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:58:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k7axz-00062x-Uj
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:58:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597654686;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dgmctd3manNBQBiaD9YImAfOH4rP+7lahcnG09PTuBU=;
+ b=bEiK6h7jeLx8t6oxJvIJ0SlYHs3+LY0NRKrHy+slLEtEbUrOl9MX1teE6IGI0VhpS9bXgH
+ X+oZu1jCggMFq/OTVV5VQjAf/lmuBCnxpb8TXol6evPmasV1RUD8ulG7DgU6LFFsabSm/O
+ 70kYxH5oIYVfGvPHtq7mLYsbZt1MIi4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-gZHaR9HwORe0FfdO6Baj-A-1; Mon, 17 Aug 2020 04:58:04 -0400
+X-MC-Unique: gZHaR9HwORe0FfdO6Baj-A-1
+Received: by mail-wr1-f71.google.com with SMTP id 89so6727821wrr.15
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:58:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6kkcYautSYvytvSbaEQJQyjXHNh36DVL7LgNPrrKZR0=;
- b=HzEmzUP/TKgI9kqxw/wFLCUJ8is8VYpF/gZ9LLEfr4HTRH3bHOs390gp0DzMuNiu5C
- Iz936sVS1xMS7SC689kTT4AmVrYZYROcP87C0AH4QDZfW9drSAALXF1jVf61myOLgZFZ
- GUKoePNPe1x6Qu12Qo/T0/DCRub0H7ZQiBv9wmDePbP8l7GrsB0Qdgciao4YX5HUH1gS
- nixZlx7blvBO/jmJM2oXtX1g9oNaTXCrDlN/0z2yTmF2gtBwf8Vh7bZZu92qlVGdA+LG
- ckTwDSPd6VGHKhrUBcU9NiqlvJeZPaLyBIHnK6kNl8vLeaGxYqo/mR4RZ3ZyM3+o5i8V
- tnJA==
-X-Gm-Message-State: AOAM530ce2E8CmsEhSH6iFZXbKHn/LmfpeEe10V8nItiMYpR28XfJpZz
- NxDV6STtbDQxkcrBUaO1dQn1beYrhhkRrA==
-X-Google-Smtp-Source: ABdhPJwfZcwwag2FneObXlOF+JimkHxftHRKnrG1uYpfC7q3nuq3d8e73t0subr8MW9m2BV4wiL9ng==
-X-Received: by 2002:aa7:84d4:: with SMTP id x20mr10272819pfn.96.1597654401489; 
- Mon, 17 Aug 2020 01:53:21 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.53.19
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Dgmctd3manNBQBiaD9YImAfOH4rP+7lahcnG09PTuBU=;
+ b=X6unXmJ4hvqzcqG10TwF0Rx8c5sNypXJdU+bgHlVO4dJxa0D+Cs9xP595KQOiyzS7a
+ yl0lWe5EbtEvLgrZLVFqOnjLmXWcZc0IoEZ05thtO+Jl8q3u/hduUmDQLJ26LIkprmUa
+ +NHGJeFMM5mzyf24VHxuflIlp5tTnup8G8GHwkU/Z5Ywprxb7XzCeTg3C9jl+sJW+afJ
+ ELyiXN61eOB/01fUrY215EClU1QBWUiC6sPB7Xj+9is606JWsV+dljUYhzeY15S79241
+ DlxGNb0mv4yNY1MyChDCeLGPDnXolLBMxas0dCv68cfoKQ64DYp60Af6hXA90b5Fk1/G
+ njEw==
+X-Gm-Message-State: AOAM5306pcTvHuLrJXn7BfmeLADwMoPSOn9I1dXdg79BKEJgE0UCoGH6
+ ncJM5hUjpCwXr/awX9auHObCDMgpjfPwAEWwadTBcWYKBTpV4QauxS2ajKWE8LAIQdO3KYJjlNC
+ 2baSPPYJ6MozkDdA=
+X-Received: by 2002:a1c:9c96:: with SMTP id f144mr13782838wme.18.1597654682975; 
+ Mon, 17 Aug 2020 01:58:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCd6m7Ky9fwp4Ds+T8KkpCtgW6QjU38AQqTmqv+At6v3NMu7IS6SnvthglT55N3Q+mPHS4IQ==
+X-Received: by 2002:a1c:9c96:: with SMTP id f144mr13782810wme.18.1597654682719; 
+ Mon, 17 Aug 2020 01:58:02 -0700 (PDT)
+Received: from steredhat ([5.180.207.22])
+ by smtp.gmail.com with ESMTPSA id i14sm36532069wrc.19.2020.08.17.01.58.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:53:21 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v4 70/70] target/riscv: gdb: support vector registers for rv32
-Date: Mon, 17 Aug 2020 16:49:55 +0800
-Message-Id: <20200817084955.28793-71-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
-References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ Mon, 17 Aug 2020 01:58:02 -0700 (PDT)
+Date: Mon, 17 Aug 2020 10:57:58 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Pan Nengyuan <pannengyuan@huawei.com>
+Subject: Re: [PATCH 10/12] block/file-posix: fix a possible undefined behavior
+Message-ID: <20200817085658.tvxnqvw6gjyxozie@steredhat>
+References: <20200814160241.7915-1-pannengyuan@huawei.com>
+ <20200814160241.7915-11-pannengyuan@huawei.com>
+MIME-Version: 1.0
+In-Reply-To: <20200814160241.7915-11-pannengyuan@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 01:24:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,41 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Greentime Hu <greentime.hu@sifive.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ euler.robot@huawei.com, kuhn.chenqun@huawei.com,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greentime Hu <greentime.hu@sifive.com>
+On Fri, Aug 14, 2020 at 12:02:39PM -0400, Pan Nengyuan wrote:
+> local_err is not initialized to NULL, it will cause a assert error as below:
+> qemu/util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
+> 
+> Fixes: c6447510690
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> ---
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Aarushi Mehta <mehta.aaru20@gmail.com>
+> Cc: qemu-block@nongnu.org
+> ---
+>  block/file-posix.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-This patch adds vector support for rv32 gdb. It allows gdb client to access
-vector registers correctly.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- gdb-xml/riscv-32bit-csr.xml | 7 +++++++
- 1 file changed, 7 insertions(+)
+Thanks,
+Stefano
 
-diff --git a/gdb-xml/riscv-32bit-csr.xml b/gdb-xml/riscv-32bit-csr.xml
-index 3d2031da7dc..bb98b927995 100644
---- a/gdb-xml/riscv-32bit-csr.xml
-+++ b/gdb-xml/riscv-32bit-csr.xml
-@@ -248,4 +248,11 @@
-   <reg name="mucounteren" bitsize="32"/>
-   <reg name="mscounteren" bitsize="32"/>
-   <reg name="mhcounteren" bitsize="32"/>
-+  <reg name="vstart" bitsize="32" group="vector"/>
-+  <reg name="vxsat" bitsize="32" group="vector"/>
-+  <reg name="vxrm" bitsize="32" group="vector"/>
-+  <reg name="vcsr" bitsize="32" group="vector"/>
-+  <reg name="vl" bitsize="32" group="vector"/>
-+  <reg name="vtype" bitsize="32" group="vector"/>
-+  <reg name="vlenb" bitsize="32" group="vector"/>
- </feature>
--- 
-2.17.1
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 9a00d4190a..697a7d9eea 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -2113,7 +2113,7 @@ static void raw_aio_attach_aio_context(BlockDriverState *bs,
+>  #endif
+>  #ifdef CONFIG_LINUX_IO_URING
+>      if (s->use_linux_io_uring) {
+> -        Error *local_err;
+> +        Error *local_err = NULL;
+>          if (!aio_setup_linux_io_uring(new_context, &local_err)) {
+>              error_reportf_err(local_err, "Unable to use linux io_uring, "
+>                                           "falling back to thread pool: ");
+> -- 
+> 2.18.2
+> 
+> 
 
 
