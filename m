@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81262468AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:50:22 +0200 (CEST)
-Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBAF2468A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:47:48 +0200 (CEST)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gSr-0000oz-MB
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
+	id 1k7gQN-0003tD-30
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGp-0003wI-Lq
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:55 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56085)
+ id 1k7gGs-000459-St
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:58 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGn-00064x-V7
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:55 -0400
-Received: by mail-wm1-x336.google.com with SMTP id 9so13413446wmj.5
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:53 -0700 (PDT)
+ id 1k7gGr-00065Q-3d
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:58 -0400
+Received: by mail-wm1-x330.google.com with SMTP id p14so13423663wmg.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0br65Kmn5xpB8GRXasSxYgnYWTwyOEOqVF8R8HtK98c=;
- b=LbCx2HLR0BYds77O0AViDe85vyUxkpoKveStiZKaTJ3ekKxt7bNdzvDr3zKIvP78pn
- liDFPo8Y/pd3ppgB3n/1u8VfVgaAwwkbSR1QSBO0M/c38JN3+IOgOqabxCJKtlfOGjbB
- Oks7IWGfnZyANtms2HSdBfrXGY0hEzqzLrRSr83JFhwCYngZpBCHaSh58MKZayJl0jDu
- wY84fDbrajwXj2CWfmF+gLbZs926khLEnWm3gONNguAxYUNx7Ut2iLobBk4B0byxur5y
- Gb1cToVjPOBnSRnnBG779Yento+KXIOlVDkVL/ICQa+NrsNrBy/cYLNrHWPnPEAoIQgH
- kd6w==
+ bh=QVZIG0mdwsjMiMofc5+oO2XHExj/PcaxRAVhdIUfPEM=;
+ b=lqlad71IfRVmKkFnWGwli0kMNIgMqnnIuc5LzLF4JdAt9frvLeqY2oRjFKBk+CgRa6
+ uzSr4QIZrMuBo9WdwNN2QWoUNTtl49IlpvOB8BwY4nAXjnEhd4vOKltZoBmy6B7QnPXT
+ Q1sgCEuBG7oVLCLHtDexjHMPgSxdS6kpBVVBI2GTmvNZzZ6l/JhOhrflcXf0dGyJRg0w
+ bzFdUaX11lFgVqBd1wzjNHAbSAiAX67U4rRK1PmfnL22z6IDll/lWg+q+r+TzTb2I64L
+ JC1+6Lj75jo6D6kJVbZGPHM2efPIiG/nNHHEggsfjpoZ7sX1KOTVWBfCw5SB8PrbFBzW
+ yoCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0br65Kmn5xpB8GRXasSxYgnYWTwyOEOqVF8R8HtK98c=;
- b=EBdE7IY4jnIS0NLPGevOMoXg5qAOKeInC8iaav+x4n3qhwlMfofopxUB4JQdJOoYRl
- bkGKTQtHnkXuThhtA9v8lwQYhqOs41i2i39eREgGiURpSqQZy51BpOsTBMKhpUu73Ilk
- ojVBUIFhaVdoPmSDvI/FYVmr06c77mb+8oAn70W1/bJKP/jSIVEuKF1leKnpL3AlxWvf
- yQYWy4Ie508LqzOEHgXkdFSDvdSLGKJSeOUmvmrID2SQq8S/4JNeyeDAUfL8LmiaD2Ya
- qug/Y2cDa1cgcTwIiOA+w2Au51NL2arvqZ1MeNcnzt69UGREqzD5PH6tdsfwcJCSXTEA
- 95KQ==
-X-Gm-Message-State: AOAM531IHxr9FZoAxQQLYTUto0jaHlSRdg+op7CwAhMCHJUyfhKR35OI
- Ba59ycrcjXMY7PRFQJ99lftB1QI/h1s=
-X-Google-Smtp-Source: ABdhPJwIUOXyOOgGOnHtGJL9fp0hs8AdAVA5nHznfE4ygO9uXr+s3ic9UWJTCWlNPEMf7aQFCxZpjg==
-X-Received: by 2002:a05:600c:258e:: with SMTP id
- 14mr14508968wmh.141.1597675072273; 
- Mon, 17 Aug 2020 07:37:52 -0700 (PDT)
+ bh=QVZIG0mdwsjMiMofc5+oO2XHExj/PcaxRAVhdIUfPEM=;
+ b=ZfqYoaThCyNFLfNr4JHup+yKXA52UR5g7j0OMuBoSrch0EmRkFd3dZyJFfhRV3zPXg
+ nWVKAe0TFH2zrt1Nl5kNfEMbOVt/tEuDfprpd0jYiQgFpXCRpdGHg4UJwTyy7RCpxp0A
+ vW4C27HRaDZGJSlPrxKSpL5ognpMRbyaRB/rJ3a0HnsyoSu0vvQfsNfhx+DTAvIGwAxf
+ AVaqpaex2TjkwGZo5PwabllaPqR3TCSzVDEnG3PGIUE2LB/+cxBhDQQuzJQD6Ks/BaPr
+ oDbN5ANvf5IeEHuwUvL28tceGpPDt1hjnSWw/r2L93m0DTf9bkihc1r/DcK9BzZB7hCR
+ 7DTA==
+X-Gm-Message-State: AOAM531xDdh8z+sheCkd7PG3HOmgCYplq18Q8NhVnxEicsyt0piCIbmL
+ MCs4G3BvoDY7xEtk69oDhHXuY43oTF8=
+X-Google-Smtp-Source: ABdhPJzwtGwVBVqdnBa0lZXjkq3h5v2hMSQOYoT3eXitibBXqc21ieag0yUTsHSNDW5LyBXxaJVK2w==
+X-Received: by 2002:a1c:1b41:: with SMTP id b62mr14972683wmb.89.1597675073357; 
+ Mon, 17 Aug 2020 07:37:53 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.51
+ i22sm34966603wrb.45.2020.08.17.07.37.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:37:51 -0700 (PDT)
+ Mon, 17 Aug 2020 07:37:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 025/150] meson: add remaining generated tcg trace helpers
-Date: Mon, 17 Aug 2020 16:35:18 +0200
-Message-Id: <20200817143723.343284-26-pbonzini@redhat.com>
+Subject: [PATCH 026/150] meson: add version.o
+Date: Mon, 17 Aug 2020 16:35:19 +0200
+Message-Id: <20200817143723.343284-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,101 +96,37 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile          | 51 -----------------------------------------------
- trace/meson.build | 14 +++++++++++++
- 2 files changed, 14 insertions(+), 51 deletions(-)
+ meson.build | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 777d9f8e13..973e932869 100644
---- a/Makefile
-+++ b/Makefile
-@@ -126,61 +126,10 @@ FULL_VERSION := $(if $(QEMU_PKGVERSION),$(VERSION) ($(QEMU_PKGVERSION)),$(VERSIO
- 
- generated-files-y = qemu-version.h config-host.h qemu-options.def
- 
--generated-files-y += trace/generated-tcg-tracers.h
--
--generated-files-y += trace/generated-helpers-wrappers.h
--generated-files-y += trace/generated-helpers.h
--generated-files-y += trace/generated-helpers.c
--
- generated-files-y += module_block.h
- 
- generated-files-y += .git-submodule-status
- 
--tracetool-y = $(SRC_PATH)/scripts/tracetool.py
--tracetool-y += $(shell find $(SRC_PATH)/scripts/tracetool -name "*.py")
--
--trace/generated-helpers-wrappers.h: trace/generated-helpers-wrappers.h-timestamp
--	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
--trace/generated-helpers-wrappers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
--	@mkdir -p $(dir $@)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=root \
--		--format=tcg-helper-wrapper-h \
--		--backend=$(TRACE_BACKENDS) \
--		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
--
--trace/generated-helpers.h: trace/generated-helpers.h-timestamp
--	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
--trace/generated-helpers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
--	@mkdir -p $(dir $@)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=root \
--		--format=tcg-helper-h \
--		--backend=$(TRACE_BACKENDS) \
--		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
--
--trace/generated-helpers.c: trace/generated-helpers.c-timestamp
--	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
--trace/generated-helpers.c-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
--	@mkdir -p $(dir $@)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=root \
--		--format=tcg-helper-c \
--		--backend=$(TRACE_BACKENDS) \
--		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
--
--trace/generated-helpers.o: trace/generated-helpers.c
--
--trace/generated-tcg-tracers.h: trace/generated-tcg-tracers.h-timestamp
--	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
--trace/generated-tcg-tracers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
--	@mkdir -p $(dir $@)
--	$(call quiet-command,$(TRACETOOL) \
--		--group=root \
--		--format=tcg-h \
--		--backend=$(TRACE_BACKENDS) \
--		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
--
- KEYCODEMAP_GEN = $(SRC_PATH)/ui/keycodemapdb/tools/keymap-gen
- KEYCODEMAP_CSV = $(SRC_PATH)/ui/keycodemapdb/data/keymaps.csv
- 
-diff --git a/trace/meson.build b/trace/meson.build
-index f0a8d1c2e2..cab36a248b 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -55,6 +55,20 @@ custom_target('trace-events-all',
-               install: true,
-               install_dir: config_host['qemu_datadir'])
- 
-+foreach d : [
-+  ['generated-tcg-tracers.h', 'tcg-h'],
-+  ['generated-helpers.c', 'tcg-helper-c'],
-+  ['generated-helpers.h', 'tcg-helper-h'],
-+  ['generated-helpers-wrappers.h', 'tcg-helper-wrapper-h'],
-+]
-+  custom_target(d[0],
-+                output: d[0],
-+                input: meson.source_root() / 'trace-events',
-+                command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
-+                build_by_default: true, # to be removed when added to a target
-+                capture: true)
-+endforeach
+diff --git a/meson.build b/meson.build
+index 16f92c4c60..d70c98bd9c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -45,8 +45,14 @@ targetos = host_machine.system()
+ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ socket = []
++version_res = []
+ if host_machine.system() == 'windows'
+   socket = cc.find_library('ws2_32')
 +
- if 'CONFIG_TRACE_UST' in config_host
-   trace_ust_all_h = custom_target('trace-ust-all.h',
-                                   output: 'trace-ust-all.h',
++  win = import('windows')
++  version_res = win.compile_resources('version.rc',
++                                      depend_files: files('pc-bios/qemu-nsis.ico'),
++                                      include_directories: include_directories('.'))
+ endif
+ glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
+                           link_args: config_host['GLIB_LIBS'].split())
+@@ -231,7 +237,7 @@ libqemuutil = static_library('qemuutil',
+                              sources: util_ss.sources() + stub_ss.sources() + genh,
+                              dependencies: [util_ss.dependencies(), m, glib, socket])
+ qemuutil = declare_dependency(link_with: libqemuutil,
+-                              sources: genh)
++                              sources: genh + version_res)
+ 
+ summary_info = {}
+ summary_info += {'Install prefix':    config_host['prefix']}
 -- 
 2.26.2
 
