@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571E32468E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:57:24 +0200 (CEST)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84012468BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:52:29 +0200 (CEST)
+Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gZf-00082d-As
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
+	id 1k7gUu-0005fz-Io
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGw-0004B9-NB
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:02 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42250)
+ id 1k7gGy-0004Fb-8Q
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:05 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGv-00067s-2n
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:02 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r4so15223775wrx.9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:00 -0700 (PDT)
+ id 1k7gGw-000680-E5
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:03 -0400
+Received: by mail-wm1-x335.google.com with SMTP id g75so14082096wme.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eZ40KHdt5g1CPMsiLXKPeY2vOcqMNZVd2dgkLPBu8Lg=;
- b=ZL8YwdGDTashcH95TuQn8NItysNz3Ov3RRcoFKuR4ZQQVuMhwvJGz/JkasRxhi8KVQ
- NBUS1i1kqBUhauzXlVopOlewDUA8ltn7lbbNdTseVHqAJcIZy9eZoGM0f2mhiYVY8QET
- Fs8hhaixtO0GsZGcIojWFFgFZFYwhTawlop0Da5Arq94e0UU2rJd7zn0UVAhWn6Rvwi0
- fdJRCba1Dub+UdwNItKyOZ6F5M47R1d8MuMUL0fDlV/1ElgWVjxMt+KjY5iaCaZJY7SZ
- ArcFXtPPTlDarNTW6AcCn2pzNBPifb4pT2g/WxgD/C2Hj6xQ2wT7ursoiHxpDwASqhDW
- Cojg==
+ bh=dZwHbdO9HxehKFQePTOuC1KMP4DvkmrbQ/M7cw7Pcco=;
+ b=Lid5JGJCu1pzO9Wxc4Vks3zGW6bw0qa+DikxWx8d4RoCRLrX3lZM3f1FRdxR6D5uKG
+ Nk2Dn6ascuvSj/e6R7+f2cGOoPDAGPFpQIblXmO13X1xfFmaxBlSuqmfeVQ/Wa8H69Pw
+ Y0uNqLULSEM+qIjQlF0dgYk88P4rG69oplEpg2875oeLsI+Joy2ApfmPXb2C09nku9kH
+ CfTmzAVoqdqH3jJm/U0Y6QLj611DkO2qMqHj5lvBDhq3K3w6ELb8U/peN+d0lPFYKqI/
+ Z50CZeSK4mIje5th6ZTirkE0dDhZEVY298nYUG4zBs5N09bZgBT3jQzp7/Ar687h4S98
+ 7oxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eZ40KHdt5g1CPMsiLXKPeY2vOcqMNZVd2dgkLPBu8Lg=;
- b=M3YKfNhDKyWtd2F8+K8PnX5+AdG+4mVqebPcxRA8DQCtOMXtnNETpzwFn+Fg4mFCw8
- J4pURDN1TbP/EIJuPMs6Cunl33hSOOHIts3vKwWW5R3AbKIP3oM32f9oJ54V6TO6RpbA
- Lj7fhUweD355muOH56fo4Y82m5DDG1VEYgDYQAvU5bghqUIKi/g9QS74cznBabBweU4m
- qnrnM6H9Rsj1hFCVpwxkoKjJjRIeOXSf0eylp15XAfOJlva/SL1pQRAolhTjLViGm8yb
- 17vb5xguYDuaJpkdQA+HS1h+s/Af8NM6Q5UisyzEn4ADuQ1FPylqpWPZYDuTcH4fNHRz
- Ncag==
-X-Gm-Message-State: AOAM530P918/K6Et6ViOjhxrcsPEFjJc2YVbliLb6HkEB57Bb5hc+J4o
- HRHCKc9QC5GGTd3cm02mud6oovJYNc8=
-X-Google-Smtp-Source: ABdhPJyeahjxH9B4Ce+h4B5kodGYBndYAfxDfJAVpjwXj4EUzy4HlDIkUGuYzL2Ng9Q+RU3dpoALhw==
-X-Received: by 2002:adf:812a:: with SMTP id 39mr15319292wrm.137.1597675079464; 
- Mon, 17 Aug 2020 07:37:59 -0700 (PDT)
+ bh=dZwHbdO9HxehKFQePTOuC1KMP4DvkmrbQ/M7cw7Pcco=;
+ b=ZVmXx7HKZDIw2DDQpnB3qBovjUd1Ex3ak0cJL4g9zds2Lv1Z9a43PRr2DgrMRN3e4T
+ /jj6CepnvfnzkEmVsDOJkuFef3Pyl2SUay98QgWRyi0j+DVpdQxYSFJ0S34cqpu9Pqm3
+ RFC5YGClmQen5AlsRqMjTi0Q3s2MtqgFifdrQkGPqCocQHobS57VYqLRD32K86iz8SK5
+ cs0m47UyRHlMPB0y0sOklaEvQTHsOYrFTCqIr4nPYIhiXd9Nwu7A6paDd5DpcKa7g9zz
+ FJ+D8+LoNtGiTWNiRPgeOuX/6ZZVuiiYG3XOy2PqSqFFvScw08GUGb5b6qJA0nihfzE0
+ XKcQ==
+X-Gm-Message-State: AOAM533YdM5+CM66RjFDe6gmqk12cPvazDe2pUz0HPfNcQIihYln8kUr
+ mwYqVIH5zq4y+Kwx7l5llGKcNT3GWBg=
+X-Google-Smtp-Source: ABdhPJxp1iJhjqOPd9x39Ntcfz+R/dOKnh0qwQfZoLhl0ncqByOUC7NU2KTVMViuJknI7DXQN/sHJw==
+X-Received: by 2002:a1c:f30f:: with SMTP id q15mr14686124wmq.60.1597675080295; 
+ Mon, 17 Aug 2020 07:38:00 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.58
+ i22sm34966603wrb.45.2020.08.17.07.37.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:37:58 -0700 (PDT)
+ Mon, 17 Aug 2020 07:37:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 033/150] contrib/vhost-user-input: convert to meson
-Date: Mon, 17 Aug 2020 16:35:26 +0200
-Message-Id: <20200817143723.343284-34-pbonzini@redhat.com>
+Subject: [PATCH 034/150] contrib/vhost-user-gpu: convert to meson
+Date: Mon, 17 Aug 2020 16:35:27 +0200
+Message-Id: <20200817143723.343284-35-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,86 +96,181 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                               | 11 -----------
- Makefile.objs                          |  1 -
- contrib/vhost-user-input/Makefile.objs |  1 -
- contrib/vhost-user-input/meson.build   |  5 +++++
- meson.build                            |  1 +
- 5 files changed, 6 insertions(+), 13 deletions(-)
- delete mode 100644 contrib/vhost-user-input/Makefile.objs
- create mode 100644 contrib/vhost-user-input/meson.build
+ Makefile                             | 18 +-----------------
+ Makefile.objs                        |  1 -
+ contrib/vhost-user-gpu/Makefile.objs | 10 ----------
+ contrib/vhost-user-gpu/meson.build   | 13 +++++++++++++
+ meson.build                          | 15 +++++++++++++++
+ rules.mak                            |  7 -------
+ 6 files changed, 29 insertions(+), 35 deletions(-)
+ delete mode 100644 contrib/vhost-user-gpu/Makefile.objs
+ create mode 100644 contrib/vhost-user-gpu/meson.build
 
 diff --git a/Makefile b/Makefile
-index 78f2cb12c7..d02910b073 100644
+index d02910b073..44626d6a80 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -300,7 +300,6 @@ dummy := $(call unnest-vars,, \
+@@ -184,16 +184,10 @@ $(call set-vpath, $(SRC_PATH))
+ 
+ LIBS+=-lz $(LIBS_TOOLS)
+ 
+-vhost-user-json-y =
+ HELPERS-y = $(HELPERS)
+ 
+ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
+ 
+-ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+-HELPERS-y += vhost-user-gpu$(EXESUF)
+-vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
+-endif
+-
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
+ # build the manuals into a subdirectory (and then install them from
+@@ -300,7 +294,6 @@ dummy := $(call unnest-vars,, \
                  elf2dmp-obj-y \
                  ivshmem-client-obj-y \
                  ivshmem-server-obj-y \
--                vhost-user-input-obj-y \
-                 vhost-user-gpu-obj-y \
+-                vhost-user-gpu-obj-y \
                  qga-vss-dll-obj-y \
                  block-obj-y \
-@@ -524,16 +523,6 @@ endif
- vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
- 	$(call LINK, $^)
+                 block-obj-m \
+@@ -314,7 +307,7 @@ dummy := $(call unnest-vars,, \
  
--ifdef CONFIG_VHOST_USER_INPUT
--ifdef CONFIG_LINUX
--vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+-all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules $(vhost-user-json-y)
++all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules
+ 
+ qemu-version.h: FORCE
+ 	$(call quiet-command, \
+@@ -520,9 +513,6 @@ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ endif
+ 
+-vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
 -	$(call LINK, $^)
--
--# build by default, do not install
--all: vhost-user-input$(EXESUF)
--endif
--endif
 -
  module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
  	$(call quiet-command,$(PYTHON) $< $@ \
  	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
+@@ -720,12 +710,6 @@ endif
+ ifneq ($(HELPERS-y),)
+ 	$(call install-prog,$(HELPERS-y),$(DESTDIR)$(libexecdir))
+ endif
+-ifneq ($(vhost-user-json-y),)
+-	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/vhost-user/"
+-	for x in $(vhost-user-json-y); do \
+-		$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)/vhost-user/"; \
+-	done
+-endif
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+ endif
 diff --git a/Makefile.objs b/Makefile.objs
-index 0f80b63554..0922c3ed00 100644
+index 0922c3ed00..2f2d4b2066 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -106,7 +106,6 @@ qga-vss-dll-obj-y = qga/
+@@ -106,6 +106,5 @@ qga-vss-dll-obj-y = qga/
  elf2dmp-obj-y = contrib/elf2dmp/
  ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
  ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
--vhost-user-input-obj-y = contrib/vhost-user-input/
- vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
+-vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
  
  ######################################################################
-diff --git a/contrib/vhost-user-input/Makefile.objs b/contrib/vhost-user-input/Makefile.objs
+diff --git a/contrib/vhost-user-gpu/Makefile.objs b/contrib/vhost-user-gpu/Makefile.objs
 deleted file mode 100644
-index b1fad90d51..0000000000
---- a/contrib/vhost-user-input/Makefile.objs
+index 09296091be..0000000000
+--- a/contrib/vhost-user-gpu/Makefile.objs
 +++ /dev/null
-@@ -1 +0,0 @@
--vhost-user-input-obj-y = main.o
-diff --git a/contrib/vhost-user-input/meson.build b/contrib/vhost-user-input/meson.build
+@@ -1,10 +0,0 @@
+-vhost-user-gpu-obj-y = vhost-user-gpu.o virgl.o vugbm.o
+-
+-vhost-user-gpu.o-cflags := $(PIXMAN_CFLAGS) $(GBM_CFLAGS)
+-vhost-user-gpu.o-libs := $(PIXMAN_LIBS)
+-
+-virgl.o-cflags := $(VIRGL_CFLAGS) $(GBM_CFLAGS)
+-virgl.o-libs := $(VIRGL_LIBS)
+-
+-vugbm.o-cflags := $(GBM_CFLAGS)
+-vugbm.o-libs := $(GBM_LIBS)
+diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
 new file mode 100644
-index 0000000000..1eeb1329d9
+index 0000000000..6c1459f54a
 --- /dev/null
-+++ b/contrib/vhost-user-input/meson.build
-@@ -0,0 +1,5 @@
-+executable('vhost-user-input', files('main.c'),
-+           link_with: libvhost_user,
-+           dependencies: qemuutil,
-+           build_by_default: targetos == 'linux',
-+           install: false)
++++ b/contrib/vhost-user-gpu/meson.build
+@@ -0,0 +1,13 @@
++if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in config_host \
++    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host
++  executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
++             link_with: libvhost_user,
++             dependencies: [qemuutil, pixman, gbm, virgl],
++             install: true,
++             install_dir: get_option('libexecdir'))
++
++  configure_file(input: '50-qemu-gpu.json.in',
++                 output: '50-qemu-gpu.json',
++                 configuration: config_host,
++                 install_dir: config_host['qemu_datadir'] / 'vhost-user')
++endif
 diff --git a/meson.build b/meson.build
-index 730442de1d..a8c22b20e5 100644
+index a8c22b20e5..6f17032e95 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -261,6 +261,7 @@ if have_tools
+@@ -79,6 +79,8 @@ if 'CONFIG_GNUTLS' in config_host
+   gnutls = declare_dependency(compile_args: config_host['GNUTLS_CFLAGS'].split(),
+                               link_args: config_host['GNUTLS_LIBS'].split())
+ endif
++pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
++                            link_args: config_host['PIXMAN_LIBS'].split())
+ seccomp = not_found
+ if 'CONFIG_SECCOMP' in config_host
+   seccomp = declare_dependency(compile_args: config_host['SECCOMP_CFLAGS'].split(),
+@@ -93,6 +95,16 @@ if 'CONFIG_LIBISCSI' in config_host
+   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
+                                 link_args: config_host['LIBISCSI_LIBS'].split())
+ endif
++gbm = not_found
++if 'CONFIG_GBM' in config_host
++  gbm = declare_dependency(compile_args: config_host['GBM_CFLAGS'].split(),
++                           link_args: config_host['GBM_LIBS'].split())
++endif
++virgl = not_found
++if 'CONFIG_VIRGL' in config_host
++  virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
++                             link_args: config_host['VIRGL_LIBS'].split())
++endif
+ 
+ target_dirs = config_host['TARGET_DIRS'].split()
+ have_user = false
+@@ -261,6 +273,9 @@ if have_tools
    if 'CONFIG_VHOST_USER' in config_host
      subdir('contrib/libvhost-user')
      subdir('contrib/vhost-user-blk')
-+    subdir('contrib/vhost-user-input')
++    if 'CONFIG_LINUX' in config_host
++      subdir('contrib/vhost-user-gpu')
++    endif
+     subdir('contrib/vhost-user-input')
      subdir('contrib/vhost-user-scsi')
    endif
- endif
+diff --git a/rules.mak b/rules.mak
+index 7aefd37b5d..1aa6394079 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -402,13 +402,6 @@ TEXI2MAN = $(call quiet-command, \
+ %.8:
+ 	$(call TEXI2MAN)
+ 
+-GEN_SUBST = $(call quiet-command, \
+-	sed -e "s!@libexecdir@!$(libexecdir)!g" < $< > $@, \
+-	"GEN","$@")
+-
+-%.json: %.json.in
+-	$(call GEN_SUBST)
+-
+ # Support for building multiple output files by atomically executing
+ # a single rule which depends on several input files (so the rule
+ # will be executed exactly once, not once per output file, and
 -- 
 2.26.2
 
