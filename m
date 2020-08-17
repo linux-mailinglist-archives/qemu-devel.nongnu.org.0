@@ -2,95 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FD7246CDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:30:32 +0200 (CEST)
-Received: from localhost ([::1]:55726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE13246CE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:33:39 +0200 (CEST)
+Received: from localhost ([::1]:36430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7i1n-0005cB-NG
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:30:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44304)
+	id 1k7i4o-00018u-T1
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7hyq-0001aO-Hi
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:27:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32186
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k7i1I-0005r6-KJ
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20878
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7hym-00066u-Ug
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:27:27 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k7i1G-0006Ws-Pg
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597681643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YacAenn7YhyTH03RT22cutTCboN2Fxlku+b8lV8DbRY=;
- b=EKQXcdnBl11Q9RD2NvIQtvSxvK2Ni4ipXlPpTouFA3An0bOfYAxWZFJMBNyk9oZPuifBPv
- VB134siN/q+TfFpuxJT6M/3IV/olnP27X3eDAvYVB/jmw2Cdv61mm9ygP3uIg8eMfHUTGn
- y+aO4gdC1QOIVXjQYMH5DB7w2ieG7Xc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-J_KRTgaAMLWvFyLtDlrFpQ-1; Mon, 17 Aug 2020 12:27:21 -0400
-X-MC-Unique: J_KRTgaAMLWvFyLtDlrFpQ-1
-Received: by mail-wm1-f72.google.com with SMTP id a5so6201983wmj.5
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:27:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YacAenn7YhyTH03RT22cutTCboN2Fxlku+b8lV8DbRY=;
- b=Ux1iHHkEOqkofXgOmRsJj0E/fQMFtdlvR7rU/neRXqldc/hv5mlEk22OoZRHPtWAY4
- mGmI58IwNjWkiWwODRJ7z/hN2tx9VVnaWFjnwlYtyTFVnezMhX4Ad7Weq/qSkskyGBN8
- UsHmnGy8ROjU48dOsfUeNOGkWRjBBIlw/UsPmeo1jVCbWKYEoe7/UnBjCPDsLjCLZoQs
- 3PWDpsU1579mU8/dgs2RG4ihJEs7Z+WPh+D3NjmLk6o4N5fhBSq1pxNvaBigsFCDqnu2
- v8ZO5RchRcMEa6NuaOU4eIeS/7zsJvJIltItQWuRNNwP9U+x7wCsS+DPlrdTv3ClzuNU
- BwFg==
-X-Gm-Message-State: AOAM531nJ4PAKy+3CaqBTnOYBLPQJTc78iYHR84D6+WY4CzbW//xAZub
- dMnVcxIFyZnRnvFOmtwNPGh0QGwD1rY9TUTEYiWLLdEoi82AhBxNGoCfB29HQOv/+MnJpOxPpXz
- QiSUu3JqArLGgXxA=
-X-Received: by 2002:a1c:4409:: with SMTP id r9mr14580238wma.114.1597681640738; 
- Mon, 17 Aug 2020 09:27:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAsaaebknlWbBQpGlUBsAlOvShputYr718cH8Xph1I3A55V1vVwSCiMJtXw52/fJbMt0CSuA==
-X-Received: by 2002:a1c:4409:: with SMTP id r9mr14580219wma.114.1597681640495; 
- Mon, 17 Aug 2020 09:27:20 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:a0d1:fc42:c610:f977?
- ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
- by smtp.gmail.com with ESMTPSA id f131sm29355950wme.40.2020.08.17.09.27.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Aug 2020 09:27:19 -0700 (PDT)
-Subject: Re: [PATCH] memory: Directly dispatch alias accesses on origin memory
- region
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200816173051.16274-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <706c1969-3e73-7a8e-d4fe-9a2516f44054@redhat.com>
-Date: Mon, 17 Aug 2020 18:27:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ s=mimecast20190719; t=1597681798;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=NgADdT/cKcFLJ6E6I686JP2f8WPfKJc3B8xRq7xQlqU=;
+ b=KEF7A+buynYgy33jBnot7XXTpQde1MYWly4XLEmSxbfbJqX1pxSxlznq8BLTU3ZbHb1LEN
+ g5RVqWjGcdYt2vzY9v2xmtndHANRMnaBq0L54muoZIny0TZU4cJpLP61nG/R6BCk971oO5
+ u+uPZkmUv1obUBCRXqzGGLfQvUCmhc8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-ZcezThJBMuuNov5X1uHqmQ-1; Mon, 17 Aug 2020 12:29:51 -0400
+X-MC-Unique: ZcezThJBMuuNov5X1uHqmQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18AEE100CABA
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:29:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD585C62B;
+ Mon, 17 Aug 2020 16:29:40 +0000 (UTC)
+Date: Mon, 17 Aug 2020 17:29:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 37/41] [automated] Use DECLARE_*CHECKER* when possible
+ (--force mode)
+Message-ID: <20200817162938.GI4775@redhat.com>
+References: <20200813222625.243136-1-ehabkost@redhat.com>
+ <20200813222625.243136-38-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200816173051.16274-1-f4bug@amsat.org>
-Content-Language: en-US
+In-Reply-To: <20200813222625.243136-38-ehabkost@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 03:34:42
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,53 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/08/20 19:30, Philippe Mathieu-Daudé wrote:
-> There is an issue when accessing an alias memory region via the
-> memory_region_dispatch_read() / memory_region_dispatch_write()
-> calls:
-> 
-> The memory_region_init_alias() flow is:
-> 
->   memory_region_init_alias()
->   -> memory_region_init()
->      -> object_initialize(TYPE_MEMORY_REGION)
->         -> memory_region_initfn()
->            -> mr->ops = &unassigned_mem_ops;
-> 
-> Later when accessing the alias, the memory_region_dispatch_read()
-> flow is:
-> 
->   memory_region_dispatch_read()
->   -> memory_region_access_valid(mr)
->      -> mr->ops->valid.accepts()
->         -> unassigned_mem_accepts()
->         <- false
->      <- false
->    <- MEMTX_DECODE_ERROR
-> 
-> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+On Thu, Aug 13, 2020 at 06:26:21PM -0400, Eduardo Habkost wrote:
+> Separate run of the script using the --force flag, for the cases
+> where the typedef wasn't found in the same header.
 
-What is the path that leads to this call?
+This scenario feels a little suspicious to me.
 
-> Fix by directly dispatching aliases accesses to its origin region.
-> 
-> Fixes: 2cdfcf272d ("memory: assign MemoryRegionOps to all regions")
+A bunch of these are caused because the typedef is put
+into qemu/typedefs.h.
 
-I don't think the "Fixes" is okay because you'd have gotten a different
-bug before.
+Others simply look wrong.
 
-> +    if (mr->alias) {
-> +        addr += mr->alias_offset;
-> +        mr = mr->alias;
-> +    }
+I wonder if we're better off fixing all these exceptions
+so the typedef is in the expected place.
 
-Also, I think this would have to be a while loop.
 
-Paolo
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
