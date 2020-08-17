@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6D62461B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:01:55 +0200 (CEST)
-Received: from localhost ([::1]:33694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A152461CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:03:32 +0200 (CEST)
+Received: from localhost ([::1]:41892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7b1e-0001dX-K8
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44600)
+	id 1k7b3D-0004ty-So
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:03:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7ar0-000763-Pv
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:54 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51394)
+ id 1k7ar4-0007Fy-4O
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:58 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7aqz-0004xN-0b
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:54 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id c6so7488226pje.1
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:50:52 -0700 (PDT)
+ id 1k7ar1-0004z2-Ir
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:57 -0400
+Received: by mail-pf1-x444.google.com with SMTP id k18so7887217pfp.7
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:50:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VLZnBxT2g7CE2cLsr6cNBvAHsI2zUW95KdIURRcdPFY=;
- b=hZNDah7CL4BBQkRs2ZpNa/zPpfHx4EDyJpZD7LPU5OkLcQZO2m1Oyfr/4OwTI6mOoe
- DWO0MKrNC/m+7j9ejGbVhparuVt8TlAp4HCFCX8kw1ceQ8gIfZ5YJCJdpbneEluzokzG
- NqSzPhuVw4ylg9ZW3poPgFpxmwM2eIgKu/GntUwZS0IGABP0BxTygEQo51XOa1apPNzH
- FBLpE4s35E1EROyfBv5C1G5a7u/46s/K9E7N+SdsncqJwl1bBAiuGaW7aE9YXzSwBj4W
- wnYPRFSm2wA7imTJn76Vtu8yCJeQeHIJSa6V0JRDJMjmUT9DHyxNf8Ae0ZzCcCR5WkGd
- YtEA==
+ bh=a/CXePUPDWWqKTfF5Ww5nuV0MbLPoMMlNNjIQw5rqQo=;
+ b=OBlGWUug8bNbfFxqWXjSK0kyxgUOfAnrhwv/usm8ZXY9m2by8dRH/G+b+94V0MEGmE
+ SbE6ReCTMs++qEiBvuQ/uIGHVKk5JjBwhdLv36B2kbLlcBi2RhCSS3AgQTVQBfFaWvEx
+ LGrDpygA2B6qE8/0iW6uFU9cA3zvpoV9/09tXrCFvzLbWfZ8TGBYRkkNCCm7nlsRFaXL
+ +65ASNJGa/GUfytMrRG4cPSWQa5Ur56EwEz4rr6RENicrI4ac0id0RCJKfCjOV+qVuRY
+ S64nRpOHzuXa1XNiTpbT9xva5UoGRsb57VyUB+37x6rWsoJeVRfeXKy2u+QAB6pObyFz
+ 1I5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=VLZnBxT2g7CE2cLsr6cNBvAHsI2zUW95KdIURRcdPFY=;
- b=cWeddNJ/FbdSGg0UvCjMM6HKOFtmgVTXQzEA9d9/sXQRf/jEL09uMWE5c4PLPOJxZd
- rJ7bNgbovfauB0wX3l5X/Fb/GdeGilurrHcAC/hM7xnoKHfSvyuzwO0YGNMv3RjEXP0X
- QxCTmJpS785eGlJ1rl1CAjWo/974YKMsKudoxopiS2w+IxTMlqujuAVveS4BZfNMhYeJ
- 6qZjvqzSqltag5bq/LQOaFiKSDg07Uo/z02EX45IfhG3c1jDaX4OFCZ+EEqwhy1yW8Ap
- nilR6sVvulOVCtLqwJ+LfrmIbfUu7/Z9nihPCZ/F54gtqe+0RsMLysYJD8lP7Zt3yuyi
- PUAA==
-X-Gm-Message-State: AOAM532DaqDvHxg50olqhNfsxCoY5Nu6tEXkr4QW2QfGBS9ahFoju5VT
- p1ElF4oe2uUW7RZ7BIWDOPfRV7umVf+8Pw==
-X-Google-Smtp-Source: ABdhPJz+JBIM7kggLQw1akhycrTjN0Lv8233Q1iNNYj8w+ExcIC1W0Q0AbA+WnmyzL7ZwQ8OBs0G+A==
-X-Received: by 2002:a17:90a:aa8e:: with SMTP id
- l14mr12580035pjq.67.1597654251455; 
- Mon, 17 Aug 2020 01:50:51 -0700 (PDT)
+ bh=a/CXePUPDWWqKTfF5Ww5nuV0MbLPoMMlNNjIQw5rqQo=;
+ b=HiTFeh/C3LOCAWJoBCbgcG94LRXT5ecGR+iqJrcTb0ztFA+GXAS76Gw/fF8VTi6Xpm
+ wMe9otV8zzpbAfwtFr6vAiMGEi5PZdb9HKRhycS1HuEzM6VIWf7EiXNekvL8XMXTVXj2
+ FKFTbqWisgWjfVypsI95bTYasrj+PEpkrOgK4Lk0Y8enAGOzHToHkyfcdx4MS2pv6G29
+ d4phckpe4AeyuiKzLGJ4TaFS6/kZ1TLzEF+nvpwSMdFtZEOBfSGf5Q8t0lwm1E3OeEjK
+ i2GaTyXpXdZ4Tp5V0yoMAXUloC1Qr+GBNcfylB/VFq0ETYzBTq6LXMm5Gb5J1lINXCAh
+ 0aMQ==
+X-Gm-Message-State: AOAM530SQnvc/u4niL9YW29efgc/asToZyHfzrG4D0gSMjtegiWGoNjV
+ uwcNpApncSMWTVH73v/wODDKftQDzNgwxQ==
+X-Google-Smtp-Source: ABdhPJzRtue50tgfbp5qImD/bscluuq6SohIzK7VCKfariHtQd4x80IlO1CKrm4QP7kRBT64fqeQ3w==
+X-Received: by 2002:a63:3ec2:: with SMTP id l185mr9605594pga.365.1597654254095; 
+ Mon, 17 Aug 2020 01:50:54 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.50.49
+ by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.50.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:50:51 -0700 (PDT)
+ Mon, 17 Aug 2020 01:50:53 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 16/70] target/riscv: rvv:1.0: add translation-time nan-box
- helper function
-Date: Mon, 17 Aug 2020 16:49:01 +0800
-Message-Id: <20200817084955.28793-17-frank.chang@sifive.com>
+Subject: [RFC v4 17/70] target/riscv: rvv-1.0: configure instructions
+Date: Mon, 17 Aug 2020 16:49:02 +0800
+Message-Id: <20200817084955.28793-18-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
 References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,104 +93,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-* Add fp16 nan-box check generator function, if a 16-bit input is not
-  properly nanboxed, then the input is replaced with the default qnan.
-* Add do_nanbox() helper function to utilize gen_check_nanbox_X() to
-  generate the NaN-boxed floating-point values based on SEW setting.
-* Apply nanbox helper in opfvf_trans
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 35 ++++++++++++++++++++++++-
- target/riscv/translate.c                | 10 +++++++
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 12 ++++++++----
+ target/riscv/vector_helper.c            | 14 +++++++++++++-
+ 2 files changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index daaa47ac9c3..4b8ae5470c3 100644
+index 4b8ae5470c3..4efe323920b 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2076,6 +2076,33 @@ GEN_OPIVI_NARROW_TRANS(vnclip_vi, IMM_ZX, vnclip_vx)
- /*
-  *** Vector Float Point Arithmetic Instructions
-  */
-+
-+/*
-+ * As RVF-only cpus always have values NaN-boxed to 64-bits,
-+ * RVF and RVD can be treated equally.
-+ * We don't have to deal with the cases of: SEW > FLEN.
-+ *
-+ * If SEW < FLEN, check whether input fp register is a valid
-+ * NaN-boxed value, in which case the least-significant SEW bits
-+ * of the f regsiter are used, else the canonical NaN value is used.
-+ */
-+static void do_nanbox(DisasContext *s, TCGv_i64 out, TCGv_i64 in)
-+{
-+    switch (s->sew) {
-+    case 1:
-+        gen_check_nanbox_h(out, in);
-+        break;
-+    case 2:
-+        gen_check_nanbox_s(out, in);
-+        break;
-+    case 3:
-+        tcg_gen_mov_i64(out, in);
-+        break;
-+    default:
-+        g_assert_not_reached();
+@@ -98,8 +98,10 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
+     s2 = tcg_temp_new();
+     dst = tcg_temp_new();
+ 
+-    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+-    if (a->rs1 == 0) {
++    if (a->rd == 0 && a->rs1 == 0) {
++        s1 = tcg_temp_new();
++        tcg_gen_mov_tl(s1, cpu_vl);
++    } else if (a->rs1 == 0) {
+         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+         s1 = tcg_const_tl(RV_VLEN_MAX);
+     } else {
+@@ -131,8 +133,10 @@ static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
+     s2 = tcg_const_tl(a->zimm);
+     dst = tcg_temp_new();
+ 
+-    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+-    if (a->rs1 == 0) {
++    if (a->rd == 0 && a->rs1 == 0) {
++        s1 = tcg_temp_new();
++        tcg_gen_mov_tl(s1, cpu_vl);
++    } else if (a->rs1 == 0) {
+         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+         s1 = tcg_const_tl(RV_VLEN_MAX);
+     } else {
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 7b4b1151b97..430b25d16c2 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -31,12 +31,24 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+ {
+     int vlmax, vl;
+     RISCVCPU *cpu = env_archcpu(env);
++    uint64_t lmul = FIELD_EX64(s2, VTYPE, VLMUL);
+     uint16_t sew = 8 << FIELD_EX64(s2, VTYPE, VSEW);
+     uint8_t ediv = FIELD_EX64(s2, VTYPE, VEDIV);
+     bool vill = FIELD_EX64(s2, VTYPE, VILL);
+     target_ulong reserved = FIELD_EX64(s2, VTYPE, RESERVED);
+ 
+-    if ((sew > cpu->cfg.elen) || vill || (ediv != 0) || (reserved != 0)) {
++    if (lmul & 4) {
++        /* Fractional LMUL. */
++        if (lmul == 4 ||
++            cpu->cfg.elen >> (8 - lmul) < sew) {
++            vill = true;
++        }
 +    }
-+}
 +
- /* Vector Single-Width Floating-Point Add/Subtract Instructions */
- 
- /*
-@@ -2128,6 +2155,7 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
- {
-     TCGv_ptr dest, src2, mask;
-     TCGv_i32 desc;
-+    TCGv_i64 t1;
- 
-     TCGLabel *over = gen_new_label();
-     tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-@@ -2141,12 +2169,17 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
--    fn(dest, mask, cpu_fpr[rs1], src2, cpu_env, desc);
-+    /* NaN-box f[rs1] */
-+    t1 = tcg_temp_new_i64();
-+    do_nanbox(s, t1, cpu_fpr[rs1]);
-+
-+    fn(dest, mask, t1, src2, cpu_env, desc);
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(src2);
-     tcg_temp_free_i32(desc);
-+    tcg_temp_free_i64(t1);
-     mark_vs_dirty(s);
-     gen_set_label(over);
-     return true;
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 10ef55bbeb7..0b3f5f1b4ba 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -121,6 +121,16 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-  *
-  * Here, the result is always nan-boxed, even the canonical nan.
-  */
-+static void gen_check_nanbox_h(TCGv_i64 out, TCGv_i64 in)
-+{
-+    TCGv_i64 t_max = tcg_const_i64(0xffffffffffff0000ull);
-+    TCGv_i64 t_nan = tcg_const_i64(0xffffffffffff7e00ull);
-+
-+    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-+    tcg_temp_free_i64(t_max);
-+    tcg_temp_free_i64(t_nan);
-+}
-+
- static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
- {
-     TCGv_i64 t_max = tcg_const_i64(0xffffffff00000000ull);
++    if ((sew > cpu->cfg.elen)
++        || vill
++        || (ediv != 0)
++        || (reserved != 0)) {
+         /* only set vill bit. */
+         env->vtype = FIELD_DP64(0, VTYPE, VILL, 1);
+         env->vl = 0;
 -- 
 2.17.1
 
