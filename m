@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E74E24615F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 10:53:29 +0200 (CEST)
-Received: from localhost ([::1]:49778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F793246128
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 10:51:24 +0200 (CEST)
+Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7atU-00028H-4z
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 04:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44038)
+	id 1k7arT-00073S-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 04:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7aqH-0005FD-O2
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:09 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:36045)
+ id 1k7aqK-0005JS-8E
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:12 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:54280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7aqF-0004gd-J8
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:09 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id m8so7905926pfh.3
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:50:07 -0700 (PDT)
+ id 1k7aqI-0004h6-LN
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:11 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id mt12so7481978pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5wUgVwUxSUpO2CbZpUkYP5iB/oW0JGxOf5Pb87o0hjA=;
- b=KJnatw/KAlGcZk20QS8llpXnVJZqH/1/bN0l8UH8zsefCnahrhPrPnqin8TFZMXzP/
- RTgHL7c82puCokMbf6VJcAJWC0jPE7F+Ha+ffxUzs21cPQQbZCGF8yJLPw4HzDJsfpbb
- rSVJwZs/JNkSMANL/fjs+GrwucC4cvpUwW5BH0xiXIYwaRzmzIOjfnZWaei5GlOklFX2
- 4bI/ebv459V2anosQ3FM+9rg7UkqwuiODXl8qCc7vsP6yTj6KBA6dWT/WA5LZGzvIjd8
- cv9CM/2m83oUAKn7BSlnPwxDSm/cr9Qk92udlEZXtZUmE8ZOZiJuZh/Z2NiWu1Kt+yXp
- TPkg==
+ bh=drhHEFRj8g8xHCSfNMMcorRHdIOXXyDjguE7cUlbARg=;
+ b=iecMGP07zaiJXyWaAklHyylpOdh/NAWnQ9Voskn9E9pRHJ6bBuCvHq+bv66sNPtUbs
+ bcpG3PEmBVGw/hrF+bQH1BkqWHk0QCOczLxdkyjygpqit8hss3Qqv7AfLpM2ZXyMUubS
+ pso8cTkdEMOViNQQs9s7KUeA62LQyWc7WDLR57FXH+RTyfrHhUTp4Q0YgS7pnB4nXCSX
+ BnWtrFS21n4zycMeXUh35RuxIQQevFBBMCwVoqXTaZoix36GxI2E+/Ra/1oSt7walysn
+ u48eEJZaPPp/3DlvpqUcjZMb8Rc+5G0JqxDk6ME83FUzfHiS1AzqcjsutStoGNGZvrVC
+ 8uIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=5wUgVwUxSUpO2CbZpUkYP5iB/oW0JGxOf5Pb87o0hjA=;
- b=LcmCyTvjHX6hv72kZbXSeNdmGqcOUoXqwJktm36To8Vhas5VpCCGMQq6LUUtzvpdMh
- m1+EtqT39Gc+Zmhe68Me+oad1PGjxwzuCH3EIGo7KIQqPVr+uv1B3hElPAvWM1M9xIEO
- gAkWD39H7cMBvXmrECp2gdz6YUhK3SC36ffihnVIHETddYht809hgvFkRjs01KJgdW9G
- RdS/CIpBf0qtvsO4c6JGDAULFQtVEBEd8swcghsOwLyt+W6/stJaWlCQ4/C2+GliqRfU
- I7ZAJfCYsu1SlolSOxaxyEo+2eVh3ZrYWABbgjKjgY6Gd7jHMfQo4a45kLFb1ZPFflmd
- Uz8g==
-X-Gm-Message-State: AOAM532OYfcu5gSFthJVquNhjFD9EbQBGsDRoGQM6YPudoyl2OonNI/4
- b83DZKnapKe4nfJaq5J2uQSMuy6YLF1KCw==
-X-Google-Smtp-Source: ABdhPJyXAGxEH3WmhhStAXVm5dzzP+nXQE36gF2bCGjtVsvS0BsiCmmfw4rMcLJ9JE67/xBz78T5bQ==
-X-Received: by 2002:a63:742:: with SMTP id 63mr9042892pgh.295.1597654205998;
- Mon, 17 Aug 2020 01:50:05 -0700 (PDT)
+ bh=drhHEFRj8g8xHCSfNMMcorRHdIOXXyDjguE7cUlbARg=;
+ b=A297YsJNgKM/cvWy6KMKLlES+iIid1EsjJo2gNtchqcSFMyKOyJS0Ze06KSnib/cFE
+ zs+mBcEXKPxQMN2bAbMnDyd0jfGPesF/WEKb9mELUPvhHhoMXAdcorB5PRvyESb2FmzU
+ z5pzaerQW7GTVysgM3vWxDlU4worBBG+cHBh1Kg7hze5QJfRWeaVww8nauWj7494rsmv
+ 84u4KjbtuwTt7PvqjSkV9EPYihiAqF9smlCFWLC8aFYsz0jYtRuB30Wp8wI9hZAOgJHB
+ g3aN0fuFRdHr/lu04qLjQRXWj4TPmnylXMjOMN10VRtFAWzl7wcZTa7mDE+FZysEPW74
+ r3Bg==
+X-Gm-Message-State: AOAM532PVM8BlJo2xiLTE3DDcVoBvJnmaLapHirNqHLtw0lzGvUwahhJ
+ lnnU3es3NIUwz6OaRzU5Ww5ZwPITA2pROA==
+X-Google-Smtp-Source: ABdhPJxljN4QMQU6VVGiBc2pDbxQxnaDLGOzChs5AUvWnMfAGFX08NISh2Cl0128bOvqOZd8Fsuflg==
+X-Received: by 2002:a17:902:10f:: with SMTP id
+ 15mr10734656plb.232.1597654209214; 
+ Mon, 17 Aug 2020 01:50:09 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.50.04
+ by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.50.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:50:05 -0700 (PDT)
+ Mon, 17 Aug 2020 01:50:08 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 01/70] target/riscv: drop vector 0.7.1 and add 1.0 support
-Date: Mon, 17 Aug 2020 16:48:46 +0800
-Message-Id: <20200817084955.28793-2-frank.chang@sifive.com>
+Subject: [RFC v4 02/70] target/riscv: Use FIELD_EX32() to extract wd field
+Date: Mon, 17 Aug 2020 16:48:47 +0800
+Message-Id: <20200817084955.28793-3-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
 References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,60 +96,23 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 10 +++++-----
- target/riscv/cpu.h |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ target/riscv/vector_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 228b9bdb5d6..085381fee00 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -339,7 +339,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     int priv_version = PRIV_VERSION_1_11_0;
--    int vext_version = VEXT_VERSION_0_07_1;
-+    int vext_version = VEXT_VERSION_1_00_0;
-     target_ulong target_misa = 0;
-     Error *local_err = NULL;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 793af990673..43ba272c09b 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -98,7 +98,7 @@ static inline uint32_t vext_lmul(uint32_t desc)
  
-@@ -455,8 +455,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-                 return;
-             }
-             if (cpu->cfg.vext_spec) {
--                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
--                    vext_version = VEXT_VERSION_0_07_1;
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
-+                    vext_version = VEXT_VERSION_1_00_0;
-                 } else {
-                     error_setg(errp,
-                            "Unsupported vector spec version '%s'",
-@@ -464,8 +464,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-                     return;
-                 }
-             } else {
--                qemu_log("vector verison is not specified, "
--                        "use the default value v0.7.1\n");
-+                qemu_log("vector version is not specified, "
-+                        "use the default value v1.0\n");
-             }
-             set_vext_version(env, vext_version);
-         }
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index a804a5d0bab..f9ef20fe89a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -79,7 +79,7 @@ enum {
- #define PRIV_VERSION_1_10_0 0x00011000
- #define PRIV_VERSION_1_11_0 0x00011100
+ static uint32_t vext_wd(uint32_t desc)
+ {
+-    return (simd_data(desc) >> 11) & 0x1;
++    return FIELD_EX32(simd_data(desc), VDATA, WD);
+ }
  
--#define VEXT_VERSION_0_07_1 0x00000701
-+#define VEXT_VERSION_1_00_0 0x00010000
- 
- #define TRANSLATE_PMP_FAIL 2
- #define TRANSLATE_FAIL 1
+ /*
 -- 
 2.17.1
 
