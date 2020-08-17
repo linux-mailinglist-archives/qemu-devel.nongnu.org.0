@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E43246C88
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:21:11 +0200 (CEST)
-Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971A4246CA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:23:34 +0200 (CEST)
+Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hsk-0004SF-As
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41996)
+	id 1k7hv3-0002E4-Jp
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k7hpO-0008CG-Dc; Mon, 17 Aug 2020 12:17:42 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:41607)
+ id 1k7hqG-0001JB-Kn; Mon, 17 Aug 2020 12:18:36 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:45648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k7hpM-0004uj-OY; Mon, 17 Aug 2020 12:17:42 -0400
-Received: by mail-io1-xd42.google.com with SMTP id g19so18167119ioh.8;
- Mon, 17 Aug 2020 09:17:39 -0700 (PDT)
+ id 1k7hqE-00050I-R4; Mon, 17 Aug 2020 12:18:36 -0400
+Received: by mail-io1-xd43.google.com with SMTP id u126so18085772iod.12;
+ Mon, 17 Aug 2020 09:18:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JfB27uxKgiitmOZCXEe4t6YbDbTKDrzBtw1c9WaPXlQ=;
- b=JBpzzLPaUEt4XzzoLPOXB8AtZvq1+wTpOHCIpWSYgjjQN5UjGBUukjf3dDderiomya
- fYpITZj4X7U0Z04k+iBhCZ0eK2Z6QBWPfeWqGAt4fIhC2mgUKjJra4JTl2y8EBosoMQW
- Ny59EjPJscK7sontGfO8QkrMVV2Y9xCnlH82cuyw//d5GtPWTG3ssLkuOaovqFWum3J9
- RuPxg28qbEbCVTMMbmjYPYh9YFhDCjBiUpdVcsBQJf0cvPrPuUua7/igtFpBm+O9Kmm6
- Tl1VHMqwZkV0ATx27pUIyKKfQsLYjqPT/p2YeBQJBU505n3oIIJllZOGEBz3o6Z8m8ir
- anNQ==
+ :cc; bh=p9XCntgwV4W2FDTPpu1YQgq63ARJn3VQZsFMwFACLI0=;
+ b=bs4HTi3c1VSr3QBvajFKLXejfMxsMqR6knecjzwkeiEkfxA91VzONAAleXY9B/tdv7
+ DCmD+MBjfmQTqb4RKHjYrUOlx0EhmfjXSaL/ozMGuZWhgn8TcxvHCfq1H15sCXnpgjHD
+ /QuTmln589j3rfBXximJz7hPwz8ONvVfRxVPbkq8+8kSBzhuXpHD5MFXE/s8xZSEvwel
+ XJN9A9CagnrenyLGtltfrBdmIIAo7KExQzimLiWKdX9I+2RxQba9jorzK6n1XSNhops1
+ hGhB9tAiufUB9WxmF0T3hNYybpGVEU8bcTcnjPhj0WIRg3wIh7rniQ/MLFP/P4MoIvH1
+ ieCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JfB27uxKgiitmOZCXEe4t6YbDbTKDrzBtw1c9WaPXlQ=;
- b=WbiwdPtfINKn4JXTDkkTK3u75kUqFd/nsHAEEiQAvXp74PZpVVDha+22IxwchdtThJ
- VN2hLeCYI8ZlA6Sds+KablFxl5tvAFWI4eTlAK2rVIHdP/j2BZMRafY8Pp+Q8BMTIPwL
- EaRxHRQKnuptWa3qd2ywXp8bI7/74W2JfIz0PDq3zlH/x9JqLxrICYO0KOJ59uzuRFT+
- yZQTeu8oh0oi6/46Kal17DQn0yBNt/EDS2pKGpXW2Kcx7WfQ7V4G5f9XZHWwWdF6fQzO
- Z5HEQpe3y8lel9omkJ3pF0lQSn6vS3ae88qBqivVvi0pb/T9OBbgUSYcIXe6vE7T0Dbh
- /XfQ==
-X-Gm-Message-State: AOAM531TFkFt8AXfteqQa7BbWf3t8UxgSmt9/piPJnYho40eMzvXHVkt
- LKxvnaqBDeUi6YhZ4342Cgu/VBZw3Fi6iLHjRQk=
-X-Google-Smtp-Source: ABdhPJyXGoBsk/efe4uwmhB/U/jbD6NT4UMHuOU7d0QgC4FNoXiA8ibW/XzjnTt7IHQU2VPb56LIGUGuf61a/CU3T3A=
-X-Received: by 2002:a6b:6016:: with SMTP id r22mr12964699iog.42.1597681059357; 
- Mon, 17 Aug 2020 09:17:39 -0700 (PDT)
+ bh=p9XCntgwV4W2FDTPpu1YQgq63ARJn3VQZsFMwFACLI0=;
+ b=dhjMWABabmH/SvH15EA8TR1ktXwRNZYmfLhtSjXJ/EHtOyInhnxsRIW04pirV/S+mI
+ sZzUMZfXWyVfRC5pwKB2X6++xhLfuMc0slVZUatCN2wP5tg3EE7yaVaZNyWVz+DnGsj+
+ blvKDkkgbPf4/3dxBZttc1UvOOaW8Cmbss6gdyBl+Zla3D3T3q0QEQ+YnvAO91XKqTEW
+ qKIVFTverb/u8eEy+vVea2kr2bHRXpAt4LSsCEaCtxjLlneXnzZzMQ+XBuHP9H7w6eky
+ 8occLStyZbvXXu2DKAOfwHJsinrj8xilFUyKbcpc+vA7l3F+AKc5JUM8mADsSO4FQ/JH
+ IKug==
+X-Gm-Message-State: AOAM531GnMVhvjjHO8akcT56swMpDSXM4wYZzKitka83jdNuff2NRtfK
+ cMc6xeFqzUM3HbC/okqcuqall/wyqdBkFxxbutU=
+X-Google-Smtp-Source: ABdhPJxtpAqo9IBscBr9q2dbQpzK88Gn7vUnSGYwOo0AG3Lm+DUnw1boPes7yth9VVKmgRhXDQl/mDcexrlO3x0tNwM=
+X-Received: by 2002:a02:84c1:: with SMTP id f59mr15357394jai.106.1597681113382; 
+ Mon, 17 Aug 2020 09:18:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200817140144.373403-1-edgar.iglesias@gmail.com>
- <20200817140144.373403-6-edgar.iglesias@gmail.com>
-In-Reply-To: <20200817140144.373403-6-edgar.iglesias@gmail.com>
+ <20200817140144.373403-2-edgar.iglesias@gmail.com>
+In-Reply-To: <20200817140144.373403-2-edgar.iglesias@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 17 Aug 2020 09:07:07 -0700
-Message-ID: <CAKmqyKOH-6UmOjR=_=Q=nCPXVxsHH4gBp+J59_PvDTmKY5U2=g@mail.gmail.com>
-Subject: Re: [PATCH v1 5/5] configure: microblaze: Enable mttcg
+Date: Mon, 17 Aug 2020 09:08:02 -0700
+Message-ID: <CAKmqyKNoWVxf0DPnNv0xOmhffGYmkVwqTwuvSKy0H5xvgotj_Q@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] target/microblaze: mbar: Transfer dc->rd to
+ mbar_imm
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -92,10 +93,15 @@ Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 17, 2020 at 7:03 AM Edgar E. Iglesias
+On Mon, Aug 17, 2020 at 7:04 AM Edgar E. Iglesias
 <edgar.iglesias@gmail.com> wrote:
 >
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> Transfer dc->rd to mbar_imm to improve the readability when
+> comparing to the specs.
+>
+> No functional change.
 >
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
@@ -104,21 +110,34 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  configure | 1 +
->  1 file changed, 1 insertion(+)
+>  target/microblaze/translate.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/configure b/configure
-> index 2acc4d1465..2f7adaa6ae 100755
-> --- a/configure
-> +++ b/configure
-> @@ -8162,6 +8162,7 @@ case "$target_name" in
->    microblaze|microblazeel)
->      TARGET_ARCH=microblaze
->      TARGET_SYSTBL_ABI=common
-> +    mttcg="yes"
->      bflt="yes"
->      echo "TARGET_ABI32=y" >> $config_target_mak
->    ;;
+> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+> index f6ff2591c3..47637f152b 100644
+> --- a/target/microblaze/translate.c
+> +++ b/target/microblaze/translate.c
+> @@ -1229,8 +1229,10 @@ static void dec_br(DisasContext *dc)
+>      /* Memory barrier.  */
+>      mbar = (dc->ir >> 16) & 31;
+>      if (mbar == 2 && dc->imm == 4) {
+> +        uint16_t mbar_imm = dc->rd;
+> +
+>          /* mbar IMM & 16 decodes to sleep.  */
+> -        if (dc->rd & 16) {
+> +        if (mbar_imm & 16) {
+>              TCGv_i32 tmp_hlt = tcg_const_i32(EXCP_HLT);
+>              TCGv_i32 tmp_1 = tcg_const_i32(1);
+>
+> @@ -1246,7 +1248,7 @@ static void dec_br(DisasContext *dc)
+>              tcg_temp_free_i32(tmp_1);
+>              return;
+>          }
+> -        LOG_DIS("mbar %d\n", dc->rd);
+> +        LOG_DIS("mbar %d\n", mbar_imm);
+>          /* Break the TB.  */
+>          dc->cpustate_changed = 1;
+>          return;
 > --
 > 2.25.1
 >
