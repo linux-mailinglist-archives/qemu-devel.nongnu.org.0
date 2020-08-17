@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD63F24689A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:44:55 +0200 (CEST)
-Received: from localhost ([::1]:46562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D7A24689D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:46:12 +0200 (CEST)
+Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gNa-0007O8-NL
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
+	id 1k7gOp-0000Sb-47
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:46:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGb-0003HI-AX
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:41 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42834)
+ id 1k7gGc-0003KZ-BR
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:42 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGZ-00062Z-Pc
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:41 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r4so15222529wrx.9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:39 -0700 (PDT)
+ id 1k7gGa-00062k-RZ
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:42 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id 88so15280672wrh.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pyogagIogekxmBEBJdMiIgfbzL4q1hqCl4ySl4yEPBY=;
- b=nFwYzU8pw35+LOD7sRVbNUWZ/Ll+FdoHmfZoUf3e/xzgJ3gY/8SKJ4UMHKlfphG9OH
- Bg9WOcOwPu9iPf9ZXNQx1DtYHAk56jFjvwHXNTIN3A+HfKxIq/HGogcvrJhIwW09WpDJ
- YJ6O+8T6kh8N0FzHdK+onRSDV629LoqKqi9508qKKzYCF4pqX2+T+LwAeU7Zqz0V2gwz
- tliwI7IhjYnbnah0TPeK2+TXW8XR8ZxKhU113doyrHHiDZaaPfPaaffMgwebWqw0FVH5
- kR/b6IS0z5j7eqD9Q9qITBqA70q9ZoBOwQySWOXHWiO+dRizW5XG3yJDwNpypvCDGZZ7
- CZRQ==
+ bh=mQFyJVdpVjaE0U+2hL8BlOmtacuv/C9XnPeWiNd02zw=;
+ b=s21N8Ng71iQSh2RJwjvDHgkUUQHFOlS+j4pw+826LodvnUGoDnNYAl7dutEZhjmDQQ
+ u8kFvhwlMMHpl2cR/QOD3Vu356IQrql1/EmtFaLNZLzKwe8SnTto6h52qX47wsUY0lyc
+ fgDW3F2+Krz7tPfWl8Mmf81Ddu/yR/OhuLnspx0BIiHxO90rLdlxIZQXq6fQjUrWyI/a
+ dkobRooohz3Y4LNETaqh9MBAFFsq63l2t3Z5bOT3nVa82z2zCIZqZX4jR3sB7gO/WmK8
+ bg21H9wCR0DVa7czrfxpv9acXaYIWM7Q/D53Q4d3yjmSPza/IHQ12mbSQ7pJKzivUN0s
+ 4U2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pyogagIogekxmBEBJdMiIgfbzL4q1hqCl4ySl4yEPBY=;
- b=SKYiHl1EfY5BIRRKJiwGu9bfyBmUFQ6EuXYyupP+lig6IbwypbLCYa/XQu3d4g+RaR
- JjswSddv/5Zp6eeG4x+hWVvm63WSAwOB7lj1XITJdbulRkVCGAzFZPl6rRlRVhtnhz5L
- enCDj6TiYRpIErDFy0NNeMWwbESGuDguvgwbuBof91K9j0ZTALFhEcdeOiQrLsgAdQvU
- tGoyKWlmKngviQNZzTTTZJN4fMCVT6+CgKsF+cPHz+cpUjq2k6clrieKlhjKAFPZy6J3
- zkiR9iAGdJ1ircdgBKPdOGg+OdV5k/lzUYFgwiEIdaOF3Ai2mKt/z/vl4Y//RzUBIHY9
- 0vOw==
-X-Gm-Message-State: AOAM531fpjHNPMw6+aK4NvHQ5HVqpZVOaP7mRS7SDzOoQSTJMqBpG2kG
- 2KX1jdUb0azRk2ta/UN3P2kcR47iNwc=
-X-Google-Smtp-Source: ABdhPJwXnWTOIB1ifU2gcR/t08c16QNwWSqgxhNYmhy9auCxEr4N5UZrtfcDDSVRan+8CKhh4gDFiQ==
-X-Received: by 2002:adf:dfd0:: with SMTP id q16mr17183139wrn.60.1597675057950; 
- Mon, 17 Aug 2020 07:37:37 -0700 (PDT)
+ bh=mQFyJVdpVjaE0U+2hL8BlOmtacuv/C9XnPeWiNd02zw=;
+ b=m2Wb8sAszY5ftlbxAR23k1yQPYRbimI86DEIkbEclEu/273xcOxXHh6SzY5GRrEGZ9
+ b4Valgg2lbrgV7ws96x89rZNssZaxPJHKpnfMVDj6OL00CSPNY74v8+AMC+4awjisx3H
+ McMNprXvRQUt2d9ivSvh1JOgzlz6SRQYgsi+fEbH4AMc3qYUyi/vWTk5F5ZRBz8Qcdjb
+ xbU525r8ZI59Cj3OdB3ORLDr8FmS0Y33j6nrgqAkcfNmevns2FNA/n6XDcUfxU1jzII0
+ PLwyeDPL34K5FZ9gQGXFYqfN5arAn+oQ6gEJncZdFZlQR3rxzmhrD+IDgLIO4av2NLpm
+ sFHg==
+X-Gm-Message-State: AOAM532c/bJOP2kMGVAacYxUUsCNq9LRaEvv+WxhfjN1Bfs8TwOuVXge
+ 0hgTTI94W6VGUxG1XGvXo7kWaf9XHKw=
+X-Google-Smtp-Source: ABdhPJxzfK3Oe6i/7d2iiB1y91jdJr+vGrUIa+wSUP96msVx/qg90/gDAQ1nE43VjJ9rueYfWh9D/A==
+X-Received: by 2002:adf:92a1:: with SMTP id 30mr17126918wrn.56.1597675059100; 
+ Mon, 17 Aug 2020 07:37:39 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.37
+ i22sm34966603wrb.45.2020.08.17.07.37.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:37:37 -0700 (PDT)
+ Mon, 17 Aug 2020 07:37:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 011/150] configure: do not include $(...) variables in
- config-host.mak
-Date: Mon, 17 Aug 2020 16:35:04 +0200
-Message-Id: <20200817143723.343284-12-pbonzini@redhat.com>
+Subject: [PATCH 012/150] configure: expand path variables for meson configure
+Date: Mon, 17 Aug 2020 16:35:05 +0200
+Message-Id: <20200817143723.343284-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,108 +86,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This ensures that Meson will be able to reuse the results of
-the tests that are performed in the configure script.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ configure | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/configure b/configure
-index 625c14c500..606c327cca 100755
+index 606c327cca..373bb22287 100755
 --- a/configure
 +++ b/configure
-@@ -610,8 +610,8 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
--QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
--QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
-+QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
-+QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
- if test "$debug_info" = "yes"; then
-     CFLAGS="-g $CFLAGS"
+@@ -415,16 +415,7 @@ LDFLAGS_SHARED="-shared"
+ modules="no"
+ module_upgrades="no"
+ prefix="/usr/local"
+-mandir="\${prefix}/share/man"
+-datadir="\${prefix}/share"
+ firmwarepath="\${prefix}/share/qemu-firmware"
+-qemu_docdir="\${prefix}/share/doc/qemu"
+-bindir="\${prefix}/bin"
+-libdir="\${prefix}/lib"
+-libexecdir="\${prefix}/libexec"
+-includedir="\${prefix}/include"
+-sysconfdir="\${prefix}/etc"
+-local_statedir="\${prefix}/var"
+ confsuffix="/qemu"
+ slirp=""
+ oss_lib=""
+@@ -979,12 +970,6 @@ if test "$mingw32" = "yes" ; then
+     LIBS="-liberty $LIBS"
+   fi
+   prefix="c:/Program Files/QEMU"
+-  mandir="\${prefix}"
+-  datadir="\${prefix}"
+-  qemu_docdir="\${prefix}"
+-  bindir="\${prefix}"
+-  sysconfdir="\${prefix}"
+-  local_statedir=
+   confsuffix=""
+   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
  fi
-@@ -911,7 +911,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-isystem \$(SRC_PATH)/linux-headers -isystem $PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-   supported_os="yes"
-   libudev="yes"
- ;;
-@@ -4397,8 +4397,8 @@ EOF
-           if [ "$pwd_is_source_path" != "y" ] ; then
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-           fi
--          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
--          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
-+          fdt_cflags="-I${source_path}/dtc/libfdt"
-+          fdt_ldflags="-L$PWD/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5385,13 +5385,13 @@ case "$capstone" in
-       git_submodules="${git_submodules} capstone"
-     fi
-     mkdir -p capstone
--    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
-+    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
-     if test "$mingw32" = "yes"; then
-       LIBCAPSTONE=capstone.lib
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    libs_cpu="-L\$(BUILD_DIR)/capstone -lcapstone $libs_cpu"
-+    libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
-     ;;
+@@ -1638,6 +1623,26 @@ for opt do
+   esac
+ done
  
-   system)
-@@ -6414,8 +6414,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
--    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
-+    slirp_libs="-L$PWD/slirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
-@@ -7909,19 +7909,19 @@ if test "$secret_keyring" = "yes" ; then
- fi
- 
- if test "$tcg_interpreter" = "yes"; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
- elif test "$ARCH" = "sparc64" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
- elif test "$ARCH" = "s390x" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
- elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
- elif test "$ARCH" = "ppc64" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
- elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
--  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
- else
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/${ARCH} $QEMU_INCLUDES"
- fi
- 
- echo "HELPERS=$helpers" >> $config_host_mak
++libdir="${libdir:-$prefix/lib}"
++libexecdir="${libexecdir:-$prefix/libexec}"
++includedir="${includedir:-$prefix/include}"
++
++if test "$mingw32" = "yes" ; then
++    mandir="$prefix"
++    datadir="$prefix"
++    qemu_docdir="$prefix"
++    bindir="$prefix"
++    sysconfdir="$prefix"
++    local_statedir=
++else
++    mandir="${mandir:-$prefix/share/man}"
++    datadir="${datadir:-$prefix/share}"
++    qemu_docdir="${qemu_docdir:-$prefix/share/doc/qemu}"
++    bindir="${bindir:-$prefix/bin}"
++    sysconfdir="${sysconfdir:-$prefix/etc}"
++    local_statedir="${local_statedir:-$prefix/var}"
++fi
++
+ case "$cpu" in
+     ppc)
+            CPU_CFLAGS="-m32"
 -- 
 2.26.2
 
