@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD67246B3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:51:11 +0200 (CEST)
-Received: from localhost ([::1]:34080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD371246B54
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:53:27 +0200 (CEST)
+Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hPi-0000XG-Ru
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:51:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57864)
+	id 1k7hRu-00067C-R1
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k7hH2-0007QZ-38
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:42:12 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39216)
+ id 1k7hQt-0004cE-Cl
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:52:23 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k7hGz-0007ip-4I
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:42:11 -0400
-Received: by mail-pl1-x643.google.com with SMTP id g15so3815134plj.6
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 08:42:08 -0700 (PDT)
+ id 1k7hQr-0000kX-4B
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:52:23 -0400
+Received: by mail-pg1-x544.google.com with SMTP id s15so8300873pgc.8
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 08:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3Wvq81j0f9R19GcAdXH/3hOrbeHJRoRKMKC/d+bI4Ys=;
- b=ECGsQTkSkC/OzShAEK0gLwA6gz61YgB1MZNfDEtIMoWkHQ+Fx0n2pnx/fQsYP3rV9/
- FIZW1ZFYx684LFWjJBL/d2ozDN7F7f5Ytxqn5JYV1W77AYhakB4yXroEpw46kWOuFF/8
- Zu5KJmOvDb50uVx8tcsa0PKl7b/xevsZ2TsnnSE6oKCqNS+Gg9F/3OVPhJ0VvUcbNjrz
- sNY2JPy3/k9G3YArZSYjms+BEWj9UyX1DB1NW/ZheYVayUmKVKQ5iZQMKPFK8VIeFibG
- mtdif35+floJZvYRrT4XCkBtZPfbp1ez/rsNdMzTF3cWk/gojxdBhJURmLQcMkCMZpFy
- Dswg==
+ bh=h/NJ68guh925CSzplbOgHuSP92wUKyDQ1/XIhfqCZl0=;
+ b=Owy8/qTVDAp84HTv5OE9BD21xjLAjGHybk/JkLqeBh5ibVO0LvrKJlmSA7kalEU8Cr
+ /npQsQlQGU3gmqPptFXLKJaJ9DC8AXV9x+MuIaPpW6LQp1oWvKh/FneXrYnoPZEjUpsN
+ Kd0/ApC4cAs3NqvUBftdrDWkO4z/CITem3VkGGaYWysM0uNQwfxSn+V8C6dId+1lnOVq
+ CbV2oQNt58ifX73x5h/xtw+sUxcdrm8bTdvL3WoYEjnyns7SeaxB2hZu94//G2Zmnr0a
+ CSHKm2IQwDEKFS2J6a/foZzdzfyNAelozWN4tSJMZKJ+l2zVOdgIik6NBZmOS588z2Dr
+ hnCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3Wvq81j0f9R19GcAdXH/3hOrbeHJRoRKMKC/d+bI4Ys=;
- b=PcZCCFLY8Pke0wrEJodFDnVfkzn1VYhNRO0R8z2Q5lyXk3C7/aWpo+bGxrLlpFAGpy
- /vdqXCG12FdWZX/ZK4IcfvyFL4ob1HsrlmrZfawLK+Udy2rHjR5IaC5OxMkBr7VbFpe3
- R61NnTUh1c/mvSATbUXGzHr+PRRiFrr4dEKSTzXzZlg1XstIY16zlurDN4NcPJn3mq+7
- XGE7SgnYKrhgy8LggpQj3x9/x9hGaZe0XLU+boTZUYRSwfr6NOXZf4vPSFrfVun9YpXN
- kXL9+fkwH1fvSFozpxcYAg5InMdv2w8Y6vXByk11heaOBBzSCNRhvvc4+uuy9OF7PkyX
- cLIA==
-X-Gm-Message-State: AOAM533Pv81SCpt7OASnF2hkY0ZGZCaSk0dzusoYy80HvJqTa+M3YPSw
- 2EPY9tGFuVFpoRSTY6N3kD7oyw==
-X-Google-Smtp-Source: ABdhPJzRlgygh4kiT3ZtN/+SV75PnPF31+llYoqomnrWUZJrL5St3b3aSyWTfp64KyryLcb0UK4R0Q==
-X-Received: by 2002:a17:90a:cc6:: with SMTP id 6mr13616213pjt.2.1597678927240; 
- Mon, 17 Aug 2020 08:42:07 -0700 (PDT)
+ bh=h/NJ68guh925CSzplbOgHuSP92wUKyDQ1/XIhfqCZl0=;
+ b=rwdzVbQenBPtNFi1/P6s8MzhIGuCtV4d4kV5qEoCwx62nhkUzEMlDft7G3UQG7ivt0
+ XwT+9U9gfHKCKxZ4n9uO8pQU33dT3JMeLRVM7c71VqceiGEgj2LnBKwHiSlQ6ZbNFJP/
+ GVXGq2DoDqwF28Tm5U+u4rpaeXAKGnhuZVOuo+7Vd71aRTVjS+oTJVszcE1GUBbK/c1t
+ Uyser+ijmpfFKlJh5EBDmwntSj+D6LOgusc9BI8iAYdcJ2gmprG+WvwRgrcDTVb5g5FR
+ Yf79aDkoEJCVtIBm2ueDxdU8SP+bIT+h0aYvChkGzXiZq2C+t9SHD2K5f1BAkoeU7O9k
+ SOWQ==
+X-Gm-Message-State: AOAM530OhugYRxfXEyTpT8KhjXTCOLfqvHwB+NVJ0Qh3In+VnbNjAgc6
+ +9ZdOTqruL5Qdikhd4spSxt/RA==
+X-Google-Smtp-Source: ABdhPJweMKThnTR6PE25HtnsVzPLVgzOGJeXsswfa70upHpIMbOyH84jPAIC/0vdFJw/cjAHdcWyzA==
+X-Received: by 2002:a63:ab43:: with SMTP id k3mr9257238pgp.426.1597679539328; 
+ Mon, 17 Aug 2020 08:52:19 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id g129sm19909805pfb.33.2020.08.17.08.42.05
+ by smtp.gmail.com with ESMTPSA id t25sm19940913pfe.76.2020.08.17.08.52.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Aug 2020 08:42:06 -0700 (PDT)
-Subject: Re: [PATCH v1 3/5] target/microblaze: mbar: Add support for
- data-access barriers
+ Mon, 17 Aug 2020 08:52:18 -0700 (PDT)
+Subject: Re: [PATCH v1 4/5] target/microblaze: swx: Use atomic_cmpxchg
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
 References: <20200817140144.373403-1-edgar.iglesias@gmail.com>
- <20200817140144.373403-4-edgar.iglesias@gmail.com>
+ <20200817140144.373403-5-edgar.iglesias@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d4c0d54b-2575-147e-36aa-268628def55a@linaro.org>
-Date: Mon, 17 Aug 2020 08:42:04 -0700
+Message-ID: <c6aebf82-8518-ed06-2b2e-1397f373bedf@linaro.org>
+Date: Mon, 17 Aug 2020 08:52:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200817140144.373403-4-edgar.iglesias@gmail.com>
+In-Reply-To: <20200817140144.373403-5-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -100,47 +99,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 8/17/20 7:01 AM, Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Add support for data-access barriers.
+> Use atomic_cmpxchg to implement the atomic cmpxchg sequence.
 > 
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
->  target/microblaze/translate.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  target/microblaze/translate.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
 > 
 > diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> index c1be76d4c8..c58f334a0f 100644
+> index c58f334a0f..530c15e5ad 100644
 > --- a/target/microblaze/translate.c
 > +++ b/target/microblaze/translate.c
-> @@ -1233,6 +1233,11 @@ static void dec_br(DisasContext *dc)
+> @@ -1075,14 +1075,16 @@ static void dec_store(DisasContext *dc)
+>          swx_skip = gen_new_label();
+>          tcg_gen_brcond_tl(TCG_COND_NE, env_res_addr, addr, swx_skip);
 >  
->          LOG_DIS("mbar %d\n", mbar_imm);
->  
-> +        /* Data access memory barrier.  */
-> +        if ((mbar_imm & 2) == 0) {
-> +            tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-> +        }
+> -        /* Compare the value loaded at lwx with current contents of
+> -           the reserved location.
+> -           FIXME: This only works for system emulation where we can expect
+> -           this compare and the following write to be atomic. For user
+> -           emulation we need to add atomicity between threads.  */
+> +        /*
+> +         * Compare the value loaded at lwx with current contents of
+> +         * the reserved location.
+> +         */
+>          tval = tcg_temp_new_i32();
+> -        tcg_gen_qemu_ld_i32(tval, addr, cpu_mmu_index(&dc->cpu->env, false),
+> -                            MO_TEUL);
 > +
->          /* mbar IMM & 16 decodes to sleep.  */
->          if (mbar_imm & 16) {
->              TCGv_i32 tmp_hlt = tcg_const_i32(EXCP_HLT);
+> +        tcg_gen_atomic_cmpxchg_i32(tval, addr, env_res_val,
+> +                                   cpu_R[dc->rd], mem_index,
+> +                                   mop);
+> +
+>          tcg_gen_brcond_i32(TCG_COND_NE, env_res_val, tval, swx_skip);
+>          write_carryi(dc, 0);
+>          tcg_temp_free_i32(tval);
+> @@ -1108,7 +1110,10 @@ static void dec_store(DisasContext *dc)
+>                  break;
+>          }
+>      }
+> -    tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
+> +
+> +    if (!ex) {
+> +        tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
+> +    }
+>  
+>      /* Verify alignment if needed.  */
+>      if (dc->cpu->cfg.unaligned_exceptions && size > 1) {
 > 
 
-The patch as written is fine, so
+This is fine as far as the actual swx instruction goes, so
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-However, a couple of other notes for mbar:
+However, some notes for dec_store,
 
-(1) mbar_imm & 1 is insn memory barrier.  For ARM, we do:
+There seems to be a large under-decode here.  E.g. rev should never be set for
+swx.  But rev is accepted and partially implemented.  E.g. there is no sbx
+instruction, but the ex bit is accepted for any store instruction.
 
-    /*
-     * We need to break the TB after this insn to execute
-     * self-modifying code correctly and also to take
-     * any pending interrupts immediately.
-     */
-    gen_goto_tb(s, 0, s->base.pc_next);
-
-(2) mbar_imm & 16 (sleep) should check for user-mode and generate
-    an illegal instruction.
+Microblaze has a relatively small instruction set.  Would you be open to a
+conversion to decodetree?  It should be fairly easy.
 
 
 r~
