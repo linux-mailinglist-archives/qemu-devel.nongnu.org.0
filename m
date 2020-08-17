@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F4C246902
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:04:48 +0200 (CEST)
-Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EEF2468FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:02:48 +0200 (CEST)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7ggp-0005us-Ay
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40998)
+	id 1k7get-0001v5-84
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHB-0004aH-2Y
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:17 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35619)
+ id 1k7gHD-0004gv-0s
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:19 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH9-0006Af-AJ
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:16 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 184so14108350wmb.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:14 -0700 (PDT)
+ id 1k7gHB-0006Ax-2o
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:18 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k8so14101540wma.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+zP6tQrjmoss35OlaN/EolS+2AafGwaPfZK6CLHt+xI=;
- b=iT8Vjg+74pLOdmmVZtaLInuqXuUMjjKtWyqPr6tXXX8UhSRk/b4kRNgUoNuAEGu1r2
- uoESAbd8Iwg4GKNQq5LAllo5Me8AFQM82Sa9ac4A0vWRAj6pp8dYsg+c2ss0aHmrKgQp
- Q35xD+zOJoUUPtbLWo4KZAuaFjIboLXLtoBpHubQd3EDAKz8UejgPmXM16KS6zZkY09A
- pMR48B47RahEZCXPDSPV22Y+SCxnADRaVxryuL3ECS30UH1OfELSGzzjYdr1NuD3A9CZ
- iEp41wO09xfsOoAVRXgq+Vy8MDlGv58vs6ZfLG65VqOUDE2WgE3PC51UWr8M/zYs3Kbi
- HBHA==
+ bh=u9LHgiiPmGa38g/Fb0syP3eiMwtEunpU2hIQUxxiPH0=;
+ b=OIVL0f18QpUOgr0A6If5b2CfwkNvJoG9OnnILoaukT59HaivT27sqN7bypVB7+iZev
+ atOEnSF/UtjBsswWOg789UnVkvVEw93Wce+FeMRU+jTIcc0b8nBsL52oO6gOWepCQUX+
+ 1WMTwxHqxXBH7U7o5IJQ7g4M3B3IGbYextKBbByxPab1wtwCRBB9zB9YRKRM2CKCkNFS
+ UDbGLpV4bX1kx1G+g+eZQtbCBFsgN6Dnfge8lyscjgD8iLUHwibJdHfkgBpwe5or0P4k
+ HriHAfqq8Lw2fE7uPZHFvJHi85yuVf+vUw6ON95NdnLwLBi4saC0rHnFJBU5oXaAPTqO
+ u/ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+zP6tQrjmoss35OlaN/EolS+2AafGwaPfZK6CLHt+xI=;
- b=oNmo7F2IVnZurrolEb71FHG1cwRI8x7mpmVVpkNRHe89K8T2VSiFWZlMkGs23+akgb
- fzn9uVX+gyxA2T9odHrpUPZKqybiPaA9qCcint99guNTHQlX0SNGuLeFnvoYhKp9BM22
- D6jOSm4Q5wk3rIxKpxGY7hm4gcVil2T0g3Sa/JbFSNncD6sOzy1hgkHDPi5JyeAHiChb
- kE6CQVjCHX4cSam1fVcRwNfohEIR0JsutdJRZXsApLdOAkEMCn4V6oM2XlAHesASx/Ls
- HbXjv54Cf6H+t8T50Lxsi+HRNPxxy21fYeULbHNNdGXl6B/HfdhuR6BjBYLTbuINPkBz
- ylNw==
-X-Gm-Message-State: AOAM5324Ebm65Vakae6QZh5JxLwYAf7I2z7xSZe43Rx2RtWLGu9gfp33
- EC9FwPvx0qJBBK1nz+Pdv89uqvq5TJo=
-X-Google-Smtp-Source: ABdhPJyGDr5uqZesDSixS+Cc4BcxoWuf0bLO4ixGSg/UB/epVJWHEZJFcWDgr0B+qCEcBGgk3CLSDg==
-X-Received: by 2002:a7b:c084:: with SMTP id r4mr14642428wmh.20.1597675093621; 
- Mon, 17 Aug 2020 07:38:13 -0700 (PDT)
+ bh=u9LHgiiPmGa38g/Fb0syP3eiMwtEunpU2hIQUxxiPH0=;
+ b=h4+pA/0ssMCbY40nqskGcqPqFmNq01xd53W1CeMKXJxAoIv/1rUNZ3BKiAsxcJ/Wld
+ 8JJu0fQo9jLRgEO/llxTwZcTnNtW51IUPfjz+XzjjXRyIi8I59NM6i34afwPXEoN8mRK
+ VaptHkBdeXYuTAyxSSDvo0IA1N/6/XCdC7n7wu3OGfB9SZHZW/uKs11GZa0jITd9yiFq
+ PsYBSV3LbjZxbwldTdEEqoy79BEXO6E4iWc1rHgWGb4pY/K7v3acUDm2EaojsjhLZdSZ
+ uJgE0fLHFhL/BnPvV6KO+kXGEO/lEFM8LcaUIwbqBhoh4FcfVYFcyTp56fKn9JgtmzAa
+ VWlQ==
+X-Gm-Message-State: AOAM531PapXAf0jO3ggCaJ/gi2OYiTEwJIgPWLny0awGFgfsL9d5TESE
+ PW2NIFkGJsqxevH7h5eOfgR5cRGmH5c=
+X-Google-Smtp-Source: ABdhPJy85zju38mu4V6ZHHXGDKyPUSDpHQGD0UhEOd07aTgTiTuZSIFRSjhmm4wTWaMP0K76v4T74w==
+X-Received: by 2002:a7b:cf22:: with SMTP id m2mr15386543wmg.46.1597675095520; 
+ Mon, 17 Aug 2020 07:38:15 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.12
+ i22sm34966603wrb.45.2020.08.17.07.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:13 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 049/150] meson: generate shader headers
-Date: Mon, 17 Aug 2020 16:35:42 +0200
-Message-Id: <20200817143723.343284-50-pbonzini@redhat.com>
+Subject: [PATCH 051/150] meson: handle edk2 bios and descriptors
+Date: Mon, 17 Aug 2020 16:35:44 +0200
+Message-Id: <20200817143723.343284-52-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,102 +87,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile              | 19 -------------------
- meson.build           |  1 +
- ui/meson.build        |  2 ++
- ui/shader/meson.build | 15 +++++++++++++++
- 4 files changed, 18 insertions(+), 19 deletions(-)
- create mode 100644 ui/shader/meson.build
+ Makefile                        | 29 -----------------------------
+ meson.build                     |  1 +
+ pc-bios/descriptors/meson.build | 14 ++++++++++++++
+ pc-bios/meson.build             | 27 +++++++++++++++++++++++++++
+ 4 files changed, 42 insertions(+), 29 deletions(-)
+ create mode 100644 pc-bios/descriptors/meson.build
+ create mode 100644 pc-bios/meson.build
 
 diff --git a/Makefile b/Makefile
-index 64255b9d32..11f1845196 100644
+index ca331b13dc..68ad75d210 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -382,7 +382,6 @@ clean: recurse-clean ninja-clean clean-ctlist
+@@ -116,10 +116,6 @@ generated-files-y += module_block.h
+ 
+ generated-files-y += .git-submodule-status
+ 
+-edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
+-pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
+-	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
+-
+ # Don't try to regenerate Makefile or configure
+ # We don't generate any of them
+ Makefile: ;
+@@ -263,9 +259,6 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
+-ifdef DECOMPRESS_EDK2_BLOBS
+-$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+-endif
+ 
+ SOFTMMU_FUZZ_RULES=$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
+ $(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
+@@ -373,7 +366,6 @@ clean: recurse-clean ninja-clean clean-ctlist
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+-	rm -f $(edk2-decompressed)
  	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
  	rm -f fsdev/*.pod scsi/*.pod
- 	rm -f qemu-img-cmds.h
--	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
  	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
- 	rm -f config-all-devices.mak
- 	rm -f $(SUBDIR_DEVICES_MAK)
-@@ -607,24 +606,6 @@ endif
- 	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
-         done
+@@ -450,13 +442,8 @@ edk2-licenses.txt \
+ hppa-firmware.img \
+ opensbi-riscv32-sifive_u-fw_jump.bin opensbi-riscv32-virt-fw_jump.bin \
+ opensbi-riscv64-sifive_u-fw_jump.bin opensbi-riscv64-virt-fw_jump.bin
+-
+-
+-DESCS=50-edk2-i386-secure.json 50-edk2-x86_64-secure.json \
+-60-edk2-aarch64.json 60-edk2-arm.json 60-edk2-i386.json 60-edk2-x86_64.json
+ else
+ BLOBS=
+-DESCS=
+ endif
  
--# opengl shader programs
--ui/shader/%-vert.h: $(SRC_PATH)/ui/shader/%.vert $(SRC_PATH)/scripts/shaderinclude.pl
--	@mkdir -p $(dir $@)
--	$(call quiet-command,\
--		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
--		"VERT","$@")
--
--ui/shader/%-frag.h: $(SRC_PATH)/ui/shader/%.frag $(SRC_PATH)/scripts/shaderinclude.pl
--	@mkdir -p $(dir $@)
--	$(call quiet-command,\
--		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
--		"FRAG","$@")
--
--ui/shader.o: $(SRC_PATH)/ui/shader.c \
--	ui/shader/texture-blit-vert.h \
--	ui/shader/texture-blit-flip-vert.h \
--	ui/shader/texture-blit-frag.h
--
- # documentation
- MAKEINFO=makeinfo
- MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
+ # Note that we manually filter-out the non-Sphinx documentation which
+@@ -533,7 +520,6 @@ install-includedir:
+ export DESTDIR
+ install: all $(if $(BUILD_DOCS),install-doc) \
+ 	install-datadir install-localstatedir install-includedir \
+-	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
+ 	recurse-install
+ ifneq ($(TOOLS),)
+ 	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
+@@ -556,21 +542,6 @@ ifneq ($(BLOBS),)
+ 	set -e; for x in $(BLOBS); do \
+ 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)"; \
+ 	done
+-endif
+-ifdef INSTALL_BLOBS
+-	set -e; for x in $(edk2-decompressed); do \
+-		$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)"; \
+-	done
+-endif
+-ifneq ($(DESCS),)
+-	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/firmware"
+-	set -e; tmpf=$$(mktemp); trap 'rm -f -- "$$tmpf"' EXIT; \
+-	for x in $(DESCS); do \
+-		sed -e 's,@DATADIR@,$(qemu_datadir),' \
+-			"$(SRC_PATH)/pc-bios/descriptors/$$x" > "$$tmpf"; \
+-		$(INSTALL_DATA) "$$tmpf" \
+-			"$(DESTDIR)$(qemu_datadir)/firmware/$$x"; \
+-	done
+ endif
+ 	for s in $(ICON_SIZES); do \
+ 		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
 diff --git a/meson.build b/meson.build
-index c6b13e1999..f9bcf04533 100644
+index 131ba26c1d..bb9e918e4c 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -155,6 +155,7 @@ have_block = have_system or have_tools
- # Generators
- 
- genh = []
-+shaderinclude = find_program('scripts/shaderinclude.pl')
- qapi_gen = find_program('scripts/qapi-gen.py')
- qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
-                      meson.source_root() / 'scripts/qapi/commands.py',
-diff --git a/ui/meson.build b/ui/meson.build
-index daacd2ffbc..8cf070c130 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -32,3 +32,5 @@ if have_system
-                             'code-map', '@INPUT0@', e[0], e[1]])
-   endforeach
+@@ -379,6 +379,7 @@ if have_tools
  endif
-+
-+subdir('shader')
-diff --git a/ui/shader/meson.build b/ui/shader/meson.build
+ 
+ subdir('tools')
++subdir('pc-bios')
+ 
+ summary_info = {}
+ summary_info += {'Install prefix':    config_host['prefix']}
+diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
 new file mode 100644
-index 0000000000..f69e44ed89
+index 0000000000..7c715bace8
 --- /dev/null
-+++ b/ui/shader/meson.build
-@@ -0,0 +1,15 @@
-+shaders = [
-+  ['texture-blit', 'frag'],
-+  ['texture-blit', 'vert'],
-+  ['texture-blit-flip', 'vert'],
++++ b/pc-bios/descriptors/meson.build
+@@ -0,0 +1,14 @@
++foreach f: [
++  '50-edk2-i386-secure.json',
++  '50-edk2-x86_64-secure.json',
++  '60-edk2-aarch64.json',
++  '60-edk2-arm.json',
++  '60-edk2-i386.json',
++  '60-edk2-x86_64.json'
 +]
-+
-+foreach e : shaders
-+  output = '@0@-@1@.h'.format(e[0], e[1])
-+  genh += custom_target(output,
-+                output: output,
-+                capture: true,
-+                build_by_default: true, # to be removed when added to a target
-+                input: files('@0@.@1@'.format(e[0], e[1])),
-+                command: [shaderinclude, '@INPUT0@'])
++  configure_file(input: files(f),
++                 output: f,
++                 configuration: {'DATADIR': config_host['qemu_datadir']},
++                 install: install_blobs,
++                 install_dir: config_host['qemu_datadir'] / 'firmware')
 +endforeach
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+new file mode 100644
+index 0000000000..6e3bfe3ca4
+--- /dev/null
++++ b/pc-bios/meson.build
+@@ -0,0 +1,27 @@
++bzip2 = find_program('bzip2')
++
++install_blobs = 'INSTALL_BLOBS' in config_host
++if 'DECOMPRESS_EDK2_BLOBS' in config_host
++  fds = [
++    'edk2-aarch64-code.fd',
++    'edk2-arm-code.fd',
++    'edk2-arm-vars.fd',
++    'edk2-i386-code.fd',
++    'edk2-i386-secure-code.fd',
++    'edk2-i386-vars.fd',
++    'edk2-x86_64-code.fd',
++    'edk2-x86_64-secure-code.fd',
++  ]
++
++  foreach f : fds
++    custom_target(f,
++                  output: f,
++                  input: '@0@.bz2'.format(f),
++                  capture: true,
++                  install: install_blobs,
++                  install_dir: config_host['qemu_datadir'],
++                  command: [ bzip2, '-dc', '@INPUT0@' ])
++  endforeach
++endif
++
++subdir('descriptors')
 -- 
 2.26.2
 
