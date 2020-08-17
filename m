@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B102468C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:53:32 +0200 (CEST)
-Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571E32468E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:57:24 +0200 (CEST)
+Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gVv-0007eO-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
+	id 1k7gZf-00082d-As
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGw-0004Ax-Kr
+ id 1k7gGw-0004B9-NB
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:02 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44411)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGu-00066t-32
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:01 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c15so15227959wrs.11
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:59 -0700 (PDT)
+ id 1k7gGv-00067s-2n
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:02 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id r4so15223775wrx.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/2v2cBSvlqgwOfQ4NBBtOTdfUDnNSdQUL7TF+4lOREY=;
- b=u3FaDbyrr4ESPRp6/l/0nvG/0MQqRwHINYhPGV650nyBlqqSAxYUFpFBRoSIGqqeKM
- E8zUJBGn5RGh8S+SlDqKXmrzrfTz85ebryNDOMolI5dS9LybbqpYNOQyiAOcSXhQbRdo
- SgT8uvhODaPBdwyJzFFGYxEhqH5wS/X/CG4p75sW/CWogc7m9Me76ovG4v0pUngXbRwu
- BsCEpL7WS3RJ/nSZX9M/dld6H/9h8Hd0clrN8KGpA+O4ztlodB7QsMvAc3RnlJOOYShU
- TRTmotRfbusRsHAvQOygX9xMuXbzJ1vkf0uqQXNtrwiFbepO41uMNQXFdROZMCfCWJZz
- yrFA==
+ bh=eZ40KHdt5g1CPMsiLXKPeY2vOcqMNZVd2dgkLPBu8Lg=;
+ b=ZL8YwdGDTashcH95TuQn8NItysNz3Ov3RRcoFKuR4ZQQVuMhwvJGz/JkasRxhi8KVQ
+ NBUS1i1kqBUhauzXlVopOlewDUA8ltn7lbbNdTseVHqAJcIZy9eZoGM0f2mhiYVY8QET
+ Fs8hhaixtO0GsZGcIojWFFgFZFYwhTawlop0Da5Arq94e0UU2rJd7zn0UVAhWn6Rvwi0
+ fdJRCba1Dub+UdwNItKyOZ6F5M47R1d8MuMUL0fDlV/1ElgWVjxMt+KjY5iaCaZJY7SZ
+ ArcFXtPPTlDarNTW6AcCn2pzNBPifb4pT2g/WxgD/C2Hj6xQ2wT7ursoiHxpDwASqhDW
+ Cojg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/2v2cBSvlqgwOfQ4NBBtOTdfUDnNSdQUL7TF+4lOREY=;
- b=dRn6bMOZOYndS+9LOS3l7eQifdQPdRkuS/NUS1Tm44fAcTYAZvdvjzjPD1AOy4ColN
- 395GQkvY2d2q8YegNMgrF10UycsYbjiuoExL5ELDCbWPcTY0wmuJOLROAnhm7hTNVReW
- eynSUPX6FMw92HCjfKrsyV8A34BezdAroQqvhnIzSzPPRla6Ssk7Rh4bDRsgT43pElrY
- eoLR9JjxYdG70xG60mgAkSM2Gvwr8kOPqMwgqRJP1ynXoq/kZX86ZgSU0mRNMI3p74y6
- J7Nr/NucnTum60K4XJyk9L8dsDkPOOZsT6k8t9vxaRI7fYUg0B5rj29NlMqwxarQUsOD
- PGpQ==
-X-Gm-Message-State: AOAM530OMqago4S6wee79vSQ5WrrgtabRNrA8O8PQpov0Ds4SoEmuVqQ
- 3rJLoO+qtJhQcKkc+upYBCBcfeKUtE0=
-X-Google-Smtp-Source: ABdhPJyKDJmADqXwgjl4/KL16ndKsb9QvfpTM89OKBZqzm0ywBpL01MEa22jh3FlfeLjpRigEaHSTQ==
-X-Received: by 2002:adf:e704:: with SMTP id c4mr16991541wrm.81.1597675078556; 
- Mon, 17 Aug 2020 07:37:58 -0700 (PDT)
+ bh=eZ40KHdt5g1CPMsiLXKPeY2vOcqMNZVd2dgkLPBu8Lg=;
+ b=M3YKfNhDKyWtd2F8+K8PnX5+AdG+4mVqebPcxRA8DQCtOMXtnNETpzwFn+Fg4mFCw8
+ J4pURDN1TbP/EIJuPMs6Cunl33hSOOHIts3vKwWW5R3AbKIP3oM32f9oJ54V6TO6RpbA
+ Lj7fhUweD355muOH56fo4Y82m5DDG1VEYgDYQAvU5bghqUIKi/g9QS74cznBabBweU4m
+ qnrnM6H9Rsj1hFCVpwxkoKjJjRIeOXSf0eylp15XAfOJlva/SL1pQRAolhTjLViGm8yb
+ 17vb5xguYDuaJpkdQA+HS1h+s/Af8NM6Q5UisyzEn4ADuQ1FPylqpWPZYDuTcH4fNHRz
+ Ncag==
+X-Gm-Message-State: AOAM530P918/K6Et6ViOjhxrcsPEFjJc2YVbliLb6HkEB57Bb5hc+J4o
+ HRHCKc9QC5GGTd3cm02mud6oovJYNc8=
+X-Google-Smtp-Source: ABdhPJyeahjxH9B4Ce+h4B5kodGYBndYAfxDfJAVpjwXj4EUzy4HlDIkUGuYzL2Ng9Q+RU3dpoALhw==
+X-Received: by 2002:adf:812a:: with SMTP id 39mr15319292wrm.137.1597675079464; 
+ Mon, 17 Aug 2020 07:37:59 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.57 for <qemu-devel@nongnu.org>
+ i22sm34966603wrb.45.2020.08.17.07.37.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 17 Aug 2020 07:37:58 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 032/150] contrib/rdmacm-mux: convert to Meson
-Date: Mon, 17 Aug 2020 16:35:25 +0200
-Message-Id: <20200817143723.343284-33-pbonzini@redhat.com>
+Subject: [PATCH 033/150] contrib/vhost-user-input: convert to meson
+Date: Mon, 17 Aug 2020 16:35:26 +0200
+Message-Id: <20200817143723.343284-34-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,94 +87,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can use config-host.mak to decide whether the tool has to be built,
-apart from that the conversion is straightforward.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                         | 5 -----
- Makefile.objs                    | 1 -
- contrib/rdmacm-mux/Makefile.objs | 3 ---
- contrib/rdmacm-mux/meson.build   | 8 ++++++++
- meson.build                      | 2 ++
- 5 files changed, 10 insertions(+), 9 deletions(-)
- delete mode 100644 contrib/rdmacm-mux/Makefile.objs
- create mode 100644 contrib/rdmacm-mux/meson.build
+ Makefile                               | 11 -----------
+ Makefile.objs                          |  1 -
+ contrib/vhost-user-input/Makefile.objs |  1 -
+ contrib/vhost-user-input/meson.build   |  5 +++++
+ meson.build                            |  1 +
+ 5 files changed, 6 insertions(+), 13 deletions(-)
+ delete mode 100644 contrib/vhost-user-input/Makefile.objs
+ create mode 100644 contrib/vhost-user-input/meson.build
 
 diff --git a/Makefile b/Makefile
-index da1eefd827..78f2cb12c7 100644
+index 78f2cb12c7..d02910b073 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -300,7 +300,6 @@ dummy := $(call unnest-vars,, \
                  elf2dmp-obj-y \
                  ivshmem-client-obj-y \
                  ivshmem-server-obj-y \
--                rdmacm-mux-obj-y \
-                 vhost-user-input-obj-y \
+-                vhost-user-input-obj-y \
                  vhost-user-gpu-obj-y \
                  qga-vss-dll-obj-y \
-@@ -522,10 +521,6 @@ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
- 	$(call LINK, $^)
- endif
- 
--rdmacm-mux$(EXESUF): LIBS += "-libumad"
--rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
--	$(call LINK, $^)
--
+                 block-obj-y \
+@@ -524,16 +523,6 @@ endif
  vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
  	$(call LINK, $^)
  
+-ifdef CONFIG_VHOST_USER_INPUT
+-ifdef CONFIG_LINUX
+-vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+-	$(call LINK, $^)
+-
+-# build by default, do not install
+-all: vhost-user-input$(EXESUF)
+-endif
+-endif
+-
+ module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
+ 	$(call quiet-command,$(PYTHON) $< $@ \
+ 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
 diff --git a/Makefile.objs b/Makefile.objs
-index ab798b08a7..0f80b63554 100644
+index 0f80b63554..0922c3ed00 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
 @@ -106,7 +106,6 @@ qga-vss-dll-obj-y = qga/
  elf2dmp-obj-y = contrib/elf2dmp/
  ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
  ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
--rdmacm-mux-obj-y = contrib/rdmacm-mux/
- vhost-user-input-obj-y = contrib/vhost-user-input/
+-vhost-user-input-obj-y = contrib/vhost-user-input/
  vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
  
-diff --git a/contrib/rdmacm-mux/Makefile.objs b/contrib/rdmacm-mux/Makefile.objs
+ ######################################################################
+diff --git a/contrib/vhost-user-input/Makefile.objs b/contrib/vhost-user-input/Makefile.objs
 deleted file mode 100644
-index 3df744af89..0000000000
---- a/contrib/rdmacm-mux/Makefile.objs
+index b1fad90d51..0000000000
+--- a/contrib/vhost-user-input/Makefile.objs
 +++ /dev/null
-@@ -1,3 +0,0 @@
--ifdef CONFIG_PVRDMA
--rdmacm-mux-obj-y = main.o
--endif
-diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
+@@ -1 +0,0 @@
+-vhost-user-input-obj-y = main.o
+diff --git a/contrib/vhost-user-input/meson.build b/contrib/vhost-user-input/meson.build
 new file mode 100644
-index 0000000000..1a01bb9262
+index 0000000000..1eeb1329d9
 --- /dev/null
-+++ b/contrib/rdmacm-mux/meson.build
-@@ -0,0 +1,8 @@
-+if 'CONFIG_PVRDMA' in config_host
-+  # if not found, CONFIG_PVRDMA should not be set
-+  libumad = cc.find_library('ibumad', required: true)
-+  executable('rdmacm-mux', files('main.c'),
-+             dependencies: [glib, libumad],
-+             build_by_default: targetos == 'linux',
-+             install: false)
-+endif
++++ b/contrib/vhost-user-input/meson.build
+@@ -0,0 +1,5 @@
++executable('vhost-user-input', files('main.c'),
++           link_with: libvhost_user,
++           dependencies: qemuutil,
++           build_by_default: targetos == 'linux',
++           install: false)
 diff --git a/meson.build b/meson.build
-index 48ac6c3da3..730442de1d 100644
+index 730442de1d..a8c22b20e5 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -256,6 +256,8 @@ qemuutil = declare_dependency(link_with: libqemuutil,
- # Other build targets
- 
- if have_tools
-+  subdir('contrib/rdmacm-mux')
-+
+@@ -261,6 +261,7 @@ if have_tools
    if 'CONFIG_VHOST_USER' in config_host
      subdir('contrib/libvhost-user')
      subdir('contrib/vhost-user-blk')
++    subdir('contrib/vhost-user-input')
+     subdir('contrib/vhost-user-scsi')
+   endif
+ endif
 -- 
 2.26.2
 
