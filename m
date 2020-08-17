@@ -2,93 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2E3246345
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:25:50 +0200 (CEST)
-Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E0924632A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:22:01 +0200 (CEST)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7bOn-00026B-OV
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:25:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
+	id 1k7bL6-0002Z2-Mo
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k7b3W-0006iF-2F
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 05:03:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k7b3U-0006bF-75
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 05:03:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597655027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X35wZYIYnvgTdM0PIU+9mMGzSR72ducVZms1cOn7WOU=;
- b=Cz2trLeQV54xU9/5OrDropOedHmlWl3b26MjczJxIAzi0zeO4b2gXjhMlc8il0fn4WzlB9
- 0swn+RqAGnhy6S09AYTIN8Lx7apqUCWlLJ6ueLm+3pXA9XM4cPGrlq+rUE28Re5dgGdX5l
- bq3Z8H+A35lLiDhNST7oAHbi02f8YLA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-QccHJaNLOsCnPgJjpbYsNQ-1; Mon, 17 Aug 2020 05:03:45 -0400
-X-MC-Unique: QccHJaNLOsCnPgJjpbYsNQ-1
-Received: by mail-wm1-f70.google.com with SMTP id c124so4579227wme.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 02:03:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=10W6+w8S8KVTvPPTYuD7O76lRKEN8eCw/p+UvSihqdQ=;
- b=cwt4L+9Fz0aiRj131ezsLDUnm0soB5+qEf3LiKT/yv4sc3ghtTBT6g6alNOGIHq7mO
- b2qo7pQ6ODMBTnadxfvpt8d9O7fRfK2bVkC2KXcCcdDndgjcIbgLlD3fpRI9d36gL/85
- D8+eJF18VjA3Q+sO3IE9iZIutKbmCjAoDC7BgfyppjAoZ+d/8DvxImgq4RldgxENGY8n
- XeVA8FxR7QqA+GguU9v6UKZVA5bBOWk9aACeGBFKgqOizyF1wT1oaLq7GtUJUo6v+bkd
- gsA388KSmfLh/Nw3+JEzVzDWA+67L04s6r6Gfy/zFX+3qqezmeejSSQMxowijtkJrpAy
- 2Nmw==
-X-Gm-Message-State: AOAM531yEr2Zrd/QH1UPw2GDgw0j1tc8Mscm+sIIxkk9WoByDD1uUqUU
- Gm9nBzgmD9HNTOEJqZZvichdQru8Klin75SESErr8rxQs76eY68q2jjpT1ouf86VxyYfkBlQfYx
- /ECVcNk8Z3FKDMOw=
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr14115126wrs.273.1597655024700; 
- Mon, 17 Aug 2020 02:03:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrhB8FU/5JHe6zeIVlYGOii6t7WWTqkQihhTXB5P//FXUmgnZAwGzZCJgtV/aUZasbmTFlUg==
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr14115085wrs.273.1597655024370; 
- Mon, 17 Aug 2020 02:03:44 -0700 (PDT)
-Received: from steredhat ([5.180.207.22])
- by smtp.gmail.com with ESMTPSA id e5sm32177018wrc.37.2020.08.17.02.03.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:03:43 -0700 (PDT)
-Date: Mon, 17 Aug 2020 11:03:35 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/7] block: Use definitions instead of magic values
-Message-ID: <20200817090335.kgjvqnyjk2qujjia@steredhat>
-References: <20200814082841.27000-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k7bAQ-0005Wh-VS
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 05:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k7bAO-0007VU-TE
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 05:10:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k7bAN-0006i5-IB
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:10:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 84D9E2E80DB
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:10:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200814082841.27000-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 02:47:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 17 Aug 2020 09:03:42 -0000
+From: Gerd Hoffmann <1882851@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: diego-viola kraxel-redhat
+X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
+X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
+References: <159174217343.32241.17743917589333297614.malonedeb@gac.canonical.com>
+Message-Id: <20200817090342.bemmtkvz4seayp2i@sirius.home.kraxel.org>
+Subject: [Bug 1882851] Re: [PATCH] drm/virtio: fix unblank
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d284a2190538dffe335a4818d3847d2c764d10e9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 04:50:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,42 +71,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1882851 <1882851@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 14, 2020 at 10:28:34AM +0200, Philippe Mathieu-Daudé wrote:
-> Trivial block patches:
-> - Fix a typo
-> - Replace '1 << 30' by '1 * GiB' in null-co
-> - Replace 512 by BDRV_SECTOR_SIZE when appropriate.
-> 
-> Philippe Mathieu-Daudé (7):
->   block/null: Make more explicit the driver default size is 1GiB
->   hw/ide/core: Trivial typo fix
->   hw/ide/core: Replace magic '512' value by BDRV_SECTOR_SIZE
->   hw/ide/ahci: Replace magic '512' value by BDRV_SECTOR_SIZE
->   hw/ide/atapi: Replace magic '512' value by BDRV_SECTOR_SIZE
->   hw/ide/pci: Replace magic '512' value by BDRV_SECTOR_SIZE
->   hw/scsi/scsi-disk: Replace magic '512' value by BDRV_SECTOR_SIZE
-> 
->  block/null.c        |  4 +++-
->  hw/ide/ahci.c       |  5 +++--
->  hw/ide/atapi.c      |  8 ++++----
->  hw/ide/core.c       | 25 +++++++++++++------------
->  hw/ide/pci.c        |  2 +-
->  hw/scsi/scsi-disk.c | 44 +++++++++++++++++++++++---------------------
->  6 files changed, 47 insertions(+), 41 deletions(-)
+Hi,
 
-Series:
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> > --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> > @@ -100,6 +100,7 @@ static void virtio_gpu_crtc_atomic_enable(struct dr=
+m_crtc *crtc,
+> >  	struct virtio_gpu_output *output =3D drm_crtc_to_virtio_gpu_output(cr=
+tc);
+> >  =
 
+> >  	output->enabled =3D true;
+> > +	output->need_update =3D true;
 
-Thanks for the cleaning that makes the code more readable!
-Stefano
+> > --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> > @@ -163,7 +163,8 @@ static void virtio_gpu_primary_plane_update(struct =
+drm_plane *plane,
+> >  	    plane->state->src_w !=3D old_state->src_w ||
+> >  	    plane->state->src_h !=3D old_state->src_h ||
+> >  	    plane->state->src_x !=3D old_state->src_x ||
+> > -	    plane->state->src_y !=3D old_state->src_y) {
+> > +	    plane->state->src_y !=3D old_state->src_y ||
+> > +	    output->need_update) {
+> =
 
+> Uh instead of hand-rolling what's essentially a drm_crtc_needs_modeset
+> check, why not use that one? atomic helpers try to keep the usual suspects
+> for state transitions already handy, to avoid every driver rolling their
+> own. Or do I miss something here?
+
+Well, the virtio-gpu virtual hardware can't do plane updates and crtc
+updates independant from each other.  So the crtc callbacks handle
+disable only (we don't need a fb for that) and leave the enable to the
+plane update.
+
+I suspect calling drm_atomic_crtc_needs_modeset() in plane update isn't
+going to fly ...
+
+take care,
+  Gerd
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882851
+
+Title:
+  QEMU video freezes with "Guest disabled display" (virtio driver)
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am using Arch Linux as my Guest and Host OS, after starting qemu
+  with the following command:
+
+    $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga
+  virtio
+
+  and waiting for a screen blank, I get this message:
+
+    Guest disabled display
+
+  And nothing happens after that, I can move the mouse or hit any key,
+  and the message is still there.
+
+  I can still reboot the VM but that's not optimal.
+
+  I can reproduce this with the latest QEMU release (5.0.0) or git master, =
+
+  I also tried this with older releases (4.0.0, 3.0.0) and the issue is sti=
+ll there.
+
+  I can't reproduce this with other video drivers (std, qxl).
+
+  With std/qxl the screen will blank a bit and then continue as normal.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882851/+subscriptions
 
