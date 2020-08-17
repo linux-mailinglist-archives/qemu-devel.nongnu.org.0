@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB5C246A55
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:33:41 +0200 (CEST)
-Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A77B246A1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:30:46 +0200 (CEST)
+Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7h8m-0005ho-QS
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42584)
+	id 1k7h5x-00089N-1L
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKT-0002t2-Er
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41673)
+ id 1k7gKZ-0002wl-ED
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40292
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKO-0006qf-Jf
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:41 -0400
+ id 1k7gKW-0006r3-Ak
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597675295;
+ s=mimecast20190719; t=1597675303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yaNJ6IuIrRUXWAqx7sgSBGNyDiIOBarS60pmB3FgTrg=;
- b=Fp4kjd6I3fk/3g+hqZ2eDOAcQXUtvxUr5bYalokSLNA9tCcOoqcnunVdNLDVGkRzXc/MuD
- aKywb271EQWnS6CjHq53AMK0cVLwGzdm5T2zBo/d6n7o+L5wSJo4Fkvv+RMFM+m7zxfQ4P
- ivY3ldROmDk5x98nMVscvnxoMfnOLiQ=
+ bh=ODJdNdWjjNTd8b4kfugM0UtLCKBeocnqITNVNdo3kn8=;
+ b=WjG/5fPYpT5IbRLQBTIxsfMGEymfDXksZK6MXqzpxpmpU2gMP/9PIUkal0l83niAXzsSv/
+ 92dh711hzCNfGnVmxh8LIVEuQFOPFhmNJi69E6l+J3BbEm71qJOsyT8YKXfIVB2h4pfMOF
+ t0b20/fv7nTrZUQjg7bN67Pigm9E6TI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-W7Wo5Z5wNJeBUr6n2ANvUw-1; Mon, 17 Aug 2020 10:41:33 -0400
-X-MC-Unique: W7Wo5Z5wNJeBUr6n2ANvUw-1
+ us-mta-470-ys893nGPNASsxHaheRS7Jg-1; Mon, 17 Aug 2020 10:41:40 -0400
+X-MC-Unique: ys893nGPNASsxHaheRS7Jg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 005D6100CEC4
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:41:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10CCB185E521
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:41:40 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27074756AC;
- Mon, 17 Aug 2020 14:41:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 574A2756AC;
+ Mon, 17 Aug 2020 14:41:33 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 115/150] meson: convert hw/hyperv
-Date: Mon, 17 Aug 2020 16:40:18 +0200
-Message-Id: <20200817144053.345107-20-pbonzini@redhat.com>
+Subject: [PATCH 116/150] meson: convert hw/gpio
+Date: Mon, 17 Aug 2020 16:40:19 +0200
+Message-Id: <20200817144053.345107-21-pbonzini@redhat.com>
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 02:47:08
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 05:13:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,54 +92,72 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs        | 1 -
- hw/hyperv/Makefile.objs | 3 ---
- hw/hyperv/meson.build   | 3 +++
- hw/meson.build          | 1 +
- 4 files changed, 4 insertions(+), 4 deletions(-)
- delete mode 100644 hw/hyperv/Makefile.objs
- create mode 100644 hw/hyperv/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/gpio/Makefile.objs | 12 ------------
+ hw/gpio/meson.build   | 12 ++++++++++++
+ hw/meson.build        |  1 +
+ 4 files changed, 13 insertions(+), 13 deletions(-)
+ delete mode 100644 hw/gpio/Makefile.objs
+ create mode 100644 hw/gpio/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 22eb804730..a2c2f6d1de 100644
+index a2c2f6d1de..c04dfe589c 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -9,7 +9,6 @@ devices-dirs-y += cpu/
+@@ -8,7 +8,6 @@ devices-dirs-y += char/
+ devices-dirs-y += cpu/
  devices-dirs-y += display/
  devices-dirs-y += dma/
- devices-dirs-y += gpio/
--devices-dirs-$(CONFIG_HYPERV) += hyperv/
+-devices-dirs-y += gpio/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/hyperv/Makefile.objs b/hw/hyperv/Makefile.objs
+diff --git a/hw/gpio/Makefile.objs b/hw/gpio/Makefile.objs
 deleted file mode 100644
-index 5b614e040c..0000000000
---- a/hw/hyperv/Makefile.objs
+index 3cfc261f9b..0000000000
+--- a/hw/gpio/Makefile.objs
 +++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += hyperv.o
--obj-$(CONFIG_HYPERV_TESTDEV) += hyperv_testdev.o
--obj-$(CONFIG_VMBUS) += vmbus.o
-diff --git a/hw/hyperv/meson.build b/hw/hyperv/meson.build
+@@ -1,12 +0,0 @@
+-common-obj-$(CONFIG_MAX7310) += max7310.o
+-common-obj-$(CONFIG_PL061) += pl061.o
+-common-obj-$(CONFIG_PUV3) += puv3_gpio.o
+-common-obj-$(CONFIG_ZAURUS) += zaurus.o
+-common-obj-$(CONFIG_E500) += mpc8xxx.o
+-common-obj-$(CONFIG_GPIO_KEY) += gpio_key.o
+-
+-common-obj-$(CONFIG_OMAP) += omap_gpio.o
+-common-obj-$(CONFIG_IMX) += imx_gpio.o
+-common-obj-$(CONFIG_RASPI) += bcm2835_gpio.o
+-common-obj-$(CONFIG_NRF51_SOC) += nrf51_gpio.o
+-common-obj-$(CONFIG_ASPEED_SOC) += aspeed_gpio.o
+diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
 new file mode 100644
-index 0000000000..1367e2994f
+index 0000000000..6bcdfa6b1d
 --- /dev/null
-+++ b/hw/hyperv/meson.build
-@@ -0,0 +1,3 @@
-+specific_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'))
-+specific_ss.add(when: 'CONFIG_HYPERV_TESTDEV', if_true: files('hyperv_testdev.c'))
-+specific_ss.add(when: 'CONFIG_VMBUS', if_true: files('vmbus.c'))
++++ b/hw/gpio/meson.build
+@@ -0,0 +1,12 @@
++softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
++softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
++softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
++softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
++softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
++softmmu_ss.add(when: 'CONFIG_ZAURUS', if_true: files('zaurus.c'))
++
++softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpio.c'))
++softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_gpio.c'))
++softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gpio.c'))
++softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
++softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 983edc1d47..f9e5adfb48 100644
+index f9e5adfb48..52577c3205 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('hyperv')
++subdir('gpio')
+ subdir('hyperv')
  subdir('i2c')
  subdir('ide')
- subdir('input')
 -- 
 2.26.2
 
