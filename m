@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4121246900
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:04:29 +0200 (CEST)
-Received: from localhost ([::1]:56924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76DD246908
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:06:17 +0200 (CEST)
+Received: from localhost ([::1]:38548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7ggW-0004yg-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41126)
+	id 1k7giG-0000zo-TO
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHJ-0004xl-JA
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:25 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53496)
+ id 1k7gHK-0004zm-H6
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:26 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHH-0006C1-UV
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:25 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g8so13424427wmk.3
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:23 -0700 (PDT)
+ id 1k7gHI-0006CD-OE
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:26 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id a14so15274608wra.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2gAEVfLwds7d2Tav/gcydNw8MTDXwaqdfdKjcmTKtiE=;
- b=ZJsZhHIiJ6Wg1r7IT8dULIyCJpL4mHCcc3kUrAl3PaWpPN21BTXhrw82hoJXXn9dC9
- XiTBG+TKoQOaRNFKJwxN1UNTDvP40pXVUrWZ4+FBTgXVBbi4u/n4vqEJSJECqEJA6nMZ
- qlGchNINFRYQlP+kkG3m9RZDeo9ltDtduDpZobKCyJJCvoxAeiU39lf15ITuhtRsvtjK
- /Mk0xqxc+Lh2QXPL3khBhylDDXkozVBrnELk0N7k+wi+Rny5hFZdz6PLqjTKqWPSdZXL
- asHVjpPwkxRk1WOCCCWPKJa3uM9S34DWXS/6TQ99VcybA8rE4BUF8zrsHFWbPjogMmsv
- 0Xlw==
+ bh=INcTxbyIHqyKHSSMZcT5ew08N5/uJ0P11rmSyo5Fvb8=;
+ b=lIuPiY0lRw5wHMYn69wHzsHFJ3XIuBY9KWZfJcwbPlLSgmAMSc9cgM60IQByEwFaj1
+ RmIH1iCvsNBGaKclXyPgdiu60KYZ68iSRIPD3q1JGBIth6SXAGVis/gd+Mp/8wzIyY2Q
+ TM0WtlwTqCBUvLzpC6O8F7htAgtVulwr3hGnjWA8801DqssYFvvxYQx7oR+a73E6eukD
+ nxjGq7fs9ar77BrIyl/2xJXmRwWNDDRYj/LpB4Pg3RqwUE/VselPnsudf32rtWbquQIc
+ 9pUhIZyIrfEa0cE20lx2a3U4qVbM5g2QFyIwv+TpI9JigtDp51Q2EV3mezB0mFajdTd5
+ YoHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2gAEVfLwds7d2Tav/gcydNw8MTDXwaqdfdKjcmTKtiE=;
- b=K55JPNV4eYx8I1ApjpPVOE2XKVbQ3+Ir51izIwYdLs2FyHj3fx30EXYaZgnJKJycZy
- tdJsK/k/v+rp0sb91XMi/yebBP0eVRvDjovZk18tDv/vM1bEhWzLWe0TAB3/fMaoJ/Ec
- Mu6HITF64CXhz9cMC5ZhFfZxP7AZhsGArXL13TOmkMc3JFY+zALnHuXgcF8VeSeaNMdq
- 0hOh87PnryNyHc2syqmHJfEKB8RDyVi0GG5JTxwpsW7rP/nTnd/pEl85aTuVmHyKTBfK
- 5f0erXgG040mOYukv5VSc5XG+xmSn2l15VNT6zeKBGbderUgns909h5HuFNCLD+BEzyt
- 6ufw==
-X-Gm-Message-State: AOAM530COD1cphC48nzllUt+LqhBy+VZ6gAuX7oNkFBWRl2/8PZtXjJS
- zl3Bz62iWwyjy6q2a/BtZUuHBl5ML3k=
-X-Google-Smtp-Source: ABdhPJybxciPZff4aziRz2ZyCP2kqRjqiQZDJ+UTsb6K97LtKGTxAKN1q6awhqOL58V6kULvB4YsUw==
-X-Received: by 2002:a1c:14e:: with SMTP id 75mr15821893wmb.151.1597675102302; 
- Mon, 17 Aug 2020 07:38:22 -0700 (PDT)
+ bh=INcTxbyIHqyKHSSMZcT5ew08N5/uJ0P11rmSyo5Fvb8=;
+ b=MSmahqmgPkThjM3Ieg4tBTo7oqla9srYH2qy+2CbhouUVVI5RhXisOYXYtvcHN81Rx
+ kzhLYO2JmQZJ8vq2rBo4nWbupiWJG+dOOw5NEjlq2pWSyoND1zOqZjw21kAYTZePyppT
+ y3U33tXvoVU+8C2vEfPGJkiuod7jog0mzzXcFLJR16QFLndLj74tEcb/wqfLRosNQR0C
+ Gg946nOu/R5iKtFsj2fvZ2NNYQiwkUiN3dF0HR7IHFDS+F/VbFs7tit2tFLEX6IJiIGZ
+ 4hmit+g5fKO4sHwkhOJy0iMXKbCs3EyaFkuSjsBn1q30bsXAR8A6w6vNAk9tikaB3nU7
+ twWg==
+X-Gm-Message-State: AOAM531erT9KAfYP+d0+JaovhbX9AYX7yl8w+snJXFuV/WAKfHLIkm56
+ oPRZEugiPs1fTOBd0i3tQyCQQlkSDWQ=
+X-Google-Smtp-Source: ABdhPJzgFcYqgoKsiCAo3s3y/+UeZP/+wWlCWnr/p+INjUfT4HWT8GRYAssfCmjsgnsSXxWrLct8jw==
+X-Received: by 2002:adf:ef4d:: with SMTP id c13mr17073021wrp.198.1597675103124; 
+ Mon, 17 Aug 2020 07:38:23 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.21
+ i22sm34966603wrb.45.2020.08.17.07.38.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:21 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:22 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 058/150] meson: convert io directory to Meson
-Date: Mon, 17 Aug 2020 16:35:51 +0200
-Message-Id: <20200817143723.343284-59-pbonzini@redhat.com>
+Subject: [PATCH 059/150] meson: convert target/s390x/gen-features.h
+Date: Mon, 17 Aug 2020 16:35:52 +0200
+Message-Id: <20200817143723.343284-60-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,123 +93,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Needed by linux-user/s390x/cpu_loop.c; this removes the only use of HOST_CC.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile         |  1 -
- Makefile.objs    |  2 +-
- Makefile.target  |  2 +-
- io/Makefile.objs | 12 ------------
- io/meson.build   | 25 +++++++++++++++++++++++++
- meson.build      |  1 +
- 6 files changed, 28 insertions(+), 15 deletions(-)
- delete mode 100644 io/Makefile.objs
- create mode 100644 io/meson.build
+ Makefile                    |  2 ++
+ configure                   |  1 -
+ meson.build                 |  1 +
+ target/meson.build          |  1 +
+ target/s390x/Makefile.objs  | 20 --------------------
+ target/s390x/cpu_features.h |  2 +-
+ target/s390x/cpu_models.h   |  2 +-
+ target/s390x/meson.build    |  9 +++++++++
+ 8 files changed, 15 insertions(+), 23 deletions(-)
+ create mode 100644 target/meson.build
+ create mode 100644 target/s390x/meson.build
 
 diff --git a/Makefile b/Makefile
-index 6995661e40..25eca25d63 100644
+index 25eca25d63..2c6ced6cd5 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -235,7 +235,6 @@ dummy := $(call unnest-vars,, \
-                 block-obj-m \
-                 storage-daemon-obj-y \
-                 storage-daemon-obj-m \
--                io-obj-y \
-                 common-obj-y \
-                 common-obj-m)
+@@ -113,6 +113,8 @@ CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
+ generated-files-y = config-host.h
  
-diff --git a/Makefile.objs b/Makefile.objs
-index 018338d2db..0920cdb40c 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -21,7 +21,7 @@ block-obj-m = block/
+ generated-files-y += module_block.h
++generated-files-y += target/s390x/gen-features.h
++target/s390x/gen-features.h: Makefile.ninja
  
- crypto-obj-y = crypto/libcrypto.fa
+ generated-files-y += .git-submodule-status
  
--io-obj-y = io/
-+io-obj-y = io/libio.fa
- 
- endif # CONFIG_SOFTMMU or CONFIG_TOOLS
- 
-diff --git a/Makefile.target b/Makefile.target
-index b213955a81..f6b7a86390 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -194,12 +194,12 @@ include $(SRC_PATH)/Makefile.objs
- dummy := $(call fix-paths,../,, \
-               authz-obj-y \
-               crypto-obj-y \
-+              io-obj-y \
-               qom-obj-y)
- dummy := $(call unnest-vars,.., \
-                block-obj-y \
-                block-obj-m \
-                chardev-obj-y \
--               io-obj-y \
-                common-obj-y \
-                common-obj-m)
- all-obj-y += $(common-obj-y)
-diff --git a/io/Makefile.objs b/io/Makefile.objs
-deleted file mode 100644
-index 9a20fce4ed..0000000000
---- a/io/Makefile.objs
-+++ /dev/null
-@@ -1,12 +0,0 @@
--io-obj-y = channel.o
--io-obj-y += channel-buffer.o
--io-obj-y += channel-command.o
--io-obj-y += channel-file.o
--io-obj-y += channel-socket.o
--io-obj-y += channel-tls.o
--io-obj-y += channel-watch.o
--io-obj-y += channel-websock.o
--io-obj-y += channel-util.o
--io-obj-y += dns-resolver.o
--io-obj-y += net-listener.o
--io-obj-y += task.o
-diff --git a/io/meson.build b/io/meson.build
-new file mode 100644
-index 0000000000..062e011bf0
---- /dev/null
-+++ b/io/meson.build
-@@ -0,0 +1,25 @@
-+io_ss = ss.source_set()
-+io_ss.add(genh)
-+io_ss.add(files(
-+  'channel-buffer.c',
-+  'channel-command.c',
-+  'channel-file.c',
-+  'channel-socket.c',
-+  'channel-tls.c',
-+  'channel-util.c',
-+  'channel-watch.c',
-+  'channel-websock.c',
-+  'channel.c',
-+  'dns-resolver.c',
-+  'net-listener.c',
-+  'task.c',
-+))
-+
-+io_ss = io_ss.apply(config_host, strict: false)
-+libio = static_library('io', io_ss.sources(),
-+                       dependencies: [io_ss.dependencies()],
-+                       link_with: libqemuutil,
-+                       name_suffix: 'fa',
-+                       build_by_default: false)
-+
-+io = declare_dependency(link_whole: libio, dependencies: [crypto, qom])
+diff --git a/configure b/configure
+index 2123a79039..606bc7378d 100755
+--- a/configure
++++ b/configure
+@@ -7785,7 +7785,6 @@ echo "CC=$cc" >> $config_host_mak
+ if $iasl -h > /dev/null 2>&1; then
+   echo "IASL=$iasl" >> $config_host_mak
+ fi
+-echo "HOST_CC=$host_cc" >> $config_host_mak
+ echo "CXX=$cxx" >> $config_host_mak
+ echo "OBJCC=$objcc" >> $config_host_mak
+ echo "AR=$ar" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 6b046f43aa..3e7d3e6b0e 100644
+index 3e7d3e6b0e..baecc86a1d 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -342,6 +342,7 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+@@ -344,6 +344,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
  
-+subdir('io')
+ subdir('io')
  subdir('fsdev')
++subdir('target')
  
  # Other build targets
+ if 'CONFIG_GUEST_AGENT' in config_host
+diff --git a/target/meson.build b/target/meson.build
+new file mode 100644
+index 0000000000..e29dd3e01f
+--- /dev/null
++++ b/target/meson.build
+@@ -0,0 +1 @@
++subdir('s390x')
+diff --git a/target/s390x/Makefile.objs b/target/s390x/Makefile.objs
+index 3e2745594a..9b9accc5fd 100644
+--- a/target/s390x/Makefile.objs
++++ b/target/s390x/Makefile.objs
+@@ -8,23 +8,3 @@ obj-$(CONFIG_SOFTMMU) += sigp.o
+ obj-$(CONFIG_KVM) += kvm.o
+ obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
+ obj-$(call lnot,$(CONFIG_TCG)) += tcg-stub.o
+-
+-# build and run feature list generator
+-feat-src = $(SRC_PATH)/target/$(TARGET_BASE_ARCH)/
+-feat-dst = $(BUILD_DIR)/$(TARGET_DIR)
+-ifneq ($(MAKECMDGOALS),clean)
+-generated-files-y += $(feat-dst)gen-features.h
+-endif
+-
+-$(feat-dst)gen-features.h: $(feat-dst)gen-features.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-$(feat-dst)gen-features.h-timestamp: $(feat-dst)gen-features
+-	$(call quiet-command,$< >$@,"GEN","$(TARGET_DIR)gen-features.h")
+-
+-$(feat-dst)gen-features: $(feat-src)gen-features.c
+-	$(call quiet-command,$(HOST_CC) $(QEMU_INCLUDES) -o $@ $<,"CC","$(TARGET_DIR)gen-features")
+-
+-clean-target:
+-	rm -f gen-features.h-timestamp
+-	rm -f gen-features.h
+-	rm -f gen-features
+diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
+index da695a8346..2a29475493 100644
+--- a/target/s390x/cpu_features.h
++++ b/target/s390x/cpu_features.h
+@@ -16,7 +16,7 @@
+ 
+ #include "qemu/bitmap.h"
+ #include "cpu_features_def.h"
+-#include "gen-features.h"
++#include "target/s390x/gen-features.h"
+ 
+ /* CPU features are announced via different ways */
+ typedef enum {
+diff --git a/target/s390x/cpu_models.h b/target/s390x/cpu_models.h
+index 88bd01a616..74d1f87e4f 100644
+--- a/target/s390x/cpu_models.h
++++ b/target/s390x/cpu_models.h
+@@ -14,7 +14,7 @@
+ #define TARGET_S390X_CPU_MODELS_H
+ 
+ #include "cpu_features.h"
+-#include "gen-features.h"
++#include "target/s390x/gen-features.h"
+ #include "hw/core/cpu.h"
+ 
+ /* static CPU definition */
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+new file mode 100644
+index 0000000000..ddf8d20a36
+--- /dev/null
++++ b/target/s390x/meson.build
+@@ -0,0 +1,9 @@
++gen_features = executable('gen-features', 'gen-features.c', native: true,
++                          build_by_default: false)
++
++gen_features_h = custom_target('gen-features.h',
++                               output: 'gen-features.h',
++                               capture: true,
++                               command: gen_features)
++
++specific_ss.add(gen_features_h)
 -- 
 2.26.2
 
