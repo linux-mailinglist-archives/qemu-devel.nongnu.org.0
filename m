@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1481E2465E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 14:02:49 +0200 (CEST)
-Received: from localhost ([::1]:33214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DAB2465EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 14:03:58 +0200 (CEST)
+Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7dqi-0006Sr-4o
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 08:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
+	id 1k7drp-0000Cp-AL
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 08:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1k7dpH-0005C2-LN
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 08:01:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54165)
+ id 1k7dpM-0005JW-3B
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 08:01:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1k7dpF-0003fg-RK
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 08:01:19 -0400
+ id 1k7dpJ-0003g4-V0
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 08:01:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597665677;
+ s=mimecast20190719; t=1597665680;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TSC2eOKE0NQbqwjE3v+4TyCChUK9VcdeLXUZxTLG/Js=;
- b=Txt5NJVcHoSc+RXN6JUrEEXkwWIWcluUdD4rP6DUc0EcNwlD77hr97Iz6jKty1EQ4rTxB9
- dTRGaFTW+kQ+ldb3cQ2MmUjpsB5tDM4b0Ot9s8OOL7C+8NZZQSP3oHd1KU53Lbu2jX1qKO
- SaQYRelxpiK216yegVpKSjPm33Um3oQ=
+ bh=KnTZ8fSNYZm8BnGf3vXMOJX1rM8xJLNxvNHAMR2YpCA=;
+ b=ajUvR0fQmgnmTZY/kWGEgjg3efeFW1iclbOJB8FEt8UITFYLIXC8tP8ftWkyFCOaMfoc9Z
+ lDNVgaPX2tZUPV7NPlyPdfQCbvMNzFTVyOYStRfP6ntxZhpailhIBzQq654xsFJK4JjlDn
+ ejP5O3PuN13pIvLjojXqDoRe/h2ZNd4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-z-S0Ko5GNMiKc5SfnJScbA-1; Mon, 17 Aug 2020 08:01:13 -0400
-X-MC-Unique: z-S0Ko5GNMiKc5SfnJScbA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-142-M_nMDv7jMDKGm4fxEne1tg-1; Mon, 17 Aug 2020 08:01:19 -0400
+X-MC-Unique: M_nMDv7jMDKGm4fxEne1tg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94D0051AF
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 12:01:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C1201854FDC
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 12:01:18 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 580A35D9D2;
- Mon, 17 Aug 2020 12:01:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A6E31A92A;
+ Mon, 17 Aug 2020 12:01:16 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] ui: add getter for UIInfo
-Date: Mon, 17 Aug 2020 16:00:54 +0400
-Message-Id: <20200817120056.56751-3-marcandre.lureau@redhat.com>
+Subject: [PATCH 3/4] spice: get monitors physical dimension
+Date: Mon, 17 Aug 2020 16:00:55 +0400
+Message-Id: <20200817120056.56751-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20200817120056.56751-1-marcandre.lureau@redhat.com>
 References: <20200817120056.56751-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 02:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 01:24:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,46 +88,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following patch is going to introduce extra fields / details to
-UIInfo. Add a getter and keep the current values, instead of memset(0)
+Note that for consistency, we use the same logic as MonitorsConfig to
+figure out the associated monitor. However, I can't find traces of the
+discussion/patches about the "new spice-server" behaviour: it still uses
+the multiple-configurations path in git master.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console.c       | 7 +++++++
- ui/spice-display.c | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ include/ui/console.h |  4 ++++
+ ui/spice-display.c   | 52 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
 
-diff --git a/ui/console.c b/ui/console.c
-index 0579be792f..2a0d191d4e 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1513,6 +1513,13 @@ bool dpy_ui_info_supported(QemuConsole *con)
-     return con->hw_ops->ui_info != NULL;
- }
+diff --git a/include/ui/console.h b/include/ui/console.h
+index f35b4fc082..c334b92e70 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -133,6 +133,9 @@ typedef struct DisplaySurface {
+ } DisplaySurface;
  
-+const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con)
-+{
-+    assert(con != NULL);
-+
-+    return &con->ui_info;
-+}
-+
- int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)
- {
-     assert(con != NULL);
+ typedef struct QemuUIInfo {
++    /* physical dimension */
++    uint16_t width_mm;
++    uint16_t height_mm;
+     /* geometry */
+     int       xoff;
+     int       yoff;
+@@ -278,6 +281,7 @@ void update_displaychangelistener(DisplayChangeListener *dcl,
+ void unregister_displaychangelistener(DisplayChangeListener *dcl);
+ 
+ bool dpy_ui_info_supported(QemuConsole *con);
++const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con);
+ int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info);
+ 
+ void dpy_gfx_update(QemuConsole *con, int x, int y, int w, int h);
 diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 19632fdf6c..625d9232b9 100644
+index 625d9232b9..93d4e1c0a4 100644
 --- a/ui/spice-display.c
 +++ b/ui/spice-display.c
-@@ -672,7 +672,7 @@ static int interface_client_monitors_config(QXLInstance *sin,
-         return 1;
-     }
+@@ -657,6 +657,53 @@ static void interface_set_client_capabilities(QXLInstance *sin,
+     /* nothing to do */
+ }
  
--    memset(&info, 0, sizeof(info));
++#if SPICE_INTERFACE_QXL_MAJOR >= 3 && SPICE_INTERFACE_QXL_MINOR >= 4
++static int interface_client_monitors_mm(QXLInstance *sin, VDAgentMonitorsMM *mm)
++{
++    SimpleSpiceDisplay *ssd = container_of(sin, SimpleSpiceDisplay, qxl);
++    QemuUIInfo info;
++    int head;
++
++    if (!dpy_ui_info_supported(ssd->dcl.con)) {
++        return 0; /* == not supported by guest */
++    }
++
++    if (!mm) {
++        return 1;
++    }
++
 +    info = *dpy_get_ui_info(ssd->dcl.con);
++    /* Note: this code doesn't handle Spice multi-head support, where multiple
++     * monitor configuration for a single QXL device means multiple head. */
++    if (mm->num_of_monitors == 1) {
++        /*
++         * New spice-server version which filters the list of monitors
++         * to only include those that belong to our display channel.
++         *
++         * single-head configuration (where filtering doesn't matter)
++         * takes this code path too.
++         */
++        info.width_mm  = mm->monitors[0].width;
++        info.height_mm = mm->monitors[0].height;
++    } else {
++        /*
++         * Old spice-server which gives us all monitors, so we have to
++         * figure ourself which entry we need.  Array index is the
++         * channel_id, which is the qemu console index, see
++         * qemu_spice_add_display_interface().
++         */
++        head = qemu_console_get_index(ssd->dcl.con);
++        if (mm->num_of_monitors > head) {
++            info.width_mm  = mm->monitors[head].width;
++            info.height_mm = mm->monitors[head].height;
++        }
++    }
++
++    dpy_set_ui_info(ssd->dcl.con, &info);
++    return 1;
++}
++#endif
++
+ static int interface_client_monitors_config(QXLInstance *sin,
+                                             VDAgentMonitorsConfig *mc)
+ {
+@@ -674,6 +721,8 @@ static int interface_client_monitors_config(QXLInstance *sin,
  
+     info = *dpy_get_ui_info(ssd->dcl.con);
+ 
++    /* Note: this code doesn't handle Spice multi-head support, where multiple
++     * monitor configuration for a single QXL device means multiple head. */
      if (mc->num_of_monitors == 1) {
          /*
+          * New spice-server version which filters the list of monitors
+@@ -728,6 +777,9 @@ static const QXLInterface dpy_interface = {
+     .update_area_complete    = interface_update_area_complete,
+     .set_client_capabilities = interface_set_client_capabilities,
+     .client_monitors_config  = interface_client_monitors_config,
++#if SPICE_INTERFACE_QXL_MAJOR >= 3 && SPICE_INTERFACE_QXL_MINOR >= 4
++    .client_monitors_mm      = interface_client_monitors_mm,
++#endif
+ };
+ 
+ static void display_update(DisplayChangeListener *dcl,
 -- 
 2.26.2
 
