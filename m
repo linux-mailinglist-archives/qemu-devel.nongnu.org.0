@@ -2,77 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA942461A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 10:59:58 +0200 (CEST)
-Received: from localhost ([::1]:54472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E838224612C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 10:51:33 +0200 (CEST)
+Received: from localhost ([::1]:42614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7azl-000718-8B
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 04:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45158)
+	id 1k7arc-0007UA-WF
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 04:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7arY-000077-9J
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:28 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7arW-00054o-I8
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:27 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id f5so7157269plr.9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LdFgf4NPBtoeqHpSLjq5VQqyoxEgDzcCNkK0t9em+iQ=;
- b=XB2bK0ifvc/Pafw+8p3LqBDW1g0WMYG+SbdiDZyHX2rq9TriBAXzegJwMgrQIA4OOF
- DAt7ZTx5GT2/92kSfA7Q6SVEDcHRe1pgo23ujltCnftAmg+YW4yxK3StyRs0tjhApRmx
- j6S5T+FP+qrj9WB16CU/igMmHRNjBGwLHOvlJ0Vjt1vlQHDSM1Q1jrAwgZS+sP5VUFEx
- 1H5tP5AkXB5qtmoPL5PxQxHa82VHQjoWeAuvLDxac3x0FlhnzUj3h1IBF99aGvassj3e
- ehvo0TJy4pmbcOVdk3+QwSNb/fuGWdLWK5dwK/rXxv8pVMMBOtlqTXmdMvXJKShNXgZG
- t7lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=LdFgf4NPBtoeqHpSLjq5VQqyoxEgDzcCNkK0t9em+iQ=;
- b=Jgw9K3IIyvpPxkY00mg8QZYFbDMwvUPlq5kla9VcIXFgBmnjGi3kq0T7dI2Yx7G8KO
- rF4zoVgfVq4OVMiQeVjx4ea5kTJNxslE9waWpaXyH3L6goRh7/74ePZGJvF9WShHDhi6
- ASJ5WJLcYcsiD6BPgA/d9gLR0+IcOsegLntHcR+1mpPagb/J+7kFm9709AzNdPbe9vW8
- oWf0g7d51WqT7jkfVIG1W1d+/X/RMyFVFe/b4qlnQ3UoYm4IcS6n/1lXrnZq0JSd4jWX
- 6OhgIBt6JhcWJIOrz12b78Iy4ipBnYEqnKudfIwrJG80IKIq0pyNSQyRfjQBJAPuhTTJ
- FyHA==
-X-Gm-Message-State: AOAM5319IRbNFvJF3ktcNIsZGYUmzRYvOLlsdCAPrnAdGg7+39ocGbnQ
- ZdHmFF58VwaFeNNR15BblAs+T0QOa5WnrQ==
-X-Google-Smtp-Source: ABdhPJz8N6fT2prIb1G+GfHxEg+rze8PEY0cz8yCZqnxYTrvHFXGWjlsFlqLpLPd9g9CL9n0Vjbvqg==
-X-Received: by 2002:a17:902:690a:: with SMTP id
- j10mr10481468plk.155.1597654285078; 
- Mon, 17 Aug 2020 01:51:25 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.51.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:51:24 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v4 28/70] target/riscv: rvv-1.0: mask population count
- instruction
-Date: Mon, 17 Aug 2020 16:49:13 +0800
-Message-Id: <20200817084955.28793-29-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
-References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k7aqT-0005Zv-8k
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56333
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k7aqP-0004k5-RG
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597654216;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VzQlaqyj5nwBtB+IA4FsBfqRHuOTgdiXaxbhho1+dQQ=;
+ b=Kv35J6ydz2rEFF1oLHaRZsGEwf83MGjQGZyASK6vyJGJdal5wx5f9/d160TE4KALddxs7G
+ tMSbeZuUPmFDiygj4FnTBQuvci1Xtag2dMrvtUr9HgeFcdhCksT13S76iFx4sA1Sb/Y1Jl
+ jpuvuJs1csdg7Gph99BaBvTEUxk9Wsg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-hUOu_e0pMWygubssaL1-fg-1; Mon, 17 Aug 2020 04:50:14 -0400
+X-MC-Unique: hUOu_e0pMWygubssaL1-fg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF06B80732D;
+ Mon, 17 Aug 2020 08:50:12 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-146.ams2.redhat.com
+ [10.36.113.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 17AC47D66F;
+ Mon, 17 Aug 2020 08:50:11 +0000 (UTC)
+Subject: Re: [RFC PATCH 02/22] qapi: Create block-export module
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200813162935.210070-1-kwolf@redhat.com>
+ <20200813162935.210070-3-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <c84ef9f6-285a-9a35-8550-a1526366a3c0@redhat.com>
+Date: Mon, 17 Aug 2020 10:50:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200813162935.210070-3-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Jli4M3TBGA1RkmSj7QM7f5fjOtDsxETpU"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,100 +107,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Jli4M3TBGA1RkmSj7QM7f5fjOtDsxETpU
+Content-Type: multipart/mixed; boundary="fAQTWgAiI6KUxwOnJIKblzJkSWS0KsP9H"
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/helper.h                   | 2 +-
- target/riscv/insn32.decode              | 2 +-
- target/riscv/insn_trans/trans_rvv.inc.c | 7 ++++---
- target/riscv/vector_helper.c            | 6 +++---
- 4 files changed, 9 insertions(+), 8 deletions(-)
+--fAQTWgAiI6KUxwOnJIKblzJkSWS0KsP9H
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 25d076d71a8..0a1179370b1 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1066,7 +1066,7 @@ DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- 
--DEF_HELPER_4(vmpopc_m, tl, ptr, ptr, env, i32)
-+DEF_HELPER_4(vpopc_m, tl, ptr, ptr, env, i32)
- 
- DEF_HELPER_4(vmfirst_m, tl, ptr, ptr, env, i32)
- 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a800c989050..3d2d43ebd8a 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -591,7 +591,7 @@ vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
- vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
- vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
- vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
--vmpopc_m        010100 . ..... ----- 010 ..... 1010111 @r2_vm
-+vpopc_m         010000 . ..... 10000 010 ..... 1010111 @r2_vm
- vmfirst_m       010101 . ..... ----- 010 ..... 1010111 @r2_vm
- vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
- vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 2c6efce00a7..ce963c33af8 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2895,8 +2895,8 @@ GEN_MM_TRANS(vmnor_mm)
- GEN_MM_TRANS(vmornot_mm)
- GEN_MM_TRANS(vmxnor_mm)
- 
--/* Vector mask population count vmpopc */
--static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
-+/* Vector mask population count vpopc */
-+static bool trans_vpopc_m(DisasContext *s, arg_rmr *a)
- {
-     if (require_rvv(s) &&
-         vext_check_isa_ill(s)) {
-@@ -2915,13 +2915,14 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
-         tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-         tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
--        gen_helper_vmpopc_m(dst, mask, src2, cpu_env, desc);
-+        gen_helper_vpopc_m(dst, mask, src2, cpu_env, desc);
-         gen_set_gpr(a->rd, dst);
- 
-         tcg_temp_free_ptr(mask);
-         tcg_temp_free_ptr(src2);
-         tcg_temp_free(dst);
-         tcg_temp_free_i32(desc);
-+
-         return true;
-     }
-     return false;
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index f802e8c9c05..13694c1b2c4 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4447,9 +4447,9 @@ GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
- GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
- GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
- 
--/* Vector mask population count vmpopc */
--target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
--                              uint32_t desc)
-+/* Vector mask population count vpopc */
-+target_ulong HELPER(vpopc_m)(void *v0, void *vs2, CPURISCVState *env,
-+                             uint32_t desc)
- {
-     target_ulong cnt = 0;
-     uint32_t vm = vext_vm(desc);
--- 
-2.17.1
+On 13.08.20 18:29, Kevin Wolf wrote:
+> Move all block export related types and commands from block-core to the
+> new QAPI module block-export.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qapi/block-core.json                 | 166 --------------------------
+>  qapi/block-export.json               | 172 +++++++++++++++++++++++++++
+>  qapi/qapi-schema.json                |   1 +
+>  include/block/nbd.h                  |   2 +-
+>  block/monitor/block-hmp-cmds.c       |   1 +
+>  blockdev-nbd.c                       |   2 +-
+>  qemu-storage-daemon.c                |   2 +-
+>  qapi/Makefile.objs                   |   5 +-
+>  storage-daemon/qapi/qapi-schema.json |   1 +
+>  9 files changed, 181 insertions(+), 171 deletions(-)
+>  create mode 100644 qapi/block-export.json
+
+[...]
+
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> new file mode 100644
+> index 0000000000..62f4938e83
+> --- /dev/null
+> +++ b/qapi/block-export.json
+> @@ -0,0 +1,172 @@
+
+There should probably be a filetype modeline here (not trying to get
+into any hornets=E2=80=99 nest here, but... :)).
+
+With that:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--fAQTWgAiI6KUxwOnJIKblzJkSWS0KsP9H--
+
+--Jli4M3TBGA1RkmSj7QM7f5fjOtDsxETpU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl86RMIACgkQ9AfbAGHV
+z0Bnxwf+Mqgm7bLL7ja7BGUEd4l80W0j73GuyAgoFv1gQk4WS/qHCKIApPcktMKM
+v2XZe0PO/7VGkW7F+SN6b01JWHqLjiGpglAj5wVvy8h0d6Igk5KNUiwIOU5TM9YP
+rlq9mSM3QyRd3b/dTv2C2A7nV4t4i+k5tFnxqAAKczPoUpJachrna20P5cG1jK5k
+Eg/E8bp3YMVEUjcHQeiqNMyKFOU8oufSPff86hw52XUcXDI9iiYFZ3e9ryn3tzG/
+hNyHMruxToPhdO9BGbMMGKWVNp/2GjTMZGf09EKDahGYJ9KozxcoEAmxeSFO4HGz
+bZxmG86m1OGOHTAIXYsfYsZoiIBQIg==
+=RHQm
+-----END PGP SIGNATURE-----
+
+--Jli4M3TBGA1RkmSj7QM7f5fjOtDsxETpU--
 
 
