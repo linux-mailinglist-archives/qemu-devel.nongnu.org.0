@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A77B246A1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:30:46 +0200 (CEST)
-Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5BC246A64
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:35:16 +0200 (CEST)
+Received: from localhost ([::1]:38208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7h5x-00089N-1L
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:30:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
+	id 1k7hAJ-0000mW-AJ
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKZ-0002wl-ED
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40292
+ id 1k7gKb-0002yg-Lx
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22558
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKW-0006r3-Ak
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:47 -0400
+ id 1k7gKZ-0006rE-3E
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:41:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597675303;
+ s=mimecast20190719; t=1597675305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ODJdNdWjjNTd8b4kfugM0UtLCKBeocnqITNVNdo3kn8=;
- b=WjG/5fPYpT5IbRLQBTIxsfMGEymfDXksZK6MXqzpxpmpU2gMP/9PIUkal0l83niAXzsSv/
- 92dh711hzCNfGnVmxh8LIVEuQFOPFhmNJi69E6l+J3BbEm71qJOsyT8YKXfIVB2h4pfMOF
- t0b20/fv7nTrZUQjg7bN67Pigm9E6TI=
+ bh=Avrm7+QSz2JDaUSsDG3e4jcUoGqDFFfk2VHkyPFsAEo=;
+ b=hXnBUF/R3ggcy1hmBaLnN1seBRz2FOuHYM+Y/x0tfCmyYRndCjkKHmOpznbdB5UnMrABik
+ GuPI4YBwN8t8QJgmikYyTWTHVFy3IgtPQB4Dk+bqrmtek/oGQc1P8GslS1mMk24OSd1Wa5
+ T3TteGwhFJj0ZLNi5J8a+OkrLSHc6fk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-ys893nGPNASsxHaheRS7Jg-1; Mon, 17 Aug 2020 10:41:40 -0400
-X-MC-Unique: ys893nGPNASsxHaheRS7Jg-1
+ us-mta-160-NzfCZGGvOz-L7vBDhCXt-Q-1; Mon, 17 Aug 2020 10:41:43 -0400
+X-MC-Unique: NzfCZGGvOz-L7vBDhCXt-Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10CCB185E521
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:41:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB2AB100CEC9
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:41:42 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 574A2756AC;
- Mon, 17 Aug 2020 14:41:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F5FC70C3D;
+ Mon, 17 Aug 2020 14:41:40 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 116/150] meson: convert hw/gpio
-Date: Mon, 17 Aug 2020 16:40:19 +0200
-Message-Id: <20200817144053.345107-21-pbonzini@redhat.com>
+Subject: [PATCH 117/150] meson: convert hw/dma
+Date: Mon, 17 Aug 2020 16:40:20 +0200
+Message-Id: <20200817144053.345107-22-pbonzini@redhat.com>
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -92,72 +92,79 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/gpio/Makefile.objs | 12 ------------
- hw/gpio/meson.build   | 12 ++++++++++++
- hw/meson.build        |  1 +
- 4 files changed, 13 insertions(+), 13 deletions(-)
- delete mode 100644 hw/gpio/Makefile.objs
- create mode 100644 hw/gpio/meson.build
+ hw/Makefile.objs     |  1 -
+ hw/dma/Makefile.objs | 16 ----------------
+ hw/dma/meson.build   | 15 +++++++++++++++
+ hw/meson.build       |  1 +
+ 4 files changed, 16 insertions(+), 17 deletions(-)
+ delete mode 100644 hw/dma/Makefile.objs
+ create mode 100644 hw/dma/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index a2c2f6d1de..c04dfe589c 100644
+index c04dfe589c..26917a4e1b 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -8,7 +8,6 @@ devices-dirs-y += char/
+@@ -7,7 +7,6 @@ devices-dirs-y += block/
+ devices-dirs-y += char/
  devices-dirs-y += cpu/
  devices-dirs-y += display/
- devices-dirs-y += dma/
--devices-dirs-y += gpio/
+-devices-dirs-y += dma/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/gpio/Makefile.objs b/hw/gpio/Makefile.objs
+diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
 deleted file mode 100644
-index 3cfc261f9b..0000000000
---- a/hw/gpio/Makefile.objs
+index f4b1cfe26d..0000000000
+--- a/hw/dma/Makefile.objs
 +++ /dev/null
-@@ -1,12 +0,0 @@
--common-obj-$(CONFIG_MAX7310) += max7310.o
--common-obj-$(CONFIG_PL061) += pl061.o
--common-obj-$(CONFIG_PUV3) += puv3_gpio.o
--common-obj-$(CONFIG_ZAURUS) += zaurus.o
--common-obj-$(CONFIG_E500) += mpc8xxx.o
--common-obj-$(CONFIG_GPIO_KEY) += gpio_key.o
+@@ -1,16 +0,0 @@
+-common-obj-$(CONFIG_PUV3) += puv3_dma.o
+-common-obj-$(CONFIG_RC4030) += rc4030.o
+-common-obj-$(CONFIG_PL080) += pl080.o
+-common-obj-$(CONFIG_PL330) += pl330.o
+-common-obj-$(CONFIG_I82374) += i82374.o
+-common-obj-$(CONFIG_I8257) += i8257.o
+-common-obj-$(CONFIG_XILINX_AXI) += xilinx_axidma.o
+-common-obj-$(CONFIG_ZYNQ_DEVCFG) += xlnx-zynq-devcfg.o
+-common-obj-$(CONFIG_ETRAXFS) += etraxfs_dma.o
+-common-obj-$(CONFIG_STP2000) += sparc32_dma.o
+-common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dpdma.o
+-common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx-zdma.o
 -
--common-obj-$(CONFIG_OMAP) += omap_gpio.o
--common-obj-$(CONFIG_IMX) += imx_gpio.o
--common-obj-$(CONFIG_RASPI) += bcm2835_gpio.o
--common-obj-$(CONFIG_NRF51_SOC) += nrf51_gpio.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_gpio.o
-diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+-common-obj-$(CONFIG_OMAP) += omap_dma.o soc_dma.o
+-common-obj-$(CONFIG_PXA2XX) += pxa2xx_dma.o
+-common-obj-$(CONFIG_RASPI) += bcm2835_dma.o
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
 new file mode 100644
-index 0000000000..6bcdfa6b1d
+index 0000000000..ff5bb3748f
 --- /dev/null
-+++ b/hw/gpio/meson.build
-@@ -0,0 +1,12 @@
-+softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
-+softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
-+softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
-+softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
-+softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_ZAURUS', if_true: files('zaurus.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
++++ b/hw/dma/meson.build
+@@ -0,0 +1,15 @@
++softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_dma.c'))
++softmmu_ss.add(when: 'CONFIG_RC4030', if_true: files('rc4030.c'))
++softmmu_ss.add(when: 'CONFIG_PL080', if_true: files('pl080.c'))
++softmmu_ss.add(when: 'CONFIG_PL330', if_true: files('pl330.c'))
++softmmu_ss.add(when: 'CONFIG_I82374', if_true: files('i82374.c'))
++softmmu_ss.add(when: 'CONFIG_I8257', if_true: files('i8257.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('xilinx_axidma.c'))
++softmmu_ss.add(when: 'CONFIG_ZYNQ_DEVCFG', if_true: files('xlnx-zynq-devcfg.c'))
++softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_dma.c'))
++softmmu_ss.add(when: 'CONFIG_STP2000', if_true: files('sparc32_dma.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dpdma.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zdma.c'))
++softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dma.c'))
++softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
++softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index f9e5adfb48..52577c3205 100644
+index 52577c3205..96da0bba7e 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('gpio')
++subdir('dma')
+ subdir('gpio')
  subdir('hyperv')
  subdir('i2c')
- subdir('ide')
 -- 
 2.26.2
 
