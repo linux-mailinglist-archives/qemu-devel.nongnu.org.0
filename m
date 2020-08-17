@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D8A2468FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:02:49 +0200 (CEST)
-Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F4C246902
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:04:48 +0200 (CEST)
+Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7geu-0001yB-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1k7ggp-0005us-Ay
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH6-0004Lz-3I
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:12 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37275)
+ id 1k7gHB-0004aH-2Y
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:17 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH4-00069g-H2
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:11 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y3so15280611wrl.4
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:09 -0700 (PDT)
+ id 1k7gH9-0006Af-AJ
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:16 -0400
+Received: by mail-wm1-x334.google.com with SMTP id 184so14108350wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kf7BeJ8yweifSglyftbXaX9ZKpT7856D3iotyv/TdHg=;
- b=OUWTEKq8JGP84pCVQBEGzXPXGedcUT/8VL2T6a1vV/meg2tR5boh0LLbt3NX2Y6uq1
- NUlJ51cdnHyjSSXkZcqFErLprYO8MidpC8GWQOK1ReNOXQ0IgD+GftigENm8UVRsxFWT
- zjeO/7IlM27yOY0zUqGNXVJ/U3Fz/bUKjoKqJNgcTcO9Ik7GB+dn/eYBD/aI5zs77/z7
- 3wHQW9IFBmXkcI4wQ+4xkAOv42W0g+JxYt/6a7TM1yDN+xYkHSfBOYwFhXMWBlgwWcL8
- NgQ7vGhj34eC6e6xJ4yS6HruyfIVmTPfptPTVlx3u4B85FWv6VRVLf97rxvUf+sC7La/
- I0Lw==
+ bh=+zP6tQrjmoss35OlaN/EolS+2AafGwaPfZK6CLHt+xI=;
+ b=iT8Vjg+74pLOdmmVZtaLInuqXuUMjjKtWyqPr6tXXX8UhSRk/b4kRNgUoNuAEGu1r2
+ uoESAbd8Iwg4GKNQq5LAllo5Me8AFQM82Sa9ac4A0vWRAj6pp8dYsg+c2ss0aHmrKgQp
+ Q35xD+zOJoUUPtbLWo4KZAuaFjIboLXLtoBpHubQd3EDAKz8UejgPmXM16KS6zZkY09A
+ pMR48B47RahEZCXPDSPV22Y+SCxnADRaVxryuL3ECS30UH1OfELSGzzjYdr1NuD3A9CZ
+ iEp41wO09xfsOoAVRXgq+Vy8MDlGv58vs6ZfLG65VqOUDE2WgE3PC51UWr8M/zYs3Kbi
+ HBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kf7BeJ8yweifSglyftbXaX9ZKpT7856D3iotyv/TdHg=;
- b=FKiGAQ3VnT6EU1UCO3I5OGGpqJwDMJD29G8apmA0YDEqC7ZVQcDkjr/te/d1Ksf1gz
- YNhxivu/k99k/Jmc/oVbmNpLSuUdtx6CGba5G/oXj+oFph22OUW48d82bVfZvoofODNn
- s77psUzEO9m3FWs4P/GWMF/ctLi80RwU6PZosOzHm8w6Cdr+hGWVV8+azKFVKNWI9fSv
- Z706tlsqk9ZWAt8hK6ujw7TQXUR6+dXjf/BO+s0a8zcWJotrf1O1x6vHqWaFYvoPffqR
- zwA1cxPEByezM8mW6Sd1S0P+OjD96X/I5dPd2IOjM8qWPDvB0FzUPksJPinkMxShfMEy
- HmUQ==
-X-Gm-Message-State: AOAM531aJRtQI2FflKDj7y/oyff2sYi+cJLkHChXFnwPyXu2kH9E+WnV
- 3BLbUCTEdw6gcDZDhUpqDKACioUiEo4=
-X-Google-Smtp-Source: ABdhPJzoe12wELTCpjV6BXOr9KUVWGugQx8pGOtCxqgnTfBWx0TmKeu13nHTDUCpK+JKhlrQdZcHUw==
-X-Received: by 2002:adf:92a1:: with SMTP id 30mr17128981wrn.56.1597675088323; 
- Mon, 17 Aug 2020 07:38:08 -0700 (PDT)
+ bh=+zP6tQrjmoss35OlaN/EolS+2AafGwaPfZK6CLHt+xI=;
+ b=oNmo7F2IVnZurrolEb71FHG1cwRI8x7mpmVVpkNRHe89K8T2VSiFWZlMkGs23+akgb
+ fzn9uVX+gyxA2T9odHrpUPZKqybiPaA9qCcint99guNTHQlX0SNGuLeFnvoYhKp9BM22
+ D6jOSm4Q5wk3rIxKpxGY7hm4gcVil2T0g3Sa/JbFSNncD6sOzy1hgkHDPi5JyeAHiChb
+ kE6CQVjCHX4cSam1fVcRwNfohEIR0JsutdJRZXsApLdOAkEMCn4V6oM2XlAHesASx/Ls
+ HbXjv54Cf6H+t8T50Lxsi+HRNPxxy21fYeULbHNNdGXl6B/HfdhuR6BjBYLTbuINPkBz
+ ylNw==
+X-Gm-Message-State: AOAM5324Ebm65Vakae6QZh5JxLwYAf7I2z7xSZe43Rx2RtWLGu9gfp33
+ EC9FwPvx0qJBBK1nz+Pdv89uqvq5TJo=
+X-Google-Smtp-Source: ABdhPJyGDr5uqZesDSixS+Cc4BcxoWuf0bLO4ixGSg/UB/epVJWHEZJFcWDgr0B+qCEcBGgk3CLSDg==
+X-Received: by 2002:a7b:c084:: with SMTP id r4mr14642428wmh.20.1597675093621; 
+ Mon, 17 Aug 2020 07:38:13 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.07
+ i22sm34966603wrb.45.2020.08.17.07.38.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:07 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 043/150] meson: add qemu-bridge-helper
-Date: Mon, 17 Aug 2020 16:35:36 +0200
-Message-Id: <20200817143723.343284-44-pbonzini@redhat.com>
+Subject: [PATCH 049/150] meson: generate shader headers
+Date: Mon, 17 Aug 2020 16:35:42 +0200
+Message-Id: <20200817143723.343284-50-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,70 +87,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    | 4 ----
- meson.build | 9 ++++++++-
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ Makefile              | 19 -------------------
+ meson.build           |  1 +
+ ui/meson.build        |  2 ++
+ ui/shader/meson.build | 15 +++++++++++++++
+ 4 files changed, 18 insertions(+), 19 deletions(-)
+ create mode 100644 ui/shader/meson.build
 
 diff --git a/Makefile b/Makefile
-index 06c73b8d09..cbd5bd1a87 100644
+index 64255b9d32..11f1845196 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -186,8 +186,6 @@ LIBS+=-lz $(LIBS_TOOLS)
+@@ -382,7 +382,6 @@ clean: recurse-clean ninja-clean clean-ctlist
+ 	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+-	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+ 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
+ 	rm -f config-all-devices.mak
+ 	rm -f $(SUBDIR_DEVICES_MAK)
+@@ -607,24 +606,6 @@ endif
+ 	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
+         done
  
- HELPERS-y = $(HELPERS)
- 
--HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
+-# opengl shader programs
+-ui/shader/%-vert.h: $(SRC_PATH)/ui/shader/%.vert $(SRC_PATH)/scripts/shaderinclude.pl
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,\
+-		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
+-		"VERT","$@")
 -
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -420,8 +418,6 @@ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
- qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
- 
--qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+-ui/shader/%-frag.h: $(SRC_PATH)/ui/shader/%.frag $(SRC_PATH)/scripts/shaderinclude.pl
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,\
+-		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
+-		"FRAG","$@")
 -
- qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
- 
- qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+-ui/shader.o: $(SRC_PATH)/ui/shader.c \
+-	ui/shader/texture-blit-vert.h \
+-	ui/shader/texture-blit-flip-vert.h \
+-	ui/shader/texture-blit-frag.h
+-
+ # documentation
+ MAKEINFO=makeinfo
+ MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
 diff --git a/meson.build b/meson.build
-index 67a26314fa..8c05db2cb6 100644
+index c6b13e1999..f9bcf04533 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -293,7 +293,6 @@ qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+@@ -155,6 +155,7 @@ have_block = have_system or have_tools
+ # Generators
  
- # Other build targets
--
- if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
+ genh = []
++shaderinclude = find_program('scripts/shaderinclude.pl')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
+                      meson.source_root() / 'scripts/qapi/commands.py',
+diff --git a/ui/meson.build b/ui/meson.build
+index daacd2ffbc..8cf070c130 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -32,3 +32,5 @@ if have_system
+                             'code-map', '@INPUT0@', e[0], e[1]])
+   endforeach
  endif
-@@ -311,6 +310,14 @@ if have_tools
-     subdir('contrib/vhost-user-input')
-     subdir('contrib/vhost-user-scsi')
-   endif
 +
-+  if host_machine.system() == 'linux'
-+    executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
-+               dependencies: [qemuutil, libcap_ng],
-+               install: true,
-+               install_dir: get_option('libexecdir'))
-+  endif
++subdir('shader')
+diff --git a/ui/shader/meson.build b/ui/shader/meson.build
+new file mode 100644
+index 0000000000..f69e44ed89
+--- /dev/null
++++ b/ui/shader/meson.build
+@@ -0,0 +1,15 @@
++shaders = [
++  ['texture-blit', 'frag'],
++  ['texture-blit', 'vert'],
++  ['texture-blit-flip', 'vert'],
++]
 +
-   if 'CONFIG_IVSHMEM' in config_host
-     subdir('contrib/ivshmem-client')
-     subdir('contrib/ivshmem-server')
++foreach e : shaders
++  output = '@0@-@1@.h'.format(e[0], e[1])
++  genh += custom_target(output,
++                output: output,
++                capture: true,
++                build_by_default: true, # to be removed when added to a target
++                input: files('@0@.@1@'.format(e[0], e[1])),
++                command: [shaderinclude, '@INPUT0@'])
++endforeach
 -- 
 2.26.2
 
