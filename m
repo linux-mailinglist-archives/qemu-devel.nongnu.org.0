@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD802468EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:58:44 +0200 (CEST)
-Received: from localhost ([::1]:33140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960332468DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:56:03 +0200 (CEST)
+Received: from localhost ([::1]:44620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gax-00035m-Tu
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40888)
+	id 1k7gYM-0004gK-JS
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH3-0004IG-73
+ id 1k7gH3-0004IH-6m
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:09 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39410)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH0-000698-Q9
+ id 1k7gH1-00069D-B9
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:08 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g75so14082449wme.4
+Received: by mail-wr1-x434.google.com with SMTP id f7so15275713wrw.1
  for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oNBGFH2Y+HiqoM85hNYRvTjlzhO6SEyWeacg/l0Rijc=;
- b=qaRiCd/PFFIzoV5VpRE/Pnmn/6Xg31o/9K5hUIoXP5OmQpD5XDm2DwRBP6kQz+R3HU
- LGjcc6wNFaTFvmz0jpoYg379hKkD3VUuWwmScD2qtN0IkA1ZkxipXFlWuV50QhjHlCM3
- LKIR4sfMpdcBE2rKZGt5Ro2rVDCCTssutTTYx1XCImIMnUSBHSqneUwQqJPuwkN2OU90
- hOOkc4lOehhgvnEEdDg76R1R4zd2jog9u537kmn8NZjp8YG5mp7FRXO4TywRRn+ItAdj
- iXx6QEFesca5YR4liQtw+UfMImXe31tJBQEdZGSc2+P8CKROVFNy34eweGdNCvzy2SA1
- RFKw==
+ bh=alq3qkQflAS1MVNIYnc6+tQ6ioRrHZq26cXio83N7sg=;
+ b=chYGDpdcH1xVDpbdj8P6Sbt56tA++Fz1lqsoLZD7fuN+uS7H6qqFgDexlY5Lds5pI6
+ haFQCQGh5w0Np4KfFrcFiKcK3vGnWeQjJ6ehtTU7ZyACMn7dfpXJPN9C7IjINjfw6hGd
+ 0G1zrch53mgR0Bs5OdFN+76V7d70d/LVwZy/gePRl4JGvYiai8laPXs4c8gwrSIv+9IG
+ Xvgy8jK+8CXW9QxP6KN3AFYBkOvPlf3zejSmmkdwO01G1GdhVk3/2tKRgQQzjO29tTf6
+ k70Tvd2E6sWrZxAYQbNhwPq0ky3CJ8wpareg2IvpoGXmB+cnRVTdO6v1b3pNFAL2vhYI
+ uVOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oNBGFH2Y+HiqoM85hNYRvTjlzhO6SEyWeacg/l0Rijc=;
- b=MHM57T2uiQiIASRWKBreMhO4Dr6XmbUcMalOvraZvMYcjbEmfidAPIJgDvyMvHxYjx
- iuDsrMmdGkjEamjKFc3GqYTMdSGYzxBEiHBeLIoV/UIDZNJ5Ry5mllA3xvyoCXxdya/A
- cgX/GJ0q5YCUXO2FuzO8tL8wANnKTY4xs3KqbfPJrg+GXXwDhbRELONsraW5qrtLMV5l
- AsaSfxSdlcU7kDNC/0mwFo9U2uUn/SIheVm1EkIEHv6Lgh0bEAc58dI4FxWcG3jDgfm4
- MpkxMtK/JpD/QII8XySEMI7og1jXtf0eFlo5RZqZ5ST+y6hFGQRXBSsFoeuMH6aErWK9
- Zm8g==
-X-Gm-Message-State: AOAM5331/KQmh2CvI6/0zapoXNp/se4AcuKv47Svpi4eU1dYwN7yFtth
- ye6FgXNWkv3behz1Ekl8tHdg9RE88Wo=
-X-Google-Smtp-Source: ABdhPJwG2h6PJMfQVmFPVkF/5RrZOX/5fvZC+YEcw0ppt0LxKLitq4Zc8RvfJld+g/FsWH2DxCr53Q==
-X-Received: by 2002:a1c:2041:: with SMTP id g62mr14768382wmg.172.1597675084841; 
- Mon, 17 Aug 2020 07:38:04 -0700 (PDT)
+ bh=alq3qkQflAS1MVNIYnc6+tQ6ioRrHZq26cXio83N7sg=;
+ b=niiKpNOJTTN1zXeKgUD9t3uRo+zVzqzQlHMNqB9IRoLxhPSd4Vez1GwmsmTOFTLfPs
+ JbcRf9t87wH3YRrRNiLoiKoAbqY1/3hOWfLO3ClWnmy15OUStJ2qIeFe24epseUqLR8E
+ WiutL/svEABFVC/D9VdNc/quAZ4+yOBX8giLWntofzPEs2qg03GH2lMM3yl0JnFPn/W/
+ WMBQmSFFgWCTxgqegQrl9ZTgyUw+8lylY5WkXpOzKnKVrwMd4UrdhVpyWgc5ojVQrBJX
+ NjpmOFjfRWpbolGjwSTHaGbpyxlLMIpU0WJSWG8piBSpiWH1NgQUMx4qX3Rf0C0GUprZ
+ 7TDQ==
+X-Gm-Message-State: AOAM5311B7RH+50OwDLdO02oDsrMpnbUC7/omp3iDqOTF+d/cbAo49HX
+ P5HAPMfyM7dGmpvKW8jOmqZ3+3QyE9M=
+X-Google-Smtp-Source: ABdhPJz5w94neA0VwO3r4+iMbe3TbPZznURWvI5g0DU98W+dWq7QjbuugEoUCrd6/N/7ZsbKiYA6lQ==
+X-Received: by 2002:adf:c401:: with SMTP id v1mr15100517wrf.379.1597675085720; 
+ Mon, 17 Aug 2020 07:38:05 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.04
+ i22sm34966603wrb.45.2020.08.17.07.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:04 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 039/150] meson: convert qemu-ga
-Date: Mon, 17 Aug 2020 16:35:32 +0200
-Message-Id: <20200817143723.343284-40-pbonzini@redhat.com>
+Subject: [PATCH 040/150] meson: convert vss-win32
+Date: Mon, 17 Aug 2020 16:35:33 +0200
+Message-Id: <20200817143723.343284-41-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,387 +91,139 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                  | 53 +++++----------------------------------
- Makefile.objs             |  1 -
- configure                 | 14 +++--------
- meson.build               |  8 ++++++
- qga/Makefile.objs         |  9 -------
- qga/installer/qemu-ga.wxs |  2 +-
- qga/meson.build           | 46 +++++++++++++++++++++++++++++++++
- tests/Makefile.include    |  4 +--
- tests/test-qga.c          |  8 +++---
- 9 files changed, 71 insertions(+), 74 deletions(-)
- create mode 100644 qga/meson.build
+ Makefile                    |  1 -
+ Makefile.objs               |  8 --------
+ qga/Makefile.objs           |  1 -
+ qga/meson.build             |  6 ++++++
+ qga/vss-win32/Makefile.objs | 23 -----------------------
+ qga/vss-win32/meson.build   | 33 +++++++++++++++++++++++++++++++++
+ 6 files changed, 39 insertions(+), 33 deletions(-)
+ delete mode 100644 qga/Makefile.objs
+ delete mode 100644 qga/vss-win32/Makefile.objs
+ create mode 100644 qga/vss-win32/meson.build
 
 diff --git a/Makefile b/Makefile
-index b97a3d0eeb..174d1ecc4f 100644
+index 174d1ecc4f..9b35c0d00a 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -290,7 +290,6 @@ endif
  dummy := $(call unnest-vars,, \
                  authz-obj-y \
                  chardev-obj-y \
--                qga-obj-y \
-                 qga-vss-dll-obj-y \
+-                qga-vss-dll-obj-y \
                  block-obj-y \
                  block-obj-m \
-@@ -438,52 +437,15 @@ endif
- qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
- 
--qemu-ga$(EXESUF): LIBS = $(LIBS_QGA)
--qemu-ga$(EXESUF): QEMU_CFLAGS += -I qga/qapi-generated
--
- qemu-keymap$(EXESUF): LIBS += $(XKBCOMMON_LIBS)
- qemu-keymap$(EXESUF): QEMU_CFLAGS += $(XKBCOMMON_CFLAGS)
- 
--qapi-py = $(SRC_PATH)/scripts/qapi/__init__.py \
--$(SRC_PATH)/scripts/qapi/commands.py \
--$(SRC_PATH)/scripts/qapi/common.py \
--$(SRC_PATH)/scripts/qapi/doc.py \
--$(SRC_PATH)/scripts/qapi/error.py \
--$(SRC_PATH)/scripts/qapi/events.py \
--$(SRC_PATH)/scripts/qapi/expr.py \
--$(SRC_PATH)/scripts/qapi/gen.py \
--$(SRC_PATH)/scripts/qapi/introspect.py \
--$(SRC_PATH)/scripts/qapi/parser.py \
--$(SRC_PATH)/scripts/qapi/schema.py \
--$(SRC_PATH)/scripts/qapi/source.py \
--$(SRC_PATH)/scripts/qapi/types.py \
--$(SRC_PATH)/scripts/qapi/visit.py \
--$(SRC_PATH)/scripts/qapi-gen.py
--
--qga/qapi-generated/qga-qapi-types.c qga/qapi-generated/qga-qapi-types.h \
--qga/qapi-generated/qga-qapi-visit.c qga/qapi-generated/qga-qapi-visit.h \
--qga/qapi-generated/qga-qapi-commands.h qga/qapi-generated/qga-qapi-commands.c \
--qga/qapi-generated/qga-qapi-init-commands.h qga/qapi-generated/qga-qapi-init-commands.c \
--qga/qapi-generated/qga-qapi-doc.texi: \
--qga/qapi-generated/qapi-gen-timestamp ;
--qga/qapi-generated/qapi-gen-timestamp: $(SRC_PATH)/qga/qapi-schema.json $(qapi-py)
--	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
--		-o qga/qapi-generated -p "qga-" $<, \
--		"GEN","$(@:%-timestamp=%)")
--	@>$@
--
--QGALIB_GEN=$(addprefix qga/qapi-generated/, qga-qapi-types.h qga-qapi-visit.h qga-qapi-commands.h qga-qapi-init-commands.h)
--$(qga-obj-y): $(QGALIB_GEN)
--
--qemu-ga$(EXESUF): $(qga-obj-y) $(COMMON_LDADDS)
--	$(call LINK, $^)
--
- ifdef QEMU_GA_MSI_ENABLED
- QEMU_GA_MSI=qemu-ga-$(ARCH).msi
- 
- msi: $(QEMU_GA_MSI)
- 
--$(QEMU_GA_MSI): qemu-ga.exe $(QGA_VSS_PROVIDER)
-+$(QEMU_GA_MSI): qga/qemu-ga.exe $(QGA_VSS_PROVIDER)
- 
- $(QEMU_GA_MSI): config-host.mak
- 
-@@ -496,8 +458,8 @@ msi:
- endif
- 
- ifneq ($(EXESUF),)
--.PHONY: qemu-ga
--qemu-ga: qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
-+.PHONY: qga/qemu-ga
-+qga/qemu-ga: qga/qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
- endif
- 
- module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
-@@ -522,9 +484,6 @@ clean: recurse-clean ninja-clean clean-ctlist
- 	rm -f qemu-img-cmds.h
- 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
- 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
--	rm -f qapi-gen-timestamp
--	rm -f storage-daemon/qapi/qapi-gen-timestamp
--	rm -rf qga/qapi-generated
- 	rm -f config-all-devices.mak
- 	rm -f $(SUBDIR_DEVICES_MAK)
- 
-@@ -646,7 +605,7 @@ endif
- ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
- endif
--ifneq (,$(findstring qemu-ga,$(TOOLS)))
-+ifeq ($(CONFIG_GUEST_AGENT),y)
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)/interop"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)/interop"
-@@ -667,7 +626,7 @@ install-datadir:
- 
- install-localstatedir:
- ifdef CONFIG_POSIX
--ifneq (,$(findstring qemu-ga,$(TOOLS)))
-+ifeq ($(CONFIG_GUEST_AGENT),y)
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_localstatedir)"/run
- endif
- endif
-@@ -859,7 +818,7 @@ $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
- docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
- 	@cp -p $< $@
- 
--docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
-+docs/interop/qemu-ga-qapi.texi: qga/qga-qapi-doc.texi
- 	@cp -p $< $@
- 
- html: docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
+                 storage-daemon-obj-y \
 diff --git a/Makefile.objs b/Makefile.objs
-index 1486254a2c..259f9936ac 100644
+index 259f9936ac..baf15656e8 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -98,5 +98,4 @@ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
- # FIXME: a few definitions from qapi/qapi-types.o and
- # qapi/qapi-visit.o are needed by libqemuutil.a.  These should be
- # extracted into a QAPI schema module, or perhaps a separate schema.
--qga-obj-y = qga/
- qga-vss-dll-obj-y = qga/
-diff --git a/configure b/configure
-index 0eb9f8aefd..a58d049d13 100755
---- a/configure
-+++ b/configure
-@@ -825,8 +825,6 @@ FreeBSD)
-   audio_possible_drivers="oss sdl pa"
-   # needed for kinfo_getvmmap(3) in libutil.h
-   LIBS="-lutil $LIBS"
--  # needed for kinfo_getproc
--  libs_qga="-lutil $libs_qga"
-   netmap=""  # enable netmap autodetect
-   HOST_VARIANT_DIR="freebsd"
- ;;
-@@ -888,7 +886,6 @@ SunOS)
-   QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
-   solarisnetlibs="-lsocket -lnsl -lresolv"
-   LIBS="$solarisnetlibs $LIBS"
--  libs_qga="$solarisnetlibs $libs_qga"
- ;;
- Haiku)
-   haiku="yes"
-@@ -3972,7 +3969,6 @@ for i in $glib_modules; do
-         glib_libs=$($pkg_config --libs $i)
-         QEMU_CFLAGS="$glib_cflags $QEMU_CFLAGS"
-         LIBS="$glib_libs $LIBS"
--        libs_qga="$glib_libs $libs_qga"
-     else
-         error_exit "glib-$glib_req_ver $i is required to compile QEMU"
-     fi
-@@ -4183,7 +4179,6 @@ else
-       done
-       if test "$found" = "no"; then
-         LIBS="$pthread_lib $LIBS"
--        libs_qga="$pthread_lib $libs_qga"
-       fi
-       PTHREAD_LIB="$pthread_lib"
-       break
-@@ -5192,7 +5187,6 @@ if compile_prog "" "" ; then
-   :
- elif compile_prog "" "-lm" ; then
-   LIBS="-lm $LIBS"
--  libs_qga="-lm $libs_qga"
- else
-   error_exit "libm check failed"
- fi
-@@ -5217,7 +5211,6 @@ if compile_prog "" "" ; then
- # we need pthread for static linking. use previous pthread test result
- elif compile_prog "" "$pthread_lib -lrt" ; then
-   LIBS="$LIBS -lrt"
--  libs_qga="$libs_qga -lrt"
- fi
- 
- # Check whether we need to link libutil for openpty()
-@@ -5596,7 +5589,6 @@ EOF
-     fi
- 
-     LIBS="$lttng_ust_libs $urcu_bp_libs $LIBS"
--    libs_qga="$lttng_ust_libs $urcu_bp_libs $libs_qga"
-   else
-     error_exit "Trace backend 'ust' missing lttng-ust header files"
-   fi
-@@ -6722,7 +6714,6 @@ if [ "$guest_agent" != "no" ]; then
-   if [ "$softmmu" = no -a "$want_tools" = no ] ; then
-       guest_agent=no
-   elif [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" -o "$mingw32" = "yes" ] ; then
--      tools="qemu-ga\$(EXESUF) $tools"
-       guest_agent=yes
-   elif [ "$guest_agent" != yes ]; then
-       guest_agent=no
-@@ -6968,6 +6959,9 @@ fi
- if test "$want_tools" = "yes" ; then
-   echo "CONFIG_TOOLS=y" >> $config_host_mak
- fi
-+if test "$guest_agent" = "yes" ; then
-+  echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
-+fi
- if test "$slirp" != "no"; then
-   echo "CONFIG_SLIRP=y" >> $config_host_mak
-   echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-@@ -7825,7 +7819,7 @@ echo "PTHREAD_LIB=$PTHREAD_LIB" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
- echo "DSOSUF=$DSOSUF" >> $config_host_mak
- echo "LDFLAGS_SHARED=$LDFLAGS_SHARED" >> $config_host_mak
--echo "LIBS_QGA+=$libs_qga" >> $config_host_mak
-+echo "LIBS_QGA=$libs_qga" >> $config_host_mak
- echo "TASN1_LIBS=$tasn1_libs" >> $config_host_mak
- echo "TASN1_CFLAGS=$tasn1_cflags" >> $config_host_mak
- echo "POD2MAN=$POD2MAN" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 08bda49778..67a26314fa 100644
---- a/meson.build
-+++ b/meson.build
-@@ -128,6 +128,10 @@ if 'CONFIG_CURL' in config_host
-   curl = declare_dependency(compile_args: config_host['CURL_CFLAGS'].split(),
-                             link_args: config_host['CURL_LIBS'].split())
- endif
-+libudev = not_found
-+if 'CONFIG_LIBUDEV' in config_host
-+  libudev = declare_dependency(link_args: config_host['LIBUDEV_LIBS'].split())
-+endif
- 
- target_dirs = config_host['TARGET_DIRS'].split()
- have_user = false
-@@ -290,6 +294,10 @@ qemuutil = declare_dependency(link_with: libqemuutil,
- 
- # Other build targets
- 
-+if 'CONFIG_GUEST_AGENT' in config_host
-+  subdir('qga')
-+endif
-+
- if have_tools
-   subdir('contrib/rdmacm-mux')
-   subdir('contrib/elf2dmp')
-diff --git a/qga/Makefile.objs b/qga/Makefile.objs
-index 9c558ae51c..9ecf2496da 100644
---- a/qga/Makefile.objs
-+++ b/qga/Makefile.objs
-@@ -1,10 +1 @@
--commands-posix.o-libs := $(LIBUDEV_LIBS)
--qga-obj-y = commands.o guest-agent-command-state.o main.o
--qga-obj-$(CONFIG_POSIX) += commands-posix.o channel-posix.o
--qga-obj-$(CONFIG_WIN32) += commands-win32.o channel-win32.o service-win32.o
--qga-obj-$(CONFIG_WIN32) += vss-win32.o
--qga-obj-y += qapi-generated/qga-qapi-types.o qapi-generated/qga-qapi-visit.o
--qga-obj-y += qapi-generated/qga-qapi-commands.o
--qga-obj-y += qapi-generated/qga-qapi-init-commands.o
+@@ -91,11 +91,3 @@ common-obj-y += disas/
+ ######################################################################
+ # Resource file for Windows executables
+ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
 -
- qga-vss-dll-obj-$(CONFIG_QGA_VSS) += vss-win32/
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index f6781752e6..9cb4c3d733 100644
---- a/qga/installer/qemu-ga.wxs
-+++ b/qga/installer/qemu-ga.wxs
-@@ -66,7 +66,7 @@
-       <Directory Id="$(var.GaProgramFilesFolder)" Name="QEMU Guest Agent">
-         <Directory Id="qemu_ga_directory" Name="Qemu-ga">
-           <Component Id="qemu_ga" Guid="{908B7199-DE2A-4DC6-A8D0-27A5AE444FEA}">
--            <File Id="qemu_ga.exe" Name="qemu-ga.exe" Source="$(env.BUILD_DIR)/qemu-ga.exe" KeyPath="yes" DiskId="1"/>
-+            <File Id="qemu_ga.exe" Name="qemu-ga.exe" Source="$(env.BUILD_DIR)/qga/qemu-ga.exe" KeyPath="yes" DiskId="1"/>
-             <ServiceInstall
-               Id="ServiceInstaller"
-               Type="ownProcess"
+-######################################################################
+-# guest agent
+-
+-# FIXME: a few definitions from qapi/qapi-types.o and
+-# qapi/qapi-visit.o are needed by libqemuutil.a.  These should be
+-# extracted into a QAPI schema module, or perhaps a separate schema.
+-qga-vss-dll-obj-y = qga/
+diff --git a/qga/Makefile.objs b/qga/Makefile.objs
+deleted file mode 100644
+index 9ecf2496da..0000000000
+--- a/qga/Makefile.objs
++++ /dev/null
+@@ -1 +0,0 @@
+-qga-vss-dll-obj-$(CONFIG_QGA_VSS) += vss-win32/
 diff --git a/qga/meson.build b/qga/meson.build
-new file mode 100644
-index 0000000000..3513a90f5d
---- /dev/null
+index 3513a90f5d..948302e06d 100644
+--- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -0,0 +1,46 @@
-+qga_qapi_outputs = [
-+  'qga-qapi-commands.c',
-+  'qga-qapi-commands.h',
-+  'qga-qapi-doc.texi',
-+  'qga-qapi-emit-events.c',
-+  'qga-qapi-emit-events.h',
-+  'qga-qapi-events.c',
-+  'qga-qapi-events.h',
-+  'qga-qapi-init-commands.c',
-+  'qga-qapi-init-commands.h',
-+  'qga-qapi-introspect.c',
-+  'qga-qapi-introspect.h',
-+  'qga-qapi-types.c',
-+  'qga-qapi-types.h',
-+  'qga-qapi-visit.c',
-+  'qga-qapi-visit.h',
-+]
+@@ -44,3 +44,9 @@ qga = executable('qemu-ga', qga_ss.sources(),
+                  link_args: config_host['LIBS_QGA'].split(),
+                  dependencies: [qemuutil, libudev],
+                  install: true)
 +
-+qga_qapi_files = custom_target('QGA QAPI files',
-+                               output: qga_qapi_outputs,
-+                               input: 'qapi-schema.json',
-+                               command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
-+                               depend_files: qapi_gen_depends)
-+qga_ss = ss.source_set()
-+qga_ss.add(qga_qapi_files)
-+qga_ss.add(files(
-+  'commands.c',
-+  'guest-agent-command-state.c',
-+  'main.c',
-+))
-+qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
-+  'channel-posix.c',
-+  'commands-posix.c'))
-+qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
-+  'channel-win32.c',
-+  'commands-win32.c',
-+  'service-win32.c',
-+  'vss-win32.c'
-+))
++if host_machine.system() == 'windows'
++  if 'CONFIG_QGA_VSS' in config_host
++    subdir('vss-win32')
++  endif
++endif
+diff --git a/qga/vss-win32/Makefile.objs b/qga/vss-win32/Makefile.objs
+deleted file mode 100644
+index c82676aeb8..0000000000
+--- a/qga/vss-win32/Makefile.objs
++++ /dev/null
+@@ -1,23 +0,0 @@
+-# rules to build qga-vss.dll
+-
+-qga-vss-dll-obj-y += requester.o provider.o install.o
+-
+-obj-qga-vss-dll-obj-y = $(addprefix $(obj)/, $(qga-vss-dll-obj-y))
+-$(obj-qga-vss-dll-obj-y): QEMU_CXXFLAGS := $(filter-out -fstack-protector-all -fstack-protector-strong, $(QEMU_CXXFLAGS)) -Wno-unknown-pragmas -Wno-delete-non-virtual-dtor
+-
+-QGA_VSS_LDFLAGS = -shared -Wl,--add-stdcall-alias,--enable-stdcall-fixup -lglib-2.0 -lole32 -loleaut32 -lshlwapi -luuid -lintl -lws2_32 -static
+-$(obj)/qga-vss.dll: $(obj-qga-vss-dll-obj-y) $(SRC_PATH)/$(obj)/qga-vss.def
+-	$(call quiet-command,$(CXX) -o $@ $(qga-vss-dll-obj-y) $(SRC_PATH)/qga/vss-win32/qga-vss.def $(CXXFLAGS) $(QGA_VSS_LDFLAGS),"LINK","$(TARGET_DIR)$@")
+-
+-
+-# rules to build qga-provider.tlb
+-# Currently, only native build is supported because building .tlb
+-# (TypeLibrary) from .idl requires WindowsSDK and MIDL (and cl.exe in VC++).
+-MIDL=$(WIN_SDK)/Bin/midl
+-
+-$(obj)/qga-vss.tlb: $(SRC_PATH)/$(obj)/qga-vss.idl
+-ifeq ($(WIN_SDK),"")
+-	$(call quiet-command,cp $(dir $<)qga-vss.tlb $@,"COPY","$(TARGET_DIR)$@")
+-else
+-	$(call quiet-command,$(MIDL) -tlb $@ -I $(WIN_SDK)/Include $<,"MIDL","$(TARGET_DIR)$@")
+-endif
+diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+new file mode 100644
+index 0000000000..42c8d31a3d
+--- /dev/null
++++ b/qga/vss-win32/meson.build
+@@ -0,0 +1,33 @@
++if add_languages('cpp', required: false)
++  glib_static = dependency('glib-2.0', static: true)
++  link_args = cc.get_supported_link_arguments(['-fstack-protector-all', '-fstack-protector-strong',
++                                               '-Wl,--add-stdcall-alias', '-Wl,--enable-stdcall-fixup'])
++  shared_module('qga-vss', ['requester.cpp', 'provider.cpp', 'install.cpp'],
++                name_prefix: '',
++                cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
++                link_args: link_args,
++                vs_module_defs: 'qga-vss.def',
++                dependencies: [glib_static, socket,
++                               cc.find_library('ole32'),
++                               cc.find_library('oleaut32'),
++                               cc.find_library('shlwapi'),
++                               cc.find_library('uuid'),
++                               cc.find_library('intl')])
++endif
 +
-+qga_ss = qga_ss.apply(config_host, strict: false)
-+
-+qga = executable('qemu-ga', qga_ss.sources(),
-+                 link_args: config_host['LIBS_QGA'].split(),
-+                 dependencies: [qemuutil, libudev],
-+                 install: true)
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index ad54100369..f277d238fb 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -129,7 +129,7 @@ ifndef CONFIG_TSAN
- # https://github.com/google/sanitizers/issues/1116
- check-unit-$(CONFIG_SOFTMMU) += tests/test-char$(EXESUF)
- check-unit-$(CONFIG_SOFTMMU) += tests/test-qdev-global-props$(EXESUF)
--ifneq (,$(findstring qemu-ga,$(TOOLS)))
-+ifeq ($(CONFIG_GUEST_AGENT),y)
- check-unit-$(call land,$(CONFIG_LINUX),$(CONFIG_VIRTIO_SERIAL)) += tests/test-qga$(EXESUF)
- endif
- endif
-@@ -603,7 +603,7 @@ tests/migration/initrd-stress.img: tests/migration/stress$(EXESUF)
- 
- include $(SRC_PATH)/tests/qtest/Makefile.include
- 
--tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
-+tests/test-qga$(EXESUF): qga/qemu-ga$(EXESUF)
- tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
- tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-obj-y) libvhost-user.a
- tests/qemu-iotests/socket_scm_helper$(EXESUF): tests/qemu-iotests/socket_scm_helper.o
-diff --git a/tests/test-qga.c b/tests/test-qga.c
-index d2b2435bb4..d1b4c3e8ce 100644
---- a/tests/test-qga.c
-+++ b/tests/test-qga.c
-@@ -61,8 +61,8 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- 
-     path = g_build_filename(fixture->test_dir, "sock", NULL);
-     cwd = g_get_current_dir();
--    cmd = g_strdup_printf("%s%cqemu-ga -m unix-listen -t %s -p %s %s %s",
--                          cwd, G_DIR_SEPARATOR,
-+    cmd = g_strdup_printf("%s%cqga%cqemu-ga -m unix-listen -t %s -p %s %s %s",
-+                          cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR,
-                           fixture->test_dir, path,
-                           getenv("QTEST_LOG") ? "-v" : "",
-                           extra_arg ?: "");
-@@ -699,8 +699,8 @@ static void test_qga_config(gconstpointer data)
-     GKeyFile *kf;
- 
-     cwd = g_get_current_dir();
--    cmd = g_strdup_printf("%s%cqemu-ga -D",
--                          cwd, G_DIR_SEPARATOR);
-+    cmd = g_strdup_printf("%s%cqga%cqemu-ga -D",
-+                          cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
-     g_free(cwd);
-     g_shell_parse_argv(cmd, NULL, &argv, &error);
-     g_free(cmd);
++# rules to build qga-vss.tlb
++# Currently, only native build is supported because building .tlb
++# (TypeLibrary) from .idl requires WindowsSDK and MIDL (and cl.exe in VC++).
++midl = find_program('midl', required: false)
++if midl.found()
++  gen_tlb = custom_target('gen-tlb',
++                          input: 'qga-vss.idl',
++                          output: 'qga-vss.tlb',
++                          command: [midl, '-tlb', '-I' + config_host['WIN_SDK'],
++                                     '@INPUT@', '@OUTPUT@'])
++else
++  gen_tlb = custom_target('gen-tlb',
++                          input: 'qga-vss.tlb',
++                          output: 'qga-vss.tlb',
++                          command: ['cp', '@INPUT@', '@OUTPUT@'])
++endif
 -- 
 2.26.2
 
