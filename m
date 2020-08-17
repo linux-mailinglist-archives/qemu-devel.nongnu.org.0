@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C022246E2E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 19:24:32 +0200 (CEST)
-Received: from localhost ([::1]:39764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12CD246E7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 19:32:36 +0200 (CEST)
+Received: from localhost ([::1]:44450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7is3-0008Ug-4J
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 13:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
+	id 1k7izr-0002hE-QS
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 13:32:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7irC-00082d-UG
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 13:23:38 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30051
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7irB-0004ry-5Z
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 13:23:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597685016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qMP35PePSzZOiEVsCjdwEyJXKlCwN09VElhl+fMbxj8=;
- b=Nca47osrBgshF2t3Dk97lLCMrg544mYeE7iWgxPitdbphVVf/81R8oiRljUGehpXFrEm1i
- EyAdw1MJK9gwXZZTKP+HJLfL1IigUsXituV+vGtCS7i11/YBL/q/P3ztTROpfYe+G5BFJy
- IPbkB6xX+njaUHCHjC70s0vBIB+zULc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-T3lB-hXvNOGCHKpivH_9Gg-1; Mon, 17 Aug 2020 13:23:34 -0400
-X-MC-Unique: T3lB-hXvNOGCHKpivH_9Gg-1
-Received: by mail-wr1-f69.google.com with SMTP id e14so7272882wrr.7
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 10:23:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1k7iyC-0001d9-0I; Mon, 17 Aug 2020 13:30:52 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1k7iy9-0005vW-Gb; Mon, 17 Aug 2020 13:30:51 -0400
+Received: by mail-lj1-x243.google.com with SMTP id g6so18339328ljn.11;
+ Mon, 17 Aug 2020 10:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8xtVXFHEYgnf6JtDTPN7WBm75COKu7o/cNjaOQO6yxY=;
+ b=kKIFRYYJL9VpsyL0Wk0FZ11WIfPIGoQPANCiwmyMqCg3ceIur2Wj0jOVcjzosAGmeZ
+ XPFrBV6FUTwwAmTX/iX3B5bD7moLuPw5Oaq/WO3FZbhJLKCzqGxOpf1HYqHirS2RAtqw
+ UEUaP7pFDRRT6cXkTLpC6G/ZEDGeZk2iq/TF0kpuHGSLLr8jxguowLQdzCafUKrFDO7h
+ 8uRHTFqF7T/L9LAATvWN8Yav3dBlFhGTQ4HAFczmY7Uf58dpP7yzaGx7rfRisc6cxJpQ
+ RgHHozUaR5lJcdHzLBDk2OvEBrPg1qJFhz3hxAbh0zvorLamTxDaYj0yKF0BUpFoGp65
+ ziTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qMP35PePSzZOiEVsCjdwEyJXKlCwN09VElhl+fMbxj8=;
- b=oL690iS9K7gLJic7kK6oz8VqgMfmnXp1oKcqG5OSkPTt9KTA8mKSxhpp/2zBlvkbHJ
- CSg7Rd1QSKDnkJbTsPsJXIK8aI5QA/ve2d9jUWSFAl5ocibkn6ng3AoAwJNoKY81JDqc
- Qn/Dyp4BAIsvB8FqVWrzf/ioZ0aTqc2wA55I+BvYTwAIJNxXdCMU+ZLV6KnIXx3qLBz5
- q4W+O54RAuDFr7X7GLB+NxrGCK6/7S7EFhsC8GvFJ8RaQvPPWMx2eKHudv8HrZNoszUz
- dDVvgITyLJdR+Yo7bCc+rMJlRnq/xK4yiNI4ecE2EWQf6vKMwwWvDO7IGMouwzIsLl9S
- ShAw==
-X-Gm-Message-State: AOAM531xSpdElzlXgnOQjkgJX/Hd0Y5lP5S0TYQi6XLTimT10URr6Hv7
- h/xwuhMsf7uFI1JGPbPL8Gf8Pk6XrMZ31cimH6f5TcZ+a8iEIBlbhjHCIys+Qa47DSfguFQG/iP
- XD5mTmLhrHbA3e1s=
-X-Received: by 2002:a05:600c:21d3:: with SMTP id
- x19mr16091514wmj.174.1597685013281; 
- Mon, 17 Aug 2020 10:23:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMX2EXKy52ni1J/HrQ++w0m7JVqGvqQsIawXr7auBJK8s6NKT406iA2NETBYaxg1NkDM0E3Q==
-X-Received: by 2002:a05:600c:21d3:: with SMTP id
- x19mr16091488wmj.174.1597685013018; 
- Mon, 17 Aug 2020 10:23:33 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id j11sm31113721wrw.79.2020.08.17.10.23.32
+ bh=8xtVXFHEYgnf6JtDTPN7WBm75COKu7o/cNjaOQO6yxY=;
+ b=m6ifWxYp6Melxy0y0BVCF1y/LSHDX+3oa/8MMGD7WNBMN1yQGyCHHL6Q0aHio12/hz
+ v0zswZaZ69d0cp+jxP9ME0eKyqUQaxGyFgSODkYvvxMIFRNM0MFKF6PPNKwKCo4qahB5
+ 4cUNEY0+8cazt1ybWnPMfXhGxwmT0JmbLr3KcqCE5DieAzItSTque+JjMbSmctLpkZVv
+ IGBAjxhYKeuLRsics2hIY7IbUUvbthK9V0SlLY6NjzvfKXmIwV2jYBGUmGMflkYC6P6t
+ YYBZYpCdipC8Lub2ZttGJLRtESTCUVQ9na+S6GiyvcdALxnRFCaZBPf4ruTEIr827Mye
+ GU4A==
+X-Gm-Message-State: AOAM530AsaV2PnqIwKIrpuchB7Px470jrIad7x/PLhE4c49QQ6a2pdeL
+ PG97C0Hv4U4r3yN5cI3uPZNgQvu7iyml4Q==
+X-Google-Smtp-Source: ABdhPJxDpDb4V2TnVUhK6OMC3mHHhXnip+JuGacnhLADuf96Ga5uPoPxN8SjCrDL17uDYnk2D8BXCw==
+X-Received: by 2002:a2e:9595:: with SMTP id w21mr8205457ljh.334.1597685446657; 
+ Mon, 17 Aug 2020 10:30:46 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id f14sm5644909lfd.2.2020.08.17.10.30.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 10:23:32 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Mon, 17 Aug 2020 10:30:45 -0700 (PDT)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] ui/gtk: Update refresh interval after widget is realized
-Date: Mon, 17 Aug 2020 19:23:31 +0200
-Message-Id: <20200817172331.598255-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+Subject: [PATCH v1 0/1] target/microblaze: mbar: Trap sleeps from user-space
+Date: Mon, 17 Aug 2020 19:30:44 +0200
+Message-Id: <20200817173045.437534-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 05:03:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FSL_HELO_FAKE=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,125 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nikola reported on Windows when gd_vc_gfx_init() is called, the
-window is not yet realized, so we run gd_refresh_rate_millihz(NULL)
-which returns 0 milli-Hertz.
-When a Widget is realized, it fires a 'realized' event. We already
-have the gd_draw_event() handler registered for this even, so simply
-move the gd_refresh_rate_millihz() there. When the event fires, the
-window is known to exist.
-This completes commit c4c00922cc original intention.
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Reported-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Suggested-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Tested-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- ui/gtk.c | 52 ++++++++++++++++++++++++++--------------------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+As suggested by Richard, trap mbar/sleeps from user-space.
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index b0cc08ad6d..7a717ce8e5 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -744,6 +744,25 @@ static void gd_resize_event(GtkGLArea *area,
- 
- #endif
- 
-+/*
-+ * If available, return the refresh rate of the display in milli-Hertz,
-+ * else return 0.
-+ */
-+static int gd_refresh_rate_millihz(GtkWidget *window)
-+{
-+#ifdef GDK_VERSION_3_22
-+    GdkWindow *win = gtk_widget_get_window(window);
-+
-+    if (win) {
-+        GdkDisplay *dpy = gtk_widget_get_display(window);
-+        GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
-+
-+        return gdk_monitor_get_refresh_rate(monitor);
-+    }
-+#endif
-+    return 0;
-+}
-+
- static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
- {
-     VirtualConsole *vc = opaque;
-@@ -751,6 +770,7 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-     int mx, my;
-     int ww, wh;
-     int fbw, fbh;
-+    int refresh_rate_millihz;
- 
- #if defined(CONFIG_OPENGL)
-     if (vc->gfx.gls) {
-@@ -771,6 +791,12 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-         return FALSE;
-     }
- 
-+    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ?
-+                                                   vc->window : s->window);
-+    if (refresh_rate_millihz) {
-+        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
-+    }
-+
-     fbw = surface_width(vc->gfx.ds);
-     fbh = surface_height(vc->gfx.ds);
- 
-@@ -1949,31 +1975,11 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayState *s)
-     return machine_menu;
- }
- 
--/*
-- * If available, return the refresh rate of the display in milli-Hertz,
-- * else return 0.
-- */
--static int gd_refresh_rate_millihz(GtkWidget *window)
--{
--#ifdef GDK_VERSION_3_22
--    GdkWindow *win = gtk_widget_get_window(window);
--
--    if (win) {
--        GdkDisplay *dpy = gtk_widget_get_display(window);
--        GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
--
--        return gdk_monitor_get_refresh_rate(monitor);
--    }
--#endif
--    return 0;
--}
--
- static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               QemuConsole *con, int idx,
-                               GSList *group, GtkWidget *view_menu)
- {
-     bool zoom_to_fit = false;
--    int refresh_rate_millihz;
- 
-     vc->label = qemu_console_get_label(con);
-     vc->s = s;
-@@ -2031,12 +2037,6 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-     vc->gfx.kbd = qkbd_state_init(con);
-     vc->gfx.dcl.con = con;
- 
--    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ?
--                                                   vc->window : s->window);
--    if (refresh_rate_millihz) {
--        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
--    }
--
-     register_displaychangelistener(&vc->gfx.dcl);
- 
-     gd_connect_vc_gfx_signals(vc);
+Cheers,
+Edgar
+
+Edgar E. Iglesias (1):
+  target/microblaze: mbar: Trap sleeps from user-space
+
+ target/microblaze/translate.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
 -- 
-2.26.2
+2.25.1
 
 
