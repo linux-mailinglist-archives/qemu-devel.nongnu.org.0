@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844AE246213
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:10:00 +0200 (CEST)
-Received: from localhost ([::1]:49288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C938A2461DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:05:37 +0200 (CEST)
+Received: from localhost ([::1]:51804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7b9T-0002Kn-JM
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
+	id 1k7b5E-0000Rh-Pz
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7arf-0000Sp-UI
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:35 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:50615)
+ id 1k7arj-0000aB-Ut
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:40 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7are-00055w-Dx
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:35 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id e4so7495503pjd.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:51:33 -0700 (PDT)
+ id 1k7arh-00056F-8a
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:39 -0400
+Received: by mail-pl1-x634.google.com with SMTP id f10so7159278plj.8
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=99inUY6TcXre93Q9sK2twtbOOBRR6deMTZ0PhPm0qww=;
- b=Yhya67zuJcqLW0c30YPV5JtD5Xal2KXSJhCgLAMOna3p4u8rJRbMsLg9zRkql8F4hh
- A6OZoGeOrS9YbMhY9gieLeCDmiWTMoq+J465ZKQMHfjwv/9QRMNd6akRgc79sg+VMPBY
- BHiLjY5wNeQbrlOIKsKXjLpqiS7mAr3en0mSkMY4ZN9UtZ/9KRUeS3K6nxEvc5cyv1MJ
- sy4DF+rke5uvo6mgjBSv5KRUEWxayUBmd9xs1xSdFhsKXNNAFdfj5bcgDKB+3YEfkdBF
- bf0GpnOcOZMzyaHHNnVZDCmgIPaeNPgXs5gfW3G9Bn2O6j7llFpohZQxVL8trOG2yiw6
- 4JDg==
+ bh=5gJQpQuBdx5+IRqoLCBuH1Sdjx31gU5U1EvDuXvWhTM=;
+ b=gPLkrDuD2m4pKCNQx88ws2dKEf3vRIFW7Nla+ZxMhaActW0DUKkajMV4SthEtlt3Rv
+ H/GBAvApITL7de5rLy582fdFxSRSaQHeUiBpNRPOaBZILN95U8RTTvx8fJ7oiuoX1s/e
+ xfkfdp4fZki9UxyHIBmEThkqXRaantl2l6dhs3JyA1KeiJGZLeAPZgzCzTxxrdZw4a/g
+ Ggfi6s2BxtJurf2Mi1ht1QpThDKVSAwllU9juEBmUXDv/h8Hbhi2PMTFL1cyd+dS0dAl
+ u7Y9/bjImOYNoHkFVB9G9de8KpujHfL1GVqbkTbYJwoSx2xgDGMpB1KmtdJ39TAz6l5b
+ 5xtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=99inUY6TcXre93Q9sK2twtbOOBRR6deMTZ0PhPm0qww=;
- b=HjPr0h3xHfyNpxtb48Omzm/OwVawWs/TF+m6YNzkIM20q0lWri4UqjDaFPi2u1aIO3
- +S8+VzMOe5JE94TMq6aKdi7E57g/dZK1Psa3Q6mFhFr2Z0eirQ2mntHVxWTqCR7Fngdr
- i/kuE2aXM3KOxY/WPue4ihK/XF0glO0ATW3zHbxzOML9WHFN9gaqBlSQrNkLMuRUbsTw
- Gxm7BNrlNlhPnsTHBRXKHFh8B//fJzt3YynlpQJAthw/pjjYleBEjl4tYW/5mIrzw65X
- kQ7h8VkKH1UI2kF+VWTrZW6uOpwFsVfpXfeYJYxGB1Nq0p4X7imHy9I6O3l0uf6YfoS4
- 3SUw==
-X-Gm-Message-State: AOAM532rQjFEUEPF4loW9lr+6RbPpiVfQ5qdS5m5nEb5LAHiXIf3anGZ
- PN+7L5LpI6WzhNKi+GheYlKdvA3tfjaSag==
-X-Google-Smtp-Source: ABdhPJxI1PYzX5xFnla/0OrsT91ngDuzICc8vvTvjk1MwlEEGiGdM4gym8iVcv7QuwdBvc3ChDcwVw==
-X-Received: by 2002:a17:90a:d3c2:: with SMTP id
- d2mr11684414pjw.112.1597654292980; 
- Mon, 17 Aug 2020 01:51:32 -0700 (PDT)
+ bh=5gJQpQuBdx5+IRqoLCBuH1Sdjx31gU5U1EvDuXvWhTM=;
+ b=kHCuk2DMQM8mVlwyS88cDI4Qnh4ynv70EiXAcu/S58RbHdbU8KgKCflylf4Gy4T9j7
+ yT4/fbaEa1PS9pqkv/HEyZkSwcdIDgWG+GZvmtREFo8a3w3vC6NzTN5yh8wtms+xoYxO
+ y+FYIBnLXbBb8LWB+sZoEhH12xS8jlHkKQG0f/+gORMK3xM0Mm3HGfXBn2b1l1EaCuCN
+ EJhcY8VeZcsfIX5IBks81liLJ4nC7HWOC+YblGG9ueX8JdQzQyRlWEAqjy5oNizpcuoN
+ JuiGHz8cBJEFG17T9A3RB2ryVZC6gVM2kUfs2o5shgZ/rXemKhqZ8pVWoqN2Yxxjzy72
+ afLg==
+X-Gm-Message-State: AOAM530CG8LH6GVFe7d9TgjqR55kRiVlyRNz+5hXYO1DNoWlfTFRue7S
+ 7vdGfDGG+4fUzEn1HdlQsrG/cE4YZL2WWw==
+X-Google-Smtp-Source: ABdhPJzuOHawyqvvoqkF0qolk93kWpFNMecTz647odkJTiPyn5lX8CtVljCP+xX5NFZE3pNVLbzLTg==
+X-Received: by 2002:a17:90a:d98f:: with SMTP id
+ d15mr11797197pjv.212.1597654295871; 
+ Mon, 17 Aug 2020 01:51:35 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.51.31
+ by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:51:32 -0700 (PDT)
+ Mon, 17 Aug 2020 01:51:35 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 31/70] target/riscv: rvv-1.0: iota instruction
-Date: Mon, 17 Aug 2020 16:49:16 +0800
-Message-Id: <20200817084955.28793-32-frank.chang@sifive.com>
+Subject: [RFC v4 32/70] target/riscv: rvv-1.0: element index instruction
+Date: Mon, 17 Aug 2020 16:49:17 +0800
+Message-Id: <20200817084955.28793-33-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
 References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x634.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -101,18 +101,18 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 0992d6ac86d..7a10fc27c5f 100644
+index 7a10fc27c5f..15afc469cb0 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -596,7 +596,7 @@ vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
- vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
+@@ -597,7 +597,7 @@ vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
  vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
  vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
--viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
-+viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
- vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
+ viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
+-vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
++vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
  vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
  vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
+ vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
 -- 
 2.17.1
 
