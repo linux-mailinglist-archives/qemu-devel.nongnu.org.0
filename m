@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9664F246920
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:12:34 +0200 (CEST)
-Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68FC24696C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:21:46 +0200 (CEST)
+Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7goL-0005g2-KO
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41494)
+	id 1k7gxG-0007wI-0j
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHg-0005WH-7D
+ id 1k7gHg-0005XS-OW
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:48 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51541)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHd-0006Gc-Lx
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:47 -0400
-Received: by mail-wm1-x330.google.com with SMTP id p14so13425854wmg.1
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:45 -0700 (PDT)
+ id 1k7gHe-0006Go-OC
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:48 -0400
+Received: by mail-wr1-x435.google.com with SMTP id p20so15285736wrf.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iF22jc7yBxBhWIXE4smsSOGpHxtCBg0En2HKApL02yo=;
- b=aXdeI2d1RnhH+jmWZKAKI9IOweU83PQ2N2e/0IoV8CGyzbHiYlUFokBSQpYi43tK4I
- /azC3s5X1rNGpnSZnWbFS5EHasxWd6ho8F/iJwhWCj9z0qMuA4NN6db8f0Te8VFgjdpv
- pIAkjMMcRvuma397QQdSZrrTpdtx9jrBbh+//0Z4baDTZOC6mu9YNzKvnMZubTguibx0
- c5EcwsKAi3Z2D+ZBgCjwSGujBm6hihsDZ7MDf4MZbr4112ci6t+xQhSo4Rc7j4qjnDob
- /J+Dabidzwuk0WyGBEn6ci1eY6AlTGad9YL8cCGFeQOSSVuC2wmZ36uWYvyVqaAYeVi0
- Hm+w==
+ bh=Z5txgW2pBwpTpCBc6Ym1NOtBUVIzfRB/CfXeEdnGCFg=;
+ b=B/msVHgVmS12c02Q+Ob4jGecFCE469+m1qcyjvvjUc7GPYztFt+FFU8vasBmM9YWXz
+ GfjZ4za2bkB3EuHiRU9JexqdFmG+DX9mdDY3eypABkK2xf7su5/7ZBEABEvlfSp4pb5z
+ PAB8wdqWGoQnmkEbdj0kE7BnjiRXjnO9Xg3oCgEAPFduDwO+nxgZDWfMLxdPuURBZmkQ
+ PkRYfrEEVpzulIj+behFZ5YdXUgk4E0VMaDDzr+4HUDovxuJ2AuJ1VvBe/PnxHb+3sv2
+ XHuEXEYACy8EudvGEHwo+v4sOUEDGlEJjb2EC0ZQf8/VeUXPoP7UpxSySOBfp//JSpkP
+ P2yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iF22jc7yBxBhWIXE4smsSOGpHxtCBg0En2HKApL02yo=;
- b=Pa93UH3IKSTAUgU+388Mtaocn01cMH/MKFZv7QzbdOhs/4JiE/ACNC0oA/ih1sJ9YH
- HbDIA7bCwgaPfmWeOqj8j/6VzugW0R6MfdgDektRnstcFmB1QnTf4qY+sBQ0A70hhTGy
- fkINeRmHCooWKJk1DMYZZmV4tde1zgQXIEewryIBt43YQ5LAJJYs65YFC9YsXD+f8F0H
- nkmQ3ho+29QrqHOPPk25QUqjTv0LI3ekvt6Zzm28FKIuEy1geQvjAqEttFLSF3qFtgBo
- s1kWoJklTq1JxfJRHdc9tn20FVyDb7YjYZba6Kq1b4oyly4yQWBmUqtCPbiIIPjmB59X
- pkwQ==
-X-Gm-Message-State: AOAM531fYYTGAiaeL5x9a0INHAx0/U0fGYCADNaHoHovb4bl3D+wK7Pm
- d8MH4G8LElJbY+ISfEc6vTl/THQq8HU=
-X-Google-Smtp-Source: ABdhPJzEeFRkZKORb/I6T/OQebzTe11oXoMjMtj/PNcaLkQ9RPKyp6kmtq7xbASbqRVZs56rYnPlBw==
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr14468194wmc.156.1597675123933; 
- Mon, 17 Aug 2020 07:38:43 -0700 (PDT)
+ bh=Z5txgW2pBwpTpCBc6Ym1NOtBUVIzfRB/CfXeEdnGCFg=;
+ b=oAM4awaygxMPf03LDbojtybAwoSwjbyu5nrhFXeFqbd4pPB2kgmFIgHAwEgUde/yj0
+ +U0NzLNDKWOZnQ8d+IGk8tmO0mnU9Ay3212ViYfiAgMEsDLrTkaf09htzOEPI+nNqIaA
+ h+3I4Z2DofU8BMTNvLGwD61Xwnk3eqQG94cvOl1F82jmW+1ards9mI5fj2QwxOWgDWOZ
+ m1+Vq81JlBoXhaW2rnpV6egJj2KK+zk3GTkUUNzt87H+aSRDM8gb+O3vO5zsbgKaXASv
+ TEVkUtGZ7oNBGUqDkLDX13ayARXlw0eIrOeCct8rq2aL8uz9VUmSxWToyPbzQtYwXcP1
+ rKXA==
+X-Gm-Message-State: AOAM531XbL4z8iY69JoSKc7OoEz46Ebdu7E8ychM5vn9lCLzs1ZU/Gnv
+ CC2w6C7tmnApcRMzPxCgu/Ryi9ArvYU=
+X-Google-Smtp-Source: ABdhPJy3HU0iJ8COi5FZK+Dsdb5ZcplwB1Y+UOY6WeqfQ2qjNOY5j8UuBDpLpWz7bOyRGYMkI1cOwQ==
+X-Received: by 2002:adf:e647:: with SMTP id b7mr16946532wrn.220.1597675124998; 
+ Mon, 17 Aug 2020 07:38:44 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.43
+ i22sm34966603wrb.45.2020.08.17.07.38.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:43 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 079/150] meson: convert net directory to Meson
-Date: Mon, 17 Aug 2020 16:36:12 +0200
-Message-Id: <20200817143723.343284-80-pbonzini@redhat.com>
+Subject: [PATCH 080/150] meson: convert backends directory to Meson
+Date: Mon, 17 Aug 2020 16:36:13 +0200
+Message-Id: <20200817143723.343284-81-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,176 +96,153 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs         |  3 +--
- Makefile.target       |  1 +
- meson.build           | 10 ++++++++++
- net/Makefile.objs     | 32 --------------------------------
- net/can/Makefile.objs |  2 --
- net/can/meson.build   |  5 +++++
- net/meson.build       | 40 ++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 57 insertions(+), 36 deletions(-)
- delete mode 100644 net/Makefile.objs
- delete mode 100644 net/can/Makefile.objs
- create mode 100644 net/can/meson.build
- create mode 100644 net/meson.build
+ Makefile.objs              |  2 --
+ backends/Makefile.objs     | 23 -----------------------
+ backends/meson.build       | 19 +++++++++++++++++++
+ backends/tpm/Makefile.objs |  4 ----
+ backends/tpm/meson.build   |  8 ++++++++
+ configure                  |  2 ++
+ meson.build                |  5 +++++
+ 7 files changed, 34 insertions(+), 29 deletions(-)
+ delete mode 100644 backends/Makefile.objs
+ create mode 100644 backends/meson.build
+ delete mode 100644 backends/tpm/Makefile.objs
+ create mode 100644 backends/tpm/meson.build
 
 diff --git a/Makefile.objs b/Makefile.objs
-index 9d0a82d82a..f2700442a4 100644
+index f2700442a4..c00851a0cd 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -39,8 +39,7 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
- # single QEMU executable should support all CPUs and machines.
+@@ -66,8 +66,6 @@ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF
+ common-obj-y += hw/
+ common-obj-m += hw/
  
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = net/
--common-obj-$(CONFIG_LINUX) += fsdev/
-+common-obj-$(CONFIG_LINUX) = fsdev/
+-common-obj-y += backends/
+-
+ common-obj-y += qapi/
  
- common-obj-y += accel/
+ common-obj-y += libqmp.fa
+diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+deleted file mode 100644
+index 22d204cb48..0000000000
+--- a/backends/Makefile.objs
++++ /dev/null
+@@ -1,23 +0,0 @@
+-common-obj-y += rng.o rng-egd.o rng-builtin.o
+-common-obj-$(CONFIG_POSIX) += rng-random.o
+-
+-common-obj-$(CONFIG_TPM) += tpm/
+-
+-common-obj-y += hostmem.o hostmem-ram.o
+-common-obj-$(CONFIG_POSIX) += hostmem-file.o
+-
+-common-obj-y += cryptodev.o
+-common-obj-y += cryptodev-builtin.o
+-
+-ifeq ($(CONFIG_VIRTIO_CRYPTO),y)
+-common-obj-y += cryptodev-vhost.o
+-common-obj-$(CONFIG_VHOST_CRYPTO) += cryptodev-vhost-user.o
+-endif
+-
+-common-obj-$(call land,$(CONFIG_VHOST_USER),$(CONFIG_VIRTIO)) += vhost-user.o
+-
+-common-obj-$(CONFIG_LINUX) += hostmem-memfd.o
+-
+-common-obj-$(CONFIG_GIO) += dbus-vmstate.o
+-dbus-vmstate.o-cflags = $(GIO_CFLAGS)
+-dbus-vmstate.o-libs = $(GIO_LIBS)
+diff --git a/backends/meson.build b/backends/meson.build
+new file mode 100644
+index 0000000000..484456ece7
+--- /dev/null
++++ b/backends/meson.build
+@@ -0,0 +1,19 @@
++softmmu_ss.add([files(
++  'cryptodev-builtin.c',
++  'cryptodev.c',
++  'hostmem-ram.c',
++  'hostmem.c',
++  'rng-builtin.c',
++  'rng-egd.c',
++  'rng.c',
++), numa])
++
++softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
++softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('hostmem-file.c'))
++softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('hostmem-memfd.c'))
++softmmu_ss.add(when: ['CONFIG_VHOST_USER', 'CONFIG_VIRTIO'], if_true: files('vhost-user.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost.c'))
++softmmu_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VHOST_CRYPTO'], if_true: files('cryptodev-vhost-user.c'))
++softmmu_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus-vmstate.c'), gio])
++
++subdir('tpm')
+diff --git a/backends/tpm/Makefile.objs b/backends/tpm/Makefile.objs
+deleted file mode 100644
+index db2731f634..0000000000
+--- a/backends/tpm/Makefile.objs
++++ /dev/null
+@@ -1,4 +0,0 @@
+-common-obj-y += tpm_backend.o
+-common-obj-y += tpm_util.o
+-common-obj-$(CONFIG_TPM_PASSTHROUGH) += tpm_passthrough.o
+-common-obj-$(CONFIG_TPM_EMULATOR) += tpm_emulator.o
+diff --git a/backends/tpm/meson.build b/backends/tpm/meson.build
+new file mode 100644
+index 0000000000..857929082e
+--- /dev/null
++++ b/backends/tpm/meson.build
+@@ -0,0 +1,8 @@
++tpm_ss = ss.source_set()
++
++tpm_ss.add(files('tpm_backend.c'))
++tpm_ss.add(files('tpm_util.c'))
++tpm_ss.add(when: 'CONFIG_TPM_PASSTHROUGH', if_true: files('tpm_passthrough.c'))
++tpm_ss.add(when: 'CONFIG_TPM_EMULATOR', if_true: files('tpm_emulator.c'))
++
++softmmu_ss.add_all(when: 'CONFIG_TPM', if_true: tpm_ss)
+diff --git a/configure b/configure
+index dd1f039554..ad58d67863 100755
+--- a/configure
++++ b/configure
+@@ -4692,6 +4692,7 @@ EOF
+   if compile_prog "" "-lnuma" ; then
+     numa=yes
+     libs_softmmu="-lnuma $libs_softmmu"
++    numa_libs="-lnuma"
+   else
+     if test "$numa" = "yes" ; then
+       feature_not_found "numa" "install numactl devel"
+@@ -8318,6 +8319,7 @@ fi
  
-diff --git a/Makefile.target b/Makefile.target
-index 4d912df3a3..bf3fda92c1 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -168,6 +168,7 @@ LIBS := $(LIBS) $(GTK_LIBS) $(VTE_LIBS) $(X11_LIBS) $(CURSES_LIBS) $(ICONV_LIBS)
- endif
- LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOMP_LIBS)
- LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
-+LIBS := $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
+ if test "$numa" = "yes"; then
+   echo "CONFIG_NUMA=y" >> $config_host_mak
++  echo "NUMA_LIBS=$numa_libs" >> $config_host_mak
+ fi
  
- # Hardware support
- ifeq ($(TARGET_NAME), sparc64)
+ if test "$ccache_cpp2" = "yes"; then
 diff --git a/meson.build b/meson.build
-index dc9ce85689..207a47cf07 100644
+index 207a47cf07..dd80401d11 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -145,6 +145,15 @@ if 'CONFIG_XKBCOMMON' in config_host
-   xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
-                                  link_args: config_host['XKBCOMMON_LIBS'].split())
+@@ -317,6 +317,10 @@ rdma = not_found
+ if 'CONFIG_RDMA' in config_host
+   rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
  endif
-+slirp = not_found
-+if config_host.has_key('CONFIG_SLIRP')
-+  slirp = declare_dependency(compile_args: config_host['SLIRP_CFLAGS'].split(),
-+                             link_args: config_host['SLIRP_LIBS'].split())
++numa = not_found
++if 'CONFIG_NUMA' in config_host
++  numa = declare_dependency(link_args: config_host['NUMA_LIBS'].split())
 +endif
-+vde = not_found
-+if config_host.has_key('CONFIG_VDE')
-+  vde = declare_dependency(link_args: config_host['VDE_LIBS'].split())
-+endif
- pulse = not_found
- if 'CONFIG_LIBPULSE' in config_host
-   pulse = declare_dependency(compile_args: config_host['PULSE_CFLAGS'].split(),
-@@ -657,6 +666,7 @@ common_ss.add(files('cpus-common.c'))
+ 
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+@@ -664,6 +668,7 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ common_ss.add(files('cpus-common.c'))
+ 
  subdir('softmmu')
++subdir('backends')
  subdir('migration')
  subdir('monitor')
-+subdir('net')
- subdir('replay')
- 
- # needed for fuzzing binaries
-diff --git a/net/Makefile.objs b/net/Makefile.objs
-deleted file mode 100644
-index 5ab45545db..0000000000
---- a/net/Makefile.objs
-+++ /dev/null
-@@ -1,32 +0,0 @@
--common-obj-y = net.o queue.o checksum.o util.o hub.o
--common-obj-y += socket.o
--common-obj-y += dump.o
--common-obj-y += eth.o
--common-obj-y += announce.o
--common-obj-$(CONFIG_L2TPV3) += l2tpv3.o
--common-obj-$(call land,$(CONFIG_VIRTIO_NET),$(CONFIG_VHOST_NET_USER)) += vhost-user.o
--common-obj-$(call land,$(call lnot,$(CONFIG_VIRTIO_NET)),$(CONFIG_VHOST_NET_USER)) += vhost-user-stub.o
--common-obj-$(CONFIG_ALL) += vhost-user-stub.o
--common-obj-$(CONFIG_SLIRP) += slirp.o
--slirp.o-cflags := $(SLIRP_CFLAGS)
--slirp.o-libs := $(SLIRP_LIBS)
--common-obj-$(CONFIG_VDE) += vde.o
--common-obj-$(CONFIG_NETMAP) += netmap.o
--common-obj-y += filter.o
--common-obj-y += filter-buffer.o
--common-obj-y += filter-mirror.o
--common-obj-y += colo-compare.o
--common-obj-y += colo.o
--common-obj-y += filter-rewriter.o
--common-obj-y += filter-replay.o
--
--tap-obj-$(CONFIG_LINUX) = tap-linux.o
--tap-obj-$(CONFIG_BSD) = tap-bsd.o
--tap-obj-$(CONFIG_SOLARIS) = tap-solaris.o
--tap-obj-y ?= tap-stub.o
--common-obj-$(CONFIG_POSIX) += tap.o $(tap-obj-y)
--common-obj-$(CONFIG_WIN32) += tap-win32.o
--common-obj-$(CONFIG_VHOST_NET_VDPA) += vhost-vdpa.o
--vde.o-libs = $(VDE_LIBS)
--
--common-obj-$(CONFIG_CAN_BUS) += can/
-diff --git a/net/can/Makefile.objs b/net/can/Makefile.objs
-deleted file mode 100644
-index 9f35dc5c87..0000000000
---- a/net/can/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--common-obj-y += can_core.o can_host.o
--common-obj-$(CONFIG_LINUX) += can_socketcan.o
-diff --git a/net/can/meson.build b/net/can/meson.build
-new file mode 100644
-index 0000000000..f53d9ec54f
---- /dev/null
-+++ b/net/can/meson.build
-@@ -0,0 +1,5 @@
-+can_ss = ss.source_set()
-+can_ss.add(files('can_core.c', 'can_host.c'))
-+can_ss.add(when: 'CONFIG_LINUX', if_true: files('can_socketcan.c'))
-+
-+softmmu_ss.add_all(when: 'CONFIG_CAN_BUS', if_true: can_ss)
-diff --git a/net/meson.build b/net/meson.build
-new file mode 100644
-index 0000000000..6c2ec47dd5
---- /dev/null
-+++ b/net/meson.build
-@@ -0,0 +1,40 @@
-+softmmu_ss.add(files(
-+  'announce.c',
-+  'checksum.c',
-+  'colo-compare.c',
-+  'colo.c',
-+  'dump.c',
-+  'eth.c',
-+  'filter-buffer.c',
-+  'filter-mirror.c',
-+  'filter-replay.c',
-+  'filter-rewriter.c',
-+  'filter.c',
-+  'hub.c',
-+  'net.c',
-+  'queue.c',
-+  'socket.c',
-+  'util.c',
-+))
-+
-+softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
-+softmmu_ss.add(when: ['CONFIG_SLIRP', slirp], if_true: files('slirp.c'))
-+softmmu_ss.add(when: ['CONFIG_VDE', vde], if_true: files('vde.c'))
-+softmmu_ss.add(when: 'CONFIG_NETMAP', if_true: files('netmap.c'))
-+vhost_user_ss = ss.source_set()
-+vhost_user_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('vhost-user.c'), if_false: files('vhost-user-stub.c'))
-+softmmu_ss.add_all(when: 'CONFIG_VHOST_NET_USER', if_true: vhost_user_ss)
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-user-stub.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('tap-linux.c'))
-+softmmu_ss.add(when: 'CONFIG_BSD', if_true: files('tap-bsd.c'))
-+softmmu_ss.add(when: 'CONFIG_SOLARIS', if_true: files('tap-solaris.c'))
-+tap_posix = ['tap.c']
-+if not config_host.has_key('CONFIG_LINUX') and not config_host.has_key('CONFIG_BSD') and not config_host.has_key('CONFIG_SOLARIS')
-+  tap_posix += 'tap-stub.c'
-+endif
-+softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files(tap_posix))
-+softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('tap-win32.c'))
-+softmmu_ss.add(when: 'CONFIG_VHOST_NET_VDPA', if_true: files('vhost-vdpa.c'))
-+
-+subdir('can')
+ subdir('net')
 -- 
 2.26.2
 
