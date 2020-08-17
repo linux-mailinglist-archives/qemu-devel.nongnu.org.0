@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE13246CE9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:33:39 +0200 (CEST)
-Received: from localhost ([::1]:36430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E528246CE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:32:28 +0200 (CEST)
+Received: from localhost ([::1]:33820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7i4o-00018u-T1
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
+	id 1k7i3f-0008Op-Gl
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7i1I-0005r6-KJ
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20878
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k7i2E-0006pv-6B
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29645
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7i1G-0006Ws-Pg
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:00 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k7i2C-0006qF-Fb
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:30:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597681798;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NgADdT/cKcFLJ6E6I686JP2f8WPfKJc3B8xRq7xQlqU=;
- b=KEF7A+buynYgy33jBnot7XXTpQde1MYWly4XLEmSxbfbJqX1pxSxlznq8BLTU3ZbHb1LEN
- g5RVqWjGcdYt2vzY9v2xmtndHANRMnaBq0L54muoZIny0TZU4cJpLP61nG/R6BCk971oO5
- u+uPZkmUv1obUBCRXqzGGLfQvUCmhc8=
+ s=mimecast20190719; t=1597681855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yc1VOsjRPXpIHQ/MkEJCgXChN2T2RDJ5oVL6QI0b+Fk=;
+ b=L1Im34xOXCJb0S6eNya8ldgRsIIQ/uSPhZQSxwVXAkwuIX/lnfXMTusyPlBsJ8qqLtZXlG
+ 2lF6cI31DRQeWPO1R+tjkXp/CWH99vRxXGgwVmuhP+we1jKUHU3jxbsIDpDJ52bhuV46J/
+ 9TQIfX6052sFtX1L9e2o4qE2NX4dDgA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-ZcezThJBMuuNov5X1uHqmQ-1; Mon, 17 Aug 2020 12:29:51 -0400
-X-MC-Unique: ZcezThJBMuuNov5X1uHqmQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-83-mP7l8UiDOmeMhpnZzvB0nQ-1; Mon, 17 Aug 2020 12:30:53 -0400
+X-MC-Unique: mP7l8UiDOmeMhpnZzvB0nQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18AEE100CABA
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:29:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD585C62B;
- Mon, 17 Aug 2020 16:29:40 +0000 (UTC)
-Date: Mon, 17 Aug 2020 17:29:38 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 37/41] [automated] Use DECLARE_*CHECKER* when possible
- (--force mode)
-Message-ID: <20200817162938.GI4775@redhat.com>
-References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-38-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37D47185E531;
+ Mon, 17 Aug 2020 16:30:52 +0000 (UTC)
+Received: from gondolin (ovpn-112-230.ams2.redhat.com [10.36.112.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C666BABA;
+ Mon, 17 Aug 2020 16:30:51 +0000 (UTC)
+Date: Mon, 17 Aug 2020 18:30:48 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Jason J. Herne" <jjherne@linux.ibm.com>
+Subject: Re: [PATCH] pc-bios: s390x: Only set lowcore iplb address on
+ list-directed IPL
+Message-ID: <20200817183048.30cb6f9e.cohuck@redhat.com>
+In-Reply-To: <20200817141734.5109-1-jjherne@linux.ibm.com>
+References: <20200817141734.5109-1-jjherne@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-38-ehabkost@redhat.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,8 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,31 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 06:26:21PM -0400, Eduardo Habkost wrote:
-> Separate run of the script using the --force flag, for the cases
-> where the typedef wasn't found in the same header.
+On Mon, 17 Aug 2020 10:17:34 -0400
+"Jason J. Herne" <jjherne@linux.ibm.com> wrote:
 
-This scenario feels a little suspicious to me.
+> The POP states that the IPLB location is only written to 0x14 for
+> list-directed IPL. Some operating systems expect 0x14 to not change on
+> boot and will fail IPL if it does change.
+> 
+> Fixes: 9bfc04f9ef6802fff0
 
-A bunch of these are caused because the typedef is put
-into qemu/typedefs.h.
+Should be
 
-Others simply look wrong.
+Fixes: 9bfc04f9ef68 ("pc-bios: s390x: Save iplb location in lowcore")
 
-I wonder if we're better off fixing all these exceptions
-so the typedef is in the expected place.
+> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+> Reviewed-by: Janosch Frank <frankja@de.ibm.com>
+> ---
+>  pc-bios/s390-ccw/jump2ipl.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index 767012bf0c..5e3e13f4b0 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -33,7 +33,10 @@ void jump_to_IPL_code(uint64_t address)
+>  {
+>      /* store the subsystem information _after_ the bootmap was loaded */
+>      write_subsystem_identification();
+> -    write_iplb_location();
+> +
+> +    if (iplb.pbt != S390_IPL_TYPE_CCW) {
+> +            write_iplb_location();
+> +    }
 
+What happens for ipl types other than CCW and FCP? IOW, should that
+rather be a positive check for S390_IPL_TYPE_FCP?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  
+>      /* prevent unknown IPL types in the guest */
+>      if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
 
 
