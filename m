@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113232468ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:58:45 +0200 (CEST)
-Received: from localhost ([::1]:33164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B702B2468F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:00:15 +0200 (CEST)
+Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gay-00036L-0r
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40964)
+	id 1k7gcQ-0006VA-Md
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:00:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH8-0004SK-9X
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:14 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45590)
+ id 1k7gH9-0004Vs-Ex
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:15 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH6-0006AC-JP
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:13 -0400
-Received: by mail-wr1-x430.google.com with SMTP id z18so15242015wrm.12
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:12 -0700 (PDT)
+ id 1k7gH7-0006AS-Jh
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:15 -0400
+Received: by mail-wr1-x432.google.com with SMTP id a15so15234388wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i6Q1BtQ7dt7i4vV9/lhWTeE6ygoU1bX5vJNmganoOBk=;
- b=f0d6Jrk7Xjv8TqV88uvjOGvaZbR+82AfdBMMABrf4KcIAKGcVw3y5BJdjsgaPfz7zB
- XNfas1gYDcQpYYbmRfxJR8WkNewjRvJhkhHbhkVYJjzf0sWkSyJA1mWXVm7hw+bcnWAZ
- snvtAEJMWVhBsE9NE1cvtWk5m1Ahiacb6kyvUtoPpvhbpitSoaFUBNQAFIbe166NLgVS
- yDYwMPTUv/SMOYSzx5lAbB/iQUErTAKNsSebpeALLg4WrGQykshbVrXSWiV64KeYdA9W
- 9yDPidREYap3LVRaFY6ORw78Y30uKILVL8zXpXl/IyJr/8QPaPORujTtPADBVx0ngojR
- so7A==
+ bh=TTpH/Amkk5QWW5qv7DGlz5zG9WnvhyPmO7FqAWwRULk=;
+ b=bv68M6230nt5T4jVtif3PvbuH7t0inWvCD/bbyQ84N0UEluHgRJdFF6QS/gpGBHfpD
+ zNIKczWu5T1HdEGdYu7Yzh6YFIQUnCvL5haAB3+TYY0ihEq73RjG0RBZ40suqMAX7iEm
+ 6BM6XAgkL4LUsQmCX3/JnaZhOq/MWBBgx/j1jYnVpZbcO1cJW86lXr8kNc+lKUFDbFCv
+ 8wrJn+X7sTy4f+S4HCGUmFgd+IxK0TkrXSF/ha+5LxQfUHqCESPSb4yRsHSr5r2ZVddw
+ 9eGtdUefSRSJRY2cyhmW564NhtNHTJNM6/KyiYywYDy8wMCHZnavXx4M7P6vozlhYjTV
+ 0bwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=i6Q1BtQ7dt7i4vV9/lhWTeE6ygoU1bX5vJNmganoOBk=;
- b=icBQEkhhxwErFnNlOeQhGWS7WqrYuvYM96j884cZcZvJIH3w4C+MchtqEDihzM4p2h
- w5Z2PsIcJFSYOrJjipKtmk8Y+gdoREnd25X4ANqK9ggdnTaFvqXsEgKWm7jX0FJl3R/X
- cS1fdSzv21PgcPMqFYl+GVxc0egFWO6niuQsnADY38EwhGdXeuMSuvUmGXe963TuJeWx
- ediWzAtv/d6l2oR9WDFOdCKhl569/Rjff2rKhwF37MJj4nACGSxC1Ss6XPm+bcq0wLqe
- Xrvzuylym6i4uNaDZtsd+vsSe3MRtvJlaAmLnTDqyBx6pW7W1QPxTchuD2APJDxvpCj9
- qB0Q==
-X-Gm-Message-State: AOAM533xdJbw2WIrqMu7dhFK9GU7+cJdpjypcEOcn3/YpNYPKDcVODZl
- ahjzZBWWzmoQKceE9p+g5rd8gCI62Bs=
-X-Google-Smtp-Source: ABdhPJx6J0dHXpQ9cZKq6xiJLkeNlU4J8LAAJNzhFffaDurn16llkHKiApHEenpgy8Lu7OaDQ+Rf8w==
-X-Received: by 2002:a5d:440e:: with SMTP id z14mr15502873wrq.422.1597675091004; 
+ bh=TTpH/Amkk5QWW5qv7DGlz5zG9WnvhyPmO7FqAWwRULk=;
+ b=rboRpVl3r/G66MmGGscQJy+NLOcxtn+2AIDlMCMri/nKgG/4I3r8XrYl70WeZTXlcq
+ qQEIs2KR1DPuzA8s3rk+u0usi/s34cggH9DIw2lYcJvxXbDT/cagFXNMAkcTklOMJLQW
+ 6DAyMyVFeVt/dJsobU2nLW/qavhh9v4zMG7Xnxif+KHeQ6oE3i3kexPI+3+FCQ7R0poP
+ WybBvZOCC/wJFvLrweETS3kfEqRovNRUnQYsFOdsKgAYfcdL9j2nFLoUdS3pkc/95CcU
+ eAAwEHvzIUvJZBC7n+9piHqwUC/gFsy2orB/lCAPwPswEmu5w1bEKEwc7grohjJDXoPu
+ mtXw==
+X-Gm-Message-State: AOAM530007yY6pr2g3tsdIjyAr/b1XJe5vPqx44YBI2+EyUyy+8/Gk2E
+ UrzipyjsOUviWu0eloqLVw1+jROk2B4=
+X-Google-Smtp-Source: ABdhPJxRvSqf18AdhTBWBnMoDqoQxcv4brFC2A+7biRuawhiJ3sseXThjgJtgxvGfTl4dTXu5fPVPw==
+X-Received: by 2002:adf:b34a:: with SMTP id k10mr15517788wrd.402.1597675091940; 
  Mon, 17 Aug 2020 07:38:11 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.10
+ i22sm34966603wrb.45.2020.08.17.07.38.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:10 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 046/150] meson: add virtfs-proxy-helper
-Date: Mon, 17 Aug 2020 16:35:39 +0200
-Message-Id: <20200817143723.343284-47-pbonzini@redhat.com>
+Subject: [PATCH 047/150] meson: keymap-gen
+Date: Mon, 17 Aug 2020 16:35:40 +0200
+Message-Id: <20200817143723.343284-48-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,110 +96,113 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile          | 2 --
- configure         | 7 +++++--
- fsdev/meson.build | 8 ++++++++
- meson.build       | 6 ++++++
- 4 files changed, 19 insertions(+), 4 deletions(-)
- create mode 100644 fsdev/meson.build
+ Makefile       | 38 --------------------------------------
+ meson.build    |  1 +
+ ui/meson.build | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 38 deletions(-)
+ create mode 100644 ui/meson.build
 
 diff --git a/Makefile b/Makefile
-index 35ea574503..2cd3f5862d 100644
+index 2cd3f5862d..f36ff09fd3 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -418,8 +418,6 @@ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
- qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
+@@ -130,44 +130,6 @@ generated-files-y += module_block.h
  
--fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
+ generated-files-y += .git-submodule-status
+ 
+-KEYCODEMAP_GEN = $(SRC_PATH)/ui/keycodemapdb/tools/keymap-gen
+-KEYCODEMAP_CSV = $(SRC_PATH)/ui/keycodemapdb/data/keymaps.csv
 -
- scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- ifdef CONFIG_MPATH
- scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
-diff --git a/configure b/configure
-index 2b55fba922..642f2a8f88 100755
---- a/configure
-+++ b/configure
-@@ -4339,6 +4339,7 @@ fi
- ##########################################
- # attr probe
- 
-+libattr_libs=
- if test "$attr" != "no" ; then
-   cat > $TMPC <<EOF
- #include <stdio.h>
-@@ -4355,7 +4356,8 @@ EOF
-   # Older distros have <attr/xattr.h>, and need -lattr:
-   elif compile_prog "-DCONFIG_LIBATTR" "-lattr" ; then
-     attr=yes
--    LIBS="-lattr $LIBS"
-+    libattr_libs="-lattr"
-+    LIBS="$libattr_libs $LIBS"
-     libattr=yes
-   else
-     if test "$attr" = "yes" ; then
-@@ -6667,6 +6669,7 @@ if [ "$eventfd" = "yes" ]; then
- fi
- 
- tools=""
-+helpers=""
- if test "$want_tools" = "yes" ; then
-   tools="qemu-img\$(EXESUF) qemu-io\$(EXESUF) $tools"
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
-@@ -6677,7 +6680,6 @@ if test "$softmmu" = yes ; then
-   if test "$linux" = yes; then
-     if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
-       virtfs=yes
--      helpers="$helpers fsdev/virtfs-proxy-helper\$(EXESUF)"
-     else
-       if test "$virtfs" = yes; then
-         error_exit "VirtFS requires libcap-ng devel and libattr devel"
-@@ -7259,6 +7261,7 @@ if test "$linux_io_uring" = "yes" ; then
- fi
- if test "$attr" = "yes" ; then
-   echo "CONFIG_ATTR=y" >> $config_host_mak
-+  echo "LIBATTR_LIBS=$libattr_libs" >> $config_host_mak
- fi
- if test "$libattr" = "yes" ; then
-   echo "CONFIG_LIBATTR=y" >> $config_host_mak
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-new file mode 100644
-index 0000000000..30e2319960
---- /dev/null
-+++ b/fsdev/meson.build
-@@ -0,0 +1,8 @@
-+have_virtfs_proxy_helper = have_tools and libattr.found() and libcap_ng.found() and 'CONFIG_VIRTFS' in config_host
-+if have_virtfs_proxy_helper
-+  executable('virtfs-proxy-helper',
-+             files('virtfs-proxy-helper.c', '9p-marshal.c', '9p-iov-marshal.c'),
-+             dependencies: [qemuutil, libattr, libcap_ng],
-+             install: true,
-+             install_dir: get_option('libexecdir'))
-+endif
+-KEYCODEMAP_FILES = \
+-		 ui/input-keymap-atset1-to-qcode.inc \
+-		 ui/input-keymap-linux-to-qcode.inc \
+-		 ui/input-keymap-qcode-to-atset1.inc \
+-		 ui/input-keymap-qcode-to-atset2.inc \
+-		 ui/input-keymap-qcode-to-atset3.inc \
+-		 ui/input-keymap-qcode-to-linux.inc \
+-		 ui/input-keymap-qcode-to-qnum.inc \
+-		 ui/input-keymap-qcode-to-sun.inc \
+-		 ui/input-keymap-qnum-to-qcode.inc \
+-		 ui/input-keymap-usb-to-qcode.inc \
+-		 ui/input-keymap-win32-to-qcode.inc \
+-		 ui/input-keymap-x11-to-qcode.inc \
+-		 ui/input-keymap-xorgevdev-to-qcode.inc \
+-		 ui/input-keymap-xorgkbd-to-qcode.inc \
+-		 ui/input-keymap-xorgxquartz-to-qcode.inc \
+-		 ui/input-keymap-xorgxwin-to-qcode.inc \
+-		 ui/input-keymap-osx-to-qcode.inc \
+-		 $(NULL)
+-
+-generated-files-$(CONFIG_SOFTMMU) += $(KEYCODEMAP_FILES)
+-
+-ui/input-keymap-%.inc: $(KEYCODEMAP_GEN) $(KEYCODEMAP_CSV) $(SRC_PATH)/ui/Makefile.objs
+-	$(call quiet-command,\
+-	    stem=$* && src=$${stem%-to-*} dst=$${stem#*-to-} && \
+-	    test -e $(KEYCODEMAP_GEN) && \
+-	    $(PYTHON) $(KEYCODEMAP_GEN) \
+-	          --lang glib2 \
+-	          --varname qemu_input_map_$${src}_to_$${dst} \
+-	          code-map $(KEYCODEMAP_CSV) $${src} $${dst} \
+-	        > $@ || rm -f $@, "GEN", "$@")
+-
+-$(KEYCODEMAP_GEN): .git-submodule-status
+-$(KEYCODEMAP_CSV): .git-submodule-status
+-
+ edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
+ pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
+ 	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
 diff --git a/meson.build b/meson.build
-index d336812c2a..8319d03730 100644
+index 8319d03730..ded5dba360 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -98,6 +98,10 @@ if 'CONFIG_GNUTLS' in config_host
- endif
- pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
-                             link_args: config_host['PIXMAN_LIBS'].split())
-+libattr = not_found
-+if 'CONFIG_ATTR' in config_host
-+  libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
-+endif
- seccomp = not_found
- if 'CONFIG_SECCOMP' in config_host
-   seccomp = declare_dependency(compile_args: config_host['SECCOMP_CFLAGS'].split(),
-@@ -297,6 +301,8 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+@@ -288,6 +288,7 @@ subdir('trace')
+ subdir('util')
+ subdir('crypto')
+ subdir('storage-daemon')
++subdir('ui')
  
-+subdir('fsdev')
+ # Build targets from sourcesets
+ 
+diff --git a/ui/meson.build b/ui/meson.build
+new file mode 100644
+index 0000000000..daacd2ffbc
+--- /dev/null
++++ b/ui/meson.build
+@@ -0,0 +1,34 @@
++keymaps = [
++  ['atset1', 'qcode'],
++  ['linux', 'qcode'],
++  ['qcode', 'atset1'],
++  ['qcode', 'atset2'],
++  ['qcode', 'atset3'],
++  ['qcode', 'linux'],
++  ['qcode', 'qnum'],
++  ['qcode', 'sun'],
++  ['qnum', 'qcode'],
++  ['usb', 'qcode'],
++  ['win32', 'qcode'],
++  ['x11', 'qcode'],
++  ['xorgevdev', 'qcode'],
++  ['xorgkbd', 'qcode'],
++  ['xorgxquartz', 'qcode'],
++  ['xorgxwin', 'qcode'],
++  ['osx', 'qcode'],
++]
 +
- # Other build targets
- if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
++if have_system
++  foreach e : keymaps
++    output = 'input-keymap-@0@-to-@1@.inc'.format(e[0], e[1])
++    genh += custom_target(output,
++                  output: output,
++                  capture: true,
++                  build_by_default: true, # to be removed when added to a target
++                  input: files('keycodemapdb/data/keymaps.csv'),
++                  command: [python.full_path(), files('keycodemapdb/tools/keymap-gen'),
++                            '--lang', 'glib2',
++                            '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
++                            'code-map', '@INPUT0@', e[0], e[1]])
++  endforeach
++endif
 -- 
 2.26.2
 
