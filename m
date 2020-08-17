@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C415246A57
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:34:01 +0200 (CEST)
-Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8BF246A7B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:37:18 +0200 (CEST)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7h96-0006WH-A3
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42728)
+	id 1k7hCH-0005L3-5w
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKs-0003Ip-0Q
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53764)
+ id 1k7gKt-0003Jv-87
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gKq-0006td-5J
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:05 -0400
+ id 1k7gKq-0006tg-6Q
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597675323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rU4n9sn0xbo37T4jGj6ROAEzLR5VNUSmn/MPgqW3AxU=;
- b=dhJqVg2rbXXahs0QDtmzVmmMyTmK4LL2ua0Mbyj3QpSyE+9e29O9pG/K6YDFIkMwYQpXYY
- lSLI5UZg+uKpb5kUp2nB+AHvQtl6+NWNrMwhNrma9ZA3l+lVtvWiVUJ1lnUDfUUVcc6GCd
- R7uZu+1Rv30Nzfz1AfZl6W1YWnQ11/Q=
+ bh=XxNDI70b3/0e7kXgirS50nvDaO0T9WjLPkIdXZfyNbk=;
+ b=PbsM2vVFQKuGOFqdQoMg4ZWYZLEUkQ/y1bnh3P4TJYY7eTgrmuTy2o1l8Cl+GcTDmlJ/Yn
+ dqOz/LRr9Myv8yezVbeN1zHBxRqIldi90dr1NiBCR5oQWGkdZ1sQO+dugDlMEJx6gomNnx
+ L0Rr8SCIkicwgWLGmW0kgzqClBiuO0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-2WNNz0Q4PAWm6lWcZDTH0A-1; Mon, 17 Aug 2020 10:42:00 -0400
-X-MC-Unique: 2WNNz0Q4PAWm6lWcZDTH0A-1
+ us-mta-329-ph1LIC1aOwyRb_phrFMyGw-1; Mon, 17 Aug 2020 10:42:01 -0400
+X-MC-Unique: ph1LIC1aOwyRb_phrFMyGw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FCED81F000
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:41:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B93001DDE9
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:00 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7421756AB;
- Mon, 17 Aug 2020 14:41:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6EFC70C3D;
+ Mon, 17 Aug 2020 14:41:59 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 124/150] meson: convert hw/acpi
-Date: Mon, 17 Aug 2020 16:40:27 +0200
-Message-Id: <20200817144053.345107-29-pbonzini@redhat.com>
+Subject: [PATCH 125/150] meson: convert hw/9pfs, cleanup
+Date: Mon, 17 Aug 2020 16:40:28 +0200
+Message-Id: <20200817144053.345107-30-pbonzini@redhat.com>
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -88,100 +88,176 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+hw/Makefile.objs is gone so there is more code that can be removed.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/acpi/Makefile.objs | 26 --------------------------
- hw/acpi/meson.build   | 25 +++++++++++++++++++++++++
+ Makefile              |  4 ----
+ Makefile.objs         |  8 --------
+ Makefile.target       | 15 ---------------
+ hw/9pfs/Kconfig       |  4 ++++
+ hw/9pfs/Makefile.objs |  9 ---------
+ hw/9pfs/meson.build   | 20 ++++++++++++++++++++
+ hw/Makefile.objs      |  8 --------
  hw/meson.build        |  1 +
- 4 files changed, 26 insertions(+), 27 deletions(-)
- delete mode 100644 hw/acpi/Makefile.objs
- create mode 100644 hw/acpi/meson.build
+ 8 files changed, 25 insertions(+), 44 deletions(-)
+ delete mode 100644 hw/9pfs/Makefile.objs
+ create mode 100644 hw/9pfs/meson.build
+ delete mode 100644 hw/Makefile.objs
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 4bdb674ef0..ebae00af6e 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -1,6 +1,5 @@
- ifeq ($(CONFIG_SOFTMMU), y)
- devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
--devices-dirs-y += acpi/
+diff --git a/Makefile b/Makefile
+index a523898da0..99f8033cd2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -167,10 +167,6 @@ ifneq ($(wildcard config-host.mak),)
+ include $(SRC_PATH)/Makefile.objs
  endif
  
- common-obj-y += $(devices-dirs-y)
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
+-dummy := $(call unnest-vars,, \
+-                common-obj-y \
+-                common-obj-m)
+-
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
+diff --git a/Makefile.objs b/Makefile.objs
+index c332323b81..c9720a92df 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -61,18 +61,10 @@ common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
+ common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
+ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
+ 
+-common-obj-y += hw/
+-common-obj-m += hw/
+-
+ common-obj-y += libqmp.fa
+ 
+ endif # CONFIG_SOFTMMU
+ 
+-#######################################################################
+-# Target-independent parts used in system and user emulation
+-
+-common-obj-y += hw/
+-
+ ######################################################################
+ # Resource file for Windows executables
+ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
+diff --git a/Makefile.target b/Makefile.target
+index 3534ece38a..c95e0deb79 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -156,7 +156,6 @@ endif #CONFIG_BSD_USER
+ ifdef CONFIG_SOFTMMU
+ obj-y += softmmu/
+ obj-y += gdbstub.o
+-obj-y += hw/
+ LIBS := $(libs_softmmu) $(LIBS)
+ 
+ # Temporary until emulators are linked by Meson
+@@ -185,20 +184,6 @@ endif # CONFIG_SOFTMMU
+ dummy := $(call unnest-vars,,obj-y)
+ all-obj-y := $(obj-y)
+ 
+-#
+-# common-obj-m has some crap here, probably as side effect from
+-# unnest-vars recursing into target directories to fill obj-y and not
+-# properly handling the -m case.
+-#
+-# Clear common-obj-m as workaround.  Fixes suspious dependency errors
+-# when building devices as modules.  A bit hackish, but should be ok
+-# as long as we do not have any target-specific modules.
+-#
+-# The meson-based build system currently in development doesn't need
+-# unnest-vars and will obsolete this workaround.
+-#
+-common-obj-m :=
+-
+ include $(SRC_PATH)/Makefile.objs
+ dummy := $(call fix-paths,../,, \
+               authz-obj-y \
+diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+index 3ae5749661..d3ebd73730 100644
+--- a/hw/9pfs/Kconfig
++++ b/hw/9pfs/Kconfig
+@@ -2,8 +2,12 @@ config FSDEV_9P
+     bool
+     depends on VIRTFS
+ 
++config 9PFS
++    bool
++
+ config VIRTIO_9P
+     bool
+     default y
+     depends on VIRTFS && VIRTIO
+     select FSDEV_9P
++    select 9PFS
+diff --git a/hw/9pfs/Makefile.objs b/hw/9pfs/Makefile.objs
 deleted file mode 100644
-index 72886c7965..0000000000
---- a/hw/acpi/Makefile.objs
+index 70ded6fd8f..0000000000
+--- a/hw/9pfs/Makefile.objs
 +++ /dev/null
-@@ -1,26 +0,0 @@
--ifeq ($(CONFIG_ACPI),y)
--common-obj-$(CONFIG_ACPI_X86) += core.o piix4.o pcihp.o
--common-obj-$(CONFIG_ACPI_X86_ICH) += ich9.o tco.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu_hotplug.o
--common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) += memory_hotplug.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
--common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
--common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
--common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
--common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
--common-obj-$(CONFIG_ACPI_APEI) += ghes.o
--common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
--common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
+@@ -1,9 +0,0 @@
+-common-obj-y  = 9p.o 9p-util.o
+-common-obj-y += 9p-local.o 9p-xattr.o
+-common-obj-y += 9p-xattr-user.o 9p-posix-acl.o
+-common-obj-y += coth.o cofs.o codir.o cofile.o
+-common-obj-y += coxattr.o 9p-synth.o
+-common-obj-y += 9p-proxy.o
 -
--common-obj-y += acpi_interface.o
--common-obj-y += bios-linker-loader.o
--common-obj-y += aml-build.o utils.o
--common-obj-$(CONFIG_ACPI_PCI) += pci.o
--common-obj-$(CONFIG_TPM) += tpm.o
--
--common-obj-$(CONFIG_IPMI) += ipmi.o
--common-obj-$(call lnot,$(CONFIG_IPMI)) += ipmi-stub.o
--else
--common-obj-y += acpi-stub.o aml-build-stub.o
--endif
--common-obj-$(CONFIG_ALL) += acpi-stub.o aml-build-stub.o acpi-x86-stub.o ipmi-stub.o
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+-common-obj-$(CONFIG_XEN) += xen-9p-backend.o
+-obj-$(CONFIG_VIRTIO_9P) += virtio-9p-device.o
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
 new file mode 100644
-index 0000000000..dd69577212
+index 0000000000..cc09426212
 --- /dev/null
-+++ b/hw/acpi/meson.build
-@@ -0,0 +1,25 @@
-+acpi_ss = ss.source_set()
-+acpi_ss.add(files(
-+  'acpi_interface.c',
-+  'aml-build.c',
-+  'bios-linker-loader.c',
-+  'utils.c',
++++ b/hw/9pfs/meson.build
+@@ -0,0 +1,20 @@
++fs_ss = ss.source_set()
++fs_ss.add(files(
++  '9p-local.c',
++  '9p-posix-acl.c',
++  '9p-proxy.c',
++  '9p-synth.c',
++  '9p-util.c',
++  '9p-xattr-user.c',
++  '9p-xattr.c',
++  '9p.c',
++  'codir.c',
++  'cofile.c',
++  'cofs.c',
++  'coth.c',
++  'coxattr.c',
 +))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
-+acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
-+acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-+softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c'))
-+softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
-+                                                  'acpi-x86-stub.c', 'ipmi-stub.c'))
++fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
++softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
++
++specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+deleted file mode 100644
+index ebae00af6e..0000000000
+--- a/hw/Makefile.objs
++++ /dev/null
+@@ -1,8 +0,0 @@
+-ifeq ($(CONFIG_SOFTMMU), y)
+-devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
+-endif
+-
+-common-obj-y += $(devices-dirs-y)
+-common-obj-m += display/
+-common-obj-m += usb/
+-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index ffa3f06dc0..55ca2b2b61 100644
+index 55ca2b2b61..ba8763cad8 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,3 +1,4 @@
-+subdir('acpi')
++subdir('9pfs')
+ subdir('acpi')
  subdir('adc')
  subdir('audio')
- subdir('block')
 -- 
 2.26.2
 
