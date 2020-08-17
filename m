@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92D8246C9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:22:51 +0200 (CEST)
-Received: from localhost ([::1]:50984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B077246CA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:23:58 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7huM-0000Je-M2
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42490)
+	id 1k7hvR-0003DH-77
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqp-0002AT-3p
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:13 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37961)
+ id 1k7hqs-0002BI-AM
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:14 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqj-00053p-TA
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:07 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a14so15590994wra.5
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:05 -0700 (PDT)
+ id 1k7hqo-00053z-RF
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:12 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k20so14379679wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nze7jC5IQ7XtWKm+MoCag4YtUZHhhwLInYZxRLq04cU=;
- b=njsTThucngzHh2Tk7Ax39O7kyKvHY1wSwos0lAUWHjgIhISdzUYsSqsyLD/k43KwCZ
- UqFkvSARUi+tcp5VvIfEmEG0A0ItdYB7oMg+jjq/9zy1/j+M+hyFwZYp1gInWxUNYPn9
- FUg+iIF1VvRWt8trjUIK1TrJNRH7DG7y7WpLNIdfzT7E2u60X2JjsTebHbMfOalJzu2q
- UN+QGsnqa+RgSk7jGAW0w1Q87+Zbguu8GY7Yt/6tS90hQ6hfJWsJGzjhHOs4+9nSVVsu
- fKjbzzN319knRW+8GcNPVRWC/PdeVJAix9NGzR+sV35kGB1VbfLBvjNtirPtdQPhhgRM
- Ldog==
+ bh=QI5AKzPXefPD6C1P2HIGbpvr66qRwSQ3EEuHj7Lej/I=;
+ b=D8zLcOP8SgEDDsfeLWeOgI0+kBHIkY0pD/vY8p1onfYQBK/ecqKCIDdsDE7uYEoe/h
+ NkuFtR6KirTap4cebT00wPZqu6YphiuxouMRxrx08lAree28CzlWqBlidQN/CqZrHV4q
+ f9mqDZqi0xNjKaKTuiBHxwLTQyi0a0UhevXhLPuR1VnjnEyVdoz/DzNN0W1GnlY9zf/v
+ ot90y6AYIK4R3pmx7tKJbPd27D0E1v9N3XUILbuKbhkTkOVY/NpfkZUp86xcoIJ/OsvX
+ OhCsdNsTY7KXs8+d77B7/hKOOAiEgPlx/OFS0FYuDulrhH5mbXLhBo9LSWyZLsiwQIDq
+ zysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nze7jC5IQ7XtWKm+MoCag4YtUZHhhwLInYZxRLq04cU=;
- b=tMhycbcN66il40mMJJ5CkbYJmxZwqYk2SYVNUtTcQS8WOkixZhSudZroaEKIN23HlD
- bMc+POSwxwVcPwR/yzCwwgPzOIlvySUQoPR/4Cz1l2yRlnDqXD3EY2HzdeYsyrL7A4nw
- Qk+Qm+30gAonDIHwlKVUtzYvX63e8svclQ6Kuy8kK/ONH/DsGgShrqLyJZpG5msM58NU
- xZViyrG5t5O6kMy1yj4EVIvv6bXAMhMkQ6HLjtX97BGw6B2N3Zoj+pctPPg6DW/j8Abs
- JLAJbfeflXAJKuF8mRABmjag6zWow/VzVrPqyZEk6PECFj39H48cqPwhtxMmnLqyw8aD
- bQwA==
-X-Gm-Message-State: AOAM531Z3RrnkA/9v1JeZNzUXD5U48SphmpYnoGlJ5nK23mezq/9JaR2
- w0G3LxMX6LSN+i84WIkyd60IGjaCO1E=
-X-Google-Smtp-Source: ABdhPJzBfWzVkTijcjrSAnSjtyrnoRhC3aWNnHw8VMDLaSSSXAtNIY9fQddXC9jVAs1pK4ziN79eOw==
-X-Received: by 2002:adf:f8d0:: with SMTP id f16mr17220377wrq.66.1597681144195; 
- Mon, 17 Aug 2020 09:19:04 -0700 (PDT)
+ bh=QI5AKzPXefPD6C1P2HIGbpvr66qRwSQ3EEuHj7Lej/I=;
+ b=AF18qFbNdb6mnP9jc+uDlZDr5Gdpht/IawxMxssu+/jtE+AsaYH/IlImY3XZ/iRNc9
+ YeCk2jVFQZZfoS3nhwEaA54YyGil0i3SRwhjCM5+qba30XYCHla5AFoey8HWyUZrPwCK
+ EeHbR10//dqkqQ8zE0gfeHydgjMLn4+NrmVUznICKisnZwNYyihGMs4w0QQy4HehvWlw
+ GNa7GB/6fuLnTEvQCXP54kUDLJu6SR4znAC4QOJLd0mE5nXn6HzLPYGGtE+69rbko+up
+ HsRPn8o8j6jKYQuyruanxjQca+2HBHGofulZXvuG8DKuyEoilTKDROxdQMI+EyeGMqcJ
+ VkWA==
+X-Gm-Message-State: AOAM532hyjxafQkiV2ybpq48nOJNTP9ckvrj7z0KblmTGDNm9R6i4/+x
+ ze4x5o+HsFS/WhD0z3sm5eCYR+R/7/w=
+X-Google-Smtp-Source: ABdhPJyznKOlxofdVg2m2sx9zQ/89hMh6/9LHRoTQzrE/frRBIItaLGD4zoMegJhes1fXUKYmc43gw==
+X-Received: by 2002:a1c:4d16:: with SMTP id o22mr263754wmh.131.1597681145612; 
+ Mon, 17 Aug 2020 09:19:05 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.19.02
+ by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.19.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 09:19:03 -0700 (PDT)
+ Mon, 17 Aug 2020 09:19:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org, Stephen Checkoway <stephen.checkoway@oberlin.edu>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH 5/9] hw/misc: Add MMIO test device
-Date: Mon, 17 Aug 2020 18:18:49 +0200
-Message-Id: <20200817161853.593247-6-f4bug@amsat.org>
+Subject: [RFC PATCH 6/9] hw/core/null-machine: Allow to use the MMIO 'test'
+ device
+Date: Mon, 17 Aug 2020 18:18:50 +0200
+Message-Id: <20200817161853.593247-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817161853.593247-1-f4bug@amsat.org>
 References: <20200817161853.593247-1-f4bug@amsat.org>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -101,243 +102,66 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a MMIO test device handy to test QEMU internal devices via MMIO
-accesses.
+The MMIO 'test' device (TYPE_MMIO_TESTDEV) can be mapped almost
+anywhere on the sysbus memory. Allow the 'none' machine to
+instantiate it from the command line, such:
 
-This device is meant to be run by the 'none' machine, thus no CPU
-is required.
-
-So far it is only useful to test the interleaver device.
-A SRAM region is split into 256B subregions, and these subregions
-are mapped at different addresses in an interleaved setup.
-All the following (INPUT x OUTPUT) configurations can be tested:
-16x8, 32x8, 32x16, 64x8, 64x16 and 64x32.
+  $ qemu-system-sh4 -M none -monitor stdio \
+    -device mmio-testdev,address=0x00000000 -monitor stdio
+  (qemu) info mtree
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-000000001fffffff (prio 0, i/o): testdev
+        0000000000000000-00000000000007ff (prio 0, ram): testdev-sram
+        0000000010000000-0000000017ffffff (prio 0, i/o): interleaver-container
+          0000000011608000-00000000116081ff (prio 0, i/o): interleaver-16x8
+          0000000013208000-00000000132083ff (prio 0, i/o): interleaver-32x8
+          0000000013216000-00000000132161ff (prio 0, i/o): interleaver-32x16
+          0000000016408000-00000000164087ff (prio 0, i/o): interleaver-64x8
+          0000000016416000-00000000164163ff (prio 0, i/o): interleaver-64x16
+          0000000016432000-00000000164321ff (prio 0, i/o): interleaver-64x32
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/testdev.h |  15 ++++
- hw/misc/mmio-testdev.c    | 146 ++++++++++++++++++++++++++++++++++++++
- MAINTAINERS               |   2 +
- hw/misc/Kconfig           |   5 ++
- hw/misc/Makefile.objs     |   1 +
- 5 files changed, 169 insertions(+)
- create mode 100644 include/hw/misc/testdev.h
- create mode 100644 hw/misc/mmio-testdev.c
+ hw/core/null-machine.c | 2 ++
+ hw/misc/mmio-testdev.c | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/include/hw/misc/testdev.h b/include/hw/misc/testdev.h
-new file mode 100644
-index 0000000000..2ff47d2766
---- /dev/null
-+++ b/include/hw/misc/testdev.h
-@@ -0,0 +1,15 @@
-+/*
-+ * QEMU MMIO test device
-+ *
-+ * Copyright (C) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_MISC_TESTDEV_H
-+#define HW_MISC_TESTDEV_H
-+
-+#define TYPE_MMIO_TESTDEV "mmio-testdev"
-+
-+#endif
-+
-diff --git a/hw/misc/mmio-testdev.c b/hw/misc/mmio-testdev.c
-new file mode 100644
-index 0000000000..3b7a8057b2
---- /dev/null
-+++ b/hw/misc/mmio-testdev.c
-@@ -0,0 +1,146 @@
-+/*
-+ * QEMU MMIO test device
-+ *
-+ * Copyright (C) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+/*
-+ * This device is mostly used to test QEMU internal MMIO devices.
-+ * Accesses using CPU core are not allowed.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qapi/error.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/sysbus.h"
-+#include "exec/address-spaces.h"
+diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+index 7e693523d7..d8be17092f 100644
+--- a/hw/core/null-machine.c
++++ b/hw/core/null-machine.c
+@@ -17,6 +17,7 @@
+ #include "sysemu/sysemu.h"
+ #include "exec/address-spaces.h"
+ #include "hw/core/cpu.h"
 +#include "hw/misc/testdev.h"
-+#include "hw/misc/interleaver.h"
-+
-+/*
-+ * Device Memory Map:
-+ *
-+ *   offset       size         description
-+ * ----------  ----------  --------------------
-+ * 0x00000000  [   2 KiB]  SRAM (8 banks of 256B)
-+ * 0x10000000  [ 128 MiB]  interleaved-container
-+ * 0x11608000  [   4 KiB]  interleaved-16x8  (each device interleaves the sram)
-+ * 0x13208000  [   8 KiB]  interleaved-32x8   "
-+ * 0x13216000  [   4 KiB]  interleaved-32x16  "
-+ * 0x16408000  [  16 KiB]  interleaved-64x8   "
-+ * 0x16416000  [   8 KiB]  interleaved-64x16  "
-+ * 0x16432000  [   4 KiB]  interleaved-64x32  "
-+ * 0x20000000  [ 256 MiB]  container
-+ *
-+ * All gap regions are reserved.
-+ */
-+
-+typedef struct MmioTestDevice {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion container;
-+    MemoryRegion sram;
-+    MemoryRegion sram_alias[8];
-+    MemoryRegion interleaver_container;
-+    MemoryRegion iomem;
-+
-+    uint64_t base;
-+} MmioTestDevice;
-+
-+#define TESTDEV(obj) \
-+     OBJECT_CHECK(MmioTestDevice, (obj), TYPE_MMIO_TESTDEV)
-+
-+static void mmio_testdev_realize(DeviceState *dev, Error **errp)
-+{
-+    static const unsigned bhexs[] = {
-+        [8] = 0x8, [16] = 0x16, [32] = 0x32, [64] = 0x64,
-+    };
-+    static const struct {
-+        unsigned in, out;
-+        const char *typename;
-+    } cfg[] = {
-+        {16, 8,  TYPE_INTERLEAVER_16X8_DEVICE},
-+        {32, 8,  TYPE_INTERLEAVER_32X8_DEVICE},
-+        {32, 16, TYPE_INTERLEAVER_32X16_DEVICE},
-+        {64, 8,  TYPE_INTERLEAVER_64X8_DEVICE},
-+        {64, 16, TYPE_INTERLEAVER_64X16_DEVICE},
-+        {64, 32, TYPE_INTERLEAVER_64X32_DEVICE},
-+    };
-+    MmioTestDevice *s = TESTDEV(dev);
-+    DeviceState *interleaver;
-+
-+    if (s->base == UINT64_MAX) {
-+        error_setg(errp, "property 'address' not specified or zero");
-+        return;
-+    }
-+
-+    memory_region_init(&s->container, OBJECT(s), "testdev", 0x20000000);
-+
-+    memory_region_init_ram(&s->sram, OBJECT(s), "testdev-sram",
-+                           0x800, &error_fatal);
-+    memory_region_add_subregion(&s->container, 0x000000, &s->sram);
-+
-+    /* interleaved memory */
-+    memory_region_init(&s->interleaver_container, OBJECT(s),
-+                       "interleaver-container", 0x8000000);
-+    memory_region_add_subregion(&s->container, 0x10000000,
-+                                &s->interleaver_container);
-+    for (unsigned i = 0; i < 8; i++) {
-+        g_autofree char *name = g_strdup_printf("sram-p%u", i);
-+        /* Each alias access a 256B region of the SRAM */
-+        memory_region_init_alias(&s->sram_alias[i], OBJECT(s), name,
-+                                 &s->sram, i * 0x100, 0x100);
-+    }
-+    for (size_t i = 0; i < ARRAY_SIZE(cfg); i++) {
-+        unsigned count = cfg[i].in / cfg[i].out;
-+
-+        interleaver = qdev_new(cfg[i].typename);
-+        qdev_prop_set_uint64(interleaver, "size", count * 0x100);
-+        /* Map 256B SRAM regions on interleaver banks */
-+        for (unsigned c = 0; c < count; c++) {
-+            g_autofree char *prop_name = g_strdup_printf("mr%u", c);
-+            object_property_set_link(OBJECT(interleaver), prop_name,
-+                                     OBJECT(&s->sram_alias[c]), &error_abort);
-+        }
-+        sysbus_realize_and_unref(SYS_BUS_DEVICE(interleaver), &error_fatal);
-+        memory_region_add_subregion(&s->interleaver_container,
-+                (bhexs[cfg[i].in] << 20) | (bhexs[cfg[i].out] << 12),
-+                sysbus_mmio_get_region(SYS_BUS_DEVICE(interleaver), 0));
-+    }
-+
-+    memory_region_add_subregion(get_system_memory(), s->base, &s->container);
-+}
-+
-+static Property mmio_testdev_properties[] = {
-+    DEFINE_PROP_UINT64("address", MmioTestDevice, base, UINT64_MAX),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void mmio_testdev_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = mmio_testdev_realize;
-+    dc->user_creatable = true;
-+    device_class_set_props(dc, mmio_testdev_properties);
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static const TypeInfo mmio_testdev_info = {
-+    .name           = TYPE_MMIO_TESTDEV,
-+    .parent         = TYPE_SYS_BUS_DEVICE,
-+    .instance_size  = sizeof(MmioTestDevice),
-+    .class_init     = mmio_testdev_class_init,
-+};
-+
-+static void mmio_testdev_register_types(void)
-+{
-+    type_register_static(&mmio_testdev_info);
-+}
-+
-+type_init(mmio_testdev_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1efce3dd27..f75b8c984a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1966,6 +1966,8 @@ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- S: Maintained
- F: include/hw/misc/interleaver.h
- F: hw/misc/interleaver.c
-+F: hw/misc/mmio-testdev.c
-+F: include/hw/misc/testdev.h
  
- Standard VGA
- M: Gerd Hoffmann <kraxel@redhat.com>
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 7ed0f4ccc7..5b101abeea 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -30,6 +30,11 @@ config ISA_TESTDEV
-     default y if TEST_DEVICES
-     depends on ISA_BUS
+ static void machine_none_init(MachineState *mch)
+ {
+@@ -55,6 +56,7 @@ static void machine_none_machine_init(MachineClass *mc)
+     mc->no_floppy = 1;
+     mc->no_cdrom = 1;
+     mc->no_sdcard = 1;
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_MMIO_TESTDEV);
+ }
  
-+config MMIO_TESTDEV
-+    bool
-+    default y if TEST_DEVICES
-+    depends on INTERLEAVER
-+
- config PCI_TESTDEV
-     bool
-     default y if TEST_DEVICES
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index aa753a847f..b3e7da7177 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -5,6 +5,7 @@ common-obj-$(CONFIG_TMP421) += tmp421.o
- common-obj-$(CONFIG_ISA_DEBUG) += debugexit.o
- common-obj-$(CONFIG_SGA) += sga.o
- common-obj-$(CONFIG_ISA_TESTDEV) += pc-testdev.o
-+common-obj-$(CONFIG_MMIO_TESTDEV) += mmio-testdev.o
- common-obj-$(CONFIG_PCI_TESTDEV) += pci-testdev.o
- common-obj-$(CONFIG_EDU) += edu.o
- common-obj-$(CONFIG_PCA9552) += pca9552.o
+ DEFINE_MACHINE("none", machine_none_machine_init)
+diff --git a/hw/misc/mmio-testdev.c b/hw/misc/mmio-testdev.c
+index 3b7a8057b2..42eed16f2d 100644
+--- a/hw/misc/mmio-testdev.c
++++ b/hw/misc/mmio-testdev.c
+@@ -9,6 +9,10 @@
+ /*
+  * This device is mostly used to test QEMU internal MMIO devices.
+  * Accesses using CPU core are not allowed.
++ *
++ * This device is meant to be used for testing, like:
++ *
++ *   qemu-system-sh4 -M none -device mmio-testdev,address=0x10000000
+  */
+ 
+ #include "qemu/osdep.h"
 -- 
 2.26.2
 
