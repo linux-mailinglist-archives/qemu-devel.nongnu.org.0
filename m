@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCDD2468DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:56:01 +0200 (CEST)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4048A2468AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:50:30 +0200 (CEST)
+Received: from localhost ([::1]:43778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gYK-0004ZK-RD
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40704)
+	id 1k7gSz-00013g-62
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:50:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGr-00041N-F8
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:57 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44410)
+ id 1k7gGs-00043Y-Ac
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:58 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGp-00065C-O9
+ id 1k7gGq-00065M-GN
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:57 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c15so15227738wrs.11
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:55 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id a15so15233286wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8dZzY9VXvh43Ekdfsl0mj5O/wna2bcmAq+4iHeKQ4jE=;
- b=rWx4D72OhKLEVEyLgYhGFrkfb+SDOyWy8DmiTrg16YhfhFaMvAYah5rJNJ+HY+d4pA
- ahips8+VSzZR++hyaCDd/zHFICrzxVhvb8U4jmD6d57C22P7fJHAEu9GF2vFAvMsr98m
- FU3QdHvuEiW2emv6KS8QXi04ynHeAv6C34Q2+3g52p1pFExrmv4Qa0hXhhr5euu1gcBs
- KT+Apnb3Ozb+mHfUQxZ4BIAeoA3VnB5NN8Aebi9z4CVQAvVrEmB7lySL6JsQna7C3eNa
- 4/M0ha7lKv423sMhJSANRjTIZSb1rE0iHXbyN30nSGJ0TycwQ3vpDb3dVX1mzMiZ1EFZ
- NG2w==
+ bh=sX3v+t9MCcWKD8VmZAcSmOKmtyBCwIHz9lD/cY7kqX4=;
+ b=iPzrHESnFFC+w2IOEPiWZcOVBdHA7zkVCCAppkB5zLvZflLISIEYavg9o32YTvUdrA
+ DVxo/iSCVByFvtwUDR/w2XiNAeqtxSRpLE9PDtXRMFhM/hEjHEB8pjl3JBstK0qVk8jd
+ 6KJJkMNpWucEqF/DtUUkBrDutHFCkUkY69Fxp1M/Fh2y/DMVtXXi/v9IzI9dIgeb7Y8N
+ GDHoRfT5BOyKHO2SsZXl9tak5SrISFitVvhD1lyAG6EePYbU92XnDIA6VG47Rx6PcWlb
+ Qv3T9MYrdJOJVd09JTA9KwTRds2SEOybZZ+/c+qMQTCIr5y7WoGxqfsWs9k81pvZZ+8p
+ v1Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8dZzY9VXvh43Ekdfsl0mj5O/wna2bcmAq+4iHeKQ4jE=;
- b=ZM0Wnl+6jjf2gb2puYkTmbTS2jeuUHg+t8Ogi5yXf6YJwWdMwEsgm9zqks/hLuKPmT
- S1mzyYSRzQPhJI6aOZ75QCyKgTrru2lO30jYUjnCQ8rXLTRcwMcNEsPDe+Zfgu7S6sgb
- /FuYY+y8UvlFiGnKaIYRwbPTVH/SYCFGh7gfw8yN8jAqD4CYg6BIjctbVeuvU7Eb7TMv
- xbQqYrrDqQu+V0nC8aSGbMKXN0rSvwm7OM+ufkeJyYisa/igzOWRyGx2D+U/c7aN8kpW
- 6lClsceSPzezAQBzaK7YlbDB9pArDtavZQGm2SW2FdaED4Hwd9gttjUHdTkKXeU2A9Iz
- pxww==
-X-Gm-Message-State: AOAM532fULCGH8Z5T6kCr4T/YrtByJMkGoNhXl6O4GRv5jbNScCum8bJ
- S+n+t7YmX6yvCuUN+HOG8l1Lt3H0QdI=
-X-Google-Smtp-Source: ABdhPJyqOwvPlp/vfHXFPulMx8A2+IIFNwT25L2NEJrq8EBcbpJWZcXvlDxG3fgdwPuwBgaFsd1yQg==
-X-Received: by 2002:a5d:544a:: with SMTP id w10mr16076702wrv.317.1597675074088; 
+ bh=sX3v+t9MCcWKD8VmZAcSmOKmtyBCwIHz9lD/cY7kqX4=;
+ b=TR5f25ZRK+t21J4bav0YQkQOlHk8+9mgHH0SDB8+tTYHc6zHr5p8bYZwePQXoQ/75s
+ 4Bv6KkDC19sFj0VqfcUgTanQYrR3efsRD4V0J6W1dtMm8opaEZoAsggRwMH6Gf4eNoxf
+ 9P7/CUOpviutjCYG9qiR5VXIp7Ujbge/8+nF8KvlkSdAwoiCfCDS09LL2I8+K0UTlK2Q
+ WR2eBEtmFke/bX1FxmmFONLxGvts8nBLrybU0WME9uu1rwPOsm95JS017NkWgnaqPAgQ
+ +tjm0zNvv9tlo9WhBIn82BSD9RaDgZjhjYTGTrBejNsD2nlTFnCLKZZiFsGzQ6PLKcvD
+ CYxw==
+X-Gm-Message-State: AOAM532/svhO5xIWLhrZRKdDZzLhKFEftw47lTTqeYt99hEMeTDIXaRI
+ 218fubn08FPXB4n7EF72WgJ48Q4fMVA=
+X-Google-Smtp-Source: ABdhPJzRRPK9y2FFOhXLvbGRiXTvMA/KStXdMWbaGyKdk7c6ycuiPcDxO6eAyV+tv8E65fMm6AXRYQ==
+X-Received: by 2002:a5d:6a4a:: with SMTP id t10mr16624228wrw.360.1597675074881; 
  Mon, 17 Aug 2020 07:37:54 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.53 for <qemu-devel@nongnu.org>
+ i22sm34966603wrb.45.2020.08.17.07.37.54 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:37:53 -0700 (PDT)
+ Mon, 17 Aug 2020 07:37:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 027/150] contrib/libvhost-user: convert to Meson
-Date: Mon, 17 Aug 2020 16:35:20 +0200
-Message-Id: <20200817143723.343284-28-pbonzini@redhat.com>
+Subject: [PATCH 028/150] tools/virtiofsd: convert to Meson
+Date: Mon, 17 Aug 2020 16:35:21 +0200
+Message-Id: <20200817143723.343284-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,123 +89,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since libqemuutil.a has been converted to Meson, the conversion is
-straightforward.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                            | 16 +++++-----------
- Makefile.objs                       |  1 -
- contrib/libvhost-user/Makefile.objs |  1 -
- contrib/libvhost-user/meson.build   |  3 +++
- meson.build                         |  8 ++++++++
- 5 files changed, 16 insertions(+), 13 deletions(-)
- delete mode 100644 contrib/libvhost-user/Makefile.objs
- create mode 100644 contrib/libvhost-user/meson.build
+ Makefile                                      | 12 ------------
+ Makefile.objs                                 |  1 -
+ configure                                     |  1 +
+ meson.build                                   | 11 +++++++++++
+ tools/meson.build                             | 10 ++++++++++
+ tools/virtiofsd/Makefile.objs                 | 12 ------------
+ tools/virtiofsd/meson.build                   | 19 +++++++++++++++++++
+ tools/virtiofsd/passthrough_ll.c              |  2 +-
+ .../{seccomp.c => passthrough_seccomp.c}      |  2 +-
+ .../{seccomp.h => passthrough_seccomp.h}      |  0
+ 10 files changed, 43 insertions(+), 27 deletions(-)
+ create mode 100644 tools/meson.build
+ delete mode 100644 tools/virtiofsd/Makefile.objs
+ create mode 100644 tools/virtiofsd/meson.build
+ rename tools/virtiofsd/{seccomp.c => passthrough_seccomp.c} (99%)
+ rename tools/virtiofsd/{seccomp.h => passthrough_seccomp.h} (100%)
 
 diff --git a/Makefile b/Makefile
-index 973e932869..2dee3e89a4 100644
+index 2dee3e89a4..3bb2cd7c73 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -307,7 +307,6 @@ dummy := $(call unnest-vars,, \
+@@ -194,11 +194,6 @@ HELPERS-y += vhost-user-gpu$(EXESUF)
+ vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
+ endif
+ 
+-ifeq ($(CONFIG_SOFTMMU)$(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyyy)
+-HELPERS-y += virtiofsd$(EXESUF)
+-vhost-user-json-y += tools/virtiofsd/50-qemu-virtiofsd.json
+-endif
+-
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
+ # build the manuals into a subdirectory (and then install them from
+@@ -305,7 +300,6 @@ dummy := $(call unnest-vars,, \
+                 elf2dmp-obj-y \
+                 ivshmem-client-obj-y \
                  ivshmem-server-obj-y \
-                 virtiofsd-obj-y \
+-                virtiofsd-obj-y \
                  rdmacm-mux-obj-y \
--                libvhost-user-obj-y \
                  vhost-user-scsi-obj-y \
                  vhost-user-blk-obj-y \
-                 vhost-user-input-obj-y \
-@@ -432,11 +431,6 @@ $(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
+@@ -538,12 +532,6 @@ rdmacm-mux$(EXESUF): LIBS += "-libumad"
+ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
  
- Makefile: $(version-obj-y)
- 
--######################################################################
--# Build libraries
+-# relies on Linux-specific syscalls
+-ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
+-virtiofsd$(EXESUF): $(virtiofsd-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+-	$(call LINK, $^)
+-endif
 -
--libvhost-user.a: $(libvhost-user-obj-y)
--
- ######################################################################
- 
- COMMON_LDADDS = libqemuutil.a
-@@ -535,9 +529,9 @@ ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
- ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
- 	$(call LINK, $^)
- endif
--vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
- 	$(call LINK, $^)
--vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
  	$(call LINK, $^)
  
- rdmacm-mux$(EXESUF): LIBS += "-libumad"
-@@ -546,16 +540,16 @@ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
- 
- # relies on Linux-specific syscalls
- ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
--virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+virtiofsd$(EXESUF): $(virtiofsd-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
- 	$(call LINK, $^)
- endif
- 
--vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
- 	$(call LINK, $^)
- 
- ifdef CONFIG_VHOST_USER_INPUT
- ifdef CONFIG_LINUX
--vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
- 	$(call LINK, $^)
- 
- # build by default, do not install
 diff --git a/Makefile.objs b/Makefile.objs
-index e5c9077517..9489864967 100644
+index 9489864967..fee0f71372 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -106,7 +106,6 @@ qga-vss-dll-obj-y = qga/
- elf2dmp-obj-y = contrib/elf2dmp/
- ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
- ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
--libvhost-user-obj-y = contrib/libvhost-user/
- vhost-user-scsi.o-cflags := $(LIBISCSI_CFLAGS)
- vhost-user-scsi.o-libs := $(LIBISCSI_LIBS)
- vhost-user-scsi-obj-y = contrib/vhost-user-scsi/
-diff --git a/contrib/libvhost-user/Makefile.objs b/contrib/libvhost-user/Makefile.objs
-deleted file mode 100644
-index ef3778edd4..0000000000
---- a/contrib/libvhost-user/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--libvhost-user-obj-y += libvhost-user.o libvhost-user-glib.o
-diff --git a/contrib/libvhost-user/meson.build b/contrib/libvhost-user/meson.build
-new file mode 100644
-index 0000000000..e68dd1a581
---- /dev/null
-+++ b/contrib/libvhost-user/meson.build
-@@ -0,0 +1,3 @@
-+libvhost_user = static_library('vhost-user',
-+                               files('libvhost-user.c', 'libvhost-user-glib.c'),
-+                               build_by_default: false)
+@@ -113,6 +113,5 @@ vhost-user-blk-obj-y = contrib/vhost-user-blk/
+ rdmacm-mux-obj-y = contrib/rdmacm-mux/
+ vhost-user-input-obj-y = contrib/vhost-user-input/
+ vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
+-virtiofsd-obj-y = tools/virtiofsd/
+ 
+ ######################################################################
+diff --git a/configure b/configure
+index ca87955a65..9582ecdf02 100755
+--- a/configure
++++ b/configure
+@@ -6998,6 +6998,7 @@ if test "$gprof" = "yes" ; then
+ fi
+ if test "$cap_ng" = "yes" ; then
+   echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
++  echo "LIBCAP_NG_LIBS=$cap_libs" >> $config_host_mak
+ fi
+ echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
+ for drv in $audio_drv_list; do
 diff --git a/meson.build b/meson.build
-index d70c98bd9c..00a519edc6 100644
+index 00a519edc6..d56cd0dd27 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -239,6 +239,14 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
- 
-+# Other build targets
-+
-+if have_tools
-+  if 'CONFIG_VHOST_USER' in config_host
-+    subdir('contrib/libvhost-user')
-+  endif
+@@ -79,6 +79,15 @@ if 'CONFIG_GNUTLS' in config_host
+   gnutls = declare_dependency(compile_args: config_host['GNUTLS_CFLAGS'].split(),
+                               link_args: config_host['GNUTLS_LIBS'].split())
+ endif
++seccomp = not_found
++if 'CONFIG_SECCOMP' in config_host
++  seccomp = declare_dependency(compile_args: config_host['SECCOMP_CFLAGS'].split(),
++                               link_args: config_host['SECCOMP_LIBS'].split())
 +endif
++libcap_ng = not_found
++if 'CONFIG_LIBCAP_NG' in config_host
++  libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
++endif
+ 
+ target_dirs = config_host['TARGET_DIRS'].split()
+ have_user = false
+@@ -247,6 +256,8 @@ if have_tools
+   endif
+ endif
+ 
++subdir('tools')
 +
  summary_info = {}
  summary_info += {'Install prefix':    config_host['prefix']}
  summary_info += {'BIOS directory':    config_host['qemu_datadir']}
+diff --git a/tools/meson.build b/tools/meson.build
+new file mode 100644
+index 0000000000..513bd2ff4f
+--- /dev/null
++++ b/tools/meson.build
+@@ -0,0 +1,10 @@
++have_virtiofsd = (have_system and
++    have_tools and
++    'CONFIG_LINUX' in config_host and 
++    'CONFIG_SECCOMP' in config_host and
++    'CONFIG_LIBCAP_NG' in config_host and
++    'CONFIG_VHOST_USER' in config_host)
++
++if have_virtiofsd
++  subdir('virtiofsd')
++endif
+diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
+deleted file mode 100644
+index 076f667e46..0000000000
+--- a/tools/virtiofsd/Makefile.objs
++++ /dev/null
+@@ -1,12 +0,0 @@
+-virtiofsd-obj-y = buffer.o \
+-                  fuse_opt.o \
+-                  fuse_log.o \
+-                  fuse_lowlevel.o \
+-                  fuse_signals.o \
+-                  fuse_virtio.o \
+-                  helper.o \
+-                  passthrough_ll.o \
+-                  seccomp.o
+-
+-seccomp.o-cflags := $(SECCOMP_CFLAGS)
+-seccomp.o-libs := $(SECCOMP_LIBS)
+diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
+new file mode 100644
+index 0000000000..d1e23c5760
+--- /dev/null
++++ b/tools/virtiofsd/meson.build
+@@ -0,0 +1,19 @@
++executable('virtiofsd', files(
++  'buffer.c',
++  'fuse_opt.c',
++  'fuse_log.c',
++  'fuse_lowlevel.c',
++  'fuse_signals.c',
++  'fuse_virtio.c',
++  'helper.c',
++  'passthrough_ll.c',
++  'passthrough_seccomp.c'),
++  link_with: libvhost_user,
++  dependencies: [seccomp, qemuutil, libcap_ng],
++  install: true,
++  install_dir: get_option('libexecdir'))
++
++configure_file(input: '50-qemu-virtiofsd.json.in',
++               output: '50-qemu-virtiofsd.json',
++               configuration: config_host,
++               install_dir: config_host['qemu_datadir'] / 'vhost-user')
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 94e0de2d2b..63d1d00565 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -65,7 +65,7 @@
+ #include <unistd.h>
+ 
+ #include "passthrough_helpers.h"
+-#include "seccomp.h"
++#include "passthrough_seccomp.h"
+ 
+ /* Keep track of inode posix locks for each owner. */
+ struct lo_inode_plock {
+diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+similarity index 99%
+rename from tools/virtiofsd/seccomp.c
+rename to tools/virtiofsd/passthrough_seccomp.c
+index 3b1522acdd..19fee60011 100644
+--- a/tools/virtiofsd/seccomp.c
++++ b/tools/virtiofsd/passthrough_seccomp.c
+@@ -7,7 +7,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "seccomp.h"
++#include "passthrough_seccomp.h"
+ #include "fuse_i.h"
+ #include "fuse_log.h"
+ #include <errno.h>
+diff --git a/tools/virtiofsd/seccomp.h b/tools/virtiofsd/passthrough_seccomp.h
+similarity index 100%
+rename from tools/virtiofsd/seccomp.h
+rename to tools/virtiofsd/passthrough_seccomp.h
 -- 
 2.26.2
 
