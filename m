@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56CD2468C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:54:09 +0200 (CEST)
-Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194AD2468E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:57:12 +0200 (CEST)
+Received: from localhost ([::1]:51648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gWW-0000hq-NW
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1k7gZT-0007Z2-48
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGz-0004Fr-JT
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:05 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33795)
+ id 1k7gH0-0004Gs-QF
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:07 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGx-00068V-NJ
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:05 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f7so15275447wrw.1
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:03 -0700 (PDT)
+ id 1k7gGz-00068a-Ah
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:06 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r15so5341860wrp.13
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f4qt9FKyFSeN8BJ56T9zt2ILCTqUpRYsJA1sb+QqLwo=;
- b=Z0pZIEBEDHdtjk6lRkw66nGR9BpFdYVfp4DzjNHrZZq7RuFhGdPAEz3cAWIBki7A6S
- yMbH0Xacvz5A4unJ9aI/lvfEHAzyCZ8IwBxY3fuqUl6fciIvjSbY/Kc+cxtca4bgXaqn
- GD8Qxf4W6qRTt5eN+MQ/yFPXRPaNK0E/rmjTj8MVppkrI+W/Ln53+QbdGIJSVabcXSgN
- D6EqDxVMR5EkPPaNClKwmyoc4Gzri+NzDFFrFcZXdj0arXhMmPTNPKagqwh4P9Y0xnPc
- ogPEf8fS2XL5cB+KHs8UmiIGYKiie/JhzVrnYqkfYz/EkDwtPalwNxGjk3+lyTBjXofV
- VWtw==
+ bh=RxTPKve4UPMsuDPCMcd7u6d232jLsll/CSW6mGhHCo4=;
+ b=pQj1Jb8yqzSgjL6xMy2tKKojwBC118RWk9l13GX/dz79252Jd8uOIT1KguHp4QKPyT
+ FTQ+R7W2k+mQP7jmgz7ZVukGguIVSpI5t+6UhgPNKTwGlNsZBzx/n36TDg0+Au7b/JLg
+ kRaXHL6qpW6hHTjfDnjcxIxZKke8c9zVsY/+1eKlmKZDhBfh8hCWDrA2utOolY7VoYGy
+ 49D9d1pvAyB05Ilzsb16q7INi0PCD9vYXIwckso/pY2pXqwKPki/9TwYAmA5B9WKuHBT
+ N0pcBkxNHD38GgiEU4jQJBpdAkDAiatFXoJvfPwXBxt7qTOeDkkz3dTwUKcdJNNYDnWe
+ uH0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=f4qt9FKyFSeN8BJ56T9zt2ILCTqUpRYsJA1sb+QqLwo=;
- b=FDz9XXz6AALi+fQKJOVMBvelk7uos1ROxGNYOhokGRyKO/eAnkqtg2Tth5/wUGzBcE
- XhzPCWwLIT2+3P/q6XpSSU97z+KJ8rI4/Xz5jQ/1UXaUdg1oe9nRSugYu6Zz3bcB647p
- 8Bm1GIf0tqf8eba5tMv3VzQpZPCYXk8Br5mjNu23FXDuklK7ha4dEZqOX0Y9ltb/TEt0
- v7sKyENP5nkV0FO9Nt/va51pRrOVsQoTWjXxv2uilDK0Zsupo1k/EphMk5XOESMenKk6
- OxfS6e/wEE53VyT9yx/bLhSMygK+yJ6WgZzOleXohU24EX2acnzq4wF/B5EhqGEkHB2n
- ytiw==
-X-Gm-Message-State: AOAM531kKqK73Wwh5ro56cT0+LOlH4Q5WOF+bKmRJjX6rp8ZmB0iV5jz
- KqC0xPNRh4wnTyDpDv1RabbOKhTICPA=
-X-Google-Smtp-Source: ABdhPJyjA8E2nBx5p0o3HHo1X2SV6mnGezH53Ta1vDnsRj4otxURC7lvAhfF3Wawcdttxib3yfQ1Vg==
-X-Received: by 2002:adf:e98c:: with SMTP id h12mr15621288wrm.3.1597675082221; 
- Mon, 17 Aug 2020 07:38:02 -0700 (PDT)
+ bh=RxTPKve4UPMsuDPCMcd7u6d232jLsll/CSW6mGhHCo4=;
+ b=dAmDf3sCnMBJsPY1qHDobxhPOQTg1H0VfGw7bEtOmNx73j8yAqcRYhEl8jdI0t0oIT
+ YamvWRWB+ht17rdaldRD0KJMLHJGuRO5RtmfEK5Fvgu5IhBYV3u+cGEbBRep/5/J2oX1
+ /VcI39srFsebBKj4ukJfFvmfmalqycynuHZSZE8pQnOET/79uIQrBS+h/DvV34/Odeo0
+ ini3CzMV2BM3pCuqJuy+qZoIGZNYexw1+oh4cKcsm2j4lSzk8lgRhuE86o5SuWPxqwDF
+ dI8fYp62mzmk+gOYt7NuzPQr9OZRfc87c8YfOyOSd4t0+1rJijnnee80WyMDIQVtDU2I
+ nTkg==
+X-Gm-Message-State: AOAM532rmL8AiKyA7UcDHcEo8AgW86WV8N5tl01vwG2Qc1WDZZCRxlLX
+ F7Y/ZsoZgNNjUdA7EhXT1Q+Xf0U9z04=
+X-Google-Smtp-Source: ABdhPJxtkA7tdQ1s5fOUb5kcqLH4b8W6IaDcstBXHFQc7Lq+NxawupdISt7dD7QloWr2gr/l2NmWZw==
+X-Received: by 2002:adf:fdce:: with SMTP id i14mr15559661wrs.273.1597675083080; 
+ Mon, 17 Aug 2020 07:38:03 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.01
+ i22sm34966603wrb.45.2020.08.17.07.38.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:01 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 036/150] contrib/elf2dmp: convert to meson
-Date: Mon, 17 Aug 2020 16:35:29 +0200
-Message-Id: <20200817143723.343284-37-pbonzini@redhat.com>
+Subject: [PATCH 037/150] meson: add macos dependencies
+Date: Mon, 17 Aug 2020 16:35:30 +0200
+Message-Id: <20200817143723.343284-38-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,114 +93,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+There is no probing in configure, so no need to pass them as
+variables to meson. Do a regular meson dependency() instead.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                      | 4 ----
- Makefile.objs                 | 6 ------
- configure                     | 3 ---
- contrib/elf2dmp/Makefile.objs | 4 ----
- contrib/elf2dmp/meson.build   | 5 +++++
- meson.build                   | 6 ++++++
- 6 files changed, 11 insertions(+), 17 deletions(-)
- delete mode 100644 contrib/elf2dmp/Makefile.objs
- create mode 100644 contrib/elf2dmp/meson.build
+ meson.build | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 0cc478b2f1..b97a3d0eeb 100644
---- a/Makefile
-+++ b/Makefile
-@@ -291,7 +291,6 @@ dummy := $(call unnest-vars,, \
-                 authz-obj-y \
-                 chardev-obj-y \
-                 qga-obj-y \
--                elf2dmp-obj-y \
-                 qga-vss-dll-obj-y \
-                 block-obj-y \
-                 block-obj-m \
-@@ -501,9 +500,6 @@ ifneq ($(EXESUF),)
- qemu-ga: qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
- endif
- 
--elf2dmp$(EXESUF): $(elf2dmp-obj-y)
--	$(call LINK, $^)
--
- module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
- 	$(call quiet-command,$(PYTHON) $< $@ \
- 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
-diff --git a/Makefile.objs b/Makefile.objs
-index 336a684ff3..1486254a2c 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -100,9 +100,3 @@ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
- # extracted into a QAPI schema module, or perhaps a separate schema.
- qga-obj-y = qga/
- qga-vss-dll-obj-y = qga/
--
--######################################################################
--# contrib
--elf2dmp-obj-y = contrib/elf2dmp/
--
--######################################################################
-diff --git a/configure b/configure
-index b6237f8102..0eb9f8aefd 100755
---- a/configure
-+++ b/configure
-@@ -6680,9 +6680,6 @@ if test "$want_tools" = "yes" ; then
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
-     tools="qemu-nbd\$(EXESUF) qemu-storage-daemon\$(EXESUF) $tools"
-   fi
--  if [ "$curl" = "yes" ]; then
--      tools="elf2dmp\$(EXESUF) $tools"
--  fi
- fi
- if test "$softmmu" = yes ; then
-   if test "$linux" = yes; then
-diff --git a/contrib/elf2dmp/Makefile.objs b/contrib/elf2dmp/Makefile.objs
-deleted file mode 100644
-index 1505716916..0000000000
---- a/contrib/elf2dmp/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--elf2dmp-obj-y = main.o addrspace.o download.o pdb.o qemu_elf.o
--
--download.o-cflags := $(CURL_CFLAGS)
--download.o-libs   := $(CURL_LIBS)
-diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
-new file mode 100644
-index 0000000000..b3de173316
---- /dev/null
-+++ b/contrib/elf2dmp/meson.build
-@@ -0,0 +1,5 @@
-+if 'CONFIG_CURL' in config_host
-+  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
-+             dependencies: [glib, curl],
-+             install: true)
-+endif
 diff --git a/meson.build b/meson.build
-index 0814ec3e62..661f1bb4f5 100644
+index 661f1bb4f5..34e2a7a3f5 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -106,6 +106,11 @@ if 'CONFIG_VIRGL' in config_host
-   virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
-                              link_args: config_host['VIRGL_LIBS'].split())
+@@ -46,6 +46,10 @@ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ socket = []
+ version_res = []
++coref = []
++iokit = []
++cocoa = []
++hvf = []
+ if host_machine.system() == 'windows'
+   socket = cc.find_library('ws2_32')
+ 
+@@ -53,6 +57,11 @@ if host_machine.system() == 'windows'
+   version_res = win.compile_resources('version.rc',
+                                       depend_files: files('pc-bios/qemu-nsis.ico'),
+                                       include_directories: include_directories('.'))
++elif host_machine.system() == 'darwin'
++  coref = dependency('appleframeworks', modules: 'CoreFoundation')
++  iokit = dependency('appleframeworks', modules: 'IOKit')
++  cocoa = dependency('appleframeworks', modules: 'Cocoa')
++  hvf = dependency('appleframeworks', modules: 'Hypervisor')
  endif
-+curl = not_found
-+if 'CONFIG_CURL' in config_host
-+  curl = declare_dependency(compile_args: config_host['CURL_CFLAGS'].split(),
-+                            link_args: config_host['CURL_LIBS'].split())
-+endif
- 
- target_dirs = config_host['TARGET_DIRS'].split()
- have_user = false
-@@ -270,6 +275,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
- 
- if have_tools
-   subdir('contrib/rdmacm-mux')
-+  subdir('contrib/elf2dmp')
- 
-   if 'CONFIG_VHOST_USER' in config_host
-     subdir('contrib/libvhost-user')
+ glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
+                           link_args: config_host['GLIB_LIBS'].split())
 -- 
 2.26.2
 
