@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE37B246C69
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:16:20 +0200 (CEST)
-Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140A2246C42
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:12:30 +0200 (CEST)
+Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7ho3-0004eP-Ph
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36870)
+	id 1k7hkL-0004f3-1w
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hbG-0002tV-Tj
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51092
+ id 1k7hbc-0003k2-LY
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:28 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27898
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hbF-0002X0-4A
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:06 -0400
+ id 1k7hba-0002c2-On
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:03:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597680184;
+ s=mimecast20190719; t=1597680206;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i+1VfeG6eITfRoxrOgZ7R1Gwcn4k7VxKxWGJlEi/JWg=;
- b=gpri6Fi9FEym+ofeingctryUpDZb6vS0Mx1Yu+1ELFnHC7bV2wBW1zaqDliPiNNL7kupu0
- WDu24euY6t97KWUAfTmLelQ+8H7vqfoATecfMOqkgMEs0ufGFbjwDia9mMkd82gHDLglEn
- /3RovtQrAn0oPmaL3BPo0B0NRTO/Vho=
+ bh=vKbn5XHvnLrVEI6RQ3d89O/YLSmgTYPcwAsRQGKh4UY=;
+ b=Tcv3WfuVmZgVgcqz2ix5PjCLx7DVYqK2dKTB/pMzWz8gSGo2DddsgMLtw/lF7xwECqLwW3
+ 8BV7wWgD374dutfyZvZ/+oPf5osnA1Qg8cBe6tEVGYWt65THnPEWkEQp6Luv34jbTBuX7Y
+ PAS2SPlUSBfnUSiJ2NkjdrKwzvf66sE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-UPoVSXsYNkKWm_5trXoh9w-1; Mon, 17 Aug 2020 12:03:02 -0400
-X-MC-Unique: UPoVSXsYNkKWm_5trXoh9w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-433-Dd5WWcAiOriTAWHuy1Uv9w-1; Mon, 17 Aug 2020 12:03:21 -0400
+X-MC-Unique: Dd5WWcAiOriTAWHuy1Uv9w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AD05801AAE
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:03:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 440F31DDE9
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 16:03:20 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 257985C62B;
- Mon, 17 Aug 2020 16:02:59 +0000 (UTC)
-Date: Mon, 17 Aug 2020 17:02:57 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4067110098A5;
+ Mon, 17 Aug 2020 16:03:19 +0000 (UTC)
+Date: Mon, 17 Aug 2020 17:03:16 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 22/41] can_emu: Delete macros for non-existing typedef
-Message-ID: <20200817160257.GW4775@redhat.com>
+Subject: Re: [PATCH 23/41] nubus: Delete unused NUBUS_BRIDGE macro
+Message-ID: <20200817160316.GX4775@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-23-ehabkost@redhat.com>
+ <20200813222625.243136-24-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-23-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-24-ehabkost@redhat.com>
 User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -90,15 +90,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 06:26:06PM -0400, Eduardo Habkost wrote:
-> CanBusClass doesn't exist.  This will break when we automatically
-> convert the code to use OBJECT_DEFINE_TYPE().  Delete the macros
-> that reference the non-existing typedef.
+On Thu, Aug 13, 2020 at 06:26:07PM -0400, Eduardo Habkost wrote:
+> The macro never worked because the NubusBridge typedef doesn't
+> exist.  Delete it.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  include/net/can_emu.h | 4 ----
->  1 file changed, 4 deletions(-)
+>  include/hw/nubus/nubus.h | 1 -
+>  1 file changed, 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
