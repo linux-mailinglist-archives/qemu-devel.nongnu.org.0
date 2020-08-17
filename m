@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960332468DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:56:03 +0200 (CEST)
-Received: from localhost ([::1]:44620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78142468F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:00:16 +0200 (CEST)
+Received: from localhost ([::1]:41586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gYM-0004gK-JS
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40890)
+	id 1k7gcR-0006Wu-QU
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:00:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH3-0004IH-6m
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:09 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34037)
+ id 1k7gH4-0004JJ-QF
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:10 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH1-00069D-B9
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:08 -0400
-Received: by mail-wr1-x434.google.com with SMTP id f7so15275713wrw.1
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:06 -0700 (PDT)
+ id 1k7gH2-00069R-Ur
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:10 -0400
+Received: by mail-wr1-x432.google.com with SMTP id z18so15241761wrm.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=alq3qkQflAS1MVNIYnc6+tQ6ioRrHZq26cXio83N7sg=;
- b=chYGDpdcH1xVDpbdj8P6Sbt56tA++Fz1lqsoLZD7fuN+uS7H6qqFgDexlY5Lds5pI6
- haFQCQGh5w0Np4KfFrcFiKcK3vGnWeQjJ6ehtTU7ZyACMn7dfpXJPN9C7IjINjfw6hGd
- 0G1zrch53mgR0Bs5OdFN+76V7d70d/LVwZy/gePRl4JGvYiai8laPXs4c8gwrSIv+9IG
- Xvgy8jK+8CXW9QxP6KN3AFYBkOvPlf3zejSmmkdwO01G1GdhVk3/2tKRgQQzjO29tTf6
- k70Tvd2E6sWrZxAYQbNhwPq0ky3CJ8wpareg2IvpoGXmB+cnRVTdO6v1b3pNFAL2vhYI
- uVOQ==
+ bh=qOKJ+Ver4XgMvPbsJwwjCcehhxtmfHeXcEultQ+LU6o=;
+ b=lT+wSmKGQtylt7hUnexQEIWXYMHF7+hW5f0UPSYXJCnLtEVtr307t4xjhXpRUQ3yoj
+ 3oYpZKGG2Wp9TyPz7FCDdBTZA7LVF14rQ6pYqDeqVa8JtPMKGamDKT1Ul7aishUQZsTQ
+ /ER6814dovQsDNGRTeDEsuxfr6XuSptZ0xWfnSarK+b4vJOlzuZ5DpFx3NCeSsqwxjgy
+ gN//3oEzGU6IaKClu/ZrBUPSLDD4kdKA6NhL+8GTkym+fQcL5pKFavwa1k6HLkjxCTrx
+ +cnqpmCplW4Qp2uApMxuFEaRVFiVMbVY29GjT7ObBx3DdX4jWumpZLuJX0I8aLBNv31/
+ 5RJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=alq3qkQflAS1MVNIYnc6+tQ6ioRrHZq26cXio83N7sg=;
- b=niiKpNOJTTN1zXeKgUD9t3uRo+zVzqzQlHMNqB9IRoLxhPSd4Vez1GwmsmTOFTLfPs
- JbcRf9t87wH3YRrRNiLoiKoAbqY1/3hOWfLO3ClWnmy15OUStJ2qIeFe24epseUqLR8E
- WiutL/svEABFVC/D9VdNc/quAZ4+yOBX8giLWntofzPEs2qg03GH2lMM3yl0JnFPn/W/
- WMBQmSFFgWCTxgqegQrl9ZTgyUw+8lylY5WkXpOzKnKVrwMd4UrdhVpyWgc5ojVQrBJX
- NjpmOFjfRWpbolGjwSTHaGbpyxlLMIpU0WJSWG8piBSpiWH1NgQUMx4qX3Rf0C0GUprZ
- 7TDQ==
-X-Gm-Message-State: AOAM5311B7RH+50OwDLdO02oDsrMpnbUC7/omp3iDqOTF+d/cbAo49HX
- P5HAPMfyM7dGmpvKW8jOmqZ3+3QyE9M=
-X-Google-Smtp-Source: ABdhPJz5w94neA0VwO3r4+iMbe3TbPZznURWvI5g0DU98W+dWq7QjbuugEoUCrd6/N/7ZsbKiYA6lQ==
-X-Received: by 2002:adf:c401:: with SMTP id v1mr15100517wrf.379.1597675085720; 
- Mon, 17 Aug 2020 07:38:05 -0700 (PDT)
+ bh=qOKJ+Ver4XgMvPbsJwwjCcehhxtmfHeXcEultQ+LU6o=;
+ b=KGSpjZYnrSdPn4TlssUgYYzLPLpsZTXPONTadbMl46Z8CscwnOOjz7rAkdeJHu1QPH
+ RNFiaYVLFM+66YOy2VUef3iZ30U4Ecpa9JkmjBjt/pr47PKHSS/Dzk4oK+Cb8FskRg/H
+ Kd9Z7bQcZez90UWR0mO5/Bpk6xKqn6fq58x+zouIGX0EgzDno2whYbf1WW8aq6FKS7HF
+ czIH/GpqA2BpzJ+YbavQ0XceM7Gu0Se+nStSmOHDmTZvCDfS46tTTQS0DN6EnsmcCnr4
+ N47t6hCIOYGSw3paAKXwXulFz9ENSwBlBsOLCy0kSEvPJMnNt++0WE24cW4BLifMm4E8
+ BSOQ==
+X-Gm-Message-State: AOAM531TW2ek/C+VSBREE/IgpBb18gF/PMo+tT127PwsI6B6Hy7LQX5r
+ 8byQRqusEkOu56V3brYwmWeolh0SNd4=
+X-Google-Smtp-Source: ABdhPJxTGc1xCE/WybpERzW3frl0AAD0SeMQ4930w57KKhJ3Dn8FzvX35gSFSzaW2CsLfKHN5n0bJQ==
+X-Received: by 2002:a5d:544a:: with SMTP id w10mr16077523wrv.317.1597675086539; 
+ Mon, 17 Aug 2020 07:38:06 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
  i22sm34966603wrb.45.2020.08.17.07.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:05 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 040/150] meson: convert vss-win32
-Date: Mon, 17 Aug 2020 16:35:33 +0200
-Message-Id: <20200817143723.343284-41-pbonzini@redhat.com>
+Subject: [PATCH 041/150] meson: add msi generation
+Date: Mon, 17 Aug 2020 16:35:34 +0200
+Message-Id: <20200817143723.343284-42-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,134 +96,96 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                    |  1 -
- Makefile.objs               |  8 --------
- qga/Makefile.objs           |  1 -
- qga/meson.build             |  6 ++++++
- qga/vss-win32/Makefile.objs | 23 -----------------------
- qga/vss-win32/meson.build   | 33 +++++++++++++++++++++++++++++++++
- 6 files changed, 39 insertions(+), 33 deletions(-)
- delete mode 100644 qga/Makefile.objs
- delete mode 100644 qga/vss-win32/Makefile.objs
- create mode 100644 qga/vss-win32/meson.build
+ Makefile                  | 18 ------------------
+ qga/meson.build           | 25 +++++++++++++++++++++++++
+ qga/vss-win32/meson.build |  3 ++-
+ 3 files changed, 27 insertions(+), 19 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 174d1ecc4f..9b35c0d00a 100644
+index 9b35c0d00a..a46b31b907 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -290,7 +290,6 @@ endif
- dummy := $(call unnest-vars,, \
-                 authz-obj-y \
-                 chardev-obj-y \
--                qga-vss-dll-obj-y \
-                 block-obj-y \
-                 block-obj-m \
-                 storage-daemon-obj-y \
-diff --git a/Makefile.objs b/Makefile.objs
-index 259f9936ac..baf15656e8 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -91,11 +91,3 @@ common-obj-y += disas/
- ######################################################################
- # Resource file for Windows executables
- version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
+@@ -439,23 +439,6 @@ qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
+ qemu-keymap$(EXESUF): LIBS += $(XKBCOMMON_LIBS)
+ qemu-keymap$(EXESUF): QEMU_CFLAGS += $(XKBCOMMON_CFLAGS)
+ 
+-ifdef QEMU_GA_MSI_ENABLED
+-QEMU_GA_MSI=qemu-ga-$(ARCH).msi
 -
--######################################################################
--# guest agent
+-msi: $(QEMU_GA_MSI)
 -
--# FIXME: a few definitions from qapi/qapi-types.o and
--# qapi/qapi-visit.o are needed by libqemuutil.a.  These should be
--# extracted into a QAPI schema module, or perhaps a separate schema.
--qga-vss-dll-obj-y = qga/
-diff --git a/qga/Makefile.objs b/qga/Makefile.objs
-deleted file mode 100644
-index 9ecf2496da..0000000000
---- a/qga/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--qga-vss-dll-obj-$(CONFIG_QGA_VSS) += vss-win32/
+-$(QEMU_GA_MSI): qga/qemu-ga.exe $(QGA_VSS_PROVIDER)
+-
+-$(QEMU_GA_MSI): config-host.mak
+-
+-$(QEMU_GA_MSI):  $(SRC_PATH)/qga/installer/qemu-ga.wxs
+-	$(call quiet-command,QEMU_GA_VERSION="$(QEMU_GA_VERSION)" QEMU_GA_MANUFACTURER="$(QEMU_GA_MANUFACTURER)" QEMU_GA_DISTRO="$(QEMU_GA_DISTRO)" BUILD_DIR="$(BUILD_DIR)" \
+-	wixl -o $@ $(QEMU_GA_MSI_ARCH) $(QEMU_GA_MSI_WITH_VSS) $(QEMU_GA_MSI_MINGW_DLL_PATH) $<,"WIXL","$@")
+-else
+-msi:
+-	@echo "MSI build not configured or dependency resolution failed (reconfigure with --enable-guest-agent-msi option)"
+-endif
+-
+ ifneq ($(EXESUF),)
+ .PHONY: qga/qemu-ga
+ qga/qemu-ga: qga/qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
+@@ -471,7 +454,6 @@ clean: recurse-clean ninja-clean clean-ctlist
+ # avoid old build problems by removing potentially incorrect old files
+ 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
+ 	rm -f qemu-options.def
+-	rm -f *.msi
+ 	find . \( -name '*.so' -o -name '*.dll' -o -name '*.mo' -o -name '*.[oda]' \) -type f \
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
 diff --git a/qga/meson.build b/qga/meson.build
-index 3513a90f5d..948302e06d 100644
+index 948302e06d..2d33c09fe6 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -44,3 +44,9 @@ qga = executable('qemu-ga', qga_ss.sources(),
-                  link_args: config_host['LIBS_QGA'].split(),
-                  dependencies: [qemuutil, libudev],
-                  install: true)
-+
-+if host_machine.system() == 'windows'
-+  if 'CONFIG_QGA_VSS' in config_host
-+    subdir('vss-win32')
+@@ -48,5 +48,30 @@ qga = executable('qemu-ga', qga_ss.sources(),
+ if host_machine.system() == 'windows'
+   if 'CONFIG_QGA_VSS' in config_host
+     subdir('vss-win32')
++  else
++    gen_tlb = []
 +  endif
-+endif
-diff --git a/qga/vss-win32/Makefile.objs b/qga/vss-win32/Makefile.objs
-deleted file mode 100644
-index c82676aeb8..0000000000
---- a/qga/vss-win32/Makefile.objs
-+++ /dev/null
-@@ -1,23 +0,0 @@
--# rules to build qga-vss.dll
--
--qga-vss-dll-obj-y += requester.o provider.o install.o
--
--obj-qga-vss-dll-obj-y = $(addprefix $(obj)/, $(qga-vss-dll-obj-y))
--$(obj-qga-vss-dll-obj-y): QEMU_CXXFLAGS := $(filter-out -fstack-protector-all -fstack-protector-strong, $(QEMU_CXXFLAGS)) -Wno-unknown-pragmas -Wno-delete-non-virtual-dtor
--
--QGA_VSS_LDFLAGS = -shared -Wl,--add-stdcall-alias,--enable-stdcall-fixup -lglib-2.0 -lole32 -loleaut32 -lshlwapi -luuid -lintl -lws2_32 -static
--$(obj)/qga-vss.dll: $(obj-qga-vss-dll-obj-y) $(SRC_PATH)/$(obj)/qga-vss.def
--	$(call quiet-command,$(CXX) -o $@ $(qga-vss-dll-obj-y) $(SRC_PATH)/qga/vss-win32/qga-vss.def $(CXXFLAGS) $(QGA_VSS_LDFLAGS),"LINK","$(TARGET_DIR)$@")
--
--
--# rules to build qga-provider.tlb
--# Currently, only native build is supported because building .tlb
--# (TypeLibrary) from .idl requires WindowsSDK and MIDL (and cl.exe in VC++).
--MIDL=$(WIN_SDK)/Bin/midl
--
--$(obj)/qga-vss.tlb: $(SRC_PATH)/$(obj)/qga-vss.idl
--ifeq ($(WIN_SDK),"")
--	$(call quiet-command,cp $(dir $<)qga-vss.tlb $@,"COPY","$(TARGET_DIR)$@")
--else
--	$(call quiet-command,$(MIDL) -tlb $@ -I $(WIN_SDK)/Include $<,"MIDL","$(TARGET_DIR)$@")
--endif
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-new file mode 100644
-index 0000000000..42c8d31a3d
---- /dev/null
-+++ b/qga/vss-win32/meson.build
-@@ -0,0 +1,33 @@
-+if add_languages('cpp', required: false)
-+  glib_static = dependency('glib-2.0', static: true)
-+  link_args = cc.get_supported_link_arguments(['-fstack-protector-all', '-fstack-protector-strong',
-+                                               '-Wl,--add-stdcall-alias', '-Wl,--enable-stdcall-fixup'])
-+  shared_module('qga-vss', ['requester.cpp', 'provider.cpp', 'install.cpp'],
-+                name_prefix: '',
-+                cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
-+                link_args: link_args,
-+                vs_module_defs: 'qga-vss.def',
-+                dependencies: [glib_static, socket,
-+                               cc.find_library('ole32'),
-+                               cc.find_library('oleaut32'),
-+                               cc.find_library('shlwapi'),
-+                               cc.find_library('uuid'),
-+                               cc.find_library('intl')])
-+endif
 +
-+# rules to build qga-vss.tlb
-+# Currently, only native build is supported because building .tlb
-+# (TypeLibrary) from .idl requires WindowsSDK and MIDL (and cl.exe in VC++).
-+midl = find_program('midl', required: false)
-+if midl.found()
-+  gen_tlb = custom_target('gen-tlb',
-+                          input: 'qga-vss.idl',
-+                          output: 'qga-vss.tlb',
-+                          command: [midl, '-tlb', '-I' + config_host['WIN_SDK'],
-+                                     '@INPUT@', '@OUTPUT@'])
-+else
-+  gen_tlb = custom_target('gen-tlb',
-+                          input: 'qga-vss.tlb',
-+                          output: 'qga-vss.tlb',
-+                          command: ['cp', '@INPUT@', '@OUTPUT@'])
-+endif
++  wixl = find_program('wixl', required: false)
++  if wixl.found()
++    deps = [gen_tlb, qga]
++    if 'QEMU_GA_MSI_WITH_VSS' in config_host
++      deps += qga_vss
++    endif
++    qga_msi = custom_target('QGA MSI',
++                            input: files('installer/qemu-ga.wxs'),
++                            output: 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
++                            depends: deps,
++                            command: [
++                              'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
++                              'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
++                              'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
++                              'BUILD_DIR=' + meson.build_root(),
++                              wixl, '-o', '@OUTPUT0@', '@INPUT0@',
++                              config_host['QEMU_GA_MSI_ARCH'].split(),
++                              config_host['QEMU_GA_MSI_WITH_VSS'].split(),
++                              config_host['QEMU_GA_MSI_MINGW_DLL_PATH'].split(),
++                            ])
++    alias_target('msi', qga_msi)
+   endif
+ endif
+diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+index 42c8d31a3d..1f39e05335 100644
+--- a/qga/vss-win32/meson.build
++++ b/qga/vss-win32/meson.build
+@@ -2,7 +2,8 @@ if add_languages('cpp', required: false)
+   glib_static = dependency('glib-2.0', static: true)
+   link_args = cc.get_supported_link_arguments(['-fstack-protector-all', '-fstack-protector-strong',
+                                                '-Wl,--add-stdcall-alias', '-Wl,--enable-stdcall-fixup'])
+-  shared_module('qga-vss', ['requester.cpp', 'provider.cpp', 'install.cpp'],
++
++  qga_vss = shared_module('qga-vss', ['requester.cpp', 'provider.cpp', 'install.cpp'],
+                 name_prefix: '',
+                 cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
+                 link_args: link_args,
 -- 
 2.26.2
 
