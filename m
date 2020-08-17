@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06845246CB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:25:48 +0200 (CEST)
-Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E136246CA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:24:37 +0200 (CEST)
+Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hxD-0006gJ-2e
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:25:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
+	id 1k7hw3-0004I8-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqs-0002BO-CE
+ id 1k7hqs-0002BG-Bs
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:14 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52332)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqo-00054S-Sn
+ id 1k7hqp-00054W-LU
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:13 -0400
-Received: by mail-wm1-x344.google.com with SMTP id x5so13719280wmi.2
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:09 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id f7so15593441wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=plE1VE6Cmptms9y5uKWN77PnVRXUiPTsg+WX4/otZwM=;
- b=S/fUm4niNwm42hXAIu/ctYgC2siXAP0ERNysPpmmTHq/uN5pRKo0HHzHlj1Sb/9UyS
- UyALFrPMtpKiRZQSOLytUnlYPeImxbhhVlKvmT5ATNBIDA79TJAK+x2Ggdg083nvIizO
- b/FLIY1jrmFJ/eXhfBVbcnu2zB4yPhy6d87nPPOH5qqKlcb5g7g7tjJHUL8LBok6Pxoq
- zIjVpuaR5ThCk73EkwYGmnjwHLrGJTkCidYkDyVcCF/V1i38gENV1+CYmxGtoNjaqzSc
- sq2cFRp9VBlnVOnvffWIj36TpWKzWEQAvX6fevfZ/iGToFsev7tpyBJdpTVc7OKcX+SD
- OlvA==
+ bh=+1f1xYxQv9iAMf0ZcH5rNUu+lZAXATbXmvjHTkMEv7U=;
+ b=dlTVE+NTmghw64Lm+wnYk7TGn1R4Vp8z1aApw6/X43aXHgpmkZ1oVzYc5QaXBBpjDr
+ ihLmeb87Qr7vOU92Fp7c5YGzgEe5VqZ5ZatXJo62BadiymvmOFJ5q1Xvx9yPuqWa5cFd
+ MEi2EMV7lg6nrWX/VrW+4gEqFTBRQuMHmsyh3BmqVWdtKxOORfXL3/WlWNfB6MGqItQr
+ YCagRSzKNoH0WAm86s2VLDEfpOitB7DVs0H1108shX4nl5mVcCKTGi3sEKbAAT3+j+3f
+ dk1J7nKCPMhO+ot7+Ti1nvNXKeWy+BmPKNs3fkoHcJF+YAVgVxhj1ZWP+tKgoTZSBHxE
+ u5iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=plE1VE6Cmptms9y5uKWN77PnVRXUiPTsg+WX4/otZwM=;
- b=hRdvGMdibBkpG8DF0DwA83dDBr3mCYo29g0DuFXyf6JoTq43+SGfREsqSkN+/CssN5
- J0j5/bd/r6asFxW3MgojwT19+9wKQD+COX+3p8vlag5rrdpDutA7ukaPUe4j3gfm/2VB
- XEYYMvcIPWdDrfbDh+oNHfW21soN9QMTYJ71gYIt2snZMdoxVxSu++2UOzTWCMVydQqF
- YiUyDe7bsV//VFi8QciFASg2T2zmHh8mQR15yc27nrzU55ANR9x7D6sldWlKjIvR4CTv
- CT5fbMKXn+SpkSQpEqdKc9BifjFWmdAII3ZBOgvP+dZNWnaLU2UeGzs4/+B5JEPwtVWV
- mWtA==
-X-Gm-Message-State: AOAM531dVzuYNKLAj9vQ8ayqa7lVgqZbSHYAUhVtvg9jd8PhlSc3snHA
- r6OEUpvWSs4BB8LDhz71SdxApUhpotc=
-X-Google-Smtp-Source: ABdhPJy8CIGcObH5pKqTSR0lD00fA/l8Gwv/eJT9H+1kH0XYOtDGB9KdhS6n9elwCSgoZoRK7FvO/A==
-X-Received: by 2002:a1c:7705:: with SMTP id t5mr15878280wmi.112.1597681148617; 
- Mon, 17 Aug 2020 09:19:08 -0700 (PDT)
+ bh=+1f1xYxQv9iAMf0ZcH5rNUu+lZAXATbXmvjHTkMEv7U=;
+ b=rk4/W7V8NOBaHVVpF5C7HWiSLVVX5KlqU7LiO+q3xKlQ3vtnjJcvNQhf5kHenDuFHN
+ W1LtxpUsdKI4Gy745CMKdUIqgkBNRTiEb5mQfP+zqGWKhNrI3/iR/FT7TeHGKi7bb4f6
+ z+0dj+CfC2dXQ3GjiTw+XFRYgVIwgYkdxPJaPz+8dNt8SqvUUhIcEsVWvq+quGSIQtI3
+ L99GTPkw8dVeKOPfmOAjVUgGtIlFf+VWo4Ns9lAOCCW/E+p9s2+mY1UZTcIoH8V7ebOY
+ RhigbEPAI9p7TXFE7tvEsTzJ+lH/eEgYKwnMHB/kUqw5wLOy53Ruc4gEJdqm3NhRT6RF
+ qnJg==
+X-Gm-Message-State: AOAM530gupWXJYFdctpVpn3Fs3LuRZiGKuz1TdbKIXcJrOcT6WBjSkSl
+ rYav1a8sRXiRo1pmBZ6tQg1CW0hElTk=
+X-Google-Smtp-Source: ABdhPJzxt76j2R+ep+UDuNQLpMDcMPvtFOCnNPo19YCT/sZBR2a2iWQGumzWTC2vE49T7iAghUcYmw==
+X-Received: by 2002:adf:e90f:: with SMTP id f15mr16467437wrm.18.1597681150116; 
+ Mon, 17 Aug 2020 09:19:10 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.19.07
+ by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.19.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 09:19:07 -0700 (PDT)
+ Mon, 17 Aug 2020 09:19:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org, Stephen Checkoway <stephen.checkoway@oberlin.edu>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH 8/9] memory: Allow memory region to display its subregions
- own descriptions
-Date: Mon, 17 Aug 2020 18:18:52 +0200
-Message-Id: <20200817161853.593247-9-f4bug@amsat.org>
+Subject: [RFC PATCH 9/9] hw/misc/interleaver: Display subregions in 'info
+ mtree'
+Date: Mon, 17 Aug 2020 18:18:53 +0200
+Message-Id: <20200817161853.593247-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817161853.593247-1-f4bug@amsat.org>
 References: <20200817161853.593247-1-f4bug@amsat.org>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -102,69 +102,96 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a MemoryRegion has subregion linked (but NOT mapped), these
-subregions won't be displayed in the 'info mtree' HMP command.
+Implement the MemoryRegion::subregions_description() handler to
+be able to display the inverleaved memory regions:
 
-Add the possibility to display such subregion descriptions.
-It will result useful for the Interleaver memory device.
+  $ qemu-system-sh4 -M none -monitor stdio \
+    -device mmio-testdev,address=0x00000000 -monitor stdio
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-000000001fffffff (prio 0, i/o): testdev
+        0000000000000000-00000000000007ff (prio 0, ram): testdev-sram
+        0000000010000000-0000000017ffffff (prio 0, i/o): interleaver-container
+          0000000011608000-00000000116081ff (prio 0, i/o): interleaver-16x8
+          0000000011608000-00000000116081ff (prio 0, i/o):   8-bit access on 'sram-p0'
+          0000000011608000-00000000116081ff (prio 0, i/o):   8-bit access on 'sram-p1' (8-bit shifted)
+          0000000013208000-00000000132083ff (prio 0, i/o): interleaver-32x8
+          0000000013208000-00000000132083ff (prio 0, i/o):   8-bit access on 'sram-p0'
+          0000000013208000-00000000132083ff (prio 0, i/o):   8-bit access on 'sram-p1' (8-bit shifted)
+          0000000013208000-00000000132083ff (prio 0, i/o):   8-bit access on 'sram-p2' (16-bit shifted)
+          0000000013208000-00000000132083ff (prio 0, i/o):   8-bit access on 'sram-p3' (24-bit shifted)
+          0000000013216000-00000000132161ff (prio 0, i/o): interleaver-32x16
+          0000000013216000-00000000132161ff (prio 0, i/o):   16-bit access on 'sram-p0'
+          0000000013216000-00000000132161ff (prio 0, i/o):   16-bit access on 'sram-p1' (16-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o): interleaver-64x8
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p0'
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p1' (8-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p2' (16-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p3' (24-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p4' (32-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p5' (40-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p6' (48-bit shifted)
+          0000000016408000-00000000164087ff (prio 0, i/o):   8-bit access on 'sram-p7' (56-bit shifted)
+          0000000016416000-00000000164163ff (prio 0, i/o): interleaver-64x16
+          0000000016416000-00000000164163ff (prio 0, i/o):   16-bit access on 'sram-p0'
+          0000000016416000-00000000164163ff (prio 0, i/o):   16-bit access on 'sram-p1' (16-bit shifted)
+          0000000016416000-00000000164163ff (prio 0, i/o):   16-bit access on 'sram-p2' (32-bit shifted)
+          0000000016416000-00000000164163ff (prio 0, i/o):   16-bit access on 'sram-p3' (48-bit shifted)
+          0000000016432000-00000000164321ff (prio 0, i/o): interleaver-64x32
+          0000000016432000-00000000164321ff (prio 0, i/o):   32-bit access on 'sram-p0'
+          0000000016432000-00000000164321ff (prio 0, i/o):   32-bit access on 'sram-p1' (32-bit shifted)
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Any clever idea?
----
- include/exec/memory.h |  6 ++++++
- softmmu/memory.c      | 22 ++++++++++++++++++++++
- 2 files changed, 28 insertions(+)
+ hw/misc/interleaver.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 307e527835..8bcacfc79e 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -404,6 +404,12 @@ struct MemoryRegion {
-     const char *name;
-     unsigned ioeventfd_nb;
-     MemoryRegionIoeventfd *ioeventfds;
-+    /*
-+     * If a memory region has subregions linked, it can use this
-+     * handler to return an array of string, each string holding
-+     * the subregion description.
-+     */
-+    GStrv (*subregions_description)(const MemoryRegion *mr);
- };
+diff --git a/hw/misc/interleaver.c b/hw/misc/interleaver.c
+index 46099e9e11..5cedcb3541 100644
+--- a/hw/misc/interleaver.c
++++ b/hw/misc/interleaver.c
+@@ -112,6 +112,34 @@ static MemTxResult interleaver_write(void *opaque,
+     return r;
+ }
  
- struct IOMMUMemoryRegion {
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 8139da1a58..f8e27edbe2 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2967,6 +2967,28 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
-                 mtree_print_mr_owner(mr);
-             }
-             qemu_printf("\n");
++static GStrv interleaver_subregions_description(const MemoryRegion *mr)
++{
++    InterleaverDeviceState *s = container_of(mr, InterleaverDeviceState, iomem);
++    InterleaverDeviceClass *idc = INTERLEAVER_DEVICE_GET_CLASS(s);
++    gchar **descs = g_new(gchar *, idc->mr_count + 1);
++    unsigned output_access_bits = idc->output_access_size << 3;
++    size_t i;
 +
-+            if (mr->subregions_description) {
-+                GStrv s = mr->subregions_description(mr);
-+                for (int j = 0; s[j]; j++) {
-+                    for (i = 0; i < level; i++) {
-+                        qemu_printf(MTREE_INDENT);
-+                    }
-+                    qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
-+                                " (prio %d, %s%s): %s%s",
-+                                cur_start, cur_end,
-+                                mr->priority,
-+                                mr->nonvolatile ? "nv-" : "",
-+                                memory_region_type((MemoryRegion *)mr),
-+                                s[j],
-+                                mr->enabled ? "" : " [disabled]");
-+                    if (owner) {
-+                        mtree_print_mr_owner(mr);
-+                    }
-+                    qemu_printf("\n");
-+                }
-+                g_strfreev(s);
-+            }
-         }
++    for (i = 0; i < idc->mr_count; i++) {
++        if (i) {
++            descs[i] = g_strdup_printf("  %u-bit access on '%s'"
++                                       " (%zu-bit shifted)",
++                                       output_access_bits,
++                                       s->mr[i] ? memory_region_name(s->mr[i])
++                                                : emtpy_mr_name,
++                                       i * output_access_bits);
++       } else {
++            descs[i] = g_strdup_printf("  %u-bit access on '%s'",
++                                       output_access_bits,
++                                       s->mr[i] ? memory_region_name(s->mr[i])
++                                                : emtpy_mr_name);
++        }
++    }
++    descs[i] = NULL;
++
++    return descs;
++}
++
+ static void interleaver_realize(DeviceState *dev, Error **errp)
+ {
+     InterleaverDeviceState *s = INTERLEAVER_DEVICE(dev);
+@@ -139,6 +167,7 @@ static void interleaver_realize(DeviceState *dev, Error **errp)
      }
+     memory_region_init_io(&s->iomem, OBJECT(s), &idc->ops, s,
+                           idc->name, s->size);
++    s->iomem.subregions_description = interleaver_subregions_description;
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
+ }
  
 -- 
 2.26.2
