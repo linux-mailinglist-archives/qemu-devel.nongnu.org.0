@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E773246893
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:43:15 +0200 (CEST)
-Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD63F24689A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:44:55 +0200 (CEST)
+Received: from localhost ([::1]:46562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gLy-0003n1-Av
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40464)
+	id 1k7gNa-0007O8-NL
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGa-0003DF-1S
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:40 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38576)
+ id 1k7gGb-0003HI-AX
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:41 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGY-00062L-Fq
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:39 -0400
-Received: by mail-wm1-x343.google.com with SMTP id t14so14085328wmi.3
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:38 -0700 (PDT)
+ id 1k7gGZ-00062Z-Pc
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:41 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r4so15222529wrx.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l47U03HezxiRa34Hi3q2A5qZxOmUpp0uisa6/2TcHYQ=;
- b=lQZfoWPjHU4Pjkx4oZ6oS78TUARb4S8WhEQBh+bEPzB88gP+rlXUGn7IFL5TsYXW8+
- uIYqtZoeZmbJ50So+/jdCPitt5qX+mRLA8kBGo1KnN15sOHFCiKtApKPbyILfdS3jwMl
- J55wY3Jvzo62YZzddpMe8LltqCi+Hg9INQQTZKAdaMRxgkLFzvvIXvLHjvhJCwv9GHsX
- eqJd+9GsNViwwsT18KSFqA3jeDBOPDxiNauDo5dNE7W8yunCpKCo9lGd1xKjfwAMB20N
- zGZD88d3/16MqyAz0HR7BNtRExfdgorprk0WIe6rmPEbwAXq7pI+ZfuPI2rzHom8JEJ8
- a+OQ==
+ bh=pyogagIogekxmBEBJdMiIgfbzL4q1hqCl4ySl4yEPBY=;
+ b=nFwYzU8pw35+LOD7sRVbNUWZ/Ll+FdoHmfZoUf3e/xzgJ3gY/8SKJ4UMHKlfphG9OH
+ Bg9WOcOwPu9iPf9ZXNQx1DtYHAk56jFjvwHXNTIN3A+HfKxIq/HGogcvrJhIwW09WpDJ
+ YJ6O+8T6kh8N0FzHdK+onRSDV629LoqKqi9508qKKzYCF4pqX2+T+LwAeU7Zqz0V2gwz
+ tliwI7IhjYnbnah0TPeK2+TXW8XR8ZxKhU113doyrHHiDZaaPfPaaffMgwebWqw0FVH5
+ kR/b6IS0z5j7eqD9Q9qITBqA70q9ZoBOwQySWOXHWiO+dRizW5XG3yJDwNpypvCDGZZ7
+ CZRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l47U03HezxiRa34Hi3q2A5qZxOmUpp0uisa6/2TcHYQ=;
- b=T86s+L18HuyRhErHMBnbQ6dVZxdlWJJ2pknV9IAgHTU2V8TOslet6UUSyEZkoyZrIL
- 3nxSCqkvsn73J+7PwkLxrLG21tfmFsdFu6zlIRGJSEQUyGn0ggroAXXrba4pxyliXIr/
- bfNhZOZYrWQvYVFfSmEDEn9PBLdyy9ZrxocB6YQ81/xTfw4W6cGsQeakBFaKJ8+fd+OK
- TCQSYg459ZzvSGjCIykOUPh36ToK5f6mduXx06vEj+ngyBpb6HAcp4zaStWoLV/ZE05F
- QYucBtBBsmHJt+/jaCeWCXdiqjh3qHWsxVPh6R07yIKdoZVlVwsi4hHQfNEU+Txe72Uj
- K/4w==
-X-Gm-Message-State: AOAM530Y+me/vHqG7rhk8Cy+0ZCLzas5Z7t1X4x83npCWgVK7uCZLWto
- R+WjE+fUJS1bf7Ljf5phJwvPq/8d0NI=
-X-Google-Smtp-Source: ABdhPJwsZxR3X4qAX6yMpe+ZrUqaryN81A5Oq9RyhsVStuCn7Lo7CoPuwHXE4H4RNZlvEHNOOWaD7g==
-X-Received: by 2002:a1c:a553:: with SMTP id o80mr14677459wme.50.1597675056907; 
- Mon, 17 Aug 2020 07:37:36 -0700 (PDT)
+ bh=pyogagIogekxmBEBJdMiIgfbzL4q1hqCl4ySl4yEPBY=;
+ b=SKYiHl1EfY5BIRRKJiwGu9bfyBmUFQ6EuXYyupP+lig6IbwypbLCYa/XQu3d4g+RaR
+ JjswSddv/5Zp6eeG4x+hWVvm63WSAwOB7lj1XITJdbulRkVCGAzFZPl6rRlRVhtnhz5L
+ enCDj6TiYRpIErDFy0NNeMWwbESGuDguvgwbuBof91K9j0ZTALFhEcdeOiQrLsgAdQvU
+ tGoyKWlmKngviQNZzTTTZJN4fMCVT6+CgKsF+cPHz+cpUjq2k6clrieKlhjKAFPZy6J3
+ zkiR9iAGdJ1ircdgBKPdOGg+OdV5k/lzUYFgwiEIdaOF3Ai2mKt/z/vl4Y//RzUBIHY9
+ 0vOw==
+X-Gm-Message-State: AOAM531fpjHNPMw6+aK4NvHQ5HVqpZVOaP7mRS7SDzOoQSTJMqBpG2kG
+ 2KX1jdUb0azRk2ta/UN3P2kcR47iNwc=
+X-Google-Smtp-Source: ABdhPJwXnWTOIB1ifU2gcR/t08c16QNwWSqgxhNYmhy9auCxEr4N5UZrtfcDDSVRan+8CKhh4gDFiQ==
+X-Received: by 2002:adf:dfd0:: with SMTP id q16mr17183139wrn.60.1597675057950; 
+ Mon, 17 Aug 2020 07:37:37 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.37.36 for <qemu-devel@nongnu.org>
+ i22sm34966603wrb.45.2020.08.17.07.37.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:37:36 -0700 (PDT)
+ Mon, 17 Aug 2020 07:37:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 010/150] nsis: use "make DESTDIR=" instead of "make prefix="
-Date: Mon, 17 Aug 2020 16:35:03 +0200
-Message-Id: <20200817143723.343284-11-pbonzini@redhat.com>
+Subject: [PATCH 011/150] configure: do not include $(...) variables in
+ config-host.mak
+Date: Mon, 17 Aug 2020 16:35:04 +0200
+Message-Id: <20200817143723.343284-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -85,56 +87,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next patch will prevent modifying the prefix on "make install".  Adjust the
-creation of the installer.
+This ensures that Meson will be able to reuse the results of
+the tests that are performed in the configure script.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ configure | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index f237ff899d..9d9478205c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1188,16 +1188,16 @@ installer: $(INSTALLER)
+diff --git a/configure b/configure
+index 625c14c500..606c327cca 100755
+--- a/configure
++++ b/configure
+@@ -610,8 +610,8 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+-QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
+-QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
++QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
++QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+ if test "$debug_info" = "yes"; then
+     CFLAGS="-g $CFLAGS"
+ fi
+@@ -911,7 +911,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-isystem \$(SRC_PATH)/linux-headers -isystem $PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
+   supported_os="yes"
+   libudev="yes"
+ ;;
+@@ -4397,8 +4397,8 @@ EOF
+           if [ "$pwd_is_source_path" != "y" ] ; then
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fi
+-          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+-          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
++          fdt_cflags="-I${source_path}/dtc/libfdt"
++          fdt_ldflags="-L$PWD/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5385,13 +5385,13 @@ case "$capstone" in
+       git_submodules="${git_submodules} capstone"
+     fi
+     mkdir -p capstone
+-    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
++    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
+     if test "$mingw32" = "yes"; then
+       LIBCAPSTONE=capstone.lib
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    libs_cpu="-L\$(BUILD_DIR)/capstone -lcapstone $libs_cpu"
++    libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
+     ;;
  
- INSTDIR=/tmp/qemu-nsis
+   system)
+@@ -6414,8 +6414,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
+-    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
++    slirp_libs="-L$PWD/slirp -lslirp"
+     if test "$mingw32" = "yes" ; then
+       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+     fi
+@@ -7909,19 +7909,19 @@ if test "$secret_keyring" = "yes" ; then
+ fi
  
--$(INSTALLER): install-doc $(SRC_PATH)/qemu.nsi
--	$(MAKE) install prefix=${INSTDIR}
-+$(INSTALLER): $(SRC_PATH)/qemu.nsi
-+	$(MAKE) install DESTDIR=${INSTDIR}
- ifdef SIGNCODE
--	(cd ${INSTDIR}; \
-+	(cd ${INSTDIR}/${bindir}; \
-          for i in *.exe; do \
-            $(SIGNCODE) $${i}; \
-          done \
-         )
- endif # SIGNCODE
--	(cd ${INSTDIR}; \
-+	(cd ${INSTDIR}/${bindir}; \
-          for i in qemu-system-*.exe; do \
-            arch=$${i%.exe}; \
-            arch=$${arch#qemu-system-}; \
-@@ -1206,11 +1206,11 @@ endif # SIGNCODE
-            echo File \"\$${BINDIR}\\$$i\"; \
-            echo SectionEnd; \
-          done \
--        ) >${INSTDIR}/system-emulations.nsh
-+        ) >${INSTDIR}/${bindir}/system-emulations.nsh
- 	makensis $(nsisflags) \
-                 $(if $(BUILD_DOCS),-DCONFIG_DOCUMENTATION="y") \
-                 $(if $(CONFIG_GTK),-DCONFIG_GTK="y") \
--                -DBINDIR="${INSTDIR}" \
-+                -DBINDIR="${INSTDIR}/${bindir}" \
-                 $(if $(DLL_PATH),-DDLLDIR="$(DLL_PATH)") \
-                 -DSRCDIR="$(SRC_PATH)" \
-                 -DOUTFILE="$(INSTALLER)" \
+ if test "$tcg_interpreter" = "yes"; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
+ elif test "$ARCH" = "s390x" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
+ elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
+ elif test "$ARCH" = "ppc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
+ elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
+-  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
++  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
+ else
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/${ARCH} $QEMU_INCLUDES"
+ fi
+ 
+ echo "HELPERS=$helpers" >> $config_host_mak
 -- 
 2.26.2
 
