@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87912461BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:02:43 +0200 (CEST)
-Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6042461F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:08:35 +0200 (CEST)
+Received: from localhost ([::1]:40536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7b2Q-0003Yz-U5
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44902)
+	id 1k7b86-0007GK-J9
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7arK-0007xp-Nl
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:14 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33352)
+ id 1k7arQ-0008DZ-D5
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:20 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:55795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7arI-00051i-3m
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:14 -0400
-Received: by mail-pg1-x533.google.com with SMTP id o13so7811119pgf.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:51:11 -0700 (PDT)
+ id 1k7arN-000537-U9
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:51:20 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id 2so7474904pjx.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RnczzkGCrQL1YzirxJ7VauKrgfHutZ7Bdynx258ZmYY=;
- b=PK2V1dqOIVPe3aEGzMg8NTJ2LtkjHJRrU2lDJkSLKhaVMqpQHNDPMLueF3Lil2kSrf
- 8GbV0u90u+ITcc4cnuAeOJ7dBRDemUYEeNuPdw5ciRJloSV8KJDpg7/lzCHbiTMigffP
- oX+M2zHfMhxIMJWA3QYt3+3kiqUv/O5FIwBDRnGZwD2hDOa5wMyGGQBJf3TG8fBSDQVz
- m1jo7O1mjlhF5v7KdyjzK9enXN4FvTXa1N2FpZxcYqJeP+m46G/rvTVX3JvAWNOmsq4Z
- M/mAYsajCJbioCKlKHp/kwmxAQIXkkQc3Zo0FNOi/NGkQgM9DG3UincOdHSbh9FyYBJp
- 8zOg==
+ bh=PeNRirOsAYetV+xE0dMFlxFMaG6kB8KyHDl0oM6vhPg=;
+ b=Mi6GU1ZHrB3tXhXAtm5y9Uhbng5e1lOuqdgtvxyLdf8Qz7yEEKp486bEgE87PRZms2
+ Sje5dOtup0/XjKJ0WkCa/VzXFGVTuOxYt9iSOl3gWFFXv4wVMpiKHCgXKg3d8PFLS2Y0
+ BExNRdQ1mHz+9rRVea4CJJ5QzNMm6LOhe+3dgJko4Yl8oguYjRu0o/+53rrqKmFaky7d
+ GOGJLKpb+7wWtDgRNTjbtMAvAguzXfdKOWv/ZSzhGI1h1T0JU38vG3BcRQfocvatt8LY
+ 43rh5Vy/VdsW9aiCx79oB+tBmexrE9Nfq4s2+y0aaYlcDzw7f6G9/qwAHwJWQB+FR2zv
+ Vb4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RnczzkGCrQL1YzirxJ7VauKrgfHutZ7Bdynx258ZmYY=;
- b=p6Dv6LiCreUGSpyzn93hYPLrRwSF/7cVbda0W8IG60wOQgSZMA5m7cAlNjQ3T5R6ry
- SkAMuEFNy7PS1Y5b0CXJxyryoqNih3BG/AtvDgSKZox02k4z1kw70s9kxDPM0puPTpYo
- mXfD/Ymv2CJEuJVrd9mnw3Y/manqQ+cz5MNiznbr4Jj2IDGrITLbVZD99szVIgl2f0Ly
- R/8fzG8AF6KVPsDpujMmnHiDbA84IeH0erFxRoIIQP29l36h/EuC12abdhP4NaJgbIzp
- vqm9qfvdwWiGzyDuvt33sNP/qhvMk2dctF8B9/h17FIU99YT/uhHNcs1wtG4yUAccNQJ
- 8Yeg==
-X-Gm-Message-State: AOAM531LMkOoo195dbI1XIHx2qqfx7ZCJDExAFQRkqyhuQqJySm+lYfy
- YOn2dXcwMkuu70HZZBEyoUXWBxTCGsA/yw==
-X-Google-Smtp-Source: ABdhPJzBsNca5I9V+Zt9n7skuSeeE13IX67pqfX3FfwQFDkrxexW4OHnFGQHtjrPxE1Wj8fNp0t4fQ==
-X-Received: by 2002:a63:4144:: with SMTP id o65mr9150530pga.8.1597654270436;
- Mon, 17 Aug 2020 01:51:10 -0700 (PDT)
+ bh=PeNRirOsAYetV+xE0dMFlxFMaG6kB8KyHDl0oM6vhPg=;
+ b=hPkZ3PpHuFzwtfYEgBfFW4TyFEGF0aqqLRBGTqTELFW1V61+4+AJvqCsP4FDKaqjsE
+ 9TGiBnPfl9irGcRXy+JK4lEHBOjjpafRAHH68GnH2Q3X0jhI9VftVTioY9KRtB7SULpA
+ wwKFueaGeYQO298IBwmH8hMr9K9dcE0liHuxE0EGtXCn/v6o4hqd6Wgup0goWPRx+RFn
+ tVikCeYKUUlJMhZJKlWOcFk1ZHnnWAEBTpPR61lJExfyHq3cHssOKsU0uK7jMaWYazpy
+ Rzf5GmZPXLKpHeHtWhpuU//P+FcM6mJ41WjBYpD6Z4PbGZrOfEDQJ1rNmGzxiwG76RAu
+ IXbQ==
+X-Gm-Message-State: AOAM533kXfiKiaTq6jO0CE5fLTUFaiIkz8nTurA1uv9k7s2x6m71jQQV
+ 8ZwlvoC4kraWcvoyjukxLgoeEmyAECeeFA==
+X-Google-Smtp-Source: ABdhPJw66PmA7IeJjOAhKY1a6JX9ieUzL0pqRdA0zJf+BRgjp8zjFA1dWphEiC2hVy9F0EEJCHgA3A==
+X-Received: by 2002:a17:90a:c591:: with SMTP id
+ l17mr11453226pjt.17.1597654276410; 
+ Mon, 17 Aug 2020 01:51:16 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.51.08
+ by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.51.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:51:10 -0700 (PDT)
+ Mon, 17 Aug 2020 01:51:16 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 23/70] target/riscv: rvv-1.0: load/store whole register
- instructions
-Date: Mon, 17 Aug 2020 16:49:08 +0800
-Message-Id: <20200817084955.28793-24-frank.chang@sifive.com>
+Subject: [RFC v4 25/70] target/riscv: rvv-1.0: take fractional LMUL into
+ vector max elements calculation
+Date: Mon, 17 Aug 2020 16:49:10 +0800
+Message-Id: <20200817084955.28793-26-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
 References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1035.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,243 +95,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Add the following instructions:
-
-* vl<nf>re<eew>.v
-* vs<nf>r.v
+Update vext_get_vlmax() and MAXSZ() to take fractional LMUL into
+calculation for RVV 1.0.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   | 21 ++++++++
- target/riscv/insn32.decode              | 22 ++++++++
- target/riscv/insn_trans/trans_rvv.inc.c | 72 +++++++++++++++++++++++++
- target/riscv/vector_helper.c            | 65 ++++++++++++++++++++++
- 4 files changed, 180 insertions(+)
+ target/riscv/cpu.h                      | 43 ++++++++++++++++++-------
+ target/riscv/insn_trans/trans_rvv.inc.c | 12 ++++++-
+ 2 files changed, 42 insertions(+), 13 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 9200178d25c..25d076d71a8 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -145,6 +145,27 @@ DEF_HELPER_5(vle16ff_v, void, ptr, ptr, tl, env, i32)
- DEF_HELPER_5(vle32ff_v, void, ptr, ptr, tl, env, i32)
- DEF_HELPER_5(vle64ff_v, void, ptr, ptr, tl, env, i32)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 8b5e6429015..715faed8824 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -376,18 +376,27 @@ FIELD(TB_FLAGS, SEW, 6, 3)
+ FIELD(TB_FLAGS, VILL, 11, 1)
  
-+DEF_HELPER_4(vl1re8_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl1re16_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl1re32_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl1re64_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl2re8_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl2re16_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl2re32_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl2re64_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl4re8_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl4re16_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl4re32_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl4re64_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl8re8_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl8re16_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl8re32_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vl8re64_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vs1r_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vs2r_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vs4r_v, void, ptr, tl, env, i32)
-+DEF_HELPER_4(vs8r_v, void, ptr, tl, env, i32)
-+
- DEF_HELPER_6(vamoswapei8_32_v, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamoswapei8_64_v, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamoswapei16_32_v, void, ptr, ptr, tl, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 6a9cf6ad534..c99575d1360 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -267,6 +267,28 @@ vle16ff_v     ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
- vle32ff_v     ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
- vle64ff_v     ... 000 . 10000 ..... 111 ..... 0000111 @r2_nfvm
+ /*
+- * A simplification for VLMAX
+- * = (1 << LMUL) * VLEN / (8 * (1 << SEW))
+- * = (VLEN << LMUL) / (8 << SEW)
+- * = (VLEN << LMUL) >> (SEW + 3)
+- * = VLEN >> (SEW + 3 - LMUL)
++ * Encode LMUL to lmul as follows:
++ *     LMUL    vlmul    lmul
++ *      1       000       0
++ *      2       001       1
++ *      4       010       2
++ *      8       011       3
++ *      -       100       -
++ *     1/8      101      -3
++ *     1/4      110      -2
++ *     1/2      111      -1
++ *
++ * then, we can calculate VLMAX = vlen >> (vsew + 3 - lmul)
++ * e.g. vlen = 256 bits, SEW = 16, LMUL = 1/8
++ *      => VLMAX = vlen >> (1 + 3 - (-3))
++ *               = 256 >> 7
++ *               = 2
+  */
+ static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
+ {
+-    uint8_t sew, lmul;
+-
+-    sew = FIELD_EX64(vtype, VTYPE, VSEW);
+-    lmul = FIELD_EX64(vtype, VTYPE, VLMUL);
++    uint8_t sew = FIELD_EX64(vtype, VTYPE, VSEW);
++    int8_t lmul = sextract32(FIELD_EX64(vtype, VTYPE, VLMUL), 0, 3);
+     return cpu->cfg.vlen >> (sew + 3 - lmul);
+ }
  
-+# Vector whole register insns
-+vl1re8_v      000 000 1 01000 ..... 000 ..... 0000111 @r2
-+vl1re16_v     000 000 1 01000 ..... 101 ..... 0000111 @r2
-+vl1re32_v     000 000 1 01000 ..... 110 ..... 0000111 @r2
-+vl1re64_v     000 000 1 01000 ..... 111 ..... 0000111 @r2
-+vl2re8_v      001 000 1 01000 ..... 000 ..... 0000111 @r2
-+vl2re16_v     001 000 1 01000 ..... 101 ..... 0000111 @r2
-+vl2re32_v     001 000 1 01000 ..... 110 ..... 0000111 @r2
-+vl2re64_v     001 000 1 01000 ..... 111 ..... 0000111 @r2
-+vl4re8_v      011 000 1 01000 ..... 000 ..... 0000111 @r2
-+vl4re16_v     011 000 1 01000 ..... 101 ..... 0000111 @r2
-+vl4re32_v     011 000 1 01000 ..... 110 ..... 0000111 @r2
-+vl4re64_v     011 000 1 01000 ..... 111 ..... 0000111 @r2
-+vl8re8_v      111 000 1 01000 ..... 000 ..... 0000111 @r2
-+vl8re16_v     111 000 1 01000 ..... 101 ..... 0000111 @r2
-+vl8re32_v     111 000 1 01000 ..... 110 ..... 0000111 @r2
-+vl8re64_v     111 000 1 01000 ..... 111 ..... 0000111 @r2
-+vs1r_v        000 000 1 01000 ..... 000 ..... 0100111 @r2
-+vs2r_v        001 000 1 01000 ..... 000 ..... 0100111 @r2
-+vs4r_v        011 000 1 01000 ..... 000 ..... 0100111 @r2
-+vs8r_v        111 000 1 01000 ..... 000 ..... 0100111 @r2
-+
- #*** Vector AMO operations are encoded under the standard AMO major opcode ***
- vamoswapei8_v   00001 . . ..... ..... 000 ..... 0101111 @r_wdvm
- vamoswapei16_v  00001 . . ..... ..... 101 ..... 0101111 @r_wdvm
+@@ -400,12 +409,22 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+     *cs_base = 0;
+ 
+     if (riscv_has_ext(env, RVV)) {
++        /*
++         * If env->vl equals to VLMAX, we can use generic vector operation
++         * expanders (GVEC) to accerlate the vector operations.
++         * However, as LMUL could be a fractional number. The maximum
++         * vector size can be operated might be less than 8 bytes,
++         * which is not supported by GVEC. So we set vl_eq_vlmax flag to true
++         * only when maxsz >= 8 bytes.
++         */
+         uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
+-        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
++        uint32_t sew = FIELD_EX64(env->vtype, VTYPE, VSEW);
++        uint32_t maxsz = vlmax << sew;
++        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl)
++                           && (maxsz >= 8);
+         flags = FIELD_DP32(flags, TB_FLAGS, VILL,
+                     FIELD_EX64(env->vtype, VTYPE, VILL));
+-        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
+-                    FIELD_EX64(env->vtype, VTYPE, VSEW));
++        flags = FIELD_DP32(flags, TB_FLAGS, SEW, sew);
+         flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
+                     FIELD_EX64(env->vtype, VTYPE, VLMUL));
+         flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 1377604d599..6a2f175b50a 100644
+index 334e1fc123b..2c6efce00a7 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1016,6 +1016,78 @@ GEN_VEXT_TRANS(vle16ff_v, 16, 1, r2nfvm, ldff_op, ld_us_check)
- GEN_VEXT_TRANS(vle32ff_v, 32, 2, r2nfvm, ldff_op, ld_us_check)
- GEN_VEXT_TRANS(vle64ff_v, 64, 3, r2nfvm, ldff_op, ld_us_check)
- 
-+/*
-+ * load and store whole register instructions
-+ */
-+typedef void gen_helper_ldst_whole(TCGv_ptr, TCGv, TCGv_env, TCGv_i32);
-+
-+static bool ldst_whole_trans(uint32_t vd, uint32_t rs1, uint32_t data,
-+                             gen_helper_ldst_whole *fn, DisasContext *s,
-+                             bool is_store)
-+{
-+    TCGv_ptr dest;
-+    TCGv base;
-+    TCGv_i32 desc;
-+
-+    dest = tcg_temp_new_ptr();
-+    base = tcg_temp_new();
-+    desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-+
-+    gen_get_gpr(base, rs1);
-+    tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-+
-+    fn(dest, base, cpu_env, desc);
-+
-+    tcg_temp_free_ptr(dest);
-+    tcg_temp_free(base);
-+    tcg_temp_free_i32(desc);
-+    if (!is_store) {
-+        mark_vs_dirty(s);
-+    }
-+    return true;
-+}
-+
-+/*
-+ * load and store whole register instructions ignore vtype and vl setting.
-+ * Thus, we don't need to check vill bit. (Section 7.9)
-+ */
-+#define GEN_LDST_WHOLE_TRANS(NAME, EEW, ARGTYPE, ARG_NF, IS_STORE)     \
-+static bool trans_##NAME(DisasContext *s, arg_##ARGTYPE * a)           \
-+{                                                                      \
-+    if (require_rvv(s) &&                                              \
-+        QEMU_IS_ALIGNED(a->rd, ARG_NF)) {                              \
-+        uint32_t data = 0;                                             \
-+        bool ret;                                                      \
-+        data = FIELD_DP32(data, VDATA, NF, ARG_NF);                    \
-+        ret = ldst_whole_trans(a->rd, a->rs1, data, gen_helper_##NAME, \
-+                               s, IS_STORE);                           \
-+        return ret;                                                    \
-+    }                                                                  \
-+    return false;                                                      \
-+}
-+
-+GEN_LDST_WHOLE_TRANS(vl1re8_v,  8,  vl1re8_v,  1, false)
-+GEN_LDST_WHOLE_TRANS(vl1re16_v, 16, vl1re16_v, 1, false)
-+GEN_LDST_WHOLE_TRANS(vl1re32_v, 32, vl1re32_v, 1, false)
-+GEN_LDST_WHOLE_TRANS(vl1re64_v, 64, vl1re64_v, 1, false)
-+GEN_LDST_WHOLE_TRANS(vl2re8_v,  8,  vl2re8_v,  2, false)
-+GEN_LDST_WHOLE_TRANS(vl2re16_v, 16, vl2re16_v, 2, false)
-+GEN_LDST_WHOLE_TRANS(vl2re32_v, 32, vl2re32_v, 2, false)
-+GEN_LDST_WHOLE_TRANS(vl2re64_v, 64, vl2re64_v, 2, false)
-+GEN_LDST_WHOLE_TRANS(vl4re8_v,  8,  vl4re8_v,  4, false)
-+GEN_LDST_WHOLE_TRANS(vl4re16_v, 16, vl4re16_v, 4, false)
-+GEN_LDST_WHOLE_TRANS(vl4re32_v, 32, vl4re32_v, 4, false)
-+GEN_LDST_WHOLE_TRANS(vl4re64_v, 64, vl4re64_v, 4, false)
-+GEN_LDST_WHOLE_TRANS(vl8re8_v,  8,  vl8re8_v,  8, false)
-+GEN_LDST_WHOLE_TRANS(vl8re16_v, 16, vl8re16_v, 8, false)
-+GEN_LDST_WHOLE_TRANS(vl8re32_v, 32, vl8re32_v, 8, false)
-+GEN_LDST_WHOLE_TRANS(vl8re64_v, 64, vl8re64_v, 8, false)
-+
-+GEN_LDST_WHOLE_TRANS(vs1r_v, 8, vs1r_v, 1, true)
-+GEN_LDST_WHOLE_TRANS(vs2r_v, 8, vs2r_v, 2, true)
-+GEN_LDST_WHOLE_TRANS(vs4r_v, 8, vs4r_v, 4, true)
-+GEN_LDST_WHOLE_TRANS(vs8r_v, 8, vs8r_v, 8, true)
-+
+@@ -1268,7 +1268,17 @@ GEN_VEXT_TRANS(vamomaxuei64_v, 64, 35, rwdvm, amo_op, amo_check)
  /*
-  *** vector atomic operation
+  *** Vector Integer Arithmetic Instructions
   */
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index d212fce21c1..f3da2e7fbbd 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -536,6 +536,71 @@ GEN_VEXT_LDFF(vle16ff_v, int16_t, lde_h)
- GEN_VEXT_LDFF(vle32ff_v, int32_t, lde_w)
- GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
- 
+-#define MAXSZ(s) (s->vlen >> (3 - s->lmul))
++
 +/*
-+ *** load and store whole register instructions
++ * MAXSZ returns the maximum vector size can be operated in bytes,
++ * which is used in GVEC IR when vl_eq_vlmax flag is set to true
++ * to accerlate vector operation.
 + */
-+static void
-+vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
-+                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra,
-+                MMUAccessType access_type)
++static inline uint32_t MAXSZ(DisasContext *s)
 +{
-+    uint32_t i, k;
-+    uint32_t nf = vext_nf(desc);
-+    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-+    uint32_t max_elems = vlenb >> esz;
-+
-+    /* probe every access */
-+    probe_pages(env, base, vlenb * nf, ra, access_type);
-+
-+    /* load bytes from guest memory */
-+    for (k = 0; k < nf; k++) {
-+        for (i = 0; i < max_elems; i++) {
-+            target_ulong addr = base + ((i + k * max_elems) << esz);
-+            ldst_elem(env, addr, i + k * max_elems, vd, ra);
-+        }
-+    }
++    int scale = s->lmul - 3;
++    return scale < 0 ? s->vlen >> -scale : s->vlen << scale;
 +}
-+
-+#define GEN_VEXT_LD_WHOLE(NAME, ETYPE, LOAD_FN)      \
-+void HELPER(NAME)(void *vd, target_ulong base,       \
-+                  CPURISCVState *env, uint32_t desc) \
-+{                                                    \
-+    vext_ldst_whole(vd, base, env, desc, LOAD_FN,    \
-+                    ctzl(sizeof(ETYPE)), GETPC(),    \
-+                    MMU_DATA_LOAD);                  \
-+}
-+
-+GEN_VEXT_LD_WHOLE(vl1re8_v,  int8_t,  lde_b)
-+GEN_VEXT_LD_WHOLE(vl1re16_v, int16_t, lde_h)
-+GEN_VEXT_LD_WHOLE(vl1re32_v, int32_t, lde_w)
-+GEN_VEXT_LD_WHOLE(vl1re64_v, int64_t, lde_d)
-+GEN_VEXT_LD_WHOLE(vl2re8_v,  int8_t,  lde_b)
-+GEN_VEXT_LD_WHOLE(vl2re16_v, int16_t, lde_h)
-+GEN_VEXT_LD_WHOLE(vl2re32_v, int32_t, lde_w)
-+GEN_VEXT_LD_WHOLE(vl2re64_v, int64_t, lde_d)
-+GEN_VEXT_LD_WHOLE(vl4re8_v,  int8_t,  lde_b)
-+GEN_VEXT_LD_WHOLE(vl4re16_v, int16_t, lde_h)
-+GEN_VEXT_LD_WHOLE(vl4re32_v, int32_t, lde_w)
-+GEN_VEXT_LD_WHOLE(vl4re64_v, int64_t, lde_d)
-+GEN_VEXT_LD_WHOLE(vl8re8_v,  int8_t,  lde_b)
-+GEN_VEXT_LD_WHOLE(vl8re16_v, int16_t, lde_h)
-+GEN_VEXT_LD_WHOLE(vl8re32_v, int32_t, lde_w)
-+GEN_VEXT_LD_WHOLE(vl8re64_v, int64_t, lde_d)
-+
-+#define GEN_VEXT_ST_WHOLE(NAME, ETYPE, STORE_FN)     \
-+void HELPER(NAME)(void *vd, target_ulong base,       \
-+                  CPURISCVState *env, uint32_t desc) \
-+{                                                    \
-+    vext_ldst_whole(vd, base, env, desc, STORE_FN,   \
-+                    ctzl(sizeof(ETYPE)), GETPC(),    \
-+                    MMU_DATA_STORE);                 \
-+}
-+
-+GEN_VEXT_ST_WHOLE(vs1r_v, int8_t, ste_b)
-+GEN_VEXT_ST_WHOLE(vs2r_v, int8_t, ste_b)
-+GEN_VEXT_ST_WHOLE(vs4r_v, int8_t, ste_b)
-+GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
-+
- /*
-  *** Vector AMO Operations (Zvamo)
-  */
+ 
+ static bool opivv_check(DisasContext *s, arg_rmrr *a)
+ {
 -- 
 2.17.1
 
