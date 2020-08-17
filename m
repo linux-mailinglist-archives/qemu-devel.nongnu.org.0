@@ -2,120 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1546F246DFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 19:19:27 +0200 (CEST)
-Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748AB246D9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 19:06:26 +0200 (CEST)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7in8-00054a-5q
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 13:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57452)
+	id 1k7iaX-0005Sd-Ik
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 13:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1k7im3-0004Nd-OI; Mon, 17 Aug 2020 13:18:19 -0400
-Received: from mail-bn8nam12on2078.outbound.protection.outlook.com
- ([40.107.237.78]:29088 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1k7im1-0004M5-6h; Mon, 17 Aug 2020 13:18:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T10Xal+luVOfXw7khq2KHpSM8e5KGe9ZhoiIL3rFvmI4cStNa1JJGw/sV8eDbYbD3SvdrBe6pSDl532YT96xSoE4jYecz7ln9f6qwx6BdaUcLWFrkG4CydGW11reAECh//hLcVPggfIheX/ks2rWAMYkvL3nPcD0dPwQ4OXUCgIw5qqdvWBZWj26Nm0GDl4RKZ90ZYW4OomMxddvotMqr4LtIyFJDRf2EAuUl5vKUQx84cVhNn/rrLsteZ4NSvJXN0cjbrhZirBYor/15/l2zjTJIas21CxjgEqZjJ5++NFrva9x/ipGFAljomcn/9tOicBWN9Ucx4qeAwHXOCaFew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Km3rqhV6wdH54r9l0XGV2Kumg7Z3ahFFUmy/tGIOEEw=;
- b=cIguqsK7NvfBATUnAy2G5YIH7/XtpQCSDYyGKx8YophT4n2fBAmbfdDdQMtzlZ8WHbV1x3nyYC8vlZqFx9DeotB9HEv3bdTxoZsiPwKXKlHu76L5/zzaCeF0GtChpxZ4EiBUSNmiTYNRX1m9IvS8XEF8tfhhl+qNcOgzvep4qRLkfQkfoRkkFaKdFDxv7zikLKCGDi4PlF87UwI4TTJvz57SmEutKmOOKB9gHlIHn2AXgZt/OrRpl90+j7Hr69H5WwBAkFKu5zqA9dYRHhgmVk/axZ7sMnzx39FCFs0OfIkNAHEJcEWbiUecJHMgj4UdA7Krk0yu50kgVuedG4zTtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.80.198) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Km3rqhV6wdH54r9l0XGV2Kumg7Z3ahFFUmy/tGIOEEw=;
- b=ajr+bD4Rd3EzVudXGJ/wBw1LU/9v2IhBn3iwTRNW6RHK3GEiIWW3odoMQLwCmA6srS7wRL92Z5TI4tSgWZQ/aQwE8p6heq0gXMUzqqNWgXdwf95t/mC9HcLAa/h7zyEfW++4uYD85ovb/MSLv1ojKal+M4A0BIq+J/hVbiBZ7b8=
-Received: from SN4PR0501CA0023.namprd05.prod.outlook.com
- (2603:10b6:803:40::36) by MN2PR02MB6637.namprd02.prod.outlook.com
- (2603:10b6:208:19a::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.18; Mon, 17 Aug
- 2020 17:03:04 +0000
-Received: from SN1NAM02FT062.eop-nam02.prod.protection.outlook.com
- (2603:10b6:803:40:cafe::17) by SN4PR0501CA0023.outlook.office365.com
- (2603:10b6:803:40::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.13 via Frontend
- Transport; Mon, 17 Aug 2020 17:03:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.80.198)
- smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.80.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.80.198; helo=xir-pvapexch02.xlnx.xilinx.com;
-Received: from xir-pvapexch02.xlnx.xilinx.com (149.199.80.198) by
- SN1NAM02FT062.mail.protection.outlook.com (10.152.72.208) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3283.16 via Frontend Transport; Mon, 17 Aug 2020 17:03:03 +0000
-Received: from xir-pvapexch01.xlnx.xilinx.com (172.21.17.15) by
- xir-pvapexch02.xlnx.xilinx.com (172.21.17.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 17 Aug 2020 18:03:02 +0100
-Received: from smtp.xilinx.com (172.21.105.198) by
- xir-pvapexch01.xlnx.xilinx.com (172.21.17.15) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 17 Aug 2020 18:03:02 +0100
-Received: from [10.71.119.128] (port=52277 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1k7iXF-0004BD-Qt; Mon, 17 Aug 2020 18:03:02 +0100
-Date: Mon, 17 Aug 2020 19:03:01 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 3/5] target/microblaze: mbar: Add support for
- data-access barriers
-Message-ID: <20200817170301.GM31713@toto>
-References: <20200817140144.373403-1-edgar.iglesias@gmail.com>
- <20200817140144.373403-4-edgar.iglesias@gmail.com>
- <d4c0d54b-2575-147e-36aa-268628def55a@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k7iZQ-0004eG-WE
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 13:05:17 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47673
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k7iZO-0002Qt-UC
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 13:05:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597683914;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8nB31e+RD39iOAda0ORqrujpp5aeaEg2oxZY2poWoQI=;
+ b=MUx8gmC/KmlFC2YugKIBjw6OY9iJNgcvVFSJdVGQpxK9EdbTClviWgO7AaA8KV0RPXCrye
+ ap/lJVie9FcWdPn7rc9dJ4+kwuRA6FZpcjD5/qQ9dK+wnB0xHd+TIFReaBeqsR6QkxR0CG
+ NsJi5Vhp9agBpW55YtfXjPIC+4GQSAE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-yeR2132hO0SuZnbJpVgaSg-1; Mon, 17 Aug 2020 13:05:12 -0400
+X-MC-Unique: yeR2132hO0SuZnbJpVgaSg-1
+Received: by mail-wm1-f69.google.com with SMTP id s4so4949651wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 10:05:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8nB31e+RD39iOAda0ORqrujpp5aeaEg2oxZY2poWoQI=;
+ b=CxpAdDgJUQ5f3RE7KQWucT/dCebxBFH8PVV/KtRWGFxCQMUYXRxPNI7qi6W0nWBv4N
+ /PvD7/G10tBvgYankUC5KNJs2oyhas/I6ZX90FeS/exZKGnZoAssimwALj8At9gzQv1s
+ 5HPWfV/0pfygB2yX/c2+DKb/fYvF/Ek4rAVYXg0oFKII6XSlIIhLGO8kxwu6DAe+5K2G
+ WKwFEbs0iTds8YbgzP2sPORz+bYUKd+ic5rUBJ2WeLV7cEdVSWr0uRv2YF7wKgjZFWir
+ UiUNknkiu7qoX7x5CChgSCK8b76ay181/im9SMZFE79aSVHjidsij+42ZNo+jpnZYVIr
+ P5OA==
+X-Gm-Message-State: AOAM533jlb8uHoU1jF4nuozlz3lndA4BjiYjlv8wSCratW62p2J3GIRJ
+ aEk8NjN112u9ZhUbyZNA4OyOjdtHJCz71d4Fc12L0hnJSb34e+M3GHSZLaHr/MQSwam1zwDf9gr
+ nWOPAJHIJmMMB8qs=
+X-Received: by 2002:a1c:de88:: with SMTP id v130mr14864667wmg.98.1597683908331; 
+ Mon, 17 Aug 2020 10:05:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0330blJcD2VOGhiXy3nXlPNgMIA2BqxEtZhoo+hanXmeNOv6pOZRfzhbQbBRYSncpZrc5CQ==
+X-Received: by 2002:a1c:de88:: with SMTP id v130mr14864647wmg.98.1597683908034; 
+ Mon, 17 Aug 2020 10:05:08 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:a0d1:fc42:c610:f977?
+ ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
+ by smtp.gmail.com with ESMTPSA id g188sm32738931wma.5.2020.08.17.10.05.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Aug 2020 10:05:07 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Fix the assert failure in scsi_dma_complete
+To: Li Qiang <liq3ea@163.com>, hare@suse.com, fam@euphon.net
+References: <20200815141940.44025-1-liq3ea@163.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <83092d06-25e3-abf8-67b2-8b9bcfb00732@redhat.com>
+Date: Mon, 17 Aug 2020 19:05:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <d4c0d54b-2575-147e-36aa-268628def55a@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bee5bcf2-9b9b-4265-cf37-08d842cf67c6
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6637:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB6637D7F81B62F6DBBD623AD2C25F0@MN2PR02MB6637.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tYf4pihEy8opSKQp8IDXVvPa8R79vz/bWA9V/IyqKQW3y9BaH6w7eGVzkeTU5xAeIwphWMYNoAYuUozR4Zz1yvMscirm+VAVhElYXlH3siWl5V92CEudEUa/k5t6wW01ILVAO1yHUNBMYct3d9qZCwLgi8Zvl+zuY2/PA0UPyGdxq74VObHoaxAewbYH2YXAS8uiduKYDzuUzW5sQbM+j4oX870AHWMyySVZpupf8sQXQGr06T635Uygaebbvvemg2vGqLog6fG44D0zv7gyo4W60KQsx9bHaSc5zWYGza2ZIQl0vgTj/lUHweofV7COFEqR4YCDWb76EHuqFHdA1XXCA4PfPRMvOgNMRMJt/MaKqEGcaiBrTZOQ/mR9gRcuwL7iG7zxtqeygw0RcAx20Q==
-X-Forefront-Antispam-Report: CIP:149.199.80.198; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xir-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-80-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(346002)(396003)(136003)(376002)(39860400002)(46966005)(2906002)(356005)(9786002)(426003)(33716001)(1076003)(82310400002)(7636003)(7416002)(54906003)(36906005)(6916009)(5660300002)(33656002)(9686003)(82740400003)(107886003)(53546011)(4326008)(47076004)(316002)(8676002)(83380400001)(8936002)(26005)(186003)(478600001)(70206006)(70586007)(336012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2020 17:03:03.6962 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bee5bcf2-9b9b-4265-cf37-08d842cf67c6
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.80.198];
- Helo=[xir-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT062.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6637
-Received-SPF: pass client-ip=40.107.237.78; envelope-from=edgar@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 13:18:15
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200815141940.44025-1-liq3ea@163.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 03:34:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,68 +101,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com,
- luc.michel@greensocs.com
+Cc: liq3ea@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 17, 2020 at 08:42:04AM -0700, Richard Henderson wrote:
-> On 8/17/20 7:01 AM, Edgar E. Iglesias wrote:
-> > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> > 
-> > Add support for data-access barriers.
-> > 
-> > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> > ---
-> >  target/microblaze/translate.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> > index c1be76d4c8..c58f334a0f 100644
-> > --- a/target/microblaze/translate.c
-> > +++ b/target/microblaze/translate.c
-> > @@ -1233,6 +1233,11 @@ static void dec_br(DisasContext *dc)
-> >  
-> >          LOG_DIS("mbar %d\n", mbar_imm);
-> >  
-> > +        /* Data access memory barrier.  */
-> > +        if ((mbar_imm & 2) == 0) {
-> > +            tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-> > +        }
-> > +
-> >          /* mbar IMM & 16 decodes to sleep.  */
-> >          if (mbar_imm & 16) {
-> >              TCGv_i32 tmp_hlt = tcg_const_i32(EXCP_HLT);
-> > 
+On 15/08/20 16:19, Li Qiang wrote:
+> Currently in 'megasas_map_sgl' when 'iov_count=0' will just return
+> success however the 'cmd' doens't contain any iov. This will cause
+> the assert in 'scsi_dma_complete' failed. This is because in
+> 'dma_blk_cb' the 'dbs->sg_cur_index == dbs->sg->nsg' will be true
+> and just call 'dma_complete'. However now there is no aiocb returned.
 > 
-> The patch as written is fine, so
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> This is the LP#1878263:
 > 
-> However, a couple of other notes for mbar:
+> -->https://bugs.launchpad.net/qemu/+bug/1878263
 > 
-> (1) mbar_imm & 1 is insn memory barrier.  For ARM, we do:
+> To solve this we will consider the 'iov_count=0' is an error.
+> In the first patch, I uses -1 to indicate an error and in the second
+> patch I consider 'iov_count=0' is an error.
 > 
->     /*
->      * We need to break the TB after this insn to execute
->      * self-modifying code correctly and also to take
->      * any pending interrupts immediately.
->      */
->     gen_goto_tb(s, 0, s->base.pc_next);
+> Li Qiang (2):
+>   hw: megasas: return -1 when 'megasas_map_sgl' fails
+>   hw: megasas: consider 'iov_count=0' is an error in megasas_map_sgl
+> 
+>  hw/scsi/megasas.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-Actually, we're already breaking the TB at the end of all mbars.
-I thought of perhaps not breaking it for data-only barriers but IIRC,
-we have some SW that depends on the current behavior (taking interrupts
-after raised due to previous load/stores) so I left it as is.
+Queued, thanks.  But do you have a qtest for this?
 
-> 
-> (2) mbar_imm & 16 (sleep) should check for user-mode and generate
->     an illegal instruction.
+Paolo
 
-Yes, I'll fix that in a follow-up patch!
-
-Thanks,
-Edgar
 
