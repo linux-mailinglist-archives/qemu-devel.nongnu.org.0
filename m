@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA5A2465B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 13:50:34 +0200 (CEST)
-Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570902465E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 14:02:43 +0200 (CEST)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7der-00035A-6N
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 07:50:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58262)
+	id 1k7dqc-0006O3-DL
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 08:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k7de3-0002fx-Rl
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 07:49:43 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:40506 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k7de1-00027A-VU
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 07:49:43 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id D291E52894;
- Mon, 17 Aug 2020 11:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1597664978; x=1599479379; bh=kFUNgJMf6lpUZ1DfgyGuDB
- tc8+syh71p2UHl3ZtN4L8=; b=U2UtxOd805a0bAIQttlIW3mtC04o/zVUw6sYBd
- Xxbvm4l6dbmPLWJcBZ38SGkVxX3BHp2GenpSlpaM4RSK1sMZdkbu5avfJHXixWN8
- e3+bshjQiOjZPLfWrqNoaSc9ldE4GUN5pQoo47OLRmDcy+P1P1iHfce3JGKgSvIr
- I8VH8=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lTyFwkQ9tD47; Mon, 17 Aug 2020 14:49:38 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1k7dpF-00059U-Rv
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 08:01:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1k7dpE-0003fY-0J
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 08:01:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597665675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pnJdpW+Vz+R/b7LxH4DU9OkPy3KD/Xqc3C7CNMbuDMY=;
+ b=jGKIIMLvSPRYVtFxey0kRdSscmZzjYBAU0t8sbIZG/ppEUrS8UR+2tFxXca/Oln+ziw8T4
+ Ql3cWpOBvjaX66D1Apx4t7kAVRH/ajRHAYHtlNpXkEhcX4gj/DIsvDesGWXxdU6WYbjkTI
+ YMGVoVEky3uUQoVPwmh+qFHHj7jDDXI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-AON5aFx4OROH_cxq9rWqzg-1; Mon, 17 Aug 2020 08:01:03 -0400
+X-MC-Unique: AON5aFx4OROH_cxq9rWqzg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 2E219527DA;
- Mon, 17 Aug 2020 14:49:37 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 17
- Aug 2020 14:49:37 +0300
-Date: Mon, 17 Aug 2020 14:49:37 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 000/150] Meson integration for 5.2
-Message-ID: <20200817114937.GC98227@SPB-NB-133.local>
-References: <20200814091326.16173-1-pbonzini@redhat.com>
- <20200817110254.GA98227@SPB-NB-133.local>
- <f8a9f236-7017-01a7-0a6d-06a2e18f95f1@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B36581F012
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 12:01:00 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41E32BABA;
+ Mon, 17 Aug 2020 12:00:58 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] WIP: add physical display dimensions to spice/virtio-gpu
+Date: Mon, 17 Aug 2020 16:00:52 +0400
+Message-Id: <20200817120056.56751-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f8a9f236-7017-01a7-0a6d-06a2e18f95f1@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 07:02:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 01:24:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,64 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 17, 2020 at 01:24:50PM +0200, Paolo Bonzini wrote:
-> On 17/08/20 13:02, Roman Bolshakov wrote:
-> > 
-> > Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > 
-> > On the next step, it might be good to drop configure in favor of meson
-> > configuration, so configure, build and test commands would be similar to
-> > libvirt:
-> > 
-> > meson build
-> > ninja -C build
-> > meson test -C build
-> 
-> Well, there are quite a few steps needed to get there:
-> 
-> 1) moving feature tests from configure to Meson is a no-brainer.
-> However it's better to first convert the unit tests to Meson and get rid
-> of the rest of rules.mak.  This is because it's simpler to do this if
-> there are no uses left of CONFIG_* symbols in the Makefiles.
-> 
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-Agreed
+Hi,=0D
+=0D
+In order to improve support for HiDPI, I proposed some new Spice messages t=
+o=0D
+inform the guest of the display physical dimensions.=0D
+=0D
+See spice-protocol proposal and related server & spice-gtk changes:=0D
+https://gitlab.freedesktop.org/spice/spice-protocol/-/merge_requests/24=0D
+https://gitlab.freedesktop.org/spice/spice/-/merge_requests/139=0D
+https://gitlab.freedesktop.org/spice/spice-gtk/-/merge_requests/64=0D
+=0D
+Marc-Andr=C3=A9 Lureau (4):=0D
+  edid: use physical dimensions if available=0D
+  ui: add getter for UIInfo=0D
+  spice: get monitors physical dimension=0D
+  virtio-gpu: set physical dimensions for EDID=0D
+=0D
+ hw/display/edid-generate.c     | 21 ++++++++-----=0D
+ hw/display/virtio-gpu-base.c   |  2 ++=0D
+ hw/display/virtio-gpu.c        |  2 ++=0D
+ include/hw/display/edid.h      |  2 ++=0D
+ include/hw/virtio/virtio-gpu.h |  1 +=0D
+ include/ui/console.h           |  4 +++=0D
+ ui/console.c                   |  7 +++++=0D
+ ui/spice-display.c             | 54 +++++++++++++++++++++++++++++++++-=0D
+ 8 files changed, 84 insertions(+), 9 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-> 2) moving the rest of "make install" to Meson is even more of a
-> no-brainer.  Marc-André has patches there.  They also include a
-> conversion of the ROM build.
-> 
-> 3) moving the bulk of the build from meson to ninja is possible and I
-> already have patches for it.  It requires adding ninja as a build
-> dependency however.  The main advantage here is getting rid of
-> Ninjatool.  I'm not sure how moving the handling of submodules to Meson
-> would work, and that's needed in order to be able to build with "ninja
-> -C build".
-> 
-
-I'm more familiar with CMake rather than meson but they seem to be
-similar. CMake has a way to wrap build of submodules:
-https://cmake.org/cmake/help/latest/module/ExternalProject.html
-
-I haven't found if meson has the feature. Perhaps, like 4) it's
-something to be enhanced in meson.
-
-An alternative is to change the submodules to Meson (if their
-maintainers don't mind the change) and use meson subproject:
-
-https://mesonbuild.com/Subprojects.html
-
-Regards,
-Roman
-
-> 4) I find "meson test" to be inferior in some respects to the QEMU's TAP
-> test harness.  In particular, one feature of QEMU's Makefiles is that
-> you can cut-and-paste from "make V=1 output" into the shell.  So that
-> part may take some time.  I'd rather extend Meson so that it's possible
-> to write arbitrary test runners.
-> 
 
