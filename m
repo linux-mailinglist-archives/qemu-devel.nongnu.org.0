@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389D12462FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:20:08 +0200 (CEST)
-Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9AA2462B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 11:18:53 +0200 (CEST)
+Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7bJH-0006G1-8K
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:20:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45696)
+	id 1k7bI4-0002xx-NC
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 05:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7asD-0001Qi-Kh
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:52:10 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:51070)
+ id 1k7asC-0001PS-AZ
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:52:08 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:38780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1k7as6-0005B7-AT
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:52:09 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id e4so7495981pjd.0
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:52:01 -0700 (PDT)
+ id 1k7as9-0005BR-L3
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:52:07 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id 128so7793320pgd.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AM5Ng0cmpmqI6dFhxVnR/024nL8x6ZLsgeuQelxmbC0=;
- b=jDECeinRMTa4+ySFW8aK8qdFgt4XdS+NKlm/QDdt+THpZTd2/YTwwVuWB/YOw26LB/
- 3VQ1PFO/DUz9u25hVbb7wNbM1gmdMUaq14mYQKGBof2LuRD+TUF4NwcCMILHrJZan7of
- cgolE403SOiY+ox8f2rZsDVyFBPh54L/lqn5esY2hqxWY2s0z/UbcAIfsqWCjIpB40Gl
- qpWKDrEDuYQcoKHjW1Nz73t9wGCe7ognyukr845DKuAPiJ3X9C1Am+MombWYN+NYanZO
- MEwm3SKqOnFNUwIKC2mKo9XKQGglR4BVN3pEAC2s2Nw7uW/0Vw7PFe8vsBFpFgVe0XZT
- ufmw==
+ bh=3qRWvZwJsDY9ApUhOcSy9fXp+LMQDi4IXrAzM3536Aw=;
+ b=fMpv9V7raCvgT3NG6r54ssaoDlj/6JcMu9l40dZCFmb9hgn+1HqQ2JnspKs3a9/qs6
+ PLRgY15xj3IsHCj9jurLCTHlI7s/oIUNeB9hc5A5uZaUYC7fhkX9MTgxAn4j1iRQGeHT
+ hON8IYSFUWUs93IX12Vae+lBZqWTcDS0jsWbPvLxiJ4Sk3m+rcrXQkFsIPYPeY4XD2bG
+ 65ohAlV6eofc/RjkzMij27M/dzi2scxvP8p+oaGHiSZknVezPi7q0w7qr26NxKoMoWez
+ PbqVvrHbingMo8T8ym3HbQ40jG79enpcGglco3jE8sBq8dKZE/iz/ncSgMw8lZmcTnWP
+ 8i6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=AM5Ng0cmpmqI6dFhxVnR/024nL8x6ZLsgeuQelxmbC0=;
- b=IgYKxjMjPKYj8FbJJUcJk7DkCrZun4DL8reqx7bXKo1P4nxd+awlU/DI1MHEoyklRF
- MNKZPpMP62mjZf9Mq1dyF6aFPohfXalzIdlr4g5gutwF327BKskHGzUUFwj8OohUpbyW
- /Y1N+MgG0TXGwWs9czR4oVMuPsi0b135Ux5C8v5nk7yIr9L0oXYWXlH1A/d/GPNtAa5o
- w+FQ8ehhytdF0WdYYxCMlt59mDWhAbBsYzBM0s0rC1Yiyv8kbx5KI2JRSv4mthpjfygS
- +sOGDoZzWeFpJypPzIS0JzYfWPuBHLMQGZ8b4HT4w8VFZt007Lue7FzEW9zxzGStnwvD
- 7XKA==
-X-Gm-Message-State: AOAM531qmAeVm3mdF6PgFQ3MISxQnnRrOCUnYs7xg4MG5AczCfGl2HQ8
- xKhvhpUDX0rVccSJCGNyms9MftgyQuvWew==
-X-Google-Smtp-Source: ABdhPJwX76eur+Xoi/wFdFPB1tmPASar1bLSLxPjutDM2sHDOBcUEzL3E0KyoJx5dzaKFt1pU9RroQ==
-X-Received: by 2002:a17:902:b282:: with SMTP id
- u2mr10078163plr.225.1597654320496; 
- Mon, 17 Aug 2020 01:52:00 -0700 (PDT)
+ bh=3qRWvZwJsDY9ApUhOcSy9fXp+LMQDi4IXrAzM3536Aw=;
+ b=WWOXbvY8PkwNkADKsVdWcPbQUlLiHXQw5j87NOnKPITbfdIlH5zjSZnomnst8GdCht
+ JZMxVeOv+xjI2Sa8EipOa6h4DxRrgo3GSzfQotCmVqasqTSDY2C7+yaypPcoInTG3Mlm
+ gFSS4MHIzWJclADV13XZgWPmh4aCONQzQGzaSatrc1qelVuYRJPem3sjaldbwWuQxOZH
+ X3Za8MWBvTdOHqz/MC3nmFloKrwkty0VOIzh6P8vGY0DuZMqr0vb9kIiEOQVr01zGTF3
+ 1Rkqd4pWvPy5Zs+QZEi+e4MS15Kl0hRXMSVSgxG7JBm5QEQX5g2QCjZlLgWPTUx8+jjD
+ dd5g==
+X-Gm-Message-State: AOAM5314PZsLhj2+dIGUI7tsFB24JVQLK8MWFTzww/dMrhvM6AsD9yU+
+ 6D9jxuU0rC8UBYpmVBGor0I5UB3iKnxB0w==
+X-Google-Smtp-Source: ABdhPJwGAdB+WrHQ9VDdJba2TsLyUk6jQA4rdSKBDoz8RYMVNXeBztBwg18tG4+RlTmiXZ52Mpzfqg==
+X-Received: by 2002:a65:488e:: with SMTP id n14mr8987794pgs.265.1597654323476; 
+ Mon, 17 Aug 2020 01:52:03 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.51.58
+ by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.52.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 01:52:00 -0700 (PDT)
+ Mon, 17 Aug 2020 01:52:03 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 41/70] target/riscv: rvv-1.0: single-width bit shift
- instructions
-Date: Mon, 17 Aug 2020 16:49:26 +0800
-Message-Id: <20200817084955.28793-42-frank.chang@sifive.com>
+Subject: [RFC v4 42/70] target/riscv: rvv-1.0: integer
+ add-with-carry/subtract-with-borrow
+Date: Mon, 17 Aug 2020 16:49:27 +0800
+Message-Id: <20200817084955.28793-43-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817084955.28793-1-frank.chang@sifive.com>
 References: <20200817084955.28793-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,31 +94,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Truncate vsll.vi, vsrl.vi, vsra.vi's immediate values to lg2(SEW) bits.
+Clear tail elements only if VTA is agnostic.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/riscv/insn32.decode              | 20 ++++++++++----------
+ target/riscv/insn_trans/trans_rvv.inc.c |  2 +-
+ target/riscv/vector_helper.c            | 14 ++++----------
+ 3 files changed, 15 insertions(+), 21 deletions(-)
 
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index fd00ee6fdca..e62bad906a3 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -342,16 +342,16 @@ vwsubu_wv       110110 . ..... ..... 010 ..... 1010111 @r_vm
+ vwsubu_wx       110110 . ..... ..... 110 ..... 1010111 @r_vm
+ vwsub_wv        110111 . ..... ..... 010 ..... 1010111 @r_vm
+ vwsub_wx        110111 . ..... ..... 110 ..... 1010111 @r_vm
+-vadc_vvm        010000 1 ..... ..... 000 ..... 1010111 @r_vm_1
+-vadc_vxm        010000 1 ..... ..... 100 ..... 1010111 @r_vm_1
+-vadc_vim        010000 1 ..... ..... 011 ..... 1010111 @r_vm_1
+-vmadc_vvm       010001 1 ..... ..... 000 ..... 1010111 @r_vm_1
+-vmadc_vxm       010001 1 ..... ..... 100 ..... 1010111 @r_vm_1
+-vmadc_vim       010001 1 ..... ..... 011 ..... 1010111 @r_vm_1
+-vsbc_vvm        010010 1 ..... ..... 000 ..... 1010111 @r_vm_1
+-vsbc_vxm        010010 1 ..... ..... 100 ..... 1010111 @r_vm_1
+-vmsbc_vvm       010011 1 ..... ..... 000 ..... 1010111 @r_vm_1
+-vmsbc_vxm       010011 1 ..... ..... 100 ..... 1010111 @r_vm_1
++vadc_vvm        010000 0 ..... ..... 000 ..... 1010111 @r_vm_1
++vadc_vxm        010000 0 ..... ..... 100 ..... 1010111 @r_vm_1
++vadc_vim        010000 0 ..... ..... 011 ..... 1010111 @r_vm_1
++vmadc_vvm       010001 . ..... ..... 000 ..... 1010111 @r_vm
++vmadc_vxm       010001 . ..... ..... 100 ..... 1010111 @r_vm
++vmadc_vim       010001 . ..... ..... 011 ..... 1010111 @r_vm
++vsbc_vvm        010010 0 ..... ..... 000 ..... 1010111 @r_vm_1
++vsbc_vxm        010010 0 ..... ..... 100 ..... 1010111 @r_vm_1
++vmsbc_vvm       010011 . ..... ..... 000 ..... 1010111 @r_vm
++vmsbc_vxm       010011 . ..... ..... 100 ..... 1010111 @r_vm
+ vand_vv         001001 . ..... ..... 000 ..... 1010111 @r_vm
+ vand_vx         001001 . ..... ..... 100 ..... 1010111 @r_vm
+ vand_vi         001001 . ..... ..... 011 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 16e0941efb6..b763c3956cb 100644
+index b763c3956cb..c8ebfa6c3f5 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1915,9 +1915,9 @@ GEN_OPIVX_GVEC_SHIFT_TRANS(vsll_vx,  shls)
- GEN_OPIVX_GVEC_SHIFT_TRANS(vsrl_vx,  shrs)
- GEN_OPIVX_GVEC_SHIFT_TRANS(vsra_vx,  sars)
+@@ -1774,7 +1774,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
  
--GEN_OPIVI_GVEC_TRANS(vsll_vi, IMM_ZX, vsll_vx, shli)
--GEN_OPIVI_GVEC_TRANS(vsrl_vi, IMM_ZX, vsrl_vx, shri)
--GEN_OPIVI_GVEC_TRANS(vsra_vi, IMM_ZX, vsra_vx, sari)
-+GEN_OPIVI_GVEC_TRANS(vsll_vi, IMM_TRUNC_SEW, vsll_vx, shli)
-+GEN_OPIVI_GVEC_TRANS(vsrl_vi, IMM_TRUNC_SEW, vsrl_vx, shri)
-+GEN_OPIVI_GVEC_TRANS(vsra_vi, IMM_TRUNC_SEW, vsra_vx, sari)
+ /*
+  * For vadc and vsbc, an illegal instruction exception is raised if the
+- * destination vector register is v0 and LMUL > 1. (Section 12.3)
++ * destination vector register is v0 and LMUL > 1. (Section 12.4)
+  */
+ static bool opivv_vadc_check(DisasContext *s, arg_rmrr *a)
+ {
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index ace6fcd28d8..70394611b21 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -1205,19 +1205,16 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+                   CPURISCVState *env, uint32_t desc)          \
+ {                                                             \
+     uint32_t vl = env->vl;                                    \
+-    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
++    uint32_t vm = vext_vm(desc);                              \
+     uint32_t i;                                               \
+                                                               \
+     for (i = 0; i < vl; i++) {                                \
+         ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
+         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
+-        uint8_t carry = vext_elem_mask(v0, i);                \
++        uint8_t carry = !vm ? vext_elem_mask(v0, i) : 0;      \
+                                                               \
+         vext_set_elem_mask(vd, i, DO_OP(s2, s1, carry));      \
+     }                                                         \
+-    for (; i < vlmax; i++) {                                  \
+-        vext_set_elem_mask(vd, i, 0);                         \
+-    }                                                         \
+ }
  
- /* Vector Narrowing Integer Right Shift Instructions */
- static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
+ GEN_VEXT_VMADC_VVM(vmadc_vvm_b, uint8_t,  H1, DO_MADC)
+@@ -1235,19 +1232,16 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,          \
+                   void *vs2, CPURISCVState *env, uint32_t desc) \
+ {                                                               \
+     uint32_t vl = env->vl;                                      \
+-    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE))); \
++    uint32_t vm = vext_vm(desc);                                \
+     uint32_t i;                                                 \
+                                                                 \
+     for (i = 0; i < vl; i++) {                                  \
+         ETYPE s2 = *((ETYPE *)vs2 + H(i));                      \
+-        uint8_t carry = vext_elem_mask(v0, i);                  \
++        uint8_t carry = !vm ? vext_elem_mask(v0, i) : 0;         \
+                                                                 \
+         vext_set_elem_mask(vd, i,                               \
+                 DO_OP(s2, (ETYPE)(target_long)s1, carry));      \
+     }                                                           \
+-    for (; i < vlmax; i++) {                                    \
+-        vext_set_elem_mask(vd, i, 0);                           \
+-    }                                                           \
+ }
+ 
+ GEN_VEXT_VMADC_VXM(vmadc_vxm_b, uint8_t,  H1, DO_MADC)
 -- 
 2.17.1
 
