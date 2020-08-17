@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3852468FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:01:23 +0200 (CEST)
-Received: from localhost ([::1]:45596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899D424692E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:14:29 +0200 (CEST)
+Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gdW-0008HG-GE
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41218)
+	id 1k7gqC-0001Aj-HG
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHR-000574-5v
+ id 1k7gHR-000576-Bp
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:33 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39225)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHP-0006D1-Di
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:32 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id a5so15259423wrm.6
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:30 -0700 (PDT)
+ id 1k7gHP-0006DF-HG
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:33 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a15so15235365wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GCZEu26+ZlByYj6flD+0i+PBWz9jBredaJ3O6s3/97U=;
- b=Sga27fK8he4uy+8BEMxPBiTsSLHid1Dsc92aSCdQTPoDSf4Zvimt0KcWKZO3WdCtzf
- lr12Nq1Q8xMbScersuUJx3svt/srTkV8mQa7FCulvlVmG5sohQINUiedqO9/qheRGmPa
- Rkk1ggSxBpY6b8dgAda+pwFC9nLpoyOOLc95ThC3UKSMYgax3DMBc00mH7ZN8FDez/uR
- 2NExttJEbLahMCW1oW80Uzi/M2nTaBZw3vNnmdPu5071JHU7+L9aWRBqTa/skrRe+nlh
- OvNG+jWleZI3tI36I1ZGjzuZAG7TASw2gUcrgDSsbNOsVTG/4GG2OSzNRfrz1J99sWi0
- bO7Q==
+ bh=UvepImufTOkKXGEhsXevW6x6eLEJ38fEauCGd02DUaM=;
+ b=N0d2tAZgdgTuXVjGWr2e5VxcpoF1FcNHehzxODm5kgsk8YZhFiEuFXF3d7ur3MCVZ8
+ SRCMN+xkAGCEhyMOZ95vbkor0YY4vHfx2FmjzYSjoq6zT9c7Hgw6DOiXpvchs2GzutNS
+ 08DdUPqGxoT5UNkN9SlEKJJtRBUTqoULYyA4LRPDnWmAFAuHFVxfpGWTeNhf6MAzlSvs
+ CDTGjm3oIj4yeQJ8nHU6bvBNVpayaKwOAt+FpmWtcLT5kDoSfotD0cJzFusJXNg5G+gv
+ t1ujrzvGMsUMk9Pu9xDYSuKuZxZQQSiHHU45VnNjNnxkn5kV60BtV+HpfRtC2+kEQ9x1
+ JwKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GCZEu26+ZlByYj6flD+0i+PBWz9jBredaJ3O6s3/97U=;
- b=MA1bcY+r1hRYacNMKZURs+DgLFT46V8Q3hHBFlr0TSsTfPl3XpmnZdum/1P94iEitN
- j3DvM8P2HC1foDur8ArKq6yIxn7eI99VW8iZmdidUknsmSIhftx2/cM3UdSdZJ9S7D6/
- sS0IXjqq7XGagvnobyIAssidNO4E9WjlSWFyNz9YrqiLzlJyOC+jmcYulSPYREmV5XoP
- DWvVLyOe/8xzebX/q4SKZUWY3u2GsKbl2gXHVIr1KFcskQu84yCWIKOVUzr5Y3AkGTZl
- ojHrbuaL1MzLXqW41QZOm0R8ORLFKNgS/VR9OcUByatkKfHh5I3nXWNCAqBSg4lsoqs0
- 5IIQ==
-X-Gm-Message-State: AOAM532IfJjEv8K35lyFZD+IQTAxug2avg3jXnzFzS0LpljqMbE4nLNO
- kEnzOHGRcu74ZMoPvnYz33STDH80P84=
-X-Google-Smtp-Source: ABdhPJxWEL2xpFl0gmkAu8JK8EfGWXvNx8iKjp/TKOQjaOFCL2oQLv+CSnvuyuOVzc4tBuyuP63Yrw==
-X-Received: by 2002:adf:92a1:: with SMTP id 30mr17130507wrn.56.1597675108943; 
- Mon, 17 Aug 2020 07:38:28 -0700 (PDT)
+ bh=UvepImufTOkKXGEhsXevW6x6eLEJ38fEauCGd02DUaM=;
+ b=FbgvjlOFpw5exKz7r3fxvxSznbdiw9KN6+bretBI/yEqm/6jeEA95rLIcqsm7AmSo+
+ cahBtq2V+ip0gngdSTn5CPNsABZjsnNstXITEcexbIk3C/CVUTzW4otj/jLY43d6zPwL
+ ldKQtSdns5QOUZi7XLY8V9eFOPBVE8rOkJ1XpLg1VEce1B0zcsxjbwMAdzozTBIKVxDl
+ ih1dqFsHhodSRh3gDxZYQuKaErZz73+461VcUlH0tVbx199MM4p8BrbjV56CeZHjzpmE
+ G7QZU5lcKeQp+gj1xoh18kUv6Hh9ZRaiRgEPgXNFY6/UlhVPOR365rRVlonxtdkb3xCG
+ IQXg==
+X-Gm-Message-State: AOAM533ZQhDs+UJAK2xaXYcyUryIHX1bdboTfa3fOgL6Fk7mg4dm060o
+ tsFBqNgygual10vNJTP+3Lpg+1WWWeo=
+X-Google-Smtp-Source: ABdhPJzoKuuL5gTQW5kdxgGwjTTHcwXfKAUUi7uUpTMwDoz3imlikanXtS5JOfRSYwiGpSxSj3iUOw==
+X-Received: by 2002:adf:9125:: with SMTP id j34mr17456203wrj.157.1597675109941; 
+ Mon, 17 Aug 2020 07:38:29 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.28
+ i22sm34966603wrb.45.2020.08.17.07.38.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:28 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 064/150] meson: qemu-{img,io,nbd}
-Date: Mon, 17 Aug 2020 16:35:57 +0200
-Message-Id: <20200817143723.343284-65-pbonzini@redhat.com>
+Subject: [PATCH 065/150] meson: qemu-pr-helper
+Date: Mon, 17 Aug 2020 16:35:58 +0200
+Message-Id: <20200817143723.343284-66-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,81 +96,99 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    |  5 -----
- configure   |  3 +--
- meson.build | 14 ++++++++++++--
- 3 files changed, 13 insertions(+), 9 deletions(-)
+ Makefile    |  7 +------
+ configure   |  3 ---
+ meson.build | 10 ++++++++++
+ 3 files changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 22247cb376..e2f64b9c8b 100644
+index e2f64b9c8b..cd8d9a0b02 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -278,11 +278,6 @@ Makefile: $(version-obj-y)
+@@ -127,7 +127,7 @@ $(call set-vpath, $(SRC_PATH))
  
- COMMON_LDADDS = libqemuutil.a
+ LIBS+=-lz $(LIBS_TOOLS)
  
--qemu-img.o: qemu-img-cmds.h
--
--qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-HELPERS-y = $(HELPERS)
++HELPERS-y =
+ 
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
+@@ -280,11 +280,6 @@ COMMON_LDADDS = libqemuutil.a
+ 
  qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
  
- scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-ifdef CONFIG_MPATH
+-scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
+-endif
+-
+ clean: recurse-clean ninja-clean clean-ctlist
+ 	-test -f ninjatool && ./ninjatool $(if $(V),-v,) -t clean
+ # avoid old build problems by removing potentially incorrect old files
 diff --git a/configure b/configure
-index bc17695581..961436ea41 100755
+index 961436ea41..0262b7b661 100755
 --- a/configure
 +++ b/configure
-@@ -6670,9 +6670,8 @@ fi
- tools=""
- helpers=""
- if test "$want_tools" = "yes" ; then
--  tools="qemu-img\$(EXESUF) qemu-io\$(EXESUF) $tools"
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
--    tools="qemu-nbd\$(EXESUF) qemu-storage-daemon\$(EXESUF) $tools"
-+    tools="qemu-storage-daemon\$(EXESUF) $tools"
-   fi
+@@ -6668,7 +6668,6 @@ if [ "$eventfd" = "yes" ]; then
  fi
- if test "$softmmu" = yes ; then
+ 
+ tools=""
+-helpers=""
+ if test "$want_tools" = "yes" ; then
+   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
+     tools="qemu-storage-daemon\$(EXESUF) $tools"
+@@ -6692,7 +6691,6 @@ if test "$softmmu" = yes ; then
+       fi
+       mpath=no
+     fi
+-    helpers="$helpers scsi/qemu-pr-helper\$(EXESUF)"
+   else
+     if test "$virtfs" = yes; then
+       error_exit "VirtFS is supported only on Linux"
+@@ -7770,7 +7768,6 @@ else
+   QEMU_INCLUDES="-iquote ${source_path}/tcg/${ARCH} $QEMU_INCLUDES"
+ fi
+ 
+-echo "HELPERS=$helpers" >> $config_host_mak
+ echo "TOOLS=$tools" >> $config_host_mak
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index e01ff4b119..b8f6cc49fb 100644
+index b8f6cc49fb..92f2da51e5 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -346,7 +346,7 @@ if have_system
-   ]
+@@ -144,6 +144,10 @@ if 'CONFIG_XKBCOMMON' in config_host
+                                  link_args: config_host['XKBCOMMON_LIBS'].split())
  endif
- foreach d : hx_headers
--  custom_target(d[1],
-+  hxdep += custom_target(d[1],
-                 input: files(d[0]),
-                 output: d[1],
-                 capture: true,
-@@ -555,7 +555,8 @@ libblock = static_library('block', block_ss.sources(),
-                           build_by_default: false)
+ rt = cc.find_library('rt', required: false)
++libmpathpersist = not_found
++if config_host.has_key('CONFIG_MPATH')
++  libmpathpersist = cc.find_library('mpathpersist')
++endif
+ libiscsi = not_found
+ if 'CONFIG_LIBISCSI' in config_host
+   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
+@@ -629,6 +633,7 @@ foreach target : target_dirs
+ endforeach
  
- block = declare_dependency(link_whole: [libblock],
--                           link_args: '@block.syms')
-+                           link_args: '@block.syms',
-+                           dependencies: [crypto, io])
- 
- foreach m : block_mods + softmmu_mods
-   shared_module(m.name(),
-@@ -633,6 +634,15 @@ if 'CONFIG_GUEST_AGENT' in config_host
- endif
- 
- if have_tools
-+  qemu_img = executable('qemu-img', [files('qemu-img.c'), hxdep],
-+             dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
-+  qemu_io = executable('qemu-io', files('qemu-io.c'),
-+             dependencies: [block, qemuutil], install: true)
-+  if host_machine.system() == 'linux' or host_machine.system() == 'sunos' or host_machine.system().endswith('bsd')
-+    qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-+               dependencies: [block, qemuutil], install: true)
-+  endif
+ # Other build targets
 +
-   subdir('contrib/rdmacm-mux')
-   subdir('contrib/elf2dmp')
+ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
+ endif
+@@ -670,6 +675,11 @@ if have_tools
+                dependencies: [qemuutil, libcap_ng],
+                install: true,
+                install_dir: get_option('libexecdir'))
++
++    executable('qemu-pr-helper', files('scsi/qemu-pr-helper.c', 'scsi/utils.c'),
++               dependencies: [authz, crypto, io, qom, qemuutil,
++                              libcap_ng, libudev, libmpathpersist],
++               install: true)
+   endif
  
+   if 'CONFIG_IVSHMEM' in config_host
 -- 
 2.26.2
 
