@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B034C2468EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:59:25 +0200 (CEST)
-Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B84246882
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:38:44 +0200 (CEST)
+Received: from localhost ([::1]:47464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gbc-0004iB-MN
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
+	id 1k7gHb-0003tr-HK
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHP-00055O-GB
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:31 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHM-0006Ce-3d
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:30 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 9so13414930wmj.5
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZEWJfelYGw//d36sxX5zHGmQtSfLq0EM1+ukDfPVr48=;
- b=DMUorRlXx1YIyc69O2eRiQA5oPtUPFp5Hy1BFp6KBOjc5LX2toqMahNUSJkcRrL8Qx
- iqbnBKYvj8fT6XQZFFYQzL5aksCFGloM32o02QEpNLboFZWS3CJ3SA1sckFg1LIy0HZd
- 5Uya/fXP2tvZLoPTXP/JteIQsK0B5XC6S8mK8wZ4B9AzD83HSBc1W3nCZAEfgm2e65YG
- otylVkYLpz7ECUFt9SDSutxe8Zm54MI5dHrxkHQH9TxQeMyMNdGVcDvhBeWZQ8tSX1Px
- lhy5Gs7eSIcldQ4wBxdmSF00qpvx8QIOHXcE460YYbZssCeGqlTooMgJ0kV0AKD8wUlK
- SE7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZEWJfelYGw//d36sxX5zHGmQtSfLq0EM1+ukDfPVr48=;
- b=TISr71M2DtvOD9/6EEWvZkmCcGUB9weT/+vW1pVZ/2QMgkuAqRyadlRO1x7rAbi/5j
- 9GUeYhZd23067kcbqht89Aedcz5TZqdjYx/rnsecN2cUxld/xaYMXerKNbt4dwFwAzMK
- xrV1C+8E4erC0uA84YGW850IklKSpaL2QyMNrdQ1V5K4jbFwoCk3oNJpuOmuQELUaFaI
- lPhN1JjCeCnZzjxBqPNloXvRilHRE2RQrKGij2QbTcxIZ/Vck+sK1dg+VewSibknGzvg
- UOA1AZQbCn1S7Djt1Pvf/Bf42/ir9PvQEk6pKegnYnKFHXZu8wGTisCxNiBGhLIZjyTt
- ywfA==
-X-Gm-Message-State: AOAM5337JeH6IU4s5e/J5bdYEbj0iteolhMv/y4RYRrYNnbd7lm8ygU3
- LgkpP0fSzasnjkTr7O7u7kZfmmFmPYo=
-X-Google-Smtp-Source: ABdhPJx7nbrDh8gGVuKszf1TPNizrN5BUjkbiJlhyEYKEhKotcLKAz7YrMXP2W2OfUKxLVVYg2gTrA==
-X-Received: by 2002:a1c:e008:: with SMTP id x8mr14677644wmg.75.1597675106188; 
- Mon, 17 Aug 2020 07:38:26 -0700 (PDT)
-Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
- by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:25 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 061/150] meson: add modules infrastructure
-Date: Mon, 17 Aug 2020 16:35:54 +0200
-Message-Id: <20200817143723.343284-62-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
-References: <20200817143723.343284-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k7gGI-0002jw-30
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56577
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k7gGG-000609-Df
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:37:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597675039;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MAMwAvvPV1op6Mgn7xllFjl6VlguVKoB8umGZ5y8VN8=;
+ b=Y/s9PD13O/Z3jcP6O31bQSONM7CG3UQtM3hwacIehGmNrjvtF3Ey9LYSqPZVDCSOZX4RfV
+ anBdnEaDEhoUyMkGexRFyRbMd1oo0C3amrVMVJm4qwedQv1OzDmcXNhQxZfLDpDEEZUbiU
+ ExcWTTwJ4beNaAaI0Y2s85UWIkHR/Kg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-_sO6nA9iN7K-r3F96HBo5g-1; Mon, 17 Aug 2020 10:37:16 -0400
+X-MC-Unique: _sO6nA9iN7K-r3F96HBo5g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2576B81F000;
+ Mon, 17 Aug 2020 14:37:15 +0000 (UTC)
+Received: from gondolin (ovpn-112-230.ams2.redhat.com [10.36.112.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8218C784BB;
+ Mon, 17 Aug 2020 14:37:07 +0000 (UTC)
+Date: Mon, 17 Aug 2020 16:37:04 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
+Message-ID: <20200817163704.33590236.cohuck@redhat.com>
+In-Reply-To: <20200817131128.lgxn3pyzuzly4edp@steredhat>
+References: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
+ <20200813112820.62ffd63e.cohuck@redhat.com>
+ <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
+ <20200813123737.25ba11d2.cohuck@redhat.com>
+ <20200813120415.s5we6mihe6fywm4a@steredhat.lan>
+ <20200817122746.0b786372.cohuck@redhat.com>
+ <20200817131128.lgxn3pyzuzly4edp@steredhat>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,213 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Mon, 17 Aug 2020 15:11:28 +0200
+Stefano Garzarella <sgarzare@redhat.com> wrote:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- Makefile            | 10 +--------
- Makefile.target     |  6 ++++++
- meson.build         | 51 +++++++++++++++++++++++++++++++++++++++++++++
- rules.mak           | 10 ++++-----
- scripts/undefsym.sh | 20 ++++++++++++++++++
- 5 files changed, 83 insertions(+), 14 deletions(-)
- create mode 100755 scripts/undefsym.sh
+> On Mon, Aug 17, 2020 at 12:27:46PM +0200, Cornelia Huck wrote:
 
-diff --git a/Makefile b/Makefile
-index 46ff02ec45..8b55440e50 100644
---- a/Makefile
-+++ b/Makefile
-@@ -255,7 +255,7 @@ slirp/all: .git-submodule-status
- 		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)")
- 
- $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
--	$(qom-obj-y)
-+	$(qom-obj-y) block.syms qemu.syms
- 
- $(filter %/fuzz, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
- 	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
-@@ -463,14 +463,6 @@ install: all $(if $(BUILD_DOCS),install-doc) \
- ifneq ($(TOOLS),)
- 	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
- endif
--ifneq ($(CONFIG_MODULES),)
--	$(INSTALL_DIR) "$(DESTDIR)$(qemu_moddir)"
--	for s in $(modules-m:.mo=$(DSOSUF)); do \
--		t="$(DESTDIR)$(qemu_moddir)/$$(echo $$s | tr / -)"; \
--		$(INSTALL_LIB) $$s "$$t"; \
--		test -z "$(STRIP)" || $(STRIP) "$$t"; \
--	done
--endif
- ifneq ($(HELPERS-y),)
- 	$(call install-prog,$(HELPERS-y),$(DESTDIR)$(libexecdir))
- endif
-diff --git a/Makefile.target b/Makefile.target
-index 43d2f9734f..d1d8906b4d 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -162,6 +162,12 @@ obj-y += qapi/
- obj-y += migration/ram.o
- LIBS := $(libs_softmmu) $(LIBS)
- 
-+# Temporary until emulators are linked by Meson
-+LIBS := $(LIBS) @../block.syms @../qemu.syms
-+ifneq ($(CONFIG_MODULES),y)
-+LIBS := $(LIBS)
-+endif
-+
- # Hardware support
- ifeq ($(TARGET_NAME), sparc64)
- obj-y += hw/sparc64/
-diff --git a/meson.build b/meson.build
-index 9699190f14..ec2b0bdd73 100644
---- a/meson.build
-+++ b/meson.build
-@@ -10,6 +10,7 @@ sh = find_program('sh')
- cc = meson.get_compiler('c')
- config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
- config_all_disas = keyval.load(meson.current_build_dir() / 'config-all-disas.mak')
-+enable_modules = 'CONFIG_MODULES' in config_host
- 
- add_project_arguments(config_host['QEMU_CFLAGS'].split(),
-                       language: ['c', 'objc'])
-@@ -312,6 +313,7 @@ genh += hxdep
- util_ss = ss.source_set()
- stub_ss = ss.source_set()
- trace_ss = ss.source_set()
-+block_ss = ss.source_set()
- common_ss = ss.source_set()
- softmmu_ss = ss.source_set()
- user_ss = ss.source_set()
-@@ -319,6 +321,7 @@ bsd_user_ss = ss.source_set()
- linux_user_ss = ss.source_set()
- specific_ss = ss.source_set()
- 
-+modules = {}
- hw_arch = {}
- target_arch = {}
- target_softmmu_arch = {}
-@@ -428,6 +431,12 @@ subdir('crypto')
- subdir('storage-daemon')
- subdir('ui')
- 
-+
-+if enable_modules
-+  libmodulecommon = static_library('module-common', files('module-common.c') + genh, pic: true, c_args: '-DBUILD_DSO')
-+  modulecommon = declare_dependency(link_whole: libmodulecommon, compile_args: '-DBUILD_DSO')
-+endif
-+
- # Build targets from sourcesets
- 
- stub_ss = stub_ss.apply(config_all, strict: false)
-@@ -444,6 +453,48 @@ subdir('io')
- subdir('fsdev')
- subdir('target')
- 
-+block_mods = []
-+softmmu_mods = []
-+foreach d, list : modules
-+  foreach m, module_ss : list
-+    if enable_modules and host_machine.system() != 'windows'
-+      module_ss = module_ss.apply(config_host, strict: false)
-+      sl = static_library(d + '-' + m, [genh, module_ss.sources()],
-+                          dependencies: [modulecommon, module_ss.dependencies()], pic: true)
-+      if d == 'block'
-+        block_mods += sl
-+      else
-+        softmmu_mods += sl
-+      endif
-+    else
-+      if d == 'block'
-+        block_ss.add_all(module_ss)
-+      else
-+        softmmu_ss.add_all(module_ss)
-+      endif
-+    endif
-+  endforeach
-+endforeach
-+
-+nm = find_program('nm')
-+undefsym = find_program('scripts/undefsym.sh')
-+block_syms = custom_target('block.syms', output: 'block.syms',
-+                             input: [libqemuutil, block_mods],
-+                             capture: true,
-+                             command: [undefsym, nm, '@INPUT@'])
-+qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
-+                             input: [libqemuutil, softmmu_mods],
-+                             capture: true,
-+                             command: [undefsym, nm, '@INPUT@'])
-+
-+foreach m : block_mods + softmmu_mods
-+  shared_module(m.name(),
-+                name_prefix: '',
-+                link_whole: m,
-+                install: true,
-+                install_dir: config_host['qemu_moddir'])
-+endforeach
-+
- common_ss.add_all(when: 'CONFIG_SOFTMMU', if_true: softmmu_ss)
- common_ss.add_all(when: 'CONFIG_USER_ONLY', if_true: user_ss)
- 
-diff --git a/rules.mak b/rules.mak
-index d8d35f735a..9da9dcd4f6 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -61,17 +61,17 @@ endif
- # This is necessary because the exectuable itself may not use the function, in
- # which case the function would not be linked in. Then the DSO loading will
- # fail because of the missing symbol.
--process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
-+process-archive-undefs = $(filter-out %.a %.fa %.mo %$(DSOSUF),$1) \
-                 $(addprefix $(WL_U), \
-                      $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
--                              $(call undefined-symbols,$(filter %.mo,$1)))) \
-+		$(call undefined-symbols,$(filter %.mo %$(DSOSUF),$1)))) \
- 		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
- 		$(filter %.a,$1)
- 
--extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
-+extract-libs = $(strip $(foreach o,$(filter-out %.mo %$(DSOSUF),$1),$($o-libs)))
- expand-objs = $(strip $(sort $(filter %.o,$1)) \
--                  $(foreach o,$(filter %.mo,$1),$($o-objs)) \
--                  $(filter-out %.o %.mo,$1))
-+		$(foreach o,$(filter %.mo %$(DSOSUF),$1),$($o-objs)) \
-+		$(filter-out %.o %.mo %$(DSOSUF),$1))
- 
- %.o: %.c
- 	@mkdir -p $(dir $@)
-diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
-new file mode 100755
-index 0000000000..b9ec332e95
---- /dev/null
-+++ b/scripts/undefsym.sh
-@@ -0,0 +1,20 @@
-+#! /usr/bin/env bash
-+
-+# Before a shared module's DSO is produced, a static library is built for it
-+# and passed to this script.  The script generates -Wl,-u options to force
-+# the inclusion of symbol from libqemuutil.a if the shared modules need them,
-+# This is necessary because the modules may use functions not needed by the
-+# executable itself, which would cause the function to not be linked in.
-+# Then the DSO loading would fail because of the missing symbol.
-+
-+if test $# -le 2; then
-+  exit 0
-+fi
-+
-+NM=$1
-+staticlib=$2
-+shift 2
-+# Find symbols defined in static libraries and undefined in shared modules
-+comm -12 \
-+  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
-+  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
--- 
-2.26.2
+> > Speaking of tests: do you have a quick way to test vhost-vsock at hand?
+> > Maybe I should add it to my manual repertoire...
+> >   
+> 
+> Sure, maybe the quickest way is to use ncat. Starting from version 7.80,
+> it supports AF_VSOCK sockets:
+> 
+>     host$ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
+> 
+>     host$ ncat --vsock -l 1234
+> 
+>     # vsock address is <cid, port>, cid=2 is used always to reach the host
+>     guest$ ncat --vsock 2 1234
+> 
+> Other tests that I usually run are:
+> - iperf-vsock: https://github.com/stefano-garzarella/iperf-vsock
+> - vsock test suite in the Linux kernel (tools/testing/vsock)
+> 
+> Let me know if you want more details on these :-)
 
+Thanks, simply doing some smoke tests with ncat should be enough :)
 
 
