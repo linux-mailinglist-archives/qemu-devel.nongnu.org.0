@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820F724619B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 10:59:01 +0200 (CEST)
-Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AD7246127
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 10:51:16 +0200 (CEST)
+Received: from localhost ([::1]:40682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7ayq-0004Xg-Hs
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 04:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44404)
+	id 1k7arK-0006eI-N4
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 04:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k7aqm-0006Og-1c
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52706)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1k7aqE-0005Bh-0x
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:06 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:39877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k7aqj-0004vE-89
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k7aqh-0004ds-4E
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 08:50:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D521B2E80E9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 08:50:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Aug 2020 08:40:44 -0000
-From: "Tony.LI" <1890545@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee bigboy0822 laurent-vivier pmaydell
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159670025270.3099.13280483088179052036.malonedeb@gac.canonical.com>
-Message-Id: <159765364454.24476.11001827705181902094.malone@wampee.canonical.com>
-Subject: [Bug 1890545] Re: (ARM64) qemu-x86_64+schroot(Debian bullseye) can't
- run chrome and can't load HTML
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3bd71d39c8bacd32c96966ac6025975477817fc4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 04:50:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1k7aqC-0004gI-27
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 04:50:05 -0400
+Received: by mail-pl1-x630.google.com with SMTP id g15so3265156plj.6
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 01:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=YaRz00F3DdxFE8gRMGnGvA7xLPyskscbRKXD8PrH9lw=;
+ b=Pn+FzaA/3eoynZQFDr6+pbZwzDAW0kJsw1VEI6PRa+di30+MW45dKXVMXkmEHj0n71
+ e108Ghuo6NhjlDc5jkrSbpNUk4qmlzSq+sUAaD2EHcA8OPtxQGqBjcri9P5qZJnHuDeB
+ 2+qh5mD4wKsQKx3aUaXCvM9ntrMzcryB3X/Gk6coTmYP8DHhA/TEX9FlMWq+N1jAVQMU
+ Flaif8GvtKoX6ZgRN3JttO4UA0A12x1VXzJGTtq3wLq8V+jL8z5wDtzeZELaJDKSqi0F
+ EjXbYCiwMrkaED2XMBq5xgNIykNJMWqRr4RfwlExQOvzHD0rVoCfJDQr35bH+nEkTYJh
+ pmOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=YaRz00F3DdxFE8gRMGnGvA7xLPyskscbRKXD8PrH9lw=;
+ b=dIh+SOlpQcBAcwG1KMOSJXIGtP5n4X0WyvrWTsJN+yZz5Pt9AojM5nMzTHr2k65k03
+ Myp+lwA7FpjN/RkIQOticHeVUKRE2gTV+W/IYQMunpDiPs+DaveNeGmTx3FtDTYgQMHj
+ dXGQNI3aJHFBWLSw2HRuCT2z6OWTVW59XFLbtFInjyXGoi2JnB0/YqplXWgL+SCCEtQP
+ EinyvQUvsVUTTlO+0sIKb9CZQT9FgSQtFir6bI+p/yvBiY6btskBtbhmgShVkFAm051P
+ 2mkToY6hUBkthpZo1N0/G9oA8GjLEeVtZfJ5dYk8QK/r6fT/k8D7uJis9c7tELvyah/9
+ FnEw==
+X-Gm-Message-State: AOAM5302oWH8+HnpC/0l1cQQ074YFuEHFyYSkHVge7kX5gbVrMLd4D/p
+ QkLCq8fWVz6fR811hq889ehMH3B8okYWuQ==
+X-Google-Smtp-Source: ABdhPJwZuZLJvCZAw6JPc2stebg7Q5A+e8lP5RmaD8cKl50aZONipRM6UYuGuXA2lwfgw1XbJ1NcAw==
+X-Received: by 2002:a17:90b:2092:: with SMTP id
+ hb18mr12129512pjb.118.1597654201849; 
+ Mon, 17 Aug 2020 01:50:01 -0700 (PDT)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id d9sm16478588pgv.45.2020.08.17.01.49.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Aug 2020 01:50:00 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [RFC v4 00/70] support vector extension v1.0
+Date: Mon, 17 Aug 2020 16:48:45 +0800
+Message-Id: <20200817084955.28793-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x630.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,115 +81,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890545 <1890545@bugs.launchpad.net>
+Cc: Frank Chang <frank.chang@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,I have add QEMU_IFLA_INFO_KIND nested type for sit.But I still can't ope=
-n Google browser.
-And there are still the following errors:
+From: Frank Chang <frank.chang@sifive.com>
 
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-[1661:1661:0806/074307.502638:ERROR:nacl_fork_delegate_linux.cc(323)] Bad N=
-aCl helper startup ack (0 bytes)
-[1664:1664:0806/074307.504159:ERROR:nacl_fork_delegate_linux.cc(323)] Bad N=
-aCl helper startup ack (0 bytes)
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-qemu: unknown option 'type=3Dutility'
-[1637:1680:0806/074313.598432:FATAL:gpu_data_manager_impl_private.cc(439)] =
-GPU process isn't usable. Goodbye.
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-Trace/breakpoint trap
+This patchset implements the vector extension v1.0 for RISC-V on QEMU.
 
-Qemu get the signal(INT3).
-What causes this signal???
+This patchset is sent as RFC because RVV v1.0 is still in draft state.
+v2 patchset was sent for RVV v0.9 and bumped to RVV v1.0 since v3 patchset.
 
-I don't know how to debug. When I block the operation of int3 in QEMU,
-it has the following error:
+The port is available here:
+https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v4
 
-qemu: 0x4004bc7855: unhandled CPU exception 0x3 - aborting
-RAX=3D953ad79643deb400 RBX=3D0000007fa1203140 RCX=3D953ad79643deb400 RDX=3D=
-000000400863f1d8
-RSI=3D0000004000b33f18 RDI=3D000000000000000e RBP=3D000000400863f590 RSP=3D=
-000000400863f3c0
-R8 =3D0000000000000000 R9 =3D0000000000000001 R10=3D0000000000000000 R11=3D=
-000000400aa153c0
-R12=3D000000400863f5a0 R13=3D0000000000000000 R14=3D0000007fa1218e10 R15=3D=
-000000400863f5a0
-RIP=3D0000004004bc7855 RFL=3D00000246 [---Z-P-] CPL=3D3 II=3D0 A20=3D1 SMM=
-=3D0 HLT=3D0
-ES =3D0000 0000000000000000 00000000 00000000
-CS =3D0033 0000000000000000 ffffffff 00effb00 DPL=3D3 CS64 [-RA]
-SS =3D002b 0000000000000000 ffffffff 00cff300 DPL=3D3 DS   [-WA]
-DS =3D0000 0000000000000000 00000000 00000000
-FS =3D0000 000000400c0c3840 00000000 00000000
-GS =3D0000 0000000000000000 00000000 00000000
-LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
-TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
-GDT=3D     000000400866f000 0000007f
-IDT=3D     000000400866e000 F000001ff
-CR0=3D80010001 CR2=3D0000000000000000 CR3=3D0000000000000000 CR4=3D00000220
-DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
-0000000000000000 =
+You can change the cpu argument: vext_spec to v1.0 (i.e. vext_spec=v1.0)
+to run with RVV v1.0 instructions.
 
-DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
-EFER=3D0000000000000500
+Note: This patchset depends on two other patchsets listed in Based-on
+      section below so it might not able to be built unless those two
+      patchsets are applied.
 
-Is it possible that the CPU of arm does not support certain instructions?Bu=
-t=EF=BC=8CI don't know.
-Who can give me some advice?
-Thank you=EF=BC=81
+Changelog:
 
--- =
+v4
+  * remove explicit float flmul variable in DisasContext.
+  * replace floating-point calculations with shift operations to
+    improve performance.
+  * relax RV_VLEN_MAX to 512-bits.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890545
+v3
+  * apply nan-box helpers from Richard Henderson.
+  * remove fp16 api changes as they are sent independently in another
+    pathcset by Chih-Min Chao.
+  * remove all tail elements clear functions as tail elements can
+    retain unchanged for either VTA set to undisturbed or agnostic.
+  * add fp16 nan-box check generator function.
+  * add floating-point rounding mode enum.
+  * replace flmul arithmetic with shifts to avoid floating-point
+    conversions.
+  * add Zvqmac extension.
+  * replace gdbstub vector register xml files with dynamic generator.
+  * bumped to RVV v1.0.
+  * RVV v1.0 related changes:
+    * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+      load/store instructions
+    * add vrgatherei16 instruction.
+    * rearranged bits in vtype to make vlmul bits into a contiguous
+      field.
 
-Title:
-  (ARM64) qemu-x86_64+schroot(Debian bullseye) can't run chrome and
-  can't load HTML
+v2
+  * drop v0.7.1 support.
+  * replace invisible return check macros with functions.
+  * move mark_vs_dirty() to translators.
+  * add SSTATUS_VS flag for s-mode.
+  * nan-box scalar fp register for floating-point operations.
+  * add gdbstub files for vector registers to allow system-mode
+    debugging with GDB.
 
-Status in QEMU:
-  New
+Based-on: <20200724002807.441147-1-richard.henderson@linaro.org/>
+Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com/>
 
-Bug description:
-  First I creat a file system that is debian(bullseye amd64)on arm64
-  machine=EF=BC=8Cthen I download google-chrome=EF=BC=8Chowever, when I ran=
- Google
-  browser, some errors occurred.
+Frank Chang (62):
+  target/riscv: drop vector 0.7.1 and add 1.0 support
+  target/riscv: Use FIELD_EX32() to extract wd field
+  target/riscv: rvv-1.0: introduce writable misa.v field
+  target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+  target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+    registers
+  target/riscv: rvv-1.0: remove MLEN calculations
+  target/riscv: rvv-1.0: add fractional LMUL
+  target/riscv: rvv-1.0: add VMA and VTA
+  target/riscv: rvv-1.0: update check functions
+  target/riscv: introduce more imm value modes in translator functions
+  target/riscv: rvv:1.0: add translation-time nan-box helper function
+  target/riscv: rvv-1.0: configure instructions
+  target/riscv: rvv-1.0: stride load and store instructions
+  target/riscv: rvv-1.0: index load and store instructions
+  target/riscv: rvv-1.0: fix address index overflow bug of indexed
+    load/store insns
+  target/riscv: rvv-1.0: fault-only-first unit stride load
+  target/riscv: rvv-1.0: amo operations
+  target/riscv: rvv-1.0: load/store whole register instructions
+  target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+  target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+    calculation
+  target/riscv: rvv-1.0: floating-point square-root instruction
+  target/riscv: rvv-1.0: floating-point classify instructions
+  target/riscv: rvv-1.0: mask population count instruction
+  target/riscv: rvv-1.0: find-first-set mask bit instruction
+  target/riscv: rvv-1.0: set-X-first mask bit instructions
+  target/riscv: rvv-1.0: iota instruction
+  target/riscv: rvv-1.0: element index instruction
+  target/riscv: rvv-1.0: allow load element with sign-extended
+  target/riscv: rvv-1.0: register gather instructions
+  target/riscv: rvv-1.0: integer scalar move instructions
+  target/riscv: rvv-1.0: floating-point move instruction
+  target/riscv: rvv-1.0: floating-point scalar move instructions
+  target/riscv: rvv-1.0: whole register move instructions
+  target/riscv: rvv-1.0: integer extension instructions
+  target/riscv: rvv-1.0: single-width averaging add and subtract
+    instructions
+  target/riscv: rvv-1.0: single-width bit shift instructions
+  target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+  target/riscv: rvv-1.0: narrowing integer right shift instructions
+  target/riscv: rvv-1.0: widening integer multiply-add instructions
+  target/riscv: rvv-1.0: add Zvqmac extension
+  target/riscv: rvv-1.0: quad-widening integer multiply-add instructions
+  target/riscv: rvv-1.0: single-width saturating add and subtract
+    instructions
+  target/riscv: rvv-1.0: integer comparison instructions
+  target/riscv: use softfloat lib float16 comparison functions
+  target/riscv: rvv-1.0: floating-point compare instructions
+  target/riscv: rvv-1.0: mask-register logical instructions
+  target/riscv: rvv-1.0: slide instructions
+  target/riscv: rvv-1.0: floating-point slide instructions
+  target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+  target/riscv: rvv-1.0: single-width floating-point reduction
+  target/riscv: rvv-1.0: widening floating-point reduction instructions
+  target/riscv: rvv-1.0: single-width scaling shift instructions
+  target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+  target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+  target/riscv: rvv-1.0: remove integer extract instruction
+  target/riscv: rvv-1.0: floating-point min/max instructions
+  target/riscv: introduce floating-point rounding mode enum
+  target/riscv: rvv-1.0: floating-point/integer type-convert
+    instructions
+  target/riscv: rvv-1.0: widening floating-point/integer type-convert
+  target/riscv: add "set round to odd" rounding mode helper function
+  target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+  target/riscv: rvv-1.0: relax RV_VLEN_MAX to 512-bits
 
-  $ google-chrome --no-sandbox
-  or =
+Greentime Hu (2):
+  target/riscv: rvv-1.0: add vlenb register
+  target/riscv: gdb: support vector registers for rv32
 
-  $ qemu-x86_64-static google-chrome --no-sandbox
+Hsiangkai Wang (2):
+  target/riscv: gdb: modify gdb csr xml file to align with csr register
+    map
+  target/riscv: gdb: support vector registers for rv64
 
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1661:1661:0806/074307.502638:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  [1664:1664:0806/074307.504159:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
- NaCl helper startup ack (0 bytes)
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  [1637:1678:0806/074308.337567:ERROR:file_path_watcher_linux.cc(315)] inot=
-ify_init() failed: Function not implemented (38)
-  Fontconfig warning: "/etc/fonts/fonts.conf", line 100: unknown element "b=
-lank"
-  qemu: unknown option 'type=3Dutility'
-  [1637:1680:0806/074313.598432:FATAL:gpu_data_manager_impl_private.cc(439)=
-] GPU process isn't usable. Goodbye.
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  Trace/breakpoint trap
+LIU Zhiwei (4):
+  target/riscv: rvv-1.0: add mstatus VS field
+  target/riscv: rvv-1.0: add sstatus VS field
+  target/riscv: rvv-1.0: add translation-time vector context status
+  target/riscv: rvv-1.0: add vcsr register
 
-  Why?
-  And then I run firefox,it can be opened, but it can't load any web pages =
-and HTML.
-  I really need help=EF=BC=81
-  Thank.
+ gdb-xml/riscv-32bit-csr.xml             |   18 +-
+ gdb-xml/riscv-64bit-csr.xml             |   18 +-
+ target/riscv/cpu.c                      |   12 +-
+ target/riscv/cpu.h                      |   97 +-
+ target/riscv/cpu_bits.h                 |   10 +
+ target/riscv/cpu_helper.c               |   16 +-
+ target/riscv/csr.c                      |   73 +-
+ target/riscv/fpu_helper.c               |   17 +-
+ target/riscv/gdbstub.c                  |  126 +-
+ target/riscv/helper.h                   |  523 ++--
+ target/riscv/insn32-64.decode           |   18 +-
+ target/riscv/insn32.decode              |  295 +-
+ target/riscv/insn_trans/trans_rvv.inc.c | 2366 ++++++++++------
+ target/riscv/internals.h                |   19 +-
+ target/riscv/translate.c                |   68 +-
+ target/riscv/vector_helper.c            | 3269 +++++++++++------------
+ 16 files changed, 4051 insertions(+), 2894 deletions(-)
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890545/+subscriptions
+--
+2.17.1
+
 
