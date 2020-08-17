@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DF6246C94
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:22:25 +0200 (CEST)
-Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BEC246C86
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:21:03 +0200 (CEST)
+Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7htw-0007jO-B5
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42386)
+	id 1k7hsc-00042W-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:21:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqg-00027Y-Fa
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:02 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53324)
+ id 1k7hqi-00028N-0U
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:04 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7hqe-00052c-BY
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:01 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g8so13720220wmk.3
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:18:59 -0700 (PDT)
+ id 1k7hqg-00052w-Dz
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 12:19:03 -0400
+Received: by mail-wr1-x443.google.com with SMTP id 88so15598754wrh.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 09:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gQrQ4Zm+ysqESM94lYurHAkeaDr7/WAxSOhUyFwAMeI=;
- b=VDmLqWpaLHoj78QfdtHN//dAvoL1aSZrzumiprXHKAKq6ZFsJ8QKLY1C92py6vlILI
- Q+ftEvSdP2rczU3MhmAUu1+mYnrTTWxtvBZvItN1MdRwWUPlaDwgXIZIdRRe2S949NSq
- 2S41yETPZSv3jXZ8MReHNE/GBttdpXtzRd9s8hVocQC2EzuHiU84x3M5asvdILi7CCZO
- cboh+YcoGTbPRsyeud72n6NLoziuyl9YVEKW3BAuvxWwoeLpj+8qGiPS6edyD3LqLr6C
- 7rVwWbj1xppzuP18Cwq2ukvQDp4tzoLjenY+Jofd1A6ft4M/Q0kzcT4Tndnq/fiDrE78
- c7gQ==
+ bh=Vou0MK3wF2fBtWQ3jzXUST9E3PrwDChKhOUwUYVwMds=;
+ b=FIl5vYlbKsO2sMgZaK5cLjOIOjd/NhKyNG9F/cPgbtPONAzjnJ/Wqimc7Vyl5gn7hH
+ aRK9u7we7oNZjvBL4xeqDTkNCG7i7yyRB71xLd/AXQW2vzflSxzsM4Za+8+/OTApOpFU
+ 5ruQwzL0X5Uvj777/oGaAOyGu26NxDjdRfebkFx78UYbiGRk8F4EEVdzeDWxWl3OYTAv
+ vPJx6XNKj7/cGCR8IgDOebEAXOiz5zZolLhK1mi/DoFaaW3DwD4lsiXS75x7Zvi7Jf2P
+ D4CEpk6YwpWVzrq6P40UZFrs+9RGeMlOR4H2aMYZKY2aiDzbUC6meo6/wz8Z6it/Pi+J
+ zYfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gQrQ4Zm+ysqESM94lYurHAkeaDr7/WAxSOhUyFwAMeI=;
- b=FlvQHuZGSSwzZUrMBzPGGvdeOyB3JzVgHMJxxtiXOWmONAy4dQzcu/bfhahsDQG99X
- f65S//fX2kESJaZGNLGEdu9353KgnysxVIYbxOecWUJsZSRvWeuuFAMUi6FUWdSsI4T0
- t9FGkK8vj3QxsjpWjGnULGrvWVc6SWRZk845tVTJdvGxOstblWPWPF7drpaYxUvnf6L5
- mrO/Wki6zZg0mZMOM2bBYwx7af99BgFXBCGmuExhyqbADaDFOQRtkCPuLThs9l07KeeV
- C2pBkX+yIfwb+EYlsF8ygR2pFxeBBm3pmsREmMJwGhNOgp3oqAgKH06GorQhPAOITDGT
- GMIw==
-X-Gm-Message-State: AOAM533AaIG3y3+Tn56dNffBCA0iQY/+iJ4cXAgARqvQYRdURWhH7W2v
- pYlJ+/MsLwsWylWz50g2t08hk5Ddqq4=
-X-Google-Smtp-Source: ABdhPJws79hKc5Ypc0XPLt8xa0uDbOZQrKsoDd5BCbjz+umdwB7+oJfkxmPBEeuyjRlA/KQ0B8O15w==
-X-Received: by 2002:a7b:c095:: with SMTP id r21mr16311823wmh.152.1597681138166; 
- Mon, 17 Aug 2020 09:18:58 -0700 (PDT)
+ bh=Vou0MK3wF2fBtWQ3jzXUST9E3PrwDChKhOUwUYVwMds=;
+ b=t1LW1TYbpC2pjDn4RccElvOLtTV/VkTzX6jdAOogVETbmo41duBhZx9p3NrGRJm8EE
+ KnbP3Zi9AkFDiJuTKQr5sSyerVZ20zsw7FPJFKd5JYuJBfJIXWzHT1zMW5Lp57pak0/P
+ 3MUXvZjMAxpSmvdDtLd73kfaja1nagoNpkhSIhnpB/plqTRB1ZVz5VSjLCyPVO57iPKc
+ KI2z6W+REgbp4lG1HKGY1tumP9S7+NGGmcPLfzn2eawc607k2a4Yp+7tC0dYNrvr3V2D
+ VN+BK10LzFJLaY03YXDlcLzbNwSwQS64QdrZ6z+xTLARhq7m2t8Q/Bz3cGFyKkZI8VjX
+ Yjag==
+X-Gm-Message-State: AOAM531aCdOwGtckeaVmugl5hKIlR0+2Pbc4HV7PCLd4QBlyrDJ0zbay
+ EPyekIocbjnQ+uOWY+iEJkJWcRdKPc0=
+X-Google-Smtp-Source: ABdhPJwJzd2hqVH1B/S3bou44JmYFzrrpUAEO8NpQ1f+yP671tsFeF0vxh3iAd+VP/0s5ADlnKhJsA==
+X-Received: by 2002:a5d:414e:: with SMTP id c14mr17461019wrq.57.1597681139651; 
+ Mon, 17 Aug 2020 09:18:59 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.18.56
+ by smtp.gmail.com with ESMTPSA id r3sm29535472wro.1.2020.08.17.09.18.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 09:18:57 -0700 (PDT)
+ Mon, 17 Aug 2020 09:18:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org, Stephen Checkoway <stephen.checkoway@oberlin.edu>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH 1/9] memory: Initialize MemoryRegionOps for RAM memory
- regions
-Date: Mon, 17 Aug 2020 18:18:45 +0200
-Message-Id: <20200817161853.593247-2-f4bug@amsat.org>
+Subject: [RFC PATCH 2/9] qtest: Add local qtest_mem_as() getter
+Date: Mon, 17 Aug 2020 18:18:46 +0200
+Message-Id: <20200817161853.593247-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817161853.593247-1-f4bug@amsat.org>
 References: <20200817161853.593247-1-f4bug@amsat.org>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,102 +95,136 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, P J P <ppandit@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is an issue when using memory_region_dispatch_read() or
-memory_region_dispatch_write() on RAM memory regions.
+Refactor the access to the default address space introducing the
+qtest_mem_as() getter. This will help us to use another address
+space in the next commit.
 
-RAM memory regions are initialized as:
-
-  memory_region_init_ram()
-  -> memory_region_init_ram_nomigrate()
-     -> memory_region_init_ram_shared_nomigrate()
-        -> memory_region_init()
-           -> object_initialize(TYPE_MEMORY_REGION)
-              -> memory_region_initfn()
-                 -> mr->ops = &unassigned_mem_ops;
-
-Later when accessing the alias, the memory_region_dispatch_read()
-flow is:
-
-  memory_region_dispatch_read()
-  -> memory_region_dispatch_read1()
-     -> if (mr->ops->read) { /* not taken */ } else ...
-        -> access_with_adjusted_size
-           -> memory_region_read_with_attrs_accessor
-              -> memory_region_dispatch_read
-                 -> unassigned_mem_read
-              <- MEMTX_DECODE_ERROR
-
-The caller gets a MEMTX_DECODE_ERROR while the access is OK.
-(Similar flow with memory_region_dispatch_write).
-
-Fix by initializing the MemoryRegionOps to ram_device_mem_ops,
-this way the memory accesses are properly dispatched using
-memory_region_ram_device_read() / memory_region_ram_device_write().
-
-Fixes: 4a2e242bbb ("memory: Don't use memcpy for ram_device regions")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Since v1: Corrected description (PJP)
-Cc: P J P <ppandit@redhat.com>
----
- softmmu/memory.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ softmmu/qtest.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 651705b7d1..8139da1a58 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1517,6 +1517,8 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
-     Error *err = NULL;
-     memory_region_init(mr, owner, name, size);
-     mr->ram = true;
-+    mr->ops = &ram_device_mem_ops;
-+    mr->opaque = mr;
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc(size, share, mr, &err);
-@@ -1541,6 +1543,8 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
-     Error *err = NULL;
-     memory_region_init(mr, owner, name, size);
-     mr->ram = true;
-+    mr->ops = &ram_device_mem_ops;
-+    mr->opaque = mr;
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc_resizeable(size, max_size, resized,
-@@ -1566,6 +1570,8 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-     Error *err = NULL;
-     memory_region_init(mr, owner, name, size);
-     mr->ram = true;
-+    mr->ops = &ram_device_mem_ops;
-+    mr->opaque = mr;
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
-     mr->align = align;
-@@ -1589,6 +1595,8 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-     Error *err = NULL;
-     memory_region_init(mr, owner, name, size);
-     mr->ram = true;
-+    mr->ops = &ram_device_mem_ops;
-+    mr->opaque = mr;
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
-@@ -1611,6 +1619,8 @@ void memory_region_init_ram_ptr(MemoryRegion *mr,
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 5672b75c35..81b5110783 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -273,6 +273,12 @@ static void qtest_irq_handler(void *opaque, int n, int level)
+     }
+ }
+ 
++/* Default address space for MMIO accesses */
++static AddressSpace *qtest_mem_as(void)
++{
++    return first_cpu->as;
++}
++
+ static void qtest_process_command(CharBackend *chr, gchar **words)
  {
-     memory_region_init(mr, owner, name, size);
-     mr->ram = true;
-+    mr->ops = &ram_device_mem_ops;
-+    mr->opaque = mr;
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
-     mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+     const gchar *command;
+@@ -434,22 +440,22 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+ 
+         if (words[0][5] == 'b') {
+             uint8_t data = value;
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                 &data, 1);
+         } else if (words[0][5] == 'w') {
+             uint16_t data = value;
+             tswap16s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                 &data, 2);
+         } else if (words[0][5] == 'l') {
+             uint32_t data = value;
+             tswap32s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                 &data, 4);
+         } else if (words[0][5] == 'q') {
+             uint64_t data = value;
+             tswap64s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                 &data, 8);
+         }
+         qtest_send_prefix(chr);
+@@ -468,21 +474,21 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+ 
+         if (words[0][4] == 'b') {
+             uint8_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                &data, 1);
+             value = data;
+         } else if (words[0][4] == 'w') {
+             uint16_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                &data, 2);
+             value = tswap16(data);
+         } else if (words[0][4] == 'l') {
+             uint32_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                &data, 4);
+             value = tswap32(data);
+         } else if (words[0][4] == 'q') {
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                &value, 8);
+             tswap64s(&value);
+         }
+@@ -503,7 +509,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(len);
+ 
+         data = g_malloc(len);
+-        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
+                            len);
+ 
+         enc = g_malloc(2 * len + 1);
+@@ -529,7 +535,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(ret == 0);
+ 
+         data = g_malloc(len);
+-        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_read(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
+                            len);
+         b64_data = g_base64_encode(data, len);
+         qtest_send_prefix(chr);
+@@ -564,7 +570,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+                 data[i] = 0;
+             }
+         }
+-        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
+                             len);
+         g_free(data);
+ 
+@@ -587,7 +593,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         if (len) {
+             data = g_malloc(len);
+             memset(data, pattern, len);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED,
+                                 data, len);
+             g_free(data);
+         }
+@@ -621,7 +627,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+             out_len = MIN(out_len, len);
+         }
+ 
+-        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_write(qtest_mem_as(), addr, MEMTXATTRS_UNSPECIFIED, data,
+                             len);
+ 
+         qtest_send_prefix(chr);
 -- 
 2.26.2
 
