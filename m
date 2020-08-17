@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B43246B4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:52:33 +0200 (CEST)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91DD246AFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:47:12 +0200 (CEST)
+Received: from localhost ([::1]:38928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hR2-0003q6-OH
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
+	id 1k7hLr-0007i8-P9
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gLU-0004LU-88
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46932
- helo=us-smtp-1.mimecast.com)
+ id 1k7gLS-0004H3-FH
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k7gLP-0006y0-CV
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:43 -0400
+ id 1k7gLP-0006xy-7i
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:42:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597675358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NhC3WN+7P3oYu/I5W9ozmdGow63gLRM3tv8jbIWeG3g=;
- b=Y121lRMHg01WqGRPFbvxYkiswhrFA3e+piIsdVjpfxyAS0rt8v121ZDFPdypOBs4EpGrtB
- 6MkEmrwefmOyBP1bJj1suTdltcNwBRLnhUOsnpgJL8uyPPNi6qy3QoguJhEubD6QSO/3gs
- st6wdgTB4fKI/uvbGvFWkVHPm9/JP0g=
+ bh=GAaZUA7+BY6e8BumbNUXRJSmw7xFqATVRXaDn0VDaIU=;
+ b=D8MEBCEzeVnENaR9OFSo9+61ne+CSZ8bRNVc3BynTOvJIIvH6PC/7txhdG0IENFBk2Qcdg
+ 3R8EGwBpYw6IPgvHhOSI648qsCmVfoPBlBU5zmk6qDA4ym6wUzvyn4bvJ0eTet1oiOk4Qs
+ /BggRnd5k8lKZHJVH+Ak0+9lgqfECI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-5_Bcn-Z_MJ-sHMskB_4xtA-1; Mon, 17 Aug 2020 10:42:34 -0400
-X-MC-Unique: 5_Bcn-Z_MJ-sHMskB_4xtA-1
+ us-mta-202-eLlvDvUhNPCPdaLNl5lSGg-1; Mon, 17 Aug 2020 10:42:35 -0400
+X-MC-Unique: eLlvDvUhNPCPdaLNl5lSGg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35097100CEC4
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B75F1DDEB
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:34 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CAA670C3D
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9322D756AB
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 14:42:33 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 149/150] meson: update build-system documentation
-Date: Mon, 17 Aug 2020 16:40:52 +0200
-Message-Id: <20200817144053.345107-54-pbonzini@redhat.com>
+Subject: [PATCH 150/150] docs: convert build system documentation to rST
+Date: Mon, 17 Aug 2020 16:40:53 +0200
+Message-Id: <20200817144053.345107-55-pbonzini@redhat.com>
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,16 @@ X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 01:24:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,658 +86,587 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.txt | 468 ++++++++++++++++++------------------
- 1 file changed, 240 insertions(+), 228 deletions(-)
+ .../{build-system.txt => build-system.rst}    | 310 ++++++++----------
+ docs/devel/index.rst                          |   1 +
+ tests/qapi-schema/meson.build                 |   6 +-
+ 3 files changed, 145 insertions(+), 172 deletions(-)
+ rename docs/devel/{build-system.txt => build-system.rst} (62%)
 
-diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.txt
-index fea67b207c..2ced8ca474 100644
+diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.rst
+similarity index 62%
+rename from docs/devel/build-system.txt
+rename to docs/devel/build-system.rst
+index 2ced8ca474..58bf392430 100644
 --- a/docs/devel/build-system.txt
-+++ b/docs/devel/build-system.txt
-@@ -22,15 +22,34 @@ silent while it is checking for features. It will only display output
- when an error occurs, or to show the final feature enablement summary
- on completion.
++++ b/docs/devel/build-system.rst
+@@ -1,5 +1,6 @@
+-    The QEMU build system architecture
+-    ==================================
++==================================
++The QEMU build system architecture
++==================================
  
--Adding new checks to the configure script usually comprises the
--following tasks:
-+Because QEMU uses the Meson build system under the hood, only VPATH
-+builds are supported.  There are two general ways to invoke configure &
-+perform a build:
-+
-+ - VPATH, build artifacts outside of QEMU source tree entirely
-+
-+     cd ../
-+     mkdir build
-+     cd build
-+     ../qemu/configure
-+     make
-+
-+ - VPATH, build artifacts in a subdir of QEMU source tree
-+
-+     mkdir build
-+     cd build
-+     ../configure
-+     make
-+
-+For now, checks on the compilation environment are found in configure
-+rather than meson.build, though this is expected to change.  The command
-+line is parsed in the configure script and, whenever needed, converted
-+into the appropriate options to Meson.
+ This document aims to help developers understand the architecture of the
+ QEMU build system. As with projects using GNU autotools, the QEMU build
+@@ -26,7 +27,7 @@ Because QEMU uses the Meson build system under the hood, only VPATH
+ builds are supported.  There are two general ways to invoke configure &
+ perform a build:
  
-- - Initialize one or more variables with the default feature state.
-+New checks should be added to Meson, which usually comprises the
-+following tasks:
+- - VPATH, build artifacts outside of QEMU source tree entirely
++ - VPATH, build artifacts outside of QEMU source tree entirely::
  
--   Ideally features should auto-detect whether they are present,
--   so try to avoid hardcoding the initial state to either enabled
--   or disabled, as that forces the user to pass a --enable-XXX
--   / --disable-XXX flag on every invocation of configure.
-+ - Add a Meson build option to meson_options.txt.
+      cd ../
+      mkdir build
+@@ -34,7 +35,7 @@ perform a build:
+      ../qemu/configure
+      make
+ 
+- - VPATH, build artifacts in a subdir of QEMU source tree
++ - VPATH, build artifacts in a subdir of QEMU source tree::
+ 
+      mkdir build
+      cd build
+@@ -52,21 +53,21 @@ following tasks:
+  - Add a Meson build option to meson_options.txt.
  
   - Add support to the command line arg parser to handle any new
-    --enable-XXX / --disable-XXX flags required by the feature XXX.
-@@ -38,63 +57,55 @@ following tasks:
+-   --enable-XXX / --disable-XXX flags required by the feature XXX.
++   `--enable-XXX`/`--disable-XXX` flags required by the feature.
+ 
   - Add information to the help output message to report on the new
     feature flag.
  
-- - Add code to perform the actual feature check. As noted above, try to
--   be fully dynamic in checking enablement/disablement.
-+ - Add code to perform the actual feature check.
-+
-+ - Add code to include the feature status in config-host.h
+  - Add code to perform the actual feature check.
+ 
+- - Add code to include the feature status in config-host.h
++ - Add code to include the feature status in `config-host.h`
  
   - Add code to print out the feature status in the configure summary
     upon completion.
  
-- - Add any new makefile variables to $config_host_mak on completion.
--
  
--Taking (a simplified version of) the probe for gnutls from configure,
--we have the following pieces:
-+Taking the probe for SDL as an example, we have the following pieces
-+in configure:
+ Taking the probe for SDL as an example, we have the following pieces
+-in configure:
++in configure::
  
    # Initial variable state
--  gnutls=""
-+  sdl=auto
+   sdl=auto
+@@ -89,11 +90,11 @@ in configure:
+   # Meson invocation
+   -Dsdl=$sdl
  
-   ..snip..
+-In meson_options.txt:
++In meson_options.txt::
  
-   # Configure flag processing
--  --disable-gnutls) gnutls="no"
-+  --disable-gnutls) sdl=disabled
-   ;;
--  --enable-gnutls) gnutls="yes"
-+  --enable-gnutls) sdl=enabled
-   ;;
+   option('sdl', type : 'feature', value : 'auto')
  
-   ..snip..
+-In meson.build:
++In meson.build::
  
-   # Help output feature message
--  gnutls          GNUTLS cryptography support
-+  sdl             SDL UI
+   # Detect dependency
+   sdl = dependency('sdl2',
+@@ -114,63 +115,51 @@ Helper functions
+ The configure script provides a variety of helper functions to assist
+ developers in checking for system features:
  
-   ..snip..
+- - do_cc $ARGS...
+-
++`do_cc $ARGS...`
+    Attempt to run the system C compiler passing it $ARGS...
  
--  # Test for gnutls
--  if test "$gnutls" != "no"; then
--     if ! $pkg_config --exists "gnutls"; then
--        gnutls_cflags=`$pkg_config --cflags gnutls`
--        gnutls_libs=`$pkg_config --libs gnutls`
--        libs_softmmu="$gnutls_libs $libs_softmmu"
--        libs_tools="$gnutls_libs $libs_tools"
--        QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
--        gnutls="yes"
--     elif test "$gnutls" = "yes"; then
--        feature_not_found "gnutls" "Install gnutls devel"
--     else
--        gnutls="no"
--     fi
--  fi
-+  # Meson invocation
-+  -Dsdl=$sdl
+- - do_cxx $ARGS...
+-
++`do_cxx $ARGS...`
+    Attempt to run the system C++ compiler passing it $ARGS...
  
--  ..snip..
-+In meson_options.txt:
+- - compile_object $CFLAGS
+-
++`compile_object $CFLAGS`
+    Attempt to compile a test program with the system C compiler using
+    $CFLAGS. The test program must have been previously written to a file
+    called $TMPC.
  
--  # Completion feature summary
--  echo "GNUTLS support    $gnutls"
-+  option('sdl', type : 'feature', value : 'auto')
+- - compile_prog $CFLAGS $LDFLAGS
+-
++`compile_prog $CFLAGS $LDFLAGS`
+    Attempt to compile a test program with the system C compiler using
+    $CFLAGS and link it with the system linker using $LDFLAGS. The test
+    program must have been previously written to a file called $TMPC.
  
--  ..snip..
-+In meson.build:
-+
-+  # Detect dependency
-+  sdl = dependency('sdl2',
-+                   required: get_option('sdl'),
-+                   static: enable_static)
-+
-+  # Create config-host.h
-+  config_host_data.set('CONFIG_SDL', sdl.found())
-+
-+  # Summary
-+  summary_info += {'SDL support':       sdl.found()}
+- - has $COMMAND
+-
++`has $COMMAND`
+    Determine if $COMMAND exists in the current environment, either as a
+    shell builtin, or executable binary, returning 0 on success.
  
--  # Define make variables
--  if test "$gnutls" = "yes" ; then
--     echo "CONFIG_GNUTLS=y" >> $config_host_mak
--  fi
+- - path_of $COMMAND
+-
++`path_of $COMMAND`
+    Return the fully qualified path of $COMMAND, printing it to stdout,
+    and returning 0 on success.
  
+- - check_define $NAME
+-
++`check_define $NAME`
+    Determine if the macro $NAME is defined by the system C compiler
  
- Helper functions
-@@ -164,145 +175,189 @@ developers in checking for system features:
+- - check_include $NAME
+-
++`check_include $NAME`
+    Determine if the include $NAME file is available to the system C
+    compiler
+ 
+- - write_c_skeleton
+-
++`write_c_skeleton`
+    Write a minimal C program main() function to the temporary file
+    indicated by $TMPC
+ 
+- - feature_not_found $NAME $REMEDY
+-
++`feature_not_found $NAME $REMEDY`
+    Print a message to stderr that the feature $NAME was not available
+    on the system, suggesting the user try $REMEDY to address the
+    problem.
+ 
+- - error_exit $MESSAGE $MORE...
+-
++`error_exit $MESSAGE $MORE...`
+    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
+    configure script with non-zero status
+ 
+- - query_pkg_config $ARGS...
+-
++`query_pkg_config $ARGS...`
+    Run pkg-config passing it $ARGS. If QEMU is doing a static build,
     then --static will be automatically added to $ARGS
  
+@@ -182,9 +171,13 @@ The Meson build system is currently used to describe the build
+ process for:
  
--Stage 2: makefiles
--==================
-+Stage 2: Meson
-+==============
+ 1) executables, which include:
++
+    - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
++
+    - System emulators - qemu-system-$ARCH
++
+    - Userspace emulators - qemu-$ARCH
++
+    - Some (but not all) unit tests
  
--The use of GNU make is required with the QEMU build system.
-+The Meson build system is currently used to describe the build
-+process for:
+ 2) documentation
+@@ -200,9 +193,9 @@ to list the files and their dependency on various configuration
+ symbols.
  
--Although the source code is spread across multiple subdirectories, the
--build system should be considered largely non-recursive in nature, in
--contrast to common practices seen with automake. There is some recursive
--invocation of make, but this is related to the things being built,
--rather than the source directory structure.
-+1) executables, which include:
-+   - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
-+   - System emulators - qemu-system-$ARCH
-+   - Userspace emulators - qemu-$ARCH
-+   - Some (but not all) unit tests
+ Various subsystems that are common to both tools and emulators have
+-their own sourceset, for example block_ss for the block device subsystem,
+-chardev_ss for the character device subsystem, etc.  These sourcesets
+-are then turned into static libraries as follows:
++their own sourceset, for example `block_ss` for the block device subsystem,
++`chardev_ss` for the character device subsystem, etc.  These sourcesets
++are then turned into static libraries as follows::
  
--QEMU currently supports both VPATH and non-VPATH builds, so there are
--three general ways to invoke configure & perform a build.
-+2) documentation
+     libchardev = static_library('chardev', chardev_ss.sources(),
+                                 name_suffix: 'fa',
+@@ -210,7 +203,7 @@ are then turned into static libraries as follows:
  
-- - VPATH, build artifacts outside of QEMU source tree entirely
-+3) ROMs, which can be either installed as binary blobs or compiled
+     chardev = declare_dependency(link_whole: libchardev)
  
--     cd ../
--     mkdir build
--     cd build
--     ../qemu/configure
--     make
-+4) other data files, such as icons or desktop files
+-The special ".fa" suffix is needed as long as unit tests are built with
++The special `.fa` suffix is needed as long as unit tests are built with
+ the older Makefile infrastructure, and will go away later.
  
-- - VPATH, build artifacts in a subdir of QEMU source tree
--
--     mkdir build
--     cd build
--     ../configure
--     make
--
-- - non-VPATH, build artifacts everywhere
--
--     ./configure
--     make
--
--The QEMU maintainers generally recommend that a VPATH build is used by
--developers. Patches to QEMU are expected to ensure VPATH build still
--works.
-+The source code is highly modularized, split across many files to
-+facilitate building of all of these components with as little duplicated
-+compilation as possible. The Meson "sourceset" functionality is used
-+to list the files and their dependency on various configuration  
-+symbols.
- 
-+Various subsystems that are common to both tools and emulators have
-+their own sourceset, for example block_ss for the block device subsystem,
-+chardev_ss for the character device subsystem, etc.  These sourcesets
-+are then turned into static libraries as follows:
- 
--Module structure
------------------
-+    libchardev = static_library('chardev', chardev_ss.sources(),
-+                                name_suffix: 'fa',
-+                                build_by_default: false)
- 
--There are a number of key outputs of the QEMU build system:
-+    chardev = declare_dependency(link_whole: libchardev)
- 
-- - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
-- - System emulators - qemu-system-$ARCH
-- - Userspace emulators - qemu-$ARCH
-- - Unit tests
-+The special ".fa" suffix is needed as long as unit tests are built with
-+the older Makefile infrastructure, and will go away later.
- 
--The source code is highly modularized, split across many files to
--facilitate building of all of these components with as little duplicated
--compilation as possible. There can be considered to be two distinct
--groups of files, those which are independent of the QEMU emulation
--target and those which are dependent on the QEMU emulation target.
-+Files linked into emulator targets there can be split into two distinct groups
-+of files, those which are independent of the QEMU emulation target and
-+those which are dependent on the QEMU emulation target.
- 
- In the target-independent set lives various general purpose helper code,
+ Files linked into emulator targets there can be split into two distinct groups
+@@ -221,24 +214,24 @@ In the target-independent set lives various general purpose helper code,
  such as error handling infrastructure, standard data structures,
  platform portability wrapper functions, etc. This code can be compiled
  once only and the .o files linked into all output binaries.
-+Target-independent code lives in the common_ss, softmmu_ss and user_ss
-+sourcesets.  common_ss is linked into all emulators, softmmu_ss only
-+in system emulators, user_ss only in user-mode emulators.
+-Target-independent code lives in the common_ss, softmmu_ss and user_ss
+-sourcesets.  common_ss is linked into all emulators, softmmu_ss only
+-in system emulators, user_ss only in user-mode emulators.
++Target-independent code lives in the `common_ss`, `softmmu_ss` and
++`user_ss` sourcesets.  `common_ss` is linked into all emulators, `softmmu_ss`
++only in system emulators, `user_ss` only in user-mode emulators.
  
  In the target-dependent set lives CPU emulation, device emulation and
  much glue code. This sometimes also has to be compiled multiple times,
  once for each target being built.
  
--The utility code that is used by all binaries is built into a
--static archive called libqemuutil.a, which is then linked to all the
--binaries. In order to provide hooks that are only needed by some of the
--binaries, code in libqemuutil.a may depend on other functions that are
--not fully implemented by all QEMU binaries.  Dummy stubs for all these
--functions are also provided by this library, and will only be linked
-+All binaries link with a static library libqemuutil.a, which is then
-+linked to all the binaries.  libqemuutil.a is built from several
-+sourcesets; most of them however host generated code, and the only two
-+of general interest are util_ss and stub_ss.
-+
-+The separation between these two is purely for documentation purposes.
-+util_ss contains generic utility files.  Even though this code is only
-+linked in some binaries, sometimes it requires hooks only in some of
-+these and depend on other functions that are not fully implemented by
-+all QEMU binaries.  stub_ss links dummy stubs that will only be linked
+-All binaries link with a static library libqemuutil.a, which is then
+-linked to all the binaries.  libqemuutil.a is built from several
++All binaries link with a static library `libqemuutil.a`, which is then
++linked to all the binaries.  `libqemuutil.a` is built from several
+ sourcesets; most of them however host generated code, and the only two
+-of general interest are util_ss and stub_ss.
++of general interest are `util_ss` and `stub_ss`.
+ 
+ The separation between these two is purely for documentation purposes.
+-util_ss contains generic utility files.  Even though this code is only
++`util_ss` contains generic utility files.  Even though this code is only
+ linked in some binaries, sometimes it requires hooks only in some of
+ these and depend on other functions that are not fully implemented by
+-all QEMU binaries.  stub_ss links dummy stubs that will only be linked
++all QEMU binaries.  `stub_ss` links dummy stubs that will only be linked
  into the binary if the real implementation is not present.  In a way,
  the stubs can be thought of as a portable implementation of the weak
  symbols concept.
+@@ -246,45 +239,43 @@ symbols concept.
+ The following files concur in the definition of which files are linked
+ into each emulator:
  
--All binaries should link to libqemuutil.a, e.g.:
-+The following files concur in the definition of which files are linked
-+into each emulator:
- 
-- qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
-+- default-configs/*.mak
- 
-+The files under default-configs/ control what emulated hardware is built
-+into each QEMU system and userspace emulator targets. They merely contain
-+a list of config variable definitions like the machines that should be
-+included. For example, default-configs/aarch64-softmmu.mak has:
- 
--Windows platform portability
------------------------------
-+  include arm-softmmu.mak
-+  CONFIG_XLNX_ZYNQMP_ARM=y
-+  CONFIG_XLNX_VERSAL=y
- 
--On Windows, all binaries have the suffix '.exe', so all Makefile rules
--which create binaries must include the $(EXESUF) variable on the binary
--name. e.g.
-+These files rarely need changing unless new devices / hardware need to
-+be enabled for a particular system/userspace emulation target
- 
-- qemu-img$(EXESUF): qemu-img.o ..snip..
-+- */Kconfig
- 
--This expands to '.exe' on Windows, or '' on other platforms.
-+These files are processed together with default-configs/*.mak and
-+describe the dependencies between various features, subsystems and
-+device models.  They are described in kconfig.rst.
-+
-+
-+Support scripts
-+---------------
-+
-+Meson has a special convention for invoking Python scripts: if their
-+first line is "#! /usr/bin/env python3" and the file is *not* executable,
-+find_program() arranges to invoke the script under the same Python
-+interpreter that was used to invoke Meson.  This is the most common
-+and preferred way to invoke support scripts from Meson build files,
-+because it automatically uses the value of configure's --python= option.
- 
--A further complication for the system emulator binaries is that
--two separate binaries need to be generated.
-+In case the script is not written in Python, use a "#! /usr/bin/env ..."
-+line and make the script executable.
- 
--The main binary (e.g. qemu-system-x86_64.exe) is linked against the
--Windows console runtime subsystem. These are expected to be run from a
--command prompt window, and so will print stderr to the console that
--launched them.
-+Scripts written in Python, where it is desirable to make the script
-+executable (for example for test scripts that developers may want to
-+invoke from the command line, such as tests/qapi-schema/test-qapi.py),
-+should be invoked through the "python" variable in meson.build. For
-+example:
- 
--The second binary generated has a 'w' on the end of its name (e.g.
--qemu-system-x86_64w.exe) and is linked against the Windows graphical
--runtime subsystem. These are expected to be run directly from the
--desktop and will open up a dedicated console window for stderr output.
-+  test('QAPI schema regression tests', python,
-+       args: files('test-qapi.py'),
-+       env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
- 
--The Makefile.target will generate the binary for the graphical subsystem
--first, and then use objcopy to relink it against the console subsystem
--to generate the second binary.
-+This is needed to obey the --python= option passed to the configure
-+script, which may point to something other than the first python3
-+binary on the path.
- 
- 
--Object variable naming
------------------------
-+Stage 3: makefiles
-+==================
-+
-+The use of GNU make is required with the QEMU build system.
-+
-+The output of Meson is a build.ninja file, which is used with the Ninja
-+build system.  QEMU uses a different approach, where Makefile rules are
-+synthesized from the build.ninja file.  The main Makefile includes these
-+rules and wraps them so that e.g. submodules are built before QEMU.
-+The resulting build system is largely non-recursive in nature, in
-+contrast to common practices seen with automake.
-+
-+Tests are also ran by the Makefile with the traditional "make check"
-+phony target.  Meson test suites such as "unit" can be ran with "make
-+check-unit" too.  It is also possible to run tests defined in meson.build
-+with "meson test".
-+
-+The following text is only relevant for unit tests which still have to
-+be converted to Meson.
-+
-+All binaries should link to libqemuutil.a, e.g.:
-+
-+   qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
-+
-+On Windows, all binaries have the suffix '.exe', so all Makefile rules
-+which create binaries must include the $(EXESUF) variable on the binary
-+name. e.g.
-+
-+   qemu-img$(EXESUF): qemu-img.o ..snip..
-+
-+This expands to '.exe' on Windows, or '' on other platforms.
-+
-+Variable naming
-+---------------
- 
- The QEMU convention is to define variables to list different groups of
--object files. These are named with the convention $PREFIX-obj-y. For
--example the libqemuutil.a file will be linked with all objects listed
--in a variable 'util-obj-y'. So, for example, util/Makefile.obj will
--contain a set of definitions looking like
-+object files. These are named with the convention $PREFIX-obj-y.  The
-+Meson "chardev" variable in the previous example corresponds to a
-+variable 'chardev-obj-y'.
- 
--  util-obj-y += bitmap.o bitops.o hbitmap.o
--  util-obj-y += fifo8.o
--  util-obj-y += acl.o
--  util-obj-y += error.o qemu-error.o
-+Likewise, tests that are executed by "make check-unit" are grouped into
-+a variable check-unit-y, like this:
- 
--When there is an object file which needs to be conditionally built based
-+  check-unit-y += tests/test-visitor-serialization$(EXESUF)
-+  check-unit-y += tests/test-iov$(EXESUF)
-+  check-unit-y += tests/test-bitmap$(EXESUF)
-+
-+When a test or object file which needs to be conditionally built based
- on some characteristic of the host system, the configure script will
- define a variable for the conditional. For example, on Windows it will
- define $(CONFIG_POSIX) with a value of 'n' and $(CONFIG_WIN32) with a
- value of 'y'. It is now possible to use the config variables when
- listing object files. For example,
- 
--  util-obj-$(CONFIG_WIN32) += oslib-win32.o qemu-thread-win32.o
--  util-obj-$(CONFIG_POSIX) += oslib-posix.o qemu-thread-posix.o
-+  check-unit-$(CONFIG_POSIX) += tests/test-vmstate$(EXESUF)
- 
- On Windows this expands to
- 
--  util-obj-y += oslib-win32.o qemu-thread-win32.o
--  util-obj-n += oslib-posix.o qemu-thread-posix.o
-+  check-unit-n += tests/vmstate.exe
- 
--Since libqemutil.a links in $(util-obj-y), the POSIX specific files
--listed against $(util-obj-n) are ignored on the Windows platform builds.
-+Since the "check-unit" target only runs tests included in "$(check-unit-y)",
-+POSIX specific tests listed in $(util-obj-n) are ignored on the Windows
-+platform builds.
- 
- 
- CFLAGS / LDFLAGS / LIBS handling
-@@ -316,27 +371,25 @@ avoided in QEMU, since it would apply to too many build targets.
- Flags that are needed by any QEMU code (i.e. everything *except* GIT
- submodule projects) are put in $(QEMU_CFLAGS) variable. For linker
- flags the $(LIBS) variable is sometimes used, but a couple of more
--targeted variables are preferred. $(libs_softmmu) is used for
--libraries that must be linked to system emulator targets, $(LIBS_TOOLS)
--is used for tools like qemu-img, qemu-nbd, etc and $(LIBS_QGA) is used
--for the QEMU guest agent. There is currently no specific variable for
--the userspace emulator targets as the global $(LIBS), or more targeted
--variables shown below, are sufficient.
-+targeted variables are preferred.
- 
- In addition to these variables, it is possible to provide cflags and
- libs against individual source code files, by defining variables of the
--form $FILENAME-cflags and $FILENAME-libs. For example, the curl block
--driver needs to link to the libcurl library, so block/Makefile defines
--some variables:
-+form $FILENAME-cflags and $FILENAME-libs. For example, the test
-+test-crypto-tlscredsx509 needs to link to the libtasn1 library,
-+so tests/Makefile.include defines some variables:
- 
--  curl.o-cflags      := $(CURL_CFLAGS)
--  curl.o-libs        := $(CURL_LIBS)
-+  tests/crypto-tls-x509-helpers.o-cflags := $(TASN1_CFLAGS)
-+  tests/crypto-tls-x509-helpers.o-libs := $(TASN1_LIBS)
- 
- The scope is a little different between the two variables. The libs get
- used when linking any target binary that includes the curl.o object
- file, while the cflags get used when compiling the curl.c file only.
- 
- 
-+Important files for the build system
-+====================================
-+
- Statically defined files
- ------------------------
- 
-@@ -348,81 +401,26 @@ number of dynamically created files listed later.
- 
- The main entry point used when invoking make to build all the components
- of QEMU. The default 'all' target will naturally result in the build of
--every component. The various tools and helper binaries are built
-+every component. Makefile takes care of recursively building submodules
- directly via a non-recursive set of rules.
- 
--Each system/userspace emulation target needs to have a slightly
--different set of make rules / variables. Thus, make will be recursively
--invoked for each of the emulation targets.
--
--The recursive invocation will end up processing the toplevel
--Makefile.target file (more on that later).
--
--
--- */Makefile.objs
--
--Since the source code is spread across multiple directories, the rules
--for each file are similarly modularized. Thus each subdirectory
--containing .c files will usually also contain a Makefile.objs file.
--These files are not directly invoked by a recursive make, but instead
--they are imported by the top level Makefile and/or Makefile.target
--
--Each Makefile.objs usually just declares a set of variables listing the
--.o files that need building from the source files in the directory. They
--will also define any custom linker or compiler flags. For example in
--block/Makefile.objs
--
--  block-obj-$(CONFIG_LIBISCSI) += iscsi.o
--  block-obj-$(CONFIG_CURL) += curl.o
--
--  ..snip...
-+- Makefile.objs
- 
--  iscsi.o-cflags     := $(LIBISCSI_CFLAGS)
--  iscsi.o-libs       := $(LIBISCSI_LIBS)
--  curl.o-cflags      := $(CURL_CFLAGS)
--  curl.o-libs        := $(CURL_LIBS)
-+Defines *-obj-y files corresponding to 
- 
--If there are any rules defined in the Makefile.objs file, they should
--all use $(obj) as a prefix to the target, e.g.
--
--  $(obj)/generated-tcg-tracers.h: $(obj)/generated-tcg-tracers.h-timestamp
--
--
--- Makefile.target
--
--This file provides the entry point used to build each individual system
--or userspace emulator target. Each enabled target has its own
--subdirectory. For example if configure is run with the argument
--'--target-list=x86_64-softmmu', then a sub-directory 'x86_64-softmmu'
--will be created, containing a 'Makefile' which symlinks back to
--Makefile.target
--
--So when the recursive '$(MAKE) -C x86_64-softmmu' is invoked, it ends up
--using Makefile.target for the build rules.
-+- */meson.build
- 
-+The meson.build file in the root directory is the main entry point for the
-+Meson build system, and it coordinates the configuration and build of all
-+executables.  Build rules for various subdirectories are included in
-+other meson.build files spread throughout the QEMU source tree.
- 
- - rules.mak
- 
- This file provides the generic helper rules for invoking build tools, in
- particular the compiler and linker.
- 
--
 -- default-configs/*.mak
--
++`default-configs/*.mak`
++  The files under default-configs/ control what emulated hardware is built
++  into each QEMU system and userspace emulator targets. They merely contain
++  a list of config variable definitions like the machines that should be
++  included. For example, default-configs/aarch64-softmmu.mak has::
+ 
 -The files under default-configs/ control what emulated hardware is built
 -into each QEMU system and userspace emulator targets. They merely contain
 -a list of config variable definitions like the machines that should be
 -included. For example, default-configs/aarch64-softmmu.mak has:
--
++    include arm-softmmu.mak
++    CONFIG_XLNX_ZYNQMP_ARM=y
++    CONFIG_XLNX_VERSAL=y
+ 
 -  include arm-softmmu.mak
 -  CONFIG_XLNX_ZYNQMP_ARM=y
 -  CONFIG_XLNX_VERSAL=y
--
--These files rarely need changing unless new devices / hardware need to
--be enabled for a particular system/userspace emulation target
--
--
--- tests/Makefile
-+- tests/Makefile.include
++`*/Kconfig`
++  These files are processed together with `default-configs/*.mak` and
++  describe the dependencies between various features, subsystems and
++  device models.  They are described in kconfig.rst.
  
- Rules for building the unit tests. This file is included directly by the
- top level Makefile, so anything defined in this file will influence the
-@@ -435,11 +433,11 @@ Rules for Docker tests. Like tests/Makefile, this file is included
- directly by the top level Makefile, anything defined in this file will
- influence the entire build system.
+ These files rarely need changing unless new devices / hardware need to
+ be enabled for a particular system/userspace emulation target
  
--- po/Makefile
+-- */Kconfig
 -
--Rules for building and installing the binary message catalogs from the
--text .po file sources. This almost never needs changing for any reason.
-+- tests/vm/Makefile.include
+-These files are processed together with default-configs/*.mak and
+-describe the dependencies between various features, subsystems and
+-device models.  They are described in kconfig.rst.
+-
  
-+Rules for VM-based tests. Like tests/Makefile, this file is included
-+directly by the top level Makefile, anything defined in this file will
-+influence the entire build system.
+ Support scripts
+ ---------------
+ 
+ Meson has a special convention for invoking Python scripts: if their
+-first line is "#! /usr/bin/env python3" and the file is *not* executable,
++first line is `#! /usr/bin/env python3` and the file is *not* executable,
+ find_program() arranges to invoke the script under the same Python
+ interpreter that was used to invoke Meson.  This is the most common
+ and preferred way to invoke support scripts from Meson build files,
+ because it automatically uses the value of configure's --python= option.
+ 
+-In case the script is not written in Python, use a "#! /usr/bin/env ..."
++In case the script is not written in Python, use a `#! /usr/bin/env ...`
+ line and make the script executable.
+ 
+ Scripts written in Python, where it is desirable to make the script
+ executable (for example for test scripts that developers may want to
+ invoke from the command line, such as tests/qapi-schema/test-qapi.py),
+-should be invoked through the "python" variable in meson.build. For
+-example:
++should be invoked through the `python` variable in meson.build. For
++example::
+ 
+   test('QAPI schema regression tests', python,
+        args: files('test-qapi.py'),
+@@ -307,35 +298,35 @@ rules and wraps them so that e.g. submodules are built before QEMU.
+ The resulting build system is largely non-recursive in nature, in
+ contrast to common practices seen with automake.
+ 
+-Tests are also ran by the Makefile with the traditional "make check"
+-phony target.  Meson test suites such as "unit" can be ran with "make
+-check-unit" too.  It is also possible to run tests defined in meson.build
+-with "meson test".
++Tests are also ran by the Makefile with the traditional `make check`
++phony target.  Meson test suites such as `unit` can be ran with `make
++check-unit` too.  It is also possible to run tests defined in meson.build
++with `meson test`.
+ 
+ The following text is only relevant for unit tests which still have to
+ be converted to Meson.
+ 
+-All binaries should link to libqemuutil.a, e.g.:
++All binaries should link to `libqemuutil.a`, e.g.:
+ 
+    qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
+ 
+-On Windows, all binaries have the suffix '.exe', so all Makefile rules
++On Windows, all binaries have the suffix `.exe`, so all Makefile rules
+ which create binaries must include the $(EXESUF) variable on the binary
+ name. e.g.
+ 
+    qemu-img$(EXESUF): qemu-img.o ..snip..
+ 
+-This expands to '.exe' on Windows, or '' on other platforms.
++This expands to `.exe` on Windows, or an empty string on other platforms.
+ 
+ Variable naming
+ ---------------
+ 
+ The QEMU convention is to define variables to list different groups of
+ object files. These are named with the convention $PREFIX-obj-y.  The
+-Meson "chardev" variable in the previous example corresponds to a
++Meson `chardev` variable in the previous example corresponds to a
+ variable 'chardev-obj-y'.
+ 
+-Likewise, tests that are executed by "make check-unit" are grouped into
++Likewise, tests that are executed by `make check-unit` are grouped into
+ a variable check-unit-y, like this:
+ 
+   check-unit-y += tests/test-visitor-serialization$(EXESUF)
+@@ -355,8 +346,8 @@ On Windows this expands to
+ 
+   check-unit-n += tests/vmstate.exe
+ 
+-Since the "check-unit" target only runs tests included in "$(check-unit-y)",
+-POSIX specific tests listed in $(util-obj-n) are ignored on the Windows
++Since the `check-unit` target only runs tests included in `$(check-unit-y)`,
++POSIX specific tests listed in `$(util-obj-n)` are ignored on the Windows
+ platform builds.
+ 
+ 
+@@ -397,47 +388,37 @@ The following key files are statically defined in the source tree, with
+ the rules needed to build QEMU. Their behaviour is influenced by a
+ number of dynamically created files listed later.
+ 
+-- Makefile
+-
+-The main entry point used when invoking make to build all the components
+-of QEMU. The default 'all' target will naturally result in the build of
+-every component. Makefile takes care of recursively building submodules
+-directly via a non-recursive set of rules.
+-
+-- Makefile.objs
+-
+-Defines *-obj-y files corresponding to 
+-
+-- */meson.build
+-
+-The meson.build file in the root directory is the main entry point for the
+-Meson build system, and it coordinates the configuration and build of all
+-executables.  Build rules for various subdirectories are included in
+-other meson.build files spread throughout the QEMU source tree.
+-
+-- rules.mak
+-
+-This file provides the generic helper rules for invoking build tools, in
+-particular the compiler and linker.
+-
+-- tests/Makefile.include
+-
+-Rules for building the unit tests. This file is included directly by the
+-top level Makefile, so anything defined in this file will influence the
+-entire build system. Care needs to be taken when writing rules for tests
+-to ensure they only apply to the unit test execution / build.
+-
+-- tests/docker/Makefile.include
+-
+-Rules for Docker tests. Like tests/Makefile, this file is included
+-directly by the top level Makefile, anything defined in this file will
+-influence the entire build system.
+-
+-- tests/vm/Makefile.include
+-
+-Rules for VM-based tests. Like tests/Makefile, this file is included
+-directly by the top level Makefile, anything defined in this file will
+-influence the entire build system.
++`Makefile`
++  The main entry point used when invoking make to build all the components
++  of QEMU. The default 'all' target will naturally result in the build of
++  every component. Makefile takes care of recursively building submodules
++  directly via a non-recursive set of rules.
++
++`*/meson.build`
++  The meson.build file in the root directory is the main entry point for the
++  Meson build system, and it coordinates the configuration and build of all
++  executables.  Build rules for various subdirectories are included in
++  other meson.build files spread throughout the QEMU source tree.
++
++`rules.mak`
++  This file provides the generic helper rules for invoking build tools, in
++  particular the compiler and linker.
++
++`tests/Makefile.include`
++  Rules for building the unit tests. This file is included directly by the
++  top level Makefile, so anything defined in this file will influence the
++  entire build system. Care needs to be taken when writing rules for tests
++  to ensure they only apply to the unit test execution / build.
++
++`tests/docker/Makefile.include`
++  Rules for Docker tests. Like tests/Makefile, this file is included
++  directly by the top level Makefile, anything defined in this file will
++  influence the entire build system.
++
++`tests/vm/Makefile.include`
++  Rules for VM-based tests. Like tests/Makefile, this file is included
++  directly by the top level Makefile, anything defined in this file will
++  influence the entire build system.
  
  Dynamically created files
  -------------------------
-@@ -450,6 +448,7 @@ the need for QEMU makefiles to go through any pre-processing as seen
- with autotools, where Makefile.am generates Makefile.in which generates
- Makefile.
+@@ -450,79 +431,70 @@ Makefile.
  
-+Built by configure:
+ Built by configure:
  
- - config-host.mak
- 
-@@ -457,27 +456,17 @@ When configure has determined the characteristics of the build host it
- will write a long list of variables to config-host.mak file. This
- provides the various install directories, compiler / linker flags and a
- variety of CONFIG_* variables related to optionally enabled features.
--This is imported by the top level Makefile in order to tailor the build
--output.
-+This is imported by the top level Makefile and meson.build in order to
-+tailor the build output.
-+
-+config-host.mak is also used as a dependency checking mechanism. If make
-+sees that the modification timestamp on configure is newer than that on
-+config-host.mak, then configure will be re-run.
- 
- The variables defined here are those which are applicable to all QEMU
- build outputs. Variables which are potentially different for each
- emulator target are defined by the next file...
- 
--It is also used as a dependency checking mechanism. If make sees that
--the modification timestamp on configure is newer than that on
--config-host.mak, then configure will be re-run.
+-- config-host.mak
 -
+-When configure has determined the characteristics of the build host it
+-will write a long list of variables to config-host.mak file. This
+-provides the various install directories, compiler / linker flags and a
+-variety of CONFIG_* variables related to optionally enabled features.
+-This is imported by the top level Makefile and meson.build in order to
+-tailor the build output.
+-
+-config-host.mak is also used as a dependency checking mechanism. If make
+-sees that the modification timestamp on configure is newer than that on
+-config-host.mak, then configure will be re-run.
++`config-host.mak`
++  When configure has determined the characteristics of the build host it
++  will write a long list of variables to config-host.mak file. This
++  provides the various install directories, compiler / linker flags and a
++  variety of `CONFIG_*` variables related to optionally enabled features.
++  This is imported by the top level Makefile and meson.build in order to
++  tailor the build output.
+ 
+-The variables defined here are those which are applicable to all QEMU
+-build outputs. Variables which are potentially different for each
+-emulator target are defined by the next file...
++  config-host.mak is also used as a dependency checking mechanism. If make
++  sees that the modification timestamp on configure is newer than that on
++  config-host.mak, then configure will be re-run.
+ 
+-- $TARGET-NAME/config-target.mak
++  The variables defined here are those which are applicable to all QEMU
++  build outputs. Variables which are potentially different for each
++  emulator target are defined by the next file...
+ 
+-TARGET-NAME is the name of a system or userspace emulator, for example,
+-x86_64-softmmu denotes the system emulator for the x86_64 architecture.
+-This file contains the variables which need to vary on a per-target
+-basis. For example, it will indicate whether KVM or Xen are enabled for
+-the target and any other potential custom libraries needed for linking
+-the target.
++`$TARGET-NAME/config-target.mak`
++  TARGET-NAME is the name of a system or userspace emulator, for example,
++  x86_64-softmmu denotes the system emulator for the x86_64 architecture.
++  This file contains the variables which need to vary on a per-target
++  basis. For example, it will indicate whether KVM or Xen are enabled for
++  the target and any other potential custom libraries needed for linking
++  the target.
+ 
+ 
+ Built by Meson:
+ 
+-- ${TARGET-NAME}-config-devices.mak
+-
+-TARGET-NAME is again the name of a system or userspace emulator. The
+-config-devices.mak file is automatically generated by make using the
+-scripts/make_device_config.sh program, feeding it the
+-default-configs/$TARGET-NAME file as input.
 -
 -- config-host.h
+-- $TARGET-NAME/config-target.h
+-- $TARGET-NAME/config-devices.h
++`${TARGET-NAME}-config-devices.mak`
++  TARGET-NAME is again the name of a system or userspace emulator. The
++  config-devices.mak file is automatically generated by make using the
++  scripts/make_device_config.sh program, feeding it the
++  default-configs/$TARGET-NAME file as input.
+ 
+-These files are used by source code to determine what features
+-are enabled.  They are generated from the contents of the corresponding
+-*.h files using the scripts/create_config program. This extracts
+-relevant variables and formats them as C preprocessor macros.
++`config-host.h`, `$TARGET-NAME/config-target.h`, `$TARGET-NAME/config-devices.h`
++  These files are used by source code to determine what features
++  are enabled.  They are generated from the contents of the corresponding
++  `*.h` files using the scripts/create_config program. This extracts
++  relevant variables and formats them as C preprocessor macros.
+ 
+-- build.ninja
++`build.ninja`
++  The build rules.
+ 
+ 
+ Built by Makefile:
+ 
+-- Makefile.ninja:
++`Makefile.ninja`
++  A Makefile conversion of the build rules in build.ninja.  The conversion
++  is straightforward and, were it necessary to debug the rules produced
++  by Meson, it should be enough to look at build.ninja.  The conversion
++  is performed by scripts/ninjatool.py.
+ 
+-A Makefile conversion of the build rules in build.ninja.  The conversion
+-is straightforward and, were it necessary to debug the rules produced
+-by Meson, it should be enough to look at build.ninja.  The conversion
+-is performed by scripts/ninjatool.py.
 -
--The config-host.h file is used by source code to determine what features
--are enabled. It is generated from the contents of config-host.mak using
--the scripts/create_config program. This extracts all the CONFIG_* variables,
--most of the HOST_* variables and a few other misc variables from
--config-host.mak, formatting them as C preprocessor macros.
+-- Makefile.mtest:
 -
--
- - $TARGET-NAME/config-target.mak
- 
- TARGET-NAME is the name of a system or userspace emulator, for example,
-@@ -488,19 +477,42 @@ the target and any other potential custom libraries needed for linking
- the target.
- 
- 
--- $TARGET-NAME/config-devices.mak
-+Built by Meson:
-+
-+- ${TARGET-NAME}-config-devices.mak
- 
- TARGET-NAME is again the name of a system or userspace emulator. The
- config-devices.mak file is automatically generated by make using the
- scripts/make_device_config.sh program, feeding it the
- default-configs/$TARGET-NAME file as input.
- 
-+- config-host.h
-+- $TARGET-NAME/config-target.h
-+- $TARGET-NAME/config-devices.h
-+
-+These files are used by source code to determine what features
-+are enabled.  They are generated from the contents of the corresponding
-+*.h files using the scripts/create_config program. This extracts
-+relevant variables and formats them as C preprocessor macros.
-+
-+- build.ninja
-+
-+
-+Built by Makefile:
-+
-+- Makefile.ninja:
-+
-+A Makefile conversion of the build rules in build.ninja.  The conversion
-+is straightforward and, were it necessary to debug the rules produced
-+by Meson, it should be enough to look at build.ninja.  The conversion
-+is performed by scripts/ninjatool.py.
- 
--- $TARGET-NAME/Makefile
-+- Makefile.mtest:
- 
--This is the entrypoint used when make recurses to build a single system
--or userspace emulator target. It is merely a symlink back to the
--Makefile.target in the top level.
-+The Makefile definitions that let "make check" run tests defined in
-+meson.build.  The rules are produced from Meson's JSON description of
-+tests (obtained with "meson introspect --tests") through the script
-+scripts/mtest2make.py.
+-The Makefile definitions that let "make check" run tests defined in
+-meson.build.  The rules are produced from Meson's JSON description of
+-tests (obtained with "meson introspect --tests") through the script
+-scripts/mtest2make.py.
++`Makefile.mtest`
++  The Makefile definitions that let "make check" run tests defined in
++  meson.build.  The rules are produced from Meson's JSON description of
++  tests (obtained with "meson introspect --tests") through the script
++  scripts/mtest2make.py.
  
  
  Useful make targets
+-===================
+-
+-- help
++-------------------
+ 
++`help`
+   Print a help message for the most common build targets.
+ 
+-- print-VAR
+-
++`print-VAR`
+   Print the value of the variable VAR. Useful for debugging the build
+   system.
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index ae6eac7c9c..04773ce076 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -13,6 +13,7 @@ Contents:
+ .. toctree::
+    :maxdepth: 2
+ 
++   build-system
+    kconfig
+    loads-stores
+    memory
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index ae17017504..c87d141417 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -205,14 +205,14 @@ test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas
+ diff = find_program('diff')
+ 
+ qapi_doc = custom_target('QAPI doc',
+-                         output: ['doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
++                         output: ['doc-good-qapi-doc.texi',
++                                  'doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
+                                   'doc-good-qapi-emit-events.c', 'doc-good-qapi-emit-events.h',
+                                   'doc-good-qapi-events.c', 'doc-good-qapi-events.h',
+                                   'doc-good-qapi-init-commands.c', 'doc-good-qapi-init-commands.h',
+                                   'doc-good-qapi-introspect.c', 'doc-good-qapi-introspect.h',
+                                   'doc-good-qapi-types.c', 'doc-good-qapi-types.h',
+-                                  'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h',
+-                                  'doc-good-qapi-doc.texi' ],
++                                  'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h' ],
+                          input: files('doc-good.json'),
+                          command: [ qapi_gen, '-o', meson.current_build_dir(),
+                                     '-p', 'doc-good-', '@INPUT0@' ],
 -- 
 2.26.2
-
 
 
