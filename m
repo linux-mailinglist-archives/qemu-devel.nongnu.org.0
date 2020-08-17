@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6096B2468EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:58:02 +0200 (CEST)
-Received: from localhost ([::1]:56938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B034C2468EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:59:25 +0200 (CEST)
+Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gaH-0001I9-De
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:58:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41108)
+	id 1k7gbc-0004iB-MN
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHI-0004uM-7i
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:24 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39222)
+ id 1k7gHP-00055O-GB
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:31 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHE-0006BZ-Mr
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:23 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id a5so15258866wrm.6
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:20 -0700 (PDT)
+ id 1k7gHM-0006Ce-3d
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:30 -0400
+Received: by mail-wm1-x331.google.com with SMTP id 9so13414930wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MxRrNlWMa4peGdDiN+aPCZQxNRXBWH2i6GnS6XF+Ofc=;
- b=NhNeSvzKgniEF68kToAuUqCjWOWYcddHp31ToGUk8NUkr4ir1X0Kl+Jdehabsswm/7
- qvftkomKG63pArHGNcMlWFwHeEcxnbvD+9g9LLm8xmmnxEo3l15rqW0tFWaa25A+Kami
- Twf0R24j45vgZeIVqf7BlhyxGbz943I7I0wyOEdXd1wHvz6ZT0St/jEgZa5K/0SkQiVS
- CMGXAkIE0z3NnMgLnjbsvUm3jDhtw9JX90/cTlbYXFA5Xlm+GMbKUlrr+Rg7P+rjYVIr
- 8fGwrxADjJbVsuzofJ9JKci54jQiMdptL1dpFfaGcGxN3ZoBlgoPxcSAnYllMMO8Cyzb
- ZMjw==
+ bh=ZEWJfelYGw//d36sxX5zHGmQtSfLq0EM1+ukDfPVr48=;
+ b=DMUorRlXx1YIyc69O2eRiQA5oPtUPFp5Hy1BFp6KBOjc5LX2toqMahNUSJkcRrL8Qx
+ iqbnBKYvj8fT6XQZFFYQzL5aksCFGloM32o02QEpNLboFZWS3CJ3SA1sckFg1LIy0HZd
+ 5Uya/fXP2tvZLoPTXP/JteIQsK0B5XC6S8mK8wZ4B9AzD83HSBc1W3nCZAEfgm2e65YG
+ otylVkYLpz7ECUFt9SDSutxe8Zm54MI5dHrxkHQH9TxQeMyMNdGVcDvhBeWZQ8tSX1Px
+ lhy5Gs7eSIcldQ4wBxdmSF00qpvx8QIOHXcE460YYbZssCeGqlTooMgJ0kV0AKD8wUlK
+ SE7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MxRrNlWMa4peGdDiN+aPCZQxNRXBWH2i6GnS6XF+Ofc=;
- b=AiZRlgXH2ayv96WzX6sUG3WDj6FTpFvgVAs/32b5otzrHlGuGv5+7n9JyZeOX2mh8o
- BgsNHdSbGrsJ5JEXPAbLLbK/qTbir5aWgCUMwETO79mt6WpKXkaMIM+gsMoqAzvSg9ef
- /fvsGINfupUVkAi5CNA2N80Tc7xgaUzl++Zm9U7wxKA08Tnlt6gahGSjqiJpYWc3WSex
- qBm7rmJ/ujSI6/bIImEMcX+AcPCLghJecJmoTMQRWCn8vbhuY8eLw7l7obtD0ggOO2S4
- 2XacKTWAaJ/c/w5jU9gEtWBHBECgdGsxHiSy+6Be93tsICIop1qKA0P10TCw0xwizD0U
- BN5w==
-X-Gm-Message-State: AOAM5310I2k4aVK/nZfMonSE/LrDA8wE52NFZBwzGf/M3qkqBNbuWAqX
- l5BNwy/W73OMl+/PRDVfJz6oWQ7eg2o=
-X-Google-Smtp-Source: ABdhPJx5Cb4RWKXzHql7txQgtEeny1rIKPkiilm9tzR7nJ+G0P0XhISv3pmgSjzWJzP6+Z4Rh6nAZg==
-X-Received: by 2002:adf:e704:: with SMTP id c4mr16993074wrm.81.1597675099215; 
- Mon, 17 Aug 2020 07:38:19 -0700 (PDT)
+ bh=ZEWJfelYGw//d36sxX5zHGmQtSfLq0EM1+ukDfPVr48=;
+ b=TISr71M2DtvOD9/6EEWvZkmCcGUB9weT/+vW1pVZ/2QMgkuAqRyadlRO1x7rAbi/5j
+ 9GUeYhZd23067kcbqht89Aedcz5TZqdjYx/rnsecN2cUxld/xaYMXerKNbt4dwFwAzMK
+ xrV1C+8E4erC0uA84YGW850IklKSpaL2QyMNrdQ1V5K4jbFwoCk3oNJpuOmuQELUaFaI
+ lPhN1JjCeCnZzjxBqPNloXvRilHRE2RQrKGij2QbTcxIZ/Vck+sK1dg+VewSibknGzvg
+ UOA1AZQbCn1S7Djt1Pvf/Bf42/ir9PvQEk6pKegnYnKFHXZu8wGTisCxNiBGhLIZjyTt
+ ywfA==
+X-Gm-Message-State: AOAM5337JeH6IU4s5e/J5bdYEbj0iteolhMv/y4RYRrYNnbd7lm8ygU3
+ LgkpP0fSzasnjkTr7O7u7kZfmmFmPYo=
+X-Google-Smtp-Source: ABdhPJx7nbrDh8gGVuKszf1TPNizrN5BUjkbiJlhyEYKEhKotcLKAz7YrMXP2W2OfUKxLVVYg2gTrA==
+X-Received: by 2002:a1c:e008:: with SMTP id x8mr14677644wmg.75.1597675106188; 
+ Mon, 17 Aug 2020 07:38:26 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.18
+ i22sm34966603wrb.45.2020.08.17.07.38.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:18 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 055/150] meson: convert qom directory to Meson (tools part)
-Date: Mon, 17 Aug 2020 16:35:48 +0200
-Message-Id: <20200817143723.343284-56-pbonzini@redhat.com>
+Subject: [PATCH 061/150] meson: add modules infrastructure
+Date: Mon, 17 Aug 2020 16:35:54 +0200
+Message-Id: <20200817143723.343284-62-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,110 +96,202 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile          |  2 +-
- Makefile.objs     |  2 +-
- Makefile.target   |  3 ++-
- meson.build       |  1 +
- qom/Makefile.objs |  3 ---
- qom/meson.build   | 15 +++++++++++++++
- 6 files changed, 20 insertions(+), 6 deletions(-)
- create mode 100644 qom/meson.build
+ Makefile            | 10 +--------
+ Makefile.target     |  6 ++++++
+ meson.build         | 51 +++++++++++++++++++++++++++++++++++++++++++++
+ rules.mak           | 10 ++++-----
+ scripts/undefsym.sh | 20 ++++++++++++++++++
+ 5 files changed, 83 insertions(+), 14 deletions(-)
+ create mode 100755 scripts/undefsym.sh
 
 diff --git a/Makefile b/Makefile
-index 68ad75d210..1f95ba81f4 100644
+index 46ff02ec45..8b55440e50 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -237,7 +237,6 @@ dummy := $(call unnest-vars,, \
-                 storage-daemon-obj-y \
-                 storage-daemon-obj-m \
-                 crypto-obj-y \
--                qom-obj-y \
-                 io-obj-y \
-                 common-obj-y \
-                 common-obj-m)
-@@ -258,6 +257,7 @@ $(SOFTMMU_ALL_RULES): $(storage-daemon-obj-y)
- $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
- $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
-+$(SOFTMMU_ALL_RULES): $(qom-obj-y)
- $(SOFTMMU_ALL_RULES): config-all-devices.mak
+@@ -255,7 +255,7 @@ slirp/all: .git-submodule-status
+ 		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)")
  
- SOFTMMU_FUZZ_RULES=$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
-diff --git a/Makefile.objs b/Makefile.objs
-index baf15656e8..84bfa2a61a 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -1,6 +1,6 @@
- #######################################################################
- # Common libraries for tools and emulators
--qom-obj-y = qom/
-+qom-obj-y = qom/libqom.fa
+ $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+-	$(qom-obj-y)
++	$(qom-obj-y) block.syms qemu.syms
  
- #######################################################################
- # code used by both qemu system emulation and qemu-img
+ $(filter %/fuzz, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+ 	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
+@@ -463,14 +463,6 @@ install: all $(if $(BUILD_DOCS),install-doc) \
+ ifneq ($(TOOLS),)
+ 	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
+ endif
+-ifneq ($(CONFIG_MODULES),)
+-	$(INSTALL_DIR) "$(DESTDIR)$(qemu_moddir)"
+-	for s in $(modules-m:.mo=$(DSOSUF)); do \
+-		t="$(DESTDIR)$(qemu_moddir)/$$(echo $$s | tr / -)"; \
+-		$(INSTALL_LIB) $$s "$$t"; \
+-		test -z "$(STRIP)" || $(STRIP) "$$t"; \
+-	done
+-endif
+ ifneq ($(HELPERS-y),)
+ 	$(call install-prog,$(HELPERS-y),$(DESTDIR)$(libexecdir))
+ endif
 diff --git a/Makefile.target b/Makefile.target
-index 257afc2723..1e04551a8e 100644
+index 43d2f9734f..d1d8906b4d 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -191,13 +191,14 @@ all-obj-y := $(obj-y)
- common-obj-m :=
+@@ -162,6 +162,12 @@ obj-y += qapi/
+ obj-y += migration/ram.o
+ LIBS := $(libs_softmmu) $(LIBS)
  
- include $(SRC_PATH)/Makefile.objs
-+dummy := $(call fix-paths,../,, \
-+              qom-obj-y)
- dummy := $(call unnest-vars,.., \
-                authz-obj-y \
-                block-obj-y \
-                block-obj-m \
-                chardev-obj-y \
-                crypto-obj-y \
--               qom-obj-y \
-                io-obj-y \
-                common-obj-y \
-                common-obj-m)
++# Temporary until emulators are linked by Meson
++LIBS := $(LIBS) @../block.syms @../qemu.syms
++ifneq ($(CONFIG_MODULES),y)
++LIBS := $(LIBS)
++endif
++
+ # Hardware support
+ ifeq ($(TARGET_NAME), sparc64)
+ obj-y += hw/sparc64/
 diff --git a/meson.build b/meson.build
-index 00b3220fc8..30e7a0e35b 100644
+index 9699190f14..ec2b0bdd73 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -336,6 +336,7 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+@@ -10,6 +10,7 @@ sh = find_program('sh')
+ cc = meson.get_compiler('c')
+ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
+ config_all_disas = keyval.load(meson.current_build_dir() / 'config-all-disas.mak')
++enable_modules = 'CONFIG_MODULES' in config_host
  
-+subdir('qom')
+ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
+                       language: ['c', 'objc'])
+@@ -312,6 +313,7 @@ genh += hxdep
+ util_ss = ss.source_set()
+ stub_ss = ss.source_set()
+ trace_ss = ss.source_set()
++block_ss = ss.source_set()
+ common_ss = ss.source_set()
+ softmmu_ss = ss.source_set()
+ user_ss = ss.source_set()
+@@ -319,6 +321,7 @@ bsd_user_ss = ss.source_set()
+ linux_user_ss = ss.source_set()
+ specific_ss = ss.source_set()
+ 
++modules = {}
+ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
+@@ -428,6 +431,12 @@ subdir('crypto')
+ subdir('storage-daemon')
+ subdir('ui')
+ 
++
++if enable_modules
++  libmodulecommon = static_library('module-common', files('module-common.c') + genh, pic: true, c_args: '-DBUILD_DSO')
++  modulecommon = declare_dependency(link_whole: libmodulecommon, compile_args: '-DBUILD_DSO')
++endif
++
+ # Build targets from sourcesets
+ 
+ stub_ss = stub_ss.apply(config_all, strict: false)
+@@ -444,6 +453,48 @@ subdir('io')
  subdir('fsdev')
+ subdir('target')
  
- # Other build targets
-diff --git a/qom/Makefile.objs b/qom/Makefile.objs
-index 1b45d104ba..b9629045e6 100644
---- a/qom/Makefile.objs
-+++ b/qom/Makefile.objs
-@@ -1,5 +1,2 @@
--qom-obj-y = object.o container.o qom-qobject.o
--qom-obj-y += object_interfaces.o
--
- common-obj-$(CONFIG_SOFTMMU) += qom-hmp-cmds.o qom-qmp-cmds.o
- storage-daemon-obj-y += qom-qmp-cmds.o
-diff --git a/qom/meson.build b/qom/meson.build
-new file mode 100644
-index 0000000000..3c41ed37e4
++block_mods = []
++softmmu_mods = []
++foreach d, list : modules
++  foreach m, module_ss : list
++    if enable_modules and host_machine.system() != 'windows'
++      module_ss = module_ss.apply(config_host, strict: false)
++      sl = static_library(d + '-' + m, [genh, module_ss.sources()],
++                          dependencies: [modulecommon, module_ss.dependencies()], pic: true)
++      if d == 'block'
++        block_mods += sl
++      else
++        softmmu_mods += sl
++      endif
++    else
++      if d == 'block'
++        block_ss.add_all(module_ss)
++      else
++        softmmu_ss.add_all(module_ss)
++      endif
++    endif
++  endforeach
++endforeach
++
++nm = find_program('nm')
++undefsym = find_program('scripts/undefsym.sh')
++block_syms = custom_target('block.syms', output: 'block.syms',
++                             input: [libqemuutil, block_mods],
++                             capture: true,
++                             command: [undefsym, nm, '@INPUT@'])
++qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
++                             input: [libqemuutil, softmmu_mods],
++                             capture: true,
++                             command: [undefsym, nm, '@INPUT@'])
++
++foreach m : block_mods + softmmu_mods
++  shared_module(m.name(),
++                name_prefix: '',
++                link_whole: m,
++                install: true,
++                install_dir: config_host['qemu_moddir'])
++endforeach
++
+ common_ss.add_all(when: 'CONFIG_SOFTMMU', if_true: softmmu_ss)
+ common_ss.add_all(when: 'CONFIG_USER_ONLY', if_true: user_ss)
+ 
+diff --git a/rules.mak b/rules.mak
+index d8d35f735a..9da9dcd4f6 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -61,17 +61,17 @@ endif
+ # This is necessary because the exectuable itself may not use the function, in
+ # which case the function would not be linked in. Then the DSO loading will
+ # fail because of the missing symbol.
+-process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
++process-archive-undefs = $(filter-out %.a %.fa %.mo %$(DSOSUF),$1) \
+                 $(addprefix $(WL_U), \
+                      $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
+-                              $(call undefined-symbols,$(filter %.mo,$1)))) \
++		$(call undefined-symbols,$(filter %.mo %$(DSOSUF),$1)))) \
+ 		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
+ 		$(filter %.a,$1)
+ 
+-extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
++extract-libs = $(strip $(foreach o,$(filter-out %.mo %$(DSOSUF),$1),$($o-libs)))
+ expand-objs = $(strip $(sort $(filter %.o,$1)) \
+-                  $(foreach o,$(filter %.mo,$1),$($o-objs)) \
+-                  $(filter-out %.o %.mo,$1))
++		$(foreach o,$(filter %.mo %$(DSOSUF),$1),$($o-objs)) \
++		$(filter-out %.o %.mo %$(DSOSUF),$1))
+ 
+ %.o: %.c
+ 	@mkdir -p $(dir $@)
+diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
+new file mode 100755
+index 0000000000..b9ec332e95
 --- /dev/null
-+++ b/qom/meson.build
-@@ -0,0 +1,15 @@
-+qom_ss = ss.source_set()
-+qom_ss.add(files(
-+  'container.c',
-+  'object.c',
-+  'object_interfaces.c',
-+  'qom-qobject.c',
-+))
++++ b/scripts/undefsym.sh
+@@ -0,0 +1,20 @@
++#! /usr/bin/env bash
 +
-+qom_ss = qom_ss.apply(config_host, strict: false)
-+libqom = static_library('qom', qom_ss.sources(),
-+                        dependencies: [qom_ss.dependencies()],
-+                        link_with: [libqemuutil],
-+                        name_suffix: 'fa')
++# Before a shared module's DSO is produced, a static library is built for it
++# and passed to this script.  The script generates -Wl,-u options to force
++# the inclusion of symbol from libqemuutil.a if the shared modules need them,
++# This is necessary because the modules may use functions not needed by the
++# executable itself, which would cause the function to not be linked in.
++# Then the DSO loading would fail because of the missing symbol.
 +
-+qom = declare_dependency(link_whole: libqom)
++if test $# -le 2; then
++  exit 0
++fi
++
++NM=$1
++staticlib=$2
++shift 2
++# Find symbols defined in static libraries and undefined in shared modules
++comm -12 \
++  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
++  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
 -- 
 2.26.2
 
