@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DBC245A9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 04:05:18 +0200 (CEST)
-Received: from localhost ([::1]:50292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD23245B03
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 05:21:13 +0200 (CEST)
+Received: from localhost ([::1]:55136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7UWT-00088J-8Z
-	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 22:05:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56534)
+	id 1k7Vhw-0001W0-HG
+	for lists+qemu-devel@lfdr.de; Sun, 16 Aug 2020 23:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1k7UVn-0007jK-Fg
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 22:04:35 -0400
-Received: from mga18.intel.com ([134.134.136.126]:33157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1k7UVk-0000SQ-ED
- for qemu-devel@nongnu.org; Sun, 16 Aug 2020 22:04:35 -0400
-IronPort-SDR: T0GYWwce3tQALCUnKVLjaGvQhykpQFCqhSdPhmh7nBI9AaO/bR7HxDBpDPwGy7kNiF4feRk27Z
- mMsMJDyMMwqQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="142245978"
-X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; d="scan'208";a="142245978"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2020 19:04:25 -0700
-IronPort-SDR: S5k/19kCClm6ovv+d8ah7luP6CsvMjkNkmihpCmBdO7vghlRIgRTwLImn67Da2z4j6FdZHShkl
- WoFhGsjd97KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; d="scan'208";a="326271212"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga008.jf.intel.com with ESMTP; 16 Aug 2020 19:04:19 -0700
-Date: Mon, 17 Aug 2020 09:52:43 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Sean Mooney <smooney@redhat.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200817015243.GE15344@joy-OptiPlex-7040>
-References: <20200805021654.GB30485@joy-OptiPlex-7040>
- <2624b12f-3788-7e2b-2cb7-93534960bcb7@redhat.com>
- <20200805075647.GB2177@nanopsycho>
- <eb1d01c2-fbad-36b6-10cf-9e03483a736b@redhat.com>
- <20200805093338.GC30485@joy-OptiPlex-7040>
- <20200805105319.GF2177@nanopsycho>
- <20200810074631.GA29059@joy-OptiPlex-7040>
- <e6e75807-0614-bd75-aeb6-64d643e029d3@redhat.com>
- <20200814051601.GD15344@joy-OptiPlex-7040>
- <a4f4a3cf76b87346a4cc4c39c116f575eaab9bac.camel@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k7VhA-000113-IQ
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:20:24 -0400
+Resent-Date: Sun, 16 Aug 2020 23:20:24 -0400
+Resent-Message-Id: <E1k7VhA-000113-IQ@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1k7Vh8-0001l7-7H
+ for qemu-devel@nongnu.org; Sun, 16 Aug 2020 23:20:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1597634402; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jkvPFXYManV8suCgQ8IEOYsU3BB6x3fvHHelbzDAJdkBiXvA3zKCosc1W10oCzmbFah0bLk2LYvebDEfb+MjS+PWS+O621S4LYurve/Nqrz+UcuLkeh/Cw/JNNR0Bpg5eXrJ84ySRNV0CNlM0szrF1yz7vIXtBZIZpnGRr79wCg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1597634402;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=+fvdGVOllunjFC/zSibYSglkb1Z1QW2D0+K2Y4pFc/M=; 
+ b=TK+UaG4nb+Z3S+wZ8jq6A6fkmopc+iWJJgr0AFXprZLzHbCr3uL7cp5I4eWwqHzpDGW2pKtEgzf71Qe2avn2NhzqvxhB8ul+SrdNoex1+uvvcxCYTA8+7qKq8pVHr+eJE2vIF0H6UZ2jtd671EyZDUQFzLmBRlD4g4xs8ISiaiE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1597634398621790.0186919106437;
+ Sun, 16 Aug 2020 20:19:58 -0700 (PDT)
+Subject: Re: [PATCH v3 00/10] *** A Method for evaluating dirty page rate ***
+Message-ID: <159763439703.28013.16223124632696494268@66eaa9a8a123>
+In-Reply-To: <1597634433-18809-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a4f4a3cf76b87346a4cc4c39c116f575eaab9bac.camel@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=yan.y.zhao@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/16 22:04:25
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: zhengchuan@huawei.com
+Date: Sun, 16 Aug 2020 20:19:58 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/16 23:20:18
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,176 +69,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net, eskultet@redhat.com,
- openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, Parav Pandit <parav@mellanox.com>,
- jian-feng.ding@intel.com, dgilbert@redhat.com, zhenyuw@linux.intel.com,
- hejie.xu@intel.com, bao.yumeng@zte.com.cn,
- Alex Williamson <alex.williamson@redhat.com>,
- intel-gvt-dev@lists.freedesktop.org, berrange@redhat.com,
- Cornelia Huck <cohuck@redhat.com>, Jiri Pirko <jiri@mellanox.com>,
- dinechin@redhat.com, devel@ovirt.org
+Reply-To: qemu-devel@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, linyilu@huawei.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, alex.chen@huawei.com,
+ ann.zhuangyanying@huawei.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 14, 2020 at 01:30:00PM +0100, Sean Mooney wrote:
-> On Fri, 2020-08-14 at 13:16 +0800, Yan Zhao wrote:
-> > On Thu, Aug 13, 2020 at 12:24:50PM +0800, Jason Wang wrote:
-> > > 
-> > > On 2020/8/10 下午3:46, Yan Zhao wrote:
-> > > > > driver is it handled by?
-> > > > 
-> > > > It looks that the devlink is for network device specific, and in
-> > > > devlink.h, it says
-> > > > include/uapi/linux/devlink.h - Network physical device Netlink
-> > > > interface,
-> > > 
-> > > 
-> > > Actually not, I think there used to have some discussion last year and the
-> > > conclusion is to remove this comment.
-> > > 
-> > > It supports IB and probably vDPA in the future.
-> > > 
-> > 
-> > hmm... sorry, I didn't find the referred discussion. only below discussion
-> > regarding to why to add devlink.
-> > 
-> > https://www.mail-archive.com/netdev@vger.kernel.org/msg95801.html
-> > 	>This doesn't seem to be too much related to networking? Why can't something
-> > 	>like this be in sysfs?
-> > 	
-> > 	It is related to networking quite bit. There has been couple of
-> > 	iteration of this, including sysfs and configfs implementations. There
-> > 	has been a consensus reached that this should be done by netlink. I
-> > 	believe netlink is really the best for this purpose. Sysfs is not a good
-> > 	idea
-> > 
-> > https://www.mail-archive.com/netdev@vger.kernel.org/msg96102.html
-> > 	>there is already a way to change eth/ib via
-> > 	>echo 'eth' > /sys/bus/pci/drivers/mlx4_core/0000:02:00.0/mlx4_port1
-> > 	>
-> > 	>sounds like this is another way to achieve the same?
-> > 	
-> > 	It is. However the current way is driver-specific, not correct.
-> > 	For mlx5, we need the same, it cannot be done in this way. Do devlink is
-> > 	the correct way to go.
-> im not sure i agree with that.
-> standardising a filesystem based api that is used across all vendors is also a valid
-> option.  that said if devlink is the right choice form a kerenl perspective by all
-> means use it but i have not heard a convincing argument for why it actually better.
-> with tthat said we have been uing tools like ethtool to manage aspect of nics for decades
-> so its not that strange an idea to use a tool and binary protocoal rather then a text
-> based interface for this but there are advantages to both approches.
-> >
-Yes, I agree with you.
-
-> > https://lwn.net/Articles/674867/
-> > 	There a is need for some userspace API that would allow to expose things
-> > 	that are not directly related to any device class like net_device of
-> > 	ib_device, but rather chip-wide/switch-ASIC-wide stuff.
-> > 
-> > 	Use cases:
-> > 	1) get/set of port type (Ethernet/InfiniBand)
-> > 	2) monitoring of hardware messages to and from chip
-> > 	3) setting up port splitters - split port into multiple ones and squash again,
-> > 	   enables usage of splitter cable
-> > 	4) setting up shared buffers - shared among multiple ports within one chip
-> > 
-> > 
-> > 
-> > we actually can also retrieve the same information through sysfs, .e.g
-> > 
-> > > - [path to device]
-> > 
-> >   |--- migration
-> >   |     |--- self
-> >   |     |   |---device_api
-> >   |	|   |---mdev_type
-> >   |	|   |---software_version
-> >   |	|   |---device_id
-> >   |	|   |---aggregator
-> >   |     |--- compatible
-> >   |     |   |---device_api
-> >   |	|   |---mdev_type
-> >   |	|   |---software_version
-> >   |	|   |---device_id
-> >   |	|   |---aggregator
-> > 
-> > 
-> > 
-> > > 
-> > > >   I feel like it's not very appropriate for a GPU driver to use
-> > > > this interface. Is that right?
-> > > 
-> > > 
-> > > I think not though most of the users are switch or ethernet devices. It
-> > > doesn't prevent you from inventing new abstractions.
-> > 
-> > so need to patch devlink core and the userspace devlink tool?
-> > e.g. devlink migration
-> and devlink python libs if openstack was to use it directly.
-> we do have caes where we just frok a process and execaute a comannd in a shell
-> with or without elevated privladge but we really dont like doing that due to 
-> the performacne impacat and security implciations so where we can use python bindign
-> over c apis we do. pyroute2 is the only python lib i know off of the top of my head
-> that support devlink so we would need to enhacne it to support this new devlink api.
-> there may be otherss i have not really looked in the past since we dont need to use
-> devlink at all today.
-> > 
-> > > Note that devlink is based on netlink, netlink has been widely used by
-> > > various subsystems other than networking.
-> > 
-> > the advantage of netlink I see is that it can monitor device status and
-> > notify upper layer that migration database needs to get updated.
-> > But not sure whether openstack would like to use this capability.
-> > As Sean said, it's heavy for openstack. it's heavy for vendor driver
-> > as well :)
-> > 
-> > And devlink monitor now listens the notification and dumps the state
-> > changes. If we want to use it, need to let it forward the notification
-> > and dumped info to openstack, right?
-> i dont think we would use direct devlink monitoring in nova even if it was avaiable.
-> we could but we already poll libvirt and the system for other resouce periodicly.
-so, if we use file system based approach, could openstack periodically check and
-update the migration info?
-e.g.
-every minute, read /sys/<path to device>/migration/self/*, and if there
-are any file disappearing or appearing or content changes, just let the
-placement know.
-
-Then when about to start migration, check source device's
-/sys/<path to src device>/migration/compatible/* and searches the
-placement if there are existing device matching to it,
-if yes, create vm with the device and migrate to it;
-if not, and if it's an mdev, try to create a matching one and migrate to
-it.
-(to create a matching mdev, I guess openstack can follow below sequence:
-1. find a target device with the same device id (e.g. parent pci id)
-2. create an mdev with matching mdev type
-3. adjust other vendor specific attributes
-4. if 2 or 3 fails, go to 1 again
-)
-
-is this approach feasible?
-
-
-> we likely wouldl just add monitoriv via devlink to that periodic task.
-> we certenly would not use it to detect a migration or a need to update a migration database(not sure what that is)
-by migration database, I meant the traits in the placement. :)
-
-if a periodic monitoring or devlink is required, then periodically
-monitor sysfs is also viable, right?
-> 
-> in reality if we can consume this info indirectly via a libvirt api that will
-> be the appcoh we will take at least for the libvirt driver in nova. for cyborg
-> they may take a different appoch. we already use pyroute2 in 2 projects, os-vif and
-> neutron and it does have devlink support so the burden of using devlink is not that
-> high for openstack but its a less frineadly interface for configuration tools like
-> ansiable vs a filesystem based approch.
-> > 
-
- 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTk3NjM0NDMzLTE4ODA5LTEt
+Z2l0LXNlbmQtZW1haWwtemhlbmdjaHVhbkBodWF3ZWkuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
+IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
+b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMTU5NzYz
+NDQzMy0xODgwOS0xLWdpdC1zZW5kLWVtYWlsLXpoZW5nY2h1YW5AaHVhd2VpLmNvbQpTdWJqZWN0
+OiBbUEFUQ0ggdjMgMDAvMTBdICoqKiBBIE1ldGhvZCBmb3IgZXZhbHVhdGluZyBkaXJ0eSBwYWdl
+IHJhdGUgKioqCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
+cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
+aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
+M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+LzE1OTc2MzQ0MzMtMTg4MDktMS1naXQtc2VuZC1lbWFpbC16aGVuZ2NodWFuQGh1YXdlaS5jb20g
+LT4gcGF0Y2hldy8xNTk3NjM0NDMzLTE4ODA5LTEtZ2l0LXNlbmQtZW1haWwtemhlbmdjaHVhbkBo
+dWF3ZWkuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKY2U2ZmUwZCBtaWdyYXRp
+b24vZGlydHlyYXRlOiBJbXBsZW1lbnQgcW1wX2NhbF9kaXJ0eV9yYXRlKCkvcW1wX2dldF9kaXJ0
+eV9yYXRlKCkgZnVuY3Rpb24KOTZjZTAwNyBtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQg
+Y2FsY3VsYXRlX2RpcnR5cmF0ZSgpIGZ1bmN0aW9uCjQyNjQyZDQgbWlncmF0aW9uL2RpcnR5cmF0
+ZTogSW1wbGVtZW50IGdldF9zYW1wbGVfcGFnZV9wZXJpb2QoKSBhbmQgYmxvY2tfc2FtcGxlX3Bh
+Z2VfcGVyaW9kKCkKM2E0ZDRhMiBtaWdyYXRpb24vZGlydHlyYXRlOiBza2lwIHNhbXBsaW5nIHJh
+bWJsb2NrIHdpdGggc2l6ZSBiZWxvdyBNSU5fUkFNQkxPQ0tfU0laRQozMWYzNWI3IG1pZ3JhdGlv
+bi9kaXJ0eXJhdGU6IENvbXBhcmUgcGFnZSBoYXNoIHJlc3VsdHMgZm9yIHJlY29yZGVkIHNhbXBs
+ZWQgcGFnZQphM2Q1ODJkIG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IFJlY29yZCBoYXNoIHJlc3VsdHMg
+Zm9yIGVhY2ggc2FtcGxlZCBwYWdlCjg1YzY0NDcgbWlncmF0aW9uL2RpcnR5cmF0ZTogbW92ZSBS
+QU1CTE9DS19GT1JFQUNIX01JR1JBVEFCTEUgaW50byByYW0uaApjN2M5NGNjIG1pZ3JhdGlvbi9k
+aXJ0eXJhdGU6IEFkZCBkaXJ0eXJhdGUgc3RhdGlzdGljcyBzZXJpZXMgZnVuY3Rpb25zCmE3NmMw
+ZDAgbWlncmF0aW9uL2RpcnR5cmF0ZTogQWRkIFJhbWxvY2tEaXJ0eUluZm8gdG8gc3RvcmUgc2Ft
+cGxlZCBwYWdlIGluZm8KN2Y2MDkyYyBtaWdyYXRpb24vZGlydHlyYXRlOiBBZGQgZ2V0X2RpcnR5
+cmF0ZV90aHJlYWQoKSBmdW5jdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMCBDaGVja2lu
+ZyBjb21taXQgN2Y2MDkyYzUyZDVjIChtaWdyYXRpb24vZGlydHlyYXRlOiBBZGQgZ2V0X2RpcnR5
+cmF0ZV90aHJlYWQoKSBmdW5jdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQg
+ZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjY6IApuZXcgZmlsZSBt
+b2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMTUgbGluZXMgY2hlY2tl
+ZAoKUGF0Y2ggMS8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzEwIENoZWNraW5nIGNv
+bW1pdCBhNzZjMGQwOGU5M2QgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEFkZCBSYW1sb2NrRGlydHlJ
+bmZvIHRvIHN0b3JlIHNhbXBsZWQgcGFnZSBpbmZvKQozLzEwIENoZWNraW5nIGNvbW1pdCBjN2M5
+NGNjNGMxN2QgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEFkZCBkaXJ0eXJhdGUgc3RhdGlzdGljcyBz
+ZXJpZXMgZnVuY3Rpb25zKQo0LzEwIENoZWNraW5nIGNvbW1pdCA4NWM2NDQ3M2FiNzAgKG1pZ3Jh
+dGlvbi9kaXJ0eXJhdGU6IG1vdmUgUkFNQkxPQ0tfRk9SRUFDSF9NSUdSQVRBQkxFIGludG8gcmFt
+LmgpCkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNob3VsZCBiZSBlbmNs
+b3NlZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojNjM6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uaDo0MjoK
+KyNkZWZpbmUgUkFNQkxPQ0tfRk9SRUFDSF9OT1RfSUdOT1JFRChibG9jaykgICAgICAgICAgICBc
+CisgICAgSU5URVJOQUxfUkFNQkxPQ0tfRk9SRUFDSChibG9jaykgICAgICAgICAgICAgICAgICAg
+XAorICAgICAgICBpZiAocmFtYmxvY2tfaXNfaWdub3JlZChibG9jaykpIHt9IGVsc2UKCkVSUk9S
+OiB0cmFpbGluZyBzdGF0ZW1lbnRzIHNob3VsZCBiZSBvbiBuZXh0IGxpbmUKIzY1OiBGSUxFOiBt
+aWdyYXRpb24vcmFtLmg6NDQ6CisgICAgICAgIGlmIChyYW1ibG9ja19pc19pZ25vcmVkKGJsb2Nr
+KSkge30gZWxzZQoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxk
+IGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiM2NzogRklMRTogbWlncmF0aW9uL3Jh
+bS5oOjQ2OgorI2RlZmluZSBSQU1CTE9DS19GT1JFQUNIX01JR1JBVEFCTEUoYmxvY2spICAgICAg
+ICAgICAgIFwKKyAgICBJTlRFUk5BTF9SQU1CTE9DS19GT1JFQUNIKGJsb2NrKSAgICAgICAgICAg
+ICAgICAgICBcCisgICAgICAgIGlmICghcWVtdV9yYW1faXNfbWlncmF0YWJsZShibG9jaykpIHt9
+IGVsc2UKCkVSUk9SOiB0cmFpbGluZyBzdGF0ZW1lbnRzIHNob3VsZCBiZSBvbiBuZXh0IGxpbmUK
+IzY5OiBGSUxFOiBtaWdyYXRpb24vcmFtLmg6NDg6CisgICAgICAgIGlmICghcWVtdV9yYW1faXNf
+bWlncmF0YWJsZShibG9jaykpIHt9IGVsc2UKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2Fy
+eSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzY5OiBGSUxFOiBtaWdyYXRpb24vcmFt
+Lmg6NDg6CisgICAgICAgIGlmICghcWVtdV9yYW1faXNfbWlncmF0YWJsZShibG9jaykpIHt9IGVs
+c2UKWy4uLl0KKyAgICAgICAgaWYgKCFxZW11X3JhbV9pc19taWdyYXRhYmxlKGJsb2NrKSkge30g
+ZWxzZQpbLi4uXQoKdG90YWw6IDUgZXJyb3JzLCAwIHdhcm5pbmdzLCA0NSBsaW5lcyBjaGVja2Vk
+CgpQYXRjaCA0LzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzEwIENoZWNraW5nIGNv
+bW1pdCBhM2Q1ODJkODgwOTMgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IFJlY29yZCBoYXNoIHJlc3Vs
+dHMgZm9yIGVhY2ggc2FtcGxlZCBwYWdlKQo2LzEwIENoZWNraW5nIGNvbW1pdCAzMWYzNWI3M2U3
+NjEgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IENvbXBhcmUgcGFnZSBoYXNoIHJlc3VsdHMgZm9yIHJl
+Y29yZGVkIHNhbXBsZWQgcGFnZSkKNy8xMCBDaGVja2luZyBjb21taXQgM2E0ZDRhMjA3ODEyICht
+aWdyYXRpb24vZGlydHlyYXRlOiBza2lwIHNhbXBsaW5nIHJhbWJsb2NrIHdpdGggc2l6ZSBiZWxv
+dyBNSU5fUkFNQkxPQ0tfU0laRSkKOC8xMCBDaGVja2luZyBjb21taXQgNDI2NDJkNDVjZjI5ICht
+aWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgZ2V0X3NhbXBsZV9wYWdlX3BlcmlvZCgpIGFu
+ZCBibG9ja19zYW1wbGVfcGFnZV9wZXJpb2QoKSkKOS8xMCBDaGVja2luZyBjb21taXQgOTZjZTAw
+NzQyZDIzIChtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgY2FsY3VsYXRlX2RpcnR5cmF0
+ZSgpIGZ1bmN0aW9uKQoxMC8xMCBDaGVja2luZyBjb21taXQgY2U2ZmUwZDEyNGM1IChtaWdyYXRp
+b24vZGlydHlyYXRlOiBJbXBsZW1lbnQgcW1wX2NhbF9kaXJ0eV9yYXRlKCkvcW1wX2dldF9kaXJ0
+eV9yYXRlKCkgZnVuY3Rpb24pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
+ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
+aGV3Lm9yZy9sb2dzLzE1OTc2MzQ0MzMtMTg4MDktMS1naXQtc2VuZC1lbWFpbC16aGVuZ2NodWFu
+QGh1YXdlaS5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
