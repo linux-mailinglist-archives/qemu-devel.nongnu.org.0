@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA557246935
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:15:53 +0200 (CEST)
-Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFB2246906
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:05:32 +0200 (CEST)
+Received: from localhost ([::1]:34400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7grY-0004hb-R6
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
+	id 1k7ghX-0007gR-Ad
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHS-00058R-98
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:34 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42842)
+ id 1k7gHS-00059B-Ug
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:35 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gHQ-0006DT-SW
+ id 1k7gHR-0006Df-DZ
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:34 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r4so15225494wrx.9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:31 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id x5so13422357wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0hJu4Nz1L7VKg35xvN8iIIF1HPKnw8palwRCJBCZ874=;
- b=tu90EZe4o0mdU3WmUMFbe6V+G6fpABfmEFPbHQjP57lucp1x0CAWeX3gRFZIXHdC+a
- zg5cj/tl6XBmN8plTGBhw70fN5jzg7hoTk8INlwv6L317n0iF40RK/l5QU1mVlOIOAGj
- tnbAK+lLLojZ93OfrT4uwoICUjLFxd0huxZWHocJakqpAjBROBuJCHpso3ARLOdHGwks
- rqEBQnDCtntdnj7vpu8madMiF9HCPJUsiFQNYm5T5KLTElO5tEbCIfBfHl+uVXlWpUME
- i1N0wIqJvVlAiLQ1TL1F6+yNjdkafuGcdQGdKz5UeVF6OctRhoPQaikg12XsOnqJpwEF
- HjTg==
+ bh=Ye+eN0K6SwtiPkKz7oTowsHX3twAyqMhNNP/Wn9Nzu8=;
+ b=NW2OfgK9tuMqHkMofuDzhtIgOCUBd9nX5GoI9MjnhYljWG/5kaHLzq9RAcU03EeLO5
+ XtojwnoEPvGxe9nVbzBImMIVJ863HEqo/4vxRU0UGa5yO9gbCAB6R9pLfeag7AYoKvJ1
+ wWc2i+8tYS7yCsAVRPZ0QVdX+GQs3vrCT9oIIxSIMUrixs3mftU2feS1KVsfZ+zTFon6
+ JDEeH9YlSbso39W9BoCAxsVOE+BEa22gOKXhvpdeuiczqc4Q9TiZEdIPM49b0mB52E8W
+ 86SQ/YQqf8xsD0+RGr61/pwfzPgfo7OrkIIy3BnlNlCEF57bFQfA3nFzJWghrUmKTS6Z
+ cEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0hJu4Nz1L7VKg35xvN8iIIF1HPKnw8palwRCJBCZ874=;
- b=Op4RV+o+77tJa8EdwS0i3dvZ6lcywIUTBNyUC0xnbc6alSQRDvwdb/OS2zzTJcnmmI
- y8pJjqa90ZTr3YE01eJ1pacwEShGw/YElmpczE3LYdRUQdIFXeegQ3xGHtpIsbNhI70q
- +/AW54/Ru6my+TizwzyLgKIF1+8R1epzyriC0RKfvuuj26vUC6wLLp4cXd+MhaY2fWKv
- f9pzlyFSSmgwN67kalL3z2kXp+/EOdfihcnVicgusSRqQdyw0XW1QNLGnWZM49BwCaku
- JTDDCS+FjH6LR6ubt1Oqm/nYZLy4eY//3Lzn4fOgRnMVkIFHP+WhIlmSFzfs4kwQMRms
- yYKg==
-X-Gm-Message-State: AOAM532hkcaVWqjxddFu7XhqRstf1OlG5AT2ORFe0MKUVDvyPmVvCDoa
- 3nNoTFSpcnG3FpbeVi8p6wYVAxvK6O8=
-X-Google-Smtp-Source: ABdhPJyDPORSldIDe95s81HvRlKr+CLtLwzkwGV/BVrsV5vT9M132+Tk5u3SJOAj52IG2eHx1Bm8Pw==
-X-Received: by 2002:adf:e704:: with SMTP id c4mr16993917wrm.81.1597675110742; 
- Mon, 17 Aug 2020 07:38:30 -0700 (PDT)
+ bh=Ye+eN0K6SwtiPkKz7oTowsHX3twAyqMhNNP/Wn9Nzu8=;
+ b=G1v762XLrERgWw+dnXdpT75RRbb7SuT+R7R5vsI+aGLNy7jTMJSD5uepGU4swUTmnY
+ 3SeP/6TTrmJg2AxkkPl+GEA2bt+VHWKs2HjAYQ40icpDoqvd18/rZ7RcIIWbfGZh3zAv
+ 3h3boDmp9sHCmEH5x7lAwUrIQcGyz0gC/OQKiQLlMOROvOk7e+ykWqLdlxQHL4uRE9jC
+ QQluvC+dzh0PloufC5Mw1dmgzl6c5iK1TA5/6eQaKxZCTqN0mB/RjWSAKFWftMFoXbFP
+ 9o5BBFtyQ3xiqExstC8hQiOP2V8zxCpcdPsD0qpegoe8J/bSpp+HlzD/Shrc1dsdL5xd
+ Mk8w==
+X-Gm-Message-State: AOAM533FFch3KMqYrVdEg/iGeEe0xeUIexI97d3QnXUGtEc3RRQvAbY3
+ 79utV/DR0wqDiSrP/tg4qBShZ/VTStI=
+X-Google-Smtp-Source: ABdhPJw0U2VEVvdWQouh2QGOxI2Ys2UnzWF6tGwg8Koxu+KNT3K5dcer07F1OEqKoxPtnf9Q+Whp+g==
+X-Received: by 2002:a1c:3285:: with SMTP id
+ y127mr14870025wmy.104.1597675111692; 
+ Mon, 17 Aug 2020 07:38:31 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.30 for <qemu-devel@nongnu.org>
+ i22sm34966603wrb.45.2020.08.17.07.38.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:30 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 066/150] configure, Makefile;
- remove TOOLS and HELPERS-y variable
-Date: Mon, 17 Aug 2020 16:35:59 +0200
-Message-Id: <20200817143723.343284-67-pbonzini@redhat.com>
+Subject: [PATCH 067/150] meson: convert chardev directory to Meson (emulator
+ part)
+Date: Mon, 17 Aug 2020 16:36:00 +0200
+Message-Id: <20200817143723.343284-68-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -73,7 +75,8 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,103 +89,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Everything involving tools is now done by meson.
-
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile  | 22 ++--------------------
- configure |  7 -------
- 2 files changed, 2 insertions(+), 27 deletions(-)
+ Makefile.objs         |  2 --
+ Makefile.target       |  2 ++
+ chardev/Makefile.objs | 10 ----------
+ chardev/meson.build   | 13 +++++++++++++
+ configure             |  2 ++
+ meson.build           | 14 ++++++++++++++
+ 6 files changed, 31 insertions(+), 12 deletions(-)
+ delete mode 100644 chardev/Makefile.objs
 
-diff --git a/Makefile b/Makefile
-index cd8d9a0b02..135175c5ef 100644
---- a/Makefile
-+++ b/Makefile
-@@ -127,8 +127,6 @@ $(call set-vpath, $(SRC_PATH))
+diff --git a/Makefile.objs b/Makefile.objs
+index eeaa0cfa82..e43526fe5f 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -87,8 +87,6 @@ common-obj-y += dma-helpers.o
+ common-obj-$(CONFIG_TPM) += tpm.o
  
- LIBS+=-lz $(LIBS_TOOLS)
+ common-obj-y += backends/
+-common-obj-y += chardev/
+-common-obj-m += chardev/
  
--HELPERS-y =
--
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -177,7 +175,7 @@ dummy := $(call unnest-vars,, \
+ common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
+ qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
+diff --git a/Makefile.target b/Makefile.target
+index c0575da132..c8c4b70162 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -104,6 +104,7 @@ all: $(PROGS) stap
+ 	@true
  
- include $(SRC_PATH)/tests/Makefile.include
+ obj-y += $(LIBQEMU)
++
+ obj-y += trace/
  
--all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules
-+all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
- 
- config-host.h: config-host.h-timestamp
- config-host.h-timestamp: config-host.mak
-@@ -289,7 +287,7 @@ clean: recurse-clean ninja-clean clean-ctlist
- 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
- 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
- 		-exec rm {} +
--	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
-+	rm -f TAGS cscope.* *.pod *~ */*~
- 	rm -f fsdev/*.pod scsi/*.pod
- 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
- 
-@@ -441,12 +439,6 @@ export DESTDIR
- install: all $(if $(BUILD_DOCS),install-doc) \
- 	install-datadir install-localstatedir install-includedir \
- 	recurse-install
--ifneq ($(TOOLS),)
--	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
--endif
--ifneq ($(HELPERS-y),)
--	$(call install-prog,$(HELPERS-y),$(DESTDIR)$(libexecdir))
--endif
- ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+ #########################################################
+@@ -167,6 +168,7 @@ LIBS := $(LIBS) @../block.syms @../qemu.syms
+ ifneq ($(CONFIG_MODULES),y)
+ LIBS := $(LIBS)
  endif
-@@ -706,16 +698,6 @@ endif
- 				$(call print-help-run,$(t)/fuzz,Build fuzzer for $(t)); \
- 		))) \
- 		echo '')
--	@$(if $(HELPERS-y), \
--		echo 'Helper targets:'; \
--		$(foreach t, $(HELPERS-y), \
--		$(call print-help-run,$(t),Build $(shell basename $(t)));) \
--		echo '')
--	@$(if $(TOOLS), \
--		echo 'Tools targets:'; \
--		$(foreach t, $(TOOLS), \
--		$(call print-help-run,$(t),Build $(shell basename $(t)) tool);) \
--		echo '')
- 	@echo  'Cleaning targets:'
- 	$(call print-help,clean,Remove most generated files but keep the config)
- 	$(call print-help,distclean,Remove all generated files)
++LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS)
+ 
+ # Hardware support
+ ifeq ($(TARGET_NAME), sparc64)
+diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
+deleted file mode 100644
+index 6662d0df41..0000000000
+--- a/chardev/Makefile.objs
++++ /dev/null
+@@ -1,10 +0,0 @@
+-chardev-obj-$(CONFIG_SOFTMMU) += chardev-sysemu.o
+-common-obj-$(CONFIG_SOFTMMU) += msmouse.o wctablet.o testdev.o
+-
+-ifeq ($(CONFIG_BRLAPI),y)
+-common-obj-m += baum.o
+-baum.o-cflags := $(SDL_CFLAGS)
+-baum.o-libs := $(BRLAPI_LIBS)
+-endif
+-
+-common-obj-$(CONFIG_SPICE) += spice.o
+diff --git a/chardev/meson.build b/chardev/meson.build
+index a2e671ddfc..f79efaaf09 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -30,3 +30,16 @@ libchardev = static_library('chardev', chardev_ss.sources(),
+                             build_by_default: false)
+ 
+ chardev = declare_dependency(link_whole: libchardev)
++
++softmmu_ss.add(files('chardev-sysemu.c', 'msmouse.c', 'wctablet.c', 'testdev.c'))
++softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
++
++chardev_modules = {}
++
++if config_host.has_key('CONFIG_BRLAPI') and config_host.has_key('CONFIG_SDL')
++  module_ss = ss.source_set()
++  module_ss.add(when: [sdl, brlapi], if_true: files('baum.c'))
++  chardev_modules += { 'brlapi': module_ss }
++endif
++
++modules += { 'chardev': chardev_modules }
 diff --git a/configure b/configure
-index 0262b7b661..a77177f4e2 100755
+index a77177f4e2..50e74b1e79 100755
 --- a/configure
 +++ b/configure
-@@ -6667,12 +6667,6 @@ if [ "$eventfd" = "yes" ]; then
-   ivshmem=yes
+@@ -7344,6 +7344,8 @@ if test "$zlib" != "no" ; then
+ fi
+ if test "$spice" = "yes" ; then
+   echo "CONFIG_SPICE=y" >> $config_host_mak
++  echo "SPICE_CFLAGS=$spice_cflags" >> $config_host_mak
++  echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
  fi
  
--tools=""
--if test "$want_tools" = "yes" ; then
--  if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
--    tools="qemu-storage-daemon\$(EXESUF) $tools"
--  fi
--fi
- if test "$softmmu" = yes ; then
-   if test "$linux" = yes; then
-     if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
-@@ -7768,7 +7762,6 @@ else
-   QEMU_INCLUDES="-iquote ${source_path}/tcg/${ARCH} $QEMU_INCLUDES"
- fi
- 
--echo "TOOLS=$tools" >> $config_host_mak
- echo "ROMS=$roms" >> $config_host_mak
- echo "MAKE=$make" >> $config_host_mak
- echo "INSTALL=$install" >> $config_host_mak
+ if test "$smartcard" = "yes" ; then
+diff --git a/meson.build b/meson.build
+index 92f2da51e5..c20b379b4d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -143,6 +143,11 @@ if 'CONFIG_XKBCOMMON' in config_host
+   xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
+                                  link_args: config_host['XKBCOMMON_LIBS'].split())
+ endif
++spice = not_found
++if 'CONFIG_SPICE' in config_host
++  spice = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split(),
++                             link_args: config_host['SPICE_LIBS'].split())
++endif
+ rt = cc.find_library('rt', required: false)
+ libmpathpersist = not_found
+ if config_host.has_key('CONFIG_MPATH')
+@@ -177,6 +182,15 @@ libudev = not_found
+ if 'CONFIG_LIBUDEV' in config_host
+   libudev = declare_dependency(link_args: config_host['LIBUDEV_LIBS'].split())
+ endif
++brlapi = not_found
++if 'CONFIG_BRLAPI' in config_host
++  brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
++endif
++sdl = not_found
++if 'CONFIG_SDL' in config_host
++  sdl = declare_dependency(compile_args: config_host['SDL_CFLAGS'].split(),
++                           link_args: config_host['SDL_LIBS'].split())
++endif
+ rbd = not_found
+ if 'CONFIG_RBD' in config_host
+   rbd = declare_dependency(link_args: config_host['RBD_LIBS'].split())
 -- 
 2.26.2
 
