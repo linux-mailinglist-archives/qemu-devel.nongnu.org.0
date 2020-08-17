@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629CF246B8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:58:06 +0200 (CEST)
-Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD55246AFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 17:46:57 +0200 (CEST)
+Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hWP-0007dd-Di
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53984)
+	id 1k7hLc-00074j-1x
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 11:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k7h30-0003iJ-Ql
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:27:42 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43957
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k7h2y-00053y-WC
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:27:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597678059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WEpOpEHcWwZagtUH+FXPP7qxnaO7svlFUrJ1/mJH3Jo=;
- b=EMoOVh+6QCCThfAGreTEEhQpEynds+t16Os+TzNUVenU4EJdyrEAOTl+6ydmMjdOra8G4K
- ZwJnDcbq6kToNGFceHIQoD56DIZYGx/WClHEvFV6Ugi1O0b3Vc4Jy8uvaFCIA/nLmyIROR
- HaGdV4FG5/q2H9U61FYYfS2tnu37hHw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-eH8WF0H4P9m_IVEegBjk9A-1; Mon, 17 Aug 2020 11:27:36 -0400
-X-MC-Unique: eH8WF0H4P9m_IVEegBjk9A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEB8881CB00;
- Mon, 17 Aug 2020 15:27:35 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-160.ams2.redhat.com [10.36.112.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3D157A3B4;
- Mon, 17 Aug 2020 15:27:34 +0000 (UTC)
-Date: Mon, 17 Aug 2020 17:27:33 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [RFC PATCH 15/22] block/export: Move device to BlockExportOptions
-Message-ID: <20200817152733.GQ11402@linux.fritz.box>
-References: <20200813162935.210070-1-kwolf@redhat.com>
- <20200813162935.210070-16-kwolf@redhat.com>
- <a163c834-bfc8-897a-c91f-8458b50dfdb6@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k7h7D-0003EN-4B
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:32:03 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1k7h7A-0005mZ-3d
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:32:02 -0400
+Received: by mail-pg1-x543.google.com with SMTP id o13so8298515pgf.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 08:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cj8XLhIGg9ObYWg/BfwNCAVEba7yGVXC7pfU7/cOItg=;
+ b=URSJiDjJn/Jr4kxDxSmQdCmAHWSyXLzvoOaGF80G72T07ML9+tyOzBALuW9RSKEWFY
+ 0T2u2bWKTcoY+IhO7yLwlDI5lxkuDE6TXtT0b9OLe3jlO7D7xl2G9j5zpqDegHLhZ5Iu
+ ONzmcWUnC+G9JB4ZZ/MriWXjRqVd1lW3qXsCzFQ4RyfsTiTRvioR7KBrvX5nhf+ieKfr
+ Abe6Zsry3kNR6z1Ucd+9+NYiVPsAqC0gaGJcUAV8ojApL3+1dQzV68CtIPnaH4qDQ/hO
+ CuDthpt3SWtecKXmXac9eCNVBAcDhLHdxHMOUX/Uv2zPLMvs6fwnyMgBjJklKfwbJyT6
+ UoBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cj8XLhIGg9ObYWg/BfwNCAVEba7yGVXC7pfU7/cOItg=;
+ b=dQKD7VQwTFrgMjamic9HGHs89E4IUcNy4Pztl1UtB2Vlxd8xKR58/OG9yKH+RVGdYM
+ HLy1MmbG94rjfn4GXZoLHAaJKfqWWMbABVFr0SEkH7Fp2+w1k9pHxXJkYiEXOTjM1Qx2
+ QPu6Xnv6e7/64AzU6uewSttp6oKHeWDYNjkO0FZUFs1X/d4G7zjAA0xUKMVOa/nwiEYr
+ 3OITEKCXdyaJVHpheSyWhCE39p4qEfmRlxPbKMQSaSF9Z8ThWb3D7Edmf7PZVnuVTW9E
+ XfbnJONwVVwxGWDxt7IKPHMBCFJhB/hNzyqUhq3ztc4chcnI6fHPyVrLDhPplbv83uQL
+ 0Fww==
+X-Gm-Message-State: AOAM5333Utn0tk6ntBBqkGRTLoBw//sFKiNfMud51+3lZ7lvi+9bOfG9
+ IZCSMOc2tTz+0vPEVDG2SZ3t/g==
+X-Google-Smtp-Source: ABdhPJzZA1s35mT1Wjvh6Mf4P5GpyJkEyvSo7FnqOTc4t8KyFnNYrRFh4NgP7hDyOE7nn0S57yFbIQ==
+X-Received: by 2002:aa7:9d0e:: with SMTP id k14mr11670659pfp.162.1597678318306; 
+ Mon, 17 Aug 2020 08:31:58 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id z5sm20362905pfk.15.2020.08.17.08.31.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Aug 2020 08:31:57 -0700 (PDT)
+Subject: Re: [PATCH v1 1/5] target/microblaze: mbar: Transfer dc->rd to
+ mbar_imm
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200817140144.373403-1-edgar.iglesias@gmail.com>
+ <20200817140144.373403-2-edgar.iglesias@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <71e1514f-96b5-eb59-d306-51d90c00133c@linaro.org>
+Date: Mon, 17 Aug 2020 08:31:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <a163c834-bfc8-897a-c91f-8458b50dfdb6@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WHz+neNWvhIGAO8A"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 05:03:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200817140144.373403-2-edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,93 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me, frederic.konrad@adacore.com,
+ qemu-arm@nongnu.org, philmd@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---WHz+neNWvhIGAO8A
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/17/20 7:01 AM, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Transfer dc->rd to mbar_imm to improve the readability when
+> comparing to the specs.
+> 
+> No functional change.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> ---
+>  target/microblaze/translate.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
-Am 17.08.2020 um 17:13 hat Max Reitz geschrieben:
-> On 13.08.20 18:29, Kevin Wolf wrote:
-> > Every block export needs a block node to export, so move the 'device'
-> > option from BlockExportOptionsNbd to BlockExportOptions.
-> >=20
-> > To maintain compatibility in nbd-server-add, BlockExportOptionsNbd need=
-s
-> > to be wrapped by a new type NbdServerAddOptions that adds 'device' back
-> > because nbd-server-add doesn't use the BlockExportOptions base type.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  qapi/block-export.json         | 27 +++++++++++++++++++++------
-> >  block/export/export.c          | 26 ++++++++++++++++++++------
-> >  block/monitor/block-hmp-cmds.c |  6 +++---
-> >  blockdev-nbd.c                 |  4 ++--
-> >  qemu-nbd.c                     |  2 +-
-> >  5 files changed, 47 insertions(+), 18 deletions(-)
->=20
-> (Code diff looks good, just a question on the interface:)
->=20
-> > diff --git a/qapi/block-export.json b/qapi/block-export.json
-> > index 4ce163411f..d68f3bf87e 100644
-> > --- a/qapi/block-export.json
-> > +++ b/qapi/block-export.json
->=20
-> [...]
->=20
-> > @@ -167,6 +179,8 @@
-> >  # Describes a block export, i.e. how single node should be exported on=
- an
-> >  # external interface.
-> >  #
-> > +# @device: The device name or node name of the node to be exported
-> > +#
->=20
-> Wouldn=E2=80=99t it be better to restrict ourselves to a node name here?
-> (Bluntly ignoring the fact that doing so would make this patch an
-> incompatible change, which would require some reordering in this series,
-> unless we decide to just ignore that intra-series incompatibility.)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-We already have intra-series incompatibility, so I wouldn't mind that.
-
-> OTOH...  What does =E2=80=9Cbetter=E2=80=9D mean.  It won=E2=80=99t hurt =
-anyone to keep this as
-> @device.  It=E2=80=99s just that I feel like if we had no legacy burden a=
-nd did
-> this all from scratch, we would just make it @node-name.
->=20
-> Did you deliberately decide against @node-name?
-
-At first I thought I could still share code between nbd-server-add and
-block-export-add, but that's not the case. Then I guess the only other
-reason I have is consistency with other QMP commands. I won't pretend
-it's a strong one.
-
-Kevin
-
---WHz+neNWvhIGAO8A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl86oeUACgkQfwmycsiP
-L9Z2VQ//cIkPDc/Y7d+b+rzue4huN6e7Lzy8zbqViOoX+bFYvTdhpjbUNJEigBAB
-exOOHYlC5uM1g9CZrWzd4C+jPlulJ2Ko7Tn9lBSRgg4e8G7fLxejlhnBfN8qItca
-E7IKP3DG9L9oU8z0qvHG37uo/CNUbNVSECGMWnTJbTACB31Vg+DsLnJ+yo+KvPnq
-TIpq/Tvnh8kWrt1gHinQmHbpSDcOxiQOsQ6K9bnwPYNb7QvIap1yUSTIMdKu9+1e
-FDdi6khNITFNx9EJAwYGRZgklcsvjfkbHkPGO0C2EnlrwS0H1P4rlej35EE2bbee
-VGOv2EFmAYTCjYvKSGbGITeIX07iW9q9LgwMucMG/NYJ950xosINaOwPt7tQ6qHL
-6HteVb/otN17FSC0oR7KqGK14xIW3HmluHEBnZQ2qz3Fe37c/sFA1f8ORNcGV1E4
-Kw0Qq3nzK+VudEmxbRYdpL5F5EoGycGm7bSA5+QW1WGVhKnRKFgTEvYcJ8Fb8OpS
-174d7wYBMbTTc7svtmy5OVTrRLIEwkpoGhmv4dwSUSfdkxbfrG/vxJVBJ8bS0aKi
-zq6tOb+KCCU97wpM4mTqKinf6qmub1iX26s5DHQGEkZ3hr8eT9nF7SbYpxxZn0Yy
-PlJlDAA1xZSRrqzV+kH6KLdRd2H7jsb7zbdItRyNq6tm1gxFPvs=
-=DLYA
------END PGP SIGNATURE-----
-
---WHz+neNWvhIGAO8A--
-
+r~
 
