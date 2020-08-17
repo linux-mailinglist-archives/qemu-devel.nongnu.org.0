@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194AD2468E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:57:12 +0200 (CEST)
-Received: from localhost ([::1]:51648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A044F2468C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 16:53:48 +0200 (CEST)
+Received: from localhost ([::1]:33168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7gZT-0007Z2-48
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
+	id 1k7gWB-0008Kf-AK
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 10:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gH0-0004Gs-QF
+ id 1k7gH0-0004Gr-OJ
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:07 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46179)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1k7gGz-00068a-Ah
+ id 1k7gGz-00068m-Bg
  for qemu-devel@nongnu.org; Mon, 17 Aug 2020 10:38:06 -0400
-Received: by mail-wr1-x429.google.com with SMTP id r15so5341860wrp.13
+Received: by mail-wr1-x444.google.com with SMTP id f7so15275587wrw.1
  for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 07:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RxTPKve4UPMsuDPCMcd7u6d232jLsll/CSW6mGhHCo4=;
- b=pQj1Jb8yqzSgjL6xMy2tKKojwBC118RWk9l13GX/dz79252Jd8uOIT1KguHp4QKPyT
- FTQ+R7W2k+mQP7jmgz7ZVukGguIVSpI5t+6UhgPNKTwGlNsZBzx/n36TDg0+Au7b/JLg
- kRaXHL6qpW6hHTjfDnjcxIxZKke8c9zVsY/+1eKlmKZDhBfh8hCWDrA2utOolY7VoYGy
- 49D9d1pvAyB05Ilzsb16q7INi0PCD9vYXIwckso/pY2pXqwKPki/9TwYAmA5B9WKuHBT
- N0pcBkxNHD38GgiEU4jQJBpdAkDAiatFXoJvfPwXBxt7qTOeDkkz3dTwUKcdJNNYDnWe
- uH0w==
+ bh=jyMNUDYyORpdvrQXMR4LxpvvMPAAn/lulO8jr9STstU=;
+ b=Odeq9dSiSL/hZ0XnXXrheUP+Jeg6xvKk8LwKBzEiPrPHzLn6tpZYZw6gmv2hwBEo3K
+ 5Uak3+b5yjGp3521e1I9VLvYJn9RuLnRcujJT5VeKZgizAzN2dDA8IMh8Qpdbu1jeVJO
+ RQWxQgruGZLRQt0lH8qyV2u+gsOFCgL5VCHQ6v3ApxGgkpuXDdZRDGpVd/Q83bBS4Ep4
+ g1/rh/sCKMXWSA21O6jN6PLcifzLy9cO3lMwHqrkWDfkjRuLW6KAH2+79qlhTupHuhqK
+ H5FJV6ApAtkK6aAcxtJULDoIicOsNAPIgyRaVITbWCdOiSBRiN6LqvKym2ugAZA5uHDd
+ zbGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RxTPKve4UPMsuDPCMcd7u6d232jLsll/CSW6mGhHCo4=;
- b=dAmDf3sCnMBJsPY1qHDobxhPOQTg1H0VfGw7bEtOmNx73j8yAqcRYhEl8jdI0t0oIT
- YamvWRWB+ht17rdaldRD0KJMLHJGuRO5RtmfEK5Fvgu5IhBYV3u+cGEbBRep/5/J2oX1
- /VcI39srFsebBKj4ukJfFvmfmalqycynuHZSZE8pQnOET/79uIQrBS+h/DvV34/Odeo0
- ini3CzMV2BM3pCuqJuy+qZoIGZNYexw1+oh4cKcsm2j4lSzk8lgRhuE86o5SuWPxqwDF
- dI8fYp62mzmk+gOYt7NuzPQr9OZRfc87c8YfOyOSd4t0+1rJijnnee80WyMDIQVtDU2I
- nTkg==
-X-Gm-Message-State: AOAM532rmL8AiKyA7UcDHcEo8AgW86WV8N5tl01vwG2Qc1WDZZCRxlLX
- F7Y/ZsoZgNNjUdA7EhXT1Q+Xf0U9z04=
-X-Google-Smtp-Source: ABdhPJxtkA7tdQ1s5fOUb5kcqLH4b8W6IaDcstBXHFQc7Lq+NxawupdISt7dD7QloWr2gr/l2NmWZw==
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr15559661wrs.273.1597675083080; 
+ bh=jyMNUDYyORpdvrQXMR4LxpvvMPAAn/lulO8jr9STstU=;
+ b=Rnk/LTchmdlwdCQxcQPeCNCC06zcn5D9uG0ENviI5mZPk/w65rdD8AnPb6FRtWvfoX
+ OhNn/AL1BdllthcnKIz4T7rwTQ6JI7Hh7eUJ0HmSOXq5aaveVxG6o2vzJc9ZuiTD9rKR
+ 2QCXx6iaaEXSDDVRLs+P/MZn46sY1zXFMsqXtQE7zGyTEV7lgEH/uOl0oTJPpySu53jd
+ 5Edig1ihkSU9nqR+9GG1oErIkpUm2ZwSochT4QXswNYo1O0yiB8YgBVVvQCrGdtWJwrM
+ dzjOMORyEal5QFRqBb9EX+vp/ty8AJ/8HPzkWK5iZvVAU/lWsmzFYF3hMuR3ml2KsD4L
+ MWxQ==
+X-Gm-Message-State: AOAM530xe2lAqc4MvDNxVP3EVHcnExCkkGQ8Wha1xz6/EK1PLqeVP2c1
+ I3N+3sKXZ0ZeQ3x74weQl1bqRHD43I8=
+X-Google-Smtp-Source: ABdhPJxW0sHrDch5nJ6B8FPnfqEyvRXvjxpjmrDcBrOjpvPGZ0LlYwzgP/icjK49PZbagdp/v+TX5Q==
+X-Received: by 2002:adf:b353:: with SMTP id k19mr15504667wrd.159.1597675083891; 
  Mon, 17 Aug 2020 07:38:03 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:a0d1:fc42:c610:f977])
  by smtp.gmail.com with ESMTPSA id
- i22sm34966603wrb.45.2020.08.17.07.38.02
+ i22sm34966603wrb.45.2020.08.17.07.38.03 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 07:38:02 -0700 (PDT)
+ Mon, 17 Aug 2020 07:38:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 037/150] meson: add macos dependencies
-Date: Mon, 17 Aug 2020 16:35:30 +0200
-Message-Id: <20200817143723.343284-38-pbonzini@redhat.com>
+Subject: [PATCH 038/150] meson: add solaris and Haiku libraries
+Date: Mon, 17 Aug 2020 16:35:31 +0200
+Message-Id: <20200817143723.343284-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
 References: <20200817143723.343284-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,45 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
 There is no probing in configure, so no need to pass them as
-variables to meson. Do a regular meson dependency() instead.
+variables to meson.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meson.build | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/meson.build b/meson.build
-index 661f1bb4f5..34e2a7a3f5 100644
+index 34e2a7a3f5..08bda49778 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -46,6 +46,10 @@ m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
- socket = []
- version_res = []
-+coref = []
-+iokit = []
-+cocoa = []
-+hvf = []
- if host_machine.system() == 'windows'
-   socket = cc.find_library('ws2_32')
- 
-@@ -53,6 +57,11 @@ if host_machine.system() == 'windows'
-   version_res = win.compile_resources('version.rc',
-                                       depend_files: files('pc-bios/qemu-nsis.ico'),
-                                       include_directories: include_directories('.'))
-+elif host_machine.system() == 'darwin'
-+  coref = dependency('appleframeworks', modules: 'CoreFoundation')
-+  iokit = dependency('appleframeworks', modules: 'IOKit')
-+  cocoa = dependency('appleframeworks', modules: 'Cocoa')
-+  hvf = dependency('appleframeworks', modules: 'Hypervisor')
+@@ -62,6 +62,14 @@ elif host_machine.system() == 'darwin'
+   iokit = dependency('appleframeworks', modules: 'IOKit')
+   cocoa = dependency('appleframeworks', modules: 'Cocoa')
+   hvf = dependency('appleframeworks', modules: 'Hypervisor')
++elif host_machine.system() == 'sunos'
++  socket = [cc.find_library('socket'),
++            cc.find_library('nsl'),
++            cc.find_library('resolv')]
++elif host_machine.system() == 'haiku'
++  socket = [cc.find_library('posix_error_mapper'),
++            cc.find_library('network'),
++            cc.find_library('bsd')]
  endif
  glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
                            link_args: config_host['GLIB_LIBS'].split())
