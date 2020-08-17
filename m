@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063E0246BEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:05:17 +0200 (CEST)
-Received: from localhost ([::1]:51996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD10246BFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Aug 2020 18:06:44 +0200 (CEST)
+Received: from localhost ([::1]:60488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7hdM-0006D1-0N
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:05:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34244)
+	id 1k7hel-0001Kj-78
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 12:06:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hVN-0006t5-KP
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:57:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26043
- helo=us-smtp-1.mimecast.com)
+ id 1k7hWP-0000OJ-FQ
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:58:05 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22449
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k7hVL-0001WS-UF
- for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:57:01 -0400
+ id 1k7hWM-0001ah-IA
+ for qemu-devel@nongnu.org; Mon, 17 Aug 2020 11:58:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597679818;
+ s=mimecast20190719; t=1597679881;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wdFegv2PkGZSx9h8BAWpt3hBTcE8Vmc3kzgHUozoIAQ=;
- b=YCw277MsKfpMB0SiAhw8JAbg+56WSNvehxqLiLCPtFNgt8yYeC2EeWgU0Zi/qbUKZmsG3D
- f40KIO01dqfKLfY3VhKEP0cmQr2cgZTnAdeEGpmZwSUrr407/KEsshYnNjWZK9DGvwodqM
- Gcua8ooTE/VhivgagcvfKIP/Vs98nQA=
+ bh=qMf68NFevY1+HwsYMo4dOlDR8DE0yLEOetaUW4fYrv4=;
+ b=SMVulyKOm7dd6i86/CNmAUSEe4+VmPn1x51mwH3tL/NblKzUl7rI0VANq1yw9FpDWdhAEk
+ YnaYfwbVFz7XVPi6fom6vy7FrTEHF8U+Md/hoszlyt82FtKDSmKzTbeNVh13S/JbSCASLw
+ z85kEjejD8tcwiR8i4D/vGs4o4QABvY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-cfH01fK_Pj6KRFl63_UfXg-1; Mon, 17 Aug 2020 11:56:57 -0400
-X-MC-Unique: cfH01fK_Pj6KRFl63_UfXg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-212-ls_LUINGNWKmiI1wCkfT7g-1; Mon, 17 Aug 2020 11:57:59 -0400
+X-MC-Unique: ls_LUINGNWKmiI1wCkfT7g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 341CC801AC9
- for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 15:56:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B374B18B9ECA
+ for <qemu-devel@nongnu.org>; Mon, 17 Aug 2020 15:57:58 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F61F784B7;
- Mon, 17 Aug 2020 15:56:54 +0000 (UTC)
-Date: Mon, 17 Aug 2020 16:56:52 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 871FD6F15D;
+ Mon, 17 Aug 2020 15:57:57 +0000 (UTC)
+Date: Mon, 17 Aug 2020 16:57:54 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 11/41] versatile: Fix typo in PCI_VPB_HOST definition
-Message-ID: <20200817155652.GL4775@redhat.com>
+Subject: Re: [PATCH 12/41] virtio-ccw: Fix definition of
+ VIRTIO_CCW_BUS_GET_CLASS
+Message-ID: <20200817155754.GM4775@redhat.com>
 References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-12-ehabkost@redhat.com>
+ <20200813222625.243136-13-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200813222625.243136-12-ehabkost@redhat.com>
+In-Reply-To: <20200813222625.243136-13-ehabkost@redhat.com>
 User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 00:24:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 05:03:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,11 +91,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 13, 2020 at 06:25:55PM -0400, Eduardo Habkost wrote:
+On Thu, Aug 13, 2020 at 06:25:56PM -0400, Eduardo Habkost wrote:
+> The macro was incorrectly defined using OBJECT_CHECK.
+
+Nice demonstration of the benefit of removing this boilerplate
+definition !
+
+> 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  hw/pci-host/versatile.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/s390x/virtio-ccw.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
