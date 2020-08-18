@@ -2,79 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87A42484C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 14:33:46 +0200 (CEST)
-Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0822484D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 14:35:44 +0200 (CEST)
+Received: from localhost ([::1]:33376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k80oD-0006zo-J7
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 08:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33306)
+	id 1k80q8-00014t-29
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 08:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k80iF-00047R-IZ
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 08:27:35 -0400
-Received: from mout.web.de ([217.72.192.78]:50687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1k80iD-0002eb-Lh
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 08:27:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1597753625;
- bh=xAYAMNZznihGhXB6b0Zne0872D9TrpTHXauiELJAN+8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=DvKYeVYeTYO7RQ/VT+sGqP42ToONbT7vn4l+O0ax2n4WKbWRpPk/U5j+sz9XF/+Kf
- BNfVh1qa3ml4WdnIFnSqpKg4Ap5+JuIk5tp4aMkio746GiBjYn1q3uu3vF/EL3kLuH
- SLKP5seNwpSDVVHk8dIIhQwIH3IA/sZXAPPZzjzc=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.107]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lkh7Q-1kiAw916A8-00aUpm; Tue, 18
- Aug 2020 14:27:05 +0200
-Date: Tue, 18 Aug 2020 14:27:01 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 0/7] colo: Introduce resource agent and test suite/CI
-Message-ID: <20200818142701.6d1d82bd@luklap>
-In-Reply-To: <cover.1596536719.git.lukasstraub2@web.de>
-References: <cover.1596536719.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k80kg-0006Nv-21
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 08:30:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34800
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k80kc-0002rZ-Tc
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 08:30:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597753801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=C7TyGiPKRN1/Jvg3tI0gQkFZLZG97NglV/J8yhy68TU=;
+ b=jExJBFMokxppKKvAIOBf05XtyjUEFcsfxrVJZQ+nJwMlGN2KN7HFQxyWXwpVKSIImOMS6t
+ 4+YGm3b4ZOV+HBf3BIA8337hDr8GzLbaFqQ0jzPr5uJPKeH9oDfgt8coE6+vIrWr87h8X0
+ 9KH5H0IhSO3gcNxSB0njybnaw/WJzy4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-y9BG9O2aM5KKFRlA5Vv0Qg-1; Tue, 18 Aug 2020 08:29:57 -0400
+X-MC-Unique: y9BG9O2aM5KKFRlA5Vv0Qg-1
+Received: by mail-wr1-f71.google.com with SMTP id m7so8177696wrb.20
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 05:29:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=C7TyGiPKRN1/Jvg3tI0gQkFZLZG97NglV/J8yhy68TU=;
+ b=azkS2r9npiN/PNNO36pAR7q0qaGz33kpApeL/72cwTsPFclj1sTLEZzekhX5W25EIY
+ c2Gk/M8TXdCLRvZguc8St11vJ02MxofslOLs5Qe/Mgovs3sLMW9c6GzNd9Ahl8xd0v6Y
+ YnCeH3zqt0R2bpNbXx135QvyPJ0HTWPSAWvgnCtI8u8ZXhq1lZHPvA09j3MyfyBWcdpw
+ W4J6sCS07HuNe2M8W6beYFLH8XVCz4a0wOg2psV+uBqPrhP4HRXXIYhudHdHwyUKMKXJ
+ i7dtKTP48ILctzMh+2ycRAHcJ//ceZ8hee/Xldhy7YninSdqjM/mUjxhn/z37QLoUKsg
+ 9Ygg==
+X-Gm-Message-State: AOAM533eFWzftIlv3e33JUQuNpKQ1Dae0xEPuK7xX44cOBKF6DFMIr9w
+ XHEcHh3Pmrtwm+eHW+mBU0aGfCEM8AuWHw/ZeftePm5W5wP0V6Dyrspouqf3Ius3x5bFYry4ppu
+ hiCZEjW9vdA744E4=
+X-Received: by 2002:a7b:c185:: with SMTP id y5mr19429161wmi.95.1597753796123; 
+ Tue, 18 Aug 2020 05:29:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXjLvHyAw/jSSnzsyRqNU8i5VwMHeBNHtsnQ0w9VV5Gee8E++Bd2UFcG+dc+rv0g1/siI9gQ==
+X-Received: by 2002:a7b:c185:: with SMTP id y5mr19429149wmi.95.1597753795904; 
+ Tue, 18 Aug 2020 05:29:55 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id d7sm36257177wra.29.2020.08.18.05.29.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Aug 2020 05:29:55 -0700 (PDT)
+Subject: Re: [PATCH] Makefile: Let the 'help' target list the helper targets
+To: qemu-devel@nongnu.org
+References: <20200423104345.5092-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <e0479e77-5cfe-698f-1b45-6d2b05789094@redhat.com>
+Date: Tue, 18 Aug 2020 14:29:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6h//x_4uwRTisCjHo8L05kG";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:iovb8qppwy+EacJGq5VgMUtf004izfUtikG2yW0NYVfqYjCJKau
- TU/K7bwbumOiRwdTXsge2mPFzf4pGSyk0FauFXOrjIBpIinvuyDx4zS5gKv0BhuYd/6d+fQ
- gSWzP4CU4cOV2bOPtnPiGE6oqNoKD01YBHHLJoYoSA7DEM+2soIjOv9S7rX4ZvfUhiEKElh
- hXoSNo+9C54TlF3CJejHQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4mNrPqlApuU=:LeUJWqasNozQmb2P7M5h49
- AoDogSF1LfOvHGcre9Cf9AbS7lMLhzFzJVaGVqPp+gDEq/HdpaAeBjA/gwFPhk6zfs9JDIes3
- u/qRdohxxSZNJ8lItG2r4iD56GJBdLU+pE5eZgz5vgq3zSjQuWZoIa3sPR3Yn7QL0ye4bsykA
- H6YZjfQDYeS05E9Vl5TWa5ReaJ8eSQ+b/ZAK+Ja2C4PySM1BKQhUWcWQTD+OTF6i99IzHtePD
- LL+Osd/exF6TPW1TXDVef3H7aN3Ji3R49/sM+wH3b+aWFYShzygn4CeKseQo1Rtc3ENp00nab
- B058FsZvdjvSi8l0HQTcrP+p+QKBjP0J5GW4RkMmXiWBbUbavIHYTjEm9pSpZ1TyyDuf3rpS0
- rk2Yzw/bE8zDxuS92jjK/a5njKFuLLSWdPoFPJ6+XsBSLBdcKRdNchFW9KLeDnMpJ2Zu+FayD
- cmu970RyUiF586+qA6DtKJF3wnwrTmJ/W2Ihd16j12re+HeNBwNLu7c7HOnr9b2g0YdFHVkO6
- NTc334oW7DYNYEthm2qsvUivuzO7aTsHGMU34M25xBULmsvmAoB1S/d1qNWE3BiNkXv4GqOYS
- jtyo79xS62eurw6KAOu0WbpN1Zk8kkiIdIDk+40yDauYf9nvMlVBPN5/Uc3Qakrqt7pP0s1FO
- mU7KkLhP8CzGXPy/v2qzb7Ym7fx8N0jkA+DFKl/sXR8xdY+mWLNIDS3ulGXvEGK3q1b7c7nBg
- iPtDP4vl27DXD3Sq9TovD/DCa+ogH8rWG+JpERp0eC4hVvQq0HBpkKq7kBWbv/wH9h3KpArL0
- YZogP3mS0DlqPAzidn8JVado9y1Gr9VjOZTH7fztqAwo0Ppr20/xllqpe22szHr+4sXKIsT5h
- u4UjHNhGWicUIl1jJbMJm4BinEGXE8pAqwI8d8KcI6XBZq/6qHkvY6zdsrhc+p5Y0CsMOrnnl
- xsD25wHvAUcQdvJa4kK6DAbO7myXJ+oa+b45ltqhr8VTgwu/231zbSE0XUoD/PN4f3oFguSFF
- aYh7JFsouoQOWeOdqrKWLH7Y9Qn7qL+a6T+4mDot/CVHKMVtmLlYXIpTxneOcKjvn5dJJ+kAc
- o6AwB1i1Us4l6tQRK3nw/UG41JN5ZrQyUmFSKUBXyhMq+GRUwqsJ8cZMNUgdaSBKv1aS8o+nV
- r/UcO9eWbw3IaH6TBknSku6g+XZEHPZha9KJd0riIjWMNfgBAJ0k9RzKNn935IrJKo/m659CQ
- XQk5sqCJveHVFRp2PHbfex0cX9K1F/CNDqu1YUw==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:27:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200423104345.5092-1-philmd@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,135 +122,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/6h//x_4uwRTisCjHo8L05kG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Mirek,
 
-On Tue, 4 Aug 2020 12:46:29 +0200
-Lukas Straub <lukasstraub2@web.de> wrote:
+On 4/23/20 12:43 PM, Philippe Mathieu-Daudé wrote:
+> List the name of the helper targets when calling 'make help',
+> along with the tool targets:
+> 
+>   $ make help
+>   [...]
+> 
+>   Helper targets:
+>     fsdev/virtfs-proxy-helper      - Build virtfs-proxy-helper
+>     scsi/qemu-pr-helper            - Build qemu-pr-helper
+>     qemu-bridge-helper             - Build qemu-bridge-helper
+>     vhost-user-gpu                 - Build vhost-user-gpu
+>     virtiofsd                      - Build virtiofsd
+> 
+>   Tools targets:
+>     qemu-ga                        - Build qemu-ga tool
+>     qemu-keymap                    - Build qemu-keymap tool
+>     elf2dmp                        - Build elf2dmp tool
+>     ivshmem-client                 - Build ivshmem-client tool
+>     ivshmem-server                 - Build ivshmem-server tool
+>     qemu-nbd                       - Build qemu-nbd tool
+>     qemu-storage-daemon            - Build qemu-storage-daemon tool
+>     qemu-img                       - Build qemu-img tool
+>     qemu-io                        - Build qemu-io tool
+>     qemu-edid                      - Build qemu-edid tool
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  configure | 5 +++--
+>  Makefile  | 9 +++++++--
+>  2 files changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 23b5e93752..caf880c38e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -6374,7 +6374,7 @@ if test "$softmmu" = yes ; then
+>    if test "$linux" = yes; then
+>      if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+>        virtfs=yes
+> -      tools="$tools fsdev/virtfs-proxy-helper\$(EXESUF)"
+> +      helpers="$helpers fsdev/virtfs-proxy-helper\$(EXESUF)"
+>      else
+>        if test "$virtfs" = yes; then
+>          error_exit "VirtFS requires libcap-ng devel and libattr devel"
+> @@ -6389,7 +6389,7 @@ if test "$softmmu" = yes ; then
+>        fi
+>        mpath=no
+>      fi
+> -    tools="$tools scsi/qemu-pr-helper\$(EXESUF)"
+> +    helpers="$helpers scsi/qemu-pr-helper\$(EXESUF)"
 
-> Hello Everyone,
-> So here is v3. Patch 1 can already be merged independently of the others.
-> Please review.
->=20
-> Regards,
-> Lukas Straub
->=20
-> Based-on: <cover.1596528468.git.lukasstraub2@web.de>
-> "Introduce 'yank' oob qmp command to recover from hanging qemu"
->=20
-> Changes:
->=20
-> v3:
->  -resource-agent: Don't determine local qemu state by remote master-score=
-, query
->   directly via qmp instead
->  -resource-agent: Add max_queue_size parameter for colo-compare
->  -resource-agent: Fix monitor action on secondary returning error during
->   clean shutdown
->  -resource-agent: Fix stop action setting master-score to 0 on primary on
->   clean shutdown
->=20
-> v2:
->  -use new yank api
->  -drop disk_size parameter
->  -introduce pick_qemu_util function and use it
->=20
-> Overview:
->=20
-> Hello Everyone,
-> These patches introduce a resource agent for fully automatic management o=
-f colo
-> and a test suite building upon the resource agent to extensively test col=
-o.
->=20
-> Test suite features:
-> -Tests failover with peer crashing and hanging and failover during checkp=
-oint
-> -Tests network using ssh and iperf3
-> -Quick test requires no special configuration
-> -Network test for testing colo-compare
-> -Stress test: failover all the time with network load
->=20
-> Resource agent features:
-> -Fully automatic management of colo
-> -Handles many failures: hanging/crashing qemu, replication error, disk er=
-ror, ...
-> -Recovers from hanging qemu by using the "yank" oob command
-> -Tracks which node has up-to-date data
-> -Works well in clusters with more than 2 nodes
->=20
-> Run times on my laptop:
-> Quick test: 200s
-> Network test: 800s (tagged as slow)
-> Stress test: 1300s (tagged as slow)
->=20
-> For the last two tests, the test suite needs access to a network bridge to
-> properly test the network, so some parameters need to be given to the test
-> run. See tests/acceptance/colo.py for more information.
->=20
-> Regards,
-> Lukas Straub
->=20
-> Lukas Straub (7):
->   block/quorum.c: stable children names
->   avocado_qemu: Introduce pick_qemu_util to pick qemu utility binaries
->   boot_linux.py: Use pick_qemu_util
->   colo: Introduce resource agent
->   colo: Introduce high-level test suite
->   configure,Makefile: Install colo resource-agent
->   MAINTAINERS: Add myself as maintainer for COLO resource agent
->=20
->  MAINTAINERS                               |    6 +
->  Makefile                                  |    5 +
->  block/quorum.c                            |   20 +-
->  configure                                 |   10 +
->  scripts/colo-resource-agent/colo          | 1501 +++++++++++++++++++++
->  scripts/colo-resource-agent/crm_master    |   44 +
->  scripts/colo-resource-agent/crm_resource  |   12 +
->  tests/acceptance/avocado_qemu/__init__.py |   15 +
->  tests/acceptance/boot_linux.py            |   11 +-
->  tests/acceptance/colo.py                  |  677 ++++++++++
->  10 files changed, 2286 insertions(+), 15 deletions(-)
->  create mode 100755 scripts/colo-resource-agent/colo
->  create mode 100755 scripts/colo-resource-agent/crm_master
->  create mode 100755 scripts/colo-resource-agent/crm_resource
->  create mode 100644 tests/acceptance/colo.py
->=20
-> --
-> 2.20.1
+Paolo said on IRC this patch didn't follow the recommendation
+from https://www.mail-archive.com/qemu-devel@nongnu.org/msg524586.html
+and moved qemu-pr-helper from /usr/bin to /usr/libexec.
 
-Ping...
+FYI virtfs-proxy-helper might be also affected.
 
---Sig_/6h//x_4uwRTisCjHo8L05kG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>    else
+>      if test "$virtfs" = yes; then
+>        error_exit "VirtFS is supported only on Linux"
+> @@ -7630,6 +7630,7 @@ else
+>    QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
+>  fi
+>  
+> +echo "HELPERS=$helpers" >> $config_host_mak
+>  echo "TOOLS=$tools" >> $config_host_mak
+>  echo "ROMS=$roms" >> $config_host_mak
+>  echo "MAKE=$make" >> $config_host_mak
+> diff --git a/Makefile b/Makefile
+> index 8a9113e666..021a0cd491 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -336,9 +336,9 @@ $(call set-vpath, $(SRC_PATH))
+>  LIBS+=-lz $(LIBS_TOOLS)
+>  
+>  vhost-user-json-y =
+> -HELPERS-y =
+> +HELPERS-y = $(HELPERS)
+>  
+> -HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
+> +HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
+>  
+>  ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+>  HELPERS-y += vhost-user-gpu$(EXESUF)
+> @@ -1255,6 +1255,11 @@ endif
+>  		$(foreach t, $(TARGET_DIRS), \
+>  		$(call print-help-run,$(t)/all,Build for $(t));) \
+>  		echo '')
+> +	@$(if $(HELPERS-y), \
+> +		echo 'Helper targets:'; \
+> +		$(foreach t, $(HELPERS-y), \
+> +		$(call print-help-run,$(t),Build $(shell basename $(t)));) \
+> +		echo '')
+>  	@$(if $(TOOLS), \
+>  		echo 'Tools targets:'; \
+>  		$(foreach t, $(TOOLS), \
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl87yRUACgkQNasLKJxd
-sljr4hAAgBf0+dbcWmLTQHPaN6cMZ5mLIJGQlrCC3ua3iwc2HYlcEUdJU2uC2TWq
-TPGVvuHVaq3HiWltPlZzAZn7GHXHKmfqwzUD8v8IVPFz5TclEC/cTNL38cfDj0f+
-NOV9PcqRw0nalIbsgONqpBAlo2D8HpGIQQhJt0lM3W52bcMhONHc3sMfflicgGIn
-/WbMCDQvJ0PuBOrTCFK46m8JRIkcPmvpNu7MVE6Xpd3/s1xE4qe8rNnYWNLK3ux5
-SjeOkIEoM/QXzFHE7yR0E8hYPJWWiUJGglMMHgjEJpLgv2gsf9QgElp5cftoBPCP
-PLMJYifKJedaF8lXP+ejtI9vOXL4yqvk+J93+2JMetz0cxO93Tp5MwMQYu/S7ybB
-J1JYNMLNwFQv3duNeySCkcSLyC6IGhI3ORPdlWfHvuRHRQDI25gZXTE3WdaQi1XM
-F/5tqMShmC+blwQQAWkcuylvJdTu9F1ZpQGc+wUXZ3BQgGPvofAlpLChlmplx8yC
-bARr2B0EeHn9jItxA/Psfa0pIGHnPdxmB7CFGFwGM25k1YByIPbmyfZQfl7LgRvL
-iKck277cg7wJ58MbJTON/0+EYJ8Fd3gKfd+x/iK1ow7K4cV1QhiGNSHynPKfbti2
-/nePAGrvIBDVrriSCkPFvErhQqFOYNvex/Hi2nnBtGsdGkAwzaM=
-=gMjj
------END PGP SIGNATURE-----
-
---Sig_/6h//x_4uwRTisCjHo8L05kG--
 
