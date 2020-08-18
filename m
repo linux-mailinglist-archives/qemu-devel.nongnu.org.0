@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48541248AD2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:58:09 +0200 (CEST)
-Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F7F248A22
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:40:22 +0200 (CEST)
+Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8400-00022A-64
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
+	id 1k83in-000730-CV
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:40:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k83PK-0006Hu-7u
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:20:14 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1k83PI-0000EN-05
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:20:13 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y206so10102449pfb.10
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XuUPEjKibg7eOjJ1mVeW5oOcsgH677Gp/l+5UAOux5A=;
- b=NP1uKUt8b1qGRpeXHpvR6OOVitckmVp7avnQM8nygNbYkVz1sDBFTik4yD+ZkQTNGI
- MqG7BPpCa2RW8igiHzXW0XiF7P3m87wrYi03tsf6c3xzioi/g4BOhZaRuoI+kR8/+pq7
- dcC3AOLrQ6VTBo8nM+MM5tZIpja7inc/fO2XGO5ooGYOfBvRd31sbk8BPB0bL2gZMkdm
- hmNtp9OB7Xvc5q372ma4o8TU6Uz0pGw5MvxPxT+QSJrIK66+B3xn7nSzZffRHzs8gOei
- 04dxpHViIKzHRehKVLDb8YgAgXAMdjmzxC6/pK6REFjcgr3ixGs/xkIpaDFCgoITStlk
- l4vg==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k83XA-00047A-Rw
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:28:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31617
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k83X8-0001VP-61
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:28:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597764496;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Og5bGG/dbkltpFkenJ+NjzM234zwinPeSK6kx6Slucw=;
+ b=YAvqAcnn5DqV9EsDOvkLbonscBVGXALZpjAfGxN5JG+Z7IcHfhtzgpUqqG23e5hAQu8kxf
+ fELtxTFwWiNmZxwoCwygmw/5/r2nY7L1zOKnLodEKKUuqF9anjZyXUqQpslPEeyEvQ+G+2
+ O5aU8TDf6Q8mPBU2PLZ3q6Ly+nG4ZT8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-zYa8eNWjMxWX2kUAxL9zVw-1; Tue, 18 Aug 2020 11:28:14 -0400
+X-MC-Unique: zYa8eNWjMxWX2kUAxL9zVw-1
+Received: by mail-wr1-f72.google.com with SMTP id k11so8369759wrv.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:28:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XuUPEjKibg7eOjJ1mVeW5oOcsgH677Gp/l+5UAOux5A=;
- b=UvpORXwWTwZXbmChBqGpmVQqvJZxgA7I5ubl8fFlwU7EaJF1A6qv/B5jJltPwujZ+L
- aX2dqWPWxEJr0k3aGDU8RsZFrewW1cM+x5DyMGz+96cb7mJKryFMvAHORb8KdrXRu2Zc
- E1GWalaNRAp4ojWSUKIC/TnK4oP6IM3yIjDlMIq47bppQIYvLiGljwsNYy9nO1GJ+El3
- fXzGA8FNgSH/Dkac/iION8sHulKWh6ytuNNUuFEJVS4dtewXb+KEd01QY77Sfr854jx+
- IFbcHt2rVSn9Tkbm/gjtxbOuB0HcuWZeBJ78B0tBcbp5OADweZK8oAGAUyYMPwjtTJe4
- qWiQ==
-X-Gm-Message-State: AOAM533Ddzml32QKmzBoPGkOimaR0Eaf7ocQKoGl8r1MH5lnIH8I+4Gk
- CF4IYsUCMDsHmx27hBdu0ND9a+kgJZCznpDTeEs=
-X-Google-Smtp-Source: ABdhPJywx/b0O8X93LGSY6jnaJNdp517BTKcQmZBEuPyiRRMCUHJ15Apm1wdPyMx7gaCCa7YUq9tqiNKjVQ7QJ1Ykpc=
-X-Received: by 2002:a63:ec04:: with SMTP id j4mr13568849pgh.393.1597764010107; 
- Tue, 18 Aug 2020 08:20:10 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Og5bGG/dbkltpFkenJ+NjzM234zwinPeSK6kx6Slucw=;
+ b=kuL4ofekDiaNwgwPK7+bv5kgZR8EQShVyuVbNR1BtVOOGDkJPm4FqKXIYSrsz1pTHC
+ t80XiTL3z5N/O4BrbhfLqjTnN/bYQZvce++kMhs5yoWR1DQSfgIO9K8QRBUzAaPR6l9i
+ bhZhTEj30oR2OnFzIBSiX9/h2V39z0Woskh3BmR8kBjOqZZ2G+fiiE6U4BtOcJYyi8tE
+ Ve91untNOXDG+jI9dasn9i5qFsGNc2Vt8QcV0Ec9lnesivvgS9p7vrSYZ2gtUNmyLKnx
+ jH7Y2RYSAA3H4TJ/eyv70xz7ztvCNMLl63lwQ1Kbb5Cn77bonyASQT+qIbmQY1WcJnKU
+ DaiA==
+X-Gm-Message-State: AOAM531xLlv6xHj6ox86+OSO1FqYtcSXY1PS8iCFww/IafQkClmuK/1b
+ sOoVPO12crgwWrH6vA+eekJa/lnAqhEersXRxy4d97hjk6rAkH24vcNBrmgBEp2kDarLGsBpyCa
+ 5q6mYE+pPLtsQ34c=
+X-Received: by 2002:adf:cd8f:: with SMTP id q15mr22664225wrj.347.1597764493199; 
+ Tue, 18 Aug 2020 08:28:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5UINidixatJGGvhKXABnSTKrCZlHl4s5Z+JTWLl+GqP+EfSmFoA2XVh8/kTm5yII6So+A+A==
+X-Received: by 2002:adf:cd8f:: with SMTP id q15mr22664207wrj.347.1597764492885; 
+ Tue, 18 Aug 2020 08:28:12 -0700 (PDT)
+Received: from steredhat ([5.180.207.22])
+ by smtp.gmail.com with ESMTPSA id 130sm393749wme.26.2020.08.18.08.28.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 08:28:12 -0700 (PDT)
+Date: Tue, 18 Aug 2020 17:28:07 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
+Message-ID: <20200818152807.oig6p3ajve5ju32b@steredhat>
+References: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
+ <20200813112820.62ffd63e.cohuck@redhat.com>
+ <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
+ <20200813123737.25ba11d2.cohuck@redhat.com>
+ <20200813120415.s5we6mihe6fywm4a@steredhat.lan>
+ <20200817122746.0b786372.cohuck@redhat.com>
+ <20200817131128.lgxn3pyzuzly4edp@steredhat>
+ <20200818144450.0701d68c.cohuck@redhat.com>
+ <20200818140120.c46fsf6cia2ol53v@steredhat>
+ <20200818163101.72abd288.cohuck@redhat.com>
 MIME-Version: 1.0
-References: <20200817131319.hqhchbgkjofbvsuj@Rk>
-In-Reply-To: <20200817131319.hqhchbgkjofbvsuj@Rk>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 18 Aug 2020 16:19:58 +0100
-Message-ID: <CAJSP0QVCKovhA_ZJPMO52F3Wc_pCGK=_A4BX9wZsKC-51AL4NA@mail.gmail.com>
-Subject: Re: Should I delete created coroutines manually?
-To: Coiby Xu <coiby.xu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=stefanha@gmail.com; helo=mail-pf1-x432.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200818163101.72abd288.cohuck@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:19:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,40 +104,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 17, 2020 at 2:13 PM Coiby Xu <coiby.xu@gmail.com> wrote:
-> I'm working on vhost-user block device backend [1]. When I tested my
-> patches on the latest version of QEMU (commit
-> d0ed6a69d399ae193959225cdeaa9382746c91cc) with --enable-sanitizer turned
-> on, the follow error will be thrown out,
->
->      ==46631==ERROR: LeakSanitizer: detected memory leaks
->
->      Direct leak of 312 byte(s) in 1 object(s) allocated from:
->          #0 0x55d0a7813921 in calloc (qemu/qemu-storage-daemon+0x646921)
->          #1 0x7f8bd6f7b591 in g_malloc0 (/usr/lib/libglib-2.0.so.0+0x4f591)
->          #2 0x55d0a815f3fb in qemu_coroutine_create qemu/util/qemu-coroutine.c:75:14
->          #3 0x55d0a817321e in vu_client_start qemu/util/vhost-user-server.c:225:23
->          #4 0x55d0a816fcf3 in vu_accept qemu/util/vhost-user-server.c:341:5
->          #5 0x55d0a7f1293f in qio_net_listener_channel_func qemu/io/net-listener.c:54:9
->          #6 0x55d0a7efb0f3 in qio_channel_fd_source_dispatch qemu/io/channel-watch.c:84:12
->          #7 0x7f8bd6f7e33f in g_main_context_dispatch (/usr/lib/libglib-2.0.so.0+0x5233f)
->
-> I have to call qemu_coroutine_delete to eliminate this kind of errors.
+On Tue, Aug 18, 2020 at 04:31:01PM +0200, Cornelia Huck wrote:
+> On Tue, 18 Aug 2020 16:01:20 +0200
+> Stefano Garzarella <sgarzare@redhat.com> wrote:
+> 
+> > On Tue, Aug 18, 2020 at 02:44:50PM +0200, Cornelia Huck wrote:
+> 
+> > > It seems to me that the status before this was "works by accident, but
+> > > only if we're not negotiating to legacy, or the guest/host are both
+> > > little endian". IOW, no visible breakage for most people (or we'd
+> > > probably have heard of it already). Now we have a setup that's correct,
+> > > but forces users to adapt their QEMU command lines. Option 1 would
+> > > eliminate the need to do that, but would cause possibly
+> > > not-really-fixable migration issues (you can probably deal with that
+> > > manually, detaching and re-attaching the device as a last resort.)
+> > > 
+> > > So, force modern, probably also remove the -transitional device type,
+> > > and put a prominent explanation into the change log?
+> > >   
+> > 
+> > I completely agree with your analysis and solution.
+> > 
+> > So, for now we need to patch vhost-vsock-pci and vhost-user-vsock-pci,
+> > and queue the patches in stable.
+> 
+> I think we should also change -ccw; even though users won't get an
+> error when starting QEMU, they might still run into the legacy problems
+> in theory.
 
-qemu_coroutine_delete() is an internal API and shouldn't be called directly.
+Okay.
 
-If you are sure that the coroutine terminated (returned from its entry
-function) then the leak is probably caused by the following:
+> 
+> Not sure how fast we'll have a stable release, though.
+> 
+> > 
+> > Do you prefer to send them? Otherwise I can do that.
+> 
+> If you already have something on your disk, please go ahead :)
 
-util/qemu-coroutine.c has a pool of Coroutine objects that are reused.
-It's likely that the "leaked" object is in that pool.
+Yes, I have something for pci, and I'll follow your suggestion for ccw!
 
-I'm surprised that this issue hasn't been reported before, but
-release_pool should be cleaned up when the program terminates.
+If you have time, can you share with me some tips on how to install
+s390x guest on my laptop?
 
-Stefan
+> 
+> > 
+> > Thanks again for the help and the test with s390x guest!
+> 
+> np; especially as it was my patch which started this in the first place
+> :/
+> 
+
+I'm not sure that was a bad thing, since we found out that virtio-vsock is
+modern only :-)
+
+Thanks,
+Stefano
+
 
