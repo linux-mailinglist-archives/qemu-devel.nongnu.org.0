@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79852487B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:37:00 +0200 (CEST)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F662487A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:35:37 +0200 (CEST)
+Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k82jT-0001cH-QF
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
+	id 1k82i8-0006V4-Fl
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Ki-000439-2L
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34386
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k82Kh-00040y-6H
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41387
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82KZ-0007P6-4l
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:23 -0400
+ id 1k82KZ-0007PF-4T
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759873;
+ s=mimecast20190719; t=1597759874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l6UeXH4lQXQBsGl+Par4Ie5Lb8HopvvKEiaTsQewYKI=;
- b=CwiQnWPdTPZpO4ticSVK1piNDX9sX4+IPFqHMlJmhkpOePT66HsVJWEkee55T9NB28Q5Yb
- V5QkveNFlY8zTDXaE18JC2S3u8WSFwlPTs5w7F05HymT6O1FUcCmQHE0jEFpbH+ackX5cj
- RgdYu682skGtsl0QoV5h0KuOnGtbc38=
+ bh=Gk0WYaKP+qzL75B7tm557kxSj+SjpicpV/yNk/Xgxro=;
+ b=gvDx/QUodsogj66GAe67cc2J5de+h1ISaamcIKLRKL4HnP4vRldacRmH+d77YExh2mEKK2
+ 0q4Jp456Zto4oPLjU4D3Uauws6JNPafIZM9yh3qrp/SxfZKvaSAFGU3dsAMFDnYviBFYzV
+ 6Tr9L7431+9939XeDCKD3sQzZAb25uo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-lFs2Ae21P3uwjpwehdKlxg-1; Tue, 18 Aug 2020 10:11:10 -0400
-X-MC-Unique: lFs2Ae21P3uwjpwehdKlxg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-200-QFiZ4LwoPmmHxma2XnAx7Q-1; Tue, 18 Aug 2020 10:11:12 -0400
+X-MC-Unique: QFiZ4LwoPmmHxma2XnAx7Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD0E1100CA8A
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:11:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6243E100CA9A
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:11:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CA435C88A;
- Tue, 18 Aug 2020 14:11:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FAD4196B6;
+ Tue, 18 Aug 2020 14:11:11 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 048/150] meson: keymap-gen
-Date: Tue, 18 Aug 2020 10:08:43 -0400
-Message-Id: <20200818141025.21608-49-pbonzini@redhat.com>
+Subject: [PULL 050/150] meson: generate shader headers
+Date: Tue, 18 Aug 2020 10:08:45 -0400
+Message-Id: <20200818141025.21608-51-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:19:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,113 +92,93 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile       | 38 --------------------------------------
- meson.build    |  1 +
- ui/meson.build | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+), 38 deletions(-)
- create mode 100644 ui/meson.build
+ Makefile              | 19 -------------------
+ meson.build           |  1 +
+ ui/meson.build        |  2 ++
+ ui/shader/meson.build | 15 +++++++++++++++
+ 4 files changed, 18 insertions(+), 19 deletions(-)
+ create mode 100644 ui/shader/meson.build
 
 diff --git a/Makefile b/Makefile
-index 79abbedd9d..5fbf5e4bbd 100644
+index 9abf7be598..0732886563 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -132,44 +132,6 @@ generated-files-y += module_block.h
+@@ -384,7 +384,6 @@ clean: recurse-clean ninja-clean clean-ctlist
+ 	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+-	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+ 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
+ 	rm -f config-all-devices.mak
+ 	rm -f $(SUBDIR_DEVICES_MAK)
+@@ -609,24 +608,6 @@ endif
+ 	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
+         done
  
- generated-files-y += .git-submodule-status
- 
--KEYCODEMAP_GEN = $(SRC_PATH)/ui/keycodemapdb/tools/keymap-gen
--KEYCODEMAP_CSV = $(SRC_PATH)/ui/keycodemapdb/data/keymaps.csv
--
--KEYCODEMAP_FILES = \
--		 ui/input-keymap-atset1-to-qcode.c.inc \
--		 ui/input-keymap-linux-to-qcode.c.inc \
--		 ui/input-keymap-qcode-to-atset1.c.inc \
--		 ui/input-keymap-qcode-to-atset2.c.inc \
--		 ui/input-keymap-qcode-to-atset3.c.inc \
--		 ui/input-keymap-qcode-to-linux.c.inc \
--		 ui/input-keymap-qcode-to-qnum.c.inc \
--		 ui/input-keymap-qcode-to-sun.c.inc \
--		 ui/input-keymap-qnum-to-qcode.c.inc \
--		 ui/input-keymap-usb-to-qcode.c.inc \
--		 ui/input-keymap-win32-to-qcode.c.inc \
--		 ui/input-keymap-x11-to-qcode.c.inc \
--		 ui/input-keymap-xorgevdev-to-qcode.c.inc \
--		 ui/input-keymap-xorgkbd-to-qcode.c.inc \
--		 ui/input-keymap-xorgxquartz-to-qcode.c.inc \
--		 ui/input-keymap-xorgxwin-to-qcode.c.inc \
--		 ui/input-keymap-osx-to-qcode.c.inc \
--		 $(NULL)
--
--generated-files-$(CONFIG_SOFTMMU) += $(KEYCODEMAP_FILES)
--
--ui/input-keymap-%.c.inc: $(KEYCODEMAP_GEN) $(KEYCODEMAP_CSV) $(SRC_PATH)/ui/Makefile.objs
+-# opengl shader programs
+-ui/shader/%-vert.h: $(SRC_PATH)/ui/shader/%.vert $(SRC_PATH)/scripts/shaderinclude.pl
+-	@mkdir -p $(dir $@)
 -	$(call quiet-command,\
--	    stem=$* && src=$${stem%-to-*} dst=$${stem#*-to-} && \
--	    test -e $(KEYCODEMAP_GEN) && \
--	    $(PYTHON) $(KEYCODEMAP_GEN) \
--	          --lang glib2 \
--	          --varname qemu_input_map_$${src}_to_$${dst} \
--	          code-map $(KEYCODEMAP_CSV) $${src} $${dst} \
--	        > $@ || rm -f $@, "GEN", "$@")
+-		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
+-		"VERT","$@")
 -
--$(KEYCODEMAP_GEN): .git-submodule-status
--$(KEYCODEMAP_CSV): .git-submodule-status
+-ui/shader/%-frag.h: $(SRC_PATH)/ui/shader/%.frag $(SRC_PATH)/scripts/shaderinclude.pl
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,\
+-		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
+-		"FRAG","$@")
 -
- edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
- pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
- 	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
+-ui/shader.o: $(SRC_PATH)/ui/shader.c \
+-	ui/shader/texture-blit-vert.h \
+-	ui/shader/texture-blit-flip-vert.h \
+-	ui/shader/texture-blit-frag.h
+-
+ # documentation
+ MAKEINFO=makeinfo
+ MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
 diff --git a/meson.build b/meson.build
-index 69e099fb8f..d3104165fc 100644
+index 73660bafc1..648c7456d9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -289,6 +289,7 @@ subdir('trace')
- subdir('util')
- subdir('crypto')
- subdir('storage-daemon')
-+subdir('ui')
+@@ -156,6 +156,7 @@ have_block = have_system or have_tools
+ # Generators
  
- # Build targets from sourcesets
- 
+ genh = []
++shaderinclude = find_program('scripts/shaderinclude.pl')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
+                      meson.source_root() / 'scripts/qapi/commands.py',
 diff --git a/ui/meson.build b/ui/meson.build
-new file mode 100644
-index 0000000000..a6aa7f2b36
---- /dev/null
+index a6aa7f2b36..35da0d8d26 100644
+--- a/ui/meson.build
 +++ b/ui/meson.build
-@@ -0,0 +1,34 @@
-+keymaps = [
-+  ['atset1', 'qcode'],
-+  ['linux', 'qcode'],
-+  ['qcode', 'atset1'],
-+  ['qcode', 'atset2'],
-+  ['qcode', 'atset3'],
-+  ['qcode', 'linux'],
-+  ['qcode', 'qnum'],
-+  ['qcode', 'sun'],
-+  ['qnum', 'qcode'],
-+  ['usb', 'qcode'],
-+  ['win32', 'qcode'],
-+  ['x11', 'qcode'],
-+  ['xorgevdev', 'qcode'],
-+  ['xorgkbd', 'qcode'],
-+  ['xorgxquartz', 'qcode'],
-+  ['xorgxwin', 'qcode'],
-+  ['osx', 'qcode'],
+@@ -32,3 +32,5 @@ if have_system
+                             'code-map', '@INPUT0@', e[0], e[1]])
+   endforeach
+ endif
++
++subdir('shader')
+diff --git a/ui/shader/meson.build b/ui/shader/meson.build
+new file mode 100644
+index 0000000000..f69e44ed89
+--- /dev/null
++++ b/ui/shader/meson.build
+@@ -0,0 +1,15 @@
++shaders = [
++  ['texture-blit', 'frag'],
++  ['texture-blit', 'vert'],
++  ['texture-blit-flip', 'vert'],
 +]
 +
-+if have_system
-+  foreach e : keymaps
-+    output = 'input-keymap-@0@-to-@1@.c.inc'.format(e[0], e[1])
-+    genh += custom_target(output,
-+                  output: output,
-+                  capture: true,
-+                  build_by_default: true, # to be removed when added to a target
-+                  input: files('keycodemapdb/data/keymaps.csv'),
-+                  command: [python.full_path(), files('keycodemapdb/tools/keymap-gen'),
-+                            '--lang', 'glib2',
-+                            '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
-+                            'code-map', '@INPUT0@', e[0], e[1]])
-+  endforeach
-+endif
++foreach e : shaders
++  output = '@0@-@1@.h'.format(e[0], e[1])
++  genh += custom_target(output,
++                output: output,
++                capture: true,
++                build_by_default: true, # to be removed when added to a target
++                input: files('@0@.@1@'.format(e[0], e[1])),
++                command: [shaderinclude, '@INPUT0@'])
++endforeach
 -- 
 2.26.2
 
