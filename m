@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91365247D8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:31:53 +0200 (CEST)
-Received: from localhost ([::1]:46660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E05247D91
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:34:15 +0200 (CEST)
+Received: from localhost ([::1]:56196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tHs-00036F-JW
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50050)
+	id 1k7tKA-0006wl-UE
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6C-0007Xb-Nb; Tue, 18 Aug 2020 00:19:48 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:41557)
+ id 1k7t6Y-0008Q5-4X; Tue, 18 Aug 2020 00:20:10 -0400
+Received: from ozlabs.org ([203.11.71.1]:39803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6A-0006Mz-Uh; Tue, 18 Aug 2020 00:19:48 -0400
+ id 1k7t6W-0006NF-AO; Tue, 18 Aug 2020 00:20:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNc40Cxz9sVT; Tue, 18 Aug 2020 14:19:28 +1000 (AEST)
+ id 4BVyNc659Wz9sVZ; Tue, 18 Aug 2020 14:19:28 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724368;
- bh=be243u2yZPlEiN07XeWKF1dOQ1lSXdIuEaA2RcjcqXQ=;
+ bh=br1dq6DE2bypNpRudqQL9GprFBfraC/xQtt+MK7jboA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nzNM4wn+ikHuFPlSNGn7vQxk78JkSg/h5SCiMGV4016SwZiRNDi7imvx2aa20+I6d
- MC+yExuQRvgtACp7zv3BbyP1Jo7aQeeYk295cyZh7JkyCX3vTZznfI5vLAhUcLhloP
- RFg9fnb0l3+tURuOH4vBxXtbdzLxwak/t8GSofI8=
+ b=CUNbAnyU2AQz7T2r5szy9Du4Z4iPBFGt7nvElZBNmWA0hKPUnmqC627vtv0gO8Ngc
+ uC/4dqkYwp9n3DXr753rRdpoQO0LtBdtw/RVdL+uxh778eWUafroVkUfFz2I4NQ59/
+ bYXEboJIGPaNk/7jYr2mElpZVn/uZ/bD+kvqgRTM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 19/40] spapr/xive: Fix xive->fd if kvm_create_device() fails
-Date: Tue, 18 Aug 2020 14:19:01 +1000
-Message-Id: <20200818041922.251708-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/40] spapr/xive: Simplify kvmppc_xive_disconnect()
+Date: Tue, 18 Aug 2020 14:19:02 +1000
+Message-Id: <20200818041922.251708-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -67,51 +67,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-If the creation of the KVM XIVE device fails for some reasons, the
-negative errno ends up in xive->fd, but the rest of the code assumes
-that xive->fd either contains an open fd, ie. positive value, or -1.
+Since this function begins with:
 
-This doesn't cause any misbehavior except kvmppc_xive_disconnect()
-that will try to close(xive->fd) during rollback and likely be
-rewarded with an EBADF.
+    /* The KVM XIVE device is not in use */
+    if (!xive || xive->fd == -1) {
+        return;
+    }
 
-Only set xive->fd with a open fd.
+we obviously don't need to check xive->fd again.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159673296585.766512.15404407281299745442.stgit@bahia.lan>
+Message-Id: <159673297296.766512.14780055521619233656.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index edb7ee0e74..d55ea4670e 100644
+index d55ea4670e..893a1ee77e 100644
 --- a/hw/intc/spapr_xive_kvm.c
 +++ b/hw/intc/spapr_xive_kvm.c
-@@ -745,6 +745,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
-     size_t esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-     size_t tima_len = 4ull << TM_SHIFT;
-     CPUState *cs;
-+    int fd;
+@@ -873,10 +873,8 @@ void kvmppc_xive_disconnect(SpaprInterruptController *intc)
+      * and removed from the list of devices of the VM. The VCPU
+      * presenters are also detached from the device.
+      */
+-    if (xive->fd != -1) {
+-        close(xive->fd);
+-        xive->fd = -1;
+-    }
++    close(xive->fd);
++    xive->fd = -1;
  
-     /*
-      * The KVM XIVE device already in use. This is the case when
-@@ -760,11 +761,12 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
-     }
- 
-     /* First, create the KVM XIVE device */
--    xive->fd = kvm_create_device(kvm_state, KVM_DEV_TYPE_XIVE, false);
--    if (xive->fd < 0) {
--        error_setg_errno(errp, -xive->fd, "XIVE: error creating KVM device");
-+    fd = kvm_create_device(kvm_state, KVM_DEV_TYPE_XIVE, false);
-+    if (fd < 0) {
-+        error_setg_errno(errp, -fd, "XIVE: error creating KVM device");
-         return -1;
-     }
-+    xive->fd = fd;
- 
-     /* Tell KVM about the # of VCPUs we may have */
-     if (kvm_device_check_attr(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
+     kvm_kernel_irqchip = false;
+     kvm_msi_via_irqfd_allowed = false;
 -- 
 2.26.2
 
