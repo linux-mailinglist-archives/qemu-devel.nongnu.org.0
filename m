@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B5524887A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:59:30 +0200 (CEST)
-Received: from localhost ([::1]:42250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CF424885F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:57:04 +0200 (CEST)
+Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k835E-00006Z-Do
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
+	id 1k832t-0003j1-4s
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:57:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Lf-0005zh-PI
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54794
+ id 1k82Li-00066c-Gf
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35091
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82LS-0007bD-2D
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:23 -0400
+ id 1k82LV-0007c3-GA
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759927;
+ s=mimecast20190719; t=1597759932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RNT/jS4WliFELB3Y4N1skk3//tCoNoB/v6xjsu+GKJM=;
- b=JvJI3e2eHz6Tf/33CNxA68x2el+Z9cPTxGB5BFX8xjdHeFBJydyLhhNccoQhLzIS7J8CmM
- lmtRt0OvYP5qxxm+3AEMdz7ET+zUCa/oPpQx8i5hko5Jk4r3LTqqSMd2WYB/zaiPvg282x
- m/cI62d2FfJFigZVg9syvV0MDMqQ0Ic=
+ bh=IBXfWk7W7fH0eTVG+0nR5bPqpv6cRgwV8it9E5mV2dA=;
+ b=cU7DQLB/NQdD3rlbP3chF+u0wOlFf329yzVjHX1O5LJ6Twqys63R9YfXI6FRU2doFvItti
+ jtghsIOMHG4Y5VUU8q8Ar83ZPK+wt5k7rzFvk42bnVwWqkdhQYwL+oC27bs5f8fo4BvHmv
+ IOTvHhzIrxFSJpBUR+RmYtd/B2vaouE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-pE7WhdvsOBeiyOYaOeaIFw-1; Tue, 18 Aug 2020 10:12:06 -0400
-X-MC-Unique: pE7WhdvsOBeiyOYaOeaIFw-1
+ us-mta-273-nzxzIQM_MVKXVNERS30ebA-1; Tue, 18 Aug 2020 10:12:10 -0400
+X-MC-Unique: nzxzIQM_MVKXVNERS30ebA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3651B1800D41
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26E6880F043
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:07 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7ED6600DD;
- Tue, 18 Aug 2020 14:12:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9E64600DD;
+ Tue, 18 Aug 2020 14:12:06 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 121/150] meson: convert hw/char
-Date: Tue, 18 Aug 2020 10:09:56 -0400
-Message-Id: <20200818141025.21608-122-pbonzini@redhat.com>
+Subject: [PULL 126/150] meson: convert hw/9pfs, cleanup
+Date: Tue, 18 Aug 2020 10:10:01 -0400
+Message-Id: <20200818141025.21608-127-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -89,127 +89,176 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+hw/Makefile.objs is gone so there is more code that can be removed.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/char/Makefile.objs | 39 ---------------------------------------
- hw/char/meson.build   | 38 ++++++++++++++++++++++++++++++++++++++
+ Makefile              |  4 ----
+ Makefile.objs         |  8 --------
+ Makefile.target       | 15 ---------------
+ hw/9pfs/Kconfig       |  4 ++++
+ hw/9pfs/Makefile.objs |  9 ---------
+ hw/9pfs/meson.build   | 20 ++++++++++++++++++++
+ hw/Makefile.objs      |  8 --------
  hw/meson.build        |  1 +
- 4 files changed, 39 insertions(+), 40 deletions(-)
- delete mode 100644 hw/char/Makefile.objs
- create mode 100644 hw/char/meson.build
+ 8 files changed, 25 insertions(+), 44 deletions(-)
+ delete mode 100644 hw/9pfs/Makefile.objs
+ create mode 100644 hw/9pfs/meson.build
+ delete mode 100644 hw/Makefile.objs
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 97ad30295e..04cfb6ca6d 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -4,7 +4,6 @@ devices-dirs-y += acpi/
- devices-dirs-y += adc/
- devices-dirs-y += audio/
- devices-dirs-y += block/
--devices-dirs-y += char/
+diff --git a/Makefile b/Makefile
+index 98d18c0bfb..79498bcfe4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -169,10 +169,6 @@ ifneq ($(wildcard config-host.mak),)
+ include $(SRC_PATH)/Makefile.objs
  endif
  
- common-obj-y += $(devices-dirs-y)
-diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
+-dummy := $(call unnest-vars,, \
+-                common-obj-y \
+-                common-obj-m)
+-
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
+diff --git a/Makefile.objs b/Makefile.objs
+index c332323b81..c9720a92df 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -61,18 +61,10 @@ common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
+ common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
+ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
+ 
+-common-obj-y += hw/
+-common-obj-m += hw/
+-
+ common-obj-y += libqmp.fa
+ 
+ endif # CONFIG_SOFTMMU
+ 
+-#######################################################################
+-# Target-independent parts used in system and user emulation
+-
+-common-obj-y += hw/
+-
+ ######################################################################
+ # Resource file for Windows executables
+ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
+diff --git a/Makefile.target b/Makefile.target
+index 3534ece38a..c95e0deb79 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -156,7 +156,6 @@ endif #CONFIG_BSD_USER
+ ifdef CONFIG_SOFTMMU
+ obj-y += softmmu/
+ obj-y += gdbstub.o
+-obj-y += hw/
+ LIBS := $(libs_softmmu) $(LIBS)
+ 
+ # Temporary until emulators are linked by Meson
+@@ -185,20 +184,6 @@ endif # CONFIG_SOFTMMU
+ dummy := $(call unnest-vars,,obj-y)
+ all-obj-y := $(obj-y)
+ 
+-#
+-# common-obj-m has some crap here, probably as side effect from
+-# unnest-vars recursing into target directories to fill obj-y and not
+-# properly handling the -m case.
+-#
+-# Clear common-obj-m as workaround.  Fixes suspious dependency errors
+-# when building devices as modules.  A bit hackish, but should be ok
+-# as long as we do not have any target-specific modules.
+-#
+-# The meson-based build system currently in development doesn't need
+-# unnest-vars and will obsolete this workaround.
+-#
+-common-obj-m :=
+-
+ include $(SRC_PATH)/Makefile.objs
+ dummy := $(call fix-paths,../,, \
+               authz-obj-y \
+diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+index 3ae5749661..d3ebd73730 100644
+--- a/hw/9pfs/Kconfig
++++ b/hw/9pfs/Kconfig
+@@ -2,8 +2,12 @@ config FSDEV_9P
+     bool
+     depends on VIRTFS
+ 
++config 9PFS
++    bool
++
+ config VIRTIO_9P
+     bool
+     default y
+     depends on VIRTFS && VIRTIO
+     select FSDEV_9P
++    select 9PFS
+diff --git a/hw/9pfs/Makefile.objs b/hw/9pfs/Makefile.objs
 deleted file mode 100644
-index bf177ac41d..0000000000
---- a/hw/char/Makefile.objs
+index 70ded6fd8f..0000000000
+--- a/hw/9pfs/Makefile.objs
 +++ /dev/null
-@@ -1,39 +0,0 @@
--common-obj-$(CONFIG_IPACK) += ipoctal232.o
--common-obj-$(CONFIG_ESCC) += escc.o
--common-obj-$(CONFIG_NRF51_SOC) += nrf51_uart.o
--common-obj-$(CONFIG_PARALLEL) += parallel.o
--common-obj-$(CONFIG_ISA_BUS) += parallel-isa.o
--common-obj-$(CONFIG_PL011) += pl011.o
--common-obj-$(CONFIG_SERIAL) += serial.o
--common-obj-$(CONFIG_SERIAL_ISA) += serial-isa.o
--common-obj-$(CONFIG_SERIAL_PCI) += serial-pci.o
--common-obj-$(CONFIG_SERIAL_PCI_MULTI) += serial-pci-multi.o
--common-obj-$(CONFIG_VIRTIO_SERIAL) += virtio-console.o
--common-obj-$(CONFIG_XILINX) += xilinx_uartlite.o
--common-obj-$(CONFIG_XEN) += xen_console.o
--common-obj-$(CONFIG_CADENCE) += cadence_uart.o
--common-obj-$(CONFIG_IBEX) += ibex_uart.o
+@@ -1,9 +0,0 @@
+-common-obj-y  = 9p.o 9p-util.o
+-common-obj-y += 9p-local.o 9p-xattr.o
+-common-obj-y += 9p-xattr-user.o 9p-posix-acl.o
+-common-obj-y += coth.o cofs.o codir.o cofile.o
+-common-obj-y += coxattr.o 9p-synth.o
+-common-obj-y += 9p-proxy.o
 -
--common-obj-$(CONFIG_EXYNOS4) += exynos4210_uart.o
--common-obj-$(CONFIG_COLDFIRE) += mcf_uart.o
--common-obj-$(CONFIG_OMAP) += omap_uart.o
--common-obj-$(CONFIG_SH4) += sh_serial.o
--common-obj-$(CONFIG_DIGIC) += digic-uart.o
--common-obj-$(CONFIG_STM32F2XX_USART) += stm32f2xx_usart.o
--common-obj-$(CONFIG_RASPI) += bcm2835_aux.o
--common-obj-$(CONFIG_RENESAS_SCI) += renesas_sci.o
--common-obj-$(CONFIG_AVR_USART) += avr_usart.o
--
--common-obj-$(CONFIG_CMSDK_APB_UART) += cmsdk-apb-uart.o
--common-obj-$(CONFIG_ETRAXFS) += etraxfs_ser.o
--common-obj-$(CONFIG_ISA_DEBUG) += debugcon.o
--common-obj-$(CONFIG_GRLIB) += grlib_apbuart.o
--common-obj-$(CONFIG_IMX) += imx_serial.o
--common-obj-$(CONFIG_LM32) += lm32_juart.o
--common-obj-$(CONFIG_LM32) += lm32_uart.o
--common-obj-$(CONFIG_MILKYMIST) += milkymist-uart.o
--common-obj-$(CONFIG_SCLPCONSOLE) += sclpconsole.o sclpconsole-lm.o
--
--obj-$(CONFIG_VIRTIO) += virtio-serial-bus.o
--obj-$(CONFIG_PSERIES) += spapr_vty.o
--obj-$(CONFIG_TERMINAL3270) += terminal3270.o
-diff --git a/hw/char/meson.build b/hw/char/meson.build
+-common-obj-$(CONFIG_XEN) += xen-9p-backend.o
+-obj-$(CONFIG_VIRTIO_9P) += virtio-9p-device.o
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
 new file mode 100644
-index 0000000000..e888215145
+index 0000000000..cc09426212
 --- /dev/null
-+++ b/hw/char/meson.build
-@@ -0,0 +1,38 @@
-+softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_CMSDK_APB_UART', if_true: files('cmsdk-apb-uart.c'))
-+softmmu_ss.add(when: 'CONFIG_ESCC', if_true: files('escc.c'))
-+softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_ser.c'))
-+softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_apbuart.c'))
-+softmmu_ss.add(when: 'CONFIG_IBEX', if_true: files('ibex_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_serial.c'))
-+softmmu_ss.add(when: 'CONFIG_IPACK', if_true: files('ipoctal232.c'))
-+softmmu_ss.add(when: 'CONFIG_ISA_BUS', if_true: files('parallel-isa.c'))
-+softmmu_ss.add(when: 'CONFIG_ISA_DEBUG', if_true: files('debugcon.c'))
-+softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_juart.c'))
-+softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-uart.c'))
-+softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_PARALLEL', if_true: files('parallel.c'))
-+softmmu_ss.add(when: 'CONFIG_PL011', if_true: files('pl011.c'))
-+softmmu_ss.add(when: 'CONFIG_SCLPCONSOLE', if_true: files('sclpconsole.c', 'sclpconsole-lm.c'))
-+softmmu_ss.add(when: 'CONFIG_SERIAL', if_true: files('serial.c'))
-+softmmu_ss.add(when: 'CONFIG_SERIAL_ISA', if_true: files('serial-isa.c'))
-+softmmu_ss.add(when: 'CONFIG_SERIAL_PCI', if_true: files('serial-pci.c'))
-+softmmu_ss.add(when: 'CONFIG_SERIAL_PCI_MULTI', if_true: files('serial-pci-multi.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-console.c'))
-+softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_console.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'))
++++ b/hw/9pfs/meson.build
+@@ -0,0 +1,20 @@
++fs_ss = ss.source_set()
++fs_ss.add(files(
++  '9p-local.c',
++  '9p-posix-acl.c',
++  '9p-proxy.c',
++  '9p-synth.c',
++  '9p-util.c',
++  '9p-xattr-user.c',
++  '9p-xattr.c',
++  '9p.c',
++  'codir.c',
++  'cofile.c',
++  'cofs.c',
++  'coth.c',
++  'coxattr.c',
++))
++fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
++softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
 +
-+softmmu_ss.add(when: 'CONFIG_AVR_USART', if_true: files('avr_usart.c'))
-+softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-uart.c'))
-+softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_uart.c'))
-+softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
-+softmmu_ss.add(when: 'CONFIG_RENESAS_SCI', if_true: files('renesas_sci.c'))
-+softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
-+softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
-+
-+specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
-+specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
-+specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
++specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+deleted file mode 100644
+index ebae00af6e..0000000000
+--- a/hw/Makefile.objs
++++ /dev/null
+@@ -1,8 +0,0 @@
+-ifeq ($(CONFIG_SOFTMMU), y)
+-devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
+-endif
+-
+-common-obj-y += $(devices-dirs-y)
+-common-obj-m += display/
+-common-obj-m += usb/
+-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 103da4840b..dd0c77ec2b 100644
+index 55ca2b2b61..ba8763cad8 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,3 +1,4 @@
-+subdir('char')
- subdir('core')
- subdir('cpu')
- subdir('display')
++subdir('9pfs')
+ subdir('acpi')
+ subdir('adc')
+ subdir('audio')
 -- 
 2.26.2
 
