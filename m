@@ -2,115 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5014A248593
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:04:51 +0200 (CEST)
-Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6562485B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:11:30 +0200 (CEST)
+Received: from localhost ([::1]:42362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k81II-0008Fq-D8
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42108)
+	id 1k81Oj-0002HG-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:11:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k81HJ-0007Gc-NM
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:03:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25101
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k81HH-00075Z-WB
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:03:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597755827;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MFwELZAUGhpkdXfHISM+0/NgEXub0Zg2vTlYw/nFjkc=;
- b=g46E7EsaU+LcmGV80rQIveMTLZJy/FP4SvrBIPwJg1TeZhbwGVDM1YVN/kfC8w5PnRtd5O
- OKJ6y2xJ8SeZYNhs4wQ+r6xD5Zm2JgXdR/1/WBIm9ElBe8Adla4EA9reY4m2afrxbXuVJH
- sjI7L/xOc46uqNPdgaa96YlrgWPE9Q8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-cahBEwrqPHywZxXDdL8WOw-1; Tue, 18 Aug 2020 09:03:43 -0400
-X-MC-Unique: cahBEwrqPHywZxXDdL8WOw-1
-Received: by mail-wr1-f70.google.com with SMTP id l14so8236195wrp.9
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 06:03:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=MFwELZAUGhpkdXfHISM+0/NgEXub0Zg2vTlYw/nFjkc=;
- b=lSsxQUmVPSDKFH5uKKHYFIV+rUE66zBSJ4MEzWKu+bqrCSlm/96Myf6C5XVYQUcTHL
- 2Q52sGoFM1iT8TmBatAePqFE8GmPNQ49R8IbbIU5Ulnc6fXU5YOuGSHcdgITifpzvl5m
- 4Zy2RQCrq4bxLDcnysYEjWs4/g7NoFJyyK9lzxQTZCIlcj+8fg6pNfxGdC6jz9kXw5Kr
- TPmFrdhqWxCLUXOF+1fj2QkmCNYNFTSPv2DSY/iv9Yk/y3xlQVs37Jn+JE+dooq8YBDi
- ifg5Uhphttagma6eGUBqr1+rqZjc88Ow4hSsFHXVTmTWlpNjhjR+P3CvQ+2JFliXJzde
- xvzw==
-X-Gm-Message-State: AOAM5310i/0FFW3vk7ASXNPgWduxBVNyqxo4CvsoxJQSld1yFfi/rKxn
- ZhrCtzm4RIICsng153k8K8PbV27BXwZzXPGb1elcL1qeLl4FC6udKWmPtaCPkg26I0avw77Ow8/
- z25h1m1AL2MCKNL0=
-X-Received: by 2002:adf:fc06:: with SMTP id i6mr19986151wrr.79.1597755821894; 
- Tue, 18 Aug 2020 06:03:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEHrpV2YwQPvh5YrHab+3TNYPQrPengkoHfhpejqmBh+3zgXbdGIdDc/e2cUqWfq9WQRWKNw==
-X-Received: by 2002:adf:fc06:: with SMTP id i6mr19986133wrr.79.1597755821689; 
- Tue, 18 Aug 2020 06:03:41 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id i9sm33344917wmb.11.2020.08.18.06.03.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 06:03:41 -0700 (PDT)
-Subject: Re: [PATCH v2 4/7] acpi: add aml_land() and aml_break() primitives
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200818122208.1243901-1-imammedo@redhat.com>
- <20200818122208.1243901-5-imammedo@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <15ff4284-b5de-dff2-c6ef-ad94820f6f81@redhat.com>
-Date: Tue, 18 Aug 2020 15:03:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <Cyril.Jean@microchip.com>)
+ id 1k81NU-00014y-Mz; Tue, 18 Aug 2020 09:10:12 -0400
+Received: from esa3.microchip.iphmx.com ([68.232.153.233]:54901)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Cyril.Jean@microchip.com>)
+ id 1k81NJ-0007zH-Ai; Tue, 18 Aug 2020 09:10:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1597756201; x=1629292201;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=9rndCP+t+rc7uoJFdbnJpFHUvXiBqVXZzcuPE5uNr90=;
+ b=nXp9mz48Kqu0dUgxBeCcp39P2hXaGiYRjniLz/iZxrxpjOWazA8z7LED
+ 6Z3pVF2ndeITmExeo33V4lXzgdcwqGtGbGIKpETprCsi+mr2kTOtqTpIe
+ j98ff7cpL/Ur8hI+Sgrf7GDTuisdDhl4TiBWZnVshUrLdrxYarVxgjkRZ
+ 0X0+M9uSyGHpD0aDkBBmDZMGYOOzZrpB9sms9tHiPHwDFy3o5GNg3KyW1
+ Am2XUL28C2PtDAVM4yipo3RNP+c+vFI6QpqPB/CegmaxYLP36LqpTZ4cW
+ Uqbbd4W9ymHHZPndXeW1ugPk9xcekYYIas4ZKj+WI7fNC75IdhnY56C+t A==;
+IronPort-SDR: RoYFC3MUU+nHHOPhwf3Fiip7lXqrGTMPNNeL4pLa/yTao2OpkIqvcaPxZGyj/Na/pOyO99HkJ3
+ cD7SMB7lzbM/kZQSMh4srTfiSWO5w2nURA59I/QK628KyP1ix0JxDpAD8DjmjEkZb0lHMtjdoW
+ e1GRUxUIDKH+RqpP8jbZ5rjIrucP1Cu05WqVkbdjIGrusbB485ZQwhpikws4tmIGGM/3HR02QK
+ bV7EFQl460fWs3VLTLXSx0Z9JBXfPDfAiljiNnnt6ivgi2lZ1m8v7aJuGo6NMNYi68dPKFsHne
+ IJg=
+X-IronPort-AV: E=Sophos;i="5.76,327,1592895600"; d="scan'208";a="88445125"
+Received: from smtpout.microchip.com (HELO email.microchip.com)
+ ([198.175.253.82])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 18 Aug 2020 06:09:55 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Tue, 18 Aug 2020 06:09:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3
+ via Frontend Transport; Tue, 18 Aug 2020 06:09:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G85OmsZSGn/pc3a0mZGwY4lAUxNomgQhPhXb2/2zf1gmCsNyuaSfPPULG4gvlhDNhbXNd5sGXRVdulYo2VQZ0FNHPDxDJw6sr6neSe/jHNMv8iL7/aFz1Ce8R9ZfIlOKI7P8YEyxSgRYqjkRgLRo9DKpT2YtdyZySfoH+M6MYc9t0x+VdIIrx1eKzA1YVKsd4Al99RM0ARNh1sgnQ8VYgZrNycbZxNXAofAodFZe3AZPA1RHukJItfV1jpL0dZoQylUANIJ60d4/16vjEsSb210QmwX5xVJDmu4adhVX/5qWiK74eISxn+H8sD28whX1gZfKaOSnuIHRRJViDEGvAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9rndCP+t+rc7uoJFdbnJpFHUvXiBqVXZzcuPE5uNr90=;
+ b=fWZAoCLMHqu8pXV6jgJLYqay8rJ0CPNqg70CqQG9R3qEE+FaXpWlUyz8bvHKj5IDrN8KeVG41whC+LY9SbF6yxCMgf3CXYuBqL5kJ0Ad3BBbPog/DDk3U5q4jeSKx6i/gC89uyXRXlTuLRkNNNVK/Nt/PpS7UUx0yFlIBAwNegiMSR//+nkTInXpWRTsCEBEcjvw1o+Ck6aXZLfQaCJakBCLnlXNMMaxIHiXkFlRJFMiDYKZngO6ay73ku65DhzvoP/xNiAab6/mFpiaj8gdJev0QK64dK61xK+WkEis49Toy06tRBtEasclDiSjl7l0jmD+eL2Fj+i+Jm0n7ofxuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9rndCP+t+rc7uoJFdbnJpFHUvXiBqVXZzcuPE5uNr90=;
+ b=qZlEA9+Ovs6AafSpk4YkJsxlTFzcK8ppTeQRqX0HgmjlZy1tapyd/LcKYjDptS1Rk373MOh8YYb7AlvaL/cyknINZ91kwS+by0/nIqGmufkTm/NGgRwu2czsWs4xi+Lxw+K9uvEbf3Fwa09ncAg7dEgxRZuDrDt/KTbZMQy1bJw=
+Received: from DM6PR11MB3690.namprd11.prod.outlook.com (2603:10b6:5:13d::32)
+ by DM5PR1101MB2249.namprd11.prod.outlook.com (2603:10b6:4:5a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.20; Tue, 18 Aug
+ 2020 13:09:52 +0000
+Received: from DM6PR11MB3690.namprd11.prod.outlook.com
+ ([fe80::e0ca:f0fd:7675:46d7]) by DM6PR11MB3690.namprd11.prod.outlook.com
+ ([fe80::e0ca:f0fd:7675:46d7%4]) with mapi id 15.20.3283.027; Tue, 18 Aug 2020
+ 13:09:52 +0000
+To: <anup@brainfault.org>
+CC: <alistair23@gmail.com>, <bmeng.cn@gmail.com>, <Alistair.Francis@wdc.com>, 
+ <kbastian@mail.uni-paderborn.de>, <palmerdabbelt@google.com>,
+ <sagark@eecs.berkeley.edu>, <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>, 
+ <peter.maydell@linaro.org>, <alistair@alistair23.me>,
+ <qemu-block@nongnu.org>, <jasowang@redhat.com>, <bin.meng@windriver.com>,
+ <pbonzini@redhat.com>, <palmer@dabbelt.com>, <qemu-arm@nongnu.org>,
+ <marcandre.lureau@redhat.com>, <edgar.iglesias@gmail.com>,
+ <philmd@redhat.com>
+Subject: Re: [PATCH 00/18] hw/riscv: Add Microchip PolarFire SoC Icicle Kit
+ board support
+Thread-Topic: [PATCH 00/18] hw/riscv: Add Microchip PolarFire SoC Icicle Kit
+ board support
+Thread-Index: AQHWdIGDfQ2ADX3iMkmaUQkzVWiMJKk8cXaAgAA+ugCAAAcHgIAArjWAgABzR4A=
+Date: Tue, 18 Aug 2020 13:09:52 +0000
+Message-ID: <1f17cc4c-83f8-a024-ebef-79e28fab9a32@microchip.com>
+References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
+ <CAAhSdy2D=TcENAJDja4r6pnhz0LRi-T+A9k3Btrs_EuB4x0e4w@mail.gmail.com>
+ <CAEUhbmV5=B5xKhYqMj1MQb61nt5cNUJG1MXT++C1w1YMYTfLCQ@mail.gmail.com>
+ <202949f7-c9d5-4d4d-3ebe-53727f4fa169@microchip.com>
+ <CAKmqyKM3nm0rhxgDvWKWfO+4b23ZLSkHW2TzmcVZ_ZFy4L7MRg@mail.gmail.com>
+ <d3f61c2c-a489-887e-0143-4d9a1e66e6f2@microchip.com>
+ <CAAhSdy32owLO0KytyYsg-zH6JyyfNfGofa4vanqTFJLntPq0=g@mail.gmail.com>
+In-Reply-To: <CAAhSdy32owLO0KytyYsg-zH6JyyfNfGofa4vanqTFJLntPq0=g@mail.gmail.com>
+Accept-Language: en-IE, en-US
+Content-Language: en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: brainfault.org; dkim=none (message not signed)
+ header.d=none;brainfault.org; dmarc=none action=none
+ header.from=microchip.com;
+x-originating-ip: [86.40.244.225]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 418b860f-0bed-4979-61d3-08d84377fe7b
+x-ms-traffictypediagnostic: DM5PR1101MB2249:
+x-microsoft-antispam-prvs: <DM5PR1101MB2249893C282B4E0FD439E8B99E5C0@DM5PR1101MB2249.namprd11.prod.outlook.com>
+x-bypassexternaltag: True
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dttwt1oEbXtq8ze4vqEjEoG+noDFi2/x9bJDGe5xynU8ljO5WiWTsuO2Qp7rbafYtBW/qdzcv56KtdivQCJekVmRyKmuvHupv4gOPE9vGSQ5pb198rXrr/xZgr4QFdIpoIBg9AVWJwywfzNpemvtenJDh9Ks20yw7s2JP54TLnG5TdlNyRsqyAQtCRSFUS+am0dEpfgeaoIqWtWtExeyKFk6ZxFC5hBULPOWFeFw4eN1bX5D34Gba9+OV4nPAOZe75pmQ2hdiIkXAf2COEmVlOFOQbPTag4+yMFoOFaaBoxp7kaAlf2d6HlL8gkXlFny2SBM2vVSeSEq26TnxOs3LA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3690.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(498600001)(66476007)(5660300002)(8936002)(6916009)(86362001)(66946007)(76116006)(71200400001)(91956017)(4326008)(83380400001)(8676002)(31686004)(36756003)(2906002)(53546011)(6506007)(31696002)(54906003)(7416002)(2616005)(6486002)(64756008)(66556008)(66446008)(26005)(186003)(6512007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: x1vbcRjwLCDlcQazTNABCbeH6rwz9e/+aeT1FTVX1L+6CQWx/k99koqvpr/dsXYZKBOndygj2k8kOC+L75eNW9ssqRDZQ+ldrP3WaPhJV0n3AjDMeFZZsl8ayngEwrDWOxN8oFNEKlFXJ7OpFVmLo7vxE+IsYmkWsWizQsW8htm28bpgUjfpiDFlqa1sP/HS9FCiTIKNzdBjbihEqg8fevLX97PQbijaHXL2WXpGvvV3B83GaWMBIe4VMHCRjVajh11AzQX5fGnuxxgWgC4zk5Ij+JKVGIFcwlfol5fiIQ9vi5WpQQlmWBirlmHVlEyjsejcz8l4wIF8nemCKKHCBpx0gSIZxQn7vBZKvE0Z69jYwJLoBjq0NhXXxXbUCtyKyr9Y/+fIBueUmhXULM1DfDyc/oDGKnbEwGQaYLdyCx5RGl2ke1jyq+rsnUPyyZqDn3C4ciApdo6Gx2ZHyeJPGcGYbpYmeqr9O2HUhatk2TOLcLOrFAFu97V/9BhwICPZInKFda2k/wEZWZeCywbUnrjXXgnYD0SfmX8PssAuj4Rheg2TNPDBGnyLbOclbr3NnrbuNW+ZqAe8k2IPfICf8pf84zVSsoEQeFf1b8Iimggx8wHhEWGeap2b8rt36FFdiHLqy0Q5k9Y8crQ4NvMaPw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <03E618FC1A83EB45A03757FFB0592C20@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20200818122208.1243901-5-imammedo@redhat.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3690.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 418b860f-0bed-4979-61d3-08d84377fe7b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2020 13:09:52.1743 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FkcoSDvmKQKlaEzrk9E/FDyJ3au2vFj+HQHowbHTidzpJm6xFqa97P19Xai37GVxkdy0NbGUoRPcOIsdcWQTOcd1VblEEmqBoMgX3Bolw8s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2249
+Received-SPF: pass client-ip=68.232.153.233;
+ envelope-from=Cyril.Jean@microchip.com; helo=esa3.microchip.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 09:09:56
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,74 +156,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, lersek@redhat.com, aaron.young@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: <Cyril.Jean@microchip.com>
+From:  via <qemu-devel@nongnu.org>
 
-On 8/18/20 2:22 PM, Igor Mammedov wrote:
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> ---
->  include/hw/acpi/aml-build.h |  2 ++
->  hw/acpi/aml-build.c         | 16 ++++++++++++++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> index d27da03d64..e213fc554c 100644
-> --- a/include/hw/acpi/aml-build.h
-> +++ b/include/hw/acpi/aml-build.h
-> @@ -291,6 +291,7 @@ Aml *aml_store(Aml *val, Aml *target);
->  Aml *aml_and(Aml *arg1, Aml *arg2, Aml *dst);
->  Aml *aml_or(Aml *arg1, Aml *arg2, Aml *dst);
->  Aml *aml_lor(Aml *arg1, Aml *arg2);
-> +Aml *aml_land(Aml *arg1, Aml *arg2);
->  Aml *aml_shiftleft(Aml *arg1, Aml *count);
->  Aml *aml_shiftright(Aml *arg1, Aml *count, Aml *dst);
->  Aml *aml_lless(Aml *arg1, Aml *arg2);
-> @@ -300,6 +301,7 @@ Aml *aml_increment(Aml *arg);
->  Aml *aml_decrement(Aml *arg);
->  Aml *aml_index(Aml *arg1, Aml *idx);
->  Aml *aml_notify(Aml *arg1, Aml *arg2);
-> +Aml *aml_break(void);
->  Aml *aml_call0(const char *method);
->  Aml *aml_call1(const char *method, Aml *arg1);
->  Aml *aml_call2(const char *method, Aml *arg1, Aml *arg2);
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index f6fbc9b95d..14b41b56f0 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -556,6 +556,15 @@ Aml *aml_or(Aml *arg1, Aml *arg2, Aml *dst)
->      return build_opcode_2arg_dst(0x7D /* OrOp */, arg1, arg2, dst);
->  }
->  
-> +/* ACPI 1.0b: 16.2.5.4 Type 2 Opcodes Encoding: DefLAnd */
-> +Aml *aml_land(Aml *arg1, Aml *arg2)
-> +{
-> +    Aml *var = aml_opcode(0x90 /* LandOp */);
-> +    aml_append(var, arg1);
-> +    aml_append(var, arg2);
-> +    return var;
-> +}
-> +
->  /* ACPI 1.0b: 16.2.5.4 Type 2 Opcodes Encoding: DefLOr */
->  Aml *aml_lor(Aml *arg1, Aml *arg2)
->  {
-> @@ -629,6 +638,13 @@ Aml *aml_notify(Aml *arg1, Aml *arg2)
->      return var;
->  }
->  
-> +/* ACPI 1.0b: 16.2.5.3 Type 1 Opcodes Encoding: DefBreak */
-> +Aml *aml_break(void)
-> +{
-> +    Aml *var = aml_opcode(0xa5 /* BreakOp */);
-> +    return var;
-> +}
-> +
->  /* helper to call method without argument */
->  Aml *aml_call0(const char *method)
->  {
-> 
-
+T24gOC8xOC8yMCA3OjE3IEFNLCBBbnVwIFBhdGVsIHdyb3RlOg0KPiBFWFRFUk5BTCBFTUFJTDog
+RG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93IHRo
+ZSBjb250ZW50IGlzIHNhZmUNCj4NCj4gT24gVHVlLCBBdWcgMTgsIDIwMjAgYXQgMToyMyBBTSA8
+Q3lyaWwuSmVhbkBtaWNyb2NoaXAuY29tPiB3cm90ZToNCj4+IE9uIDgvMTcvMjAgODoyOCBQTSwg
+QWxpc3RhaXIgRnJhbmNpcyB3cm90ZToNCj4+PiBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNr
+IGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93IHRoZSBjb250ZW50IGlz
+IHNhZmUNCj4+Pg0KPj4+IE9uIE1vbiwgQXVnIDE3LCAyMDIwIGF0IDExOjEyIEFNIHZpYSA8cWVt
+dS1kZXZlbEBub25nbnUub3JnPiB3cm90ZToNCj4+Pj4gSGkgQW51cCwNCj4+Pj4NCj4+Pj4gT24g
+OC8xNy8yMCAxMTozMCBBTSwgQmluIE1lbmcgd3JvdGU6DQo+Pj4+PiBFWFRFUk5BTCBFTUFJTDog
+RG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93IHRo
+ZSBjb250ZW50IGlzIHNhZmUNCj4+Pj4+DQo+Pj4+PiBIaSBBbnVwLA0KPj4+Pj4NCj4+Pj4+IE9u
+IFNhdCwgQXVnIDE1LCAyMDIwIGF0IDE6NDQgQU0gQW51cCBQYXRlbCA8YW51cEBicmFpbmZhdWx0
+Lm9yZz4gd3JvdGU6DQo+Pj4+Pj4gT24gRnJpLCBBdWcgMTQsIDIwMjAgYXQgMTA6MTIgUE0gQmlu
+IE1lbmcgPGJtZW5nLmNuQGdtYWlsLmNvbT4gd3JvdGU6DQo+Pj4+Pj4+IEZyb206IEJpbiBNZW5n
+IDxiaW4ubWVuZ0B3aW5kcml2ZXIuY29tPg0KPj4+Pj4+Pg0KPj4+Pj4+PiBUaGlzIGFkZHMgc3Vw
+cG9ydCBmb3IgTWljcm9jaGlwIFBvbGFyRmlyZSBTb0MgSWNpY2xlIEtpdCBib2FyZC4NCj4+Pj4+
+Pj4gVGhlIEljaWNsZSBLaXQgYm9hcmQgaW50ZWdyYXRlcyBhIFBvbGFyRmlyZSBTb0MsIHdpdGgg
+b25lIFNpRml2ZSdzDQo+Pj4+Pj4+IEU1MSBwbHVzIGZvdXIgVTU0IGNvcmVzIGFuZCBtYW55IG9u
+LWNoaXAgcGVyaXBoZXJhbHMgYW5kIGFuIEZQR0EuDQo+Pj4+Pj4gTmljZSBXb3JrICEhISBUaGlz
+IGlzIHZlcnkgaGVscGZ1bC4NCj4+Pj4+IFRoYW5rcyENCj4+Pj4+DQo+Pj4+Pj4gVGhlIE1pY3Jv
+Y2hpcCBIU1MgaXMgcXVpdGUgY29udm9sdXRlZC4gSXQgaGFzOg0KPj4+Pj4+IDEuIEREUiBJbml0
+DQo+Pj4+Pj4gMi4gQm9vdCBkZXZpY2Ugc3VwcG9ydA0KPj4+Pj4+IDMuIFNCSSBzdXBwb3J0IHVz
+aW5nIE9wZW5TQkkgYXMgbGlicmFyeQ0KPj4+Pj4+IDQuIFNpbXBsZSBURUUgc3VwcG9ydA0KPj4+
+Pj4+DQo+Pj4+Pj4gSSB0aGluayBwb2ludCAxKSBhbmQgMikgYWJvdmUgc2hvdWxkIGJlIHBhcnQg
+b2YgVS1Cb290IFNQTC4NCj4+Pj4+PiBUaGUgcG9pbnQgMykgY2FuIGJlIE9wZW5TQkkgRldfRFlO
+QU1JQy4NCj4+Pj4+Pg0KPj4+Pj4+IExhc3RseSxmb3IgcG9pbnQgNCksIHdlIGFyZSB3b3JraW5n
+IG9uIGEgbmV3IE9wZW5TQkkgZmVhdHVyZSB1c2luZw0KPj4+Pj4+IHdoaWNoIHdlIGNhbiBydW4g
+aW5kZXBlbmRlbnQgU2VjdXJlIE9TIGFuZCBOb24tU2VjdXJlIE9TIHVzaW5nDQo+Pj4+Pj4gVS1C
+b290X1NQTCtPcGVuU0JJIChmb3IgYm90aCBTaUZpdmUgVW5sZWFzaGVkIGFuZCBNaWNyb2NoaXAN
+Cj4+Pj4+PiBQb2xhckZpcmUpLg0KPj4+Pj4+DQo+Pj4+Pj4gRG8geW91IGhhdmUgcGxhbnMgZm9y
+IGFkZGluZyBVLUJvb3QgU1BMIHN1cHBvcnQgZm9yIHRoaXMgYm9hcmQgPz8NCj4+Pj4+ICsgQ3ly
+aWwgSmVhbiBmcm9tIE1pY3JvY2hpcA0KPj4+Pj4NCj4+Pj4+IEkgd2lsbCBoYXZlIHRvIGxlYXZl
+IHRoaXMgcXVlc3Rpb24gdG8gQ3lyaWwgdG8gY29tbWVudC4NCj4+Pj4+DQo+Pj4+IEkgY3VycmVu
+dGx5IGRvIG5vdCBoYXZlIGEgcGxhbiB0byBzdXBwb3J0IFUtQm9vdCBTUEwuIFRoZSBpZGVhIG9m
+IHRoZQ0KPj4+PiBIU1MgaXMgdG8gY29udGFpbiBhbGwgdGhlIHNpbGljb24gc3BlY2lmaWMgaW5p
+dGlhbGl6YXRpb24gYW5kDQo+Pj4+IGNvbmZpZ3VyYXRpb24gY29kZSB3aXRoaW4gdGhlIEhTUyBi
+ZWZvcmUganVtcGluZyB0byBVLUJvb3QgUy1tb2RlLiBJDQo+Pj4+IHdvdWxkIHJhdGhlciBrZWVw
+IGFsbCB0aGlzIHdpdGhpbiB0aGUgSFNTIGZvciB0aGUgdGltZSBiZWluZy4gSSB3b3VsZA0KPj4+
+PiB3YWl0IHVudGlsIHdlIHJlYWNoIHByb2R1Y3Rpb24gc2lsaWNvbiBiZWZvcmUgYXR0ZW1wdGlu
+ZyB0byBtb3ZlIHRoaXMgdG8NCj4+Pj4gVS1Cb290IFNQTCBhcyB0aGUgSFNTIGlzIGxpa2VseSB0
+byBjb250YWluIHNvbWUgb3BhcXVlIHNpbGljb24gcmVsYXRlZA0KPj4+PiBjaGFuZ2VzIGZvciBh
+bm90aGVyIHdoaWxlLg0KPj4+IFRoYXQgaXMgdW5mb3J0dW5hdGUsIGEgbG90IG9mIHdvcmsgaGFz
+IGdvbmUgaW50byBtYWtpbmcgdGhlIGJvb3QgZmxvdw0KPj4+IHNpbXBsZSBhbmQgZWFzeSB0byB1
+c2UuDQo+Pj4NCj4+PiBRRU1VIG5vdyBpbmNsdWRlcyBPcGVuU0JJIGJ5IGRlZmF1bHQgdG8gbWFr
+ZSBpdCBlYXN5IGZvciB1c2VycyB0byBib290DQo+Pj4gTGludXguIFRoZSBJY2ljbGUgS2l0IGJv
+YXJkIGlzIG5vdyB0aGUgbW9zdCBkaWZmaWN1bHQgUUVNVSBib2FyZCB0bw0KPj4+IGJvb3QgTGlu
+dXggb24uIE5vdCB0byBtZW50aW9uIGl0IG1ha2VzIGl0IGhhcmQgdG8gaW1wb3NzaWJsZSB0bw0K
+Pj4+IHN1cHBvcnQgaXQgaW4gc3RhbmRhcmQgdG9vbCBmbG93cyBzdWNoIGFzIG1ldGEtcmlzY3Yu
+DQo+Pj4NCj4+PiBBbGlzdGFpcg0KPj4gSWYgaXQgaXMgc3VjaCBhIHByb2JsZW0gd2UgY2FuIGFk
+ZCBhIFUtQm9vdCBTUEwgc3RhZ2UgYW5kIHRoZSBIU1MgY2FuIGJlDQo+PiB0cmVhdGVkIGFzIHN0
+YW5kYXJkIFNvQyBST00gY29kZS4NCj4gSXQncyBub3QgbWFuZGF0b3J5IGZvciBVLUJvb3QgU1BM
+IHRvIGhhdmUgc3RhYmxlIERSQU0gY2FsaWJyYXRpb24gc2V0dGluZ3MNCj4gZnJvbSB0aGUgc3Rh
+cnQgaXRzZWxmLiBUaGUgaW5pdGlhbCBVLUJvb3QgU1BMIHN1cHBvcnQgZm9yIG1vc3QNCj4gcGxh
+dGZvcm1zIChhY2Nyb3NzDQo+IGFyY2hpdGVjdHVyZXMpIHVzdWFsbHkgaW5jbHVkZSBiYXNpYyB3
+b3JraW5nIERSQU0gY2FsaWJyYXRpb24gc2V0dGluZ3Mgd2hpY2gNCj4gaXMgbGF0ZXIgb24gdXBk
+YXRlZCB3aXRoIHNlcGFyYXRlIHBhdGNoZXMuIEFsc28sIHdlIGRvbid0IG5lZWQgYWxsIFUtQm9v
+dA0KPiBkcml2ZXJzIHRvIGJlIHVwc3RyZWFtZWQgaW4gb25lLWdvIGFzIHRoaXMgY2FuIGJlIGRv
+bmUgaW4gcGhhc2VzLg0KPg0KPiBUaGUgYWR2YW50YWdlIHdlIGhhdmUgd2l0aCBQb2xhckZpcmUg
+U29DIEljaWNsZSBib2FyZCBpcyB0aGF0IHdlIGFscmVhZHkNCj4gaGF2ZSBhIFUtQm9vdCBTLW1v
+ZGUuIGFuZCB3ZSBiZWxpZXZlIHRoZSBPcGVuU0JJIGdlbmVyaWMgcGxhdGZvcm0gd2lsbA0KPiB3
+b3JrIGZpbmUgZm9yIFBvbGFyRmlyZSBTb0MgSWNpY2xlIGJvYXJkIHNvIHRoZSBvbmx5IHRoaW5n
+IG1pc3NpbmcgcmlnaHQgbm93DQo+IGlzIHRoZSBVLUJvb3QgU1BMIHN1cHBvcnQgZm9yIE9wZW5T
+b3VyY2UgYm9vdC1mbG93Lg0KPg0KPiBJdCB3aWxsIGNlcnRhaW5seSBhY2NlbGVyYXRlIG9wZW4t
+c291cmNlIGRldmVsb3BtZW50IGlmIHdlIGhhdmUgYm9vdC1mbG93DQo+IFUtQm9vdF9TUEwgPT4g
+T3BlblNCSSAoRldfRFlOQU1JQykgPT4gVS1Cb290X1MtbW9kZSB3b3JraW5nDQo+IG9uIFBvbGFy
+RmlyZSBTb0MgSWNpY2xlIGJvYXJkLiBJbml0aWFsbHksIHdlIGp1c3QgbmVlZCBEUkFNLCBTRC9l
+TU1DLA0KPiBhbmQgU2VyaWFsIHBvcnQgc3VwcG9ydCBmb3IgVS1Cb290IFNQTCBhbmQgVS1Cb290
+IFMtbW9kZS4gTGF0ZXIgb24sDQo+IG1vcmUgcGF0Y2hlcyBjYW4gYWRkIGV0aGVybmV0IGFuZCBv
+dGhlciBib290aW5nIGRldmljZSBkcml2ZXJzIHRvIFUtQm9vdC4NCj4NCj4gUmVnYXJkaW5nIHNl
+Y3VyaXR5IHNlcnZpY2VzIG9mIEhTUywgd2UgYXJlIHdvcmtpbmcgb24gYSBPcGVuU0JJDQo+IGZl
+YXR1cmUgd2hpY2ggd2lsbCBhbGxvdyBIU1Mgc2VjdXJpdHkgc2VydmljZXMgdG8gcnVuIGFzIGlu
+ZGVwZW5kZW50DQo+IGJpbmFyeSBpbiBNLW1vZGUgKG5vdCBsaW5rZWQgdG8gT3BlblNCSSkgYW5k
+IE9wZW5TQkkgRldfRFlOQU1JQw0KPiB3aWxsIGJlIGEgc2VwYXJhdGUgYmluYXJ5IGFjdGluZyBh
+cyBhIHNlY3VyZSBtb25pdG9yLg0KPg0KPiBSZWdhcmRzLA0KPiBBbnVwDQoNCldoYXQgSSBoYXZl
+IGluIG1pbmQgaXMgdGhhdCB0aGUgZXh0ZXJuYWwgbWVtb3J5IHdpbGwgYmUgdXAgYW5kIHJ1bm5p
+bmcgDQpieSB0aGUgdGltZSB3ZSBnZXQgdG8gVS1Cb290IFNQTC4gSW4gdGhlIGNhc2Ugb2YgUG9s
+YXJGaXJlIFNvQyB0aGUgUk9NIA0KY29kZSBlcXVpdmFsZW50IGJyaW5ncyB1cCB0aGUgRERSIG1l
+bW9yeSBpbnRlcmZhY2Ugc28gd2UgZG8gbm90IG5lZWQgdG8gDQp3b3JyeSBhYm91dCB0aGlzIGFz
+IHBhcnQgb2YgVS1Cb290Lg0KDQpTb3VuZHMgdG8gbWUgdGhlIGNvbXBvbmVudCB0aGF0IG5lZWRz
+IHRvIGJlIHVwc3RyZWFtZWQgbmV4dCBpcyB0aGUgZU1NQyANCnN1cHBvcnQgc28gdGhhdCBpdCBj
+YW4gYmUgdXNlZCBhcyBwYXJ0IG9mIFUtQm9vdCBTUEwuIENvcnJlY3Q/DQoNCg0KUmVnYXJkcywN
+Cg0KQ3lyaWwuDQoNCg==
 
