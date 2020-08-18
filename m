@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298392486E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:14:20 +0200 (CEST)
-Received: from localhost ([::1]:44538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61A0248743
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:21:10 +0200 (CEST)
+Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k82NX-0000OB-38
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60106)
+	id 1k82U9-0003XI-SY
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82K2-00034s-Lw
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:44 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53669
+ id 1k82K8-000394-77
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:48 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28331
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Jy-0007Iq-T7
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:42 -0400
+ id 1k82Jz-0007Iz-HC
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597759838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tjOVdeZdU8flg52xFPrCav0JQnR66QHJMCvoKZaLbqI=;
- b=Iu8tFv57qjxzoXoeeiMvjxKWVEX1XSXrrYwfY0dowaNCx2Oz+w33zEi57+F/couFyxqvb9
- rSSYDZToAXlg2oPWsiO8HfaxHsSticF25NyqHnld+6e5kr64o6tn5wH90m45R3H8og1+b+
- zzL0qK8s79sJ+eFcbaTOWFnB+Njeg3c=
+ bh=kw5nOndWF6SnzQmCqJU2rvAqhqsM7j+gveC3XxmrzX4=;
+ b=aJ8ivbzsG5KxuQn7VDalMl74RpGebLciKIS2AS/dTbj3c5OvoUfROzzwvtaoNuiCJwJcGp
+ pS3xx0wUBcGw3gTckJMzsxfA0cbF67zotuZmbw63UDZIKbYt+StMt1bq6Havh2TCZDl3YM
+ XG1TypDrzPqdJXu1SKTqMvYFYnGyWI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-lNocP9vfMX2dlMrXgWkyaQ-1; Tue, 18 Aug 2020 10:10:36 -0400
-X-MC-Unique: lNocP9vfMX2dlMrXgWkyaQ-1
+ us-mta-183-HHodERR4N5KbXaPzyJQ3_A-1; Tue, 18 Aug 2020 10:10:36 -0400
+X-MC-Unique: HHodERR4N5KbXaPzyJQ3_A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7450FD6381
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2201D6386
  for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:35 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 383445C64D;
- Tue, 18 Aug 2020 14:10:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 955425C64D;
+ Tue, 18 Aug 2020 14:10:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 008/150] tests/vm: do not pollute configure with --efi-aarch64
-Date: Tue, 18 Aug 2020 10:08:03 -0400
-Message-Id: <20200818141025.21608-9-pbonzini@redhat.com>
+Subject: [PULL 009/150] tests/vm: check for Python YAML parser in the Makefile
+Date: Tue, 18 Aug 2020 10:08:04 -0400
+Message-Id: <20200818141025.21608-10-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +59,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -86,88 +86,73 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just make EFI_AARCH64 a variable in the makefile that defaults to the efi
-firmware included with QEMU.  It can be redefined on the "make" command
-line.
+No need to do it in the configure file if it is only used for a help message.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                 | 19 -------------------
- tests/vm/Makefile.include |  2 ++
- 2 files changed, 2 insertions(+), 19 deletions(-)
+ configure                 | 9 ---------
+ tests/vm/Makefile.include | 6 +++++-
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/configure b/configure
-index 2acc4d1465..1c17a0f27f 100755
+index 1c17a0f27f..625c14c500 100755
 --- a/configure
 +++ b/configure
-@@ -418,7 +418,6 @@ prefix="/usr/local"
- mandir="\${prefix}/share/man"
- datadir="\${prefix}/share"
- firmwarepath="\${prefix}/share/qemu-firmware"
--efi_aarch64=""
- qemu_docdir="\${prefix}/share/doc/qemu"
- bindir="\${prefix}/bin"
- libdir="\${prefix}/lib"
-@@ -1109,8 +1108,6 @@ for opt do
-   ;;
-   --firmwarepath=*) firmwarepath="$optarg"
-   ;;
--  --efi-aarch64=*) efi_aarch64="$optarg"
--  ;;
-   --host=*|--build=*|\
-   --disable-dependency-tracking|\
-   --sbindir=*|--sharedstatedir=*|\
-@@ -3650,20 +3647,6 @@ EOF
-   fi
- fi
+@@ -959,13 +959,6 @@ do
+     fi
+ done
  
--############################################
--# efi-aarch64 probe
--# Check for efi files needed by aarch64 VMs.
--# By default we will use the efi included with QEMU.
--# Allow user to override the path for efi also.
--if ! test -f "$efi_aarch64"; then
--  if test -f $source_path/pc-bios/edk2-aarch64-code.fd.bz2; then
--    # valid after build
--    efi_aarch64=$PWD/pc-bios/edk2-aarch64-code.fd
--  else
--    efi_aarch64=""
--  fi
+-# Check for existence of python3 yaml, needed to
+-# import yaml config files into vm-build.
+-python_yaml="no"
+-if $(python3 -c "import yaml" 2> /dev/null); then
+-    python_yaml="yes"
 -fi
 -
- ##########################################
- # libcap-ng library probe
- if test "$cap_ng" != "no" ; then
-@@ -6861,7 +6844,6 @@ if test "$docs" != "no"; then
+ : ${smbd=${SMBD-/usr/sbin/smbd}}
+ 
+ # Default objcc to clang if available, otherwise use CC
+@@ -6844,7 +6837,6 @@ if test "$docs" != "no"; then
      echo "sphinx-build      $sphinx_build"
  fi
  echo "genisoimage       $genisoimage"
--echo "efi_aarch64       $efi_aarch64"
- echo "python_yaml       $python_yaml"
+-echo "python_yaml       $python_yaml"
  echo "slirp support     $slirp $(echo_version $slirp $slirp_version)"
  if test "$slirp" != "no" ; then
-@@ -7963,7 +7945,6 @@ echo "PYTHON=$python" >> $config_host_mak
+     echo "smbd              $smbd"
+@@ -7945,7 +7937,6 @@ echo "PYTHON=$python" >> $config_host_mak
  echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
  echo "SPHINX_WERROR=$sphinx_werror" >> $config_host_mak
  echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
--echo "EFI_AARCH64=$efi_aarch64" >> $config_host_mak
- echo "PYTHON_YAML=$python_yaml" >> $config_host_mak
+-echo "PYTHON_YAML=$python_yaml" >> $config_host_mak
  echo "CC=$cc" >> $config_host_mak
  if $iasl -h > /dev/null 2>&1; then
+   echo "IASL=$iasl" >> $config_host_mak
 diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index f21948c46a..a599d1994d 100644
+index a599d1994d..61f893ffdc 100644
 --- a/tests/vm/Makefile.include
 +++ b/tests/vm/Makefile.include
-@@ -2,6 +2,8 @@
+@@ -17,6 +17,10 @@ IMAGE_FILES := $(patsubst %, $(IMAGES_DIR)/%.img, $(IMAGES))
  
- .PHONY: vm-build-all vm-clean-all
+ .PRECIOUS: $(IMAGE_FILES)
  
-+EFI_AARCH64 = $(wildcard $(BUILD_DIR)/pc-bios/edk2-aarch64-code.fd)
++ifneq ($(PYTHON),)
++HAVE_PYTHON_YAML = $(shell $(PYTHON) -c "import yaml" 2> /dev/null && echo yes)
++endif
 +
- IMAGES := freebsd netbsd openbsd centos fedora
- ifneq ($(GENISOIMAGE),)
- IMAGES += ubuntu.i386 centos
+ # 'vm-help' target was historically named 'vm-test'
+ vm-help vm-test:
+ 	@echo "vm-help: Test QEMU in preconfigured virtual machines"
+@@ -56,7 +60,7 @@ endif
+ 	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
+ 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
+ 	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
+-ifeq ($(PYTHON_YAML),yes)
++ifeq ($(HAVE_PYTHON_YAML),yes)
+ 	@echo "    QEMU_CONFIG=/path/conf.yml   - Change path to VM configuration .yml file."
+ else
+ 	@echo "    (install python3-yaml to enable support for yaml file to configure a VM.)"
 -- 
 2.26.2
 
