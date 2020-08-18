@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FE42489F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:35:16 +0200 (CEST)
-Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E58B2489E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:31:08 +0200 (CEST)
+Received: from localhost ([::1]:37992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83dr-0006By-RY
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
+	id 1k83Zr-0007zx-4v
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82OU-0003Oo-MI
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:15:19 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39374
+ id 1k82M3-0006hK-O7
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:47 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58982
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82OM-0007w3-FS
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:15:16 -0400
+ id 1k82Lz-0007iQ-DZ
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597760109;
+ s=mimecast20190719; t=1597759962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TPfhZMDPfyr8MrLtVFABgGa1PxADxJfJ4mq4xNQgTHM=;
- b=fnOeI1cRn4Yfe7wwWXo59/Y/EhJJ5kjYAWUlIDS6BBm+u7mhHgtcWC1joibl7Ur02F5LbA
- IwMKfjaYyNJSmW22/Vs4nBciMhV7u3HGuxBL40K7JnY0mjWfrXxHJgTESlPfynfoBl/Sud
- 2prja7IvfR3V0LrBbxmqo1FI8QAlYDc=
+ bh=NhC3WN+7P3oYu/I5W9ozmdGow63gLRM3tv8jbIWeG3g=;
+ b=BG7aHziKz53Jx4AbHB+xaGJyYXGdt892sbVtlHJFd3KQDCzoWn5IfBLXhomnHrFoJzSr+t
+ 2rjtrX2gvDhFcATz6sAr2CE/BqLS+U0dTisUOEMIcwRBXnZ7wewmU9lYPWQNVebcIhedIT
+ 9WpWg12i1Rsxy4p2BEI7h8Hw0wU50QU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-uaZ_QWK4OGu46WQiEvLRVA-1; Tue, 18 Aug 2020 10:12:08 -0400
-X-MC-Unique: uaZ_QWK4OGu46WQiEvLRVA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-177-zc3snx8BOTmf4tfxAuGqIQ-1; Tue, 18 Aug 2020 10:12:25 -0400
+X-MC-Unique: zc3snx8BOTmf4tfxAuGqIQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F08131800D41
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3202381F01C
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:24 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0938600DD;
- Tue, 18 Aug 2020 14:12:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EABD97A1FA
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 128/150] meson: target
-Date: Tue, 18 Aug 2020 10:10:03 -0400
-Message-Id: <20200818141025.21608-129-pbonzini@redhat.com>
+Subject: [PULL 149/150] meson: update build-system documentation
+Date: Tue, 18 Aug 2020 10:10:24 -0400
+Message-Id: <20200818141025.21608-150-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,1521 +82,661 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to hw_arch, each architecture defines two sourceset which are placed in
-dictionaries target_arch and target_softmmu_arch.  These are then picked up
-from there when building the per-emulator static_library.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.target                 |  3 +-
- libdecnumber/Makefile.objs      |  5 --
- libdecnumber/meson.build        |  7 +++
- meson.build                     | 11 ++++
- scripts/decodetree.py           |  2 +-
- target/alpha/Makefile.objs      |  4 --
- target/alpha/meson.build        | 18 +++++++
- target/arm/Makefile.objs        | 89 ---------------------------------
- target/arm/meson.build          | 62 +++++++++++++++++++++++
- target/avr/Makefile.objs        | 34 -------------
- target/avr/disas.c              |  2 +-
- target/avr/meson.build          | 20 ++++++++
- target/avr/translate.c          |  2 +-
- target/cris/Makefile.objs       |  3 --
- target/cris/meson.build         | 14 ++++++
- target/hppa/Makefile.objs       | 11 ----
- target/hppa/meson.build         | 19 +++++++
- target/hppa/translate.c         |  2 +-
- target/i386/Makefile.objs       | 23 ---------
- target/i386/hvf/Makefile.objs   |  2 -
- target/i386/hvf/meson.build     | 12 +++++
- target/i386/meson.build         | 40 +++++++++++++++
- target/lm32/Makefile.objs       |  4 --
- target/lm32/meson.build         | 15 ++++++
- target/m68k/Makefile.objs       |  5 --
- target/m68k/meson.build         | 17 +++++++
- target/meson.build              | 22 ++++++++
- target/microblaze/Makefile.objs |  3 --
- target/microblaze/meson.build   | 14 ++++++
- target/mips/Makefile.objs       |  6 ---
- target/mips/meson.build         | 24 +++++++++
- target/moxie/Makefile.objs      |  2 -
- target/moxie/meson.build        | 14 ++++++
- target/nios2/Makefile.objs      |  4 --
- target/nios2/meson.build        | 15 ++++++
- target/openrisc/Makefile.objs   | 15 ------
- target/openrisc/disas.c         |  2 +-
- target/openrisc/meson.build     | 23 +++++++++
- target/openrisc/translate.c     |  2 +-
- target/ppc/Makefile.objs        | 20 --------
- target/ppc/meson.build          | 37 ++++++++++++++
- target/riscv/Makefile.objs      | 28 -----------
- target/riscv/meson.build        | 34 +++++++++++++
- target/riscv/translate.c        |  4 +-
- target/rx/Makefile.objs         | 11 ----
- target/rx/disas.c               |  2 +-
- target/rx/meson.build           | 16 ++++++
- target/rx/translate.c           |  2 +-
- target/s390x/Makefile.objs      | 10 ----
- target/s390x/meson.build        | 42 +++++++++++++++-
- target/sh4/Makefile.objs        |  3 --
- target/sh4/meson.build          | 14 ++++++
- target/sparc/Makefile.objs      |  7 ---
- target/sparc/meson.build        | 23 +++++++++
- target/tilegx/Makefile.objs     |  1 -
- target/tilegx/meson.build       | 13 +++++
- target/tricore/Makefile.objs    |  1 -
- target/tricore/meson.build      | 15 ++++++
- target/unicore32/Makefile.objs  |  8 ---
- target/unicore32/meson.build    | 14 ++++++
- target/xtensa/Makefile.objs     | 16 ------
- target/xtensa/meson.build       | 30 +++++++++++
- 62 files changed, 595 insertions(+), 328 deletions(-)
- delete mode 100644 libdecnumber/Makefile.objs
- create mode 100644 libdecnumber/meson.build
- mode change 100755 => 100644 scripts/decodetree.py
- delete mode 100644 target/alpha/Makefile.objs
- create mode 100644 target/alpha/meson.build
- delete mode 100644 target/arm/Makefile.objs
- create mode 100644 target/arm/meson.build
- delete mode 100644 target/avr/Makefile.objs
- create mode 100644 target/avr/meson.build
- delete mode 100644 target/cris/Makefile.objs
- create mode 100644 target/cris/meson.build
- delete mode 100644 target/hppa/Makefile.objs
- create mode 100644 target/hppa/meson.build
- delete mode 100644 target/i386/Makefile.objs
- delete mode 100644 target/i386/hvf/Makefile.objs
- create mode 100644 target/i386/hvf/meson.build
- create mode 100644 target/i386/meson.build
- delete mode 100644 target/lm32/Makefile.objs
- create mode 100644 target/lm32/meson.build
- delete mode 100644 target/m68k/Makefile.objs
- create mode 100644 target/m68k/meson.build
- delete mode 100644 target/microblaze/Makefile.objs
- create mode 100644 target/microblaze/meson.build
- delete mode 100644 target/mips/Makefile.objs
- create mode 100644 target/mips/meson.build
- delete mode 100644 target/moxie/Makefile.objs
- create mode 100644 target/moxie/meson.build
- delete mode 100644 target/nios2/Makefile.objs
- create mode 100644 target/nios2/meson.build
- delete mode 100644 target/openrisc/Makefile.objs
- create mode 100644 target/openrisc/meson.build
- delete mode 100644 target/ppc/Makefile.objs
- create mode 100644 target/ppc/meson.build
- delete mode 100644 target/riscv/Makefile.objs
- create mode 100644 target/riscv/meson.build
- delete mode 100644 target/rx/Makefile.objs
- create mode 100644 target/rx/meson.build
- delete mode 100644 target/s390x/Makefile.objs
- delete mode 100644 target/sh4/Makefile.objs
- create mode 100644 target/sh4/meson.build
- delete mode 100644 target/sparc/Makefile.objs
- create mode 100644 target/sparc/meson.build
- delete mode 100644 target/tilegx/Makefile.objs
- create mode 100644 target/tilegx/meson.build
- delete mode 100644 target/tricore/Makefile.objs
- create mode 100644 target/tricore/meson.build
- delete mode 100644 target/unicore32/Makefile.objs
- create mode 100644 target/unicore32/meson.build
- delete mode 100644 target/xtensa/Makefile.objs
- create mode 100644 target/xtensa/meson.build
+ docs/devel/build-system.txt | 468 ++++++++++++++++++------------------
+ 1 file changed, 240 insertions(+), 228 deletions(-)
 
-diff --git a/Makefile.target b/Makefile.target
-index 28cefba1de..1ab8773402 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -116,7 +116,6 @@ obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
- obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
- obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
- obj-$(CONFIG_TCG) += fpu/softfloat.o
--obj-y += target/$(TARGET_BASE_ARCH)/
- obj-y += disas.o
- obj-$(call notempty,$(TARGET_XML_FILES)) += gdbstub-xml.o
- LIBS := $(libs_cpu) $(LIBS)
-@@ -168,7 +167,7 @@ LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOM
- LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
- LIBS := $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
- LIBS := $(LIBS) $(LIBUSB_LIBS) $(SMARTCARD_LIBS) $(USB_REDIR_LIBS)
--LIBS := $(LIBS) $(VIRGL_LIBS)
-+LIBS := $(LIBS) $(VIRGL_LIBS) $(CURSES_LIBS)
+diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.txt
+index fea67b207c..2ced8ca474 100644
+--- a/docs/devel/build-system.txt
++++ b/docs/devel/build-system.txt
+@@ -22,15 +22,34 @@ silent while it is checking for features. It will only display output
+ when an error occurs, or to show the final feature enablement summary
+ on completion.
  
- generated-files-y += hmp-commands.h hmp-commands-info.h
+-Adding new checks to the configure script usually comprises the
+-following tasks:
++Because QEMU uses the Meson build system under the hood, only VPATH
++builds are supported.  There are two general ways to invoke configure &
++perform a build:
++
++ - VPATH, build artifacts outside of QEMU source tree entirely
++
++     cd ../
++     mkdir build
++     cd build
++     ../qemu/configure
++     make
++
++ - VPATH, build artifacts in a subdir of QEMU source tree
++
++     mkdir build
++     cd build
++     ../configure
++     make
++
++For now, checks on the compilation environment are found in configure
++rather than meson.build, though this is expected to change.  The command
++line is parsed in the configure script and, whenever needed, converted
++into the appropriate options to Meson.
  
-diff --git a/libdecnumber/Makefile.objs b/libdecnumber/Makefile.objs
-deleted file mode 100644
-index d81db0443a..0000000000
---- a/libdecnumber/Makefile.objs
-+++ /dev/null
-@@ -1,5 +0,0 @@
--obj-y += decContext.o
--obj-y += decNumber.o
--obj-y += dpd/decimal32.o
--obj-y += dpd/decimal64.o
--obj-y += dpd/decimal128.o
-diff --git a/libdecnumber/meson.build b/libdecnumber/meson.build
-new file mode 100644
-index 0000000000..4d04139af4
---- /dev/null
-+++ b/libdecnumber/meson.build
-@@ -0,0 +1,7 @@
-+libdecnumber = files(
-+  'decContext.c',
-+  'decNumber.c',
-+  'dpd/decimal128.c',
-+  'dpd/decimal32.c',
-+  'dpd/decimal64.c',
-+)
-diff --git a/meson.build b/meson.build
-index b9c436ce8f..7f0cdb4b40 100644
---- a/meson.build
-+++ b/meson.build
-@@ -644,10 +644,15 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+- - Initialize one or more variables with the default feature state.
++New checks should be added to Meson, which usually comprises the
++following tasks:
  
-+decodetree = generator(find_program('scripts/decodetree.py'),
-+                       output: 'decode-@BASENAME@.c.inc',
-+                       arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
-+
- subdir('audio')
- subdir('io')
- subdir('chardev')
- subdir('fsdev')
-+subdir('libdecnumber')
- subdir('target')
- subdir('dump')
+-   Ideally features should auto-detect whether they are present,
+-   so try to avoid hardcoding the initial state to either enabled
+-   or disabled, as that forces the user to pass a --enable-XXX
+-   / --disable-XXX flag on every invocation of configure.
++ - Add a Meson build option to meson_options.txt.
  
-@@ -784,6 +789,9 @@ foreach target : target_dirs
-   if target.endswith('-softmmu')
-     qemu_target_name = 'qemu-system-' + target_name
-     target_type='system'
-+    t = target_softmmu_arch[arch].apply(config_target, strict: false)
-+    arch_srcs += t.sources()
-+
-     hw_dir = target_name == 'sparc64' ? 'sparc64' : arch
-     hw = hw_arch[hw_dir].apply(config_target, strict: false)
-     arch_srcs += hw.sources()
-@@ -804,6 +812,9 @@ foreach target : target_dirs
-     )
-   endif
+  - Add support to the command line arg parser to handle any new
+    --enable-XXX / --disable-XXX flags required by the feature XXX.
+@@ -38,63 +57,55 @@ following tasks:
+  - Add information to the help output message to report on the new
+    feature flag.
  
-+  t = target_arch[arch].apply(config_target, strict: false)
-+  arch_srcs += t.sources()
+- - Add code to perform the actual feature check. As noted above, try to
+-   be fully dynamic in checking enablement/disablement.
++ - Add code to perform the actual feature check.
 +
-   target_common = common_ss.apply(config_target, strict: false)
-   objects = common_all.extract_objects(target_common.sources())
++ - Add code to include the feature status in config-host.h
  
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-old mode 100755
-new mode 100644
-index 694757b6c2..4cd1e10904
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -1257,7 +1257,7 @@ def main():
-     long_opts = ['decode=', 'translate=', 'output=', 'insnwidth=',
-                  'static-decode=', 'varinsnwidth=']
-     try:
--        (opts, args) = getopt.getopt(sys.argv[1:], 'o:vw:', long_opts)
-+        (opts, args) = getopt.gnu_getopt(sys.argv[1:], 'o:vw:', long_opts)
-     except getopt.GetoptError as err:
-         error(0, err)
-     for o, a in opts:
-diff --git a/target/alpha/Makefile.objs b/target/alpha/Makefile.objs
-deleted file mode 100644
-index 63664629f6..0000000000
---- a/target/alpha/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--obj-$(CONFIG_SOFTMMU) += machine.o
--obj-y += translate.o helper.o cpu.o
--obj-y += int_helper.o fpu_helper.o vax_helper.o sys_helper.o mem_helper.o
--obj-y += gdbstub.o
-diff --git a/target/alpha/meson.build b/target/alpha/meson.build
-new file mode 100644
-index 0000000000..1aec55abb4
---- /dev/null
-+++ b/target/alpha/meson.build
-@@ -0,0 +1,18 @@
-+alpha_ss = ss.source_set()
-+alpha_ss.add(files(
-+  'cpu.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'int_helper.c',
-+  'mem_helper.c',
-+  'sys_helper.c',
-+  'translate.c',
-+  'vax_helper.c',
-+))
-+
-+alpha_softmmu_ss = ss.source_set()
-+alpha_softmmu_ss.add(files('machine.c'))
-+
-+target_arch += {'alpha': alpha_ss}
-+target_softmmu_arch += {'alpha': alpha_softmmu_ss}
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-deleted file mode 100644
-index 317eed993f..0000000000
---- a/target/arm/Makefile.objs
-+++ /dev/null
-@@ -1,89 +0,0 @@
--obj-$(CONFIG_TCG) += arm-semi.o
--obj-y += helper.o vfp_helper.o
--obj-y += cpu.o gdbstub.o
--obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
--
--obj-$(CONFIG_SOFTMMU) += machine.o arch_dump.o monitor.o
--obj-$(CONFIG_SOFTMMU) += arm-powerctl.o
--
--obj-$(CONFIG_KVM) += kvm.o
--obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) += kvm32.o
--obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) += kvm64.o
--obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
--
--DECODETREE = $(SRC_PATH)/scripts/decodetree.py
--
--target/arm/decode-sve.c.inc: $(SRC_PATH)/target/arm/sve.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --decode disas_sve -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-neon-shared.c.inc: $(SRC_PATH)/target/arm/neon-shared.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_neon_shared -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-neon-dp.c.inc: $(SRC_PATH)/target/arm/neon-dp.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_neon_dp -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-neon-ls.c.inc: $(SRC_PATH)/target/arm/neon-ls.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_neon_ls -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-vfp.c.inc: $(SRC_PATH)/target/arm/vfp.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_vfp -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-vfp-uncond.c.inc: $(SRC_PATH)/target/arm/vfp-uncond.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_vfp_uncond -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-a32.c.inc: $(SRC_PATH)/target/arm/a32.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_a32 -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-a32-uncond.c.inc: $(SRC_PATH)/target/arm/a32-uncond.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_a32_uncond -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-t32.c.inc: $(SRC_PATH)/target/arm/t32.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --static-decode disas_t32 -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/decode-t16.c.inc: $(SRC_PATH)/target/arm/t16.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) -w 16 --static-decode disas_t16 -o $@ $<,\
--	  "GEN", $(TARGET_DIR)$@)
--
--target/arm/translate-sve.o: target/arm/decode-sve.c.inc
--target/arm/translate.o: target/arm/decode-neon-shared.c.inc
--target/arm/translate.o: target/arm/decode-neon-dp.c.inc
--target/arm/translate.o: target/arm/decode-neon-ls.c.inc
--target/arm/translate.o: target/arm/decode-vfp.c.inc
--target/arm/translate.o: target/arm/decode-vfp-uncond.c.inc
--target/arm/translate.o: target/arm/decode-a32.c.inc
--target/arm/translate.o: target/arm/decode-a32-uncond.c.inc
--target/arm/translate.o: target/arm/decode-t32.c.inc
--target/arm/translate.o: target/arm/decode-t16.c.inc
--
--obj-y += tlb_helper.o debug_helper.o
--obj-y += translate.o op_helper.o
--obj-y += crypto_helper.o
--obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
--obj-y += m_helper.o
--obj-y += cpu_tcg.o
--
--obj-$(CONFIG_SOFTMMU) += psci.o
--
--obj-$(TARGET_AARCH64) += translate-a64.o helper-a64.o
--obj-$(TARGET_AARCH64) += translate-sve.o sve_helper.o
--obj-$(TARGET_AARCH64) += pauth_helper.o
--obj-$(TARGET_AARCH64) += mte_helper.o
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-new file mode 100644
-index 0000000000..bd46cdb523
---- /dev/null
-+++ b/target/arm/meson.build
-@@ -0,0 +1,62 @@
-+gen = [
-+  decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
-+  decodetree.process('neon-shared.decode', extra_args: '--static-decode=disas_neon_shared'),
-+  decodetree.process('neon-dp.decode', extra_args: '--static-decode=disas_neon_dp'),
-+  decodetree.process('neon-ls.decode', extra_args: '--static-decode=disas_neon_ls'),
-+  decodetree.process('vfp.decode', extra_args: '--static-decode=disas_vfp'),
-+  decodetree.process('vfp-uncond.decode', extra_args: '--static-decode=disas_vfp_uncond'),
-+  decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
-+  decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
-+  decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
-+  decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
-+]
-+
-+arm_ss = ss.source_set()
-+arm_ss.add(gen)
-+arm_ss.add(files(
-+  'cpu.c',
-+  'crypto_helper.c',
-+  'debug_helper.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'iwmmxt_helper.c',
-+  'm_helper.c',
-+  'neon_helper.c',
-+  'op_helper.c',
-+  'tlb_helper.c',
-+  'translate.c',
-+  'vec_helper.c',
-+  'vfp_helper.c',
-+  'cpu_tcg.c',
-+))
-+arm_ss.add(zlib)
-+
-+arm_ss.add(when: 'CONFIG_TCG', if_true: files('arm-semi.c'))
-+
-+kvm_ss = ss.source_set()
-+kvm_ss.add(when: 'TARGET_AARCH64', if_true: files('kvm64.c'), if_false: files('kvm32.c'))
-+arm_ss.add_all(when: 'CONFIG_KVM', if_true: kvm_ss)
-+arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
-+
-+arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-+  'cpu64.c',
-+  'gdbstub64.c',
-+  'helper-a64.c',
-+  'mte_helper.c',
-+  'pauth_helper.c',
-+  'sve_helper.c',
-+  'translate-a64.c',
-+  'translate-sve.c',
-+))
-+
-+arm_softmmu_ss = ss.source_set()
-+arm_softmmu_ss.add(files(
-+  'arch_dump.c',
-+  'arm-powerctl.c',
-+  'machine.c',
-+  'monitor.c',
-+  'psci.c',
-+))
-+
-+target_arch += {'arm': arm_ss}
-+target_softmmu_arch += {'arm': arm_softmmu_ss}
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-deleted file mode 100644
-index fb94a0b069..0000000000
---- a/target/avr/Makefile.objs
-+++ /dev/null
-@@ -1,34 +0,0 @@
--#
--#  QEMU AVR
--#
--#  Copyright (c) 2016-2020 Michael Rolnik
--#
--#  This library is free software; you can redistribute it and/or
--#  modify it under the terms of the GNU Lesser General Public
--#  License as published by the Free Software Foundation; either
--#  version 2.1 of the License, or (at your option) any later version.
--#
--#  This library is distributed in the hope that it will be useful,
--#  but WITHOUT ANY WARRANTY; without even the implied warranty of
--#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--#  Lesser General Public License for more details.
--#
--#  You should have received a copy of the GNU Lesser General Public
--#  License along with this library; if not, see
--#  <http://www.gnu.org/licenses/lgpl-2.1.html>
--#
--
--DECODETREE = $(SRC_PATH)/scripts/decodetree.py
--decode-y = $(SRC_PATH)/target/avr/insn.decode
--
--target/avr/decode_insn.c.inc: $(decode-y) $(DECODETREE)
--	$(call quiet-command, \
--	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
--	  "GEN", $(TARGET_DIR)$@)
--
--target/avr/translate.o: target/avr/decode_insn.c.inc
--
--obj-y += translate.o cpu.o helper.o
--obj-y += gdbstub.o
--obj-y += disas.o
--obj-$(CONFIG_SOFTMMU) += machine.o
-diff --git a/target/avr/disas.c b/target/avr/disas.c
-index f15dc7911a..b7689e8d7c 100644
---- a/target/avr/disas.c
-+++ b/target/avr/disas.c
-@@ -60,7 +60,7 @@ static int append_16(DisasContext *ctx, int x)
+  - Add code to print out the feature status in the configure summary
+    upon completion.
  
- /* Include the auto-generated decoder.  */
- static bool decode_insn(DisasContext *ctx, uint16_t insn);
--#include "decode_insn.c.inc"
-+#include "decode-insn.c.inc"
- 
- #define output(mnemonic, format, ...) \
-     (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format, \
-diff --git a/target/avr/meson.build b/target/avr/meson.build
-new file mode 100644
-index 0000000000..7e8e29c59d
---- /dev/null
-+++ b/target/avr/meson.build
-@@ -0,0 +1,20 @@
-+gen = [
-+  decodetree.process('insn.decode', extra_args: [ '--decode', 'decode_insn',
-+                                                  '--insnwidth', '16' ])
-+]
-+
-+avr_ss = ss.source_set()
-+avr_softmmu_ss = ss.source_set()
-+
-+avr_ss.add(gen)
-+avr_ss.add(files(
-+  'translate.c',
-+  'helper.c',
-+  'cpu.c',
-+  'gdbstub.c',
-+  'disas.c'))
-+
-+avr_softmmu_ss.add(files('machine.c'))
-+
-+target_arch += {'avr': avr_ss}
-+target_softmmu_arch += {'avr': avr_softmmu_ss}
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 9eb14f63f0..850c5941d9 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -198,7 +198,7 @@ static bool avr_have_feature(DisasContext *ctx, int feature)
- }
- 
- static bool decode_insn(DisasContext *ctx, uint16_t insn);
--#include "decode_insn.c.inc"
-+#include "decode-insn.c.inc"
- 
- /*
-  * Arithmetic Instructions
-diff --git a/target/cris/Makefile.objs b/target/cris/Makefile.objs
-deleted file mode 100644
-index 7779227fc4..0000000000
---- a/target/cris/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-y += gdbstub.o
--obj-$(CONFIG_SOFTMMU) += mmu.o machine.o
-diff --git a/target/cris/meson.build b/target/cris/meson.build
-new file mode 100644
-index 0000000000..67c3793c85
---- /dev/null
-+++ b/target/cris/meson.build
-@@ -0,0 +1,14 @@
-+cris_ss = ss.source_set()
-+cris_ss.add(files(
-+  'cpu.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+
-+cris_softmmu_ss = ss.source_set()
-+cris_softmmu_ss.add(files('mmu.c', 'machine.c'))
-+
-+target_arch += {'cris': cris_ss}
-+target_softmmu_arch += {'cris': cris_softmmu_ss}
-diff --git a/target/hppa/Makefile.objs b/target/hppa/Makefile.objs
-deleted file mode 100644
-index 190cbff197..0000000000
---- a/target/hppa/Makefile.objs
-+++ /dev/null
-@@ -1,11 +0,0 @@
--obj-y += translate.o helper.o cpu.o op_helper.o gdbstub.o mem_helper.o
--obj-y += int_helper.o
--obj-$(CONFIG_SOFTMMU) += machine.o
+- - Add any new makefile variables to $config_host_mak on completion.
 -
--DECODETREE = $(SRC_PATH)/scripts/decodetree.py
--
--target/hppa/decode.c.inc: $(SRC_PATH)/target/hppa/insns.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) -o $@ $<, "GEN", $(TARGET_DIR)$@)
--
--target/hppa/translate.o: target/hppa/decode.c.inc
-diff --git a/target/hppa/meson.build b/target/hppa/meson.build
-new file mode 100644
-index 0000000000..8a7ff82efc
---- /dev/null
-+++ b/target/hppa/meson.build
-@@ -0,0 +1,19 @@
-+gen = decodetree.process('insns.decode')
+ 
+-Taking (a simplified version of) the probe for gnutls from configure,
+-we have the following pieces:
++Taking the probe for SDL as an example, we have the following pieces
++in configure:
+ 
+   # Initial variable state
+-  gnutls=""
++  sdl=auto
+ 
+   ..snip..
+ 
+   # Configure flag processing
+-  --disable-gnutls) gnutls="no"
++  --disable-gnutls) sdl=disabled
+   ;;
+-  --enable-gnutls) gnutls="yes"
++  --enable-gnutls) sdl=enabled
+   ;;
+ 
+   ..snip..
+ 
+   # Help output feature message
+-  gnutls          GNUTLS cryptography support
++  sdl             SDL UI
+ 
+   ..snip..
+ 
+-  # Test for gnutls
+-  if test "$gnutls" != "no"; then
+-     if ! $pkg_config --exists "gnutls"; then
+-        gnutls_cflags=`$pkg_config --cflags gnutls`
+-        gnutls_libs=`$pkg_config --libs gnutls`
+-        libs_softmmu="$gnutls_libs $libs_softmmu"
+-        libs_tools="$gnutls_libs $libs_tools"
+-        QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
+-        gnutls="yes"
+-     elif test "$gnutls" = "yes"; then
+-        feature_not_found "gnutls" "Install gnutls devel"
+-     else
+-        gnutls="no"
+-     fi
+-  fi
++  # Meson invocation
++  -Dsdl=$sdl
+ 
+-  ..snip..
++In meson_options.txt:
+ 
+-  # Completion feature summary
+-  echo "GNUTLS support    $gnutls"
++  option('sdl', type : 'feature', value : 'auto')
+ 
+-  ..snip..
++In meson.build:
 +
-+hppa_ss = ss.source_set()
-+hppa_ss.add(gen)
-+hppa_ss.add(files(
-+  'cpu.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'int_helper.c',
-+  'mem_helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
++  # Detect dependency
++  sdl = dependency('sdl2',
++                   required: get_option('sdl'),
++                   static: enable_static)
 +
-+hppa_softmmu_ss = ss.source_set()
-+hppa_softmmu_ss.add(files('machine.c'))
++  # Create config-host.h
++  config_host_data.set('CONFIG_SDL', sdl.found())
 +
-+target_arch += {'hppa': hppa_ss}
-+target_softmmu_arch += {'hppa': hppa_softmmu_ss}
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 316f58562e..f5765ef688 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -334,7 +334,7 @@ static int expand_shl11(DisasContext *ctx, int val)
++  # Summary
++  summary_info += {'SDL support':       sdl.found()}
+ 
+-  # Define make variables
+-  if test "$gnutls" = "yes" ; then
+-     echo "CONFIG_GNUTLS=y" >> $config_host_mak
+-  fi
  
  
- /* Include the auto-generated decoder.  */
--#include "decode.c.inc"
-+#include "decode-insns.c.inc"
+ Helper functions
+@@ -164,145 +175,189 @@ developers in checking for system features:
+    then --static will be automatically added to $ARGS
  
- /* We are not using a goto_tb (for whatever reason), but have updated
-    the iaq (for whatever reason), so don't do it again on exit.  */
-diff --git a/target/i386/Makefile.objs b/target/i386/Makefile.objs
-deleted file mode 100644
-index 0b93143e27..0000000000
---- a/target/i386/Makefile.objs
-+++ /dev/null
-@@ -1,23 +0,0 @@
--obj-y += helper.o cpu.o gdbstub.o xsave_helper.o
--obj-$(CONFIG_TCG) += translate.o
--obj-$(CONFIG_TCG) += bpt_helper.o cc_helper.o excp_helper.o fpu_helper.o
--obj-$(CONFIG_TCG) += int_helper.o mem_helper.o misc_helper.o mpx_helper.o
--obj-$(CONFIG_TCG) += seg_helper.o smm_helper.o svm_helper.o
--obj-$(call lnot,$(CONFIG_TCG)) += tcg-stub.o
--obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
--ifeq ($(CONFIG_SOFTMMU),y)
--obj-y += machine.o arch_memory_mapping.o arch_dump.o monitor.o
--obj-$(CONFIG_KVM) += kvm.o
--obj-$(CONFIG_HYPERV) += hyperv.o
--obj-$(call lnot,$(CONFIG_HYPERV)) += hyperv-stub.o
--ifeq ($(CONFIG_WIN32),y)
--obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-windows.o
--endif
--ifeq ($(CONFIG_POSIX),y)
--obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-posix.o
--endif
--obj-$(CONFIG_HVF) += hvf/
--obj-$(CONFIG_WHPX) += whpx-all.o
--endif
--obj-$(CONFIG_SEV) += sev.o
--obj-$(call lnot,$(CONFIG_SEV)) += sev-stub.o
-diff --git a/target/i386/hvf/Makefile.objs b/target/i386/hvf/Makefile.objs
-deleted file mode 100644
-index 927b86bc67..0000000000
---- a/target/i386/hvf/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--obj-y += hvf.o
--obj-y += x86.o x86_cpuid.o x86_decode.o x86_descr.o x86_emu.o x86_flags.o x86_mmu.o x86hvf.o x86_task.o
-diff --git a/target/i386/hvf/meson.build b/target/i386/hvf/meson.build
-new file mode 100644
-index 0000000000..c8a43717ee
---- /dev/null
-+++ b/target/i386/hvf/meson.build
-@@ -0,0 +1,12 @@
-+i386_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
-+  'hvf.c',
-+  'x86.c',
-+  'x86_cpuid.c',
-+  'x86_decode.c',
-+  'x86_descr.c',
-+  'x86_emu.c',
-+  'x86_flags.c',
-+  'x86_mmu.c',
-+  'x86_task.c',
-+  'x86hvf.c',
-+))
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-new file mode 100644
-index 0000000000..e0b71ade56
---- /dev/null
-+++ b/target/i386/meson.build
-@@ -0,0 +1,40 @@
-+i386_ss = ss.source_set()
-+i386_ss.add(files(
-+  'cpu.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'xsave_helper.c',
-+))
-+i386_ss.add(when: 'CONFIG_TCG', if_true: files(
-+  'bpt_helper.c',
-+  'cc_helper.c',
-+  'excp_helper.c',
-+  'fpu_helper.c',
-+  'int_helper.c',
-+  'mem_helper.c',
-+  'misc_helper.c',
-+  'mpx_helper.c',
-+  'seg_helper.c',
-+  'smm_helper.c',
-+  'svm_helper.c',
-+  'translate.c'), if_false: files('tcg-stub.c'))
-+i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
-+i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
-+
-+i386_softmmu_ss = ss.source_set()
-+i386_softmmu_ss.add(files(
-+  'arch_dump.c',
-+  'arch_memory_mapping.c',
-+  'machine.c',
-+  'monitor.c',
-+))
-+i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
-+i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
-+i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files('whpx-all.c'))
-+i386_softmmu_ss.add(when: ['CONFIG_POSIX', 'CONFIG_HAX'], if_true: files('hax-all.c', 'hax-mem.c', 'hax-posix.c'))
-+i386_softmmu_ss.add(when: ['CONFIG_WIN32', 'CONFIG_HAX'], if_true: files('hax-all.c', 'hax-mem.c', 'hax-windows.c'))
-+
-+subdir('hvf')
-+
-+target_arch += {'i386': i386_ss}
-+target_softmmu_arch += {'i386': i386_softmmu_ss}
-diff --git a/target/lm32/Makefile.objs b/target/lm32/Makefile.objs
-deleted file mode 100644
-index c3e1bd6bd6..0000000000
---- a/target/lm32/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-y += gdbstub.o
--obj-y += lm32-semi.o
--obj-$(CONFIG_SOFTMMU) += machine.o
-diff --git a/target/lm32/meson.build b/target/lm32/meson.build
-new file mode 100644
-index 0000000000..ef0eef07f1
---- /dev/null
-+++ b/target/lm32/meson.build
-@@ -0,0 +1,15 @@
-+lm32_ss = ss.source_set()
-+lm32_ss.add(files(
-+  'cpu.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'lm32-semi.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+
-+lm32_softmmu_ss = ss.source_set()
-+lm32_softmmu_ss.add(files('machine.c'))
-+
-+target_arch += {'lm32': lm32_ss}
-+target_softmmu_arch += {'lm32': lm32_softmmu_ss}
-diff --git a/target/m68k/Makefile.objs b/target/m68k/Makefile.objs
-deleted file mode 100644
-index ac61948676..0000000000
---- a/target/m68k/Makefile.objs
-+++ /dev/null
-@@ -1,5 +0,0 @@
--obj-y += m68k-semi.o
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-y += fpu_helper.o softfloat.o
--obj-y += gdbstub.o
--obj-$(CONFIG_SOFTMMU) += monitor.o
-diff --git a/target/m68k/meson.build b/target/m68k/meson.build
-new file mode 100644
-index 0000000000..05cd9fbd1e
---- /dev/null
-+++ b/target/m68k/meson.build
-@@ -0,0 +1,17 @@
-+m68k_ss = ss.source_set()
-+m68k_ss.add(files(
-+  'cpu.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'm68k-semi.c',
-+  'op_helper.c',
-+  'softfloat.c',
-+  'translate.c',
-+))
-+
-+m68k_softmmu_ss = ss.source_set()
-+m68k_softmmu_ss.add(files('monitor.c'))
-+
-+target_arch += {'m68k': m68k_ss}
-+target_softmmu_arch += {'m68k': m68k_softmmu_ss}
-diff --git a/target/meson.build b/target/meson.build
-index e29dd3e01f..9f0ae93b75 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -1 +1,23 @@
-+subdir('alpha')
-+subdir('arm')
-+subdir('avr')
-+subdir('cris')
-+subdir('hppa')
-+subdir('i386')
-+subdir('lm32')
-+subdir('m68k')
-+subdir('microblaze')
-+subdir('mips')
-+subdir('moxie')
-+subdir('nios2')
-+subdir('openrisc')
-+subdir('ppc')
-+subdir('riscv')
-+subdir('rx')
- subdir('s390x')
-+subdir('sh4')
-+subdir('sparc')
-+subdir('tilegx')
-+subdir('tricore')
-+subdir('unicore32')
-+subdir('xtensa')
-diff --git a/target/microblaze/Makefile.objs b/target/microblaze/Makefile.objs
-deleted file mode 100644
-index f3d7b44c89..0000000000
---- a/target/microblaze/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-y += gdbstub.o
--obj-$(CONFIG_SOFTMMU) += mmu.o
-diff --git a/target/microblaze/meson.build b/target/microblaze/meson.build
-new file mode 100644
-index 0000000000..b8fe4afe61
---- /dev/null
-+++ b/target/microblaze/meson.build
-@@ -0,0 +1,14 @@
-+microblaze_ss = ss.source_set()
-+microblaze_ss.add(files(
-+  'cpu.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+
-+microblaze_softmmu_ss = ss.source_set()
-+microblaze_softmmu_ss.add(files('mmu.c'))
-+
-+target_arch += {'microblaze': microblaze_ss}
-+target_softmmu_arch += {'microblaze': microblaze_softmmu_ss}
-diff --git a/target/mips/Makefile.objs b/target/mips/Makefile.objs
-deleted file mode 100644
-index b820b3b7bc..0000000000
---- a/target/mips/Makefile.objs
-+++ /dev/null
-@@ -1,6 +0,0 @@
--obj-y += translate.o cpu.o gdbstub.o helper.o
--obj-y += op_helper.o cp0_helper.o fpu_helper.o
--obj-y += dsp_helper.o lmmi_helper.o msa_helper.o
--obj-$(CONFIG_SOFTMMU) += mips-semi.o
--obj-$(CONFIG_SOFTMMU) += machine.o cp0_timer.o
--obj-$(CONFIG_KVM) += kvm.o
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-new file mode 100644
-index 0000000000..fa1f024e78
---- /dev/null
-+++ b/target/mips/meson.build
-@@ -0,0 +1,24 @@
-+mips_ss = ss.source_set()
-+mips_ss.add(files(
-+  'cp0_helper.c',
-+  'cpu.c',
-+  'dsp_helper.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'lmmi_helper.c',
-+  'msa_helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
-+
-+mips_softmmu_ss = ss.source_set()
-+mips_softmmu_ss.add(files(
-+  'cp0_timer.c',
-+  'machine.c',
-+  'mips-semi.c',
-+))
-+
-+target_arch += {'mips': mips_ss}
-+target_softmmu_arch += {'mips': mips_softmmu_ss}
-diff --git a/target/moxie/Makefile.objs b/target/moxie/Makefile.objs
-deleted file mode 100644
-index 6381d4d636..0000000000
---- a/target/moxie/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--obj-y += translate.o helper.o machine.o cpu.o machine.o
--obj-$(CONFIG_SOFTMMU) += mmu.o
-diff --git a/target/moxie/meson.build b/target/moxie/meson.build
-new file mode 100644
-index 0000000000..b4beb528cc
---- /dev/null
-+++ b/target/moxie/meson.build
-@@ -0,0 +1,14 @@
-+moxie_ss = ss.source_set()
-+moxie_ss.add(files(
-+  'cpu.c',
-+  'helper.c',
-+  'machine.c',
-+  'machine.c',
-+  'translate.c',
-+))
-+
-+moxie_softmmu_ss = ss.source_set()
-+moxie_softmmu_ss.add(files('mmu.c'))
-+
-+target_arch += {'moxie': moxie_ss}
-+target_softmmu_arch += {'moxie': moxie_softmmu_ss}
-diff --git a/target/nios2/Makefile.objs b/target/nios2/Makefile.objs
-deleted file mode 100644
-index 010de0e7a6..0000000000
---- a/target/nios2/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o mmu.o nios2-semi.o
--obj-$(CONFIG_SOFTMMU) += monitor.o
--
--$(obj)/op_helper.o: QEMU_CFLAGS += $(HELPER_CFLAGS)
-diff --git a/target/nios2/meson.build b/target/nios2/meson.build
-new file mode 100644
-index 0000000000..e643917db1
---- /dev/null
-+++ b/target/nios2/meson.build
-@@ -0,0 +1,15 @@
-+nios2_ss = ss.source_set()
-+nios2_ss.add(files(
-+  'cpu.c',
-+  'helper.c',
-+  'mmu.c',
-+  'nios2-semi.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+
-+nios2_softmmu_ss = ss.source_set()
-+nios2_softmmu_ss.add(files('monitor.c'))
-+
-+target_arch += {'nios2': nios2_ss}
-+target_softmmu_arch += {'nios2': nios2_softmmu_ss}
-diff --git a/target/openrisc/Makefile.objs b/target/openrisc/Makefile.objs
-deleted file mode 100644
-index 423d64512e..0000000000
---- a/target/openrisc/Makefile.objs
-+++ /dev/null
-@@ -1,15 +0,0 @@
--obj-$(CONFIG_SOFTMMU) += machine.o
--obj-y += cpu.o exception.o interrupt.o mmu.o translate.o disas.o
--obj-y += exception_helper.o fpu_helper.o \
--         interrupt_helper.o sys_helper.o
--obj-y += gdbstub.o
--
--DECODETREE = $(SRC_PATH)/scripts/decodetree.py
--
--target/openrisc/decode.c.inc: \
--  $(SRC_PATH)/target/openrisc/insns.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) -o $@ $<, "GEN", $(TARGET_DIR)$@)
--
--target/openrisc/translate.o: target/openrisc/decode.c.inc
--target/openrisc/disas.o: target/openrisc/decode.c.inc
-diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
-index cc91775344..dc025bd64d 100644
---- a/target/openrisc/disas.c
-+++ b/target/openrisc/disas.c
-@@ -25,7 +25,7 @@
- typedef disassemble_info DisasContext;
  
- /* Include the auto-generated decoder.  */
--#include "decode.c.inc"
-+#include "decode-insns.c.inc"
+-Stage 2: makefiles
+-==================
++Stage 2: Meson
++==============
  
- #define output(mnemonic, format, ...) \
-     (info->fprintf_func(info->stream, "%-9s " format, \
-diff --git a/target/openrisc/meson.build b/target/openrisc/meson.build
-new file mode 100644
-index 0000000000..9774a58306
---- /dev/null
-+++ b/target/openrisc/meson.build
-@@ -0,0 +1,23 @@
-+gen = decodetree.process('insns.decode')
-+
-+openrisc_ss = ss.source_set()
-+openrisc_ss.add(gen)
-+openrisc_ss.add(files(
-+  'cpu.c',
-+  'disas.c',
-+  'exception.c',
-+  'exception_helper.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'interrupt.c',
-+  'interrupt_helper.c',
-+  'mmu.c',
-+  'sys_helper.c',
-+  'translate.c',
-+))
-+
-+openrisc_softmmu_ss = ss.source_set()
-+openrisc_softmmu_ss.add(files('machine.c'))
-+
-+target_arch += {'openrisc': openrisc_ss}
-+target_softmmu_arch += {'openrisc': openrisc_softmmu_ss}
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index 573428b8ea..c6dce879f1 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -65,7 +65,7 @@ static inline bool is_user(DisasContext *dc)
- }
+-The use of GNU make is required with the QEMU build system.
++The Meson build system is currently used to describe the build
++process for:
  
- /* Include the auto-generated decoder.  */
--#include "decode.c.inc"
-+#include "decode-insns.c.inc"
+-Although the source code is spread across multiple subdirectories, the
+-build system should be considered largely non-recursive in nature, in
+-contrast to common practices seen with automake. There is some recursive
+-invocation of make, but this is related to the things being built,
+-rather than the source directory structure.
++1) executables, which include:
++   - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
++   - System emulators - qemu-system-$ARCH
++   - Userspace emulators - qemu-$ARCH
++   - Some (but not all) unit tests
  
- static TCGv cpu_sr;
- static TCGv cpu_regs[32];
-diff --git a/target/ppc/Makefile.objs b/target/ppc/Makefile.objs
-deleted file mode 100644
-index e8fa18ce13..0000000000
---- a/target/ppc/Makefile.objs
-+++ /dev/null
-@@ -1,20 +0,0 @@
--obj-y += cpu-models.o
--obj-y += cpu.o
--obj-y += translate.o
--ifeq ($(CONFIG_SOFTMMU),y)
--obj-y += machine.o mmu_helper.o mmu-hash32.o monitor.o arch_dump.o
--obj-$(TARGET_PPC64) += mmu-hash64.o mmu-book3s-v3.o compat.o
--obj-$(TARGET_PPC64) += mmu-radix64.o
--endif
--obj-$(CONFIG_KVM) += kvm.o
--obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
--obj-y += dfp_helper.o
--obj-y += excp_helper.o
--obj-y += fpu_helper.o
--obj-y += int_helper.o
--obj-y += timebase_helper.o
--obj-y += misc_helper.o
--obj-y += mem_helper.o
--obj-y += ../../libdecnumber/
--obj-$(CONFIG_USER_ONLY) += user_only_helper.o
--obj-y += gdbstub.o
-diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-new file mode 100644
-index 0000000000..bbfef90e08
---- /dev/null
-+++ b/target/ppc/meson.build
-@@ -0,0 +1,37 @@
-+ppc_ss = ss.source_set()
-+ppc_ss.add(files(
-+  'cpu-models.c',
-+  'cpu.c',
-+  'dfp_helper.c',
-+  'excp_helper.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'int_helper.c',
-+  'mem_helper.c',
-+  'misc_helper.c',
-+  'timebase_helper.c',
-+  'translate.c',
-+))
-+
-+ppc_ss.add(libdecnumber)
-+
-+ppc_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
-+ppc_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user_only_helper.c'))
-+
-+ppc_softmmu_ss = ss.source_set()
-+ppc_softmmu_ss.add(files(
-+  'arch_dump.c',
-+  'machine.c',
-+  'mmu-hash32.c',
-+  'mmu_helper.c',
-+  'monitor.c',
-+))
-+ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
-+  'compat.c',
-+  'mmu-book3s-v3.c',
-+  'mmu-hash64.c',
-+  'mmu-radix64.c',
-+))
-+
-+target_arch += {'ppc': ppc_ss}
-+target_softmmu_arch += {'ppc': ppc_softmmu_ss}
-diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
-deleted file mode 100644
-index 1cd4c58005..0000000000
---- a/target/riscv/Makefile.objs
-+++ /dev/null
-@@ -1,28 +0,0 @@
--obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o vector_helper.o gdbstub.o
--obj-$(CONFIG_SOFTMMU) += pmp.o
+-QEMU currently supports both VPATH and non-VPATH builds, so there are
+-three general ways to invoke configure & perform a build.
++2) documentation
+ 
+- - VPATH, build artifacts outside of QEMU source tree entirely
++3) ROMs, which can be either installed as binary blobs or compiled
+ 
+-     cd ../
+-     mkdir build
+-     cd build
+-     ../qemu/configure
+-     make
++4) other data files, such as icons or desktop files
+ 
+- - VPATH, build artifacts in a subdir of QEMU source tree
 -
--ifeq ($(CONFIG_SOFTMMU),y)
--obj-y += monitor.o
--endif
+-     mkdir build
+-     cd build
+-     ../configure
+-     make
 -
--DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+- - non-VPATH, build artifacts everywhere
 -
--decode32-y = $(SRC_PATH)/target/riscv/insn32.decode
--decode32-$(TARGET_RISCV64) += $(SRC_PATH)/target/riscv/insn32-64.decode
+-     ./configure
+-     make
 -
--decode16-y = $(SRC_PATH)/target/riscv/insn16.decode
--decode16-$(TARGET_RISCV32) += $(SRC_PATH)/target/riscv/insn16-32.decode
--decode16-$(TARGET_RISCV64) += $(SRC_PATH)/target/riscv/insn16-64.decode
--
--target/riscv/decode_insn32.c.inc: $(decode32-y) $(DECODETREE)
--	$(call quiet-command, \
--	  $(PYTHON) $(DECODETREE) -o $@ --static-decode decode_insn32 \
--          $(decode32-y), "GEN", $(TARGET_DIR)$@)
--
--target/riscv/decode_insn16.c.inc: $(decode16-y) $(DECODETREE)
--	$(call quiet-command, \
--	  $(PYTHON) $(DECODETREE) -o $@ --static-decode decode_insn16 \
--          --insnwidth 16 $(decode16-y), "GEN", $(TARGET_DIR)$@)
--
--target/riscv/translate.o: target/riscv/decode_insn32.c.inc \
--	target/riscv/decode_insn16.c.inc
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-new file mode 100644
-index 0000000000..abd647fea1
---- /dev/null
-+++ b/target/riscv/meson.build
-@@ -0,0 +1,34 @@
-+# FIXME extra_args should accept files()
-+dir = meson.current_source_dir()
-+gen32 = [
-+  decodetree.process('insn16.decode', extra_args: [dir / 'insn16-32.decode', '--static-decode=decode_insn16', '--insnwidth=16']),
-+  decodetree.process('insn32.decode', extra_args: '--static-decode=decode_insn32'),
-+]
-+
-+gen64 = [
-+  decodetree.process('insn16.decode', extra_args: [dir / 'insn16-64.decode', '--static-decode=decode_insn16', '--insnwidth=16']),
-+  decodetree.process('insn32.decode', extra_args: [dir / 'insn32-64.decode', '--static-decode=decode_insn32']),
-+]
-+
-+riscv_ss = ss.source_set()
-+riscv_ss.add(when: 'TARGET_RISCV32', if_true: gen32)
-+riscv_ss.add(when: 'TARGET_RISCV64', if_true: gen64)
-+riscv_ss.add(files(
-+  'cpu.c',
-+  'cpu_helper.c',
-+  'csr.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'op_helper.c',
-+  'vector_helper.c',
-+  'translate.c',
-+))
-+
-+riscv_softmmu_ss = ss.source_set()
-+riscv_softmmu_ss.add(files(
-+  'pmp.c',
-+  'monitor.c'
-+))
-+
-+target_arch += {'riscv': riscv_ss}
-+target_softmmu_arch += {'riscv': riscv_softmmu_ss}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 5ef5613909..d0485c0750 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -583,7 +583,7 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
- }
+-The QEMU maintainers generally recommend that a VPATH build is used by
+-developers. Patches to QEMU are expected to ensure VPATH build still
+-works.
++The source code is highly modularized, split across many files to
++facilitate building of all of these components with as little duplicated
++compilation as possible. The Meson "sourceset" functionality is used
++to list the files and their dependency on various configuration  
++symbols.
  
- /* Include the auto-generated decoder for 32 bit insn */
--#include "decode_insn32.c.inc"
-+#include "decode-insn32.c.inc"
++Various subsystems that are common to both tools and emulators have
++their own sourceset, for example block_ss for the block device subsystem,
++chardev_ss for the character device subsystem, etc.  These sourcesets
++are then turned into static libraries as follows:
  
- static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a,
-                              void (*func)(TCGv, TCGv, target_long))
-@@ -728,7 +728,7 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
- #include "insn_trans/trans_privileged.c.inc"
+-Module structure
+-----------------
++    libchardev = static_library('chardev', chardev_ss.sources(),
++                                name_suffix: 'fa',
++                                build_by_default: false)
  
- /* Include the auto-generated decoder for 16 bit insn */
--#include "decode_insn16.c.inc"
-+#include "decode-insn16.c.inc"
+-There are a number of key outputs of the QEMU build system:
++    chardev = declare_dependency(link_whole: libchardev)
  
- static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- {
-diff --git a/target/rx/Makefile.objs b/target/rx/Makefile.objs
-deleted file mode 100644
-index cc3c4204a1..0000000000
---- a/target/rx/Makefile.objs
-+++ /dev/null
-@@ -1,11 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o gdbstub.o disas.o
+- - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
+- - System emulators - qemu-system-$ARCH
+- - Userspace emulators - qemu-$ARCH
+- - Unit tests
++The special ".fa" suffix is needed as long as unit tests are built with
++the older Makefile infrastructure, and will go away later.
+ 
+-The source code is highly modularized, split across many files to
+-facilitate building of all of these components with as little duplicated
+-compilation as possible. There can be considered to be two distinct
+-groups of files, those which are independent of the QEMU emulation
+-target and those which are dependent on the QEMU emulation target.
++Files linked into emulator targets there can be split into two distinct groups
++of files, those which are independent of the QEMU emulation target and
++those which are dependent on the QEMU emulation target.
+ 
+ In the target-independent set lives various general purpose helper code,
+ such as error handling infrastructure, standard data structures,
+ platform portability wrapper functions, etc. This code can be compiled
+ once only and the .o files linked into all output binaries.
++Target-independent code lives in the common_ss, softmmu_ss and user_ss
++sourcesets.  common_ss is linked into all emulators, softmmu_ss only
++in system emulators, user_ss only in user-mode emulators.
+ 
+ In the target-dependent set lives CPU emulation, device emulation and
+ much glue code. This sometimes also has to be compiled multiple times,
+ once for each target being built.
+ 
+-The utility code that is used by all binaries is built into a
+-static archive called libqemuutil.a, which is then linked to all the
+-binaries. In order to provide hooks that are only needed by some of the
+-binaries, code in libqemuutil.a may depend on other functions that are
+-not fully implemented by all QEMU binaries.  Dummy stubs for all these
+-functions are also provided by this library, and will only be linked
++All binaries link with a static library libqemuutil.a, which is then
++linked to all the binaries.  libqemuutil.a is built from several
++sourcesets; most of them however host generated code, and the only two
++of general interest are util_ss and stub_ss.
++
++The separation between these two is purely for documentation purposes.
++util_ss contains generic utility files.  Even though this code is only
++linked in some binaries, sometimes it requires hooks only in some of
++these and depend on other functions that are not fully implemented by
++all QEMU binaries.  stub_ss links dummy stubs that will only be linked
+ into the binary if the real implementation is not present.  In a way,
+ the stubs can be thought of as a portable implementation of the weak
+ symbols concept.
+ 
+-All binaries should link to libqemuutil.a, e.g.:
++The following files concur in the definition of which files are linked
++into each emulator:
+ 
+- qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
++- default-configs/*.mak
+ 
++The files under default-configs/ control what emulated hardware is built
++into each QEMU system and userspace emulator targets. They merely contain
++a list of config variable definitions like the machines that should be
++included. For example, default-configs/aarch64-softmmu.mak has:
+ 
+-Windows platform portability
+-----------------------------
++  include arm-softmmu.mak
++  CONFIG_XLNX_ZYNQMP_ARM=y
++  CONFIG_XLNX_VERSAL=y
+ 
+-On Windows, all binaries have the suffix '.exe', so all Makefile rules
+-which create binaries must include the $(EXESUF) variable on the binary
+-name. e.g.
++These files rarely need changing unless new devices / hardware need to
++be enabled for a particular system/userspace emulation target
+ 
+- qemu-img$(EXESUF): qemu-img.o ..snip..
++- */Kconfig
+ 
+-This expands to '.exe' on Windows, or '' on other platforms.
++These files are processed together with default-configs/*.mak and
++describe the dependencies between various features, subsystems and
++device models.  They are described in kconfig.rst.
++
++
++Support scripts
++---------------
++
++Meson has a special convention for invoking Python scripts: if their
++first line is "#! /usr/bin/env python3" and the file is *not* executable,
++find_program() arranges to invoke the script under the same Python
++interpreter that was used to invoke Meson.  This is the most common
++and preferred way to invoke support scripts from Meson build files,
++because it automatically uses the value of configure's --python= option.
+ 
+-A further complication for the system emulator binaries is that
+-two separate binaries need to be generated.
++In case the script is not written in Python, use a "#! /usr/bin/env ..."
++line and make the script executable.
+ 
+-The main binary (e.g. qemu-system-x86_64.exe) is linked against the
+-Windows console runtime subsystem. These are expected to be run from a
+-command prompt window, and so will print stderr to the console that
+-launched them.
++Scripts written in Python, where it is desirable to make the script
++executable (for example for test scripts that developers may want to
++invoke from the command line, such as tests/qapi-schema/test-qapi.py),
++should be invoked through the "python" variable in meson.build. For
++example:
+ 
+-The second binary generated has a 'w' on the end of its name (e.g.
+-qemu-system-x86_64w.exe) and is linked against the Windows graphical
+-runtime subsystem. These are expected to be run directly from the
+-desktop and will open up a dedicated console window for stderr output.
++  test('QAPI schema regression tests', python,
++       args: files('test-qapi.py'),
++       env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
+ 
+-The Makefile.target will generate the binary for the graphical subsystem
+-first, and then use objcopy to relink it against the console subsystem
+-to generate the second binary.
++This is needed to obey the --python= option passed to the configure
++script, which may point to something other than the first python3
++binary on the path.
+ 
+ 
+-Object variable naming
+-----------------------
++Stage 3: makefiles
++==================
++
++The use of GNU make is required with the QEMU build system.
++
++The output of Meson is a build.ninja file, which is used with the Ninja
++build system.  QEMU uses a different approach, where Makefile rules are
++synthesized from the build.ninja file.  The main Makefile includes these
++rules and wraps them so that e.g. submodules are built before QEMU.
++The resulting build system is largely non-recursive in nature, in
++contrast to common practices seen with automake.
++
++Tests are also ran by the Makefile with the traditional "make check"
++phony target.  Meson test suites such as "unit" can be ran with "make
++check-unit" too.  It is also possible to run tests defined in meson.build
++with "meson test".
++
++The following text is only relevant for unit tests which still have to
++be converted to Meson.
++
++All binaries should link to libqemuutil.a, e.g.:
++
++   qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
++
++On Windows, all binaries have the suffix '.exe', so all Makefile rules
++which create binaries must include the $(EXESUF) variable on the binary
++name. e.g.
++
++   qemu-img$(EXESUF): qemu-img.o ..snip..
++
++This expands to '.exe' on Windows, or '' on other platforms.
++
++Variable naming
++---------------
+ 
+ The QEMU convention is to define variables to list different groups of
+-object files. These are named with the convention $PREFIX-obj-y. For
+-example the libqemuutil.a file will be linked with all objects listed
+-in a variable 'util-obj-y'. So, for example, util/Makefile.obj will
+-contain a set of definitions looking like
++object files. These are named with the convention $PREFIX-obj-y.  The
++Meson "chardev" variable in the previous example corresponds to a
++variable 'chardev-obj-y'.
+ 
+-  util-obj-y += bitmap.o bitops.o hbitmap.o
+-  util-obj-y += fifo8.o
+-  util-obj-y += acl.o
+-  util-obj-y += error.o qemu-error.o
++Likewise, tests that are executed by "make check-unit" are grouped into
++a variable check-unit-y, like this:
+ 
+-When there is an object file which needs to be conditionally built based
++  check-unit-y += tests/test-visitor-serialization$(EXESUF)
++  check-unit-y += tests/test-iov$(EXESUF)
++  check-unit-y += tests/test-bitmap$(EXESUF)
++
++When a test or object file which needs to be conditionally built based
+ on some characteristic of the host system, the configure script will
+ define a variable for the conditional. For example, on Windows it will
+ define $(CONFIG_POSIX) with a value of 'n' and $(CONFIG_WIN32) with a
+ value of 'y'. It is now possible to use the config variables when
+ listing object files. For example,
+ 
+-  util-obj-$(CONFIG_WIN32) += oslib-win32.o qemu-thread-win32.o
+-  util-obj-$(CONFIG_POSIX) += oslib-posix.o qemu-thread-posix.o
++  check-unit-$(CONFIG_POSIX) += tests/test-vmstate$(EXESUF)
+ 
+ On Windows this expands to
+ 
+-  util-obj-y += oslib-win32.o qemu-thread-win32.o
+-  util-obj-n += oslib-posix.o qemu-thread-posix.o
++  check-unit-n += tests/vmstate.exe
+ 
+-Since libqemutil.a links in $(util-obj-y), the POSIX specific files
+-listed against $(util-obj-n) are ignored on the Windows platform builds.
++Since the "check-unit" target only runs tests included in "$(check-unit-y)",
++POSIX specific tests listed in $(util-obj-n) are ignored on the Windows
++platform builds.
+ 
+ 
+ CFLAGS / LDFLAGS / LIBS handling
+@@ -316,27 +371,25 @@ avoided in QEMU, since it would apply to too many build targets.
+ Flags that are needed by any QEMU code (i.e. everything *except* GIT
+ submodule projects) are put in $(QEMU_CFLAGS) variable. For linker
+ flags the $(LIBS) variable is sometimes used, but a couple of more
+-targeted variables are preferred. $(libs_softmmu) is used for
+-libraries that must be linked to system emulator targets, $(LIBS_TOOLS)
+-is used for tools like qemu-img, qemu-nbd, etc and $(LIBS_QGA) is used
+-for the QEMU guest agent. There is currently no specific variable for
+-the userspace emulator targets as the global $(LIBS), or more targeted
+-variables shown below, are sufficient.
++targeted variables are preferred.
+ 
+ In addition to these variables, it is possible to provide cflags and
+ libs against individual source code files, by defining variables of the
+-form $FILENAME-cflags and $FILENAME-libs. For example, the curl block
+-driver needs to link to the libcurl library, so block/Makefile defines
+-some variables:
++form $FILENAME-cflags and $FILENAME-libs. For example, the test
++test-crypto-tlscredsx509 needs to link to the libtasn1 library,
++so tests/Makefile.include defines some variables:
+ 
+-  curl.o-cflags      := $(CURL_CFLAGS)
+-  curl.o-libs        := $(CURL_LIBS)
++  tests/crypto-tls-x509-helpers.o-cflags := $(TASN1_CFLAGS)
++  tests/crypto-tls-x509-helpers.o-libs := $(TASN1_LIBS)
+ 
+ The scope is a little different between the two variables. The libs get
+ used when linking any target binary that includes the curl.o object
+ file, while the cflags get used when compiling the curl.c file only.
+ 
+ 
++Important files for the build system
++====================================
++
+ Statically defined files
+ ------------------------
+ 
+@@ -348,81 +401,26 @@ number of dynamically created files listed later.
+ 
+ The main entry point used when invoking make to build all the components
+ of QEMU. The default 'all' target will naturally result in the build of
+-every component. The various tools and helper binaries are built
++every component. Makefile takes care of recursively building submodules
+ directly via a non-recursive set of rules.
+ 
+-Each system/userspace emulation target needs to have a slightly
+-different set of make rules / variables. Thus, make will be recursively
+-invoked for each of the emulation targets.
 -
--DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+-The recursive invocation will end up processing the toplevel
+-Makefile.target file (more on that later).
 -
--target/rx/decode.c.inc: \
--  $(SRC_PATH)/target/rx/insns.decode $(DECODETREE)
--	$(call quiet-command,\
--	  $(PYTHON) $(DECODETREE) --varinsnwidth 32 -o $@ $<, "GEN", $(TARGET_DIR)$@)
 -
--target/rx/translate.o: target/rx/decode.c.inc
--target/rx/disas.o: target/rx/decode.c.inc
-diff --git a/target/rx/disas.c b/target/rx/disas.c
-index 60eff6f55f..67b9328829 100644
---- a/target/rx/disas.c
-+++ b/target/rx/disas.c
-@@ -100,7 +100,7 @@ static int bdsp_s(DisasContext *ctx, int d)
- }
- 
- /* Include the auto-generated decoder.  */
--#include "decode.c.inc"
-+#include "decode-insns.c.inc"
- 
- static void dump_bytes(DisasContext *ctx)
- {
-diff --git a/target/rx/meson.build b/target/rx/meson.build
-new file mode 100644
-index 0000000000..8de0ad49b9
---- /dev/null
-+++ b/target/rx/meson.build
-@@ -0,0 +1,16 @@
-+gen = [
-+  decodetree.process('insns.decode', extra_args: [ '--varinsnwidth', '32' ])
-+]
-+
-+rx_ss = ss.source_set()
-+rx_ss.add(gen)
-+rx_ss.add(files(
-+  'translate.c',
-+  'op_helper.c',
-+  'helper.c',
-+  'cpu.c',
-+  'gdbstub.c',
-+  'disas.c'))
-+
-+target_arch += {'rx': rx_ss}
-+target_softmmu_arch += {'rx': ss.source_set()}
-diff --git a/target/rx/translate.c b/target/rx/translate.c
-index bc49614cbb..da9713d362 100644
---- a/target/rx/translate.c
-+++ b/target/rx/translate.c
-@@ -124,7 +124,7 @@ static int bdsp_s(DisasContext *ctx, int d)
- }
- 
- /* Include the auto-generated decoder. */
--#include "decode.c.inc"
-+#include "decode-insns.c.inc"
- 
- void rx_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-diff --git a/target/s390x/Makefile.objs b/target/s390x/Makefile.objs
-deleted file mode 100644
-index 9b9accc5fd..0000000000
---- a/target/s390x/Makefile.objs
-+++ /dev/null
-@@ -1,10 +0,0 @@
--obj-y += cpu.o cpu_models.o cpu_features.o gdbstub.o interrupt.o helper.o
--obj-$(CONFIG_TCG) += translate.o cc_helper.o excp_helper.o fpu_helper.o
--obj-$(CONFIG_TCG) += int_helper.o mem_helper.o misc_helper.o crypto_helper.o
--obj-$(CONFIG_TCG) += vec_helper.o vec_int_helper.o vec_string_helper.o
--obj-$(CONFIG_TCG) += vec_fpu_helper.o
--obj-$(CONFIG_SOFTMMU) += machine.o ioinst.o arch_dump.o mmu_helper.o diag.o
--obj-$(CONFIG_SOFTMMU) += sigp.o
--obj-$(CONFIG_KVM) += kvm.o
--obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
--obj-$(call lnot,$(CONFIG_TCG)) += tcg-stub.o
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index ddf8d20a36..27d248ef6e 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -1,3 +1,30 @@
-+s390x_ss = ss.source_set()
-+s390x_ss.add(files(
-+  'cpu.c',
-+  'cpu_features.c',
-+  'cpu_models.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'interrupt.c',
-+))
-+
-+s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
-+  'cc_helper.c',
-+  'crypto_helper.c',
-+  'excp_helper.c',
-+  'fpu_helper.c',
-+  'int_helper.c',
-+  'mem_helper.c',
-+  'misc_helper.c',
-+  'translate.c',
-+  'vec_fpu_helper.c',
-+  'vec_helper.c',
-+  'vec_int_helper.c',
-+  'vec_string_helper.c',
-+), if_false: 'tcg-stub.c')
-+
-+s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
-+
- gen_features = executable('gen-features', 'gen-features.c', native: true,
-                           build_by_default: false)
- 
-@@ -6,4 +33,17 @@ gen_features_h = custom_target('gen-features.h',
-                                capture: true,
-                                command: gen_features)
- 
--specific_ss.add(gen_features_h)
-+s390x_ss.add(gen_features_h)
-+
-+s390x_softmmu_ss = ss.source_set()
-+s390x_softmmu_ss.add(files(
-+  'arch_dump.c',
-+  'diag.c',
-+  'ioinst.c',
-+  'machine.c',
-+  'mmu_helper.c',
-+  'sigp.c',
-+))
-+
-+target_arch += {'s390x': s390x_ss}
-+target_softmmu_arch += {'s390x': s390x_softmmu_ss}
-diff --git a/target/sh4/Makefile.objs b/target/sh4/Makefile.objs
-deleted file mode 100644
-index 2c25d96e65..0000000000
---- a/target/sh4/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-$(CONFIG_SOFTMMU) += monitor.o
--obj-y += gdbstub.o
-diff --git a/target/sh4/meson.build b/target/sh4/meson.build
-new file mode 100644
-index 0000000000..56a57576da
---- /dev/null
-+++ b/target/sh4/meson.build
-@@ -0,0 +1,14 @@
-+sh4_ss = ss.source_set()
-+sh4_ss.add(files(
-+  'cpu.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+
-+sh4_softmmu_ss = ss.source_set()
-+sh4_softmmu_ss.add(files('monitor.c'))
-+
-+target_arch += {'sh4': sh4_ss}
-+target_softmmu_arch += {'sh4': sh4_softmmu_ss}
-diff --git a/target/sparc/Makefile.objs b/target/sparc/Makefile.objs
-deleted file mode 100644
-index ec905698c5..0000000000
---- a/target/sparc/Makefile.objs
-+++ /dev/null
-@@ -1,7 +0,0 @@
--obj-$(CONFIG_SOFTMMU) += machine.o monitor.o
--obj-y += translate.o helper.o cpu.o
--obj-y += fop_helper.o cc_helper.o win_helper.o mmu_helper.o ldst_helper.o
--obj-$(TARGET_SPARC) += int32_helper.o
--obj-$(TARGET_SPARC64) += int64_helper.o
--obj-$(TARGET_SPARC64) += vis_helper.o
--obj-y += gdbstub.o
-diff --git a/target/sparc/meson.build b/target/sparc/meson.build
-new file mode 100644
-index 0000000000..a3638b9503
---- /dev/null
-+++ b/target/sparc/meson.build
-@@ -0,0 +1,23 @@
-+sparc_ss = ss.source_set()
-+sparc_ss.add(files(
-+  'cc_helper.c',
-+  'cpu.c',
-+  'fop_helper.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'ldst_helper.c',
-+  'mmu_helper.c',
-+  'translate.c',
-+  'win_helper.c',
-+))
-+sparc_ss.add(when: 'TARGET_SPARC', if_true: files('int32_helper.c'))
-+sparc_ss.add(when: 'TARGET_SPARC64', if_true: files('int64_helper.c', 'vis_helper.c'))
-+
-+sparc_softmmu_ss = ss.source_set()
-+sparc_softmmu_ss.add(files(
-+  'machine.c',
-+  'monitor.c',
-+))
-+
-+target_arch += {'sparc': sparc_ss}
-+target_softmmu_arch += {'sparc': sparc_softmmu_ss}
-diff --git a/target/tilegx/Makefile.objs b/target/tilegx/Makefile.objs
-deleted file mode 100644
-index 0db778f407..0000000000
---- a/target/tilegx/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--obj-y += cpu.o translate.o helper.o simd_helper.o
-diff --git a/target/tilegx/meson.build b/target/tilegx/meson.build
-new file mode 100644
-index 0000000000..678590439c
---- /dev/null
-+++ b/target/tilegx/meson.build
-@@ -0,0 +1,13 @@
-+tilegx_ss = ss.source_set()
-+tilegx_ss.add(files(
-+  'cpu.c',
-+  'helper.c',
-+  'simd_helper.c',
-+  'translate.c',
-+))
-+tilegx_ss.add(zlib)
-+
-+tilegx_softmmu_ss = ss.source_set()
-+
-+target_arch += {'tilegx': tilegx_ss}
-+target_softmmu_arch += {'tilegx': tilegx_softmmu_ss}
-diff --git a/target/tricore/Makefile.objs b/target/tricore/Makefile.objs
-deleted file mode 100644
-index 281b55f08d..0000000000
---- a/target/tricore/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--obj-y += translate.o helper.o cpu.o op_helper.o fpu_helper.o gdbstub.o
-diff --git a/target/tricore/meson.build b/target/tricore/meson.build
-new file mode 100644
-index 0000000000..0ccc829517
---- /dev/null
-+++ b/target/tricore/meson.build
-@@ -0,0 +1,15 @@
-+tricore_ss = ss.source_set()
-+tricore_ss.add(files(
-+  'cpu.c',
-+  'fpu_helper.c',
-+  'helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+  'gdbstub.c',
-+))
-+tricore_ss.add(zlib)
-+
-+tricore_softmmu_ss = ss.source_set()
-+
-+target_arch += {'tricore': tricore_ss}
-+target_softmmu_arch += {'tricore': tricore_softmmu_ss}
-diff --git a/target/unicore32/Makefile.objs b/target/unicore32/Makefile.objs
-deleted file mode 100644
-index 35d8bf530d..0000000000
---- a/target/unicore32/Makefile.objs
-+++ /dev/null
-@@ -1,8 +0,0 @@
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-y += ucf64_helper.o
+-- */Makefile.objs
 -
--obj-$(CONFIG_SOFTMMU) += softmmu.o
+-Since the source code is spread across multiple directories, the rules
+-for each file are similarly modularized. Thus each subdirectory
+-containing .c files will usually also contain a Makefile.objs file.
+-These files are not directly invoked by a recursive make, but instead
+-they are imported by the top level Makefile and/or Makefile.target
 -
--# Huh? Uses curses directly instead of using ui/console.h interfaces ...
--helper.o-cflags := $(CURSES_CFLAGS)
--helper.o-libs := $(CURSES_LIBS)
-diff --git a/target/unicore32/meson.build b/target/unicore32/meson.build
-new file mode 100644
-index 0000000000..0fa78772eb
---- /dev/null
-+++ b/target/unicore32/meson.build
-@@ -0,0 +1,14 @@
-+unicore32_ss = ss.source_set()
-+unicore32_ss.add(files(
-+  'cpu.c',
-+  'helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+  'ucf64_helper.c',
-+), curses)
+-Each Makefile.objs usually just declares a set of variables listing the
+-.o files that need building from the source files in the directory. They
+-will also define any custom linker or compiler flags. For example in
+-block/Makefile.objs
+-
+-  block-obj-$(CONFIG_LIBISCSI) += iscsi.o
+-  block-obj-$(CONFIG_CURL) += curl.o
+-
+-  ..snip...
++- Makefile.objs
+ 
+-  iscsi.o-cflags     := $(LIBISCSI_CFLAGS)
+-  iscsi.o-libs       := $(LIBISCSI_LIBS)
+-  curl.o-cflags      := $(CURL_CFLAGS)
+-  curl.o-libs        := $(CURL_LIBS)
++Defines *-obj-y files corresponding to 
+ 
+-If there are any rules defined in the Makefile.objs file, they should
+-all use $(obj) as a prefix to the target, e.g.
+-
+-  $(obj)/generated-tcg-tracers.h: $(obj)/generated-tcg-tracers.h-timestamp
+-
+-
+-- Makefile.target
+-
+-This file provides the entry point used to build each individual system
+-or userspace emulator target. Each enabled target has its own
+-subdirectory. For example if configure is run with the argument
+-'--target-list=x86_64-softmmu', then a sub-directory 'x86_64-softmmu'
+-will be created, containing a 'Makefile' which symlinks back to
+-Makefile.target
+-
+-So when the recursive '$(MAKE) -C x86_64-softmmu' is invoked, it ends up
+-using Makefile.target for the build rules.
++- */meson.build
+ 
++The meson.build file in the root directory is the main entry point for the
++Meson build system, and it coordinates the configuration and build of all
++executables.  Build rules for various subdirectories are included in
++other meson.build files spread throughout the QEMU source tree.
+ 
+ - rules.mak
+ 
+ This file provides the generic helper rules for invoking build tools, in
+ particular the compiler and linker.
+ 
+-
+-- default-configs/*.mak
+-
+-The files under default-configs/ control what emulated hardware is built
+-into each QEMU system and userspace emulator targets. They merely contain
+-a list of config variable definitions like the machines that should be
+-included. For example, default-configs/aarch64-softmmu.mak has:
+-
+-  include arm-softmmu.mak
+-  CONFIG_XLNX_ZYNQMP_ARM=y
+-  CONFIG_XLNX_VERSAL=y
+-
+-These files rarely need changing unless new devices / hardware need to
+-be enabled for a particular system/userspace emulation target
+-
+-
+-- tests/Makefile
++- tests/Makefile.include
+ 
+ Rules for building the unit tests. This file is included directly by the
+ top level Makefile, so anything defined in this file will influence the
+@@ -435,11 +433,11 @@ Rules for Docker tests. Like tests/Makefile, this file is included
+ directly by the top level Makefile, anything defined in this file will
+ influence the entire build system.
+ 
+-- po/Makefile
+-
+-Rules for building and installing the binary message catalogs from the
+-text .po file sources. This almost never needs changing for any reason.
++- tests/vm/Makefile.include
+ 
++Rules for VM-based tests. Like tests/Makefile, this file is included
++directly by the top level Makefile, anything defined in this file will
++influence the entire build system.
+ 
+ Dynamically created files
+ -------------------------
+@@ -450,6 +448,7 @@ the need for QEMU makefiles to go through any pre-processing as seen
+ with autotools, where Makefile.am generates Makefile.in which generates
+ Makefile.
+ 
++Built by configure:
+ 
+ - config-host.mak
+ 
+@@ -457,27 +456,17 @@ When configure has determined the characteristics of the build host it
+ will write a long list of variables to config-host.mak file. This
+ provides the various install directories, compiler / linker flags and a
+ variety of CONFIG_* variables related to optionally enabled features.
+-This is imported by the top level Makefile in order to tailor the build
+-output.
++This is imported by the top level Makefile and meson.build in order to
++tailor the build output.
 +
-+unicore32_softmmu_ss = ss.source_set()
-+unicore32_softmmu_ss.add(files('softmmu.c'))
++config-host.mak is also used as a dependency checking mechanism. If make
++sees that the modification timestamp on configure is newer than that on
++config-host.mak, then configure will be re-run.
+ 
+ The variables defined here are those which are applicable to all QEMU
+ build outputs. Variables which are potentially different for each
+ emulator target are defined by the next file...
+ 
+-It is also used as a dependency checking mechanism. If make sees that
+-the modification timestamp on configure is newer than that on
+-config-host.mak, then configure will be re-run.
+-
+-
+-- config-host.h
+-
+-The config-host.h file is used by source code to determine what features
+-are enabled. It is generated from the contents of config-host.mak using
+-the scripts/create_config program. This extracts all the CONFIG_* variables,
+-most of the HOST_* variables and a few other misc variables from
+-config-host.mak, formatting them as C preprocessor macros.
+-
+-
+ - $TARGET-NAME/config-target.mak
+ 
+ TARGET-NAME is the name of a system or userspace emulator, for example,
+@@ -488,19 +477,42 @@ the target and any other potential custom libraries needed for linking
+ the target.
+ 
+ 
+-- $TARGET-NAME/config-devices.mak
++Built by Meson:
 +
-+target_arch += {'unicore32': unicore32_ss}
-+target_softmmu_arch += {'unicore32': unicore32_softmmu_ss}
-diff --git a/target/xtensa/Makefile.objs b/target/xtensa/Makefile.objs
-deleted file mode 100644
-index c7e7fe6063..0000000000
---- a/target/xtensa/Makefile.objs
-+++ /dev/null
-@@ -1,16 +0,0 @@
--obj-y += core-dc232b.o
--obj-y += core-dc233c.o
--obj-y += core-de212.o
--obj-y += core-fsf.o
--obj-y += core-sample_controller.o
--obj-y += core-test_kc705_be.o
--obj-y += core-test_mmuhifi_c3.o
--obj-$(CONFIG_SOFTMMU) += monitor.o xtensa-semi.o
--obj-y += xtensa-isa.o
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-$(CONFIG_SOFTMMU) += dbg_helper.o
--obj-y += exc_helper.o
--obj-y += fpu_helper.o
--obj-y += gdbstub.o
--obj-$(CONFIG_SOFTMMU) += mmu_helper.o
--obj-y += win_helper.o
-diff --git a/target/xtensa/meson.build b/target/xtensa/meson.build
-new file mode 100644
-index 0000000000..27e453e1d1
---- /dev/null
-+++ b/target/xtensa/meson.build
-@@ -0,0 +1,30 @@
-+xtensa_ss = ss.source_set()
-+xtensa_ss.add(files(
-+  'core-dc232b.c',
-+  'core-dc233c.c',
-+  'core-de212.c',
-+  'core-fsf.c',
-+  'core-sample_controller.c',
-+  'core-test_kc705_be.c',
-+  'core-test_mmuhifi_c3.c',
-+  'cpu.c',
-+  'exc_helper.c',
-+  'fpu_helper.c',
-+  'gdbstub.c',
-+  'helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+  'win_helper.c',
-+  'xtensa-isa.c',
-+))
++- ${TARGET-NAME}-config-devices.mak
+ 
+ TARGET-NAME is again the name of a system or userspace emulator. The
+ config-devices.mak file is automatically generated by make using the
+ scripts/make_device_config.sh program, feeding it the
+ default-configs/$TARGET-NAME file as input.
+ 
++- config-host.h
++- $TARGET-NAME/config-target.h
++- $TARGET-NAME/config-devices.h
 +
-+xtensa_softmmu_ss = ss.source_set()
-+xtensa_softmmu_ss.add(files(
-+  'dbg_helper.c',
-+  'mmu_helper.c',
-+  'monitor.c',
-+  'xtensa-semi.c',
-+))
++These files are used by source code to determine what features
++are enabled.  They are generated from the contents of the corresponding
++*.h files using the scripts/create_config program. This extracts
++relevant variables and formats them as C preprocessor macros.
 +
-+target_arch += {'xtensa': xtensa_ss}
-+target_softmmu_arch += {'xtensa': xtensa_softmmu_ss}
++- build.ninja
++
++
++Built by Makefile:
++
++- Makefile.ninja:
++
++A Makefile conversion of the build rules in build.ninja.  The conversion
++is straightforward and, were it necessary to debug the rules produced
++by Meson, it should be enough to look at build.ninja.  The conversion
++is performed by scripts/ninjatool.py.
+ 
+-- $TARGET-NAME/Makefile
++- Makefile.mtest:
+ 
+-This is the entrypoint used when make recurses to build a single system
+-or userspace emulator target. It is merely a symlink back to the
+-Makefile.target in the top level.
++The Makefile definitions that let "make check" run tests defined in
++meson.build.  The rules are produced from Meson's JSON description of
++tests (obtained with "meson introspect --tests") through the script
++scripts/mtest2make.py.
+ 
+ 
+ Useful make targets
 -- 
 2.26.2
 
