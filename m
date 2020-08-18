@@ -2,116 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4363624839F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 13:11:45 +0200 (CEST)
-Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C31248436
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 13:52:30 +0200 (CEST)
+Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7zWq-0003c1-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 07:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34764)
+	id 1k80AG-0005gm-Vq
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 07:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7zUH-0002CI-Oe
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 07:09:05 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33359
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k809N-000589-9W
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 07:51:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37544
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7zUF-00075z-CM
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 07:09:05 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k809L-00060i-GW
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 07:51:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597748942;
+ s=mimecast20190719; t=1597751490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ArG9a3FHYt3qOmjj8GJ+d3J1T8RHFzC1XLJxjQx/c2w=;
- b=XYWL/+OoPtBuKKJJ6ubTyg/nVgcQ2YSv4xeU0nKhjoNgrphdhz+X7wnAsBWnsLpH4L6l5a
- MHWWQotcA1NlKUVZkupnt3wTsp7bH0le0nfUkcoDXkAcKyRIxpBzL6jEW9u7ESXb9s9XBE
- 0wMZvDPhfJ6yF1prLiG5BaPhofiGI4I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-3j-TdM3rPOqAVfKTI8W_hg-1; Tue, 18 Aug 2020 07:08:54 -0400
-X-MC-Unique: 3j-TdM3rPOqAVfKTI8W_hg-1
-Received: by mail-wm1-f72.google.com with SMTP id z10so7265093wmi.8
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 04:08:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ArG9a3FHYt3qOmjj8GJ+d3J1T8RHFzC1XLJxjQx/c2w=;
- b=ZbvSrsuV3UtIIutC7Rg/2E0ghlnA+a/TywfE5e+ktCjTjscb/Dono5ifAVPwFsudYQ
- i1ZxOFvD0+xgygMciIU3PLjDlEjjjXS1HFooHSr7ScdZHv7BMzZ0vC2+Q/vX+T7gU5dK
- Nsy4+OkfpCK1tdD4Fe+ZkpNQECOw9BzmssTAchKw75ljRWfxzCj9DOG1vpj5D1QN83Hr
- +sT53KSiL+cYh1x6ACpOkjQLyWtl5DPMHdhsauw0MmgHPyBUgCyCD2aM/5uAHR5qKnoS
- 34HqGDxKv6OHsrtsgUl3um8bGORVx0aGjAHVNvQmwwFWUcwaK6FJ/CrwNov/GW0RMx3y
- AwEw==
-X-Gm-Message-State: AOAM5324sGBw4bQPiGpsT/YDsqJQkhhrTBGhxBzcpbLvmbu2vtvyunPJ
- vaBzLN5XDWGB+AW2blFfGOU96qdWiZGrmRbt/qg3PqFlGNkrtFNb38klqTdkpmezqqiNpBiBxMb
- UXZgVsT3wYzRvq0E=
-X-Received: by 2002:adf:ec4f:: with SMTP id w15mr18870774wrn.385.1597748933288; 
- Tue, 18 Aug 2020 04:08:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLEn0pmmYxwgUSwubpiD/XfqiIIAznuy+n618brtQScHZIWDu5I+FANAuJcGlWqmXkjL3XAA==
-X-Received: by 2002:adf:ec4f:: with SMTP id w15mr18870754wrn.385.1597748933006; 
- Tue, 18 Aug 2020 04:08:53 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id r206sm33712692wma.6.2020.08.18.04.08.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 04:08:52 -0700 (PDT)
-Subject: Re: [PATCH v3 000/150] Meson integration for 5.2
-To: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20200817143723.343284-1-pbonzini@redhat.com>
- <20200818115907.74f353e0.cohuck@redhat.com>
- <79afeb13-85cc-32f2-7e56-7a98a58bed8f@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <bcf9e13a-0244-6125-aa05-80fc67289eca@redhat.com>
-Date: Tue, 18 Aug 2020 13:08:51 +0200
+ bh=5BGIwsCGFbYa1XvukHh8i85q1nJ0BTnETyHu8Uayppg=;
+ b=c4BeYR8fi0U9HrXH1HH6QJ9BIZ3ZzaVH3n2GAbSWep+Ym9DwSHjGylwbXQw1LXDjAHbE58
+ hwsrx4HuqmcSbYuZysHO6nFO6rQyp/ynbiQ1B/U5n6piGQrs+QBLglvPj2ZTcYbRkvlNd8
+ 653yvHtWE9NB8NTkrawMELt7DEx4aog=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-EeyBlE0IMD2swlahKAsSkA-1; Tue, 18 Aug 2020 07:51:28 -0400
+X-MC-Unique: EeyBlE0IMD2swlahKAsSkA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B3D4185E536;
+ Tue, 18 Aug 2020 11:51:27 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-119.ams2.redhat.com
+ [10.36.112.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB20F1A92A;
+ Tue, 18 Aug 2020 11:51:25 +0000 (UTC)
+Subject: Re: [PATCH] qemu-img: Explicit number replaced by a constant
+To: Stefano Garzarella <sgarzare@redhat.com>, Yi Li <yili@winhong.com>
+References: <20200817110113.1552683-1-yili@winhong.com>
+ <20200818071918.vzdhdlndxuviq3ue@steredhat>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <0107e40a-1d96-fa3d-bd15-019c004d0353@redhat.com>
+Date: Tue, 18 Aug 2020 13:51:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <79afeb13-85cc-32f2-7e56-7a98a58bed8f@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200818071918.vzdhdlndxuviq3ue@steredhat>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Qd7OiDajSp6a28x9rZAi6QFgQNUQgdBHP"
+Received-SPF: none client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:19:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,40 +107,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, yilikernel@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/20 12:25 PM, Paolo Bonzini wrote:
-> On 18/08/20 11:59, Cornelia Huck wrote:
->> On Mon, 17 Aug 2020 16:34:53 +0200
->> Paolo Bonzini <pbonzini@redhat.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Qd7OiDajSp6a28x9rZAi6QFgQNUQgdBHP
+Content-Type: multipart/mixed; boundary="zrddXTvJDWUt9cNQQeRsu3RhkZBsZuH7E"
+
+--zrddXTvJDWUt9cNQQeRsu3RhkZBsZuH7E
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 18.08.20 09:19, Stefano Garzarella wrote:
+> Hi Yi Li,
+> thanks for this patch! Just a comment below:
+>=20
+> On Mon, Aug 17, 2020 at 07:01:13PM +0800, Yi Li wrote:
+>> Signed-off-by: Yi Li <yili@winhong.com>
+>> ---
+>>  qemu-img.c | 12 ++++++------
+>>  1 file changed, 6 insertions(+), 6 deletions(-)
 >>
->>> - Simplified/rewrote handling of the modules variable [Howard]
->>> - Fixed access to gdb-xml files [Howard]
->>> - Fixed cross-compilation failure due to mingw prefix [Howard]
->>> - Fixed SDL2 detection on cross compiles [Howard]
->>> - Fixed sub-makefiles that include config-host.mak
->>>
->>> You can find it at the usual place, https://gitlab.com/bonzini/qemu.git
->>> branch meson-poc-next.
->>
->> Builds (on x86 & s390x), runs (this time with the right binary ;), and
->> passes make check, make check-tcg, and kvm unit tests (s390x) for me.
->>
-> 
-> Great, I'll do the last tests here and send a pull request.
+>> diff --git a/qemu-img.c b/qemu-img.c
+>> index 5308773811..a0fbc2757c 100644
+>> --- a/qemu-img.c
+>> +++ b/qemu-img.c
+>> @@ -1181,7 +1181,7 @@ static int64_t find_nonzero(const uint8_t *buf, in=
+t64_t n)
+>>  }
+>> =20
+>>  /*
+>> - * Returns true iff the first sector pointed to by 'buf' contains at le=
+ast
+>> + * Returns true if the first sector pointed to by 'buf' contains at lea=
+st
+>=20
+> This change seems unrelated, please can you put this in a separate patch?
 
-What about the 2 patchew errors?
+It=E2=80=99s also just not a correct change, as =E2=80=9Ciff=E2=80=9D means=
+ =E2=80=9Cif and only if=E2=80=9D.
 
-../src/meson.build:227:2: ERROR: 'sdl2' is not a config-tool dependency
-
-ERROR: meson setup failed
-
+Max
 
 
-../src/meson.build:547:0: ERROR: Program 'scripts/tracetool.py' not found
+--zrddXTvJDWUt9cNQQeRsu3RhkZBsZuH7E--
 
-ERROR: meson setup failed
+--Qd7OiDajSp6a28x9rZAi6QFgQNUQgdBHP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl87wLsACgkQ9AfbAGHV
+z0D5owgAqWB4LDq/ApY2S+UhnIQ5dYA2brUoONsS6LE3+l61Yz8fgZ2ZsvKN3f2V
+85GYjJAyL5u8IQqXYir8WT4WCACLoVPURJcsB4iCLRIwXHptv7XljflMR2FIZRcF
+g+bvHI6xveQ2OKtOpvol1nAKYUv1IgD0ZZg2Wta9UHxZrFtLBwuqyRWKBR4iNPv/
+lJWtNkYSEmlyPJ1zVxcW59zjz+xN41c0uM95u7ROHEFn/lJN4eJmJfK/5EMMAXSl
+nXKPMmgnSIf37Hhb/Sv6mRSjFlvZ3NYYYAoGr1T+o/k8S+RzD80gTNn72aub+nfM
+Z1lCd6hTaZCf080+GKJMiJXVxfGH3w==
+=UdN1
+-----END PGP SIGNATURE-----
+
+--Qd7OiDajSp6a28x9rZAi6QFgQNUQgdBHP--
 
 
