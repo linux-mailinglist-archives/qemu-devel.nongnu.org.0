@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B9F24801A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 10:02:09 +0200 (CEST)
-Received: from localhost ([::1]:35348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD19C24801C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 10:03:05 +0200 (CEST)
+Received: from localhost ([::1]:39454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7wZM-0006X1-B2
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 04:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1k7waG-0008Dk-Sg
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 04:03:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k7wYR-00065y-4k
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:01:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53100)
+ id 1k7wYU-00067L-Al
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:01:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k7wYN-0007lT-Bf
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:01:10 -0400
+ id 1k7wYN-0007lc-LR
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:01:14 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k7wYL-0003zg-8X
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:01:05 +0000
+ id 1k7wYM-00044v-1c
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:01:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 165752E80E9
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:01:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 07FF52E80D2
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:01:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Aug 2020 07:46:42 -0000
+Date: Tue, 18 Aug 2020 07:50:50 -0000
 From: "Tony.LI" <1890545@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: ajbennee bigboy0822 laurent-vivier pmaydell
 X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
 X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
 References: <159670025270.3099.13280483088179052036.malonedeb@gac.canonical.com>
-Message-Id: <159773680253.23146.3147170789939853392.malone@wampee.canonical.com>
+Message-Id: <159773705038.22353.57820610996174404.malone@chaenomeles.canonical.com>
 Subject: [Bug 1890545] Re: (ARM64) qemu-x86_64+schroot(Debian bullseye) can't
  run chrome and can't load HTML
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 492da4da595be7641b20809791aeae54fb8aa543
+X-Launchpad-Hash: 9bdabc71bcd747ee334afa005c95d91dd949fc3d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:30:57
@@ -76,7 +76,7 @@ Reply-To: Bug 1890545 <1890545@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I wrote an example to  load local HTML:
+I wrote an example to load local HTML:
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -99,16 +99,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 At the same time, I found that a process(QtWebEngineProcess) did not start =
 properly;
 Then,I run:
 
-    $ ./QtWebEngineProcess --type=3Dzygote --webengine-schemes=3Dqrc:sLV --=
-lang=3Dzh   =
+    $ ./QtWebEngineProcess --type=3Dzygote --webengine-schemes=3Dqrc:sLV =
 
     qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
- =
 
     But,I didn't find any mistakes.Why does the process exit?
 
