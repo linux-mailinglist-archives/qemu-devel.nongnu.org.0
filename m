@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA9A247DA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:40:50 +0200 (CEST)
-Received: from localhost ([::1]:60726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E891247D9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:39:29 +0200 (CEST)
+Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tQX-0003P5-7p
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:40:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50562)
+	id 1k7tPE-0001fE-MH
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t7W-00013r-5Z; Tue, 18 Aug 2020 00:21:10 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38513 helo=ozlabs.org)
+ id 1k7t7U-00010B-Qn; Tue, 18 Aug 2020 00:21:08 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58983 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t7T-0006Rh-2d; Tue, 18 Aug 2020 00:21:09 -0400
+ id 1k7t7T-0006Rr-2a; Tue, 18 Aug 2020 00:21:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNh4sT8z9sW4; Tue, 18 Aug 2020 14:19:32 +1000 (AEST)
+ id 4BVyNh6qTmz9sW5; Tue, 18 Aug 2020 14:19:32 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724372;
- bh=190f+V+vuJPVY9rkM/6szxDl+6qCDUsVZleu5RtI4uU=;
+ bh=tGp8arJc1GfPjA66OlF7aLV68t4YlEwdGzyvgzTqt4w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q4BDq/NTxdlUl1I0ClKcaRRq6ewbT/jJo81tIh/1pbZZYNJIwIRAtpT0uG2Uv6Krs
- X+H2AgL+rM9eUPKBf66ZuQiMOllVLcpuQnDdL6Q4hDC7YFCf9SWDws2DS7SUOauJn9
- PHkjP5ThMZfnxr3ex/chRQzwbWFDaVbrsqBDYYZg=
+ b=kCn/HJmw/3QSC5rCw2kxQRvseTFgmUY1iYTI5qqHimCwMNPQ2Huxvf5gEelW7of2I
+ G5rELbxGk6QLRWR9hkug6p/Bc1XKKTwXRFGMmeQvmf4x+6ntrdBwOdCm5oixJq6xQh
+ Zj1hKqpYblOstdOKhhu08520wE30+wgo/bTmRF5o=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 34/40] spapr/xive: Fix error handling in kvmppc_xive_post_load()
-Date: Tue, 18 Aug 2020 14:19:16 +1000
-Message-Id: <20200818041922.251708-35-david@gibson.dropbear.id.au>
+Subject: [PULL 35/40] ppc/xive: Fix error handling in vmstate_xive_tctx_*()
+ callbacks
+Date: Tue, 18 Aug 2020 14:19:17 +1000
+Message-Id: <20200818041922.251708-36-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -67,91 +68,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Now that all these functions return a negative errno on failure, check
-that because it is preferred to local_err. And most of all, propagate it
-because vmstate expects negative errnos.
+Now that kvmppc_xive_cpu_get_state() and kvmppc_xive_cpu_set_state()
+return negative errnos on failures, use that instead local_err because
+it is the recommended practice. Also return that instead of -1 since
+vmstate expects negative errnos.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159707850148.1489912.18355118622296682631.stgit@bahia.lan>
+Message-Id: <159707850840.1489912.14912810818646455474.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ hw/intc/xive.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 1686b036eb..005729ebff 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -631,6 +631,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index a453e8f4dc..17ca5a1916 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -695,12 +695,13 @@ static int vmstate_xive_tctx_pre_save(void *opaque)
+ {
+     XiveTCTX *tctx = XIVE_TCTX(opaque);
      Error *local_err = NULL;
-     CPUState *cs;
-     int i;
 +    int ret;
  
-     /* The KVM XIVE device should be in use */
-     assert(xive->fd != -1);
-@@ -641,11 +642,10 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
-             continue;
-         }
- 
--        kvmppc_xive_set_queue_config(xive, SPAPR_XIVE_BLOCK_ID, i,
--                                     &xive->endt[i], &local_err);
+     if (xive_in_kernel(tctx->xptr)) {
+-        kvmppc_xive_cpu_get_state(tctx, &local_err);
 -        if (local_err) {
--            error_report_err(local_err);
--            return -1;
-+        ret = kvmppc_xive_set_queue_config(xive, SPAPR_XIVE_BLOCK_ID, i,
-+                                           &xive->endt[i], &local_err);
++        ret = kvmppc_xive_cpu_get_state(tctx, &local_err);
 +        if (ret < 0) {
-+            goto fail;
+             error_report_err(local_err);
+-            return -1;
++            return ret;
          }
      }
  
-@@ -660,16 +660,14 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
-          * previously set in KVM. Since we don't do that for all interrupts
-          * at reset time anymore, let's do it now.
+@@ -711,16 +712,17 @@ static int vmstate_xive_tctx_post_load(void *opaque, int version_id)
+ {
+     XiveTCTX *tctx = XIVE_TCTX(opaque);
+     Error *local_err = NULL;
++    int ret;
+ 
+     if (xive_in_kernel(tctx->xptr)) {
+         /*
+          * Required for hotplugged CPU, for which the state comes
+          * after all states of the machine.
           */
--        kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
+-        kvmppc_xive_cpu_set_state(tctx, &local_err);
 -        if (local_err) {
--            error_report_err(local_err);
--            return -1;
-+        ret = kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
++        ret = kvmppc_xive_cpu_set_state(tctx, &local_err);
 +        if (ret < 0) {
-+            goto fail;
-         }
- 
--        kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err);
--        if (local_err) {
--            error_report_err(local_err);
+             error_report_err(local_err);
 -            return -1;
-+        ret = kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err);
-+        if (ret < 0) {
-+            goto fail;
++            return ret;
          }
      }
  
-@@ -686,15 +684,18 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu = POWERPC_CPU(cs);
- 
--        kvmppc_xive_cpu_set_state(spapr_cpu_state(cpu)->tctx, &local_err);
--        if (local_err) {
--            error_report_err(local_err);
--            return -1;
-+        ret = kvmppc_xive_cpu_set_state(spapr_cpu_state(cpu)->tctx, &local_err);
-+        if (ret < 0) {
-+            goto fail;
-         }
-     }
- 
-     /* The source states will be restored when the machine starts running */
-     return 0;
-+
-+fail:
-+    error_report_err(local_err);
-+    return ret;
- }
- 
- /* Returns MAP_FAILED on error and sets errno */
 -- 
 2.26.2
 
