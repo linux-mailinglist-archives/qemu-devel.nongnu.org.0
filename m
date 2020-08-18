@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F7D247D9D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:38:57 +0200 (CEST)
-Received: from localhost ([::1]:53898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CB3247D9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:37:44 +0200 (CEST)
+Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tOi-0000cg-Mj
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50434)
+	id 1k7tNY-0006h4-06
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t7P-0000kR-Am; Tue, 18 Aug 2020 00:21:03 -0400
-Received: from ozlabs.org ([203.11.71.1]:60799)
+ id 1k7t7i-0001dy-O5; Tue, 18 Aug 2020 00:21:22 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:34593 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t7M-0006dM-RX; Tue, 18 Aug 2020 00:21:02 -0400
+ id 1k7t7h-0006dT-0d; Tue, 18 Aug 2020 00:21:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNk1Clfz9sW9; Tue, 18 Aug 2020 14:19:34 +1000 (AEST)
+ id 4BVyNk2k1Mz9sWB; Tue, 18 Aug 2020 14:19:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724374;
- bh=tbf7e1/8oTfJM2oleGmsFgOKdsRYrI6dXLzRHANsedE=;
+ bh=nhGwyAeymaASkHK5D/WcPZyVl5hEMzVQYliqIctBXOA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mv89DSD38TtEn6mNGtTM+MtZq84NbMqrFRCpc6ERO1qyZ8Dc2xI/K6IUCfOoLz/ml
- Pur4HANIv++shCji25JGPygoRQLPX4t/4fYLS4SFMaB9/nYfoeqZ+SY6D6De1aa25W
- CKa9k2zfAyJZ/5DnA9VD+qEihAfVUpgv8w8dFrSY=
+ b=ik4SSBtIPMC+/JBYA6SO1Xs0ymadVtjRHrDofR5+TLXCQczF4Hkw4/as0p/hy0l3T
+ ML0kAe5Xt5MojrMmldvtdX6ZnoN0ujJf4Fd8qTC1kWoMrGaPSbQ7gJOzPRhh2aEdmC
+ wtE6x3Cnml2E6MMUeKmcBOCNpUqRUf0GB2n9XswY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 39/40] nvram: Exit QEMU if NVRAM cannot contain all -prom-env
- data
-Date: Tue, 18 Aug 2020 14:19:21 +1000
-Message-Id: <20200818041922.251708-40-david@gibson.dropbear.id.au>
+Subject: [PULL 40/40] spapr/xive: Use xive_source_esb_len()
+Date: Tue, 18 Aug 2020 14:19:22 +1000
+Message-Id: <20200818041922.251708-41-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -61,240 +60,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Since commit 61f20b9dc5b7 ("spapr_nvram: Pre-initialize the NVRAM to
-support the -prom-env parameter"), pseries machines can pre-initialize
-the "system" partition in the NVRAM with the data passed to all -prom-env
-parameters on the QEMU command line.
+static inline size_t xive_source_esb_len(XiveSource *xsrc)
+{
+    return (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+}
 
-In this case it is assumed that all the data fits in 64 KiB, but the user
-can easily pass more and crash QEMU:
-
-$ qemu-system-ppc64 -M pseries $(for ((x=0;x<128;x++)); do \
-  echo -n " -prom-env " ; printf "%0.sx" {1..1024}; \
-  done) # this requires ~128 Kib
-malloc(): corrupted top size
-Aborted (core dumped)
-
-This happens because we don't check if all the prom-env data fits in
-the NVRAM and chrp_nvram_set_var() happily memcpy() it passed the
-buffer.
-
-This crash affects basically all ppc/ppc64 machine types that use -prom-env:
-- pseries (all versions)
-- g3beige
-- mac99
-
-and also sparc/sparc64 machine types:
-- LX
-- SPARCClassic
-- SPARCbook
-- SS-10
-- SS-20
-- SS-4
-- SS-5
-- SS-600MP
-- Voyager
-- sun4u
-- sun4v
-
-Add a max_len argument to chrp_nvram_create_system_partition() so that
-it can check the available size before writing to memory.
-
-Since NVRAM is populated at machine init, it seems reasonable to consider
-this error as fatal. So, instead of reporting an error when we detect that
-the NVRAM is too small and adapt all machine types to handle it, we simply
-exit QEMU in all cases. This is still better than crashing. If someone
-wants another behavior, I guess this can be reworked later.
-
-Tested with:
-
-$ yes q | \
-  (for arch in ppc ppc64 sparc sparc64; do \
-       echo == $arch ==; \
-       qemu=${arch}-softmmu/qemu-system-$arch; \
-       for mach in $($qemu -M help | awk '! /^Supported/ { print $1 }'); do \
-           echo $mach; \
-           $qemu -M $mach -monitor stdio -nodefaults -nographic \
-           $(for ((x=0;x<128;x++)); do \
-                 echo -n " -prom-env " ; printf "%0.sx" {1..1024}; \
-             done) >/dev/null; \
-        done; echo; \
-   done)
-
-Without the patch, affected machine types cause QEMU to report some
-memory corruption and crash:
-
-malloc(): corrupted top size
-
-free(): invalid size
-
-*** stack smashing detected ***: terminated
-
-With the patch, QEMU prints the following message and exits:
-
-NVRAM is too small. Try to pass less data to -prom-env
-
-It seems that the conditions for the crash have always existed, but it
-affects pseries, the machine type I care for, since commit 61f20b9dc5b7
-only.
-
-Fixes: 61f20b9dc5b7 ("spapr_nvram: Pre-initialize the NVRAM to support the -prom-env parameter")
-RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1867739
-Reported-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159736033937.350502.12402444542194031035.stgit@bahia.lan>
+Message-Id: <159733969034.320580.6571451425779179477.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/nvram/chrp_nvram.c         | 24 +++++++++++++++++++++---
- hw/nvram/mac_nvram.c          |  2 +-
- hw/nvram/spapr_nvram.c        |  3 ++-
- hw/sparc/sun4m.c              |  2 +-
- hw/sparc64/sun4u.c            |  2 +-
- include/hw/nvram/chrp_nvram.h |  3 ++-
- 6 files changed, 28 insertions(+), 8 deletions(-)
+ hw/intc/spapr_xive.c     | 2 +-
+ hw/intc/spapr_xive_kvm.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/nvram/chrp_nvram.c b/hw/nvram/chrp_nvram.c
-index d969f26704..d4d10a7c03 100644
---- a/hw/nvram/chrp_nvram.c
-+++ b/hw/nvram/chrp_nvram.c
-@@ -21,14 +21,21 @@
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 3c84f64dc4..4bd0d606ba 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -336,7 +336,7 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
  
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
-+#include "qemu/error-report.h"
- #include "hw/nvram/chrp_nvram.h"
- #include "sysemu/sysemu.h"
+     /* Set the mapping address of the END ESB pages after the source ESBs */
+-    xive->end_base = xive->vc_base + (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
++    xive->end_base = xive->vc_base + xive_source_esb_len(xsrc);
  
--static int chrp_nvram_set_var(uint8_t *nvram, int addr, const char *str)
-+static int chrp_nvram_set_var(uint8_t *nvram, int addr, const char *str,
-+                              int max_len)
- {
-     int len;
+     /*
+      * Allocate the routing tables
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index d871bb1a00..e8667ce5f6 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -831,7 +831,7 @@ void kvmppc_xive_disconnect(SpaprInterruptController *intc)
  
-     len = strlen(str) + 1;
-+
-+    if (max_len < len) {
-+        return -1;
-+    }
-+
-     memcpy(&nvram[addr], str, len);
+     /* Clear the KVM mapping */
+     xsrc = &xive->source;
+-    esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
++    esb_len = xive_source_esb_len(xsrc);
  
-     return addr + len;
-@@ -38,19 +45,26 @@ static int chrp_nvram_set_var(uint8_t *nvram, int addr, const char *str)
-  * Create a "system partition", used for the Open Firmware
-  * environment variables.
-  */
--int chrp_nvram_create_system_partition(uint8_t *data, int min_len)
-+int chrp_nvram_create_system_partition(uint8_t *data, int min_len, int max_len)
- {
-     ChrpNvramPartHdr *part_header;
-     unsigned int i;
-     int end;
- 
-+    if (max_len < sizeof(*part_header)) {
-+        goto fail;
-+    }
-+
-     part_header = (ChrpNvramPartHdr *)data;
-     part_header->signature = CHRP_NVPART_SYSTEM;
-     pstrcpy(part_header->name, sizeof(part_header->name), "system");
- 
-     end = sizeof(ChrpNvramPartHdr);
-     for (i = 0; i < nb_prom_envs; i++) {
--        end = chrp_nvram_set_var(data, end, prom_envs[i]);
-+        end = chrp_nvram_set_var(data, end, prom_envs[i], max_len - end);
-+        if (end == -1) {
-+            goto fail;
-+        }
-     }
- 
-     /* End marker */
-@@ -65,6 +79,10 @@ int chrp_nvram_create_system_partition(uint8_t *data, int min_len)
-     chrp_nvram_finish_partition(part_header, end);
- 
-     return end;
-+
-+fail:
-+    error_report("NVRAM is too small. Try to pass less data to -prom-env");
-+    exit(EXIT_FAILURE);
- }
- 
- /**
-diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
-index beec1c4e4d..11f2d31cdb 100644
---- a/hw/nvram/mac_nvram.c
-+++ b/hw/nvram/mac_nvram.c
-@@ -141,7 +141,7 @@ static void pmac_format_nvram_partition_of(MacIONVRAMState *nvr, int off,
- 
-     /* OpenBIOS nvram variables partition */
-     sysp_end = chrp_nvram_create_system_partition(&nvr->data[off],
--                                                  DEF_SYSTEM_SIZE) + off;
-+                                                  DEF_SYSTEM_SIZE, len) + off;
- 
-     /* Free space partition */
-     chrp_nvram_create_free_partition(&nvr->data[sysp_end], len - sysp_end);
-diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
-index 15d08281d4..386513499f 100644
---- a/hw/nvram/spapr_nvram.c
-+++ b/hw/nvram/spapr_nvram.c
-@@ -188,7 +188,8 @@ static void spapr_nvram_realize(SpaprVioDevice *dev, Error **errp)
-         }
-     } else if (nb_prom_envs > 0) {
-         /* Create a system partition to pass the -prom-env variables */
--        chrp_nvram_create_system_partition(nvram->buf, MIN_NVRAM_SIZE / 4);
-+        chrp_nvram_create_system_partition(nvram->buf, MIN_NVRAM_SIZE / 4,
-+                                           nvram->size);
-         chrp_nvram_create_free_partition(&nvram->buf[MIN_NVRAM_SIZE / 4],
-                                          nvram->size - MIN_NVRAM_SIZE / 4);
-     }
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 9be930415f..cf7dfa4af5 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -143,7 +143,7 @@ static void nvram_init(Nvram *nvram, uint8_t *macaddr,
-     memset(image, '\0', sizeof(image));
- 
-     /* OpenBIOS nvram variables partition */
--    sysp_end = chrp_nvram_create_system_partition(image, 0);
-+    sysp_end = chrp_nvram_create_system_partition(image, 0, 0x1fd0);
- 
-     /* Free space partition */
-     chrp_nvram_create_free_partition(&image[sysp_end], 0x1fd0 - sysp_end);
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 9e30203dcc..37310b73e6 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -136,7 +136,7 @@ static int sun4u_NVRAM_set_params(Nvram *nvram, uint16_t NVRAM_size,
-     memset(image, '\0', sizeof(image));
- 
-     /* OpenBIOS nvram variables partition */
--    sysp_end = chrp_nvram_create_system_partition(image, 0);
-+    sysp_end = chrp_nvram_create_system_partition(image, 0, 0x1fd0);
- 
-     /* Free space partition */
-     chrp_nvram_create_free_partition(&image[sysp_end], 0x1fd0 - sysp_end);
-diff --git a/include/hw/nvram/chrp_nvram.h b/include/hw/nvram/chrp_nvram.h
-index 09941a9be4..4a0f5c21b8 100644
---- a/include/hw/nvram/chrp_nvram.h
-+++ b/include/hw/nvram/chrp_nvram.h
-@@ -50,7 +50,8 @@ chrp_nvram_finish_partition(ChrpNvramPartHdr *header, uint32_t size)
-     header->checksum = sum & 0xff;
- }
- 
--int chrp_nvram_create_system_partition(uint8_t *data, int min_len);
-+/* chrp_nvram_create_system_partition() failure is fatal */
-+int chrp_nvram_create_system_partition(uint8_t *data, int min_len, int max_len);
- int chrp_nvram_create_free_partition(uint8_t *data, int len);
- 
- #endif
+     if (xsrc->esb_mmap) {
+         memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
 -- 
 2.26.2
 
