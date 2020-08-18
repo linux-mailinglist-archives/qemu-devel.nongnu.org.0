@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16A22489B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:25:25 +0200 (CEST)
-Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E0C2489E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:30:04 +0200 (CEST)
+Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83UK-0006fb-Vb
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:25:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
+	id 1k83Yp-0006gT-By
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:30:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k82gl-0004ZZ-3h
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:11 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42114)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k82l0-0006h6-Ng; Tue, 18 Aug 2020 10:38:34 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k82gj-0002QZ-4p
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:10 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id df16so15447451edb.9
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 07:34:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hGbAms5lZWU93ghlE15wqXMM8+dMONoiOmFTH+qIBFY=;
- b=FbE3LoQGZUaLNnZFzQRnkQNRS0YlFo38Kzml1FCOCoLCAD/qXSt90cchfiUgRUJHcf
- +dEc5WBWCxvwTkLUNpg6m5V2V0WXtrueyjjZWdWknRpM5JzZS9K2SRsi+wYnNJ68GJBG
- WeqwmEmWuQJlcV0oGo5d4kK/x8H2Q0FzWefm3VwNi8ccsOPh4rIaJmjn24uwhQMsIOzV
- TFQEdeUFNetrA9aiGOapH5V6XtBINwq1Pu/E7npJg2TdgTXvIF3abBCEQfX5RVKlYXAo
- bHbJ68DB+kwlH1Ha9cO+MoXRbbe718JM26Y1CFmQvAM0QAdkAOD/xsQyLjY0j+w+3sYg
- F0Bw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k82ky-0002z5-V1; Tue, 18 Aug 2020 10:38:34 -0400
+Received: by mail-wm1-x343.google.com with SMTP id k8so17248198wma.2;
+ Tue, 18 Aug 2020 07:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=G/uCLWaQ9/GC6p92u4AC2/fMAZX9rQveSBzhpBtS05w=;
+ b=VpCm3KD8qjtSjgc0szFsLzm2liuitP2rGzNRyHCDmQMvvBjHOq98rif2bpQI377kRt
+ 6WxnFngKIFULlLXjkr05raic3JBRI2RXFI/J5C/jAWLmNu38aQEb5dLczfAmTOFqmt9s
+ d1DNRgGgyaeROUhoN8/CXSzUoGAqhxijh/1nKa+NzjB3hiUr5D63JG8JM7WfyalZIYbF
+ AmhaByNf6BiznD99ISkxmexhCBumANSsCsucJJyHqJHDr2H93kv0G+LdNKON2Bp4cO9s
+ nDcMqqsNFbeVgfxsCGON09bXnSlQ/KF0aa0cTH+dkABNr4epW2sABCg8fHg0qTjbS2Yn
+ eMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hGbAms5lZWU93ghlE15wqXMM8+dMONoiOmFTH+qIBFY=;
- b=HCWNOIkVH5HPnbTOaGw+8jVJ+VC1NJvYj+A5iuGzXknrM7VmdmPt2GN1igOBRAVguo
- qneNr7Cavf0X7qlDE/itE1/MeBD6SA6WHkegrATjBhHwCaLRqR3DSE+iyOU13NzJ8ITN
- SUl2Fb7e9DRhEXOMIlxS19oowQcODKGiiRgd/i2WKGAhbDD9YZLephzj7opRIXAyiBg9
- Axdu8mFY3UkLPZDVedialTsCm6RDb5f8S7fJXkAesXRAgTF+a2IOXyy2r11WO6VTLX+z
- 8WWsi52mOeEVYysD5pylMvS4P0FbhOdTDZtCAOmgoh8b2UpsLOeNMFI8N7iyWRpGu8UP
- hS9Q==
-X-Gm-Message-State: AOAM533QYGAQ8QtT+X+ov5nm7rSXOmzV0qW2iBMENdcpfoj1PYErl+H+
- +3f4+IjVSn2uY2+CgH3KUV96sr2odyjXvZyhiURTDw==
-X-Google-Smtp-Source: ABdhPJyhdTAhsXYG+PF1jWhy4w0z6noW8vha0oKlM+EW0GDl7cdQlH0lO+Y0HyDGz8eoksh+fYwjPxZ7el1ZEsoK2Bo=
-X-Received: by 2002:aa7:d596:: with SMTP id r22mr20322349edq.204.1597761247249; 
- Tue, 18 Aug 2020 07:34:07 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=G/uCLWaQ9/GC6p92u4AC2/fMAZX9rQveSBzhpBtS05w=;
+ b=Wi0g54HVMhNVoD/7vvNmpv1cHJX3usJ+ZqDf2lU/iRfT8O880F1jXIGWH7B6AodjAd
+ taekXWMZF7QcptXsTDHeTxcZ971GSlP/FlmBz4UiWYwA9b8Xj33AyKR4b/7JUWQbLqVm
+ n2X6V5OXba4chgvpIMCUzkv5uWphYRZKNqfYCDPKXHLS35WU8tMGE0J9cqwKP75Z6kjY
+ 1zWqRygcBJTmNk4CTat6TsqNWqrR3xaSBjMeYM/oz1RJykGcQiWC6kUsgnAebFRHirrT
+ L/KoqqP4/lRJbj374jU091UoYetYRW/WkE5AvCR6fyhxiAMsYm+2b0ybCWkjijZIXLq+
+ Ut2w==
+X-Gm-Message-State: AOAM531adJnnCk//5Y6xAp2CnjW+E9T2G5lAe7ajBAtnx+kEXdCXn+/q
+ abXhuwUaiXZmLJbHnb/oRq6A4Ioc8RA=
+X-Google-Smtp-Source: ABdhPJxBdZMHsQ13wn4Jn4/vvkn9clMjwCUoscXSZQhed/ngWCJJ1shX8Y4YY5mUcoNpkpBa6BsNOA==
+X-Received: by 2002:a1c:f416:: with SMTP id z22mr250551wma.62.1597761509689;
+ Tue, 18 Aug 2020 07:38:29 -0700 (PDT)
+Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id z8sm139177wmf.42.2020.08.18.07.38.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 07:38:28 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] hw/core/qdev: Make qdev_pass_gpios() arguments
+ self-describing
+Date: Tue, 18 Aug 2020 16:38:24 +0200
+Message-Id: <20200818143825.691110-2-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200818143825.691110-1-f4bug@amsat.org>
+References: <20200818143825.691110-1-f4bug@amsat.org>
 MIME-Version: 1.0
-References: <20200818141025.21608-1-pbonzini@redhat.com>
-In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Aug 2020 15:33:56 +0100
-Message-ID: <CAFEAcA-5_iHm+6QiCrGigngrGuRfcc_HOtbDDv1QDUabCQg_WA@mail.gmail.com>
-Subject: Re: [PULL 000/150] Meson-based build system
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,60 +86,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Aug 2020 at 15:14, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
->
->   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 3aecbe785d65e3b92a3617c60e4d226362d9bdd5:
->
->   docs: convert build system documentation to rST (2020-08-18 10:02:43 -0400)
->
-> New since v3:
-> * C include files renamed from .inc to .c.inc
-> * fixed pc-bios/s390-ccw clean targets
-> * fixed error splat when doing "make" from unconfigured build directory
-> * use --native-file to list tools chosen by configure
-> * fixes for Windows (SDL, Wixl)
-> * C++ compiler not mandatory anymore
-> * remove useless .. search path for modules
->
-> ----------------------------------------------------------------
-> New build system.
->
-> Missing:
-> * converting configure tests
-> * converting unit tests
-> * converting some remaining parts of the installation
->
+Make the direction qdev_pass_gpios() pass the GPIOs more obvious
+by renaming its arguments as 'from_dev' and 'to_container'.
 
-aarch32 fails like this:
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/qdev-core.h | 10 +++++-----
+ hw/core/qdev.c         | 14 +++++++-------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-In file included from /usr/include/SDL2/SDL.h:38:0,
-                 from /home/peter.maydell/qemu/include/ui/sdl2.h:7,
-                 from ../../ui/sdl2.c:30:
-/usr/include/SDL2/SDL_cpuinfo.h:63:5: error: "HAVE_IMMINTRIN_H" is not
-defined, evaluates to 0 [-Werror=undef]
- #if HAVE_IMMINTRIN_H && !defined(SDL_DISABLE_IMMINTRIN_H)
-     ^~~~~~~~~~~~~~~~
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index ea3f73a282d..c72d4db2d26 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -643,8 +643,8 @@ static inline void qdev_init_gpio_in_named(DeviceState *dev,
+ 
+ /**
+  * qdev_pass_gpios: create GPIO lines on container which pass through to device
+- * @dev: Device which has GPIO lines
+- * @container: Container device which needs to expose them
++ * @from_dev: Device which has GPIO lines
++ * @to_container: Container device which needs to expose them
+  * @name: Name of GPIO array to pass through (NULL for the anonymous GPIO array)
+  *
+  * In QEMU, complicated devices like SoCs are often modelled with a
+@@ -653,14 +653,14 @@ static inline void qdev_init_gpio_in_named(DeviceState *dev,
+  * to create GPIO arrays on itself which simply pass through to a GPIO
+  * array of one of its internal devices.
+  *
+- * If @dev has both input and output GPIOs named @name then both will
++ * If @from_dev has both input and output GPIOs named @name then both will
+  * be passed through. It is not possible to pass a subset of the array
+  * with this function.
+  *
+- * To users of the container device, the GPIO array created on @container
++ * To users of the container device, the GPIO array created on @to_container
+  * behaves exactly like any other.
+  */
+-void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
++void qdev_pass_gpios(DeviceState *from_dev, DeviceState *to_container,
+                      const char *name);
+ 
+ BusState *qdev_get_parent_bus(DeviceState *dev);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 96772a15bd5..79cbd990114 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -576,30 +576,30 @@ void qdev_connect_gpio_out(DeviceState * dev, int n, qemu_irq pin)
+     qdev_connect_gpio_out_named(dev, NULL, n, pin);
+ }
+ 
+-void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
++void qdev_pass_gpios(DeviceState *from_dev, DeviceState *to_container,
+                      const char *name)
+ {
+     int i;
+-    NamedGPIOList *ngl = qdev_get_named_gpio_list(dev, name);
++    NamedGPIOList *ngl = qdev_get_named_gpio_list(from_dev, name);
+ 
+     for (i = 0; i < ngl->num_in; i++) {
+         const char *nm = ngl->name ? ngl->name : "unnamed-gpio-in";
+         char *propname = g_strdup_printf("%s[%d]", nm, i);
+ 
+-        object_property_add_alias(OBJECT(container), propname,
+-                                  OBJECT(dev), propname);
++        object_property_add_alias(OBJECT(to_container), propname,
++                                  OBJECT(from_dev), propname);
+         g_free(propname);
+     }
+     for (i = 0; i < ngl->num_out; i++) {
+         const char *nm = ngl->name ? ngl->name : "unnamed-gpio-out";
+         char *propname = g_strdup_printf("%s[%d]", nm, i);
+ 
+-        object_property_add_alias(OBJECT(container), propname,
+-                                  OBJECT(dev), propname);
++        object_property_add_alias(OBJECT(to_container), propname,
++                                  OBJECT(from_dev), propname);
+         g_free(propname);
+     }
+     QLIST_REMOVE(ngl, node);
+-    QLIST_INSERT_HEAD(&container->gpios, ngl, node);
++    QLIST_INSERT_HEAD(&to_container->gpios, ngl, node);
+ }
+ 
+ BusState *qdev_get_child_bus(DeviceState *dev, const char *name)
+-- 
+2.26.2
 
-
-windows crossbuild fails like this:
-
-Linking target target/s390x/gen-features
-cc: error: unrecognized command line option '-mthreads'; did you mean
-'-pthread'?
-Makefile.ninja:784: recipe for target 'target/s390x/gen-features' failed
-
-thanks
--- PMM
 
