@@ -2,115 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF242482E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 12:27:13 +0200 (CEST)
-Received: from localhost ([::1]:38012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52FB2482F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 12:29:26 +0200 (CEST)
+Received: from localhost ([::1]:45664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7ypk-0002UW-C4
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 06:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48116)
+	id 1k7yrt-0005ex-US
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 06:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7yoB-000126-Js
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:25:35 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48766
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1k7yp1-0002NY-MX
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:26:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7yo9-0000sz-M9
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:25:35 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1k7yoz-00013A-V4
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:26:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597746333;
+ s=mimecast20190719; t=1597746381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=oai5LciPeFAN3lsjCqzp3GGdpPybxXekYnT95jgJG8k=;
- b=ZKKhDXFO35GULVTF66PRumB7nSZr0titJ/kjCytAYZ/ElzmnYTsthbMW217/3GLawC/jwH
- HzscGk/pralFNytlYiolvN/vrjhwRMZNys+WBEwjKBzkFM1DHLCxpeeNqS3WJz6ItDvy0e
- mMtnqrvCqTL0PDT9tefyzKXMMqzO0HA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-3rPTmFA2MOCy3fL2dH8VYw-1; Tue, 18 Aug 2020 06:25:31 -0400
-X-MC-Unique: 3rPTmFA2MOCy3fL2dH8VYw-1
-Received: by mail-wr1-f72.google.com with SMTP id t12so8104512wrp.0
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 03:25:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=oai5LciPeFAN3lsjCqzp3GGdpPybxXekYnT95jgJG8k=;
- b=uK3ePhwvh90SW+g6kOPWnOTscxcTlUbxoZ+SADSR+I71JLimIFxmcwXkJ4nB3g5gA9
- BaxmSQqyBcMUzwT//qSTLbVNc0tF48ax5hW83lsNjwS7jBX1g7xCiRLMC+U3tuWvA6YA
- BAaRXg4CMwjdPRqXa0r0yZKj1WbFI6Bn3s/d90Iqu+Rp9zuXyQDnd/r8l7g6saGh7a7b
- DSATECdWE2//xRIo5RvI5eE6C/I/BBC1it5aT/wKyh6B3hhaO9RJ0AH3hsZ4GBpqhqSX
- ++kh6rldzgRstIwyru3l8HfD3Tv8kVhF8jeXYlMCgnSdBKQ8n182vRZ/S9Nicb2z0RlN
- RaKg==
-X-Gm-Message-State: AOAM530XIC98QZDHnQ056MhgWLV6fFsnhsBnpin0fPTo8+YEW5d9PCOZ
- ywuMQ3r8OicI82pJjyy8RycbeQnJDsbhtM0JELFKUsmHRvRRj1WhjtSu0NLjQsO8ezZzwB4ke96
- 0R1VSLFzZ+2tNJac=
-X-Received: by 2002:adf:dfd0:: with SMTP id q16mr21335754wrn.60.1597746330116; 
- Tue, 18 Aug 2020 03:25:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1Ybd6wef6sTcxihOBPmGhoc3/2PdRE1dBm6lsKlC3o/xK+4FzVIpK9o5Mt3oDdbi5Z5lw1Q==
-X-Received: by 2002:adf:dfd0:: with SMTP id q16mr21335737wrn.60.1597746329916; 
- Tue, 18 Aug 2020 03:25:29 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 32sm35183703wrn.86.2020.08.18.03.25.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 03:25:29 -0700 (PDT)
-Subject: Re: [PATCH 119/150] meson: convert hw/cpu
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200817143723.343284-1-pbonzini@redhat.com>
- <20200817144053.345107-24-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <96cd8467-6dd6-2282-9d30-1569c9467dbb@redhat.com>
-Date: Tue, 18 Aug 2020 12:25:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ in-reply-to:in-reply-to:references:references;
+ bh=NbDW1HLNCOs0Z4yh+HyA36FoNymUmPg3R6M1amuR2RI=;
+ b=HcH7ITAV9LBG24rb8iRW978O+UwAr6pL7tKJiV6MjSKdLhKqwyKoxzI/HQXe0UWBm5eafo
+ JdxkhBoEJTNY3ZuWByhKnRJ9FbbmT/KAkHu/T8baURiiWUD7d8serir5bwS3I26fmXbPmn
+ a2+NgvGnF7aAGd+2yi+AwVR0wHhPkU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-SXSQ7uisMnW78JbgKWNhiQ-1; Tue, 18 Aug 2020 06:26:17 -0400
+X-MC-Unique: SXSQ7uisMnW78JbgKWNhiQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA427801ADD;
+ Tue, 18 Aug 2020 10:26:14 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BCAE7849A;
+ Tue, 18 Aug 2020 10:26:05 +0000 (UTC)
+Date: Tue, 18 Aug 2020 12:26:03 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 4/8] ppc/e500: Use start-powered-off CPUState property
+Message-ID: <20200818122603.0dac1a38@redhat.com>
+In-Reply-To: <83c5045d-ee26-9433-46a3-4919bcea7cd3@redhat.com>
+References: <20200818033323.336912-1-bauerman@linux.ibm.com>
+ <20200818033323.336912-5-bauerman@linux.ibm.com>
+ <83c5045d-ee26-9433-46a3-4919bcea7cd3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200817144053.345107-24-pbonzini@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:02:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,71 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/20 4:40 PM, Paolo Bonzini wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/Makefile.objs     | 1 -
->  hw/cpu/Makefile.objs | 5 -----
->  hw/cpu/meson.build   | 6 ++++++
->  hw/meson.build       | 1 +
->  4 files changed, 7 insertions(+), 6 deletions(-)
->  delete mode 100644 hw/cpu/Makefile.objs
->  create mode 100644 hw/cpu/meson.build
-> 
-> diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-> index 6fce6a1473..97ad30295e 100644
-> --- a/hw/Makefile.objs
-> +++ b/hw/Makefile.objs
-> @@ -5,7 +5,6 @@ devices-dirs-y += adc/
->  devices-dirs-y += audio/
->  devices-dirs-y += block/
->  devices-dirs-y += char/
-> -devices-dirs-y += cpu/
->  endif
->  
->  common-obj-y += $(devices-dirs-y)
-> diff --git a/hw/cpu/Makefile.objs b/hw/cpu/Makefile.objs
-> deleted file mode 100644
-> index 8db9e8a7b3..0000000000
-> --- a/hw/cpu/Makefile.objs
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -obj-$(CONFIG_ARM11MPCORE) += arm11mpcore.o
-> -obj-$(CONFIG_REALVIEW) += realview_mpcore.o
-> -obj-$(CONFIG_A9MPCORE) += a9mpcore.o
-> -obj-$(CONFIG_A15MPCORE) += a15mpcore.o
-> -common-obj-y += core.o cluster.o
-> diff --git a/hw/cpu/meson.build b/hw/cpu/meson.build
-> new file mode 100644
-> index 0000000000..9e52fee9e7
-> --- /dev/null
-> +++ b/hw/cpu/meson.build
-> @@ -0,0 +1,6 @@
-> +softmmu_ss.add(files('core.c', 'cluster.c'))
-> +
-> +specific_ss.add(when: 'CONFIG_ARM11MPCORE', if_true: files('arm11mpcore.c'))
-> +specific_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview_mpcore.c'))
-> +specific_ss.add(when: 'CONFIG_A9MPCORE', if_true: files('a9mpcore.c'))
-> +specific_ss.add(when: 'CONFIG_A15MPCORE', if_true: files('a15mpcore.c'))
-> diff --git a/hw/meson.build b/hw/meson.build
-> index dacd26c561..103da4840b 100644
-> --- a/hw/meson.build
-> +++ b/hw/meson.build
-> @@ -1,4 +1,5 @@
->  subdir('core')
-> +subdir('cpu')
->  subdir('display')
->  subdir('dma')
->  subdir('gpio')
-> 
+On Tue, 18 Aug 2020 09:22:05 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> On 8/18/20 5:33 AM, Thiago Jung Bauermann wrote:
+> > Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), us=
+e
+> > the start-powered-off property which makes cpu_common_reset() initializ=
+e it
+> > to 1 in common code.
+> >=20
+> > Also change creation of CPU object from cpu_create() to object_new() an=
+d
+> > qdev_realize() because cpu_create() realizes the CPU and it's not possi=
+ble
+> > to set a property after the object is realized.
+> >=20
+> > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> > ---
+> >  hw/ppc/e500.c | 19 +++++++++++++++----
+> >  1 file changed, 15 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> > index ab9884e315..0077aca74d 100644
+> > --- a/hw/ppc/e500.c
+> > +++ b/hw/ppc/e500.c
+> > @@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
+> > =20
+> >      cpu_reset(cs);
+> > =20
+> > -    /* Secondary CPU starts in halted state for now. Needs to change w=
+hen
+> > -       implementing non-kernel boot. */
+> > -    cs->halted =3D 1;
+> >      cs->exception_index =3D EXCP_HLT;
+> >  }
+> > =20
+> > @@ -864,8 +861,9 @@ void ppce500_init(MachineState *machine)
+> >          PowerPCCPU *cpu;
+> >          CPUState *cs;
+> >          qemu_irq *input;
+> > +        Error *err =3D NULL;
+> > =20
+> > -        cpu =3D POWERPC_CPU(cpu_create(machine->cpu_type));
+> > +        cpu =3D POWERPC_CPU(object_new(machine->cpu_type));
+> >          env =3D &cpu->env;
+> >          cs =3D CPU(cpu);
+> > =20
+> > @@ -897,6 +895,19 @@ void ppce500_init(MachineState *machine)
+> >          } else {
+> >              /* Secondary CPUs */
+> >              qemu_register_reset(ppce500_cpu_reset_sec, cpu);
+> > +
+> > +            /*
+> > +             * Secondary CPU starts in halted state for now. Needs to =
+change
+> > +             * when implementing non-kernel boot.
+> > +             */
+> > +            object_property_set_bool(OBJECT(cs), "start-powered-off", =
+true,
+> > +                                     &error_abort); =20
+>=20
+> [*]
+>=20
+> > +        }
+> > +
+> > +        if (!qdev_realize(DEVICE(cs), NULL, &err)) {
+> > +            error_report_err(err);
+> > +            object_unref(OBJECT(cs));
+> > +            exit(EXIT_FAILURE);
+> >          } =20
+>=20
+> The last 4 lines are equivalent to:
+>=20
+>            qdev_realize(DEVICE(cs), NULL, &error_fatal)) {
+>=20
+> This is also the preferred form, as we can not propagate errors
+> from the machine_init() handler.
+not exactly, it will leak refference, but we are dying anyways so who cares=
+.
+
+>=20
+> Since you use &error_abort in [*], maybe you want to use it here too.
+>=20
+> >      }
+> > =20
+> >  =20
+>=20
+>=20
 
 
