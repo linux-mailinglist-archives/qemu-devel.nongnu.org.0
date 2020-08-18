@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C833E247D75
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:25:17 +0200 (CEST)
-Received: from localhost ([::1]:45274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2725247D46
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:23:32 +0200 (CEST)
+Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tBU-0007lv-R6
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:25:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49844)
+	id 1k7t9n-0004JR-V2
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t63-00078q-Rd; Tue, 18 Aug 2020 00:19:39 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:38331)
+ id 1k7t63-00078k-M8; Tue, 18 Aug 2020 00:19:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:42489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t61-0006Jc-FA; Tue, 18 Aug 2020 00:19:39 -0400
+ id 1k7t5z-0006JZ-Vn; Tue, 18 Aug 2020 00:19:39 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNY6cwLz9sTX; Tue, 18 Aug 2020 14:19:25 +1000 (AEST)
+ id 4BVyNZ03HTz9sTn; Tue, 18 Aug 2020 14:19:25 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724365;
- bh=OAAGdUDZCZvz9NTw3kp186i3ZI0PgeQ2wFCzGQWfCqU=;
+ d=gibson.dropbear.id.au; s=201602; t=1597724366;
+ bh=l4MkVwUco+rCkcYPoEa1iA0fgIjbUKLLoqRdGoYQlHU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GeacrFhJor8nkd1EM9huhrZVq91VQtrt69fHQmKe4nAzYgQ+v1LtVJWgNEoSVjRaf
- E40SEUgj5bdUn4r56Q0TSvCYaObcWhh58QXZoM1mVJ/XrteWTyzMr4mkSmPuZtIqRQ
- gFQiAiFzHaWSIPBWL7FQzHHxAEfGFmViEMIC9kTY=
+ b=Px5AKkQXxvxcquQxwRQPEDoSvxXaG59XzVZoFEgKMkWuqWEf1PdfOlaI9E/VAtPHQ
+ FWvO6To4iGuHQqCAzjd4jOFdPZkw/yGqfs/DSeoyezF0J++DerqOO3qQ+NMpcUBYmm
+ Bnxc8PIpaGj7O8CC/DWcQxIg4MX75vZyuqsC4GY8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 03/40] target/ppc: Enable Power ISA 3.1
-Date: Tue, 18 Aug 2020 14:18:45 +1000
-Message-Id: <20200818041922.251708-4-david@gibson.dropbear.id.au>
+Subject: [PULL 04/40] target/ppc: add byte-reverse br[dwh] instructions
+Date: Tue, 18 Aug 2020 14:18:46 +1000
+Message-Id: <20200818041922.251708-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -67,42 +67,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lijun Pan <ljp@linux.ibm.com>
 
-This patch enables the Power ISA 3.1 in QEMU.
+POWER ISA 3.1 introduces following byte-reverse instructions:
+brd: Byte-Reverse Doubleword X-form
+brw: Byte-Reverse Word X-form
+brh: Byte-Reverse Halfword X-form
 
 Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-Message-Id: <20200701234344.91843-3-ljp@linux.ibm.com>
+Message-Id: <20200701234344.91843-4-ljp@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h                | 2 +-
- target/ppc/translate_init.inc.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/translate.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 7bfee8211f..3c4e1b3475 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2201,7 +2201,7 @@ enum {
-                         PPC2_BCTAR_ISA207 | PPC2_LSQ_ISA207 | \
-                         PPC2_ALTIVEC_207 | PPC2_ISA207S | PPC2_DFP | \
-                         PPC2_FP_CVT_S64 | PPC2_TM | PPC2_PM_ISA206 | \
--                        PPC2_ISA300)
-+                        PPC2_ISA300 | PPC2_ISA310)
- };
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 4ce3d664b5..590c3e3bc7 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6971,7 +6971,47 @@ static void gen_dform3D(DisasContext *ctx)
+     return gen_invalid(ctx);
+ }
  
- /*****************************************************************************/
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index 7e66822b5d..5134123dd6 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -9201,7 +9201,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
-                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
-                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
--                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
-+                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310;
-     pcc->msr_mask = (1ull << MSR_SF) |
-                     (1ull << MSR_HV) |
-                     (1ull << MSR_TM) |
++#if defined(TARGET_PPC64)
++/* brd */
++static void gen_brd(DisasContext *ctx)
++{
++    tcg_gen_bswap64_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rS(ctx->opcode)]);
++}
++
++/* brw */
++static void gen_brw(DisasContext *ctx)
++{
++    tcg_gen_bswap64_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rS(ctx->opcode)]);
++    tcg_gen_rotli_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rA(ctx->opcode)], 32);
++
++}
++
++/* brh */
++static void gen_brh(DisasContext *ctx)
++{
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++    TCGv_i64 t2 = tcg_temp_new_i64();
++
++    tcg_gen_movi_i64(t0, 0x00ff00ff00ff00ffull);
++    tcg_gen_shri_i64(t1, cpu_gpr[rS(ctx->opcode)], 8);
++    tcg_gen_and_i64(t2, t1, t0);
++    tcg_gen_and_i64(t1, cpu_gpr[rS(ctx->opcode)], t0);
++    tcg_gen_shli_i64(t1, t1, 8);
++    tcg_gen_or_i64(cpu_gpr[rA(ctx->opcode)], t1, t2);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
++}
++#endif
++
+ static opcode_t opcodes[] = {
++#if defined(TARGET_PPC64)
++GEN_HANDLER_E(brd, 0x1F, 0x1B, 0x05, 0x0000F801, PPC_NONE, PPC2_ISA310),
++GEN_HANDLER_E(brw, 0x1F, 0x1B, 0x04, 0x0000F801, PPC_NONE, PPC2_ISA310),
++GEN_HANDLER_E(brh, 0x1F, 0x1B, 0x06, 0x0000F801, PPC_NONE, PPC2_ISA310),
++#endif
+ GEN_HANDLER(invalid, 0x00, 0x00, 0x00, 0xFFFFFFFF, PPC_NONE),
+ GEN_HANDLER(cmp, 0x1F, 0x00, 0x00, 0x00400000, PPC_INTEGER),
+ GEN_HANDLER(cmpi, 0x0B, 0xFF, 0xFF, 0x00400000, PPC_INTEGER),
 -- 
 2.26.2
 
