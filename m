@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626BA24898F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:21:24 +0200 (CEST)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8522489D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:27:21 +0200 (CEST)
+Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83QR-0007BK-F7
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
+	id 1k83WC-0001jp-Nt
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82M2-0006fX-OI
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:46 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32677
+ id 1k82Ls-0006Xm-Of
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52134
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Lx-0007i9-PY
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:46 -0400
+ id 1k82Lh-0007fS-EY
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759959;
+ s=mimecast20190719; t=1597759944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/UNjLcczLcDzs+GTyD+dhAnSp5JHntzCQJ8jGMJSSxI=;
- b=XOYINgvN3fVLfbNk3+bWpzfQS0PIBSdHrW7LkSKUZqMpR7el4bCAlrNePfrlHYZYNzed3J
- 14bKbc4kbmzcv105JLkS0TEcwQWPpGALWGT8kFL/ypu1CkIvi2EXhZCCfdJCzwDHsnR71b
- dfRbhFKOAPKmGMQszIzfIv7SmdIrtwg=
+ bh=84LhFH9beBNo12WLyXpOMsXymwxfV8ogKMRJCgImmr4=;
+ b=Gk5xctSIBy/V/Y76EHvg7es1a1UUFtQkWTI1c4AwoG+H3aLgNlFY7Ys2e7MrFc/gvaja5Y
+ VcgM60sFUxsxqPjnCRddmgXfrqY2jfOw7d3wwnU72EoKZcQQcSEVr6F8xtueQNYvPeG4mb
+ 2Q1NuqqJvsW8Ffin8lw5pCXloeCqvx4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-N4cFGxNUOWCoA4YEo-rvDQ-1; Tue, 18 Aug 2020 10:12:22 -0400
-X-MC-Unique: N4cFGxNUOWCoA4YEo-rvDQ-1
+ us-mta-425-kV0WIr62Ncu96desbAed6Q-1; Tue, 18 Aug 2020 10:12:22 -0400
+X-MC-Unique: kV0WIr62Ncu96desbAed6Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71757100A949
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDA571007463
  for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35F827A1FA
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92E017A401
  for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 142/150] rules.mak: drop unneeded macros
-Date: Tue, 18 Aug 2020 10:10:17 -0400
-Message-Id: <20200818141025.21608-143-pbonzini@redhat.com>
+Subject: [PULL 143/150] meson: replace create-config with meson configure_file
+Date: Tue, 18 Aug 2020 10:10:18 -0400
+Message-Id: <20200818141025.21608-144-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -85,535 +85,444 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move the create-config logic to meson.build; create a
+configuration_data object and let meson handle the
+quoting and output.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- .gitignore                  |   1 -
- Makefile                    |   7 +-
- configure                   |  55 ++-------
- docs/devel/build-system.txt |   5 +-
- rules.mak                   | 231 +-----------------------------------
- scripts/create_config       |   6 +-
- 6 files changed, 23 insertions(+), 282 deletions(-)
+ Makefile                       |   3 +-
+ block.c                        |   2 +
+ configure                      |  11 +--
+ meson.build                    |  96 +++++++++++++++++-------
+ scripts/create_config          | 131 ---------------------------------
+ tests/qtest/bios-tables-test.c |   2 +-
+ 6 files changed, 79 insertions(+), 166 deletions(-)
+ delete mode 100755 scripts/create_config
 
-diff --git a/.gitignore b/.gitignore
-index f8b3cd6fd5..92311284ef 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -78,7 +78,6 @@
- *.msi
- *.dll
- *.so
--*.mo
- *.fn
- *.ky
- *.log
 diff --git a/Makefile b/Makefile
-index 373dd7286c..fca7d03f76 100644
+index fca7d03f76..bbb27f7981 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -133,7 +133,7 @@ endif
- 
+@@ -134,6 +134,7 @@ endif
  include $(SRC_PATH)/tests/Makefile.include
  
--all: recurse-all modules
-+all: recurse-all
+ all: recurse-all
++Makefile: $(addsuffix /all, $(SUBDIRS))
  
  # LIBFDT_lib="": avoid breaking existing trees with objects requiring -fPIC
  DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_lib=""
-@@ -188,7 +188,7 @@ clean: recurse-clean ninja-clean clean-ctlist
- 	-test -f ninjatool && ./ninjatool $(if $(V),-v,) -t clean
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
--	find . \( -name '*.so' -o -name '*.dll' -o -name '*.mo' -o -name '*.[oda]' \) -type f \
-+	find . \( -name '*.so' -o -name '*.dll' -o -name '*.[oda]' \) -type f \
- 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
- 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
- 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
-@@ -373,9 +373,6 @@ print-help = $(quiet-@)$(call print-help-run,$1,$2)
- help:
- 	@echo  'Generic targets:'
- 	$(call print-help,all,Build all)
--ifdef CONFIG_MODULES
--	$(call print-help,modules,Build all modules)
--endif
- 	$(call print-help,dir/file.o,Build specified target only)
- 	$(call print-help,install,Install QEMU, documentation and tools)
- 	$(call print-help,ctags/TAGS,Generate tags file for editors)
+@@ -197,7 +198,7 @@ clean: recurse-clean ninja-clean clean-ctlist
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
+ 
+-VERSION ?= $(shell cat VERSION)
++VERSION = $(shell cat $(SRC_PATH)/VERSION)
+ 
+ dist: qemu-$(VERSION).tar.bz2
+ 
+diff --git a/block.c b/block.c
+index 67c5028dd8..2ba76b2c36 100644
+--- a/block.c
++++ b/block.c
+@@ -433,9 +433,11 @@ static int bdrv_format_is_whitelisted(const char *format_name, bool read_only)
+ {
+     static const char *whitelist_rw[] = {
+         CONFIG_BDRV_RW_WHITELIST
++        NULL
+     };
+     static const char *whitelist_ro[] = {
+         CONFIG_BDRV_RO_WHITELIST
++        NULL
+     };
+     const char **p;
+ 
 diff --git a/configure b/configure
-index 7740e657f3..7938403913 100755
+index 7938403913..19e78fb1b5 100755
 --- a/configure
 +++ b/configure
-@@ -29,7 +29,6 @@ TMPC="${TMPDIR1}/${TMPB}.c"
- TMPO="${TMPDIR1}/${TMPB}.o"
- TMPCXX="${TMPDIR1}/${TMPB}.cxx"
- TMPE="${TMPDIR1}/${TMPB}.exe"
--TMPMO="${TMPDIR1}/${TMPB}.mo"
- TMPTXT="${TMPDIR1}/${TMPB}.txt"
+@@ -6913,8 +6913,9 @@ if test "$slirp" != "no"; then
+   echo "SLIRP_CFLAGS=$slirp_cflags" >> $config_host_mak
+   echo "SLIRP_LIBS=$slirp_libs" >> $config_host_mak
+ fi
++subdirs=
+ if [ "$slirp" = "git" -o "$slirp" = "internal" ]; then
+-    echo "config-host.h: slirp/all" >> $config_host_mak
++  subdirs="$subdirs slirp"
+ fi
+ if test "$vde" = "yes" ; then
+   echo "CONFIG_VDE=y" >> $config_host_mak
+@@ -6987,7 +6988,6 @@ if test "$xfs" = "yes" ; then
+   echo "CONFIG_XFS=y" >> $config_host_mak
+ fi
+ qemu_version=$(head $source_path/VERSION)
+-echo "VERSION=$qemu_version" >>$config_host_mak
+ echo "PKGVERSION=$pkgversion" >>$config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "TARGET_DIRS=$target_list" >> $config_host_mak
+@@ -7748,7 +7748,7 @@ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+ echo "MESON=$meson" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
+ if $iasl -h > /dev/null 2>&1; then
+-  echo "IASL=$iasl" >> $config_host_mak
++  echo "CONFIG_IASL=$iasl" >> $config_host_mak
+ fi
+ echo "CXX=$cxx" >> $config_host_mak
+ echo "OBJCC=$objcc" >> $config_host_mak
+@@ -8235,11 +8235,12 @@ echo "PIXMAN_CFLAGS=$pixman_cflags" >> $config_host_mak
+ echo "PIXMAN_LIBS=$pixman_libs" >> $config_host_mak
  
- rm -f config.log
-@@ -423,7 +422,7 @@ bigendian="no"
- mingw32="no"
- gcov="no"
- EXESUF=""
--DSOSUF=".so"
-+HOST_DSOSUF=".so"
- LDFLAGS_SHARED="-shared"
- modules="no"
- module_upgrades="no"
-@@ -954,7 +953,7 @@ fi
+ if [ "$fdt" = "git" ]; then
+-  echo "config-host.h: dtc/all" >> $config_host_mak
++  subdirs="$subdirs dtc"
+ fi
+ if [ "$capstone" = "git" -o "$capstone" = "internal" ]; then
+-  echo "config-host.h: capstone/all" >> $config_host_mak
++  subdirs="$subdirs capstone"
+ fi
++echo "SUBDIRS=$subdirs" >> $config_host_mak
+ if test -n "$LIBCAPSTONE"; then
+   echo "LIBCAPSTONE=$LIBCAPSTONE" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 817ff962b5..6077d900de 100644
+--- a/meson.build
++++ b/meson.build
+@@ -12,6 +12,8 @@ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
+ config_all_disas = keyval.load(meson.current_build_dir() / 'config-all-disas.mak')
+ enable_modules = 'CONFIG_MODULES' in config_host
+ build_docs = 'BUILD_DOCS' in config_host
++config_host_data = configuration_data()
++genh = []
  
- if test "$mingw32" = "yes" ; then
-   EXESUF=".exe"
--  DSOSUF=".dll"
-+  HOST_DSOSUF=".dll"
-   # MinGW needs -mthreads for TLS and macro _MT.
-   QEMU_CFLAGS="-mthreads $QEMU_CFLAGS"
-   LIBS="-lwinmm -lws2_32 $LIBS"
-@@ -6206,31 +6205,6 @@ EOF
-   fi
- fi
- 
--#################################################
--# Sparc implicitly links with --relax, which is
--# incompatible with -r, so --no-relax should be
--# given. It does no harm to give it on other
--# platforms too.
--
--# Note: the prototype is needed since QEMU_CFLAGS
--#       contains -Wmissing-prototypes
--cat > $TMPC << EOF
--extern int foo(void);
--int foo(void) { return 0; }
--EOF
--if ! compile_object ""; then
--  error_exit "Failed to compile object file for LD_REL_FLAGS test"
--fi
--for i in '-Wl,-r -Wl,--no-relax' -Wl,-r -r; do
--  if do_cc -nostdlib $i -o $TMPMO $TMPO; then
--    LD_REL_FLAGS=$i
--    break
--  fi
--done
--if test "$modules" = "yes" && test "$LD_REL_FLAGS" = ""; then
--  feature_not_found "modules" "Cannot find how to build relocatable objects"
--fi
--
- ##########################################
- # check for sysmacros.h
- 
-@@ -6962,12 +6936,7 @@ fi
- echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
- for drv in $audio_drv_list; do
-     def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr '[a-z]' '[A-Z]')
--    case "$drv" in
--	alsa | oss | pa | sdl)
--	    echo "$def=m" >> $config_host_mak ;;
--	*)
--	    echo "$def=y" >> $config_host_mak ;;
--    esac
-+    echo "$def=y" >> $config_host_mak
- done
- if test "$alsa" = "yes" ; then
-     echo "CONFIG_ALSA=y" >> $config_host_mak
-@@ -7056,7 +7025,7 @@ if test "$iconv" = "yes" ; then
-   echo "ICONV_LIBS=$iconv_lib" >> $config_host_mak
- fi
- if test "$curses" = "yes" ; then
--  echo "CONFIG_CURSES=m" >> $config_host_mak
-+  echo "CONFIG_CURSES=y" >> $config_host_mak
-   echo "CURSES_CFLAGS=$curses_inc" >> $config_host_mak
-   echo "CURSES_LIBS=$curses_lib" >> $config_host_mak
- fi
-@@ -7151,7 +7120,7 @@ if test "$bswap_h" = "yes" ; then
-   echo "CONFIG_MACHINE_BSWAP_H=y" >> $config_host_mak
- fi
- if test "$curl" = "yes" ; then
--  echo "CONFIG_CURL=m" >> $config_host_mak
-+  echo "CONFIG_CURL=y" >> $config_host_mak
-   echo "CURL_CFLAGS=$curl_cflags" >> $config_host_mak
-   echo "CURL_LIBS=$curl_libs" >> $config_host_mak
- fi
-@@ -7160,7 +7129,7 @@ if test "$brlapi" = "yes" ; then
-   echo "BRLAPI_LIBS=$brlapi_libs" >> $config_host_mak
- fi
- if test "$gtk" = "yes" ; then
--  echo "CONFIG_GTK=m" >> $config_host_mak
-+  echo "CONFIG_GTK=y" >> $config_host_mak
-   echo "GTK_CFLAGS=$gtk_cflags" >> $config_host_mak
-   echo "GTK_LIBS=$gtk_libs" >> $config_host_mak
-   if test "$gtk_gl" = "yes" ; then
-@@ -7423,13 +7392,13 @@ if test "$zstd" = "yes" ; then
- fi
- 
- if test "$libiscsi" = "yes" ; then
--  echo "CONFIG_LIBISCSI=m" >> $config_host_mak
-+  echo "CONFIG_LIBISCSI=y" >> $config_host_mak
-   echo "LIBISCSI_CFLAGS=$libiscsi_cflags" >> $config_host_mak
-   echo "LIBISCSI_LIBS=$libiscsi_libs" >> $config_host_mak
- fi
- 
- if test "$libnfs" = "yes" ; then
--  echo "CONFIG_LIBNFS=m" >> $config_host_mak
-+  echo "CONFIG_LIBNFS=y" >> $config_host_mak
-   echo "LIBNFS_LIBS=$libnfs_libs" >> $config_host_mak
- fi
- 
-@@ -7451,7 +7420,7 @@ if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
- fi
- if test "$rbd" = "yes" ; then
--  echo "CONFIG_RBD=m" >> $config_host_mak
-+  echo "CONFIG_RBD=y" >> $config_host_mak
-   echo "RBD_LIBS=$rbd_libs" >> $config_host_mak
- fi
- 
-@@ -7523,7 +7492,7 @@ if test "$getauxval" = "yes" ; then
- fi
- 
- if test "$glusterfs" = "yes" ; then
--  echo "CONFIG_GLUSTERFS=m" >> $config_host_mak
-+  echo "CONFIG_GLUSTERFS=y" >> $config_host_mak
-   echo "GLUSTERFS_CFLAGS=$glusterfs_cflags" >> $config_host_mak
-   echo "GLUSTERFS_LIBS=$glusterfs_libs" >> $config_host_mak
- fi
-@@ -7553,7 +7522,7 @@ if test "$glusterfs_iocb_has_stat" = "yes" ; then
- fi
- 
- if test "$libssh" = "yes" ; then
--  echo "CONFIG_LIBSSH=m" >> $config_host_mak
-+  echo "CONFIG_LIBSSH=y" >> $config_host_mak
-   echo "LIBSSH_CFLAGS=$libssh_cflags" >> $config_host_mak
-   echo "LIBSSH_LIBS=$libssh_libs" >> $config_host_mak
- fi
-@@ -7813,7 +7782,7 @@ echo "LIBS+=$LIBS" >> $config_host_mak
- echo "LIBS_TOOLS+=$libs_tools" >> $config_host_mak
- echo "PTHREAD_LIB=$PTHREAD_LIB" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
--echo "DSOSUF=$DSOSUF" >> $config_host_mak
-+echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
- echo "LDFLAGS_SHARED=$LDFLAGS_SHARED" >> $config_host_mak
- echo "LIBS_QGA=$libs_qga" >> $config_host_mak
- echo "TASN1_LIBS=$tasn1_libs" >> $config_host_mak
-diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.txt
-index 41bd08ea3a..fea67b207c 100644
---- a/docs/devel/build-system.txt
-+++ b/docs/devel/build-system.txt
-@@ -404,10 +404,7 @@ using Makefile.target for the build rules.
- - rules.mak
- 
- This file provides the generic helper rules for invoking build tools, in
--particular the compiler and linker. This also contains the magic (hairy)
--'unnest-vars' function which is used to merge the variable definitions
--from all Makefile.objs in the source tree down into the main Makefile
--context.
-+particular the compiler and linker.
- 
- 
- - default-configs/*.mak
-diff --git a/rules.mak b/rules.mak
-index 6cab0b9cbd..c66c8218f0 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -33,11 +33,6 @@ QEMU_DGFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
- # different for target-dependent ones.
- QEMU_LOCAL_INCLUDES = -iquote $(BUILD_DIR) -iquote $(BUILD_DIR)/$(@D) -iquote $(@D)
- 
--WL_U := -Wl,-u,
--find-symbols = $(if $1, $(sort $(shell $(NM) -P -g $1 | $2)))
--defined-symbols = $(call find-symbols,$1,awk '$$2!="U"{print $$1}')
--undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
--
- WL := -Wl,
- ifdef CONFIG_DARWIN
- whole-archive = $(WL)-force_load,$1
-@@ -45,32 +40,7 @@ else
- whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
+ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
+                       language: ['c', 'objc'])
+@@ -356,13 +358,43 @@ if 'CONFIG_LIBPMEM' in config_host
+                                link_args: config_host['LIBPMEM_LIBS'].split())
  endif
  
--# All the .mo objects in -m variables are also added into corresponding -y
--# variable in unnest-vars, but filtered out here, when LINK is called.
--#
--# The .mo objects are supposed to be linked as a DSO, for module build. So here
--# they are only used as a placeholders to generate those "archive undefined"
--# symbol options (-Wl,-u,$symbol_name), which are the archive functions
--# referenced by the code in the DSO.
--#
--# Also the presence in -y variables will also guarantee they are built before
--# linking executables that will load them. So we can look up symbol reference
--# in LINK.
--#
--# This is necessary because the exectuable itself may not use the function, in
--# which case the function would not be linked in. Then the DSO loading will
--# fail because of the missing symbol.
--process-archive-undefs = $(filter-out %.a %.fa %.mo %$(DSOSUF),$1) \
--                $(addprefix $(WL_U), \
--                     $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
--		$(call undefined-symbols,$(filter %.mo %$(DSOSUF),$1)))) \
--		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
--		$(filter %.a,$1)
--
--extract-libs = $(strip $(foreach o,$(filter-out %.mo %$(DSOSUF),$1),$($o-libs)))
--expand-objs = $(strip $(sort $(filter %.o,$1)) \
--		$(foreach o,$(filter %.mo %$(DSOSUF),$1),$($o-objs)) \
--		$(filter-out %.o %.mo %$(DSOSUF),$1))
-+extract-libs = $(strip $(foreach o,$1,$($o-libs)))
+-create_config = find_program('scripts/create_config')
++# Create config-host.h
++
++config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
++config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
++config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
++config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
++
++arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
++strings = ['HOST_DSOSUF', 'CONFIG_IASL', 'qemu_confdir', 'qemu_datadir',
++           'qemu_moddir', 'qemu_localstatedir', 'qemu_helperdir', 'qemu_localedir',
++           'qemu_icondir', 'qemu_desktopdir', 'qemu_firmwarepath']
++foreach k, v: config_host
++  if arrays.contains(k)
++    if v != ''
++      v = '"' + '", "'.join(v.split()) + '", '
++    endif
++    config_host_data.set(k, v)
++  elif k == 'ARCH'
++    config_host_data.set('HOST_' + v.to_upper(), 1)
++  elif strings.contains(k)
++    if not k.startswith('CONFIG_')
++      k = 'CONFIG_' + k.to_upper()
++    endif
++    config_host_data.set_quoted(k, v)
++  elif k.startswith('CONFIG_') or k.startswith('HAVE_') or k.startswith('HOST_')
++    config_host_data.set(k, v == 'y' ? 1 : v)
++  endif
++endforeach
++genh += configure_file(output: 'config-host.h', configuration: config_host_data)
++
+ minikconf = find_program('scripts/minikconf.py')
+ target_dirs = config_host['TARGET_DIRS'].split()
+ have_user = false
+ have_system = false
+ config_devices_mak_list = []
+ config_devices_h = {}
++config_target_h = {}
+ config_target_mak = {}
+ kconfig_external_symbols = [
+   'CONFIG_KVM',
+@@ -378,16 +410,36 @@ kconfig_external_symbols = [
+   'CONFIG_LINUX',
+   'CONFIG_PVRDMA',
+ ]
++ignored = ['TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_DIRS']
+ foreach target : target_dirs
+   have_user = have_user or target.endswith('-user')
+-  config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak') + config_host
++  config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak')
++
++  config_target_data = configuration_data()
++  foreach k, v: config_target
++    if not k.startswith('TARGET_') and not k.startswith('CONFIG_')
++      # do nothing
++    elif ignored.contains(k)
++      # do nothing
++    elif k == 'TARGET_BASE_ARCH'
++      config_target_data.set('TARGET_' + v.to_upper(), 1)
++    elif k == 'TARGET_NAME'
++      config_target_data.set_quoted(k, v)
++    elif v == 'y'
++      config_target_data.set(k, 1)
++    else
++      config_target_data.set(k, v)
++    endif
++  endforeach
++  config_target_h += {target: configure_file(output: target + '-config-target.h',
++                                               configuration: config_target_data)}
  
- %.o: %.c
- 	@mkdir -p $(dir $@)
-@@ -83,7 +53,9 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
- LINKPROG = $(or $(CXX),$(CC))
+   if target.endswith('-softmmu')
+     have_system = true
  
- LINK = $(call quiet-command, $(LINKPROG) $(CFLAGS) $(QEMU_LDFLAGS) -o $@ \
--       $(call process-archive-undefs, $1) \
-+       $(filter-out %.a %.fa,$1) \
-+       $(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
-+       $(filter %.a,$1) \
-        $(call extract-libs,$1) $(LIBS),"LINK","$(TARGET_DIR)$@")
+     base_kconfig = []
+     foreach sym : kconfig_external_symbols
+-      if sym in config_target
++      if sym in config_target or sym in config_host
+         base_kconfig += '@0@=y'.format(sym)
+       endif
+     endforeach
+@@ -401,14 +453,16 @@ foreach target : target_dirs
+       command: [minikconf, config_host['CONFIG_MINIKCONF_MODE'],
+                 config_devices_mak, '@DEPFILE@', '@INPUT@',
+                 base_kconfig])
+-    config_devices_h += {target: custom_target(
+-      target + '-config-devices.h',
+-      input: config_devices_mak,
+-      output: target + '-config-devices.h',
+-      capture: true,
+-      command: [create_config, '@INPUT@'])}
++
++    config_devices_data = configuration_data()
++    config_devices = keyval.load(config_devices_mak)
++    foreach k, v: config_devices
++      config_devices_data.set(k, 1)
++    endforeach
+     config_devices_mak_list += config_devices_mak
+-    config_target += keyval.load(config_devices_mak)
++    config_devices_h += {target: configure_file(output: target + '-config-devices.h',
++                                                configuration: config_devices_data)}
++    config_target += config_devices
+   endif
+   config_target_mak += {target: config_target}
+ endforeach
+@@ -448,7 +502,6 @@ config_all += {
  
- %.o: %.S
-@@ -109,25 +81,11 @@ LINK = $(call quiet-command, $(LINKPROG) $(CFLAGS) $(QEMU_LDFLAGS) -o $@ \
- %.o: %.dtrace
- 	$(call quiet-command,dtrace -o $@ -G -s $<,"GEN","$(TARGET_DIR)$@")
+ # Generators
  
--DSO_OBJ_CFLAGS := -fPIC -DBUILD_DSO
--module-common.o: CFLAGS += $(DSO_OBJ_CFLAGS)
--%$(DSOSUF): QEMU_LDFLAGS += $(LDFLAGS_SHARED)
--%$(DSOSUF): %.mo
--	$(call LINK,$^)
--	@# Copy to build root so modules can be loaded when program started without install
--	$(if $(findstring /,$@),$(call quiet-command,cp $@ $(subst /,-,$@),"CP","$(subst /,-,$@)"))
--
--
--LD_REL := $(CC) -nostdlib $(LD_REL_FLAGS)
--
--%.mo:
--	$(call quiet-command,$(LD_REL) -o $@ $^,"LD","$(TARGET_DIR)$@")
--
- .PHONY: modules
- modules:
+-genh = []
+ hxtool = find_program('scripts/hxtool')
+ shaderinclude = find_program('scripts/shaderinclude.pl')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+@@ -478,7 +531,7 @@ tracetool = [
  
- %$(EXESUF): %.o
--	$(call LINK,$(filter %.o %.a %.mo %.fa, $^))
-+	$(call LINK,$(filter %.o %.a %.fa, $^))
+ qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
+                     meson.current_source_dir(),
+-                    config_host['PKGVERSION'], config_host['VERSION']]
++                    config_host['PKGVERSION'], meson.project_version()]
+ qemu_version = custom_target('qemu-version.h',
+                              output: 'qemu-version.h',
+                              command: qemu_version_cmd,
+@@ -487,13 +540,6 @@ qemu_version = custom_target('qemu-version.h',
+                              build_always_stale: true)
+ genh += qemu_version
  
- %.a:
- 	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
-@@ -160,15 +118,6 @@ define install-prog
- 	$(if $(STRIP),$(STRIP) $(foreach T,$1,"$2/$(notdir $T)"),)
- endef
+-config_host_h = custom_target('config-host.h',
+-                              input: meson.current_build_dir() / 'config-host.mak',
+-                              output: 'config-host.h',
+-                              capture: true,
+-                              command: [create_config, '@INPUT@'])
+-genh += config_host_h
+-
+ hxdep = []
+ hx_headers = [
+   ['qemu-options.hx', 'qemu-options.def'],
+@@ -827,13 +873,14 @@ foreach target : target_dirs
+   config_target = config_target_mak[target]
+   target_name = config_target['TARGET_NAME']
+   arch = config_target['TARGET_BASE_ARCH']
+-  arch_srcs = []
++  arch_srcs = [config_target_h[target]]
+   arch_deps = []
+   c_args = ['-DNEED_CPU_H',
+             '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
+             '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
+   link_args = []
  
--# find-in-path
--# Usage: $(call find-in-path, prog)
--# Looks in the PATH if the argument contains no slash, else only considers one
--# specific directory.  Returns an # empty string if the program doesn't exist
--# there.
--find-in-path = $(if $(findstring /, $1), \
--        $(wildcard $1), \
--        $(wildcard $(patsubst %, %/$1, $(subst :, ,$(PATH)))))
--
- # Logical functions (for operating on y/n values like CONFIG_FOO vars)
- # Inputs to these must be either "y" (true) or "n" or "" (both false)
- # Output is always either "y" or "n".
-@@ -205,175 +154,5 @@ clean: clean-timestamp
- # will delete the target of a rule if commands exit with a nonzero exit status
- .DELETE_ON_ERROR:
++  config_target += config_host
+   target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
+   if targetos == 'linux'
+     target_inc += include_directories('linux-headers', is_system: true)
+@@ -894,19 +941,12 @@ foreach target : target_dirs
+   objects = common_all.extract_objects(target_common.sources())
+   deps = target_common.dependencies()
  
--# save-vars
--# Usage: $(call save-vars, vars)
--# Save each variable $v in $vars as save-vars-$v, save their object's
--# variables, then clear $v.  saved-vars-$v contains the variables that
--# where saved for the objects, in order to speedup load-vars.
--define save-vars
--    $(foreach v,$1,
--        $(eval save-vars-$v := $(value $v))
--        $(eval saved-vars-$v := $(foreach o,$($v), \
--            $(if $($o-cflags), $o-cflags $(eval save-vars-$o-cflags := $($o-cflags))$(eval $o-cflags := )) \
--            $(if $($o-libs), $o-libs $(eval save-vars-$o-libs := $($o-libs))$(eval $o-libs := )) \
--            $(if $($o-objs), $o-objs $(eval save-vars-$o-objs := $($o-objs))$(eval $o-objs := ))))
--        $(eval $v := ))
--endef
+-  # TODO: Change to generator once obj-y goes away
+-  config_target_h = custom_target(target + '-config-target.h',
+-                              input: meson.current_build_dir() / target / 'config-target.mak',
+-                              output: target + '-config-target.h',
+-                              capture: true,
+-                              command: [create_config, '@INPUT@'])
 -
--# load-vars
--# Usage: $(call load-vars, vars, add_var)
--# Load the saved value for each variable in @vars, and the per object
--# variables.
--# Append @add_var's current value to the loaded value.
--define load-vars
--    $(eval $2-new-value := $(value $2))
--    $(foreach v,$1,
--        $(eval $v := $(value save-vars-$v))
--        $(foreach o,$(saved-vars-$v),
--            $(eval $o := $(save-vars-$o)) $(eval save-vars-$o := ))
--        $(eval save-vars-$v := )
--        $(eval saved-vars-$v := ))
--    $(eval $2 := $(value $2) $($2-new-value))
--endef
--
--# fix-paths
--# Usage: $(call fix-paths, obj_path, src_path, vars)
--# Add prefix @obj_path to all objects in @vars, and add prefix @src_path to all
--# directories in @vars.
--define fix-paths
--    $(foreach v,$3,
--        $(foreach o,$($v),
--            $(if $($o-libs),
--                $(eval $1$o-libs := $($o-libs)))
--            $(if $($o-cflags),
--                $(eval $1$o-cflags := $($o-cflags)))
--            $(if $($o-objs),
--                $(eval $1$o-objs := $(addprefix $1,$($o-objs)))))
--        $(eval $v := $(addprefix $1,$(filter-out %/,$($v))) \
--                     $(addprefix $2,$(filter %/,$($v)))))
--endef
--
--# unnest-var-recursive
--# Usage: $(call unnest-var-recursive, obj_prefix, vars, var)
--#
--# Unnest @var by including subdir Makefile.objs, while protect others in @vars
--# unchanged.
--#
--# @obj_prefix is the starting point of object path prefix.
--#
--define unnest-var-recursive
--    $(eval dirs := $(sort $(filter %/,$($3))))
--    $(eval $3 := $(filter-out %/,$($3)))
--    $(foreach d,$(dirs:%/=%),
--            $(call save-vars,$2)
--            $(eval obj := $(if $1,$1/)$d)
--            $(eval -include $(SRC_PATH)/$d/Makefile.objs)
--            $(call fix-paths,$(if $1,$1/)$d/,$d/,$2)
--            $(call load-vars,$2,$3)
--            $(call unnest-var-recursive,$1,$2,$3))
--endef
--
--# unnest-vars
--# Usage: $(call unnest-vars, obj_prefix, vars)
--#
--# @obj_prefix: object path prefix, can be empty, or '..', etc. Don't include
--# ending '/'.
--#
--# @vars: the list of variable names to unnest.
--#
--# This macro will scan subdirectories's Makefile.objs, include them, to build
--# up each variable listed in @vars.
--#
--# Per object and per module cflags and libs are saved with relative path fixed
--# as well, those variables include -libs, -cflags and -objs. Items in -objs are
--# also fixed to relative path against SRC_PATH plus the prefix @obj_prefix.
--#
--# All nested variables postfixed by -m in names are treated as DSO variables,
--# and will be built as modules, if enabled.
--#
--# A simple example of the unnest:
--#
--#     obj_prefix = ..
--#     vars = hot cold
--#     hot  = fire.o sun.o season/
--#     cold = snow.o water/ season/
--#
--# Unnest through a faked source directory structure:
--#
--#     SRC_PATH
--#        ├── water
--#        │   └── Makefile.objs──────────────────┐
--#        │       │ hot += steam.o               │
--#        │       │ cold += ice.mo               │
--#        │       │ ice.mo-libs := -licemaker    │
--#        │       │ ice.mo-objs := ice1.o ice2.o │
--#        │       └──────────────────────────────┘
--#        │
--#        └── season
--#            └── Makefile.objs──────┐
--#                │ hot += summer.o  │
--#                │ cold += winter.o │
--#                └──────────────────┘
--#
--# In the end, the result will be:
--#
--#     hot  = ../fire.o ../sun.o ../season/summer.o
--#     cold = ../snow.o ../water/ice.mo ../season/winter.o
--#     ../water/ice.mo-libs = -licemaker
--#     ../water/ice.mo-objs = ../water/ice1.o ../water/ice2.o
--#
--# Note that 'hot' didn't include 'water/' in the input, so 'steam.o' is not
--# included.
--#
--define unnest-vars
--    # In the case of target build (i.e. $1 == ..), fix path for top level
--    # Makefile.objs objects
--    $(if $1,$(call fix-paths,$1/,,$2))
--
--    # Descend and include every subdir Makefile.objs
--    $(foreach v, $2,
--        $(call unnest-var-recursive,$1,$2,$v)
--        # Pass the .mo-cflags and .mo-libs along to its member objects
--        $(foreach o, $(filter %.mo,$($v)),
--            $(foreach p,$($o-objs),
--                $(if $($o-cflags), $(eval $p-cflags += $($o-cflags)))
--                $(if $($o-libs), $(eval $p-libs += $($o-libs))))))
--
--    # For all %.mo objects that are directly added into -y, just expand them
--    $(foreach v,$(filter %-y,$2),
--        $(eval $v := $(foreach o,$($v),$(if $($o-objs),$($o-objs),$o))))
--
--    $(foreach v,$(filter %-m,$2),
--        # All .o found in *-m variables are single object modules, create .mo
--        # for them
--        $(foreach o,$(filter %.o,$($v)),
--            $(eval $(o:%.o=%.mo)-objs := $o))
--        # Now unify .o in -m variable to .mo
--        $(eval $v := $($v:%.o=%.mo))
--        $(eval modules-m += $($v))
--
--        # For module build, build shared libraries during "make modules"
--        # For non-module build, add -m to -y
--        $(if $(CONFIG_MODULES),
--             $(foreach o,$($v),
--                   $(eval $($o-objs): CFLAGS += $(DSO_OBJ_CFLAGS))
--                   $(eval $o: $($o-objs)))
--             $(eval $(patsubst %-m,%-y,$v) += $($v))
--             $(eval modules: $($v:%.mo=%$(DSOSUF))),
--             $(eval $(patsubst %-m,%-y,$v) += $(call expand-objs, $($v)))))
--
--    # Post-process all the unnested vars
--    $(foreach v,$2,
--        $(foreach o, $(filter %.mo,$($v)),
--            # Find all the .mo objects in variables and add dependency rules
--            # according to .mo-objs. Report error if not set
--            $(if $($o-objs),
--                $(eval $(o:%.mo=%$(DSOSUF)): module-common.o $($o-objs))))
--        $(shell mkdir -p ./ $(sort $(dir $($v))))
--        # Include all the .d files
--        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
--        $(eval $v := $(filter-out %/,$($v))))
--endef
--
- print-%:
- 	@echo '$*=$($*)'
+   target_specific = specific_ss.apply(config_target, strict: false)
+   arch_srcs += target_specific.sources()
+   arch_deps += target_specific.dependencies()
+ 
+   lib = static_library('qemu-' + target,
+-                 sources: arch_srcs + [config_target_h] + genh,
++                 sources: arch_srcs + genh,
+                  objects: objects,
+                  include_directories: target_inc,
+                  c_args: c_args,
 diff --git a/scripts/create_config b/scripts/create_config
-index bc82661041..ec5c0b4124 100755
+deleted file mode 100755
+index ec5c0b4124..0000000000
 --- a/scripts/create_config
-+++ b/scripts/create_config
-@@ -91,6 +91,9 @@ case $line in
-     name=${line%=*}
-     echo "#define $name 1"
-     ;;
-+ HOST_DSOSUF=*)
-+    echo "#define HOST_DSOSUF \"${line#*=}\""
-+    ;;
-  HOST_*=*) # configuration
-     name=${line%=*}
-     value=${line#*=}
-@@ -123,9 +126,6 @@ case $line in
-     value=${line#*=}
-     echo "#define $name $value"
-     ;;
-- DSOSUF=*)
++++ /dev/null
+@@ -1,131 +0,0 @@
+-#!/bin/sh
+-
+-test $# -gt 0 && exec < $1
+-
+-echo "/* Automatically generated by create_config - do not modify */"
+-
+-while read line; do
+-
+-case $line in
+- VERSION=*) # configuration
+-    version=${line#*=}
+-    major=$(echo "$version" | cut -d. -f1)
+-    minor=$(echo "$version" | cut -d. -f2)
+-    micro=$(echo "$version" | cut -d. -f3)
+-    echo "#define QEMU_VERSION \"$version\""
+-    echo "#define QEMU_VERSION_MAJOR $major"
+-    echo "#define QEMU_VERSION_MINOR $minor"
+-    echo "#define QEMU_VERSION_MICRO $micro"
+-    ;;
+- qemu_*dir=* | qemu_*path=*) # qemu-specific directory configuration
+-    name=${line%=*}
+-    value=${line#*=}
+-    define_name=$(echo $name | LC_ALL=C tr '[a-z]' '[A-Z]')
+-    eval "define_value=\"$value\""
+-    echo "#define CONFIG_$define_name \"$define_value\""
+-    # save for the next definitions
+-    eval "$name=\$define_value"
+-    ;;
+- prefix=*)
+-    # save for the next definitions
+-    prefix=${line#*=}
+-    ;;
+- IASL=*) # iasl executable
+-    value=${line#*=}
+-    echo "#define CONFIG_IASL $value"
+-    ;;
+- CONFIG_AUDIO_DRIVERS=*)
+-    drivers=${line#*=}
+-    echo "#define CONFIG_AUDIO_DRIVERS \\"
+-    for drv in $drivers; do
+-      echo "    \"${drv}\",\\"
+-    done
+-    echo ""
+-    ;;
+- CONFIG_BDRV_RW_WHITELIST=*)
+-    echo "#define CONFIG_BDRV_RW_WHITELIST\\"
+-    for drv in ${line#*=}; do
+-      echo "    \"${drv}\",\\"
+-    done
+-    echo "    NULL"
+-    ;;
+- CONFIG_BDRV_RO_WHITELIST=*)
+-    echo "#define CONFIG_BDRV_RO_WHITELIST\\"
+-    for drv in ${line#*=}; do
+-      echo "    \"${drv}\",\\"
+-    done
+-    echo "    NULL"
+-    ;;
+- CONFIG_*=y) # configuration
+-    name=${line%=*}
+-    echo "#define $name 1"
+-    ;;
+- CONFIG_*=n) # configuration
+-    ;;
+- CONFIG_*=*) # configuration
+-    name=${line%=*}
+-    value=${line#*=}
+-    echo "#define $name $value"
+-    ;;
+- HAVE_*=y) # configuration
+-    name=${line%=*}
+-    echo "#define $name 1"
+-    ;;
+- HAVE_*=*) # configuration
+-    name=${line%=*}
+-    value=${line#*=}
+-    echo "#define $name $value"
+-    ;;
+- ARCH=*) # configuration
+-    arch=${line#*=}
+-    arch_name=$(echo $arch | LC_ALL=C tr '[a-z]' '[A-Z]')
+-    echo "#define HOST_$arch_name 1"
+-    ;;
+- HOST_USB=*)
+-    # do nothing
+-    ;;
+- HOST_CC=*)
+-    # do nothing
+-    ;;
+- HOST_*=y) # configuration
+-    name=${line%=*}
+-    echo "#define $name 1"
+-    ;;
+- HOST_DSOSUF=*)
 -    echo "#define HOST_DSOSUF \"${line#*=}\""
 -    ;;
- esac
- 
- done # read
+- HOST_*=*) # configuration
+-    name=${line%=*}
+-    value=${line#*=}
+-    echo "#define $name $value"
+-    ;;
+- TARGET_BASE_ARCH=*) # configuration
+-    target_base_arch=${line#*=}
+-    base_arch_name=$(echo $target_base_arch | LC_ALL=C tr '[a-z]' '[A-Z]')
+-    echo "#define TARGET_$base_arch_name 1"
+-    ;;
+- TARGET_XML_FILES=*)
+-    # do nothing
+-    ;;
+- TARGET_ABI_DIR=*)
+-    # do nothing
+-    ;;
+- TARGET_NAME=*)
+-    target_name=${line#*=}
+-    echo "#define TARGET_NAME \"$target_name\""
+-    ;;
+- TARGET_DIRS=*)
+-    # do nothing
+-    ;;
+- TARGET_*=y) # configuration
+-    name=${line%=*}
+-    echo "#define $name 1"
+-    ;;
+- TARGET_*=*) # configuration
+-    name=${line%=*}
+-    value=${line#*=}
+-    echo "#define $name $value"
+-    ;;
+-esac
+-
+-done # read
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index d49b3988ec..d25ff35492 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -88,7 +88,7 @@ typedef struct {
+ static char disk[] = "tests/acpi-test-disk-XXXXXX";
+ static const char *data_dir = "tests/data/acpi";
+ #ifdef CONFIG_IASL
+-static const char *iasl = stringify(CONFIG_IASL);
++static const char *iasl = CONFIG_IASL;
+ #else
+ static const char *iasl;
+ #endif
 -- 
 2.26.2
 
