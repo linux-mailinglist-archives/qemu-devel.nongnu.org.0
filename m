@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6297E247D92
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:35:13 +0200 (CEST)
-Received: from localhost ([::1]:33522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6536247D9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:40:18 +0200 (CEST)
+Received: from localhost ([::1]:58984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tL6-0000lj-Bx
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50308)
+	id 1k7tQ1-0002fs-QR
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6k-0000Mh-Lm; Tue, 18 Aug 2020 00:20:22 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53753 helo=ozlabs.org)
+ id 1k7t7W-00013c-3D; Tue, 18 Aug 2020 00:21:10 -0400
+Received: from ozlabs.org ([203.11.71.1]:52919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6i-0006TM-SP; Tue, 18 Aug 2020 00:20:22 -0400
+ id 1k7t7T-0006VZ-7J; Tue, 18 Aug 2020 00:21:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNj4SVjz9sW7; Tue, 18 Aug 2020 14:19:33 +1000 (AEST)
+ id 4BVyNj5yPpz9sW8; Tue, 18 Aug 2020 14:19:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724373;
- bh=62YQZOe8wkxWTVe1lI9MQqNSqkHNZnzB9/AdI04ywnM=;
+ bh=m0qq4oMiEBFQ8XukQSQ+6w8sTCXSLaSPmouthrXMTSw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e3iFborshtksfAqaB0iJcAjKx1QfbCx6bAjAsO8YMw2ASYr9ZOEUlKqleSbAcA8DE
- 1jiQthsil5S8IIp/Qz1Mmw9kY8eAdzdtpyX+Dc4zQ3w/UUfSQR4zQDhQIQdv5ZP+/4
- 3LKewZyszSrjccH7rspoab9gRQro9yuqhsCF7XyQ=
+ b=iBB6Y4VpG/fMpHOvLxAsa6w9iRsUu0joiGVaxZMEG6ym+9JkXN4DqcSlXUGxCqT0a
+ V5/Jul2XhmUiEcO88XPIRgYz8UniG+ORvew5piH4Knxqc32lizpa5/P4tMDisO5aq/
+ vEL4K5+LFeg8GNWezL0Hj7JNcFjuqboKdXsYlOxI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 37/40] ppc/xive: Simplify error handling in xive_tctx_realize()
-Date: Tue, 18 Aug 2020 14:19:19 +1000
-Message-Id: <20200818041922.251708-38-david@gibson.dropbear.id.au>
+Subject: [PULL 38/40] spapr/xive: Simplify error handling of
+ kvmppc_xive_cpu_synchronize_state()
+Date: Tue, 18 Aug 2020 14:19:20 +1000
+Message-Id: <20200818041922.251708-39-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -67,39 +68,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Now that kvmppc_xive_cpu_connect() returns a negative errno on failure,
-use that and get rid of the local_err boilerplate.
+Now that kvmppc_xive_cpu_get_state() returns negative on error, use that
+and get rid of the temporary Error object and error_propagate().
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159707852234.1489912.16410314514265848075.stgit@bahia.lan>
+Message-Id: <159707852916.1489912.8376334685349668124.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 14 ++++++--------
+ include/hw/ppc/xive.h    |  2 +-
+ 2 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 17ca5a1916..489e6256ef 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -662,7 +662,6 @@ static void xive_tctx_realize(DeviceState *dev, Error **errp)
-     XiveTCTX *tctx = XIVE_TCTX(dev);
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
--    Error *local_err = NULL;
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index e9a36115be..d871bb1a00 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -119,7 +119,8 @@ int kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp)
  
-     assert(tctx->cs);
-     assert(tctx->xptr);
-@@ -683,9 +682,7 @@ static void xive_tctx_realize(DeviceState *dev, Error **errp)
+ typedef struct {
+     XiveTCTX *tctx;
+-    Error *err;
++    Error **errp;
++    int ret;
+ } XiveCpuGetState;
  
-     /* Connect the presenter to the VCPU (required for CPU hotplug) */
-     if (xive_in_kernel(tctx->xptr)) {
--        kvmppc_xive_cpu_connect(tctx, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (kvmppc_xive_cpu_connect(tctx, errp) < 0) {
-             return;
-         }
-     }
+ static void kvmppc_xive_cpu_do_synchronize_state(CPUState *cpu,
+@@ -127,14 +128,14 @@ static void kvmppc_xive_cpu_do_synchronize_state(CPUState *cpu,
+ {
+     XiveCpuGetState *s = arg.host_ptr;
+ 
+-    kvmppc_xive_cpu_get_state(s->tctx, &s->err);
++    s->ret = kvmppc_xive_cpu_get_state(s->tctx, s->errp);
+ }
+ 
+-void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
++int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
+ {
+     XiveCpuGetState s = {
+         .tctx = tctx,
+-        .err = NULL,
++        .errp = errp,
+     };
+ 
+     /*
+@@ -143,10 +144,7 @@ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
+     run_on_cpu(tctx->cs, kvmppc_xive_cpu_do_synchronize_state,
+                RUN_ON_CPU_HOST_PTR(&s));
+ 
+-    if (s.err) {
+-        error_propagate(errp, s.err);
+-        return;
+-    }
++    return s.ret;
+ }
+ 
+ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 785c905357..2c42ae92d2 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -488,7 +488,7 @@ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
+ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp);
+ void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
+ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
+-void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
++int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
+ int kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp);
+ int kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp);
+ 
 -- 
 2.26.2
 
