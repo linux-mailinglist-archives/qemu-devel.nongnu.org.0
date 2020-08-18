@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9084D247D44
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:22:24 +0200 (CEST)
-Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC378247D81
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:28:41 +0200 (CEST)
+Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7t8h-0002Hp-Fx
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
+	id 1k7tEm-0006cT-SU
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t69-0007QT-K5; Tue, 18 Aug 2020 00:19:45 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:44003 helo=ozlabs.org)
+ id 1k7t68-0007Mz-HX; Tue, 18 Aug 2020 00:19:44 -0400
+Received: from ozlabs.org ([203.11.71.1]:52515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t66-0006LP-K5; Tue, 18 Aug 2020 00:19:45 -0400
+ id 1k7t66-0006LS-Ia; Tue, 18 Aug 2020 00:19:44 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNZ4rr9z9sV4; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
+ id 4BVyNZ64LBz9sV9; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724366;
- bh=2Je7Mov1VPed8D3DxgihncFAFZ6VXR6JiIuHyTMxrvE=;
+ bh=hzgAt1O6dYjmUZB5vBufIOGpmcBVYQk4j7ZI3PZ6rtI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HCvXF4IW3SBimjJObU/rx0jfBJu2dWUFIEx2jGlejZnLWlgtOF7lLZBagSOBrw7tz
- +lEb2CjVPNsxTV0KqhxTHCUV3RMUrHE5+Xxv0drTBGZynFkxbr/EOcpaH9ysB/Idmm
- 3PXJ8QdBjerx/5c2vm3+jO7QK9unZmsjZc4EWQXE=
+ b=hIwVS9NxWrKhyVpL7uy1fPTexpeeR++bXm1ig3xjjYq8nb+QpY46KrM6LZWT6DlaE
+ RtmzfIkH2pis9rBtulJgShDXg7XqfxyeLHtldbB//k+nMo6uem/aqQbI7I6z1pAH2E
+ tVrjnO5CTkXeLVcDByH6dcsVxcY4I7oq7IbTEYdY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 10/40] ppc/xive: Fix some typos in comments
-Date: Tue, 18 Aug 2020 14:18:52 +1000
-Message-Id: <20200818041922.251708-11-david@gibson.dropbear.id.au>
+Subject: [PULL 11/40] Update PowerPC AT_HWCAP2 definition
+Date: Tue, 18 Aug 2020 14:18:53 +1000
+Message-Id: <20200818041922.251708-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -60,54 +60,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: Lijun Pan <ljp@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gustavo Romero <gromero@linux.ibm.com>
+From: Lijun Pan <ljp@linux.ibm.com>
 
-Fix some typos in comments about code modeling coalescing points in the
-XIVE routing engine (IVRE).
+Add PPC2_FEATURE2_ARCH_3_10 to the PowerPC AT_HWCAP2 definitions.
 
-Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-Message-Id: <1595461434-27725-1-git-send-email-gromero@linux.ibm.com>
+Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
+Message-Id: <20200724045845.89976-2-ljp@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/xive.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/elf.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 9a162431e0..9b55e0356c 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1502,7 +1502,7 @@ static bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
+diff --git a/include/elf.h b/include/elf.h
+index 5b06b55f28..c117a4d1ab 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -558,6 +558,7 @@ typedef struct {
+ #define PPC_FEATURE2_HTM_NOSC           0x01000000
+ #define PPC_FEATURE2_ARCH_3_00          0x00800000
+ #define PPC_FEATURE2_HAS_IEEE128        0x00400000
++#define PPC_FEATURE2_ARCH_3_10          0x00040000
  
- /*
-  * Notification using the END ESe/ESn bit (Event State Buffer for
-- * escalation and notification). Profide futher coalescing in the
-+ * escalation and notification). Provide further coalescing in the
-  * Router.
-  */
- static bool xive_router_end_es_notify(XiveRouter *xrtr, uint8_t end_blk,
-@@ -1581,7 +1581,7 @@ static void xive_router_end_notify(XiveRouter *xrtr, uint8_t end_blk,
+ /* Bits present in AT_HWCAP for Sparc.  */
  
-     /*
-      * Check the END ESn (Event State Buffer for notification) for
--     * even futher coalescing in the Router
-+     * even further coalescing in the Router
-      */
-     if (!xive_end_is_notify(&end)) {
-         /* ESn[Q]=1 : end of notification */
-@@ -1660,7 +1660,7 @@ do_escalation:
- 
-     /*
-      * Check the END ESe (Event State Buffer for escalation) for even
--     * futher coalescing in the Router
-+     * further coalescing in the Router
-      */
-     if (!xive_end_is_uncond_escalation(&end)) {
-         /* ESe[Q]=1 : end of notification */
 -- 
 2.26.2
 
