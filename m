@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C81224861E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:34:21 +0200 (CEST)
-Received: from localhost ([::1]:35130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4BA24861C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:34:10 +0200 (CEST)
+Received: from localhost ([::1]:34060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k81kq-00042V-CP
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
+	id 1k81ke-0003cC-Hp
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k81jg-0002WK-48
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:33:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51318
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k81jT-00023j-Dj
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:32:55 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34592
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k81je-0002Ue-Lg
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:33:07 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k81jR-0002TC-H7
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:32:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597757586;
+ s=mimecast20190719; t=1597757572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K/7M+LCf3m2+IkMfOOKNeFJrTlrHWNpMEg/qkRASbMs=;
- b=HHJwh09/Vz1s8NnRi0Uym9ZE/ctC8IbklDK/ckLhd4O4uXsiuxwzEmCjOsx/fKD/jICuJj
- 3HVB3DTrGp6W47a2HXSApTE9VQQYlcIrbX+UadM4eE9fPdA/2lZfPA4fJseljUGvuKsOdq
- 1GR1vFJNVGR2PzWbFJubrcpCxUElmq4=
+ bh=HokDzBV6XsmF+jV0jcxKDu4d32tS3WUEQ1m5bOGYwYM=;
+ b=MEWalL6a2yvEA5I8WLGXOSRkirIOAzGWUJ0iLw9gK9av99dLFD8/8cYIsNMHlDwz3Q9gDS
+ FUJIAEQMoQTV9wW9+20VceN6ymlgQsfds1wJM30QUfata6au2aWFKqppnEhgunXTYKW03E
+ H7VkTFEIWV96InaRoDmYo8ResU8byRA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-W5k2AtedNwaVepXPFSjdsg-1; Tue, 18 Aug 2020 09:32:48 -0400
-X-MC-Unique: W5k2AtedNwaVepXPFSjdsg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-436-mgs-haFWNbGpae0I7KIuZw-1; Tue, 18 Aug 2020 09:32:50 -0400
+X-MC-Unique: mgs-haFWNbGpae0I7KIuZw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 453C81DDED;
- Tue, 18 Aug 2020 13:32:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 933AE1DDF1;
+ Tue, 18 Aug 2020 13:32:49 +0000 (UTC)
 Received: from localhost (ovpn-112-119.ams2.redhat.com [10.36.112.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1EEA165D8;
- Tue, 18 Aug 2020 13:32:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A97A7DFC0;
+ Tue, 18 Aug 2020 13:32:49 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 2/4] iotests.py: Add wait_for_runstate()
-Date: Tue, 18 Aug 2020 15:32:38 +0200
-Message-Id: <20200818133240.195840-3-mreitz@redhat.com>
+Subject: [PATCH v4 3/4] iotests.py: Let wait_migration() return on failure
+Date: Tue, 18 Aug 2020 15:32:39 +0200
+Message-Id: <20200818133240.195840-4-mreitz@redhat.com>
 In-Reply-To: <20200818133240.195840-1-mreitz@redhat.com>
 References: <20200818133240.195840-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.0
@@ -87,26 +87,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Let wait_migration() return on failure (with the return value indicating
+whether the migration was completed or has failed), so we can use it for
+migrations that are expected to fail, too.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qemu-iotests/iotests.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 717b5b652c..ee93cf22db 100644
+index ee93cf22db..f39fd580a6 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -833,6 +833,10 @@ class VM(qtest.QEMUQtestMachine):
-                    'Found node %s under %s (but expected %s)' % \
-                    (node['name'], path, expected_node)
+@@ -729,16 +729,22 @@ class VM(qtest.QEMUQtestMachine):
+             }
+         ]))
  
-+    def wait_for_runstate(self, runstate: str) -> None:
-+        while self.qmp('query-status')['return']['status'] != runstate:
-+            time.sleep(0.2)
+-    def wait_migration(self, expect_runstate):
++    def wait_migration(self, expect_runstate: Optional[str]) -> bool:
+         while True:
+             event = self.event_wait('MIGRATION')
+             log(event, filters=[filter_qmp_event])
+-            if event['data']['status'] == 'completed':
++            if event['data']['status'] in ('completed', 'failed'):
+                 break
+-        # The event may occur in finish-migrate, so wait for the expected
+-        # post-migration runstate
+-        while self.qmp('query-status')['return']['status'] != expect_runstate:
+-            pass
 +
- index_re = re.compile(r'([^\[]+)\[([^\]]+)\]')
++        if event['data']['status'] == 'completed':
++            # The event may occur in finish-migrate, so wait for the expected
++            # post-migration runstate
++            runstate = None
++            while runstate != expect_runstate:
++                runstate = self.qmp('query-status')['return']['status']
++            return True
++        else:
++            return False
  
- class QMPTestCase(unittest.TestCase):
+     def node_info(self, node_name):
+         nodes = self.qmp('query-named-block-nodes')
 -- 
 2.26.2
 
