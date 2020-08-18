@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A47249069
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:56:52 +0200 (CEST)
-Received: from localhost ([::1]:50310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC7424906F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:58:22 +0200 (CEST)
+Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k89b9-0002hY-QN
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48638)
+	id 1k89cb-0005LU-W9
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k89ZV-00018h-5T
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:55:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51181
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k89ZY-0001D4-NB
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:55:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34770
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k89ZT-0007fd-C1
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:55:08 -0400
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k89ZW-0007ft-V0
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:55:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597787706;
+ s=mimecast20190719; t=1597787710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zRkoBhPPk1tgK/aHWbcM7m+I8n/pyxfQdRuXyWBtaOA=;
- b=M0jnadWlq0gAXSWVKhBrauWAtGIvjDIHbPX24KWjMkQTKXN4E97yzcVDFycDZlOy6bBtAW
- PiK+aeLAJAVVCdYuZt/biDEFK68Fa1um+DPIm7ifpP2uzwtws6ahBHdMKDFg47JWpeSjUj
- jClbbnzB2UmoAZa3lNqFBiYOmIBNCYs=
+ bh=zz2tH4BT/ZCHpEwxA/sq/JDVNa6IRW375UQRDz8+Dvo=;
+ b=bc2kdDXVBCpZB/VLr9CAlpnoF8Hj5P20EKWBaa+xa08SpcxrCZTa7DyGAPW+8Yb8OLkpa9
+ ILPDDyJbm5HIxN0IfBRu/Vk5Jg+v2YUe89Gk5m3hZjOHRjQxd2BW3DcxdoAyp589rQzEWA
+ 4l7G5jwH9HSdVIEPa2ymW2+0fkniiYc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-ZrNY5CDePYquKKL-QovE3Q-1; Tue, 18 Aug 2020 17:55:05 -0400
-X-MC-Unique: ZrNY5CDePYquKKL-QovE3Q-1
+ us-mta-516-wxT4Rjt0M-2F0NtlekFJlw-1; Tue, 18 Aug 2020 17:55:08 -0400
+X-MC-Unique: wxT4Rjt0M-2F0NtlekFJlw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52BF9425D2;
- Tue, 18 Aug 2020 21:55:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99815100746F;
+ Tue, 18 Aug 2020 21:55:07 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.43.2.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED99A1014182;
- Tue, 18 Aug 2020 21:55:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 417751014171;
+ Tue, 18 Aug 2020 21:55:06 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 2/4] hw/i386/acpi-build: Add ACPI PCI hot-plug methods
- to q35
-Date: Tue, 18 Aug 2020 23:52:25 +0200
-Message-Id: <20200818215227.181654-3-jusual@redhat.com>
+Subject: [RFC PATCH v2 3/4] hw/i386/acpi-build: Turn off support of PCIe
+ native hot-plug and SHPC in _OSC
+Date: Tue, 18 Aug 2020 23:52:26 +0200
+Message-Id: <20200818215227.181654-4-jusual@redhat.com>
 In-Reply-To: <20200818215227.181654-1-jusual@redhat.com>
 References: <20200818215227.181654-1-jusual@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +57,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jusual@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 17:55:04
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jusual@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 16:56:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,171 +85,100 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement notifications and gpe to support q35 ACPI PCI hot-plug.
-Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
+Other methods may be used if the system is capable of this and the _OSC bit
+is set. Disable them explicitly to force ACPI PCI hot-plug use. The older
+versions will still use PCIe native.
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 ---
- include/hw/acpi/pcihp.h |  3 ++-
- hw/acpi/pcihp.c         | 10 ++++++----
- hw/acpi/piix4.c         |  2 +-
- hw/i386/acpi-build.c    | 25 ++++++++++++++-----------
- 4 files changed, 23 insertions(+), 17 deletions(-)
+ hw/i386/acpi-build.h | 11 +++++++++++
+ hw/i386/acpi-build.c | 21 +++++++++++++++------
+ 2 files changed, 26 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-index 8bc4a4c01d..1e9d246f57 100644
---- a/include/hw/acpi/pcihp.h
-+++ b/include/hw/acpi/pcihp.h
-@@ -54,7 +54,8 @@ typedef struct AcpiPciHpState {
- } AcpiPciHpState;
+diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
+index 74df5fc612..6f94312c39 100644
+--- a/hw/i386/acpi-build.h
++++ b/hw/i386/acpi-build.h
+@@ -5,6 +5,17 @@
  
- void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
--                     MemoryRegion *address_space_io, bool bridges_enabled);
-+                     MemoryRegion *address_space_io, bool bridges_enabled,
-+                     bool is_piix4);
+ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
  
- void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                    DeviceState *dev, Error **errp);
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 9e31ab2da4..9a35ed6c83 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -38,7 +38,8 @@
- #include "qom/qom-qobject.h"
- #include "trace.h"
++/* PCI Firmware Specification 3.2, Table 4-5 */
++typedef enum {
++    ACPI_OSC_NATIVE_HP_EN = 0,
++    ACPI_OSC_SHPC_EN = 1,
++    ACPI_OSC_PME_EN = 2,
++    ACPI_OSC_AER_EN = 3,
++    ACPI_OSC_PCIE_CAP_EN = 4,
++    ACPI_OSC_LTR_EN = 5,
++    ACPI_OSC_ALLONES_INVALID = 6,
++} AcpiOSCField;
++
+ void acpi_setup(void);
  
--#define ACPI_PCIHP_ADDR 0xae00
-+#define ACPI_PCIHP_ADDR_PIIX4 0xae00
-+#define ACPI_PCIHP_ADDR_Q35 0x0cc4
- #define ACPI_PCIHP_SIZE 0x0014
- #define PCI_UP_BASE 0x0000
- #define PCI_DOWN_BASE 0x0004
-@@ -359,12 +360,13 @@ static const MemoryRegionOps acpi_pcihp_io_ops = {
- };
- 
- void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
--                     MemoryRegion *address_space_io, bool bridges_enabled)
-+                     MemoryRegion *address_space_io, bool bridges_enabled,
-+                     bool is_piix4)
- {
-     s->io_len = ACPI_PCIHP_SIZE;
--    s->io_base = ACPI_PCIHP_ADDR;
-+    s->io_base = is_piix4 ? ACPI_PCIHP_ADDR_PIIX4 : ACPI_PCIHP_ADDR_Q35;
- 
--    s->root= root_bus;
-+    s->root = root_bus;
-     s->legacy_piix = !bridges_enabled;
- 
-     memory_region_init_io(&s->io, owner, &acpi_pcihp_io_ops, s,
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index cdfa0e2998..1f27bfbd06 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -596,7 +596,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-     memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
- 
-     acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
--                    s->use_acpi_hotplug_bridge);
-+                    s->use_acpi_hotplug_bridge, true);
- 
-     s->cpu_hotplug_legacy = true;
-     object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+ #endif
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index b7bcbbbb2a..f3cd52bd06 100644
+index f3cd52bd06..c5f4802b8c 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -201,10 +201,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
-         pm->fadt.rev = 1;
-         pm->cpu_hp_io_base = PIIX4_CPU_HOTPLUG_IO_BASE;
--        pm->pcihp_io_base =
--            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
--        pm->pcihp_io_len =
--            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
-     }
-     if (lpc) {
-         struct AcpiGenericAddress r = { .space_id = AML_AS_SYSTEM_IO,
-@@ -214,6 +210,10 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-         pm->fadt.flags |= 1 << ACPI_FADT_F_RESET_REG_SUP;
-         pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
-     }
-+    pm->pcihp_io_base =
-+        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
-+    pm->pcihp_io_len =
-+        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
- 
-     /* The above need not be conditional on machine type because the reset port
-      * happens to be the same on PIIX (pc) and ICH9 (q35). */
-@@ -472,7 +472,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         QLIST_FOREACH(sec, &bus->child, sibling) {
-             int32_t devfn = sec->parent_dev->devfn;
- 
--            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-+            if (pci_bus_is_root(sec)) {
-                 continue;
-             }
- 
-@@ -1368,7 +1368,7 @@ static void build_piix4_isa_bridge(Aml *table)
+@@ -1411,7 +1411,7 @@ static void build_i386_pci_hotplug(Aml *table, uint64_t pcihp_addr)
      aml_append(table, scope);
  }
  
--static void build_piix4_pci_hotplug(Aml *table)
-+static void build_i386_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+-static Aml *build_q35_osc_method(void)
++static Aml *build_q35_osc_method(AcpiPmInfo *pm)
  {
-     Aml *scope;
-     Aml *field;
-@@ -1377,20 +1377,22 @@ static void build_piix4_pci_hotplug(Aml *table)
-     scope =  aml_scope("_SB.PCI0");
+     Aml *if_ctx;
+     Aml *if_ctx2;
+@@ -1419,6 +1419,7 @@ static Aml *build_q35_osc_method(void)
+     Aml *method;
+     Aml *a_cwd1 = aml_name("CDW1");
+     Aml *a_ctrl = aml_local(0);
++    unsigned osc_ctrl;
  
-     aml_append(scope,
--        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x08));
-+        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr), 0x08));
-     field = aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
-     aml_append(field, aml_named_field("PCIU", 32));
-     aml_append(field, aml_named_field("PCID", 32));
-     aml_append(scope, field);
+     method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
+     aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
+@@ -1430,11 +1431,19 @@ static Aml *build_q35_osc_method(void)
  
-     aml_append(scope,
--        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04));
-+    aml_operation_region("SEJ", AML_SYSTEM_IO,
-+                         aml_int(pcihp_addr + 0x08), 0x04));
-     field = aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
-     aml_append(field, aml_named_field("B0EJ", 32));
-     aml_append(scope, field);
+     aml_append(if_ctx, aml_store(aml_name("CDW3"), a_ctrl));
  
-     aml_append(scope,
--        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x04));
-+        aml_operation_region("BNMR", AML_SYSTEM_IO,
-+                             aml_int(pcihp_addr + 0x10), 0x04));
-     field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
-     aml_append(field, aml_named_field("BNUM", 32));
-     aml_append(scope, field);
-@@ -1504,7 +1506,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         build_hpet_aml(dsdt);
-         build_piix4_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
--        build_piix4_pci_hotplug(dsdt);
-         build_piix4_pci0_int(dsdt);
-     } else {
-         sb_scope = aml_scope("_SB");
-@@ -1526,6 +1527,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         }
-     }
- 
-+    build_i386_pci_hotplug(dsdt, pm->pcihp_io_base);
++    /* Always allow native PME, AER (depend on PCIE Capability Control) */
++    osc_ctrl = BIT(ACPI_OSC_PME_EN) | BIT(ACPI_OSC_AER_EN) |
++               BIT(ACPI_OSC_PCIE_CAP_EN);
 +
-     if (pcmc->legacy_cpu_hotplug) {
-         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
-     } else {
-@@ -1546,7 +1549,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     {
-         aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+     /*
+-     * Always allow native PME, AER (no dependencies)
+-     * Allow SHPC (PCI bridges can have SHPC controller)
++     * Guests seem to generally prefer native hot-plug control.
++     * Enable it only when we do not use ACPI hot-plug.
+      */
+-    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
++    if (!pm->pcihp_bridge_en) {
++        osc_ctrl |= BIT(ACPI_OSC_NATIVE_HP_EN) | BIT(ACPI_OSC_SHPC_EN);
++    }
++
++    aml_append(if_ctx, aml_and(a_ctrl, aml_int(osc_ctrl), a_ctrl));
  
--        if (misc->is_piix4) {
-+        if (misc->is_piix4 || pm->pcihp_bridge_en) {
-             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
-             aml_append(method,
-                 aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+     if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
+     /* Unknown revision */
+@@ -1514,7 +1523,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+         aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+-        aml_append(dev, build_q35_osc_method());
++        aml_append(dev, build_q35_osc_method(pm));
+         aml_append(sb_scope, dev);
+         aml_append(dsdt, sb_scope);
+ 
+@@ -1590,7 +1599,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             if (pci_bus_is_express(bus)) {
+                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+                 aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+-                aml_append(dev, build_q35_osc_method());
++                aml_append(dev, build_q35_osc_method(pm));
+             } else {
+                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+             }
 -- 
 2.25.4
 
