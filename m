@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C10248646
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:42:09 +0200 (CEST)
-Received: from localhost ([::1]:59982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AEF248625
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:36:13 +0200 (CEST)
+Received: from localhost ([::1]:41652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k81sO-000685-5A
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49030)
+	id 1k81me-0006mo-42
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dvossel@redhat.com>)
- id 1k81ex-00016K-Uo
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:28:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26586)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k81jl-0002kx-On
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:33:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dvossel@redhat.com>)
- id 1k81ew-0001rZ-6x
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:28:15 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k81jj-0002V9-S8
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:33:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597757292;
+ s=mimecast20190719; t=1597757591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=Jc/FHGg9W1G1d073+gcDOeBwKd7oOfGwIEAo5gAYoYg=;
- b=LbSg67IEkCw5F3I4sEdQ0kBNJ/1N7jXwHaTHneIATEvekdQn2mLvTtLZERbSjKBKcz3Rap
- mDjuoLoJ8ZgScFj9JI9k5FGH/6oQ9dZ0acWbdfzv8Ahv2u4Xxrvzg+/m1hIMunOR/l9aXC
- csDcQ2xiE+g1n2AGeDG5CPbljr2y9yU=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-Ah0vEqFuO9qcXkEriXFoaw-1; Tue, 18 Aug 2020 09:26:08 -0400
-X-MC-Unique: Ah0vEqFuO9qcXkEriXFoaw-1
-Received: by mail-vk1-f199.google.com with SMTP id h191so5570366vkh.13
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 06:26:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=Jc/FHGg9W1G1d073+gcDOeBwKd7oOfGwIEAo5gAYoYg=;
- b=rtRdcsLRvT5aeH4zOlzy1XWOsE19WMuTji0aGsUxtsPJ65/ylgWNkk0ZmwS1wK9U/M
- 7llbDiHqLeGY+CRQTrNMUy3nmNtcl1isG0qwf9bxKUZFEMKI/4hpSvcrGqr6nAgUuaXD
- InyaKoeraNhbZy13S6e0/65BjmkuoDe6FlDVZvu+f5V01nOOSW2ZP2YUtcIz70UI1+J4
- 5SQxYsh3txWd5HYVdfGfR1rYXPwcOkSxA6MV5R2JsVCd42ILWu78u4ZMaqIZ7Mb0AaDX
- i2V+VL6IxeQhhwJuNPUIsa6q9DR8Py/ZZvXIhg7G7YXVNay4Uohs1JHskxuZ9FclpO/3
- P1zA==
-X-Gm-Message-State: AOAM530J80Y7JRA501Co96xabtMIO1pTeO5hORpP+m8/bXr4ytf2TnW+
- YXlTXhuG4wutgCq8iT/eLOJxjszKGrHzvF0k5sE/k26ULntH15B6/JB/8BD4TAdD3O3h5PXW1m1
- mlN2SceE5JXWWYzQCraKDg+ebtteY0Mc=
-X-Received: by 2002:ab0:2ea2:: with SMTP id y2mr10293469uay.15.1597757167409; 
- Tue, 18 Aug 2020 06:26:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwH3J0w5fXbxIgdnaJX32d5KE3xNFBj+rUY9+P6a2farf5c0OqPjYYWnRen3XomWpm99R6rkz6BY9tMtXFzVAM=
-X-Received: by 2002:ab0:2ea2:: with SMTP id y2mr10293434uay.15.1597757167080; 
- Tue, 18 Aug 2020 06:26:07 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rVxI2XJOfHe0Y3eeEFhLEP6oB8/Fzt8K3Xb8sLFJw5o=;
+ b=EO6CnR8e79WtPo+jPMfnWRSi9iICI3VU6VdYdysgvblUR3HUwa+QaZAvlj2idyHjoAUoiw
+ KHAXUxEiYr5b3YNACiJ+73mkIc889jAleiABL8fsOey5ZWLRM/ANgpnbofS3IHi7FL5AGk
+ 7DdX4usbSxvAe5cHJnXl0Oui90Gx35o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-GM5D4bcQOBa9RDm11QcTpw-1; Tue, 18 Aug 2020 09:32:43 -0400
+X-MC-Unique: GM5D4bcQOBa9RDm11QcTpw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7003C1DDED;
+ Tue, 18 Aug 2020 13:32:42 +0000 (UTC)
+Received: from localhost (ovpn-112-119.ams2.redhat.com [10.36.112.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D68DB10098A7;
+ Tue, 18 Aug 2020 13:32:41 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v4 0/4] migration: Add block-bitmap-mapping parameter
+Date: Tue, 18 Aug 2020 15:32:36 +0200
+Message-Id: <20200818133240.195840-1-mreitz@redhat.com>
 MIME-Version: 1.0
-From: David Vossel <dvossel@redhat.com>
-Date: Tue, 18 Aug 2020 09:25:56 -0400
-Message-ID: <CAPjOJFsjqFg6jO==Y5ExhL2+mZXA0Z1vce2pmUCODLtyS6Z7Yw@mail.gmail.com>
-Subject: guest agent public ssh key add/remove support?
-To: qemu-devel@nongnu.org
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dvossel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000061b10d05ad26d44c"
-Received-SPF: none client-ip=63.128.21.124; envelope-from=dvossel@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:02:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -71,10 +61,9 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 18 Aug 2020 09:39:32 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,99 +75,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Fabian Deutsch <fdeutsch@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000061b10d05ad26d44c
-Content-Type: text/plain; charset="UTF-8"
+RFC v1: https://lists.nongnu.org/archive/html/qemu-block/2020-05/msg00912.html
+RFC v2: https://lists.nongnu.org/archive/html/qemu-block/2020-05/msg00915.html
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg09792.html
+v2: https://lists.nongnu.org/archive/html/qemu-block/2020-07/msg01179.html
+v3: https://lists.nongnu.org/archive/html/qemu-block/2020-07/msg01385.html
 
-Hey,
+Branch: https://github.com/XanClic/qemu.git migration-bitmap-mapping-v4
+Branch: https://git.xanclic.moe/XanClic/qemu.git migration-bitmap-mapping-v4
 
-- Quick background
+Hi,
 
-I'm investigating a feature for the KubeVirt project [1] (virtual machines
-on Kubernetes) and ran into an area that I think the qemu guest agent might
-help us solve.
+This new migration parameter allows mapping block node names and bitmap
+names to aliases for the purpose of block dirty bitmap migration.
 
-A common usage pattern for nearly every Iaas platform (AWS, GCP, OpenStack,
-Azure) is the ability to inject public ssh keys into VMs in order to grant
-access to the VM for automation tools (like ansible) and users. One of the
-more straightforward ways to do this is using cloud-init, which injects ssh
-keys at boot.
-
-However, in KubeVirt we're interested in taking this a step further by
-allowing public ssh keys to be dynamically granted and revoked on live
-"running" VMs. To accomplish this, we need something for our control plane
-to coordinate with that is running within the actual VM guest.
-
-- Guest Agent SSH add/remove Support?
-
-As a PoC, I cobbled together some guest agent exec and file write client
-commands which can technically achieve the desired result of
-adding/removing entries in a /home/<user>/.ssh/authorized_keys file. It's a
-little unwieldy, but it works.
-
-This got me thinking, an officially supported guest agent api for this ssh
-key management would be really nice. There's already a somewhat related
-precedent with the "guest-set-user-password" guest agent command.
-
-So here's the question. What would you all think about the guest agent API
-being expanded with new commands for adding/removing ssh public keys from
-authorized_keys files?
-
-Thanks
-- David
+This way, management tools can use different node names on the source
+and destination and pass the mapping of how bitmaps are to be
+transferred to qemu (on the source, the destination, or even both with
+arbitrary aliases in the migration stream).
 
 
+v4:
+- Patch 1:
+  - Rebased
+  - %s/5.1/5.2/
+  - The destination side will now ignore unmapped aliases, too (though
+    they are reported to stderr)
+  - Check that the aliases given will fit in the migration stream (i.e.
+    are shorter than 256 bytes)
+    - On that note, fix a pre-existing bug where a bitmap with a name
+      longer than 255 bytes would make qemu_put_counted_string() fail an
+      assertion
+
+- Patch 2:
+  - import time (apparently, I forgot that in v3...?)
+
+- Patch 3:
+  - Added; I need this now
+
+- Patch 4:
+  - Migration rarely ever really fails now (just one case, where a
+    non-aliased bitmap name is too long, which can only be detected when
+    beginning migration)
+
+  - Thus, we have to read most error messages from the VM log now, for
+    which I’ve added a new function (verify_dest_error)
+
+  - Added tests for overly long bitmap names and node/bitmap aliases
 
 
+git-backport-diff against v3:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/4:[0167] [FC] 'migration: Add block-bitmap-mapping parameter'
+002/4:[0001] [FC] 'iotests.py: Add wait_for_runstate()'
+003/4:[down] 'iotests.py: Let wait_migration() return on failure'
+004/4:[0232] [FC] 'iotests: Test node/bitmap aliases during migration'
 
 
+Max Reitz (4):
+  migration: Add block-bitmap-mapping parameter
+  iotests.py: Add wait_for_runstate()
+  iotests.py: Let wait_migration() return on failure
+  iotests: Test node/bitmap aliases during migration
 
+ qapi/migration.json            | 101 +++++-
+ migration/migration.h          |   3 +
+ migration/block-dirty-bitmap.c | 409 +++++++++++++++++++---
+ migration/migration.c          |  30 ++
+ monitor/hmp-cmds.c             |  30 ++
+ tests/qemu-iotests/300         | 595 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/300.out     |   5 +
+ tests/qemu-iotests/group       |   1 +
+ tests/qemu-iotests/iotests.py  |  22 +-
+ 9 files changed, 1134 insertions(+), 62 deletions(-)
+ create mode 100755 tests/qemu-iotests/300
+ create mode 100644 tests/qemu-iotests/300.out
 
-
-
-
-
-
-
-1. https://github.com/kubevirt/kubevirt
-
---00000000000061b10d05ad26d44c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hey,<div><br></div><div>- Quick background</div><div><br><=
-/div><div>I&#39;m investigating a feature for the KubeVirt project [1] (vir=
-tual machines on Kubernetes) and ran into an area that I think the qemu gue=
-st agent might help us solve.</div><div><br></div><div>A common usage patte=
-rn for nearly every Iaas platform (AWS, GCP, OpenStack, Azure) is the abili=
-ty to inject public ssh keys into VMs in order to grant access to the VM fo=
-r automation tools (like ansible) and users. One of the more straightforwar=
-d ways to do this is using cloud-init, which injects ssh keys at boot.</div=
-><div><br></div><div>However, in KubeVirt we&#39;re interested in taking th=
-is a step further by allowing public ssh keys to be dynamically granted and=
- revoked on live &quot;running&quot; VMs. To accomplish this, we need somet=
-hing for our control plane to coordinate with that is running within the ac=
-tual VM guest.</div><div><br></div><div>- Guest Agent SSH add/remove Suppor=
-t?</div><div><br></div><div>As a PoC, I cobbled together some guest agent e=
-xec and file write client commands which can technically achieve the desire=
-d result of adding/removing entries in a /home/&lt;user&gt;/.ssh/authorized=
-_keys file. It&#39;s a little=C2=A0unwieldy, but it works.</div><div><br></=
-div><div>This got me thinking, an officially supported guest agent api for =
-this ssh key management would be really nice. There&#39;s already a somewha=
-t related precedent with the &quot;guest-set-user-password&quot; guest agen=
-t command.</div><div><br></div><div>So here&#39;s the question. What would =
-you all=C2=A0think about the guest agent API being expanded with new comman=
-ds for adding/removing ssh public keys from authorized_keys files?</div><di=
-v><br></div><div>Thanks</div><div>- David</div><div><br></div><div><br></di=
-v><div><br></div><div><br></div><div><br></div><div><br></div><div><br></di=
-v><div><br></div><div><br></div><div><br></div><div><br></div><div><br></di=
-v><div><br></div><div><br></div><div>1.=C2=A0<a href=3D"https://github.com/=
-kubevirt/kubevirt">https://github.com/kubevirt/kubevirt</a></div></div>
-
---00000000000061b10d05ad26d44c--
+-- 
+2.26.2
 
 
