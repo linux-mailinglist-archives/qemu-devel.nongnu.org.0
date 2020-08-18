@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9E324857B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 14:57:12 +0200 (CEST)
-Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC402485B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:13:02 +0200 (CEST)
+Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k81At-0003Bx-DR
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 08:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
+	id 1k81QD-0003fw-69
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k81AE-0002gF-Ui
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 08:56:30 -0400
-Resent-Date: Tue, 18 Aug 2020 08:56:30 -0400
-Resent-Message-Id: <E1k81AE-0002gF-Ui@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k81AB-0006LB-Gk
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 08:56:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597755376; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=TVR9g0oN3rnHPChZ9ktbbWsVmT2515uN3smXEwSl+/o4n5btN3BbtwbHqwRTD70v8halL8xFyujScawydU7NOHjbueRo7o3+6LgVO2K3JpXYFFx63v/Rt73DGPecqcFrNT4skQBDrl4BLReTd6U8aegt3EfmXTIM4/iTho7y4RM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597755376;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=FAdamSNR/dieGtsjnB8XTDTGpvDZrpXtT+9ERdgp8DU=; 
- b=KMvIJHHs1N+E2hjL78ORYe0ZQ+86mXvUz5w1tyXGdUR2RPWRudWOkiQj+Rx3e23r6WVoIFauXvN+1DKMkjjPx+JfOQUMXIcZ+j9i3wrZvdEldhHDsKvcgIB9n14ZtbyKiSbU8o8HxLXwNzu6bEnDinRwdWqM0oQNO7Nf+KQw3PQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597755372494383.6387224569395;
- Tue, 18 Aug 2020 05:56:12 -0700 (PDT)
-Subject: Re: [PATCH v2 0/7] x86: fix cpu hotplug with secure boot
-Message-ID: <159775537107.17412.11110752129834412055@66eaa9a8a123>
-In-Reply-To: <20200818122208.1243901-1-imammedo@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: imammedo@redhat.com
-Date: Tue, 18 Aug 2020 05:56:12 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:56:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
+ id 1k81PR-0003FN-HX
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:12:13 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:48104)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <geoff@hostfission.com>) id 1k81PP-0008MB-KV
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:12:13 -0400
+Received: from moya.office.hostfission.com (office.hostfission.com
+ [220.233.29.71])
+ by mail1.hostfission.com (Postfix) with ESMTP id DA5EB4270D;
+ Tue, 18 Aug 2020 23:12:06 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1597756326;
+ bh=cXS57NDAPCGIeK1kXV8kCuMpQt3dC81l7MZkFYpT43s=;
+ h=From:Date:Subject:To:Cc:From;
+ b=dPudK4QJirL+5+io8lpRZwx9SnRo9eVAlTOLbb/9pgW5lzGdTN66XiCkubMseJuJB
+ yp30e7IUIFIvjF1p3X0OBo3rg3eeQJnweaLmgNDX6GraLpdulkRTdCdrv3Zsnzn1eF
+ fHxE/8JlF5nB7OYLg031V1VQnuKHJlsGobUWiLEM=
+Received: by moya.office.hostfission.com (Postfix, from userid 0)
+ id BB75F3A0B9F; Tue, 18 Aug 2020 23:12:06 +1000 (AEST)
+From: Geoffrey McRae <geoff@hostfission.com>
+Date: Tue, 18 Aug 2020 22:40:36 +1000
+Subject: [PATCH] audio/jack: fix use after free segfault
+To: <qemu-devel@nongnu.org>
+Cc: <kraxel@redhat.com>
+X-Mailer: mail (GNU Mailutils 3.5)
+Message-Id: <20200818131206.BB75F3A0B9F@moya.office.hostfission.com>
+Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
+ helo=mail1.hostfission.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 09:12:07
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,46 +62,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: boris.ostrovsky@oracle.com, lersek@redhat.com, qemu-devel@nongnu.org,
- aaron.young@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgxODEyMjIwOC4xMjQz
-OTAxLTEtaW1hbW1lZG9AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhl
-IGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5n
-IGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0
-YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBT
-Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0x
-IE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0x
-IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAgY2hlY2st
-dW5pdDogdGVzdHMvdGVzdC1jaGFyClVuZXhwZWN0ZWQgZXJyb3IgaW4gb2JqZWN0X3Byb3BlcnR5
-X3RyeV9hZGQoKSBhdCAvdG1wL3FlbXUtdGVzdC9zcmMvcW9tL29iamVjdC5jOjExODE6CmF0dGVt
-cHQgdG8gYWRkIGR1cGxpY2F0ZSBwcm9wZXJ0eSAnc2VyaWFsLWlkJyB0byBvYmplY3QgKHR5cGUg
-J2NvbnRhaW5lcicpCkVSUk9SIHRlc3QtY2hhciAtIHRvbyBmZXcgdGVzdHMgcnVuIChleHBlY3Rl
-ZCAzOCwgZ290IDkpCm1ha2U6ICoqKiBbY2hlY2stdW5pdF0gRXJyb3IgMQptYWtlOiAqKiogV2Fp
-dGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMjQK
-ICBURVNUICAgIGlvdGVzdC1xY293MjogMDI1Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vy
-cm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQg
-J1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5z
-dGFuY2UudXVpZD1mMmI1MmU3NzllYTA0NGE2YWY4MzQ3YWU0OWQ0Nzg1ZScsICctdScsICcxMDAx
-JywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywg
-J1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0n
-LCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScs
-ICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNo
-ZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAv
-cGF0Y2hldy10ZXN0ZXItdG1wLWU2NTF4NGE4L3NyYy9kb2NrZXItc3JjLjIwMjAtMDgtMTgtMDgu
-NDMuMDQuMjMzMjE6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3Rt
-cC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVz
-IDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWYyYjUyZTc3
-OWVhMDQ0YTZhZjgzNDdhZTQ5ZDQ3ODVlCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3Ig
-MQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LWU2NTF4NGE4L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10g
-RXJyb3IgMgoKcmVhbCAgICAxM203LjE0MHMKdXNlciAgICAwbTkuMzI4cwoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA4MTgxMjIyMDgu
-MTI0MzkwMS0xLWltYW1tZWRvQHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9z
-Ny8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Due to a ridiculous commit in the Jack library, the client may have been
+freed already by a secondary audio device recovering its session.
+
+https://github.com/jackaudio/jack2/issues/627
+
+Until there is a proper fix for this we can not risk using the pointer
+at all if we have been notified of a shutdown as it may have been freed
+by the jack library, as such the close call is commented out to prevent
+a use after free segfault.
+
+At this time, this will not cause a memory leak as the recovery routine
+will trigger the "cleanup" code in the jack library, however, if this is
+ever corrected in the jack library this will need to be revisited.
+
+Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
+---
+ audio/jackaudio.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+index 72ed7c4929..e8faf1bb89 100644
+--- a/audio/jackaudio.c
++++ b/audio/jackaudio.c
+@@ -563,7 +563,22 @@ static void qjack_client_fini(QJackClient *c)
+         /* fallthrough */
+ 
+     case QJACK_STATE_SHUTDOWN:
+-        jack_client_close(c->client);
++        /*
++         * Due to a rediculous commit in the Jack library, the client may have
++         * been freed already.
++         *
++         * Until there is a proper fix for this we can not risk using the
++         * pointer at all if we have been notified of a shutdown, as such the
++         * below line is commented out to prevent a use after free segfault.
++         * This will not cause a memory leak as the recovery routine will trigger
++         * the "cleanup" code in the jack library.
++         *
++         * https://github.com/jackaudio/jack2/commit/171a3c4a0ddd18d2afae56f3af6291c8e96ee3ac
++         */
++
++        //jack_client_close(c->client);
++        c->client = NULL;
++
+         /* fallthrough */
+ 
+     case QJACK_STATE_DISCONNECTED:
+-- 
+2.20.1
+
 
