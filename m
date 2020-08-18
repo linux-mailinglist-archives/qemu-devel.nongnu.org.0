@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDAA249056
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:45:35 +0200 (CEST)
-Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEB524906A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:56:54 +0200 (CEST)
+Received: from localhost ([::1]:50536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k89QE-00084i-Do
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:45:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46578)
+	id 1k89bB-0002n3-8B
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k89Ok-0007CR-QH
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:44:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37927
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k89ZU-00018U-2h
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:55:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25959
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k89Oi-0006FU-7M
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:44:02 -0400
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1k89ZR-0007fV-UW
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:55:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597787038;
+ s=mimecast20190719; t=1597787703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NIcUBY8rv8ol3h9XS1cXSqqY9ofHs1ExTA2icmkSVOg=;
- b=bptgHZUMN/lTC/r6yzrf9yLSsU2fLOCuE5ZWghlpjSPP8WF1xP2afgBJ0mQLLo15G+Ee70
- VgJTRE0YyRuRHWD+Jtv6FVLP9EjaSUY2esJirGBwNmnjVtmWzAMiT+p832/IXd7oOHQxBK
- 2+kEMOo4V9gG8uzIoyV/Xp3DPAKEolw=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qLLQXtaXRbT1qps1CfEUDptEEVRC30jtIOlMpqJninM=;
+ b=eMxOakTq/dtrw2ADKfSZG7g1Glf280zPeYqPuJ46itFYWDmENnKi9y3Fqa+IAuVo38fZFy
+ Dkw+DzBj3gCuLIg/uAz24QEaiqmFxVDbG0eKQAc0F579GSMlRupteT2IEnkNKoSQHbEbbl
+ hoHO9iq0QEr+FXRCO+AWanrENivyTIU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-bFsF8iH9PsCR16tM1hjTdA-1; Tue, 18 Aug 2020 17:43:56 -0400
-X-MC-Unique: bFsF8iH9PsCR16tM1hjTdA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-79-Kj4yYr5jM52vSxQUmQNJeQ-1; Tue, 18 Aug 2020 17:54:59 -0400
+X-MC-Unique: Kj4yYr5jM52vSxQUmQNJeQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7788D1DE0E;
- Tue, 18 Aug 2020 21:43:55 +0000 (UTC)
-Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1EFEE7E302;
- Tue, 18 Aug 2020 21:43:55 +0000 (UTC)
-Date: Tue, 18 Aug 2020 17:43:54 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: Re: [PATCH 06/41] allwinner-h3: Rename memmap enum constants
-Message-ID: <20200818214354.GC500103@habkost.net>
-References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-7-ehabkost@redhat.com>
- <6ff80e86-2499-f1af-787b-e22043756d7e@amsat.org>
- <CAPan3Wq94G7Nd6segi-JnrL6Zbkb-ygeykkL4zbvRv7rCQ8a2g@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F4229425CC;
+ Tue, 18 Aug 2020 21:54:58 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.43.2.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B73A10027AB;
+ Tue, 18 Aug 2020 21:54:48 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 0/4] Use ACPI PCI hot-plug for q35
+Date: Tue, 18 Aug 2020 23:52:23 +0200
+Message-Id: <20200818215227.181654-1-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPan3Wq94G7Nd6segi-JnrL6Zbkb-ygeykkL4zbvRv7rCQ8a2g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jusual@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 16:56:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 17:55:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,42 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 17, 2020 at 09:07:58PM +0200, Niek Linnenbank wrote:
-> Hi,
-> 
-> Interesting suggestion Philippe. I modelled the initial code of the H3 SoC
-> mostly in-line with the aspeed SoC,
-> to let it use commonly applied code structures where possible. And it looks
-> like in this series, aspeed_soc.h is also
-> getting the same change. I'll see if I can find some time to make a small
-> patch to move the enum to the local allwinner-h3.c file like you
-> suggested.
-> 
-> For Eduardo's work, I'm OK with a rename for now to AW_H3_DEV_*. I see it
-> is also done like that in aspeed_soc.h and similar files.
-> I do have one follow-up question: which value(s) from the enum are actually
-> in conflict? Could you add that in the commit message perhaps, for clarity?
+PCIe native hot-plug has numerous problems with racing events and unpredictable
+guest behaviour (Windows). Switching to ACPI hot-plug for now.
 
-For allwinner-h3, the conflicting macros are: AW_H3_CCU,
-AW_H3_SYSCTRL.
+Tested on RHEL 8 and Windows 2019.
+pxb-pcie is not yet supported.
 
-v2 of the series will have the conflicting macros mentioned in
-the commit message in all the "rename enum constants" patches.
+v2:
+    * new ioport range for acpiphp [Gerd]
+    * drop find_pci_host() [Igor]
+    * explain magic numbers in _OSC [Igor]
+    * drop build_q35_pci_hotplug() wrapper [Igor]
 
-> 
-> With that answered:
->   Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Julia Suvorova (4):
+  hw/acpi/ich9: Trace ich9_gpe_readb()/writeb()
+  hw/i386/acpi-build: Add ACPI PCI hot-plug methods to q35
+  hw/i386/acpi-build: Turn off support of PCIe native hot-plug and SHPC
+    in _OSC
+  hw/acpi/ich9: Enable ACPI PCI hot-plug
 
-Thanks!
+ hw/i386/acpi-build.h    | 12 ++++++++++
+ include/hw/acpi/ich9.h  |  3 +++
+ include/hw/acpi/pcihp.h |  3 ++-
+ hw/acpi/ich9.c          | 52 ++++++++++++++++++++++++++++++++++++++++-
+ hw/acpi/pcihp.c         | 15 ++++++++----
+ hw/acpi/piix4.c         |  2 +-
+ hw/i386/acpi-build.c    | 48 +++++++++++++++++++++++--------------
+ hw/i386/pc.c            |  1 +
+ hw/acpi/trace-events    |  4 ++++
+ 9 files changed, 114 insertions(+), 26 deletions(-)
 
 -- 
-Eduardo
+2.25.4
 
 
