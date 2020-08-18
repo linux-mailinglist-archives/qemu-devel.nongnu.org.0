@@ -2,96 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F7F248A22
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:40:22 +0200 (CEST)
-Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F71248A87
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:51:54 +0200 (CEST)
+Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83in-000730-CV
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:40:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52892)
+	id 1k83tw-0006kg-Qc
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k83XA-00047A-Rw
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:28:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31617
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k83X8-0001VP-61
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:28:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597764496;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Og5bGG/dbkltpFkenJ+NjzM234zwinPeSK6kx6Slucw=;
- b=YAvqAcnn5DqV9EsDOvkLbonscBVGXALZpjAfGxN5JG+Z7IcHfhtzgpUqqG23e5hAQu8kxf
- fELtxTFwWiNmZxwoCwygmw/5/r2nY7L1zOKnLodEKKUuqF9anjZyXUqQpslPEeyEvQ+G+2
- O5aU8TDf6Q8mPBU2PLZ3q6Ly+nG4ZT8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-zYa8eNWjMxWX2kUAxL9zVw-1; Tue, 18 Aug 2020 11:28:14 -0400
-X-MC-Unique: zYa8eNWjMxWX2kUAxL9zVw-1
-Received: by mail-wr1-f72.google.com with SMTP id k11so8369759wrv.1
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 08:28:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Og5bGG/dbkltpFkenJ+NjzM234zwinPeSK6kx6Slucw=;
- b=kuL4ofekDiaNwgwPK7+bv5kgZR8EQShVyuVbNR1BtVOOGDkJPm4FqKXIYSrsz1pTHC
- t80XiTL3z5N/O4BrbhfLqjTnN/bYQZvce++kMhs5yoWR1DQSfgIO9K8QRBUzAaPR6l9i
- bhZhTEj30oR2OnFzIBSiX9/h2V39z0Woskh3BmR8kBjOqZZ2G+fiiE6U4BtOcJYyi8tE
- Ve91untNOXDG+jI9dasn9i5qFsGNc2Vt8QcV0Ec9lnesivvgS9p7vrSYZ2gtUNmyLKnx
- jH7Y2RYSAA3H4TJ/eyv70xz7ztvCNMLl63lwQ1Kbb5Cn77bonyASQT+qIbmQY1WcJnKU
- DaiA==
-X-Gm-Message-State: AOAM531xLlv6xHj6ox86+OSO1FqYtcSXY1PS8iCFww/IafQkClmuK/1b
- sOoVPO12crgwWrH6vA+eekJa/lnAqhEersXRxy4d97hjk6rAkH24vcNBrmgBEp2kDarLGsBpyCa
- 5q6mYE+pPLtsQ34c=
-X-Received: by 2002:adf:cd8f:: with SMTP id q15mr22664225wrj.347.1597764493199; 
- Tue, 18 Aug 2020 08:28:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5UINidixatJGGvhKXABnSTKrCZlHl4s5Z+JTWLl+GqP+EfSmFoA2XVh8/kTm5yII6So+A+A==
-X-Received: by 2002:adf:cd8f:: with SMTP id q15mr22664207wrj.347.1597764492885; 
- Tue, 18 Aug 2020 08:28:12 -0700 (PDT)
-Received: from steredhat ([5.180.207.22])
- by smtp.gmail.com with ESMTPSA id 130sm393749wme.26.2020.08.18.08.28.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Aug 2020 08:28:12 -0700 (PDT)
-Date: Tue, 18 Aug 2020 17:28:07 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
-Message-ID: <20200818152807.oig6p3ajve5ju32b@steredhat>
-References: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
- <20200813112820.62ffd63e.cohuck@redhat.com>
- <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
- <20200813123737.25ba11d2.cohuck@redhat.com>
- <20200813120415.s5we6mihe6fywm4a@steredhat.lan>
- <20200817122746.0b786372.cohuck@redhat.com>
- <20200817131128.lgxn3pyzuzly4edp@steredhat>
- <20200818144450.0701d68c.cohuck@redhat.com>
- <20200818140120.c46fsf6cia2ol53v@steredhat>
- <20200818163101.72abd288.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1k83qq-0002RU-RC
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:48:41 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:42784)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1k83qn-0005Hw-Cw
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:48:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1597765717; x=1629301717;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=eQ9pZDLJT0++hD4thsX7Gk5+50J0E0NHqpLQv8mcroM=;
+ b=QW6q9LyUGnrKWrzBS1c2HxRQymJz9jClZ8Gmdq8om2xYvcmEoa9WxL8n
+ 4tXnwY7huq+4KbSz8n3xUENJ/vgs7K2HHBICKWo/Q9MmmlSmCEDKrNHh5
+ 5vV1Vo+mtzTUboEEr16+drjlESoll2GGaOofZCogKr0v0DuUsmGbKxayC A=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 18 Aug 2020 08:48:34 -0700
+Received: from vu-tsimpson-aus.qualcomm.com (HELO
+ vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
+ by ironmsg01-sd.qualcomm.com with ESMTP; 18 Aug 2020 08:48:33 -0700
+Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
+ id 902487BD; Tue, 18 Aug 2020 10:48:33 -0500 (CDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: tsimpson@quicinc.com
+Subject: [RFC PATCH v3 01/34] Hexagon Update MAINTAINERS file
+Date: Tue, 18 Aug 2020 10:47:21 -0500
+Message-Id: <1597765675-16393-2-git-send-email-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1597765675-16393-1-git-send-email-tsimpson@quicinc.com>
+References: <1597765675-16393-1-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
-In-Reply-To: <20200818163101.72abd288.cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:19:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=199.106.114.38;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 11:48:34
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,67 +69,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 18, 2020 at 04:31:01PM +0200, Cornelia Huck wrote:
-> On Tue, 18 Aug 2020 16:01:20 +0200
-> Stefano Garzarella <sgarzare@redhat.com> wrote:
-> 
-> > On Tue, Aug 18, 2020 at 02:44:50PM +0200, Cornelia Huck wrote:
-> 
-> > > It seems to me that the status before this was "works by accident, but
-> > > only if we're not negotiating to legacy, or the guest/host are both
-> > > little endian". IOW, no visible breakage for most people (or we'd
-> > > probably have heard of it already). Now we have a setup that's correct,
-> > > but forces users to adapt their QEMU command lines. Option 1 would
-> > > eliminate the need to do that, but would cause possibly
-> > > not-really-fixable migration issues (you can probably deal with that
-> > > manually, detaching and re-attaching the device as a last resort.)
-> > > 
-> > > So, force modern, probably also remove the -transitional device type,
-> > > and put a prominent explanation into the change log?
-> > >   
-> > 
-> > I completely agree with your analysis and solution.
-> > 
-> > So, for now we need to patch vhost-vsock-pci and vhost-user-vsock-pci,
-> > and queue the patches in stable.
-> 
-> I think we should also change -ccw; even though users won't get an
-> error when starting QEMU, they might still run into the legacy problems
-> in theory.
-
-Okay.
-
-> 
-> Not sure how fast we'll have a stable release, though.
-> 
-> > 
-> > Do you prefer to send them? Otherwise I can do that.
-> 
-> If you already have something on your disk, please go ahead :)
-
-Yes, I have something for pci, and I'll follow your suggestion for ccw!
-
-If you have time, can you share with me some tips on how to install
-s390x guest on my laptop?
-
-> 
-> > 
-> > Thanks again for the help and the test with s390x guest!
-> 
-> np; especially as it was my patch which started this in the first place
-> :/
-> 
-
-I'm not sure that was a bad thing, since we found out that virtio-vsock is
-modern only :-)
-
-Thanks,
-Stefano
-
+QWRkIFRheWxvciBTaW1wc29uIGFzIHRoZSBIZXhhZ29uIHRhcmdldCBtYWludGFpbmVyCgpTaWdu
+ZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQogTUFJ
+TlRBSU5FUlMgfCA4ICsrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspCgpk
+aWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUwppbmRleCAwODg2ZWIzLi5kODVk
+YTU1IDEwMDY0NAotLS0gYS9NQUlOVEFJTkVSUworKysgYi9NQUlOVEFJTkVSUwpAQCAtMTg0LDYg
+KzE4NCwxNCBAQCBGOiBpbmNsdWRlL2h3L2NyaXMvCiBGOiB0ZXN0cy90Y2cvY3Jpcy8KIEY6IGRp
+c2FzL2NyaXMuYwogCitIZXhhZ29uIFRDRyBDUFVzCitNOiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBz
+b25AcXVpY2luYy5jb20+CitTOiBTdXBwb3J0ZWQKK0Y6IHRhcmdldC9oZXhhZ29uLworRjogbGlu
+dXgtdXNlci9oZXhhZ29uLworRjogZGlzYXMvaGV4YWdvbi5jCitGOiBkZWZhdWx0LWNvbmZpZ3Mv
+aGV4YWdvbi1saW51eC11c2VyLm1haworCiBIUFBBIChQQS1SSVNDKSBUQ0cgQ1BVcwogTTogUmlj
+aGFyZCBIZW5kZXJzb24gPHJ0aEB0d2lkZGxlLm5ldD4KIFM6IE1haW50YWluZWQKLS0gCjIuNy40
+Cgo=
 
