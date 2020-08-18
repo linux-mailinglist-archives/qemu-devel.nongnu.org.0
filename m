@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9E524801B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 10:02:44 +0200 (CEST)
-Received: from localhost ([::1]:37546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4560248061
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 10:19:25 +0200 (CEST)
+Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7wZv-0007Sx-Lw
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 04:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41290)
+	id 1k7wq4-0003sS-IB
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 04:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7wZ4-0006Zd-7I
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:01:50 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k7wZ2-0007wr-CE
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:01:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f7so17355519wrw.1
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 01:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KKyfh+gUg8M91LHsN8NlNniZtUSux0nr3YX7fOhr4WY=;
- b=kavYgngw+UDLHdOmwfMq/Nv9FvxjkSFCS3MRIiYY3kd6vV6U8iYB1WEKtDbbEou95Q
- ZFTQYv1kR7j0uNoq2ImATI2WqTbC/GNst6pIKNd1i7LHZpxnvQICKtT12wPkBXXsezco
- SlGeia6TzL4oCLSKGJ6xs9Z6wvSC8IdtlmY7H9qt0GbvnfhTRuCIsAqI5QrS33GjaGYt
- tV6D2HOmDFz1VViJ3i/Ro9g2LZjGzrCCBsNOBhmUHnhO6Ddc/o2ZCnI3pVx3kg5EmCPC
- 4maPiIukaVLu73p5uoikbuzj+3q9xAjwtH+1gZLQGY9WnYPuYBtnnR7TonCiV69o9+on
- 5t8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KKyfh+gUg8M91LHsN8NlNniZtUSux0nr3YX7fOhr4WY=;
- b=PMDugNZ30xPcRaF5A9ecn7r2yRA83CQN49z7xYtqqj8zstsaMlJQ5WB4jqsRII6bSG
- hr4fir+k3eyupx/Bn4qsjT0fFgXOFkWKz7EkEXs5Kmp1mv+XPgoDruMSxkG3ncu5Vobd
- QevOicPLkRHJud+CoJbwnJgmGj4qn6/jsm2X+PiiKQ2hsb2MHW7k1k3kNpwjtggbM16e
- i+yxFrqsCOfBRRDibyHgT23toyCq6lcrmHqFKumH8zIQdaugfbn0cXy2MGGETZ+L+E6x
- I3bTgxtuWn8DrbG/inVhbpX/3BTyx2JU49i5KZuHxjR2xs3E/KiNQkJpOty9fP0DlzmH
- /A/g==
-X-Gm-Message-State: AOAM530QQKD1JR6GNizAzTgS4eG1o4ex7EhDy3uHj8bIOS+GfIgsb0yh
- PxYJVdDGXy/WlMTZ6rN+sAo=
-X-Google-Smtp-Source: ABdhPJz5sKyYmgnQmK9fb1TNe1kHzKS6On72B82tHTMTcAmSNsF5CNnlHfSCwR6LvoshzvRqTLEYgg==
-X-Received: by 2002:a5d:538d:: with SMTP id d13mr19007040wrv.400.1597737706321; 
- Tue, 18 Aug 2020 01:01:46 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id n5sm32398929wrx.22.2020.08.18.01.01.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 01:01:45 -0700 (PDT)
-Subject: Re: [PATCH] memory: Directly dispatch alias accesses on origin memory
- region
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200816173051.16274-1-f4bug@amsat.org>
- <706c1969-3e73-7a8e-d4fe-9a2516f44054@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <077ba036-0654-3fa5-c78f-2485aebd5daf@amsat.org>
-Date: Tue, 18 Aug 2020 10:01:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k7wpG-00036M-3D
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:18:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42627
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k7wpE-0001Rv-Gs
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 04:18:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597738711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t4yqCo/ODp3jlouVXgXEEVLvwEsFeNxpRiGqBMxxA04=;
+ b=KMFk/+1p8ZxqQi9n2PqffCFBC/ZkoktSrU9USxjZyBXCV/0NeYDZzh9GH15a+gV1pLArh7
+ uaIBfFQmcTx2/NC9dUTANK1av4mnlij4HBQ/I8wcOUDHR5TyFfQaEWb0FtfV+Y08YUAWja
+ hE4Mwfx1VYCJcXKwvuhGmOgXAdzQOwQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-Un0XtcnnMZWszRqBTmMXww-1; Tue, 18 Aug 2020 04:18:29 -0400
+X-MC-Unique: Un0XtcnnMZWszRqBTmMXww-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23AD1425CE;
+ Tue, 18 Aug 2020 08:18:28 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-112-105.ams2.redhat.com [10.36.112.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E13C87DFC2;
+ Tue, 18 Aug 2020 08:18:26 +0000 (UTC)
+Date: Tue, 18 Aug 2020 10:18:25 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH 0/1] qcow2: Skip copy-on-write when allocating a zero
+ cluster
+Message-ID: <20200818081825.GA6865@linux.fritz.box>
+References: <cover.1597416317.git.berto@igalia.com>
+ <20200817101019.GD11402@linux.fritz.box>
+ <w518sedz3td.fsf@maestria.local.igalia.com>
+ <20200817155307.GS11402@linux.fritz.box>
+ <w51zh6txhj0.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <706c1969-3e73-7a8e-d4fe-9a2516f44054@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <w51zh6txhj0.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: none client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:25:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,102 +83,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/20 6:27 PM, Paolo Bonzini wrote:
-> On 16/08/20 19:30, Philippe Mathieu-Daudé wrote:
->> There is an issue when accessing an alias memory region via the
->> memory_region_dispatch_read() / memory_region_dispatch_write()
->> calls:
->>
->> The memory_region_init_alias() flow is:
->>
->>   memory_region_init_alias()
->>   -> memory_region_init()
->>      -> object_initialize(TYPE_MEMORY_REGION)
->>         -> memory_region_initfn()
->>            -> mr->ops = &unassigned_mem_ops;
->>
->> Later when accessing the alias, the memory_region_dispatch_read()
->> flow is:
->>
->>   memory_region_dispatch_read()
->>   -> memory_region_access_valid(mr)
->>      -> mr->ops->valid.accepts()
->>         -> unassigned_mem_accepts()
->>         <- false
->>      <- false
->>    <- MEMTX_DECODE_ERROR
->>
->> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+Am 17.08.2020 um 20:18 hat Alberto Garcia geschrieben:
+> On Mon 17 Aug 2020 05:53:07 PM CEST, Kevin Wolf wrote:
+> > Maybe the difference is in allocating 64k at once instead of doing a
+> > separate allocation for every 4k block? But with the extent size hint
+> > patches to file-posix, we should allocate 1 MB at once by default now
+> > (if your test image was newly created). Can you check whether this is
+> > in effect for your image file?
 > 
-> What is the path that leads to this call?
+> Ehmm... is that hint supported in ext4 or only in xfs?
 
-Using the interleaver from:
-https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg03680.html
+Hm, I had understood that ext4 supports this, but looking at the kernel
+code, it doesn't look like it. :-(
 
-#2  0x8162f7b6 in unassigned_mem_read (opaque=0x82ac7330, addr=0,
-size=1) at softmmu/memory.c:1261
-#3  0x8162fc2f in memory_region_dispatch_read (mr=0x82ac7330, addr=0,
-pval=0x7ffe24b9cc08, op=MO_8, attrs=...) at softmmu/memory.c:1417
-#4  0x8175488b in interleaver_read (opaque=0x82b9e530, offset=0,
-data=0x7ffe24b9cc08, size=1, attrs=...) at hw/misc/interleaver.c:76
-#5  0x8162cbdc in memory_region_read_with_attrs_accessor (mr=0x82b9e850,
-addr=0, value=0x7ffe24b9cd90, size=1, shift=0, mask=255, attrs=...) at
-softmmu/memory.c:456
-#6  0x8162cfab in access_with_adjusted_size (addr=0,
-value=0x7ffe24b9cd90, size=4, access_size_min=1, access_size_max=1,
-access_fn=
-    0x8162cb7c <memory_region_read_with_attrs_accessor>, mr=0x82b9e850,
-attrs=...) at softmmu/memory.c:544
-#7  0x8162fb98 in memory_region_dispatch_read1 (mr=0x82b9e850, addr=0,
-pval=0x7ffe24b9cd90, size=4, attrs=...) at softmmu/memory.c:1395
-#8  0x8162fc5a in memory_region_dispatch_read (mr=0x82b9e850, addr=0,
-pval=0x7ffe24b9cd90, op=MO_32, attrs=...) at softmmu/memory.c:1421
-#9  0x8153012b in flatview_read_continue (fv=0x82bd0d10, addr=320897024,
-attrs=..., ptr=0x7ffe24b9cea0, len=4, addr1=0, l=4, mr=0x82b9e850) at
-exec.c:3239
-#10 0x8153027e in flatview_read (fv=0x82bd0d10, addr=320897024,
-attrs=..., buf=0x7ffe24b9cea0, len=4) at exec.c:3278
-#11 0x81530307 in address_space_read_full (as=0x81ec1ac0
-<address_space_memory>, addr=320897024, attrs=..., buf=0x7ffe24b9cea0,
-len=4) at exec.c:3291
-#12 0x8163761e in address_space_read (len=4, buf=0x7ffe24b9cea0,
-attrs=..., addr=320897024, as=0x81ec1ac0 <address_space_memory>) at
-include/exec/memory.h:2420
-#13 qtest_process_command (chr=0x81edcd00 <qtest_chr>, words=0x82be2b30)
-at softmmu/qtest.c:495
-#14 0x8163877b in qtest_process_inbuf (chr=0x81edcd00 <qtest_chr>,
-inbuf=0x82a65220) at softmmu/qtest.c:724
-#15 0x8163880c in qtest_read (opaque=0x81edcd00 <qtest_chr>,
-buf=0x7ffe24b9d1f0 "readl 0x13208000\n 0x76\n", size=17) at
-softmmu/qtest.c:736
+Kevin
 
-> 
->> Fix by directly dispatching aliases accesses to its origin region.
->>
->> Fixes: 2cdfcf272d ("memory: assign MemoryRegionOps to all regions")
-> 
-> I don't think the "Fixes" is okay because you'd have gotten a different
-> bug before.
-
-OK I'll reword.
-
-> 
->> +    if (mr->alias) {
->> +        addr += mr->alias_offset;
->> +        mr = mr->alias;
->> +    }
-> 
-> Also, I think this would have to be a while loop.
-
-I haven't thought about this case! I'll add a test for it :)
-
-> 
-> Paolo
-> 
-> 
 
