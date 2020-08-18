@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34332483B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 13:15:07 +0200 (CEST)
-Received: from localhost ([::1]:54468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9D82483BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 13:18:20 +0200 (CEST)
+Received: from localhost ([::1]:33686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7za7-0001bV-10
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 07:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34922)
+	id 1k7zdD-0004pN-7x
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 07:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1k7zUV-0002HI-GV; Tue, 18 Aug 2020 07:09:19 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:40952)
+ id 1k7zWG-0003fo-3g; Tue, 18 Aug 2020 07:11:08 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:41960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1k7zUQ-00076S-Bo; Tue, 18 Aug 2020 07:09:19 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07IB2srR087304;
- Tue, 18 Aug 2020 11:09:01 GMT
+ id 1k7zWE-0007T6-71; Tue, 18 Aug 2020 07:11:07 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07IB1VSf013529;
+ Tue, 18 Aug 2020 11:11:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=6MmzdbrCpDpoFeTo3boOHTsAhKQWBGZakVTafqZnLwo=;
- b=WZp2CzoSyNFty8Yj1LzKxZx3MKPmagWYNENKxc4Vb0BHK8Jhyoxm5bXJQuZtwDlfLzrq
- 4k6wx092TUTZoO3Z3Kb9bHMq0jiV2T16eqJvgZrykQN51Uy4+49/I28cAPj2uqaLescO
- 2npneixQBEC6cYQKSt5D/lTThPNV/e20hap3sQhdkZ+4zFoXWU0tpPLbg+BJIZ6OJ+We
- fIagg1zTt9W8qClxSG94oYNiGedMDzSEVov9EfxlvkqlOXpSwLnyGEjzY86lmRs63d9S
- hzR32KThgwKyWiJhs6RCfTthtv5f5btojO/EjpBLjMu7Sja5pyG8GLvz2g25r11Q48b9 bw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 32x8bn3y97-1
+ bh=IqaSwqqFiLggpnInP8SeCftORg7ZLFYTCdjzdpFzBKk=;
+ b=wwCahuGW2f6NH1NkIk2hmcO1Zn4ST5dkb38aMo/dUkXGLUoYSJOFV3V2KAMQ3JzOEYCv
+ WVpFZNEqh7eHTHPkdabTuTTVWrsmpvFtIP28x9It/QhyO+dSt1mDYNk8MZr+ILPWqmH9
+ hZ4CiMt2bDTI+qbhAQikXkNFtIgU1+7ezOcbt1isuQqhrwZrDwe05DLf3eT52ou91nSz
+ MucsZO7ePwQMSR7s619JFBNiO0wOCpH1VntlXY5bXAp06x5myBLFjuvgIbZAMkrrwa4Y
+ XGQtHl5gtTNGqAFZMh93p39k6805bc/zYXgi3STPuW51S7GEr9d6efctsmhCcgeKecPe 7A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 32x7nmc21y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 18 Aug 2020 11:09:00 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07IB8tU2036203;
- Tue, 18 Aug 2020 11:09:00 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 32xsmx3avy-1
+ Tue, 18 Aug 2020 11:11:01 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07IB8ASF171477;
+ Tue, 18 Aug 2020 11:09:01 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 32xs9mtyrg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Aug 2020 11:09:00 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07IB8xsi001513;
+ Tue, 18 Aug 2020 11:09:01 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07IB8xI2026590;
  Tue, 18 Aug 2020 11:08:59 GMT
 Received: from disaster-area.hh.sledj.net (/81.187.26.238)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Tue, 18 Aug 2020 04:08:59 -0700
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id a0c8b12d;
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id f2f05530;
  Tue, 18 Aug 2020 11:08:46 +0000 (UTC)
 From: David Edmondson <david.edmondson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 8/9] block/curl: Allow 16 sockets/ACB
-Date: Tue, 18 Aug 2020 12:08:44 +0100
-Message-Id: <20200818110845.3825105-9-david.edmondson@oracle.com>
+Subject: [RFC PATCH 9/9] block/curl: Add readahead support
+Date: Tue, 18 Aug 2020 12:08:45 +0100
+Message-Id: <20200818110845.3825105-10-david.edmondson@oracle.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200818110845.3825105-1-david.edmondson@oracle.com>
 References: <20200818110845.3825105-1-david.edmondson@oracle.com>
@@ -62,31 +62,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9716
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 bulkscore=0
- mlxlogscore=942 phishscore=0 mlxscore=0 suspectscore=1 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ adultscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=999 suspectscore=1 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2008180080
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9716
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- lowpriorityscore=0
- impostorscore=0 suspectscore=1 adultscore=0 spamscore=0 malwarescore=0
- mlxlogscore=939 priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ spamscore=0
+ impostorscore=0 priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 phishscore=0 malwarescore=0 clxscore=1015
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2008180079
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=david.edmondson@oracle.com; helo=userp2120.oracle.com
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 07:09:07
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,29 +106,107 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-img allows up to 16 coroutines when performing IO. Ensure that
-there is a Curl socket and ACB available to each of them.
+Re-add support for a readahead parameter, which is the number of bytes
+added to the request from the upper layer before breaking the request
+into blocks. The default is zero. The number of bytes specified has no
+alignment requirements.
 
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 ---
- block/curl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/curl.c                          | 11 +++++++++++
+ docs/system/device-url-syntax.rst.inc |  7 +++++++
+ qapi/block-core.json                  |  3 +++
+ 3 files changed, 21 insertions(+)
 
 diff --git a/block/curl.c b/block/curl.c
-index 27fa77c351..8ee314739a 100644
+index 8ee314739a..a182a55b93 100644
 --- a/block/curl.c
 +++ b/block/curl.c
-@@ -60,8 +60,8 @@ static CURLMcode __curl_multi_socket_action(CURLM *multi_handle,
- #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
-                    CURLPROTO_FTP | CURLPROTO_FTPS)
- 
--#define CURL_NUM_STATES 8
--#define CURL_NUM_ACB    8
-+#define CURL_NUM_STATES 16
-+#define CURL_NUM_ACB    16
+@@ -65,6 +65,7 @@ static CURLMcode __curl_multi_socket_action(CURLM *multi_handle,
  #define CURL_TIMEOUT_MAX 10000
  
  #define CURL_BLOCK_OPT_URL       "url"
++#define CURL_BLOCK_OPT_READAHEAD "readahead"
+ #define CURL_BLOCK_OPT_SSLVERIFY "sslverify"
+ #define CURL_BLOCK_OPT_TIMEOUT "timeout"
+ #define CURL_BLOCK_OPT_COOKIE    "cookie"
+@@ -149,6 +150,7 @@ typedef struct BDRVCURLState {
+     uint64_t len;
+     CURLState states[CURL_NUM_STATES];
+     char *url;
++    size_t readahead_size;
+     bool sslverify;
+     uint64_t timeout;
+     char *cookie;
+@@ -881,6 +883,11 @@ static QemuOptsList runtime_opts = {
+             .type = QEMU_OPT_STRING,
+             .help = "URL to open",
+         },
++        {
++            .name = CURL_BLOCK_OPT_READAHEAD,
++            .type = QEMU_OPT_SIZE,
++            .help = "Readahead size",
++        },
+         {
+             .name = CURL_BLOCK_OPT_SSLVERIFY,
+             .type = QEMU_OPT_BOOL,
+@@ -976,6 +983,8 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+         goto out_noclean;
+     }
+ 
++    s->readahead_size = qemu_opt_get_size(opts, CURL_BLOCK_OPT_READAHEAD, 0);
++
+     s->timeout = qemu_opt_get_number(opts, CURL_BLOCK_OPT_TIMEOUT,
+                                      CURL_BLOCK_OPT_TIMEOUT_DEFAULT);
+     if (s->timeout > CURL_TIMEOUT_MAX) {
+@@ -1247,6 +1256,8 @@ static int coroutine_fn curl_co_preadv(BlockDriverState *bs,
+ 
+     trace_curl_co_preadv(qemu_coroutine_self(), offset, bytes);
+ 
++    bytes += s->readahead_size;
++
+     while (bytes > 0) {
+         uint64_t len = MIN(bytes, s->blocksize - curl_block_offset(s, off));
+         CURLAIOCB acb = {
+diff --git a/docs/system/device-url-syntax.rst.inc b/docs/system/device-url-syntax.rst.inc
+index 56843cb38f..58245e017c 100644
+--- a/docs/system/device-url-syntax.rst.inc
++++ b/docs/system/device-url-syntax.rst.inc
+@@ -174,6 +174,13 @@ These are specified using a special URL syntax.
+    ``url``
+       The full URL when passing options to the driver explicitly.
+ 
++   ``readahead``
++      The amount of data to read ahead with each range request to the
++      remote server. This value may optionally have the suffix 'T', 'G',
++      'M', 'K', 'k' or 'b'. If it does not have a suffix, it will be
++      assumed to be in bytes. The value must be a multiple of 512 bytes.
++      It defaults to 256k.
++
+    ``sslverify``
+       Whether to verify the remote server's certificate when connecting
+       over SSL. It can have the value 'on' or 'off'. It defaults to
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 91888166fa..f4092ccc14 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3752,6 +3752,8 @@
+ #
+ # @url: URL of the image file
+ #
++# @readahead: Amount of read-ahead (defaults to 0)
++#
+ # @timeout: Timeout for connections, in seconds (defaults to 5)
+ #
+ # @username: Username for authentication (defaults to none)
+@@ -3776,6 +3778,7 @@
+   'data': { 'url': 'str',
+             '*blocksize': 'int',
+             '*blockcount': 'int',
++            '*readahead': 'int',
+             '*timeout': 'int',
+             '*username': 'str',
+             '*password-secret': 'str',
 -- 
 2.27.0
 
