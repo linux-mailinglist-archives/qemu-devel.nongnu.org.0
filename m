@@ -2,42 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4466C247D82
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:29:33 +0200 (CEST)
-Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DB0247D7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:28:32 +0200 (CEST)
+Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tFc-0008LX-7h
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50074)
+	id 1k7tEd-0006Bh-KU
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6D-0007aO-Me; Tue, 18 Aug 2020 00:19:49 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35941 helo=ozlabs.org)
+ id 1k7t6Z-0008RW-TX; Tue, 18 Aug 2020 00:20:12 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:38105 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6B-0006Mx-7i; Tue, 18 Aug 2020 00:19:49 -0400
+ id 1k7t6Y-0006Ns-2n; Tue, 18 Aug 2020 00:20:11 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNc1ZwYz9sRK; Tue, 18 Aug 2020 14:19:28 +1000 (AEST)
+ id 4BVyNd0klNz9sVd; Tue, 18 Aug 2020 14:19:29 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724368;
- bh=6HX359pDH9E5Ws1o3UwRlX/kLzA+QilZAfwnA0x4H1k=;
+ d=gibson.dropbear.id.au; s=201602; t=1597724369;
+ bh=nH0H3yYyxaySTaqQiGqcwMUcDcqOkORK6NquiIdDaCM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BRWsQzFPIysHs6RDu4ED3pIJE7gDO6CPDKS79i8CeUbOHIV3CeLZ/2tOKP8PEFOuJ
- cb7EMNlg1r0Q93I0dnmKAIQoPN2EJjhRqV3cAu8+LLRHy4WK2AcFWan82pF+5ruqbc
- AplqYaJ63sw1VqZiHMyoW+XP5xaFo+UYG+tfs5Z8=
+ b=g+djrO36YSuLMLelS7uwOuc2RKettH+rxDMS5zhHRM3oh76TV9V3SE8Z9ZGWvt3mR
+ /07/vguUSb+HAmPGWYMwYwLgRmoLCpTrG3Bdc9jM9c92oR2WZV+ZfihxOkdJJjraVf
+ l1CnYzFjvl6v+d6YsXPZZBNMqEUd05Pj/vHqWlIs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 18/40] spapr: Clarify error and documentation for broken KVM
- XICS
-Date: Tue, 18 Aug 2020 14:19:00 +1000
-Message-Id: <20200818041922.251708-19-david@gibson.dropbear.id.au>
+Subject: [PULL 21/40] target/ppc: Integrate icount to purr, vtb, and tbu40
+Date: Tue, 18 Aug 2020 14:19:03 +1000
+Message-Id: <20200818041922.251708-22-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -62,101 +60,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
  David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+ qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-When starting an L2 KVM guest with `ic-mode=dual,kernel-irqchip=on`,
-QEMU fails with:
+Currently if option '-icount auto' is passed to the QEMU TCG to enable
+counting instructions the VM crashes with the following error report when
+Linux runs on it:
 
-KVM is too old to support ic-mode=dual,kernel-irqchip=on
+qemu-system-ppc64: Bad icount read
 
-This error message was introduced to detect older KVM versions that
-didn't allow destruction and re-creation of the XICS KVM device that
-we do at reboot. But it is actually the same issue that we get with
-nested guests : when running under pseries, KVM currently provides
-a genuine XICS device (not the XICS-on-XIVE device that we get
-under powernv) which doesn't support destruction/re-creation.
+This happens because read/write access to the SPRs PURR, VTB, and TBU40
+is not integrated to the icount framework.
 
-This will eventually be fixed in KVM but in the meantime, update
-the error message and documentation to mention the nested case.
-While here, mention that in "No XIVE support in KVM" section that
-this can also happen with "guest OSes supporting XIVE" since
-we check this at init time before starting the guest.
+This commit fixes that issue by making the read/write access of these
+SPRs aware of icount framework, adding the proper gen_io_start() calls
+before calling the helpers to load/store these SPRs in TCG and ensuring
+that the associated TBs end immediately after, accordingly to what's in
+docs/devel/tcg-icount.rst.
 
-Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890290
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159664243614.622889.18307368735989783528.stgit@bahia.lan>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+Message-Id: <20200811153235.4527-1-gromero@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- docs/specs/ppc-spapr-xive.rst |  5 ++++-
- hw/ppc/spapr_irq.c            | 12 +++++++++---
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ target/ppc/translate_init.inc.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/docs/specs/ppc-spapr-xive.rst b/docs/specs/ppc-spapr-xive.rst
-index 7199db730b..7144347560 100644
---- a/docs/specs/ppc-spapr-xive.rst
-+++ b/docs/specs/ppc-spapr-xive.rst
-@@ -126,6 +126,9 @@ xics            XICS KVM       XICS emul.     XICS KVM
- 
- (1) QEMU warns with ``warning: kernel_irqchip requested but unavailable:
-     IRQ_XIVE capability must be present for KVM``
-+    In some cases (old host kernels or KVM nested guests), one may hit a
-+    QEMU/KVM incompatibility due to device destruction in reset. QEMU fails
-+    with ``KVM is incompatible with ic-mode=dual,kernel-irqchip=on``
- (2) QEMU fails with ``kernel_irqchip requested but unavailable:
-     IRQ_XIVE capability must be present for KVM``
- 
-@@ -148,7 +151,7 @@ xics            XICS KVM       XICS emul.     XICS KVM
-     mode (XICS), either don't set the ic-mode machine property or try
-     ic-mode=xics or ic-mode=dual``
- (4) QEMU/KVM incompatibility due to device destruction in reset. QEMU fails
--    with ``KVM is too old to support ic-mode=dual,kernel-irqchip=on``
-+    with ``KVM is incompatible with ic-mode=dual,kernel-irqchip=on``
- 
- 
- XIVE Device tree properties
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 2f8f7d62f8..72bb938375 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -139,6 +139,7 @@ SpaprIrq spapr_irq_dual = {
- 
- static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index 5134123dd6..230a062d29 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -284,12 +284,24 @@ static void spr_write_atbu(DisasContext *ctx, int sprn, int gprn)
+ ATTRIBUTE_UNUSED
+ static void spr_read_purr(DisasContext *ctx, int gprn, int sprn)
  {
-+    ERRP_GUARD();
-     MachineState *machine = MACHINE(spapr);
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
+     gen_helper_load_purr(cpu_gpr[gprn], cpu_env);
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_stop_exception(ctx);
++    }
+ }
  
-     /*
-@@ -179,14 +180,19 @@ static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
+ static void spr_write_purr(DisasContext *ctx, int sprn, int gprn)
+ {
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
+     gen_helper_store_purr(cpu_env, cpu_gpr[gprn]);
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_stop_exception(ctx);
++    }
+ }
  
-     /*
-      * On a POWER9 host, some older KVM XICS devices cannot be destroyed and
--     * re-created. Detect that early to avoid QEMU to exit later when the
--     * guest reboots.
-+     * re-created. Same happens with KVM nested guests. Detect that early to
-+     * avoid QEMU to exit later when the guest reboots.
-      */
-     if (kvm_enabled() &&
-         spapr->irq == &spapr_irq_dual &&
-         kvm_kernel_irqchip_required() &&
-         xics_kvm_has_broken_disconnect(spapr)) {
--        error_setg(errp, "KVM is too old to support ic-mode=dual,kernel-irqchip=on");
-+        error_setg(errp,
-+            "KVM is incompatible with ic-mode=dual,kernel-irqchip=on");
-+        error_append_hint(errp,
-+            "This can happen with an old KVM or in a KVM nested guest.\n");
-+        error_append_hint(errp,
-+            "Try without kernel-irqchip or with kernel-irqchip=off.\n");
-         return -1;
-     }
+ /* HDECR */
+@@ -319,17 +331,35 @@ static void spr_write_hdecr(DisasContext *ctx, int sprn, int gprn)
  
+ static void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
+ {
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
+     gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_stop_exception(ctx);
++    }
+ }
+ 
+ static void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
+ {
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
+     gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_stop_exception(ctx);
++    }
+ }
+ 
+ static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
+ {
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
+     gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_stop_exception(ctx);
++    }
+ }
+ 
+ #endif
 -- 
 2.26.2
 
