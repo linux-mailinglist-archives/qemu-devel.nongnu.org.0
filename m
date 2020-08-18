@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B5F24878C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:30:11 +0200 (CEST)
-Received: from localhost ([::1]:58474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2A3248786
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:29:16 +0200 (CEST)
+Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k82cs-0004HE-Tt
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:30:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60646)
+	id 1k82bz-0002e8-80
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Kd-0003rH-NH
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35613
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k82Kj-00045i-1y
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50014
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82KV-0007OQ-UH
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:19 -0400
+ id 1k82KZ-0007P0-49
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759870;
+ s=mimecast20190719; t=1597759873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mDA6A7yRHdW2h9TM8tC0DQ+WO+um+8bG6fR/YWWW6Og=;
- b=Rzocn/p107eXrwFeeUhvrUpXJrl21QugBWN68pISsZmfbunts8Sz2+X41fA2oicqI/OLEA
- yiqpaCANDn0nwO/nZgpMq7Fu/ZW6/zh33S5Q7R3fZH3IHEq/MGwHa5JItTIpDW0Zl2nMI9
- R2puz2TXg5mlga1SeD4Ms20qRTNVgWs=
+ bh=qUTh2dDNIkbqxOEXwQ6DpDnENqKp3nDxgFtrj3oGYn8=;
+ b=PCW4zviEjRiUQ45f5Bx6ehZXl2P0fbT46CEhEZAvcyj2U+76saN28usr5EUiEfEYjvBTv1
+ T+d4SOiXPlSHxbmb8Yz/69KcrQiQsTo+XqFGRdQiie9gxuPpB4/cfDf7+xtm654upRUWc8
+ lDjRdtZNRe9gxLCvoHInUa1CtCO1vbY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-22fZViE_NI2Y8BjepwdOBg-1; Tue, 18 Aug 2020 10:11:08 -0400
-X-MC-Unique: 22fZViE_NI2Y8BjepwdOBg-1
+ us-mta-1-HJNjOWrdOQOfAOKSktGTOA-1; Tue, 18 Aug 2020 10:11:11 -0400
+X-MC-Unique: HJNjOWrdOQOfAOKSktGTOA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFC29100CA97
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:11:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49D8F807332
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:11:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F0802CFC6;
- Tue, 18 Aug 2020 14:11:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE20B5C64D;
+ Tue, 18 Aug 2020 14:11:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 044/150] meson: add qemu-bridge-helper
-Date: Tue, 18 Aug 2020 10:08:39 -0400
-Message-Id: <20200818141025.21608-45-pbonzini@redhat.com>
+Subject: [PULL 049/150] meson: generate qemu-version.h
+Date: Tue, 18 Aug 2020 10:08:44 -0400
+Message-Id: <20200818141025.21608-50-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,70 +82,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    | 4 ----
- meson.build | 9 ++++++++-
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ Makefile                | 27 +--------------------------
+ meson.build             | 14 ++++++++++++--
+ scripts/qemu-version.sh | 25 +++++++++++++++++++++++++
+ 3 files changed, 38 insertions(+), 28 deletions(-)
+ create mode 100755 scripts/qemu-version.sh
 
 diff --git a/Makefile b/Makefile
-index a61c66096e..b66b443037 100644
+index 5fbf5e4bbd..9abf7be598 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -188,8 +188,6 @@ LIBS+=-lz $(LIBS_TOOLS)
+@@ -112,21 +112,7 @@ include $(SRC_PATH)/rules.mak
+ # lor is defined in rules.mak
+ CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
  
- HELPERS-y = $(HELPERS)
- 
--HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
+-# Create QEMU_PKGVERSION and FULL_VERSION strings
+-# If PKGVERSION is set, use that; otherwise get version and -dirty status from git
+-QEMU_PKGVERSION := $(if $(PKGVERSION),$(PKGVERSION),$(shell \
+-  cd $(SRC_PATH); \
+-  if test -e .git; then \
+-    git describe --match 'v*' 2>/dev/null | tr -d '\n'; \
+-    if ! git diff-index --quiet HEAD &>/dev/null; then \
+-      echo "-dirty"; \
+-    fi; \
+-  fi))
 -
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -422,8 +420,6 @@ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
- qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
- 
--qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+-# Either "version (pkgversion)", or just "version" if pkgversion not set
+-FULL_VERSION := $(if $(QEMU_PKGVERSION),$(VERSION) ($(QEMU_PKGVERSION)),$(VERSION))
 -
- qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
+-generated-files-y = qemu-version.h config-host.h qemu-options.def
++generated-files-y = config-host.h qemu-options.def
  
- qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+ generated-files-y += module_block.h
+ 
+@@ -266,17 +252,6 @@ include $(SRC_PATH)/tests/Makefile.include
+ 
+ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules
+ 
+-qemu-version.h: FORCE
+-	$(call quiet-command, \
+-                (printf '#define QEMU_PKGVERSION "$(QEMU_PKGVERSION)"\n'; \
+-		printf '#define QEMU_FULL_VERSION "$(FULL_VERSION)"\n'; \
+-		) > $@.tmp)
+-	$(call quiet-command, if ! cmp -s $@ $@.tmp; then \
+-	  mv $@.tmp $@; \
+-	 else \
+-	  rm $@.tmp; \
+-	 fi)
+-
+ config-host.h: config-host.h-timestamp
+ config-host.h-timestamp: config-host.mak
+ qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
 diff --git a/meson.build b/meson.build
-index d34fe20fd1..c733beb02d 100644
+index d3104165fc..73660bafc1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -294,7 +294,6 @@ qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+@@ -155,6 +155,7 @@ have_block = have_system or have_tools
  
- # Other build targets
+ # Generators
+ 
++genh = []
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
+                      meson.source_root() / 'scripts/qapi/commands.py',
+@@ -180,6 +181,17 @@ tracetool = [
+    '--backend=' + config_host['TRACE_BACKENDS']
+ ]
+ 
++qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
++                    meson.current_source_dir(),
++                    config_host['PKGVERSION'], config_host['VERSION']]
++qemu_version = custom_target('qemu-version.h',
++                             output: 'qemu-version.h',
++                             command: qemu_version_cmd,
++                             capture: true,
++                             build_by_default: true,
++                             build_always_stale: true)
++genh += qemu_version
++
+ # Collect sourcesets.
+ 
+ util_ss = ss.source_set()
+@@ -280,8 +292,6 @@ trace_events_subdirs += [
+   'util',
+ ]
+ 
+-genh = []
 -
- if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
- endif
-@@ -312,6 +311,14 @@ if have_tools
-     subdir('contrib/vhost-user-input')
-     subdir('contrib/vhost-user-scsi')
-   endif
+ subdir('qapi')
+ subdir('qobject')
+ subdir('stubs')
+diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+new file mode 100755
+index 0000000000..4847385e42
+--- /dev/null
++++ b/scripts/qemu-version.sh
+@@ -0,0 +1,25 @@
++#!/bin/sh
 +
-+  if targetos == 'linux'
-+    executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
-+               dependencies: [qemuutil, libcap_ng],
-+               install: true,
-+               install_dir: get_option('libexecdir'))
-+  endif
++set -eu
 +
-   if 'CONFIG_IVSHMEM' in config_host
-     subdir('contrib/ivshmem-client')
-     subdir('contrib/ivshmem-server')
++dir="$1"
++pkgversion="$2"
++version="$3"
++
++if [ -z "$pkgversion"]; then
++    cd "$dir"
++    if [ -e .git ]; then
++        pkgversion=$(git describe --match 'v*' --dirty | echo "")
++    fi
++fi
++
++if [ -n "$pkgversion" ]; then
++    fullversion="$version ($pkgversion)"
++else
++    fullversion="$version"
++fi
++
++cat <<EOF
++#define QEMU_PKGVERSION "$pkgversion"
++#define QEMU_FULL_VERSION "$fullversion"
++EOF
 -- 
 2.26.2
 
