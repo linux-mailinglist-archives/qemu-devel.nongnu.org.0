@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DB02489A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:23:44 +0200 (CEST)
-Received: from localhost ([::1]:33664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43F12489D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:27:17 +0200 (CEST)
+Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83Sh-0002pe-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
+	id 1k83W8-0001am-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k82bj-0003Al-4T
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:28:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53280
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k82gq-0004jy-Vv
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k82bh-0001lX-Dc
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:28:58 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k82go-0002Qi-2V
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597760936;
+ s=mimecast20190719; t=1597761252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2574vWCL8WZtX672BEkYWbJtR6z63k/EPnBBJ21um+M=;
- b=WPnPM9p1EmcinQ0jyah+SoMMMstvGocZBZpObg1iDYCUSK3T3L9RBgr2zVw4zTUQl7P1nv
- ZgKTtIy+w+fgTQlszQX3AydKtHWrgnc9VLH6IEfoGEoJlnN8nCLnioBTt5KZKHPxWfQo9K
- 94ARGELb6V5rD42v8jz2tVDiNKy3LV0=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1CPwUyyJ9DJZFcv0OPojo7vILgxsfZnSiYwrXjr+nX0=;
+ b=XVKy2bshcKLN8w+k9jSTn8jxMc9ZOcGlUue+aSgPUZv0QOroHGhfwQYV2GOOz7cTOBVDmp
+ ICGM8NVTpajYMQN2kyeZ0a6kstMMACbP944Z5N8YCigjFmDcVrf6OHQ538lNR7GVPy59K/
+ Vfv9g4IXX/O2x8ae9jp7W9OOlZdHF0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-y2MANI1-P_KyTYjhngMjtw-1; Tue, 18 Aug 2020 10:28:54 -0400
-X-MC-Unique: y2MANI1-P_KyTYjhngMjtw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-528-Gu6PFkqhM7Gc6DYowI7FpQ-1; Tue, 18 Aug 2020 10:34:09 -0400
+X-MC-Unique: Gu6PFkqhM7Gc6DYowI7FpQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D541610062B7;
- Tue, 18 Aug 2020 14:28:53 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-105.ams2.redhat.com [10.36.112.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE5AF101417D;
- Tue, 18 Aug 2020 14:28:52 +0000 (UTC)
-Date: Tue, 18 Aug 2020 16:28:51 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v7 14/47] stream: Deal with filters
-Message-ID: <20200818142851.GD6865@linux.fritz.box>
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-15-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9EFE10066FB;
+ Tue, 18 Aug 2020 14:34:02 +0000 (UTC)
+Received: from localhost (ovpn-114-160.ams2.redhat.com [10.36.114.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DFCA5D9E8;
+ Tue, 18 Aug 2020 14:33:49 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/7] virtio-pci: enable blk and scsi multi-queue by default
+Date: Tue, 18 Aug 2020 15:33:41 +0100
+Message-Id: <20200818143348.310613-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200625152215.941773-15-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:02:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,45 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Richard Henderson <rth@twiddle.net>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, cohuck@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.06.2020 um 17:21 hat Max Reitz geschrieben:
-> Because of the (not so recent anymore) changes that make the stream job
-> independent of the base node and instead track the node above it, we
-> have to split that "bottom" node into two cases: The bottom COW node,
-> and the node directly above the base node (which may be an R/W filter
-> or the bottom COW node).
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  qapi/block-core.json |  4 +++
->  block/stream.c       | 63 ++++++++++++++++++++++++++++++++------------
->  blockdev.c           |  4 ++-
->  3 files changed, 53 insertions(+), 18 deletions(-)
-> 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index b20332e592..df87855429 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2486,6 +2486,10 @@
->  # On successful completion the image file is updated to drop the backing file
->  # and the BLOCK_JOB_COMPLETED event is emitted.
->  #
-> +# In case @device is a filter node, block-stream modifies the first non-filter
-> +# overlay node below it to point to base's backing node (or NULL if @base was
-> +# not specified) instead of modifying @device itself.
-
-Not to @base's backing node, but to @base itself (or actually, to
-above_base's backing node, which is initially @base, but may have
-changed when the job is completed).
-
-Should we also document what using a filter node for @base means?
-
-The code changes look good.
-
-Kevin
+djY6DQogKiBSZWJhc2VkIG9udG8gUUVNVSA1LjEgYW5kIGFkZGVkIHRoZSBub3ctbmVjZXNzYXJ5
+IG1hY2hpbmUgY29tcGF0IG9wdHMuDQoNCnY0Og0KICogU29ycnkgZm9yIHRoZSBsb25nIGRlbGF5
+LiBJIGNvbnNpZGVyZWQgcmVwbGFjaW5nIHRoaXMgc2VyaWVzIHdpdGggYSBzaW1wbGVyDQogICBh
+cHByb2FjaC4gUmVhbCBoYXJkd2FyZSBzaGlwcyB3aXRoIGEgZml4ZWQgbnVtYmVyIG9mIHF1ZXVl
+cyAoZS5nLiAxMjgpLiBUaGUNCiAgIGVxdWl2YWxlbnQgY2FuIGJlIGRvbmUgaW4gUUVNVSB0b28u
+IFRoYXQgd2F5IHdlIGRvbid0IG5lZWQgdG8gbWFnaWNhbGx5IHNpPQ0KemUNCiAgIG51bV9xdWV1
+ZXMuIEluIHRoZSBlbmQgSSBkZWNpZGVkIGFnYWluc3QgdGhpcyBhcHByb2FjaCBiZWNhdXNlIHRo
+ZSBMaW51eA0KICAgdmlydGlvX2Jsay5rbyBhbmQgdmlydGlvX3Njc2kua28gZ3Vlc3QgZHJpdmVy
+cyB1bmNvbmRpdGlvbmFsbHkgaW5pdGlhbGl6ZWQNCiAgIGFsbCBhdmFpbGFibGUgcXVldWVzIHVu
+dGlsIHJlY2VudGx5IChpdCB3YXMgd3JpdHRlbiB3aXRoDQogICBudW1fcXVldWVzPTNEbnVtX3Zj
+cHVzIGluIG1pbmQpLiBJdCBkb2Vzbid0IG1ha2Ugc2Vuc2UgZm9yIGEgMSBDUFUgZ3Vlc3QgdG8N
+CiAgIGJyaW5nIHVwIDEyOCB2aXJ0cXVldWVzICh3YXN0ZSBvZiByZXNvdXJjZXMgYW5kIHBvc3Np
+Ymx5IHdlaXJkIHBlcmZvcm1hbmNlDQogICBlZmZlY3RzIHdpdGggYmxrLW1xKS4NCiAqIEhvbm9y
+IG1heGltdW0gbnVtYmVyIG9mIE1TSS1YIHZlY3RvcnMgYW5kIHZpcnRxdWV1ZXMgW0RhbmllbCBC
+ZXJyYW5nZV0NCiAqIFVwZGF0ZSBjb21taXQgZGVzY3JpcHRpb25zIHRvIG1lbnRpb24gbWF4aW11
+bSBNU0ktWCB2ZWN0b3IgYW5kIHZpcnRxdWV1ZQ0KICAgY2FwcyBbUmFwaGFlbF0NCnYzOg0KICog
+SW50cm9kdWNlIHZpcnRpb19wY2lfb3B0aW1hbF9udW1fcXVldWVzKCkgaGVscGVyIHRvIGVuZm9y
+Y2UgVklSVElPX1FVRVVFX009DQpBWA0KICAgaW4gb25lIHBsYWNlDQogKiBVc2UgVklSVElPX1ND
+U0lfVlFfTlVNX0ZJWEVEIGNvbnN0YW50IGluIGFsbCBjYXNlcyBbQ29ybmVsaWFdDQogKiBVcGRh
+dGUgaHcvY29yZS9tYWNoaW5lLmMgY29tcGF0IHByb3BlcnRpZXMgZm9yIFFFTVUgNS4wIFtNaWNo
+YWVsXQ0KdjM6DQogKiBBZGQgbmV3IHBlcmZvcm1hbmNlIHJlc3VsdHMgdGhhdCBkZW1vbnN0cmF0
+ZSB0aGUgc2NhbGFiaWxpdHkNCiAqIE1lbnRpb24gdGhhdCB0aGlzIGlzIFBDSS1zcGVjaWZpYyBb
+Q29ybmVsaWFdDQp2MjoNCiAqIExldCB0aGUgdmlydGlvLURFVklDRS1wY2kgZGV2aWNlIHNlbGVj
+dCBudW0tcXVldWVzIGJlY2F1c2UgdGhlIG9wdGltYWwNCiAgIG11bHRpLXF1ZXVlIGNvbmZpZ3Vy
+YXRpb24gbWF5IGRpZmZlciBiZXR3ZWVuIHZpcnRpby1wY2ksIHZpcnRpby1tbWlvLCBhbmQNCiAg
+IHZpcnRpby1jY3cgW0Nvcm5lbGlhXQ0KDQpFbmFibGluZyBtdWx0aS1xdWV1ZSBvbiB2aXJ0aW8t
+cGNpIHN0b3JhZ2UgZGV2aWNlcyBpbXByb3ZlcyBwZXJmb3JtYW5jZSBvbiBTTVANCmd1ZXN0cyBi
+ZWNhdXNlIHRoZSBjb21wbGV0aW9uIGludGVycnVwdCBpcyBoYW5kbGVkIG9uIHRoZSB2Q1BVIHRo
+YXQgc3VibWl0dGVkDQp0aGUgSS9PIHJlcXVlc3QuICBUaGlzIGF2b2lkcyBJUElzIGluc2lkZSB0
+aGUgZ3Vlc3QuDQoNCk5vdGUgdGhhdCBwZXJmb3JtYW5jZSBpcyB1bmNoYW5nZWQgaW4gdGhlc2Ug
+Y2FzZXM6DQoxLiBVbmlwcm9jZXNzb3IgZ3Vlc3RzLiAgVGhleSBkb24ndCBoYXZlIElQSXMuDQoy
+LiBBcHBsaWNhdGlvbiB0aHJlYWRzIG1pZ2h0IGJlIHNjaGVkdWxlZCBvbiB0aGUgc29sZSB2Q1BV
+IHRoYXQgaGFuZGxlcw0KICAgY29tcGxldGlvbiBpbnRlcnJ1cHRzIHB1cmVseSBieSBjaGFuY2Uu
+ICAoVGhpcyBpcyBvbmUgcmVhc29uIHdoeSBiZW5jaG1hcmsNCiAgIHJlc3VsdHMgY2FuIHZhcnkg
+bm90aWNhYmx5IGJldHdlZW4gcnVucy4pDQozLiBVc2VycyBtYXkgYmluZCB0aGUgYXBwbGljYXRp
+b24gdG8gdGhlIHZDUFUgdGhhdCBoYW5kbGVzIGNvbXBsZXRpb24NCiAgIGludGVycnVwdHMuDQoN
+ClNldCB0aGUgbnVtYmVyIG9mIHF1ZXVlcyB0byB0aGUgbnVtYmVyIG9mIHZDUFVzIGJ5IGRlZmF1
+bHQgb24gdmlydGlvLWJsayBhbmQNCnZpcnRpby1zY3NpIFBDSSBkZXZpY2VzLiAgT2xkZXIgbWFj
+aGluZSB0eXBlcyBjb250aW51ZSB0byBkZWZhdWx0IHRvIDEgcXVldWUNCmZvciBsaXZlIG1pZ3Jh
+dGlvbiBjb21wYXRpYmlsaXR5Lg0KDQpSYW5kb20gcmVhZCBwZXJmb3JtYW5jZToNCiAgICAgIElP
+UFMNCnE9M0QxICAgIDc4aw0KcT0zRDMyICAxMDRrICArMzMlDQoNCkJvb3QgdGltZToNCiAgICAg
+IER1cmF0aW9uDQpxPTNEMSAgICAgICAgNTFzDQpxPTNEMzIgICAgIDFtNDFzICArOTglDQoNCkd1
+ZXN0IGNvbmZpZ3VyYXRpb246IDMyIHZDUFVzLCAxMDEgdmlydGlvLWJsay1wY2kgZGlza3MNCg0K
+UHJldmlvdXNseSBtZWFzdXJlZCByZXN1bHRzIG9uIGEgNCB2Q1BVIGd1ZXN0IHdlcmUgYWxzbyBw
+b3NpdGl2ZSBidXQgc2hvd2VkIGENCnNtYWxsZXIgMS00JSBwZXJmb3JtYW5jZSBpbXByb3ZlbWVu
+dC4gIFRoZXkgYXJlIG5vIGxvbmdlciB2YWxpZCBiZWNhdXNlDQpzaWduaWZpY2FudCBldmVudCBs
+b29wIG9wdGltaXphdGlvbnMgaGF2ZSBiZWVuIG1lcmdlZC4NCg0KUGV0ZXIgTWF5ZGVsbCAoMSk6
+DQogIE9wZW4gNS4yIGRldmVsb3BtZW50IHRyZWUNCg0KU3RlZmFuIEhham5vY3ppICg2KToNCiAg
+aHc6IGFkZCA1LjIgbWFjaGluZSB0eXBlcyBhbmQgNS4xIGNvbXBhdCBvcHRpb25zDQogIHZpcnRp
+by1wY2k6IGFkZCB2aXJ0aW9fcGNpX29wdGltYWxfbnVtX3F1ZXVlcygpIGhlbHBlcg0KICB2aXJ0
+aW8tc2NzaTogaW50cm9kdWNlIGEgY29uc3RhbnQgZm9yIGZpeGVkIHZpcnRxdWV1ZXMNCiAgdmly
+dGlvLXNjc2ktcGNpOiBkZWZhdWx0IG51bV9xdWV1ZXMgdG8gLXNtcCBODQogIHZpcnRpby1ibGst
+cGNpOiBkZWZhdWx0IG51bV9xdWV1ZXMgdG8gLXNtcCBODQogIHZob3N0LXVzZXItYmxrLXBjaTog
+ZGVmYXVsdCBudW1fcXVldWVzIHRvIC1zbXAgTg0KDQogaHcvdmlydGlvL3ZpcnRpby1wY2kuaCAg
+ICAgICAgICAgICB8ICA5ICsrKysrKysrKw0KIGluY2x1ZGUvaHcvYm9hcmRzLmggICAgICAgICAg
+ICAgICAgfCAgMyArKysNCiBpbmNsdWRlL2h3L2kzODYvcGMuaCAgICAgICAgICAgICAgIHwgIDMg
+KysrDQogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdXNlci1ibGsuaCB8ICAyICsrDQogaW5jbHVk
+ZS9ody92aXJ0aW8vdmlydGlvLWJsay5oICAgICB8ICAyICsrDQogaW5jbHVkZS9ody92aXJ0aW8v
+dmlydGlvLXNjc2kuaCAgICB8ICA1ICsrKysrDQogaHcvYXJtL3ZpcnQuYyAgICAgICAgICAgICAg
+ICAgICAgICB8ICA5ICsrKysrKysrLQ0KIGh3L2Jsb2NrL3Zob3N0LXVzZXItYmxrLmMgICAgICAg
+ICAgfCAgNiArKysrKy0NCiBody9ibG9jay92aXJ0aW8tYmxrLmMgICAgICAgICAgICAgIHwgIDYg
+KysrKystDQogaHcvY29yZS9tYWNoaW5lLmMgICAgICAgICAgICAgICAgICB8ICA5ICsrKysrKysr
+Kw0KIGh3L2kzODYvcGMuYyAgICAgICAgICAgICAgICAgICAgICAgfCAgNCArKysrDQogaHcvaTM4
+Ni9wY19waWl4LmMgICAgICAgICAgICAgICAgICB8IDE0ICsrKysrKysrKysrKy0NCiBody9pMzg2
+L3BjX3EzNS5jICAgICAgICAgICAgICAgICAgIHwgMTMgKysrKysrKysrKystDQogaHcvcHBjL3Nw
+YXByLmMgICAgICAgICAgICAgICAgICAgICB8IDE1ICsrKysrKysrKysrKy0tDQogaHcvczM5MHgv
+czM5MC12aXJ0aW8tY2N3LmMgICAgICAgICB8IDE0ICsrKysrKysrKysrKy0NCiBody9zY3NpL3Zo
+b3N0LXNjc2kuYyAgICAgICAgICAgICAgIHwgIDMgKystDQogaHcvc2NzaS92aG9zdC11c2VyLXNj
+c2kuYyAgICAgICAgICB8ICA1ICsrKy0tDQogaHcvc2NzaS92aXJ0aW8tc2NzaS5jICAgICAgICAg
+ICAgICB8IDEzICsrKysrKysrLS0tLQ0KIGh3L3ZpcnRpby92aG9zdC1zY3NpLXBjaS5jICAgICAg
+ICAgfCAgOSArKysrKysrLS0NCiBody92aXJ0aW8vdmhvc3QtdXNlci1ibGstcGNpLmMgICAgIHwg
+IDQgKysrKw0KIGh3L3ZpcnRpby92aG9zdC11c2VyLXNjc2ktcGNpLmMgICAgfCAgOSArKysrKysr
+LS0NCiBody92aXJ0aW8vdmlydGlvLWJsay1wY2kuYyAgICAgICAgIHwgIDcgKysrKysrLQ0KIGh3
+L3ZpcnRpby92aXJ0aW8tcGNpLmMgICAgICAgICAgICAgfCAzMiArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysNCiBody92aXJ0aW8vdmlydGlvLXNjc2ktcGNpLmMgICAgICAgIHwgIDkgKysr
+KysrKy0tDQogVkVSU0lPTiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQogMjUg
+ZmlsZXMgY2hhbmdlZCwgMTg0IGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQ0KDQotLT0y
+MA0KMi4yNi4yDQoNCg==
 
 
