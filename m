@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB74247D49
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:24:19 +0200 (CEST)
-Received: from localhost ([::1]:40458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9084D247D44
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:22:24 +0200 (CEST)
+Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tAY-0005oo-6R
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
+	id 1k7t8h-0002Hp-Fx
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:22:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t68-0007MV-CI; Tue, 18 Aug 2020 00:19:44 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:38053)
+ id 1k7t69-0007QT-K5; Tue, 18 Aug 2020 00:19:45 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44003 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t66-0006LN-2y; Tue, 18 Aug 2020 00:19:44 -0400
+ id 1k7t66-0006LP-K5; Tue, 18 Aug 2020 00:19:45 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNZ3nT3z9sV1; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
+ id 4BVyNZ4rr9z9sV4; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724366;
- bh=DDx05xw1OIDE5M5zfqz3Kclc5VMes58zkL4yq+6/qGI=;
+ bh=2Je7Mov1VPed8D3DxgihncFAFZ6VXR6JiIuHyTMxrvE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mEtxObkOXS7US8DR1ge+lWMSFOKqonHduSLejpPLOA4DlK1iIhhZP6NwUwbW+LPUS
- DUp6a5yUkcAahQLcknv6MlToN/z00tkwQZGiom9KT8akkVl/PlmJLYbQcSFp7XZYbw
- 7o6vsdVb0PynDlrOMX8ewlYQNcyWVQefPLKox2iw=
+ b=HCvXF4IW3SBimjJObU/rx0jfBJu2dWUFIEx2jGlejZnLWlgtOF7lLZBagSOBrw7tz
+ +lEb2CjVPNsxTV0KqhxTHCUV3RMUrHE5+Xxv0drTBGZynFkxbr/EOcpaH9ysB/Idmm
+ 3PXJ8QdBjerx/5c2vm3+jO7QK9unZmsjZc4EWQXE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 09/40] spapr: Forbid nested KVM-HV in pre-power9 compat mode
-Date: Tue, 18 Aug 2020 14:18:51 +1000
-Message-Id: <20200818041922.251708-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/40] ppc/xive: Fix some typos in comments
+Date: Tue, 18 Aug 2020 14:18:52 +1000
+Message-Id: <20200818041922.251708-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -60,56 +60,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-Nested KVM HV only works if the kernel is using the radix MMU mode, ie.
-the CPU is POWER9 and it is not running in some pre-power9 compat mode.
-Otherwise, the KVM HV module fails to load in the guest with -ENODEV.
-It might be painful for a user to discover this late that nested cannot
-work with their setup. Erroring out at machine init instead seems to be
-the best we can do.
+Fix some typos in comments about code modeling coalescing points in the
+XIVE routing engine (IVRE).
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <159491948127.188975.9621435875869177751.stgit@bahia.lan>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+Message-Id: <1595461434-27725-1-git-send-email-gromero@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_caps.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/intc/xive.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 275f5bd034..10a80a8159 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -382,6 +382,8 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState *spapr,
-                                     uint8_t val, Error **errp)
- {
-     ERRP_GUARD();
-+    PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
-+
-     if (!val) {
-         /* capability disabled by default */
-         return;
-@@ -391,6 +393,14 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState *spapr,
-         error_setg(errp, "No Nested KVM-HV support in TCG");
-         error_append_hint(errp, "Try appending -machine cap-nested-hv=off\n");
-     } else if (kvm_enabled()) {
-+        if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
-+                              spapr->max_compat_pvr)) {
-+            error_setg(errp, "Nested KVM-HV only supported on POWER9");
-+            error_append_hint(errp,
-+                              "Try appending -machine max-cpu-compat=power9\n");
-+            return;
-+        }
-+
-         if (!kvmppc_has_cap_nested_kvm_hv()) {
-             error_setg(errp,
-                        "KVM implementation does not support Nested KVM-HV");
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 9a162431e0..9b55e0356c 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1502,7 +1502,7 @@ static bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
+ 
+ /*
+  * Notification using the END ESe/ESn bit (Event State Buffer for
+- * escalation and notification). Profide futher coalescing in the
++ * escalation and notification). Provide further coalescing in the
+  * Router.
+  */
+ static bool xive_router_end_es_notify(XiveRouter *xrtr, uint8_t end_blk,
+@@ -1581,7 +1581,7 @@ static void xive_router_end_notify(XiveRouter *xrtr, uint8_t end_blk,
+ 
+     /*
+      * Check the END ESn (Event State Buffer for notification) for
+-     * even futher coalescing in the Router
++     * even further coalescing in the Router
+      */
+     if (!xive_end_is_notify(&end)) {
+         /* ESn[Q]=1 : end of notification */
+@@ -1660,7 +1660,7 @@ do_escalation:
+ 
+     /*
+      * Check the END ESe (Event State Buffer for escalation) for even
+-     * futher coalescing in the Router
++     * further coalescing in the Router
+      */
+     if (!xive_end_is_uncond_escalation(&end)) {
+         /* ESe[Q]=1 : end of notification */
 -- 
 2.26.2
 
