@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC2E2488BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:08:46 +0200 (CEST)
-Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC922488DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:14:49 +0200 (CEST)
+Received: from localhost ([::1]:53562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83ED-0001Uf-Ur
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33888)
+	id 1k83K4-0004Nc-8i
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Lu-0006bC-4U
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:38 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48944
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Lm-0007gJ-3g
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759949;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CNpg2+JxxivGlle9ggNErZ6ShlQW6g8IjN/0GSu0Dhw=;
- b=XxBHty0DAbDXu1uDGkZq+4CZUlEjKVx0hOBwZ3O0zTDOfwtlX9+vHZ8voKjorRMRfMrGWO
- sONGMMRfIFeFX/w9mog82+2LXvAXkOP+fdvRl6n589uM3JT+5FfauvBnpoPgcXOqG9Wh+/
- xa2vZYHX2KrnxjuMioNy+IqbYOQBieU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-iA5ECZiGNROzU8bklU_giw-1; Tue, 18 Aug 2020 10:12:24 -0400
-X-MC-Unique: iA5ECZiGNROzU8bklU_giw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C929580F043
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:23 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DDBF7A1FA
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:23 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 148/150] meson: avoid unstable module warning with Meson 0.56.0
- or newer
-Date: Tue, 18 Aug 2020 10:10:23 -0400
-Message-Id: <20200818141025.21608-149-pbonzini@redhat.com>
-In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
-References: <20200818141025.21608-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1k82Op-0003w4-EW; Tue, 18 Aug 2020 10:15:39 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:58832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1k82On-00083o-4m; Tue, 18 Aug 2020 10:15:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=lJBteWDlWCq5A7UjrBtZ2Rj44wAwqDdfoEu+Fv8JoQw=; 
+ b=MNlhjgVH/jjP11RpsNKJ9EWPwnpP98y8iSWsfLDCODtIzCDhxjgBp5G/AvGd8CfF3i9O804vmUdF3vLaVb8Av7v2S6XehfoV5Kkt6EKdD7GRE2TUzrmKSs3ahtG+2I3pXQjLZrmPQ1HQbotS6yaJ4R08Soe+4SbZTO9rxn4jff6ybKmiwniIo+/v5tVdv1xQ5PQuaiLi4u06mQnAqJ0H9dauxIt+60b6gwCNc7MXVgQVrCfg8iJUFxcTLRpVsF8yw7OJRv2wx0QWVNZF7BPI1n5KG2Kg0aFgEVpi17LjXKOAjSVWyHaUeQTn+hHQohkGqiQU3DXoqqjSXHiIOxqyng==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1k82Og-0004af-Ky; Tue, 18 Aug 2020 16:15:30 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1k82Og-0001mQ-At; Tue, 18 Aug 2020 16:15:30 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v5 1/5] block/io: fix bdrv_co_block_status_above
+In-Reply-To: <20200610120426.12826-2-vsementsov@virtuozzo.com>
+References: <20200610120426.12826-1-vsementsov@virtuozzo.com>
+ <20200610120426.12826-2-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Tue, 18 Aug 2020 16:15:30 +0200
+Message-ID: <w51lficjb0d.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 10:15:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,33 +63,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Wed 10 Jun 2020 02:04:22 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> +             * The top layer deferred to this layer, and because this layer is
+> +             * short, any zeroes that we synthesize beyond EOF behave as if they
+> +             * were allocated at this layer
+>               */
+> +            assert(ret & BDRV_BLOCK_EOF);
+>              *pnum = bytes;
+> +            if (file) {
+> +                *file = p;
+> +            }
+> +            return BDRV_BLOCK_ZERO | BDRV_BLOCK_ALLOCATED;
 
-diff --git a/meson.build b/meson.build
-index 57cfa8723d..94bfaa6290 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3,7 +3,11 @@ project('qemu', ['c'], meson_version: '>=0.55.0',
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
- 
- not_found = dependency('', required: false)
--keyval = import('unstable-keyval')
-+if meson.version().version_compare('>=0.56.0')
-+  keyval = import('keyval')
-+else
-+  keyval = import('unstable-keyval')
-+endif
- ss = import('sourceset')
- 
- sh = find_program('sh')
--- 
-2.26.2
+You don't add BDRV_BLOCK_EOF to the return code here ?
 
+> +        res = bdrv_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
+> +        offset += nr;
+> +        bytes -= nr;
+> +    } while (res >= 0 && (res & BDRV_BLOCK_ZERO) && nr && bytes);
 
+About this last "... && nr && bytes", I think 'nr' already implies
+'bytes', maybe you want to use an assertion instead?
+
+Berto
 
