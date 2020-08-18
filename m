@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1E6247D7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:26:54 +0200 (CEST)
-Received: from localhost ([::1]:54678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC055247D7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:26:06 +0200 (CEST)
+Received: from localhost ([::1]:49498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tD3-0003EA-GA
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
+	id 1k7tCH-00013s-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t68-0007NF-KC; Tue, 18 Aug 2020 00:19:44 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50697 helo=ozlabs.org)
+ id 1k7t6B-0007VC-D2; Tue, 18 Aug 2020 00:19:47 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56647 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t66-0006LT-CC; Tue, 18 Aug 2020 00:19:44 -0400
+ id 1k7t69-0006MS-GZ; Tue, 18 Aug 2020 00:19:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNZ74jjz9sVB; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
+ id 4BVyNb0msVz9sVF; Tue, 18 Aug 2020 14:19:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724367;
- bh=uAsKhdoLP4l9Yj1dZs/XZzS9+pfhR/PHECSVprBFvGI=;
+ bh=Vecwsc8w/Gi+tSL1ZQRvRrUML/0AnOdY4NFin78A5MY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nbl4BbmDuXj0VCbg/xrSyuQs1XaXMxoxfWxNXOQsvQ0VJqF1vYijsiJpo28uHCqiF
- e+0QxxqfXMgH89XSpqBBpscHdOBeAlLAJm5F2tcxJE9h/TQ5YOLdLGSLyAWGU9IjdF
- LBRTlZzzR5KuaDgXAsmmafKj9YazmJbdAk/bP/Gg=
+ b=OlPL+R6v2rWCzi6N3wqwpMSPEsV3mr1CjDl3obHR7G6WN1bEln0yUUmOxFKOGrS/q
+ 1nFfX7dIPE93uNWsdxX96752XVg+ymd9hDcm9bijb3O7kPIJEEfnw+VXKSzVuscnat
+ u4RCoozCgBAkztqxGGIZ0Tc4rzWAOFdNU+bQ8HIE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 12/40] target/ppc: add vmulld to INDEX_op_mul_vec case
-Date: Tue, 18 Aug 2020 14:18:54 +1000
-Message-Id: <20200818041922.251708-13-david@gibson.dropbear.id.au>
+Subject: [PULL 13/40] target/ppc: add vmulh{su}w instructions
+Date: Tue, 18 Aug 2020 14:18:55 +1000
+Message-Id: <20200818041922.251708-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -68,89 +68,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lijun Pan <ljp@linux.ibm.com>
 
-Group vmuluwm and vmulld. Make vmulld-specific
-changes since it belongs to new ISA 3.1.
+vmulhsw: Vector Multiply High Signed Word
+vmulhuw: Vector Multiply High Unsigned Word
 
 Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-Message-Id: <20200724045845.89976-3-ljp@linux.ibm.com>
+Message-Id: <20200724045845.89976-4-ljp@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- tcg/ppc/tcg-target.h     |  2 ++
- tcg/ppc/tcg-target.inc.c | 12 ++++++++++--
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ target/ppc/helper.h                 |  2 ++
+ target/ppc/int_helper.c             | 19 +++++++++++++++++++
+ target/ppc/translate/vmx-impl.inc.c |  6 ++++++
+ target/ppc/translate/vmx-ops.inc.c  |  4 ++--
+ 4 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index be5b2901c3..aee38157a2 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -63,6 +63,7 @@ typedef enum {
-     tcg_isa_2_06,
-     tcg_isa_2_07,
-     tcg_isa_3_00,
-+    tcg_isa_3_10,
- } TCGPowerISA;
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 032da717f7..c218bb13ec 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -184,6 +184,8 @@ DEF_HELPER_3(vmulosw, void, avr, avr, avr)
+ DEF_HELPER_3(vmuloub, void, avr, avr, avr)
+ DEF_HELPER_3(vmulouh, void, avr, avr, avr)
+ DEF_HELPER_3(vmulouw, void, avr, avr, avr)
++DEF_HELPER_3(vmulhsw, void, avr, avr, avr)
++DEF_HELPER_3(vmulhuw, void, avr, avr, avr)
+ DEF_HELPER_3(vslo, void, avr, avr, avr)
+ DEF_HELPER_3(vsro, void, avr, avr, avr)
+ DEF_HELPER_3(vsrv, void, avr, avr, avr)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 263e899fe0..1e866b7d3b 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1086,6 +1086,25 @@ VMUL(uw, u32, VsrW, VsrD, uint64_t)
+ #undef VMUL_DO_ODD
+ #undef VMUL
  
- extern TCGPowerISA have_isa;
-@@ -72,6 +73,7 @@ extern bool have_vsx;
- #define have_isa_2_06  (have_isa >= tcg_isa_2_06)
- #define have_isa_2_07  (have_isa >= tcg_isa_2_07)
- #define have_isa_3_00  (have_isa >= tcg_isa_3_00)
-+#define have_isa_3_10  (have_isa >= tcg_isa_3_10)
- 
- /* optional instructions automatically implemented */
- #define TCG_TARGET_HAS_ext8u_i32        0 /* andi */
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index c8d1e765d9..0e78260e60 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -564,6 +564,7 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define VMULOUH    VX4(72)
- #define VMULOUW    VX4(136)       /* v2.07 */
- #define VMULUWM    VX4(137)       /* v2.07 */
-+#define VMULLD     VX4(457)       /* v3.10 */
- #define VMSUMUHM   VX4(38)
- 
- #define VMRGHB     VX4(12)
-@@ -3022,6 +3023,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-             return -1;
-         case MO_32:
-             return have_isa_2_07 ? 1 : -1;
-+        case MO_64:
-+            return have_isa_3_10;
-         }
-         return 0;
-     case INDEX_op_bitsel_vec:
-@@ -3158,6 +3161,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     static const uint32_t
-         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
-         sub_op[4] = { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
-+        mul_op[4] = { 0, 0, VMULUWM, VMULLD },
-         neg_op[4] = { 0, 0, VNEGW, VNEGD },
-         eq_op[4]  = { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
-         ne_op[4]  = { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
-@@ -3208,8 +3212,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         a1 = 0;
-         break;
-     case INDEX_op_mul_vec:
--        tcg_debug_assert(vece == MO_32 && have_isa_2_07);
--        insn = VMULUWM;
-+        insn = mul_op[vece];
-         break;
-     case INDEX_op_ssadd_vec:
-         insn = ssadd_op[vece];
-@@ -3729,6 +3732,11 @@ static void tcg_target_init(TCGContext *s)
-         have_isa = tcg_isa_3_00;
-     }
- #endif
-+#ifdef PPC_FEATURE2_ARCH_3_10
-+    if (hwcap2 & PPC_FEATURE2_ARCH_3_10) {
-+        have_isa = tcg_isa_3_10;
++void helper_vmulhsw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
++{
++    int i;
++
++    for (i = 0; i < 4; i++) {
++        r->s32[i] = (int32_t)(((int64_t)a->s32[i] * (int64_t)b->s32[i]) >> 32);
 +    }
-+#endif
- 
- #ifdef PPC_FEATURE2_HAS_ISEL
-     /* Prefer explicit instruction from the kernel. */
++}
++
++void helper_vmulhuw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
++{
++    int i;
++
++    for (i = 0; i < 4; i++) {
++        r->u32[i] = (uint32_t)(((uint64_t)a->u32[i] *
++                               (uint64_t)b->u32[i]) >> 32);
++    }
++}
++
+ void helper_vperm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b,
+                   ppc_avr_t *c)
+ {
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+index f8e8b978ec..79631e56b4 100644
+--- a/target/ppc/translate/vmx-impl.inc.c
++++ b/target/ppc/translate/vmx-impl.inc.c
+@@ -811,9 +811,15 @@ GEN_VXFORM_V(vmulld, MO_64, tcg_gen_gvec_mul, 4, 7);
+ GEN_VXFORM(vmuleub, 4, 8);
+ GEN_VXFORM(vmuleuh, 4, 9);
+ GEN_VXFORM(vmuleuw, 4, 10);
++GEN_VXFORM(vmulhuw, 4, 10);
++GEN_VXFORM_DUAL(vmuleuw, PPC_ALTIVEC, PPC_NONE,
++                vmulhuw, PPC_NONE, PPC2_ISA310);
+ GEN_VXFORM(vmulesb, 4, 12);
+ GEN_VXFORM(vmulesh, 4, 13);
+ GEN_VXFORM(vmulesw, 4, 14);
++GEN_VXFORM(vmulhsw, 4, 14);
++GEN_VXFORM_DUAL(vmulesw, PPC_ALTIVEC, PPC_NONE,
++                vmulhsw, PPC_NONE, PPC2_ISA310);
+ GEN_VXFORM_V(vslb, MO_8, tcg_gen_gvec_shlv, 2, 4);
+ GEN_VXFORM_V(vslh, MO_16, tcg_gen_gvec_shlv, 2, 5);
+ GEN_VXFORM_V(vslw, MO_32, tcg_gen_gvec_shlv, 2, 6);
+diff --git a/target/ppc/translate/vmx-ops.inc.c b/target/ppc/translate/vmx-ops.inc.c
+index b49787ac97..29701ad778 100644
+--- a/target/ppc/translate/vmx-ops.inc.c
++++ b/target/ppc/translate/vmx-ops.inc.c
+@@ -110,10 +110,10 @@ GEN_VXFORM_207(vmulosw, 4, 6),
+ GEN_VXFORM_310(vmulld, 4, 7),
+ GEN_VXFORM(vmuleub, 4, 8),
+ GEN_VXFORM(vmuleuh, 4, 9),
+-GEN_VXFORM_207(vmuleuw, 4, 10),
++GEN_VXFORM_DUAL(vmuleuw, vmulhuw, 4, 10, PPC_ALTIVEC, PPC_NONE),
+ GEN_VXFORM(vmulesb, 4, 12),
+ GEN_VXFORM(vmulesh, 4, 13),
+-GEN_VXFORM_207(vmulesw, 4, 14),
++GEN_VXFORM_DUAL(vmulesw, vmulhsw, 4, 14, PPC_ALTIVEC, PPC_NONE),
+ GEN_VXFORM(vslb, 2, 4),
+ GEN_VXFORM(vslh, 2, 5),
+ GEN_VXFORM_DUAL(vslw, vrlwnm, 2, 6, PPC_ALTIVEC, PPC_NONE),
 -- 
 2.26.2
 
