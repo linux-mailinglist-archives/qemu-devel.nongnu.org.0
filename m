@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EEC248990
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:21:24 +0200 (CEST)
-Received: from localhost ([::1]:52340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16A22489B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:25:25 +0200 (CEST)
+Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83QR-0007Ge-T1
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
+	id 1k83UK-0006fb-Vb
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k82h6-00052s-D5
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:32 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47945
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k82h2-0002Ui-8r
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597761267;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9gvVRr63NaVLTha3tZ0afugXNCMQNgh+pilq0gGN5Mc=;
- b=LFA2K+qi4VHxQCRRpQTD9Nz1gt+ZCMSfhhcTzIji2JqDJZ3C0ygMhg3/ODXjeUaWATcnt2
- o7w9a6VwVmnn1OuqF98relXbEtlL4fidgD5c0hSDE6aDfufA6U2Uf01Q8sE6huMJfO32jr
- TEaGhuuE3hErxsueBaYz7L1VrVoDRaE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-Dqkbuv7nP3OrUqcFGbZVSA-1; Tue, 18 Aug 2020 10:34:24 -0400
-X-MC-Unique: Dqkbuv7nP3OrUqcFGbZVSA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C42C31015113;
- Tue, 18 Aug 2020 14:34:14 +0000 (UTC)
-Received: from localhost (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F3CE10013C2;
- Tue, 18 Aug 2020 14:34:13 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 6/7] virtio-blk-pci: default num_queues to -smp N
-Date: Tue, 18 Aug 2020 15:33:47 +0100
-Message-Id: <20200818143348.310613-7-stefanha@redhat.com>
-In-Reply-To: <20200818143348.310613-1-stefanha@redhat.com>
-References: <20200818143348.310613-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k82gl-0004ZZ-3h
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:11 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k82gj-0002QZ-4p
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:34:10 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id df16so15447451edb.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 07:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hGbAms5lZWU93ghlE15wqXMM8+dMONoiOmFTH+qIBFY=;
+ b=FbE3LoQGZUaLNnZFzQRnkQNRS0YlFo38Kzml1FCOCoLCAD/qXSt90cchfiUgRUJHcf
+ +dEc5WBWCxvwTkLUNpg6m5V2V0WXtrueyjjZWdWknRpM5JzZS9K2SRsi+wYnNJ68GJBG
+ WeqwmEmWuQJlcV0oGo5d4kK/x8H2Q0FzWefm3VwNi8ccsOPh4rIaJmjn24uwhQMsIOzV
+ TFQEdeUFNetrA9aiGOapH5V6XtBINwq1Pu/E7npJg2TdgTXvIF3abBCEQfX5RVKlYXAo
+ bHbJ68DB+kwlH1Ha9cO+MoXRbbe718JM26Y1CFmQvAM0QAdkAOD/xsQyLjY0j+w+3sYg
+ F0Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hGbAms5lZWU93ghlE15wqXMM8+dMONoiOmFTH+qIBFY=;
+ b=HCWNOIkVH5HPnbTOaGw+8jVJ+VC1NJvYj+A5iuGzXknrM7VmdmPt2GN1igOBRAVguo
+ qneNr7Cavf0X7qlDE/itE1/MeBD6SA6WHkegrATjBhHwCaLRqR3DSE+iyOU13NzJ8ITN
+ SUl2Fb7e9DRhEXOMIlxS19oowQcODKGiiRgd/i2WKGAhbDD9YZLephzj7opRIXAyiBg9
+ Axdu8mFY3UkLPZDVedialTsCm6RDb5f8S7fJXkAesXRAgTF+a2IOXyy2r11WO6VTLX+z
+ 8WWsi52mOeEVYysD5pylMvS4P0FbhOdTDZtCAOmgoh8b2UpsLOeNMFI8N7iyWRpGu8UP
+ hS9Q==
+X-Gm-Message-State: AOAM533QYGAQ8QtT+X+ov5nm7rSXOmzV0qW2iBMENdcpfoj1PYErl+H+
+ +3f4+IjVSn2uY2+CgH3KUV96sr2odyjXvZyhiURTDw==
+X-Google-Smtp-Source: ABdhPJyhdTAhsXYG+PF1jWhy4w0z6noW8vha0oKlM+EW0GDl7cdQlH0lO+Y0HyDGz8eoksh+fYwjPxZ7el1ZEsoK2Bo=
+X-Received: by 2002:aa7:d596:: with SMTP id r22mr20322349edq.204.1597761247249; 
+ Tue, 18 Aug 2020 07:34:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 08:01:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20200818141025.21608-1-pbonzini@redhat.com>
+In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Aug 2020 15:33:56 +0100
+Message-ID: <CAFEAcA-5_iHm+6QiCrGigngrGuRfcc_HOtbDDv1QDUabCQg_WA@mail.gmail.com>
+Subject: Re: [PULL 000/150] Meson-based build system
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,86 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Richard Henderson <rth@twiddle.net>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, cohuck@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QXV0b21hdGljYWxseSBzaXplIHRoZSBudW1iZXIgb2YgdmlydGlvLWJsay1wY2kgcmVxdWVzdCB2
-aXJ0cXVldWVzIHRvCm1hdGNoIHRoZSBudW1iZXIgb2YgdkNQVXMuICBPdGhlciB0cmFuc3BvcnRz
-IGNvbnRpbnVlIHRvIGRlZmF1bHQgdG8gMQpyZXF1ZXN0IHZpcnRxdWV1ZS4KCkEgMToxIHZpcnRx
-dWV1ZTp2Q1BVIG1hcHBpbmcgZW5zdXJlcyB0aGF0IGNvbXBsZXRpb24gaW50ZXJydXB0cyBhcmUK
-aGFuZGxlZCBvbiB0aGUgc2FtZSB2Q1BVIHRoYXQgc3VibWl0dGVkIHRoZSByZXF1ZXN0LiAgTm8g
-SVBJIGlzCm5lY2Vzc2FyeSB0byBjb21wbGV0ZSBhbiBJL08gcmVxdWVzdCBhbmQgcGVyZm9ybWFu
-Y2UgaXMgaW1wcm92ZWQuICBUaGUKbWF4aW11bSBudW1iZXIgb2YgTVNJLVggdmVjdG9ycyBhbmQg
-dmlydHF1ZXVlcyBsaW1pdCBhcmUgcmVzcGVjdGVkLgoKUGVyZm9ybWFuY2UgaW1wcm92ZXMgZnJv
-bSA3OGsgdG8gMTA0ayBJT1BTIG9uIGEgMzIgdkNQVSBndWVzdCB3aXRoIDEwMQp2aXJ0aW8tYmxr
-LXBjaSBkZXZpY2VzIChpb2VuZ2luZT1saWJhaW8sIGlvZGVwdGg9MSwgYnM9NGssIHJ3PXJhbmRy
-ZWFkCndpdGggTlZNZSBzdG9yYWdlKS4KClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8
-c3RlZmFuaGFAcmVkaGF0LmNvbT4KUmV2aWV3ZWQtYnk6IENvcm5lbGlhIEh1Y2sgPGNvaHVja0By
-ZWRoYXQuY29tPgpSZXZpZXdlZC1ieTogUGFua2FqIEd1cHRhIDxwYW5rYWouZ3VwdGEubGludXhA
-Z21haWwuY29tPgotLS0KIGluY2x1ZGUvaHcvdmlydGlvL3ZpcnRpby1ibGsuaCB8IDIgKysKIGh3
-L2Jsb2NrL3ZpcnRpby1ibGsuYyAgICAgICAgICB8IDYgKysrKystCiBody9jb3JlL21hY2hpbmUu
-YyAgICAgICAgICAgICAgfCAxICsKIGh3L3ZpcnRpby92aXJ0aW8tYmxrLXBjaS5jICAgICB8IDcg
-KysrKysrLQogNCBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvaHcvdmlydGlvL3ZpcnRpby1ibGsuaCBiL2luY2x1ZGUv
-aHcvdmlydGlvL3ZpcnRpby1ibGsuaAppbmRleCBiMTMzNGMzOTA0Li43NTM5YzJiODQ4IDEwMDY0
-NAotLS0gYS9pbmNsdWRlL2h3L3ZpcnRpby92aXJ0aW8tYmxrLmgKKysrIGIvaW5jbHVkZS9ody92
-aXJ0aW8vdmlydGlvLWJsay5oCkBAIC0zMCw2ICszMCw4IEBAIHN0cnVjdCB2aXJ0aW9fYmxrX2lu
-aGRyCiAgICAgdW5zaWduZWQgY2hhciBzdGF0dXM7CiB9OwogCisjZGVmaW5lIFZJUlRJT19CTEtf
-QVVUT19OVU1fUVVFVUVTIFVJTlQxNl9NQVgKKwogc3RydWN0IFZpcnRJT0Jsa0NvbmYKIHsKICAg
-ICBCbG9ja0NvbmYgY29uZjsKZGlmZiAtLWdpdCBhL2h3L2Jsb2NrL3ZpcnRpby1ibGsuYyBiL2h3
-L2Jsb2NrL3ZpcnRpby1ibGsuYwppbmRleCA0MTM3ODM2OTNjLi4yMjA0YmExNDllIDEwMDY0NAot
-LS0gYS9ody9ibG9jay92aXJ0aW8tYmxrLmMKKysrIGIvaHcvYmxvY2svdmlydGlvLWJsay5jCkBA
-IC0xMTQ3LDYgKzExNDcsOSBAQCBzdGF0aWMgdm9pZCB2aXJ0aW9fYmxrX2RldmljZV9yZWFsaXpl
-KERldmljZVN0YXRlICpkZXYsIEVycm9yICoqZXJycCkKICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJw
-LCAiRGV2aWNlIG5lZWRzIG1lZGlhLCBidXQgZHJpdmUgaXMgZW1wdHkiKTsKICAgICAgICAgcmV0
-dXJuOwogICAgIH0KKyAgICBpZiAoY29uZi0+bnVtX3F1ZXVlcyA9PSBWSVJUSU9fQkxLX0FVVE9f
-TlVNX1FVRVVFUykgeworICAgICAgICBjb25mLT5udW1fcXVldWVzID0gMTsKKyAgICB9CiAgICAg
-aWYgKCFjb25mLT5udW1fcXVldWVzKSB7CiAgICAgICAgIGVycm9yX3NldGcoZXJycCwgIm51bS1x
-dWV1ZXMgcHJvcGVydHkgbXVzdCBiZSBsYXJnZXIgdGhhbiAwIik7CiAgICAgICAgIHJldHVybjsK
-QEAgLTEyODEsNyArMTI4NCw4IEBAIHN0YXRpYyBQcm9wZXJ0eSB2aXJ0aW9fYmxrX3Byb3BlcnRp
-ZXNbXSA9IHsKICNlbmRpZgogICAgIERFRklORV9QUk9QX0JJVCgicmVxdWVzdC1tZXJnaW5nIiwg
-VmlydElPQmxvY2ssIGNvbmYucmVxdWVzdF9tZXJnaW5nLCAwLAogICAgICAgICAgICAgICAgICAg
-ICB0cnVlKSwKLSAgICBERUZJTkVfUFJPUF9VSU5UMTYoIm51bS1xdWV1ZXMiLCBWaXJ0SU9CbG9j
-aywgY29uZi5udW1fcXVldWVzLCAxKSwKKyAgICBERUZJTkVfUFJPUF9VSU5UMTYoIm51bS1xdWV1
-ZXMiLCBWaXJ0SU9CbG9jaywgY29uZi5udW1fcXVldWVzLAorICAgICAgICAgICAgICAgICAgICAg
-ICBWSVJUSU9fQkxLX0FVVE9fTlVNX1FVRVVFUyksCiAgICAgREVGSU5FX1BST1BfVUlOVDE2KCJx
-dWV1ZS1zaXplIiwgVmlydElPQmxvY2ssIGNvbmYucXVldWVfc2l6ZSwgMjU2KSwKICAgICBERUZJ
-TkVfUFJPUF9CT09MKCJzZWctbWF4LWFkanVzdCIsIFZpcnRJT0Jsb2NrLCBjb25mLnNlZ19tYXhf
-YWRqdXN0LCB0cnVlKSwKICAgICBERUZJTkVfUFJPUF9MSU5LKCJpb3RocmVhZCIsIFZpcnRJT0Js
-b2NrLCBjb25mLmlvdGhyZWFkLCBUWVBFX0lPVEhSRUFELApkaWZmIC0tZ2l0IGEvaHcvY29yZS9t
-YWNoaW5lLmMgYi9ody9jb3JlL21hY2hpbmUuYwppbmRleCA5ZWUyYWEwZjdiLi43ZjY1ZmE4NzQz
-IDEwMDY0NAotLS0gYS9ody9jb3JlL21hY2hpbmUuYworKysgYi9ody9jb3JlL21hY2hpbmUuYwpA
-QCAtMzEsNiArMzEsNyBAQAogR2xvYmFsUHJvcGVydHkgaHdfY29tcGF0XzVfMVtdID0gewogICAg
-IHsgInZob3N0LXNjc2kiLCAibnVtX3F1ZXVlcyIsICIxIn0sCiAgICAgeyAidmhvc3QtdXNlci1z
-Y3NpIiwgIm51bV9xdWV1ZXMiLCAiMSJ9LAorICAgIHsgInZpcnRpby1ibGstZGV2aWNlIiwgIm51
-bS1xdWV1ZXMiLCAiMSJ9LAogICAgIHsgInZpcnRpby1zY3NpLWRldmljZSIsICJudW1fcXVldWVz
-IiwgIjEifSwKIH07CiBjb25zdCBzaXplX3QgaHdfY29tcGF0XzVfMV9sZW4gPSBHX05fRUxFTUVO
-VFMoaHdfY29tcGF0XzVfMSk7CmRpZmYgLS1naXQgYS9ody92aXJ0aW8vdmlydGlvLWJsay1wY2ku
-YyBiL2h3L3ZpcnRpby92aXJ0aW8tYmxrLXBjaS5jCmluZGV4IDg0OWNjN2RmZDguLjM3YzZlMGFl
-YjQgMTAwNjQ0Ci0tLSBhL2h3L3ZpcnRpby92aXJ0aW8tYmxrLXBjaS5jCisrKyBiL2h3L3ZpcnRp
-by92aXJ0aW8tYmxrLXBjaS5jCkBAIC01MCw5ICs1MCwxNCBAQCBzdGF0aWMgdm9pZCB2aXJ0aW9f
-YmxrX3BjaV9yZWFsaXplKFZpcnRJT1BDSVByb3h5ICp2cGNpX2RldiwgRXJyb3IgKiplcnJwKQog
-ewogICAgIFZpcnRJT0Jsa1BDSSAqZGV2ID0gVklSVElPX0JMS19QQ0kodnBjaV9kZXYpOwogICAg
-IERldmljZVN0YXRlICp2ZGV2ID0gREVWSUNFKCZkZXYtPnZkZXYpOworICAgIFZpcnRJT0Jsa0Nv
-bmYgKmNvbmYgPSAmZGV2LT52ZGV2LmNvbmY7CisKKyAgICBpZiAoY29uZi0+bnVtX3F1ZXVlcyA9
-PSBWSVJUSU9fQkxLX0FVVE9fTlVNX1FVRVVFUykgeworICAgICAgICBjb25mLT5udW1fcXVldWVz
-ID0gdmlydGlvX3BjaV9vcHRpbWFsX251bV9xdWV1ZXMoMCk7CisgICAgfQogCiAgICAgaWYgKHZw
-Y2lfZGV2LT5udmVjdG9ycyA9PSBERVZfTlZFQ1RPUlNfVU5TUEVDSUZJRUQpIHsKLSAgICAgICAg
-dnBjaV9kZXYtPm52ZWN0b3JzID0gZGV2LT52ZGV2LmNvbmYubnVtX3F1ZXVlcyArIDE7CisgICAg
-ICAgIHZwY2lfZGV2LT5udmVjdG9ycyA9IGNvbmYtPm51bV9xdWV1ZXMgKyAxOwogICAgIH0KIAog
-ICAgIHFkZXZfcmVhbGl6ZSh2ZGV2LCBCVVMoJnZwY2lfZGV2LT5idXMpLCBlcnJwKTsKLS0gCjIu
-MjYuMgoK
+On Tue, 18 Aug 2020 at 15:14, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
+>
+>   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 3aecbe785d65e3b92a3617c60e4d226362d9bdd5:
+>
+>   docs: convert build system documentation to rST (2020-08-18 10:02:43 -0400)
+>
+> New since v3:
+> * C include files renamed from .inc to .c.inc
+> * fixed pc-bios/s390-ccw clean targets
+> * fixed error splat when doing "make" from unconfigured build directory
+> * use --native-file to list tools chosen by configure
+> * fixes for Windows (SDL, Wixl)
+> * C++ compiler not mandatory anymore
+> * remove useless .. search path for modules
+>
+> ----------------------------------------------------------------
+> New build system.
+>
+> Missing:
+> * converting configure tests
+> * converting unit tests
+> * converting some remaining parts of the installation
+>
 
+aarch32 fails like this:
+
+In file included from /usr/include/SDL2/SDL.h:38:0,
+                 from /home/peter.maydell/qemu/include/ui/sdl2.h:7,
+                 from ../../ui/sdl2.c:30:
+/usr/include/SDL2/SDL_cpuinfo.h:63:5: error: "HAVE_IMMINTRIN_H" is not
+defined, evaluates to 0 [-Werror=undef]
+ #if HAVE_IMMINTRIN_H && !defined(SDL_DISABLE_IMMINTRIN_H)
+     ^~~~~~~~~~~~~~~~
+
+
+windows crossbuild fails like this:
+
+Linking target target/s390x/gen-features
+cc: error: unrecognized command line option '-mthreads'; did you mean
+'-pthread'?
+Makefile.ninja:784: recipe for target 'target/s390x/gen-features' failed
+
+thanks
+-- PMM
 
