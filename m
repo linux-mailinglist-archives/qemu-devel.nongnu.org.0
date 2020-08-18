@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DC8247D76
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:25:25 +0200 (CEST)
-Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44976247D48
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:23:42 +0200 (CEST)
+Received: from localhost ([::1]:37720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tBc-00088y-T2
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:25:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
+	id 1k7t9x-0004iO-93
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t68-0007MW-Cg; Tue, 18 Aug 2020 00:19:44 -0400
-Received: from ozlabs.org ([203.11.71.1]:35485)
+ id 1k7t67-0007IZ-8x; Tue, 18 Aug 2020 00:19:43 -0400
+Received: from ozlabs.org ([203.11.71.1]:51169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t65-0006L1-Bi; Tue, 18 Aug 2020 00:19:44 -0400
+ id 1k7t65-0006L0-9p; Tue, 18 Aug 2020 00:19:42 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNZ0lRFz9sTs; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
+ id 4BVyNZ1bJqz9sTt; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724366;
- bh=ZcLWJRCfe42jLOzZWBdTOkvTNEMdWVGD+cDNWo3TWFg=;
+ bh=62brQkG4nIHthJ12gqOXwUyRW/t7bCiEYH2IKJRyf+U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pi1OH+lo9LxEZvoVkZnjHK75V+AscdcrLs7BK3woiCKIhJnvlEe2g+tXqmMqOfDEQ
- WEHykNhlUjkQkTVCef/8hXuGyGzYj8erfOZ39aza3qCH62zJ17CbkLS7Q89Psv25Pk
- UN4c9mh+FB8zwobalNdxcUSwsXVwbgy3TqBdJOQ8=
+ b=DNWHZS+YxP3rfhILq4FgIuvw7jOb+TSzOjyffbzn7tpUlEBSG3TFdFMS8dJFIYKFQ
+ Tj9zNns/uhcMpxSZwT4TgNQKq4mz3KVM0zLCJZGVht7vHrXG0XOp8zIZ4+4v9vXnTz
+ IEP6WSYu20DpWVlwq3bQ5HVUS9QbWWS6kuSFPGR4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 05/40] target/ppc: convert vmuluwm to tcg_gen_gvec_mul
-Date: Tue, 18 Aug 2020 14:18:47 +1000
-Message-Id: <20200818041922.251708-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/40] target/ppc: add vmulld instruction
+Date: Tue, 18 Aug 2020 14:18:48 +1000
+Message-Id: <20200818041922.251708-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -60,76 +60,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lijun Pan <ljp@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Lijun Pan <ljp@linux.ibm.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lijun Pan <ljp@linux.ibm.com>
 
-Convert the original implementation of vmuluwm to the more generic
-tcg_gen_gvec_mul.
+vmulld: Vector Multiply Low Doubleword.
 
 Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-Message-Id: <20200701234344.91843-5-ljp@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200701234344.91843-6-ljp@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/helper.h                 |  1 -
- target/ppc/int_helper.c             | 13 -------------
- target/ppc/translate/vmx-impl.inc.c |  2 +-
- 3 files changed, 1 insertion(+), 15 deletions(-)
+ target/ppc/translate/vmx-impl.inc.c | 1 +
+ target/ppc/translate/vmx-ops.inc.c  | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 90166cbabd..032da717f7 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -184,7 +184,6 @@ DEF_HELPER_3(vmulosw, void, avr, avr, avr)
- DEF_HELPER_3(vmuloub, void, avr, avr, avr)
- DEF_HELPER_3(vmulouh, void, avr, avr, avr)
- DEF_HELPER_3(vmulouw, void, avr, avr, avr)
--DEF_HELPER_3(vmuluwm, void, avr, avr, avr)
- DEF_HELPER_3(vslo, void, avr, avr, avr)
- DEF_HELPER_3(vsro, void, avr, avr, avr)
- DEF_HELPER_3(vsrv, void, avr, avr, avr)
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index d8bd3c234a..263e899fe0 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -523,19 +523,6 @@ void helper_vprtybq(ppc_avr_t *r, ppc_avr_t *b)
-     r->VsrD(0) = 0;
- }
- 
--#define VARITH_DO(name, op, element)                                    \
--    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
--    {                                                                   \
--        int i;                                                          \
--                                                                        \
--        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
--            r->element[i] = a->element[i] op b->element[i];             \
--        }                                                               \
--    }
--VARITH_DO(muluwm, *, u32)
--#undef VARITH_DO
--#undef VARITH
--
- #define VARITHFP(suffix, func)                                          \
-     void helper_v##suffix(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a, \
-                           ppc_avr_t *b)                                 \
 diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index de2fd136ff..b6c9290707 100644
+index b6c9290707..f8e8b978ec 100644
 --- a/target/ppc/translate/vmx-impl.inc.c
 +++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -801,7 +801,7 @@ static void trans_vclzd(DisasContext *ctx)
- GEN_VXFORM(vmuloub, 4, 0);
- GEN_VXFORM(vmulouh, 4, 1);
- GEN_VXFORM(vmulouw, 4, 2);
--GEN_VXFORM(vmuluwm, 4, 2);
-+GEN_VXFORM_V(vmuluwm, MO_32, tcg_gen_gvec_mul, 4, 2);
- GEN_VXFORM_DUAL(vmulouw, PPC_ALTIVEC, PPC_NONE,
-                 vmuluwm, PPC_NONE, PPC2_ALTIVEC_207)
+@@ -807,6 +807,7 @@ GEN_VXFORM_DUAL(vmulouw, PPC_ALTIVEC, PPC_NONE,
  GEN_VXFORM(vmulosb, 4, 4);
+ GEN_VXFORM(vmulosh, 4, 5);
+ GEN_VXFORM(vmulosw, 4, 6);
++GEN_VXFORM_V(vmulld, MO_64, tcg_gen_gvec_mul, 4, 7);
+ GEN_VXFORM(vmuleub, 4, 8);
+ GEN_VXFORM(vmuleuh, 4, 9);
+ GEN_VXFORM(vmuleuw, 4, 10);
+diff --git a/target/ppc/translate/vmx-ops.inc.c b/target/ppc/translate/vmx-ops.inc.c
+index 84e05fb827..b49787ac97 100644
+--- a/target/ppc/translate/vmx-ops.inc.c
++++ b/target/ppc/translate/vmx-ops.inc.c
+@@ -48,6 +48,9 @@ GEN_HANDLER_E(name, 0x04, opc2, opc3, inval, PPC_NONE, PPC2_ISA300)
+ GEN_HANDLER_E_2(name, 0x04, opc2, opc3, opc4, 0x00000000, PPC_NONE,     \
+                                                        PPC2_ISA300)
+ 
++#define GEN_VXFORM_310(name, opc2, opc3)                                \
++GEN_HANDLER_E(name, 0x04, opc2, opc3, 0x00000000, PPC_NONE, PPC2_ISA310)
++
+ #define GEN_VXFORM_DUAL(name0, name1, opc2, opc3, type0, type1) \
+ GEN_HANDLER_E(name0##_##name1, 0x4, opc2, opc3, 0x00000000, type0, type1)
+ 
+@@ -104,6 +107,7 @@ GEN_VXFORM_DUAL(vmulouw, vmuluwm, 4, 2, PPC_ALTIVEC, PPC_NONE),
+ GEN_VXFORM(vmulosb, 4, 4),
+ GEN_VXFORM(vmulosh, 4, 5),
+ GEN_VXFORM_207(vmulosw, 4, 6),
++GEN_VXFORM_310(vmulld, 4, 7),
+ GEN_VXFORM(vmuleub, 4, 8),
+ GEN_VXFORM(vmuleuh, 4, 9),
+ GEN_VXFORM_207(vmuleuw, 4, 10),
 -- 
 2.26.2
 
