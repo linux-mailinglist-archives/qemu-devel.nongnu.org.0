@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC922488DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:14:49 +0200 (CEST)
-Received: from localhost ([::1]:53562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEC02488E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:15:26 +0200 (CEST)
+Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83K4-0004Nc-8i
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
+	id 1k83Kf-00055n-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:15:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1k82Op-0003w4-EW; Tue, 18 Aug 2020 10:15:39 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58832)
+ id 1k82Pn-0005WL-03; Tue, 18 Aug 2020 10:16:39 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:60100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1k82On-00083o-4m; Tue, 18 Aug 2020 10:15:39 -0400
+ id 1k82Pl-0008D4-9h; Tue, 18 Aug 2020 10:16:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=lJBteWDlWCq5A7UjrBtZ2Rj44wAwqDdfoEu+Fv8JoQw=; 
- b=MNlhjgVH/jjP11RpsNKJ9EWPwnpP98y8iSWsfLDCODtIzCDhxjgBp5G/AvGd8CfF3i9O804vmUdF3vLaVb8Av7v2S6XehfoV5Kkt6EKdD7GRE2TUzrmKSs3ahtG+2I3pXQjLZrmPQ1HQbotS6yaJ4R08Soe+4SbZTO9rxn4jff6ybKmiwniIo+/v5tVdv1xQ5PQuaiLi4u06mQnAqJ0H9dauxIt+60b6gwCNc7MXVgQVrCfg8iJUFxcTLRpVsF8yw7OJRv2wx0QWVNZF7BPI1n5KG2Kg0aFgEVpi17LjXKOAjSVWyHaUeQTn+hHQohkGqiQU3DXoqqjSXHiIOxqyng==;
+ bh=zIPEfmnyZVFPtA2V+4PkMBfYPXtbqw4e6rEuiVAxLcc=; 
+ b=gV7s6kAgu1uluMCGWe6azF9GkqJ+uwaTJTfZqI0/B6TUqYC1sa2ZCrKX38DoQY4ZGHTFYBf/ff3+jdW6i3PEB7FFyrXtitQX+JW80ZxpVrOv63JfMkxzNZV9BsxaN6YKltiFZtIZ2CKv/r/2GVuspEg4bdzArEhAUD4mQXQMrRxYtvyZYyD3Bm0EZPFO4d9lZdICD+QnG51DTe2Z2FHzx6+e0HIFQad7ZmN7LOslD/gYUI8Y72Kk19H4uSaA1qdZ0bt9KRp70o2j0FC0AcLrZDwjF7YdHOgVyv/GmTj6gET0Z0YUdv+kWAZ4TsUMK+FuAnNdmm/WlXRqTsuNdB2anA==;
 Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
  by fanzine.igalia.com with esmtps 
  (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1k82Og-0004af-Ky; Tue, 18 Aug 2020 16:15:30 +0200
+ id 1k82Pj-0004hE-4m; Tue, 18 Aug 2020 16:16:35 +0200
 Received: from berto by mail.igalia.com with local (Exim)
- id 1k82Og-0001mQ-At; Tue, 18 Aug 2020 16:15:30 +0200
+ id 1k82Pi-0001o9-Px; Tue, 18 Aug 2020 16:16:34 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
-Subject: Re: [PATCH v5 1/5] block/io: fix bdrv_co_block_status_above
-In-Reply-To: <20200610120426.12826-2-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v5 2/5] block/io: bdrv_common_block_status_above: support
+ include_base
+In-Reply-To: <20200610120426.12826-3-vsementsov@virtuozzo.com>
 References: <20200610120426.12826-1-vsementsov@virtuozzo.com>
- <20200610120426.12826-2-vsementsov@virtuozzo.com>
+ <20200610120426.12826-3-vsementsov@virtuozzo.com>
 User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
  (i586-pc-linux-gnu)
-Date: Tue, 18 Aug 2020 16:15:30 +0200
-Message-ID: <w51lficjb0d.fsf@maestria.local.igalia.com>
+Date: Tue, 18 Aug 2020 16:16:34 +0200
+Message-ID: <w51imdgjayl.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -68,27 +69,13 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 10 Jun 2020 02:04:22 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> +             * The top layer deferred to this layer, and because this layer is
-> +             * short, any zeroes that we synthesize beyond EOF behave as if they
-> +             * were allocated at this layer
->               */
-> +            assert(ret & BDRV_BLOCK_EOF);
->              *pnum = bytes;
-> +            if (file) {
-> +                *file = p;
-> +            }
-> +            return BDRV_BLOCK_ZERO | BDRV_BLOCK_ALLOCATED;
+On Wed 10 Jun 2020 02:04:23 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> In order to reuse bdrv_common_block_status_above in
+> bdrv_is_allocated_above, let's support include_base parameter.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-You don't add BDRV_BLOCK_EOF to the return code here ?
-
-> +        res = bdrv_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
-> +        offset += nr;
-> +        bytes -= nr;
-> +    } while (res >= 0 && (res & BDRV_BLOCK_ZERO) && nr && bytes);
-
-About this last "... && nr && bytes", I think 'nr' already implies
-'bytes', maybe you want to use an assertion instead?
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
 Berto
 
