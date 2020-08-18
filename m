@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B504248BED
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 18:48:19 +0200 (CEST)
-Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738F0248BF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 18:48:27 +0200 (CEST)
+Received: from localhost ([::1]:50510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k84mY-0003aS-Db
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 12:48:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
+	id 1k84mg-0003rC-FI
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 12:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k84jt-0007xo-KI
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 12:45:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30618
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k84jy-000894-ON
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 12:45:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k84jr-0007Ht-5E
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 12:45:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k84jw-0007JM-24
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 12:45:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597769130;
+ s=mimecast20190719; t=1597769135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rleIQWhTOngPCq5cfqGRgdMvowv+Bx0+2loFTr63p8Y=;
- b=dzGjjBu8n2yBcJIkq4Dv9mEIHFVZoK+CNBaBKeaopduJ+sDWoIj82dutmclseT37yqRn51
- oRwEnrc1dBUupuyzSyEWT11MD8v6yPqSIsab2AiTA2le+Xeb3bFaBq05Lpmg8r5+s+48tx
- d9u5ZjjPUiyu4y9H1ZpJS6ePrLLhOJc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-bQYUgRTdM3e7bbK0sK8Zww-1; Tue, 18 Aug 2020 12:45:28 -0400
-X-MC-Unique: bQYUgRTdM3e7bbK0sK8Zww-1
-Received: by mail-wm1-f70.google.com with SMTP id g72so6319714wme.4
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 09:45:28 -0700 (PDT)
+ bh=EDUa2xT6CyPSFbp3gmOWIajlvuy8ALEmH1Y6JKlFOn4=;
+ b=QEsT/frjdleDo2z6jkkHj21mbKEYv5WEzCU+f4uOBUlmio2STzp+pRpoG6Tx4P/I/73gQ4
+ sA9IWO/vDd0OJEMsSqVfI5c2v2D3CSjuMTZgiIZmQl66DGwepqMxLlmFmV5M/angPNBvdq
+ m8GAnUY6yWJzq8Tbp42rWYe1814Xi0g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-77-SCjOOudMOeyQRHqDMjdbLg-1; Tue, 18 Aug 2020 12:45:33 -0400
+X-MC-Unique: SCjOOudMOeyQRHqDMjdbLg-1
+Received: by mail-wr1-f69.google.com with SMTP id m7so8434874wrb.20
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 09:45:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rleIQWhTOngPCq5cfqGRgdMvowv+Bx0+2loFTr63p8Y=;
- b=qX85fcwoXwNt88UJ33O9AooxZcAq01mq2PgdNtIlyc4bFcay+To3xxI4k1xv6skQGB
- GK+WHj2FIoJC+EAFdLVSbeEqh5OEPBo4LP6WakorGYAOQdv8Nn+X8QpLjAxoGjZq/YVZ
- ClXq5irthWiFCq/yjbR4/vpmFzEiTlhrDdMA+E2deiZBTAMp1X0TPrKGSOngQNqpBlQp
- Hf7b6cTnW22CxyKfEIT+o2ZONG6BISdECaHYRP/RABe2xadv0TVM5/UEW8ZhRTTIyW9q
- WcSEHpMAMjVTTWrkZYaOjvxc0AGSW6flCh1544H/ZulGWRAep6pQVyJs0Bg4IFy+ZsH/
- Jseg==
-X-Gm-Message-State: AOAM532+jg56X9XCnaoWGpO+BoBrTlX1I+bWF/7ajt36JQUivL3Lop4e
- oKS31TRXeb/M29Q1QaRNmyXbXAuB23o1RX0IDZcA6301BZlj+GbN4bG2aauD0nxk3zNrafExOTK
- l0KqXvFetkRFnqdE=
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr749317wmc.130.1597769126756; 
- Tue, 18 Aug 2020 09:45:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRnfGYJ2aDSXgCns+VmKpojXevW5OfKSnShuvGr8ucz3dvFmtf3YO2+rwmlQGuTUUllulhMg==
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr749303wmc.130.1597769126590; 
- Tue, 18 Aug 2020 09:45:26 -0700 (PDT)
+ bh=EDUa2xT6CyPSFbp3gmOWIajlvuy8ALEmH1Y6JKlFOn4=;
+ b=JyZSFJmjxG8pdnlhogU6JesVL1tgtddt5V+H53gsBJyBTEL2KEfOl+DX9kIdTmyLlO
+ Dcs78hieyRv1xY2ux9meKuRuRp0LTL3zJ4j2f1FK0tPG95zr0ewfiw0jv97QxUkT+Qdk
+ p0PzgolUafL23+STyf2V0+jPVyU41zwZpyFApDFiD0zBwF9pqFyZ7CttE2oQ09pZaALg
+ p3EmLrbvzqtbxvQZB3ULmUxDiK12J2/jsAZCNlAYAd6ox4J9lpAJ8VoMji037JhBNlm2
+ L2wYfCwJdv8O6bcRY/i475Ciswh2SD6Ms9eDqRU9mMPu8g00NNLu+7uCfKEqzErTUki9
+ gY9Q==
+X-Gm-Message-State: AOAM532JGKCdfN7iBla2xZxrFmD/GF1g+17e3INGElgS9P1nS31fKQZn
+ cP3wIYNtcszaXhfL6UCc1iyw1vALtO+XT5INhZ+FG7+gKqMDj3KIaRY3m2f9crIIDC2en9mkyzz
+ HRbFJbOac/VA8ec0=
+X-Received: by 2002:adf:b1dc:: with SMTP id r28mr121647wra.242.1597769131862; 
+ Tue, 18 Aug 2020 09:45:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIn2qrl3iX+cB4Q+434IZczlOFkLoHvdMX1wc2QkYdFhuiYrhLgNMZ+iLsAiufRanv24hVJQ==
+X-Received: by 2002:adf:b1dc:: with SMTP id r28mr121624wra.242.1597769131675; 
+ Tue, 18 Aug 2020 09:45:31 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id g8sm630741wme.13.2020.08.18.09.45.25
+ by smtp.gmail.com with ESMTPSA id g14sm598098wmk.37.2020.08.18.09.45.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Aug 2020 09:45:26 -0700 (PDT)
+ Tue, 18 Aug 2020 09:45:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 3/5] util/vfio-helpers: Store eventfd using int32_t type
-Date: Tue, 18 Aug 2020 18:45:07 +0200
-Message-Id: <20200818164509.736367-4-philmd@redhat.com>
+Subject: [RFC PATCH v3 4/5] util/vfio-helpers: Introduce
+ qemu_vfio_pci_init_msix_irqs()
+Date: Tue, 18 Aug 2020 18:45:08 +0200
+Message-Id: <20200818164509.736367-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818164509.736367-1-philmd@redhat.com>
 References: <20200818164509.736367-1-philmd@redhat.com>
@@ -74,16 +74,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 06:40:33
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:22:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,42 +105,93 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the documentation in linux-headers/linux/vfio.h:
+qemu_vfio_pci_init_irq() allows us to initialize any type of IRQ,
+but only one. Introduce qemu_vfio_pci_init_msix_irqs() which is
+specific to MSIX IRQ type, and allow us to use multiple IRQs
+(thus passing multiple eventfd notifiers).
 
- VFIO_DEVICE_SET_IRQS
-
- * DATA_EVENTFD binds the specified ACTION to the provided __s32 eventfd.
-
-Replace the 'int' by an 'int32_t' to match the documentation.
-
-Fixes: 418026ca43 ("util: Introduce vfio helpers")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/vfio-helpers.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/qemu/vfio-helpers.h |  2 ++
+ util/vfio-helpers.c         | 53 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+)
 
+diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
+index 1f057c2b9e4..63108ebc8da 100644
+--- a/include/qemu/vfio-helpers.h
++++ b/include/qemu/vfio-helpers.h
+@@ -28,5 +28,7 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
+                              uint64_t offset, uint64_t size);
+ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+                            int irq_type, Error **errp);
++int qemu_vfio_pci_init_msix_irqs(QEMUVFIOState *s, EventNotifier *e,
++                                 unsigned irq_count, Error **errp);
+ 
+ #endif
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 60017936e3e..696f2d51712 100644
+index 696f2d51712..fb3a79a5bcb 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -193,7 +193,7 @@ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
-         return -EINVAL;
-     }
+@@ -215,6 +215,59 @@ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+     return 0;
+ }
  
--    irq_set_size = sizeof(*irq_set) + sizeof(int);
-+    irq_set_size = sizeof(*irq_set) + sizeof(int32_t);
-     irq_set = g_malloc0(irq_set_size);
- 
-     /* Get to a known IRQ state */
-@@ -205,7 +205,7 @@ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
-         .count = 1,
-     };
- 
--    *(int *)&irq_set->data = event_notifier_get_fd(e);
-+    *(int32_t *)&irq_set->data = event_notifier_get_fd(e);
-     r = ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
-     g_free(irq_set);
-     if (r) {
++/**
++ * Initialize device MSIX IRQs and register event notifiers.
++ * @irq_count: number of MSIX IRQs to initialize
++ * @e: Array of @irq_count notifiers (each corresponding to a MSIX IRQ)
++ */
++int qemu_vfio_pci_init_msix_irqs(QEMUVFIOState *s, EventNotifier *e,
++                                 unsigned irq_count, Error **errp)
++{
++    int r;
++    struct vfio_irq_set *irq_set;
++    size_t irq_set_size;
++    struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info) };
++
++    irq_info.index = VFIO_PCI_MSIX_IRQ_INDEX;
++    if (ioctl(s->device, VFIO_DEVICE_GET_IRQ_INFO, &irq_info)) {
++        error_setg_errno(errp, errno, "Failed to get device interrupt info");
++        return -errno;
++    }
++    if (irq_info.count <= irq_count) {
++        error_setg(errp,
++                   "Not enough device interrupts available (only %" PRIu32 ")",
++                   irq_info.count);
++        return -EINVAL;
++    }
++    if (!(irq_info.flags & VFIO_IRQ_INFO_EVENTFD)) {
++        error_setg(errp, "Device interrupt doesn't support eventfd");
++        return -EINVAL;
++    }
++
++    irq_set_size = sizeof(*irq_set) + irq_count * sizeof(int32_t);
++    irq_set = g_malloc0(irq_set_size);
++
++    /* Get to a known IRQ state */
++    *irq_set = (struct vfio_irq_set) {
++        .argsz = irq_set_size,
++        .flags = VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_TRIGGER,
++        .index = irq_info.index,
++        .start = 0,
++        .count = irq_count,
++    };
++
++    for (unsigned i = 0; i < irq_count; i++) {
++        ((int32_t *)&irq_set->data)[i] = event_notifier_get_fd(&e[i]);
++    }
++    r = ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
++    g_free(irq_set);
++    if (r) {
++        error_setg_errno(errp, errno, "Failed to setup device interrupts");
++        return -errno;
++    }
++    return 0;
++}
++
+ static int qemu_vfio_pci_read_config(QEMUVFIOState *s, void *buf,
+                                      int size, int ofs)
+ {
 -- 
 2.26.2
 
