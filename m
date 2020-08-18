@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F3A247D90
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:34:14 +0200 (CEST)
-Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC61247D89
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:31:39 +0200 (CEST)
+Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tK9-0006s7-LL
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
+	id 1k7tHe-0002RS-LL
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:31:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6F-0007gD-Hb; Tue, 18 Aug 2020 00:19:51 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:45575)
+ id 1k7t6H-0007kV-2c; Tue, 18 Aug 2020 00:19:53 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6D-0006Nq-NX; Tue, 18 Aug 2020 00:19:51 -0400
+ id 1k7t6E-0006OJ-Sz; Tue, 18 Aug 2020 00:19:52 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNd2V5Fz9sVf; Tue, 18 Aug 2020 14:19:29 +1000 (AEST)
+ id 4BVyNd4865z9sVg; Tue, 18 Aug 2020 14:19:29 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724369;
- bh=z/UXBluSn5JLDvHNxBWeTr0e76wQrUJOVa1KcxqP/OI=;
+ bh=GD4OipZ8hOU2+/gyQ5TK/Laf6IOlG9KPRJDCNf+Gid0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cXurNNtHtO3QjfUyFW9FbDOgOQGlEkPGOanpN5I438XRUfQE+uGj9j2cK0wsjYJEl
- t8HqpCxdBF/zc5kM8vPBDVGzMBc9hdYM68euyO9432o8n5uzTKUksEXBjCTBLPVVFQ
- vAB6/3Poe3EY98sm4foGqc44ZDt1JtrNTMUTTdog=
+ b=L4YUi8yhsc/bFajsFSbUfqS9mvFyBgwvWanmJ5eflxH053sYETvHrdERWLc71yQcF
+ HYv12So9mjvWvJRbIx6q/EIgXdtanSpB2OW5qE2TQ4gIBfdcObGJxZfbeGp6nd9cDQ
+ +inRq/1N6ODssnvlGpAjIa6B41gos/ar5VRLgiRo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 22/40] ppc/xive: Rework setup of XiveSource::esb_mmio
-Date: Tue, 18 Aug 2020 14:19:04 +1000
-Message-Id: <20200818041922.251708-23-david@gibson.dropbear.id.au>
+Subject: [PULL 23/40] ppc/xive: Introduce dedicated kvm_irqchip_in_kernel()
+ wrappers
+Date: Tue, 18 Aug 2020 14:19:05 +1000
+Message-Id: <20200818041922.251708-24-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -68,110 +69,282 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Depending on whether XIVE is emultated or backed with a KVM XIVE device,
-the ESB MMIOs of a XIVE source point to an I/O memory region or a mapped
-memory region.
+Calls to the KVM XIVE device are guarded by kvm_irqchip_in_kernel(). This
+ensures that QEMU won't try to use the device if KVM is disabled or if
+an in-kernel irqchip isn't required.
 
-This is currently handled by checking kvm_irqchip_in_kernel() returns
-false in xive_source_realize(). This is a bit awkward as we usually
-need to do extra things when we're using the in-kernel backend, not
-less. But most important, we can do better: turn the existing "xive.esb"
-memory region into a plain container, introduce an "xive.esb-emulated"
-I/O subregion and rename the existing "xive.esb" subregion in the KVM
-code to "xive.esb-kvm". Since "xive.esb-kvm" is added with overlap
-and a higher priority, it prevails over "xive.esb-emulated" (ie.
-a guest using KVM XIVE will interact with "xive.esb-kvm" instead of
-the default "xive.esb-emulated" region.
+When using ic-mode=dual with the pseries machine, we have two possible
+interrupt controllers: XIVE and XICS. The kvm_irqchip_in_kernel() helper
+will return true as soon as any of the KVM device is created. It might
+lure QEMU to think that the other one is also around, while it is not.
+This is exactly what happens with ic-mode=dual at machine init when
+claiming IRQ numbers, which must be done on all possible IRQ backends,
+eg. RTAS event sources or the PHB0 LSI table : only the KVM XICS device
+is active but we end up calling kvmppc_xive_source_reset_one() anyway,
+which fails. This doesn't cause any trouble because of another bug :
+kvmppc_xive_source_reset_one() lacks an error_setg() and callers don't
+see the failure.
 
-While here, consolidate the computation of the MMIO region size in
-a common helper.
+Most of the other kvmppc_xive_* functions have similar xive->fd
+checks to filter out the case when KVM XIVE isn't active. It
+might look safer to have idempotent functions but it doesn't
+really help to understand what's going on when debugging.
 
-Suggested-by: Cédric Le Goater <clg@kaod.org>
+Since we already have all the kvm_irqchip_in_kernel() in place,
+also have the callers to check xive->fd as well before calling
+KVM XIVE specific code. This is straight-forward for the spapr
+specific XIVE code. Some more care is needed for the platform
+agnostic XIVE code since it cannot access xive->fd directly.
+Introduce new in_kernel() methods in some base XIVE classes
+for this purpose and implement them only in spapr.
+
+In all cases, we still need to call kvm_irqchip_in_kernel() so that
+compilers can optimize the kvmppc_xive_* calls away when CONFIG_KVM
+isn't defined, thus avoiding the need for stubs.
+
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159679992680.876294.7520540158586170894.stgit@bahia.lan>
+Message-Id: <159679993438.876294.7285654331498605426.stgit@bahia.lan>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c |  4 ++--
- hw/intc/xive.c           | 11 ++++++-----
- include/hw/ppc/xive.h    |  6 ++++++
- 3 files changed, 14 insertions(+), 7 deletions(-)
+ hw/intc/spapr_xive.c  | 45 +++++++++++++++++++++++++++++--------------
+ hw/intc/xive.c        | 25 ++++++++++++++++++------
+ include/hw/ppc/xive.h |  1 +
+ 3 files changed, 51 insertions(+), 20 deletions(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 893a1ee77e..6130882be6 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -742,7 +742,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
-     SpaprXive *xive = SPAPR_XIVE(intc);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 89c8cd9667..3c84f64dc4 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -148,12 +148,19 @@ static void spapr_xive_end_pic_print_info(SpaprXive *xive, XiveEND *end,
+     xive_end_queue_pic_print_info(end, 6, mon);
+ }
+ 
++/*
++ * kvm_irqchip_in_kernel() will cause the compiler to turn this
++ * info a nop if CONFIG_KVM isn't defined.
++ */
++#define spapr_xive_in_kernel(xive) \
++    (kvm_irqchip_in_kernel() && (xive)->fd != -1)
++
+ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
+ {
      XiveSource *xsrc = &xive->source;
-     Error *local_err = NULL;
--    size_t esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-+    size_t esb_len = xive_source_esb_len(xsrc);
-     size_t tima_len = 4ull << TM_SHIFT;
-     CPUState *cs;
-     int fd;
-@@ -788,7 +788,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+     int i;
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_synchronize_state(xive, &local_err);
+@@ -507,8 +514,10 @@ static const VMStateDescription vmstate_spapr_xive_eas = {
+ 
+ static int vmstate_spapr_xive_pre_save(void *opaque)
+ {
+-    if (kvm_irqchip_in_kernel()) {
+-        return kvmppc_xive_pre_save(SPAPR_XIVE(opaque));
++    SpaprXive *xive = SPAPR_XIVE(opaque);
++
++    if (spapr_xive_in_kernel(xive)) {
++        return kvmppc_xive_pre_save(xive);
      }
  
-     memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
--                                      "xive.esb", esb_len, xsrc->esb_mmap);
-+                                      "xive.esb-kvm", esb_len, xsrc->esb_mmap);
-     memory_region_add_subregion_overlap(&xsrc->esb_mmio, 0,
-                                         &xsrc->esb_mmio_kvm, 1);
- 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 9b55e0356c..561d746cd1 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1128,6 +1128,7 @@ static void xive_source_reset(void *dev)
- static void xive_source_realize(DeviceState *dev, Error **errp)
+     return 0;
+@@ -520,8 +529,10 @@ static int vmstate_spapr_xive_pre_save(void *opaque)
+  */
+ static int spapr_xive_post_load(SpaprInterruptController *intc, int version_id)
  {
-     XiveSource *xsrc = XIVE_SOURCE(dev);
-+    size_t esb_len = xive_source_esb_len(xsrc);
+-    if (kvm_irqchip_in_kernel()) {
+-        return kvmppc_xive_post_load(SPAPR_XIVE(intc), version_id);
++    SpaprXive *xive = SPAPR_XIVE(intc);
++
++    if (spapr_xive_in_kernel(xive)) {
++        return kvmppc_xive_post_load(xive, version_id);
+     }
  
-     assert(xsrc->xive);
+     return 0;
+@@ -564,7 +575,7 @@ static int spapr_xive_claim_irq(SpaprInterruptController *intc, int lisn,
+         xive_source_irq_set_lsi(xsrc, lisn);
+     }
  
-@@ -1147,11 +1148,11 @@ static void xive_source_realize(DeviceState *dev, Error **errp)
-     xsrc->status = g_malloc0(xsrc->nr_irqs);
-     xsrc->lsi_map = bitmap_new(xsrc->nr_irqs);
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+     }
  
--    if (!kvm_irqchip_in_kernel()) {
--        memory_region_init_io(&xsrc->esb_mmio, OBJECT(xsrc),
--                              &xive_source_esb_ops, xsrc, "xive.esb",
--                              (1ull << xsrc->esb_shift) * xsrc->nr_irqs);
--    }
-+    memory_region_init(&xsrc->esb_mmio, OBJECT(xsrc), "xive.esb", esb_len);
-+    memory_region_init_io(&xsrc->esb_mmio_emulated, OBJECT(xsrc),
-+                          &xive_source_esb_ops, xsrc, "xive.esb-emulated",
-+                          esb_len);
-+    memory_region_add_subregion(&xsrc->esb_mmio, 0, &xsrc->esb_mmio_emulated);
+@@ -641,7 +652,7 @@ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
+ {
+     SpaprXive *xive = SPAPR_XIVE(intc);
  
-     qemu_register_reset(xive_source_reset, dev);
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         kvmppc_xive_source_set_irq(&xive->source, irq, val);
+     } else {
+         xive_source_set_irq(&xive->source, irq, val);
+@@ -749,11 +760,16 @@ static void spapr_xive_deactivate(SpaprInterruptController *intc)
+ 
+     spapr_xive_mmio_set_enabled(xive, false);
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         kvmppc_xive_disconnect(intc);
+     }
  }
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 705cf48176..82a61eaca7 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -191,6 +191,7 @@ typedef struct XiveSource {
-     uint64_t        esb_flags;
-     uint32_t        esb_shift;
-     MemoryRegion    esb_mmio;
-+    MemoryRegion    esb_mmio_emulated;
  
-     /* KVM support */
-     void            *esb_mmap;
-@@ -215,6 +216,11 @@ static inline bool xive_source_esb_has_2page(XiveSource *xsrc)
-         xsrc->esb_shift == XIVE_ESB_4K_2PAGE;
- }
- 
-+static inline size_t xive_source_esb_len(XiveSource *xsrc)
++static bool spapr_xive_in_kernel_xptr(const XivePresenter *xptr)
 +{
-+    return (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
++    return spapr_xive_in_kernel(SPAPR_XIVE(xptr));
 +}
 +
- /* The trigger page is always the first/even page */
- static inline hwaddr xive_source_esb_page(XiveSource *xsrc, uint32_t srcno)
+ static void spapr_xive_class_init(ObjectClass *klass, void *data)
  {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -788,6 +804,7 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
+     sicc->post_load = spapr_xive_post_load;
+ 
+     xpc->match_nvt  = spapr_xive_match_nvt;
++    xpc->in_kernel  = spapr_xive_in_kernel_xptr;
+ }
+ 
+ static const TypeInfo spapr_xive_info = {
+@@ -1058,7 +1075,7 @@ static target_ulong h_int_set_source_config(PowerPCCPU *cpu,
+         new_eas.w = xive_set_field64(EAS_END_DATA, new_eas.w, eisn);
+     }
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_set_source_config(xive, lisn, &new_eas, &local_err);
+@@ -1379,7 +1396,7 @@ static target_ulong h_int_set_queue_config(PowerPCCPU *cpu,
+      */
+ 
+ out:
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_set_queue_config(xive, end_blk, end_idx, &end, &local_err);
+@@ -1480,7 +1497,7 @@ static target_ulong h_int_get_queue_config(PowerPCCPU *cpu,
+         args[2] = 0;
+     }
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_get_queue_config(xive, end_blk, end_idx, end, &local_err);
+@@ -1642,7 +1659,7 @@ static target_ulong h_int_esb(PowerPCCPU *cpu,
+         return H_P3;
+     }
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         args[0] = kvmppc_xive_esb_rw(xsrc, lisn, offset, data,
+                                      flags & SPAPR_XIVE_ESB_STORE);
+     } else {
+@@ -1717,7 +1734,7 @@ static target_ulong h_int_sync(PowerPCCPU *cpu,
+      * under KVM
+      */
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_sync_source(xive, lisn, &local_err);
+@@ -1761,7 +1778,7 @@ static target_ulong h_int_reset(PowerPCCPU *cpu,
+ 
+     device_legacy_reset(DEVICE(xive));
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (spapr_xive_in_kernel(xive)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_reset(xive, &local_err);
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 561d746cd1..a453e8f4dc 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -592,6 +592,17 @@ static const char * const xive_tctx_ring_names[] = {
+     "USER", "OS", "POOL", "PHYS",
+ };
+ 
++/*
++ * kvm_irqchip_in_kernel() will cause the compiler to turn this
++ * info a nop if CONFIG_KVM isn't defined.
++ */
++#define xive_in_kernel(xptr)                                            \
++    (kvm_irqchip_in_kernel() &&                                         \
++     ({                                                                 \
++         XivePresenterClass *xpc = XIVE_PRESENTER_GET_CLASS(xptr);      \
++         xpc->in_kernel ? xpc->in_kernel(xptr) : false;                 \
++     }))
++
+ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon)
+ {
+     int cpu_index;
+@@ -606,7 +617,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon)
+ 
+     cpu_index = tctx->cs ? tctx->cs->cpu_index : -1;
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (xive_in_kernel(tctx->xptr)) {
+         Error *local_err = NULL;
+ 
+         kvmppc_xive_cpu_synchronize_state(tctx, &local_err);
+@@ -671,7 +682,7 @@ static void xive_tctx_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Connect the presenter to the VCPU (required for CPU hotplug) */
+-    if (kvm_irqchip_in_kernel()) {
++    if (xive_in_kernel(tctx->xptr)) {
+         kvmppc_xive_cpu_connect(tctx, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+@@ -682,10 +693,11 @@ static void xive_tctx_realize(DeviceState *dev, Error **errp)
+ 
+ static int vmstate_xive_tctx_pre_save(void *opaque)
+ {
++    XiveTCTX *tctx = XIVE_TCTX(opaque);
+     Error *local_err = NULL;
+ 
+-    if (kvm_irqchip_in_kernel()) {
+-        kvmppc_xive_cpu_get_state(XIVE_TCTX(opaque), &local_err);
++    if (xive_in_kernel(tctx->xptr)) {
++        kvmppc_xive_cpu_get_state(tctx, &local_err);
+         if (local_err) {
+             error_report_err(local_err);
+             return -1;
+@@ -697,14 +709,15 @@ static int vmstate_xive_tctx_pre_save(void *opaque)
+ 
+ static int vmstate_xive_tctx_post_load(void *opaque, int version_id)
+ {
++    XiveTCTX *tctx = XIVE_TCTX(opaque);
+     Error *local_err = NULL;
+ 
+-    if (kvm_irqchip_in_kernel()) {
++    if (xive_in_kernel(tctx->xptr)) {
+         /*
+          * Required for hotplugged CPU, for which the state comes
+          * after all states of the machine.
+          */
+-        kvmppc_xive_cpu_set_state(XIVE_TCTX(opaque), &local_err);
++        kvmppc_xive_cpu_set_state(tctx, &local_err);
+         if (local_err) {
+             error_report_err(local_err);
+             return -1;
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 82a61eaca7..2f3c5af810 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -402,6 +402,7 @@ typedef struct XivePresenterClass {
+                      uint8_t nvt_blk, uint32_t nvt_idx,
+                      bool cam_ignore, uint8_t priority,
+                      uint32_t logic_serv, XiveTCTXMatch *match);
++    bool (*in_kernel)(const XivePresenter *xptr);
+ } XivePresenterClass;
+ 
+ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
 -- 
 2.26.2
 
