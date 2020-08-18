@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC378247D81
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:28:41 +0200 (CEST)
-Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1E6247D7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:26:54 +0200 (CEST)
+Received: from localhost ([::1]:54678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tEm-0006cT-SU
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
+	id 1k7tD3-0003EA-GA
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t68-0007Mz-HX; Tue, 18 Aug 2020 00:19:44 -0400
-Received: from ozlabs.org ([203.11.71.1]:52515)
+ id 1k7t68-0007NF-KC; Tue, 18 Aug 2020 00:19:44 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50697 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t66-0006LS-Ia; Tue, 18 Aug 2020 00:19:44 -0400
+ id 1k7t66-0006LT-CC; Tue, 18 Aug 2020 00:19:44 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNZ64LBz9sV9; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
+ id 4BVyNZ74jjz9sVB; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724366;
- bh=hzgAt1O6dYjmUZB5vBufIOGpmcBVYQk4j7ZI3PZ6rtI=;
+ d=gibson.dropbear.id.au; s=201602; t=1597724367;
+ bh=uAsKhdoLP4l9Yj1dZs/XZzS9+pfhR/PHECSVprBFvGI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hIwVS9NxWrKhyVpL7uy1fPTexpeeR++bXm1ig3xjjYq8nb+QpY46KrM6LZWT6DlaE
- RtmzfIkH2pis9rBtulJgShDXg7XqfxyeLHtldbB//k+nMo6uem/aqQbI7I6z1pAH2E
- tVrjnO5CTkXeLVcDByH6dcsVxcY4I7oq7IbTEYdY=
+ b=nbl4BbmDuXj0VCbg/xrSyuQs1XaXMxoxfWxNXOQsvQ0VJqF1vYijsiJpo28uHCqiF
+ e+0QxxqfXMgH89XSpqBBpscHdOBeAlLAJm5F2tcxJE9h/TQ5YOLdLGSLyAWGU9IjdF
+ LBRTlZzzR5KuaDgXAsmmafKj9YazmJbdAk/bP/Gg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 11/40] Update PowerPC AT_HWCAP2 definition
-Date: Tue, 18 Aug 2020 14:18:53 +1000
-Message-Id: <20200818041922.251708-12-david@gibson.dropbear.id.au>
+Subject: [PULL 12/40] target/ppc: add vmulld to INDEX_op_mul_vec case
+Date: Tue, 18 Aug 2020 14:18:54 +1000
+Message-Id: <20200818041922.251708-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -68,28 +68,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lijun Pan <ljp@linux.ibm.com>
 
-Add PPC2_FEATURE2_ARCH_3_10 to the PowerPC AT_HWCAP2 definitions.
+Group vmuluwm and vmulld. Make vmulld-specific
+changes since it belongs to new ISA 3.1.
 
 Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-Message-Id: <20200724045845.89976-2-ljp@linux.ibm.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20200724045845.89976-3-ljp@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/elf.h | 1 +
- 1 file changed, 1 insertion(+)
+ tcg/ppc/tcg-target.h     |  2 ++
+ tcg/ppc/tcg-target.inc.c | 12 ++++++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/include/elf.h b/include/elf.h
-index 5b06b55f28..c117a4d1ab 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -558,6 +558,7 @@ typedef struct {
- #define PPC_FEATURE2_HTM_NOSC           0x01000000
- #define PPC_FEATURE2_ARCH_3_00          0x00800000
- #define PPC_FEATURE2_HAS_IEEE128        0x00400000
-+#define PPC_FEATURE2_ARCH_3_10          0x00040000
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index be5b2901c3..aee38157a2 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -63,6 +63,7 @@ typedef enum {
+     tcg_isa_2_06,
+     tcg_isa_2_07,
+     tcg_isa_3_00,
++    tcg_isa_3_10,
+ } TCGPowerISA;
  
- /* Bits present in AT_HWCAP for Sparc.  */
+ extern TCGPowerISA have_isa;
+@@ -72,6 +73,7 @@ extern bool have_vsx;
+ #define have_isa_2_06  (have_isa >= tcg_isa_2_06)
+ #define have_isa_2_07  (have_isa >= tcg_isa_2_07)
+ #define have_isa_3_00  (have_isa >= tcg_isa_3_00)
++#define have_isa_3_10  (have_isa >= tcg_isa_3_10)
  
+ /* optional instructions automatically implemented */
+ #define TCG_TARGET_HAS_ext8u_i32        0 /* andi */
+diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
+index c8d1e765d9..0e78260e60 100644
+--- a/tcg/ppc/tcg-target.inc.c
++++ b/tcg/ppc/tcg-target.inc.c
+@@ -564,6 +564,7 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
+ #define VMULOUH    VX4(72)
+ #define VMULOUW    VX4(136)       /* v2.07 */
+ #define VMULUWM    VX4(137)       /* v2.07 */
++#define VMULLD     VX4(457)       /* v3.10 */
+ #define VMSUMUHM   VX4(38)
+ 
+ #define VMRGHB     VX4(12)
+@@ -3022,6 +3023,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
+             return -1;
+         case MO_32:
+             return have_isa_2_07 ? 1 : -1;
++        case MO_64:
++            return have_isa_3_10;
+         }
+         return 0;
+     case INDEX_op_bitsel_vec:
+@@ -3158,6 +3161,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+     static const uint32_t
+         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
+         sub_op[4] = { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
++        mul_op[4] = { 0, 0, VMULUWM, VMULLD },
+         neg_op[4] = { 0, 0, VNEGW, VNEGD },
+         eq_op[4]  = { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
+         ne_op[4]  = { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
+@@ -3208,8 +3212,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         a1 = 0;
+         break;
+     case INDEX_op_mul_vec:
+-        tcg_debug_assert(vece == MO_32 && have_isa_2_07);
+-        insn = VMULUWM;
++        insn = mul_op[vece];
+         break;
+     case INDEX_op_ssadd_vec:
+         insn = ssadd_op[vece];
+@@ -3729,6 +3732,11 @@ static void tcg_target_init(TCGContext *s)
+         have_isa = tcg_isa_3_00;
+     }
+ #endif
++#ifdef PPC_FEATURE2_ARCH_3_10
++    if (hwcap2 & PPC_FEATURE2_ARCH_3_10) {
++        have_isa = tcg_isa_3_10;
++    }
++#endif
+ 
+ #ifdef PPC_FEATURE2_HAS_ISEL
+     /* Prefer explicit instruction from the kernel. */
 -- 
 2.26.2
 
