@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C1D248B41
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 18:14:51 +0200 (CEST)
-Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895E6248AFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 18:03:33 +0200 (CEST)
+Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k84GA-0004qd-0g
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 12:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33378)
+	id 1k845E-0002o3-H1
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 12:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k83vC-0002LY-CE
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:53:10 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60135
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k83v7-0006Cy-VW
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:53:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597765983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vszjc0FYD45E3BfJR3oabQeAeSXw+qKqDgUEHrXpP7s=;
- b=Bk6A1IQ9YKofbyYW0dhNetPasA+45kMRWukfLt6Nwp65KZAtuSbo393BOCtyk8tMoC9TQ8
- 2XtCuluQxLnRKjkOpRxZgrxrhkTc82vXQ3SLfhzUEhrmdlhZHaGmBBWk25vkHv2XInkZgO
- VDc/3eSfiP4lSakKQNKPKOGvO1s81N8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-Iwd5o-ZuOP6DEkRVVmReOg-1; Tue, 18 Aug 2020 11:50:51 -0400
-X-MC-Unique: Iwd5o-ZuOP6DEkRVVmReOg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FC0C81F021;
- Tue, 18 Aug 2020 15:50:50 +0000 (UTC)
-Received: from gondolin (ovpn-112-221.ams2.redhat.com [10.36.112.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1872860BE5;
- Tue, 18 Aug 2020 15:50:42 +0000 (UTC)
-Date: Tue, 18 Aug 2020 17:49:55 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
-Message-ID: <20200818174955.1180e092.cohuck@redhat.com>
-In-Reply-To: <20200818152807.oig6p3ajve5ju32b@steredhat>
-References: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
- <20200813112820.62ffd63e.cohuck@redhat.com>
- <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
- <20200813123737.25ba11d2.cohuck@redhat.com>
- <20200813120415.s5we6mihe6fywm4a@steredhat.lan>
- <20200817122746.0b786372.cohuck@redhat.com>
- <20200817131128.lgxn3pyzuzly4edp@steredhat>
- <20200818144450.0701d68c.cohuck@redhat.com>
- <20200818140120.c46fsf6cia2ol53v@steredhat>
- <20200818163101.72abd288.cohuck@redhat.com>
- <20200818152807.oig6p3ajve5ju32b@steredhat>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1k83tF-0006WT-Jt
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:51:09 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:12947)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1k83t9-0005sa-3E
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:51:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1597765863; x=1629301863;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=dk2BRG/prIYuGB8K5FkKnVkcRMds1VjUxwW5ZfJWxxE=;
+ b=QKcsCRc05KyHYLDGwst1nbC0R2/4ZBRwSKCnNu3/Lbyl6QubX/PJUN2R
+ oQLT9nxRATAa0gWblCu8ur56EUMFDNDvxTBvFUkfLBpsvCsWkeiYHranq
+ g7vYihmxi29UMQojkV164Xc9MNoVpVwFkVpVVxb/NKBaOuDssTK3jBrc+ E=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Aug 2020 08:50:57 -0700
+Received: from vu-tsimpson-aus.qualcomm.com (HELO
+ vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
+ by ironmsg01-sd.qualcomm.com with ESMTP; 18 Aug 2020 08:50:56 -0700
+Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
+ id 9EBDC16D3; Tue, 18 Aug 2020 10:50:55 -0500 (CDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v3 05/34] Hexagon (target/hexagon) register names
+Date: Tue, 18 Aug 2020 10:50:18 -0500
+Message-Id: <1597765847-16637-6-git-send-email-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
+References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 11:50:57
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,36 +69,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: ale@rev.ng, riku.voipio@iki.fi, richard.henderson@linaro.org,
+ laurent@vivier.eu, tsimpson@quicinc.com, philmd@redhat.com,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Aug 2020 17:28:07 +0200
-Stefano Garzarella <sgarzare@redhat.com> wrote:
-
-> On Tue, Aug 18, 2020 at 04:31:01PM +0200, Cornelia Huck wrote:
-
-> > > Do you prefer to send them? Otherwise I can do that.  
-> > 
-> > If you already have something on your disk, please go ahead :)  
-> 
-> Yes, I have something for pci, and I'll follow your suggestion for ccw!
-
-Cool, thx!
-
-> 
-> If you have time, can you share with me some tips on how to install
-> s390x guest on my laptop?
-
-The easiest way is probably to use virt-manager. I have installed
-Fedora s390x guests via this, works well.
-
-Once you have a guest, you can grab the qemu command line from
-libvirt's log, trim it down, and start it directly.
-
-https://wiki.qemu.org/Documentation/Platforms/S390X might also be
-helpful.
-
+U2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPgotLS0K
+IHRhcmdldC9oZXhhZ29uL2hleF9yZWdzLmggfCA4MyArKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDgzIGluc2VydGlvbnMoKykK
+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0YXJnZXQvaGV4YWdvbi9oZXhfcmVncy5oCgpkaWZmIC0tZ2l0
+IGEvdGFyZ2V0L2hleGFnb24vaGV4X3JlZ3MuaCBiL3RhcmdldC9oZXhhZ29uL2hleF9yZWdzLmgK
+bmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMC4uM2I0MjQ5YQotLS0gL2Rldi9udWxs
+CisrKyBiL3RhcmdldC9oZXhhZ29uL2hleF9yZWdzLmgKQEAgLTAsMCArMSw4MyBAQAorLyoKKyAq
+ICBDb3B5cmlnaHQoYykgMjAxOS0yMDIwIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMu
+IEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisgKgorICogIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3
+YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5CisgKiAgaXQgdW5kZXIg
+dGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBhcyBwdWJsaXNoZWQg
+YnkKKyAqICB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXIgdmVyc2lvbiAyIG9m
+IHRoZSBMaWNlbnNlLCBvcgorICogIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24u
+CisgKgorICogIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0
+IHdpbGwgYmUgdXNlZnVsLAorICogIGJ1dCBXSVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBl
+dmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mCisgKiAgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5F
+U1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFLiAgU2VlIHRoZQorICogIEdOVSBHZW5lcmFsIFB1
+YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuCisgKgorICogIFlvdSBzaG91bGQgaGF2ZSBy
+ZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlCisgKiAgYWxv
+bmcgd2l0aCB0aGlzIHByb2dyYW07IGlmIG5vdCwgc2VlIDxodHRwOi8vd3d3LmdudS5vcmcvbGlj
+ZW5zZXMvPi4KKyAqLworCisjaWZuZGVmIEhFWEFHT05fUkVHU19ICisjZGVmaW5lIEhFWEFHT05f
+UkVHU19ICisKK2VudW0geworICAgIEhFWF9SRUdfUjAwICAgICAgICAgICAgICA9IDAsCisgICAg
+SEVYX1JFR19SMDEgICAgICAgICAgICAgID0gMSwKKyAgICBIRVhfUkVHX1IwMiAgICAgICAgICAg
+ICAgPSAyLAorICAgIEhFWF9SRUdfUjAzICAgICAgICAgICAgICA9IDMsCisgICAgSEVYX1JFR19S
+MDQgICAgICAgICAgICAgID0gNCwKKyAgICBIRVhfUkVHX1IwNSAgICAgICAgICAgICAgPSA1LAor
+ICAgIEhFWF9SRUdfUjA2ICAgICAgICAgICAgICA9IDYsCisgICAgSEVYX1JFR19SMDcgICAgICAg
+ICAgICAgID0gNywKKyAgICBIRVhfUkVHX1IwOCAgICAgICAgICAgICAgPSA4LAorICAgIEhFWF9S
+RUdfUjA5ICAgICAgICAgICAgICA9IDksCisgICAgSEVYX1JFR19SMTAgICAgICAgICAgICAgID0g
+MTAsCisgICAgSEVYX1JFR19SMTEgICAgICAgICAgICAgID0gMTEsCisgICAgSEVYX1JFR19SMTIg
+ICAgICAgICAgICAgID0gMTIsCisgICAgSEVYX1JFR19SMTMgICAgICAgICAgICAgID0gMTMsCisg
+ICAgSEVYX1JFR19SMTQgICAgICAgICAgICAgID0gMTQsCisgICAgSEVYX1JFR19SMTUgICAgICAg
+ICAgICAgID0gMTUsCisgICAgSEVYX1JFR19SMTYgICAgICAgICAgICAgID0gMTYsCisgICAgSEVY
+X1JFR19SMTcgICAgICAgICAgICAgID0gMTcsCisgICAgSEVYX1JFR19SMTggICAgICAgICAgICAg
+ID0gMTgsCisgICAgSEVYX1JFR19SMTkgICAgICAgICAgICAgID0gMTksCisgICAgSEVYX1JFR19S
+MjAgICAgICAgICAgICAgID0gMjAsCisgICAgSEVYX1JFR19SMjEgICAgICAgICAgICAgID0gMjEs
+CisgICAgSEVYX1JFR19SMjIgICAgICAgICAgICAgID0gMjIsCisgICAgSEVYX1JFR19SMjMgICAg
+ICAgICAgICAgID0gMjMsCisgICAgSEVYX1JFR19SMjQgICAgICAgICAgICAgID0gMjQsCisgICAg
+SEVYX1JFR19SMjUgICAgICAgICAgICAgID0gMjUsCisgICAgSEVYX1JFR19SMjYgICAgICAgICAg
+ICAgID0gMjYsCisgICAgSEVYX1JFR19SMjcgICAgICAgICAgICAgID0gMjcsCisgICAgSEVYX1JF
+R19SMjggICAgICAgICAgICAgID0gMjgsCisgICAgSEVYX1JFR19SMjkgICAgICAgICAgICAgID0g
+MjksCisgICAgSEVYX1JFR19TUCAgICAgICAgICAgICAgID0gMjksCisgICAgSEVYX1JFR19GUCAg
+ICAgICAgICAgICAgID0gMzAsCisgICAgSEVYX1JFR19SMzAgICAgICAgICAgICAgID0gMzAsCisg
+ICAgSEVYX1JFR19MUiAgICAgICAgICAgICAgID0gMzEsCisgICAgSEVYX1JFR19SMzEgICAgICAg
+ICAgICAgID0gMzEsCisgICAgSEVYX1JFR19TQTAgICAgICAgICAgICAgID0gMzIsCisgICAgSEVY
+X1JFR19MQzAgICAgICAgICAgICAgID0gMzMsCisgICAgSEVYX1JFR19TQTEgICAgICAgICAgICAg
+ID0gMzQsCisgICAgSEVYX1JFR19MQzEgICAgICAgICAgICAgID0gMzUsCisgICAgSEVYX1JFR19Q
+M18wICAgICAgICAgICAgID0gMzYsCisgICAgSEVYX1JFR19NMCAgICAgICAgICAgICAgID0gMzgs
+CisgICAgSEVYX1JFR19NMSAgICAgICAgICAgICAgID0gMzksCisgICAgSEVYX1JFR19VU1IgICAg
+ICAgICAgICAgID0gNDAsCisgICAgSEVYX1JFR19QQyAgICAgICAgICAgICAgID0gNDEsCisgICAg
+SEVYX1JFR19VR1AgICAgICAgICAgICAgID0gNDIsCisgICAgSEVYX1JFR19HUCAgICAgICAgICAg
+ICAgID0gNDMsCisgICAgSEVYX1JFR19DUzAgICAgICAgICAgICAgID0gNDQsCisgICAgSEVYX1JF
+R19DUzEgICAgICAgICAgICAgID0gNDUsCisgICAgSEVYX1JFR19VUENZQ0xFTE8gICAgICAgID0g
+NDYsCisgICAgSEVYX1JFR19VUENZQ0xFSEkgICAgICAgID0gNDcsCisgICAgSEVYX1JFR19GUkFN
+RUxJTUlUICAgICAgID0gNDgsCisgICAgSEVYX1JFR19GUkFNRUtFWSAgICAgICAgID0gNDksCisg
+ICAgSEVYX1JFR19QS1RDTlRMTyAgICAgICAgID0gNTAsCisgICAgSEVYX1JFR19QS1RDTlRISSAg
+ICAgICAgID0gNTEsCisgICAgLyogVXNlIHJlc2VydmVkIGNvbnRyb2wgcmVnaXN0ZXJzIGZvciBx
+ZW11IGV4ZWN1dGlvbiBjb3VudHMgKi8KKyAgICBIRVhfUkVHX1FFTVVfUEtUX0NOVCAgICAgID0g
+NTIsCisgICAgSEVYX1JFR19RRU1VX0lOU05fQ05UICAgICA9IDUzLAorICAgIEhFWF9SRUdfVVRJ
+TUVSTE8gICAgICAgICAgPSA2MiwKKyAgICBIRVhfUkVHX1VUSU1FUkhJICAgICAgICAgID0gNjMs
+Cit9OworCisjZW5kaWYKLS0gCjIuNy40Cgo=
 
