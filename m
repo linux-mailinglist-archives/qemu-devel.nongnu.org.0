@@ -2,41 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5F2249010
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:26:15 +0200 (CEST)
-Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B92249036
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:37:23 +0200 (CEST)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k897W-0007Kz-Ib
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
+	id 1k89II-0004xw-7K
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k8968-0005r8-G9; Tue, 18 Aug 2020 17:24:48 -0400
-Received: from relay.sw.ru ([185.231.240.75]:41584 helo=relay3.sw.ru)
+ (Exim 4.90_1) (envelope-from <sunilmut@microsoft.com>)
+ id 1k89Gz-0004V5-IG
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:36:01 -0400
+Received: from mail-dm6nam11on2104.outbound.protection.outlook.com
+ ([40.107.223.104]:49338 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k8965-0003ca-2i; Tue, 18 Aug 2020 17:24:48 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1k895p-000GtS-PL; Wed, 19 Aug 2020 00:24:29 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v6 4/4] block: apply COR-filter to block-stream jobs
-Date: Wed, 19 Aug 2020 00:24:40 +0300
-Message-Id: <1597785880-431103-5-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1597785880-431103-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1597785880-431103-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 17:24:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <sunilmut@microsoft.com>)
+ id 1k89Gv-0005MT-IK
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:36:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EJBMJp6cjsfQGD2jtwuwCzKyKjokUKVUucsvXNAymOBsh38Q5lC+hN3vt8GIeSMfH7kwCf3hgZUJMskcLvZYy1w82i+IFqJS2Ja+tUW2DFqZw6m8Pht74xSLESqSSyxfH1q7NjNCTKnFYqJDDfxdGilLzMQneh6BLtw+Hj7sOoUp+FdYemNNm9/dmUvL8ZnLFxMd33rDzyToETPGiJwhIM+P/tze56ajm7u+D+bCQ5VKWHaQExV+6MsEADOzu4Zo5nXlQNagv7SdsnAWRhEECwCC5DneIxcmlGlA9tgv0cV5S97fnkaMwicW717f3N95a2wWUOQPcgMNNVkFkGDDYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ajq19kLfG6fDfxLdgi26zLlxmgMtsmUFQ7HesAArL5A=;
+ b=chbHczdPeHEM6jET4xxlq1tPshWQRn9XN7MwuwJKYTwXHPr0Jsm/ct2TjvNuEdUo29XWhpK6KTdnYVxMngVMA2ZXNbbGgq5MfoYv8RXNqZEgoOc/OKPm0InXutD1sj5se8/sZ/ejIV9BHtCXtZpbkfGBM1QSVINuQuwVO8/T37F8iSyIFFWhtoMbMtQ5NQTnVHxHEPgmkVHVvXnP9Eup5Ls4iU9WCS6D9bV1Me2qZAqeDsI/ht6nL6LDeeK4O3j/w0CDE9uiBNo9+I8buODbKHF34oJzF28TCFbznvzbUGQOzWEpaok9AvLtOPi7efSdGm5bJaoiAzd60675XLvSCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ajq19kLfG6fDfxLdgi26zLlxmgMtsmUFQ7HesAArL5A=;
+ b=WjtbS10U/3RE0HG/zNpn5JnTz4PwobpSaT9c9HMr/TZ5FT49AtAqxO/FCQuCbal2eQxcQasXmNdxTs1JrQwNZPUTMds/7PALxND2f3V1OMUgp24U1FMBTEArTp8C67ApVrYEa11q4zGNwb6TOZbh5tXYVMvlCT5BtQ64KiGu6eQ=
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ (2603:10b6:803:51::33) by SN6PR2101MB0992.namprd21.prod.outlook.com
+ (2603:10b6:805:4::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.4; Tue, 18 Aug
+ 2020 21:20:46 +0000
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::b12a:e7a7:640e:8953]) by SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::b12a:e7a7:640e:8953%9]) with mapi id 15.20.3326.003; Tue, 18 Aug 2020
+ 21:20:46 +0000
+From: Sunil Muthuswamy <sunilmut@microsoft.com>
+To: Stefan Weil <sw@weilnetz.de>, =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=
+ <philmd@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Mike Battista <Mike.Battista@microsoft.com>
+CC: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?B?RGFuaWVsIFAgLiBCZXJyYW5nw6k=?= <berrange@redhat.com>, Eduardo
+ Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "1879672@bugs.launchpad.net" <1879672@bugs.launchpad.net>,
+ =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, Richard Henderson
+ <rth@twiddle.net>
+Subject: RE: [EXTERNAL] Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
+Thread-Topic: [EXTERNAL] Re: [PATCH v2 0/3] testing: Build WHPX enabled
+ binaries
+Thread-Index: AQHWZxVKeot30QB7QUymyE/5azx7WKkiVYjwgAPkaYCAAAo9gIAAlicAgACsv4CAAAM7gIAAB7oAgAAFSACAFuSMsA==
+Date: Tue, 18 Aug 2020 21:20:45 +0000
+Message-ID: <SN4PR2101MB088024FA6D6D3C89998C9BB5C05C0@SN4PR2101MB0880.namprd21.prod.outlook.com>
+References: <20190920113329.16787-1-philmd@redhat.com>
+ <01f2f0ee-a288-921a-58f4-78aeb4d457e1@redhat.com>
+ <BYAPR21MB1208F0D09B3E5CA80F1B7C3BB6880@BYAPR21MB1208.namprd21.prod.outlook.com>
+ <2acf854f-c49a-0811-31af-80e1e958f058@redhat.com>
+ <324f5002-be0a-563e-b5a6-e08ee5e1ddad@redhat.com>
+ <SN4PR2101MB0880AF5A5D752F06DB94A15FC04E0@SN4PR2101MB0880.namprd21.prod.outlook.com>
+ <b8afd626-b6ae-d6fa-c8b7-5e5778574c07@redhat.com>
+ <82fa39b2-676c-e8c5-72c6-53123983dcda@weilnetz.de>
+ <55002560-9741-1e71-85f9-e75d9f0f3bfc@weilnetz.de>
+ <fde8dd22-679a-be5e-b36e-d8aeb7e955cc@redhat.com>
+ <58f5c48c-cf85-ae2a-ce28-510520c2ae75@weilnetz.de>
+ <1eae7ba1-47a2-29f3-9425-aa9d8f617106@redhat.com>
+ <7cdc7066-0477-5f8b-9d22-12de97098cfc@weilnetz.de>
+In-Reply-To: <7cdc7066-0477-5f8b-9d22-12de97098cfc@weilnetz.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: weilnetz.de; dkim=none (message not signed)
+ header.d=none;weilnetz.de; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [2601:602:9400:570:1583:ce33:58ac:34f0]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9873e688-7811-4402-46f1-08d843bc9270
+x-ms-traffictypediagnostic: SN6PR2101MB0992:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR2101MB09923E4DD99C2471D22C3D6DC05C0@SN6PR2101MB0992.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: W+e+2qfOroyG8d6ix9rOY7e0hioFn38rRlDflRLogOCUwRKfdCwN3e8Fopmfakqd3axLKKt6+YUidCn70QCbT6E9QW0Kuu4gBvGzY13jsfKZ7PjEQkRoy3qfYoz7xhkkxb0U3YrLnCIUxovCHhY/1iZ0vQjOWhGo0BcQWXFyHKcDOVjRxaVLqVKJCIqLUCSG9HHgQCRZsvZ4DTx+7J7JnCgyIoGvfEtpRPDBQJpbrD8quUnk+mpCUrthIKkm2qikTZx8XNkG8d48FefXct97Fo99uJOVY8ftRt/Cqwha9vbQnKZHGNNLq+wpDXpQqUPB+0jq8tTIolYGmG/ln7sbEeaYNrQ8uWhJSQ0BTzszLw4StKK/DV7nujKAvJS6d5GGFR+UiDZx3RULRCzXzqiAog==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR2101MB0880.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(39860400002)(346002)(396003)(376002)(86362001)(110136005)(66556008)(64756008)(66476007)(10290500003)(966005)(66446008)(8936002)(8676002)(9686003)(4744005)(82960400001)(6506007)(82950400001)(5660300002)(52536014)(76116006)(33656002)(54906003)(478600001)(7696005)(71200400001)(66946007)(83380400001)(6636002)(186003)(8990500004)(7416002)(2906002)(55016002)(4326008)(316002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: uMae9xOVrluKc6wp6w+satn0zVT4+1CkX+PwKNrSkJjhuIckcQqpWNvVyFwKq0JkmPOR4EVkvlTuqnG+8EHSxZiSpBOk8+kjoT5zjxFMP2pDNj8fKZx3XnLqeyUURUTi8iDmKSa/+wJAezKrtw+UGsmQecvm9o8doBccVNXPsrplc+wEXunaWcjKgwjnte1ohQez0HPdBnZZMtdPZtYJF/6Oae+DHUboM6k5w3eB0GXU1YcAUpxlwgD0M2HAF72fmsZby/FuMwkzUw71IaIjmGpVlyLYJyefk6eL7xyZ4wa8WV1Zvpg2JCcv+YjVjyu1tpd9foQYKuA7TnfHFdUjuueOmzWB+BzXFO+R5ED4DqyuLHAgnEPEzRozgBF2mawPF6HY7XNnEX2QdeeVdNq5FsZZpdMeaOMT8YKFxhtXTZNloMY5nPl2vEltg1p/IUR2ad6ofJwKT/DN95QaasLAOGmSp/s/Yn6DRJp2mTRbGU3PYqbZNUwBErGYc+xOUVfW0oz2hazCmjngOgTys7WQPs66VBcrXRlmBZL3oBMZaVhNBNOHAskeaA6HA+r8hmM6xw4NGgh3g8UYHtSHyznmjjQC7UX/P01jf20f3lgrmHirXXg9wu1jsfMfHrifxS41oNRm678OE/+Rg5cDArd2k5AZ7HqBsUAgx1jt0mlPGXb28sAxMCChk6e0xGgR/T/HcIWOjBL7my4hOyxIG2SE+Q==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR2101MB0880.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9873e688-7811-4402-46f1-08d843bc9270
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2020 21:20:46.1810 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: q0BpThSyKeUeJuIm9vdC0tcSTKQRStjFEWyKmmN9sOdNOlhADRe34DVLMwzPdFZXUDB8zHDi2lpvvIAsXgU0jrMIC4qSUmenhckgO2Tkm2g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB0992
+Received-SPF: pass client-ip=40.107.223.104;
+ envelope-from=sunilmut@microsoft.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 17:35:56
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,284 +134,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- qemu-devel@nongnu.org, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch completes the series with the COR-filter insertion to any
-block-stream operation. It also makes changes to the iotests 030.
-The test case 'test_stream_parallel' was deleted due to multiple
-errors.
-
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- block/stream.c             | 76 ++++++++++++++++++++++++++++++++--------------
- tests/qemu-iotests/030     | 50 +++---------------------------
- tests/qemu-iotests/030.out |  4 +--
- 3 files changed, 61 insertions(+), 69 deletions(-)
-
-diff --git a/block/stream.c b/block/stream.c
-index 8bf6b6d..0b11979 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -19,6 +19,7 @@
- #include "qapi/qmp/qerror.h"
- #include "qemu/ratelimit.h"
- #include "sysemu/block-backend.h"
-+#include "block/copy-on-read.h"
- 
- enum {
-     /*
-@@ -33,8 +34,11 @@ typedef struct StreamBlockJob {
-     BlockJob common;
-     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
-     BlockDriverState *above_base;   /* Node directly above the base */
-+    BlockDriverState *cor_filter_bs;
-+    BlockDriverState *target_bs;
-     BlockdevOnError on_error;
-     char *backing_file_str;
-+    char *base_fmt;
-     bool bs_read_only;
-     bool chain_frozen;
- } StreamBlockJob;
-@@ -53,34 +57,26 @@ static void stream_abort(Job *job)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
- 
-     if (s->chain_frozen) {
--        BlockJob *bjob = &s->common;
--        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
-+        bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
-     }
- }
- 
- static int stream_prepare(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
--    BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
-+    BlockDriverState *bs = s->target_bs;
-     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
-     Error *local_err = NULL;
-     int ret = 0;
- 
--    bdrv_unfreeze_backing_chain(bs, s->above_base);
-+    bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
-     s->chain_frozen = false;
- 
-     if (bdrv_cow_child(unfiltered_bs)) {
--        const char *base_id = NULL, *base_fmt = NULL;
--        if (base) {
--            base_id = s->backing_file_str;
--            if (base->drv) {
--                base_fmt = base->drv->format_name;
--            }
--        }
-         bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
--        ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt);
-+        ret = bdrv_change_backing_file(unfiltered_bs, s->backing_file_str,
-+                                       s->base_fmt);
-         if (local_err) {
-             error_report_err(local_err);
-             return -EPERM;
-@@ -94,7 +90,9 @@ static void stream_clean(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
-+    BlockDriverState *bs = s->target_bs;
-+
-+    bdrv_cor_filter_drop(s->cor_filter_bs);
- 
-     /* Reopen the image back in read-only mode if necessary */
-     if (s->bs_read_only) {
-@@ -104,13 +102,14 @@ static void stream_clean(Job *job)
-     }
- 
-     g_free(s->backing_file_str);
-+    g_free(s->base_fmt);
- }
- 
- static int coroutine_fn stream_run(Job *job, Error **errp)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockBackend *blk = s->common.blk;
--    BlockDriverState *bs = blk_bs(blk);
-+    BlockDriverState *bs = s->target_bs;
-     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-     bool enable_cor = !bdrv_cow_child(s->base_overlay);
-     int64_t len;
-@@ -231,6 +230,12 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
-     BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
-     BlockDriverState *above_base;
-+    BlockDriverState *cor_filter_bs = NULL;
-+    char *base_fmt = NULL;
-+
-+    if (base && base->drv) {
-+        base_fmt = g_strdup(base->drv->format_name);
-+    }
- 
-     if (!base_overlay) {
-         error_setg(errp, "'%s' is not in the backing chain of '%s'",
-@@ -264,17 +269,36 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-         }
-     }
- 
--    /* Prevent concurrent jobs trying to modify the graph structure here, we
--     * already have our own plans. Also don't allow resize as the image size is
--     * queried only at the job start and then cached. */
--    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
--                         basic_flags | BLK_PERM_GRAPH_MOD,
--                         basic_flags | BLK_PERM_WRITE,
-+    cor_filter_bs = bdrv_cor_filter_append(bs, filter_node_name, errp);
-+    if (cor_filter_bs == NULL) {
-+        goto fail;
-+    }
-+
-+    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
-+        bdrv_cor_filter_drop(cor_filter_bs);
-+        cor_filter_bs = NULL;
-+        goto fail;
-+    }
-+
-+    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
-+                         BLK_PERM_CONSISTENT_READ,
-+                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
-                          speed, creation_flags, NULL, NULL, errp);
-     if (!s) {
-         goto fail;
-     }
- 
-+    /*
-+     * Prevent concurrent jobs trying to modify the graph structure here, we
-+     * already have our own plans. Also don't allow resize as the image size is
-+     * queried only at the job start and then cached.
-+     */
-+    if (block_job_add_bdrv(&s->common, "active node", bs,
-+                           basic_flags | BLK_PERM_GRAPH_MOD,
-+                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
-+        goto fail;
-+    }
-+
-     /* Block all intermediate nodes between bs and base, because they will
-      * disappear from the chain after this operation. The streaming job reads
-      * every block only once, assuming that it doesn't change, so forbid writes
-@@ -294,6 +318,9 @@ void stream_start(const char *job_id, BlockDriverState *bs,
- 
-     s->base_overlay = base_overlay;
-     s->above_base = above_base;
-+    s->cor_filter_bs = cor_filter_bs;
-+    s->target_bs = bs;
-+    s->base_fmt = base_fmt;
-     s->backing_file_str = g_strdup(backing_file_str);
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
-@@ -307,5 +334,10 @@ fail:
-     if (bs_read_only) {
-         bdrv_reopen_set_read_only(bs, true, NULL);
-     }
--    bdrv_unfreeze_backing_chain(bs, above_base);
-+    if (cor_filter_bs) {
-+        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
-+        bdrv_cor_filter_drop(cor_filter_bs);
-+    } else {
-+        bdrv_unfreeze_backing_chain(bs, above_base);
-+    }
- }
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 1cdd7e2..fec9d89 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -221,60 +221,20 @@ class TestParallelOps(iotests.QMPTestCase):
-         for img in self.imgs:
-             os.remove(img)
- 
--    # Test that it's possible to run several block-stream operations
--    # in parallel in the same snapshot chain
--    def test_stream_parallel(self):
--        self.assert_no_active_block_jobs()
--
--        # Check that the maps don't match before the streaming operations
--        for i in range(2, self.num_imgs, 2):
--            self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i]),
--                                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i-1]),
--                                'image file map matches backing file before streaming')
--
--        # Create all streaming jobs
--        pending_jobs = []
--        for i in range(2, self.num_imgs, 2):
--            node_name = 'node%d' % i
--            job_id = 'stream-%s' % node_name
--            pending_jobs.append(job_id)
--            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=512*1024)
--            self.assert_qmp(result, 'return', {})
--
--        for job in pending_jobs:
--            result = self.vm.qmp('block-job-set-speed', device=job, speed=0)
--            self.assert_qmp(result, 'return', {})
--
--        # Wait for all jobs to be finished.
--        while len(pending_jobs) > 0:
--            for event in self.vm.get_qmp_events(wait=True):
--                if event['event'] == 'BLOCK_JOB_COMPLETED':
--                    job_id = self.dictpath(event, 'data/device')
--                    self.assertTrue(job_id in pending_jobs)
--                    self.assert_qmp_absent(event, 'data/error')
--                    pending_jobs.remove(job_id)
--
--        self.assert_no_active_block_jobs()
--        self.vm.shutdown()
--
--        # Check that all maps match now
--        for i in range(2, self.num_imgs, 2):
--            self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i]),
--                             qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i-1]),
--                             'image file map does not match backing file after streaming')
--
-     # Test that it's not possible to perform two block-stream
-     # operations if there are nodes involved in both.
-     def test_overlapping_1(self):
-         self.assert_no_active_block_jobs()
- 
-         # Set a speed limit to make sure that this job blocks the rest
--        result = self.vm.qmp('block-stream', device='node4', job_id='stream-node4', base=self.imgs[1], speed=1024*1024)
-+        result = self.vm.qmp('block-stream', device='node4',
-+                             job_id='stream-node4', base=self.imgs[1],
-+                             filter_node_name='stream-filter', speed=1024*1024)
-         self.assert_qmp(result, 'return', {})
- 
-         result = self.vm.qmp('block-stream', device='node5', job_id='stream-node5', base=self.imgs[2])
-         self.assert_qmp(result, 'error/desc',
--            "Node 'node4' is busy: block device is in use by block job: stream")
-+            "Node 'stream-filter' is busy: block device is in use by block job: stream")
- 
-         result = self.vm.qmp('block-stream', device='node3', job_id='stream-node3', base=self.imgs[2])
-         self.assert_qmp(result, 'error/desc',
-@@ -287,7 +247,7 @@ class TestParallelOps(iotests.QMPTestCase):
-         # block-commit should also fail if it touches nodes used by the stream job
-         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[4], job_id='commit-node4')
-         self.assert_qmp(result, 'error/desc',
--            "Node 'node4' is busy: block device is in use by block job: stream")
-+            "Node 'stream-filter' is busy: block device is in use by block job: stream")
- 
-         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[1], top=self.imgs[3], job_id='commit-node1')
-         self.assert_qmp(result, 'error/desc',
-diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-index 6d9bee1..5eb508d 100644
---- a/tests/qemu-iotests/030.out
-+++ b/tests/qemu-iotests/030.out
-@@ -1,5 +1,5 @@
--...........................
-+..........................
- ----------------------------------------------------------------------
--Ran 27 tests
-+Ran 26 tests
- 
- OK
--- 
-1.8.3.1
-
+PiA+PiBJdCdzIHN0aWxsIHNoYW1lZnVsIHRoYXQgTVMgaXMgZm9yY2luZyBkZXZlbG9wZXJzIHRv
+IHdhc3RlIHRpbWUNCj4gPj4gcmV3cml0aW5nIEFQSSBoZWFkZXJzLCBqdXN0IGJlY2F1c2UgdGhl
+IE1TIGxlZ2FsIGRlcGFydG1lbnRzIGFyZSBub3QNCj4gPj4gYWJsZSB0byB1bmRlcnN0YW5kIHRo
+ZSBuZWVkcyBvZiBPcGVuIFNvdXJjZSBkZXZlbG9wbWVudC4NCj4gPiBUaGVyZSBoYXMgYmUgYSBi
+aWcgc3dpdGNoIGZyb20gTWljcm9zb2Z0IHRvd2FyZCBPcGVuIFNvdXJjZSwgSSBhdHRlbmRlZA0K
+PiA+IHNvbWUgb2YgdGhlcmUgdGFsayBhdCB0aGUgT3BlbiBTb3VyY2UgU3VtbWl0IGluIDIwMTgu
+IE1heWJlIHdlIHNpbXBseQ0KPiA+IGhhdmVuJ3QgY29udGFjdGVkIHRoZSByaWdodCBwZXJzb25z
+IHRvIG1ha2UgdGhlIGNoYW5nZXMuLi4/DQo+IA0KPiANCj4gTWF5YmUsIGJ1dCBpdCBpcyBkaWZm
+aWN1bHQgdG8gZmluZCB0aGUgcmlnaHQgcGVyc29uIGluIGEgbGFyZ2UgY29tcGFueQ0KPiBsaWtl
+IE1TLCBhbmQgbGVnYWwgZGVwYXJ0bWVudHMgYXJlIG9mdGVuIHNvbWVob3cgc3BlY2lhbC4NCj4g
+DQo+IEFuZCB5ZXMsIHRoZXkgbGVhcm5lZCB0aGF0IE9wZW4gU291cmNlIGNhbiBoZWxwIHRoZW0g
+Zm9yIHRoZWlyIGJ1c2luZXNzLA0KPiB0b28uDQo+IA0KPiBTdGVmYW4NCg0KTWlrZSBCYXR0aXN0
+YSBpcyB0aGUgcHJvZ3JhbSBtYW5hZ2VyIG93bmVyIG9mIHRoZSBTREsgbGljZW5zZSBhbmQgc2hv
+dWxkIGJlDQphYmxlIHRvIHRha2UvcmVzcG9uZCB0byBhbnkgZmVlZGJhY2sgYWJvdXQgdGhlIFNE
+SyBsaWNlbnNpbmcgZm9yIG9wZW4gc291cmNlDQpwcm9qZWN0cyAoSSBoYXZlIGFkZGVkIGhpbSBo
+ZXJlKS4gSGUgaGFzIGFsc28gYmVlbiBhZGRlZCB0byBwcmV2aW91cyB0aHJlYWRzDQphYm91dCB0
+aGUgbGljZW5zaW5nIGFuZCBpcyBhbHNvIGluY2x1ZGVkIGluIHRoaXMgY29udmVyc2F0aW9uOg0K
+aHR0cHM6Ly9idWdzLmxhdW5jaHBhZC5uZXQvcWVtdS8rYnVnLzE4Nzk2NzINCg0KLSBTdW5pbA0K
+IA0KDQo=
 
