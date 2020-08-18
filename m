@@ -2,115 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9BB2485F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:26:02 +0200 (CEST)
-Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F381248640
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 15:41:01 +0200 (CEST)
+Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k81cn-0008Ir-Ow
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48380)
+	id 1k81rH-0003RY-S6
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 09:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k81c5-0007kE-56
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:25:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43396
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k81c2-0001Tx-VD
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 09:25:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597757113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=oEXMGIRWKjGuL51lGthZrzPewhQctgxVztmnJ/gteDk=;
- b=XG4UlPy2IZiwpy0b/8WHyImyrFAbL96rh68fNmktv1zzXwSjmb6IVQdnZeq3L0SxYOZd3t
- FnsBRR1ve52G/ue6qMxyNDlemhEJqcB3WUXlfUOmcPy/DU6ym+aWkkBSglAIws2scrTbSZ
- OyXJmWsusRge11itxeYW/aDaKnKBDcs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-gYly4AsnPQmceHUTq-AUnQ-1; Tue, 18 Aug 2020 09:25:12 -0400
-X-MC-Unique: gYly4AsnPQmceHUTq-AUnQ-1
-Received: by mail-wr1-f71.google.com with SMTP id l14so8258284wrp.9
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 06:25:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oEXMGIRWKjGuL51lGthZrzPewhQctgxVztmnJ/gteDk=;
- b=BWsNLO/w83v/+BM8ljl637JL+EC4bg1NcE9eVN2rth/8ujd+WOk0o7ajodzLb06uhh
- RM3lPRLfBYTFC2I/0e729SdWqlys1qUCHoTfu45VvHiZuhdY0axY9wFoaRg9gtiNAzkC
- ZFojNLb142H2ftAt0SuWzUVhuefS5FnBFqUYm34Xeq4c89b+kwUzHfAdHk5uzva2KrXe
- GtPIA36MkAx6WnfMAN/0IXzozhDup0LziaLVqPqkKaoA4R1w+6bEl5JgWoXkb29cPlsI
- Zvcupfs/QmbVyAL2qbx7S07RJ0/sofO8aPMSW9kLE4ix4korjXhwagDs29HQnDeOaofJ
- fzGw==
-X-Gm-Message-State: AOAM532d9MUlQakUddOt63g4A2RFmlyrY4vCWGX46S91IPytC/mKx+bY
- XsT2Tbe5DtzZZSjdlTT0e49LAmLSOfjIy5GxniWwyU1Ux0RlKOZmSbA/1kMX15Jnjn4U04uczTa
- iJflcTHOLxXSeAXI=
-X-Received: by 2002:adf:f4ca:: with SMTP id h10mr19872680wrp.355.1597757110363; 
- Tue, 18 Aug 2020 06:25:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzX5NJiWAHDHyo6hK4lnuZEfx4c7N9gf9fFJ4ePMx+NeO98LQzMNuRlW3mIpyBGOknTNqPRMg==
-X-Received: by 2002:adf:f4ca:: with SMTP id h10mr19872663wrp.355.1597757110155; 
- Tue, 18 Aug 2020 06:25:10 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id v12sm35424441wri.47.2020.08.18.06.25.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 06:25:09 -0700 (PDT)
-Subject: Re: [PATCH v3 000/150] Meson integration for 5.2
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200817143723.343284-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0be44dc6-7abd-2082-70d6-a42bd3f81ba0@redhat.com>
-Date: Tue, 18 Aug 2020 15:25:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200817143723.343284-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <parav@nvidia.com>) id 1k7y4H-0000rX-H0
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 05:38:09 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17891)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <parav@nvidia.com>) id 1k7y4F-0002Yc-1b
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 05:38:08 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f3ba0130000>; Tue, 18 Aug 2020 02:32:03 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 18 Aug 2020 02:33:01 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 18 Aug 2020 02:33:01 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
+ 2020 09:32:57 +0000
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
+ by HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 18 Aug 2020 09:32:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cDQmAtmb6l4QM+yqfDuCkIMR6TthSkqoP1zMQr2eRJONW0X6ly+2ZzN25Bn3aUktgl9CskkXQWRUzu9o0jLJhZOlGFlOFvXnP8/6UWq3Lx8WzS8kovywb3a/I0MnP+S17VGaa+xafr7FkfhYcOkT5ZgBW6n9Sd0hZvWXVuIjT9Xd0y3aLjqhLRZtfebJSIInzsI3mfqEpjYz7qSNilwHiocu+cRqtqbgZM3UFt6XuVAMkCEHmWqNBv7Pfczb2DUqKtQt1TaEG7UC9/2h8uLdLoqrtQZLtOjaFgGLAfgisNTtk2mS2u+SBfIsanQ50qgFLKYeuf+E5rs1AN/3Wo+Q+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nCwN+MP5vwTY0MX1XataMpmjF4QWCoBUKEQ7o+E7qSo=;
+ b=BOHX2X2TCg6aADnr5YWIUfKciRyd0pFjJHZXgR13yuowkpSEQ+0pbjs6xZFSBYJn0mNjLYchzP7H2j6lxQNg2vuu9TeLKU6uvBRxJy9R6gvAMuX/qrplBqqJCDWdaSjGnWeE46jsDIY6JHnc1qrDrVpYJvGDWkxOiC2jHYh0PCkpxb/HyqJAEIMIzQakpCNLixIkVDVv3E/pl6HZiobAhF5txVu7EUZzBcsn4OenOB81THSOJR9OkHbnLkAgsLNm7+4g6a2PmcFNR0MRgDdnxyC2nNOHoQSc6L4vyIWbl3fN8CuBUc7wqmTh2PBgvdjwTpOokMwGSYcsDnSdu7cWxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB4322.namprd12.prod.outlook.com (2603:10b6:a03:20a::20)
+ by BY5PR12MB4084.namprd12.prod.outlook.com (2603:10b6:a03:205::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16; Tue, 18 Aug
+ 2020 09:32:56 +0000
+Received: from BY5PR12MB4322.namprd12.prod.outlook.com
+ ([fe80::b5f0:8a21:df98:7707]) by BY5PR12MB4322.namprd12.prod.outlook.com
+ ([fe80::b5f0:8a21:df98:7707%8]) with mapi id 15.20.3283.028; Tue, 18 Aug 2020
+ 09:32:55 +0000
+From: Parav Pandit <parav@nvidia.com>
+To: Jason Wang <jasowang@redhat.com>, =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?=
+ <berrange@redhat.com>
+Subject: RE: device compatibility interface for live migration with assigned
+ devices
+Thread-Topic: device compatibility interface for live migration with assigned
+ devices
+Thread-Index: AQHWaxahY2KLNHS+kEetIX0F/1UfDqkw/oyAgAR+pQCAAaChgIAGKisAgABceICAAAHJgIAAAlhQ
+Date: Tue, 18 Aug 2020 09:32:55 +0000
+Message-ID: <BY5PR12MB43222059335C96F7B050CFDCDC5C0@BY5PR12MB4322.namprd12.prod.outlook.com>
+References: <20200805021654.GB30485@joy-OptiPlex-7040>
+ <2624b12f-3788-7e2b-2cb7-93534960bcb7@redhat.com>
+ <20200805075647.GB2177@nanopsycho>
+ <eb1d01c2-fbad-36b6-10cf-9e03483a736b@redhat.com>
+ <20200805093338.GC30485@joy-OptiPlex-7040> <20200805105319.GF2177@nanopsycho>
+ <20200810074631.GA29059@joy-OptiPlex-7040>
+ <e6e75807-0614-bd75-aeb6-64d643e029d3@redhat.com>
+ <20200814051601.GD15344@joy-OptiPlex-7040>
+ <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
+ <20200818085527.GB20215@redhat.com>
+ <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+In-Reply-To: <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:19:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [49.207.209.10]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 69929b2d-a67e-4d92-23cb-08d84359b01d
+x-ms-traffictypediagnostic: BY5PR12MB4084:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB40840A10D6787B3BEBEBE574DC5C0@BY5PR12MB4084.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: djg17ZqqtvjmJQWQeOU2ak+n9sn5l5NIsQIHF+O0qtCgDgfwtkfi6GO1UTSzsaX2VvWyTjMpmYlucTbWq+sRfPDIYy2E41nEJODPN8FXCkc/tJtNMQyfeob+ad3CYKFD9Bm7zJTUlBY25tDIOYhN5Nku3W+mFgCfarX0jGvOi9lgkJ8G2v3YFlVaPzajGHObAoXwLqUHtDxz+UV0oQXwGadIPytZHf8G6HisVzgZGCb0oxuXrPLTTNoXuA4XbprqWzcciobd6Uxqpb9Xl8v9cvfIS8NBJWDLKSnkzjo28i0hfpNMAP48PxPMm4zhUGcBy24mbSF2eqTxLKSHIscFsA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4322.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(64756008)(66446008)(66556008)(7416002)(26005)(66476007)(8676002)(9686003)(66946007)(55016002)(2906002)(186003)(76116006)(5660300002)(316002)(55236004)(86362001)(8936002)(478600001)(6506007)(52536014)(71200400001)(83380400001)(110136005)(4326008)(54906003)(7696005)(33656002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: rgN5a2hev42CJBdjiY+3IirIdvirkSuGsTJROzEFyI4r30YPUyhKMzBIIIiSO35x5zQwxVSIoURvAouSJerIkqloF/KCrf3E8+/aUxNiVPGmEAh8enE0ZtKt2mkLgbz8w1+xa4er1qLLZDdWKih5GY/AgJr2NR+/42u4WzUfh3B9kg8coadaxjNSR+5DtD16KOEO1Ou3/KHaaQ3p0WgU6dtSxw3uw4IJ/6rn6PdSrnb6+1cABGO62QtdWGhFsr9XdqdnGCT6MHZeyE76i+EG1+3Anx1jn6i11Xdgiyno6C+/tecaAC8U0L+j812gTicrDbGPFT4uJdZOkhyRAc+Q4jIiTw8p5Yt76ak4jPguhkxTX8w/3mHdzs92JObx0Hv7xdOpJo0Y6yG4pObOHgSP7A/lVxNHYtnLP881tEeYEhW4mCP+IaxqponMJIOUrpJwDgDTztatCAcK9qQWXqZs9sf8MOhU6tqv92bBB0955R4T42xsUpiNwVsMoCdK4Raa/ROmESK943Z8VNkJs2e9GnzuV6h3dg2FrWUcjInj65KoO8PBhobNbMj4Fv/1ql1FzM9LGp+TchX1YavbKznL2HFL82Rl5F9VFUtJTt9bVLfVgtOhASZ/QLI5Oo+o0lgTZ6RlIubCWZ7qW07Vmf3ZoQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4322.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69929b2d-a67e-4d92-23cb-08d84359b01d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2020 09:32:55.6455 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: k1t5x/fAcSVdWegJDNAn5D2o9oRAihlJqE42/dbeWDv3X6W3HiKDrK6wV/SiSLR8Peb1F9JaZYhiqOfkSfj+8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4084
+X-OriginatorOrg: Nvidia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1597743123; bh=nCwN+MP5vwTY0MX1XataMpmjF4QWCoBUKEQ7o+E7qSo=;
+ h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+ ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+ Thread-Index:Date:Message-ID:References:In-Reply-To:
+ Accept-Language:Content-Language:X-MS-Has-Attach:
+ X-MS-TNEF-Correlator:authentication-results:x-originating-ip:
+ x-ms-publictraffictype:x-ms-office365-filtering-correlation-id:
+ x-ms-traffictypediagnostic:x-ms-exchange-transport-forked:
+ x-microsoft-antispam-prvs:x-ms-oob-tlc-oobclassifiers:
+ x-ms-exchange-senderadcheck:x-microsoft-antispam:
+ x-microsoft-antispam-message-info:x-forefront-antispam-report:
+ x-ms-exchange-antispam-messagedata:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:
+ X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-originalarrivaltime:
+ X-MS-Exchange-CrossTenant-fromentityheader:
+ X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+ X-MS-Exchange-CrossTenant-userprincipalname:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+ b=BF3HCKKxowZEap8LTaUXcK5qf1YFEonxkR3RsBjk0mzdO3s2kYg3kVOpITzR+4oRL
+ +HlIRy0Mex4+6OMGBAipvjf1GaICCWPLCA3iHN2FqkuQQGug+V2ac14jqSapgIJ3Wh
+ 4bR+gHtBnnRBkA8gJapI1WqaOcAK/PmYWEsT/EPDg4Qnn6JlJPkdJY1dvIiR1bzOP7
+ 1sNNiHH3J24q70/broFtAy/n2qSIYgvRsikgf/9tJwzVvYdDjwfO2rHc1xYIkSLnRR
+ M6A1S9VWHrVn5royN4sLPuEOBiT1AKdYKaaevQ8A7E7oQvM4hbO4fLXWt9Yhk354aB
+ FC17ROcDrALaw==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=parav@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 05:33:01
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 18 Aug 2020 09:39:32 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,36 +158,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "xin-ran.wang@intel.com" <xin-ran.wang@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "openstack-discuss@lists.openstack.org"
+ <openstack-discuss@lists.openstack.org>,
+ "shaohe.feng@intel.com" <shaohe.feng@intel.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ Parav Pandit <parav@mellanox.com>,
+ "jian-feng.ding@intel.com" <jian-feng.ding@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "hejie.xu@intel.com" <hejie.xu@intel.com>,
+ "bao.yumeng@zte.com.cn" <bao.yumeng@zte.com.cn>, Alex
+ Williamson <alex.williamson@redhat.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>,
+ "smooney@redhat.com" <smooney@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Cornelia Huck <cohuck@redhat.com>, Jiri Pirko <jiri@mellanox.com>,
+ "dinechin@redhat.com" <dinechin@redhat.com>,
+ "devel@ovirt.org" <devel@ovirt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/20 4:34 PM, Paolo Bonzini wrote:
-> - Simplified/rewrote handling of the modules variable [Howard]
-> - Fixed access to gdb-xml files [Howard]
-> - Fixed cross-compilation failure due to mingw prefix [Howard]
-> - Fixed SDL2 detection on cross compiles [Howard]
-> - Fixed sub-makefiles that include config-host.mak
-> 
-> You can find it at the usual place, https://gitlab.com/bonzini/qemu.git
-> branch meson-poc-next.
-
-I'm getting this warning (nothing critical, so can be fix later):
-
-../configure: line 183: shift: shift count out of range
-
-which is in version_ge().
-
-I used:
-
-../configure \
-  --enable-trace-backends=log \
-  --disable-docs \
-  --enable-debug \
-  --extra-cflags=-ggdb \
-  --audio-drv-list=oss alsa sdl pa'
-
-Thanks,
-
-Phil.
-
+SGkgSmFzb24sDQoNCkZyb206IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+IA0KU2Vu
+dDogVHVlc2RheSwgQXVndXN0IDE4LCAyMDIwIDI6MzIgUE0NCg0KDQpPbiAyMDIwLzgvMTgg5LiL
+5Y2INDo1NSwgRGFuaWVsIFAuIEJlcnJhbmfDqSB3cm90ZToNCk9uIFR1ZSwgQXVnIDE4LCAyMDIw
+IGF0IDExOjI0OjMwQU0gKzA4MDAsIEphc29uIFdhbmcgd3JvdGU6DQpPbiAyMDIwLzgvMTQg5LiL
+5Y2IMToxNiwgWWFuIFpoYW8gd3JvdGU6DQpPbiBUaHUsIEF1ZyAxMywgMjAyMCBhdCAxMjoyNDo1
+MFBNICswODAwLCBKYXNvbiBXYW5nIHdyb3RlOg0KT24gMjAyMC84LzEwIOS4i+WNiDM6NDYsIFlh
+biBaaGFvIHdyb3RlOg0KZHJpdmVyIGlzIGl0IGhhbmRsZWQgYnk/DQpJdCBsb29rcyB0aGF0IHRo
+ZSBkZXZsaW5rIGlzIGZvciBuZXR3b3JrIGRldmljZSBzcGVjaWZpYywgYW5kIGluDQpkZXZsaW5r
+LmgsIGl0IHNheXMNCmluY2x1ZGUvdWFwaS9saW51eC9kZXZsaW5rLmggLSBOZXR3b3JrIHBoeXNp
+Y2FsIGRldmljZSBOZXRsaW5rDQppbnRlcmZhY2UsDQpBY3R1YWxseSBub3QsIEkgdGhpbmsgdGhl
+cmUgdXNlZCB0byBoYXZlIHNvbWUgZGlzY3Vzc2lvbiBsYXN0IHllYXIgYW5kIHRoZQ0KY29uY2x1
+c2lvbiBpcyB0byByZW1vdmUgdGhpcyBjb21tZW50Lg0KDQpbLi4uXQ0KDQo+IFllcywgYnV0IGl0
+IGNvdWxkIGJlIGhhcmQuIEUuZyB2RFBBIHdpbGwgY2hvc2UgdG8gdXNlIGRldmxpbmsgKHRoZXJl
+J3MgYSBsb25nIGRlYmF0ZSBvbiBzeXNmcyB2cyBkZXZsaW5rKS4gU28gaWYgd2UgZ28gd2l0aCBz
+eXNmcywgYXQgbGVhc3QgdHdvIEFQSXMgbmVlZHMgdG8gYmUgc3VwcG9ydGVkIC4uLg0KDQpXZSBo
+YWQgaW50ZXJuYWwgZGlzY3Vzc2lvbiBhbmQgcHJvcG9zYWwgb24gdGhpcyB0b3BpYy4NCkkgd2Fu
+dGVkIEVsaSBDb2hlbiB0byBiZSBiYWNrIGZyb20gdmFjYXRpb24gb24gV2VkIDgvMTksIGJ1dCBz
+aW5jZSB0aGlzIGlzIGFjdGl2ZSBkaXNjdXNzaW9uIHJpZ2h0IG5vdywgSSB3aWxsIHNoYXJlIHRo
+ZSB0aG91Z2h0cyBhbnl3YXkuDQoNCkhlcmUgYXJlIHRoZSBpbml0aWFsIHJvdW5kIG9mIHRob3Vn
+aHRzIGFuZCBwcm9wb3NhbC4NCg0KVXNlciByZXF1aXJlbWVudHM6DQotLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCjEuIFVzZXIgbWlnaHQgd2FudCB0byBjcmVhdGUgb25lIG9yIG1vcmUgdmRw
+YSBkZXZpY2VzIHBlciBQQ0kgUEYvVkYvU0YuDQoyLiBVc2VyIG1pZ2h0IHdhbnQgdG8gY3JlYXRl
+IG9uZSBvciBtb3JlIHZkcGEgZGV2aWNlcyBvZiB0eXBlIG5ldC9ibGsgb3Igb3RoZXIgdHlwZS4N
+CjMuIFVzZXIgbmVlZHMgdG8gbG9vayBhbmQgZHVtcCBhdCB0aGUgaGVhbHRoIG9mIHRoZSBxdWV1
+ZXMgZm9yIGRlYnVnIHB1cnBvc2UuDQo0LiBEdXJpbmcgdmRwYSBuZXQgZGV2aWNlIGNyZWF0aW9u
+IHRpbWUsIHVzZXIgbWF5IGhhdmUgdG8gcHJvdmlkZSBhIE1BQyBhZGRyZXNzIGFuZC9vciBWTEFO
+Lg0KNS4gVXNlciBzaG91bGQgYmUgYWJsZSB0byBzZXQvcXVlcnkgc29tZSBvZiB0aGUgYXR0cmli
+dXRlcyBmb3IgZGVidWcvY29tcGF0aWJpbGl0eSBjaGVjaw0KNi4gV2hlbiB1c2VyIHdhbnRzIHRv
+IGNyZWF0ZSB2ZHBhIGRldmljZSwgaXQgbmVlZHMgdG8ga25vdyB3aGljaCBkZXZpY2Ugc3VwcG9y
+dHMgY3JlYXRpb24uDQo3LiBVc2VyIHNob3VsZCBiZSBhYmxlIHRvIHNlZSB0aGUgcXVldWUgc3Rh
+dGlzdGljcyBvZiBkb29yYmVsbHMsIHdxZXMgZXRjIHJlZ2FyZGxlc3Mgb2YgY2xhc3MgdHlwZQ0K
+DQpUbyBhZGRyZXNzIGFib3ZlIHJlcXVpcmVtZW50cywgdGhlcmUgaXMgYSBuZWVkIG9mIHZlbmRv
+ciBhZ25vc3RpYyB0b29sLCBzbyB0aGF0IHVzZXIgY2FuIGNyZWF0ZS9jb25maWcvZGVsZXRlIHZk
+cGEgZGV2aWNlKHMpIHJlZ2FyZGxlc3Mgb2YgdGhlIHZlbmRvci4NCg0KSGVuY2UsDQpXZSBzaG91
+bGQgaGF2ZSBhIHRvb2wgdGhhdCBsZXRzIHVzZXIgZG8gaXQuDQoNCkV4YW1wbGVzOg0KLS0tLS0t
+LS0tLS0tLQ0KKGEpIExpc3QgcGFyZW50IGRldmljZXMgd2hpY2ggc3VwcG9ydHMgY3JlYXRpbmcg
+dmRwYSBkZXZpY2VzLg0KSXQgYWxzbyBzaG93cyB3aGljaCBjbGFzcyB0eXBlcyBzdXBwb3J0ZWQg
+YnkgdGhpcyBwYXJlbnQgZGV2aWNlLg0KSW4gYmVsb3cgY29tbWFuZCB0d28gcGFyZW50IGRldmlj
+ZXMgc3VwcG9ydCB2ZHBhIGRldmljZSBjcmVhdGlvbi4NCkZpcnN0IGlzIFBDSSBWRiB3aG9zZSBi
+ZGYgaXMgMDMuMDA6NS4NClNlY29uZCBpcyBQQ0kgU0Ygd2hvc2UgbmFtZSBpcyBtbHg1X3NmLjEN
+Cg0KJCB2ZHBhIGxpc3QgcGQNCnBjaS8wMDAwOjAzLjAwOjUNCiAgY2xhc3Nfc3VwcG9ydHMNCiAg
+ICBuZXQgdmRwYQ0KdmlydGJ1cy9tbHg1X3NmLjENCiAgY2xhc3Nfc3VwcG9ydHMNCiAgICBuZXQN
+Cg0KKGIpIE5vdyBhZGQgYSB2ZHBhIGRldmljZSBhbmQgc2hvdyB0aGUgZGV2aWNlLg0KJCB2ZHBh
+IGRldiBhZGQgcGNpLzAwMDA6MDMuMDA6NSB0eXBlIG5ldA0KJCB2ZHBhIGRldiBzaG93DQp2ZHBh
+MEBwY2kvMDAwMDowMy4wMDo1IHR5cGUgbmV0IHN0YXRlIGluYWN0aXZlIG1heHF1ZXVlcyA4IGN1
+cnF1ZXVlcyA0DQoNCihjKSB2ZHBhIGRldiBzaG93IGZlYXR1cmVzIHZkcGEwDQppb21tdSBwbGF0
+Zm9ybQ0KdmVyc2lvbiAxDQoNCihkKSBkdW1wIHZkcGEgc3RhdGlzdGljcw0KJCB2ZHBhIGRldiBz
+dGF0cyBzaG93IHZkcGEwDQpraWNrZG9vcmJlbGxzIDEwDQp3cWVzIDEwMA0KDQooZSkgTm93IGRl
+bGV0ZSBhIHZkcGEgZGV2aWNlIHByZXZpb3VzbHkgY3JlYXRlZC4NCiQgdmRwYSBkZXYgZGVsIHZk
+cGEwDQoNCkRlc2lnbiBvdmVydmlldzoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoxLiBBYm92
+ZSBleGFtcGxlIHRvb2wgcnVucyBvdmVyIG5ldGxpbmsgc29ja2V0IGludGVyZmFjZS4NCjIuIFRo
+aXMgZW5hYmxlcyB1c2VycyB0byByZXR1cm4gbWVhbmluZ2Z1bCBlcnJvciBzdHJpbmdzIGluIGFk
+ZGl0aW9uIHRvIGNvZGUgc28gdGhhdCB1c2VyIGNhbiBiZSBtb3JlIGluZm9ybWVkLg0KT2Z0ZW4g
+dGhpcyBpcyBtaXNzaW5nIGluIGlvY3RsKCkvY29uZmlnZnMvc3lzZnMgaW50ZXJmYWNlcy4NCjMu
+IFRoaXMgdG9vbCBvdmVyIG5ldGxpbmsgZW5hYmxlcyBzeXNjYWxsZXIgdGVzdHMgdG8gYmUgbW9y
+ZSB1c2FibGUgbGlrZSBvdGhlciBzdWJzeXN0ZW1zIHRvIGtlZXAga2VybmVsIHJvYnVzdA0KNC4g
+VGhpcyBwcm92aWRlcyB2ZW5kb3IgYWdub3N0aWMgdmlldyBvZiBhbGwgdmRwYSBjYXBhYmxlIHBh
+cmVudCBhbmQgdmRwYSBkZXZpY2VzLg0KDQo1LiBFYWNoIGRyaXZlciB3aGljaCBzdXBwb3J0cyB2
+ZHBhIGRldmljZSBjcmVhdGlvbiwgcmVnaXN0ZXJzIHRoZSBwYXJlbnQgZGV2aWNlIGFsb25nIHdp
+dGggc3VwcG9ydGVkIGNsYXNzZXMuDQoNCkZBUXM6DQotLS0tLS0tLQ0KMS4gV2h5IG5vdCB1c2lu
+ZyBkZXZsaW5rPw0KQW5zOiBCZWNhdXNlIGFzIHZkcGEgZWNobyBzeXN0ZW0gZ3Jvd3MsIGRldmxp
+bmsgd2lsbCBmYWxsIHNob3J0IG9mIGV4dGVuZGluZyB2ZHBhIHNwZWNpZmljIHBhcmFtcywgYXR0
+cmlidXRlcywgc3RhdHMuDQoNCjIuIFdoeSBub3QgdXNlIHN5c2ZzPw0KQW5zOiANCihhKSBCZWNh
+dXNlIHJ1bm5pbmcgc3lzY2FsbGVyIGluZnJhc3RydWN0dXJlIGNhbiBydW4gd2VsbCBvdmVyIG5l
+dGxpbmsgc29ja2V0cyBsaWtlIGl0IHJ1bnMgZm9yIHNldmVyYWwgc3Vic3lzdGVtLg0KKGIpIGl0
+IGxhY2tzIHRoZSBhYmlsaXR5IHRvIHJldHVybiBlcnJvciBtZXNzYWdlcy4gRG9pbmcgdmlhIGtl
+cm5lbCBsb2cgaXMganVzdCBkb2Vzbid0IHdvcmsuDQooYykgV2h5IG5vdCB1c2luZyBzb21lIGlv
+Y3RsKCk/IEl0IHdpbGwgcmVpbnZlbnQgdGhlIHdoZWVsIG9mIG5ldGxpbmsgdGhhdCBoYXMgVExW
+IGZvcm1hdHMgZm9yIHNldmVyYWwgYXR0cmlidXRlcy4NCg0KMy4gV2h5IG5vdCBjb25maWdzPw0K
+SXQgZm9sbG93cyBzYW1lIGxpbWl0YXRpb24gYXMgdGhhdCBvZiBzeXNmcy4NCg0KTG93IGxldmVs
+IGRlc2lnbiBhbmQgZHJpdmVyIEFQSVM6DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KV2lsbCBwb3N0IG9uY2Ugd2UgZGlzY3VzcyB0aGlzIGZ1cnRoZXIuDQo=
 
