@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2725247D46
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:23:32 +0200 (CEST)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DC8247D76
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:25:25 +0200 (CEST)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7t9n-0004JR-V2
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1k7tBc-00088y-T2
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t63-00078k-M8; Tue, 18 Aug 2020 00:19:39 -0400
-Received: from ozlabs.org ([203.11.71.1]:42489)
+ id 1k7t68-0007MW-Cg; Tue, 18 Aug 2020 00:19:44 -0400
+Received: from ozlabs.org ([203.11.71.1]:35485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t5z-0006JZ-Vn; Tue, 18 Aug 2020 00:19:39 -0400
+ id 1k7t65-0006L1-Bi; Tue, 18 Aug 2020 00:19:44 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNZ03HTz9sTn; Tue, 18 Aug 2020 14:19:25 +1000 (AEST)
+ id 4BVyNZ0lRFz9sTs; Tue, 18 Aug 2020 14:19:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597724366;
- bh=l4MkVwUco+rCkcYPoEa1iA0fgIjbUKLLoqRdGoYQlHU=;
+ bh=ZcLWJRCfe42jLOzZWBdTOkvTNEMdWVGD+cDNWo3TWFg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Px5AKkQXxvxcquQxwRQPEDoSvxXaG59XzVZoFEgKMkWuqWEf1PdfOlaI9E/VAtPHQ
- FWvO6To4iGuHQqCAzjd4jOFdPZkw/yGqfs/DSeoyezF0J++DerqOO3qQ+NMpcUBYmm
- Bnxc8PIpaGj7O8CC/DWcQxIg4MX75vZyuqsC4GY8=
+ b=Pi1OH+lo9LxEZvoVkZnjHK75V+AscdcrLs7BK3woiCKIhJnvlEe2g+tXqmMqOfDEQ
+ WEHykNhlUjkQkTVCef/8hXuGyGzYj8erfOZ39aza3qCH62zJ17CbkLS7Q89Psv25Pk
+ UN4c9mh+FB8zwobalNdxcUSwsXVwbgy3TqBdJOQ8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 04/40] target/ppc: add byte-reverse br[dwh] instructions
-Date: Tue, 18 Aug 2020 14:18:46 +1000
-Message-Id: <20200818041922.251708-5-david@gibson.dropbear.id.au>
+Subject: [PULL 05/40] target/ppc: convert vmuluwm to tcg_gen_gvec_mul
+Date: Tue, 18 Aug 2020 14:18:47 +1000
+Message-Id: <20200818041922.251708-6-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -60,77 +60,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lijun Pan <ljp@linux.ibm.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Lijun Pan <ljp@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lijun Pan <ljp@linux.ibm.com>
 
-POWER ISA 3.1 introduces following byte-reverse instructions:
-brd: Byte-Reverse Doubleword X-form
-brw: Byte-Reverse Word X-form
-brh: Byte-Reverse Halfword X-form
+Convert the original implementation of vmuluwm to the more generic
+tcg_gen_gvec_mul.
 
 Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-Message-Id: <20200701234344.91843-4-ljp@linux.ibm.com>
+Message-Id: <20200701234344.91843-5-ljp@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ target/ppc/helper.h                 |  1 -
+ target/ppc/int_helper.c             | 13 -------------
+ target/ppc/translate/vmx-impl.inc.c |  2 +-
+ 3 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 4ce3d664b5..590c3e3bc7 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -6971,7 +6971,47 @@ static void gen_dform3D(DisasContext *ctx)
-     return gen_invalid(ctx);
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 90166cbabd..032da717f7 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -184,7 +184,6 @@ DEF_HELPER_3(vmulosw, void, avr, avr, avr)
+ DEF_HELPER_3(vmuloub, void, avr, avr, avr)
+ DEF_HELPER_3(vmulouh, void, avr, avr, avr)
+ DEF_HELPER_3(vmulouw, void, avr, avr, avr)
+-DEF_HELPER_3(vmuluwm, void, avr, avr, avr)
+ DEF_HELPER_3(vslo, void, avr, avr, avr)
+ DEF_HELPER_3(vsro, void, avr, avr, avr)
+ DEF_HELPER_3(vsrv, void, avr, avr, avr)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index d8bd3c234a..263e899fe0 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -523,19 +523,6 @@ void helper_vprtybq(ppc_avr_t *r, ppc_avr_t *b)
+     r->VsrD(0) = 0;
  }
  
-+#if defined(TARGET_PPC64)
-+/* brd */
-+static void gen_brd(DisasContext *ctx)
-+{
-+    tcg_gen_bswap64_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rS(ctx->opcode)]);
-+}
-+
-+/* brw */
-+static void gen_brw(DisasContext *ctx)
-+{
-+    tcg_gen_bswap64_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rS(ctx->opcode)]);
-+    tcg_gen_rotli_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rA(ctx->opcode)], 32);
-+
-+}
-+
-+/* brh */
-+static void gen_brh(DisasContext *ctx)
-+{
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 t2 = tcg_temp_new_i64();
-+
-+    tcg_gen_movi_i64(t0, 0x00ff00ff00ff00ffull);
-+    tcg_gen_shri_i64(t1, cpu_gpr[rS(ctx->opcode)], 8);
-+    tcg_gen_and_i64(t2, t1, t0);
-+    tcg_gen_and_i64(t1, cpu_gpr[rS(ctx->opcode)], t0);
-+    tcg_gen_shli_i64(t1, t1, 8);
-+    tcg_gen_or_i64(cpu_gpr[rA(ctx->opcode)], t1, t2);
-+
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(t2);
-+}
-+#endif
-+
- static opcode_t opcodes[] = {
-+#if defined(TARGET_PPC64)
-+GEN_HANDLER_E(brd, 0x1F, 0x1B, 0x05, 0x0000F801, PPC_NONE, PPC2_ISA310),
-+GEN_HANDLER_E(brw, 0x1F, 0x1B, 0x04, 0x0000F801, PPC_NONE, PPC2_ISA310),
-+GEN_HANDLER_E(brh, 0x1F, 0x1B, 0x06, 0x0000F801, PPC_NONE, PPC2_ISA310),
-+#endif
- GEN_HANDLER(invalid, 0x00, 0x00, 0x00, 0xFFFFFFFF, PPC_NONE),
- GEN_HANDLER(cmp, 0x1F, 0x00, 0x00, 0x00400000, PPC_INTEGER),
- GEN_HANDLER(cmpi, 0x0B, 0xFF, 0xFF, 0x00400000, PPC_INTEGER),
+-#define VARITH_DO(name, op, element)                                    \
+-    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
+-    {                                                                   \
+-        int i;                                                          \
+-                                                                        \
+-        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
+-            r->element[i] = a->element[i] op b->element[i];             \
+-        }                                                               \
+-    }
+-VARITH_DO(muluwm, *, u32)
+-#undef VARITH_DO
+-#undef VARITH
+-
+ #define VARITHFP(suffix, func)                                          \
+     void helper_v##suffix(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a, \
+                           ppc_avr_t *b)                                 \
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+index de2fd136ff..b6c9290707 100644
+--- a/target/ppc/translate/vmx-impl.inc.c
++++ b/target/ppc/translate/vmx-impl.inc.c
+@@ -801,7 +801,7 @@ static void trans_vclzd(DisasContext *ctx)
+ GEN_VXFORM(vmuloub, 4, 0);
+ GEN_VXFORM(vmulouh, 4, 1);
+ GEN_VXFORM(vmulouw, 4, 2);
+-GEN_VXFORM(vmuluwm, 4, 2);
++GEN_VXFORM_V(vmuluwm, MO_32, tcg_gen_gvec_mul, 4, 2);
+ GEN_VXFORM_DUAL(vmulouw, PPC_ALTIVEC, PPC_NONE,
+                 vmuluwm, PPC_NONE, PPC2_ALTIVEC_207)
+ GEN_VXFORM(vmulosb, 4, 4);
 -- 
 2.26.2
 
