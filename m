@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CC22489F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:35:24 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90881248A05
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:38:24 +0200 (CEST)
+Received: from localhost ([::1]:38056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83dz-0006V8-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45238)
+	id 1k83gt-0003E1-Jr
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k835z-0002sz-46
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:00:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43882
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k83E8-0002XG-89
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:08:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k835v-0005OK-7O
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:00:13 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k83E5-00078j-BA
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 11:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597762809;
+ s=mimecast20190719; t=1597763315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=l2Bc+l4F7DXJeUeALKfLL+jqNnv6Ip7cUvzBDx5+Mlo=;
- b=UcNnHGtwfHhJyIkpNrY30syf8iNij7CrrFgvbd4vcZzjMfB0cq0Qj0a/WAbt2uODjzoK0v
- n36r0mxaEVi67UjR86IUFhXRqZiaQ1Ln6XOJjEuWjchWAi7s33Uw77142CH4Q6+YN11a2i
- A6Fiz/HiSeUnu0awHiOqbdi+98+XdGU=
+ bh=AjohSILyeJrC5swlsdvD81cK/R9mJ9yiZJD96VfeFPo=;
+ b=XnRaNEOTcVsgfdb3en5lsAylqJk2vMm5tujjUFYnTUa91Z81fU2pp894vf990HwQz+MpMN
+ lbvugZUfvHj8uUiici/N/FEXFzEzUrhdfROXVuYavk7ePzUSnGbEo7vXASzQuJeNhLsL52
+ 64rOeyyI5YhECDKazVSCtNrZ52FxuMc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-xQVHpjceNECXVPDKZ7cKGw-1; Tue, 18 Aug 2020 11:00:07 -0400
-X-MC-Unique: xQVHpjceNECXVPDKZ7cKGw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-533-2hQEt69UOwKUyu0pdcFwtQ-1; Tue, 18 Aug 2020 11:08:33 -0400
+X-MC-Unique: 2hQEt69UOwKUyu0pdcFwtQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5712E807335;
- Tue, 18 Aug 2020 15:00:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3BA81DDF1;
+ Tue, 18 Aug 2020 15:08:32 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-112-119.ams2.redhat.com
  [10.36.112.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4039026323;
- Tue, 18 Aug 2020 15:00:02 +0000 (UTC)
-Subject: Re: [RFC PATCH 17/22] block/export: Add blk_exp_close_all(_type)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1967756C4;
+ Tue, 18 Aug 2020 15:08:28 +0000 (UTC)
+Subject: Re: [RFC PATCH 18/22] block/export: Add 'id' option to
+ block-export-add
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20200813162935.210070-1-kwolf@redhat.com>
- <20200813162935.210070-18-kwolf@redhat.com>
+ <20200813162935.210070-19-kwolf@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -70,30 +70,30 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <706438d2-2c7d-4f5f-0149-d5e881205bf0@redhat.com>
-Date: Tue, 18 Aug 2020 17:00:00 +0200
+Message-ID: <0aa46154-3bd5-43fa-5731-c3e5bc66802b@redhat.com>
+Date: Tue, 18 Aug 2020 17:08:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200813162935.210070-18-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200813162935.210070-19-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="OTJ3Ll3D4SRd5YQr4aW5e54Ip9bVlx2zZ"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 06:40:33
+ boundary="d9xWe7CpAhFDQPXKUCnd0a4ITcfsNuh4w"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 03:22:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,94 +112,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OTJ3Ll3D4SRd5YQr4aW5e54Ip9bVlx2zZ
-Content-Type: multipart/mixed; boundary="tJInkF5xKkWZTHt7h1BLrU1vqyNngVJCa"
+--d9xWe7CpAhFDQPXKUCnd0a4ITcfsNuh4w
+Content-Type: multipart/mixed; boundary="OS1KPAmMn475AldG7SsVKnA7Db3M0FLIW"
 
---tJInkF5xKkWZTHt7h1BLrU1vqyNngVJCa
+--OS1KPAmMn475AldG7SsVKnA7Db3M0FLIW
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 13.08.20 18:29, Kevin Wolf wrote:
-> This adds a function to shut down all block exports, and another one to
-> shut down the block exports of a single type. The latter is used for now
-> when stopping the NBD server. As soon as we implement support for
-> multiple NBD servers, we'll need a per-server list of exports and it
-> will be replaced by a function using that.
+> We'll need an id to identify block exports in monitor commands. This
+> adds one.
 >=20
-> As a side effect, the BlockExport layer has a list tracking all existing
-> exports now. closed_exports loses its only user and can go away.
+> Note that this is different from the 'name' option in the NBD server,
+> which is the externally visible export name. While block export ids need
+> to be unique in the whole process, export names must be unique only for
+> the same server. Different export types or (potentially in the future)
+> multiple NBD servers can have the same export name externally, but still
+> need different block export ids internally.
 >=20
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  include/block/export.h |  8 +++++++
->  include/block/nbd.h    |  2 --
->  block.c                |  2 +-
->  block/export/export.c  | 52 ++++++++++++++++++++++++++++++++++++++++++
->  blockdev-nbd.c         |  2 +-
->  nbd/server.c           | 34 ++++-----------------------
->  qemu-nbd.c             |  2 +-
->  7 files changed, 68 insertions(+), 34 deletions(-)
+>  qapi/block-export.json |  3 +++
+>  include/block/export.h |  3 +++
+>  block/export/export.c  | 27 +++++++++++++++++++++++++++
+>  qemu-nbd.c             |  1 +
+>  4 files changed, 34 insertions(+)
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Looks good, just one thing:
 
 > diff --git a/block/export/export.c b/block/export/export.c
-> index 9de108cbc1..675db9a8b9 100644
+> index 675db9a8b9..72f1fab975 100644
 > --- a/block/export/export.c
 > +++ b/block/export/export.c
 
 [...]
 
-> +/* type =3D=3D BLOCK_EXPORT_TYPE__MAX for all types */
-> +void blk_exp_close_all_type(BlockExportType type)
-> +{
-> +    BlockExport *exp, *next;
-> +
-> +    QLIST_FOREACH_SAFE(exp, &block_exports, next, next) {
-> +        if (type !=3D BLOCK_EXPORT_TYPE__MAX && exp->drv->type !=3D type=
-) {
-> +            continue;
-> +        }
-> +        blk_exp_request_shutdown(exp);
-> +    }
-> +
-> +    AIO_WAIT_WHILE(NULL, blk_exp_has_type(type));
-> +}
-> +
-> +void blk_exp_close_all(void)
-> +{
-> +    blk_exp_close_all_type(BLOCK_EXPORT_TYPE__MAX);
+> @@ -144,6 +170,7 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Err=
+or **errp)
+>      BlockExportOptions *export_opts =3D g_new(BlockExportOptions, 1);
+>      *export_opts =3D (BlockExportOptions) {
+>          .type                   =3D BLOCK_EXPORT_TYPE_NBD,
+> +        .id                     =3D g_strdup(arg->name ?: arg->device),
 
-What=E2=80=99s interesting about this is that I saw from the header file th=
-at
-you added both this and the type-specific function and wondered =E2=80=9CWh=
-y not
-just pass __MAX to close_all_type() to close all?=E2=80=9D  And then I thou=
-ght
-=E2=80=9CBecause that would be stupid as an external interface=E2=80=9D.
+Maybe this behavior should be documented for nbd-server-add?
 
-So I see you had the same thinking.
+>          .device                 =3D g_strdup(arg->device),
+>          .u.nbd =3D {
+>              .has_name           =3D arg->has_name,
 
 
---tJInkF5xKkWZTHt7h1BLrU1vqyNngVJCa--
+--OS1KPAmMn475AldG7SsVKnA7Db3M0FLIW--
 
---OTJ3Ll3D4SRd5YQr4aW5e54Ip9bVlx2zZ
+--d9xWe7CpAhFDQPXKUCnd0a4ITcfsNuh4w
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl877PAACgkQ9AfbAGHV
-z0CxIQgAnHqFtvZXg3CrZ5d1uORmza+mcWnijvNPEuqFUU+zMCJ75atC9phC92f8
-jP/wzIKjjn/qx4DI9yhM0a5kwI8Igevoqngf3gzQIH7vPNU3tW6ZJvsMHc8qXGu+
-Z9hrChnIVnkF4H22wxiIKqvYfj1QGfEyThtLgsNDULJopTohGIrZFLKnMtiuZIBn
-PJHjz3YezrTej50YvD4bF/2pXrAJDUyISgJLUiBe5WE4WKZ+wjjBhIWyYtPpgq2b
-wLR6CC+/pb++AgyzwzlpcyGFUr1fEl1EawUx7KuSYX7TpqtD04VhCuqncrUF3Pd0
-YnXYRy0CowmJRNBr4reHXPq1ix4qrQ==
-=lDdS
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl877usACgkQ9AfbAGHV
+z0CJ/AgAseqfHrTQbqblTjvo6MQ+zEi3lXmp2fSCIi8xJEl+GhhxHpdpydOuz1RU
+Zy2HDjDzAlvhWL0eMmIvQUPluVURiOJHrI1UAi2ZLg/LX/c2CpSxB0dkjNykfQBE
+QCtiyUR1V9N8RJbbxH5G9BqViGsLdv0Ri8FZHimvhAFg1YRlrPEpQlAnvjKMjt//
+O20ZW00EIWYO9+Qf7i6am1a1p5J/qlHdlJxNqs/qav/aMqHFqUTKkqlMZk4FJ6cV
+dVlxB/qN7sGBMJxpKMwoORTsz9rKLtDH8eicUbrinDNSgP9aTkLmN9PVYFxTZRy0
+4aTSz8+WCAUbiddbTPWQkDJZ97GpAQ==
+=s7Qw
 -----END PGP SIGNATURE-----
 
---OTJ3Ll3D4SRd5YQr4aW5e54Ip9bVlx2zZ--
+--d9xWe7CpAhFDQPXKUCnd0a4ITcfsNuh4w--
 
 
