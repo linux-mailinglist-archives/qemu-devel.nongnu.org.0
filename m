@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CC7247CEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 05:35:44 +0200 (CEST)
-Received: from localhost ([::1]:44034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BAB247CF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 05:37:20 +0200 (CEST)
+Received: from localhost ([::1]:51618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7sPX-0005fw-H7
-	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 23:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41190)
+	id 1k7sR5-0000SH-Ca
+	for lists+qemu-devel@lfdr.de; Mon, 17 Aug 2020 23:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k7sOQ-00045K-6r; Mon, 17 Aug 2020 23:34:34 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52800)
+ id 1k7sOQ-00045V-Mc; Mon, 17 Aug 2020 23:34:34 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k7sON-0000mA-PT; Mon, 17 Aug 2020 23:34:33 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1k7sOO-0000mE-Kt; Mon, 17 Aug 2020 23:34:34 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07I3Vpiq059308; Mon, 17 Aug 2020 23:33:54 -0400
+ 07I3Vmg1040227; Mon, 17 Aug 2020 23:34:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=fFeaEGbXsOXWMrwdRODXZ0MC5AEYl4TrQrgD5WqjGYA=;
- b=GWJn1zaJrKzd0tNvqqCFidZtmZlQL3chNNpMtZZ0dd4rkx6W8FQVXKLaadOfvnPPjCPB
- 12zb+UhV6A+vlCdR+Pg9yOB+cpeX4RAJpn+pac2g8DqWLJqzZeGxpDCUIISpJLuBbsJ3
- dPmXqks7uSwyQWYp0BE9/4RFn0cYVCTjq1Q+VVWPsuO2pVDBpS5b7s6/kxLmREdPUCGG
- qPzUHBGN8jyNQVprZQgT5m+Xs6W0ZgJ9g6+HAeMDL2Set8reopsndxyUmIl306bppbc7
- 69viKsdiRghAmrJjLDr89pG0SEOp3kNlO29mlxiCdUcVAt8FKVdKvAdkZt6VDihxEXxV yA== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=MvO/3TaXIaWi0NFqkMYr5QRYsMxBjotQRfyRCmT/j60=;
+ b=bZ/yPHEMhpxVIuf4tn/xLNMuinBJ1YDuCD8h6inPgHQrBcZWm3CAFEMWZp4T8mXb6s5O
+ JFjdGpB3wQ02fMixkM91SkOaqX8YTHhRJl4XHohh4aXFaWz6sBuOCODnooJ2DJRNoZkq
+ K3r1syiVyMoxp7pocB0ANCGf9dN6uGc/nBxrgyJM9dUisPmjVWTX9GA9ahAxk20PPd/9
+ BSJfnghzdr9TEnnMmK1Q+bpfSYDdIOkXupHM2e1FRzy1Mq8Q0vbQzXNdZLMl6yAxeCiT
+ P6RVuII+p2hQSGvbNOuXgda6TRDH2to4Aw8ozxAmYZbc6EDRp6AaaBohhPZyc/0ugoLA kg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3304r6u7uy-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3304tdk7b0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Aug 2020 23:33:54 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07I3XW34063134;
- Mon, 17 Aug 2020 23:33:53 -0400
+ Mon, 17 Aug 2020 23:34:01 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07I3WH5t041299;
+ Mon, 17 Aug 2020 23:34:01 -0400
 Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
  [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3304r6u7ud-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3304tdk7ag-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Aug 2020 23:33:53 -0400
+ Mon, 17 Aug 2020 23:34:01 -0400
 Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07I3UBaH027184;
- Tue, 18 Aug 2020 03:33:52 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 3304scgsmb-1
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07I3UBaI027184;
+ Tue, 18 Aug 2020 03:33:59 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02wdc.us.ibm.com with ESMTP id 3304scgsmt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Aug 2020 03:33:52 +0000
+ Tue, 18 Aug 2020 03:33:59 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 07I3XpWd36438342
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07I3Xx8N48824662
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Aug 2020 03:33:51 GMT
+ Tue, 18 Aug 2020 03:33:59 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B299AC059;
- Tue, 18 Aug 2020 03:33:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4564BAC05F;
+ Tue, 18 Aug 2020 03:33:59 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F66DAC05E;
- Tue, 18 Aug 2020 03:33:44 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1FDFAAC05E;
+ Tue, 18 Aug 2020 03:33:52 +0000 (GMT)
 Received: from morokweng.localdomain.com (unknown [9.211.138.167])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 18 Aug 2020 03:33:44 +0000 (GMT)
+ Tue, 18 Aug 2020 03:33:51 +0000 (GMT)
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v4 0/8] Generalize start-powered-off property from ARM
-Date: Tue, 18 Aug 2020 00:33:15 -0300
-Message-Id: <20200818033323.336912-1-bauerman@linux.ibm.com>
+Subject: [PATCH v4 1/8] target/arm: Move start-powered-off property to generic
+ CPUState
+Date: Tue, 18 Aug 2020 00:33:16 -0300
+Message-Id: <20200818033323.336912-2-bauerman@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200818033323.336912-1-bauerman@linux.ibm.com>
+References: <20200818033323.336912-1-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -78,11 +81,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-08-18_01:2020-08-17,
  2020-08-18 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 phishscore=0 suspectscore=1 bulkscore=0
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008180022
+ bulkscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 suspectscore=1
+ mlxscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008180022
 Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/17 21:44:44
@@ -123,127 +126,117 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This version tries to fix an issue found by David Gibson when running
-the Travis CI:
+There are other platforms which also have CPUs that start powered off, so
+generalize the start-powered-off property so that it can be used by them.
 
-Unexpected error in qdev_prop_set_after_realize() at /home/travis/build/dgibson/qemu/hw/core/qdev-properties.c:30:
-qemu-system-mips64el: Attempt to set property 'start-powered-off' on anonymous device (type 'I6400-mips64-cpu') after it was realized
-Broken pipe
-/home/travis/build/dgibson/qemu/tests/qtest/libqtest.c:175: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
-Aborted (core dumped)
-ERROR qom-test - too few tests run (expected 8, got 0)
-/home/travis/build/dgibson/qemu/tests/Makefile.include:650: recipe for target 'check-qtest-mips64el' failed
+Note that ARMv7MState also has a property of the same name but this patch
+doesn't change it because that class isn't a subclass of CPUState so it
+wouldn't be a trivial change.
 
-Philippe Mathieu-Daudé spotted the problem:
+This change should not cause any change in behavior.
 
-> Good catch. hw/mips/cps.c, hw/ppc/e500.c and hw/sparc/sun4m.c are
-> incorrectly setting the property after the cpu is realized because
-> the cpu is created with cpu_create(). We need to create them with
-> object_initialize_child() and realize them manually with qdev_realize().
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+---
+ exec.c                | 1 +
+ include/hw/core/cpu.h | 4 ++++
+ target/arm/cpu.c      | 5 ++---
+ target/arm/cpu.h      | 3 ---
+ target/arm/kvm32.c    | 2 +-
+ target/arm/kvm64.c    | 2 +-
+ 6 files changed, 9 insertions(+), 8 deletions(-)
 
-But I found very few examples of CPUs initialized with
-object_initialize_child() (e.g., atmega.c, rx62n.c, nrf51_soc.c)
-so instead of using object_initialize_child(), I replaced the call to
-cpu_create() with object_new() and a call to qdev_realize() shortly after
-the  start-powered-off property is set. I thought this would be the more
-prudent change, keeping the code as close to the previous one as possible.
-
-I tried reproducing the Travis CI problem with
-`make docker-test-misc@debian-mips64el-cross` but I didn't succeed, so
-I'm not sure if this version solves the issue.
-
-
-Original cover letter bellow, followed by changelog:
-
-The ARM code has a start-powered-off property in ARMCPU, which is a
-subclass of CPUState. This property causes arm_cpu_reset() to set
-CPUState::halted to 1, signalling that the CPU should start in a halted
-state. Other architectures also have code which aim to achieve the same
-effect, but without using a property.
-
-The ppc/spapr version has a bug where QEMU does a KVM_RUN on the vcpu
-before cs->halted is set to 1, causing the vcpu to run while it's still in
-an unitialized state (more details in patch 3).
-
-Peter Maydell mentioned the ARM start-powered-off property and
-Eduardo Habkost suggested making it generic, so this patch series does
-that, for all cases which I was able to find via grep in the code.
-
-The only problem is that I was only able to test these changes on a ppc64le
-pseries KVM guest, so except for patches 2 and 3, all others are only
-build-tested. Also, my grasp of QOM lifecycle is basically non-existant so
-please be aware of that when reviewing this series.
-
-The last patch may be wrong, as pointed out by Eduardo, so I marked it as
-RFC. It may make sense to drop it.
-
-Applies cleanly on yesterday's master.
-
-Changes since v3:
-
-General:
-- Added David's, Greg's and Cornelia's Reviewed-by and Acked-by to some
-  of the patches.
-- Rebased on top of dgibson/ppc-for-5.2.
-
-Patch "ppc/e500: Use start-powered-off CPUState property"
-Patch "mips/cps: Use start-powered-off CPUState property"
-Patch "sparc/sun4m: Use start-powered-off CPUState property"
-- Initialize CPU object with object_new() and qdev_realize() instead
-  of cpu_create().
-- Removed Reviewed-by's and Acked-by's from these patches because of
-  these changes.
-
-Changes since v2:
-
-General:
-- Added Philippe's Reviewed-by to some of the patches.
-
-Patch "ppc/spapr: Use start-powered-off CPUState property"
-- Set the CPUState::start_powered_off variable directly rather than using
-  object_property_set_bool(). Suggested by Philippe.
-
-Patch "sparc/sun4m: Remove main_cpu_reset()"
-- New patch. Suggested by Philippe.
-
-Patch "sparc/sun4m: Use start-powered-off CPUState property"
-- Remove secondary_cpu_reset(). Suggested by Philippe.
-- Remove setting of `cs->halted = 1` from cpu_devinit(). Suggested by Philippe.
-
-Patch "Don't set CPUState::halted in cpu_devinit()"
-- Squashed into previous patch. Suggested by Philippe.
-
-Patch "sparc/sun4m: Use one cpu_reset() function for main and secondary CPUs"
-- Dropped.
-
-Patch "target/s390x: Use start-powered-off CPUState property"
-- Set the CPUState::start_powered_off variable directly rather than using
-  object_property_set_bool(). Suggested by Philippe.
-- Mention in the commit message Eduardo's observation that before this
-  patch, the code didn't set cs->halted on reset.
-
-Thiago Jung Bauermann (8):
-  target/arm: Move start-powered-off property to generic CPUState
-  target/arm: Move setting of CPU halted state to generic code
-  ppc/spapr: Use start-powered-off CPUState property
-  ppc/e500: Use start-powered-off CPUState property
-  mips/cps: Use start-powered-off CPUState property
-  sparc/sun4m: Remove main_cpu_reset()
-  sparc/sun4m: Use start-powered-off CPUState property
-  target/s390x: Use start-powered-off CPUState property
-
- exec.c                  |  1 +
- hw/core/cpu.c           |  2 +-
- hw/mips/cps.c           | 16 ++++++++++++----
- hw/ppc/e500.c           | 19 +++++++++++++++----
- hw/ppc/spapr_cpu_core.c | 10 +++++-----
- hw/sparc/sun4m.c        | 37 ++++++++++---------------------------
- include/hw/core/cpu.h   |  4 ++++
- target/arm/cpu.c        |  4 +---
- target/arm/cpu.h        |  3 ---
- target/arm/kvm32.c      |  2 +-
- target/arm/kvm64.c      |  2 +-
- target/s390x/cpu.c      |  2 +-
- 12 files changed, 52 insertions(+), 50 deletions(-)
-
+diff --git a/exec.c b/exec.c
+index 6f381f98e2..82e82fab09 100644
+--- a/exec.c
++++ b/exec.c
+@@ -899,6 +899,7 @@ Property cpu_common_props[] = {
+     DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+ #endif
++    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 8f145733ce..9fc2696db5 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -374,6 +374,10 @@ struct CPUState {
+     bool created;
+     bool stop;
+     bool stopped;
++
++    /* Should CPU start in powered-off state? */
++    bool start_powered_off;
++
+     bool unplug;
+     bool crash_occurred;
+     bool exit_request;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 111579554f..ec65c7653f 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -174,8 +174,8 @@ static void arm_cpu_reset(DeviceState *dev)
+     env->vfp.xregs[ARM_VFP_MVFR1] = cpu->isar.mvfr1;
+     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
+ 
+-    cpu->power_state = cpu->start_powered_off ? PSCI_OFF : PSCI_ON;
+-    s->halted = cpu->start_powered_off;
++    cpu->power_state = s->start_powered_off ? PSCI_OFF : PSCI_ON;
++    s->halted = s->start_powered_off;
+ 
+     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
+@@ -2182,7 +2182,6 @@ static const ARMCPUInfo arm_cpus[] = {
+ };
+ 
+ static Property arm_cpu_properties[] = {
+-    DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, false),
+     DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
+     DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
+     DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 9e8ed423ea..a925d26996 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -810,9 +810,6 @@ struct ARMCPU {
+      */
+     uint32_t psci_version;
+ 
+-    /* Should CPU start in PSCI powered-off state? */
+-    bool start_powered_off;
+-
+     /* Current power state, access guarded by BQL */
+     ARMPSCIState power_state;
+ 
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index 0af46b41c8..1f2b8f8b7a 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -218,7 +218,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+     /* Determine init features for this CPU */
+     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+-    if (cpu->start_powered_off) {
++    if (cs->start_powered_off) {
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
+     }
+     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 1169237905..f8a6d905fb 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -775,7 +775,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+     /* Determine init features for this CPU */
+     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+-    if (cpu->start_powered_off) {
++    if (cs->start_powered_off) {
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
+     }
+     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
 
