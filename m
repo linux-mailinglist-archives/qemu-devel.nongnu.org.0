@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73153248989
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:21:09 +0200 (CEST)
-Received: from localhost ([::1]:51280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB91F248948
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:19:30 +0200 (CEST)
+Received: from localhost ([::1]:42974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83QC-0006mt-EM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
+	id 1k83Ob-0003MV-N2
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82Lb-0005pF-EA
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:19 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54978
+ id 1k82LZ-0005lo-Jj
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:17 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54358
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82LL-0007Zl-4y
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:19 -0400
+ id 1k82LL-0007Zs-DS
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:12:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597759922;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H9FavuJqmxsGLhsOxpQUaI0es2WjXRSahOLPo6Hf8MQ=;
- b=BfS5dGOTZNi9sMs2J+1DpIahHZwtCzCFvYS3XhKihrFprmqQusRRhWjX3F/93C1AQIY14X
- hKRZ6XW5bRJB9D9ClNLwJuH+oDOy41Sstj1TnoW1e+x2BUtZSBcApbYkbPgxgBYeaDuOpk
- irgtbnOeD0ijjevq6ZmxD0+hIdTYTOU=
+ bh=yaNJ6IuIrRUXWAqx7sgSBGNyDiIOBarS60pmB3FgTrg=;
+ b=FFLx3rqbfRYbW0IF2C6eCWPWzYpmElSx1s1XpQeq13XaMRn4lkt/v+KS6laj5hefF+AdPG
+ IiHtFk96BbJXpjjJfPBmWzjbNvPe+ef+dbjgcE5jOQ6S/9dPmsY/Nbs20EsIhALyqSXPZT
+ tgSzclQFZd0xGxEThypauYdAZxsrHSE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-tEWOPgfPN8S-qGBBJ0_Udw-1; Tue, 18 Aug 2020 10:11:58 -0400
-X-MC-Unique: tEWOPgfPN8S-qGBBJ0_Udw-1
+ us-mta-497-mE8nG4POMVWOjaaEsaeIcA-1; Tue, 18 Aug 2020 10:12:01 -0400
+X-MC-Unique: mE8nG4POMVWOjaaEsaeIcA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F264581F017
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:11:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 164E61007464
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:12:00 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1210196B6;
- Tue, 18 Aug 2020 14:11:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C80C659;
+ Tue, 18 Aug 2020 14:11:59 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 113/150] meson: convert hw/input
-Date: Tue, 18 Aug 2020 10:09:48 -0400
-Message-Id: <20200818141025.21608-114-pbonzini@redhat.com>
+Subject: [PULL 116/150] meson: convert hw/hyperv
+Date: Tue, 18 Aug 2020 10:09:51 -0400
+Message-Id: <20200818141025.21608-117-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -91,84 +91,54 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs       |  1 -
- hw/input/Makefile.objs | 18 ------------------
- hw/input/meson.build   | 18 ++++++++++++++++++
- hw/meson.build         |  1 +
- 4 files changed, 19 insertions(+), 19 deletions(-)
- delete mode 100644 hw/input/Makefile.objs
- create mode 100644 hw/input/meson.build
+ hw/Makefile.objs        | 1 -
+ hw/hyperv/Makefile.objs | 3 ---
+ hw/hyperv/meson.build   | 3 +++
+ hw/meson.build          | 1 +
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ delete mode 100644 hw/hyperv/Makefile.objs
+ create mode 100644 hw/hyperv/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 80b104168a..3feccd83d7 100644
+index 22eb804730..a2c2f6d1de 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -12,7 +12,6 @@ devices-dirs-y += gpio/
- devices-dirs-$(CONFIG_HYPERV) += hyperv/
- devices-dirs-$(CONFIG_I2C) += i2c/
- devices-dirs-y += ide/
--devices-dirs-y += input/
+@@ -9,7 +9,6 @@ devices-dirs-y += cpu/
+ devices-dirs-y += display/
+ devices-dirs-y += dma/
+ devices-dirs-y += gpio/
+-devices-dirs-$(CONFIG_HYPERV) += hyperv/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
+diff --git a/hw/hyperv/Makefile.objs b/hw/hyperv/Makefile.objs
 deleted file mode 100644
-index abc1ff03c0..0000000000
---- a/hw/input/Makefile.objs
+index 5b614e040c..0000000000
+--- a/hw/hyperv/Makefile.objs
 +++ /dev/null
-@@ -1,18 +0,0 @@
--common-obj-$(CONFIG_ADB) += adb.o adb-mouse.o adb-kbd.o
--common-obj-y += hid.o
--common-obj-$(CONFIG_LM832X) += lm832x.o
--common-obj-$(CONFIG_PCKBD) += pckbd.o
--common-obj-$(CONFIG_PL050) += pl050.o
--common-obj-$(CONFIG_PS2) += ps2.o
--common-obj-$(CONFIG_STELLARIS_INPUT) += stellaris_input.o
--common-obj-$(CONFIG_TSC2005) += tsc2005.o
--
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input.o
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-hid.o
--common-obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host.o
--common-obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input.o
--
--common-obj-$(CONFIG_MILKYMIST) += milkymist-softusb.o
--common-obj-$(CONFIG_PXA2XX) += pxa2xx_keypad.o
--common-obj-$(CONFIG_TSC210X) += tsc210x.o
--common-obj-$(CONFIG_LASIPS2) += lasips2.o
-diff --git a/hw/input/meson.build b/hw/input/meson.build
+@@ -1,3 +0,0 @@
+-obj-y += hyperv.o
+-obj-$(CONFIG_HYPERV_TESTDEV) += hyperv_testdev.o
+-obj-$(CONFIG_VMBUS) += vmbus.o
+diff --git a/hw/hyperv/meson.build b/hw/hyperv/meson.build
 new file mode 100644
-index 0000000000..e7285b15ae
+index 0000000000..1367e2994f
 --- /dev/null
-+++ b/hw/input/meson.build
-@@ -0,0 +1,18 @@
-+softmmu_ss.add(files('hid.c'))
-+softmmu_ss.add(when: 'CONFIG_ADB', if_true: files('adb.c', 'adb-mouse.c', 'adb-kbd.c'))
-+softmmu_ss.add(when: 'CONFIG_LM832X', if_true: files('lm832x.c'))
-+softmmu_ss.add(when: 'CONFIG_PCKBD', if_true: files('pckbd.c'))
-+softmmu_ss.add(when: 'CONFIG_PL050', if_true: files('pl050.c'))
-+softmmu_ss.add(when: 'CONFIG_PS2', if_true: files('ps2.c'))
-+softmmu_ss.add(when: 'CONFIG_STELLARIS_INPUT', if_true: files('stellaris_input.c'))
-+softmmu_ss.add(when: 'CONFIG_TSC2005', if_true: files('tsc2005.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-hid.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host.c'))
-+softmmu_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-softusb.c'))
-+softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_keypad.c'))
-+softmmu_ss.add(when: 'CONFIG_TSC210X', if_true: files('tsc210x.c'))
-+softmmu_ss.add(when: 'CONFIG_LASIPS2', if_true: files('lasips2.c'))
++++ b/hw/hyperv/meson.build
+@@ -0,0 +1,3 @@
++specific_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'))
++specific_ss.add(when: 'CONFIG_HYPERV_TESTDEV', if_true: files('hyperv_testdev.c'))
++specific_ss.add(when: 'CONFIG_VMBUS', if_true: files('vmbus.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 986e710287..b15c8d0970 100644
+index 983edc1d47..f9e5adfb48 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('input')
- subdir('intc')
- subdir('ipack')
- subdir('ipmi')
++subdir('hyperv')
+ subdir('i2c')
+ subdir('ide')
+ subdir('input')
 -- 
 2.26.2
 
