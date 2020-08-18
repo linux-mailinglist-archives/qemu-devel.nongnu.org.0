@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3D8248757
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:24:51 +0200 (CEST)
-Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B0624877B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:28:05 +0200 (CEST)
+Received: from localhost ([::1]:48500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k82Xi-00020a-Fg
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
+	id 1k82aq-0000DR-E2
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k82KI-0003Pv-8v
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36490)
+ id 1k82KJ-0003T1-C8
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k82KF-0007LK-KA
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:57 -0400
+ id 1k82KF-0007LR-Mz
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k82KD-000629-Ii
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:53 +0000
+ id 1k82KE-00062b-1O
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 76AD22E80EE
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0842E2E80DC
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Aug 2020 14:04:40 -0000
+Date: Tue, 18 Aug 2020 14:05:06 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1823790@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159775948037.13923.2161460500606476369.malone@gac.canonical.com>
+Message-Id: <159775950643.26410.9592152395923862704.malone@soybean.canonical.com>
 Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
  tight loop
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -54,7 +54,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 886a51e32c4918dd5c09f78e3a260a4c384400c6
+X-Launchpad-Hash: bfd642c53a1cde0216c348569f9fffc14a5f52a0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 10:10:54
@@ -80,43 +80,8 @@ Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bisect worked and once you find it it seems obvious that this is exactly
-our case:
-
-commit 65b261a63a48fbb3b11193361d4ea0c38a3c3dfd
-Author: Laurent Vivier <laurent@vivier.eu>
-Date:   Thu Jul 9 09:23:32 2020 +0200
-
-    linux-user: add netlink RTM_SETLINK command
-    =
-
-    This command is needed to be able to boot systemd in a container.
-    =
-
-      $ sudo systemd-nspawn -D /chroot/armhf/sid/ -b
-      Spawning container sid on /chroot/armhf/sid.
-      Press ^] three times within 1s to kill container.
-      systemd 245.6-2 running in system mode.
-      Detected virtualization systemd-nspawn.
-      Detected architecture arm.
-    =
-
-      Welcome to Debian GNU/Linux bullseye/sid!
-    =
-
-      Set hostname to <virt-arm>.
-      Failed to enqueue loopback interface start request: Operation not sup=
-ported
-      Caught <SEGV>, dumped core as pid 3.
-      Exiting PID 1...
-      Container sid failed with error code 255.
-    =
-
-    Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-    Message-Id: <20200709072332.890440-2-laurent@vivier.eu>
-
- linux-user/fd-trans.c | 1 +
- 1 file changed, 1 insertion(+)
+Sorry, posted this on the wrong bug :-/
+I beg your pardon for the noise.
 
 -- =
 
