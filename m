@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3FD247D8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:33:31 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84644247D94
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:36:05 +0200 (CEST)
+Received: from localhost ([::1]:37330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tJS-0005Pj-G6
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
+	id 1k7tLw-0002Ja-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6c-0008VB-HV; Tue, 18 Aug 2020 00:20:14 -0400
-Received: from ozlabs.org ([203.11.71.1]:59991)
+ id 1k7t6d-00005g-Mz; Tue, 18 Aug 2020 00:20:15 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44891 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6a-0006Om-Ey; Tue, 18 Aug 2020 00:20:14 -0400
+ id 1k7t6b-0006P4-Ub; Tue, 18 Aug 2020 00:20:15 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNf4KJ3z9sVp; Tue, 18 Aug 2020 14:19:30 +1000 (AEST)
+ id 4BVyNg1tCZz9sVs; Tue, 18 Aug 2020 14:19:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724370;
- bh=cMm5ZqsqrOpRfOgYgXr4ByVdM5itxdkaAqK1NHTzmhQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1597724371;
+ bh=mzYaBhcj7sVVdZGDz5/VrsQHJfRajhepE23JXYXmoLY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZG9SKkqh/0/QV+52MjIa4dXsWbeVhy/eAUNz+EBUlJ9tZ8r9skbCIFAzbwtmnD4b/
- tUOydeJa75SMh5bADtVvWRbYn5VzUxgTeqx91tjwZ8ENIqpXdYeIvW+wP3XYNp39UH
- fGffcAxzx0N9LLWtgdlwz+Q6rJ01fcVxSmRtSMPE=
+ b=Ht+Chm5508kAIwgGjaSS8/cwvMDPqI505vxTzMjSVQeibEjb2Od+vV6zrByXt+rWr
+ 1R0LnQrpGcJqeV7545rBeDGGlKGCCrvt7/UAjvGHyrsko67gAkU64HatcWBRIMZD98
+ 8BkdLQbfw+iTymBO7WGq4ORrhQgPPgTc1sM//rx8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 27/40] spapr/xive: Rework error handling of
- kvmppc_xive_source_reset()
-Date: Tue, 18 Aug 2020 14:19:09 +1000
-Message-Id: <20200818041922.251708-28-david@gibson.dropbear.id.au>
+Subject: [PULL 28/40] spapr/xive: Rework error handling of kvmppc_xive_mmap()
+Date: Tue, 18 Aug 2020 14:19:10 +1000
+Message-Id: <20200818041922.251708-29-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -68,56 +67,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Since kvmppc_xive_source_reset_one() has a return value, convert
-kvmppc_xive_source_reset() to use it for error checking. This
-allows to get rid of the local_err boiler plate.
+Callers currently check failures of kvmppc_xive_mmap() through the
+@errp argument, which isn't a recommanded practice. It is preferred
+to use a return value when possible.
 
-Propagate the return value so that callers may use it as well to check
-failures.
+Since NULL isn't an invalid address in theory, it seems better to
+return MAP_FAILED and to teach callers to handle it.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159707845245.1489912.9151822670764690034.stgit@bahia.lan>
+Message-Id: <159707845972.1489912.719896767746375765.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
 diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index aa1a2f9153..d801bf5cd1 100644
+index d801bf5cd1..b2a36fd59d 100644
 --- a/hw/intc/spapr_xive_kvm.c
 +++ b/hw/intc/spapr_xive_kvm.c
-@@ -248,24 +248,25 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
-                              true, errp);
+@@ -698,6 +698,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
+     return 0;
  }
  
--static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
-+static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
++/* Returns MAP_FAILED on error and sets errno */
+ static void *kvmppc_xive_mmap(SpaprXive *xive, int pgoff, size_t len,
+                               Error **errp)
  {
-     SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
-     int i;
- 
-     for (i = 0; i < xsrc->nr_irqs; i++) {
--        Error *local_err = NULL;
-+        int ret;
- 
-         if (!xive_eas_is_valid(&xive->eat[i])) {
-             continue;
-         }
- 
--        kvmppc_xive_source_reset_one(xsrc, i, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
-+        ret = kvmppc_xive_source_reset_one(xsrc, i, errp);
-+        if (ret < 0) {
-+            return ret;
-         }
+@@ -708,7 +709,6 @@ static void *kvmppc_xive_mmap(SpaprXive *xive, int pgoff, size_t len,
+                 pgoff << page_shift);
+     if (addr == MAP_FAILED) {
+         error_setg_errno(errp, errno, "XIVE: unable to set memory mapping");
+-        return NULL;
      }
-+
-+    return 0;
- }
  
- /*
+     return addr;
+@@ -728,6 +728,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+     size_t tima_len = 4ull << TM_SHIFT;
+     CPUState *cs;
+     int fd;
++    void *addr;
+ 
+     /*
+      * The KVM XIVE device already in use. This is the case when
+@@ -763,11 +764,12 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+     /*
+      * 1. Source ESB pages - KVM mapping
+      */
+-    xsrc->esb_mmap = kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, esb_len,
+-                                      &local_err);
+-    if (local_err) {
++    addr = kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, esb_len,
++                            &local_err);
++    if (addr == MAP_FAILED) {
+         goto fail;
+     }
++    xsrc->esb_mmap = addr;
+ 
+     memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
+                                       "xive.esb-kvm", esb_len, xsrc->esb_mmap);
+@@ -781,11 +783,13 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+     /*
+      * 3. TIMA pages - KVM mapping
+      */
+-    xive->tm_mmap = kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, tima_len,
+-                                     &local_err);
+-    if (local_err) {
++    addr = kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, tima_len,
++                            &local_err);
++    if (addr == MAP_FAILED) {
+         goto fail;
+     }
++    xive->tm_mmap = addr;
++
+     memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
+                                       "xive.tima", tima_len, xive->tm_mmap);
+     memory_region_add_subregion_overlap(&xive->tm_mmio, 0,
 -- 
 2.26.2
 
