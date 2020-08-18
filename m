@@ -2,91 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9D82483BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 13:18:20 +0200 (CEST)
-Received: from localhost ([::1]:33686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4363624839F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 13:11:45 +0200 (CEST)
+Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7zdD-0004pN-7x
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 07:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
+	id 1k7zWq-0003c1-BQ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 07:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1k7zWG-0003fo-3g; Tue, 18 Aug 2020 07:11:08 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:41960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1k7zWE-0007T6-71; Tue, 18 Aug 2020 07:11:07 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07IB1VSf013529;
- Tue, 18 Aug 2020 11:11:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=IqaSwqqFiLggpnInP8SeCftORg7ZLFYTCdjzdpFzBKk=;
- b=wwCahuGW2f6NH1NkIk2hmcO1Zn4ST5dkb38aMo/dUkXGLUoYSJOFV3V2KAMQ3JzOEYCv
- WVpFZNEqh7eHTHPkdabTuTTVWrsmpvFtIP28x9It/QhyO+dSt1mDYNk8MZr+ILPWqmH9
- hZ4CiMt2bDTI+qbhAQikXkNFtIgU1+7ezOcbt1isuQqhrwZrDwe05DLf3eT52ou91nSz
- MucsZO7ePwQMSR7s619JFBNiO0wOCpH1VntlXY5bXAp06x5myBLFjuvgIbZAMkrrwa4Y
- XGQtHl5gtTNGqAFZMh93p39k6805bc/zYXgi3STPuW51S7GEr9d6efctsmhCcgeKecPe 7A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 32x7nmc21y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 18 Aug 2020 11:11:01 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07IB8ASF171477;
- Tue, 18 Aug 2020 11:09:01 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 32xs9mtyrg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Aug 2020 11:09:01 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07IB8xI2026590;
- Tue, 18 Aug 2020 11:08:59 GMT
-Received: from disaster-area.hh.sledj.net (/81.187.26.238)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 18 Aug 2020 04:08:59 -0700
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id f2f05530;
- Tue, 18 Aug 2020 11:08:46 +0000 (UTC)
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 9/9] block/curl: Add readahead support
-Date: Tue, 18 Aug 2020 12:08:45 +0100
-Message-Id: <20200818110845.3825105-10-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200818110845.3825105-1-david.edmondson@oracle.com>
-References: <20200818110845.3825105-1-david.edmondson@oracle.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7zUH-0002CI-Oe
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 07:09:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33359
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7zUF-00075z-CM
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 07:09:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597748942;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ArG9a3FHYt3qOmjj8GJ+d3J1T8RHFzC1XLJxjQx/c2w=;
+ b=XYWL/+OoPtBuKKJJ6ubTyg/nVgcQ2YSv4xeU0nKhjoNgrphdhz+X7wnAsBWnsLpH4L6l5a
+ MHWWQotcA1NlKUVZkupnt3wTsp7bH0le0nfUkcoDXkAcKyRIxpBzL6jEW9u7ESXb9s9XBE
+ 0wMZvDPhfJ6yF1prLiG5BaPhofiGI4I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-196-3j-TdM3rPOqAVfKTI8W_hg-1; Tue, 18 Aug 2020 07:08:54 -0400
+X-MC-Unique: 3j-TdM3rPOqAVfKTI8W_hg-1
+Received: by mail-wm1-f72.google.com with SMTP id z10so7265093wmi.8
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 04:08:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ArG9a3FHYt3qOmjj8GJ+d3J1T8RHFzC1XLJxjQx/c2w=;
+ b=ZbvSrsuV3UtIIutC7Rg/2E0ghlnA+a/TywfE5e+ktCjTjscb/Dono5ifAVPwFsudYQ
+ i1ZxOFvD0+xgygMciIU3PLjDlEjjjXS1HFooHSr7ScdZHv7BMzZ0vC2+Q/vX+T7gU5dK
+ Nsy4+OkfpCK1tdD4Fe+ZkpNQECOw9BzmssTAchKw75ljRWfxzCj9DOG1vpj5D1QN83Hr
+ +sT53KSiL+cYh1x6ACpOkjQLyWtl5DPMHdhsauw0MmgHPyBUgCyCD2aM/5uAHR5qKnoS
+ 34HqGDxKv6OHsrtsgUl3um8bGORVx0aGjAHVNvQmwwFWUcwaK6FJ/CrwNov/GW0RMx3y
+ AwEw==
+X-Gm-Message-State: AOAM5324sGBw4bQPiGpsT/YDsqJQkhhrTBGhxBzcpbLvmbu2vtvyunPJ
+ vaBzLN5XDWGB+AW2blFfGOU96qdWiZGrmRbt/qg3PqFlGNkrtFNb38klqTdkpmezqqiNpBiBxMb
+ UXZgVsT3wYzRvq0E=
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr18870774wrn.385.1597748933288; 
+ Tue, 18 Aug 2020 04:08:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLEn0pmmYxwgUSwubpiD/XfqiIIAznuy+n618brtQScHZIWDu5I+FANAuJcGlWqmXkjL3XAA==
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr18870754wrn.385.1597748933006; 
+ Tue, 18 Aug 2020 04:08:53 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id r206sm33712692wma.6.2020.08.18.04.08.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Aug 2020 04:08:52 -0700 (PDT)
+Subject: Re: [PATCH v3 000/150] Meson integration for 5.2
+To: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+References: <20200817143723.343284-1-pbonzini@redhat.com>
+ <20200818115907.74f353e0.cohuck@redhat.com>
+ <79afeb13-85cc-32f2-7e56-7a98a58bed8f@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <bcf9e13a-0244-6125-aa05-80fc67289eca@redhat.com>
+Date: Tue, 18 Aug 2020 13:08:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9716
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- adultscore=0 spamscore=0
- mlxscore=0 mlxlogscore=999 suspectscore=1 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008180080
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9716
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- spamscore=0
- impostorscore=0 priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008180079
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 07:09:07
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+In-Reply-To: <79afeb13-85cc-32f2-7e56-7a98a58bed8f@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,115 +124,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Re-add support for a readahead parameter, which is the number of bytes
-added to the request from the upper layer before breaking the request
-into blocks. The default is zero. The number of bytes specified has no
-alignment requirements.
+On 8/18/20 12:25 PM, Paolo Bonzini wrote:
+> On 18/08/20 11:59, Cornelia Huck wrote:
+>> On Mon, 17 Aug 2020 16:34:53 +0200
+>> Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>>> - Simplified/rewrote handling of the modules variable [Howard]
+>>> - Fixed access to gdb-xml files [Howard]
+>>> - Fixed cross-compilation failure due to mingw prefix [Howard]
+>>> - Fixed SDL2 detection on cross compiles [Howard]
+>>> - Fixed sub-makefiles that include config-host.mak
+>>>
+>>> You can find it at the usual place, https://gitlab.com/bonzini/qemu.git
+>>> branch meson-poc-next.
+>>
+>> Builds (on x86 & s390x), runs (this time with the right binary ;), and
+>> passes make check, make check-tcg, and kvm unit tests (s390x) for me.
+>>
+> 
+> Great, I'll do the last tests here and send a pull request.
 
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
----
- block/curl.c                          | 11 +++++++++++
- docs/system/device-url-syntax.rst.inc |  7 +++++++
- qapi/block-core.json                  |  3 +++
- 3 files changed, 21 insertions(+)
+What about the 2 patchew errors?
 
-diff --git a/block/curl.c b/block/curl.c
-index 8ee314739a..a182a55b93 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -65,6 +65,7 @@ static CURLMcode __curl_multi_socket_action(CURLM *multi_handle,
- #define CURL_TIMEOUT_MAX 10000
- 
- #define CURL_BLOCK_OPT_URL       "url"
-+#define CURL_BLOCK_OPT_READAHEAD "readahead"
- #define CURL_BLOCK_OPT_SSLVERIFY "sslverify"
- #define CURL_BLOCK_OPT_TIMEOUT "timeout"
- #define CURL_BLOCK_OPT_COOKIE    "cookie"
-@@ -149,6 +150,7 @@ typedef struct BDRVCURLState {
-     uint64_t len;
-     CURLState states[CURL_NUM_STATES];
-     char *url;
-+    size_t readahead_size;
-     bool sslverify;
-     uint64_t timeout;
-     char *cookie;
-@@ -881,6 +883,11 @@ static QemuOptsList runtime_opts = {
-             .type = QEMU_OPT_STRING,
-             .help = "URL to open",
-         },
-+        {
-+            .name = CURL_BLOCK_OPT_READAHEAD,
-+            .type = QEMU_OPT_SIZE,
-+            .help = "Readahead size",
-+        },
-         {
-             .name = CURL_BLOCK_OPT_SSLVERIFY,
-             .type = QEMU_OPT_BOOL,
-@@ -976,6 +983,8 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-         goto out_noclean;
-     }
- 
-+    s->readahead_size = qemu_opt_get_size(opts, CURL_BLOCK_OPT_READAHEAD, 0);
-+
-     s->timeout = qemu_opt_get_number(opts, CURL_BLOCK_OPT_TIMEOUT,
-                                      CURL_BLOCK_OPT_TIMEOUT_DEFAULT);
-     if (s->timeout > CURL_TIMEOUT_MAX) {
-@@ -1247,6 +1256,8 @@ static int coroutine_fn curl_co_preadv(BlockDriverState *bs,
- 
-     trace_curl_co_preadv(qemu_coroutine_self(), offset, bytes);
- 
-+    bytes += s->readahead_size;
-+
-     while (bytes > 0) {
-         uint64_t len = MIN(bytes, s->blocksize - curl_block_offset(s, off));
-         CURLAIOCB acb = {
-diff --git a/docs/system/device-url-syntax.rst.inc b/docs/system/device-url-syntax.rst.inc
-index 56843cb38f..58245e017c 100644
---- a/docs/system/device-url-syntax.rst.inc
-+++ b/docs/system/device-url-syntax.rst.inc
-@@ -174,6 +174,13 @@ These are specified using a special URL syntax.
-    ``url``
-       The full URL when passing options to the driver explicitly.
- 
-+   ``readahead``
-+      The amount of data to read ahead with each range request to the
-+      remote server. This value may optionally have the suffix 'T', 'G',
-+      'M', 'K', 'k' or 'b'. If it does not have a suffix, it will be
-+      assumed to be in bytes. The value must be a multiple of 512 bytes.
-+      It defaults to 256k.
-+
-    ``sslverify``
-       Whether to verify the remote server's certificate when connecting
-       over SSL. It can have the value 'on' or 'off'. It defaults to
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 91888166fa..f4092ccc14 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3752,6 +3752,8 @@
- #
- # @url: URL of the image file
- #
-+# @readahead: Amount of read-ahead (defaults to 0)
-+#
- # @timeout: Timeout for connections, in seconds (defaults to 5)
- #
- # @username: Username for authentication (defaults to none)
-@@ -3776,6 +3778,7 @@
-   'data': { 'url': 'str',
-             '*blocksize': 'int',
-             '*blockcount': 'int',
-+            '*readahead': 'int',
-             '*timeout': 'int',
-             '*username': 'str',
-             '*password-secret': 'str',
--- 
-2.27.0
+../src/meson.build:227:2: ERROR: 'sdl2' is not a config-tool dependency
+
+ERROR: meson setup failed
+
+
+
+../src/meson.build:547:0: ERROR: Program 'scripts/tracetool.py' not found
+
+ERROR: meson setup failed
 
 
