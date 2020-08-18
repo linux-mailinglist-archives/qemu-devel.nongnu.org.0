@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D322248DBD
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 20:12:45 +0200 (CEST)
-Received: from localhost ([::1]:33778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F74E248E08
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 20:36:05 +0200 (CEST)
+Received: from localhost ([::1]:49464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k866F-0004pM-O7
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 14:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41168)
+	id 1k86Sq-00059Z-02
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 14:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k864z-00046p-5W
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 14:11:25 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43597)
+ id 1k86Ry-0004fv-Be
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 14:35:12 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:38095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k864v-0003yc-MQ
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 14:11:24 -0400
+ id 1k86Rv-0007SP-Hm
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 14:35:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=QCJzFVU+GF/ZG0svzDimi/WsrT0ZoCs7k2MDXGSZeGI=; b=NK90NhIiWfoXm4pFndjKZzbJeF
- kq3h9m9XCbu3e/A2SRZJyji53h6x65paCN+nbY+aA7TfI+78+4Wgse+c06r+1vHn2HyxX6TXpqBV0
- vNfzRNtnFpyY0NpfuBSNNlFuUyPaEM4RCTkBN03SGEf7PaV6mqF82WWnROK5RlWBc9QPK5eJurtFd
- zFvks3Iomi9BG9FW7l00L8+gCG1rXsgYnql77nFMQQ/ck2iiN8uuZBAUSSVcnaUfC3dlayUGbLjy4
- aGBNBVhJYUNxESPqQJg3my0miYMXaYaEMaFb1gxxU4MmKKy5IpuQU1IpgG2eLdM+hnKWXyQGq2WO9
- fX8CEH2A==;
+ bh=jHswqOFl1IQcLDf8WMR19s5FKomkcxXrdfdxRjBNoyc=; b=QDCrLb1Ty4oPvu8yaD49ErZU74
+ +hfYe7XiuQegt+yyrOHYnaGwJOf2uFjpXB7KLgwM8BYg8tuWIc5d3BYTNqZYUwBKGDeqKmMlGJiP7
+ wa9LEkb7sg9fFf85lBK5DBk/3N41XUapHIDPWKEcOz5L2stkT7QxpHcBG2VV2hv+5T71YE/+O9RmC
+ kccJO/bNPwk2/96WBBKKozRB2PWxgti4fjMJAj0laM4e4r7Bqg+nTYpemLEmFMTv8DYdFmdWhs4wL
+ ZzpE+kfnJbpVxEEfZNPbB5onnsmT8FiyTRK8AqEy0DTjT0johprUbr4JPt9MwQWHWdlFrMRK6ixPq
+ s/6rGoGw==;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Cc: Geoffrey McRae <geoff@hostfission.com>, kraxel@redhat.com
-Subject: Re: [PATCH] audio/jack: fix use after free segfault
-Date: Tue, 18 Aug 2020 20:11:15 +0200
-Message-ID: <11253274.hK5Fc7SEp3@silver>
-In-Reply-To: <20200818131206.BB75F3A0B9F@moya.office.hostfission.com>
-References: <20200818131206.BB75F3A0B9F@moya.office.hostfission.com>
+Cc: David Vossel <dvossel@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
+ Fabian Deutsch <fdeutsch@redhat.com>
+Subject: Re: guest agent public ssh key add/remove support?
+Date: Tue, 18 Aug 2020 20:35:02 +0200
+Message-ID: <2310267.m5nKHIMqSz@silver>
+In-Reply-To: <CAPjOJFsjqFg6jO==Y5ExhL2+mZXA0Z1vce2pmUCODLtyS6Z7Yw@mail.gmail.com>
+References: <CAPjOJFsjqFg6jO==Y5ExhL2+mZXA0Z1vce2pmUCODLtyS6Z7Yw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 14:11:17
@@ -65,70 +66,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 18. August 2020 14:40:36 CEST Geoffrey McRae wrote:
-> Due to a ridiculous commit in the Jack library, the client may have been
-> freed already by a secondary audio device recovering its session.
->=20
-> https://github.com/jackaudio/jack2/issues/627
->=20
-> Until there is a proper fix for this we can not risk using the pointer
-> at all if we have been notified of a shutdown as it may have been freed
-> by the jack library, as such the close call is commented out to prevent
-> a use after free segfault.
->=20
-> At this time, this will not cause a memory leak as the recovery routine
-> will trigger the "cleanup" code in the jack library, however, if this is
-> ever corrected in the jack library this will need to be revisited.
->=20
-> Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
-> ---
->  audio/jackaudio.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->=20
-> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-> index 72ed7c4929..e8faf1bb89 100644
-> --- a/audio/jackaudio.c
-> +++ b/audio/jackaudio.c
-> @@ -563,7 +563,22 @@ static void qjack_client_fini(QJackClient *c)
->          /* fallthrough */
->=20
->      case QJACK_STATE_SHUTDOWN:
-> -        jack_client_close(c->client);
-> +        /*
-> +         * Due to a rediculous commit in the Jack library, the client may
-> have +         * been freed already.
+On Dienstag, 18. August 2020 15:25:56 CEST David Vossel wrote:
+> - Guest Agent SSH add/remove Support?
+> 
+> As a PoC, I cobbled together some guest agent exec and file write client
+> commands which can technically achieve the desired result of
+> adding/removing entries in a /home/<user>/.ssh/authorized_keys file. It's a
+> little unwieldy, but it works.
+> 
+> This got me thinking, an officially supported guest agent api for this ssh
+> key management would be really nice. There's already a somewhat related
+> precedent with the "guest-set-user-password" guest agent command.
+> 
+> So here's the question. What would you all think about the guest agent API
+> being expanded with new commands for adding/removing ssh public keys from
+> authorized_keys files?
 
-No need to be offending, and especially no need to insult St=E9phane in QEM=
-U=20
-code.
-
-Could you please describe in more detail how you ran into this situation wi=
-th=20
-your 2nd audio device?
-
-> +         *
-> +         * Until there is a proper fix for this we can not risk using the
-> +         * pointer at all if we have been notified of a shutdown, as such
-> the +         * below line is commented out to prevent a use after free
-> segfault. +         * This will not cause a memory leak as the recovery
-> routine will trigger +         * the "cleanup" code in the jack library.
-> +         *
-> +         *
-> https://github.com/jackaudio/jack2/commit/171a3c4a0ddd18d2afae56f3af6291c=
-8e
-> 96ee3ac +         */
-> +
-> +        //jack_client_close(c->client);
-> +        c->client =3D NULL;
-> +
->          /* fallthrough */
-
-Are you aware that there are two distinct variants of JACK? They are common=
-ly=20
-referred to as JACK1 vs. JACK2 and despite their names, they are in fact=20
-completely separate implementations and there are people who prefer one ove=
-r=20
-the other. Your change would affect JACK1 as well.
+There are two pass-through file systems in QEMU: 9pfs and virtiofs. Don't you 
+think they would be sufficient for the use case?
 
 Best regards,
 Christian Schoenebeck
