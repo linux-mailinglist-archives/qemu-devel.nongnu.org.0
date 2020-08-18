@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B182487FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:42:21 +0200 (CEST)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152F62487E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:40:19 +0200 (CEST)
+Received: from localhost ([::1]:54620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k82oe-0004J1-Px
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33152)
+	id 1k82mf-0000pT-Vn
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82LG-0005B2-RU
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:58 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37317
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k82LF-00058J-O7
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k82L5-0007Vy-ND
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:58 -0400
+ id 1k82L5-0007W1-QK
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:11:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759906;
+ s=mimecast20190719; t=1597759907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I5sTwjY55tIx6VkpEdnjtkbMh7zB2PQKI/MqcK86Yew=;
- b=C36BtASMoShTcFNUbLUv/40UqFmleOlld3Kr2jP+xuP2pbIyZAa/PHzyEyWX+M1JPK27rO
- r8YhOdUW3aUqtL9lTXAth5hojuRngaUpatRNl9/zUxgCi5agkV4XPcpumUXD6pkaoPf8Tm
- vQdwkKnYMonwbo/1I+9qPiFK89HR+j8=
+ bh=3C/7hgOHspBfIxBONsfiAWNW93qZIpPhApRZy9KVThY=;
+ b=gITW3iPZJM3CiN7BcuT+5GimxWmdVzTCXIpaILFHGFODDiZGxX3da/jzsDL1S2EtWo2Vq8
+ 5h6S1K1NmEVveDRtIX2PcQz5tjy1izoIyXtCf1i0oYwdhf7cbCLg+yYJk5ql85Dp6F6gxU
+ weNnu90s6EjrazA7RPFexgPDbZYUf4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-xGK6WFwyPeageXZUUMRfrw-1; Tue, 18 Aug 2020 10:11:44 -0400
-X-MC-Unique: xGK6WFwyPeageXZUUMRfrw-1
+ us-mta-28-7TEZp5zeOY-M-YHegFQIzw-1; Tue, 18 Aug 2020 10:11:45 -0400
+X-MC-Unique: 7TEZp5zeOY-M-YHegFQIzw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 107991007465
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E3281CBEB
  for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:11:44 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B37DE261BB;
- Tue, 18 Aug 2020 14:11:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 310E1165D8;
+ Tue, 18 Aug 2020 14:11:44 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 092/150] meson: convert hw/virtio
-Date: Tue, 18 Aug 2020 10:09:27 -0400
-Message-Id: <20200818141025.21608-93-pbonzini@redhat.com>
+Subject: [PULL 093/150] meson: convert hw/vfio
+Date: Tue, 18 Aug 2020 10:09:28 -0400
+Message-Id: <20200818141025.21608-94-pbonzini@redhat.com>
 In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
 References: <20200818141025.21608-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:02:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,148 +90,76 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs        |  1 -
- hw/meson.build          |  1 +
- hw/virtio/Makefile.objs | 48 --------------------------------------
- hw/virtio/meson.build   | 51 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 52 insertions(+), 49 deletions(-)
- delete mode 100644 hw/virtio/Makefile.objs
- create mode 100644 hw/virtio/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/meson.build        |  1 +
+ hw/vfio/Makefile.objs |  8 --------
+ hw/vfio/meson.build   | 18 ++++++++++++++++++
+ 4 files changed, 19 insertions(+), 9 deletions(-)
+ delete mode 100644 hw/vfio/Makefile.objs
+ create mode 100644 hw/vfio/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 9ebd13d7cd..a1cfb99334 100644
+index a1cfb99334..f6e08f6660 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -32,7 +32,6 @@ devices-dirs-y += timer/
+@@ -31,7 +31,6 @@ devices-dirs-y += ssi/
+ devices-dirs-y += timer/
  devices-dirs-$(CONFIG_TPM) += tpm/
  devices-dirs-y += usb/
- devices-dirs-$(CONFIG_VFIO) += vfio/
--devices-dirs-y += virtio/
+-devices-dirs-$(CONFIG_VFIO) += vfio/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index f2209d900c..8338fc4408 100644
+index 8338fc4408..4dafc8a08e 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -3,5 +3,6 @@ subdir('mem')
+@@ -3,6 +3,7 @@ subdir('mem')
  subdir('nubus')
  subdir('semihosting')
  subdir('smbios')
-+subdir('virtio')
++subdir('vfio')
+ subdir('virtio')
  subdir('watchdog')
  subdir('xen')
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
+diff --git a/hw/vfio/Makefile.objs b/hw/vfio/Makefile.objs
 deleted file mode 100644
-index fc91719b4a..0000000000
---- a/hw/virtio/Makefile.objs
+index 9bb1c09e84..0000000000
+--- a/hw/vfio/Makefile.objs
 +++ /dev/null
-@@ -1,48 +0,0 @@
--ifeq ($(CONFIG_VIRTIO),y)
--common-obj-y += virtio-bus.o
--obj-y += virtio.o
--
--obj-$(CONFIG_VHOST) += vhost.o vhost-backend.o
--common-obj-$(call lnot,$(CONFIG_VHOST)) += vhost-stub.o
--obj-$(CONFIG_VHOST_USER) += vhost-user.o
--obj-$(CONFIG_VHOST_VDPA) += vhost-vdpa.o
--
--common-obj-$(CONFIG_VIRTIO_RNG) += virtio-rng.o
--common-obj-$(CONFIG_VIRTIO_PCI) += virtio-pci.o
--common-obj-$(CONFIG_VIRTIO_MMIO) += virtio-mmio.o
--obj-$(CONFIG_VIRTIO_BALLOON) += virtio-balloon.o
--obj-$(CONFIG_VIRTIO_CRYPTO) += virtio-crypto.o
--obj-$(CONFIG_VHOST_USER_FS) += vhost-user-fs.o
--obj-$(call land,$(CONFIG_VIRTIO_CRYPTO),$(CONFIG_VIRTIO_PCI)) += virtio-crypto-pci.o
--obj-$(CONFIG_VIRTIO_PMEM) += virtio-pmem.o
--common-obj-$(call land,$(CONFIG_VIRTIO_PMEM),$(CONFIG_VIRTIO_PCI)) += virtio-pmem-pci.o
--obj-$(call land,$(CONFIG_VHOST_USER_FS),$(CONFIG_VIRTIO_PCI)) += vhost-user-fs-pci.o
--obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu.o
--obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-common.o vhost-vsock.o
--obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-vsock-common.o vhost-user-vsock.o
--obj-$(CONFIG_VIRTIO_MEM) += virtio-mem.o
--common-obj-$(call land,$(CONFIG_VIRTIO_MEM),$(CONFIG_VIRTIO_PCI)) += virtio-mem-pci.o
--
--ifeq ($(CONFIG_VIRTIO_PCI),y)
--obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-pci.o
--obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-user-vsock-pci.o
--obj-$(CONFIG_VHOST_USER_BLK) += vhost-user-blk-pci.o
--obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input-pci.o
--obj-$(CONFIG_VHOST_USER_SCSI) += vhost-user-scsi-pci.o
--obj-$(CONFIG_VHOST_SCSI) += vhost-scsi-pci.o
--obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host-pci.o
--obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-pci.o
--obj-$(CONFIG_VIRTIO_RNG) += virtio-rng-pci.o
--obj-$(CONFIG_VIRTIO_BALLOON) += virtio-balloon-pci.o
--obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu-pci.o
--obj-$(CONFIG_VIRTIO_9P) += virtio-9p-pci.o
--obj-$(CONFIG_VIRTIO_SCSI) += virtio-scsi-pci.o
--obj-$(CONFIG_VIRTIO_BLK) += virtio-blk-pci.o
--obj-$(CONFIG_VIRTIO_NET) += virtio-net-pci.o
--obj-$(CONFIG_VIRTIO_SERIAL) += virtio-serial-pci.o
--endif
--else
--common-obj-y += vhost-stub.o
--endif
--
--common-obj-$(CONFIG_ALL) += vhost-stub.o
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+@@ -1,8 +0,0 @@
+-obj-y += common.o spapr.o
+-obj-$(CONFIG_VFIO_PCI) += pci.o pci-quirks.o display.o
+-obj-$(CONFIG_VFIO_CCW) += ccw.o
+-obj-$(CONFIG_VFIO_PLATFORM) += platform.o
+-obj-$(CONFIG_VFIO_XGMAC) += calxeda-xgmac.o
+-obj-$(CONFIG_VFIO_AMD_XGBE) += amd-xgbe.o
+-obj-$(CONFIG_VFIO_AP) += ap.o
+-obj-$(CONFIG_VFIO_IGD) += igd.o
+diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
 new file mode 100644
-index 0000000000..fbff9bc9d4
+index 0000000000..37efa74018
 --- /dev/null
-+++ b/hw/virtio/meson.build
-@@ -0,0 +1,51 @@
-+softmmu_virtio_ss = ss.source_set()
-+softmmu_virtio_ss.add(files('virtio-bus.c'))
-+softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('virtio-pci.c'))
-+softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'))
-+softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
++++ b/hw/vfio/meson.build
+@@ -0,0 +1,18 @@
++vfio_ss = ss.source_set()
++vfio_ss.add(files(
++  'common.c',
++  'spapr.c',
++))
++vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
++  'display.c',
++  'pci-quirks.c',
++  'pci.c',
++))
++vfio_ss.add(when: 'CONFIG_VFIO_CCW', if_true: files('ccw.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_PLATFORM', if_true: files('platform.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_XGMAC', if_true: files('calxeda-xgmac.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_AMD_XGBE', if_true: files('amd-xgbe.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_AP', if_true: files('ap.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_IGD', if_true: files('igd.c'))
 +
-+softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
-+softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
-+
-+virtio_ss = ss.source_set()
-+virtio_ss.add(files('virtio.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
-+virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-crypto-pci.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
-+virtio_ss.add(when: ['CONFIG_VHOST_USER_FS', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-fs-pci.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
-+
-+virtio_pci_ss = ss.source_set()
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio-scsi-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
-+
-+virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
-+
-+specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: virtio_ss)
++specific_ss.add_all(when: 'CONFIG_VFIO', if_true: vfio_ss)
 -- 
 2.26.2
 
