@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D491248FC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 22:58:08 +0200 (CEST)
-Received: from localhost ([::1]:58704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E578248FD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 23:03:12 +0200 (CEST)
+Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k88gI-0003E6-NA
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 16:58:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
+	id 1k88lC-0007AY-Nr
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 17:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k88fE-0001vW-8S
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 16:57:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50605
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k88f8-0007Et-Vf
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 16:56:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597784212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XQor21bUr1JHVRntoliX+4BkSfzqEPA/mEGB2ZEojxs=;
- b=OvFNu/ZVRiIQH6YHXj40oxOnTO4AuzuxBMudTKf8+p9mB7pz1Z7s2Jjw/pSb60knMWM3WU
- lJXTy33KzFbcraNmXJm5PZMzSsPTxhi5zwDJDFryRTK+2UX5PkcwIZHJ0zLGaUIiC7ctPx
- aDBxMYCX/FoVLKV0lVwrRvsCbhyztw4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-A4iq6mz7PDWmey9gs6nIfw-1; Tue, 18 Aug 2020 16:56:50 -0400
-X-MC-Unique: A4iq6mz7PDWmey9gs6nIfw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB42018686C4
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 20:56:49 +0000 (UTC)
-Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 598971002391;
- Tue, 18 Aug 2020 20:56:49 +0000 (UTC)
-Date: Tue, 18 Aug 2020 16:56:48 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 30/41] qom: Make type checker functions accept const
- pointers
-Message-ID: <20200818205648.GA500103@habkost.net>
-References: <20200813222625.243136-1-ehabkost@redhat.com>
- <20200813222625.243136-31-ehabkost@redhat.com>
- <20200817160841.GC4775@redhat.com>
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1k88ju-0006OU-7O
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:01:50 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1k88js-0008Dk-9h
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 17:01:49 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c15so19488280wrs.11
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:mime-version:from:to:date:subject;
+ bh=rM/ojdPyl5aZ9SsG0TIvRRvPi1FCTExRuSOwEBO+DY0=;
+ b=Rr+F23WPqMpwPH7layZhNNY/KFmwOID6Fvgnam5LmcHNjToXfIXJ+5srcuUhglhTQa
+ U5YXeTTC2PXCp1iRvdfM/izqwObD6CAs/HBmOsiuUKuCBtUz+ogJACu75MGS6gSdS/im
+ Mjk0fnvwnk0VV6qHZWv/JPP8pTNb1MuLjURz9fbxlk5MheBfPnVZOW5x46CG+o2/9K/G
+ 81BzALBPl5a5DA0zHx0wxASRo4aubbkaWKSrvaBG/DR4DhM8uC7N7wVjbM6DrBZEyCHT
+ teb+m36bYEMrPc050H0uDW0R+IHdkhT2dglIHLHOi1RyXEJ08f9jH9ws6purqlx4F5Kf
+ 4jzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
+ bh=rM/ojdPyl5aZ9SsG0TIvRRvPi1FCTExRuSOwEBO+DY0=;
+ b=Bjkx7i3aZw4OZImiFhLjfrHMWPXb98+NPpy9kc1dZPA7yjCvuIFNdfRLsyXNRLcNjB
+ N0jrVRkJjyRcxz1YRIzi5jukTVFNSD7Q74Vk9LBf8GqqXFewYomimwrHgfAIjl6Qt7pz
+ rRCpgjieSdqWqLBTZ7knTS42yqiLvIoD+KZ9sSINmRrL7o4Ufa28AZiWN23WnfOxXGmc
+ YwdsPwIoEOROHPMKOUVqc3N/18BLHrZ9t2cQQGYo7J0ExCEdf3Pc5eULds+tRDufRoiZ
+ zguU354Tj3uYt3803uMunfPoi+rDVbOekIA21LhSbGlZ14jZF1OUh3aymLq5NIEojhPm
+ 19Tw==
+X-Gm-Message-State: AOAM531VjsBf6Hj2IinxAEeaMFseW1GSFvEpGUWE7z9bEqZUVGybYkBX
+ gZU9LX2DV6Q+G6Qqa2NHu5ElBqXX//s=
+X-Google-Smtp-Source: ABdhPJzOzoEbxo5rKeBkLy1T7hd2UBoKi2I9l0l8VaIMYnNGFPXIDP8deDROeUGF36Js+/MLNVHRvw==
+X-Received: by 2002:adf:ba10:: with SMTP id o16mr17093018wrg.100.1597784505783; 
+ Tue, 18 Aug 2020 14:01:45 -0700 (PDT)
+Received: from [127.0.1.1] ([197.58.166.30])
+ by smtp.gmail.com with ESMTPSA id h189sm1745680wme.17.2020.08.18.14.01.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 14:01:44 -0700 (PDT)
+Message-ID: <5f3c41b8.1c69fb81.392c2.572a@mx.google.com>
+Content-Type: multipart/alternative;
+ boundary="===============5605975711626623310=="
 MIME-Version: 1.0
-In-Reply-To: <20200817160841.GC4775@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 16:56:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 18 Aug 2020 23:01:21 +0200
+Subject: [REPORT] Nightly Performance Tests - Tuesday, August 18, 2020
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x429.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
+ MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,34 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 17, 2020 at 05:08:41PM +0100, Daniel P. Berrangé wrote:
-> On Thu, Aug 13, 2020 at 06:26:14PM -0400, Eduardo Habkost wrote:
-> > The existing type check macros all unconditionally drop const
-> > qualifiers from their arguments.  Keep this behavior in the
-> > macros generated by DECLARE_*CHECKER* by now.
-> > 
-> > In the future, we might use _Generic to preserve const-ness of
-> > the cast function arguments.
-> 
-> I'm not sure what you mean by "use _Generic" ?
+--===============5605975711626623310==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-I meant something like:
+<html><body><pre>
+Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+Host Memory      : 15.49 GB
 
-#define OBJECT_CHECK(Type, obj, ...) \
-         _Generic((obj),
-                  void *: (Type *)object_dynamic_cast_assert(obj, ...),
-                  const void *: (const Type *)object_dynamic_cast_assert(obj, ...))
+Start Time (UTC) : 2020-08-18 21:00:01
+End Time (UTC)   : 2020-08-18 21:00:11
+Execution Time   : 0:00:10.419271
 
-However, now we'll generate type checking functions instead of
-type checking macros, so making (for example) DEVICE((Object*)x)
-and DEVICE((const Object*)x) return a different type would be
-impossible.
+Status           : FAILURE
 
--- 
-Eduardo
 
+--------------------------------------------------------
+                  ERROR LOGS
+--------------------------------------------------------
+2020-08-18T21:00:01.542176 - Verifying executables of 8 benchmarks for 17 targets
+2020-08-18T21:00:01.545389 - Verifying results of reference version v5.1.0
+2020-08-18T21:00:01.552203 - Checking out master
+2020-08-18T21:00:01.876017 - Pulling the latest changes from QEMU master
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+Failed to pull latest changes in QEMU master.
+
+
+</pre></body></html>
+
+--===============5605975711626623310==--
 
