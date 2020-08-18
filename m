@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DB0247D7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:28:32 +0200 (CEST)
-Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0D8247D8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:32:13 +0200 (CEST)
+Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tEd-0006Bh-KU
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1k7tIC-0003TG-MS
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6Z-0008RW-TX; Tue, 18 Aug 2020 00:20:12 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38105 helo=ozlabs.org)
+ id 1k7t6D-0007aR-Mt; Tue, 18 Aug 2020 00:19:49 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43185 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6Y-0006Ns-2n; Tue, 18 Aug 2020 00:20:11 -0400
+ id 1k7t6B-0006Mr-2U; Tue, 18 Aug 2020 00:19:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNd0klNz9sVd; Tue, 18 Aug 2020 14:19:29 +1000 (AEST)
+ id 4BVyNb3pwKz9sVM; Tue, 18 Aug 2020 14:19:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724369;
- bh=nH0H3yYyxaySTaqQiGqcwMUcDcqOkORK6NquiIdDaCM=;
+ d=gibson.dropbear.id.au; s=201602; t=1597724367;
+ bh=p5k/N3bAXkiI8BCnZaFK1edTmmELskToQBlH18YDB1g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=g+djrO36YSuLMLelS7uwOuc2RKettH+rxDMS5zhHRM3oh76TV9V3SE8Z9ZGWvt3mR
- /07/vguUSb+HAmPGWYMwYwLgRmoLCpTrG3Bdc9jM9c92oR2WZV+ZfihxOkdJJjraVf
- l1CnYzFjvl6v+d6YsXPZZBNMqEUd05Pj/vHqWlIs=
+ b=VqbgvlW2nz0yJEP34SYIca1YEfoONGnei9+Wj+IJoCB+TYx11gcGxViuNki3X86v0
+ Ol40UBei0lHNnoK9dGdnRAMbyQ1CnLl6E/RfubTONaQGEZlQGghhjW4gfvTRUFdfuV
+ w41lf8VsyJR6On2G3RaSm3N6LDsNs8y07D3iD4t8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 21/40] target/ppc: Integrate icount to purr, vtb, and tbu40
-Date: Tue, 18 Aug 2020 14:19:03 +1000
-Message-Id: <20200818041922.251708-22-david@gibson.dropbear.id.au>
+Subject: [PULL 15/40] target/ppc: Fix SPE unavailable exception triggering
+Date: Tue, 18 Aug 2020 14:18:57 +1000
+Message-Id: <20200818041922.251708-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
@@ -60,102 +60,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Matthieu Bucchianeri <matthieu.bucchianeri@leostella.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gustavo Romero <gromero@linux.ibm.com>
+From: Matthieu Bucchianeri <matthieu.bucchianeri@leostella.com>
 
-Currently if option '-icount auto' is passed to the QEMU TCG to enable
-counting instructions the VM crashes with the following error report when
-Linux runs on it:
+When emulating certain floating point instructions or vector instructions on
+PowerPC machines, QEMU did not properly generate the SPE/Embedded Floating-
+Point Unavailable interrupt. See the buglink further below for references to
+the relevant NXP documentation.
 
-qemu-system-ppc64: Bad icount read
+This patch fixes the behavior of some evfs* instructions that were
+incorrectly emitting the interrupt.
 
-This happens because read/write access to the SPRs PURR, VTB, and TBU40
-is not integrated to the icount framework.
+More importantly, this patch fixes the behavior of several efd* and ev*
+instructions that were not generating the interrupt. Triggering the
+interrupt for these instructions fixes lazy FPU/vector context switching on
+some operating systems like Linux.
 
-This commit fixes that issue by making the read/write access of these
-SPRs aware of icount framework, adding the proper gen_io_start() calls
-before calling the helpers to load/store these SPRs in TCG and ensuring
-that the associated TBs end immediately after, accordingly to what's in
-docs/devel/tcg-icount.rst.
+Without this patch, the result of some double-precision arithmetic could be
+corrupted due to the lack of proper saving and restoring of the upper
+32-bit part of the general-purpose registers.
 
-Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-Message-Id: <20200811153235.4527-1-gromero@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1888918
+Buglink: https://bugs.launchpad.net/qemu/+bug/1611394
+Signed-off-by: Matthieu Bucchianeri <matthieu.bucchianeri@leostella.com>
+Message-Id: <20200727175553.32276-1-matthieu.bucchianeri@leostella.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate_init.inc.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ target/ppc/translate/spe-impl.inc.c | 97 +++++++++++++++++++----------
+ 1 file changed, 64 insertions(+), 33 deletions(-)
 
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index 5134123dd6..230a062d29 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -284,12 +284,24 @@ static void spr_write_atbu(DisasContext *ctx, int sprn, int gprn)
- ATTRIBUTE_UNUSED
- static void spr_read_purr(DisasContext *ctx, int gprn, int sprn)
+diff --git a/target/ppc/translate/spe-impl.inc.c b/target/ppc/translate/spe-impl.inc.c
+index 42a0d1cffb..2e6e799a25 100644
+--- a/target/ppc/translate/spe-impl.inc.c
++++ b/target/ppc/translate/spe-impl.inc.c
+@@ -349,14 +349,24 @@ static inline void gen_evmergelohi(DisasContext *ctx)
+ }
+ static inline void gen_evsplati(DisasContext *ctx)
  {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
+-    uint64_t imm = ((int32_t)(rA(ctx->opcode) << 27)) >> 27;
++    uint64_t imm;
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
 +    }
-     gen_helper_load_purr(cpu_gpr[gprn], cpu_env);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
++    imm = ((int32_t)(rA(ctx->opcode) << 27)) >> 27;
+ 
+     tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], imm);
+     tcg_gen_movi_tl(cpu_gprh[rD(ctx->opcode)], imm);
+ }
+ static inline void gen_evsplatfi(DisasContext *ctx)
+ {
+-    uint64_t imm = rA(ctx->opcode) << 27;
++    uint64_t imm;
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
 +    }
++    imm = rA(ctx->opcode) << 27;
+ 
+     tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], imm);
+     tcg_gen_movi_tl(cpu_gprh[rD(ctx->opcode)], imm);
+@@ -389,21 +399,37 @@ static inline void gen_evsel(DisasContext *ctx)
+ 
+ static void gen_evsel0(DisasContext *ctx)
+ {
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
++    }
+     gen_evsel(ctx);
  }
  
- static void spr_write_purr(DisasContext *ctx, int sprn, int gprn)
+ static void gen_evsel1(DisasContext *ctx)
  {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
 +    }
-     gen_helper_store_purr(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
+     gen_evsel(ctx);
  }
  
- /* HDECR */
-@@ -319,17 +331,35 @@ static void spr_write_hdecr(DisasContext *ctx, int sprn, int gprn)
- 
- static void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
+ static void gen_evsel2(DisasContext *ctx)
  {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
 +    }
-     gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
+     gen_evsel(ctx);
  }
  
- static void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
+ static void gen_evsel3(DisasContext *ctx)
  {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
 +    }
-     gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
+     gen_evsel(ctx);
  }
  
- static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
+@@ -518,6 +544,11 @@ static inline void gen_evmwsmia(DisasContext *ctx)
  {
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_stop_exception(ctx);
-+    }
- }
+     TCGv_i64 tmp;
  
- #endif
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
++    }
++
+     gen_evmwsmi(ctx);            /* rD := rA * rB */
+ 
+     tmp = tcg_temp_new_i64();
+@@ -534,6 +565,11 @@ static inline void gen_evmwsmiaa(DisasContext *ctx)
+     TCGv_i64 acc;
+     TCGv_i64 tmp;
+ 
++    if (unlikely(!ctx->spe_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_SPEU);
++        return;
++    }
++
+     gen_evmwsmi(ctx);           /* rD := rA * rB */
+ 
+     acc = tcg_temp_new_i64();
+@@ -892,8 +928,14 @@ static inline void gen_##name(DisasContext *ctx)                              \
+ #define GEN_SPEFPUOP_CONV_32_64(name)                                         \
+ static inline void gen_##name(DisasContext *ctx)                              \
+ {                                                                             \
+-    TCGv_i64 t0 = tcg_temp_new_i64();                                         \
+-    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
++    TCGv_i64 t0;                                                              \
++    TCGv_i32 t1;                                                              \
++    if (unlikely(!ctx->spe_enabled)) {                                        \
++        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
++        return;                                                               \
++    }                                                                         \
++    t0 = tcg_temp_new_i64();                                                  \
++    t1 = tcg_temp_new_i32();                                                  \
+     gen_load_gpr64(t0, rB(ctx->opcode));                                      \
+     gen_helper_##name(t1, cpu_env, t0);                                       \
+     tcg_gen_extu_i32_tl(cpu_gpr[rD(ctx->opcode)], t1);                        \
+@@ -903,8 +945,14 @@ static inline void gen_##name(DisasContext *ctx)                              \
+ #define GEN_SPEFPUOP_CONV_64_32(name)                                         \
+ static inline void gen_##name(DisasContext *ctx)                              \
+ {                                                                             \
+-    TCGv_i64 t0 = tcg_temp_new_i64();                                         \
+-    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
++    TCGv_i64 t0;                                                              \
++    TCGv_i32 t1;                                                              \
++    if (unlikely(!ctx->spe_enabled)) {                                        \
++        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
++        return;                                                               \
++    }                                                                         \
++    t0 = tcg_temp_new_i64();                                                  \
++    t1 = tcg_temp_new_i32();                                                  \
+     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
+     gen_helper_##name(t0, cpu_env, t1);                                       \
+     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+@@ -914,7 +962,12 @@ static inline void gen_##name(DisasContext *ctx)                              \
+ #define GEN_SPEFPUOP_CONV_64_64(name)                                         \
+ static inline void gen_##name(DisasContext *ctx)                              \
+ {                                                                             \
+-    TCGv_i64 t0 = tcg_temp_new_i64();                                         \
++    TCGv_i64 t0;                                                              \
++    if (unlikely(!ctx->spe_enabled)) {                                        \
++        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
++        return;                                                               \
++    }                                                                         \
++    t0 = tcg_temp_new_i64();                                                  \
+     gen_load_gpr64(t0, rB(ctx->opcode));                                      \
+     gen_helper_##name(t0, cpu_env, t0);                                       \
+     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+@@ -923,13 +976,8 @@ static inline void gen_##name(DisasContext *ctx)                              \
+ #define GEN_SPEFPUOP_ARITH2_32_32(name)                                       \
+ static inline void gen_##name(DisasContext *ctx)                              \
+ {                                                                             \
+-    TCGv_i32 t0, t1;                                                          \
+-    if (unlikely(!ctx->spe_enabled)) {                                        \
+-        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+-        return;                                                               \
+-    }                                                                         \
+-    t0 = tcg_temp_new_i32();                                                  \
+-    t1 = tcg_temp_new_i32();                                                  \
++    TCGv_i32 t0 = tcg_temp_new_i32();                                         \
++    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
+     tcg_gen_trunc_tl_i32(t0, cpu_gpr[rA(ctx->opcode)]);                       \
+     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
+     gen_helper_##name(t0, cpu_env, t0, t1);                                   \
+@@ -958,13 +1006,8 @@ static inline void gen_##name(DisasContext *ctx)                              \
+ #define GEN_SPEFPUOP_COMP_32(name)                                            \
+ static inline void gen_##name(DisasContext *ctx)                              \
+ {                                                                             \
+-    TCGv_i32 t0, t1;                                                          \
+-    if (unlikely(!ctx->spe_enabled)) {                                        \
+-        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+-        return;                                                               \
+-    }                                                                         \
+-    t0 = tcg_temp_new_i32();                                                  \
+-    t1 = tcg_temp_new_i32();                                                  \
++    TCGv_i32 t0 = tcg_temp_new_i32();                                         \
++    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
+                                                                               \
+     tcg_gen_trunc_tl_i32(t0, cpu_gpr[rA(ctx->opcode)]);                       \
+     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
+@@ -1074,28 +1117,16 @@ GEN_SPEFPUOP_ARITH2_32_32(efsmul);
+ GEN_SPEFPUOP_ARITH2_32_32(efsdiv);
+ static inline void gen_efsabs(DisasContext *ctx)
+ {
+-    if (unlikely(!ctx->spe_enabled)) {
+-        gen_exception(ctx, POWERPC_EXCP_SPEU);
+-        return;
+-    }
+     tcg_gen_andi_tl(cpu_gpr[rD(ctx->opcode)], cpu_gpr[rA(ctx->opcode)],
+                     (target_long)~0x80000000LL);
+ }
+ static inline void gen_efsnabs(DisasContext *ctx)
+ {
+-    if (unlikely(!ctx->spe_enabled)) {
+-        gen_exception(ctx, POWERPC_EXCP_SPEU);
+-        return;
+-    }
+     tcg_gen_ori_tl(cpu_gpr[rD(ctx->opcode)], cpu_gpr[rA(ctx->opcode)],
+                    0x80000000);
+ }
+ static inline void gen_efsneg(DisasContext *ctx)
+ {
+-    if (unlikely(!ctx->spe_enabled)) {
+-        gen_exception(ctx, POWERPC_EXCP_SPEU);
+-        return;
+-    }
+     tcg_gen_xori_tl(cpu_gpr[rD(ctx->opcode)], cpu_gpr[rA(ctx->opcode)],
+                     0x80000000);
+ }
 -- 
 2.26.2
 
