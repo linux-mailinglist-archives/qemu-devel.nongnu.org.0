@@ -2,98 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6DD2486A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:02:56 +0200 (CEST)
-Received: from localhost ([::1]:50518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3D8248757
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 16:24:51 +0200 (CEST)
+Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k82CV-0006y6-Db
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
+	id 1k82Xi-00020a-Fg
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 10:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k82BH-0006BZ-Bk
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:01:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35011
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k82BE-0006BO-6o
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:01:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597759294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rrwtjcc59FKFdiu14kgbgMszFPOq1+seSeiPIIo1giU=;
- b=CckqTFhNt2Xvo1P2zQFbxjdG+Wh5UFYYa0zoKOAL5EWByYmMn7yRraLT4GSAUwztanPLfb
- AiNG2g8Ifuwdo4xbugwWEu1cJhBtzhqwN+1Jv0sH19Hl+1tsPvEjfdvR5vdrq4y/ZlFqeB
- cNHLUqVuy6JLhvGraOwgQ/JLhEYqKN4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-HYWw8WCvOx-4PqmwXWo1aA-1; Tue, 18 Aug 2020 10:01:30 -0400
-X-MC-Unique: HYWw8WCvOx-4PqmwXWo1aA-1
-Received: by mail-wr1-f69.google.com with SMTP id r14so8311428wrq.3
- for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 07:01:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rrwtjcc59FKFdiu14kgbgMszFPOq1+seSeiPIIo1giU=;
- b=UgMK47G0t7SJ3sjxDrLeOqVyd8+CD3pe4WV41htHGApmn8qQotK0kxYkzWVcItkB/2
- 71yuSOdCZe1i1k9pWcLVdnBKkI7dXg1HtWD/vybVzJq5dnuM27ZW/vCDZ4/yMJWPRMZA
- UpiOh5xWUYf2OYruKOPpp7nlgoNi/ICZ/bHOsKYHZ7FAxqT/GLRDP/+YdkE5yyTJE34e
- W3E82side3r7QNUBVLkoIGA6tgnSFLuQls8QjdWAFK7dz3D5aLSHmjEztHjCi3P3bjmL
- nVtsiHKRmpCYdH9gxc33hke8pPC7GPjDBycXgb+2UOCzb5TSKBF+X+97LOrXGZp8TrLD
- VW/A==
-X-Gm-Message-State: AOAM530DdGmKpcIFBCppBUoB0wYDDpU6bwIrTuOr6cM+1UhuLve8iQ31
- TkhQqdkGLej5JPmewGWKn0yvE6JAOamwIZZ/jKsgSxon0yTmZb8SUFoIP1RzkvP6dv3cH5DJDLi
- ewwLzSqrkAArfnEw=
-X-Received: by 2002:adf:f606:: with SMTP id t6mr21623281wrp.182.1597759289076; 
- Tue, 18 Aug 2020 07:01:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYs7AFsJhYw1nVW9LBmgQlEd+SPOy9FcLoPeaHUBNTZm5HhIQ1McP0RvgdB3IrOGqvQ67mWg==
-X-Received: by 2002:adf:f606:: with SMTP id t6mr21623252wrp.182.1597759288687; 
- Tue, 18 Aug 2020 07:01:28 -0700 (PDT)
-Received: from steredhat ([5.180.207.22])
- by smtp.gmail.com with ESMTPSA id u66sm48164wmu.37.2020.08.18.07.01.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Aug 2020 07:01:27 -0700 (PDT)
-Date: Tue, 18 Aug 2020 16:01:20 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: virtio-vsock requires 'disable-legacy=on' in QEMU 5.1
-Message-ID: <20200818140120.c46fsf6cia2ol53v@steredhat>
-References: <CAGxU2F7pVNWtJG2BM2bk9qtJ_UHgDw4kjVqRmL-=yme7VX83Vg@mail.gmail.com>
- <20200813112820.62ffd63e.cohuck@redhat.com>
- <20200813102430.vjnc56anqjaxn4tw@steredhat.lan>
- <20200813123737.25ba11d2.cohuck@redhat.com>
- <20200813120415.s5we6mihe6fywm4a@steredhat.lan>
- <20200817122746.0b786372.cohuck@redhat.com>
- <20200817131128.lgxn3pyzuzly4edp@steredhat>
- <20200818144450.0701d68c.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k82KI-0003Pv-8v
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k82KF-0007LK-KA
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:10:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k82KD-000629-Ii
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 76AD22E80EE
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 14:10:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200818144450.0701d68c.cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Aug 2020 14:04:40 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1823790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher paelzer
+ pmaydell sharpie tobijk zebul666
+X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159775948037.13923.2161460500606476369.malone@gac.canonical.com>
+Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
+ tight loop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6d0b96812d8def2ca0ffcc25cb4d200f2f30aeb";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 886a51e32c4918dd5c09f78e3a260a4c384400c6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 10:10:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,149 +76,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Qinghua Cheng <qcheng@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 18, 2020 at 02:44:50PM +0200, Cornelia Huck wrote:
-> On Mon, 17 Aug 2020 15:11:28 +0200
-> Stefano Garzarella <sgarzare@redhat.com> wrote:
-> 
-> > On Mon, Aug 17, 2020 at 12:27:46PM +0200, Cornelia Huck wrote:
-> > > On Thu, 13 Aug 2020 14:04:15 +0200
-> > > Stefano Garzarella <sgarzare@redhat.com> wrote:
-> > >   
-> > > > On Thu, Aug 13, 2020 at 12:37:37PM +0200, Cornelia Huck wrote:  
-> > > > > On Thu, 13 Aug 2020 12:24:30 +0200
-> > > > > Stefano Garzarella <sgarzare@redhat.com> wrote:
-> > > > >     
-> > > > > > On Thu, Aug 13, 2020 at 11:28:20AM +0200, Cornelia Huck wrote:    
-> > > > > > > We basically have three possible ways to deal with this:
-> > > > > > > 
-> > > > > > > - Force it to modern (i.e., what you have been doing; would need the
-> > > > > > >   equivalent changes in ccw as well.)      
-> > > > > > 
-> > > > > > Oo, thanks for pointing out ccw!
-> > > > > > I don't know ccw well, in this case should we set dev->max_rev to 1 or 2
-> > > > > > to force to modern?    
-> > > > > 
-> > > > > No, ->max_rev is the wrong side of the limit :) You want    
-> > > > 
-> > > > Well :-) Thanks!
-> > > >   
-> > > > > 
-> > > > >     ccw_dev->force_revision_1 = true;
-> > > > > 
-> > > > > in _instance_init() (see e.g. virtio-ccw-gpu.c).
-> > > > >     
-> > > > > >     
-> > > > > > >   Pro: looks like the cleanest approach.
-> > > > > > >   Con: not sure if we would need backwards compatibility support,
-> > > > > > >   which looks hairy.      
-> > > > > > 
-> > > > > > Not sure too.    
-> > > > > 
-> > > > > Yes, I'm not sure at all how to handle user-specified values for
-> > > > > legacy/modern.  
-> > > 
-> > > Thinking a bit more about it, I'm not sure whether we even *can*
-> > > provide backwards compatibility: we have different autoconfigurations
-> > > for PCI based upon where it is plugged, and ccw does not have a way to
-> > > turn legacy on/off, except from within the code.  
-> > 
-> > Yes, I discovered today for example that the PCIe bus set auto-legacy
-> > mode to off.
-> 
-> And vhost-vsock actually really seems to be modern-only, see below.
-> 
-> > 
-> > >   
-> > > > >     
-> > > > > >     
-> > > > > > > - Add vsock to the list of devices with legacy support.
-> > > > > > >   Pro: Existing setups continue to work.
-> > > > > > >   Con: If vsock is really virtio-1-only, we still carry around
-> > > > > > >   possibly broken legacy support.      
-> > > > > > 
-> > > > > > I'm not sure it is virtio-1-only, but virtio-vsock was introduced in
-> > > > > > 2016, so I supposed it is modern-only.    
-> > > > > 
-> > > > > Yes, I would guess so as well.
-> > > > >     
-> > > > > > 
-> > > > > > How can I verify that? Maybe forcing legacy mode and run some tests.    
-> > > > > 
-> > > > > Probably yes. The likeliest area with issues is probably endianness, so
-> > > > > maybe with something big endian in the mix?
-> > > > >     
-> > > > 
-> > > > Yeah, I'll try this setup!
-> 
-> Ok, I tried this now with an x86 host and an s390x guest. Reverted the
-> checking commit, tried both with a -ccw and a -pci device and your ncat
-> example.
-> - When using virtio-1, both devices work fine.
-> - When using the -pci device with disable-modern=yes, I get "reset by
->   peer".
-> - When using the -ccw device with max_revision=0, I get an instant
->   timeout.
+Bisect worked and once you find it it seems obvious that this is exactly
+our case:
 
-Great, thanks for testing!
+commit 65b261a63a48fbb3b11193361d4ea0c38a3c3dfd
+Author: Laurent Vivier <laurent@vivier.eu>
+Date:   Thu Jul 9 09:23:32 2020 +0200
 
-> 
-> Smells like endianness problems (aka weird things are happening).
+    linux-user: add netlink RTM_SETLINK command
+    =
 
-Yeah.
+    This command is needed to be able to boot systemd in a container.
+    =
 
-> 
-> Also noticed that vhost-vsock-ccw does not have an immediate problem,
-> even with the commit: The code only checks whether the device has been
-> forced to legacy, not whether legacy is allowed (which cannot be
-> controlled by the user anyway). Probably best to address after we've
-> dealt with the vhost-vsock issue and made sure that there are no other
-> problems.
+      $ sudo systemd-nspawn -D /chroot/armhf/sid/ -b
+      Spawning container sid on /chroot/armhf/sid.
+      Press ^] three times within 1s to kill container.
+      systemd 245.6-2 running in system mode.
+      Detected virtualization systemd-nspawn.
+      Detected architecture arm.
+    =
 
-Make sense!
+      Welcome to Debian GNU/Linux bullseye/sid!
+    =
 
-> 
-> > > >   
-> > > > > >     
-> > > > > > > - Do nothing, have users force legacy off. Bad idea, as ccw has no way
-> > > > > > >   to do that on the command line.
-> > > > > > > 
-> > > > > > > The first option is probably best.  
-> > > 
-> > > The first option is now "force modern, but with no backwards
-> > > compatibility", which is not that great; but "allow legacy, even though
-> > > it should not exist" is not particularly appealing, either... what a
-> > > mess :(  
-> > 
-> > Yeah, it's a mess :-( anyway I still prefer option 1, it seems a little
-> > bit more correct to me.
-> 
-> It seems to me that the status before this was "works by accident, but
-> only if we're not negotiating to legacy, or the guest/host are both
-> little endian". IOW, no visible breakage for most people (or we'd
-> probably have heard of it already). Now we have a setup that's correct,
-> but forces users to adapt their QEMU command lines. Option 1 would
-> eliminate the need to do that, but would cause possibly
-> not-really-fixable migration issues (you can probably deal with that
-> manually, detaching and re-attaching the device as a last resort.)
-> 
-> So, force modern, probably also remove the -transitional device type,
-> and put a prominent explanation into the change log?
-> 
+      Set hostname to <virt-arm>.
+      Failed to enqueue loopback interface start request: Operation not sup=
+ported
+      Caught <SEGV>, dumped core as pid 3.
+      Exiting PID 1...
+      Container sid failed with error code 255.
+    =
 
-I completely agree with your analysis and solution.
+    Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+    Message-Id: <20200709072332.890440-2-laurent@vivier.eu>
 
-So, for now we need to patch vhost-vsock-pci and vhost-user-vsock-pci,
-and queue the patches in stable.
+ linux-user/fd-trans.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Do you prefer to send them? Otherwise I can do that.
+-- =
 
-Thanks again for the help and the test with s390x guest!
-Stefano
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823790
 
+Title:
+  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  While building Debian images for embedded ARM target systems I
+  detected that QEMU seems to force newer systemd daemons into a tight
+  loop.
+
+  My setup is the following:
+
+  Host machine: Ubuntu 18.04, amd64
+  LXD container: Debian Buster, arm64, systemd 241
+  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
+.1+dfsg-7)
+
+  To easily reproduce the issue I have created the following repository:
+  https://github.com/lueschem/edi-qemu
+
+  The call where systemd gets looping is the following:
+  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
+no=3D34 (Numerical result out of range)
+
+  Furthermore I also verified that the issue is not related to LXD.
+  The same behavior can be reproduced using systemd-nspawn.
+
+  This issue reported against systemd seems to be related:
+  https://github.com/systemd/systemd/issues/11557
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
 
