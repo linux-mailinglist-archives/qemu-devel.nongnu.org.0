@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CB3247D9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:37:44 +0200 (CEST)
-Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E74D247E2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 08:03:12 +0200 (CEST)
+Received: from localhost ([::1]:54442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tNY-0006h4-06
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
+	id 1k7uiE-0002xz-Kn
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 02:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t7i-0001dy-O5; Tue, 18 Aug 2020 00:21:22 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34593 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t7h-0006dT-0d; Tue, 18 Aug 2020 00:21:22 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNk2k1Mz9sWB; Tue, 18 Aug 2020 14:19:34 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724374;
- bh=nhGwyAeymaASkHK5D/WcPZyVl5hEMzVQYliqIctBXOA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ik4SSBtIPMC+/JBYA6SO1Xs0ymadVtjRHrDofR5+TLXCQczF4Hkw4/as0p/hy0l3T
- ML0kAe5Xt5MojrMmldvtdX6ZnoN0ujJf4Fd8qTC1kWoMrGaPSbQ7gJOzPRhh2aEdmC
- wtE6x3Cnml2E6MMUeKmcBOCNpUqRUf0GB2n9XswY=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org
-Subject: [PULL 40/40] spapr/xive: Use xive_source_esb_len()
-Date: Tue, 18 Aug 2020 14:19:22 +1000
-Message-Id: <20200818041922.251708-41-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
-References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k7uhS-0002Xi-2U
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 02:02:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k7uhQ-0001z4-BY
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 02:02:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597730538;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zp9RHzCIDmGcVaZ1pmDLCn4PNP3IuSm9t0a9hVlEewQ=;
+ b=VnvIAF5bmBDf7Z+zRemKLzDAkv6/Rjd3DPGz6KnofDjBEqnLpUsLe6O9ysNJYc0BfJ5E+T
+ Mk08NWSCl/Cg9OSCb/JNa0prJ5LNngBTOJ16K9l7bEM55ALM5+e/zTAL9NYr/dHK8ozRAx
+ 1i4OT8BltB6Mo2xZZiJuF8SFQTMl0ZA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-OkKTlOCBPcW3FeTXr5kc2A-1; Tue, 18 Aug 2020 02:02:17 -0400
+X-MC-Unique: OkKTlOCBPcW3FeTXr5kc2A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 265F6801AAF;
+ Tue, 18 Aug 2020 06:02:16 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
+ [10.36.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA1931001901;
+ Tue, 18 Aug 2020 06:02:15 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5285C1753B; Tue, 18 Aug 2020 08:02:14 +0200 (CEST)
+Date: Tue, 18 Aug 2020 08:02:14 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Subject: Re: [PATCH] hw: dev-wacom: Support wacom tablet emulation in linux
+ qemu
+Message-ID: <20200818060214.z2irps623upmbe2w@sirius.home.kraxel.org>
+References: <20200812152149.260163-1-michael@amarulasolutions.com>
+ <20200817064701.o3q3plnjhzyz3s42@sirius.home.kraxel.org>
+ <CAOf5uwn94gZPZXChFDXWZ-1w0jOY_SxRqzF4Mk8hrtLq-r3yCg@mail.gmail.com>
+ <20200817072841.lvbco4k7hzzimxsb@sirius.home.kraxel.org>
+ <CAOf5uwn2KAajFo7oXYkZg5q3jbJyRC50hJafcoWCVzrdvkqXMw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 00:19:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAOf5uwn2KAajFo7oXYkZg5q3jbJyRC50hJafcoWCVzrdvkqXMw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: none client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:02:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,53 +85,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+On Mon, Aug 17, 2020 at 06:42:02PM +0200, Michael Nazzareno Trimarchi wrote:
+> Hi Gerd
+> 
+> Have another small question. Do you know how force show cursor working
+> in this case?
 
-static inline size_t xive_source_esb_len(XiveSource *xsrc)
-{
-    return (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-}
+Which display and which vga do you use?
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159733969034.320580.6571451425779179477.stgit@bahia.lan>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/intc/spapr_xive.c     | 2 +-
- hw/intc/spapr_xive_kvm.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 3c84f64dc4..4bd0d606ba 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -336,7 +336,7 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
- 
-     /* Set the mapping address of the END ESB pages after the source ESBs */
--    xive->end_base = xive->vc_base + (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-+    xive->end_base = xive->vc_base + xive_source_esb_len(xsrc);
- 
-     /*
-      * Allocate the routing tables
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index d871bb1a00..e8667ce5f6 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -831,7 +831,7 @@ void kvmppc_xive_disconnect(SpaprInterruptController *intc)
- 
-     /* Clear the KVM mapping */
-     xsrc = &xive->source;
--    esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-+    esb_len = xive_source_esb_len(xsrc);
- 
-     if (xsrc->esb_mmap) {
-         memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
--- 
-2.26.2
+take care,
+  Gerd
 
 
