@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131342489FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:37:10 +0200 (CEST)
-Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C0C248A06
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 17:38:39 +0200 (CEST)
+Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k83fh-000101-2R
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35012)
+	id 1k83h8-0003kX-8o
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 11:38:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1k82QQ-0006Oy-Hd; Tue, 18 Aug 2020 10:17:18 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:60767)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k82WK-0000YM-8L
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:23:24 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1k82QO-0008FC-Cr; Tue, 18 Aug 2020 10:17:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=GW3/JlFTIkko8uvEJWNy+XQkwH0w8qByLkNw74nfLTg=; 
- b=D+s7BVBEZyNRVie+jej7fdGECIPK/HAwxgzzyUUfQr2Xx5ovUdS9QHWrgAZj9dcU9oNPvHcFG+GBLJEuEryUjyyZwb+NmPAi4l6e4he7WM0NzMlqYU4dLc75JlPT62kW2dICGCX9WOWdQYLv4YmBoaCjsr56jyqQtRaKlNAPTv9KiRW5NP+X72o12HVZpSX1uk4Z6S9hZ8W92vijazpYMoHazns5krOaMWTDJn6BzyUAKwy1ZvAgEtjqr3oWVozcw8H+WIGMV6M4NuVUQWqQRJnvniCQaozfEST+wedQmk5989wb7ImZIWEqYN6AK2uEXjx/SfEyQ7Nwn7QzCyPCdg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1k82QK-0004my-KB; Tue, 18 Aug 2020 16:17:12 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1k82QK-0001sd-9s; Tue, 18 Aug 2020 16:17:12 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v5 3/5] block/io: bdrv_common_block_status_above: support
- bs == base
-In-Reply-To: <20200610120426.12826-4-vsementsov@virtuozzo.com>
-References: <20200610120426.12826-1-vsementsov@virtuozzo.com>
- <20200610120426.12826-4-vsementsov@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Tue, 18 Aug 2020 16:17:12 +0200
-Message-ID: <w51ft8kjaxj.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k82WG-0000WB-SR
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 10:23:23 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id c10so15398184edk.6
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 07:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BgkDkDVqteK9iA2RZ2fDhwQtX5EsnZF4D/rxYpoq7l4=;
+ b=rz43fvx/U5Mmt9MpPGigXdMZ+V6UjHjAf6oAbc3hAUzFPXHF8z9uyF12ZFsg0Svv/e
+ iWANE/ytGLw/TVsQ9QEazW+o/aZSjRdDVpyPkDAYVMESdMuHpc7A/Gyw+T9zF6/Yl5as
+ Dcz/h+T+NdA4SBOuBx0qGVw7w3ifiBEnbW8hHzRH0NfIMq4nJn7VIqlUWzn7p5XB7B/m
+ APTxhtcOw89Hpl2C03H4UKFrpVU0kxGJe7iibtDXwMT8H4ldpNCUVb1MXz0V8aWaNSSE
+ e0KfHzZukj3kCadAHeO9NQd409rVnrtG4j1H189zveyYcdIq580eUnuLZ7cIDgK7WAl9
+ BiRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BgkDkDVqteK9iA2RZ2fDhwQtX5EsnZF4D/rxYpoq7l4=;
+ b=ekS/3wnz9ObF4B1YicUyXRtIzKJ5wmDgzitPQ23maOrGNcXPWCZuT6+BJ6Gqyq5Uhp
+ nvfeWNV7apTmb4QTAJemHS9neUdaGv0YFNazPWRKfX1K5ADca4A8mXGIm0L5sKBM6W8r
+ M2Ztd1kWqDoO6m/DkGpabWU+8XvoX17suQQeyB5NB0bRzvPwi+R5YdQt7Q6Wb4v2bRs2
+ zNw81nts7z2a/yTcQjqMSvcIbpMjLkrP0B5KLCSWVmW0IpUKbOtPG8db8vT46Q9fydRn
+ 4iJ6tnG79LqA/hLNAKM7a9NOC07QDQQDpMFNk6aB6rojCdwefXlbEIfJhfZobtJ4NI9u
+ uE7w==
+X-Gm-Message-State: AOAM5331sjyoOTtLWXKP6TSHW759O9+z5rpVRJzR6dzi6GhvmV6n8bnR
+ aDaRwI8ELZS4NSkV4BbRnusYOdoSBaFaiIq3sQw5Qw==
+X-Google-Smtp-Source: ABdhPJzN1VAwobRaVl7BuRrY1D4pkWmzpW3wLCBhykZoj4Txinhn/mo+RGR6U5eQrUtsis6qI69FX9SGJZtkXp8KayM=
+X-Received: by 2002:a05:6402:17a4:: with SMTP id
+ j4mr7716524edy.52.1597760599016; 
+ Tue, 18 Aug 2020 07:23:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 10:15:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+References: <20200818141025.21608-1-pbonzini@redhat.com>
+In-Reply-To: <20200818141025.21608-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Aug 2020 15:23:08 +0100
+Message-ID: <CAFEAcA_ZzZcWzSj3v+KmWU3EpG3AUKjmTs=evjRfNvzGx=Ko1g@mail.gmail.com>
+Subject: Re: [PULL 000/150] Meson-based build system
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,19 +79,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 10 Jun 2020 02:04:24 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to reuse bdrv_common_block_status_above in
-> bdrv_is_allocated_above. bdrv_is_allocated_above may be called with
-> include_base == false and still bs == base (for ex. from img_rebase()).
+On Tue, 18 Aug 2020 at 15:14, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> So, support this corner case.
+> The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
+>
+>   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 3aecbe785d65e3b92a3617c60e4d226362d9bdd5:
+>
+>   docs: convert build system documentation to rST (2020-08-18 10:02:43 -0400)
+>
+> New since v3:
+> * C include files renamed from .inc to .c.inc
+> * fixed pc-bios/s390-ccw clean targets
+> * fixed error splat when doing "make" from unconfigured build directory
+> * use --native-file to list tools chosen by configure
+> * fixes for Windows (SDL, Wixl)
+> * C++ compiler not mandatory anymore
+> * remove useless .. search path for modules
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+Build failure, x86-64 Linux. It looks like this version can't
+handle configure --cc='ccache gcc'. Full configure line;
+'../../configure' '--cc=ccache gcc' '--enable-debug' '--python=python3'
 
-Berto
+
+make: *** Deleting file 'config-host.mak'
+make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/alldbg'
+config-host.mak is out-of-date, running configure
+cross containers  docker
+
+NOTE: guest cross-compilers enabled: aarch64-linux-gnu-gcc
+arm-linux-gnueabihf-gcc m68k-linux-gnu-gcc powerpc-linux-gnu-gcc
+powerpc64-linux-gnu-gcc cc aarch64-linux-gnu-gcc
+arm-linux-gnueabihf-gcc m68k-linux-gnu-gcc powerpc-linux-gnu-gcc
+powerpc64-linux-gnu-gcc powerpc-linux-gnu-gcc
+powerpc64le-linux-gnu-gcc cc
+The Meson build system
+Version: 0.55.0
+Source dir: /home/petmay01/linaro/qemu-for-merges
+Build dir: /home/petmay01/linaro/qemu-for-merges/build/alldbg
+Build type: native build
+Project name: qemu
+Project version: 5.1.50
+
+../../meson.build:1:0: ERROR: Unknown compiler(s): [['ccache gcc']]
+The follow exceptions were encountered:
+Running "ccache gcc --version" gave "[Errno 2] No such file or
+directory: 'ccache gcc': 'ccache gcc'"
+
+A full log can be found at
+/home/petmay01/linaro/qemu-for-merges/build/alldbg/meson-logs/meson-log.txt
+
+ERROR: meson setup failed
+
+thanks
+-- PMM
 
