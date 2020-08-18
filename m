@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F48247D88
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:31:25 +0200 (CEST)
-Received: from localhost ([::1]:43996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1CC247D93
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 06:36:04 +0200 (CEST)
+Received: from localhost ([::1]:37262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7tHQ-0001vO-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:31:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50222)
+	id 1k7tLv-0002Hq-EW
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 00:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6c-0008TJ-2m; Tue, 18 Aug 2020 00:20:14 -0400
-Received: from ozlabs.org ([203.11.71.1]:36883)
+ id 1k7t6d-00005a-56; Tue, 18 Aug 2020 00:20:15 -0400
+Received: from ozlabs.org ([203.11.71.1]:58825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k7t6Z-0006OO-En; Tue, 18 Aug 2020 00:20:12 -0400
+ id 1k7t6a-0006Oh-AT; Tue, 18 Aug 2020 00:20:14 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BVyNd61y6z9sVk; Tue, 18 Aug 2020 14:19:29 +1000 (AEST)
+ id 4BVyNf0vsjz9sVl; Tue, 18 Aug 2020 14:19:29 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1597724369;
- bh=W8W6ApiPFY78TyXOgwighd9yWvwfZ8AmkgzUw8Fi1/4=;
+ d=gibson.dropbear.id.au; s=201602; t=1597724370;
+ bh=1da+r63XMtfDKfovfHV2ixQ8/lrIVVmvb8+ZRQhBjuc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gYTbsqkTdxH1wl3hLPeyl7oVMwJKAzapIq01tPm+4Nl+YoVDHqjlk4N9QatytabCv
- xLgnU3scTj/2uab3ZvSY797H+O1aXEOkl6ZbLPZEwAR7Fm+jga6k2EoAg8DzNmwpv/
- hCvHA5aZoQkIZfDy0ckSQZgxt4a181LvBMrAMn2s=
+ b=A0v1hKrhYwcsiNQ+fm17n7pDcN14Qum9N/UtgU5n4cqMXgJVeZdDK6CTQ9XA6B/6w
+ fGM7mYBc1V643oW7MBpJaPRyg8Qt0PbZOzBawmXxiY+lDloIHQaXQSqvkCMonP310m
+ o3I4iCiT3ngeLO1w6byi45/5XTVnoImkBujak3IU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 24/40] spapr/xive: Convert KVM device fd checks to assert()
-Date: Tue, 18 Aug 2020 14:19:06 +1000
-Message-Id: <20200818041922.251708-25-david@gibson.dropbear.id.au>
+Subject: [PULL 25/40] spapr: Simplify error handling in spapr_phb_realize()
+Date: Tue, 18 Aug 2020 14:19:07 +1000
+Message-Id: <20200818041922.251708-26-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -61,117 +60,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-All callers guard these functions with an xive_in_kernel() helper. Make
-it clear that they are only to be called when the KVM XIVE device exists.
+The spapr_phb_realize() function has a local_err variable which
+is used to:
 
-Note that the check on xive is dropped in kvmppc_xive_disconnect(). It
-really cannot be NULL since it comes from set_active_intc() which only
-passes pointers to allocated objects.
+1) check failures of spapr_irq_findone() and spapr_irq_claim()
+
+2) prepend extra information to the error message
+
+Recent work from Markus Armbruster highlighted we get better
+code when testing the return value of a function, rather than
+setting up all the local_err boiler plate. For similar reasons,
+it is now preferred to use ERRP_GUARD() and error_prepend()
+rather than error_propagate_prepend().
+
+Since spapr_irq_findone() and spapr_irq_claim() return negative
+values in case of failure, do both changes.
+
+This is just cleanup, no functional impact.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <159679994169.876294.11026653581505077112.stgit@bahia.lan>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <159707843851.1489912.6108405733810934642.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 35 +++++++----------------------------
- 1 file changed, 7 insertions(+), 28 deletions(-)
+ hw/ppc/spapr_pci.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 6130882be6..82a6f99f02 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -79,10 +79,7 @@ void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp)
-     uint64_t state[2];
-     int ret;
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 363cdb3f7b..0a418f1e67 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
  
--    /* The KVM XIVE device is not in use yet */
--    if (xive->fd == -1) {
--        return;
--    }
-+    assert(xive->fd != -1);
- 
-     /* word0 and word1 of the OS ring. */
-     state[0] = *((uint64_t *) &tctx->regs[TM_QW1_OS]);
-@@ -101,10 +98,7 @@ void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp)
-     uint64_t state[2] = { 0 };
-     int ret;
- 
--    /* The KVM XIVE device is not in use */
--    if (xive->fd == -1) {
--        return;
--    }
-+    assert(xive->fd != -1);
- 
-     ret = kvm_get_one_reg(tctx->cs, KVM_REG_PPC_VP_STATE, state);
-     if (ret != 0) {
-@@ -156,10 +150,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
-     unsigned long vcpu_id;
-     int ret;
- 
--    /* The KVM XIVE device is not in use */
--    if (xive->fd == -1) {
--        return;
--    }
-+    assert(xive->fd != -1);
- 
-     /* Check if CPU was hot unplugged and replugged. */
-     if (kvm_cpu_is_enabled(tctx->cs)) {
-@@ -245,10 +236,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
-     SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
-     uint64_t state = 0;
- 
--    /* The KVM XIVE device is not in use */
--    if (xive->fd == -1) {
--        return -ENODEV;
--    }
-+    assert(xive->fd != -1);
- 
-     if (xive_source_irq_is_lsi(xsrc, srcno)) {
-         state |= KVM_XIVE_LEVEL_SENSITIVE;
-@@ -592,10 +580,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
- 
- void kvmppc_xive_synchronize_state(SpaprXive *xive, Error **errp)
+ static void spapr_phb_realize(DeviceState *dev, Error **errp)
  {
--    /* The KVM XIVE device is not in use */
--    if (xive->fd == -1) {
--        return;
--    }
-+    assert(xive->fd != -1);
++    ERRP_GUARD();
+     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the user
+      * tries to add a sPAPR PHB to a non-pseries machine.
+      */
+@@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
+     uint64_t msi_window_size = 4096;
+     SpaprTceTable *tcet;
+     const unsigned windows_supported = spapr_phb_windows_supported(sphb);
+-    Error *local_err = NULL;
  
-     /*
-      * When the VM is stopped, the sources are masked and the previous
-@@ -622,10 +607,7 @@ int kvmppc_xive_pre_save(SpaprXive *xive)
- {
-     Error *local_err = NULL;
+     if (!spapr) {
+         error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries machine");
+@@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
  
--    /* The KVM XIVE device is not in use */
--    if (xive->fd == -1) {
--        return 0;
--    }
-+    assert(xive->fd != -1);
+     /* Initialize the LSI table */
+     for (i = 0; i < PCI_NUM_PINS; i++) {
+-        uint32_t irq = SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
++        int irq = SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
  
-     /* EAT: there is no extra state to query from KVM */
+         if (smc->legacy_irq_allocation) {
+-            irq = spapr_irq_findone(spapr, &local_err);
+-            if (local_err) {
+-                error_propagate_prepend(errp, local_err,
+-                                        "can't allocate LSIs: ");
++            irq = spapr_irq_findone(spapr, errp);
++            if (irq < 0) {
++                error_prepend(errp, "can't allocate LSIs: ");
+                 /*
+                  * Older machines will never support PHB hotplug, ie, this is an
+                  * init only path and QEMU will terminate. No need to rollback.
+@@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
+             }
+         }
  
-@@ -845,10 +827,7 @@ void kvmppc_xive_disconnect(SpaprInterruptController *intc)
-     XiveSource *xsrc;
-     size_t esb_len;
+-        spapr_irq_claim(spapr, irq, true, &local_err);
+-        if (local_err) {
+-            error_propagate_prepend(errp, local_err, "can't allocate LSIs: ");
++        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
++            error_prepend(errp, "can't allocate LSIs: ");
+             goto unrealize;
+         }
  
--    /* The KVM XIVE device is not in use */
--    if (!xive || xive->fd == -1) {
--        return;
--    }
-+    assert(xive->fd != -1);
- 
-     /* Clear the KVM mapping */
-     xsrc = &xive->source;
 -- 
 2.26.2
 
