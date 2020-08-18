@@ -2,71 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CB52482F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 12:29:11 +0200 (CEST)
-Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799EE2482FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Aug 2020 12:30:42 +0200 (CEST)
+Received: from localhost ([::1]:50138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k7yre-0005Ej-Ed
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 06:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48758)
+	id 1k7yt6-0007TJ-Uk
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 06:30:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k7yqG-00046l-KG
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:27:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38559
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7yqr-00059w-UU
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:28:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k7yqE-000198-OZ
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:27:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k7yqj-0001Bc-Dm
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 06:28:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597746461;
+ s=mimecast20190719; t=1597746492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NTAOE18gh52n4jCO6wejcIsvupqh3SYDO9mNwrkP3y8=;
- b=F1HMDvV51o2es1ovlOgh7DITTWxb5F8mvm4BsqNh3auvHuProBHK4MDQn8YTWs/VhPp9Rz
- QEeJKHicSAXoGXqH/bHn6/YpC+Y6L14uRSQQKUARF3cegFVP/2VB2eFGulvFiS3hg18ceA
- P2SCkAQDESTS/lG2gaXDdNpKCltFzgE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-WRpleXwyOYWBfqhFSYLHew-1; Tue, 18 Aug 2020 06:27:37 -0400
-X-MC-Unique: WRpleXwyOYWBfqhFSYLHew-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A01E118686E4;
- Tue, 18 Aug 2020 10:27:36 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-105.ams2.redhat.com [10.36.112.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2FC27A1F5;
- Tue, 18 Aug 2020 10:27:35 +0000 (UTC)
-Date: Tue, 18 Aug 2020 12:27:34 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v7 10/47] mirror-top: Support compressed writes
-Message-ID: <20200818102734.GC6865@linux.fritz.box>
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-11-mreitz@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9Z3dtVgg6xsc12hVW0Zai7S0/Ak5iMfDhJShWYuPS+c=;
+ b=A1yTBTxTA6Q7DvFt5NfwleUlSIijA6/AfI61GHUdyUWlyGPaRw0iJXO9YYUtjOGKbYWJZ+
+ riYnynLg1oFYg17uaF/i9UyUYLIZD/pTMTSs8sytUxRxs7/m7P8BhM3zrixZomm2rDYB/K
+ THzOSVA+DJtnBOT2iowYPnbTCjLBzT8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-SoqPbr_HPhqicjVyOt0NMg-1; Tue, 18 Aug 2020 06:28:11 -0400
+X-MC-Unique: SoqPbr_HPhqicjVyOt0NMg-1
+Received: by mail-wr1-f71.google.com with SMTP id t3so8071676wrr.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 03:28:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=9Z3dtVgg6xsc12hVW0Zai7S0/Ak5iMfDhJShWYuPS+c=;
+ b=QnZok7VmfJLUpyn+J7FtI/hZWnubSzHxD7jG8zTEhKExIVGoUO0o0O4t8FQhodUcpS
+ WK4h++LMyAjHbthmMHE0ZICL/vHP1pF1RXjKCm5zxwp7pC+sHnx1L9zH+JwLeOK8+ilI
+ TTPhe+HIVVCae788O2wxvmPwL2TjaZ/Add9pEBFXnhepTuoEGVz9qC/sHSnUpSEboReK
+ 06KmCHisDnkqaFnTb0PqGJoGYxmiQr67nIKGnqxXQLH+JKFrJ+g1mwf5YvJ2B5hUvuR1
+ Uw+6IsuECZc774kGG7RgAnT0//rGHO/O3I9Ktr0j8JA8AsAU+bNT05vS1juIUfxmbZFb
+ rlTg==
+X-Gm-Message-State: AOAM53073pI2G+vg7uvek7Kl9LwCMqnt6CADa/dYt60UVPbGOJV8MFga
+ BzPFDjR+UZ6LCDSSyee2/en8dvRnj796vSjWsRnpYmaiAp5QrIUoLBKjlKMRDr5VuR4dvbGgwU+
+ cUHfUaGGYxm/bryo=
+X-Received: by 2002:a1c:62d6:: with SMTP id
+ w205mr19965461wmb.154.1597746490053; 
+ Tue, 18 Aug 2020 03:28:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwgv3ESo2/IxOtkA66iJxlA8mYcVO2mlL4ZTLmVMwCv0J7jghTCFSZydqpZVl+YmTTYHHpxg==
+X-Received: by 2002:a1c:62d6:: with SMTP id
+ w205mr19965453wmb.154.1597746489888; 
+ Tue, 18 Aug 2020 03:28:09 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id s16sm23599129wme.13.2020.08.18.03.28.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Aug 2020 03:28:09 -0700 (PDT)
+Subject: Re: [PATCH 105/150] meson: convert hw/rdma
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200817143723.343284-1-pbonzini@redhat.com>
+ <20200817144053.345107-10-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <f54ce4f6-e285-2814-c36b-8e82c32f18a8@redhat.com>
+Date: Tue, 18 Aug 2020 12:28:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200625152215.941773-11-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200817144053.345107-10-pbonzini@redhat.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: none client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:16:14
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 02:02:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +124,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.06.2020 um 17:21 hat Max Reitz geschrieben:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  block/mirror.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+On 8/17/20 4:40 PM, Paolo Bonzini wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> diff --git a/block/mirror.c b/block/mirror.c
-> index e8e8844afc..469acf4600 100644
-> --- a/block/mirror.c
-> +++ b/block/mirror.c
-> @@ -1480,6 +1480,15 @@ static int coroutine_fn bdrv_mirror_top_pdiscard(BlockDriverState *bs,
->                                      NULL, 0);
->  }
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/Makefile.objs      |  1 -
+>  hw/meson.build        |  1 +
+>  hw/rdma/Makefile.objs |  3 ---
+>  hw/rdma/meson.build   | 10 ++++++++++
+>  4 files changed, 11 insertions(+), 4 deletions(-)
+>  delete mode 100644 hw/rdma/Makefile.objs
+>  create mode 100644 hw/rdma/meson.build
+> 
+> diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+> index 78860ae9c7..748a718b0f 100644
+> --- a/hw/Makefile.objs
+> +++ b/hw/Makefile.objs
+> @@ -19,7 +19,6 @@ devices-dirs-$(CONFIG_IPMI) += ipmi/
+>  devices-dirs-y += isa/
+>  devices-dirs-y += misc/
+>  devices-dirs-y += net/
+> -devices-dirs-y += rdma/
+>  endif
 >  
-> +static int coroutine_fn bdrv_mirror_top_pwritev_compressed(BlockDriverState *bs,
-> +                                                           uint64_t offset,
-> +                                                           uint64_t bytes,
-> +                                                           QEMUIOVector *qiov)
-> +{
-> +    return bdrv_mirror_top_pwritev(bs, offset, bytes, qiov,
-> +                                   BDRV_REQ_WRITE_COMPRESSED);
-> +}
+>  common-obj-y += $(devices-dirs-y)
+> diff --git a/hw/meson.build b/hw/meson.build
+> index 0bdd6a2613..f704e51361 100644
+> --- a/hw/meson.build
+> +++ b/hw/meson.build
+> @@ -6,6 +6,7 @@ subdir('pci')
+>  subdir('pci-bridge')
+>  subdir('pci-host')
+>  subdir('pcmcia')
+> +subdir('rdma')
+>  subdir('rtc')
+>  subdir('scsi')
+>  subdir('sd')
+> diff --git a/hw/rdma/Makefile.objs b/hw/rdma/Makefile.objs
+> deleted file mode 100644
+> index 819bb12a35..0000000000
+> --- a/hw/rdma/Makefile.objs
+> +++ /dev/null
+> @@ -1,3 +0,0 @@
+> -obj-$(CONFIG_VMW_PVRDMA) += rdma_utils.o rdma_backend.o rdma_rm.o rdma.o
+> -obj-$(CONFIG_VMW_PVRDMA) += vmw/pvrdma_dev_ring.o vmw/pvrdma_cmd.o \
+> -                     vmw/pvrdma_qp_ops.o vmw/pvrdma_main.o
+> diff --git a/hw/rdma/meson.build b/hw/rdma/meson.build
+> new file mode 100644
+> index 0000000000..7325f40c32
+> --- /dev/null
+> +++ b/hw/rdma/meson.build
+> @@ -0,0 +1,10 @@
+> +specific_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
+> +  'rdma.c',
+> +  'rdma_backend.c',
+> +  'rdma_rm.c',
+> +  'rdma_utils.c',
+> +  'vmw/pvrdma_cmd.c',
+> +  'vmw/pvrdma_dev_ring.c',
+> +  'vmw/pvrdma_main.c',
+> +  'vmw/pvrdma_qp_ops.c',
+> +))
+> 
 
-Hm, not sure if it's a problem, but bdrv_supports_compressed_writes()
-will now return true for mirror-top. However, with an active mirror to a
-target that doesn't support compression, trying to actually do a
-compressed write will always return -ENOTSUP.
-
-So I guess the set of nodes patch 7 looks at still isn't quite complete.
-However, it's not obvious how to make it more complete without
-delegating to the driver.
-
-Maybe we need to use bs->supported_write_flags, which is set by the
-driver, instead of looking at the presence of callbacks.
-
-Of course, in the general case, we also should make sure that graph
-changes will be reflected in bs->supported_write_flags, but we already
-fail to do this in raw-format, so I guess ignoring it for now is good
-enough here, too...
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
