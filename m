@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E2C249A0A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:15:27 +0200 (CEST)
-Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1722499E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:11:36 +0200 (CEST)
+Received: from localhost ([::1]:55324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8L7u-0003To-1b
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:15:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
+	id 1k8L4B-0003Qf-63
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:11:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2w-0001MA-9I; Wed, 19 Aug 2020 06:10:18 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:57201)
+ id 1k8L2q-00017F-0g; Wed, 19 Aug 2020 06:10:12 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2t-0006Yk-2g; Wed, 19 Aug 2020 06:10:17 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id BEA7C5892837;
- Wed, 19 Aug 2020 12:10:03 +0200 (CEST)
+ id 1k8L2n-0006We-Qc; Wed, 19 Aug 2020 06:10:11 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8BCBD51E25BC;
+ Wed, 19 Aug 2020 12:10:04 +0200 (CEST)
 Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 19 Aug
  2020 12:10:03 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00410db0353-e549-4097-b9f9-3bc3df02944a,
+ (GARM-101G00400b36d77-2d28-4ab8-8102-5943959efb0a,
  56ABA3BD09B5898CED80C8E013D4E39E9C6048D1) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 06/21] aspeed/smc: Fix MemoryRegionOps definition
-Date: Wed, 19 Aug 2020 12:09:41 +0200
-Message-ID: <20200819100956.2216690-7-clg@kaod.org>
+Subject: [PATCH v2 07/21] aspeed/smc: Fix max_slaves of the legacy SMC device
+Date: Wed, 19 Aug 2020 12:09:42 +0200
+Message-ID: <20200819100956.2216690-8-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200819100956.2216690-1-clg@kaod.org>
 References: <20200819100956.2216690-1-clg@kaod.org>
@@ -41,14 +41,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.101]
 X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: afd98c99-c741-483b-90a2-d5516f22a0a1
-X-Ovh-Tracer-Id: 18049019932626488169
+X-Ovh-Tracer-GUID: 13ae1290-9d50-4694-86d5-1309cc5e1f34
+X-Ovh-Tracer-Id: 18049301410510965542
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 06:10:01
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 06:10:05
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,38 +68,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unaligned access support is a leftover from the initial commit. There
-is no such need on this device register mapping. Remove it.
+The legacy controller only has one slave.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ssi/aspeed_smc.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/ssi/aspeed_smc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 4fab1f5f855e..0646e0dca72e 100644
+index 0646e0dca72e..8c79a5552f93 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -1299,10 +1299,8 @@ static const MemoryRegionOps aspeed_smc_ops = {
-     .read = aspeed_smc_read,
-     .write = aspeed_smc_write,
-     .endianness = DEVICE_LITTLE_ENDIAN,
--    .valid.unaligned = true,
- };
- 
--
- /*
-  * Initialize the custom address spaces for DMAs
-  */
+@@ -259,7 +259,7 @@ static const AspeedSMCController controllers[] = {
+         .r_timings         = R_TIMINGS,
+         .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+-        .max_slaves        = 5,
++        .max_slaves        = 1,
+         .segments          = aspeed_segments_legacy,
+         .flash_window_base = ASPEED_SOC_SMC_FLASH_BASE,
+         .flash_window_size = 0x6000000,
 -- 
 2.25.4
 
