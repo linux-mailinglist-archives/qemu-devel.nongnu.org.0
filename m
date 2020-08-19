@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B536B24A857
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 23:19:09 +0200 (CEST)
-Received: from localhost ([::1]:40210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB61624A83C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 23:12:05 +0200 (CEST)
+Received: from localhost ([::1]:59034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8VUC-0005St-RP
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 17:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51334)
+	id 1k8VNM-0001GH-7H
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 17:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bfoster@redhat.com>)
- id 1k8SI5-0007b0-Aq
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 13:54:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31131
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <bfoster@redhat.com>)
- id 1k8SI3-0005fm-BF
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 13:54:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597859662;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F03FlYnc6WQ5PEBP2Vyaf1Xitz2PnPJ33mzK/ebecss=;
- b=RGGCBpLbcOxUM0dqLogWyU3gifiEoE/rj7i1RmqAMeh8lDedLnJmILINccpIOUiGR1VYRg
- 7CZpj7GbO2DiSEcFSwbsNLd1V1nUIKV8vqrdeyYf5+PThozrm+TPg5IqkBHmQ9BOK+lmRN
- DxMz0yecKER8s/Ml0GcEdWNmA+mnRhg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-UiOsXWE0POWoa4OzK4esYg-1; Wed, 19 Aug 2020 13:53:07 -0400
-X-MC-Unique: UiOsXWE0POWoa4OzK4esYg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC97764081;
- Wed, 19 Aug 2020 17:53:05 +0000 (UTC)
-Received: from bfoster (ovpn-112-11.rdu2.redhat.com [10.10.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7666967CEE;
- Wed, 19 Aug 2020 17:53:01 +0000 (UTC)
-Date: Wed, 19 Aug 2020 13:53:00 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 0/1] qcow2: Skip copy-on-write when allocating a zero
- cluster
-Message-ID: <20200819175300.GA141399@bfoster>
-References: <cover.1597416317.git.berto@igalia.com>
- <20200817101019.GD11402@linux.fritz.box>
- <w518sedz3td.fsf@maestria.local.igalia.com>
- <20200817155307.GS11402@linux.fritz.box>
- <w51pn7memr7.fsf@maestria.local.igalia.com>
- <20200819150711.GE10272@linux.fritz.box>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k8VMc-0000qi-9v
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 17:11:18 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k8VMZ-00069S-Qe
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 17:11:17 -0400
+Received: by mail-ej1-x642.google.com with SMTP id a26so130519ejc.2
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 14:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GBOHJ1hzbmDUjFBA/W3PGvGj68TJPhUSpLkFAtYeczo=;
+ b=Mry/Xvi2iHasQwYwzUEIz1OFzQ40oeH0/tXuQp3g8Imo0hjegsLIM5TbqHefzYx3cy
+ iGxD2IbnxZqJtRG9ePleKjdXRM9qanDLc4Eun/CZ33oyw//EU8aUgqMTftNL0zOsnF03
+ rID2bzhQr0+q6gC7R398UPMx8KzxYj1YapSJOnB5PiCawn9VA0HuzNz7vp0uHDTtldrl
+ Dnyb0LAFb8An+UNePBsAfbC4A/MCv7mr7s1q5lwDmvOh9lKakGquMYMzFj5JgIbGeCAM
+ 76T8ULK3cFjetRBnjxJwo9toTwBgdQK306uBblsoSo/XbqtBVBCFgKIVjLU+Sphq3t/n
+ D0ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GBOHJ1hzbmDUjFBA/W3PGvGj68TJPhUSpLkFAtYeczo=;
+ b=LuBXY1Pdvp8QwGeB6eap6BJ8eIv6U8BPuq3KhELLsiCEyzgwLUz6SyTMo9OecDjHcD
+ CH8cTgz4C799o9OKJXyrHlmT+O/S0tSGZPM73zghQeMPznvEXIcHW3AvHjgDS6nfC8gz
+ DEstC6LaI0xFc9fbMDdLRTGeaINBGD33Lo5NTw/5Nc33P/7PgV9WMUNLPZzxurLWw7zT
+ yYvRKxi3EffKYy8M5G/mF9SKX9v2kXe4dCDRJhc59ED5g0V7+81rJBnFdmR/aCTfxgG3
+ 8csbkLPEZmCZ2lcBY4Ce4ceITJrEVEg/x2A2bzOWKe4Mgi3nlWyWfharCrXQtPytDucN
+ zu6Q==
+X-Gm-Message-State: AOAM5308R+ol/gqIa42AVDI9rw8GT/a+pHtFQFuIayOVuUo2FAZZGdC6
+ bVXJoOfPKUlpEvq5op8EVhTaPFALTrz7uwvzibY+lA==
+X-Google-Smtp-Source: ABdhPJz/bN6RFzsn5b7unqfcy6Pl9huLIZ24X0YfBjrtMHMGMYDXQFnZR9qSmtT7aw7iPPoTlWktbNQuVPa6sGrJJeg=
+X-Received: by 2002:a17:906:2cc2:: with SMTP id
+ r2mr212744ejr.482.1597871474279; 
+ Wed, 19 Aug 2020 14:11:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200819150711.GE10272@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bfoster@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=bfoster@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 01:46:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200819143525.2175-1-pbonzini@redhat.com>
+ <CAFEAcA_8VJecDyK8FR0ty=pknmo+Hc5s0OFj+-Y1Ah-OJ01FDQ@mail.gmail.com>
+ <5d247082-4928-b47c-76c4-c366a9421e1a@msgid.tls.msk.ru>
+ <CAFEAcA_YU8QY_VRNdXmBV=YKuBFaX=scT0Pnk1F8JBWrrbsbJA@mail.gmail.com>
+ <72597e7a-6ee2-9875-536d-c5cd2d81950d@redhat.com>
+In-Reply-To: <72597e7a-6ee2-9875-536d-c5cd2d81950d@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 19 Aug 2020 22:11:03 +0100
+Message-ID: <CAFEAcA-RF4T43zeNMBb_NWaOqWOVS6H5iiRN4s4ocvnGgN65bw@mail.gmail.com>
+Subject: Re: [PULL v6 000/150] Meson-based build system
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 19 Aug 2020 17:17:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,125 +83,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 19, 2020 at 05:07:11PM +0200, Kevin Wolf wrote:
-> Am 19.08.2020 um 16:25 hat Alberto Garcia geschrieben:
-> > On Mon 17 Aug 2020 05:53:07 PM CEST, Kevin Wolf wrote:
-> > >> > Or are you saying that ZERO_RANGE + pwrite on a sparse file (=
-> > >> > cluster allocation) is faster for you than just the pwrite alone (=
-> > >> > writing to already allocated cluster)?
-> > >> 
-> > >> Yes, 20% faster in my tests (4KB random writes), but in the latter
-> > >> case the cluster is already allocated only at the qcow2 level, not on
-> > >> the filesystem. preallocation=falloc is faster than
-> > >> preallocation=metadata (preallocation=off sits in the middle).
-> > >
-> > > Hm, this feels wrong. Doing more operations should never be faster
-> > > than doing less operations.
-> > >
-> > > Maybe the difference is in allocating 64k at once instead of doing a
-> > > separate allocation for every 4k block? But with the extent size hint
-> > > patches to file-posix, we should allocate 1 MB at once by default now
-> > > (if your test image was newly created). Can you check whether this is
-> > > in effect for your image file?
-> > 
-> > I checked with xfs on my computer. I'm not very familiar with that
-> > filesystem so I was using the default options and I didn't tune
-> > anything.
-> > 
-> > What I got with my tests (using fio):
-> > 
-> > - Using extent_size_hint didn't make any difference in my test case (I
-> >   do see a clear difference however with the test case described in
-> >   commit ffa244c84a).
-> 
-> Hm, interesting. What is your exact fio configuration? Specifically,
-> which iodepth are you using? I guess with a low iodepth (and O_DIRECT),
-> the effect of draining the queue might not be as visible.
-> 
-> > - preallocation=off is still faster than preallocation=metadata.
-> 
-> Brian, can you help us here with some input?
-> 
-> Essentially what we're having here is a sparse image file on XFS that is
-> opened with O_DIRECT (presumably - Berto, is this right?), and Berto is
-> seeing cases where a random write benchmark is faster if we're doing the
-> 64k ZERO_RANGE + 4k pwrite when touching a 64k cluster for the first
-> time compared to always just doing the 4k pwrite. This is with a 1 MB
-> extent size hint.
-> 
+On Wed, 19 Aug 2020 at 20:44, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> On 19/08/20 21:04, Peter Maydell wrote:
+> >> is it really that important? We've changed single target build
+> >> rules already (from subdir-x86_64-softmmu to x86_64-softmmu/all
+> >> for one), which broke quite some mostly automatic build
+> >> systems which needed some fixing. Moving executables isn't a
+> >> big deal after that, methinks..
+> > It breaks my setups and also my muscle memory for where
+> > executables live. So this is the limit of how much I'm
+> > willing to allow Meson to mess us around, I think.
+>
+> It's totally possible to accomodate this and I appreciate the help and
+> effort you're putting into something that you (understandably) are not
+> too confident in.
+>
+> However, this change was already in the first series that was posted
+> like a year ago...
 
-Which is with the 1MB extent size hint? Both, or just the non-ZERO_RANGE
-test? A quick test on a vm shows that a 1MB extent size hint widens a
-smaller zero range request to the hint. Just based on that, I guess I
-wouldn't expect much difference between the tests in the former case
-(extra syscall overhead perhaps?) since they'd both be doing 1MB extent
-allocs and 4k dio writes. If the hint is only active in the latter case,
-then I suppose you'd be comparing 64k unwritten allocs + 4k writes vs.
-1MB unwritten allocs + 4k writes.
+It's a hundred-and-fifty patch series, and I can't review everything.
+I took it on trust that it would be basically a drop-in replacement
+for our current makefile setup.
 
-I also see that Berto noted in a followup email that the XFS filesystem
-is close to full, which can have a significant effect on block
-allocation performance. I'd strongly recommend not testing for
-performance under low free space conditions.
-
-
-> From the discussions we had the other day [1][2] I took away that your
-> suggestion is that we should not try to optimise things with
-> fallocate(), but just write the areas we really want to write and let
-> the filesystem deal with the sparse parts. Especially with the extent
-> size hint that we're now setting, I'm surprised to hear that doing a
-> ZERO_RANGE first still seems to improve the performance.
-> 
-> Do you have any idea why this is happening and what we should be doing
-> with this?
-> 
-
-Note that I'm just returning from several weeks of leave so my memory is
-a bit fuzzy, but I thought the previous issues were around performance
-associated with fragmentation caused by doing such small allocations
-over time, not necessarily finding the most performant configuration
-according to a particular I/O benchmark.
-
-In any event, if you're seeing unclear or unexpected performance deltas
-between certain XFS configurations or other fs', I think the best thing
-to do is post a more complete description of the workload,
-filesystem/storage setup, and test results to the linux-xfs mailing list
-(feel free to cc me as well). As it is, aside from the questions above,
-it's not really clear to me what the storage stack looks like for this
-test, if/how qcow2 is involved, what the various 'preallocation=' modes
-actually mean, etc.
-
-Brian
-
-> [1] https://bugzilla.redhat.com/show_bug.cgi?id=1850660
-> [2] https://bugzilla.redhat.com/show_bug.cgi?id=1666864
-> 
-> >   If I disable handle_alloc_space() (so there is no ZERO_RANGE used)
-> >   then it is much slower.
-> 
-> This makes some sense because then we're falling back to writing
-> explicit zero buffers (unless you disabled that, too).
-> 
-> > - With preallocation=falloc I get the same results as with
-> >   preallocation=metadata.
-> 
-> Interesting, this means that the fallocate() call costs you basically no
-> time. I would have expected preallocation=falloc to be a little faster.
-> 
-> > - preallocation=full is the fastest by far.
-> 
-> I guess this saves the conversion of unwritten extents to fully
-> allocated ones?
-> 
-> As the extent size hint doesn't seem to influence your test case anyway,
-> can I assume that ext4 behaves similar to XFS in all four cases?
-> 
-> Kevin
-
+thanks
+-- PMM
 
