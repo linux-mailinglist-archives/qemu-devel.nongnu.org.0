@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AF724A450
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 18:48:57 +0200 (CEST)
-Received: from localhost ([::1]:39790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D248F24A456
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 18:51:06 +0200 (CEST)
+Received: from localhost ([::1]:48756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8RGi-0006Ft-4a
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 12:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57788)
+	id 1k8RIn-0001YH-Uo
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 12:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k8RCE-00086W-Le; Wed, 19 Aug 2020 12:44:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8750)
+ id 1k8RCH-0008BH-PV; Wed, 19 Aug 2020 12:44:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15906
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k8RCC-0002pH-3M; Wed, 19 Aug 2020 12:44:18 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07JGfX3R031821; Wed, 19 Aug 2020 12:43:55 -0400
+ id 1k8RCF-0002pp-RV; Wed, 19 Aug 2020 12:44:21 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07JGVf0r188799; Wed, 19 Aug 2020 12:44:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=r2BmvyAmYHEGvGkHmLwrHK+cKApYuesXX55h9lGayGM=;
- b=ihLjJs38oaFtsKe0DmZW8xHbb2vtPQIot74oxqdyk3W7BqeIRw+s27AIFx3WCYBpsueI
- VX/3WDbYbYH7AZFiDDIYMBuGlL7aXHaH7e0/5UFKYmrdkH0akwbRQ1+GwiIm/bxE7psC
- nUNoN5ZpSN/Jwp/DT7BbmS/atvdU/R5g5cWnk/K9c15IpImPIPxtHWWhLWHDnmNV8iN5
- O9gPLy9dnv4pmSo4ewKUPs+Y1rPjNJLTRtgq4Az108/olKE62XY6QULAYHOzbFc2l7WK
- 2ERlQn9n3SL707bxcfEa07MtisO2gSTU+ZzWABbF/gh2gb8Wk71wB2TdEkUoPi84JTlg /A== 
+ bh=glsojxp4qtfGg8Khy2gOItqGH8ZRugBAjJSwXcy6CXY=;
+ b=lhEI4ho9GHkjK9o86/BRbTEN5KU/rjRxy6R4lpobU/rgpZqxp337Jc1Z3lpKesmuHA+t
+ aqByKWVuf05Yisu2kkL0BcDHFErfm87M3MwPXFhlZCi2sSUE6LEvL2Cj5p+WOAdQddsw
+ kckYDnu4wwWYqgd/fEbXbHq+cym99QuCRXoWJa8BnittC9x4aXGgZbUCi2MRbpAMJ7bL
+ XbyX654XlJXXihWQR6E8HAUP2dEvCK2FrMoTn7K1bpPXzxiqE9E0ppO2WRrdMGvIH15Z
+ Lzij+49ZFBCeRam8Ethr/B5L4gQvYFrfdkZbwJD2kwXwmdyRRKclguO3/5H6co+IvCQZ Sw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3304r4ph8a-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 330ww9bx5r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Aug 2020 12:43:54 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07JG3mo3032132;
- Wed, 19 Aug 2020 12:43:53 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3304r4ph7v-1
+ Wed, 19 Aug 2020 12:43:59 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07JGVsFT189472;
+ Wed, 19 Aug 2020 12:43:58 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 330ww9bx5b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Aug 2020 12:43:53 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07JGOdSp006817;
- Wed, 19 Aug 2020 16:43:52 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 3304ccgv5d-1
+ Wed, 19 Aug 2020 12:43:58 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07JGQGIB031367;
+ Wed, 19 Aug 2020 16:43:58 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02wdc.us.ibm.com with ESMTP id 3304scwcxd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Aug 2020 16:43:52 +0000
+ Wed, 19 Aug 2020 16:43:57 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 07JGhpFs66585016
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07JGhu7c40173898
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Aug 2020 16:43:51 GMT
+ Wed, 19 Aug 2020 16:43:57 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 115F4C6055;
+ by IMSVA (Postfix) with ESMTP id DE7CEC605A;
+ Wed, 19 Aug 2020 16:43:56 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 75064C6055;
  Wed, 19 Aug 2020 16:43:51 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B646EC6057;
- Wed, 19 Aug 2020 16:43:45 +0000 (GMT)
 Received: from morokweng.localdomain.com (unknown [9.211.41.171])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 19 Aug 2020 16:43:45 +0000 (GMT)
+ Wed, 19 Aug 2020 16:43:51 +0000 (GMT)
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v6 4/8] ppc/e500: Use start-powered-off CPUState property
-Date: Wed, 19 Aug 2020 13:43:02 -0300
-Message-Id: <20200819164306.625357-5-bauerman@linux.ibm.com>
+Subject: [PATCH v6 5/8] mips/cps: Use start-powered-off CPUState property
+Date: Wed, 19 Aug 2020 13:43:03 -0300
+Message-Id: <20200819164306.625357-6-bauerman@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200819164306.625357-1-bauerman@linux.ibm.com>
 References: <20200819164306.625357-1-bauerman@linux.ibm.com>
@@ -81,15 +82,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-08-19_09:2020-08-19,
  2020-08-19 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 bulkscore=0
- priorityscore=1501 suspectscore=1 mlxlogscore=999 mlxscore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008190135
+ spamscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 mlxscore=0 phishscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
+ mlxlogscore=999 suspectscore=1 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2008190135
 Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=bauerman@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+ envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 11:27:43
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -128,8 +129,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
-the start-powered-off property which makes cpu_common_reset() initialize it
+Instead of setting CPUState::halted to 1 in main_cpu_reset(), use the
+start-powered-off property which makes cpu_common_reset() initialize it
 to 1 in common code.
 
 Also change creation of CPU object from cpu_create() to object_new() and
@@ -139,47 +140,47 @@ possible to set a property after the object is realized.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 ---
- hw/ppc/e500.c | 14 ++++++++++----
+ hw/mips/cps.c | 14 ++++++++++----
  1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index ab9884e315..d7b803ef26 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 615e1a1ad2..4a98cf2287 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -52,9 +52,6 @@ static void main_cpu_reset(void *opaque)
+     CPUState *cs = CPU(cpu);
  
      cpu_reset(cs);
- 
--    /* Secondary CPU starts in halted state for now. Needs to change when
--       implementing non-kernel boot. */
+-
+-    /* All VPs are halted on reset. Leave powering up to CPC. */
 -    cs->halted = 1;
-     cs->exception_index = EXCP_HLT;
  }
  
-@@ -865,7 +862,7 @@ void ppce500_init(MachineState *machine)
-         CPUState *cs;
-         qemu_irq *input;
+ static bool cpu_mips_itu_supported(CPUMIPSState *env)
+@@ -76,7 +73,7 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     bool saar_present = false;
  
--        cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
-+        cpu = POWERPC_CPU(object_new(machine->cpu_type));
-         env = &cpu->env;
-         cs = CPU(cpu);
+     for (i = 0; i < s->num_vp; i++) {
+-        cpu = MIPS_CPU(cpu_create(s->cpu_type));
++        cpu = MIPS_CPU(object_new(s->cpu_type));
  
-@@ -897,7 +894,16 @@ void ppce500_init(MachineState *machine)
-         } else {
-             /* Secondary CPUs */
-             qemu_register_reset(ppce500_cpu_reset_sec, cpu);
-+
-+            /*
-+             * Secondary CPU starts in halted state for now. Needs to change
-+             * when implementing non-kernel boot.
-+             */
-+            object_property_set_bool(OBJECT(cs), "start-powered-off", true,
-+                                     &error_fatal);
+         /* Init internal devices */
+         cpu_mips_irq_init_cpu(cpu);
+@@ -89,7 +86,16 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+             env->itc_tag = mips_itu_get_tag_region(&s->itu);
+             env->itu = &s->itu;
          }
++        /* All VPs are halted on reset. Leave powering up to CPC. */
++        if (!object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
++                                      errp)) {
++            return;
++        }
+         qemu_register_reset(main_cpu_reset, cpu);
 +
-+        qdev_realize_and_unref(DEVICE(cs), NULL, &error_fatal);
++        if (!qdev_realize_and_unref(DEVICE(cpu), NULL, errp)) {
++            return;
++        }
      }
  
-     env = firstenv;
+     cpu = MIPS_CPU(first_cpu);
 
