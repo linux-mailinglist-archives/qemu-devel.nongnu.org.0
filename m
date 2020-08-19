@@ -2,108 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D50E249AB1
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:47:25 +0200 (CEST)
-Received: from localhost ([::1]:49630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89F6249AD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:48:41 +0200 (CEST)
+Received: from localhost ([::1]:53738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Lcq-0003Xo-9I
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:47:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38624)
+	id 1k8Le4-0005Gh-Vj
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8Lbh-0002j3-La; Wed, 19 Aug 2020 06:46:13 -0400
-Received: from mail-vi1eur05on2102.outbound.protection.outlook.com
- ([40.107.21.102]:38625 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1k8Lbr-0002u9-05; Wed, 19 Aug 2020 06:46:23 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8Lbd-0003R4-KE; Wed, 19 Aug 2020 06:46:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IfJYRDbIHxYYDZogoEs+TkamTK7F6yW5l3N6E7wBvuiltoIkPzinFMHoE9R9bCZQze6r2GReooloDWGxcDdgGwUe1o9Zv/kIk2mdTlBqh54sDpp1qHTnD2eeo0PeAp/A+15ftFcddfrhM/J5lm//xOCZGK+3/Bdqv1BGO4QXQZftiIsZs2crwB64YdVGFQV7/5eqjzOMs4OsHIxdjLPrK6X4iml7TDLajAjzmKUjITO+K1bOVythpYwvdSX+rzIIF51iDVbjr5/g1aWcsKWYxn957p/wLbyTjVBIiPOxYQZp2arpxav8r0uvZn8Vy1IvhJ3o2nMyjc40fhvG8NXEZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rrwvez523lQiWPhgB8z99iei9PKIy9Pood3/fX9zmuI=;
- b=fw+Ci0Bug4ROzNlcJBIJxKSg5Hk+L3oN3bYt9Kl8tjtylyxCQmMuJ2ZX0Mxpx60u8pWf1XsdSv1MgQiUf0BG+9VbAW2yTjf/EsEnqhIBp/rPipkTwch+JZ35lxjrZAu1A3EoHEXW9et+s1FPqwYTSg6tFY9c3Hh8IaojfTUYcgFbGoDeFNlUjLCwUw4JEj7SC0Qp6uh2NafOhSti/NUocmMrXJopg1CRZRX7R+TxFJ0c5YEfvJsZWzZ5+CNDAr6r2APf9fVZ+9HuIK3lCP4lDFUHsya/uOTvOhdXEskIRHfpNskYffQQXl1FBShZJARD/V684fb3uSoJBx/9CQsNqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rrwvez523lQiWPhgB8z99iei9PKIy9Pood3/fX9zmuI=;
- b=wEbaL0o5VPaWmtPrP7Hi6pGeM7BimAoPEHuh3K4bPtN1ITLANl+0SmEwxFJa3HBmzUU+vFOfQ9RlNh3WIX3UrSkZJrYd0liYQ180oj+k9/drK6Ew5ajI4+0Tsa+O/zdP9dyJP87/LWfNS3+87qiJ1zs7YZdapqpdHyrMger4h6w=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5493.eurprd08.prod.outlook.com (2603:10a6:20b:102::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.20; Wed, 19 Aug
- 2020 10:46:06 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3283.027; Wed, 19 Aug 2020
- 10:46:06 +0000
-Subject: Re: [PATCH v6 4/4] block: apply COR-filter to block-stream jobs
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1597785880-431103-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1597785880-431103-5-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <6bb4c66e-fb52-c947-1ef2-64a060a92db3@virtuozzo.com>
-Date: Wed, 19 Aug 2020 13:46:03 +0300
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1k8Lbo-0003S9-GS; Wed, 19 Aug 2020 06:46:22 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07JAX4Zf106513; Wed, 19 Aug 2020 06:46:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type; s=pp1; bh=rT5lH+j7IW+N2uwu9vK4rNPmnhRTXd0BgPFB8lkyl58=;
+ b=LVzdEodL8xFYYi5DvTG2PpNAX1uNOFSPAgnMjxrRTZ+Ckd2aUOz1UTsJzaQR7FEZVjH6
+ DWxo8Vjt8L7/9OxBtJdcPa+LN3zdbxHbbvgpFOyElZ0YHnqOtNj/PrNdenqUqQKv2N2T
+ 1BT9FhL8rGHxkdeKWLTTv/5Oyagw/xVoTvJeUcxGVh0src6IQK2mJCo3uZhqaigatxfu
+ 7j8vQIf9PcYsOUF61OSF6mgLQz25JkNXK7WY8rJvPfN+TDahxkEQR9orxSVOZ5WxC4DO
+ Ij9VBV8/4l7s6lKMDGzUmmEP54k/hBatKogConpXyyKqzkf/WnEC0oX90uYQr+lw/o0y AQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3311yd95au-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Aug 2020 06:46:18 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07JAiiJS141392;
+ Wed, 19 Aug 2020 06:46:18 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3311yd95a4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Aug 2020 06:46:17 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07JAgG87008664;
+ Wed, 19 Aug 2020 10:46:15 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 330tbvresj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Aug 2020 10:46:15 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 07JAkCD566584900
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Aug 2020 10:46:12 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BEBA552050;
+ Wed, 19 Aug 2020 10:46:12 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.70.234])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 687EE5204E;
+ Wed, 19 Aug 2020 10:46:12 +0000 (GMT)
+Subject: Re: [PATCH] pc-bios: s390x: Only set lowcore iplb address on
+ list-directed IPL
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200817141734.5109-1-jjherne@linux.ibm.com>
+ <20200817183048.30cb6f9e.cohuck@redhat.com>
+ <f232a187-c989-cf77-52e5-2e31678e5bed@linux.ibm.com>
+ <173257e9-a6cb-48a5-62ed-794c060e3900@linux.ibm.com>
+ <20200819114538.7485d580.cohuck@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <81d2ca24-538a-56ba-04de-079d28a16cb3@linux.ibm.com>
+Date: Wed, 19 Aug 2020 12:46:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <1597785880-431103-5-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0018.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.171) by
- FR2P281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.13 via Frontend Transport; Wed, 19 Aug 2020 10:46:05 +0000
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c8505e0c-fbf6-4f8c-b942-08d8442d132d
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5493:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54930B7B8294524DB96D9B95C15D0@AM7PR08MB5493.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:393;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LgUbY4gSOolYgH4Bhkwm4ijRF+HzOKl5wJaTRPPrEDTA1nknOVQt1HQFHfUugTPta6+wWr/j/dZFDfEVf/v3y5/4Cz1ar2v31G+EooVxNinpBIawr6QeW09gOHucfVcWgPhmbmJPMvQr4ByyRP3oWNYAqOU1uxls9N0YChtw7/lJcUMegGVWHUdaeiPa9xyO/aA72Q16Uo33lyl18V6yS7GlHAFalqbYXgNmKVXaK9uJ23hPJnSDGH/I2QJ8RwNFvI3tKBzPPTmYpd3oB953hMSO9oJ/mus8TiY32mhDtUIwxYRqC7P2SopDKW5c8172a6KZTqBuh9W2SRiP7NCJOlc2WG/aoUqadbdiHWrGBHtfdz8H72sMpRdqAfKFWCek
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(39840400004)(366004)(346002)(396003)(478600001)(83380400001)(2906002)(16576012)(30864003)(52116002)(31696002)(26005)(186003)(956004)(2616005)(36756003)(8936002)(31686004)(4326008)(316002)(6486002)(5660300002)(16526019)(86362001)(66556008)(107886003)(66946007)(8676002)(66476007)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: OW8Y9pQ4uw9YdZQ35X9nkM8MtXZf27tvH+icCQ0npq/jdFnNpwTYBGYJsaZaGmc3N6r+10VbrUrwF0jse+6vOXYXGukHXz4lWF8ySWY9mqXvQJt9tAJMqoduNaQHOi2nZAiBCbzsPG0Y1vWQzuiciQkF1YgBR/CltiXOcrtO3W4OdVVaAvPi6hHnmfPhFQNWAbjhn8ik4qNClohCb/zr3Nvf52QRwOd/zJRrZfbnjttQYRMKfgrnItYF2UfUo38pbQFCCiP1NUivY8uh3Fx2PXcnLl32UY+FccuvOYmfc2Rncin/gnat+OOwEPmOBO3SSuL2rsGO+BKSIKiSJ2XmS7EiQp6Vvp/juOBOyKh8sBHZ4lnOTr4iKHTGWdeLOFnaXv3qnfYVJoYIkJcaTVOR1wdiQhQck1SXqNm8eowe7/TNuDPqHUcbbDZjkeUTFNNMc63qcyktmbkgckDCXnmRQA1tJHv4xslSUEqRIY/6IX1OTVCSqgtyih0c/4xn6exGerVpywGSPL6IFgoxcclnAdHLZfaHXyAYQ4Qk6zBtDvqJZvzaWDEFXUtCI9BS+XNABzdbq43YcO0KkkIZHh+pZEyurfNrCznaWZhlMd35fADp4zwdVM9RuAC32697lRB+CLYyIVN2xBztcfTjUDmyCQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8505e0c-fbf6-4f8c-b942-08d8442d132d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2020 10:46:06.0190 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aIBZYtP9DpYZg3/PpyrlXZlYZlj07x69pul9jyOLiJv2TvV23y4ln2pRNBkC6B1WdgIht2OLXs/QdHhTXBGqTPl1EVgKTBU3B2sHUuB6vgk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5493
-Received-SPF: pass client-ip=40.107.21.102;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 06:46:06
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+In-Reply-To: <20200819114538.7485d580.cohuck@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="0jmvmUpVMijNpT54G5fnXnSDQrBMaE8nL"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-19_04:2020-08-19,
+ 2020-08-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008190092
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 05:32:56
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,303 +154,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org,
- mreitz@redhat.com, jsnow@redhat.com
+Cc: jjherne@linux.ibm.com, qemu-s390x@nongnu.org,
+ Viktor Mihajlovski <mihajlov@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-19.08.2020 00:24, Andrey Shinkevich wrote:
-> The patch completes the series with the COR-filter insertion to any
-> block-stream operation. It also makes changes to the iotests 030.
-> The test case 'test_stream_parallel' was deleted due to multiple
-> errors.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--0jmvmUpVMijNpT54G5fnXnSDQrBMaE8nL
+Content-Type: multipart/mixed; boundary="1p9IgJkV9O4eQc3saoPMbm4LrPpAf1iil"
 
-"case deleted due to errors" is a bad reasoning.
+--1p9IgJkV9O4eQc3saoPMbm4LrPpAf1iil
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-If you remove the case, you should give detailed explanation, why it is
-removed, what is the problem with it, what are the consequences, what is
-not supported anymore.
+On 8/19/20 11:45 AM, Cornelia Huck wrote:
+> On Wed, 19 Aug 2020 11:32:34 +0200
+> Janosch Frank <frankja@linux.ibm.com> wrote:
+>=20
+>> On 8/17/20 7:51 PM, Jason J. Herne wrote:
+>>> On 8/17/20 12:30 PM, Cornelia Huck wrote: =20
+>>>> On Mon, 17 Aug 2020 10:17:34 -0400
+>>>> "Jason J. Herne" <jjherne@linux.ibm.com> wrote:
+>>>> =20
+>>>>> The POP states that the IPLB location is only written to 0x14 for
+>>>>> list-directed IPL. Some operating systems expect 0x14 to not change=
+ on
+>>>>> boot and will fail IPL if it does change.
+>>>>>
+>>>>> Fixes: 9bfc04f9ef6802fff0 =20
+>>>>
+>>>> Should be
+>>>>
+>>>> Fixes: 9bfc04f9ef68 ("pc-bios: s390x: Save iplb location in lowcore"=
+)
+>>>> =20
+>>>>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+>>>>> Reviewed-by: Janosch Frank <frankja@de.ibm.com>
+>>>>> ---
+>>>>>   pc-bios/s390-ccw/jump2ipl.c | 5 ++++-
+>>>>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ip=
+l.c
+>>>>> index 767012bf0c..5e3e13f4b0 100644
+>>>>> --- a/pc-bios/s390-ccw/jump2ipl.c
+>>>>> +++ b/pc-bios/s390-ccw/jump2ipl.c
+>>>>> @@ -33,7 +33,10 @@ void jump_to_IPL_code(uint64_t address)
+>>>>>   {
+>>>>>       /* store the subsystem information _after_ the bootmap was lo=
+aded */
+>>>>>       write_subsystem_identification();
+>>>>> -    write_iplb_location();
+>>>>> +
+>>>>> +    if (iplb.pbt !=3D S390_IPL_TYPE_CCW) {
+>>>>> +            write_iplb_location();
+>>>>> +    } =20
+>>>>
+>>>> What happens for ipl types other than CCW and FCP? IOW, should that
+>>>> rather be a positive check for S390_IPL_TYPE_FCP?
+>>>> =20
+>>>>>  =20
+>>>>>       /* prevent unknown IPL types in the guest */
+>>>>>       if (iplb.pbt =3D=3D S390_IPL_TYPE_QEMU_SCSI) { =20
+>>>> =20
+>>>
+>>> Based on my (admittedly limited) understanding of the architecture an=
+d
+>>> code, I believe write_iplb_location() should be called at least for
+>>> S390_IPL_TYPE_FCP but I'm not 100% sure on S390_IPL_TYPE_QEMU_SCSI.
+>>> Perhaps Janosch has an idea?
+>>>
+>>> It was originally unconditional, and my new conditional excludes vfio=
 
-Also, good to note here, that adding a filter here makes possible to
-implement discarding already copied regions from backing files during
-the job, to reduce disk over-usage.
+>>> CCW which is definitely a step in the right direction, in any case :)=
+=2E =20
+>>
+>> If I remember correctly the problem was that ZIPL used the IPLB lowcor=
+e
+>> ptr without checking how it was booted (CCW or FCP). That was fixed in=
 
-> 
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->   block/stream.c             | 76 ++++++++++++++++++++++++++++++++--------------
->   tests/qemu-iotests/030     | 50 +++---------------------------
->   tests/qemu-iotests/030.out |  4 +--
->   3 files changed, 61 insertions(+), 69 deletions(-)
-> 
-> diff --git a/block/stream.c b/block/stream.c
-> index 8bf6b6d..0b11979 100644
-> --- a/block/stream.c
-> +++ b/block/stream.c
-> @@ -19,6 +19,7 @@
->   #include "qapi/qmp/qerror.h"
->   #include "qemu/ratelimit.h"
->   #include "sysemu/block-backend.h"
-> +#include "block/copy-on-read.h"
->   
->   enum {
->       /*
-> @@ -33,8 +34,11 @@ typedef struct StreamBlockJob {
->       BlockJob common;
->       BlockDriverState *base_overlay; /* COW overlay (stream from this) */
->       BlockDriverState *above_base;   /* Node directly above the base */
-> +    BlockDriverState *cor_filter_bs;
-> +    BlockDriverState *target_bs;
->       BlockdevOnError on_error;
->       char *backing_file_str;
-> +    char *base_fmt;
->       bool bs_read_only;
->       bool chain_frozen;
->   } StreamBlockJob;
-> @@ -53,34 +57,26 @@ static void stream_abort(Job *job)
->       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
->   
->       if (s->chain_frozen) {
-> -        BlockJob *bjob = &s->common;
-> -        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
-> +        bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
->       }
->   }
->   
->   static int stream_prepare(Job *job)
->   {
->       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-> -    BlockJob *bjob = &s->common;
-> -    BlockDriverState *bs = blk_bs(bjob->blk);
-> +    BlockDriverState *bs = s->target_bs;
->       BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
->       BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
->       Error *local_err = NULL;
->       int ret = 0;
->   
-> -    bdrv_unfreeze_backing_chain(bs, s->above_base);
-> +    bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
->       s->chain_frozen = false;
->   
->       if (bdrv_cow_child(unfiltered_bs)) {
-> -        const char *base_id = NULL, *base_fmt = NULL;
-> -        if (base) {
-> -            base_id = s->backing_file_str;
-> -            if (base->drv) {
-> -                base_fmt = base->drv->format_name;
-> -            }
-> -        }
->           bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
-> -        ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt);
-> +        ret = bdrv_change_backing_file(unfiltered_bs, s->backing_file_str,
-> +                                       s->base_fmt);
->           if (local_err) {
->               error_report_err(local_err);
->               return -EPERM;
-> @@ -94,7 +90,9 @@ static void stream_clean(Job *job)
->   {
->       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
->       BlockJob *bjob = &s->common;
-> -    BlockDriverState *bs = blk_bs(bjob->blk);
-> +    BlockDriverState *bs = s->target_bs;
-> +
-> +    bdrv_cor_filter_drop(s->cor_filter_bs);
->   
->       /* Reopen the image back in read-only mode if necessary */
->       if (s->bs_read_only) {
-> @@ -104,13 +102,14 @@ static void stream_clean(Job *job)
->       }
->   
->       g_free(s->backing_file_str);
-> +    g_free(s->base_fmt);
->   }
->   
->   static int coroutine_fn stream_run(Job *job, Error **errp)
->   {
->       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
->       BlockBackend *blk = s->common.blk;
-> -    BlockDriverState *bs = blk_bs(blk);
-> +    BlockDriverState *bs = s->target_bs;
->       BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
->       bool enable_cor = !bdrv_cow_child(s->base_overlay);
->       int64_t len;
-> @@ -231,6 +230,12 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->       int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
->       BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
->       BlockDriverState *above_base;
-> +    BlockDriverState *cor_filter_bs = NULL;
-> +    char *base_fmt = NULL;
-> +
-> +    if (base && base->drv) {
-> +        base_fmt = g_strdup(base->drv->format_name);
-> +    }
->   
->       if (!base_overlay) {
->           error_setg(errp, "'%s' is not in the backing chain of '%s'",
-> @@ -264,17 +269,36 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->           }
->       }
->   
-> -    /* Prevent concurrent jobs trying to modify the graph structure here, we
-> -     * already have our own plans. Also don't allow resize as the image size is
-> -     * queried only at the job start and then cached. */
-> -    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
-> -                         basic_flags | BLK_PERM_GRAPH_MOD,
-> -                         basic_flags | BLK_PERM_WRITE,
-> +    cor_filter_bs = bdrv_cor_filter_append(bs, filter_node_name, errp);
-> +    if (cor_filter_bs == NULL) {
-> +        goto fail;
-> +    }
-> +
-> +    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
-> +        bdrv_cor_filter_drop(cor_filter_bs);
-> +        cor_filter_bs = NULL;
-> +        goto fail;
-> +    }
-> +
-> +    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
-> +                         BLK_PERM_CONSISTENT_READ,
-> +                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
->                            speed, creation_flags, NULL, NULL, errp);
->       if (!s) {
->           goto fail;
->       }
->   
-> +    /*
-> +     * Prevent concurrent jobs trying to modify the graph structure here, we
-> +     * already have our own plans. Also don't allow resize as the image size is
-> +     * queried only at the job start and then cached.
-> +     */
-> +    if (block_job_add_bdrv(&s->common, "active node", bs,
-> +                           basic_flags | BLK_PERM_GRAPH_MOD,
-> +                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
-> +        goto fail;
-> +    }
-> +
->       /* Block all intermediate nodes between bs and base, because they will
->        * disappear from the chain after this operation. The streaming job reads
->        * every block only once, assuming that it doesn't change, so forbid writes
-> @@ -294,6 +318,9 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->   
->       s->base_overlay = base_overlay;
->       s->above_base = above_base;
-> +    s->cor_filter_bs = cor_filter_bs;
-> +    s->target_bs = bs;
-> +    s->base_fmt = base_fmt;
+>> mid of July by testing if diag308 gives back a config or not.
+>=20
+> So we have the problem that old zipl relies on the presence of a value
+> that must not be there if you follow the architecture? Nasty.
+>=20
+> (Is it really "must not change" vs "don't expect anything here"? Not
+> sure if I'm looking at the right part of the documentation.)
 
-it's wrong to keep base_fmt during the job, as base may change
+Well if the loaded program overwrites absolute 0x0, we shouldn't modify
+it if we are not explicitly allowed to, no?
 
->       s->backing_file_str = g_strdup(backing_file_str);
->       s->bs_read_only = bs_read_only;
->       s->chain_frozen = true;
-> @@ -307,5 +334,10 @@ fail:
->       if (bs_read_only) {
->           bdrv_reopen_set_read_only(bs, true, NULL);
->       }
-> -    bdrv_unfreeze_backing_chain(bs, above_base);
-> +    if (cor_filter_bs) {
-> +        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
-> +        bdrv_cor_filter_drop(cor_filter_bs);
-> +    } else {
-> +        bdrv_unfreeze_backing_chain(bs, above_base);
-> +    }
->   }
-> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-> index 1cdd7e2..fec9d89 100755
-> --- a/tests/qemu-iotests/030
-> +++ b/tests/qemu-iotests/030
-> @@ -221,60 +221,20 @@ class TestParallelOps(iotests.QMPTestCase):
->           for img in self.imgs:
->               os.remove(img)
->   
-> -    # Test that it's possible to run several block-stream operations
-> -    # in parallel in the same snapshot chain
-> -    def test_stream_parallel(self):
-> -        self.assert_no_active_block_jobs()
-> -
-> -        # Check that the maps don't match before the streaming operations
-> -        for i in range(2, self.num_imgs, 2):
-> -            self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i]),
-> -                                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i-1]),
-> -                                'image file map matches backing file before streaming')
-> -
-> -        # Create all streaming jobs
-> -        pending_jobs = []
-> -        for i in range(2, self.num_imgs, 2):
-> -            node_name = 'node%d' % i
-> -            job_id = 'stream-%s' % node_name
-> -            pending_jobs.append(job_id)
-> -            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=512*1024)
-> -            self.assert_qmp(result, 'return', {})
-> -
-> -        for job in pending_jobs:
-> -            result = self.vm.qmp('block-job-set-speed', device=job, speed=0)
-> -            self.assert_qmp(result, 'return', {})
-> -
-> -        # Wait for all jobs to be finished.
-> -        while len(pending_jobs) > 0:
-> -            for event in self.vm.get_qmp_events(wait=True):
-> -                if event['event'] == 'BLOCK_JOB_COMPLETED':
-> -                    job_id = self.dictpath(event, 'data/device')
-> -                    self.assertTrue(job_id in pending_jobs)
-> -                    self.assert_qmp_absent(event, 'data/error')
-> -                    pending_jobs.remove(job_id)
-> -
-> -        self.assert_no_active_block_jobs()
-> -        self.vm.shutdown()
-> -
-> -        # Check that all maps match now
-> -        for i in range(2, self.num_imgs, 2):
-> -            self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i]),
-> -                             qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i-1]),
-> -                             'image file map does not match backing file after streaming')
-> -
->       # Test that it's not possible to perform two block-stream
->       # operations if there are nodes involved in both.
->       def test_overlapping_1(self):
->           self.assert_no_active_block_jobs()
->   
->           # Set a speed limit to make sure that this job blocks the rest
-> -        result = self.vm.qmp('block-stream', device='node4', job_id='stream-node4', base=self.imgs[1], speed=1024*1024)
-> +        result = self.vm.qmp('block-stream', device='node4',
-> +                             job_id='stream-node4', base=self.imgs[1],
-> +                             filter_node_name='stream-filter', speed=1024*1024)
->           self.assert_qmp(result, 'return', {})
->   
->           result = self.vm.qmp('block-stream', device='node5', job_id='stream-node5', base=self.imgs[2])
->           self.assert_qmp(result, 'error/desc',
-> -            "Node 'node4' is busy: block device is in use by block job: stream")
-> +            "Node 'stream-filter' is busy: block device is in use by block job: stream")
->   
->           result = self.vm.qmp('block-stream', device='node3', job_id='stream-node3', base=self.imgs[2])
->           self.assert_qmp(result, 'error/desc',
-> @@ -287,7 +247,7 @@ class TestParallelOps(iotests.QMPTestCase):
->           # block-commit should also fail if it touches nodes used by the stream job
->           result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[4], job_id='commit-node4')
->           self.assert_qmp(result, 'error/desc',
-> -            "Node 'node4' is busy: block device is in use by block job: stream")
-> +            "Node 'stream-filter' is busy: block device is in use by block job: stream")
->   
->           result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[1], top=self.imgs[3], job_id='commit-node1')
->           self.assert_qmp(result, 'error/desc',
-> diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-> index 6d9bee1..5eb508d 100644
-> --- a/tests/qemu-iotests/030.out
-> +++ b/tests/qemu-iotests/030.out
-> @@ -1,5 +1,5 @@
-> -...........................
-> +..........................
->   ----------------------------------------------------------------------
-> -Ran 27 tests
-> +Ran 26 tests
->   
->   OK
-> 
+We already talked about saving the exception new addresses and restoring
+them before jumping to the new kernel. I think we might need to go a
+step further and use a non zero prefix for the bios to avoid any changes
+to absolute 0x0.
 
-If we are going to drop this case.. Maybe, we should revert c624b015bf14f "block/stream: introduce a bottom node"? I see now, that it was bad idea..
+However that wouldn't fix this dilemma.
+
+>=20
+>> So we might have a deadlock situation here which I need to think about=
+
+>> for a bit. I'm setting Viktor CC to get a bit more information about t=
+he
+>> state of the zipl backports into the distros.
+>=20
+> Changing this is problematic unless everything we support as a guest is=
+
+> fixed. Does the guest go boom in a way that it is at least easy to
+> figure out what went wrong? What breaks when the value continues to be
+> set?
+>=20
+I think it goes into disabled wait because of the failed secure boot
+verification or gets a PGM Addressing and then goes into disabled wait,
+so no, not very user friendly.
 
 
--- 
-Best regards,
-Vladimir
+--1p9IgJkV9O4eQc3saoPMbm4LrPpAf1iil--
+
+--0jmvmUpVMijNpT54G5fnXnSDQrBMaE8nL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl89AvMACgkQ41TmuOI4
+ufjbzw//RaE13uUDn74eRd3wUXeoah9W+v1yPOhPyVqyvxwCecJHUILGYYNgCNrA
+Jn2KEGAhr6B39eqP+5mDeBCNey6i7h3SWUmkxfUs7b1nminZ5Ri69KtiGm9Cizrz
+ERn2C+oY7BKOtsaW9tuYHD0O3HiuxbfPWkuvz5l9MV8lJ+au2jHcHq1pPjqxxFP1
+hkzInHWf/5yF04DVuAh92UqlsIfo7LEr46aonlqgFQmYNyxBXokznZEkvIMZF9RB
+CNPPoj5pQnIluD+IKVW9x/z3UnaM0PA03zC/Z+77YvAFT0KGcTlchPTpNSxrZfjl
+eqbtuq4roSutOqMbq25lapYH96LXtlgn2KWZVrIqpT/+enuK8xHTniJ/SMAXjkfR
+EqHkzhzfkViGUKpTq0JzfdNebrJ0LNWyT46lR14x+DeEqenaZ6JokFKKt2Lzx2nN
+U6unghDLohwLaZ5r8yJI+TIgicPp8SoqPn9tAJxcWTwzHviH9DWzJVwFo3lhUPRO
+VcQeG+C5WCMWQKE4SSmAX9vyW7PYIDeP0BRMWhL/Za1raAR+CQyoiYZaXFM7QbDD
+ILiDfG3u3e9tSWMZtHbmuA0WHd32RBzZ/3fiuVv90G09z5/iO7eSuvICUdXm5f2q
+QkvRVx9MRRCzx8dEEFk041wP6aAndFfYwa/IGP/QQfurYuY8mi0=
+=bPfG
+-----END PGP SIGNATURE-----
+
+--0jmvmUpVMijNpT54G5fnXnSDQrBMaE8nL--
+
 
