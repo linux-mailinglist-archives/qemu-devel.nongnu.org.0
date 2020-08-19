@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF79249A79
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:37:29 +0200 (CEST)
-Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66056249B2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:52:18 +0200 (CEST)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8LTE-00086U-N4
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34678)
+	id 1k8LhZ-0000MX-Gn
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1k8LSV-0007gH-KJ
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:36:43 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44935)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8LgN-0007iW-3Z
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:51:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1k8LST-0001z9-TP
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:36:43 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c15so20961316wrs.11
- for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 03:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bV9sPa84JqhmgvpsqcKOlunm8UuOHXfs9gLZH4iKV1w=;
- b=vJ71wOrPdsfLGHqkg7qikExND5SwGSc0VTz1MtUG1m0sSMQlixatRq+YTcYbMOW9BW
- LPEgjVtu8y/51NAvBOSGC2pSA3heSAtFodybsMRIT2QoaHBliqvodb3jIVsn4h+GyyxD
- 4wEJy2d5y1F204ZKhbSiO9m5B65oTuwDv+jbIvbvb8hgtlAmjGCYvT2iksNusjYxusQx
- /iYSTK3uESkfqqLWlRdNWNZ06unwdo1F7Rj56mCsYzAcAc1sk+PDdr32bqM+F3Z2zDXh
- 1qXwhxBZFEwMjwN8fPzPp6DQIroMWEFJaR9dHKeJ7Kii8RyvdWcIYWSShIAgHAXNxxZ8
- l6yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bV9sPa84JqhmgvpsqcKOlunm8UuOHXfs9gLZH4iKV1w=;
- b=CLaB8IfXxmab5chURxozZLgBBgiQz+4YH707sDaW0NdS/QCdul+unBwe27vNZtnKQ9
- 6n535X0T/AU/rUfRSxKFy2seT4kAmrq2DlXukHLIgZlwOLtPz5xM+z/u1ztvA2o9Oh2j
- qJxtt2rNwoHI8AyF9kGHyhtJFPzDUnswB4HLGtyGj30RovwzGWbz73oaL9xt0qFjB1XS
- nqZ1iRLicPgTWl4weaNh2iJ117lYUs5I8OTmMvPO4PpwKgj2e/LXyIGq5mEjOGDCkKRn
- CgQA+oABM9oCc+NTJVjIwe17fPuzEJP/Ga2N0d3XfsAt78KEKeiXnoHI2SV6iFZ4NsQn
- H1OA==
-X-Gm-Message-State: AOAM5328vg8sUCLtmMj24qN4OVkSxHvUTBvrxNOH9DJ/sOVU4JB5GO8p
- 8/1WL0N8j8MkNwnDkPz5CmER6obrMTZ0yqsf8dSH/g==
-X-Google-Smtp-Source: ABdhPJwL4oKAKhbidY/R3MkLoutXWWfEw2c4bamsIDeHaqpBNF+JXgJR+HpJ3H6lyBzid2u6Z8p/ndeWWxmwvDKkBqY=
-X-Received: by 2002:a05:6000:118c:: with SMTP id
- g12mr24102648wrx.212.1597833400286; 
- Wed, 19 Aug 2020 03:36:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8LgK-0004Dw-Uh
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:51:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k8LgI-0004h7-Ni
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 10:50:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AD6152E8023
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 10:50:58 +0000 (UTC)
 MIME-Version: 1.0
-References: <1597151528-75766-1-git-send-email-ani@anisinha.ca>
- <20200819120002.51812273@redhat.com>
-In-Reply-To: <20200819120002.51812273@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 19 Aug 2020 16:06:29 +0530
-Message-ID: <CAARzgwx5mqiCh2OWn9+5aR7t5zH0wcxQKurYLb3=MKuq2zUjew@mail.gmail.com>
-Subject: Re: [PATCH V2] Introduce a new flag for piix to disable root bus PCI
- hotplug
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::442;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Aug 2020 10:36:53 -0000
+From: Jonathan Wakely <1886155@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jwakely mliska
+X-Launchpad-Bug-Reporter: Martin Liska (mliska)
+X-Launchpad-Bug-Modifier: Jonathan Wakely (jwakely)
+References: <159376359338.16005.10195773015354828175.malonedeb@soybean.canonical.com>
+Message-Id: <159783341366.32636.16429140323070349472.malone@wampee.canonical.com>
+Subject: =?utf-8?q?=5BBug_1886155=5D_Re=3A_error=3A_argument_2_of_=E2=80=98?=
+ =?utf-8?b?X19hdG9taWNfbG9hZOKAmSBkaXNjYXJkcyDigJhjb25zdOKAmSBxdWFsaWZpZXI=?=
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: b9a61b3f4528808d5056b512348df1f8e2c8341c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 06:50:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,147 +71,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1886155 <1886155@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 19, 2020 at 3:30 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Tue, 11 Aug 2020 18:42:08 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
->
-> > We introduce a new global flag for PIIX with which we can turn on or off PCI
-> > device hotplug on the root bus. This flag can be used to prevent all PCI
-> > devices from getting hotplugged or unplugged from the root PCI bus.
->
-> Tested-by: Igor Mammedov <imammedo@redhat.com>
->
-> somewhere in intial versions there were mentionig why we are doing it
-> (i.e for Windows sake because ...)
-> I suggest to add it to commit message so reason for this won't be lost.
-> Also giving example how to use option in commit message would be good.
->
-> with this changes:
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+It looks like `typeof_strip_qual` doesn't work for pointer types.
 
-Thanks Igor, I have sent a V4 with your suggestions to the commit
-message and some more
-rework on the patch. The V4 has again been tested by me in the same
-setup. Looks good so far.
+-- =
 
->
->
->
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  hw/acpi/piix4.c      |  3 +++
-> >  hw/i386/acpi-build.c | 20 ++++++++++++++++----
-> >  2 files changed, 19 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > index 26bac4f..94ec35a 100644
-> > --- a/hw/acpi/piix4.c
-> > +++ b/hw/acpi/piix4.c
-> > @@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
-> >
-> >      AcpiPciHpState acpi_pci_hotplug;
-> >      bool use_acpi_hotplug_bridge;
-> > +    bool use_acpi_root_pci_hotplug;
-> >
-> >      uint8_t disable_s3;
-> >      uint8_t disable_s4;
-> > @@ -635,6 +636,8 @@ static Property piix4_pm_properties[] = {
-> >      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
-> >      DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
-> >                       use_acpi_hotplug_bridge, true),
-> > +    DEFINE_PROP_BOOL("acpi-root-pci-hotplug", PIIX4PMState,
-> > +                     use_acpi_root_pci_hotplug, true),
-> >      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-> >                       acpi_memory_hotplug.is_enabled, true),
-> >      DEFINE_PROP_END_OF_LIST(),
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index b7bcbbb..a82e5c1 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
-> >      bool s3_disabled;
-> >      bool s4_disabled;
-> >      bool pcihp_bridge_en;
-> > +    bool pcihp_root_en;
-> >      uint8_t s4_val;
-> >      AcpiFadtData fadt;
-> >      uint16_t cpu_hp_io_base;
-> > @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-> >      pm->pcihp_bridge_en =
-> >          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
-> >                                   NULL);
-> > +    pm->pcihp_root_en =
-> > +        object_property_get_bool(obj, "acpi-root-pci-hotplug", NULL);
-> > +
-> >  }
-> >
-> >  static void acpi_get_misc_info(AcpiMiscInfo *info)
-> > @@ -337,12 +341,15 @@ static void build_append_pcihp_notify_entry(Aml *method, int slot)
-> >  }
-> >
-> >  static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> > -                                         bool pcihp_bridge_en)
-> > +                                         bool pcihp_bridge_en,
-> > +                                         bool pcihp_root_en)
-> >  {
-> >      Aml *dev, *notify_method = NULL, *method;
-> >      QObject *bsel;
-> >      PCIBus *sec;
-> >      int i;
-> > +    bool root_bus = pci_bus_is_root(bus);
-> > +    bool root_pcihp_disabled = (root_bus && !pcihp_root_en);
-> >
-> >      bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
-> >      if (bsel) {
-> > @@ -361,6 +368,9 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >          bool bridge_in_acpi;
-> >
-> >          if (!pdev) {
-> > +            /* skip if pci hotplug for the root bus is disabled */
-> > +            if (root_pcihp_disabled)
-> > +                continue;
-> >              if (bsel) { /* add hotplug slots for non present devices */
-> >                  dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
-> >                  aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-> > @@ -419,7 +429,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >              method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
-> >              aml_append(method, aml_return(aml_int(s3d)));
-> >              aml_append(dev, method);
-> > -        } else if (hotplug_enabled_dev) {
-> > +        } else if (hotplug_enabled_dev && !root_pcihp_disabled) {
-> >              /* add _SUN/_EJ0 to make slot hotpluggable  */
-> >              aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-> >
-> > @@ -439,7 +449,8 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >               */
-> >              PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
-> >
-> > -            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
-> > +            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en,
-> > +                                         pcihp_root_en);
-> >          }
-> >          /* slot descriptor has been composed, add it into parent context */
-> >          aml_append(parent_scope, dev);
-> > @@ -1818,7 +1829,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          if (bus) {
-> >              Aml *scope = aml_scope("PCI0");
-> >              /* Scan all PCI buses. Generate tables to support hotplug. */
-> > -            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en);
-> > +            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en,
-> > +                                         pm->pcihp_root_en);
-> >
-> >              if (TPM_IS_TIS_ISA(tpm)) {
-> >                  if (misc->tpm_version == TPM_VERSION_2_0) {
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886155
+
+Title:
+  error: argument 2 of =E2=80=98__atomic_load=E2=80=99 discards =E2=80=98co=
+nst=E2=80=99 qualifier
+
+Status in QEMU:
+  New
+
+Bug description:
+  GCC 11 reports the following errors:
+
+  [  125s] In file included from /home/abuild/rpmbuild/BUILD/qemu-5.0.0/inc=
+lude/qemu/seqlock.h:17,
+  [  125s]                  from /home/abuild/rpmbuild/BUILD/qemu-5.0.0/inc=
+lude/qemu/qht.h:10,
+  [  125s]                  from /home/abuild/rpmbuild/BUILD/qemu-5.0.0/uti=
+l/qht.c:69:
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c: In function '=
+qht_do_lookup':
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:153=
+:5: error: argument 2 of '__atomic_load' discards 'const' qualifier [-Werro=
+r=3Dincompatible-pointer-types]
+  [  125s]   153 |     __atomic_load(ptr, valptr, __ATOMIC_RELAXED);       \
+  [  125s]       |     ^~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:161=
+:5: note: in expansion of macro 'atomic_rcu_read__nocheck'
+  [  125s]   161 |     atomic_rcu_read__nocheck(ptr, &_val);             \
+  [  125s]       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c:499:27: note: =
+in expansion of macro 'atomic_rcu_read'
+  [  125s]   499 |                 void *p =3D atomic_rcu_read(&b->pointers=
+[i]);
+  [  125s]       |                           ^~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:153=
+:5: error: argument 2 of '__atomic_load' discards 'const' qualifier [-Werro=
+r=3Dincompatible-pointer-types]
+  [  125s]   153 |     __atomic_load(ptr, valptr, __ATOMIC_RELAXED);       \
+  [  125s]       |     ^~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:161=
+:5: note: in expansion of macro 'atomic_rcu_read__nocheck'
+  [  125s]   161 |     atomic_rcu_read__nocheck(ptr, &_val);             \
+  [  125s]       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c:506:13: note: =
+in expansion of macro 'atomic_rcu_read'
+  [  125s]   506 |         b =3D atomic_rcu_read(&b->next);
+  [  125s]       |             ^~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c: In function '=
+qht_lookup_custom':
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:153=
+:5: error: argument 2 of '__atomic_load' discards 'const' qualifier [-Werro=
+r=3Dincompatible-pointer-types]
+  [  125s]   153 |     __atomic_load(ptr, valptr, __ATOMIC_RELAXED);       \
+  [  125s]       |     ^~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:161=
+:5: note: in expansion of macro 'atomic_rcu_read__nocheck'
+  [  125s]   161 |     atomic_rcu_read__nocheck(ptr, &_val);             \
+  [  125s]       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c:534:11: note: =
+in expansion of macro 'atomic_rcu_read'
+  [  125s]   534 |     map =3D atomic_rcu_read(&ht->map);
+  [  125s]       |           ^~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c: In function '=
+qht_statistics_init':
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:153=
+:5: error: argument 2 of '__atomic_load' discards 'const' qualifier [-Werro=
+r=3Dincompatible-pointer-types]
+  [  125s]   153 |     __atomic_load(ptr, valptr, __ATOMIC_RELAXED);       \
+  [  125s]       |     ^~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:161=
+:5: note: in expansion of macro 'atomic_rcu_read__nocheck'
+  [  125s]   161 |     atomic_rcu_read__nocheck(ptr, &_val);             \
+  [  125s]       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c:907:11: note: =
+in expansion of macro 'atomic_rcu_read'
+  [  125s]   907 |     map =3D atomic_rcu_read(&ht->map);
+  [  125s]       |           ^~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:153=
+:5: error: argument 2 of '__atomic_load' discards 'const' qualifier [-Werro=
+r=3Dincompatible-pointer-types]
+  [  125s]   153 |     __atomic_load(ptr, valptr, __ATOMIC_RELAXED);       \
+  [  125s]       |     ^~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/include/qemu/atomic.h:161=
+:5: note: in expansion of macro 'atomic_rcu_read__nocheck'
+  [  125s]   161 |     atomic_rcu_read__nocheck(ptr, &_val);             \
+  [  125s]       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+  [  125s] /home/abuild/rpmbuild/BUILD/qemu-5.0.0/util/qht.c:941:21: note: =
+in expansion of macro 'atomic_rcu_read'
+  [  125s]   941 |                 b =3D atomic_rcu_read(&b->next);
+  [  125s]       |                     ^~~~~~~~~~~~~~~
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886155/+subscriptions
 
