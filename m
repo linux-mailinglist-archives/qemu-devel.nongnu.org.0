@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040F124A3C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 18:07:23 +0200 (CEST)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D01624A3C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 18:07:08 +0200 (CEST)
+Received: from localhost ([::1]:45742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8QcU-0007Ny-2R
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 12:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
+	id 1k8QcF-0006yH-I2
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 12:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k8QYq-0003HO-53
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:03:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59011)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k8QYw-0003UW-4J
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:03:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47083
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k8QYn-0005qn-CA
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:03:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k8QYu-0005rr-IJ
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597853009;
+ s=mimecast20190719; t=1597853019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ho8cPWJii6sWnwNRTVS2YPSPCOdB9KXiAmhGWCYo8UY=;
- b=POPlAowZ4iwxK7QpJOrVtZAT8R1j0ei8Wz3VijlH0wJp/4CbOYxq7t+2EOqPPGveFcOz+d
- wIQmiPDegEfXhsqA6LjXagFMDGSQvUl+1CTu6zlzlncQk2VnYyl9G6VCDghLjLfT1S8NAw
- IDZrT+iDFI6EWuwN9EZ7T81oQwcw+VM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-Huj2gJToMA6q-3vCc9jQ4w-1; Wed, 19 Aug 2020 12:03:28 -0400
-X-MC-Unique: Huj2gJToMA6q-3vCc9jQ4w-1
-Received: by mail-wr1-f72.google.com with SMTP id m7so9498882wrb.20
- for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 09:03:27 -0700 (PDT)
+ bh=9O15VX2DFK35iLFC0RSB8xSgR+TCb7ZNW9WsEjB+21k=;
+ b=du1G9TUTddJUE2a75CUzCaTMRMb1qIdrnfbsXanCjQyyz/EFLa5+CH0t2zb2yNnsvmkjXd
+ x8aKLBzdZ+oOH16J61pBT+Mqvcc7wlHycyoFEq4AhtfUOFSt+SqHxuKmvsE1y3AblUqCot
+ f/TQVq4VX8hwwBXqBXUrYJcJyKhIGgw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-146-2yvh-WbuObmpIZjrJjpEiw-1; Wed, 19 Aug 2020 12:03:33 -0400
+X-MC-Unique: 2yvh-WbuObmpIZjrJjpEiw-1
+Received: by mail-wr1-f69.google.com with SMTP id r14so9543839wrq.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 09:03:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ho8cPWJii6sWnwNRTVS2YPSPCOdB9KXiAmhGWCYo8UY=;
- b=HuzgznC3Idu14HPEf9JaYQiw6rYYMTGRil8vNd/phwDerFzu5W8pCm0xzS82/ykhIO
- EBj/ZlLO0nsx93MBO+ykyjhyV2WfBbfKAwGirbQwQbuhVCL0JXxuKcK6Nzrq+TOs0aOT
- FH328o63eF8YbT3oCslwryJkX+z02V2UOhsxMof2UKFMOQsBEseWW6Ayk+mvO6uwjEmI
- VzVHLet/IBewGCcXWl8TMeJP73GVuCnJMUQnAyAJEdaBVJizc+7oD6gSK99V6ArXNcFW
- DeiZoHmlVqgQ2COlvHRb9GkZQoLcTcIKXk7MAJAa9IetVIvTL1CxB2JIVbBh4/0uFx8i
- pgCA==
-X-Gm-Message-State: AOAM5303DdrYQEkoJzdmgA7xEE47d8cmwU33/pfdcw5WcEWLQkbLPZRW
- FdypYKybFF3RHwgzy0DVC1J0XdXaZiM7T1QP5rXDTDdmcTGNYpgViUr+faMxUUdZoTovsNb5s3g
- Jd9nCW7Z4AKtHEgE=
-X-Received: by 2002:adf:94c5:: with SMTP id 63mr25511521wrr.34.1597853006637; 
- Wed, 19 Aug 2020 09:03:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNqUEm+bDUZC9e3w6+dqc8xClQ7dDYRbGlbLG5o8Ddy0JJNEh+ci7VK/3RrSw8rnzuaM2HkQ==
-X-Received: by 2002:adf:94c5:: with SMTP id 63mr25511492wrr.34.1597853006420; 
- Wed, 19 Aug 2020 09:03:26 -0700 (PDT)
+ bh=9O15VX2DFK35iLFC0RSB8xSgR+TCb7ZNW9WsEjB+21k=;
+ b=T7z2hfRCwE8yoX94zYBXxTRufiTiD14WefSc009miejIxmpVvQ50AgB63KvqFMdSjP
+ ZdvULrNwhyjeabAUAtQpZHXQgt8CxR+P1uNDBseVD5FTCWr3mJVZF1DmWZQj9zyDrsJr
+ NH355QCEqmoj/OcBZOwrPMh9fVaagtPOMCd8x3V5exoxng79nauX85EOzZdmXuHoGMmT
+ nCEbkcro14Zl1Ngv9ia234bnBj7G4m99G3YIp9CSJ6i7fZPrVDg42Gqqd13HC2mIyBnB
+ tZROjqYeGzdNq/37GqbN/K8dbjg8ePdwJwtU2mp06eCthM0yw0K38f6la4JxkJcz+xFR
+ kHog==
+X-Gm-Message-State: AOAM533OLU/sNW9JWwdCvxexfQDM6vbls+8OMQ4Ei6JGQ+iSJMKUznf+
+ 2Uj8AyW3EFPnyfztYBYqGTDR1hiHFT4Dr7Y1Gx9si6Zo7M8HBzxAQ6fx/2l/hd+C65+siJn/94K
+ RwtCgzWHuPoG1UwY=
+X-Received: by 2002:a7b:cf2f:: with SMTP id m15mr5462660wmg.69.1597853011783; 
+ Wed, 19 Aug 2020 09:03:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysHluD3qJEOPzuP/ieMVbQZdvyPdTRQa9d/tedAA0fTG5mpQAGZ/n77/9Nz+kT0qOMlH62DQ==
+X-Received: by 2002:a7b:cf2f:: with SMTP id m15mr5462648wmg.69.1597853011616; 
+ Wed, 19 Aug 2020 09:03:31 -0700 (PDT)
 Received: from x1w.redhat.com (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id b139sm6467980wmd.19.2020.08.19.09.03.25
+ by smtp.gmail.com with ESMTPSA id 128sm6149049wmz.43.2020.08.19.09.03.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 09:03:25 -0700 (PDT)
+ Wed, 19 Aug 2020 09:03:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 1/5] block/nvme: Use an array of EventNotifier
-Date: Wed, 19 Aug 2020 18:03:14 +0200
-Message-Id: <20200819160318.835292-2-philmd@redhat.com>
+Subject: [RFC PATCH v4 2/5] util/vfio-helpers: Improve reporting unsupported
+ IOMMU type
+Date: Wed, 19 Aug 2020 18:03:15 +0200
+Message-Id: <20200819160318.835292-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200819160318.835292-1-philmd@redhat.com>
 References: <20200819160318.835292-1-philmd@redhat.com>
@@ -73,16 +75,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 10:07:28
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,118 +106,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation of using multiple IRQ (thus multiple eventfds)
-make BDRVNVMeState::irq_notifier an array (for now of a single
-element, the admin queue notifier).
+Change the confuse "VFIO IOMMU check failed" error message by
+the explicit "VFIO IOMMU Type1 is not supported" once.
 
+Example on POWER:
+
+ $ qemu-system-ppc64 -drive if=none,id=nvme0,file=nvme://0001:01:00.0/1,format=raw
+ qemu-system-ppc64: -drive if=none,id=nvme0,file=nvme://0001:01:00.0/1,format=raw: VFIO IOMMU Type1 is not supported
+
+Suggested-by: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 31 +++++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+ util/vfio-helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index a61e86a83eb..fe8a40b7ede 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -106,6 +106,12 @@ QEMU_BUILD_BUG_ON(offsetof(NVMeRegs, doorbells) != 0x1000);
- #define INDEX_ADMIN     0
- #define INDEX_IO(n)     (1 + n)
- 
-+/* This driver shares a single MSIX IRQ for the admin and I/O queues */
-+enum {
-+    MSIX_SHARED_IRQ_IDX = 0,
-+    MSIX_IRQ_COUNT = 1
-+};
-+
- struct BDRVNVMeState {
-     AioContext *aio_context;
-     QEMUVFIOState *vfio;
-@@ -120,7 +126,7 @@ struct BDRVNVMeState {
-     /* How many uint32_t elements does each doorbell entry take. */
-     size_t doorbell_scale;
-     bool write_cache_supported;
--    EventNotifier irq_notifier;
-+    EventNotifier irq_notifier[MSIX_IRQ_COUNT];
- 
-     uint64_t nsze; /* Namespace size reported by identify command */
-     int nsid;      /* The namespace id to read/write data. */
-@@ -631,7 +637,8 @@ static bool nvme_poll_queues(BDRVNVMeState *s)
- 
- static void nvme_handle_event(EventNotifier *n)
- {
--    BDRVNVMeState *s = container_of(n, BDRVNVMeState, irq_notifier);
-+    BDRVNVMeState *s = container_of(n, BDRVNVMeState,
-+                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
- 
-     trace_nvme_handle_event(s);
-     event_notifier_test_and_clear(n);
-@@ -683,7 +690,8 @@ out_error:
- static bool nvme_poll_cb(void *opaque)
- {
-     EventNotifier *e = opaque;
--    BDRVNVMeState *s = container_of(e, BDRVNVMeState, irq_notifier);
-+    BDRVNVMeState *s = container_of(e, BDRVNVMeState,
-+                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
- 
-     trace_nvme_poll_cb(s);
-     return nvme_poll_queues(s);
-@@ -705,7 +713,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     s->device = g_strdup(device);
-     s->nsid = namespace;
-     s->aio_context = bdrv_get_aio_context(bs);
--    ret = event_notifier_init(&s->irq_notifier, 0);
-+    ret = event_notifier_init(&s->irq_notifier[MSIX_SHARED_IRQ_IDX], 0);
-     if (ret) {
-         error_setg(errp, "Failed to init event notifier");
-         return ret;
-@@ -784,12 +792,13 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         }
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index e399e330e26..9a83e6084e5 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -261,7 +261,7 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
      }
  
--    ret = qemu_vfio_pci_init_irq(s->vfio, &s->irq_notifier,
-+    ret = qemu_vfio_pci_init_irq(s->vfio, s->irq_notifier,
-                                  VFIO_PCI_MSIX_IRQ_INDEX, errp);
-     if (ret) {
-         goto out;
+     if (!ioctl(s->container, VFIO_CHECK_EXTENSION, VFIO_TYPE1_IOMMU)) {
+-        error_setg_errno(errp, errno, "VFIO IOMMU check failed");
++        error_setg_errno(errp, errno, "VFIO IOMMU Type1 is not supported");
+         ret = -EINVAL;
+         goto fail_container;
      }
--    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-+    aio_set_event_notifier(bdrv_get_aio_context(bs),
-+                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, nvme_handle_event, nvme_poll_cb);
- 
-     nvme_identify(bs, namespace, &local_err);
-@@ -872,9 +881,10 @@ static void nvme_close(BlockDriverState *bs)
-         nvme_free_queue_pair(s->queues[i]);
-     }
-     g_free(s->queues);
--    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-+    aio_set_event_notifier(bdrv_get_aio_context(bs),
-+                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, NULL, NULL);
--    event_notifier_cleanup(&s->irq_notifier);
-+    event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
-     qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, NVME_BAR_SIZE);
-     qemu_vfio_close(s->vfio);
- 
-@@ -1381,7 +1391,8 @@ static void nvme_detach_aio_context(BlockDriverState *bs)
-         q->completion_bh = NULL;
-     }
- 
--    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-+    aio_set_event_notifier(bdrv_get_aio_context(bs),
-+                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, NULL, NULL);
- }
- 
-@@ -1391,7 +1402,7 @@ static void nvme_attach_aio_context(BlockDriverState *bs,
-     BDRVNVMeState *s = bs->opaque;
- 
-     s->aio_context = new_context;
--    aio_set_event_notifier(new_context, &s->irq_notifier,
-+    aio_set_event_notifier(new_context, &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, nvme_handle_event, nvme_poll_cb);
- 
-     for (int i = 0; i < s->nr_queues; i++) {
 -- 
 2.26.2
 
