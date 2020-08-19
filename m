@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E662496EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 09:16:59 +0200 (CEST)
-Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540D12497A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 09:46:41 +0200 (CEST)
+Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8ILC-0002Cg-Lj
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 03:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41020)
+	id 1k8Inw-0007bp-Do
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 03:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8IKH-0001kw-M9
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 03:16:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34765
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8IKF-00010D-Gc
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 03:16:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597821358;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8jHmzx06/2osOzVPEye8hitZpel3LwuOtpbkg5JEU2A=;
- b=GB61CQGNUXRXblNpmgBSlIYwoZ1ARVQvSa4PeoRWg2toUkSD2RyFrJs4sgQZEAEYNFCUv/
- AHQriwaka8WIG2k0f6hmrghXORF/6bEH6IA1iTusdedyBjsvdupsH+N8svYqHp/cEvkLcX
- fPy27rL3WBflkT4gnQjL3VaH+8j8+4s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-dgwVeB18N2y0xpCWY_GxYQ-1; Wed, 19 Aug 2020 03:15:54 -0400
-X-MC-Unique: dgwVeB18N2y0xpCWY_GxYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5838D1084C85;
- Wed, 19 Aug 2020 07:15:53 +0000 (UTC)
-Received: from [10.72.13.88] (ovpn-13-88.pek2.redhat.com [10.72.13.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5ACCA5C1D0;
- Wed, 19 Aug 2020 07:15:27 +0000 (UTC)
-Subject: Re: [RFC v3 1/1] memory: Skip bad range assertion if notifier
- supports arbitrary masks
-To: Eugenio Perez Martin <eperezma@redhat.com>, Peter Xu <peterx@redhat.com>
-References: <20200626064122.9252-1-eperezma@redhat.com>
- <20200811175533.7359-1-eperezma@redhat.com>
- <20200811175533.7359-2-eperezma@redhat.com>
- <2443886f-2109-e048-b47f-886c896613ab@redhat.com>
- <CAJaqyWe0_wcXHgbAVAVNCTpG7O4YKF6FMkgKsf6SfW4dEZ4A5g@mail.gmail.com>
- <CAJaqyWe+KgnVegtprpRmVvXo7kFVFDL_erK_5Nyp4K=gTUcN=Q@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <eb26c5d7-465a-34ed-3f8f-bad11eda5bee@redhat.com>
-Date: Wed, 19 Aug 2020 15:15:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8In8-0007BO-JY
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 03:45:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40980)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8In6-0004nt-7M
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 03:45:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k8In4-00017i-56
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 07:45:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 09C902E80EE
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 07:45:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWe+KgnVegtprpRmVvXo7kFVFDL_erK_5Nyp4K=gTUcN=Q@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Aug 2020 07:35:58 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1883984@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bruno-clisp janitor nhfbeebe paelzer rth
+X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159782255867.4383.6049213020366081108.malone@gac.canonical.com>
+Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
+ crashes qemu-system-s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 49ae568d774e2ea26dbcfad333b4e68381f294e2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 01:50:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,112 +78,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Note: final upstream commit link
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D9bf728a09bf7509b27543664f=
+9cca6f4f337f608
 
-On 2020/8/18 下午10:24, Eugenio Perez Martin wrote:
-> On Wed, Aug 12, 2020 at 10:49 AM Eugenio Perez Martin
-> <eperezma@redhat.com>  wrote:
->> On Wed, Aug 12, 2020 at 4:24 AM Jason Wang<jasowang@redhat.com>  wrote:
->>> On 2020/8/12 上午1:55, Eugenio Pérez wrote:
->>>> Signed-off-by: Eugenio Pérez<eperezma@redhat.com>
->>>> ---
->>>>    hw/virtio/vhost.c     |  2 +-
->>>>    include/exec/memory.h |  2 ++
->>>>    softmmu/memory.c      | 10 ++++++++--
->>>>    3 files changed, 11 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>>> index 1a1384e7a6..e74ad9e09b 100644
->>>> --- a/hw/virtio/vhost.c
->>>> +++ b/hw/virtio/vhost.c
->>>> @@ -729,7 +729,7 @@ static void vhost_iommu_region_add(MemoryListener *listener,
->>>>        iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
->>>>                                                       MEMTXATTRS_UNSPECIFIED);
->>>>        iommu_notifier_init(&iommu->n, vhost_iommu_unmap_notify,
->>>> -                        IOMMU_NOTIFIER_UNMAP,
->>>> +                        IOMMU_NOTIFIER_UNMAP | IOMMU_NOTIFIER_IOTLB,
->>> I think we can safely drop IOMMU_NOTIFIER_UNMAP here since device IOTLB
->>> is sufficient.
->>>
->>> Btw, IOMMU_NOTIFIER_IOTLB is kind of confusing, maybe something like
->>> IOMMU_NOTIFIER_DEVIOTLB.
->>>
->> Got it, will change.
->>
->>>>                            section->offset_within_region,
->>>>                            int128_get64(end),
->>>>                            iommu_idx);
->>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
->>>> index 307e527835..4d94c1e984 100644
->>>> --- a/include/exec/memory.h
->>>> +++ b/include/exec/memory.h
->>>> @@ -87,6 +87,8 @@ typedef enum {
->>>>        IOMMU_NOTIFIER_UNMAP = 0x1,
->>>>        /* Notify entry changes (newly created entries) */
->>>>        IOMMU_NOTIFIER_MAP = 0x2,
->>>> +    /* Notify changes on IOTLB entries */
->>>> +    IOMMU_NOTIFIER_IOTLB = 0x04,
->>>>    } IOMMUNotifierFlag;
->>>>
->>>>    #define IOMMU_NOTIFIER_ALL (IOMMU_NOTIFIER_MAP | IOMMU_NOTIFIER_UNMAP)
->>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
->>>> index af25987518..e2c5f6d0e7 100644
->>>> --- a/softmmu/memory.c
->>>> +++ b/softmmu/memory.c
->>>> @@ -1895,6 +1895,7 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
->>> (we probably need a better name of this function, at least something
->>> like "memory_region_iommu_notify_one").
->>>
->> Ok will change.
->>
->>>>    {
->>>>        IOMMUNotifierFlag request_flags;
->>>>        hwaddr entry_end = entry->iova + entry->addr_mask;
->>>> +    IOMMUTLBEntry tmp = *entry;
->>>>
->>>>        /*
->>>>         * Skip the notification if the notification does not overlap
->>>> @@ -1904,7 +1905,12 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
->>>>            return;
->>>>        }
->>>>
->>>> -    assert(entry->iova >= notifier->start && entry_end <= notifier->end);
->>>> +    if (notifier->notifier_flags & IOMMU_NOTIFIER_IOTLB) {
->>>> +        tmp.iova = MAX(tmp.iova, notifier->start);
->>>> +        tmp.addr_mask = MIN(entry_end, notifier->end) - tmp.iova;
->>> Any reason for doing such re-calculation here, a comment would be helpful.
->>>
->> It was proposed by Peter, but I understand as limiting the
->> address+range we pass to the notifier. Although vhost seems to support
->> it as long as it contains (notifier->start, notifier->end) in range, a
->> future notifier might not.
+** Changed in: qemu (Ubuntu)
+     Assignee: Christian Ehrhardt =EE=83=BF (paelzer) =3D> (unassigned)
 
+-- =
 
-Yes, actually, I feel confused after reading the codes. Is 
-notifier->start IOVA or GPA?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883984
 
-In vfio.c, we did:
+Title:
+  QEMU S/390x sqxbr (128-bit IEEE 754 square root) crashes qemu-system-
+  s390x
 
-         iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
-                             IOMMU_NOTIFIER_ALL,
-                             section->offset_within_region,
-                             int128_get64(llend),
-                             iommu_idx);
+Status in QEMU:
+  Fix Committed
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Triaged
 
-So it looks to me the start and end are GPA, but the assertion above 
-check it against IOVA which seems to be wrong ....
+Bug description:
+  [Impact]
 
-Thanks
+   * An instruction was described wrong so that on usage the program would =
 
+     crash.
 
->>
->> It could be done as iommu_entry_crop(IOMMUTLBEntry *entry, const
->> IOMMUNotifier *notifier) though.
+  [Test Case]
 
+   * Run s390x in emulation and there use this program:
+     For simplicity and speed you can use KVM guest as usual on s390x, that =
+
+     after prep&install&compile of the test you run in qemu-tcg like:
+
+     $ sudo qemu-system-s390x -machine s390-ccw-virtio,accel=3Dtcg -cpu max=
+,zpci=3Don -serial mon:stdio -display none -m 4096 -nic user,model=3Dvirtio=
+,hostfwd=3Dtcp::2222-:22 -drive file=3D/var/lib/uvtool/libvirt/images/focal=
+-sqxbr.qcow,if=3Dnone,id=3Ddrive-virtio-disk0,format=3Dqcow2,cache=3Dnone -=
+device virtio-blk-ccw,devno=3Dfe.0.0001,drive=3Ddrive-virtio-disk0,id=3Dvir=
+tio-disk0,bootindex=3D1,scsi=3Doff
+     Obviously is you have no s390x access you need to use emulation right =
+
+     away.
+
+   * Build and run failing program
+     $ sudo apt install clang
+     $ cat > bug-sqrtl-one-line.c << EOF
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ =
+
+  __volatile__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+  EOF
+     $ cc bug-sqrtl-one-line.c
+     $ ./a.out
+     Segmentation fault (core dumped)
+
+     qemu is dead by now as long as the bug is present
+
+  [Regression Potential]
+
+   * The change only modifies 128 bit square root on s390x so regressions
+     should be limited to exactly that - which formerly before this fix was =
+
+     a broken instruction.
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
+covered
+  that some of my own numerical programs, and also a GNU configure script f=
+or at
+  least one package with CC=3Dclang, would cause an instant crash of the VM=
+, sometimes
+  also destroying recently opened files, and producing long strings of NUL =
+characters
+  in /var/log/syslog in the S/390 guest O/S.
+
+  Further detective work narrowed the cause of the crash down to a single I=
+BM S/390
+  instruction: sqxbr (128-bit IEEE 754 square root).  Here is a one-line pr=
+ogram
+  that when compiled and run on a VM hosted on QEMUcc emulator version 4.2.0
+  (Debian 1:4.2-3ubuntu6.1) [hosted on Ubuntu 20.04 on a Dell Precision 7920
+  workstation with an Intel Xeon Platinum 8253 CPU],  and also on QEMU emul=
+ator
+  version 5.0.0, reproducibly produces a VM crash under qemu-system-s390x.
+
+  % cat bug-sqrtl-one-line.c
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ __volatil=
+e__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+
+  % cc bug-sqrtl-one-line.c && ./a.out
+  Segmentation fault (core dumped)
+
+  The problem code may be the function float128_sqrt() defined in qemu-5.0.=
+0/fpu/softfloat.c
+  starting at line 7619.  I have NOT attempted to run the qemu-system-s390x=
+ executable
+  under a debugger.  However, I observe that S/390 is the only CPU family t=
+hat I know of,
+  except possibly for a Fujitsu SPARC-64, that has a 128-bit square root in=
+ hardware.
+  Thus, this instruction bug may not have been seen before.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883984/+subscriptions
 
