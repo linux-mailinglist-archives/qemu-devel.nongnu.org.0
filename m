@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F50249B3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:53:49 +0200 (CEST)
-Received: from localhost ([::1]:40858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE86249B3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:53:40 +0200 (CEST)
+Received: from localhost ([::1]:39826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Lj2-0003J8-In
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41030)
+	id 1k8Lit-0002sU-OQ
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k8Lhd-00018L-UJ
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:52:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22575
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k8Lhe-00018y-5G
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:52:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28772
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1k8Lha-0004Ss-NE
+ id 1k8Lhc-0004TC-CP
  for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:52:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597834337;
+ s=mimecast20190719; t=1597834339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZqvNa3Td+YZ1Je/SNIqwATQPd5SBzVw1+A57zfnDS2M=;
- b=EDemFVjPqZ/k36C/dXm6pUnF1rr1qlBmulDbrGOC1mOh9oNYO/6RJO13GekOdSFT9yhPPJ
- yw53y97qVMjRRHYU3Dz2CocZa6WnsRLWCVc4jv8bcVaXpPudEZT4psVkmSS9oh9qFaSDte
- laKGcUCn+0B15u6waQm70eY0oPldtss=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yMvBEYvFcEJdn+65LCaVDcDOWIxg9f9bn1dPpJH1rrE=;
+ b=c+ld+sxOnCKbf1KVaoRAW/hcvyAlq6TJy40ifedcJUoipjQzE9jbfbJOaJZQzhxVsJPBiE
+ i1nn/rR5fG3V2eND8U21zB42OjOdcIpnmkf9tgjAkP2cB1iDee2iALagxuQp+Y6RrXNMzT
+ NiWW1hUmJgEmdCEalVvYEradsFbhrUw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-DYcubxlPONKqlGPMYLsPkQ-1; Wed, 19 Aug 2020 06:52:14 -0400
-X-MC-Unique: DYcubxlPONKqlGPMYLsPkQ-1
+ us-mta-525-Y29eTOIBNNmyi3LNwlZExw-1; Wed, 19 Aug 2020 06:52:18 -0400
+X-MC-Unique: Y29eTOIBNNmyi3LNwlZExw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C64F10066FB;
- Wed, 19 Aug 2020 10:52:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11F951084C8E;
+ Wed, 19 Aug 2020 10:52:17 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-114-132.ams2.redhat.com
  [10.36.114.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85B615C1A3;
- Wed, 19 Aug 2020 10:51:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F4875C1A3;
+ Wed, 19 Aug 2020 10:52:12 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] vhost-vsock: force virtio version 1
-Date: Wed, 19 Aug 2020 12:51:53 +0200
-Message-Id: <20200819105156.54163-1-sgarzare@redhat.com>
+Subject: [PATCH 1/3] vhost-vsock-pci: force virtio version 1
+Date: Wed, 19 Aug 2020 12:51:54 +0200
+Message-Id: <20200819105156.54163-2-sgarzare@redhat.com>
+In-Reply-To: <20200819105156.54163-1-sgarzare@redhat.com>
+References: <20200819105156.54163-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 01:46:53
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 04:00:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,51 +91,55 @@ Cc: Thomas Huth <thuth@redhat.com>, Qinghua Cheng <qcheng@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recenlty changes in QEMU 5.1 requires to set 'disable-legacy=3Don'
-on vhost-vsock-pci and vhost-user-vsock-pci devices:
+Commit 9b3a35ec82 ("virtio: verify that legacy support is not
+accidentally on") added a safety checks that requires to set
+'disable-legacy=on' on vhost-vsock-pci device:
 
-    $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=3D5
-        qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=3D5:
-        device is modern-only, use disable-legacy=3Don
+    $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
+        qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=5:
+        device is modern-only, use disable-legacy=on
 
-As discussed with Cornelia [1], this series force virtio version 1
-to vhost-vsock-pci, vhost-user-vsock-pci, and vhost-vsock-ccw devices.
+virtio-vsock was introduced after the release of VIRTIO 1.0
+specifications, so it should be 'modern-only'.
+In addition Cornelia verified that forcing a legacy mode on
+vhost-vsock-pci device using x86-64 host and s390x guest, so with
+different endianness, produces strange behaviours.
 
-virtio-vsock was introduced after the release of VIRTIO 1.0 specifications,
-so it should be 'modern-only'.
-In addition Cornelia verified that forcing a legacy mode on vhost-vsock-pci
-device using x86-64 host and s390x guest, so with different endianness,
-produces strange behaviours.
+This patch forces virtio version 1 and remove 'transitional_name'
+properties removing the need to specify 'disable-legacy=on' on
+vhost-vsock-pci device.
 
-About migration, QEMU 5.1 already requires that the source and destination
-specify 'disable-legacy=3Don', otherwise the migration fails in this way:
-    qemu-system-x86_64: get_pci_config_device: Bad config data: i=3D0x2 read:=
- 12 device: 53 cmask: ff wmask: 0 w1cmask:0
-    qemu-system-x86_64: Failed to load PCIDevice:config
-    qemu-system-x86_64: Failed to load virtio-vhost_vsock:virtio
-    qemu-system-x86_64: error while loading state for instance 0x0 of device =
-'0000:00:03.0/virtio-vhost_vsock'
-    qemu-system-x86_64: load of migration failed: Invalid argument
+Cc: qemu-stable@nongnu.org
+Reported-by: Qian Cai <caiqian@redhat.com>
+Reported-by: Qinghua Cheng <qcheng@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1868449
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ hw/virtio/vhost-vsock-pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-With this series applied there is the same requirements. Alternatively
-we have to detach and re-attach the device manually.
-
-Thanks,
-Stefano
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg02515.html
-
-Stefano Garzarella (3):
-  vhost-vsock-pci: force virtio version 1
-  vhost-user-vsock-pci: force virtio version 1
-  vhost-vsock-ccw: force virtio version 1
-
- hw/s390x/vhost-vsock-ccw.c       | 2 ++
- hw/virtio/vhost-user-vsock-pci.c | 2 +-
- hw/virtio/vhost-vsock-pci.c      | 2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
-
---=20
+diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
+index a815278e69..d1fcad0472 100644
+--- a/hw/virtio/vhost-vsock-pci.c
++++ b/hw/virtio/vhost-vsock-pci.c
+@@ -44,6 +44,7 @@ static void vhost_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VHostVSockPCI *dev = VHOST_VSOCK_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
++    virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+@@ -72,7 +73,6 @@ static void vhost_vsock_pci_instance_init(Object *obj)
+ static const VirtioPCIDeviceTypeInfo vhost_vsock_pci_info = {
+     .base_name             = TYPE_VHOST_VSOCK_PCI,
+     .generic_name          = "vhost-vsock-pci",
+-    .transitional_name     = "vhost-vsock-pci-transitional",
+     .non_transitional_name = "vhost-vsock-pci-non-transitional",
+     .instance_size = sizeof(VHostVSockPCI),
+     .instance_init = vhost_vsock_pci_instance_init,
+-- 
 2.26.2
 
 
