@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F84E249498
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 07:48:17 +0200 (CEST)
-Received: from localhost ([::1]:41652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D9224949E
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 07:49:54 +0200 (CEST)
+Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8GxM-0000i3-CJ
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 01:48:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
+	id 1k8Gyv-00041k-4a
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 01:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwJ-0007T7-MM
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23651
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwK-0007Ts-AB
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55625
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwH-0006h3-Il
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwH-0006hA-Iy
  for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597816011;
+ s=mimecast20190719; t=1597816012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=bz7D+mftS/cers/zOBgICPI4WEK3iloynwwBMWcJU8M=;
- b=MAvM5INEc6geirb0THTqf9eNCdd1oj7sGJEM/7OltheXNo83l9TgTLGtcrGqUIs2Ck4XSn
- 982UNRYPsRvsa6vR6DkYKJCeN8jHZa8ATt0+MR9itZDjOy2j0II50TogkAxvksjDCuVhN9
- aSN0QnaXQIO7M5nXpIPmUu4rPLitK0M=
+ references:references; bh=rzbdtPaZkOVuo6ADv1rGwAcfmj/FfAKgyFlXaNMf44A=;
+ b=SZZo1JIQQXyS6QHPS4Rw3C5rcLqVcRueJmk+jwZMWsYgDrpfmj4IWedJatubAooq64Zkrr
+ eHvfjdI4XD99k9NkVJSDtE5QfWCUvXkA/DSuGRfi71GPXZqtPqUXgmVbWtoeORJxyUWrJ/
+ 76lIBCKk1anklJ6Niu7vznE+07jJQIk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-yhvHD-iPOWGPQopXDKNoCg-1; Wed, 19 Aug 2020 01:46:49 -0400
-X-MC-Unique: yhvHD-iPOWGPQopXDKNoCg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-193-Ss6Caxo8OpGjxbzkZ83oLA-1; Wed, 19 Aug 2020 01:46:50 -0400
+X-MC-Unique: Ss6Caxo8OpGjxbzkZ83oLA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EB7C1084C85;
- Wed, 19 Aug 2020 05:46:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18E0D186A562;
+ Wed, 19 Aug 2020 05:46:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
  [10.36.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DD505C3E0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2739719D7D;
  Wed, 19 Aug 2020 05:46:45 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 60F889AE3; Wed, 19 Aug 2020 07:46:44 +0200 (CEST)
+ id 69CC99AE4; Wed, 19 Aug 2020 07:46:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/17] hw: ehci: destroy sglist in error path
-Date: Wed, 19 Aug 2020 07:46:29 +0200
-Message-Id: <20200819054644.30610-3-kraxel@redhat.com>
+Subject: [PULL 03/17] hw: ehci: check return value of 'usb_packet_map'
+Date: Wed, 19 Aug 2020 07:46:30 +0200
+Message-Id: <20200819054644.30610-4-kraxel@redhat.com>
 In-Reply-To: <20200819054644.30610-1-kraxel@redhat.com>
 References: <20200819054644.30610-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:38:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,27 +87,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Li Qiang <liq3ea@163.com>
 
-This may cause resource leak.
+If 'usb_packet_map' fails, we should stop to process the usb
+request.
 
 Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200812161712.29361-1-liq3ea@163.com>
+Message-Id: <20200812161727.29412-1-liq3ea@163.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-ehci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/hcd-ehci.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 1495e8f7fab1..58cceacbf83a 100644
+index 58cceacbf83a..4da446d2de6b 100644
 --- a/hw/usb/hcd-ehci.c
 +++ b/hw/usb/hcd-ehci.c
-@@ -1445,6 +1445,7 @@ static int ehci_process_itd(EHCIState *ehci,
-             dev = ehci_find_device(ehci, devaddr);
-             if (dev == NULL) {
-                 ehci_trace_guest_bug(ehci, "no device found");
-+                qemu_sglist_destroy(&ehci->isgl);
-                 return -1;
-             }
-             pid = dir ? USB_TOKEN_IN : USB_TOKEN_OUT;
+@@ -1373,7 +1373,10 @@ static int ehci_execute(EHCIPacket *p, const char *action)
+         spd = (p->pid == USB_TOKEN_IN && NLPTR_TBIT(p->qtd.altnext) == 0);
+         usb_packet_setup(&p->packet, p->pid, ep, 0, p->qtdaddr, spd,
+                          (p->qtd.token & QTD_TOKEN_IOC) != 0);
+-        usb_packet_map(&p->packet, &p->sgl);
++        if (usb_packet_map(&p->packet, &p->sgl)) {
++            qemu_sglist_destroy(&p->sgl);
++            return -1;
++        }
+         p->async = EHCI_ASYNC_INITIALIZED;
+     }
+ 
+@@ -1453,7 +1456,10 @@ static int ehci_process_itd(EHCIState *ehci,
+             if (ep && ep->type == USB_ENDPOINT_XFER_ISOC) {
+                 usb_packet_setup(&ehci->ipacket, pid, ep, 0, addr, false,
+                                  (itd->transact[i] & ITD_XACT_IOC) != 0);
+-                usb_packet_map(&ehci->ipacket, &ehci->isgl);
++                if (usb_packet_map(&ehci->ipacket, &ehci->isgl)) {
++                    qemu_sglist_destroy(&ehci->isgl);
++                    return -1;
++                }
+                 usb_handle_packet(dev, &ehci->ipacket);
+                 usb_packet_unmap(&ehci->ipacket, &ehci->isgl);
+             } else {
 -- 
 2.18.4
 
