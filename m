@@ -2,101 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D692492F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 04:46:02 +0200 (CEST)
-Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F61F24930B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 04:49:43 +0200 (CEST)
+Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8E6z-0005UW-GA
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 22:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47616)
+	id 1k8EAY-0003tN-4j
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 22:49:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k8E4p-0002Ze-3p; Tue, 18 Aug 2020 22:43:47 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57190
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1k8E4m-0004j4-Vn; Tue, 18 Aug 2020 22:43:46 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07J2XXCj045928; Tue, 18 Aug 2020 22:43:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=ROECkcpI83are7d45wAbKAxpYfn/EVXwsj77lZ8DuL8=;
- b=Y3M3Ld3PJlzPuyuxMm+s8hzune/xwJFLUjj+GmTunNagqp8cqa9DlqJsI4brF+Q/AoAC
- elS8HAgOeHe6ziIJLJPF8zkYaXJS3I1OmCSZGREr81wIANurbkdXTtjKWb+wdefDKRti
- 1sZw6bNvxz5pkjOD3MqznfMQv5VMpwflbLWmXk8msGHpJPq4VQSkccwbQku/5VsyNFBc
- +oqFAw9C6UrVu9FwHA8UiI7Y9QNr4L9vsSkYKmzFeM8zdeVvmqJPdtCLHeNoCaRhLITd
- +JLrhLoBPeKRErUI3GJOukpYQnL+1Vl1bzCp0Z0+9O0A0E2nC4mE8uXJQjUcsReLVfJ2 Yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 330ucn05r5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Aug 2020 22:43:24 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07J2afAa052956;
- Tue, 18 Aug 2020 22:43:24 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 330ucn05qv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Aug 2020 22:43:24 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07J2bYwa016224;
- Wed, 19 Aug 2020 02:43:23 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 3304ccjv51-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Aug 2020 02:43:23 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 07J2hJBU50659736
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Aug 2020 02:43:19 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 376E3BE04F;
- Wed, 19 Aug 2020 02:43:22 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 00E09BE051;
- Wed, 19 Aug 2020 02:43:17 +0000 (GMT)
-Received: from morokweng.localdomain.com (unknown [9.163.41.251])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 19 Aug 2020 02:43:16 +0000 (GMT)
-From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH v5 8/8] target/s390x: Use start-powered-off CPUState property
-Date: Tue, 18 Aug 2020 23:42:20 -0300
-Message-Id: <20200819024220.587612-9-bauerman@linux.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200819024220.587612-1-bauerman@linux.ibm.com>
-References: <20200819024220.587612-1-bauerman@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k8E76-00070Q-GF
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 22:46:08 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:33337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k8E72-0005ct-Bt
+ for qemu-devel@nongnu.org; Tue, 18 Aug 2020 22:46:08 -0400
+Received: by mail-ed1-f66.google.com with SMTP id v22so16881771edy.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Aug 2020 19:46:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DLH641eQFnc2YDUjL1CU6K47OGchbwvFiAQd3wIq/tI=;
+ b=D5usJNpkKMzUKanBfLj4+LyfLtf9S+TNtz57JemgeiFkrDlh7shqPp08xRdiSznkd1
+ 1kH3oTq0WBPNGZsf+C+6bz3LLFBxVSHInw3yFF7r6nTykrrOIVNczPUSZ72jW+YCb89w
+ WV8yUfwslmC/LxWKFO5rhBvHLBvX84S0816hv7GoM8TomN+aCvnHATIu3958x4CssWSw
+ qrSMHCRtNklwI5FanLyJSnfI99nmHLfoQCBa3JxZGEtiCP/FSLxHpzBRiboiHg0iUYVr
+ zvos2oraOE9iR31ike9p8ChB5ucgmLOeAOBhms81QHvdLIfCY94yxb/wTIOtAYTS0KkP
+ jOWA==
+X-Gm-Message-State: AOAM5307Y7duRQZu4Q5v4daRKa7FK+XIwUY95HgX4fifbcCfyjFn3D4T
+ qI29bLCggUXfa0WYrzv+iSBsTemAFbqLNiZTGuU=
+X-Google-Smtp-Source: ABdhPJxzlyDR5hejsJsOK4huq3MefHA9IRL2wz7SM5manWcNoc7N6OHKmdWPMsp2Hh8Tzu6tgZeOdhvZJbr7t5tQn3c=
+X-Received: by 2002:aa7:c0d3:: with SMTP id j19mr22123332edp.157.1597805162534; 
+ Tue, 18 Aug 2020 19:46:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-18_16:2020-08-18,
- 2020-08-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 priorityscore=1501 adultscore=0 malwarescore=0
- impostorscore=0 suspectscore=1 mlxscore=0 mlxlogscore=999 clxscore=1015
- bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008190017
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:43:12
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200813222625.243136-1-ehabkost@redhat.com>
+ <20200813222625.243136-2-ehabkost@redhat.com>
+ <3af41d38-3d5f-bdc3-9624-8848151992ae@amsat.org>
+ <20200818213033.GB500103@habkost.net>
+In-Reply-To: <20200818213033.GB500103@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Wed, 19 Aug 2020 04:45:50 +0200
+Message-ID: <CAAdtpL4bBJ+UmeWA-On-5XHTWw77SWfm99RaqTH75XOssaVi2Q@mail.gmail.com>
+Subject: Re: [PATCH 01/41] pl1110: Rename PL1110 enum
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000221b7805ad3201c0"
+Received-SPF: pass client-ip=209.85.208.66;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-f66.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:46:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,48 +72,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of setting CPUState::halted to 1 in s390_cpu_initfn(), use the
-start-powered-off property which makes cpu_common_reset() initialize it
-to 1 in common code.
+--000000000000221b7805ad3201c0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Note that this changes behavior by setting cs->halted to 1 on reset, which
-didn't happen before.
+Le mar. 18 ao=C3=BBt 2020 23:30, Eduardo Habkost <ehabkost@redhat.com> a =
+=C3=A9crit :
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
----
- target/s390x/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> CCing maintainer (pmaydell).
+>
+> On Fri, Aug 14, 2020 at 07:45:40PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > On 8/14/20 12:25 AM, Eduardo Habkost wrote:
+> > > The PL1110 enum value name will conflict with the PL1110 type
+> > > cast checker, when we replace the existing macro with an inline
+> > > function.  Rename it to PL1110_STOCK.
+> >
+> > typo s/PL1110/PL110/ in subject and description.
+>
+> Thanks for spotting that!  Will be fixed in v2.
+>
+> >
+> > >
+> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > ---
+> > >  hw/display/pl110.c | 12 ++++++------
+> > >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/hw/display/pl110.c b/hw/display/pl110.c
+> > > index c2991a28d2..4664fde3f2 100644
+> > > --- a/hw/display/pl110.c
+> > > +++ b/hw/display/pl110.c
+> > > @@ -42,7 +42,7 @@ enum pl110_bppmode
+> > >  /* The Versatile/PB uses a slightly modified PL110 controller.  */
+> > >  enum pl110_version
+> > >  {
+> > > -    PL110,
+> > > +    PL110_STOCK,
+> > >      PL110_VERSATILE,
+> > >      PL111
+> >
+> > For completeness I'd also rename PL111.
+> >
+> > What about:
+> >
+> >  enum pl110_version
+> >  {
+> >     PL110_VERSION,
+> >     PL110_VERSATILE_VERSION,
+> >     PL111_VERSION
+> >  }
+> >
+> > ?
+>
+> That would work too, although I'm more used to enum values to
+> have a common prefix instead of a common suffix.
+>
+> Any objections to:
+>
+>   enum pl110_version
+>   {
+>       VERSION_PL110,
+>       VERSION_PL110_VERSATILE,
+>       VERSION_PL111
+>   }
+>
+> ?
+>
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 08eb674d22..73d7d6007e 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -291,7 +291,7 @@ static void s390_cpu_initfn(Object *obj)
-     S390CPU *cpu = S390_CPU(obj);
- 
-     cpu_set_cpustate_pointers(cpu);
--    cs->halted = 1;
-+    cs->start_powered_off = true;
-     cs->exception_index = EXCP_HLT;
- #if !defined(CONFIG_USER_ONLY)
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
+Sounds good.
+
+
+> --
+> Eduardo
+>
+>
+
+--000000000000221b7805ad3201c0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Le mar. 18 ao=C3=BBt 2020 23:30, Eduardo Habkost &lt;<a href=
+=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</a>&gt; a =C3=A9crit=C2=
+=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">CCing maintainer (pmaydell).<b=
+r>
+<br>
+On Fri, Aug 14, 2020 at 07:45:40PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
+:<br>
+&gt; On 8/14/20 12:25 AM, Eduardo Habkost wrote:<br>
+&gt; &gt; The PL1110 enum value name will conflict with the PL1110 type<br>
+&gt; &gt; cast checker, when we replace the existing macro with an inline<b=
+r>
+&gt; &gt; function.=C2=A0 Rename it to PL1110_STOCK.<br>
+&gt; <br>
+&gt; typo s/PL1110/PL110/ in subject and description.<br>
+<br>
+Thanks for spotting that!=C2=A0 Will be fixed in v2.<br>
+<br>
+&gt; <br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@red=
+hat.com" target=3D"_blank" rel=3D"noreferrer">ehabkost@redhat.com</a>&gt;<b=
+r>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 hw/display/pl110.c | 12 ++++++------<br>
+&gt; &gt;=C2=A0 1 file changed, 6 insertions(+), 6 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/hw/display/pl110.c b/hw/display/pl110.c<br>
+&gt; &gt; index c2991a28d2..4664fde3f2 100644<br>
+&gt; &gt; --- a/hw/display/pl110.c<br>
+&gt; &gt; +++ b/hw/display/pl110.c<br>
+&gt; &gt; @@ -42,7 +42,7 @@ enum pl110_bppmode<br>
+&gt; &gt;=C2=A0 /* The Versatile/PB uses a slightly modified PL110 controll=
+er.=C2=A0 */<br>
+&gt; &gt;=C2=A0 enum pl110_version<br>
+&gt; &gt;=C2=A0 {<br>
+&gt; &gt; -=C2=A0 =C2=A0 PL110,<br>
+&gt; &gt; +=C2=A0 =C2=A0 PL110_STOCK,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 PL110_VERSATILE,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 PL111<br>
+&gt; <br>
+&gt; For completeness I&#39;d also rename PL111.<br>
+&gt; <br>
+&gt; What about:<br>
+&gt; <br>
+&gt;=C2=A0 enum pl110_version<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0PL110_VERSION,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0PL110_VERSATILE_VERSION,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0PL111_VERSION<br>
+&gt;=C2=A0 }<br>
+&gt; <br>
+&gt; ?<br>
+<br>
+That would work too, although I&#39;m more used to enum values to<br>
+have a common prefix instead of a common suffix.<br>
+<br>
+Any objections to:<br>
+<br>
+=C2=A0 enum pl110_version<br>
+=C2=A0 {<br>
+=C2=A0 =C2=A0 =C2=A0 VERSION_PL110,<br>
+=C2=A0 =C2=A0 =C2=A0 VERSION_PL110_VERSATILE,<br>
+=C2=A0 =C2=A0 =C2=A0 VERSION_PL111<br>
+=C2=A0 }<br>
+<br>
+?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>Sounds good.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
+ class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+-- <br>
+Eduardo<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000221b7805ad3201c0--
 
