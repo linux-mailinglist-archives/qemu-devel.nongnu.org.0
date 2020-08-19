@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B947D249F3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:10:01 +0200 (CEST)
-Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2AD249F41
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:11:40 +0200 (CEST)
+Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Nqq-0006Uf-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
+	id 1k8NsR-00019f-6t
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8Npl-0004sb-Kd; Wed, 19 Aug 2020 09:08:53 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56181)
+ id 1k8Npm-0004sp-QR; Wed, 19 Aug 2020 09:08:54 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8Npj-0006LG-DW; Wed, 19 Aug 2020 09:08:53 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4C1DF51EFC69;
- Wed, 19 Aug 2020 15:08:48 +0200 (CEST)
+ id 1k8Npj-0006LI-U1; Wed, 19 Aug 2020 09:08:54 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.8])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A7B4A51EFC7D;
+ Wed, 19 Aug 2020 15:08:49 +0200 (CEST)
 Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 19 Aug
- 2020 15:08:47 +0200
+ 2020 15:08:48 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0025ea54756-2229-4e8c-9abe-a16a990f0f54,
+ (GARM-98R002b316f480-e9ea-4a06-92ab-092c6af114d4,
  56ABA3BD09B5898CED80C8E013D4E39E9C6048D1) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 1/8] spapr/xive: Add a 'hv-prio' property to represent the KVM
- escalation priority
-Date: Wed, 19 Aug 2020 15:08:36 +0200
-Message-ID: <20200819130843.2230799-2-clg@kaod.org>
+Subject: [PATCH 2/8] linux-headers: Update for KVM_DEV_XIVE_GRP_SOURCE_INFO
+Date: Wed, 19 Aug 2020 15:08:37 +0200
+Message-ID: <20200819130843.2230799-3-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200819130843.2230799-1-clg@kaod.org>
 References: <20200819130843.2230799-1-clg@kaod.org>
@@ -42,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.98]
 X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 0e746071-b9c8-4da6-8e3b-cb7d7c648407
-X-Ovh-Tracer-Id: 2621094985544862502
+X-Ovh-Tracer-GUID: 03e09e63-567b-4646-a48b-58487daac0e8
+X-Ovh-Tracer-Id: 2621376458588523302
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
@@ -74,126 +73,39 @@ Cc: qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On POWER9, the KVM XIVE device uses priority 7 for the escalation
-interrupts. On POWER10, the host can use a reduced set of priorities
-and KVM will configure the escalation priority to a lower number. In
-any case, the guest is allowed to use priorities in a single range :
-
-    [ 0 .. (maxprio - 1) ].
-
-Introduce a 'hv-prio' property to represent the escalation priority
-number and use it to compute the "ibm,plat-res-int-priorities"
-property defining the priority ranges reserved by the hypervisor.
+To be sent with the linux-headers update when support is merged.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/spapr_xive.h |  2 ++
- hw/intc/spapr_xive.c        | 33 ++++++++++++++-------------------
- 2 files changed, 16 insertions(+), 19 deletions(-)
+ linux-headers/asm-powerpc/kvm.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 0ffbe0be0280..1dddcbcb9cdd 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -49,6 +49,8 @@ typedef struct SpaprXive {
-     void          *tm_mmap;
-     MemoryRegion  tm_mmio_kvm;
-     VMChangeStateEntry *change;
-+
-+    uint8_t       hv_prio;
- } SpaprXive;
+diff --git a/linux-headers/asm-powerpc/kvm.h b/linux-headers/asm-powerpc/kvm.h
+index 264e266a85bf..aeb8e8c4633b 100644
+--- a/linux-headers/asm-powerpc/kvm.h
++++ b/linux-headers/asm-powerpc/kvm.h
+@@ -690,6 +690,7 @@ struct kvm_ppc_cpu_char {
+ #define KVM_DEV_XIVE_GRP_SOURCE_CONFIG	3	/* 64-bit source identifier */
+ #define KVM_DEV_XIVE_GRP_EQ_CONFIG	4	/* 64-bit EQ identifier */
+ #define KVM_DEV_XIVE_GRP_SOURCE_SYNC	5       /* 64-bit source identifier */
++#define KVM_DEV_XIVE_GRP_SOURCE_INFO	6       /* 64-bit source identifier */
  
- typedef struct SpaprXiveClass {
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 4bd0d606ba17..1fa09f287ac0 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -595,6 +595,7 @@ static Property spapr_xive_properties[] = {
-     DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
-     DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BASE),
-     DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BASE),
-+    DEFINE_PROP_UINT8("hv-prio", SpaprXive, hv_prio, 7),
-     DEFINE_PROP_END_OF_LIST(),
+ /* Layout of 64-bit XIVE source attribute values */
+ #define KVM_XIVE_LEVEL_SENSITIVE	(1ULL << 0)
+@@ -721,6 +722,13 @@ struct kvm_ppc_xive_eq {
+ 	__u8  pad[40];
  };
  
-@@ -692,12 +693,13 @@ static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_servers,
-         cpu_to_be32(16), /* 64K */
-     };
-     /*
--     * The following array is in sync with the reserved priorities
--     * defined by the 'spapr_xive_priority_is_reserved' routine.
-+     * QEMU/KVM only needs to define a single range to reserve the
-+     * escalation priority. A priority bitmask would have been more
-+     * appropriate.
-      */
-     uint32_t plat_res_int_priorities[] = {
--        cpu_to_be32(7),    /* start */
--        cpu_to_be32(0xf8), /* count */
-+        cpu_to_be32(xive->hv_prio),    /* start */
-+        cpu_to_be32(0xff - xive->hv_prio), /* count */
-     };
++#define KVM_XIVE_SOURCE_FLAG_STORE_EOI	0x00000001
++
++/* Layout of source characteristics (8 bytes) */
++struct kvm_ppc_xive_src {
++	__u64 flags;
++};
++
+ #define KVM_XIVE_EQ_ALWAYS_NOTIFY	0x00000001
  
-     /* Thread Interrupt Management Area : User (ring 3) and OS (ring 2) */
-@@ -844,19 +846,12 @@ type_init(spapr_xive_register_types)
-  */
- 
- /*
-- * Linux hosts under OPAL reserve priority 7 for their own escalation
-- * interrupts (DD2.X POWER9). So we only allow the guest to use
-- * priorities [0..6].
-+ * On POWER9, the KVM XIVE device uses priority 7 for the escalation
-+ * interrupts. So we only allow the guest to use priorities [0..6].
-  */
--static bool spapr_xive_priority_is_reserved(uint8_t priority)
-+static bool spapr_xive_priority_is_reserved(SpaprXive *xive, uint8_t priority)
- {
--    switch (priority) {
--    case 0 ... 6:
--        return false;
--    case 7: /* OPAL escalation queue */
--    default:
--        return true;
--    }
-+    return priority >= xive->hv_prio;
- }
- 
- /*
-@@ -1053,7 +1048,7 @@ static target_ulong h_int_set_source_config(PowerPCCPU *cpu,
-         new_eas.w = eas.w & cpu_to_be64(~EAS_MASKED);
-     }
- 
--    if (spapr_xive_priority_is_reserved(priority)) {
-+    if (spapr_xive_priority_is_reserved(xive, priority)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
-                       " is reserved\n", priority);
-         return H_P4;
-@@ -1212,7 +1207,7 @@ static target_ulong h_int_get_queue_info(PowerPCCPU *cpu,
-      * This is not needed when running the emulation under QEMU
-      */
- 
--    if (spapr_xive_priority_is_reserved(priority)) {
-+    if (spapr_xive_priority_is_reserved(xive, priority)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
-                       " is reserved\n", priority);
-         return H_P3;
-@@ -1299,7 +1294,7 @@ static target_ulong h_int_set_queue_config(PowerPCCPU *cpu,
-      * This is not needed when running the emulation under QEMU
-      */
- 
--    if (spapr_xive_priority_is_reserved(priority)) {
-+    if (spapr_xive_priority_is_reserved(xive, priority)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
-                       " is reserved\n", priority);
-         return H_P3;
-@@ -1466,7 +1461,7 @@ static target_ulong h_int_get_queue_config(PowerPCCPU *cpu,
-      * This is not needed when running the emulation under QEMU
-      */
- 
--    if (spapr_xive_priority_is_reserved(priority)) {
-+    if (spapr_xive_priority_is_reserved(xive, priority)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
-                       " is reserved\n", priority);
-         return H_P3;
+ #define KVM_XIVE_TIMA_PAGE_OFFSET	0
 -- 
 2.25.4
 
