@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5951D24A1FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 16:48:38 +0200 (CEST)
-Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662ED24A1FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 16:49:57 +0200 (CEST)
+Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8POH-0004pY-Ct
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 10:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52322)
+	id 1k8PPY-0006T4-Fi
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 10:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k8PNM-0003u7-CR
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 10:47:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39968)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k8POj-0005jh-Dp
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 10:49:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k8PNK-0003e1-Rp
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 10:47:40 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k8POh-0003kn-DK
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 10:49:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597848457;
+ s=mimecast20190719; t=1597848542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UfjLd5iRaNyvwPpArZC2dTAYqKpeQnDn0HC7lhuQaHw=;
- b=OHEDVGyKQpJBwFJ2vBxKZD9tPzqEUGkFD7tKFHzrgbxKS6LKy2XUpfpO90GtjKOxqID5KO
- ivqay2LCdL8GxzHl9DQWzRdqH2oZR23vR2ZM09vcE6tkNv1EZCkxR4lSGykcA6BPiJn8f/
- P6XjkFTW/egrsGWsnKFwn7ScGMUjRBE=
+ bh=QD4+MwQRKRFDE1kdCzASjArjtxdwisiXqmByKhI3HZE=;
+ b=bGchlP9gd+J9QOL8FLf3exwphWSJYPgVufwCTcF0R8UKblYZVjVcmyr4+mXVZjun3DVttg
+ Zhr9qmwuxY0vqzQ95Xt/+dZa6WORuO3kvEj1WKqhJWoY/vltoMY3NHiAN5kXdtTzpjqBHp
+ UI1LBrEU9x3sNz7RbXchmsxhToPJuD8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-iBIQWGAEPGSsPDd4s4PULQ-1; Wed, 19 Aug 2020 10:47:33 -0400
-X-MC-Unique: iBIQWGAEPGSsPDd4s4PULQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-196-UlP2V-djPDGExWFCLNe9KA-1; Wed, 19 Aug 2020 10:48:59 -0400
+X-MC-Unique: UlP2V-djPDGExWFCLNe9KA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05ECE1084C8F;
- Wed, 19 Aug 2020 14:47:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAB6D1015DCB;
+ Wed, 19 Aug 2020 14:48:58 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-120.ams2.redhat.com
  [10.36.113.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0B155C1D0;
- Wed, 19 Aug 2020 14:47:30 +0000 (UTC)
-Subject: Re: [PATCH v7 14/47] stream: Deal with filters
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF13959;
+ Wed, 19 Aug 2020 14:48:57 +0000 (UTC)
+Subject: Re: [RFC PATCH 19/22] block/export: Move strong user reference to
+ block_exports
 To: Kevin Wolf <kwolf@redhat.com>
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-15-mreitz@redhat.com>
- <20200818142851.GD6865@linux.fritz.box>
+References: <20200813162935.210070-1-kwolf@redhat.com>
+ <20200813162935.210070-20-kwolf@redhat.com>
+ <5bdf307f-0d1e-b64c-978f-c9075a3e2eb0@redhat.com>
+ <20200819142300.GD10272@linux.fritz.box>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -70,31 +72,31 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <59fe8d64-b073-aeff-1afb-b526e9a085f1@redhat.com>
-Date: Wed, 19 Aug 2020 16:47:29 +0200
+Message-ID: <31aaea72-8352-145f-7f17-995b6cfe0e23@redhat.com>
+Date: Wed, 19 Aug 2020 16:48:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200818142851.GD6865@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200819142300.GD10272@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="azRFbMc4OzYqnx7Mx8JQ7g90JXmBjF7RC"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ boundary="v113ZkLpjYGrrHDyhieuA1PEbjOEmzQlq"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 10:07:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 06:57:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,95 +109,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---azRFbMc4OzYqnx7Mx8JQ7g90JXmBjF7RC
-Content-Type: multipart/mixed; boundary="PR8o9sQbEqo0bwdQ3qSECuflBURFpAP5r"
+--v113ZkLpjYGrrHDyhieuA1PEbjOEmzQlq
+Content-Type: multipart/mixed; boundary="FlxPdpppbH9uAHXo3ESAoB9Wl5XH5w4N9"
 
---PR8o9sQbEqo0bwdQ3qSECuflBURFpAP5r
+--FlxPdpppbH9uAHXo3ESAoB9Wl5XH5w4N9
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 18.08.20 16:28, Kevin Wolf wrote:
-> Am 25.06.2020 um 17:21 hat Max Reitz geschrieben:
->> Because of the (not so recent anymore) changes that make the stream job
->> independent of the base node and instead track the node above it, we
->> have to split that "bottom" node into two cases: The bottom COW node,
->> and the node directly above the base node (which may be an R/W filter
->> or the bottom COW node).
+On 19.08.20 16:23, Kevin Wolf wrote:
+> Am 19.08.2020 um 13:56 hat Max Reitz geschrieben:
+>> On 13.08.20 18:29, Kevin Wolf wrote:
+>>> The reference owned by the user/monitor that is created when adding the
+>>> export and dropped when removing it was tied to the 'exports' list in
+>>> nbd/server.c. Every block export will have a user reference, so move it
+>>> to the block export level and tie it to the 'block_exports' list in
+>>> block/export/export.c instead. This is necessary for introducing a QMP
+>>> command for removing exports.
+>>>
+>>> Note that exports are present in block_exports even after the user has
+>>> requested shutdown. This is different from NBD's exports where exports
+>>> are immediately removed on a shutdown request, even if they are still i=
+n
+>>> the process of shutting down. In order to avoid that the user still
+>>> interacts with an export that is shutting down (and possibly removes it
+>>> a second time), we need to remember if the user actually still owns it.
+>>>
+>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>> ---
+>>>  include/block/export.h | 8 ++++++++
+>>>  block/export/export.c  | 4 ++++
+>>>  blockdev-nbd.c         | 5 -----
+>>>  nbd/server.c           | 2 --
+>>>  4 files changed, 12 insertions(+), 7 deletions(-)
 >>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  qapi/block-core.json |  4 +++
->>  block/stream.c       | 63 ++++++++++++++++++++++++++++++++------------
->>  blockdev.c           |  4 ++-
->>  3 files changed, 53 insertions(+), 18 deletions(-)
->>
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index b20332e592..df87855429 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -2486,6 +2486,10 @@
->>  # On successful completion the image file is updated to drop the backin=
-g file
->>  # and the BLOCK_JOB_COMPLETED event is emitted.
->>  #
->> +# In case @device is a filter node, block-stream modifies the first non=
--filter
->> +# overlay node below it to point to base's backing node (or NULL if @ba=
-se was
->> +# not specified) instead of modifying @device itself.
+>> With this patch, there=E2=80=99s an abort in iotest 281.  Perhaps becaus=
+e
+>> blk_exp_unref() is now done by blk_exp_request_shutdown() outside of
+>> where the AIO context is locked?
 >=20
-> Not to @base's backing node, but to @base itself (or actually, to
-> above_base's backing node, which is initially @base, but may have
-> changed when the job is completed).
+> I have two fixes locally that were related to failing qemu-iotests. I
+> guess the first one might be for what you're seeing?
+>=20
+> Kevin
+>=20
+> diff --git a/block/export/export.c b/block/export/export.c
+> index 71d17bd440..d021b98b74 100644
+> --- a/block/export/export.c
+> +++ b/block/export/export.c
+> @@ -105,9 +105,14 @@ void blk_exp_unref(BlockExport *exp)
+>  {
+>      assert(exp->refcount > 0);
+>      if (--exp->refcount =3D=3D 0) {
 
-Oh, yes.
+If this is done without locking the context, should this be an atomic
+operation?
 
-(I thought I had noticed that already at some point and fixed it
-locally...  But apparently not.)
+> +        AioContext *aio_context =3D exp->ctx;
+> +
+> +        aio_context_acquire(aio_context);
+>          QLIST_REMOVE(exp, next);
+>          exp->drv->delete(exp);
+>          blk_unref(exp->blk);
+> +        aio_context_release(aio_context);
+> +
 
-> Should we also document what using a filter node for @base means?
-
-Hm.  What does it mean?  I think the more interesting case is what it
-means if above_base is a filter, right?
-
-Maybe we can put in somewhere in the =E2=80=9CIf a base file is specified t=
-hen
-sectors are not copied from that base file and its backing chain.=E2=80=9D =
- But
-the more I think about it, the less I know what we could add to it.
-What happens if there are filters above @base is that their data isn=E2=80=
-=99t
-copied, because that=E2=80=99s exactly the data in @base.
+But for the crash I was seeing, this should be sufficient, yes.
 
 Max
 
 
---PR8o9sQbEqo0bwdQ3qSECuflBURFpAP5r--
+--FlxPdpppbH9uAHXo3ESAoB9Wl5XH5w4N9--
 
---azRFbMc4OzYqnx7Mx8JQ7g90JXmBjF7RC
+--v113ZkLpjYGrrHDyhieuA1PEbjOEmzQlq
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl89O4EACgkQ9AfbAGHV
-z0Aojgf+PwDpbApo/7g3XZDl52ggNbItoIKEhp/2HYynQl9crIZk3W3QLifjkI9x
-ITdrFkxb+A1nR3wzG42avnz4eDG0lptrciDG9tpj3FV4X+avSwkYbW6sv+jGmOzO
-XPy8A17LUFmiiRwhTO37mpjkw9UnhGvOSnAMtZ0yrFJIpzB7zqfdOpslhej1u2kY
-NRahrTwBVHGiwupnky2C3+iaNyN868vMi4V62r+ZH3W7NuArGYOY+RNpxtB5cF4M
-ZN0ELkHRnwO37OuittGJXw/uIeSk4LRdvjDrGlxcte3an1dxHxHh/sHmql06+IDg
-8llOU5Yb9S1ZzKa+VmL4UrpMeCts3Q==
-=Lo+s
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl89O9gACgkQ9AfbAGHV
+z0CdXwf/Xeyvevz9X5PAt7jt+bOsHGbJZ5PwGxxJJw4BJedVgI50d0ADfTLM7l9H
+hF4d3J7eDLcJeiS3r0/2kvJ1jRe1HFiSikD2DQx/iwmq+Y8uPkAdNANnOZOLRRrz
+ME+7tybLsFdckGEuKnheOgqYv4+2RQJDhCBWlY3k+M2t8rNzT5dtng4v31t0HgjZ
+v2a2zSIBf+fxT83erXKqbYXe0ozIJ+i5m8onlmTYA9wKQ9+BWGyXK9vBAOFqljIO
+qOiJ2gDGRc/4i+kokn+ldirhUQBm4TCWEPuNeIyXij3u6/MjEfas4wBfRG7ou9cu
+DF0ZuuBPEpw2f6ByUp9tIkkoVRRSfw==
+=oyIA
 -----END PGP SIGNATURE-----
 
---azRFbMc4OzYqnx7Mx8JQ7g90JXmBjF7RC--
+--v113ZkLpjYGrrHDyhieuA1PEbjOEmzQlq--
 
 
