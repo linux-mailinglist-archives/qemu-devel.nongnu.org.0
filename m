@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7A5249497
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 07:48:15 +0200 (CEST)
-Received: from localhost ([::1]:41596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A3524949D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 07:49:47 +0200 (CEST)
+Received: from localhost ([::1]:49310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8GxK-0000gh-CD
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 01:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50138)
+	id 1k8Gyo-0003k6-86
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 01:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwJ-0007SI-4V
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28328)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwM-0007Z0-EY
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49165
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwH-0006i4-IS
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:10 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GwH-0006hy-LK
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:47:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597816016;
+ s=mimecast20190719; t=1597816015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cDffDyxC2ZgvMb+Ot8+5qhY9APVa8Bb3uqfTOuRNpy8=;
- b=h8Y78F2yIwKbk4R7fbywzgxZRRkOAtLAuydWUjHp+65yzAj5ywMCmi5S8mxpa6fRthE/oV
- 1PSuUwguHx0nVw4XpuJpmbifarNjj1RThJ+tf4WhggOYnikdY+JwkVKbP14fWK3dZU6jt6
- Stwme9bwl54+hG+M/JT2LS+0LF3ledM=
+ bh=LVJjnymdXMKEYEDq70/vjd+4eCBVEbWJifgk2mNGxGc=;
+ b=IKcMJYxDXD6hTOJ+RQq0imIPNRwQKrDhiLWJxGBmyh2k37fKifoB1vZtZoGfxDcwHZ5n76
+ zGSw+2xzGm3RQwHzIGx+DpRUndIWC/mUi+KC4bH+rUCWV6D3Pm2AiX/z4edhyel/MlRYs6
+ 5Rj9PVT5iWw6LKoXu6vE0qK4GrUMjjg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-I9KFfryUNi-77_CANFcLnA-1; Wed, 19 Aug 2020 01:46:54 -0400
-X-MC-Unique: I9KFfryUNi-77_CANFcLnA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-433-6-jayw9RO8CGJrqVDZ2FKw-1; Wed, 19 Aug 2020 01:46:51 -0400
+X-MC-Unique: 6-jayw9RO8CGJrqVDZ2FKw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B391DDFA;
- Wed, 19 Aug 2020 05:46:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AD1A1084C91;
+ Wed, 19 Aug 2020 05:46:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
  [10.36.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11318BA63;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1479616D40;
  Wed, 19 Aug 2020 05:46:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C9F5631E23; Wed, 19 Aug 2020 07:46:44 +0200 (CEST)
+ id D304431E31; Wed, 19 Aug 2020 07:46:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/17] docs/system: Add U2F key to the USB devices examples
-Date: Wed, 19 Aug 2020 07:46:40 +0200
-Message-Id: <20200819054644.30610-14-kraxel@redhat.com>
+Subject: [PULL 14/17] docs/qdev-device-use.txt: Add USB U2F key to the QDEV
+ devices examples
+Date: Wed, 19 Aug 2020 07:46:41 +0200
+Message-Id: <20200819054644.30610-15-kraxel@redhat.com>
 In-Reply-To: <20200819054644.30610-1-kraxel@redhat.com>
 References: <20200819054644.30610-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 01:46:52
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 01:46:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,26 +93,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: César Belley <cesar.belley@lse.epita.fr>
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200812094135.20550-10-cesar.belley@lse.epita.fr
+Message-id: 20200812094135.20550-11-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/usb.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ docs/qdev-device-use.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/system/usb.rst b/docs/system/usb.rst
-index ddfa828d74ae..9a2f1927c451 100644
---- a/docs/system/usb.rst
-+++ b/docs/system/usb.rst
-@@ -81,6 +81,9 @@ option or the ``device_add`` monitor command. Available devices are:
- ``usb-audio``
-    USB audio device
+diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+index f8d0d2fe297a..9889521e3c07 100644
+--- a/docs/qdev-device-use.txt
++++ b/docs/qdev-device-use.txt
+@@ -325,6 +325,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
+ * mouse           -device usb-mouse
+ * tablet          -device usb-tablet
+ * wacom-tablet    -device usb-wacom-tablet
++* u2f             -device u2f-{emulated,passthru}
+ * braille         See "Character Devices"
  
-+``u2f-{emulated,passthru}``
-+   Universal Second Factor device
-+
- .. _host_005fusb_005fdevices:
- 
- Using host USB devices on a Linux host
+ === Watchdog Devices ===
 -- 
 2.18.4
 
