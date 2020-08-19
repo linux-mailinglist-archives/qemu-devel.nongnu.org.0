@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604EF24A085
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:50:23 +0200 (CEST)
-Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF9824A08F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:50:44 +0200 (CEST)
+Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8OTt-0003lD-V3
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
+	id 1k8OUG-0004Uj-0X
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OT5-0003HY-RF
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:49:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34302)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OTO-0003cB-4z
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:49:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OT4-0003FH-8e
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:49:31 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OTM-0003HE-Dh
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:49:49 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5516EB181;
- Wed, 19 Aug 2020 13:49:54 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id AF01CB181;
+ Wed, 19 Aug 2020 13:50:13 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v5 01/14] cpu-timers, icount: new modules
+Subject: Re: [PATCH v5 02/14] cpus: prepare new CpusAccel cpu accelerator
+ interface
 To: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>
 References: <20200812183250.9221-1-cfontana@suse.de>
- <20200812183250.9221-2-cfontana@suse.de>
- <10efbc6b-8e10-39f4-53cd-9a627e436f62@linaro.org>
-Message-ID: <32b4d35a-a9f9-1303-117e-3d6a981f71f8@suse.de>
-Date: Wed, 19 Aug 2020 15:49:26 +0200
+ <20200812183250.9221-3-cfontana@suse.de>
+ <83d22792-b436-1332-9457-1110b758f183@linaro.org>
+Message-ID: <66ef16b4-aec8-22ef-a190-0242c31fd3f9@suse.de>
+Date: Wed, 19 Aug 2020 15:49:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <10efbc6b-8e10-39f4-53cd-9a627e436f62@linaro.org>
+In-Reply-To: <83d22792-b436-1332-9457-1110b758f183@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -73,57 +74,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hello Richard,
 
-On 8/14/20 10:20 PM, Richard Henderson wrote:
+On 8/14/20 10:28 PM, Richard Henderson wrote:
 > On 8/12/20 11:32 AM, Claudio Fontana wrote:
->> +/*
->> + * Return the icount enablement state:
->> + *
->> + * 0 = Disabled - Do not count executed instructions.
->> + * 1 = Enabled - Fixed conversion of insn to ns via "shift" option
->> + * 2 = Enabled - Runtime adaptive algorithm to compute shift
->> + */
->> +int icount_enabled(void);
+>>  uint64_t cpu_get_tsc(CPUX86State *env)
+>>  {
+>> -    return cpu_get_ticks();
+>> +    return cpus_get_elapsed_ticks();
 > 
-> Why does use_icount need to change to a function?
+> What has this change got to do with creating the interface?
+> You said the interface wasn't used yet...
 
+the new CpusAccel interface isn't used,
 
-It is not useful at this point, I'll change this.
-
-
-> 
-> If it does, or even if this just comes under the heading of cleanup, it should
-> certainly be done in a separate patch.
-
-
-Yes, I'll move it to a different series entirely.
+The cpu_get_ticks() function is changed to mean getting the actual cpu ticks,
+while cpus_get_elapsed_ticks() contains the code that special cases icount and qtest,
+until the respective CpusAccel enablement patches.
 
 > 
-> Either way, I think we should expose the fact that this is always disabled when
-> #ifndef CONFIG_TCG, just like we do for tcg_enabled().
-
-Will do.
-
 > 
->> -        if (use_icount) {
->> -            return cpu_get_icount();
->> +        if (icount_enabled()) {
->> +            return icount_get();
+>> diff --git a/stubs/cpu-synchronize-state.c b/stubs/cpu-synchronize-state.c
+>> new file mode 100644
+>> index 0000000000..3112fe439d
+>> --- /dev/null
+>> +++ b/stubs/cpu-synchronize-state.c
+>> @@ -0,0 +1,15 @@
+>> +#include "qemu/osdep.h"
+>> +#include "sysemu/hw_accel.h"
+>> +
+>> +void cpu_synchronize_state(CPUState *cpu)
+>> +{
+>> +}
+>> +void cpu_synchronize_post_reset(CPUState *cpu)
+>> +{
+>> +}
+>> +void cpu_synchronize_post_init(CPUState *cpu)
+>> +{
+>> +}
+>> +void cpu_synchronize_pre_loadvm(CPUState *cpu)
+>> +{
+>> +}
+
+
+these are needed for non softmmu builds by hw/core/cpu.c
+and by gdbstub.c,
+but actually we could get away with just _state() and _post_init(). Will remove the others.
+
+
+>> diff --git a/stubs/cpus-get-virtual-clock.c b/stubs/cpus-get-virtual-clock.c
+>> new file mode 100644
+>> index 0000000000..fd447d53f3
+>> --- /dev/null
+>> +++ b/stubs/cpus-get-virtual-clock.c
+>> @@ -0,0 +1,8 @@
+>> +#include "qemu/osdep.h"
+>> +#include "sysemu/cpu-timers.h"
+>> +#include "qemu/main-loop.h"
+>> +
+>> +int64_t cpus_get_virtual_clock(void)
+>> +{
+>> +    return cpu_get_clock();
+>> +}
 > 
-> Renaming of other functions like this should also be done in a separate patch.
-
-Is there a compelling reason to separate the new module/class from what are effectively its methods?
-It seemed to me that creating a new icount module would warrant the name changes in the same patch.
-
+> How do these stubs get used?
 > 
 > 
 > r~
 > 
 
-I will be out of office until end of the month,
+util/timer.c needs it for non-softmmu builds (see previous discussion with Paolo).
 
-thanks,
+Thanks,
 
 Claudio
-
-
 
