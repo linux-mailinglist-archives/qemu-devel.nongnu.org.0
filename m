@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAFA249AEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:50:10 +0200 (CEST)
-Received: from localhost ([::1]:56980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60079249ACE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:48:34 +0200 (CEST)
+Received: from localhost ([::1]:53350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8LfV-0006by-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
+	id 1k8Ldx-00055c-EA
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k8LcL-0003OL-7T
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:46:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49028
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1k8LcJ-0003Uj-Df
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:46:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597834010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IvJSjtW/GNm2NtGb3G/59MWpRbjf2SQjK24/Bw7AqWQ=;
- b=RF69nTNvIE1D1HYDDD7RZG9BO4xMd/5KKDSTHBnwQ44UdzLYNUY3Z8c5ll4QFPyzvaskhC
- xxQ4TArDUdXRHOOaSM684weIiVjHnlMie2AsyXH02Iu6BU80K3S3N0BBvDfDRN3y6H5jBy
- M+Y5T7Vnhf51dYnQIQ8XNcevOvCTPBc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-E6-TyKAIPz60v_F5KoGuUw-1; Wed, 19 Aug 2020 06:46:48 -0400
-X-MC-Unique: E6-TyKAIPz60v_F5KoGuUw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A7EA1014DF9;
- Wed, 19 Aug 2020 10:46:47 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-19.ams2.redhat.com [10.36.114.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 403565C1A3;
- Wed, 19 Aug 2020 10:46:46 +0000 (UTC)
-Date: Wed, 19 Aug 2020 12:46:44 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v7 27/47] blkverify: Use bdrv_sum_allocated_file_size()
-Message-ID: <20200819104644.GA10272@linux.fritz.box>
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-28-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k8Lcz-0004Gb-NE
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:47:33 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:39514)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k8Lcx-0003Zu-Sj
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 06:47:33 -0400
+Received: by mail-ej1-x635.google.com with SMTP id f24so25757172ejx.6
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 03:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hHdYPjyTEnpybk6GLJWT42v7HOUyuHY9sHHJQ0vruQM=;
+ b=FqGhDWvwvHbHI3W9ROm3/Y9I6/MxaatJoRvhhzW43HFV0rDTl3LWp7uxKkAu4JbK8r
+ D7RreGPG4WAn/EwtGQSF7eL6YCYOAtJHvgHWg2evL2QnP9UYWvf7e1xfw/Ae5nIVtKk2
+ RWkxicT9c/55eD+dBJzy6xExFQaop7VLB2nnN4DQih6u/c3Cf2IGS7t3k0xMxnQTBoS0
+ foFdzEVNNctzv3wOYnXmaLlMM6ioBL27jmEzLfQivUaZFkpHqLVGqOslDvY9LeTJP4VD
+ xWrrDmmFQPKU0cnVxikhuhcuI2c+t+iEJ3qKWShib5vmy3ldG/o4zWOzADhc4IYPQlih
+ wjHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hHdYPjyTEnpybk6GLJWT42v7HOUyuHY9sHHJQ0vruQM=;
+ b=RqlRbW8EgAx6aPsngp+G9S0vjuSUfhVfVXYaJ1fkdH6V2qO7rGy8hOwMW6NHT2ps4J
+ IaNW6daloywvxDAtyA0CuZGOMrPkJbEP/aSWOIcLGbNqPE/X/nBY7mKsXnREBdyVkFJV
+ 8DPY0QxOJ+7jkANKcXMQ14NmHTuMEu8CBGzLflK2ydobbSP46MLVYkK1y4qnBAShB0Bh
+ mOJOoOm6B+g2ia1Puc79WIjPHNmeqNUpGkejAQLdft+XEtson0IcUgrBYn888oaC1JDJ
+ MbRmGZtr+RvdkS72Jj9V4QL3ZTQEhvUGom5hzK9XbjbI2vUXlxScWhKuss2XeiZJX5e9
+ zJ9Q==
+X-Gm-Message-State: AOAM53258UOcapRn15FfOnPOib3z8RQtewsNF0HuxkEa7xq8fuqlU80b
+ vOGdZFdNhduPqs9EoJPmzZ29t68Es9QD1URnpVzGhQ==
+X-Google-Smtp-Source: ABdhPJyYE/r4sdFK6ViGlDAcJPc4U/9zXoYCdbw/qlYYMf2dKKcXOGz/CRgl9hftBKqfYzHzEugVqO6USGJA6XK2bQ0=
+X-Received: by 2002:a17:906:b248:: with SMTP id
+ ce8mr3530713ejb.85.1597834050075; 
+ Wed, 19 Aug 2020 03:47:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200625152215.941773-28-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200819094715.8234-1-pbonzini@redhat.com>
+In-Reply-To: <20200819094715.8234-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 19 Aug 2020 11:47:18 +0100
+Message-ID: <CAFEAcA_5_0zFaGK7==9U8rJE2qZoqBxdaxnMYxK3jHZntnNJAg@mail.gmail.com>
+Subject: Re: [PULL v4 000/150] Meson-based build system
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,25 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.06.2020 um 17:21 hat Max Reitz geschrieben:
-> blkverify is a filter, so bdrv_get_allocated_file_size()'s default
-> implementation will return only the size of its filtered child.
-> However, because both of its children are disk images, it makes more
-> sense to sum both of their allocated sizes.
+On Wed, 19 Aug 2020 at 10:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
+>
+>   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to ab7ac9b093f9d6d7878028b87ad68f70c923e180:
+>
+>   docs: convert build system documentation to rST (2020-08-19 05:22:55 -0400)
+>
+> v3->v4: fixed aarch32 and MXE builds
+>
+> The MXE failure seems to be compounded by a Make bug, that causes it not
+> to obey private target-specific variables.  Fortunately it can be avoided
+> easily, in fact while simplifying a tiny bit the ninja2make converter.
+>
+> I do wish this was found earlier than last minute, at the same time it's
+> an easy fix and the fixed version rules has really trivial rules; thus,
+> it follows even more the principle that one should never need to look
+> at Makefile.ninja.  If this alternative implementation had come to my
+> mind, I would definitely have chosen it from the beginning.
 
-Hm, but so are the children of, say, backup-top. I don't think you're
-suggesting that backup-top should add the sizes of both images, even
-though the backup job is actively increasing the allocated size of the
-non-primary node, much like blkverify.
+Hi; this fails to link in the clang sanitizer build;
+configure rune:
+'../../configure' '--skip-meson' '--skip-meson' '--cc=clang'
+'--cxx=clang++' '--enable-gtk' '--extra-cflags=-fsanitize=undefined
+-fno-sanitize=shift-base -Werror' "$@"
 
-So I believe returning only the allocated size of the primary child in
-blkverify would be more consistent with what we do elsewhere.
+(Side note: where have those two --skip-meson arguments come from?
+I never passed them to configure.)
 
-Kevin
+Link failures look like
+Linking target qemu-alpha
+libcommon.fa.p/disas_alpha.c.o: In function `extract_za':
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../disas/alpha.c:483:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+libcommon.fa.p/disas_alpha.c.o: In function `extract_zb':
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../disas/alpha.c:498:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+libcommon.fa.p/disas_alpha.c.o: In function `extract_zc':
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../disas/alpha.c:513:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+libcommon.fa.p/disas_alpha.c.o: In function `extract_rba':
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../disas/alpha.c:446:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+libcommon.fa.p/disas_alpha.c.o: In function `extract_rca':
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../disas/alpha.c:465:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+libcommon.fa.p/disas_alpha.c.o:/home/petmay01/linaro/qemu-for-merges/build/clang/../../disas/alpha.c:524:
+more undefined references to `__ubsan_handle_type_mismatch_v1' follow
 
+Other links fail for the same error but for disas/i386.c or
+disas/cris.c.
+
+thanks
+-- PMM
 
