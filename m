@@ -2,82 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892462492F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 04:39:28 +0200 (CEST)
-Received: from localhost ([::1]:53334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8BF2492FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 04:46:40 +0200 (CEST)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8E0d-0000bT-2V
-	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 22:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
+	id 1k8E7b-0007Ab-Cg
+	for lists+qemu-devel@lfdr.de; Tue, 18 Aug 2020 22:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8Dzv-00009M-D9
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 22:38:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58259
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8Dzs-0002fd-Gz
- for qemu-devel@nongnu.org; Tue, 18 Aug 2020 22:38:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597804718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0ahF9kHkk+KzE1v5hPws7TWhx97Oq/uytmMOo+VABGc=;
- b=WTK7VuCkQxOZCOiwhioTQvhRJSYuLLCOxCsaJRwibqSW7nnih1HOWmGpaLbZUpVTX0waU/
- CWzdFtOu4HjIGPgJ+SXsmOCHK+RTTdukc9hGr/O1kNJODnIkcX7Rt3ViPBLyP8OZ48nN4j
- oNwEuVMVCQfL38VDGtlC8ejrl3zBveE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-tVAsAyPbNA6-594zY0pgiQ-1; Tue, 18 Aug 2020 22:38:36 -0400
-X-MC-Unique: tVAsAyPbNA6-594zY0pgiQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CC671DDF4;
- Wed, 19 Aug 2020 02:38:34 +0000 (UTC)
-Received: from [10.72.13.88] (ovpn-13-88.pek2.redhat.com [10.72.13.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36A017DFDD;
- Wed, 19 Aug 2020 02:38:14 +0000 (UTC)
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200805075647.GB2177@nanopsycho>
- <eb1d01c2-fbad-36b6-10cf-9e03483a736b@redhat.com>
- <20200805093338.GC30485@joy-OptiPlex-7040> <20200805105319.GF2177@nanopsycho>
- <20200810074631.GA29059@joy-OptiPlex-7040>
- <e6e75807-0614-bd75-aeb6-64d643e029d3@redhat.com>
- <20200814051601.GD15344@joy-OptiPlex-7040>
- <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
- <20200818085527.GB20215@redhat.com>
- <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
- <20200818091628.GC20215@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <5aea4ae6-e8c8-1120-453d-20a78cee6b20@redhat.com>
-Date: Wed, 19 Aug 2020 10:38:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1k8E4S-0001Xq-I3; Tue, 18 Aug 2020 22:43:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1k8E4O-0004Yn-Au; Tue, 18 Aug 2020 22:43:24 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07J2c7Lc100020; Tue, 18 Aug 2020 22:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=bIGK7fuoG2DjEvLbJ445Zrv21g4yWHOjXrTxJnhIPbc=;
+ b=buFWtwXS0DhgXS84m1Yd7fDYlUns9CAm2Ap1+3b7I51eGbFQLbiLGe8ulrxK1LdMUMOA
+ l9POKId5T1eozW2X7LhN6Cm31m5bNGTatptLTGtYjbrlOVZZwOhFGBjMy/CZkYmoJGmZ
+ vYUigkSZOrX/WASHAT4etpxwBWxRaoW2h0BZXGL6ONZUQZDKSGAG2l8xgEcdCXC6q3pH
+ 67sXXyyWYuHlfOVQ7PY9oZ2ExFVvum3GBmEDXb4D+8Au4Jg87Vh6XH9LeEc2Y1H1nFtY
+ 1WKuHqN4r5UWjjVl5HRe+wYnwCb9n3xqL3+trbfSxX2SAoJbAvUwUcFtQNX3TkcngU+W Dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3304scvmfk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Aug 2020 22:42:41 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07J2cv0l107536;
+ Tue, 18 Aug 2020 22:42:40 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3304scvmes-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Aug 2020 22:42:40 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07J2cohC002265;
+ Wed, 19 Aug 2020 02:42:39 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04wdc.us.ibm.com with ESMTP id 3304uegjej-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Aug 2020 02:42:39 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07J2gcrH655988
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Aug 2020 02:42:38 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F1B16BE053;
+ Wed, 19 Aug 2020 02:42:37 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E85DBE04F;
+ Wed, 19 Aug 2020 02:42:32 +0000 (GMT)
+Received: from morokweng.localdomain.com (unknown [9.163.41.251])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 19 Aug 2020 02:42:32 +0000 (GMT)
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v5 0/8] Generalize start-powered-off property from ARM
+Date: Tue, 18 Aug 2020 23:42:12 -0300
+Message-Id: <20200819024220.587612-1-bauerman@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200818091628.GC20215@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:38:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-19_02:2020-08-18,
+ 2020-08-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=1 malwarescore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 phishscore=0 mlxscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008190022
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:43:18
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,98 +107,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- kwankhede@nvidia.com, eauger@redhat.com, xin-ran.wang@intel.com,
- corbet@lwn.net, openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
- Parav Pandit <parav@mellanox.com>, jian-feng.ding@intel.com,
- dgilbert@redhat.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
- bao.yumeng@zte.com.cn, Alex Williamson <alex.williamson@redhat.com>,
- eskultet@redhat.com, smooney@redhat.com, intel-gvt-dev@lists.freedesktop.org,
- Cornelia Huck <cohuck@redhat.com>, Jiri Pirko <jiri@mellanox.com>,
- dinechin@redhat.com, devel@ovirt.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This version, like the previous one, tries to fix an issue found by
+David Gibson when running the Travis CI:
 
-On 2020/8/18 下午5:16, Daniel P. Berrangé wrote:
-> Your mail came through as HTML-only so all the quoting and attribution
-> is mangled / lost now :-(
+Unexpected error in qdev_prop_set_after_realize() at /home/travis/build/dgibson/qemu/hw/core/qdev-properties.c:30:
+qemu-system-mips64el: Attempt to set property 'start-powered-off' on anonymous device (type 'I6400-mips64-cpu') after it was realized
+Broken pipe
+/home/travis/build/dgibson/qemu/tests/qtest/libqtest.c:175: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+Aborted (core dumped)
+ERROR qom-test - too few tests run (expected 8, got 0)
+/home/travis/build/dgibson/qemu/tests/Makefile.include:650: recipe for target 'check-qtest-mips64el' failed
 
+Philippe Mathieu-Daudé spotted the problem:
 
-My bad, sorry.
+> Good catch. hw/mips/cps.c, hw/ppc/e500.c and hw/sparc/sun4m.c are
+> incorrectly setting the property after the cpu is realized because
+> the cpu is created with cpu_create(). We need to create them with
+> object_initialize_child() and realize them manually with qdev_realize().
 
+But I found very few examples of CPUs initialized with
+object_initialize_child() (e.g., atmega.c, rx62n.c, nrf51_soc.c)
+so instead of using object_initialize_child(), I replaced the call to
+cpu_create() with object_new() and a call to qdev_realize() shortly after
+the  start-powered-off property is set. I thought this would be the more
+prudent change, keeping the code as close to the previous one as possible.
 
->
-> On Tue, Aug 18, 2020 at 05:01:51PM +0800, Jason Wang wrote:
->>     On 2020/8/18 下午4:55, Daniel P. Berrangé wrote:
->>
->>   On Tue, Aug 18, 2020 at 11:24:30AM +0800, Jason Wang wrote:
->>
->>   On 2020/8/14 下午1:16, Yan Zhao wrote:
->>
->>   On Thu, Aug 13, 2020 at 12:24:50PM +0800, Jason Wang wrote:
->>
->>   On 2020/8/10 下午3:46, Yan Zhao wrote:
->>   we actually can also retrieve the same information through sysfs, .e.g
->>
->>   |- [path to device]
->>      |--- migration
->>      |     |--- self
->>      |     |   |---device_api
->>      |    |   |---mdev_type
->>      |    |   |---software_version
->>      |    |   |---device_id
->>      |    |   |---aggregator
->>      |     |--- compatible
->>      |     |   |---device_api
->>      |    |   |---mdev_type
->>      |    |   |---software_version
->>      |    |   |---device_id
->>      |    |   |---aggregator
->>
->>
->>   Yes but:
->>
->>   - You need one file per attribute (one syscall for one attribute)
->>   - Attribute is coupled with kobject
->>
->>   All of above seems unnecessary.
->>
->>   Another point, as we discussed in another thread, it's really hard to make
->>   sure the above API work for all types of devices and frameworks. So having a
->>   vendor specific API looks much better.
->>
->>   From the POV of userspace mgmt apps doing device compat checking / migration,
->>   we certainly do NOT want to use different vendor specific APIs. We want to
->>   have an API that can be used / controlled in a standard manner across vendors.
->>
->>     Yes, but it could be hard. E.g vDPA will chose to use devlink (there's a
->>     long debate on sysfs vs devlink). So if we go with sysfs, at least two
->>     APIs needs to be supported ...
-> NB, I was not questioning devlink vs sysfs directly. If devlink is related
-> to netlink, I can't say I'm enthusiastic as IMKE sysfs is easier to deal
-> with. I don't know enough about devlink to have much of an opinion though.
-> The key point was that I don't want the userspace APIs we need to deal with
-> to be vendor specific.
->
-> What I care about is that we have a *standard* userspace API for performing
-> device compatibility checking / state migration, for use by QEMU/libvirt/
-> OpenStack, such that we can write code without countless vendor specific
-> code paths.
->
-> If there is vendor specific stuff on the side, that's fine as we can ignore
-> that, but the core functionality for device compat / migration needs to be
-> standardized.
+I tried reproducing the Travis CI problem with
+`make docker-test-misc@debian-mips64el-cross` but I didn't succeed, so
+I'm not sure if this version solves the issue.
+
+Applies cleanly on dgibson/ppc-for-5.2.
+
+Original cover letter below, followed by changelog:
 
 
-Ok, I agree with you.
+The ARM code has a start-powered-off property in ARMCPU, which is a
+subclass of CPUState. This property causes arm_cpu_reset() to set
+CPUState::halted to 1, signalling that the CPU should start in a halted
+state. Other architectures also have code which aim to achieve the same
+effect, but without using a property.
 
-Thanks
+The ppc/spapr version has a bug where QEMU does a KVM_RUN on the vcpu
+before cs->halted is set to 1, causing the vcpu to run while it's still in
+an unitialized state (more details in patch 3).
 
+Peter Maydell mentioned the ARM start-powered-off property and
+Eduardo Habkost suggested making it generic, so this patch series does
+that, for all cases which I was able to find via grep in the code.
 
->
-> Regards,
-> Daniel
+The only problem is that I was only able to test these changes on a ppc64le
+pseries KVM guest, so except for patches 2 and 3, all others are only
+build-tested. Also, my grasp of QOM lifecycle is basically non-existant so
+please be aware of that when reviewing this series.
+
+The last patch may be wrong, as pointed out by Eduardo, so I marked it as
+RFC. It may make sense to drop it.
+
+Changes since v4:
+
+Patch "ppc/e500: Use start-powered-off CPUState property"
+Patch "sparc/sun4m: Use start-powered-off CPUState property"
+- Use qdev_realize_and_unref() instead of qdev_realize(), as suggested
+  by Igor.
+- Pass &error_fatal to qdev_realize_and_unref() instead of manually
+  reporting the error and exiting QEMU, as suggested by Philippe.
+- Changed object_property_set_bool() to use &error_fatal instead of
+  &error_abort.
+
+Patch "mips/cps: Use start-powered-off CPUState property"
+- Use qdev_realize_and_unref() instead of qdev_realize(), as suggested
+  by Igor.
+- Use existing errp argument to propagate error back to the caller, as
+  suggested by Philippe.
+- Changed object_property_set_bool() to use existing errp argument to
+  propagate error back to the caller instead of using &error_abort.
+
+Changes since v3:
+
+General:
+- Added David's, Greg's and Cornelia's Reviewed-by and Acked-by to some
+  of the patches.
+- Rebased on top of dgibson/ppc-for-5.2.
+
+Patch "ppc/e500: Use start-powered-off CPUState property"
+Patch "mips/cps: Use start-powered-off CPUState property"
+Patch "sparc/sun4m: Use start-powered-off CPUState property"
+- Initialize CPU object with object_new() and qdev_realize() instead
+  of cpu_create().
+- Removed Reviewed-by's and Acked-by's from these patches because of
+  these changes.
+
+Changes since v2:
+
+General:
+- Added Philippe's Reviewed-by to some of the patches.
+
+Patch "ppc/spapr: Use start-powered-off CPUState property"
+- Set the CPUState::start_powered_off variable directly rather than using
+  object_property_set_bool(). Suggested by Philippe.
+
+Patch "sparc/sun4m: Remove main_cpu_reset()"
+- New patch. Suggested by Philippe.
+
+Patch "sparc/sun4m: Use start-powered-off CPUState property"
+- Remove secondary_cpu_reset(). Suggested by Philippe.
+- Remove setting of `cs->halted = 1` from cpu_devinit(). Suggested by Philippe.
+
+Patch "Don't set CPUState::halted in cpu_devinit()"
+- Squashed into previous patch. Suggested by Philippe.
+
+Patch "sparc/sun4m: Use one cpu_reset() function for main and secondary CPUs"
+- Dropped.
+
+Patch "target/s390x: Use start-powered-off CPUState property"
+- Set the CPUState::start_powered_off variable directly rather than using
+  object_property_set_bool(). Suggested by Philippe.
+- Mention in the commit message Eduardo's observation that before this
+  patch, the code didn't set cs->halted on reset.
+
+Thiago Jung Bauermann (8):
+  target/arm: Move start-powered-off property to generic CPUState
+  target/arm: Move setting of CPU halted state to generic code
+  ppc/spapr: Use start-powered-off CPUState property
+  ppc/e500: Use start-powered-off CPUState property
+  mips/cps: Use start-powered-off CPUState property
+  sparc/sun4m: Remove main_cpu_reset()
+  sparc/sun4m: Use start-powered-off CPUState property
+  target/s390x: Use start-powered-off CPUState property
+
+ exec.c                  |  1 +
+ hw/core/cpu.c           |  2 +-
+ hw/mips/cps.c           | 14 ++++++++++----
+ hw/ppc/e500.c           | 14 ++++++++++----
+ hw/ppc/spapr_cpu_core.c | 10 +++++-----
+ hw/sparc/sun4m.c        | 32 +++++---------------------------
+ include/hw/core/cpu.h   |  4 ++++
+ target/arm/cpu.c        |  4 +---
+ target/arm/cpu.h        |  3 ---
+ target/arm/kvm32.c      |  2 +-
+ target/arm/kvm64.c      |  2 +-
+ target/s390x/cpu.c      |  2 +-
+ 12 files changed, 40 insertions(+), 50 deletions(-)
 
 
