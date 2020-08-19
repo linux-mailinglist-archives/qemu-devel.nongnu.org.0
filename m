@@ -2,55 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043F424A09F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:51:52 +0200 (CEST)
-Received: from localhost ([::1]:40566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9547924A142
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 16:08:16 +0200 (CEST)
+Received: from localhost ([::1]:58166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8OVL-000665-2S
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
+	id 1k8OlD-0005XR-4i
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 10:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OUW-0005FG-RI
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:51:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34956)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OUV-0003XS-7G
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:51:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 723B3B181;
- Wed, 19 Aug 2020 13:51:24 +0000 (UTC)
-Subject: Re: [PATCH v5 10/14] cpus: add handle_interrupt to the CpusAccel
- interface
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20200812183250.9221-1-cfontana@suse.de>
- <20200812183250.9221-11-cfontana@suse.de>
- <ee2b8640-2446-32f8-47c3-b327db42f7b7@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <334f0459-0947-ac98-418f-6118c1b99eec@suse.de>
-Date: Wed, 19 Aug 2020 15:50:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k8OkW-00058X-J0
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 10:07:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k8OkT-0005n0-St
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 10:07:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597846048;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MwF9GF+8FyvNaeQ3PLC4//yt1hnoRiP3I5Fwa7QmUFM=;
+ b=TYLMIo2YjvCABMuKmso0u0PwYPyLiQIliq1h8PkNBAQVczPKyr3vD6BaogoOHJcVviSF3X
+ HAMnHdZFRJCDj0Fmh2x/R+9yaZDI47vKUC6YjzzouZcDFTpPJQuF8oxaoO3aNzjKviB0hi
+ G+xBmEDTHxv5cfuCiM+BI2bMFpe1L4U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-yszqqC2-O5K5tFyFv-gOlQ-1; Wed, 19 Aug 2020 10:07:25 -0400
+X-MC-Unique: yszqqC2-O5K5tFyFv-gOlQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB196186A568;
+ Wed, 19 Aug 2020 14:07:24 +0000 (UTC)
+Received: from localhost (ovpn-113-22.ams2.redhat.com [10.36.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8BEA1002391;
+ Wed, 19 Aug 2020 14:07:20 +0000 (UTC)
+Date: Wed, 19 Aug 2020 15:07:19 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2] memory: Add trace events to audit
+ MemoryRegionOps fields
+Message-ID: <20200819140719.GB366841@stefanha-x1.localdomain>
+References: <20200806152613.18523-1-philmd@redhat.com>
+ <d87db8e9-40b1-334d-22b0-90674ddf8177@redhat.com>
+ <161c9d87-677b-6806-b080-4aebfd5275c4@redhat.com>
+ <20200819091417.GA357031@stefanha-x1.localdomain>
+ <0134a5c1-dabb-76cf-a08c-c6ecfbe4af5b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ee2b8640-2446-32f8-47c3-b327db42f7b7@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:55:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+In-Reply-To: <0134a5c1-dabb-76cf-a08c-c6ecfbe4af5b@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 10:07:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,66 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Richard Henderson <rth@twiddle.net>, Colin Xu <colin.xu@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/20 11:01 PM, Richard Henderson wrote:
-> On 8/12/20 11:32 AM, Claudio Fontana wrote:
->> +static void generic_handle_interrupt(CPUState *cpu, int mask)
->> +{
->> +    cpu->interrupt_request |= mask;
->> +
->> +    if (!qemu_cpu_is_self(cpu)) {
->> +        qemu_cpu_kick(cpu);
->> +    }
->> +}
->> +
->> +void cpu_interrupt(CPUState *cpu, int mask)
->> +{
->> +    if (cpus_accel && cpus_accel->handle_interrupt) {
->> +        cpus_accel->handle_interrupt(cpu, mask);
->> +    } else {
->> +        generic_handle_interrupt(cpu, mask);
->> +    }
->> +}
-> 
-> First, by this point you have converted all of the accelerators, so I would
-> expect cpus_accel to always be non-null.  I would expect a patch immediately
-> preceding this one to place an assert to that effect somewhere in the startup
-> code, and to remove all of the checks.
+--6sX45UoQRIJXqkqR
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok.
+On Wed, Aug 19, 2020 at 12:10:20PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> But for now I'm not sure the check has to be enforced, because I'm not
+> sure what we really want to do. First we need to figure out the 'bus'
+> component of a a MemoryRegion (where it sits), as it affects the
+> MemoryRegionOps possible range values.
 
-> 
-> Second, I would prefer that all methods be non-null, so that you don't need to
-> check that either.  
+The natural place to enforce bus-specific constraints is when
+MemoryRegions are registered with their bus. For example,
+pci_register_bar().
 
-This contrasts a bit with the previous comments by Paolo to try to express only the "interesting" bits in the CpusAccel struct in each module.
+SysBus devices need to specify constraints manually since there is no
+real bus emulation.
 
+Stefan
 
-> This patch would add generic_handle_interrupt (perhaps
-> named cpus_accel_default_handle_interrupt declared in sysemu/cpus.h?) to the
-> CpusAccel structure of all except TCG.
-> 
-> Similarly for all other methods that are checking non-null-ness of the method
-> pointer.  Perhaps assert non-null for each method in cpus_register_accel().
-> 
-> 
-> r~
-> 
+--6sX45UoQRIJXqkqR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-That was my initial approach in very old versions of the series (all fields as explicit and mandatory),
-I changed direction there due to Paolo's comments. For me both solutions are fine, each has its merits and downsides.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl89MhcACgkQnKSrs4Gr
+c8gG4AgAlVVLaFiAeiehUBAZPindClW2tCZWb42ZB6ZqTr35j3Ol/XLjDNBzwPCK
+RzoF3QbRY/pUjmmj6MSiW1DOlLAvQTfIKBe4XIft/hHePsGJyLgJgkg0ox+mMMCd
+3AGs7qDvqVdiuJS7fhDIVCIO5wmo3vQNmDhylztNixp5Q1tDPtOW9OWGzMZl1gwZ
+P2LRJjlTLmc6iAokiN3f7JY3pWl1LdnN/oqwdDNQLrB8Nglp2/1zWNHj7vmYpy2D
+4DSrMEcHSkI/EoaXzB1TAH0/X0FxulLZ1vdglKwqc+kCgNyW/fgyLQrIIj5vAgWi
+JvPfugsZTdCqrwk5dj/BdS/Aqo33fQ==
+=Vmv3
+-----END PGP SIGNATURE-----
 
-Claudio
-
+--6sX45UoQRIJXqkqR--
 
 
