@@ -2,83 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074C524A0A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:52:55 +0200 (CEST)
-Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9353A24A09D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:51:42 +0200 (CEST)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8OWM-0007Te-4A
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1k8OVB-0005on-N6
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dvossel@redhat.com>)
- id 1k8OTi-00044D-Ox
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:50:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dvossel@redhat.com>)
- id 1k8OTf-0003Ia-5f
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:50:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597845004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nt/bwu56DXvGx6x/fLtlahXmA1Ms8aVd4xeQwXu2yZs=;
- b=UzdMse6XcqAwDhL8K1NKRpcvM2iaiaUZY5mUv5oLUf0J33TEeFVi10eVTikxsid+Al7zOp
- 7CSmlKl0WJjg8YwiLluTbauep+d5hAF+PkYXBc7ByCVlfyygKSraHF6r6pBx6WMvBtlNUn
- 6GBXApcZR+Myawx6prEwOXzYEQ9PFV4=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-lByIw5PhPjqg-xQn8o_5Og-1; Wed, 19 Aug 2020 09:50:02 -0400
-X-MC-Unique: lByIw5PhPjqg-xQn8o_5Og-1
-Received: by mail-ua1-f72.google.com with SMTP id j13so6004608uaq.3
- for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 06:50:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nt/bwu56DXvGx6x/fLtlahXmA1Ms8aVd4xeQwXu2yZs=;
- b=EpPaN/vI/1kHa1iubTe+JbldN1Za1gE1GUi8MjCZpOPzln80z5EThliZfFRq7Gf/yG
- 9yuses/YCF4iUMXcwWuhFVnEQpAndjqJlem6D7vX+WE3FUKUlpVJ5obZ5Lg6JuoHR7gk
- p9cRbuIwHGIDcOuUfNJyHZPT+jocyXTElS1zgCTN51s2f1bx/7TxNcZffepvO92Zbhp0
- c/dZTZI76Xs2JAlbCblPcpn1FkcM4HsmiLJHMTlPYRFjNX+mBGGbSECP+0rxaAdvuJHC
- NS46cUz/4hdLt/dglU32a/jtRi8Z/MWD4ijcJYJ2VuRTPIdmwshnaIS00KdsQgUDjsi+
- TuUQ==
-X-Gm-Message-State: AOAM532FgUc8nNJjI7Ucgl0XwcS/53kLxUJZlo507ba1G6ptuoJBzK93
- giz91GvaDg3PnmQvKxNCLsvJ8jxhzJpsrtuKiNspIWYyJ+BM/Ge5LTyEXJ4w9CY5r+cNmXrfsIK
- zHjjO+IQmUKtMqb436e4ftGX6mHZKtgw=
-X-Received: by 2002:a67:1e81:: with SMTP id
- e123mr13768336vse.210.1597845001911; 
- Wed, 19 Aug 2020 06:50:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxV9L1vI6taotBUu+js0ZnxVnB3zu8ZKMwrDCKMW9/3seT9+L0eLu8kFVWEgvHoF/G6KmSIhQtWRE1MDc1VkCY=
-X-Received: by 2002:a67:1e81:: with SMTP id
- e123mr13768317vse.210.1597845001696; 
- Wed, 19 Aug 2020 06:50:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OTc-0003zI-Tu
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:50:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1k8OTZ-0003IF-GH
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 09:50:04 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6B3A6B1CC;
+ Wed, 19 Aug 2020 13:50:26 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v5 03/14] cpus: extract out TCG-specific code to accel/tcg
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20200812183250.9221-1-cfontana@suse.de>
+ <20200812183250.9221-4-cfontana@suse.de>
+ <6d14d386-231a-f3b5-8802-167c8979aa03@linaro.org>
+Message-ID: <ac7ebd7f-d988-d767-a5ec-c19eda4d3f45@suse.de>
+Date: Wed, 19 Aug 2020 15:49:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <CAPjOJFsjqFg6jO==Y5ExhL2+mZXA0Z1vce2pmUCODLtyS6Z7Yw@mail.gmail.com>
- <2310267.m5nKHIMqSz@silver>
-In-Reply-To: <2310267.m5nKHIMqSz@silver>
-From: David Vossel <dvossel@redhat.com>
-Date: Wed, 19 Aug 2020 09:49:50 -0400
-Message-ID: <CAPjOJFsr2_0Kdp03jbSUZ2vpde41uHrS6ki_Wax4pZ-d8RTDvQ@mail.gmail.com>
-Subject: Re: guest agent public ssh key add/remove support?
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dvossel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000bb8e9f05ad3b4710"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dvossel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 06:57:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <6d14d386-231a-f3b5-8802-167c8979aa03@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 22:55:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,142 +62,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Fabian Deutsch <fdeutsch@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Richard Henderson <rth@twiddle.net>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bb8e9f05ad3b4710
-Content-Type: text/plain; charset="UTF-8"
+On 8/14/20 10:39 PM, Richard Henderson wrote:
+> On 8/12/20 11:32 AM, Claudio Fontana wrote:
+>> +static int64_t tcg_get_virtual_clock(void)
+>> +{
+>> +    if (icount_enabled()) {
+>> +        return icount_get();
+>> +    }
+>> +    return cpu_get_clock();
+>> +}
+>> +
+>> +static int64_t tcg_get_elapsed_ticks(void)
+>> +{
+>> +    if (icount_enabled()) {
+>> +        return icount_get();
+>> +    }
+>> +    return cpu_get_ticks();
+>> +}
+>> +
+>> +CpusAccel tcg_cpus = {
+>> +    .create_vcpu_thread = tcg_start_vcpu_thread,
+>> +    .kick_vcpu_thread = tcg_kick_vcpu_thread,
+>> +    .get_virtual_clock = tcg_get_virtual_clock,
+>> +    .get_elapsed_ticks = tcg_get_elapsed_ticks,
+>> +};
+> 
+> I think this variable should be const.  Which of course means that the previous
+> patch needs to add const annotations.
 
-On Tue, Aug 18, 2020 at 3:10 PM Christian Schoenebeck <
-qemu_oss@crudebyte.com> wrote:
+Will add.
 
-> On Dienstag, 18. August 2020 15:25:56 CEST David Vossel wrote:
-> > - Guest Agent SSH add/remove Support?
-> >
-> > As a PoC, I cobbled together some guest agent exec and file write client
-> > commands which can technically achieve the desired result of
-> > adding/removing entries in a /home/<user>/.ssh/authorized_keys file.
-> It's a
-> > little unwieldy, but it works.
-> >
-> > This got me thinking, an officially supported guest agent api for this
-> ssh
-> > key management would be really nice. There's already a somewhat related
-> > precedent with the "guest-set-user-password" guest agent command.
-> >
-> > So here's the question. What would you all think about the guest agent
-> API
-> > being expanded with new commands for adding/removing ssh public keys from
-> > authorized_keys files?
->
-> There are two pass-through file systems in QEMU: 9pfs and virtiofs. Don't
-> you
-> think they would be sufficient for the use case?
->
+> 
+> I think you should actually have multiple dispatch variables: with icount and
+> without, with mttcg and without.  That way these methods don't have to check
+> icount_enabled() or qemu_tcg_mttcg_enabled() at runtime, only at startup.
 
-probably not entirely.
+I gave it a try, it would work, however it is basically a refactoring of the existing qemu_tcg_init_vcpu ,
 
-Understand this isn't an either/or scenario. Our api has been designed to
-support multiple "propagation" methods for the ssh keys. We've converged on
-the qemu guest agent for some other features and the agent appears to have
-the potential to provide us the greatest flexibility when it comes to how
-we want this pub ssh key use case to work.  This isn't to say something
-like virtiofs won't make sense either in certain scenarios, but for the
-purposes of this discussion we're hoping to explore how the qemu guest
-agent could be used.
+I'd do it in a separate series if possible (with some help from Alex?)
 
-I don't want to go too deep into the shared filesystem approach. I'll
-provide some context on the challenges there though.
+Claudio
 
-- virtiofs requires guest kernel >= 5.4. We aren't considering 9p due to
-security/performance concerns.
-- file ownership/permissions. requires prior knowledge of uid/gid on the
-host.
-- persistence. if we share authorised_keys via virtiofs, then we have to
-put this on a separate persistent network volume (otherwise user
-modifications within guest are lost)
-- potentially clobbers existing authorization_keys file on disk, with agent
-we can merge our additions/removals to whatever the user has set in
-authorized_keys.
-- lack of KubeVirt support for virtiofs. however, it will likely make it
-soon
-
-
-
-
-> Best regards,
-> Christian Schoenebeck
->
->
->
-
---000000000000bb8e9f05ad3b4710
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 18, 2020 at 3:10 PM Chris=
-tian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@cru=
-debyte.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Dienstag, 18. August 2020 15:25:56 CEST David Vossel wrote:<b=
-r>
-&gt; - Guest Agent SSH add/remove Support?<br>
-&gt; <br>
-&gt; As a PoC, I cobbled together some guest agent exec and file write clie=
-nt<br>
-&gt; commands which can technically achieve the desired result of<br>
-&gt; adding/removing entries in a /home/&lt;user&gt;/.ssh/authorized_keys f=
-ile. It&#39;s a<br>
-&gt; little unwieldy, but it works.<br>
-&gt; <br>
-&gt; This got me thinking, an officially supported guest agent api for this=
- ssh<br>
-&gt; key management would be really nice. There&#39;s already a somewhat re=
-lated<br>
-&gt; precedent with the &quot;guest-set-user-password&quot; guest agent com=
-mand.<br>
-&gt; <br>
-&gt; So here&#39;s the question. What would you all think about the guest a=
-gent API<br>
-&gt; being expanded with new commands for adding/removing ssh public keys f=
-rom<br>
-&gt; authorized_keys files?<br>
-<br>
-There are two pass-through file systems in QEMU: 9pfs and virtiofs. Don&#39=
-;t you <br>
-think they would be sufficient for the use case?<br></blockquote><div><br><=
-/div><div>probably not entirely.=C2=A0</div><div><br></div><div>Understand =
-this isn&#39;t an either/or scenario. Our api has been designed to support =
-multiple &quot;propagation&quot; methods for the ssh keys. We&#39;ve conver=
-ged on the qemu guest agent for some other features and the agent appears t=
-o have the potential to provide us the greatest flexibility when it comes t=
-o how we want this pub ssh key use case to work.=C2=A0 This isn&#39;t to sa=
-y something like virtiofs won&#39;t make sense either in certain scenarios,=
- but for the purposes of this discussion we&#39;re hoping to explore how th=
-e qemu guest agent could be used.</div><div><br></div><div>I don&#39;t want=
- to go too deep into the shared filesystem approach. I&#39;ll provide some =
-context on the challenges there though.</div><div><br></div><div>- virtiofs=
- requires guest kernel &gt;=3D 5.4. We aren&#39;t considering 9p due to sec=
-urity/performance concerns.</div><div>- file ownership/permissions. require=
-s prior knowledge of uid/gid on the host.<br>- persistence. if we share aut=
-horised_keys via virtiofs, then we have to put this on a separate persisten=
-t network volume (otherwise user modifications within guest are lost)</div>=
-<div>- potentially clobbers existing authorization_keys file on disk, with =
-agent we can merge our additions/removals to whatever the user has set in a=
-uthorized_keys.</div><div>- lack of KubeVirt support for=C2=A0virtiofs. how=
-ever, it will likely make it soon<br></div><div><br></div><div><br></div><d=
-iv><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000bb8e9f05ad3b4710--
+> 
+> 
+> r~
+> 
 
 
