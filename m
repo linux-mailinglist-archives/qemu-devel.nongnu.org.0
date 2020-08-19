@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1722499E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:11:36 +0200 (CEST)
-Received: from localhost ([::1]:55324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E589C249A1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:19:44 +0200 (CEST)
+Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8L4B-0003Qf-63
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:11:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
+	id 1k8LC4-0003tU-0I
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2q-00017F-0g; Wed, 19 Aug 2020 06:10:12 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37529)
+ id 1k8L2y-0001V2-WA; Wed, 19 Aug 2020 06:10:21 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:45987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2n-0006We-Qc; Wed, 19 Aug 2020 06:10:11 -0400
+ id 1k8L2t-0006Wh-TV; Wed, 19 Aug 2020 06:10:20 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8BCBD51E25BC;
- Wed, 19 Aug 2020 12:10:04 +0200 (CEST)
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C449051E25C1;
+ Wed, 19 Aug 2020 12:10:05 +0200 (CEST)
 Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 19 Aug
- 2020 12:10:03 +0200
+ 2020 12:10:04 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00400b36d77-2d28-4ab8-8102-5943959efb0a,
+ (GARM-101G004de31a379-7fbe-403f-a15b-83002b15b158,
  56ABA3BD09B5898CED80C8E013D4E39E9C6048D1) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 07/21] aspeed/smc: Fix max_slaves of the legacy SMC device
-Date: Wed, 19 Aug 2020 12:09:42 +0200
-Message-ID: <20200819100956.2216690-8-clg@kaod.org>
+Subject: [PATCH v2 08/21] aspeed/sdhci: Fix reset sequence
+Date: Wed, 19 Aug 2020 12:09:43 +0200
+Message-ID: <20200819100956.2216690-9-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200819100956.2216690-1-clg@kaod.org>
 References: <20200819100956.2216690-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.101]
 X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 13ae1290-9d50-4694-86d5-1309cc5e1f34
-X-Ovh-Tracer-Id: 18049301410510965542
+X-Ovh-Tracer-GUID: 126a854d-63d2-4570-8b31-f4e76a8dced8
+X-Ovh-Tracer-Id: 18049301407224138601
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
@@ -68,33 +68,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The legacy controller only has one slave.
+BIT(0) of the ASPEED_SDHCI_INFO register is set by SW and polled until
+the bit is cleared by HW.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Use the number of supported slots to define the default value of this
+register (The AST2600 eMMC Controller only has one). Fix the reset
+sequence by clearing automatically the RESET bit.
+
+Cc: Eddie James <eajames@linux.ibm.com>
+Fixes: 2bea128c3d0b ("hw/sd/aspeed_sdhci: New device")
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ssi/aspeed_smc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sd/aspeed_sdhci.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 0646e0dca72e..8c79a5552f93 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -259,7 +259,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 5,
-+        .max_slaves        = 1,
-         .segments          = aspeed_segments_legacy,
-         .flash_window_base = ASPEED_SOC_SMC_FLASH_BASE,
-         .flash_window_size = 0x6000000,
+diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
+index 22cafce0fbdc..4f24b7d2f942 100644
+--- a/hw/sd/aspeed_sdhci.c
++++ b/hw/sd/aspeed_sdhci.c
+@@ -16,7 +16,9 @@
+ #include "hw/qdev-properties.h"
+ 
+ #define ASPEED_SDHCI_INFO            0x00
+-#define  ASPEED_SDHCI_INFO_RESET     0x00030000
++#define  ASPEED_SDHCI_INFO_SLOT1     (1 << 17)
++#define  ASPEED_SDHCI_INFO_SLOT0     (1 << 16)
++#define  ASPEED_SDHCI_INFO_RESET     (1 << 0)
+ #define ASPEED_SDHCI_DEBOUNCE        0x04
+ #define  ASPEED_SDHCI_DEBOUNCE_RESET 0x00000005
+ #define ASPEED_SDHCI_BUS             0x08
+@@ -67,6 +69,10 @@ static void aspeed_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
+     AspeedSDHCIState *sdhci = opaque;
+ 
+     switch (addr) {
++    case ASPEED_SDHCI_INFO:
++        /* The RESET bit automatically clears. */
++        sdhci->regs[TO_REG(addr)] = (uint32_t)val & ~ASPEED_SDHCI_INFO_RESET;
++        break;
+     case ASPEED_SDHCI_SDIO_140:
+         sdhci->slots[0].capareg = (uint64_t)(uint32_t)val;
+         break;
+@@ -155,7 +161,11 @@ static void aspeed_sdhci_reset(DeviceState *dev)
+     AspeedSDHCIState *sdhci = ASPEED_SDHCI(dev);
+ 
+     memset(sdhci->regs, 0, ASPEED_SDHCI_REG_SIZE);
+-    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] = ASPEED_SDHCI_INFO_RESET;
++
++    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] = ASPEED_SDHCI_INFO_SLOT0;
++    if (sdhci->num_slots == 2) {
++        sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] |= ASPEED_SDHCI_INFO_SLOT1;
++    }
+     sdhci->regs[TO_REG(ASPEED_SDHCI_DEBOUNCE)] = ASPEED_SDHCI_DEBOUNCE_RESET;
+ }
+ 
 -- 
 2.25.4
 
