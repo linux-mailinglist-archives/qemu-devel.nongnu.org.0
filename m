@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2512495CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 08:58:54 +0200 (CEST)
-Received: from localhost ([::1]:39964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C492496E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 09:15:39 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8I3h-0006lZ-Dr
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 02:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
+	id 1k8IJv-0001DU-0q
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 03:15:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8I2t-0006LR-SM
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 02:58:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30373
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8I2r-0007B7-O7
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 02:58:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597820280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Lte0Le0tQOTwg3GCjf5K9DLhD9D0DGvYXpctcNdHNE=;
- b=c6TtiakXbDqeyh0S4NYDLzBhFTNJ8wB482sknm+51B/WCvmX6I+Di5hYMEn0+Reythq83N
- TtxJSeBXWbIZHupoyNKWZsYFJctMRDdHDsy2PhJUDsEivRg1KxyAPz8u+Jy8BPVyot4Ffg
- ee13DhrWcNzfyy9qARwXHNfiOti7sjQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-Yqk9eoRWOLuTkaN8dzj4QQ-1; Wed, 19 Aug 2020 02:57:56 -0400
-X-MC-Unique: Yqk9eoRWOLuTkaN8dzj4QQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2628781F021;
- Wed, 19 Aug 2020 06:57:54 +0000 (UTC)
-Received: from [10.72.13.88] (ovpn-13-88.pek2.redhat.com [10.72.13.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3447767CE8;
- Wed, 19 Aug 2020 06:57:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1k8IJ1-0000mm-PF
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 03:14:43 -0400
+Received: from mga02.intel.com ([134.134.136.20]:38900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1k8IIv-0000jj-R6
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 03:14:43 -0400
+IronPort-SDR: +8wMJuKeZWrQpakvtfibKa2LXyTx5WgSBzFXfBqp/M6HjqkmXQNWILy/MzEpApHmbFWFI/uUtl
+ 7sgFeWTvUpOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="142876285"
+X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; d="scan'208";a="142876285"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2020 00:14:34 -0700
+IronPort-SDR: PAPOtQiS5AEH7w6GZmZ28FX+s6MpshHF1iZBNLdKvJlaDZP02BUDim8JqOPED1R5xUX76DUNVG
+ +AppG9uv2lOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; d="scan'208";a="326998478"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga008.jf.intel.com with ESMTP; 19 Aug 2020 00:14:28 -0700
+Date: Wed, 19 Aug 2020 14:59:51 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Jason Wang <jasowang@redhat.com>
 Subject: Re: [ovirt-devel] Re: device compatibility interface for live
  migration with assigned devices
-To: Yan Zhao <yan.y.zhao@intel.com>, Parav Pandit <parav@nvidia.com>
-References: <20200805105319.GF2177@nanopsycho>
- <20200810074631.GA29059@joy-OptiPlex-7040>
- <e6e75807-0614-bd75-aeb6-64d643e029d3@redhat.com>
+Message-ID: <20200819065951.GB21172@joy-OptiPlex-7040>
+References: <e6e75807-0614-bd75-aeb6-64d643e029d3@redhat.com>
  <20200814051601.GD15344@joy-OptiPlex-7040>
  <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
  <20200818085527.GB20215@redhat.com>
@@ -57,28 +50,23 @@ References: <20200805105319.GF2177@nanopsycho>
  <20200818113652.5d81a392.cohuck@redhat.com>
  <BY5PR12MB4322C9D1A66C4657776A1383DC5C0@BY5PR12MB4322.namprd12.prod.outlook.com>
  <20200819033035.GA21172@joy-OptiPlex-7040>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <e20812b7-994b-b7f9-2df4-a78c4d116c7f@redhat.com>
-Date: Wed, 19 Aug 2020 14:57:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <e20812b7-994b-b7f9-2df4-a78c4d116c7f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200819033035.GA21172@joy-OptiPlex-7040>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e20812b7-994b-b7f9-2df4-a78c4d116c7f@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=yan.y.zhao@intel.com;
+ helo=mga02.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 03:14:35
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,6 +79,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
 Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
  "libvir-list@redhat.com" <libvir-list@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
@@ -107,126 +96,138 @@ Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
  "hejie.xu@intel.com" <hejie.xu@intel.com>,
  "bao.yumeng@zte.com.cn" <bao.yumeng@zte.com.cn>,
  Alex Williamson <alex.williamson@redhat.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, Parav Pandit <parav@nvidia.com>,
  "sm ooney@redhat.com" <smooney@redhat.com>,
  "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Jiri Pirko <jiri@mellanox.com>,
  "dinechin@redhat.com" <dinechin@redhat.com>,
  "devel@ovirt.org" <devel@ovirt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/8/19 上午11:30, Yan Zhao wrote:
-> hi All,
-> could we decide that sysfs is the interface that every VFIO vendor driver
-> needs to provide in order to support vfio live migration, otherwise the
-> userspace management tool would not list the device into the compatible
-> list?
+On Wed, Aug 19, 2020 at 02:57:34PM +0800, Jason Wang wrote:
+> 
+> On 2020/8/19 上午11:30, Yan Zhao wrote:
+> > hi All,
+> > could we decide that sysfs is the interface that every VFIO vendor driver
+> > needs to provide in order to support vfio live migration, otherwise the
+> > userspace management tool would not list the device into the compatible
+> > list?
+> > 
+> > if that's true, let's move to the standardizing of the sysfs interface.
+> > (1) content
+> > common part: (must)
+> >     - software_version: (in major.minor.bugfix scheme)
+> 
+> 
+> This can not work for devices whose features can be negotiated/advertised
+> independently. (E.g virtio devices)
 >
-> if that's true, let's move to the standardizing of the sysfs interface.
-> (1) content
-> common part: (must)
->     - software_version: (in major.minor.bugfix scheme)
+sorry, I don't understand here, why virtio devices need to use vfio interface?
+I think this thread is discussing about vfio related devices.
 
+> 
+> >     - device_api: vfio-pci or vfio-ccw ...
+> >     - type: mdev type for mdev device or
+> >             a signature for physical device which is a counterpart for
+> > 	   mdev type.
+> > 
+> > device api specific part: (must)
+> >    - pci id: pci id of mdev parent device or pci id of physical pci
+> >      device (device_api is vfio-pci)API here.
+> 
+> 
+> So this assumes a PCI device which is probably not true.
+> 
+for device_api of vfio-pci, why it's not true?
 
-This can not work for devices whose features can be 
-negotiated/advertised independently. (E.g virtio devices)
+for vfio-ccw, it's subchannel_type.
 
+> 
+> >    - subchannel_type (device_api is vfio-ccw)
+> > vendor driver specific part: (optional)
+> >    - aggregator
+> >    - chpid_type
+> >    - remote_url
+> 
+> 
+> For "remote_url", just wonder if it's better to integrate or reuse the
+> existing NVME management interface instead of duplicating it here. Otherwise
+> it could be a burden for mgmt to learn. E.g vendor A may use "remote_url"
+> but vendor B may use a different attribute.
+> 
+it's vendor driver specific.
+vendor specific attributes are inevitable, and that's why we are
+discussing here of a way to standardizing of it.
+our goal is that mgmt can use it without understanding the meaning of vendor
+specific attributes.
 
->     - device_api: vfio-pci or vfio-ccw ...
->     - type: mdev type for mdev device or
->             a signature for physical device which is a counterpart for
-> 	   mdev type.
+> 
+> > 
+> > NOTE: vendors are free to add attributes in this part with a
+> > restriction that this attribute is able to be configured with the same
+> > name in sysfs too. e.g.
+> 
+> 
+> Sysfs works well for common attributes belongs to a class, but I'm not sure
+> it can work well for device/vendor specific attributes. Does this mean mgmt
+> need to iterate all the attributes in both src and dst?
 >
-> device api specific part: (must)
->    - pci id: pci id of mdev parent device or pci id of physical pci
->      device (device_api is vfio-pci)API here.
+no. just attributes under migration directory.
 
+> 
+> > for aggregator, there must be a sysfs attribute in device node
+> > /sys/devices/pci0000:00/0000:00:02.0/882cc4da-dede-11e7-9180-078a62063ab1/intel_vgpu/aggregator,
+> > so that the userspace tool is able to configure the target device
+> > according to source device's aggregator attribute.
+> > 
+> > 
+> > (2) where and structure
+> > proposal 1:
+> > |- [path to device]
+> >    |--- migration
+> >    |     |--- self
+> >    |     |    |-software_version
+> >    |     |    |-device_api
+> >    |     |    |-type
+> >    |     |    |-[pci_id or subchannel_type]
+> >    |     |    |-<aggregator or chpid_type>
+> >    |     |--- compatible
+> >    |     |    |-software_version
+> >    |     |    |-device_api
+> >    |     |    |-type
+> >    |     |    |-[pci_id or subchannel_type]
+> >    |     |    |-<aggregator or chpid_type>
+> > multiple compatible is allowed.
+> > attributes should be ASCII text files, preferably with only one value
+> > per file.
+> > 
+> > 
+> > proposal 2: use bin_attribute.
+> > |- [path to device]
+> >    |--- migration
+> >    |     |--- self
+> >    |     |--- compatible
+> > 
+> > so we can continue use multiline format. e.g.
+> > cat compatible
+> >    software_version=0.1.0
+> >    device_api=vfio_pci
+> >    type=i915-GVTg_V5_{val1:int:1,2,4,8}
+> >    pci_id=80865963
+> >    aggregator={val1}/2
+> 
+> 
+> So basically two questions:
+> 
+> - how hard to standardize sysfs API for dealing with compatibility check (to
+> make it work for most types of devices)
+sorry, I just know we are in the process of standardizing of it :)
 
-So this assumes a PCI device which is probably not true.
-
-
->    - subchannel_type (device_api is vfio-ccw)
->   
-> vendor driver specific part: (optional)
->    - aggregator
->    - chpid_type
->    - remote_url
-
-
-For "remote_url", just wonder if it's better to integrate or reuse the 
-existing NVME management interface instead of duplicating it here. 
-Otherwise it could be a burden for mgmt to learn. E.g vendor A may use 
-"remote_url" but vendor B may use a different attribute.
-
-
->
-> NOTE: vendors are free to add attributes in this part with a
-> restriction that this attribute is able to be configured with the same
-> name in sysfs too. e.g.
-
-
-Sysfs works well for common attributes belongs to a class, but I'm not 
-sure it can work well for device/vendor specific attributes. Does this 
-mean mgmt need to iterate all the attributes in both src and dst?
-
-
-> for aggregator, there must be a sysfs attribute in device node
-> /sys/devices/pci0000:00/0000:00:02.0/882cc4da-dede-11e7-9180-078a62063ab1/intel_vgpu/aggregator,
-> so that the userspace tool is able to configure the target device
-> according to source device's aggregator attribute.
->
->
-> (2) where and structure
-> proposal 1:
-> |- [path to device]
->    |--- migration
->    |     |--- self
->    |     |    |-software_version
->    |     |    |-device_api
->    |     |    |-type
->    |     |    |-[pci_id or subchannel_type]
->    |     |    |-<aggregator or chpid_type>
->    |     |--- compatible
->    |     |    |-software_version
->    |     |    |-device_api
->    |     |    |-type
->    |     |    |-[pci_id or subchannel_type]
->    |     |    |-<aggregator or chpid_type>
-> multiple compatible is allowed.
-> attributes should be ASCII text files, preferably with only one value
-> per file.
->
->
-> proposal 2: use bin_attribute.
-> |- [path to device]
->    |--- migration
->    |     |--- self
->    |     |--- compatible
->
-> so we can continue use multiline format. e.g.
-> cat compatible
->    software_version=0.1.0
->    device_api=vfio_pci
->    type=i915-GVTg_V5_{val1:int:1,2,4,8}
->    pci_id=80865963
->    aggregator={val1}/2
-
-
-So basically two questions:
-
-- how hard to standardize sysfs API for dealing with compatibility check 
-(to make it work for most types of devices)
-- how hard for the mgmt to learn with a vendor specific attributes (vs 
-existing management API)
+> - how hard for the mgmt to learn with a vendor specific attributes (vs
+> existing management API)
+what is existing management API?
 
 Thanks
-
-
->
-> Thanks
-> Yan
-
 
