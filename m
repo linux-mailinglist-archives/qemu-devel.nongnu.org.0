@@ -2,53 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3C524A406
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 18:25:09 +0200 (CEST)
-Received: from localhost ([::1]:40810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2815524A45D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 18:52:45 +0200 (CEST)
+Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Qtg-0001ZS-EU
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 12:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
+	id 1k8RKO-0003ky-7u
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 12:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1k8Qsm-0000l4-P3
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:24:12 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:60054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1k8Qsj-00004r-MY
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:24:12 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 07JGNHiq001908
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 19 Aug 2020 12:23:20 -0400
-Date: Wed, 19 Aug 2020 12:23:17 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 00/15] Add a General Virtual Device Fuzzer
-Message-ID: <20200819162313.5x5elxeypitklf2k@mozz.bu.edu>
-References: <20200819061110.1320568-1-alxndr@bu.edu>
- <159781875904.25250.2549056217558413980@66eaa9a8a123>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8RE7-0002ih-Ce
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:46:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8RE4-0003CQ-Er
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 12:46:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k8RE1-0005zA-O9
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 16:46:09 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B4AA12E80EE
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 16:46:09 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <159781875904.25250.2549056217558413980@66eaa9a8a123>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 12:24:08
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Aug 2020 16:36:32 -0000
+From: Launchpad Bug Tracker <1805256@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04;
+ status=Fix Committed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe;
+ status=Fix Committed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Fix Released; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Fix Released; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Released; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ikeradar patch qemu-img verification-done
+ verification-done-bionic verification-done-eoan verification-done-focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke brian-murray dannf ikepanhc iveskim
+ jan-glauber-i janitor jnsnow kongzizaixian lizhengui paelzer philmd
+ rafaeldtinoco sil2100 tjaalton ubuntu-sru-bot ying-fang
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <159785499690.3550.18420673200868551679.malone@ackee.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 8b5706b7037a2251973525db91eabf26507ce954
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 12:46:10
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,334 +99,330 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, bsd@redhat.com, f4bug@amsat.org,
- stefanha@redhat.com
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oops I forgot to do my checkpatch pass. I'll resend this, shortly.
--Alex
+This bug was fixed in the package qemu - 1:2.11+dfsg-1ubuntu7.31
 
-On 200818 2332, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200819061110.1320568-1-alxndr@bu.edu/
-> 
-> 
-> 
-> Hi,
-> 
-> This series seems to have some coding style problems. See output below for
-> more information:
-> 
-> Type: series
-> Message-id: 20200819061110.1320568-1-alxndr@bu.edu
-> Subject: [PATCH v2 00/15] Add a General Virtual Device Fuzzer
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> === TEST SCRIPT END ===
-> 
-> Switched to a new branch 'test'
-> a8e119d scripts/oss-fuzz: Add crash trace minimization script
-> ae04d9e scripts/oss-fuzz: Add script to reorder a general-fuzzer trace
-> 565c5c5 scripts/oss-fuzz: build the general-fuzzer configs
-> 559cd36 scripts/oss-fuzz: Add general-fuzzer configs for oss-fuzz
-> 54db062 scripts/oss-fuzz: Add general-fuzzer build script
-> 8973b6e scripts/oss-fuzz: Add wrapper program for generic fuzzer
-> 3452c68 fuzz: add a crossover function to generic-fuzzer
-> 5c579c9 fuzz: add a DISABLE_PCI op to general-fuzzer
-> 4f50ecd fuzz: Add support for custom crossover functions
-> 95bd76d fuzz: Add fuzzer callbacks to DMA-read functions
-> 89e6484 fuzz: Declare DMA Read callback function
-> a5441b1 fuzz: Add DMA support to the generic-fuzzer
-> 9bd3375 fuzz: Add PCI features to the general fuzzer
-> a2759f3 fuzz: Add general virtual-device fuzzer
-> f9c6ddd fuzz: Change the way we write qtest log to stderr
-> 
-> === OUTPUT BEGIN ===
-> 1/15 Checking commit f9c6ddda8115 (fuzz: Change the way we write qtest log to stderr)
-> 2/15 Checking commit a2759f329ffa (fuzz: Add general virtual-device fuzzer)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #31: 
-> new file mode 100644
-> 
-> ERROR: missing space after enum definition
-> #68: FILE: tests/qtest/fuzz/general_fuzz.c:33:
-> +enum cmds{
-> 
-> ERROR: line over 90 characters
-> #108: FILE: tests/qtest/fuzz/general_fuzz.c:73:
-> +    AddressSpace *as = (io_space == get_system_memory()) ? &address_space_memory : &address_space_io;
-> 
-> ERROR: line over 90 characters
-> #124: FILE: tests/qtest/fuzz/general_fuzz.c:89:
-> +                if(address_space_translate(as, abs_addr, &xlat, &len, true, MEMTXATTRS_UNSPECIFIED) == mr){
-> 
-> ERROR: space required before the open brace '{'
-> #124: FILE: tests/qtest/fuzz/general_fuzz.c:89:
-> +                if(address_space_translate(as, abs_addr, &xlat, &len, true, MEMTXATTRS_UNSPECIFIED) == mr){
-> 
-> ERROR: space required before the open parenthesis '('
-> #124: FILE: tests/qtest/fuzz/general_fuzz.c:89:
-> +                if(address_space_translate(as, abs_addr, &xlat, &len, true, MEMTXATTRS_UNSPECIFIED) == mr){
-> 
-> ERROR: space required before the open brace '{'
-> #128: FILE: tests/qtest/fuzz/general_fuzz.c:93:
-> +                    if(mr->size){
-> 
-> ERROR: space required before the open parenthesis '('
-> #128: FILE: tests/qtest/fuzz/general_fuzz.c:93:
-> +                    if(mr->size){
-> 
-> ERROR: spaces required around that '-' (ctx:VxV)
-> #131: FILE: tests/qtest/fuzz/general_fuzz.c:96:
-> +                    result->len = mr->size-(result->addr-abs_addr);
->                                            ^
-> 
-> ERROR: spaces required around that '-' (ctx:VxV)
-> #131: FILE: tests/qtest/fuzz/general_fuzz.c:96:
-> +                    result->len = mr->size-(result->addr-abs_addr);
->                                                          ^
-> 
-> ERROR: space prohibited between function name and open parenthesis '('
-> #483: FILE: tests/qtest/fuzz/general_fuzz.c:448:
-> +    char **result = g_strsplit (getenv("QEMU_FUZZ_OBJECTS"), " ", -1);
-> 
-> ERROR: space required before the open brace '{'
-> #500: FILE: tests/qtest/fuzz/general_fuzz.c:465:
-> +    if(!fuzzable_memoryregions->len){
-> 
-> ERROR: space required before the open parenthesis '('
-> #500: FILE: tests/qtest/fuzz/general_fuzz.c:465:
-> +    if(!fuzzable_memoryregions->len){
-> 
-> total: 12 errors, 1 warnings, 501 lines checked
-> 
-> Patch 2/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 
-> 3/15 Checking commit 9bd3375b88bc (fuzz: Add PCI features to the general fuzzer)
-> 4/15 Checking commit a5441b1099c7 (fuzz: Add DMA support to the generic-fuzzer)
-> ERROR: externs should be avoided in .c files
-> #84: FILE: tests/qtest/fuzz/general_fuzz.c:97:
-> +void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write);
-> 
-> WARNING: line over 80 characters
-> #129: FILE: tests/qtest/fuzz/general_fuzz.c:142:
-> +        || (mr != MACHINE(qdev_get_machine())->ram && !(mr->ops == &unassigned_mem_ops))
-> 
-> total: 1 errors, 1 warnings, 247 lines checked
-> 
-> Patch 4/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 
-> 5/15 Checking commit 89e64845b1dd (fuzz: Declare DMA Read callback function)
-> 6/15 Checking commit 95bd76d180c1 (fuzz: Add fuzzer callbacks to DMA-read functions)
-> 7/15 Checking commit 4f50ecd4705c (fuzz: Add support for custom crossover functions)
-> ERROR: space required before the open parenthesis '('
-> #30: FILE: tests/qtest/fuzz/fuzz.c:127:
-> +    if(fuzz_target->crossover) {
-> 
-> WARNING: line over 80 characters
-> #59: FILE: tests/qtest/fuzz/fuzz.h:91:
-> +     * seed: the seed that should be used to make mutations deterministic, when needed
-> 
-> total: 1 errors, 1 warnings, 57 lines checked
-> 
-> Patch 7/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 
-> 8/15 Checking commit 5c579c959fec (fuzz: add a DISABLE_PCI op to general-fuzzer)
-> ERROR: do not initialise statics to 0 or NULL
-> #30: FILE: tests/qtest/fuzz/general_fuzz.c:97:
-> +static bool pci_disabled = false;
-> 
-> total: 1 errors, 0 warnings, 55 lines checked
-> 
-> Patch 8/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 
-> 9/15 Checking commit 3452c68ac630 (fuzz: add a crossover function to generic-fuzzer)
-> ERROR: do not use C99 // comments
-> #49: FILE: tests/qtest/fuzz/general_fuzz.c:773:
-> +    // Copy in the first input
-> 
-> ERROR: spaces required around that '+' (ctx:VxV)
-> #51: FILE: tests/qtest/fuzz/general_fuzz.c:775:
-> +    memcpy(out+size, data1, copy);
->                ^
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #52: FILE: tests/qtest/fuzz/general_fuzz.c:776:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #53: FILE: tests/qtest/fuzz/general_fuzz.c:777:
-> +    max_out_size-= copy;
->                  ^
-> 
-> ERROR: do not use C99 // comments
-> #55: FILE: tests/qtest/fuzz/general_fuzz.c:779:
-> +    // Append a separator
-> 
-> ERROR: spaces required around that '+' (ctx:VxV)
-> #57: FILE: tests/qtest/fuzz/general_fuzz.c:781:
-> +    memcpy(out+size, SEPARATOR, copy);
->                ^
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #58: FILE: tests/qtest/fuzz/general_fuzz.c:782:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #59: FILE: tests/qtest/fuzz/general_fuzz.c:783:
-> +    max_out_size-= copy;
->                  ^
-> 
-> ERROR: do not use C99 // comments
-> #61: FILE: tests/qtest/fuzz/general_fuzz.c:785:
-> +    // Clear out the
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #66: FILE: tests/qtest/fuzz/general_fuzz.c:790:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #67: FILE: tests/qtest/fuzz/general_fuzz.c:791:
-> +    max_out_size-= copy;
->                  ^
-> 
-> ERROR: spaces required around that '+' (ctx:VxV)
-> #70: FILE: tests/qtest/fuzz/general_fuzz.c:794:
-> +    memcpy(out+size, SEPARATOR, copy);
->                ^
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #71: FILE: tests/qtest/fuzz/general_fuzz.c:795:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #72: FILE: tests/qtest/fuzz/general_fuzz.c:796:
-> +    max_out_size-= copy;
->                  ^
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #78: FILE: tests/qtest/fuzz/general_fuzz.c:802:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #79: FILE: tests/qtest/fuzz/general_fuzz.c:803:
-> +    max_out_size-= copy;
->                  ^
-> 
-> ERROR: spaces required around that '+' (ctx:VxV)
-> #82: FILE: tests/qtest/fuzz/general_fuzz.c:806:
-> +    memcpy(out+size, SEPARATOR, copy);
->                ^
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #83: FILE: tests/qtest/fuzz/general_fuzz.c:807:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #84: FILE: tests/qtest/fuzz/general_fuzz.c:808:
-> +    max_out_size-= copy;
->                  ^
-> 
-> ERROR: spaces required around that '+' (ctx:VxV)
-> #87: FILE: tests/qtest/fuzz/general_fuzz.c:811:
-> +    memcpy(out+size, data2, copy);
->                ^
-> 
-> ERROR: spaces required around that '+=' (ctx:VxW)
-> #88: FILE: tests/qtest/fuzz/general_fuzz.c:812:
-> +    size+= copy;
->          ^
-> 
-> ERROR: spaces required around that '-=' (ctx:VxW)
-> #89: FILE: tests/qtest/fuzz/general_fuzz.c:813:
-> +    max_out_size-= copy;
->                  ^
-> 
-> total: 22 errors, 0 warnings, 93 lines checked
-> 
-> Patch 9/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 
-> 10/15 Checking commit 8973b6e31476 (scripts/oss-fuzz: Add wrapper program for generic fuzzer)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #19: 
-> new file mode 100644
-> 
-> total: 0 errors, 1 warnings, 40 lines checked
-> 
-> Patch 10/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 11/15 Checking commit 54db062fafe0 (scripts/oss-fuzz: Add general-fuzzer build script)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #17: 
-> new file mode 100755
-> 
-> total: 0 errors, 1 warnings, 62 lines checked
-> 
-> Patch 11/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 12/15 Checking commit 559cd365394c (scripts/oss-fuzz: Add general-fuzzer configs for oss-fuzz)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #16: 
-> new file mode 100644
-> 
-> total: 0 errors, 1 warnings, 103 lines checked
-> 
-> Patch 12/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 13/15 Checking commit 565c5c5cec66 (scripts/oss-fuzz: build the general-fuzzer configs)
-> 14/15 Checking commit ae04d9edfe56 (scripts/oss-fuzz: Add script to reorder a general-fuzzer trace)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #21: 
-> new file mode 100755
-> 
-> total: 0 errors, 1 warnings, 94 lines checked
-> 
-> Patch 14/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 15/15 Checking commit a8e119d529aa (scripts/oss-fuzz: Add crash trace minimization script)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #16: 
-> new file mode 100755
-> 
-> total: 0 errors, 1 warnings, 118 lines checked
-> 
-> Patch 15/15 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> === OUTPUT END ===
-> 
-> Test command exited with code: 1
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/20200819061110.1320568-1-alxndr@bu.edu/testing.checkpatch/?type=message.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+---------------
+qemu (1:2.11+dfsg-1ubuntu7.31) bionic-security; urgency=3Dmedium
+
+  * SECURITY UPDATE: out-of-bounds read in slirp networking
+    - debian/patches/CVE-2020-10756.patch: drop bogus IPv6 messages in
+      slirp/src/ip6_input.c.
+    - CVE-2020-10756
+  * SECURITY UPDATE: out-of-bounds read and write in sm501
+    - debian/patches/CVE-2020-12829-pre1.patch: use values from the pitch
+      register for 2D operations.
+    - debian/patches/CVE-2020-12829-pre2.patch: implement negated
+      destination raster operation mode.
+    - debian/patches/CVE-2020-12829-pre3.patch: log unimplemented raster
+      operation modes.
+    - debian/patches/CVE-2020-12829-pre4.patch: fix support for non-zero
+      frame buffer start address.
+    - debian/patches/CVE-2020-12829-pre5.patch: set updated region dirty
+      after 2D operation.
+    - debian/patches/CVE-2020-12829-pre6.patch: adjust endianness of pixel
+      value in rectangle fill.
+    - debian/patches/CVE-2020-12829-pre7.patch: convert printf +
+      abort to qemu_log_mask.
+    - debian/patches/CVE-2020-12829-pre8.patch: shorten long
+      variable names in sm501_2d_operation.
+    - debian/patches/CVE-2020-12829-pre9.patch: use BIT(x) macro to
+      shorten constant.
+    - debian/patches/CVE-2020-12829-pre10.patch: clean up local
+      variables in sm501_2d_operation.
+    - debian/patches/CVE-2020-12829.patch: replace hand written
+      implementation with pixman where possible.
+    - debian/patches/CVE-2020-12829-2.patch: optimize small overlapping
+      blits.
+    - debian/patches/CVE-2020-12829-3.patch: fix bounds checks.
+    - debian/patches/CVE-2020-12829-4.patch: drop unneded variable.
+    - debian/patches/CVE-2020-12829-5.patch: do not allow guest to set
+      invalid format.
+    - debian/patches/CVE-2020-12829-6.patch: introduce variable for
+      commonly used value for better readability.
+    - debian/patches/CVE-2020-12829-7.patch: fix and optimize overlap
+      check.
+    - CVE-2020-12829
+  * SECURITY UPDATE: out-of-bounds read during sdhci_write() operations
+    - debian/patches/CVE-2020-13253.patch: do not switch to ReceivingData
+      if address is invalid in hw/sd/sd.c.
+    - CVE-2020-13253
+  * SECURITY UPDATE: out-of-bounds access during es1370_write() operation
+    - debian/patches/CVE-2020-13361.patch: check total frame count against
+      current frame in hw/audio/es1370.c.
+    - CVE-2020-13361
+  * SECURITY UPDATE: out-of-bounds read via crafted reply_queue_head
+    - debian/patches/CVE-2020-13362-1.patch: use unsigned type for
+      reply_queue_head and check index in hw/scsi/megasas.c.
+    - debian/patches/CVE-2020-13362-2.patch: avoid NULL pointer dereference
+      in hw/scsi/megasas.c.
+    - debian/patches/CVE-2020-13362-3.patch: use unsigned type for positive
+      numeric fields in hw/scsi/megasas.c.
+    - CVE-2020-13362
+  * SECURITY UPDATE: NULL pointer dereference related to BounceBuffer
+    - debian/patches/CVE-2020-13659.patch: set map length to zero when
+      returning NULL in exec.c, include/exec/memory.h.
+    - CVE-2020-13659
+  * SECURITY UPDATE: out-of-bounds access via msi-x mmio operation
+    - debian/patches/CVE-2020-13754-1.patch: revert accepting mismatching
+      sizes in memory_region_access_valid in memory.c.
+    - debian/patches/CVE-2020-13754-2.patch: accept byte and word access to
+      core ACPI registers in hw/acpi/core.c.
+    - CVE-2020-13754
+  * SECURITY UPDATE: invalid memory copy operation via rom_copy
+    - debian/patches/CVE-2020-13765.patch: add extra check to
+      hw/core/loader.c.
+    - CVE-2020-13765
+  * SECURITY UPDATE: buffer overflow in XGMAC Ethernet controller
+    - debian/patches/CVE-2020-15863.patch: check bounds in hw/net/xgmac.c.
+    - CVE-2020-15863
+  * SECURITY UPDATE: reachable assertion failure
+    - debian/patches/CVE-2020-16092.patch: fix assertion failure in
+      hw/net/net_tx_pkt.c.
+    - CVE-2020-16092
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 11 Aug 2020
+13:19:33 -0400
+
+** Changed in: qemu (Ubuntu Bionic)
+       Status: Fix Committed =3D> Fix Released
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-10756
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-12829
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13253
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13361
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13362
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13659
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13754
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13765
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-15863
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-16092
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
+
+Status in kunpeng920:
+  Fix Committed
+Status in kunpeng920 ubuntu-18.04 series:
+  Fix Committed
+Status in kunpeng920 ubuntu-18.04-hwe series:
+  Fix Committed
+Status in kunpeng920 ubuntu-19.10 series:
+  Fix Released
+Status in kunpeng920 ubuntu-20.04 series:
+  Fix Released
+Status in kunpeng920 upstream-kernel series:
+  Invalid
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Bionic:
+  Fix Released
+Status in qemu source package in Eoan:
+  Fix Released
+Status in qemu source package in Focal:
+  Fix Released
+
+Bug description:
+  =
+
+  SRU TEAM REVIEWER: This has already been SRUed for Focal, Eoan and Bionic=
+. Unfortunately the Bionic SRU did not work and we had to reverse the chang=
+e. Since then we had another update and now I'm retrying the SRU.
+
+  After discussing with @paelzer (and @dannf as a reviewer) extensively,
+  Christian and I agreed that we should scope this SRU as Aarch64 only
+  AND I was much, much more conservative in question of what is being
+  changed in the AIO qemu code.
+
+  New code has been tested against the initial Test Case and the new
+  one, regressed for Bionic. More information (about tests and
+  discussion) can be found in the MR at
+  ~rafaeldtinoco/ubuntu/+source/qemu:lp1805256-bionic-refix
+
+  BIONIC REGRESSION BUG:
+
+  https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1885419
+
+  [Impact]
+
+  * QEMU locking primitives might face a race condition in QEMU Async
+  I/O bottom halves scheduling. This leads to a dead lock making either
+  QEMU or one of its tools to hang indefinitely.
+
+  [Test Case]
+
+  INITIAL
+
+  * qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs in Aarch64.
+
+  [Regression Potential]
+
+  * This is a change to a core part of QEMU: The AIO scheduling. It
+  works like a "kernel" scheduler, whereas kernel schedules OS tasks,
+  the QEMU AIO code is responsible to schedule QEMU coroutines or event
+  listeners callbacks.
+
+  * There was a long discussion upstream about primitives and Aarch64.
+  After quite sometime Paolo released this patch and it solves the
+  issue. Tested platforms were: amd64 and aarch64 based on his commit
+  log.
+
+  * Christian suggests that this fix stay little longer in -proposed to
+  make sure it won't cause any regressions.
+
+  * dannf suggests we also check for performance regressions; e.g. how
+  long it takes to convert a cloud image on high-core systems.
+
+  BIONIC REGRESSED ISSUE
+
+  https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1885419
+
+  [Other Info]
+
+  =C2=A0* Original Description bellow:
+
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
