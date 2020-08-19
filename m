@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBBF249474
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 07:32:25 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39032494B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 07:55:51 +0200 (CEST)
+Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Gi0-00063c-37
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 01:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
+	id 1k8H4g-0004dL-Oi
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 01:55:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GhK-0005ee-Oo
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:31:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57958
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1k8GhJ-0005D2-4P
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:31:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597815100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SWd1i9TB36ySHZrAiHp03ILo1vYn9xc5yvICVC2rfZw=;
- b=IirpWSoaAstRfzd3DmD7Dx7NpZXFtv0wk7egXVYUah2xwieozdRo3XSSykz7zqN7dUNVFr
- EctZWW/Wl5Z95NrEAkmyHRF5p4D+dUN0/o0xkZVMHKyfhrhRtn4qeVIBF1g0uiCEdMOc0i
- GelGxMxsNJWful/4B97vAuxmKdAw+Hk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-7kuQIVjDOwm8H9_ZpuTU9Q-1; Wed, 19 Aug 2020 01:31:38 -0400
-X-MC-Unique: 7kuQIVjDOwm8H9_ZpuTU9Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44EDE100CEC1;
- Wed, 19 Aug 2020 05:31:37 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
- [10.36.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A6291014183;
- Wed, 19 Aug 2020 05:31:37 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1FEA99D8F; Wed, 19 Aug 2020 07:31:36 +0200 (CEST)
-Date: Wed, 19 Aug 2020 07:31:36 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Geoffrey McRae <geoff@hostfission.com>
-Subject: Re: [PATCH v2] audio/jack: fix use after free segfault
-Message-ID: <20200819053136.344eyjfhwxp3z65n@sirius.home.kraxel.org>
-References: <20200819010741.91DAE3A0788@moya.office.hostfission.com>
- <20200819050445.qlhafh2kwh5rt2jh@sirius.home.kraxel.org>
- <9a87a1208b126b2fe882c34a41ebbb18@hostfission.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8Gzn-0006gh-3k
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:50:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k8Gzk-000742-OK
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 01:50:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k8Gzi-0007x9-Ty
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 05:50:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DCAAF2E80EC
+ for <qemu-devel@nongnu.org>; Wed, 19 Aug 2020 05:50:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <9a87a1208b126b2fe882c34a41ebbb18@hostfission.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Aug 2020 05:44:23 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1886811@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: emojifreak laurent-vivier paelzer rafaeldtinoco
+X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
+Message-Id: <159781586342.15174.17330171992555473945.malone@soybean.canonical.com>
+Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
+ interface start request: Operation not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: e1f04dfa6c56713201f3f222085991e7cc398470
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 01:50:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,19 +81,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+To fully work this also needs the fix for bug 1890881 as identified
+there.
 
-> > schedule a bottom half calling qjack_client_fini()
-> 
-> Does QEMU have such a mechanism for doing this?
+** Changed in: qemu (Ubuntu Focal)
+       Status: New =3D> Triaged
 
-Yes, look for QEMUBH in include/qemu/main-loop.h
+-- =
 
-HTH,
-  Gerd
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886811
 
+Title:
+  systemd complains Failed to enqueue loopback interface start request:
+  Operation not supported
+
+Status in QEMU:
+  Fix Committed
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Triaged
+Status in qemu package in Debian:
+  Fix Released
+
+Bug description:
+  This symptom seems similar to
+  https://bugs.launchpad.net/qemu/+bug/1823790
+
+  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
+  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
+5914310c925
+  compiled with "./configure --static --disable-system" =
+
+
+  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
+ug=3D964289
+  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
+/16359
+
+  systemd in armhf and armel (both little endian 32-bit) containers fail to=
+ start with
+  Failed to enqueue loopback interface start request: Operation not support=
+ed
+
+  How to reproduce on Debian (and probably Ubuntu):
+  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
+ --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
+  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
+
+  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
+"ppc64"
+  (64-bit big endian), the container starts up fine.
+
+  The same symptom is also observed with "powerpc" (32-bit big endian)
+  architecture.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
