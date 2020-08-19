@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8FB249F3C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:10:29 +0200 (CEST)
-Received: from localhost ([::1]:42224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72DA249F53
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 15:13:45 +0200 (CEST)
+Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8NrH-0007EA-Rz
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:10:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
+	id 1k8NuS-000417-RC
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 09:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8Npp-0004zW-Oo; Wed, 19 Aug 2020 09:08:57 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:42605)
+ id 1k8Npp-0004zE-L2; Wed, 19 Aug 2020 09:08:57 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:35831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8Npm-0006MC-JD; Wed, 19 Aug 2020 09:08:57 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 1416658A0B90;
+ id 1k8Npn-0006MK-BC; Wed, 19 Aug 2020 09:08:57 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B8A9751EFCEC;
  Wed, 19 Aug 2020 15:08:53 +0200 (CEST)
 Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 19 Aug
- 2020 15:08:51 +0200
+ 2020 15:08:52 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002bc53b74f-525f-4d1f-82f7-eb4efdbd18b4,
+ (GARM-98R002d4123a5f-776a-4f23-ab7a-ea07fe7d48d0,
  56ABA3BD09B5898CED80C8E013D4E39E9C6048D1) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 5/8] spapr/xive: Enforce the load-after-store ordering
-Date: Wed, 19 Aug 2020 15:08:40 +0200
-Message-ID: <20200819130843.2230799-6-clg@kaod.org>
+Subject: [PATCH 6/8] spapr/xive: Activate StoreEOI by default
+Date: Wed, 19 Aug 2020 15:08:41 +0200
+Message-ID: <20200819130843.2230799-7-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200819130843.2230799-1-clg@kaod.org>
 References: <20200819130843.2230799-1-clg@kaod.org>
@@ -41,14 +41,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.98]
 X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 9a811dae-fe7a-4c1a-8e37-e9cbf6abbc66
-X-Ovh-Tracer-Id: 2622220883518982950
+X-Ovh-Tracer-GUID: fea85eb6-4b7d-4e1d-86f2-8414154be364
+X-Ovh-Tracer-Id: 2622502360479861542
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 09:08:51
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 09:08:48
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,63 +73,47 @@ Cc: qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XIVE_ESB_SET_PQ_10 load operation is used to disable temporarily
-an interrupt source. If StoreEOI is active, a source could be left
-enabled if the load and store operations come out of order.
-
-QEMU makes use of this offset to quiesce the sources before a
-migration. Enforce the load-after-store ordering always when doing so
-without querying the characteristics of the sources on the host. The
-performance penalty will be very small for QEMU.
+Now that we check the XIVE characteristics of the sources at the KVM
+level, we can configure the sources to use StoreEOI by default. This
+feature will be activated for the emulated mode and possibly for KVM
+also if compatible.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h    |  8 ++++++++
- hw/intc/spapr_xive_kvm.c | 12 ++++++++++++
- 2 files changed, 20 insertions(+)
+ hw/intc/spapr_xive.c | 2 ++
+ hw/intc/xive.c       | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 2c42ae92d287..c061230ea802 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -279,6 +279,14 @@ static inline hwaddr xive_source_esb_mgmt(XiveSource *xsrc, int srcno)
- #define XIVE_ESB_SET_PQ_10      0xe00 /* Load */
- #define XIVE_ESB_SET_PQ_11      0xf00 /* Load */
- 
-+/*
-+ * Load-after-store ordering
-+ *
-+ * Adding this offset to the load address will enforce
-+ * load-after-store ordering. This is required to use with StoreEOI.
-+ */
-+#define XIVE_ESB_LD_ST_MO       0x40 /* Load-after-store ordering */
-+
- uint8_t xive_source_esb_get(XiveSource *xsrc, uint32_t srcno);
- uint8_t xive_source_esb_set(XiveSource *xsrc, uint32_t srcno, uint8_t pq);
- 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 90f4509e6959..3eea4cb1c49f 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -317,6 +317,18 @@ static uint64_t xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
- 
- static uint8_t xive_esb_read(XiveSource *xsrc, int srcno, uint32_t offset)
- {
-+    /*
-+     * The XIVE_ESB_SET_PQ_10 load operation is used to disable
-+     * temporarily an interrupt source. If StoreEOI is active, a
-+     * source could be left enabled if the load and store operations
-+     * come out of order.
-+     *
-+     * Enforce the load-after-store ordering always.
-+     */
-+    if (offset == XIVE_ESB_SET_PQ_10) {
-+        offset |= XIVE_ESB_LD_ST_MO;
-+    }
-+
-     return xive_esb_rw(xsrc, srcno, offset, 0, 0) & 0x3;
- }
- 
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index d184d17e30e7..e0765c0de696 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -317,6 +317,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
+      */
+     object_property_set_int(OBJECT(xsrc), "nr-irqs", xive->nr_irqs,
+                             &error_fatal);
++    object_property_set_int(OBJECT(xsrc), "flags", XIVE_SRC_STORE_EOI,
++                            &error_fatal);
+     object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive), &error_abort);
+     if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
+         return;
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 489e6256ef70..b710ba2df095 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -998,6 +998,12 @@ static uint64_t xive_source_esb_read(void *opaque, hwaddr addr, unsigned size)
+     case XIVE_ESB_SET_PQ_01 ... XIVE_ESB_SET_PQ_01 + 0x0FF:
+     case XIVE_ESB_SET_PQ_10 ... XIVE_ESB_SET_PQ_10 + 0x0FF:
+     case XIVE_ESB_SET_PQ_11 ... XIVE_ESB_SET_PQ_11 + 0x0FF:
++        if (offset == XIVE_ESB_SET_PQ_10 &&
++            xsrc->esb_flags & XIVE_SRC_STORE_EOI) {
++            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: load-after-store ordering "
++                          "not enforced with Store EOI active for IRQ %d\n",
++                          srcno);
++        }
+         ret = xive_source_esb_set(xsrc, srcno, (offset >> 8) & 0x3);
+         break;
+     default:
 -- 
 2.25.4
 
