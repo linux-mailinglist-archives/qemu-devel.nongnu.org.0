@@ -2,107 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31371249E43
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 14:40:38 +0200 (CEST)
-Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E7C249E53
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 14:42:41 +0200 (CEST)
+Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8NOO-0002Az-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 08:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43332)
+	id 1k8NQO-00041n-Mk
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 08:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k8NNT-0001dB-Ss
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 08:39:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42533
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k8NNR-0002L4-4a
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 08:39:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597840775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=le6wAI7UdWsZMiDniNiTEfb0skV4sPOFegGyu3HAcd4=;
- b=L/TWqvX7FIRYXQAxUa6kYN7+EAd2xTsXeH9HPSbk/toj7ST76crUxgEUCO8loM5Ml1gTpy
- UXhp4UD6bxlN44oOPiDCuE6O0dXW37BfczrwZ2vTYW8rwTQfVuUUSkxMtq1486EIc+Ce4h
- r5ZfGgGtXGqj+fZSRK1NJGv0bgWL+h4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-3UtQHGIzPvuYMI3BTA-R_A-1; Wed, 19 Aug 2020 08:39:31 -0400
-X-MC-Unique: 3UtQHGIzPvuYMI3BTA-R_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7C3C186A57A;
- Wed, 19 Aug 2020 12:39:30 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-120.ams2.redhat.com
- [10.36.113.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 726CE1001281;
- Wed, 19 Aug 2020 12:39:29 +0000 (UTC)
-Subject: Re: [PATCH v7 14/47] stream: Deal with filters
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-15-mreitz@redhat.com>
- <ed502f80-f4a2-bfb8-7395-5842f8103991@virtuozzo.com>
- <63ad2152-3861-1f9f-1bb9-1c14fd68cfbd@redhat.com>
- <002af188-5576-1685-9c23-735d9a2cf50c@virtuozzo.com>
- <05650336-fd53-db84-4c57-d3a37c747163@redhat.com>
- <f61033e0-92be-0b9a-7a14-e1c56372b671@virtuozzo.com>
- <9f8b1eb5-2039-b2c5-6330-7f39f2c21464@redhat.com>
- <0d9ded79-69f3-4875-a19f-b97893268cfb@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5a6ec8b3-f3a5-7763-ba2f-215df6d0e570@redhat.com>
-Date: Wed, 19 Aug 2020 14:39:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1k8NPe-00037I-1M
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 08:41:54 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:50555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1k8NPb-0002g2-MF
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 08:41:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=xgdWGINa39Xjy59JWXRhGzjBwPj5GnRCm6uvicveXrI=; b=EWRTJPrMxWoqnKxwk8efcIUFml
+ KhueEr3dmD8C8OIWSRlDlEzpyr6ASzN7zfYvTspoJ/624gmJss5fOZxfgzSex8t1G/a91BOUTmWXk
+ O5n9Imm/SqPvv5lKxQYnWZX+dI0MCNaSYZCwd13GsD/gv4qfs94iRRSxKlifA9LZ91TeWam1iEDV1
+ giekXJ2a0Piet7qSlfdLt8KvWLV2s9Sx6RSAl+zNv64g5522OXxqVhZrRUL9TzAyFFbaU0V5K3ka7
+ xuEKQzLPeM0euoa+CZGBxIVM3bPkciFFivJdJPT8yWI4X2PS3W6fmjn8AQ6wJW+F+3IeYskRbs5qg
+ N+I2hb1Q==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Geoffrey McRae <geoff@hostfission.com>, kraxel@redhat.com
+Subject: Re: [PATCH] audio/jack: fix use after free segfault
+Date: Wed, 19 Aug 2020 14:41:48 +0200
+Message-ID: <1858869.V9CTJjVLrA@silver>
+In-Reply-To: <fdec112034e900c2d8408a634aa184b6@hostfission.com>
+References: <20200818131206.BB75F3A0B9F@moya.office.hostfission.com>
+ <2255329.JDkKyqenvo@silver>
+ <fdec112034e900c2d8408a634aa184b6@hostfission.com>
 MIME-Version: 1.0
-In-Reply-To: <0d9ded79-69f3-4875-a19f-b97893268cfb@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="U2iezUKAaxioRxz4emhG4zZw3Xf8Pjx3s"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 04:00:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 07:30:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,148 +64,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---U2iezUKAaxioRxz4emhG4zZw3Xf8Pjx3s
-Content-Type: multipart/mixed; boundary="h0moW6iwsEndaeoliVEbImf9Zz8RKOzdM"
+On Mittwoch, 19. August 2020 13:45:33 CEST Geoffrey McRae wrote:
+> > I still don't quite get how this correlates. So you are forcing a
+> > restart of
+> > jackd on host side in between, for what purpose? To simulate the
+> > Windows
+> > client being kicked by jackd?
+> 
+> For many reasons jack may need to be stopped and started again, such as
+> hardware changes when switching to a USB audio device, or tuning the
+> period size, etc. QEMU should be able to recover if the jack server goes
+> away, it's that simple.
 
---h0moW6iwsEndaeoliVEbImf9Zz8RKOzdM
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Most of that could be done without jackd restart, but yeah I got your point. 
+Thanks!
 
-On 10.08.20 13:04, Vladimir Sementsov-Ogievskiy wrote:
-> 10.08.2020 11:12, Max Reitz wrote:
->> On 07.08.20 12:29, Vladimir Sementsov-Ogievskiy wrote:
+> The following sequence is what triggers this fault.
+> 
+>    client1 = jack_client_open();
+>    client2 = jack_client_open();
+> 
+> client1 gets a shutdown signal
+> 
+>    jack_client_close(client1);
+>    client1 = jack_client_open();
+> 
+> client2 gets a shutdown signal
+> 
+>    jack_client_close(client2);
+>    client2 = jack_client_open();
+> 
+> One would expect this sequence to work fine as it conforms to the JACK
+> documentation and common design practice, however, the call to
+> `jack_client_open` notices that there is the 2nd session and frees it
+> out from under the application.
+> 
+> This has been resolved in the v5 patch as suggested by Gerd by
+> scheduling a QEMUBH to perform the closures so they occur in order
+> before an attempt to open again. Even still this is clearly a design
+> flaw in the Jack2 library.
 
-[...]
+Agreed.
 
->>> But, with our proposed way (freeze only chain up to base_overlay
->>> inclusively, and use backing(base_overlay) as final backing), all will
->>> work as expected, and two parallel jobs will work..
->>
->> I don=E2=80=99t think it will work as expected because users can no long=
-er
->> specify which node should be the base node after streaming.=C2=A0 And th=
-e
->> QAPI schema says that base-node is to become the backing file of the top
->> node after streaming.
->=20
-> But this will never work with either way: base node may disappear during
-> stream. Even with you way, they only stable thing is "above-base", which
-> backing child may be completely another node at stream finish.
+I look at your v5 a bit later.
 
-Yeah, but after c624b015bf, that=E2=80=99s just how it is.  I thought the b=
-est
-would be an approach where if there are no graph changes during the job,
-you would indeed end up with @base as the backing file afterwards.
+> > What latencies do you achieve BTW with Windows guests?
+> 
+> Never tested, it's not the reason why I use jack. 
 
-[...]
+Surpring that you never checked the min. latency there, as you nailed quite an 
+ambitous jack driver into QEMU which I just realize now. Must have been 
+splipped my awareness due to traffic.
 
->> Well, that still leaves the problem that users should be able to specify
->> which node is to become the base after streaming, and that that node
->> maybe shouldn=E2=80=99t be restricted to immediate children of COW image=
-s.
->=20
-> And again, this is impossible even with your way. I have an idea:
->=20
-> What about making the whole thing explicit?
->=20
-> We add an optional parameter to stream-job: bottom-node, which is
-> mutally exclusive with specifying base.
->=20
-> Then, if user specified base node, we freeze base as well, so it can't
-> disappear. User will not be able to start parallel stream with this base
-> node as top (because new stream can not insert a filter into frozen
-> chain), but for sure it's rare case, used only in iotest 30 :)).
-> Benefit: user have guarantee of what would be final backing node.
+> Suffice to say it's far better than PulseAudio,
 
-Sounds very nice to me, but...
+Of course! :) I was shaking my head when distros started to pick PulseAudio as 
+standard sound server. I never got that decision as JACK was always way 
+superior than PA.
 
-> Otherwise, if user specified bottom-node, we use the way of this patch.
-> So user can run parallel streams (iotest 30 will have to use bottom-node
-> argument). No guarantee of final base-node, it would be backing of
-> bottom-node at job finish.
->=20
-> But, this is incompatible change, and we probably should wait for 3
-> releases for deprecation of old behavior..
+Probably the only issue for consumer use cases is JACK's habit to kick 
+unreliable clients out of the graph. Even though this could be handled of 
+course.
 
-...yeah.  Hm.  What a pain, but right, we can just deprecate it.
+> I get no stuttering issues like is commonly
+> reported for ALSA and PA, and allows for a high degree of
+> reconfigurability. The guest VM overall performs far better also as
+> windows is never waiting on the audio device due to the decoupling
+> provided by the ring buffer in my implementation.
 
-Unfortunately, I don=E2=80=99t think there=E2=80=99s any way we could issue=
- a warning
-(we=E2=80=99d want to deprecate using the @base node in something outside o=
-f the
-stream job, and we can=E2=80=99t really detect this case to issue a warning=
-).
-So it would be a deprecation found only in the deprecation notes and the
-QAPI spec...
+Yeah, looks good indeed!
 
-> Anyway, I feel now, that you convinced me. I'm not sure that we will not
-> have to change it make filter work, but not reason to change something
-> now. Andrey, could you try to rebase your series on top of this and fix
-> iotest 30 by just specifying=C2=A0 exact node-names in it?..
->=20
->=20
-> Hmmm. My thought goes further. Seems, that in this way, introducing
-> explicit filter would be incompatible change anyway: it will break
-> scenario with parallel stream jobs, when user specifies filenames, not
-> node names (user will have to specify filter-node name as base for
-> another stream job, as you said). So, it's incompatible anyway.
->=20
-> What do you think of it? Could we break this scenario in one release
-> without deprecation and don't care?
+> >> I am aware and since these libraries are interchangeable I had assumed
+> >> that
+> >> JACK1 will have the same fault. If not I suppose we need to detect
+> >> which
+> >> is in
+> >> use and change this code appropriately.
+> > 
+> > I haven't checked this in the JACK1 code base yet, but I assume JACK1
+> > does not
+> > behave like JACK2 here, because the JACK API is very clear that it is
+> > the
+> > client's responsibility to free itself.
+> > 
+> > So it looks like a JACK2-only-bug to me.
+> 
+> Confirmed, this was investigated today.
+> 
+> > Very weird that there is no jack_client_version() in the shared weak
+> > API (i.e.
+> > missing on JACK1 side).
+> 
+> I raised this as an issue today:
+> https://github.com/jackaudio/jack2/issues/628
+> The developer there seems to feel that allowing the application to know
+> the jack client version is a bad thing.
 
-I don=E2=80=99t know, but I=E2=80=99m afraid I don=E2=80=99t think we can.
+Yeah, I raised my voice there as well now.
 
-> Than I think my idea about base vs
-> bottom-node arguments for stream job may be applied. Or what to do?
->=20
-> If we can't break this scenario without a deprecation, we'll have to
-> implement "implicit" filter, like for mirror, when filter-node-name is
-> not specified. And for this implicit filter we'll need additional logic
-> (closer to what I've proposed in a previous mail). Or, try to keep
-> stream without a filter (not insert it at all and behave the old way),
-> when filter-node-name is not specified. Than new features based on
-> filter will be available only when filter-node-name is specified, but
-> this is OK. The latter seems better for me.
+Best regards,
+Christian Schoenebeck
 
-If that works...
-
-
-OK.  So what I think we can do is first just take this patch as part of
-this series.  Then, we add @bottom-node separately and deprecate @base
-not being frozen.
-
-If it=E2=80=99s feasible to not add a stream filter node until the deprecat=
-ion
-period is over, then that should work.
-
-Max
-
-
---h0moW6iwsEndaeoliVEbImf9Zz8RKOzdM--
-
---U2iezUKAaxioRxz4emhG4zZw3Xf8Pjx3s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl89HX8ACgkQ9AfbAGHV
-z0DpsQf/dmZv7vJoG7iKGF6TfOObhqhVHKXpRWD3B9eZakOK/jo59tKk4bykEdLp
-fvZCSXpx31HN4ie3cmFSQ2PjKHXKZe6ocMRff7wfmOZVsV3o20gQ7EaGDZRdJgLT
-UjyPbh3xkaxDX2XWzpwoI+9R8xACyitt0S6S6Xy9l0njoJpYrQSl9Uv5go/xfoqG
-GHRv/LvvYcJIOPcTtYhQezB+RmcpLiPY7j/4xXq7SBOMwLOG+EOl0Bzas/Q7ZudO
-4JjmSbMCJTpUUqjg89JdB/aLCtoM16qspvt8zrOzFhk1gsgv5z0e0yg9GKROUUkV
-m6781dqzY2r++Yda7oPTEOKzO0WJ8A==
-=+CyD
------END PGP SIGNATURE-----
-
---U2iezUKAaxioRxz4emhG4zZw3Xf8Pjx3s--
 
 
