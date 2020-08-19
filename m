@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3563A249A21
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:20:54 +0200 (CEST)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91C6249A14
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:17:57 +0200 (CEST)
+Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8LDB-00069I-8S
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56306)
+	id 1k8LAK-0000Ns-Tq
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:17:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L30-0001Yg-7x; Wed, 19 Aug 2020 06:10:22 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:51067)
+ id 1k8L2x-0001QM-Et; Wed, 19 Aug 2020 06:10:19 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:39909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2t-0006Wj-VO; Wed, 19 Aug 2020 06:10:21 -0400
+ id 1k8L2t-0006Wl-N0; Wed, 19 Aug 2020 06:10:19 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2492F51E25C4;
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 501B351E25C5;
  Wed, 19 Aug 2020 12:10:06 +0200 (CEST)
 Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 19 Aug
- 2020 12:10:04 +0200
+ 2020 12:10:05 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0048b47aedd-478b-4912-8075-79e3154130c7,
+ (GARM-101G0047e21fdb5-55bf-4ba1-9288-1191cd30d10f,
  56ABA3BD09B5898CED80C8E013D4E39E9C6048D1) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 09/21] ftgmac100: Fix registers that can be read
-Date: Wed, 19 Aug 2020 12:09:44 +0200
-Message-ID: <20200819100956.2216690-10-clg@kaod.org>
+Subject: [PATCH v2 10/21] ftgmac100: Fix interrupt status "Packet transmitted
+ on ethernet"
+Date: Wed, 19 Aug 2020 12:09:45 +0200
+Message-ID: <20200819100956.2216690-11-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200819100956.2216690-1-clg@kaod.org>
 References: <20200819100956.2216690-1-clg@kaod.org>
@@ -41,8 +42,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.101]
 X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: d12eadde-f855-450a-94a0-163b7a6e96b6
-X-Ovh-Tracer-Id: 18049582881928285036
+X-Ovh-Tracer-GUID: 9fc5048e-3ece-4647-a7f0-16f5242f4a47
+X-Ovh-Tracer-Id: 18049864358838111081
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
@@ -69,40 +70,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Frederic Konrad <konrad.frederic@yahoo.fr>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Receive Ring Base Address Register (RXR_BADR) and the Normal Priority
-Transmit Receive Ring Base Address Register (NPTXR_BADR) can also be
-read.
+The second field of the TX descriptor has a set of flags to choose
+when the transmit interrupt is raised : after the packet has been sent
+on the ethernet or after it has been moved into the TX FIFO. But we
+don't model that today.
+
+Simply raise the "Packet transmitted on ethernet" interrupt status bit
+as soon as the packet is sent by QEMU.
 
 Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/net/ftgmac100.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/net/ftgmac100.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 5f4b26fc5f3c..0348fcf45676 100644
+index 0348fcf45676..aa3c05ef9882 100644
 --- a/hw/net/ftgmac100.c
 +++ b/hw/net/ftgmac100.c
-@@ -669,6 +669,10 @@ static uint64_t ftgmac100_read(void *opaque, hwaddr addr, unsigned size)
-         return s->math[0];
-     case FTGMAC100_MATH1:
-         return s->math[1];
-+    case FTGMAC100_RXR_BADR:
-+        return s->rx_ring;
-+    case FTGMAC100_NPTXR_BADR:
-+        return s->tx_ring;
-     case FTGMAC100_ITC:
-         return s->itc;
-     case FTGMAC100_DBLAC:
+@@ -547,9 +547,7 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+             qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
+             ptr = s->frame;
+             frame_size = 0;
+-            if (flags & FTGMAC100_TXDES1_TXIC) {
+-                s->isr |= FTGMAC100_INT_XPKT_ETH;
+-            }
++            s->isr |= FTGMAC100_INT_XPKT_ETH;
+         }
+ 
+         if (flags & FTGMAC100_TXDES1_TX2FIC) {
 -- 
 2.25.4
 
