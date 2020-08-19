@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A842F24A2CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 17:24:30 +0200 (CEST)
-Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7453D24A2E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 17:26:19 +0200 (CEST)
+Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Pwz-0001Ly-OP
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 11:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34574)
+	id 1k8Pyk-0003g2-HJ
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 11:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8Pvr-0008CR-Ci
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 11:23:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40541
- helo=us-smtp-1.mimecast.com)
+ id 1k8Pvv-0008LI-H8
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 11:23:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8Pvp-0000HX-Pc
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 11:23:19 -0400
+ id 1k8Pvt-0000I9-Ml
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 11:23:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597850596;
+ s=mimecast20190719; t=1597850600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QUBLatm+u4aidY6CewDaTe3rQFNWD+FQ95kh2xpbXp8=;
- b=OoLCMgiDRvoporV4tqMu7wtZ5JOzRGt1m4Jbw53aEID8aQOPBEzFXlsKDj3QBKSVeGG/LI
- 96sm6t4bICXolJ4wG1+Nc+2ER9CjigJU2IqfF5qlij58DEgzhGDq9QQQmadwXuK/vhzTQM
- fLsBXrn7skgTBYigEvGt3mX+J6Fepd8=
+ bh=wGorU/6GZMWrstCQWJaP84CHFXi4dSIi8ZH+Ss2AFdE=;
+ b=D/DePV7BIOfngpezC2oSkX+PxJ3KaMwh+HsHB0j57HnDrk/pIL7T0V/2MVlTBYpUIjIlOx
+ 6fYJ8ZAq4fojvhnMUvdtbWtxCymN4xCGS9iZ0GOVFlVlw7FDtJD4MWCTtoUFvjCxyiMhmE
+ aCcugLnjOrKOcDulV96WZipuVLrpkD4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-yc5njGURMMamENOVJPyTRQ-1; Wed, 19 Aug 2020 11:23:14 -0400
-X-MC-Unique: yc5njGURMMamENOVJPyTRQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-37-fXf2v10JNJKrtgKKQYWdZQ-1; Wed, 19 Aug 2020 11:23:15 -0400
+X-MC-Unique: fXf2v10JNJKrtgKKQYWdZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 908091009BA1;
- Wed, 19 Aug 2020 15:23:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4E0181CB07;
+ Wed, 19 Aug 2020 15:23:13 +0000 (UTC)
 Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EBD85C1D0;
- Wed, 19 Aug 2020 15:23:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5359D5D9D5;
+ Wed, 19 Aug 2020 15:23:13 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/3] qdev: Document qdev_prop_set_drive_err() return value
-Date: Wed, 19 Aug 2020 11:22:56 -0400
-Message-Id: <20200819152258.703874-2-ehabkost@redhat.com>
+Subject: [PULL 2/3] qmp: Expose MachineClass::default_ram_id
+Date: Wed, 19 Aug 2020 11:22:57 -0400
+Message-Id: <20200819152258.703874-3-ehabkost@redhat.com>
 In-Reply-To: <20200819152258.703874-1-ehabkost@redhat.com>
 References: <20200819152258.703874-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 10:07:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,9 +84,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Halil Pasic <pasic@linux.ibm.com>,
+ Michal Privoznik <mprivozn@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
@@ -95,32 +93,63 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Michal Privoznik <mprivozn@redhat.com>
 
-Since commit 73ac1aac39 qdev_prop_set_drive_err() returns
-a boolean value. Document it.
+If a management application (like Libvirt) want's to preserve
+migration ability and switch to '-machine memory-backend' it
+needs to set exactly the same RAM id as QEMU would. Since the id
+is machine type dependant, expose it under 'query-machines'
+result. Some machine types don't have the attribute set (riscv
+family for example), therefore the QMP attribute must be
+optional.
 
-Fixes: 73ac1aac39 "Make functions taking Error ** return bool, not void"
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200720121659.31886-1-f4bug@amsat.org>
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Message-Id: <9384422f63fe594a54d801f9cb4539b1d2ce9b67.1590481402.git.mprivozn@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+[ehabkost: updated doc to "since 5.2"]
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/qdev-properties.h | 2 ++
- 1 file changed, 2 insertions(+)
+ qapi/machine.json          | 5 ++++-
+ hw/core/machine-qmp-cmds.c | 4 ++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 8f3a98cba6..528310bb22 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -238,6 +238,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 481b1f07ec..abc6fd0477 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -357,13 +357,16 @@
+ # @default-cpu-type: default CPU model typename if none is requested via
+ #                    the -cpu argument. (since 4.2)
+ #
++# @default-ram-id: the default ID of initial RAM memory backend (since 5.2)
++#
+ # Since: 1.2.0
+ ##
+ { 'struct': 'MachineInfo',
+   'data': { 'name': 'str', '*alias': 'str',
+             '*is-default': 'bool', 'cpu-max': 'int',
+             'hotpluggable-cpus': 'bool',  'numa-mem-supported': 'bool',
+-            'deprecated': 'bool', '*default-cpu-type': 'str' } }
++            'deprecated': 'bool', '*default-cpu-type': 'str',
++            '*default-ram-id': 'str' } }
  
- /*
-  * Set properties between creation and realization.
-+ *
-+ * Returns: %true on success, %false on error.
-  */
- bool qdev_prop_set_drive_err(DeviceState *dev, const char *name,
-                              BlockBackend *value, Error **errp);
+ ##
+ # @query-machines:
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 963088b798..21551221ad 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -238,6 +238,10 @@ MachineInfoList *qmp_query_machines(Error **errp)
+             info->default_cpu_type = g_strdup(mc->default_cpu_type);
+             info->has_default_cpu_type = true;
+         }
++        if (mc->default_ram_id) {
++            info->default_ram_id = g_strdup(mc->default_ram_id);
++            info->has_default_ram_id = true;
++        }
+ 
+         entry = g_malloc0(sizeof(*entry));
+         entry->value = info;
 -- 
 2.26.2
 
