@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218DB249A0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:16:22 +0200 (CEST)
-Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7D1249A05
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Aug 2020 12:13:48 +0200 (CEST)
+Received: from localhost ([::1]:39718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8L8n-0005F5-2I
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:16:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56166)
+	id 1k8L6J-0008Vl-AM
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 06:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2v-0001IG-0e; Wed, 19 Aug 2020 06:10:17 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58531)
+ id 1k8L2v-0001Jv-FG; Wed, 19 Aug 2020 06:10:17 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8L2r-0006Xv-FE; Wed, 19 Aug 2020 06:10:16 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B8EB251E25D7;
- Wed, 19 Aug 2020 12:10:10 +0200 (CEST)
+ id 1k8L2r-0006Y4-VP; Wed, 19 Aug 2020 06:10:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.102])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5442951E25D9;
+ Wed, 19 Aug 2020 12:10:11 +0200 (CEST)
 Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 19 Aug
  2020 12:10:10 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004a09a97a2-e83e-4435-b211-9e5f5bd58e73,
+ (GARM-101G004a8cf11c1-99d8-4c90-9d26-e036d84686f6,
  56ABA3BD09B5898CED80C8E013D4E39E9C6048D1) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 17/21] aspeed/sdmc: Allow writes to unprotected registers
-Date: Wed, 19 Aug 2020 12:09:52 +0200
-Message-ID: <20200819100956.2216690-18-clg@kaod.org>
+Subject: [PATCH v2 18/21] aspeed/sdmc: Simplify calculation of RAM bits
+Date: Wed, 19 Aug 2020 12:09:53 +0200
+Message-ID: <20200819100956.2216690-19-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200819100956.2216690-1-clg@kaod.org>
 References: <20200819100956.2216690-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.101]
 X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b435cfb0-7f94-4620-9a61-78e797a7ba37
-X-Ovh-Tracer-Id: 18050990257961012006
+X-Ovh-Tracer-GUID: 8d993bfe-7139-4708-ad96-817dceaa8686
+X-Ovh-Tracer-Id: 18051271733557562150
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtkedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
@@ -74,71 +74,131 @@ Cc: Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+Changes in commit 533eb415df2e ("arm/aspeed: actually check RAM size")
+introduced a 'valid_ram_sizes' array which can be used to compute the
+associated bit field value encoding the RAM size. The field is simply
+the index of the array.
 
-A subset of registers are not protected by the lock behaviour, so allow
-unconditionally writing to those.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/misc/aspeed_sdmc.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ hw/misc/aspeed_sdmc.c | 79 ++++++++++++++-----------------------------
+ 1 file changed, 25 insertions(+), 54 deletions(-)
 
 diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index ff2809a09965..81c73450ab5d 100644
+index 81c73450ab5d..08f856cbda7e 100644
 --- a/hw/misc/aspeed_sdmc.c
 +++ b/hw/misc/aspeed_sdmc.c
-@@ -33,15 +33,28 @@
- /* Configuration Register */
- #define R_CONF            (0x04 / 4)
+@@ -159,57 +159,6 @@ static const MemoryRegionOps aspeed_sdmc_ops = {
+     .valid.max_access_size = 4,
+ };
  
-+/* Interrupt control/status */
-+#define R_ISR             (0x50 / 4)
-+
- /* Control/Status Register #1 (ast2500) */
- #define R_STATUS1         (0x60 / 4)
- #define   PHY_BUSY_STATE      BIT(0)
- #define   PHY_PLL_LOCK_STATUS BIT(4)
- 
-+/* Reserved */
-+#define R_MCR6C           (0x6c / 4)
-+
- #define R_ECC_TEST_CTRL   (0x70 / 4)
- #define   ECC_TEST_FINISHED   BIT(12)
- #define   ECC_TEST_FAIL       BIT(13)
- 
-+#define R_TEST_START_LEN  (0x74 / 4)
-+#define R_TEST_FAIL_DQ    (0x78 / 4)
-+#define R_TEST_INIT_VAL   (0x7c / 4)
-+#define R_DRAM_SW         (0x88 / 4)
-+#define R_DRAM_TIME       (0x8c / 4)
-+#define R_ECC_ERR_INJECT  (0xb4 / 4)
-+
- /*
-  * Configuration register Ox4 (for Aspeed AST2400 SOC)
-  *
-@@ -449,6 +462,20 @@ static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
- static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
-                                    uint32_t data)
+-static int ast2400_rambits(AspeedSDMCState *s)
+-{
+-    switch (s->ram_size >> 20) {
+-    case 64:
+-        return ASPEED_SDMC_DRAM_64MB;
+-    case 128:
+-        return ASPEED_SDMC_DRAM_128MB;
+-    case 256:
+-        return ASPEED_SDMC_DRAM_256MB;
+-    case 512:
+-        return ASPEED_SDMC_DRAM_512MB;
+-    default:
+-        g_assert_not_reached();
+-        break;
+-    }
+-}
+-
+-static int ast2500_rambits(AspeedSDMCState *s)
+-{
+-    switch (s->ram_size >> 20) {
+-    case 128:
+-        return ASPEED_SDMC_AST2500_128MB;
+-    case 256:
+-        return ASPEED_SDMC_AST2500_256MB;
+-    case 512:
+-        return ASPEED_SDMC_AST2500_512MB;
+-    case 1024:
+-        return ASPEED_SDMC_AST2500_1024MB;
+-    default:
+-        g_assert_not_reached();
+-        break;
+-    }
+-}
+-
+-static int ast2600_rambits(AspeedSDMCState *s)
+-{
+-    switch (s->ram_size >> 20) {
+-    case 256:
+-        return ASPEED_SDMC_AST2600_256MB;
+-    case 512:
+-        return ASPEED_SDMC_AST2600_512MB;
+-    case 1024:
+-        return ASPEED_SDMC_AST2600_1024MB;
+-    case 2048:
+-        return ASPEED_SDMC_AST2600_2048MB;
+-    default:
+-        g_assert_not_reached();
+-        break;
+-    }
+-}
+-
+ static void aspeed_sdmc_reset(DeviceState *dev)
  {
-+    /* Unprotected registers */
-+    switch (reg) {
-+    case R_ISR:
-+    case R_MCR6C:
-+    case R_TEST_START_LEN:
-+    case R_TEST_FAIL_DQ:
-+    case R_TEST_INIT_VAL:
-+    case R_DRAM_SW:
-+    case R_DRAM_TIME:
-+    case R_ECC_ERR_INJECT:
-+        s->regs[reg] = data;
-+        return;
+     AspeedSDMCState *s = ASPEED_SDMC(dev);
+@@ -324,10 +273,32 @@ static const TypeInfo aspeed_sdmc_info = {
+     .abstract   = true,
+ };
+ 
++static int aspeed_sdmc_get_ram_bits(AspeedSDMCState *s)
++{
++    AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
++    int i;
++
++    /*
++     * The bitfield value encoding the RAM size is the index of the
++     * possible RAM size array
++     */
++    for (i = 0; asc->valid_ram_sizes[i]; i++) {
++        if (s->ram_size == asc->valid_ram_sizes[i]) {
++            return i;
++        }
 +    }
 +
-     if (s->regs[R_PROT] == PROT_HARDLOCKED) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked until system reset!\n",
-                 __func__);
++    /*
++     * Invalid RAM sizes should have been excluded when setting the
++     * SoC RAM size.
++     */
++    g_assert_not_reached();
++}
++
+ static uint32_t aspeed_2400_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
+ {
+     uint32_t fixed_conf = ASPEED_SDMC_VGA_COMPAT |
+-        ASPEED_SDMC_DRAM_SIZE(ast2400_rambits(s));
++        ASPEED_SDMC_DRAM_SIZE(aspeed_sdmc_get_ram_bits(s));
+ 
+     /* Make sure readonly bits are kept */
+     data &= ~ASPEED_SDMC_READONLY_MASK;
+@@ -385,7 +356,7 @@ static uint32_t aspeed_2500_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
+     uint32_t fixed_conf = ASPEED_SDMC_HW_VERSION(1) |
+         ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
+         ASPEED_SDMC_CACHE_INITIAL_DONE |
+-        ASPEED_SDMC_DRAM_SIZE(ast2500_rambits(s));
++        ASPEED_SDMC_DRAM_SIZE(aspeed_sdmc_get_ram_bits(s));
+ 
+     /* Make sure readonly bits are kept */
+     data &= ~ASPEED_SDMC_AST2500_READONLY_MASK;
+@@ -451,7 +422,7 @@ static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
+ {
+     uint32_t fixed_conf = ASPEED_SDMC_HW_VERSION(3) |
+         ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
+-        ASPEED_SDMC_DRAM_SIZE(ast2600_rambits(s));
++        ASPEED_SDMC_DRAM_SIZE(aspeed_sdmc_get_ram_bits(s));
+ 
+     /* Make sure readonly bits are kept (use ast2500 mask) */
+     data &= ~ASPEED_SDMC_AST2500_READONLY_MASK;
 -- 
 2.25.4
 
