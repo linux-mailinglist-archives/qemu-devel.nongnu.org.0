@@ -2,97 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35E124B780
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 12:56:05 +0200 (CEST)
-Received: from localhost ([::1]:60138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BD124B895
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 13:23:53 +0200 (CEST)
+Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8iEm-00077g-W3
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 06:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53398)
+	id 1k8ifg-0007Nb-7d
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 07:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k8iDv-0006bx-2M
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 06:55:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46021
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k8iDs-0006U0-NU
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 06:55:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597920907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4UWgLqombtRgUjlrWroJfuMntbtaAZTLGT5j9WAlzqI=;
- b=eZlVi+85pQkw4EEsxQIFKhOLHhzjj6c5iq6ixMyuw6rGaQDrRN59Uxx2RBTyMVMxeEDPKx
- N0tJTy3vFXEWUwMVhL4d0VsApvhi60M/pyJjf6BR9dGoQ1cSAg8QsGu8oOz0p8hc9p6RV8
- XOhyKxcfwufCyVKErd7oOuZI30hhZNg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-nnQD54msNZGBYk1ZzdkojA-1; Thu, 20 Aug 2020 06:54:53 -0400
-X-MC-Unique: nnQD54msNZGBYk1ZzdkojA-1
-Received: by mail-wr1-f72.google.com with SMTP id s23so520707wrb.12
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 03:54:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4UWgLqombtRgUjlrWroJfuMntbtaAZTLGT5j9WAlzqI=;
- b=p6c9F4XNKTgb1Oz1A+oTS99BIUpq8RgP2WKYyZDFA+lj/fC5rlDXyMP2iKPvNi6bhs
- NsNefb0xwhtF13ky31k21aU7C2TECXathdQSYDJ5QfVjm427h1LYgWTp46YxLOO9dK4s
- qfIgQXNyi9JnLXAahn9ydrdvGKKRiBIBmrMdB8ozYGY24fb/WryRNqI4IPmsWUH9VaCP
- 0zYRQmZMKn3lKZEWr9r5hXC4l2vE7AsroFpFm8TLRu33nubGpOMnFb8pm33AQVkY0GH9
- n8qqZMJHcC9s9K5jt4GkVUhU3U8D7VQ5hD9NEnIbSKC3FaeR5audUSkeB2s3o1QfRX0Z
- kiSg==
-X-Gm-Message-State: AOAM533bXOFO9g5fwWLmbr/kKnvuy4/AXD6wm0HXBaUZT63eYg1VBhfQ
- 8u237pMR3qRVkQ7c1P6ypBststRaRYEKaMMb7L0OJ/oVns8TvpnTRPdDq6ruOLAaP6baYqUXYUe
- jbKREOj4PWcan54g=
-X-Received: by 2002:a7b:c2aa:: with SMTP id c10mr2928991wmk.86.1597920891893; 
- Thu, 20 Aug 2020 03:54:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKMoS4qyd5AjyaTPjNAL0DZdSlRldlYWLQll6l37bflpu0Wlsqatrob9AvUF1FgGvQ25IGMQ==
-X-Received: by 2002:a7b:c2aa:: with SMTP id c10mr2928975wmk.86.1597920891584; 
- Thu, 20 Aug 2020 03:54:51 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1cc0:4e4e:f1a9:1745?
- ([2001:b07:6468:f312:1cc0:4e4e:f1a9:1745])
- by smtp.gmail.com with ESMTPSA id o2sm3720137wrh.70.2020.08.20.03.54.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Aug 2020 03:54:50 -0700 (PDT)
-Subject: Re: [PATCH v5 1/1] audio/jack: fix use after free segfault
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <20200819062940.52774-1-geoff@hostfission.com>
- <5029913.bOW1W81TKx@silver>
- <20200820053728.kv7pngxqzp32uky3@sirius.home.kraxel.org>
- <3140676.b1PlGooJ8z@silver>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
-Date: Thu, 20 Aug 2020 12:54:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k8iem-0006qG-VR; Thu, 20 Aug 2020 07:22:56 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:49039 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k8iej-0001gd-N1; Thu, 20 Aug 2020 07:22:56 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BXMh73zlrz9sTQ; Thu, 20 Aug 2020 21:22:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1597922567;
+ bh=4uOtPe8jWbeg17tzHO+6PKeOLv3FEQhRphdU/UTXyHE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VjwyxcoVuzf7djCSeiZuUU5ftU3tzS/pEq3z9addF9+vIbg/95BCUkSX9rxmGckZU
+ xoFnFP15PkfzjVyZJ9SXnSTzTw7Jqjd7UmpvsL2NZQ6QyGPB5KLSZRoSAAZyPihbCI
+ wXYaY4xi8E1uzhNJ+nXmxck+V8FayS2RwmqG7Hrk=
+Date: Thu, 20 Aug 2020 20:12:44 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] ppc/pnv: Add a HIOMAP erase command
+Message-ID: <20200820101244.GP271315@yekko.fritz.box>
+References: <20200820073650.2315095-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <3140676.b1PlGooJ8z@silver>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 03:03:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wg9FEZT+WCTrEXgJ"
+Content-Disposition: inline
+In-Reply-To: <20200820073650.2315095-1-clg@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 07:22:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,107 +60,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Geoffrey McRae <geoff@hostfission.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/08/20 12:06, Christian Schoenebeck wrote:
-> Hmmm, as Geoffrey already added a lock today, I noticed that QEMU's main IO 
-> thread mutex is not initialized as 'recursive' lock type. Does that make 
-> sense? I.e. shouldn't there be a
-> 
-> 	qemu_rec_mutex_init(&qemu_global_mutex);
-> 
-> in softmmu/cpus.c for safety reasons to prevent nested locks from same thread 
-> causing misbehaviour?
-> 
-> CCing Paolo to clarify.
 
-atexit functions (in this case
-audio_cleanup->free_audio_state->qjack_fini_out) might be called both
-with or without the BQL taken, so v7 of this series is likely wrong as
-you point out.
+--wg9FEZT+WCTrEXgJ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, recursive locks are pure evil. :)
+On Thu, Aug 20, 2020 at 09:36:50AM +0200, C=E9dric Le Goater wrote:
+> The OPAL test suite runs a read-erase-write test on the PNOR :
+>=20
+>   https://github.com/open-power/op-test/blob/master/testcases/OpTestPNOR.=
+py
+>=20
+> which revealed that the IPMI HIOMAP handlers didn't support
+> HIOMAP_C_ERASE. Implement the sector erase command by writing 0xFF in
+> the PNOR memory region.
+>=20
+> Reported-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-More seriously: programming with concurrency is first and foremost about
-understanding invariants[1].  Locks are relatively simple to reason
-about because they enforce invariants at the points where they are
-acquired or released.
+Applied to ppc-for-5.2.
 
-If you have something like
+> ---
+>  hw/ppc/pnv_bmc.c | 31 ++++++++++++++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index 2e1a03daa45a..0fb082fcb8ee 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -140,6 +140,29 @@ static uint16_t bytes_to_blocks(uint32_t bytes)
+>      return bytes >> BLOCK_SHIFT;
+>  }
+> =20
+> +static uint32_t blocks_to_bytes(uint16_t blocks)
+> +{
+> +    return blocks << BLOCK_SHIFT;
+> +}
+> +
+> +#define IPMI_ERR_UNSPECIFIED            0xff
+> +
+> +static int hiomap_erase(PnvPnor *pnor, uint32_t offset, uint32_t size)
+> +{
+> +    MemTxResult result;
+> +    int i;
+> +
+> +    for (i =3D 0; i < size / 4; i++) {
+> +        result =3D memory_region_dispatch_write(&pnor->mmio, offset + i =
+* 4,
+> +                                              0xFFFFFFFF, MO_32,
+> +                                              MEMTXATTRS_UNSPECIFIED);
+> +        if (result !=3D MEMTX_OK) {
+> +            return -1;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+>  static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cmd, unsigned int cmd_l=
+en,
+>                         RspBuffer *rsp)
+>  {
+> @@ -155,10 +178,16 @@ static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cm=
+d, unsigned int cmd_len,
+>      switch (cmd[2]) {
+>      case HIOMAP_C_MARK_DIRTY:
+>      case HIOMAP_C_FLUSH:
+> -    case HIOMAP_C_ERASE:
+>      case HIOMAP_C_ACK:
+>          break;
+> =20
+> +    case HIOMAP_C_ERASE:
+> +        if (hiomap_erase(pnor, blocks_to_bytes(cmd[5] << 8 | cmd[4]),
+> +                        blocks_to_bytes(cmd[7] << 8 | cmd[6]))) {
+> +            rsp_buffer_set_error(rsp, IPMI_ERR_UNSPECIFIED);
+> +        }
+> +        break;
+> +
+>      case HIOMAP_C_GET_INFO:
+>          rsp_buffer_push(rsp, 2);  /* Version 2 */
+>          rsp_buffer_push(rsp, BLOCK_SHIFT); /* block size */
 
-static void do_it_locked(struct foo *foo)
-{
-    /* ... */
-}
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-static void do_it(struct foo *foo)
-{
-    mutex_lock(&foo->lock);
-    do_it_locked(foo);
-    mutex_unlock(&foo->lock);
-}
+--wg9FEZT+WCTrEXgJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-then you can immediately know that foo_locked() calls requires more
-care, because the invariants around "foo" have to be provided by the
-caller of foo_locked().  Instead, on a call to foo() the invariants are
-guaranteed just because the caller must not have locked foo().
+-----BEGIN PGP SIGNATURE-----
 
-Instead, recursive locks allow you to slip into a different mindset
-where locks protect the _code_ instead of the _data_ (and the invariants
-of that data).  Things look simpler because you can just have
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8+TJoACgkQbDjKyiDZ
+s5LJlA/+KZUye56HpfUQr155c+vfeg/F+WvWQ8aILjUAfzSnbIG3OHIonSm7Oj77
+kf02ieEhB2jPYFLADpf+P5Ippqz6N/Ty4/kntsrnR8B3iMIQEGqDByG1qb7GG84T
+MxA+XiRukots2IbL0Hr33eThZaFcqobKJQQkx2MedK0LVRSybBLgl10du7VNb04d
+aRmWpMexaOUBFalGBP67LaBBymtQHRYdmpS4vrKGcUBuRxqsSIdc63YNM2uU48m1
+Vld5b73R4nXFURzUtR6C66cYD8cW5aoY9Nt3HK+rVUBtEFmPl16Vgkv74Dat0G3Z
+PK/YfW/m11pFsMgXM1CrkmdEit3ZXFSJeAX4MTVeAwVuXR/qEfNnRAS/ain2Cpsn
+kVGxT1jdunBqFaFr6StGZNF3Qd6jldtqgxn38mpAPlfCsyBKYOiatB3sI9P0i7xD
+FqexXsWUW5WA7Sqf2AeH21HsTR0oYK4PM7EuBi85SYfU2Cw3PIp3tOwuy2wXOa8h
+UZS9NQvK9EgvF4EmjESKisM+ZSr2UABEUTt8hrPtuV1D/8UZg4sE3hgTQlnKvVbk
+akuMplcRTP1H1KwX3vSNtp8W317oMIps2hCJIyKnVI8jdW1G1uS7KevNTLxtjxn6
+V1s++Tm+N4Hq/+6ztt2+894lID8HDTSkQCWedX24qRcZ8lpskD8=
+=/O7O
+-----END PGP SIGNATURE-----
 
-static void do_it(struct foo *foo)
-{
-    rec_mutex_lock(&foo->lock);
-    /* ... */
-    rec_mutex_unlock(&foo->lock);
-}
-
-but callers have no clue about what invariants are provided around calls
-to do_it().  So, understanding complex code that uses recursive mutexes
-is effectively impossible.
-
-More on the practical side, recursive mutex are an easy way to get a
-deadlock.  It's a common idiom to do
-
-    /* Need to take foo->lock outside bar->lock.  */
-    mutex_unlock(&bar->lock);
-    mutex_lock(&foo->lock);
-    mutex_lock(&bar->lock);
-
-With a recursive mutex, there's no guarantee that foo->lock is *really*
-taken outside bar->lock, because the first unlock could have done
-nothing except decreasing the lock-nesting count.  This is also why QEMU
-uses differently-named functions to lock/unlock recursive mutexes,
-instead of having a flag like pthread mutexes do; it makes code like
-this stand out as wrong:
-
-    /* Meant to take foo->lock outside bar->lock, but really doesn't  */
-    rec_mutex_unlock(&bar->lock);
-    mutex_lock(&foo->lock);
-    rec_mutex_lock(&bar->lock);
-
-A variant of this applies to callbacks: the golden rule is that
-callbacks (e.g. from a function that iterates over a data structure)
-should be called without any lock taken in order to avoid deadlocks.
-However, this rule is most often ignored in code that uses a recursive
-mutex, because that code is written around the (incorrect) paradigm that
-mutual exclusion makes code safe.  Which technically is true in this
-case, as deadlocks are not a safety problem, but that's not a great
-consolation.
-
-My suggestion is to work towards protecting the audio code with its own
-mutex(es) and ignore the existence of the BQL for subsystems that can do
-so (audio is a prime candidate).  Also please add comments to
-audio_int.h about which functions are called from other threads than the
-QEMU main thread.
-
-Thanks,
-
-Paolo
-
-[1] https://lamport.azurewebsites.net/pubs/teaching-concurrency.pdf
-
+--wg9FEZT+WCTrEXgJ--
 
