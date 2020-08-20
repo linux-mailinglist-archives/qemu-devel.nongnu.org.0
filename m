@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BB124C5C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 20:43:51 +0200 (CEST)
-Received: from localhost ([::1]:60956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE8E24C5CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 20:45:22 +0200 (CEST)
+Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8pXS-00056R-Il
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 14:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35204)
+	id 1k8pYv-0007Nu-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 14:45:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8pU4-0000f1-3d; Thu, 20 Aug 2020 14:40:20 -0400
-Received: from mail-eopbgr00104.outbound.protection.outlook.com
- ([40.107.0.104]:1630 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1k8pU5-0000gx-QY; Thu, 20 Aug 2020 14:40:21 -0400
+Received: from mail-eopbgr00105.outbound.protection.outlook.com
+ ([40.107.0.105]:40648 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8pU0-0003CQ-LG; Thu, 20 Aug 2020 14:40:19 -0400
+ id 1k8pU2-0003Bm-BK; Thu, 20 Aug 2020 14:40:21 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GBiRo/UBCqb/Ty3eTZVSxkxGszp2uwf6OLB1rRg7w37MJ3W6s4o5MVqfHwALBC3g8bfF9MNjBXRPRaHyqanaH+ytT2++q/oQyzSFqRLC/8xhkLB7DR36IhT8e53Q6mj/OVoU1R5Q4Ei1of70nhfJNdiz4LFIjLCs6HXn8n4PvOZl94UtOhn2L+lbzMYDPxT9TI0VBsVOsWxkbL9o+Bzzt/kdtuo0w7+yRFzRYMyEQ+0I08CjdCQS7iQBhxfgWQXKJhmAhnCuxREPo3l81RkyoBUdBoNLI8UL6kbYFdJ3k171DWjX9XQtGKv7OSGE5s1ZG8zcF21HHru40HtZJg57WA==
+ b=YGeHF3kvw+HTEehCTUCkPtJFhRSu4O/qsD+0UBSMWh1D6PnV72hxN7g3yEEcOGmwYI/oEcWyZwbnggWx7SbdNT8y7+Jk5xVyDDDC4tB/RPy4dg/x53EAgSzzbZKG3w9+9S5t94fbn1x8jJTzTygj/4Z0JI7gWHxULSStXWEIAe5VRAmQgH4glkUJtpx7qI1l7Y4CrhUezFEELlj3LEstH4X9EsYtH1zo8Xk+73VjcD6G0RcuJcS0SWU4U85XwYxOYc9a4CzG8WToqJppgu8NPFzD3cx1ddAMTYSHmJbNsVkfVeMf6qO7AHAIG5AInQkqJUY/iZ2G6O+NAn5dYBGsyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T6ADkc6uYMLabKqyv9ENA7/hX8HBJxK5upg5p8B/ZEw=;
- b=NU55x8MyL95otdMvAoWufwfYClk+DkiNBgvCrPXKvgN2h4N1o/oMVIcjM8Xg84jZi60mPQQRQeKFusojqyA/WQKvAmVzQVnPj2/yeWg+rkVz03g9g6rpdLx/pWD6bAdwV9VBgyvjnEn8m6fNF+D/U00gGDEnBM/iPByWSGd9eozeu2YBeXFJ1or2831XfM/O4JP6BtJxyU4JLtoUbJhjDC1owNPtxHtN9YtrwcQSj4ukVeub7KU876G/i7v8iVfnF2h+FXwnxKVjd43RwxPkvq4J4JusqGQRvnm2xYtAEH08x1PuP6xYdGLZdpHxM/gt0tuewRKjtB9J4mi1jSsuYg==
+ bh=0386wauxXmSK63FI+OC2yIics9gF/T4FfYX7cSlvOt0=;
+ b=KErhmB8Wvh9zmzSn0Kh6lhjATEZPbl2kEDVnSQMp3o1ptrMmVqQy/nl4LeA1sZGe5UOOphuGUGTEKFvI8mnJxbWwSmBpwo8K2MW9IIoILpM1DDokHXG9zweD2jZm4mtr3J2oNjTqqvrcNuBdf/J2shV4q5vxA07aEy9i6ZGDQBublXJ8AslNVmLPgc5LK9cVWWrmdG9Jow52r/faEwQ7C6xu28wRSKJfciYVYjCMgRQR612u+ntwsbPI5+/1lH7y9hMQGjIEVTity9W/OHVCKtiHtxsczG24hwgMb2SdLQSLZh9gdx3NuplcyhjsvABaPMvGDwFVETZk+O1Fx+7xIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T6ADkc6uYMLabKqyv9ENA7/hX8HBJxK5upg5p8B/ZEw=;
- b=oYkAs51IndqwbZjPANADAN5XEAoGMqpCVZPwQXMt3RF032wLHIBlM+y1+iUvB3M8F4bQdxqcp0V2GNJaCNaJX7RQm79YvInAQ3wXHq5DZaBqoTE+ONdWNy3GQh27pnfUWol01c6GUFvAp/05k7wIQWzNmerxUkOalTHLjW0qgP8=
+ bh=0386wauxXmSK63FI+OC2yIics9gF/T4FfYX7cSlvOt0=;
+ b=Tdi3S7hVyuXLkDaXsiCZbPGdgSjw39r2O8h5AEPcl8YRNtHeRZzopXIpxylTb5fOTpAbB4sS/Bv3vpTWbe1zGKzGJxqJMK9ahBnjXObeqniPsOyb/KgrPktIAlAVVy8/HbKZZDYOUR0KAAVNk6N6rEH1kjk12UPxh7boAfhhWjQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -46,9 +46,10 @@ Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  18:40:05 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 01/10] block: simplify comment to BDRV_REQ_SERIALISING
-Date: Thu, 20 Aug 2020 21:39:41 +0300
-Message-Id: <20200820183950.13109-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 02/10] block/io.c: drop assertion on double waiting for
+ request serialisation
+Date: Thu, 20 Aug 2020 21:39:42 +0300
+Message-Id: <20200820183950.13109-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200820183950.13109-1-vsementsov@virtuozzo.com>
 References: <20200820183950.13109-1-vsementsov@virtuozzo.com>
@@ -63,44 +64,44 @@ Received: from kvm.sw.ru (185.215.60.171) by
  AM4PR0202CA0003.eurprd02.prod.outlook.com (2603:10a6:200:89::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25 via Frontend
- Transport; Thu, 20 Aug 2020 18:40:04 +0000
+ Transport; Thu, 20 Aug 2020 18:40:05 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.171]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1ffcc4da-8d39-48b8-b771-08d845387472
+X-MS-Office365-Filtering-Correlation-Id: 6e34673f-3f3c-425e-50a8-08d8453874f9
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3032:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB30329586B3551A9104C9D2D4C15A0@AM6PR08MB3032.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB30323A77DA0E0E5C29CE4144C15A0@AM6PR08MB3032.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oXQhYPOz6R9JYiHo6aLzPawunKaYYgM8un83h9oDLjLkt+jvJjvgJSocb0Kx95U7jqi3IqBl2QhYi6xxTuT2fnYnJqUnxCGSJtcDRP5zYIp3xMeFicw5QfX85LODMiMMpV6Dm37Nldb2DmyIoaalXgyDz1qDJ4X/Vhgq0nbRsRX+v1FrT2t0w5Y+1lX8kkpqEEKTu8x+T52WwpAnlQaFmQRaa/iTPqyj9xsADJR6ynYTEr88HZ3TDdKZsVeKguj9jbiIyct0ogVwml+hNlS7UBWRLZTwZAbOd5U8FJw83pXr4jtsYWvZN132hSCqfOQMgIQzwWhejMfj2avjuDTsXg==
+X-Microsoft-Antispam-Message-Info: H22EwgTuQUNi7hdu14FGy9+7RD1CRKltrB8w7h3Wb+6JciMFIini2rXibTpjaG9JJ2bS952x2olvCYz6xRNcyJKQpaDBNVjOZ7ryqu9RTlyOlRIY7YVMvQCQiUhhSbudgblNDGlIRbcpsF6BYSUh0ir8RfELslhYJZn23/3mCtKGzDlzCjSPQG7bDp9QArEMbLsOILw2Z9tG25lnExXNbAYBxNdzAvRWyX42YDyWlX7Hu+d2J/GGdf40YXaD6ADalKsjwZGWZhbP5jPUikNhTQWCBCHzbJh3KAzHJfMya+mpM0untRIaKJDpmOcXZoObgEjOFWVfYp63o3RKWsfCPQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39840400004)(376002)(346002)(396003)(136003)(4326008)(6666004)(8676002)(16526019)(186003)(26005)(316002)(107886003)(6486002)(83380400001)(36756003)(86362001)(2906002)(478600001)(6916009)(5660300002)(8936002)(66946007)(66476007)(66556008)(6506007)(1076003)(6512007)(956004)(2616005)(52116002);
+ SFS:(4636009)(366004)(39840400004)(376002)(346002)(396003)(136003)(4326008)(6666004)(8676002)(16526019)(186003)(26005)(316002)(6486002)(83380400001)(36756003)(86362001)(2906002)(478600001)(6916009)(5660300002)(8936002)(66946007)(66476007)(66556008)(6506007)(1076003)(6512007)(956004)(2616005)(52116002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: zs5MA4mhq1cD7ueBJa1GLShLzC11u2wyIJuoru6WETglEoEw7Nsol5pEIqjdGARbolvR5D88ZVkWEBScyzgEnWHmc9Ru1rHqxk2hPQ47rVHq7faXSj7k3bjK09TRo0BhQIS60krYZo2y75oQrTS1c00qrisTH87Z0T4/ICOpnetg0/0K7OOiII9wmDdWCh7DbZ2Fd+IFNcii6YBiDfoyH7MZZAjk8a4RT605xR6UbEu7Jl0gz+pK2Y5+9otLMxQJZCpaqK24pvEVvzXEmt/Sqfe1I79UtUX5Kbdi4ce04FTctSInwKP5vur8tXcCcwsNghqfWov+aBPGNqhOlvqxj1BRpIQzsKAMLLKR6GXjEXzershB2m9VeoeBkS/2riPiYhDCgtVbyWg3zfoUMl/VpB8F+K7vWvpQXvBhR2rRZ1BZpCVDPoPvr31krY95KZdfNOfK8GdNncp9JplIl0x7gEcgK7CdQtQbzOsKLlQn8Ttlxkom1Niqn2aCZXnDv+6DXJ29WeAOVNz1PZbbB99qzW124/DdnYidKv4Q4xxfMrsPzX9NizgOkpSil/qvZgwfKEfnmHJaGQuYIsjZEh6+O6X8qLrvJ8tjc+9YOmWTXWZqPukr5bQCkUOfuNlCeFeHtvUlh4mU9De+UMvZIw02xw==
+X-MS-Exchange-AntiSpam-MessageData: KSfhn5nAAh5+a7b1heexq1Y/jS1HH1BUg1DEZZDkSYKgfDeyvvFProl30RUoful3K/Ndd9jXqFJQQa/IARme8sS0TAm8udav/ggYfYECUGDKJcyBuu0OApmdTrgNaGS/jB3Wh/urZ6YjZv4iklqsnv2QS4dd5t39gCEQnxMJg3D7r0WZRlFRmuo35YnSZLZ+fxbc92X35vUkEqrX2Hh9M1xy5I1t1DJ4NX4vL2YdAerGLdbI/eCD0A+Dsl28ya1ZtpJ+crQCSPzTJqpoPY4kTYv+Oi4Licd7r9E4Mn2+pRccFA2/SXM4L7HFpjtLlHw+RzcsZ3eJFK/BCc+lAVMgbX8EfD6kEYNKmIrp9AH19YnCNGHg9L0FUwVwtFLiSP2GY3NZklPAs0QBqWhhT3O8r3nHdvHVhgtw41jshlWvvFnDOjpMLq4oUlu1RJ5MkJDt4hxGvwGkJTLz4LtM87r6tgP7E48UPsycV0tDcC2N5Fjacr/0nHisMTi1KzEqVZf50pJl9snONoiLvwUhPIIj8S1h38reiXEYGMf2SSjNob13kU1cNCIDayiRCfKYEPDwMzRdOQcagPAEXY5f1zO+cxDny3sr7bfUh16u+cmM/jKmVEowdS2oLS4k/JEWfRhxYdYZd0qx+aNBZN2Ml4Vb9g==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ffcc4da-8d39-48b8-b771-08d845387472
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e34673f-3f3c-425e-50a8-08d8453874f9
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 18:40:04.9106 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 18:40:05.8305 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n/h7JLtHK+AKFiKmX68la/gXghj1zB8+U+4SJQNebbqYdzKluvLJqwjBw/Rxy7Ly+RPi+pMH04LSotDttAtjniVTuZb2SGZ/KgpdxyDk7Kk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4k4PWSpm3qvHMds9GsEQTLyjEjwaUMzpZokZkfbfiaIfdQ8UUQBHpdqynd+qOy/hsvd+sAF6YdlC1qR2KM0DNlkhz75bH/BHfPgOY9iOfDQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3032
-Received-SPF: pass client-ip=40.107.0.104;
+Received-SPF: pass client-ip=40.107.0.105;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 14:40:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 14:40:09
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -116,48 +117,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1. BDRV_REQ_NO_SERIALISING doesn't exist already, don't mention it.
+The comments states, that on misaligned request we should have already
+been waiting. But for bdrv_padding_rmw_read, we called
+bdrv_mark_request_serialising with align = request_alignment, and now
+we serialise with align = cluster_size. So we may have to wait again
+with larger alignment.
 
-2. We are going to add one more user of BDRV_REQ_SERIALISING, so
-   comment about backup becomes a bit confusing here. The use case in
-   backup is documented in block/backup.c, so let's just drop
-   duplication here.
-
-3. The fact that BDRV_REQ_SERIALISING is only for write requests is
-   omitted. Add a note.
+Note, that the only user of BDRV_REQ_SERIALISING is backup which issues
+cluster-aligned requests, so seems the assertion should not fire for
+now. But it's wrong anyway.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/block/block.h | 11 +----------
+ block/io.c | 11 +----------
  1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 6e36154061..b8f4e86e8d 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -53,16 +53,7 @@ typedef enum {
-      * content. */
-     BDRV_REQ_WRITE_UNCHANGED    = 0x40,
+diff --git a/block/io.c b/block/io.c
+index ad3a51ed53..b18680a842 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1881,7 +1881,6 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
+                           BdrvTrackedRequest *req, int flags)
+ {
+     BlockDriverState *bs = child->bs;
+-    bool waited;
+     int64_t end_sector = DIV_ROUND_UP(offset + bytes, BDRV_SECTOR_SIZE);
  
--    /*
--     * BDRV_REQ_SERIALISING forces request serialisation for writes.
--     * It is used to ensure that writes to the backing file of a backup process
--     * target cannot race with a read of the backup target that defers to the
--     * backing file.
--     *
--     * Note, that BDRV_REQ_SERIALISING is _not_ opposite in meaning to
--     * BDRV_REQ_NO_SERIALISING. A more descriptive name for the latter might be
--     * _DO_NOT_WAIT_FOR_SERIALISING, except that is too long.
--     */
-+    /* Forces request serialisation. Use only with write requests. */
-     BDRV_REQ_SERIALISING        = 0x80,
+     if (bs->read_only) {
+@@ -1893,15 +1892,7 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
+     assert(!(flags & ~BDRV_REQ_MASK));
  
-     /* Execute the request only if the operation can be offloaded or otherwise
+     if (flags & BDRV_REQ_SERIALISING) {
+-        waited = bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
+-        /*
+-         * For a misaligned request we should have already waited earlier,
+-         * because we come after bdrv_padding_rmw_read which must be called
+-         * with the request already marked as serialising.
+-         */
+-        assert(!waited ||
+-               (req->offset == req->overlap_offset &&
+-                req->bytes == req->overlap_bytes));
++        bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
+     } else {
+         bdrv_wait_serialising_requests(req);
+     }
 -- 
 2.21.3
 
