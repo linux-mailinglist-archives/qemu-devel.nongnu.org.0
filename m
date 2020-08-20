@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A23224C4AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 19:41:22 +0200 (CEST)
-Received: from localhost ([::1]:40974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C730524C4C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 19:43:18 +0200 (CEST)
+Received: from localhost ([::1]:45532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8oYz-00049M-Ba
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 13:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45728)
+	id 1k8oar-00061b-Sx
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 13:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k8oXk-0002oZ-NG
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 13:40:04 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29678
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k8oa6-0005as-4i
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 13:42:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k8oXj-0003Av-2Q
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 13:40:04 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k8oa4-0003be-8P
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 13:42:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597945202;
+ s=mimecast20190719; t=1597945347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1MSd+bh2opWOT1nEV8Etp4Xck0zoeKQEAMrJEJsf4xo=;
- b=Zex7zTdUJvIuQcaivzbGXHTUz3fcUcl5Tn9ZNiRiZKPLmGE4sb9Dr4lvQHNPhf7CxIGk6f
- H9C6LHqIzBcAUpHgB4huc0zZoEE998ekqtAqMLXRBXJU1xGBKSkdWTS5Go4uUm8DpuZy0m
- WCDnRnzDi8QnK1S8z9Ix0QNzf05mzB8=
+ bh=9y/6cvnf7IFhyTRFV6IbO94Lg8/9C1CF/YCJXy7aRjU=;
+ b=Q3C+THa76pNUHYAVU7xoVu/xQX3KSTos7viNcJgEOqAyrYXAKvtfQbhgDvCQDdec93nlMU
+ 1XPKx1d6UtjsezxMA+lGquNFZXjtRi3aBLKo9zCuHh5PMSCNYkgnqjPoHTQoWpxXyNbgrW
+ ueaq2tke/7xAjvzm7ScTYwG79tPRlVo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-PrTGCjG7MP69gE1sRTCWcA-1; Thu, 20 Aug 2020 13:40:00 -0400
-X-MC-Unique: PrTGCjG7MP69gE1sRTCWcA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-64-5jNdF3nFMCCUROrDKfV1Gg-1; Thu, 20 Aug 2020 13:42:22 -0400
+X-MC-Unique: 5jNdF3nFMCCUROrDKfV1Gg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16BA51DE05;
- Thu, 20 Aug 2020 17:39:59 +0000 (UTC)
-Received: from work-vm (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4339719D7D;
- Thu, 20 Aug 2020 17:39:57 +0000 (UTC)
-Date: Thu, 20 Aug 2020 18:39:54 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v3 07/10] migration/dirtyrate: skip sampling ramblock
- with size below MIN_RAMBLOCK_SIZE
-Message-ID: <20200820173954.GO2664@work-vm>
-References: <1597634433-18809-1-git-send-email-zhengchuan@huawei.com>
- <1597634433-18809-8-git-send-email-zhengchuan@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5330D8030C9;
+ Thu, 20 Aug 2020 17:42:21 +0000 (UTC)
+Received: from [10.3.114.63] (ovpn-114-63.phx2.redhat.com [10.3.114.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB73A7A40B;
+ Thu, 20 Aug 2020 17:42:20 +0000 (UTC)
+Subject: Re: [PATCH] configure: add support for psuedo-"in source tree" builds
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200820165543.215372-1-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <938bfa57-01f9-a50a-6439-0965c91dce1b@redhat.com>
+Date: Thu, 20 Aug 2020 12:42:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1597634433-18809-8-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200820165543.215372-1-berrange@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.003
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 03:03:34
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 09:00:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,96 +83,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, linyilu@huawei.com,
- qemu-devel@nongnu.org, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- fangying1@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> In order to sample real RAM, skip ramblock with size below
+On 8/20/20 11:55 AM, Daniel P. Berrangé wrote:
+> Meson requires the build dir to be separate from the source tree. Many
+> people are used to just running "./configure && make" though and the
+> meson conversion breaks that.
 > 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-
-OK,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> This introduces some backcompat support to make it appear as if an
+> "in source tree" build is being done, but with the the results in the
+> "build/" directory. This allows "./configure && make" to work as it
+> did historically, albeit with the output binaries staying under build/.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  migration/dirtyrate.c | 24 ++++++++++++++++++++++++
->  migration/dirtyrate.h |  5 +++++
->  2 files changed, 29 insertions(+)
+
+In addition to reviews you already have,
+
+
+> I've not tested it beyond that. Note it blows away the "build/"
+> dir each time ./configure is run so it is pristine each time.
+
+I definitely like the idea of only blowing away what we created - but if 
+we created build, then recreating it for each new configure run is nice.
+
 > 
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 3ce25f5..6f30f67 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -186,6 +186,24 @@ alloc_ramblock_dirty_info(int *block_index,
->      return block_dinfo;
->  }
->  
-> +static int skip_sample_ramblock(RAMBlock *block)
-> +{
-> +    int64_t ramblock_size;
-> +
-> +    /* ramblock size in MB */
-> +    ramblock_size = qemu_ram_get_used_length(block) >> 20;
-> +
-> +    /*
-> +     * Consider ramblock with size larger than 128M is what we
-> +     * want to sample.
-> +     */
-> +    if (ramblock_size < MIN_RAMBLOCK_SIZE) {
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->                                       struct DirtyRateConfig config,
->                                       int *block_index)
-> @@ -196,6 +214,9 @@ static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->      int index = 0;
->  
->      RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        if (skip_sample_ramblock(block) < 0) {
-> +            continue;
-> +        }
->          dinfo = alloc_ramblock_dirty_info(&index, dinfo);
->          if (dinfo == NULL) {
->              return -1;
-> @@ -275,6 +296,9 @@ static int compare_page_hash_info(struct RamblockDirtyInfo *info,
->      RAMBlock *block = NULL;
->  
->      RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        if (skip_sample_ramblock(block) < 0) {
-> +            continue;
-> +        }
->          block_dinfo = NULL;
->          if (!find_page_matched(block, info, block_index + 1, &block_dinfo)) {
->              continue;
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index 0812b16..fce2e3b 100644
-> --- a/migration/dirtyrate.h
-> +++ b/migration/dirtyrate.h
-> @@ -31,6 +31,11 @@
->  
->  #define QCRYPTO_HASH_LEN                          16
->  
-> +/*
-> + * minimum ramblock size to sampled
-> + */
-> +#define MIN_RAMBLOCK_SIZE                        128
-> +
->  /* Take 1s as default for calculation duration */
->  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
->  
-> -- 
-> 1.8.3.1
+> We could optionally symlink binaries from build/ into $PWD
+> if poeople think that is important, eg by changing GNUmakefile
+> to have:
 > 
+> recurse: all
+> 	for bin in `find build -maxdepth 1 -type f -executable | grep -v -E '(ninjatool|config.status)'`; \
+
+Using -maxdepth gets rid of the need to pre-create empty directories for 
+nested binaries, but also loses out on binaries such as 
+x86_64-softmmu/qemu-system-x86_64.  Oh, it looks like meson creates 
+qemu-system-x86_64 as a binary in the top level, then a symlink in its 
+old location.  Populating symlinks to ALL old locations is thus trickier 
+than what you are proposing here, so it is fine to save that for a 
+followup patch (let's get the bare minimum in first, so that at least 
+./configure && make works, before we worry about back-compat symlinks).
+
+> 
+> This goes on top of Paolo's most recent meson port v175 posting,
+> or whatever number it is upto now :-)
+
+Nice comment for reviewers, but doesn't quite need to be preserved in git.
+
+> 
+>   .gitignore |  2 ++
+>   configure  | 40 ++++++++++++++++++++++++++++++++--------
+>   2 files changed, 34 insertions(+), 8 deletions(-)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index 92311284ef..4ccb9ed975 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -1,3 +1,5 @@
+> +/GNUmakefile
+> +/build/
+>   /.doctrees
+>   /config-devices.*
+>   /config-all-devices.*
+> diff --git a/configure b/configure
+> index cc5f58f31a..a5c88ad1ac 100755
+> --- a/configure
+> +++ b/configure
+> @@ -11,6 +11,38 @@ unset CLICOLOR_FORCE GREP_OPTIONS
+>   # Don't allow CCACHE, if present, to use cached results of compile tests!
+>   export CCACHE_RECACHE=yes
+>   
+> +source_path=$(cd "$(dirname -- "$0")"; pwd)
+
+This behaves wrong if CDPATH is set in the environment.  We should 
+really include CDPATH in our environment sanitization at the top of the 
+file.
+
+> +
+> +if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
+> +then
+> +  error_exit "main directory cannot contain spaces nor colons"
+> +fi
+> +
+> +if test "$PWD" == "$source_path"
+
+bashism; s/==/=/ or you will break configure on dash systems
+
+> +then
+> +    echo "Using './build' as the directory for build output"
+
+Do we want a way for a user to type './configure builddir=build/' and 
+'make builddir=build/' so they can specify different builddir overrides 
+per invocation (of course, where builddir defaults to 'build/' if not 
+specified)?  But hardcoding to _just_ ./build/ for getting this patch in 
+quickly is fine.
+
+> +    rm -rf build
+> +    mkdir -p build
+> +    cat > GNUmakefile <<EOF
+
+If you use 'EOF' or \EOF here, then...
+
+> +
+> +ifeq (\$(MAKECMDGOALS),)
+
+you wouldn't have to escape all these $.  Looking through the file...
+
+> +recurse: all
+> +endif
+> +
+> +.NOTPARALLEL: %
+> +%: force
+> +	@echo 'changing dir to build for \$(MAKE) "\$(MAKECMDGOALS)"...'
+> +	@\$(MAKE) -C build -f Makefile \$(MAKECMDGOALS)
+> +	if test "\$(MAKECMDGOALS)" = "distclean" ; then rm -rf build ; fi
+> +force: ;
+> +.PHONY: force
+> +GNUmakefile: ;
+> +
+> +EOF
+
+...I didn't see any use of $ that was not supposed to be literally in 
+the generated GNUmakefile.
+
+> +    cd build
+> +    exec $source_path/configure "$@"
+> +fi
+> +
+>   # Temporary directory used for files created while
+>   # configure runs. Since it is in the build directory
+>   # we can safely blow away any previous version of it
+
+Now that we are guaranteeing configure is run in a build directory, this 
+part of configure might have some cleanups possible.  But that can be a 
+separate patch.
+
+> @@ -297,14 +329,6 @@ ld_has() {
+>       $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
+>   }
+>   
+> -# make source path absolute
+> -source_path=$(cd "$(dirname -- "$0")"; pwd)
+> -
+> -if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
+> -then
+> -  error_exit "main directory cannot contain spaces nor colons"
+> -fi
+> -
+>   # default parameters
+>   cpu=""
+>   iasl="iasl"
+> 
+
+Looking forward to v2.
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
