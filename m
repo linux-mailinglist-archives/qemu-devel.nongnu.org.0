@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A750224C129
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:04:03 +0200 (CEST)
-Received: from localhost ([::1]:51828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB5224C138
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:07:47 +0200 (CEST)
+Received: from localhost ([::1]:34312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8m6k-000564-Ka
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60616)
+	id 1k8mAM-0001Nr-Jq
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8m4F-00032q-Oj
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:01:27 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47530)
+ id 1k8m4G-00034r-PA
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:01:28 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8m4A-0005Vg-RH
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:01:27 -0400
+ id 1k8m4B-0005Vr-Jv
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:01:28 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8m48-0006Kp-1f
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:01:20 +0000
+ id 1k8m49-0006L2-3V
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:01:21 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A0B9F2E8109
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:01:19 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DBB5A2E810B
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:01:20 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 14:46:26 -0000
-From: Thomas Huth <1878255@bugs.launchpad.net>
+Date: Thu, 20 Aug 2020 14:47:12 -0000
+From: Thomas Huth <1876187@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm netduinoplus2 systick timer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr jnsnow philmd stefanha
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Commenters: pmaydell r-sandbote th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Ren=C3=A9_Sandbote_=28r-sandbote=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158930780033.13046.17639068194138488918.malonedeb@wampee.canonical.com>
-Message-Id: <159793478741.4511.13790950110574209914.launchpad@gac.canonical.com>
-Subject: [Bug 1878255] Re: Assertion failure in bdrv_aio_cancel, through ide
+References: <158828154118.4693.10463079186074004297.malonedeb@soybean.canonical.com>
+Message-Id: <159793483291.1736.11671085735970942655.malone@wampee.canonical.com>
+Subject: [Bug 1876187] Re: qemu-system-arm freezes when using SystickTimer on
+ netduinoplus2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: b5ca87bf60ffde2b6267a1f3845b002b9824f9b2
+X-Launchpad-Hash: f1242c641e25760644575596006e9419a9ec86ab
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
@@ -71,90 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878255 <1878255@bugs.launchpad.net>
+Reply-To: Bug 1876187 <1876187@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Patch has been included here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3De7e5a9595ab1136845c
+
 ** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+       Status: In Progress =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878255
+https://bugs.launchpad.net/bugs/1876187
 
 Title:
-  Assertion failure in bdrv_aio_cancel, through ide
+  qemu-system-arm freezes when using SystickTimer on netduinoplus2
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers an assertion failure in bdr=
-v_aio_cancel, through ide:
+  git commit 27c94566379069fb8930bb1433dcffbf7df3203d
 
-  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
-  #2  0x0000555556a8d396 in bdrv_aio_cancel (acb=3D0x607000061290) at /home=
-/alxndr/Development/qemu/block/io.c:2746
-  #3  0x0000555556a58525 in blk_aio_cancel (acb=3D0x2) at /home/alxndr/Deve=
-lopment/qemu/block/block-backend.c:1540
-  #4  0x0000555556552f5b in ide_reset (s=3D<optimized out>) at /home/alxndr=
-/Development/qemu/hw/ide/core.c:1318
-  #5  0x0000555556552aeb in ide_bus_reset (bus=3D0x62d000017398) at /home/a=
-lxndr/Development/qemu/hw/ide/core.c:2422
-  #6  0x0000555556579ba5 in ahci_reset_port (s=3D<optimized out>, port=3D<o=
-ptimized out>) at /home/alxndr/Development/qemu/hw/ide/ahci.c:650
-  #7  0x000055555657bd8d in ahci_port_write (s=3D0x61e000014d70, port=3D0x2=
-, offset=3D<optimized out>, val=3D0x10) at /home/alxndr/Development/qemu/hw=
-/ide/ahci.c:360
-  #8  0x000055555657bd8d in ahci_mem_write (opaque=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
-/alxndr/Development/qemu/hw/ide/ahci.c:513
-  #9  0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
->, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
-lxndr/Development/qemu/memory.c:483
-  #10 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized ou=
-t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
-imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
-, mr=3D0x61e000014da0, attrs=3D...) at /home/alxndr/Development/qemu/memory=
-.c:544
-  #11 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, data=3D0x10, op=3D<optimized out>, attrs=3D...=
-) at /home/alxndr/Development/qemu/memory.c:1476
-  #12 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, =
-addr=3D0xe106c22c, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0=
-x7fffffffb8d0, l=3D<optimized out>, mr=3D0x61e000014da0) at /home/alxndr/De=
-velopment/qemu/exec.c:3137
-  #13 0x0000555555f0fb98 in flatview_write (fv=3D0x60600003b180, addr=3D<op=
-timized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at=
- /home/alxndr/Development/qemu/exec.c:3177
+  The global variable system_clock_scale used in
+  hw/timer/armv7m_systick.c is never set on the netduinoplus2 platform,
+  it stays initialized as zero. Using the timer with the clock source as
+  cpu clock leads to an infinit loop because systick_timer->tick always
+  stays the same.
 
-  I can reproduce it in qemu 5.0 using:
-
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
-t stdio -monitor none -serial none -M pc-q35-5.0  -nographic
-  outl 0xcf8 0x8000fa24
-  outl 0xcfc 0xe106c000
-  outl 0xcf8 0x8000fa04
-  outw 0xcfc 0x7
-  outl 0xcf8 0x8000fb20
-  write 0x0 0x3 0x2780e7
-  write 0xe106c22c 0xd 0x1130c218021130c218021130c2
-  write 0xe106c218 0x15 0x110010110010110010110010110010110010110010
-  EOF
-
-  I also attached the commands to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
-  -nographic < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
+  To reproduce use to CMSIS function SysTick_Config(uint32_t ticks) to
+  setup the timer.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878255/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1876187/+subscriptions
 
