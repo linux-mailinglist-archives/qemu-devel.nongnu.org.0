@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C227824C2EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 18:06:51 +0200 (CEST)
-Received: from localhost ([::1]:45986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB23224C301
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 18:11:42 +0200 (CEST)
+Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8n5W-0000tU-RP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 12:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
+	id 1k8nAD-0003bx-Ge
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 12:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k8n4Z-0007x5-Uk
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 12:05:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50188
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k8n4W-0006Ad-S9
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 12:05:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597939546;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=DzmBWWWyYbNcLQG2RoFEdBTFqAplOI4TRgpYbcQFy94=;
- b=NhIOKty1xoBhiupEK+7L5wbl2e9h1XwrPafLVvc0xmhKh7VIXxKMpmBObk+NFoqEm1q1nJ
- +J1nrFAUHOFy1jrVrSoM68eB3DBYvDSGlCInip1YbH+Rfz9qQVl/YFhPREcg4Hk/MOFgqS
- uSu5BqgT2mVJ/uKs0bAygLQ0062BFQc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-wqEJMQr6PmC5dTM-6JGvNQ-1; Thu, 20 Aug 2020 12:05:39 -0400
-X-MC-Unique: wqEJMQr6PmC5dTM-6JGvNQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC67281F027;
- Thu, 20 Aug 2020 16:05:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31B2110027AB;
- Thu, 20 Aug 2020 16:05:37 +0000 (UTC)
-Date: Thu, 20 Aug 2020 17:05:34 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: deprecation of in-tree builds
-Message-ID: <20200820160534.GN109518@redhat.com>
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <alpine.BSF.2.22.395.2003212338020.36211@zero.eik.bme.hu>
- <20200323133244.GK261260@stefanha-x1.localdomain>
- <CAFEAcA9VPgQ1MPYhcda4tdxMuhMC5R9fd6D=OVOZKRLMO8n_xw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k8n91-000348-Me
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 12:10:27 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34821)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k8n8s-0006tj-Pp
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 12:10:23 -0400
+Received: by mail-ej1-x630.google.com with SMTP id a26so3198864ejc.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 09:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lEh0Sht20vd6COX0nKB/FZOTccKwDGdzCMfhsGuLF5s=;
+ b=mKndZgTae7Zi9uyJxFQEUeRqsetnWvHDP/i/ZF2wAjdpb/sqEb3agU3M68wk25Y+w2
+ hKAgpQQOhgpaPVGpimk/vhGNBltqI7/0YtDm7EjJ7hodoDoWQeS/B6S5MQ8HMOz9VJHe
+ /YtLA0OemFGXhbHGZiQy7Y7aT2EoumCRry8TDTQNRNOMIsMYRt5UiBFWTLlsvWb7RL4K
+ gUAe49aWQwyCVBPWK2Uds+3jNu6bfoWQnuQm3GLDiICtBnOh8WIiyTiCgFaETugINzTx
+ vwMoM6z+HdtTl4eOY2Z1MKvJiTLPg9mrOUul+ns09RN0X66ocyPMJNsI2VbB24tMXD5C
+ 8rew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lEh0Sht20vd6COX0nKB/FZOTccKwDGdzCMfhsGuLF5s=;
+ b=Yu1NKK8XHih9L+la4Dvcjp9dc177tcwRg9SX9av6F/k0T0Sn1EY6Lcd05q0R91407W
+ 6GCVf6ZcORTBqaUKDGqWwfRRXjzp2PN9I3dxsd2jIJNJe2ZPvLX8ALtLyhHhJHpsuacc
+ a2MFBSKJY2xFVGm5SQRO77qizSqtpT6vTCGCNr0P7mQy2o5aje+UhUYQy4q+2lqguAuN
+ IUYiZlkIKxeLmc+uC9SmjMoCl8eJ6/10PBSVSeP61Ooi1YyqUmVN7w3UIbFZbXLZ+ItV
+ WGGkn3EgAFxXSP+nUCoDL8eEfZcz5oNabisrm4b3guQwxSTLYlClBXpWDbIIgfZVU/Cm
+ VbaA==
+X-Gm-Message-State: AOAM533OnQqtYwaisrg9o/DXHPXRc7Qld2kOjgvl/D84jMMrKhE0AYPn
+ +wobbK7J56NYK0FLMudwiKvAxJfuinubc4Z/ooK1lA==
+X-Google-Smtp-Source: ABdhPJxKDwW46fBYw7lthRsEzN0sFLdSAmTc075Kxk4mM3FcDlkpNe4pCAlFG0pnWfu6Xsc430q4ygNlVSTCU3/pFzg=
+X-Received: by 2002:a17:906:2cc2:: with SMTP id
+ r2mr3881975ejr.482.1597939817072; 
+ Thu, 20 Aug 2020 09:10:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9VPgQ1MPYhcda4tdxMuhMC5R9fd6D=OVOZKRLMO8n_xw@mail.gmail.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 03:03:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200819213203.17876-1-pbonzini@redhat.com>
+ <CAFEAcA86m9N5ceYB+Nu965Se=qyZ_3W-Cn76Qc+Dd75hEApz=w@mail.gmail.com>
+ <446a210a-7e88-ab9b-05f4-6b0ffabf97c6@redhat.com>
+ <CAFEAcA8chPqS0keyGv0vBgNgacnMo95gA3LZDU2QfmteQ=4UZg@mail.gmail.com>
+ <223cfebd-605c-20d0-f649-b462effaf04e@redhat.com>
+In-Reply-To: <223cfebd-605c-20d0-f649-b462effaf04e@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 Aug 2020 17:10:05 +0100
+Message-ID: <CAFEAcA_He0zGhzFDfF6+_S99AiFG2tOT42KWhM394=Gq4Y33yg@mail.gmail.com>
+Subject: Re: [PULL v7 000/151] Meson-based build system
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,64 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 18, 2020 at 08:14:33PM +0100, Peter Maydell wrote:
-> On Mon, 23 Mar 2020 at 13:32, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > On Sat, Mar 21, 2020 at 11:50:23PM +0100, BALATON Zoltan wrote:
-> > > This was discussed before. I think instead of annoying people with a
-> > > warning, rather configure should be changed to create a build dir if run
-> > > from source and have a Makefile in top dir that runs make -C builddir so
-> > > people don't have to care about this or change their ways and can continue
-> > > to run configure && make from source dir but you don't have to support
-> > > in-tree build. Then you can deprecate in-tree builds but supporting only
-> > > out-of-tree without this convenience would not just unnecessarily annoy
-> > > those who prefer working in a single tree but people (and apparently some
-> > > tools) expect sources to build with usual configure; make; make install so
-> > > that should be the minimum to support.
-> >
-> > Yes, please!  I use in-tree builds and find it tedious to cd into a
-> > build dir manually.
-> >
-> > Also, many build scripts (packaging, etc) we'll break if we simply
-> > remove in-tree builds.  I think make && make install should continue to
-> > work.
-> 
-> Paolo's conversion-to-Meson patchseries is about to land, so now
-> is the time for people who would like this "automatically create
-> a build directory and use it" behaviour to write the necessary
-> patches. Any volunteers ?
+On Thu, 20 Aug 2020 at 17:02, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> Meson (just like configure before it) is looking for SDL and other
+> dependencies even if you're not building system emulators.
+>
+> Because you don't have those dependencies installed as static libraries,
+> Meson warns that library is marked as "not found" even though the
+> library itself is there.
 
-I'll try to come up with some GNUmakefile that isn't entirely
-awful as a starting point to at least get
+Looking at the old configure logic, I think what we do for a static
+link is that we do a test compile, and if it succeeds then we enable
+SDL, and if it doesn't we silently don't enable SDL (and I haven't
+tested but I assume that this config without the dependencies
+available as static libraries is going to fail that compile test).
+Presumably Meson is complaining rather than just treating "don't have
+a working static SDL and user didn't pass --enable-sdl" as
+"silently don't enable SDL" ?
 
-   ./configure
-   make
-   make test
+>  To suppress the warnings, it's enough to put
+> an "if have_system" around the dependency check.  Let me know if you
+> want me to do it now.
 
-to work, leaving symlinks to the biult ELF binaries in $PWD.
+Don't need to fix this now; I guess we can do it later.
 
-We can then iterate on it if desired.
-
-> My current plan is to land the Meson series first, because it is
-> really painful for Paolo to try to keep rebasing it as other
-> changes to the old build system occur. This would break
-> in-tree builds temporarily until the "automatic creation and
-> use of a builddir" patches go in on top of it.
-> 
-> thanks
-> -- PMM
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
