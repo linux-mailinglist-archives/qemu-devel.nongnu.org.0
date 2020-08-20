@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD9F24AF8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 09:04:40 +0200 (CEST)
-Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309D424B02E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 09:32:09 +0200 (CEST)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8ecp-0002N4-PC
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 03:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
+	id 1k8f3P-0007fC-On
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 03:32:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k8ebo-0001vS-L1
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 03:03:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36135
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k8ebm-0002aG-2p
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 03:03:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597907012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n7EGdybDzDVF3il1IbaODEo6IcTFK8vAtM/TXd3HvCs=;
- b=DejyAb3Ktb4jhkcFtcWMZnF6efKlLiZcDSbFxnNn7HttNrXV57eVC6kUtnrd4qz89zJLKN
- NhZx4NYpexyE+CYYUATHCF7oG46Yzuzb0lff8f8ss+Krp66zVm+HXwCjWSXkoZBYW5LQX/
- vJwT6NM/w0Y85eH6f8pMDQgUXU2vnbo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-n-od0RceNjKEZmWyQEYXoA-1; Thu, 20 Aug 2020 03:03:30 -0400
-X-MC-Unique: n-od0RceNjKEZmWyQEYXoA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DABCA100CF6E;
- Thu, 20 Aug 2020 07:03:29 +0000 (UTC)
-Received: from gondolin (ovpn-112-251.ams2.redhat.com [10.36.112.251])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AEED1055800;
- Thu, 20 Aug 2020 07:03:27 +0000 (UTC)
-Date: Thu, 20 Aug 2020 09:03:25 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 28/58] s390x: Move typedef SCLPEventFacility to
- event-facility.h
-Message-ID: <20200820090325.0cf5b1b3.cohuck@redhat.com>
-In-Reply-To: <20200820001236.1284548-29-ehabkost@redhat.com>
-References: <20200820001236.1284548-1-ehabkost@redhat.com>
- <20200820001236.1284548-29-ehabkost@redhat.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 03:03:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
+ id 1k8f2F-0007BE-86
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 03:30:55 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:43323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
+ id 1k8f2C-0005mZ-S5
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 03:30:54 -0400
+Received: by mail-pl1-x633.google.com with SMTP id y6so526654plk.10
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=1NmJoi+qqIfXrOoepDAaLjrD1ikERAOmDGxOO08bd3M=;
+ b=M8z7+eJlvLjJMp0gzUEIdEQ4IIfW1t3Io/eiy/O/EKtGnyRW6A8q1doEOwrurMMKvM
+ f5gNlxB9c49TLGP8UU5nY6quyKHklVzHjiX1mOIe8fnV8FPEdwQhc5xul2DbpykYfKIs
+ rf1Ex+n6Yh0FMPsvmPir8BXeRaCyyMNJi7J7lbWs4gw/BayhXiieMxOEdGLRUXo5Iya6
+ 1VdIojm0epG/xMG6oPaelJWg5Ij4P3dR9OCRSFoEMJcwZgh/+eT2jUgAkrJDyXmKSoeZ
+ 6eExwo2sBMv2EVMp85IwN/3x/mmgcRz+DyjrjSXTzItCO5QPcvX4Bs85CmCl4dixsp3V
+ JxOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=1NmJoi+qqIfXrOoepDAaLjrD1ikERAOmDGxOO08bd3M=;
+ b=VTJ8pdIE9eonft6B2r6BpE4Ki8mUfBUoFQt4ed8/u7H3OjQFpdrNxpkQU2tK95VCrN
+ pFY6QHsR04/j1yr7Toom/gUA+2YRUGr/8bpa05r4qqj+j2TrQR0v4rwHZ5Ur4gamwZrr
+ HK42fjYPEzG8lz/zon4QSruJm1cUen0IynOpLCC7JS1V7ibPmQ6YPw/RpsaI+2kftDII
+ DlDcvFnfiyyagAMnWOR5byj9jAgI966p1M1P08giszEtucaJ9UgMX0/V+37gcS1J09Sn
+ 9CwKnx53e44BNuUpZsGLxEvuRVo1J2jYSEKjUH0S9xmTtZCotyJM8O60T0nLLjWN/Y8l
+ j1EQ==
+X-Gm-Message-State: AOAM533zowQBPxnq9qPIdXqJ22c/cv0Gm3Cf3d4Pqib1xcdlfqWN1Ht4
+ G/YDCXIts8E4kOO6FhcQsTuBPsSzq5mnt3g+
+X-Google-Smtp-Source: ABdhPJxSFeruhMBW8AnG5GgXLPa/OAyvOP2RSHJrco/16rYUCBeLEXHn1waQfFHNebnJWjLyAUQCsA==
+X-Received: by 2002:a17:902:a50e:: with SMTP id
+ s14mr1581080plq.164.1597908648122; 
+ Thu, 20 Aug 2020 00:30:48 -0700 (PDT)
+Received: from gamma11.internal.sifive.com ([64.62.193.194])
+ by smtp.gmail.com with ESMTPSA id 205sm1721766pfy.9.2020.08.20.00.30.47
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Aug 2020 00:30:47 -0700 (PDT)
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2] softfloat: add alternative sNaN propagation for fmax/fmin
+Date: Thu, 20 Aug 2020 00:30:40 -0700
+Message-Id: <1597908641-6293-1-git-send-email-chihmin.chao@sifive.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=chihmin.chao@sifive.com; helo=mail-pl1-x633.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,37 +80,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P.
- Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Chih-Min Chao <chihmin.chao@sifive.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 Aug 2020 20:12:06 -0400
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+For "fmax/fmin ft0, ft1, ft2" and if one of the inputs is sNaN,
+  The original logic
+    return NaN and set invalid flag if ft1 == sNaN || ft2 == sNan
 
-> This will make future conversion to OBJECT_DECLARE* easier.
-> 
-> In sclp.h, use "struct SCLPEventFacility" to avoid introducing
-> unnecessary header dependencies.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Changes series v1 -> v2: new patch in series v2
-> 
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: qemu-s390x@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  include/hw/s390x/event-facility.h | 1 +
->  include/hw/s390x/sclp.h           | 4 ++--
->  2 files changed, 3 insertions(+), 2 deletions(-)
+  The alternative path
+    set invalid flag and return the non-NaN value if ft1 == sNaN || ft2 == sNaN
+    return NaN if ft1 == sNaN && ft2 == sNaN
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+   The ieee754 spec allows both implementation and some architecture such
+   as riscv choose differenct defintion in two spec versions.
+   (riscv-spec-v2.2 use original version, riscv-spec-20191213 changes to
+    alternative)
+
+Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+---
+ fpu/softfloat.c         | 75 +++++++++++++++++++++++++++++++------------------
+ include/fpu/softfloat.h |  6 ++++
+ 2 files changed, 54 insertions(+), 27 deletions(-)
+
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 79be4f5..4466ece 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -870,11 +870,16 @@ static FloatParts return_nan(FloatParts a, float_status *s)
+     return a;
+ }
+ 
+-static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
++static void set_snan_flag(FloatParts a, FloatParts b, float_status *s)
+ {
+     if (is_snan(a.cls) || is_snan(b.cls)) {
+         s->float_exception_flags |= float_flag_invalid;
+     }
++}
++
++static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
++{
++    set_snan_flag(a, b, s);
+ 
+     if (s->default_nan_mode) {
+         return parts_default_nan(s);
+@@ -2743,23 +2748,32 @@ float64 uint16_to_float64(uint16_t a, float_status *status)
+  * and minNumMag() from the IEEE-754 2008.
+  */
+ static FloatParts minmax_floats(FloatParts a, FloatParts b, bool ismin,
+-                                bool ieee, bool ismag, float_status *s)
++                                bool ieee, bool ismag, bool issnan_prop,
++                                float_status *s)
+ {
+     if (unlikely(is_nan(a.cls) || is_nan(b.cls))) {
+         if (ieee) {
+             /* Takes two floating-point values `a' and `b', one of
+              * which is a NaN, and returns the appropriate NaN
+              * result. If either `a' or `b' is a signaling NaN,
+-             * the invalid exception is raised.
++             * the invalid exception is raised but the NaN
++             * propagation is 'shall'.
+              */
+             if (is_snan(a.cls) || is_snan(b.cls)) {
+-                return pick_nan(a, b, s);
+-            } else if (is_nan(a.cls) && !is_nan(b.cls)) {
++                if (issnan_prop) {
++                    return pick_nan(a, b, s);
++                } else {
++                    set_snan_flag(a, b, s);
++                }
++            }
++
++            if (is_nan(a.cls) && !is_nan(b.cls)) {
+                 return b;
+             } else if (is_nan(b.cls) && !is_nan(a.cls)) {
+                 return a;
+             }
+         }
++
+         return pick_nan(a, b, s);
+     } else {
+         int a_exp, b_exp;
+@@ -2813,37 +2827,44 @@ static FloatParts minmax_floats(FloatParts a, FloatParts b, bool ismin,
+     }
+ }
+ 
+-#define MINMAX(sz, name, ismin, isiee, ismag)                           \
++#define MINMAX(sz, name, ismin, isiee, ismag, issnan_prop)              \
+ float ## sz float ## sz ## _ ## name(float ## sz a, float ## sz b,      \
+                                      float_status *s)                   \
+ {                                                                       \
+     FloatParts pa = float ## sz ## _unpack_canonical(a, s);             \
+     FloatParts pb = float ## sz ## _unpack_canonical(b, s);             \
+-    FloatParts pr = minmax_floats(pa, pb, ismin, isiee, ismag, s);      \
++    FloatParts pr = minmax_floats(pa, pb, ismin, isiee, ismag,          \
++                                  issnan_prop, s);                      \
+                                                                         \
+     return float ## sz ## _round_pack_canonical(pr, s);                 \
+ }
+ 
+-MINMAX(16, min, true, false, false)
+-MINMAX(16, minnum, true, true, false)
+-MINMAX(16, minnummag, true, true, true)
+-MINMAX(16, max, false, false, false)
+-MINMAX(16, maxnum, false, true, false)
+-MINMAX(16, maxnummag, false, true, true)
+-
+-MINMAX(32, min, true, false, false)
+-MINMAX(32, minnum, true, true, false)
+-MINMAX(32, minnummag, true, true, true)
+-MINMAX(32, max, false, false, false)
+-MINMAX(32, maxnum, false, true, false)
+-MINMAX(32, maxnummag, false, true, true)
+-
+-MINMAX(64, min, true, false, false)
+-MINMAX(64, minnum, true, true, false)
+-MINMAX(64, minnummag, true, true, true)
+-MINMAX(64, max, false, false, false)
+-MINMAX(64, maxnum, false, true, false)
+-MINMAX(64, maxnummag, false, true, true)
++MINMAX(16, min, true, false, false, true)
++MINMAX(16, minnum, true, true, false, true)
++MINMAX(16, minnum_noprop, true, true, false, false)
++MINMAX(16, minnummag, true, true, true, true)
++MINMAX(16, max, false, false, false, true)
++MINMAX(16, maxnum, false, true, false, true)
++MINMAX(16, maxnum_noprop, false, true, false, false)
++MINMAX(16, maxnummag, false, true, true, true)
++
++MINMAX(32, min, true, false, false, true)
++MINMAX(32, minnum, true, true, false, true)
++MINMAX(32, minnum_noprop, true, true, false, false)
++MINMAX(32, minnummag, true, true, true, true)
++MINMAX(32, max, false, false, false, true)
++MINMAX(32, maxnum, false, true, false, true)
++MINMAX(32, maxnum_noprop, false, true, false, false)
++MINMAX(32, maxnummag, false, true, true, true)
++
++MINMAX(64, min, true, false, false, true)
++MINMAX(64, minnum, true, true, false, true)
++MINMAX(64, minnum_noprop, true, true, false, false)
++MINMAX(64, minnummag, true, true, true, true)
++MINMAX(64, max, false, false, false, true)
++MINMAX(64, maxnum, false, true, false, true)
++MINMAX(64, maxnum_noprop, false, true, false, false)
++MINMAX(64, maxnummag, false, true, true, true)
+ 
+ #undef MINMAX
+ 
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index 659218b..0883510 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -231,6 +231,8 @@ float16 float16_minnum(float16, float16, float_status *status);
+ float16 float16_maxnum(float16, float16, float_status *status);
+ float16 float16_minnummag(float16, float16, float_status *status);
+ float16 float16_maxnummag(float16, float16, float_status *status);
++float16 float16_minnum_noprop(float16, float16, float_status *status);
++float16 float16_maxnum_noprop(float16, float16, float_status *status);
+ float16 float16_sqrt(float16, float_status *status);
+ FloatRelation float16_compare(float16, float16, float_status *status);
+ FloatRelation float16_compare_quiet(float16, float16, float_status *status);
+@@ -351,6 +353,8 @@ float32 float32_minnum(float32, float32, float_status *status);
+ float32 float32_maxnum(float32, float32, float_status *status);
+ float32 float32_minnummag(float32, float32, float_status *status);
+ float32 float32_maxnummag(float32, float32, float_status *status);
++float32 float32_minnum_noprop(float32, float32, float_status *status);
++float32 float32_maxnum_noprop(float32, float32, float_status *status);
+ bool float32_is_quiet_nan(float32, float_status *status);
+ bool float32_is_signaling_nan(float32, float_status *status);
+ float32 float32_silence_nan(float32, float_status *status);
+@@ -540,6 +544,8 @@ float64 float64_minnum(float64, float64, float_status *status);
+ float64 float64_maxnum(float64, float64, float_status *status);
+ float64 float64_minnummag(float64, float64, float_status *status);
+ float64 float64_maxnummag(float64, float64, float_status *status);
++float64 float64_minnum_noprop(float64, float64, float_status *status);
++float64 float64_maxnum_noprop(float64, float64, float_status *status);
+ bool float64_is_quiet_nan(float64 a, float_status *status);
+ bool float64_is_signaling_nan(float64, float_status *status);
+ float64 float64_silence_nan(float64, float_status *status);
+-- 
+2.7.4
 
 
