@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FE624C8CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 01:56:24 +0200 (CEST)
-Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E85B24C8DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 01:57:40 +0200 (CEST)
+Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8uPv-00020i-D8
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 19:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45966)
+	id 1k8uR9-00055D-E4
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 19:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1k8uOC-0000H2-G2; Thu, 20 Aug 2020 19:54:36 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40736)
+ id 1k8uOD-0000IY-Hc; Thu, 20 Aug 2020 19:54:37 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1k8uOA-00070m-L4; Thu, 20 Aug 2020 19:54:36 -0400
-Received: by mail-wr1-x443.google.com with SMTP id l2so339337wrc.7;
- Thu, 20 Aug 2020 16:54:34 -0700 (PDT)
+ id 1k8uOB-000712-UM; Thu, 20 Aug 2020 19:54:37 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l2so339376wrc.7;
+ Thu, 20 Aug 2020 16:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dEMPiCqe9PefxpWTTe3SJ7uQAbS0drp2NTOLNfe8U44=;
- b=kQM2m0OYVuLBN6jSDlqJlSz6hPWcob2zyci9GLLCFUKYBdgmAWHr4wpkxt0V3fRuKn
- kiiDGhmJcZJPUL4kvhz0YtcmGsRrFHVvxcIv1CuQUM0jE1WGWTnqvHKxHoB/7LOZVrk4
- P87pelL9m3Vs7lTXcJ52yx43BADmwAecKHs+C30NGqQgRuWVrshHv4D/9WZiBZRGXHF6
- eEVpcV9lx7+a6An7F47Fjt/7wSTaWFERP3ywJm2x2u9bWXbBED8+on7805R76FkErRm3
- xKYlQHhuzQ/iOM9vN+qep1ZVaKbzTz1xmNSauY6EyTjhSQ2T9udrSFilS9YKGP2or0Dt
- VwVA==
+ bh=JyZ42iytgyulxF3b/igSJBiCpRIiXynOvr9XqZCe6AQ=;
+ b=sbtoQxF0Ljo53A4d8raN0AYvL6SC7z15jKoqCjtGJjRVzY5k9GKMerkXvVhC2FS+hJ
+ s2BJ5wYRNnn0wfzFLnGfQCVxVgpJbtph2uxESVX6wzB5fm0GqHYfyUumXdh2G5YucivQ
+ yd2JpnQdOrnikV6tWZJv8D02N8hFfxCxKRIEtXZnVDAKz56O5VEaaXgUtOWv41EPOoKn
+ NDmUmVTc4u9uCWqT2Y48cs0q8E1r4Xr4HwimDbITFuVxh4stBJIE39NP1oEvI5iKN2ua
+ WMwnzbFzD6enL76GBy2FOgvjmh44ckjw1weQq3OuLigwHCZ79L/L79CVd/oGjpau3IqD
+ 7ZWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dEMPiCqe9PefxpWTTe3SJ7uQAbS0drp2NTOLNfe8U44=;
- b=q/YUsZ8SKMkreTYaZubcVl2694Jax4g+VZrNKS0cYrVBU0/0XDkPXduvYxpH0YVoQm
- nrGUG6sYNHFubJsavk09hw/a4RJOJAI8uWbAjgl1eNGHb4giyDNM1pa+saBjyF6VfuQ+
- 2f1IUK+9JNhHa3D1VL0mVcxOBMHYYozgMljGyZfPo570Evv91QS0K2o5Hr5R+8xKEAd6
- howeVJcTO7VLT6Q1PkuD6c1kFc7gPLCpp+xNZeGwXNE4wxeVvd0eOMs5GDtnAGkKY8KI
- 3s0SnPNrgvTmVTQc7EYDc5LrnxoplJueTOZEzqEzgOtRqcZ98hK0uiDHdLhlvqFrRyqd
- pCTw==
-X-Gm-Message-State: AOAM5322zNs+AoR4ThoNlp0aUiDKmPf6Jd3NeEIuQ9JpkCiAFOxamtWL
- xuSKwOX/lEnoF6LEinGklGD4tyGEljHfnL8/
-X-Google-Smtp-Source: ABdhPJwahq30JprhS/yA4Rb8O051zjWBIvx9eWrphPvKHw8RrOdVdQ/bR0sL6XTB4FL+S8uxyali4A==
-X-Received: by 2002:adf:80c7:: with SMTP id 65mr153449wrl.35.1597967672431;
- Thu, 20 Aug 2020 16:54:32 -0700 (PDT)
+ bh=JyZ42iytgyulxF3b/igSJBiCpRIiXynOvr9XqZCe6AQ=;
+ b=dgycLcRGQir7pCx9Dvno9ujjKEh3+cvNUPks6rVlyO+wIRX0UsGA6XEiji3tyG1js8
+ BEhcQ3Nq0+ABZP7UomZHnSJpQzrt2GoVTOP56WtXzM2plQVwCcJyPZDLigAQAfhG37FK
+ dWgmNnKtBM5nOrEP+xJOefaga0B5teuDltGMGl5NI4YFBfs8jxDkH4cm91DMD6NWOKml
+ QdxFkws2f0YWLgT5AWg+sVVwUTlnz8MGdMyirIm59TZ+RShO+um7f272h18cZiuDypnc
+ 6W2WtpxN6ddtSy29tFHqLH//2fqe14NK7Q+3WJbxrzm515oggXMFuRL9mApdbnUUAJSe
+ cHyw==
+X-Gm-Message-State: AOAM533c39R7KylswZ9gEcs3k1RR7p5nTrek1LNv8YsHZq2+A4Eohz43
+ 53bUJ+Icrh7Kgmzog0E7DgBW6p0Vtlo6Q2Aq
+X-Google-Smtp-Source: ABdhPJxvad/NuMT4ZgAWJh2LT4HCaPJX/NfmJB8Ts+KlG+BgfNaKKtQvX/t5pgJiabod53xM9+00+A==
+X-Received: by 2002:adf:9561:: with SMTP id 88mr165827wrs.240.1597967673960;
+ Thu, 20 Aug 2020 16:54:33 -0700 (PDT)
 Received: from localhost.localdomain (109-186-18-89.bb.netvision.net.il.
  [109.186.18.89])
- by smtp.gmail.com with ESMTPSA id o128sm556506wmo.39.2020.08.20.16.54.30
+ by smtp.gmail.com with ESMTPSA id o128sm556506wmo.39.2020.08.20.16.54.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Aug 2020 16:54:31 -0700 (PDT)
+ Thu, 20 Aug 2020 16:54:33 -0700 (PDT)
 From: Nir Soffer <nirsof@gmail.com>
 X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] qemu-iotests: Fix FilePaths cleanup
-Date: Fri, 21 Aug 2020 02:54:23 +0300
-Message-Id: <20200820235427.374645-2-nsoffer@redhat.com>
+Subject: [PATCH v2 2/5] qemu-iotests: Fix FilePaths docstring
+Date: Fri, 21 Aug 2020 02:54:24 +0300
+Message-Id: <20200820235427.374645-3-nsoffer@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200820235427.374645-1-nsoffer@redhat.com>
 References: <20200820235427.374645-1-nsoffer@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=nirsof@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=nirsof@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,36 +90,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If os.remove() fails to remove one of the paths, for example if the file
-was removed by the test, the cleanup loop would exit silently, without
-removing the rest of the files.
+When this class was extracted from FilePath, the docstring was not
+updated for generating multiple files, and the example usage was
+referencing unrelated file.
 
 Fixes: de263986b5dc
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/iotests.py | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 717b5b652c..16a04df8a3 100644
+index 16a04df8a3..f34a1d7ef1 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -468,11 +468,11 @@ class FilePaths:
-         return self.paths
+@@ -450,14 +450,16 @@ def file_pattern(name):
  
-     def __exit__(self, exc_type, exc_val, exc_tb):
--        try:
--            for path in self.paths:
-+        for path in self.paths:
-+            try:
-                 os.remove(path)
--        except OSError:
--            pass
-+            except OSError:
-+                pass
-         return False
+ class FilePaths:
+     """
+-    FilePaths is an auto-generated filename that cleans itself up.
++    Context manager generating multiple file names. The generated files are
++    removed when exiting the context.
  
- class FilePath(FilePaths):
+-    Use this context manager to generate filenames and ensure that the file
+-    gets deleted::
++    Example usage:
++
++        with FilePaths(['test.img', 'test.sock']) as (img_path, sock_path):
++            # Use img_path and sock_path here...
++
++        # img_path and sock_path are automatically removed here.
+ 
+-        with FilePaths(['test.img']) as img_path:
+-            qemu_img('create', img_path, '1G')
+-        # migration_sock_path is automatically deleted
+     """
+     def __init__(self, names, base_dir=test_dir):
+         self.paths = []
 -- 
 2.26.2
 
