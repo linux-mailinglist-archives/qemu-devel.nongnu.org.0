@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE38524AC48
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:35:25 +0200 (CEST)
-Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1183124AC52
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:38:48 +0200 (CEST)
+Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8YY8-0003wZ-Vm
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49752)
+	id 1k8YbO-00015f-Uo
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YDj-0007mS-8e
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59373
+ id 1k8YDk-0007qO-Qy
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42671
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YDh-0002Tj-CH
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:18 -0400
+ id 1k8YDi-0002Tt-AL
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597882456;
+ s=mimecast20190719; t=1597882457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xQVyrUbCtmmNgI3C+81SAgz6c0+ixe7u++HKZB2efvQ=;
- b=gkcQcUaSskx6RHLZ8PtwOpxB2BDdFYYi2+7lGdxXzpYxjvhvdn1E2fJt8ZGS8rydjm30Nb
- hx2/b4qHBrtAKhmXbf0kZ5NJ73GNLpjP+DWHoQlqvaIuxe++wH9mqyN9kxNiC6/+I5c9VA
- 0HxXnXQ3eVV46LNpQhUh2PvFKISz4Hc=
+ bh=ZCKCsZjjbkt497a0oIxpTQls4QmY2jUqY0Ge+366AHQ=;
+ b=hNVidAQva7a8xlcMZFdTrprhi4Dq2RoiFuCKpszOkQ923CqRQqBaBWKHKSuU5lgaQfS8ZZ
+ hJynQOMTsjUCGGQFbosjxeBDLqIo/EAPghLLAY15D+GpX3uIOvbizm1/gJgz5TkCSk1NS7
+ 2PCXStxl+2wqSNR/D21H0rCMwOZa4+U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-WFSOmUCWOu-8LNwEUB9lqQ-1; Wed, 19 Aug 2020 20:14:14 -0400
-X-MC-Unique: WFSOmUCWOu-8LNwEUB9lqQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-370-ESIW8woZOVKtiu3E8QIGmA-1; Wed, 19 Aug 2020 20:14:15 -0400
+X-MC-Unique: ESIW8woZOVKtiu3E8QIGmA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E72C2FD02;
- Thu, 20 Aug 2020 00:14:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CEE5186A57F;
+ Thu, 20 Aug 2020 00:14:14 +0000 (UTC)
 Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFDBD709DC;
- Thu, 20 Aug 2020 00:14:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6326310013C4;
+ Thu, 20 Aug 2020 00:14:14 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 38/58] rocker: Move QOM macros to header
-Date: Wed, 19 Aug 2020 20:12:16 -0400
-Message-Id: <20200820001236.1284548-39-ehabkost@redhat.com>
+Subject: [PATCH v2 39/58] pxa2xx: Move QOM macros to header
+Date: Wed, 19 Aug 2020 20:12:17 -0400
+Message-Id: <20200820001236.1284548-40-ehabkost@redhat.com>
 In-Reply-To: <20200820001236.1284548-1-ehabkost@redhat.com>
 References: <20200820001236.1284548-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -81,8 +81,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jiri Pirko <jiri@resnulli.us>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,51 +93,113 @@ Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes series v1 -> v2: new patch in series v2
 
-Cc: Jiri Pirko <jiri@resnulli.us>
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Andrzej Zaborowski <balrogg@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- hw/net/rocker/rocker.h | 6 +++++-
- hw/net/rocker/rocker.c | 5 -----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ include/hw/arm/pxa.h | 13 +++++++++++++
+ hw/arm/pxa2xx.c      |  7 -------
+ hw/pcmcia/pxa2xx.c   |  4 ----
+ hw/sd/pxa2xx_mmci.c  |  3 ---
+ 4 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/hw/net/rocker/rocker.h b/hw/net/rocker/rocker.h
-index 7ae0495d9e..e4c22db4ff 100644
---- a/hw/net/rocker/rocker.h
-+++ b/hw/net/rocker/rocker.h
-@@ -66,11 +66,15 @@ static inline bool ipv6_addr_is_multicast(const Ipv6Addr *addr)
-     return (addr->addr32[0] & htonl(0xFF000000)) == htonl(0xFF000000);
+diff --git a/include/hw/arm/pxa.h b/include/hw/arm/pxa.h
+index 8843e5f910..f6359fe7c9 100644
+--- a/include/hw/arm/pxa.h
++++ b/include/hw/arm/pxa.h
+@@ -86,7 +86,10 @@ PXA2xxLCDState *pxa2xx_lcdc_init(MemoryRegion *sysmem,
+ void pxa2xx_lcd_vsync_notifier(PXA2xxLCDState *s, qemu_irq handler);
+ 
+ /* pxa2xx_mmci.c */
++#define TYPE_PXA2XX_MMCI "pxa2xx-mmci"
+ typedef struct PXA2xxMMCIState PXA2xxMMCIState;
++#define PXA2XX_MMCI(obj) OBJECT_CHECK(PXA2xxMMCIState, (obj), TYPE_PXA2XX_MMCI)
++
+ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
+                 hwaddr base,
+                 BlockBackend *blk, qemu_irq irq,
+@@ -95,7 +98,11 @@ void pxa2xx_mmci_handlers(PXA2xxMMCIState *s, qemu_irq readonly,
+                 qemu_irq coverswitch);
+ 
+ /* pxa2xx_pcmcia.c */
++#define TYPE_PXA2XX_PCMCIA "pxa2xx-pcmcia"
+ typedef struct PXA2xxPCMCIAState PXA2xxPCMCIAState;
++#define PXA2XX_PCMCIA(obj) \
++    OBJECT_CHECK(PXA2xxPCMCIAState, obj, TYPE_PXA2XX_PCMCIA)
++
+ PXA2xxPCMCIAState *pxa2xx_pcmcia_init(MemoryRegion *sysmem,
+                                       hwaddr base);
+ int pxa2xx_pcmcia_attach(void *opaque, PCMCIACardState *card);
+@@ -120,8 +127,14 @@ PXA2xxI2CState *pxa2xx_i2c_init(hwaddr base,
+                 qemu_irq irq, uint32_t page_size);
+ I2CBus *pxa2xx_i2c_bus(PXA2xxI2CState *s);
+ 
++#define TYPE_PXA2XX_I2C "pxa2xx_i2c"
+ typedef struct PXA2xxI2SState PXA2xxI2SState;
++#define PXA2XX_I2C(obj) \
++    OBJECT_CHECK(PXA2xxI2CState, (obj), TYPE_PXA2XX_I2C)
++
++#define TYPE_PXA2XX_FIR "pxa2xx-fir"
+ typedef struct PXA2xxFIrState PXA2xxFIrState;
++#define PXA2XX_FIR(obj) OBJECT_CHECK(PXA2xxFIrState, (obj), TYPE_PXA2XX_FIR)
+ 
+ typedef struct {
+     ARMCPU *cpu;
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 6203c4cfe0..037d415498 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -1250,10 +1250,6 @@ typedef struct PXA2xxI2CSlaveState {
+     PXA2xxI2CState *host;
+ } PXA2xxI2CSlaveState;
+ 
+-#define TYPE_PXA2XX_I2C "pxa2xx_i2c"
+-#define PXA2XX_I2C(obj) \
+-    OBJECT_CHECK(PXA2xxI2CState, (obj), TYPE_PXA2XX_I2C)
+-
+ struct PXA2xxI2CState {
+     /*< private >*/
+     SysBusDevice parent_obj;
+@@ -1786,9 +1782,6 @@ static PXA2xxI2SState *pxa2xx_i2s_init(MemoryRegion *sysmem,
  }
  
--typedef struct rocker Rocker;
- typedef struct world World;
- typedef struct desc_info DescInfo;
- typedef struct desc_ring DescRing;
- 
-+#define TYPE_ROCKER "rocker"
-+typedef struct rocker Rocker;
-+#define ROCKER(obj) \
-+    OBJECT_CHECK(Rocker, (obj), TYPE_ROCKER)
-+
- Rocker *rocker_find(const char *name);
- uint32_t rocker_fp_ports(Rocker *r);
- int rocker_event_link_changed(Rocker *r, uint32_t pport, bool link_up);
-diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-index 15d66f6cbc..1af1e6fa2f 100644
---- a/hw/net/rocker/rocker.c
-+++ b/hw/net/rocker/rocker.c
-@@ -73,11 +73,6 @@ struct rocker {
-     QLIST_ENTRY(rocker) next;
- };
- 
--#define TYPE_ROCKER "rocker"
+ /* PXA Fast Infra-red Communications Port */
+-#define TYPE_PXA2XX_FIR "pxa2xx-fir"
+-#define PXA2XX_FIR(obj) OBJECT_CHECK(PXA2xxFIrState, (obj), TYPE_PXA2XX_FIR)
 -
--#define ROCKER(obj) \
--    OBJECT_CHECK(Rocker, (obj), TYPE_ROCKER)
--
- static QLIST_HEAD(, rocker) rockers;
+ struct PXA2xxFIrState {
+     /*< private >*/
+     SysBusDevice parent_obj;
+diff --git a/hw/pcmcia/pxa2xx.c b/hw/pcmcia/pxa2xx.c
+index 5f4bf22a90..fcca7e571b 100644
+--- a/hw/pcmcia/pxa2xx.c
++++ b/hw/pcmcia/pxa2xx.c
+@@ -18,10 +18,6 @@
+ #include "hw/pcmcia.h"
+ #include "hw/arm/pxa.h"
  
- Rocker *rocker_find(const char *name)
+-#define TYPE_PXA2XX_PCMCIA "pxa2xx-pcmcia"
+-#define PXA2XX_PCMCIA(obj) \
+-    OBJECT_CHECK(PXA2xxPCMCIAState, obj, TYPE_PXA2XX_PCMCIA)
+-
+ struct PXA2xxPCMCIAState {
+     SysBusDevice parent_obj;
+ 
+diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
+index 68bed24480..c400197815 100644
+--- a/hw/sd/pxa2xx_mmci.c
++++ b/hw/sd/pxa2xx_mmci.c
+@@ -22,9 +22,6 @@
+ #include "qemu/module.h"
+ #include "trace.h"
+ 
+-#define TYPE_PXA2XX_MMCI "pxa2xx-mmci"
+-#define PXA2XX_MMCI(obj) OBJECT_CHECK(PXA2xxMMCIState, (obj), TYPE_PXA2XX_MMCI)
+-
+ #define TYPE_PXA2XX_MMCI_BUS "pxa2xx-mmci-bus"
+ #define PXA2XX_MMCI_BUS(obj) OBJECT_CHECK(SDBus, (obj), TYPE_PXA2XX_MMCI_BUS)
+ 
 -- 
 2.26.2
 
