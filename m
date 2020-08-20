@@ -2,64 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41CE24AF80
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 09:00:49 +0200 (CEST)
-Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6180B24AF95
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 09:10:17 +0200 (CEST)
+Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8eZ7-00018s-1x
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 03:00:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
+	id 1k8eiG-0004X4-1n
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 03:10:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8eY6-0000IH-JW; Thu, 20 Aug 2020 02:59:46 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:39189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8eY5-00027e-43; Thu, 20 Aug 2020 02:59:46 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.10])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6F8875227E1E;
- Thu, 20 Aug 2020 08:59:43 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
+ (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
+ id 1k8ehR-0003hE-Li
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 03:09:25 -0400
+Received: from [203.148.12.82] (port=63296 helo=ZXSHCAS2.zhaoxin.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
+ id 1k8ehO-00039Z-H6
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 03:09:25 -0400
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS2.zhaoxin.com
+ (10.28.252.162) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 20 Aug
- 2020 08:59:43 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0057fba59bf-66eb-4254-abda-37db32e338f4,
- 02C359FD435C2C4122574921AFFD4D91C9CEEBEA) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH 7/8] spapr/xive: Use the xics flag to check for XIVE-only
- IRQ backends
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20200819130843.2230799-1-clg@kaod.org>
- <20200819130843.2230799-8-clg@kaod.org>
- <20200820013659.GH271315@yekko.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <423d3a3e-2725-63c2-1a32-1fc35ffde207@kaod.org>
-Date: Thu, 20 Aug 2020 08:59:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ 2020 15:02:55 +0800
+Received: from zhaoxin-ubuntu20.04 (124.64.18.91) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 20 Aug
+ 2020 15:02:54 +0800
+From: "zhaoxin\\RockCuioc" <RockCui-oc@zhaoxin.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2] ide:do nothing for identify cmd if no any device attached
+Date: Thu, 20 Aug 2020 15:02:40 +0800
+Message-ID: <20200820070240.3970-1-RockCui-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200820013659.GH271315@yekko.fritz.box>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 6c990ee7-02c4-485c-92eb-f39b42da4757
-X-Ovh-Tracer-Id: 2260525541776067491
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtledgledtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelgfejveehieefffduueehvdevfedtleeiudekjeegveeigfeifefhtdfffedtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 02:45:31
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain
+X-Originating-IP: [124.64.18.91]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 203.148.12.82 (failed)
+Received-SPF: pass client-ip=203.148.12.82;
+ envelope-from=RockCui-oc@zhaoxin.com; helo=ZXSHCAS2.zhaoxin.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 03:02:57
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,43 +62,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Gustavo Romero <gromero@linux.ibm.com>
+Cc: RockCui@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/20 3:36 AM, David Gibson wrote:
-> On Wed, Aug 19, 2020 at 03:08:42PM +0200, Cédric Le Goater wrote:
-> 
-> I can see why this is a good idea, but it really needs a rationale in
-> the comment for posterity.
+v1 -> v2:
+    fix codestyle checked by checkpatch.pl
 
-yes. I can send this one independently.
+This patch is for avoiding win7 IDE driver polling 0x1f7 when
+no any device attached. During Win7 VM boot procedure, if use virtio for
+disk and there is no any device be attached on hda & hdb, the win7 IDE driver
+would poll 0x1f7 for a while. This action may be stop windows LOGO atomic for
+a while too on a poor performance CPU.
 
-Thanks,
+Signed-off-by: zhaoxin\RockCuioc <RockCui-oc@zhaoxin.com>
+---
+ hw/ide/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-C.
-
-
-> 
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  hw/ppc/spapr_irq.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
->> index 80cf1c3d6bb2..d036c8fef519 100644
->> --- a/hw/ppc/spapr_irq.c
->> +++ b/hw/ppc/spapr_irq.c
->> @@ -172,7 +172,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
->>           * To cover both and not confuse the OS, add an early failure in
->>           * QEMU.
->>           */
->> -        if (spapr->irq == &spapr_irq_xive) {
->> +        if (!spapr->irq->xics) {
->>              error_setg(errp, "XIVE-only machines require a POWER9 CPU");
->>              return -1;
->>          }
-> 
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index d997a78e47..26d86f4b40 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -2073,8 +2073,9 @@ void ide_exec_cmd(IDEBus *bus, uint32_t val)
+     s = idebus_active_if(bus);
+     trace_ide_exec_cmd(bus, s, val);
+ 
+-    /* ignore commands to non existent slave */
+-    if (s != bus->ifs && !s->blk) {
++    /* ignore commands if no any device exist or non existent slave */
++    if ((!bus->ifs[0].blk && !bus->ifs[1].blk) ||
++        (s != bus->ifs && !s->blk)) {
+         return;
+     }
+ 
+-- 
+2.17.1
 
 
