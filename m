@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F42E24C8D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 01:56:31 +0200 (CEST)
-Received: from localhost ([::1]:33488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F4324C8F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 02:06:40 +0200 (CEST)
+Received: from localhost ([::1]:48810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8uQ2-0002Ok-1P
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 19:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1k8uZr-0000h2-3X
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 20:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1k8uOI-0000Z1-VA; Thu, 20 Aug 2020 19:54:42 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1k8uOG-00072R-Nu; Thu, 20 Aug 2020 19:54:42 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id l2so339544wrc.7;
- Thu, 20 Aug 2020 16:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gC2hJbrUiIGgGDI/h0RY2Ob+Q69oEsfEZIUg5eipKcE=;
- b=ieRnS9/t2idmp05ieVq6uL4x17BlWng5YactD6o1Co8uAuQrWnvJjydmf/Ew/chPvi
- 0SFn6QsG669tR6QnZGsrDz4w5B7oB/Mr2EVOqvlxRYTVX7KneE4Q9wNMQ6Z9Owz3ITIL
- B7MCsREhK03zGBEVUKHpWrAEVNrOIhrPY3n2TEyEYnry9gD5V2vNz2hEvC2iI7NIbMPT
- AyXsJ2HEo6Wr00bKv6cwKRrcdCMvcsISIsfzqmN6TO9YhPK5XfcJxVWB4ewALI2ia/Kg
- iDIWP5W7s87Ouk2ecvj5O75AmnTz/6rF8RLxBxW7/ANvSio1o4u6UNWKSmw6erJzT5lJ
- 2wzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gC2hJbrUiIGgGDI/h0RY2Ob+Q69oEsfEZIUg5eipKcE=;
- b=ZMbkE3rPI9bveuiakUZeiin0397gqBhuKxurH7A76Zr474pRMXquxo4g534g1evHat
- dmXp73xdKqkFxYf2XyojhSwKD+Bslg6XwWPbeYbeoJISEd4IW4fuEinGlvgp1iQ8ct/I
- V8Iro956qai3GpOeU4bq+0ohE1pgOhu1MEN6hdOwjYJhRGMIaczbpCjAj3MvMSbPjXus
- KaqBpba36fUPWRIKC8xLPVKjRyCkZv4l57T0eD8MyvfWy/Bag+OlbVUWrVb4JumgXStu
- 1fneENIsJHx4MRTWPo4CZQhbelNQNbyEF80aoFzj8wg8agdEKyQuFEYui3Wc3nIlirbr
- Ucjg==
-X-Gm-Message-State: AOAM533X0Zd+etvqO2/PI4IaVh6l6kqjdPgZSoDRNb9UlkAvIzG4kIjR
- 996KuERDx/5hR04Wjjag2xVu3AGQQkFsu6yN
-X-Google-Smtp-Source: ABdhPJxVs5mlEN5+ggQADMze65/RDrhSS/ThKeNei1G5Kmn3o0jrWbOCHZbFXZKW4DNh8+u8i54zQw==
-X-Received: by 2002:a5d:480b:: with SMTP id l11mr148027wrq.85.1597967678675;
- Thu, 20 Aug 2020 16:54:38 -0700 (PDT)
-Received: from localhost.localdomain (109-186-18-89.bb.netvision.net.il.
- [109.186.18.89])
- by smtp.gmail.com with ESMTPSA id o128sm556506wmo.39.2020.08.20.16.54.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Aug 2020 16:54:38 -0700 (PDT)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] qemu-iotests: Simplify FilePath __init__
-Date: Fri, 21 Aug 2020 02:54:27 +0300
-Message-Id: <20200820235427.374645-6-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200820235427.374645-1-nsoffer@redhat.com>
-References: <20200820235427.374645-1-nsoffer@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k8uXH-0007eo-Io; Thu, 20 Aug 2020 20:03:59 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60603 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1k8uXC-0008I8-Si; Thu, 20 Aug 2020 20:03:58 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BXhZD5jHPz9sTT; Fri, 21 Aug 2020 10:03:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1597968228;
+ bh=ZN8bDjEHPlM8t7mgEir4g+XQJZoPqTYloojVESGaSi8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oIgf9GwotQqIhNF93dfWT9eP/Nl0KsfJgIF4qDxrqlcRI6/eUcg3xF1PVrS720lUL
+ 3ZxhjdsN/TRF6Nn+D1fHrC5VNcO3ZnuaIBgQyhrPLdqVKq+XuyPHH8oNQ0fjOOL1IS
+ 5t+evBS2qglsLJDnuhIqIqyMd03gUG2PpK/0vQGk=
+Date: Fri, 21 Aug 2020 08:54:29 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2] ppc/pnv: Add a HIOMAP erase command
+Message-ID: <20200820225429.GS271315@yekko.fritz.box>
+References: <20200820164638.2515681-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=nirsof@gmail.com; helo=mail-wr1-x42e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yLfVvEQOBD/VeTNx"
+Content-Disposition: inline
+In-Reply-To: <20200820164638.2515681-1-clg@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 20:03:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,36 +60,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Nir Soffer <nsoffer@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>,
+ qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use list comprehension instead of append loop.
 
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
----
- tests/qemu-iotests/iotests.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+--yLfVvEQOBD/VeTNx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 1b5cdd493e..7ebd0bcc92 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -467,9 +467,8 @@ class FilePath:
- 
-     """
-     def __init__(self, *names, base_dir=test_dir):
--        self.paths = []
--        for name in names:
--            self.paths.append(os.path.join(base_dir, file_pattern(name)))
-+        self.paths = [os.path.join(base_dir, file_pattern(name))
-+                      for name in names]
- 
-     def __enter__(self):
-         if len(self.paths) == 1:
--- 
-2.26.2
+On Thu, Aug 20, 2020 at 06:46:38PM +0200, C=E9dric Le Goater wrote:
+> The OPAL test suite runs a read-erase-write test on the PNOR :
+>=20
+>   https://github.com/open-power/op-test/blob/master/testcases/OpTestPNOR.=
+py
+>=20
+> which revealed that the IPMI HIOMAP handlers didn't support
+> HIOMAP_C_ERASE. Implement the sector erase command by writing 0xFF in
+> the PNOR memory region.
+>=20
+> Cc: Corey Minyard <cminyard@mvista.com>
+> Reported-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> ---
+>=20
+>  Changes in v2:
+>=20
+>  - Introduced IPMI_CC_UNSPECIFIED as suggested by Corey.
 
+Applied to ppc-for-5.2 (replacing v1).
+
+> =20
+>  include/hw/ipmi/ipmi.h |  1 +
+>  hw/ppc/pnv_bmc.c       | 29 ++++++++++++++++++++++++++++-
+>  2 files changed, 29 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+> index 8a99d958bbc3..c1efdaa4cb42 100644
+> --- a/include/hw/ipmi/ipmi.h
+> +++ b/include/hw/ipmi/ipmi.h
+> @@ -53,6 +53,7 @@ enum ipmi_op {
+>  #define IPMI_CC_INVALID_DATA_FIELD                       0xcc
+>  #define IPMI_CC_BMC_INIT_IN_PROGRESS                     0xd2
+>  #define IPMI_CC_COMMAND_NOT_SUPPORTED                    0xd5
+> +#define IPMI_CC_UNSPECIFIED                              0xff
+> =20
+>  #define IPMI_NETFN_APP                0x06
+>  #define IPMI_NETFN_OEM                0x3a
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index 2e1a03daa45a..67ebb16c4d5f 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -140,6 +140,27 @@ static uint16_t bytes_to_blocks(uint32_t bytes)
+>      return bytes >> BLOCK_SHIFT;
+>  }
+> =20
+> +static uint32_t blocks_to_bytes(uint16_t blocks)
+> +{
+> +    return blocks << BLOCK_SHIFT;
+> +}
+> +
+> +static int hiomap_erase(PnvPnor *pnor, uint32_t offset, uint32_t size)
+> +{
+> +    MemTxResult result;
+> +    int i;
+> +
+> +    for (i =3D 0; i < size / 4; i++) {
+> +        result =3D memory_region_dispatch_write(&pnor->mmio, offset + i =
+* 4,
+> +                                              0xFFFFFFFF, MO_32,
+> +                                              MEMTXATTRS_UNSPECIFIED);
+> +        if (result !=3D MEMTX_OK) {
+> +            return -1;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+>  static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cmd, unsigned int cmd_l=
+en,
+>                         RspBuffer *rsp)
+>  {
+> @@ -155,10 +176,16 @@ static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cm=
+d, unsigned int cmd_len,
+>      switch (cmd[2]) {
+>      case HIOMAP_C_MARK_DIRTY:
+>      case HIOMAP_C_FLUSH:
+> -    case HIOMAP_C_ERASE:
+>      case HIOMAP_C_ACK:
+>          break;
+> =20
+> +    case HIOMAP_C_ERASE:
+> +        if (hiomap_erase(pnor, blocks_to_bytes(cmd[5] << 8 | cmd[4]),
+> +                        blocks_to_bytes(cmd[7] << 8 | cmd[6]))) {
+> +            rsp_buffer_set_error(rsp, IPMI_CC_UNSPECIFIED);
+> +        }
+> +        break;
+> +
+>      case HIOMAP_C_GET_INFO:
+>          rsp_buffer_push(rsp, 2);  /* Version 2 */
+>          rsp_buffer_push(rsp, BLOCK_SHIFT); /* block size */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--yLfVvEQOBD/VeTNx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8+/yMACgkQbDjKyiDZ
+s5I45RAAl6hzLKWjEHCtTpuIYGwryV4KB1QnfofkUG8GFNXjbibnrcKuOj+D+pJX
+JCmiNex0UxLBknWZ/6Mxt80pHNwEQYWPEdgEnNZ8Mw1DU7gOuIJ0f93ZyXKfPyNn
+FvwLtCWzC80MsEqbRWJwLNwFNKrvMcXUGX/Iyi7IDhxZb9RTHvetZSO9ktzVUzOW
+V9SGHOdeHHsqyinoIGagYnMSv46AgZUWpxrasXWoezylhupKzNBSmNvdqvtuCPFm
+80AP2O5SHGmRbfKuCRtJ6+HBEM5qts7w4/4IZ6sCVz2xT62+84xU9sGsSecc5+y0
+GJk4mnq9TXAXLIMCNpkoLbhRZUU7AYZEhlQYtFNs/+hPY7Du9cYPC7PgwFV07JJp
+AMdpMcvctdCZQvDY5QULsEuhp+2HZTqu5yV9HNOBC/TeTHxNeGViS7t1euN4uEF4
+WedjLr2S8MbHJ5p48nP7rehXw/EHMUvfqkBnbgV9zAXdrviZUavf/HjcjvsvfFwH
+bhqm57bczhjpMWas7+P3JQSM7GIa2expzySDxcsJ34PFTJtbnX7P6wI5Yw7oYa2M
+5JyjU3gcd/WfMLCxZnlJQ8pAJl1QhKcXMYb7xu4/gWNYUuKv3fvXVFIGwXv64cO+
+8PH+fKdoggIeFMCmWQEMc0mxgDGp7Wxu8gYLGvqR9FRkUMYLivM=
+=YMCW
+-----END PGP SIGNATURE-----
+
+--yLfVvEQOBD/VeTNx--
 
