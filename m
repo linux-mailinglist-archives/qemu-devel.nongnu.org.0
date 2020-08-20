@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1300224C283
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:50:15 +0200 (CEST)
-Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481D924C27E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:48:10 +0200 (CEST)
+Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8mpS-0005tk-3R
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43788)
+	id 1k8mnR-0002y7-BM
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlL-0001IO-1h
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:46:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36572)
+ id 1k8mlP-0001Ic-46
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:46:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlH-0002mS-4Q
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:58 -0400
+ id 1k8mlJ-0002mm-MA
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8mlE-0007mo-QE
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:52 +0000
+ id 1k8mlH-0007oG-I0
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C4E6A2E80F1
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 640262E8107
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 15:40:10 -0000
-From: Thomas Huth <1859310@bugs.launchpad.net>
+Date: Thu, 20 Aug 2020 15:40:24 -0000
+From: Thomas Huth <1812451@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: joeyadams3-14159
-X-Launchpad-Bug-Reporter: Joey Adams (joeyadams3-14159)
+X-Launchpad-Bug-Commenters: asiagaming samuel-thibault
+X-Launchpad-Bug-Reporter: jusunLee (asiagaming)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157879657262.5123.4155249157481007374.malonedeb@gac.canonical.com>
-Message-Id: <159793801108.1396.10766045204851000519.launchpad@wampee.canonical.com>
-Subject: [Bug 1859310] Re: libvirt probing fails due to assertion failure with
- KVM and 'none' machine type
+References: <154785010249.1233.12902128942224805447.malonedeb@gac.canonical.com>
+Message-Id: <159793802506.5276.1431492898877130065.launchpad@gac.canonical.com>
+Subject: [Bug 1812451] Re: In windows host,
+ tftp arbitrary file read vulnerability
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: e8040aedc1d9fa900ef8e12f90209e3cc5f48fb6
+X-Launchpad-Hash: f535945b44b1a17ea83ecc2410f03a1bbc49ed2d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859310 <1859310@bugs.launchpad.net>
+Reply-To: Bug 1812451 <1812451@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,42 +83,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859310
+https://bugs.launchpad.net/bugs/1812451
 
 Title:
-  libvirt probing fails due to assertion failure with KVM and 'none'
-  machine type
+  In windows host, tftp arbitrary file read vulnerability
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Using libvirt on Ubuntu 19.10, I get the following error when I try to
-  set <emulator> to the latest qemu from git (commit dc65a5bdc9):
+  https://github.com/qemu/qemu/blob/master/slirp/tftp.c#L343
 
-      error: internal error: Failed to start QEMU binary /usr/local/bin
-  /qemu-system-x86_64 for probing:
-  /home/joey/git/qemu/target/i386/kvm.c:2176:kvm_arch_init: Object
-  0x564bfd5c3200 is not an instance of type x86-machine
+  =C2=A0=C2=A0if (!strncmp(req_fname, "../", 3) ||
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0req_fname[strlen(req_fname) - 1] =3D=
+=3D '/' ||
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0strstr(req_fname, "/../")) {
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tftp_send_error(spt, 2, "Access viola=
+tion", tp);
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return;
+  =C2=A0=C2=A0}
 
-  Qemu command line to reproduce:
+  There is file path check for not allowing escape tftp directory.
+  But, in windows, file path is separated by "\" backslash.
+  So, guest can read arbitrary file in Windows host.
 
-      sudo x86_64-softmmu/qemu-system-x86_64 -machine 'none,accel=3Dkvm'
-
-  Commit ed9e923c3c (Dec 12, 2019) introduced the issue by removing an
-  object_dynamic_cast call.  In this scenario, kvm_arch_init is passed
-  an instance of "none-machine" instead of "x86-machine".
-
-  The following one-line change to target/i386/kvm.c reintroduces the
-  cast:
-
-       if (kvm_check_extension(s, KVM_CAP_X86_SMM) &&
-  +        object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE) &&
-           x86_machine_is_smm_enabled(X86_MACHINE(ms))) {
-           smram_machine_done.notify =3D register_smram_listener;
-           qemu_add_machine_init_done_notifier(&smram_machine_done);
-       }
+  This bug is variant of CVE-2019-2553 - Directory traversal
+  vulnerability.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859310/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1812451/+subscriptions
 
