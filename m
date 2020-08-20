@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AC624C296
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:53:44 +0200 (CEST)
-Received: from localhost ([::1]:38342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D28B24C288
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:51:54 +0200 (CEST)
+Received: from localhost ([::1]:60312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8msp-00026I-No
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43748)
+	id 1k8mr3-0007tS-GW
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlJ-0001Gp-VI
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36468)
+ id 1k8mlJ-0001GL-CX
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlG-0002mB-Fx
+ id 1k8mlH-0002mQ-4J
  for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8mlD-0007o1-5K
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:51 +0000
+ id 1k8mlE-0007oE-Ec
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 076932E8110
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 05DC62E8107
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 15:39:47 -0000
-From: Thomas Huth <1867519@bugs.launchpad.net>
+Date: Thu, 20 Aug 2020 15:39:59 -0000
+From: Thomas Huth <1861341@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: focal
+ assignee=Laurent@vivier.eu; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange janitor mohamadh paelzer
-X-Launchpad-Bug-Reporter: Mohammad Heib (mohamadh)
+X-Launchpad-Bug-Commenters: laurent-vivier rinigus-git
+X-Launchpad-Bug-Reporter: rinigus (rinigus-git)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158428174672.11238.3583143675239092561.malonedeb@soybean.canonical.com>
-Message-Id: <159793798809.4725.11764228327633254726.launchpad@gac.canonical.com>
-Subject: [Bug 1867519] Re: qemu 4.2 segfaults on VF detach
+References: <158033273927.19447.5685950954198072756.malonedeb@gac.canonical.com>
+Message-Id: <159793799965.1298.15249120737720849225.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1861341] Re: ARM QEMU: Unknown syscall 397
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 21db58316b77743c086595620bbf77abb247e049
+X-Launchpad-Hash: 36e102e106e2e741c04c1a67ee2d4fd7edcdaf11
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
@@ -74,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867519 <1867519@bugs.launchpad.net>
+Reply-To: Bug 1861341 <1861341@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,69 +82,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867519
+https://bugs.launchpad.net/bugs/1861341
 
 Title:
-  qemu 4.2 segfaults on VF detach
+  ARM QEMU: Unknown syscall 397
 
 Status in QEMU:
   Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
 
 Bug description:
-  After updating Ubuntu 20.04 to the Beta version, we get the following
-  error and the virtual machines stucks when detaching PCI devices using
-  virsh command:
+  QEMU is reporting
 
-  Error:
-  error: Failed to detach device from /tmp/vf_interface_attached.xml
-  error: internal error: End of file from qemu monitor
+  ```
+  Unknown syscall 397
+  ```
 
-  steps to reproduce:
-   1. create a VM over Ubuntu 20.04 (5.4.0-14-generic)
-   2. attach PCI device to this VM (Mellanox VF for example)
-   3. try to detaching  the PCI device using virsh command:
-     a. create a pci interface xml file:
-          =
+  (statx if I read tables right) when used via flatpak for ARM images on
+  x86_64. This has been reproduced on Fedora and Gentoo.
 
-        <hostdev mode=3D'subsystem' type=3D'pci' managed=3D'yes'>
-        <driver name=3D'vfio'/>
-        <source>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x11' slot=3D'0x00' =
-function=3D'0x2' />
-        </source>
-        </hostdev>
-      =
+  To reproduce:
 
-     b.  #virsh detach-device <VM-Doman-name> <pci interface xml file>
+  - get flatpak KDE 5.12 for arm:
 
+  flatpak install --user org.kde.Sdk/arm/5.12 org.kde.Platform/arm/5.12
 
-  - Ubuntu release:
-    Description:    Ubuntu Focal Fossa (development branch)
-    Release:        20.04
+  =
 
-  - Package ver:
-    libvirt0:
-    Installed: 6.0.0-0ubuntu3
-    Candidate: 6.0.0-0ubuntu5
-    Version table:
-       6.0.0-0ubuntu5 500
-          500 http://il.archive.ubuntu.com/ubuntu focal/main amd64 Packages
-   *** 6.0.0-0ubuntu3 100
-          100 /var/lib/dpkg/status
+  - run qmake inside Sdk:
 
-  - What you expected to happen: =
+  QEMU_STRACE=3D1 flatpak run --filesystem=3Dhost --command=3Dqmake
+  org.kde.Sdk/arm/5.12 .
 
-    PCI device detached without any errors.
+  =
 
-  - What happened instead:
-    getting the errors above and he VM stuck
+  You will get a host of messages with unknown syscall. In practice, qmake =
+will fail to find .pro files if you have them in that folder and libraries =
+in the system.
 
-  additional info:
-  after downgrading the libvirt0 package and all the dependent packages to =
-5.4 the previous, version, seems that the issue disappeared
+  As far as I understand, Flatpak images are built on AARCH64 hardware.
+
+  My config on Gentoo:
+
+  kernel: 4.19.86-gentoo x86_64
+  app-emulation/qemu: ~4.2.0-r1 , same with 4.0.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867519/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861341/+subscriptions
 
