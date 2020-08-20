@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5EC24C720
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 23:23:19 +0200 (CEST)
-Received: from localhost ([::1]:36800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEBB24C734
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 23:31:38 +0200 (CEST)
+Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8s1m-00058D-Ai
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 17:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44414)
+	id 1k8s9p-0007S5-9U
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 17:31:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1k8s0v-0004Ee-5g
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 17:22:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36401
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k8s84-0006pA-Lx
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 17:29:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38257
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1k8s0t-000699-4M
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 17:22:24 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k8s82-0006w6-BN
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 17:29:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597958542;
+ s=mimecast20190719; t=1597958984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ahJCW3Krcp5jfEB/pXyi0ZJrBM5Uoc0J/+oYWQ2Ggl8=;
- b=gg8BNbdMNBKsdTh7VrgdfCXa1XYua39HLGHZfLSprDGOiHZdWHQGrDbQAzA2hA4rrzvsJW
- OmQpSlUkD3uamewifnWDQSnUJMaFR7BknXerlOIB6HjdGQumI5wF3X9UynRoQsKpyeWNwq
- u+aR+mGz4J7CH3YktQB2wsOkplZ0EKY=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-IRBC4I62Ns6l8rgOo4SxWA-1; Thu, 20 Aug 2020 17:22:20 -0400
-X-MC-Unique: IRBC4I62Ns6l8rgOo4SxWA-1
-Received: by mail-ot1-f70.google.com with SMTP id b11so1523627otl.17
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 14:22:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ahJCW3Krcp5jfEB/pXyi0ZJrBM5Uoc0J/+oYWQ2Ggl8=;
- b=tvudrjIYCwV5uboahHFQbbOL+cnBesErRlwRcwvnLyejdLhbF2JSZVvyGXytE5Qi1/
- Z/U3pAGRoqd8Yuk2Z29BljJ/pHanjuCf0IjlehhAYfQvwInpHTRJgBKdJo5+QWl9fTB2
- D9+Jj9oA0DbyD8biRkTxRFXJF8TXxkmMdtjpeFvEBZ6ciyM9aGIvlSHJzGEU4DoCe4An
- Esq+1pEOFxDrWHNjyRCqx9WUEyx8InUXr7zMQcOFX2BOnsjqxkOmKEHIRVtxhSMG8Leu
- 4lXHpGAihK8HVy4R2Ir9kao2xDr/zwZCaFY1k5ELsjRZw0Ce5/kRaRU2lC3GnqVN1hSS
- RF5A==
-X-Gm-Message-State: AOAM532mSDpquOmsUYXQOsCSzHEMHlQkqvbvQbIAgn1CYfesY24wBjwD
- qmsWTgHhDAoUn+F1UuNp/TCUJH/qq/blKhJDqf8LCb1WTvdZdWheq9JpI7KcGuyaNZwSNznK3xz
- NcJeJq7jFIKRCawjoCFR5rH5q0On2vck=
-X-Received: by 2002:a05:6808:204:: with SMTP id l4mr240415oie.16.1597958539781; 
- Thu, 20 Aug 2020 14:22:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOIr7ImNOz0HZ1Vim2xmc9WVIOyeMqmi6tkyXbiFqngOqPbZZ6MDRlD9s1nZuW1UlkntaYCYCEi3xDKof1Qw0=
-X-Received: by 2002:a05:6808:204:: with SMTP id l4mr240358oie.16.1597958538114; 
- Thu, 20 Aug 2020 14:22:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200820211905.223523-1-nsoffer@redhat.com>
-In-Reply-To: <20200820211905.223523-1-nsoffer@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Fri, 21 Aug 2020 00:22:02 +0300
-Message-ID: <CAMRbyyuVk1wth6tjh2xroHwf6Ni1TbjBTKFZkHQxcdqJfqvMjw@mail.gmail.com>
+ bh=uOVBYNzpmV7JJdeQyv3bDz1+MzhC/p+u71J8bqn+qzQ=;
+ b=NYqTwkd+WE6ldNt34JZGr+b8iPnW3S90K8y82UyITCCEc5BMi23fltTBktA51FQUJHd/8j
+ R6uS9Ei/vViPBNglWvqq3CSOT/FUnnwEKDlqhCoSd5M0OSOdoui74YX1WYqAquBtxAaPI6
+ bqZQZA90F9aTHB3uS0yMspw24Flr1Ec=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-JV6c_piwMViVN5pgxjEKSQ-1; Thu, 20 Aug 2020 17:29:42 -0400
+X-MC-Unique: JV6c_piwMViVN5pgxjEKSQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1D7A64082;
+ Thu, 20 Aug 2020 21:29:41 +0000 (UTC)
+Received: from [10.3.114.63] (ovpn-114-63.phx2.redhat.com [10.3.114.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 274A8600DD;
+ Thu, 20 Aug 2020 21:29:41 +0000 (UTC)
 Subject: Re: [PATCH] qemu-iotests: Fix FilePaths cleanup
-To: Nir Soffer <nirsof@gmail.com>
+To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org
+References: <20200820211905.223523-1-nsoffer@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ecc6a1ca-fb1a-efbe-c388-7aa5632c99e5@redhat.com>
+Date: Thu, 20 Aug 2020 16:29:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200820211905.223523-1-nsoffer@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=nsoffer@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 17:22:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -90,23 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 21, 2020 at 12:19 AM Nir Soffer <nirsof@gmail.com> wrote:
->
+On 8/20/20 4:19 PM, Nir Soffer wrote:
 > If os.remove() fails to remove one of the paths, for example if the file
 > was removed by the test, the cleanup loop would exit silently, without
 > removing the rest of the files.
->
+> 
 > Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 > ---
->  dtc                           | 2 +-
->  tests/qemu-iotests/iotests.py | 8 ++++----
->  2 files changed, 5 insertions(+), 5 deletions(-)
->
+>   dtc                           | 2 +-
+>   tests/qemu-iotests/iotests.py | 8 ++++----
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+> 
 > diff --git a/dtc b/dtc
 > index 85e5d83984..88f18909db 160000
 > --- a/dtc
@@ -115,30 +107,32 @@ On Fri, Aug 21, 2020 at 12:19 AM Nir Soffer <nirsof@gmail.com> wrote:
 > -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
 > +Subproject commit 88f18909db731a627456f26d779445f84e449536
 
-This sneaked into the patch somehow, I did not change this.
+Modulo the unintended submodule bump,
 
 > diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
 > index 717b5b652c..16a04df8a3 100644
 > --- a/tests/qemu-iotests/iotests.py
 > +++ b/tests/qemu-iotests/iotests.py
 > @@ -468,11 +468,11 @@ class FilePaths:
->          return self.paths
->
->      def __exit__(self, exc_type, exc_val, exc_tb):
+>           return self.paths
+>   
+>       def __exit__(self, exc_type, exc_val, exc_tb):
 > -        try:
 > -            for path in self.paths:
 > +        for path in self.paths:
 > +            try:
->                  os.remove(path)
+>                   os.remove(path)
 > -        except OSError:
 > -            pass
 > +            except OSError:
 > +                pass
->          return False
->
->  class FilePath(FilePaths):
-> --
-> 2.26.2
->
+>           return False
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
