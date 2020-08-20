@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B369724AC37
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:32:17 +0200 (CEST)
-Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B0E24AC57
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:41:23 +0200 (CEST)
+Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8YV6-0005sd-Ow
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49902)
+	id 1k8Ydu-0004p8-Pm
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YDw-0008Lr-CT
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:32 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59637
+ id 1k8YDv-0008Jj-Jl
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43447
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YDu-0002Vk-JO
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:32 -0400
+ id 1k8YDt-0002Vb-TB
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1597882469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9CaQ0XPUYHXmeyBGz11bbynQ/Eo1tr5PbOtyfN1oL1Y=;
- b=CQqyXcQ/eIuxJim8uiD9B6RT70P+JSqBaj50XqJrMP2WBFSI/Di1Pk03kDRqTn7TsON91v
- D65nQwl5RUwecuEim7Ao6bLzz9r7iFX3g45Yl2+PMPuY38NVdHtUD+dFEEeql/o10HqLwa
- dD+JmCAqnZ8RNQl0KjjXq7WF0scF3DI=
+ bh=qX29hC/Revp186AL5RYuW7GsP3iJP1Oc/vaLfb0DA7U=;
+ b=QzPjsj7mizNDODN7sqktz05UtUsjETLhGpCvDZHxw7bBNv+IAr7BQqXqUZcfDdRz7Jjjy/
+ +rXytTD5uWiCgL3NzRzlj+UVsMdqsU8BV4dUvlpPnBJsEkmA2+m4wQRLyytTOplAlhe3NX
+ U2q9KP0YmxY1LFuMbeVO18lC6Y+YlCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-_WlhpRPaO2iBXx0Suf-JpQ-1; Wed, 19 Aug 2020 20:14:25 -0400
-X-MC-Unique: _WlhpRPaO2iBXx0Suf-JpQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-339-2z8oyffwM-ifLaSjP4Aiuw-1; Wed, 19 Aug 2020 20:14:27 -0400
+X-MC-Unique: 2z8oyffwM-ifLaSjP4Aiuw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCFCD186A568
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:14:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C780186A577;
+ Thu, 20 Aug 2020 00:14:26 +0000 (UTC)
 Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A50416D4B;
- Thu, 20 Aug 2020 00:14:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0AFA60BEC;
+ Thu, 20 Aug 2020 00:14:25 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 46/58] qom: DECLARE_*_CHECKERS macros
-Date: Wed, 19 Aug 2020 20:12:24 -0400
-Message-Id: <20200820001236.1284548-47-ehabkost@redhat.com>
+Subject: [PATCH v2 47/58] qom: Make type checker functions accept const
+ pointers
+Date: Wed, 19 Aug 2020 20:12:25 -0400
+Message-Id: <20200820001236.1284548-48-ehabkost@redhat.com>
 In-Reply-To: <20200820001236.1284548-1-ehabkost@redhat.com>
 References: <20200820001236.1284548-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 18:27:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 20:12:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,113 +83,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes the typedefs are buried inside another header, but
-we want to benefit from the automatic definition of type cast
-functions.  Introduce macros that will let type checkers be
-defined when typedefs are already available.
+The existing type check macros all unconditionally drop const
+qualifiers from their arguments.  Keep this behavior in the
+macros generated by DECLARE_*CHECKER* by now.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v1 -> v2: none
+Changes v1 -> v2:
+* Removed note about _Generic from commit message, because it
+  won't be possible to do what I was planning without manual
+  #defines
 ---
- include/qom/object.h | 72 +++++++++++++++++++++++++++++++++++---------
- 1 file changed, 58 insertions(+), 14 deletions(-)
+ include/qom/object.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index 500e7dfa99..4cd84998c2 100644
+index 4cd84998c2..1d6a520d35 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -553,6 +553,62 @@ struct Object
-     Object *parent;
- };
- 
-+/**
-+ * DECLARE_INSTANCE_CHECKER:
-+ * @InstanceType: instance struct name
-+ * @OBJ_NAME: the object name in uppercase with underscore separators
-+ * @TYPENAME: type name
-+ *
-+ * Direct usage of this macro should be avoided, and the complete
-+ * OBJECT_DECLARE_TYPE macro is recommended instead.
-+ *
-+ * This macro will provide the three standard type cast functions for a
-+ * QOM type.
-+ */
-+#define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
-+    static inline G_GNUC_UNUSED InstanceType * \
-+    OBJ_NAME(void *obj) \
-+    { return OBJECT_CHECK(InstanceType, obj, TYPENAME); }
-+
-+/**
-+ * DECLARE_CLASS_CHECKERS:
-+ * @ClassType: class struct name
-+ * @OBJ_NAME: the object name in uppercase with underscore separators
-+ * @TYPENAME: type name
-+ *
-+ * Direct usage of this macro should be avoided, and the complete
-+ * OBJECT_DECLARE_TYPE macro is recommended instead.
-+ *
-+ * This macro will provide the three standard type cast functions for a
-+ * QOM type.
-+ */
-+#define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
-+    static inline G_GNUC_UNUSED ClassType * \
-+    OBJ_NAME##_GET_CLASS(void *obj) \
-+    { return OBJECT_GET_CLASS(ClassType, obj, TYPENAME); } \
-+    \
-+    static inline G_GNUC_UNUSED ClassType * \
-+    OBJ_NAME##_CLASS(void *klass) \
-+    { return OBJECT_CLASS_CHECK(ClassType, klass, TYPENAME); }
-+
-+/**
-+ * DECLARE_OBJ_CHECKERS:
-+ * @InstanceType: instance struct name
-+ * @ClassType: class struct name
-+ * @OBJ_NAME: the object name in uppercase with underscore separators
-+ * @TYPENAME: type name
-+ *
-+ * Direct usage of this macro should be avoided, and the complete
-+ * OBJECT_DECLARE_TYPE macro is recommended instead.
-+ *
-+ * This macro will provide the three standard type cast functions for a
-+ * QOM type.
-+ */
-+#define DECLARE_OBJ_CHECKERS(InstanceType, ClassType, OBJ_NAME, TYPENAME) \
-+    DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
-+    \
-+    DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME)
-+
- /**
-  * OBJECT_DECLARE_TYPE:
-  * @InstanceType: instance struct name
-@@ -574,20 +630,8 @@ struct Object
-     \
-     G_DEFINE_AUTOPTR_CLEANUP_FUNC(InstanceType, object_unref) \
-     \
--    static inline G_GNUC_UNUSED ClassType * \
--    MODULE_OBJ_NAME##_GET_CLASS(void *obj) \
--    { return OBJECT_GET_CLASS(ClassType, obj, \
--                              TYPE_##MODULE_OBJ_NAME); } \
--    \
--    static inline G_GNUC_UNUSED ClassType * \
--    MODULE_OBJ_NAME##_CLASS(void *klass) \
--    { return OBJECT_CLASS_CHECK(ClassType, klass, \
--                                TYPE_##MODULE_OBJ_NAME); } \
--    \
--    static inline G_GNUC_UNUSED InstanceType * \
--    MODULE_OBJ_NAME(void *obj) \
--    { return OBJECT_CHECK(InstanceType, obj, \
--                          TYPE_##MODULE_OBJ_NAME); }
-+    DECLARE_OBJ_CHECKERS(InstanceType, ClassType, \
-+                         MODULE_OBJ_NAME, TYPE_##MODULE_OBJ_NAME)
+@@ -567,7 +567,7 @@ struct Object
+  */
+ #define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
+     static inline G_GNUC_UNUSED InstanceType * \
+-    OBJ_NAME(void *obj) \
++    OBJ_NAME(const void *obj) \
+     { return OBJECT_CHECK(InstanceType, obj, TYPENAME); }
  
  /**
-  * OBJECT_DECLARE_SIMPLE_TYPE:
+@@ -581,14 +581,16 @@ struct Object
+  *
+  * This macro will provide the three standard type cast functions for a
+  * QOM type.
++ *
++ *FIXME: Use _Generic to make this const-safe
+  */
+ #define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
+     static inline G_GNUC_UNUSED ClassType * \
+-    OBJ_NAME##_GET_CLASS(void *obj) \
++    OBJ_NAME##_GET_CLASS(const void *obj) \
+     { return OBJECT_GET_CLASS(ClassType, obj, TYPENAME); } \
+     \
+     static inline G_GNUC_UNUSED ClassType * \
+-    OBJ_NAME##_CLASS(void *klass) \
++    OBJ_NAME##_CLASS(const void *klass) \
+     { return OBJECT_CLASS_CHECK(ClassType, klass, TYPENAME); }
+ 
+ /**
 -- 
 2.26.2
 
