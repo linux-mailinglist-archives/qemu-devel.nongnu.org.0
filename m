@@ -2,59 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B1624C2EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 18:07:33 +0200 (CEST)
-Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539CF24C2EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 18:06:23 +0200 (CEST)
+Received: from localhost ([::1]:43160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8n6C-0001sl-9h
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 12:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
+	id 1k8n54-0008Aa-CY
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 12:06:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k8n1c-0002ZF-9e; Thu, 20 Aug 2020 12:02:48 -0400
-Resent-Date: Thu, 20 Aug 2020 12:02:48 -0400
-Resent-Message-Id: <E1k8n1c-0002ZF-9e@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21778)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k8n1Z-0002Uw-Nm
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 12:02:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k8n1Z-0005Le-Ju; Thu, 20 Aug 2020 12:02:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1597939352; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=JqRrsePgnizk72Vqr3Z6qM/aH+gC7LTOic1bEVS6VfPhmCFokd+XiItIMwiexdoNFS/QdTx1+v5azGUXW6iQyiNxWktSZpQzYuS0TzzTPTlxEqGxXuraP7LSnNkfsNhuHQrJUKcSm/lVPQTfvX47PDgQn3lvn39SEvV1mseeePI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1597939352;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=5YCB4eGED+SkDhlRAvqeeab5MSrUGrUAHoHjZKjk1s8=; 
- b=TFHl8ydc1SL7y1M6b1QC1FC7UuQpZ96N1YN/D+18X2NUjUM+nUgoIMTutIQjffWOwovpZ2nD9qtgi71h/thacKWR8c8ufi5D0c8qXTYVJXjk9Qo4M2h4okuQhiFrjuFipvR8KtM1ysUaLRwAfDfkr/GpV92KIcQKXk38A7almTg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1597939346580816.931645754998;
- Thu, 20 Aug 2020 09:02:26 -0700 (PDT)
-Subject: Re: [PATCH] hw/arm/sbsa-ref.c : Add a fake embedded controller
-Message-ID: <159793934514.7760.1676298581701295415@66eaa9a8a123>
-In-Reply-To: <20200820133201.80577-1-graeme@nuviainc.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k8n1U-0005Lf-Nh
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 12:02:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597939358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6MwLquO3Y0FqoUCweoZsMXG5f2NwnrsqcRerpRZf5dM=;
+ b=BeCi4am0FljLwOUjyIcHdIq7ZavBdV9OxWDWUUanwsX6GVAO7GM72qcXxutZrIQb1GE2oh
+ 6Ew16cN7u6414dEuNKsE5TX5lBqenaUSSyYY3vqfiB/jpktQ5EB79Xt7K71LswHDF4PRG1
+ VeuW194eNx6R7cY6v4OIZjH8Q/xR7AM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-T63Te7DnNd2zlteNpJcKlg-1; Thu, 20 Aug 2020 12:02:29 -0400
+X-MC-Unique: T63Te7DnNd2zlteNpJcKlg-1
+Received: by mail-wm1-f71.google.com with SMTP id d22so947147wmd.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 09:02:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6MwLquO3Y0FqoUCweoZsMXG5f2NwnrsqcRerpRZf5dM=;
+ b=j3j4uAmGjOhHAcAuLTWFHKO04G2Ny/toacLn7WLrTZTX6IbVZfWHPUW04cuWxYnfut
+ 7n9klBD6TdIm7diyaZHT0YcHfxtdookkd10F3z28dxp8fhI6o7MWxkU4C9DirLI0DrqM
+ Bs0Mxy0l8qQbx7ShuOVBw4y5OZtYAIx+pDqxfWOqv+dCudVYaC+bkskzhD0YaPIT/X5p
+ dPRQrMQ/eR9YEZ6COh71r3l1PT8inrJtWnd0jwSI02kKAUyDMmtBgiAysLC10jOnS2DN
+ 8AbThL93yW3dSVaKjHGCV3O5czWVfr2Hk1FejIXWGN+39v9D0WpBQqVdGSLz4i4Sn07t
+ 5H2Q==
+X-Gm-Message-State: AOAM533F18cPHID5Eb269FM/Jy0e9OGl2DZEkBa8ACl0LBD8l83EzbLu
+ 9YG6DCK7hQ/1ykEqUjrZvALN+kHGHynQwmdgjvYJQJjXVYYfcgcxPT1YstYhU3MXr4n9wlpDLdv
+ PpQXJHRWCN+dzq9Y=
+X-Received: by 2002:adf:90d1:: with SMTP id i75mr3704660wri.278.1597939347900; 
+ Thu, 20 Aug 2020 09:02:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGS+f8eVFtTHsksQLX6k9mnxzvneEMeK9djE8xdOlgtBItLNMsPzehmB3mEtWUel9y03zmew==
+X-Received: by 2002:adf:90d1:: with SMTP id i75mr3704639wri.278.1597939347678; 
+ Thu, 20 Aug 2020 09:02:27 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id q6sm5257792wma.22.2020.08.20.09.02.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Aug 2020 09:02:27 -0700 (PDT)
+Subject: Re: [PULL v7 000/151] Meson-based build system
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200819213203.17876-1-pbonzini@redhat.com>
+ <CAFEAcA86m9N5ceYB+Nu965Se=qyZ_3W-Cn76Qc+Dd75hEApz=w@mail.gmail.com>
+ <446a210a-7e88-ab9b-05f4-6b0ffabf97c6@redhat.com>
+ <CAFEAcA8chPqS0keyGv0vBgNgacnMo95gA3LZDU2QfmteQ=4UZg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <223cfebd-605c-20d0-f649-b462effaf04e@redhat.com>
+Date: Thu, 20 Aug 2020 18:02:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: graeme@nuviainc.com
-Date: Thu, 20 Aug 2020 09:02:26 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 12:02:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8chPqS0keyGv0vBgNgacnMo95gA3LZDU2QfmteQ=4UZg@mail.gmail.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 06:28:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,58 +102,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: graeme@nuviainc.com, peter.maydell@linaro.org, rad@semihalf.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, leif@nuviainc.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgyMDEzMzIwMS44MDU3
-Ny0xLWdyYWVtZUBudXZpYWluYy5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
-b2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
-bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
-ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXIt
-aW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZl
-ZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAgIGFh
-cmNoNjQtc29mdG1tdS90YXJnZXQvYXJtL3RyYW5zbGF0ZS1zdmUubwogIENDICAgICAgYWFyY2g2
-NC1zb2Z0bW11L3RyYWNlL2dlbmVyYXRlZC1oZWxwZXJzLm8KL3RtcC9xZW11LXRlc3Qvc3JjL2h3
-L2FybS9zYnNhLXJlZi5jOiBJbiBmdW5jdGlvbiAnY3JlYXRlX3NlY3VyZV9lYyc6Ci90bXAvcWVt
-dS10ZXN0L3NyYy9ody9hcm0vc2JzYS1yZWYuYzo2NTE6MjQ6IGVycm9yOiBpbXBsaWNpdCBkZWNs
-YXJhdGlvbiBvZiBmdW5jdGlvbiAncWRldl9jcmVhdGUnOyBkaWQgeW91IG1lYW4gJ2JkcnZfY3Jl
-YXRlJz8gWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgNjUxIHwgICAg
-IERldmljZVN0YXRlICpkZXYgPSBxZGV2X2NyZWF0ZShOVUxMLCBUWVBFX1NFQ1VSRV9FQyk7CiAg
-ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fgogICAgICB8ICAgICAgICAg
-ICAgICAgICAgICAgICAgYmRydl9jcmVhdGUKL3RtcC9xZW11LXRlc3Qvc3JjL2h3L2FybS9zYnNh
-LXJlZi5jOjY1MToyNDogZXJyb3I6IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ3FkZXZf
-Y3JlYXRlJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L2Fy
-bS9zYnNhLXJlZi5jOjY1MToyNDogZXJyb3I6IGluaXRpYWxpemF0aW9uIG9mICdEZXZpY2VTdGF0
-ZSAqJyB7YWthICdzdHJ1Y3QgRGV2aWNlU3RhdGUgKid9IGZyb20gJ2ludCcgbWFrZXMgcG9pbnRl
-ciBmcm9tIGludGVnZXIgd2l0aG91dCBhIGNhc3QgWy1XZXJyb3I9aW50LWNvbnZlcnNpb25dCmNj
-MTogYWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzCm1ha2VbMV06ICoqKiBbL3Rt
-cC9xZW11LXRlc3Qvc3JjL3J1bGVzLm1hazo2OTogaHcvYXJtL3Nic2EtcmVmLm9dIEVycm9yIDEK
-bWFrZTogKioqIFtNYWtlZmlsZTo1Mjc6IGFhcmNoNjQtc29mdG1tdS9hbGxdIEVycm9yIDIKbWFr
-ZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBHRU4gICAgIHg4Nl82NC1z
-b2Z0bW11L3FlbXUtc3lzdGVtLXg4Nl82NC5leGUKVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxs
-IGxhc3QpOgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1
-YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9j
-a2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YjAwNmM5Zjkz
-YjAzNDhhYWEyZTUwZTk1M2M2NGY1NzYnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcs
-ICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUn
-LCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUn
-LCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1w
-L2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hl
-Oi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC13
-aF80aGkyay9zcmMvZG9ja2VyLXNyYy4yMDIwLTA4LTIwLTExLjU4LjA5LjMwMTUxOi92YXIvdG1w
-L3FlbXU6eixybycsICdxZW11L2ZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1p
-bmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
-YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWIwMDZjOWY5M2IwMzQ4YWFhMmU1MGU5NTNjNjRm
-NTc2Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
-cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXdoXzRoaTJrL3NyYycKbWFrZTog
-KioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDRtMTUu
-OTUzcwp1c2VyICAgIDBtOC4zMTBzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
-Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDgyMDEzMzIwMS44MDU3Ny0xLWdyYWVtZUBudXZpYWlu
-Yy5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
-bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
-L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 20/08/20 16:54, Peter Maydell wrote:
+> Configuring ninjatool using configuration
+> Library m found: YES
+> Library util found: YES
+> Library aio found: YES
+> Library rt found: YES
+> Found pkg-config: /usr/bin/pkg-config (0.29.1)
+> WARNING: Static library 'asound' not found for dependency 'sdl2', may
+> not be statically linked
+> WARNING: Static library 'pulse-simple' not found for dependency
+> 'sdl2', may not be statically linked
+> WARNING: Static library 'pulse' not found for dependency 'sdl2', may
+> not be statically linked
+> WARNING: Static library 'sndio' not found for dependency 'sdl2', may
+> not be statically linked
+> WARNING: Static library 'wayland-egl' not found for dependency 'sdl2',
+> may not be statically linked
+> WARNING: Static library 'wayland-client' not found for dependency
+> 'sdl2', may not be statically linked
+> WARNING: Static library 'wayland-cursor' not found for dependency
+> 'sdl2', may not be statically linked
+> Run-time dependency sdl2 found: YES 2.0.8
+> Found CMake: /usr/bin/cmake (3.10.2)
+> Run-time dependency sdl-image found: NO (tried pkgconfig and cmake)
+> Run-time dependency libpng found: YES 1.6.34
+> 
+> What are they for, and can they be suppressed ?
+
+Meson (just like configure before it) is looking for SDL and other
+dependencies even if you're not building system emulators.
+
+Because you don't have those dependencies installed as static libraries,
+Meson warns that library is marked as "not found" even though the
+library itself is there.  To suppress the warnings, it's enough to put
+an "if have_system" around the dependency check.  Let me know if you
+want me to do it now.
+
+Paolo
+
 
