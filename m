@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A758E24AF62
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 08:43:48 +0200 (CEST)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF37324AF69
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 08:47:02 +0200 (CEST)
+Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8eId-00025C-Po
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 02:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55620)
+	id 1k8eLl-00048J-VH
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 02:47:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8eH3-0000ub-5v; Thu, 20 Aug 2020 02:42:09 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55411)
+ id 1k8eKO-0003VI-DI; Thu, 20 Aug 2020 02:45:37 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8eH1-00008L-ME; Thu, 20 Aug 2020 02:42:08 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 5D40F58D9D3C;
- Thu, 20 Aug 2020 08:42:05 +0200 (CEST)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ id 1k8eKM-0000Yu-FE; Thu, 20 Aug 2020 02:45:36 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1FFC95226F31;
+ Thu, 20 Aug 2020 08:45:30 +0200 (CEST)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 20 Aug
- 2020 08:42:04 +0200
+ 2020 08:45:30 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G00621555f74-d5c7-48d5-b135-63568622732e,
+ (GARM-96R001e613f738-6209-4e31-96e2-8da9e4718a83,
  02C359FD435C2C4122574921AFFD4D91C9CEEBEA) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v2 10/58] aspeed_timer: Fix ASPEED_TIMER macro definition
-To: Eduardo Habkost <ehabkost@redhat.com>, <qemu-devel@nongnu.org>
-References: <20200820001236.1284548-1-ehabkost@redhat.com>
- <20200820001236.1284548-11-ehabkost@redhat.com>
+Subject: Re: [PATCH] spapr/xive: Allocate IPIs from the vCPU contexts
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200814150358.1682513-1-clg@kaod.org>
+ <42e8bb9f-c052-5abb-9ffe-0700bfe3904d@kaod.org>
+ <20200816043000.GH12805@yekko.fritz.box>
+ <2d621c86-b951-8c62-2015-e307f955c93a@kaod.org>
+ <20200820004246.GB271315@yekko.fritz.box>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <56567ff0-65d5-0542-15e8-a054d01bb264@kaod.org>
-Date: Thu, 20 Aug 2020 08:42:03 +0200
+Message-ID: <da9fd7b8-3f95-531b-835d-597a58328947@kaod.org>
+Date: Thu, 20 Aug 2020 08:45:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200820001236.1284548-11-ehabkost@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200820004246.GB271315@yekko.fritz.box>
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 99b3238d-5211-4961-b792-f630648c7203
-X-Ovh-Tracer-Id: 1962725014723791663
+X-Ovh-Tracer-GUID: fa777870-f699-4ee4-a14f-2b9fd6100786
+X-Ovh-Tracer-Id: 2020427383607692195
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtledgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegvhhgrsghkohhsthesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 02:41:12
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddtledgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelgfejveehieefffduueehvdevfedtleeiudekjeegveeigfeifefhtdfffedtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 02:45:31
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,55 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Gustavo Romero <gromero@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/20 2:11 AM, Eduardo Habkost wrote:
-> The macro definition had an extra semicolon.  This was never
-> noticed because the macro was only being used where it didn't
-> make a difference.
+On 8/20/20 2:42 AM, David Gibson wrote:
+> On Sun, Aug 16, 2020 at 03:38:20PM +0200, C�dric Le Goater wrote:
+>> On 8/16/20 6:30 AM, David Gibson wrote:
+>>> On Fri, Aug 14, 2020 at 05:08:13PM +0200, C�dric Le Goater wrote:
+>>>>
+>>>> This works as expected with a 128 vCPUs guest with pinned vcpus. The
+>>>> first 64 IPIs are allocated on the first chip and the remaining 64
+>>>> on the second chip.
+>>>>
+>>>> Still, this is more an RFC. We have time before the end of the merge
+>>>> window.
+>>>
+>>> It looks reasonable to me.  AFAICT it makes things better than they
+>>> were, and even if we can improve it further, that won't break
+>>> migration or other interfaces we need to preserve.
+>>
+>> Yeah. What I don't like is this test below. I am not sure that 
+>> machine->smp.cpus is the correct way to test the number of currently
+>> active vCPUs.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Ah, yeah.  It should be correct at initial startup, but might not be
+> after a bunch of hotplugs/unplugs, which could result in a sparse set
+> of active vcpus.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Yes. I have a v2 ready to be sent in which the vCPU IPI is allocated
+under kvmppc_xive_cpu_connect().
 
 Thanks,
 
-C.
+C. 
 
-> ---
-> Changes v1 -> v2: none
 > 
-> ---
-> Cc: "Cédric Le Goater" <clg@kaod.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  include/hw/timer/aspeed_timer.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Usually this code will be called during initial setup, but I think
+> there are some edge cases where it won't be (e.g. boot a XICS kernel,
+> do some vcpu plugs/unplugs, reboot into a XIVE kernel).
 > 
-> diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_timer.h
-> index 948329893c..d7c7d8ad28 100644
-> --- a/include/hw/timer/aspeed_timer.h
-> +++ b/include/hw/timer/aspeed_timer.h
-> @@ -26,7 +26,7 @@
->  #include "hw/misc/aspeed_scu.h"
->  
->  #define ASPEED_TIMER(obj) \
-> -    OBJECT_CHECK(AspeedTimerCtrlState, (obj), TYPE_ASPEED_TIMER);
-> +    OBJECT_CHECK(AspeedTimerCtrlState, (obj), TYPE_ASPEED_TIMER)
->  #define TYPE_ASPEED_TIMER "aspeed.timer"
->  #define TYPE_ASPEED_2400_TIMER TYPE_ASPEED_TIMER "-ast2400"
->  #define TYPE_ASPEED_2500_TIMER TYPE_ASPEED_TIMER "-ast2500"
+> So I think we need to explicitly check for each vcpu # if it's
+> currently active.  Using... spapr_find_cpu(), I guess?
+> 
+>>
+>>>>> +    if (srcno < machine->smp.cpus) {
+>>>>> +        return kvmppc_xive_reset_ipi(xive, srcno, errp);
+>>>>> +    }
+>>>>> +
+>>>>>      if (xive_source_irq_is_lsi(xsrc, srcno)) {
+>>>>>          state |= KVM_XIVE_LEVEL_SENSITIVE;
+>>>>>          if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
+>>
 > 
 
 
