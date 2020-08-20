@@ -2,56 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1134324BA1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 14:02:00 +0200 (CEST)
-Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3038224BB6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 14:29:23 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8jGY-00007o-Ts
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 08:01:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40220)
+	id 1k8jh3-0008FH-PO
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 08:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k8jFC-0007c3-DN
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 08:00:34 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k8jF8-0006MU-E9
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 08:00:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=383Tp2MVBqkTQ+llMQf/Ghf9/3LA8IoE7p5zXcTpDtI=; b=nEgiIRkYsuEX5JkHDSNvdQvCrc
- h5klta8fmBD5ihu75vun1c6cvL9YYX1PBWED7AlgGFmsd+u0Vlb9u77MRZfHY023UFT5zy9zNXGiu
- swwJ/CeMFgmPXlxujhQg8ZrM+5GlPZFgFk6w/93Y0QeQy1RQP+gS+fbmegvizCKArkMK8hNkuh4cJ
- XCbZMLFML8fzq3oBPaOkufqwagprEhy5S/rUmwbcJ9MifR3f8aiqMQV1jk0nBfn9kZIlvYpkI9mMj
- C7Br9ns7HlrpXMvXSWVeVJKafqcbDfFiXc/B2yByRTXGmMy6adj4rNOxi37oNDJkmhiKBq5U+4e5F
- 0WAE3NyQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Geoffrey McRae <geoff@hostfission.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v5 1/1] audio/jack: fix use after free segfault
-Date: Thu, 20 Aug 2020 14:00:27 +0200
-Message-ID: <2337495.aVM56tU1U7@silver>
-In-Reply-To: <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
-References: <20200819062940.52774-1-geoff@hostfission.com>
- <3140676.b1PlGooJ8z@silver> <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k8jfr-0007dV-Ve
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 08:28:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52997
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k8jfp-0001bJ-6w
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 08:28:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597926483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U+EKqHWsk01YkJj3wPmRDZ+g8oOUui84dZ5XwbpxkVc=;
+ b=UalDptFrh+TBWDp2290KHkZPDH0Cr9HtIHwilUMbCwYHSt27Ox1Qayr7UjMtpeDE2EiF7i
+ X3cV6uxRwCtk/GpwEU8JFiRHjGX8+Z4GhwKjXn1fmkjzbCzvvK2s7WUavyBSy3UFMduTJ8
+ QzjUfeijdNkqkYJvbztvzDjzIvX8Jlk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-D72bZbJcN-iK6OAgEc8XzQ-1; Thu, 20 Aug 2020 08:27:59 -0400
+X-MC-Unique: D72bZbJcN-iK6OAgEc8XzQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31B651074643;
+ Thu, 20 Aug 2020 12:27:57 +0000 (UTC)
+Received: from gondolin (ovpn-112-251.ams2.redhat.com [10.36.112.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 383C974E2A;
+ Thu, 20 Aug 2020 12:27:43 +0000 (UTC)
+Date: Thu, 20 Aug 2020 14:27:40 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [ovirt-devel] Re: device compatibility interface for live
+ migration with assigned devices
+Message-ID: <20200820142740.6513884d.cohuck@redhat.com>
+In-Reply-To: <c1d580dd-5c0c-21bc-19a6-f776617d4ec2@redhat.com>
+References: <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
+ <20200818085527.GB20215@redhat.com>
+ <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+ <20200818091628.GC20215@redhat.com>
+ <20200818113652.5d81a392.cohuck@redhat.com>
+ <BY5PR12MB4322C9D1A66C4657776A1383DC5C0@BY5PR12MB4322.namprd12.prod.outlook.com>
+ <20200819033035.GA21172@joy-OptiPlex-7040>
+ <e20812b7-994b-b7f9-2df4-a78c4d116c7f@redhat.com>
+ <20200819065951.GB21172@joy-OptiPlex-7040>
+ <d6f9a51e-80b3-44c5-2656-614b327dc080@redhat.com>
+ <20200819081338.GC21172@joy-OptiPlex-7040>
+ <c1d580dd-5c0c-21bc-19a6-f776617d4ec2@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 06:06:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 08:28:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,55 +88,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "xin-ran.wang@intel.com" <xin-ran.wang@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "openstack-discuss@lists.openstack.org"
+ <openstack-discuss@lists.openstack.org>,
+ "shaohe.feng@intel.com" <shaohe.feng@intel.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ Parav Pandit <parav@mellanox.com>,
+ "jian-feng.ding@intel.com" <jian-feng.ding@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "hejie.xu@intel.com" <hejie.xu@intel.com>,
+ "bao.yumeng@zte.com.cn" <bao.yumeng@zte.com.cn>,
+ Alex Williamson <alex.williamson@redhat.com>, Parav Pandit <parav@nvidia.com>,
+ "sm ooney@redhat.com" <smooney@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, Jiri Pirko <jiri@mellanox.com>,
+ "dinechin@redhat.com" <dinechin@redhat.com>,
+ "devel@ovirt.org" <devel@ovirt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 20. August 2020 12:54:49 CEST Paolo Bonzini wrote:
-> More on the practical side, recursive mutex are an easy way to get a
-> deadlock.  It's a common idiom to do
-> 
->     /* Need to take foo->lock outside bar->lock.  */
->     mutex_unlock(&bar->lock);
->     mutex_lock(&foo->lock);
->     mutex_lock(&bar->lock);
+On Wed, 19 Aug 2020 17:28:38 +0800
+Jason Wang <jasowang@redhat.com> wrote:
 
-The general theoretical implications about recursive locks was clear to me. 
-AFAICS your point is that a recursive lock could mislead poeple taking things 
-easy and running into a deadlock scenario like outlined by you.
+> On 2020/8/19 =E4=B8=8B=E5=8D=884:13, Yan Zhao wrote:
+> > On Wed, Aug 19, 2020 at 03:39:50PM +0800, Jason Wang wrote: =20
+> >> On 2020/8/19 =E4=B8=8B=E5=8D=882:59, Yan Zhao wrote: =20
+> >>> On Wed, Aug 19, 2020 at 02:57:34PM +0800, Jason Wang wrote: =20
+> >>>> On 2020/8/19 =E4=B8=8A=E5=8D=8811:30, Yan Zhao wrote: =20
+> >>>>> hi All,
+> >>>>> could we decide that sysfs is the interface that every VFIO vendor =
+driver
+> >>>>> needs to provide in order to support vfio live migration, otherwise=
+ the
+> >>>>> userspace management tool would not list the device into the compat=
+ible
+> >>>>> list?
+> >>>>>
+> >>>>> if that's true, let's move to the standardizing of the sysfs interf=
+ace.
+> >>>>> (1) content
+> >>>>> common part: (must)
+> >>>>>       - software_version: (in major.minor.bugfix scheme) =20
+> >>>> This can not work for devices whose features can be negotiated/adver=
+tised
+> >>>> independently. (E.g virtio devices)
 
-My point was if it happens for whatever reason that a main IO mutex lock was 
-accidentally introduced, i.e. without knowing it was already locked on a 
-higher level, wouldn't it make sense to deal with this in some kind of 
-defensive way?
+I thought the 'software_version' was supposed to describe kind of a
+'protocol version' for the data we transmit? I.e., you add a new field,
+you bump the version number.
 
-One way would be a recursive type and logging a warning, which you obviously 
-don't like; another option would be an assertion fault instead to make 
-developers immediately aware about the double lock on early testing. Because 
-on a large scale project like this, it is almost impossible for all developers 
-to be aware about all implied locks. Don't you think so?
+> >>>> =20
+> >>> sorry, I don't understand here, why virtio devices need to use vfio i=
+nterface? =20
+> >>
+> >> I don't see any reason that virtio devices can't be used by VFIO. Do y=
+ou?
+> >>
+> >> Actually, virtio devices have been used by VFIO for many years:
+> >>
+> >> - passthrough a hardware virtio devices to userspace(VM) drivers
+> >> - using virtio PMD inside guest
+> >> =20
+> > So, what's different for it vs passing through a physical hardware via =
+VFIO? =20
+>=20
+>=20
+> The difference is in the guest, the device could be either real hardware=
+=20
+> or emulated ones.
+>=20
+>=20
+> > even though the features are negotiated dynamically, could you explain
+> > why it would cause software_version not work? =20
+>=20
+>=20
+> Virtio device 1 supports feature A, B, C
+> Virtio device 2 supports feature B, C, D
+>=20
+> So you can't migrate a guest from device 1 to device 2. And it's=20
+> impossible to model the features with versions.
 
-At least IMO the worst case would be a double unlock on a non-recursive main 
-thread mutex and running silently into undefined behaviour.
+We're talking about the features offered by the device, right? Would it
+be sufficient to mandate that the target device supports the same
+features or a superset of the features supported by the source device?
 
-> My suggestion is to work towards protecting the audio code with its own
-> mutex(es) and ignore the existence of the BQL for subsystems that can do
-> so (audio is a prime candidate).  Also please add comments to
-> audio_int.h about which functions are called from other threads than the
-> QEMU main thread.
+>=20
+>=20
+> >
+> > =20
+> >>> I think this thread is discussing about vfio related devices.
+> >>> =20
+> >>>>>       - device_api: vfio-pci or vfio-ccw ...
+> >>>>>       - type: mdev type for mdev device or
+> >>>>>               a signature for physical device which is a counterpar=
+t for
+> >>>>> 	   mdev type.
+> >>>>>
+> >>>>> device api specific part: (must)
+> >>>>>      - pci id: pci id of mdev parent device or pci id of physical p=
+ci
+> >>>>>        device (device_api is vfio-pci)API here. =20
+> >>>> So this assumes a PCI device which is probably not true.
+> >>>> =20
+> >>> for device_api of vfio-pci, why it's not true?
+> >>>
+> >>> for vfio-ccw, it's subchannel_type. =20
+> >>
+> >> Ok but having two different attributes for the same file is not good i=
+dea.
+> >> How mgmt know there will be a 3rd type? =20
+> > that's why some attributes need to be common. e.g.
+> > device_api: it's common because mgmt need to know it's a pci device or a
+> >              ccw device. and the api type is already defined vfio.h.
+> > 	    (The field is agreed by and actually suggested by Alex in previous=
+ mail)
+> > type: mdev_type for mdev. if mgmt does not understand it, it would not
+> >        be able to create one compatible mdev device.
+> > software_version: mgmt can compare the major and minor if it understands
+> >        this fields. =20
+>=20
+>=20
+> I think it would be helpful if you can describe how mgmt is expected to=20
+> work step by step with the proposed sysfs API. This can help people to=20
+> understand.
 
-That main thread lock came up here because I noticed this API comment on 
-qemu_bh_cancel():
+My proposal would be:
+- check that device_api matches
+- check possible device_api specific attributes
+- check that type matches [I don't think the combination of mdev types
+  and another attribute to determine compatibility is a good idea;
+  actually, the current proposal confuses me every time I look at it]
+- check that software_version is compatible, assuming semantic
+  versioning
+- check possible type-specific attributes
 
-  "While cancellation itself is also wait-free and thread-safe, it can of         
-   course race with the loop that executes bottom halves unless you are 
-   holding the iothread mutex.  This makes it mostly useless if you are not 
-   holding the mutex."
+>=20
+> Thanks for the patience. Since sysfs is uABI, when accepted, we need=20
+> support it forever. That's why we need to be careful.
 
-So this lock was not about driver internal data protection, but rather about 
-dealing with the BH API correctly.
+Nod.
 
-Best regards,
-Christian Schoenebeck
-
+(...)
 
 
