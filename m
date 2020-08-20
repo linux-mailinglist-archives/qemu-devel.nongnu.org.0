@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB42B24AC58
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:41:39 +0200 (CEST)
-Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB2924AC6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:52:20 +0200 (CEST)
+Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8YeA-0005NT-KH
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
+	id 1k8YoV-0001W2-SB
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
- id 1k8YQX-0006tC-SV
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:27:33 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:46524)
+ (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
+ id 1k8YRR-0000S0-B7
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:28:29 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:46562)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <root@moya.office.hostfission.com>)
- id 1k8YQV-00041V-A5
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:27:33 -0400
-Received: from moya.office.hostfission.com (office.hostfission.com
- [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 1D08942773;
- Thu, 20 Aug 2020 10:27:30 +1000 (AEST)
+ (envelope-from <geoff@hostfission.com>) id 1k8YRP-000460-MW
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:28:29 -0400
+Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
+ by mail1.hostfission.com (Postfix) with ESMTP id 7CB22405C7;
+ Thu, 20 Aug 2020 10:28:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1597883250;
- bh=MwlyczHmOBZoBybIz+lbZMyoyBI+wZs25OgNnVK4n34=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jfqy9o6/sPfoGYObM4GIzy7UX2WwfbMoB2UVccnB1I5AcaPPhyknWjgNKzuIuXCck
- M5ZKV/wkw8WgcXMqaG7bwXIDOfrFisNDxjUU06zD2jMU4kxGMiotk1hFZxRc9gGpyQ
- UbfUJUiap4vSXtQkhcQA2eqSUVQixDBOpdKGgMaI=
-Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id 0B2D63A02DD; Thu, 20 Aug 2020 10:27:30 +1000 (AEST)
+ s=mail; t=1597883306;
+ bh=hFxkh0+V3du6LgPZ6ZP8Q4fCgpu8z9lmCzUBvUwYYLI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=esQ3nOJRT87NvklyZxASUmo6LZHg4ddfnjhOEpzGbwUfuC/Kt60ShteLae+cFIN0e
+ voSSm9AyWXbBn9RjQvLdjY4EnYv9nGg7SHC+SLbHdqvCS4KsfiBANEX5hWicBqSwR+
+ rMB/cShA/eO/U1bnd0ODLkMGvfU0zdPJfzuKK5NE=
+Received: from mail.hostfission.com (www1.hostfission.com [127.0.0.1])
+ by www1.hostfission.com (Postfix) with ESMTP id 6D7B79F149;
+ Thu, 20 Aug 2020 10:28:26 +1000 (AEST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 20 Aug 2020 10:28:26 +1000
 From: Geoffrey McRae <geoff@hostfission.com>
 To: qemu-devel@nongnu.org
-Cc: Geoffrey McRae <geoff@hostfission.com>,
-	kraxel@redhat.com
-Subject: [PATCH v7 1/1] audio/jack: fix use after free segfault
-Date: Thu, 20 Aug 2020 10:27:29 +1000
-Message-Id: <20200820002729.76290-2-geoff@hostfission.com>
-X-Mailer: git-send-email 2.20.1
+Cc: kraxel@redhat.com
+Subject: Re: [PATCH v7 0/1] audio/jack: fix use after free segfault
 In-Reply-To: <20200820002729.76290-1-geoff@hostfission.com>
 References: <20200820002729.76290-1-geoff@hostfission.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=139.99.139.48;
- envelope-from=root@moya.office.hostfission.com; helo=mail1.hostfission.com
+Message-ID: <00fa7c0ab750435faa8f49abac85ad17@hostfission.com>
+X-Sender: geoff@hostfission.com
+User-Agent: Roundcube Webmail/1.3.8
+Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
+ helo=mail1.hostfission.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 20:25:17
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -27
@@ -54,7 +55,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,149 +72,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change registers a bottom handler to close the JACK client
-connection when a server shutdown signal is recieved. Without this
-libjack2 attempts to "clean up" old clients and causes a use after free
-segfault.
+Forgot to update this cover letter too, sorry for the spam, there are no 
+changes to spice-input.c anymore
 
-Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
----
- audio/jackaudio.c | 51 +++++++++++++++++++++++++++++++++--------------
- ui/spice-input.c  |  2 ++
- 2 files changed, 38 insertions(+), 15 deletions(-)
-
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 72ed7c4929..3492c6b63b 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu/module.h"
- #include "qemu/atomic.h"
-+#include "qemu/main-loop.h"
- #include "qemu-common.h"
- #include "audio.h"
- 
-@@ -63,6 +64,7 @@ typedef struct QJackClient {
-     QJackState      state;
-     jack_client_t  *client;
-     jack_nframes_t  freq;
-+    QEMUBH         *shutdown_bh;
- 
-     struct QJack   *j;
-     int             nchannels;
-@@ -306,21 +308,27 @@ static int qjack_xrun(void *arg)
-     return 0;
- }
- 
-+static void qjack_shutdown_bh(void *opaque)
-+{
-+    QJackClient *c = (QJackClient *)opaque;
-+    qjack_client_fini(c);
-+}
-+
- static void qjack_shutdown(void *arg)
- {
-     QJackClient *c = (QJackClient *)arg;
-     c->state = QJACK_STATE_SHUTDOWN;
-+    qemu_bh_schedule(c->shutdown_bh);
- }
- 
- static void qjack_client_recover(QJackClient *c)
- {
--    if (c->state == QJACK_STATE_SHUTDOWN) {
--        qjack_client_fini(c);
-+    if (c->state != QJACK_STATE_DISCONNECTED) {
-+        return;
-     }
- 
-     /* packets is used simply to throttle this */
--    if (c->state == QJACK_STATE_DISCONNECTED &&
--        c->packets % 100 == 0) {
-+    if (c->packets % 100 == 0) {
- 
-         /* if enabled then attempt to recover */
-         if (c->enabled) {
-@@ -417,6 +425,7 @@ static int qjack_client_init(QJackClient *c)
-         options |= JackServerName;
-     }
- 
-+    c->shutdown_bh = qemu_bh_new(qjack_shutdown_bh, c);
-     c->client = jack_client_open(client_name, options, &status,
-       c->opt->server_name);
- 
-@@ -489,8 +498,6 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
-     QJackOut *jo  = (QJackOut *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    qjack_client_fini(&jo->c);
--
-     jo->c.out       = true;
-     jo->c.enabled   = false;
-     jo->c.nchannels = as->nchannels;
-@@ -525,8 +532,6 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
-     QJackIn  *ji  = (QJackIn *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    qjack_client_fini(&ji->c);
--
-     ji->c.out       = false;
-     ji->c.enabled   = false;
-     ji->c.nchannels = as->nchannels;
-@@ -563,29 +568,45 @@ static void qjack_client_fini(QJackClient *c)
-         /* fallthrough */
- 
-     case QJACK_STATE_SHUTDOWN:
-+        qemu_bh_delete(c->shutdown_bh);
-+        c->shutdown_bh = NULL;
-+
-         jack_client_close(c->client);
-+        c->client = NULL;
-+
-+        qjack_buffer_free(&c->fifo);
-+        g_free(c->port);
-+
-+        c->state = QJACK_STATE_DISCONNECTED;
-         /* fallthrough */
- 
-     case QJACK_STATE_DISCONNECTED:
-         break;
-     }
--
--    qjack_buffer_free(&c->fifo);
--    g_free(c->port);
--
--    c->state = QJACK_STATE_DISCONNECTED;
- }
- 
- static void qjack_fini_out(HWVoiceOut *hw)
- {
-     QJackOut *jo = (QJackOut *)hw;
--    qjack_client_fini(&jo->c);
-+
-+    qemu_mutex_lock_iothread();
-+    if (jo->c.state != QJACK_STATE_DISCONNECTED) {
-+        qemu_bh_cancel(jo->c.shutdown_bh);
-+        qjack_client_fini(&jo->c);
-+    }
-+    qemu_mutex_unlock_iothread();
- }
- 
- static void qjack_fini_in(HWVoiceIn *hw)
- {
-     QJackIn *ji = (QJackIn *)hw;
--    qjack_client_fini(&ji->c);
-+
-+    qemu_mutex_lock_iothread();
-+    if (ji->c.state != QJACK_STATE_DISCONNECTED) {
-+        qemu_bh_cancel(ji->c.shutdown_bh);
-+        qjack_client_fini(&ji->c);
-+    }
-+    qemu_mutex_unlock_iothread();
- }
- 
- static void qjack_enable_out(HWVoiceOut *hw, bool enable)
--- 
-2.20.1
-
+On 2020-08-20 10:27, Geoffrey McRae wrote:
+> v7:
+>   * removed accidental inclusion of spice-input changes
+> 
+> Geoffrey McRae (1):
+>   audio/jack: fix use after free segfault
+> 
+>  audio/jackaudio.c | 51 +++++++++++++++++++++++++++++++++--------------
+>  ui/spice-input.c  |  2 ++
+>  2 files changed, 38 insertions(+), 15 deletions(-)
 
