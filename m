@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09ECA24AC45
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:34:40 +0200 (CEST)
-Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0136624AC5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:43:15 +0200 (CEST)
+Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8YXP-00029d-28
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
+	id 1k8Yfi-0000bo-24
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YEE-0000gj-CH
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58027
- helo=us-smtp-1.mimecast.com)
+ id 1k8YED-0000eO-Ef
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34182
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YEC-0002YR-Bl
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:50 -0400
+ id 1k8YEA-0002Y9-ER
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597882487;
+ s=mimecast20190719; t=1597882485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O9/49hLfrE7Y6J0J1VXWMbQhfFJs0AUqD5ZA60xJrwI=;
- b=C5Keoh573hMw+DHPojnRiSyLdKsNRRjct1qWlgpY9ORqjLt8uFG7/WgiyjSOgTidzKhNIf
- +bqyvI4ijyn7jXn97/PbIx/sF33bn7lFWaP8V/WsD6C/EYaF9OEHi4n27sH0Inb7nG0aLe
- 4b7nROBqK+gClxrztwaLWaeJFh8LKqI=
+ bh=8xtKOFAQYjubq+4eiO9yroM/M2deAhLSB8RohPO5V1U=;
+ b=ZkALuphdbY9FBB8QD5GortATT76e6Gsv3WuV4klq9vFYku3iy7AH8g7t1XajTle+56lckw
+ LEGejcPZ5aW/zKgcXC6sdsbMXB7ehclKRmAemBZmVVJtsQY2DnR/eX6xEUiQkfiK0jCThH
+ tB6woLUZU7PfvJBsXDT4yHj8jN7FAno=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-X_XxqOjQP6qla8uGp4TLQw-1; Wed, 19 Aug 2020 20:14:43 -0400
-X-MC-Unique: X_XxqOjQP6qla8uGp4TLQw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-40-wwtdd-peM5SqFG4Niion3Q-1; Wed, 19 Aug 2020 20:14:44 -0400
+X-MC-Unique: wwtdd-peM5SqFG4Niion3Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1D362FD00
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:14:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48741084C8C
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:14:42 +0000 (UTC)
 Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 777E25C1D0;
- Thu, 20 Aug 2020 00:14:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B8EE1002391;
+ Thu, 20 Aug 2020 00:14:42 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 57/58] crypto: use QOM macros for declaration/definition of
- secret types
-Date: Wed, 19 Aug 2020 20:12:35 -0400
-Message-Id: <20200820001236.1284548-58-ehabkost@redhat.com>
+Subject: [PATCH v2 58/58] crypto: use QOM macros for declaration/definition of
+ TLS creds types
+Date: Wed, 19 Aug 2020 20:12:36 -0400
+Message-Id: <20200820001236.1284548-59-ehabkost@redhat.com>
 In-Reply-To: <20200820001236.1284548-1-ehabkost@redhat.com>
 References: <20200820001236.1284548-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 20:13:02
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 18:27:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,203 +90,296 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Daniel P. Berrangé <berrange@redhat.com>
 
 This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
-families in the secret types, in order to eliminate boilerplate code.
+families in the TLS creds types, in order to eliminate boilerplate code.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200723181410.3145233-4-berrange@redhat.com>
+Message-Id: <20200723181410.3145233-5-berrange@redhat.com>
 [ehabkost: rebase, update to pass additional arguments to macro]
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes v1 -> v2: none
 ---
- include/crypto/secret.h | 11 ++---------
- crypto/secret.c         | 25 +++++++------------------
- crypto/secret_common.c  | 27 +++++++++------------------
- crypto/secret_keyring.c | 29 ++++++++++++-----------------
- 4 files changed, 30 insertions(+), 62 deletions(-)
+ include/crypto/tlscreds.h     | 13 ++-----------
+ include/crypto/tlscredsanon.h | 14 ++------------
+ include/crypto/tlscredspsk.h  | 13 ++-----------
+ include/crypto/tlscredsx509.h | 13 ++-----------
+ crypto/tlscreds.c             | 20 +++-----------------
+ crypto/tlscredsanon.c         | 24 +++++++-----------------
+ crypto/tlscredspsk.c          | 26 ++++++++------------------
+ crypto/tlscredsx509.c         | 24 ++++--------------------
+ 8 files changed, 30 insertions(+), 117 deletions(-)
 
-diff --git a/include/crypto/secret.h b/include/crypto/secret.h
-index 5d20ae6d2f..4eb4e5ffef 100644
---- a/include/crypto/secret.h
-+++ b/include/crypto/secret.h
-@@ -26,11 +26,9 @@
- #include "crypto/secret_common.h"
+diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
+index 079e376047..e9b9b8c20a 100644
+--- a/include/crypto/tlscreds.h
++++ b/include/crypto/tlscreds.h
+@@ -29,11 +29,8 @@
+ #endif
  
- #define TYPE_QCRYPTO_SECRET "secret"
--typedef struct QCryptoSecret QCryptoSecret;
--DECLARE_INSTANCE_CHECKER(QCryptoSecret, QCRYPTO_SECRET,
--                         TYPE_QCRYPTO_SECRET)
+ #define TYPE_QCRYPTO_TLS_CREDS "tls-creds"
+-typedef struct QCryptoTLSCreds QCryptoTLSCreds;
+-DECLARE_INSTANCE_CHECKER(QCryptoTLSCreds, QCRYPTO_TLS_CREDS,
+-                         TYPE_QCRYPTO_TLS_CREDS)
+-
+-typedef struct QCryptoTLSCredsClass QCryptoTLSCredsClass;
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
++                           QCRYPTO_TLS_CREDS, Object)
  
--typedef struct QCryptoSecretClass QCryptoSecretClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecret, qcrypto_secret,
-+                           QCRYPTO_SECRET, QCryptoSecretCommon)
+ #define QCRYPTO_TLS_CREDS_DH_PARAMS "dh-params.pem"
  
- /**
-  * QCryptoSecret:
-@@ -125,9 +123,4 @@ struct QCryptoSecret {
-     char *file;
+@@ -58,10 +55,4 @@ struct QCryptoTLSCreds {
+     char *priority;
  };
  
 -
--struct QCryptoSecretClass {
--    QCryptoSecretCommonClass parent_class;
+-struct QCryptoTLSCredsClass {
+-    ObjectClass parent_class;
 -};
 -
- #endif /* QCRYPTO_SECRET_H */
-diff --git a/crypto/secret.c b/crypto/secret.c
-index c07011d388..55b406f79e 100644
---- a/crypto/secret.c
-+++ b/crypto/secret.c
-@@ -25,6 +25,9 @@
- #include "qemu/module.h"
- #include "trace.h"
+-
+ #endif /* QCRYPTO_TLSCREDS_H */
+diff --git a/include/crypto/tlscredsanon.h b/include/crypto/tlscredsanon.h
+index 3f464a3809..338b668b1d 100644
+--- a/include/crypto/tlscredsanon.h
++++ b/include/crypto/tlscredsanon.h
+@@ -25,12 +25,8 @@
+ #include "qom/object.h"
  
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoSecret, qcrypto_secret,
-+                                   QCRYPTO_SECRET, QCRYPTO_SECRET_COMMON,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
+ #define TYPE_QCRYPTO_TLS_CREDS_ANON "tls-creds-anon"
+-typedef struct QCryptoTLSCredsAnon QCryptoTLSCredsAnon;
+-DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsAnon, QCRYPTO_TLS_CREDS_ANON,
+-                         TYPE_QCRYPTO_TLS_CREDS_ANON)
+-
+-
+-typedef struct QCryptoTLSCredsAnonClass QCryptoTLSCredsAnonClass;
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
++                           QCRYPTO_TLS_CREDS_ANON, QCryptoTLSCreds)
  
- static void
- qcrypto_secret_load_data(QCryptoSecretCommon *sec_common,
-@@ -140,21 +143,7 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_secret_prop_set_file);
- }
+ /**
+  * QCryptoTLSCredsAnon:
+@@ -103,10 +99,4 @@ struct QCryptoTLSCredsAnon {
+ #endif
+ };
  
 -
--static const TypeInfo qcrypto_secret_info = {
--    .parent = TYPE_QCRYPTO_SECRET_COMMON,
--    .name = TYPE_QCRYPTO_SECRET,
--    .instance_size = sizeof(QCryptoSecret),
--    .instance_finalize = qcrypto_secret_finalize,
--    .class_size = sizeof(QCryptoSecretClass),
--    .class_init = qcrypto_secret_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
+-struct QCryptoTLSCredsAnonClass {
+-    QCryptoTLSCredsClass parent_class;
 -};
--TYPE_INFO(qcrypto_secret_info)
 -
 -
+ #endif /* QCRYPTO_TLSCREDSANON_H */
+diff --git a/include/crypto/tlscredspsk.h b/include/crypto/tlscredspsk.h
+index d7e6bdb5ed..16e3f84f47 100644
+--- a/include/crypto/tlscredspsk.h
++++ b/include/crypto/tlscredspsk.h
+@@ -25,11 +25,8 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_QCRYPTO_TLS_CREDS_PSK "tls-creds-psk"
+-typedef struct QCryptoTLSCredsPSK QCryptoTLSCredsPSK;
+-DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsPSK, QCRYPTO_TLS_CREDS_PSK,
+-                         TYPE_QCRYPTO_TLS_CREDS_PSK)
+-
+-typedef struct QCryptoTLSCredsPSKClass QCryptoTLSCredsPSKClass;
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
++                           QCRYPTO_TLS_CREDS_PSK, QCryptoTLSCreds)
+ 
+ #define QCRYPTO_TLS_CREDS_PSKFILE "keys.psk"
+ 
+@@ -98,10 +95,4 @@ struct QCryptoTLSCredsPSK {
+ #endif
+ };
+ 
+-
+-struct QCryptoTLSCredsPSKClass {
+-    QCryptoTLSCredsClass parent_class;
+-};
 -
 -
-+static void
-+qcrypto_secret_init(Object *obj)
-+{
-+}
-diff --git a/crypto/secret_common.c b/crypto/secret_common.c
-index 80d7d75b4d..9a054b90b5 100644
---- a/crypto/secret_common.c
-+++ b/crypto/secret_common.c
-@@ -28,6 +28,9 @@
+ #endif /* QCRYPTO_TLSCREDSPSK_H */
+diff --git a/include/crypto/tlscredsx509.h b/include/crypto/tlscredsx509.h
+index c6d89b7881..1197f33663 100644
+--- a/include/crypto/tlscredsx509.h
++++ b/include/crypto/tlscredsx509.h
+@@ -25,11 +25,8 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_QCRYPTO_TLS_CREDS_X509 "tls-creds-x509"
+-typedef struct QCryptoTLSCredsX509 QCryptoTLSCredsX509;
+-DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsX509, QCRYPTO_TLS_CREDS_X509,
+-                         TYPE_QCRYPTO_TLS_CREDS_X509)
+-
+-typedef struct QCryptoTLSCredsX509Class QCryptoTLSCredsX509Class;
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
++                           QCRYPTO_TLS_CREDS_X509, QCryptoTLSCreds)
+ 
+ #define QCRYPTO_TLS_CREDS_X509_CA_CERT "ca-cert.pem"
+ #define QCRYPTO_TLS_CREDS_X509_CA_CRL "ca-crl.pem"
+@@ -105,10 +102,4 @@ struct QCryptoTLSCredsX509 {
+     char *passwordid;
+ };
+ 
+-
+-struct QCryptoTLSCredsX509Class {
+-    QCryptoTLSCredsClass parent_class;
+-};
+-
+-
+ #endif /* QCRYPTO_TLSCREDSX509_H */
+diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
+index bb3e6667b9..c238ff7d4b 100644
+--- a/crypto/tlscreds.c
++++ b/crypto/tlscreds.c
+@@ -24,6 +24,9 @@
+ #include "tlscredspriv.h"
  #include "trace.h"
  
- 
-+OBJECT_DEFINE_ABSTRACT_TYPE(QCryptoSecretCommon, qcrypto_secret_common,
-+                            QCRYPTO_SECRET_COMMON, OBJECT)
++OBJECT_DEFINE_ABSTRACT_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
++                            QCRYPTO_TLS_CREDS, OBJECT)
 +
- static void qcrypto_secret_decrypt(QCryptoSecretCommon *secret,
-                                    const uint8_t *input,
-                                    size_t inputlen,
-@@ -269,7 +272,7 @@ qcrypto_secret_prop_get_keyid(Object *obj,
+ #define DH_BITS 2048
  
- 
- static void
--qcrypto_secret_finalize(Object *obj)
-+qcrypto_secret_common_finalize(Object *obj)
- {
-     QCryptoSecretCommon *secret = QCRYPTO_SECRET_COMMON(obj);
- 
-@@ -279,7 +282,7 @@ qcrypto_secret_finalize(Object *obj)
- }
- 
- static void
--qcrypto_secret_class_init(ObjectClass *oc, void *data)
-+qcrypto_secret_common_class_init(ObjectClass *oc, void *data)
- {
-     object_class_property_add_bool(oc, "loaded",
-                                    qcrypto_secret_prop_get_loaded,
-@@ -297,6 +300,10 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_secret_prop_set_iv);
- }
- 
-+static void
-+qcrypto_secret_common_init(Object *obj)
-+{
-+}
- 
- int qcrypto_secret_lookup(const char *secretid,
-                           uint8_t **data,
-@@ -380,19 +387,3 @@ char *qcrypto_secret_lookup_as_base64(const char *secretid,
-     g_free(data);
-     return ret;
+ #ifdef CONFIG_GNUTLS
+@@ -258,20 +261,3 @@ qcrypto_tls_creds_finalize(Object *obj)
+     g_free(creds->dir);
+     g_free(creds->priority);
  }
 -
 -
--static const TypeInfo qcrypto_secret_info = {
+-static const TypeInfo qcrypto_tls_creds_info = {
 -    .parent = TYPE_OBJECT,
--    .name = TYPE_QCRYPTO_SECRET_COMMON,
--    .instance_size = sizeof(QCryptoSecretCommon),
--    .instance_finalize = qcrypto_secret_finalize,
--    .class_size = sizeof(QCryptoSecretCommonClass),
--    .class_init = qcrypto_secret_class_init,
+-    .name = TYPE_QCRYPTO_TLS_CREDS,
+-    .instance_size = sizeof(QCryptoTLSCreds),
+-    .instance_init = qcrypto_tls_creds_init,
+-    .instance_finalize = qcrypto_tls_creds_finalize,
+-    .class_init = qcrypto_tls_creds_class_init,
+-    .class_size = sizeof(QCryptoTLSCredsClass),
 -    .abstract = true,
 -};
--TYPE_INFO(qcrypto_secret_info)
+-TYPE_INFO(qcrypto_tls_creds_info)
 -
 -
 -
 -
-diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
-index 821d2e421b..463aefe5dc 100644
---- a/crypto/secret_keyring.c
-+++ b/crypto/secret_keyring.c
+diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
+index 16162e60b6..dc1b77e37c 100644
+--- a/crypto/tlscredsanon.c
++++ b/crypto/tlscredsanon.c
 @@ -26,6 +26,9 @@
+ #include "qom/object_interfaces.h"
  #include "trace.h"
- #include "crypto/secret_keyring.h"
  
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoSecretKeyring, qcrypto_secret_keyring,
-+                                   QCRYPTO_SECRET_KEYRING, QCRYPTO_SECRET_COMMON,
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
++                                   QCRYPTO_TLS_CREDS_ANON, QCRYPTO_TLS_CREDS,
 +                                   { TYPE_USER_CREATABLE }, { NULL })
  
- static inline
- long keyctl_read(int32_t key, uint8_t *buffer, size_t buflen)
-@@ -109,6 +112,11 @@ qcrypto_secret_keyring_complete(UserCreatable *uc, Error **errp)
+ #ifdef CONFIG_GNUTLS
+ 
+@@ -191,20 +194,7 @@ qcrypto_tls_creds_anon_class_init(ObjectClass *oc, void *data)
  }
  
  
-+static void
-+qcrypto_secret_keyring_finalize(Object *obj)
-+{
-+}
-+
- static void
- qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
- {
-@@ -124,20 +132,7 @@ qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
-                                   NULL, NULL);
- }
- 
--
--static const TypeInfo qcrypto_secret_info = {
--    .parent = TYPE_QCRYPTO_SECRET_COMMON,
--    .name = TYPE_QCRYPTO_SECRET_KEYRING,
--    .instance_size = sizeof(QCryptoSecretKeyring),
--    .class_size = sizeof(QCryptoSecretKeyringClass),
--    .class_init = qcrypto_secret_keyring_class_init,
+-static const TypeInfo qcrypto_tls_creds_anon_info = {
+-    .parent = TYPE_QCRYPTO_TLS_CREDS,
+-    .name = TYPE_QCRYPTO_TLS_CREDS_ANON,
+-    .instance_size = sizeof(QCryptoTLSCredsAnon),
+-    .instance_finalize = qcrypto_tls_creds_anon_finalize,
+-    .class_size = sizeof(QCryptoTLSCredsAnonClass),
+-    .class_init = qcrypto_tls_creds_anon_class_init,
 -    .interfaces = (InterfaceInfo[]) {
 -        { TYPE_USER_CREATABLE },
 -        { }
 -    }
 -};
--TYPE_INFO(qcrypto_secret_info)
+-TYPE_INFO(qcrypto_tls_creds_anon_info)
 -
 -
 -
 -
 +static void
-+qcrypto_secret_keyring_init(Object *obj)
++qcrypto_tls_creds_anon_init(Object *obj)
 +{
 +}
+diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
+index ea890f5837..0c66be3647 100644
+--- a/crypto/tlscredspsk.c
++++ b/crypto/tlscredspsk.c
+@@ -27,6 +27,10 @@
+ #include "trace.h"
+ 
+ 
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
++                                   QCRYPTO_TLS_CREDS_PSK, QCRYPTO_TLS_CREDS,
++                                   { TYPE_USER_CREATABLE }, { NULL })
++
+ #ifdef CONFIG_GNUTLS
+ 
+ static int
+@@ -281,21 +285,7 @@ qcrypto_tls_creds_psk_class_init(ObjectClass *oc, void *data)
+                                   qcrypto_tls_creds_psk_prop_set_username);
+ }
+ 
+-
+-static const TypeInfo qcrypto_tls_creds_psk_info = {
+-    .parent = TYPE_QCRYPTO_TLS_CREDS,
+-    .name = TYPE_QCRYPTO_TLS_CREDS_PSK,
+-    .instance_size = sizeof(QCryptoTLSCredsPSK),
+-    .instance_finalize = qcrypto_tls_creds_psk_finalize,
+-    .class_size = sizeof(QCryptoTLSCredsPSKClass),
+-    .class_init = qcrypto_tls_creds_psk_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { TYPE_USER_CREATABLE },
+-        { }
+-    }
+-};
+-TYPE_INFO(qcrypto_tls_creds_psk_info)
+-
+-
+-
+-
++static void
++qcrypto_tls_creds_psk_init(Object *obj)
++{
++}
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index 77f1beaf8b..a39555e5e6 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -28,6 +28,10 @@
+ #include "trace.h"
+ 
+ 
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
++                                   QCRYPTO_TLS_CREDS_X509, QCRYPTO_TLS_CREDS,
++                                   { TYPE_USER_CREATABLE }, { NULL })
++
+ #ifdef CONFIG_GNUTLS
+ 
+ #include <gnutls/x509.h>
+@@ -814,23 +818,3 @@ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
+                                   qcrypto_tls_creds_x509_prop_get_passwordid,
+                                   qcrypto_tls_creds_x509_prop_set_passwordid);
+ }
+-
+-
+-static const TypeInfo qcrypto_tls_creds_x509_info = {
+-    .parent = TYPE_QCRYPTO_TLS_CREDS,
+-    .name = TYPE_QCRYPTO_TLS_CREDS_X509,
+-    .instance_size = sizeof(QCryptoTLSCredsX509),
+-    .instance_init = qcrypto_tls_creds_x509_init,
+-    .instance_finalize = qcrypto_tls_creds_x509_finalize,
+-    .class_size = sizeof(QCryptoTLSCredsX509Class),
+-    .class_init = qcrypto_tls_creds_x509_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { TYPE_USER_CREATABLE },
+-        { }
+-    }
+-};
+-TYPE_INFO(qcrypto_tls_creds_x509_info)
+-
+-
+-
+-
 -- 
 2.26.2
 
