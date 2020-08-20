@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481D924C27E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:48:10 +0200 (CEST)
-Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE4B24C2AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:57:18 +0200 (CEST)
+Received: from localhost ([::1]:48538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8mnR-0002y7-BM
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43810)
+	id 1k8mwH-0006MV-Tl
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlP-0001Ic-46
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:46:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36786)
+ id 1k8mq1-0007hH-Lq
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:50:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlJ-0002mm-MA
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:59 -0400
+ id 1k8mpz-0003VW-Lz
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:50:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8mlH-0007oG-I0
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:55 +0000
+ id 1k8mpx-0000de-8O
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:50:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 640262E8107
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 243C62E8107
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:50:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 15:40:24 -0000
-From: Thomas Huth <1812451@bugs.launchpad.net>
+Date: Thu, 20 Aug 2020 15:40:43 -0000
+From: Thomas Huth <1843254@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm virtualization
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asiagaming samuel-thibault
-X-Launchpad-Bug-Reporter: jusunLee (asiagaming)
+X-Launchpad-Bug-Commenters: pmaydell udo-hypervisor
+X-Launchpad-Bug-Reporter: Udo Steinberg (udo-hypervisor)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154785010249.1233.12902128942224805447.malonedeb@gac.canonical.com>
-Message-Id: <159793802506.5276.1431492898877130065.launchpad@gac.canonical.com>
-Subject: [Bug 1812451] Re: In windows host,
- tftp arbitrary file read vulnerability
+References: <156802847195.6589.6854466446567964580.malonedeb@soybean.canonical.com>
+Message-Id: <159793804383.5685.7351486429220097541.launchpad@gac.canonical.com>
+Subject: [Bug 1843254] Re: arm emulation of HCR.TID3 traps are not implemented
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: f535945b44b1a17ea83ecc2410f03a1bbc49ed2d
+X-Launchpad-Hash: 4cab9bd246e436c37f547fee3d939b107e3bbe29
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1812451 <1812451@bugs.launchpad.net>
+Reply-To: Bug 1843254 <1843254@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,33 +83,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1812451
+https://bugs.launchpad.net/bugs/1843254
 
 Title:
-  In windows host, tftp arbitrary file read vulnerability
+  arm emulation of HCR.TID3 traps are not implemented
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  https://github.com/qemu/qemu/blob/master/slirp/tftp.c#L343
-
-  =C2=A0=C2=A0if (!strncmp(req_fname, "../", 3) ||
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0req_fname[strlen(req_fname) - 1] =3D=
-=3D '/' ||
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0strstr(req_fname, "/../")) {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tftp_send_error(spt, 2, "Access viola=
-tion", tp);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return;
-  =C2=A0=C2=A0}
-
-  There is file path check for not allowing escape tftp directory.
-  But, in windows, file path is separated by "\" backslash.
-  So, guest can read arbitrary file in Windows host.
-
-  This bug is variant of CVE-2019-2553 - Directory traversal
-  vulnerability.
+  On ARM (aarch64), HCR_EL2.TID3 [bit18] is supposed to trap ID group 3,
+  which includes the ID_AA64{PFR,DFR,ISAR,MMFR,AFR}*_EL1 registers.
+  However, setting that HCR bit has no effect and accesses to those ID
+  registers are not trapped to EL2 with an EC syndrome value of 0x18.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1812451/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1843254/+subscriptions
 
