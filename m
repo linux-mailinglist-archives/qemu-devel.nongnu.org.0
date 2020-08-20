@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786E424C10C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 16:53:41 +0200 (CEST)
-Received: from localhost ([::1]:57904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF9B24C0F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 16:52:16 +0200 (CEST)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8lwi-0003yb-If
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 10:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57768)
+	id 1k8lvL-0001Ct-Dd
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 10:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8luJ-0008BF-9M
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 10:51:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44096)
+ id 1k8luB-00081m-Rj
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 10:51:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8luH-0003nE-KG
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 10:51:10 -0400
+ id 1k8lu6-0003iR-Qf
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 10:51:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8luD-0004Fv-QV
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 14:51:06 +0000
+ id 1k8lu1-0004G3-R0
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 14:50:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9A3BC2E812F
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 14:51:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DBE142E8117
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 14:50:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 14:43:42 -0000
-From: Thomas Huth <1856706@bugs.launchpad.net>
+Date: Thu, 20 Aug 2020 14:45:29 -0000
+From: Thomas Huth <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: mips
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dcb314 edgar-iglesias th-huth
-X-Launchpad-Bug-Reporter: dcb (dcb314)
+X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278 th-huth
+X-Launchpad-Bug-Reporter: Simon John (sej7278)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157658912470.5706.7275804988501900768.malonedeb@gac.canonical.com>
-Message-Id: <159793462244.375.4274194777958107663.malone@wampee.canonical.com>
-Subject: [Bug 1856706] Re: target/mips/op_helper.c:971:duplicated branches ?
+References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
+Message-Id: <159793472995.2674.3224986087536791041.malone@chaenomeles.canonical.com>
+Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: d0b5d9104d36100750256cb10ce7c2ef92b55c28
+X-Launchpad-Hash: bfcc46f1543c25bfd355d26469db4bc9e5d25eae
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
@@ -72,12 +71,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856706 <1856706@bugs.launchpad.net>
+Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Patch has been included here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D9788e8c9b64e4cebb01
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Ddba04c3488c4699f5
 
 ** Changed in: qemu
        Status: New =3D> Fix Released
@@ -86,28 +85,68 @@ https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D9788e8c9b64e4cebb01
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856706
+https://bugs.launchpad.net/bugs/1886318
 
 Title:
-  target/mips/op_helper.c:971:duplicated branches ?
+  Qemu after v5.0.0 breaks macos guests
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  qemu-4.2.0/target/mips/op_helper.c:971:8: warning: this condition has
-  identical branches [-Wduplicated-branches]
+  The Debian Sid 5.0-6 qemu-kvm package can no longer get further than
+  the Clover bootloader whereas 5.0-6 and earlier worked fine.
 
-  Source code is
+  So I built qemu master from github and it has the same problem,
+  whereas git tag v5.0.0 (or 4.2.1) does not, so something between
+  v5.0.0 release and the last few days has caused the problem.
 
-     if (other_tc =3D=3D other->current_tc) {
-          tccause =3D other->CP0_Cause;
-      } else {
-          tccause =3D other->CP0_Cause;
-      }
+  Here's my qemu script, pretty standard macOS-Simple-KVM setup on a
+  Xeon host:
 
-  Possible cut'n'paste error ?
+  qemu-system-x86_64 \
+      -enable-kvm \
+      -m 4G \
+      -machine q35,accel=3Dkvm \
+      -smp 4,sockets=3D1,cores=3D2,threads=3D2 \
+      -cpu =
+
+  Penryn,vendor=3DGenuineIntel,kvm=3Don,+sse3,+sse4.2,+aes,+xsave,+avx,+xsa=
+veopt,+xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc =
+
+  \
+      -device =
+
+  isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontsteal(c)Apple=
+ComputerInc" =
+
+  \
+      -smbios type=3D2 \
+      -drive if=3Dpflash,format=3Draw,readonly,file=3D"/tmp/OVMF_CODE.fd" \
+      -drive if=3Dpflash,format=3Draw,file=3D"/tmp/macos_catalina_VARS.fd" \
+      -vga qxl \
+      -device ich9-ahci,id=3Dsata \
+      -drive id=3DESP,if=3Dnone,format=3Draw,file=3D/tmp/ESP.img \
+      -device ide-hd,bus=3Dsata.2,drive=3DESP \
+      -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3D/tmp/BaseSyste=
+m.img \
+      -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
+      -drive id=3DSystemDisk,if=3Dnone,format=3Draw,file=3D/tmp/macos_catal=
+ina.img \
+      -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
+      -usb -device usb-kbd -device usb-mouse
+
+  Perhaps something has changed in Penryn support recently, as that's
+  required for macos?
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D964247
+
+  Also on a related note, kernel 5.6/5.7 (on Debian) hard crashes the
+  host when I try GPU passthrough on macos, whereas Ubuntu20/Win10 work
+  fine - as does 5.5 kernel.
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D961676
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856706/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1886318/+subscriptions
 
