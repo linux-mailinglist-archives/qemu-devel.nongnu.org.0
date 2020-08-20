@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C822024BF67
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 15:48:44 +0200 (CEST)
-Received: from localhost ([::1]:40894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265BA24BF46
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 15:47:14 +0200 (CEST)
+Received: from localhost ([::1]:33650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8kvr-0003pG-Tt
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 09:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41662)
+	id 1k8kuO-0000sE-RK
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 09:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8ktJ-0007gI-0u; Thu, 20 Aug 2020 09:46:05 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:33329)
+ id 1k8ktG-0007dF-Pf; Thu, 20 Aug 2020 09:46:02 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:56291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1k8ktG-0003uL-0E; Thu, 20 Aug 2020 09:46:04 -0400
+ id 1k8ktE-0003uM-I3; Thu, 20 Aug 2020 09:46:02 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 813D258FDFF3;
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id B489C58FDFF5;
  Thu, 20 Aug 2020 15:45:50 +0200 (CEST)
 Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 20 Aug
  2020 15:45:49 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005109a1f04-325e-4c8f-b4c0-3a66eb513d62,
+ (GARM-103G005686e5db1-b857-47dd-b989-f5026656520c,
  02C359FD435C2C4122574921AFFD4D91C9CEEBEA) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 1/4] spapr/xive: Modify kvm_cpu_is_enabled() interface
-Date: Thu, 20 Aug 2020 15:45:44 +0200
-Message-ID: <20200820134547.2355743-2-clg@kaod.org>
+Subject: [PATCH v2 2/4] spapr/xive: Use kvmppc_xive_source_reset() in post_load
+Date: Thu, 20 Aug 2020 15:45:45 +0200
+Message-ID: <20200820134547.2355743-3-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200820134547.2355743-1-clg@kaod.org>
 References: <20200820134547.2355743-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 354922fd-8e65-42a9-b1ae-27c287b88d0c
-X-Ovh-Tracer-Id: 9118944821445167977
+X-Ovh-Tracer-GUID: 59cabddd-90f8-465f-aaf0-23fb3233fcd8
+X-Ovh-Tracer-Id: 9119226299374472041
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddutddggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
@@ -75,38 +75,54 @@ Cc: Gustavo Romero <gromero@linux.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will use to check if a vCPU IPI has been created.
+This is doing an extra loop but should be equivalent.
+
+It also differentiate the reset of the sources from the restore of the
+sources configuration. This will help in allocating the vCPU IPIs
+independently.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/intc/spapr_xive_kvm.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 3eea4cb1c49f..d5fb5b260d5e 100644
+index d5fb5b260d5e..4ea687c93ecd 100644
 --- a/hw/intc/spapr_xive_kvm.c
 +++ b/hw/intc/spapr_xive_kvm.c
-@@ -36,10 +36,9 @@ typedef struct KVMEnabledCPU {
- static QLIST_HEAD(, KVMEnabledCPU)
-     kvm_enabled_cpus = QLIST_HEAD_INITIALIZER(&kvm_enabled_cpus);
- 
--static bool kvm_cpu_is_enabled(CPUState *cs)
-+static bool kvm_cpu_is_enabled(unsigned long vcpu_id)
- {
-     KVMEnabledCPU *enabled_cpu;
--    unsigned long vcpu_id = kvm_arch_vcpu_id(cs);
- 
-     QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
-         if (enabled_cpu->vcpu_id == vcpu_id) {
-@@ -157,7 +156,7 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
-     assert(xive->fd != -1);
- 
-     /* Check if CPU was hot unplugged and replugged. */
--    if (kvm_cpu_is_enabled(tctx->cs)) {
-+    if (kvm_cpu_is_enabled(kvm_arch_vcpu_id(tctx->cs))) {
-         return 0;
+@@ -684,22 +684,22 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
+         }
      }
  
++    /*
++     * We can only restore the source config if the source has been
++     * previously set in KVM. Since we don't do that at reset time
++     * when restoring a VM, let's do it now.
++     */
++    ret = kvmppc_xive_source_reset(&xive->source, &local_err);
++    if (ret < 0) {
++        goto fail;
++    }
++
+     /* Restore the EAT */
+     for (i = 0; i < xive->nr_irqs; i++) {
+         if (!xive_eas_is_valid(&xive->eat[i])) {
+             continue;
+         }
+ 
+-        /*
+-         * We can only restore the source config if the source has been
+-         * previously set in KVM. Since we don't do that for all interrupts
+-         * at reset time anymore, let's do it now.
+-         */
+-        ret = kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
+-        if (ret < 0) {
+-            goto fail;
+-        }
+-
+         ret = kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err);
+         if (ret < 0) {
+             goto fail;
 -- 
 2.25.4
 
