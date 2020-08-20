@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0136624AC5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:43:15 +0200 (CEST)
-Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1464924AC6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:53:27 +0200 (CEST)
+Received: from localhost ([::1]:52358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Yfi-0000bo-24
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50068)
+	id 1k8Ypa-0002pN-4u
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YED-0000eO-Ef
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34182
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YEA-0002Y9-ER
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597882485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8xtKOFAQYjubq+4eiO9yroM/M2deAhLSB8RohPO5V1U=;
- b=ZkALuphdbY9FBB8QD5GortATT76e6Gsv3WuV4klq9vFYku3iy7AH8g7t1XajTle+56lckw
- LEGejcPZ5aW/zKgcXC6sdsbMXB7ehclKRmAemBZmVVJtsQY2DnR/eX6xEUiQkfiK0jCThH
- tB6woLUZU7PfvJBsXDT4yHj8jN7FAno=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-wwtdd-peM5SqFG4Niion3Q-1; Wed, 19 Aug 2020 20:14:44 -0400
-X-MC-Unique: wwtdd-peM5SqFG4Niion3Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48741084C8C
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:14:42 +0000 (UTC)
-Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B8EE1002391;
- Thu, 20 Aug 2020 00:14:42 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 58/58] crypto: use QOM macros for declaration/definition of
- TLS creds types
-Date: Wed, 19 Aug 2020 20:12:36 -0400
-Message-Id: <20200820001236.1284548-59-ehabkost@redhat.com>
-In-Reply-To: <20200820001236.1284548-1-ehabkost@redhat.com>
-References: <20200820001236.1284548-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1k8YWK-0000Zk-Tg
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:33:32 -0400
+Received: from mga09.intel.com ([134.134.136.24]:24664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1k8YWE-0004ZI-By
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:33:32 -0400
+IronPort-SDR: O+nyN10GC+gYJtZ6N1z5gbw+28wZLvFIp7LiyGDCZBQN/Rdb5PxFeGqqvhzpKH+U9U1H0VjJpK
+ rZGel/TdBZUg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="156287185"
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; d="scan'208";a="156287185"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2020 17:33:23 -0700
+IronPort-SDR: gHgmTiZOP2ECOe79zhr7KaaCp4SRRAatx8FwyHbiE4er4rQQL0yeODlz+FwXB1tj3OY5VhPnw0
+ NGQk5njwWUwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; d="scan'208";a="327250487"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga008.jf.intel.com with ESMTP; 19 Aug 2020 17:33:17 -0700
+Date: Thu, 20 Aug 2020 08:18:10 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200820001810.GD21172@joy-OptiPlex-7040>
+References: <e6e75807-0614-bd75-aeb6-64d643e029d3@redhat.com>
+ <20200814051601.GD15344@joy-OptiPlex-7040>
+ <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
+ <20200818085527.GB20215@redhat.com>
+ <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+ <20200818091628.GC20215@redhat.com>
+ <20200818113652.5d81a392.cohuck@redhat.com>
+ <BY5PR12MB4322C9D1A66C4657776A1383DC5C0@BY5PR12MB4322.namprd12.prod.outlook.com>
+ <20200819033035.GA21172@joy-OptiPlex-7040>
+ <20200819115021.004427a3@x1.home>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 18:27:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819115021.004427a3@x1.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yan.y.zhao@intel.com;
+ helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 20:33:23
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,305 +78,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "xin-ran.wang@intel.com" <xin-ran.wang@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "openstack-discuss@lists.openstack.org"
+ <openstack-discuss@lists.openstack.org>,
+ "shaohe.feng@intel.com" <shaohe.feng@intel.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ Parav Pandit <parav@mellanox.com>,
+ "jian-feng.ding@intel.com" <jian-feng.ding@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "hejie.xu@intel.com" <hejie.xu@intel.com>,
+ "bao.yumeng@zte.com.cn" <bao.yumeng@zte.com.cn>,
+ Jiri Pirko <jiri@mellanox.com>, "eskultet@redhat.com" <eskultet@redhat.com>,
+ Parav Pandit <parav@nvidia.com>, "smooney@redhat.com" <smooney@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
+ "devel@ovirt.org" <devel@ovirt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+On Wed, Aug 19, 2020 at 11:50:21AM -0600, Alex Williamson wrote:
+<...>
+> > > > > What I care about is that we have a *standard* userspace API for
+> > > > > performing device compatibility checking / state migration, for use by
+> > > > > QEMU/libvirt/ OpenStack, such that we can write code without countless
+> > > > > vendor specific code paths.
+> > > > >
+> > > > > If there is vendor specific stuff on the side, that's fine as we can
+> > > > > ignore that, but the core functionality for device compat / migration
+> > > > > needs to be standardized.  
+> > > > 
+> > > > To summarize:
+> > > > - choose one of sysfs or devlink
+> > > > - have a common interface, with a standardized way to add
+> > > >   vendor-specific attributes
+> > > > ?  
+> > > 
+> > > Please refer to my previous email which has more example and details.  
+> > hi Parav,
+> > the example is based on a new vdpa tool running over netlink, not based
+> > on devlink, right?
+> > For vfio migration compatibility, we have to deal with both mdev and physical
+> > pci devices, I don't think it's a good idea to write a new tool for it, given
+> > we are able to retrieve the same info from sysfs and there's already an
+> > mdevctl from Alex (https://github.com/mdevctl/mdevctl).
+> > 
+> > hi All,
+> > could we decide that sysfs is the interface that every VFIO vendor driver
+> > needs to provide in order to support vfio live migration, otherwise the
+> > userspace management tool would not list the device into the compatible
+> > list?
+> > 
+> > if that's true, let's move to the standardizing of the sysfs interface.
+> > (1) content
+> > common part: (must)
+> >    - software_version: (in major.minor.bugfix scheme)
+> >    - device_api: vfio-pci or vfio-ccw ...
+> >    - type: mdev type for mdev device or
+> >            a signature for physical device which is a counterpart for
+> > 	   mdev type.
+> > 
+> > device api specific part: (must)
+> >   - pci id: pci id of mdev parent device or pci id of physical pci
+> >     device (device_api is vfio-pci)
+> 
+> As noted previously, the parent PCI ID should not matter for an mdev
+> device, if a vendor has a dependency on matching the parent device PCI
+> ID, that's a vendor specific restriction.  An mdev device can also
+> expose a vfio-pci device API without the parent device being PCI.  For
+> a physical PCI device, shouldn't the PCI ID be encompassed in the
+> signature?  Thanks,
+> 
+you are right. I need to put the PCI ID as a vendor specific field.
+I didn't do that because I wanted all fields in vendor specific to be
+configurable by management tools, so they can configure the target device
+according to the value of a vendor specific field even they don't know
+the meaning of the field.
+But maybe they can just ignore the field when they can't find a matching
+writable field to configure the target.
 
-This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
-families in the TLS creds types, in order to eliminate boilerplate code.
+Thanks
+Yan
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200723181410.3145233-5-berrange@redhat.com>
-[ehabkost: rebase, update to pass additional arguments to macro]
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Changes v1 -> v2: none
----
- include/crypto/tlscreds.h     | 13 ++-----------
- include/crypto/tlscredsanon.h | 14 ++------------
- include/crypto/tlscredspsk.h  | 13 ++-----------
- include/crypto/tlscredsx509.h | 13 ++-----------
- crypto/tlscreds.c             | 20 +++-----------------
- crypto/tlscredsanon.c         | 24 +++++++-----------------
- crypto/tlscredspsk.c          | 26 ++++++++------------------
- crypto/tlscredsx509.c         | 24 ++++--------------------
- 8 files changed, 30 insertions(+), 117 deletions(-)
 
-diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
-index 079e376047..e9b9b8c20a 100644
---- a/include/crypto/tlscreds.h
-+++ b/include/crypto/tlscreds.h
-@@ -29,11 +29,8 @@
- #endif
- 
- #define TYPE_QCRYPTO_TLS_CREDS "tls-creds"
--typedef struct QCryptoTLSCreds QCryptoTLSCreds;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCreds, QCRYPTO_TLS_CREDS,
--                         TYPE_QCRYPTO_TLS_CREDS)
--
--typedef struct QCryptoTLSCredsClass QCryptoTLSCredsClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
-+                           QCRYPTO_TLS_CREDS, Object)
- 
- #define QCRYPTO_TLS_CREDS_DH_PARAMS "dh-params.pem"
- 
-@@ -58,10 +55,4 @@ struct QCryptoTLSCreds {
-     char *priority;
- };
- 
--
--struct QCryptoTLSCredsClass {
--    ObjectClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDS_H */
-diff --git a/include/crypto/tlscredsanon.h b/include/crypto/tlscredsanon.h
-index 3f464a3809..338b668b1d 100644
---- a/include/crypto/tlscredsanon.h
-+++ b/include/crypto/tlscredsanon.h
-@@ -25,12 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_ANON "tls-creds-anon"
--typedef struct QCryptoTLSCredsAnon QCryptoTLSCredsAnon;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsAnon, QCRYPTO_TLS_CREDS_ANON,
--                         TYPE_QCRYPTO_TLS_CREDS_ANON)
--
--
--typedef struct QCryptoTLSCredsAnonClass QCryptoTLSCredsAnonClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
-+                           QCRYPTO_TLS_CREDS_ANON, QCryptoTLSCreds)
- 
- /**
-  * QCryptoTLSCredsAnon:
-@@ -103,10 +99,4 @@ struct QCryptoTLSCredsAnon {
- #endif
- };
- 
--
--struct QCryptoTLSCredsAnonClass {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSANON_H */
-diff --git a/include/crypto/tlscredspsk.h b/include/crypto/tlscredspsk.h
-index d7e6bdb5ed..16e3f84f47 100644
---- a/include/crypto/tlscredspsk.h
-+++ b/include/crypto/tlscredspsk.h
-@@ -25,11 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_PSK "tls-creds-psk"
--typedef struct QCryptoTLSCredsPSK QCryptoTLSCredsPSK;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsPSK, QCRYPTO_TLS_CREDS_PSK,
--                         TYPE_QCRYPTO_TLS_CREDS_PSK)
--
--typedef struct QCryptoTLSCredsPSKClass QCryptoTLSCredsPSKClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
-+                           QCRYPTO_TLS_CREDS_PSK, QCryptoTLSCreds)
- 
- #define QCRYPTO_TLS_CREDS_PSKFILE "keys.psk"
- 
-@@ -98,10 +95,4 @@ struct QCryptoTLSCredsPSK {
- #endif
- };
- 
--
--struct QCryptoTLSCredsPSKClass {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSPSK_H */
-diff --git a/include/crypto/tlscredsx509.h b/include/crypto/tlscredsx509.h
-index c6d89b7881..1197f33663 100644
---- a/include/crypto/tlscredsx509.h
-+++ b/include/crypto/tlscredsx509.h
-@@ -25,11 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_X509 "tls-creds-x509"
--typedef struct QCryptoTLSCredsX509 QCryptoTLSCredsX509;
--DECLARE_INSTANCE_CHECKER(QCryptoTLSCredsX509, QCRYPTO_TLS_CREDS_X509,
--                         TYPE_QCRYPTO_TLS_CREDS_X509)
--
--typedef struct QCryptoTLSCredsX509Class QCryptoTLSCredsX509Class;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
-+                           QCRYPTO_TLS_CREDS_X509, QCryptoTLSCreds)
- 
- #define QCRYPTO_TLS_CREDS_X509_CA_CERT "ca-cert.pem"
- #define QCRYPTO_TLS_CREDS_X509_CA_CRL "ca-crl.pem"
-@@ -105,10 +102,4 @@ struct QCryptoTLSCredsX509 {
-     char *passwordid;
- };
- 
--
--struct QCryptoTLSCredsX509Class {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSX509_H */
-diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
-index bb3e6667b9..c238ff7d4b 100644
---- a/crypto/tlscreds.c
-+++ b/crypto/tlscreds.c
-@@ -24,6 +24,9 @@
- #include "tlscredspriv.h"
- #include "trace.h"
- 
-+OBJECT_DEFINE_ABSTRACT_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
-+                            QCRYPTO_TLS_CREDS, OBJECT)
-+
- #define DH_BITS 2048
- 
- #ifdef CONFIG_GNUTLS
-@@ -258,20 +261,3 @@ qcrypto_tls_creds_finalize(Object *obj)
-     g_free(creds->dir);
-     g_free(creds->priority);
- }
--
--
--static const TypeInfo qcrypto_tls_creds_info = {
--    .parent = TYPE_OBJECT,
--    .name = TYPE_QCRYPTO_TLS_CREDS,
--    .instance_size = sizeof(QCryptoTLSCreds),
--    .instance_init = qcrypto_tls_creds_init,
--    .instance_finalize = qcrypto_tls_creds_finalize,
--    .class_init = qcrypto_tls_creds_class_init,
--    .class_size = sizeof(QCryptoTLSCredsClass),
--    .abstract = true,
--};
--TYPE_INFO(qcrypto_tls_creds_info)
--
--
--
--
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index 16162e60b6..dc1b77e37c 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -26,6 +26,9 @@
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
-+                                   QCRYPTO_TLS_CREDS_ANON, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
- 
- #ifdef CONFIG_GNUTLS
- 
-@@ -191,20 +194,7 @@ qcrypto_tls_creds_anon_class_init(ObjectClass *oc, void *data)
- }
- 
- 
--static const TypeInfo qcrypto_tls_creds_anon_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_ANON,
--    .instance_size = sizeof(QCryptoTLSCredsAnon),
--    .instance_finalize = qcrypto_tls_creds_anon_finalize,
--    .class_size = sizeof(QCryptoTLSCredsAnonClass),
--    .class_init = qcrypto_tls_creds_anon_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--TYPE_INFO(qcrypto_tls_creds_anon_info)
--
--
--
--
-+static void
-+qcrypto_tls_creds_anon_init(Object *obj)
-+{
-+}
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index ea890f5837..0c66be3647 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -27,6 +27,10 @@
- #include "trace.h"
- 
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
-+                                   QCRYPTO_TLS_CREDS_PSK, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
-+
- #ifdef CONFIG_GNUTLS
- 
- static int
-@@ -281,21 +285,7 @@ qcrypto_tls_creds_psk_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_tls_creds_psk_prop_set_username);
- }
- 
--
--static const TypeInfo qcrypto_tls_creds_psk_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_PSK,
--    .instance_size = sizeof(QCryptoTLSCredsPSK),
--    .instance_finalize = qcrypto_tls_creds_psk_finalize,
--    .class_size = sizeof(QCryptoTLSCredsPSKClass),
--    .class_init = qcrypto_tls_creds_psk_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--TYPE_INFO(qcrypto_tls_creds_psk_info)
--
--
--
--
-+static void
-+qcrypto_tls_creds_psk_init(Object *obj)
-+{
-+}
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index 77f1beaf8b..a39555e5e6 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -28,6 +28,10 @@
- #include "trace.h"
- 
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
-+                                   QCRYPTO_TLS_CREDS_X509, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
-+
- #ifdef CONFIG_GNUTLS
- 
- #include <gnutls/x509.h>
-@@ -814,23 +818,3 @@ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_tls_creds_x509_prop_get_passwordid,
-                                   qcrypto_tls_creds_x509_prop_set_passwordid);
- }
--
--
--static const TypeInfo qcrypto_tls_creds_x509_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_X509,
--    .instance_size = sizeof(QCryptoTLSCredsX509),
--    .instance_init = qcrypto_tls_creds_x509_init,
--    .instance_finalize = qcrypto_tls_creds_x509_finalize,
--    .class_size = sizeof(QCryptoTLSCredsX509Class),
--    .class_init = qcrypto_tls_creds_x509_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--TYPE_INFO(qcrypto_tls_creds_x509_info)
--
--
--
--
--- 
-2.26.2
-
+> >   - subchannel_type (device_api is vfio-ccw) 
+> >  
+> > vendor driver specific part: (optional)
+> >   - aggregator
+> >   - chpid_type
+> >   - remote_url
+> > 
+> > NOTE: vendors are free to add attributes in this part with a
+> > restriction that this attribute is able to be configured with the same
+> > name in sysfs too. e.g.
+> > for aggregator, there must be a sysfs attribute in device node
+> > /sys/devices/pci0000:00/0000:00:02.0/882cc4da-dede-11e7-9180-078a62063ab1/intel_vgpu/aggregator,
+> > so that the userspace tool is able to configure the target device
+> > according to source device's aggregator attribute.
+> > 
+> > 
+> > (2) where and structure
+> > proposal 1:
+> > |- [path to device]
+> >   |--- migration
+> >   |     |--- self
+> >   |     |    |-software_version
+> >   |     |    |-device_api
+> >   |     |    |-type
+> >   |     |    |-[pci_id or subchannel_type]
+> >   |     |    |-<aggregator or chpid_type>
+> >   |     |--- compatible
+> >   |     |    |-software_version
+> >   |     |    |-device_api
+> >   |     |    |-type
+> >   |     |    |-[pci_id or subchannel_type]
+> >   |     |    |-<aggregator or chpid_type>
+> > multiple compatible is allowed.
+> > attributes should be ASCII text files, preferably with only one value
+> > per file.
+> > 
+> > 
+> > proposal 2: use bin_attribute.
+> > |- [path to device]
+> >   |--- migration
+> >   |     |--- self
+> >   |     |--- compatible
+> > 
+> > so we can continue use multiline format. e.g.
+> > cat compatible
+> >   software_version=0.1.0
+> >   device_api=vfio_pci
+> >   type=i915-GVTg_V5_{val1:int:1,2,4,8}
+> >   pci_id=80865963
+> >   aggregator={val1}/2
+> > 
+> > Thanks
+> > Yan
+> > 
+> 
 
