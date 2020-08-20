@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1B424AD03
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 04:29:08 +0200 (CEST)
-Received: from localhost ([::1]:58840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A387C24AD4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 05:28:22 +0200 (CEST)
+Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8aKA-0001fv-Nn
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 22:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43054)
+	id 1k8bFV-0004LH-MI
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 23:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8aJT-0001As-KX
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 22:28:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23593
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k8aJR-0000M8-P1
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 22:28:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597890500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rRkQETQvDWWAHUnvBsxkhQLYPl+CnJ/XScaGWbCot6s=;
- b=Mlj73Y7DvJZQb1Qd3AGWwftN3NRghPYJelNR5i7W/rEO3DcCmQmQqienXzwMwZcOTGJD6k
- MmNRpe1NvDtKhhmce7lnc7fNnpK+T/jeqcPHaRpSgZptMvvTXJ2rkEyUfFX/TQme5qBvae
- JVyTuhZjT41po2QDbDJsOzsEZ5u/TO4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-F6sYRuWRMNOORds7F-FFkw-1; Wed, 19 Aug 2020 22:28:18 -0400
-X-MC-Unique: F6sYRuWRMNOORds7F-FFkw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89D168030A1;
- Thu, 20 Aug 2020 02:28:17 +0000 (UTC)
-Received: from [10.72.13.182] (ovpn-13-182.pek2.redhat.com [10.72.13.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42AA27AEC5;
- Thu, 20 Aug 2020 02:28:01 +0000 (UTC)
-Subject: Re: [RFC v3 1/1] memory: Skip bad range assertion if notifier
- supports arbitrary masks
-To: Peter Xu <peterx@redhat.com>
-References: <20200626064122.9252-1-eperezma@redhat.com>
- <20200811175533.7359-1-eperezma@redhat.com>
- <20200811175533.7359-2-eperezma@redhat.com>
- <2443886f-2109-e048-b47f-886c896613ab@redhat.com>
- <CAJaqyWe0_wcXHgbAVAVNCTpG7O4YKF6FMkgKsf6SfW4dEZ4A5g@mail.gmail.com>
- <CAJaqyWe+KgnVegtprpRmVvXo7kFVFDL_erK_5Nyp4K=gTUcN=Q@mail.gmail.com>
- <eb26c5d7-465a-34ed-3f8f-bad11eda5bee@redhat.com>
- <20200819155051.GA275003@xz-x1>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <f010e8c0-6713-a2bc-ce6b-98af5e4638be@redhat.com>
-Date: Thu, 20 Aug 2020 10:28:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1k8bEr-0003wN-4V
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 23:27:41 -0400
+Received: from mga04.intel.com ([192.55.52.120]:24025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1k8bEo-00043S-IA
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 23:27:40 -0400
+IronPort-SDR: z0FbM5GOuu816ZWT1CGkzCRWNIxXluG94DCNuMzdEtTJMXOhAcu3CvCnA13G3w325mFHazZWPo
+ 7W+RDbhcTfgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="152646686"
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; d="scan'208";a="152646686"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2020 20:27:35 -0700
+IronPort-SDR: UqP0IOWieCFyHRnd1vZQD2aXoRbEIKc+/gr6oUyySSR3mhwyApXJ6ijvH5c/4s3hX8nJNnHCRQ
+ 2wmgSpyXPOOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; d="scan'208";a="327281681"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga008.jf.intel.com with ESMTP; 19 Aug 2020 20:27:28 -0700
+Date: Thu, 20 Aug 2020 11:09:51 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200820030951.GA24121@joy-OptiPlex-7040>
+References: <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
+ <20200818085527.GB20215@redhat.com>
+ <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+ <20200818091628.GC20215@redhat.com>
+ <20200818113652.5d81a392.cohuck@redhat.com>
+ <BY5PR12MB4322C9D1A66C4657776A1383DC5C0@BY5PR12MB4322.namprd12.prod.outlook.com>
+ <20200819033035.GA21172@joy-OptiPlex-7040>
+ <20200819115021.004427a3@x1.home>
+ <20200820001810.GD21172@joy-OptiPlex-7040>
+ <20200819211345.0d9daf03@x1.home>
 MIME-Version: 1.0
-In-Reply-To: <20200819155051.GA275003@xz-x1>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819211345.0d9daf03@x1.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
+ helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 23:27:35
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,37 +77,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>,
- Avi Kivity <avi@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "xin-ran.wang@intel.com" <xin-ran.wang@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "openstack-discuss@lists.openstack.org"
+ <openstack-discuss@lists.openstack.org>,
+ "shaohe.feng@intel.com" <shaohe.feng@intel.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ Parav Pandit <parav@mellanox.com>,
+ "jian-feng.ding@intel.com" <jian-feng.ding@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "hejie.xu@intel.com" <hejie.xu@intel.com>,
+ "bao.yumeng@zte.com.cn" <bao.yumeng@zte.com.cn>,
+ Jiri Pirko <jiri@mellanox.com>, "eskultet@redhat.com" <eskultet@redhat.com>,
+ Parav Pandit <parav@nvidia.com>, "smooney@redhat.com" <smooney@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
+ "devel@ovirt.org" <devel@ovirt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/8/19 下午11:50, Peter Xu wrote:
-> On Wed, Aug 19, 2020 at 03:15:26PM +0800, Jason Wang wrote:
->> Yes, actually, I feel confused after reading the codes. Is notifier->start
->> IOVA or GPA?
->>
->> In vfio.c, we did:
->>
->>          iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
->>                              IOMMU_NOTIFIER_ALL,
->>                              section->offset_within_region,
->>                              int128_get64(llend),
->>                              iommu_idx);
->>
->> So it looks to me the start and end are GPA, but the assertion above check
->> it against IOVA which seems to be wrong ....
-> It should be iova; both section->offset_within_region and llend are for the
-> device's iova address space.  Thanks,
->
-
-Interesting, how can memory region know which IOVA is used by guest?
+On Wed, Aug 19, 2020 at 09:13:45PM -0600, Alex Williamson wrote:
+> On Thu, 20 Aug 2020 08:18:10 +0800
+> Yan Zhao <yan.y.zhao@intel.com> wrote:
+> 
+> > On Wed, Aug 19, 2020 at 11:50:21AM -0600, Alex Williamson wrote:
+> > <...>
+> > > > > > > What I care about is that we have a *standard* userspace API for
+> > > > > > > performing device compatibility checking / state migration, for use by
+> > > > > > > QEMU/libvirt/ OpenStack, such that we can write code without countless
+> > > > > > > vendor specific code paths.
+> > > > > > >
+> > > > > > > If there is vendor specific stuff on the side, that's fine as we can
+> > > > > > > ignore that, but the core functionality for device compat / migration
+> > > > > > > needs to be standardized.    
+> > > > > > 
+> > > > > > To summarize:
+> > > > > > - choose one of sysfs or devlink
+> > > > > > - have a common interface, with a standardized way to add
+> > > > > >   vendor-specific attributes
+> > > > > > ?    
+> > > > > 
+> > > > > Please refer to my previous email which has more example and details.    
+> > > > hi Parav,
+> > > > the example is based on a new vdpa tool running over netlink, not based
+> > > > on devlink, right?
+> > > > For vfio migration compatibility, we have to deal with both mdev and physical
+> > > > pci devices, I don't think it's a good idea to write a new tool for it, given
+> > > > we are able to retrieve the same info from sysfs and there's already an
+> > > > mdevctl from Alex (https://github.com/mdevctl/mdevctl).
+> > > > 
+> > > > hi All,
+> > > > could we decide that sysfs is the interface that every VFIO vendor driver
+> > > > needs to provide in order to support vfio live migration, otherwise the
+> > > > userspace management tool would not list the device into the compatible
+> > > > list?
+> > > > 
+> > > > if that's true, let's move to the standardizing of the sysfs interface.
+> > > > (1) content
+> > > > common part: (must)
+> > > >    - software_version: (in major.minor.bugfix scheme)
+> > > >    - device_api: vfio-pci or vfio-ccw ...
+> > > >    - type: mdev type for mdev device or
+> > > >            a signature for physical device which is a counterpart for
+> > > > 	   mdev type.
+> > > > 
+> > > > device api specific part: (must)
+> > > >   - pci id: pci id of mdev parent device or pci id of physical pci
+> > > >     device (device_api is vfio-pci)  
+> > > 
+> > > As noted previously, the parent PCI ID should not matter for an mdev
+> > > device, if a vendor has a dependency on matching the parent device PCI
+> > > ID, that's a vendor specific restriction.  An mdev device can also
+> > > expose a vfio-pci device API without the parent device being PCI.  For
+> > > a physical PCI device, shouldn't the PCI ID be encompassed in the
+> > > signature?  Thanks,
+> > >   
+> > you are right. I need to put the PCI ID as a vendor specific field.
+> > I didn't do that because I wanted all fields in vendor specific to be
+> > configurable by management tools, so they can configure the target device
+> > according to the value of a vendor specific field even they don't know
+> > the meaning of the field.
+> > But maybe they can just ignore the field when they can't find a matching
+> > writable field to configure the target.
+> 
+> 
+> If fields can be ignored, what's the point of reporting them?  Seems
+> it's no longer a requirement.  Thanks,
+> 
+sorry about the confusion. I mean this condition:
+about to migrate, openstack searches if there are existing matching
+MDEVs,
+if yes, i.e. all common/vendor specific fields match, then just create
+a VM with the matching target MDEV. (in this condition, the PCI ID field
+is not ignored);
+if not, openstack tries to create one MDEV according to mdev_type, and
+configures MDEV according to the vendor specific attributes.
+as PCI ID is not a configurable field, it just ignore the field.
 
 Thanks
+Yan
 
-
+ 
+ 
 
