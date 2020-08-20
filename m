@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0ED724AC35
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:31:45 +0200 (CEST)
-Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB3824AC49
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:35:34 +0200 (CEST)
+Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8YUa-0005Kd-UL
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49586)
+	id 1k8YYH-0004Bq-Cb
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:35:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YDO-00070G-Le
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:13:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37919
- helo=us-smtp-1.mimecast.com)
+ id 1k8YDT-0007Dq-Vk
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31236
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k8YDN-0002QM-2b
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:13:58 -0400
+ id 1k8YDS-0002R8-91
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:14:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597882436;
+ s=mimecast20190719; t=1597882441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rn3B3q9b6V2OJ5eEHjac4G//ok7jASUV7tbrARPCCl0=;
- b=C9ooz/aK0zIwC6gDnTmgHNKrqB+V+KuF77la4K5vCLSlVDVhdPc9b9HT3broAojk8nsHUB
- SqGUsz1w/J63W6nAOh/Dt4SPIoH4qyuQ9F7MtHHkkEozUtC66NYB3yEsKLgjSRYycD+fTK
- wMkHcjqo7tueDXfUgpLZWu6eq4Byc1A=
+ bh=Nj2TxeJlIEivrua/NeprAyNorvH9owDl8WRVmHtmmK4=;
+ b=CbqSfwGtIRFn7rpFzswLjlhQSfw5BHcAz6LlpP6OxviZAMVTMDND7+kHEm7X10lSKm7kmW
+ yXXbDHsXI/gl+sdNG6YK+akuq1mkozIthGmu6gYVtk/QQx6oG/CkkTxESdgJO5TlV36q6k
+ skOkE1TCyppSqTcxCO/6rMk+3ArC9Hw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-X_339OpoN661f3PStHIbbQ-1; Wed, 19 Aug 2020 20:13:54 -0400
-X-MC-Unique: X_339OpoN661f3PStHIbbQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-217-eiFZ4rRENHmF8d4ElGPZog-1; Wed, 19 Aug 2020 20:13:59 -0400
+X-MC-Unique: eiFZ4rRENHmF8d4ElGPZog-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18BBD2FD00
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:13:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02FE31084C8E
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 00:13:59 +0000 (UTC)
 Received: from localhost (ovpn-117-244.rdu2.redhat.com [10.10.117.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8CD4747B0;
- Thu, 20 Aug 2020 00:13:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C61BE16D4B;
+ Thu, 20 Aug 2020 00:13:55 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 31/58] i8257: Move QOM macro to header
-Date: Wed, 19 Aug 2020 20:12:09 -0400
-Message-Id: <20200820001236.1284548-32-ehabkost@redhat.com>
+Subject: [PATCH v2 33/58] pckbd: Move QOM macro to header
+Date: Wed, 19 Aug 2020 20:12:11 -0400
+Message-Id: <20200820001236.1284548-34-ehabkost@redhat.com>
 In-Reply-To: <20200820001236.1284548-1-ehabkost@redhat.com>
 References: <20200820001236.1284548-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/18 23:05:17
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 20:12:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,7 +87,7 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the I8257 macro to i8257.h, close to the TYPE_I8257 define.
+Move the I8042 macro close to the TYPE_I8042 define.
 
 This will make future conversion to OBJECT_DECLARE* easier.
 
@@ -99,35 +99,34 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/dma/i8257.h | 2 ++
- hw/dma/i8257.c         | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/hw/input/i8042.h | 1 +
+ hw/input/pckbd.c         | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/dma/i8257.h b/include/hw/dma/i8257.h
-index 03e2c166be..ee06371699 100644
---- a/include/hw/dma/i8257.h
-+++ b/include/hw/dma/i8257.h
-@@ -5,6 +5,8 @@
- #include "exec/ioport.h"
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index 8eaebf50ce..4569dfddd9 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -11,6 +11,7 @@
+ #include "hw/isa/isa.h"
  
- #define TYPE_I8257 "i8257"
-+#define I8257(obj) \
-+    OBJECT_CHECK(I8257State, (obj), TYPE_I8257)
+ #define TYPE_I8042 "i8042"
++#define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
  
- typedef struct I8257Regs {
-     int now[2];
-diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
-index db808029b0..de5f696919 100644
---- a/hw/dma/i8257.c
-+++ b/hw/dma/i8257.c
-@@ -33,8 +33,6 @@
- #include "qemu/log.h"
- #include "trace.h"
+ #define I8042_A20_LINE "a20"
  
--#define I8257(obj) \
--    OBJECT_CHECK(I8257State, (obj), TYPE_I8257)
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 29d633ca94..dde85ba6c6 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -481,8 +481,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+     qemu_register_reset(kbd_reset, s);
+ }
  
- /* #define DEBUG_DMA */
+-#define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
+-
+ struct ISAKBDState {
+     ISADevice parent_obj;
  
 -- 
 2.26.2
