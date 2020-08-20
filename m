@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D4124C209
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:20:16 +0200 (CEST)
-Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E2F24C128
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:03:57 +0200 (CEST)
+Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8mMR-0007oP-Lv
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34950)
+	id 1k8m6e-0004j4-Iz
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mDq-0006LH-Ef
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:11:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mDj-0006vK-7D
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:11:21 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8mDg-0000NK-6f
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:11:12 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 28FD82E806F
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:11:12 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k8m42-0002yZ-1i
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:01:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k8m3t-0005Ss-AQ
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:01:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597935662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZKYFlv9pMjMZ+ylfFrouaGwAkTEiqWGOisNTMU4ybOQ=;
+ b=D8RjFZKyXh8zHEW7TfAPb2D/Vinnar6jxSLGALPhTC7dAoPlrQk46+TToaBysjBLoQ9Vyf
+ DsMgIKKlwOc6EjCDK8qKUOYAz+jlVNcfldq9b60+PY+0AOq86AQRG4u5SeFtye9xlE35yn
+ 8bz9/13AEhuVLoc5Ii9xz++zvekwSQU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-kXuNOdyJMLeqB__-krVGFw-1; Thu, 20 Aug 2020 11:00:57 -0400
+X-MC-Unique: kXuNOdyJMLeqB__-krVGFw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC4C91885D82;
+ Thu, 20 Aug 2020 15:00:55 +0000 (UTC)
+Received: from localhost (ovpn-114-250.ams2.redhat.com [10.36.114.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AA447E301;
+ Thu, 20 Aug 2020 15:00:50 +0000 (UTC)
+Date: Thu, 20 Aug 2020 16:00:49 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v2] hw: add compat machines for 5.2
+Message-ID: <20200820150049.GA25991@stefanha-x1.localdomain>
+References: <20200819144016.281156-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 15:00:08 -0000
-From: Thomas Huth <1881552@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159100411428.13844.7436264299080242287.malonedeb@soybean.canonical.com>
-Message-Id: <159793560872.4890.4648176023242580010.launchpad@gac.canonical.com>
-Subject: [Bug 1881552] Re: potential AArch64 ABI bug wrt handling of 128-bit
- bit-fields
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: e13332bf34b752d87d7944ec4548fa1c1f9b14f3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200819144016.281156-1-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 09:00:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,103 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881552 <1881552@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+--7JfCtLOvnd9MIVvH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Wed, Aug 19, 2020 at 04:40:16PM +0200, Cornelia Huck wrote:
+> Add 5.2 machine types for arm/i440fx/q35/s390x/spapr.
+>=20
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>=20
+> v1->v2: rebased on current master
+>=20
+> For whoever needs this :) I will include it into an eventually coming
+> s390x pull request, if nobody beats me to it.
+>=20
+> ---
+>  hw/arm/virt.c              |  9 ++++++++-
+>  hw/core/machine.c          |  3 +++
+>  hw/i386/pc.c               |  3 +++
+>  hw/i386/pc_piix.c          | 14 +++++++++++++-
+>  hw/i386/pc_q35.c           | 13 ++++++++++++-
+>  hw/ppc/spapr.c             | 15 +++++++++++++--
+>  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>  include/hw/boards.h        |  3 +++
+>  include/hw/i386/pc.h       |  3 +++
+>  9 files changed, 71 insertions(+), 6 deletions(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881552
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Title:
-  potential AArch64 ABI bug wrt handling of 128-bit bit-fields
+--7JfCtLOvnd9MIVvH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Status in QEMU:
-  Fix Released
+-----BEGIN PGP SIGNATURE-----
 
-Bug description:
-  After upgrading to Ubuntu 20.04 LTS, GCC 9.3 displays a lot of notes:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8+kB8ACgkQnKSrs4Gr
+c8jfiAf/RhQn5im1nCjTJks6sU0biXgBOE1zbxFr+6eB0G1Zb9NZaPsBg10T5P2+
+CQmkRAcBMQ5nQxj+dpldpfK1T+CpmM8/ZvvM4KztO+4zoPMhhoolqKiHocuLUDkl
+Mgcd7no9lhS4eWt48d5g0uLgLM0MlqDh6FqOFUdtV6jUAC/UC2S9hWbsl/HjV56d
+K3f1U9DRJToNtpH9fgnAdacadR51maYo2Qbo9osXK5Ogy2L9RQGsFx7KRCzxYG38
+9XDVELULmq1/TAYlXuuwWdJtGb2utPobeGuWy6dq+BIsu+ZmRB1A9iJjNH+BDT7Y
+yD/OdpNGzJTJG2cO6/fW60GWndLB8Q==
+=RCYb
+-----END PGP SIGNATURE-----
 
-  hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_read_with_attrs=
-=E2=80=99:
-  hw/block/pflash_cfi01.c:663:20: note: parameter passing for argument of t=
-ype =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} =
-changed in GCC 9.1
-    663 | static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwadd=
-r addr, uint64_t *value,
-        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_write_with_attrs=
-=E2=80=99:
-  hw/block/pflash_cfi01.c:677:20: note: parameter passing for argument of t=
-ype =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} =
-changed in GCC 9.1
-    677 | static MemTxResult pflash_mem_write_with_attrs(void *opaque, hwad=
-dr addr, uint64_t value,
-        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_dma_mem_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:475:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    475 | static bool fw_cfg_dma_mem_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_data_mem_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:483:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    483 | static bool fw_cfg_data_mem_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_ctl_mem_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:501:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    501 | static bool fw_cfg_ctl_mem_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~~~~
-  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_comb_valid=E2=80=99:
-  hw/nvram/fw_cfg.c:521:13: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    521 | static bool fw_cfg_comb_valid(void *opaque, hwaddr addr,
-        |             ^~~~~~~~~~~~~~~~~
-  hw/intc/arm_gic.c: In function =E2=80=98gic_do_hyp_read=E2=80=99:
-  hw/intc/arm_gic.c:1996:20: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-   1996 | static MemTxResult gic_do_hyp_read(void *opaque, hwaddr addr, uin=
-t64_t *data,
-        |                    ^~~~~~~~~~~~~~~
-  hw/intc/arm_gic.c: In function =E2=80=98gic_thiscpu_hyp_read=E2=80=99:
-  hw/intc/arm_gic.c:1979:20: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-   1979 | static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr=
-, uint64_t *data,
-        |                    ^~~~~~~~~~~~~~~~~~~~
-  hw/intc/arm_gic.c: In function =E2=80=98gic_get_current_pending_irq=E2=80=
-=99:
-  hw/intc/arm_gic.c:419:17: note: parameter passing for argument of type =
-=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
-ged in GCC 9.1
-    419 | static uint16_t gic_get_current_pending_irq(GICState *s, int cpu,
-        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+--7JfCtLOvnd9MIVvH--
 
-  This seems related to:
-  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D88469
-  https://gcc.gnu.org/git/?p=3Dgcc.git&a=3Dcommit;h=3Dc590597c45
-
-    This is pretty unlikely in real code, but similar to Arm, the AArch64
-    ABI has a bug with the handling of 128-bit bit-fields, where if the
-    bit-field dominates the overall alignment the back-end code may end up
-    passing the argument correctly.  This is a regression that started in
-    gcc-6 when the ABI support code was updated to support overaligned
-    types.  The fix is very similar in concept to the Arm fix.  128-bit
-    bit-fields are fortunately extremely rare, so I'd be very surprised if
-    anyone has been bitten by this.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881552/+subscriptions
 
