@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE8E24C5CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 20:45:22 +0200 (CEST)
-Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B6924C5BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 20:42:08 +0200 (CEST)
+Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8pYv-0007Nu-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 14:45:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
+	id 1k8pVn-0002JU-3w
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 14:42:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8pU5-0000gx-QY; Thu, 20 Aug 2020 14:40:21 -0400
-Received: from mail-eopbgr00105.outbound.protection.outlook.com
- ([40.107.0.105]:40648 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1k8pU7-0000jR-Ta; Thu, 20 Aug 2020 14:40:23 -0400
+Received: from mail-eopbgr00104.outbound.protection.outlook.com
+ ([40.107.0.104]:1630 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8pU2-0003Bm-BK; Thu, 20 Aug 2020 14:40:21 -0400
+ id 1k8pU5-0003CQ-Ky; Thu, 20 Aug 2020 14:40:23 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YGeHF3kvw+HTEehCTUCkPtJFhRSu4O/qsD+0UBSMWh1D6PnV72hxN7g3yEEcOGmwYI/oEcWyZwbnggWx7SbdNT8y7+Jk5xVyDDDC4tB/RPy4dg/x53EAgSzzbZKG3w9+9S5t94fbn1x8jJTzTygj/4Z0JI7gWHxULSStXWEIAe5VRAmQgH4glkUJtpx7qI1l7Y4CrhUezFEELlj3LEstH4X9EsYtH1zo8Xk+73VjcD6G0RcuJcS0SWU4U85XwYxOYc9a4CzG8WToqJppgu8NPFzD3cx1ddAMTYSHmJbNsVkfVeMf6qO7AHAIG5AInQkqJUY/iZ2G6O+NAn5dYBGsyA==
+ b=mXitKQyUrNjzWc16g+KLqwHNCCjTe+5M4loxsAQ+PdaIUWkmzpeljy6vXHP2+hb2uMyPiyScqjv8ido+WLc4xJycq6k8u0zP7Ndt/IWFvvFl2zurs/8jSY50AJKPbvwygB4wc4vx9oWm55jtZyNvw5kYWzgwFL/cM1wyJLGDHTnxE75Ecbi8VX3VWmCqOOvYhrqh/EOAnxsedrO+QMZjGNab5M1+6yRjnNkXgrllljA0T9XADJ0Q3kiKUltNFl2Xm1xiCPgyj8k/2sIdkou7+TWhKiq/Csrsy2OJDfXQTgCESxgcaSFWw+9NRlvJVFX0MxvxU3gKJRr5JwgJ7DiAOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0386wauxXmSK63FI+OC2yIics9gF/T4FfYX7cSlvOt0=;
- b=KErhmB8Wvh9zmzSn0Kh6lhjATEZPbl2kEDVnSQMp3o1ptrMmVqQy/nl4LeA1sZGe5UOOphuGUGTEKFvI8mnJxbWwSmBpwo8K2MW9IIoILpM1DDokHXG9zweD2jZm4mtr3J2oNjTqqvrcNuBdf/J2shV4q5vxA07aEy9i6ZGDQBublXJ8AslNVmLPgc5LK9cVWWrmdG9Jow52r/faEwQ7C6xu28wRSKJfciYVYjCMgRQR612u+ntwsbPI5+/1lH7y9hMQGjIEVTity9W/OHVCKtiHtxsczG24hwgMb2SdLQSLZh9gdx3NuplcyhjsvABaPMvGDwFVETZk+O1Fx+7xIw==
+ bh=aF2PaB+w+zYUXs99bK9Q70bwF4UMXw1gH6C9i0YbYm8=;
+ b=SZRCYul1GOl3CqF3PaX7O4b3f6OT7HCTA0GwoueTZpJQ8SG5rI0kE9AJn4he1SHBv27k00iIzMyWAmwTei9NFS7XROrjXS4vFShi9wqH/8K/tIkI5yIa3J5O6BxRErTVTOKLIrPFXNcWM9vQGExP/a6Dy3kTCiZPjXYE/3DWk9g82mqwK46e16T8PLlBfxtf9hiq6t4AkuX3zpYHS9ju6W7mshd2twU8Wy8XWEIkAKdVwVvIIvDy8pWOHQL0G+bnR8GKP8gBPYnW77owP9fY0o/uKWm9feU4AF3Yk84WpUDVm0QpaROZibEj78W3GENg6RAcyuejsADrQ3zefWmj6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0386wauxXmSK63FI+OC2yIics9gF/T4FfYX7cSlvOt0=;
- b=Tdi3S7hVyuXLkDaXsiCZbPGdgSjw39r2O8h5AEPcl8YRNtHeRZzopXIpxylTb5fOTpAbB4sS/Bv3vpTWbe1zGKzGJxqJMK9ahBnjXObeqniPsOyb/KgrPktIAlAVVy8/HbKZZDYOUR0KAAVNk6N6rEH1kjk12UPxh7boAfhhWjQ=
+ bh=aF2PaB+w+zYUXs99bK9Q70bwF4UMXw1gH6C9i0YbYm8=;
+ b=q3vBSUMLITrEB5DROT1JvYF+ejRBdeEpJZ9yDbeYVN5aKoeiL0cBXUg9wma9wGoOTBKuurqNU5Kkjs+fFDtPnk4BZHNZCVuF5gdjAaCaSSG8WwunVcbMXpN3oknwf1LNvOCAAhGBCriFC7Hre/A//4dVoZxlYV1aXyyHLktCxMc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3032.eurprd08.prod.outlook.com (2603:10a6:209:43::31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25; Thu, 20 Aug
- 2020 18:40:05 +0000
+ 2020 18:40:06 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3283.027; Thu, 20 Aug 2020
- 18:40:05 +0000
+ 18:40:06 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 02/10] block/io.c: drop assertion on double waiting for
- request serialisation
-Date: Thu, 20 Aug 2020 21:39:42 +0300
-Message-Id: <20200820183950.13109-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 03/10] block/io: split out bdrv_find_conflicting_request
+Date: Thu, 20 Aug 2020 21:39:43 +0300
+Message-Id: <20200820183950.13109-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200820183950.13109-1-vsementsov@virtuozzo.com>
 References: <20200820183950.13109-1-vsementsov@virtuozzo.com>
@@ -64,44 +63,44 @@ Received: from kvm.sw.ru (185.215.60.171) by
  AM4PR0202CA0003.eurprd02.prod.outlook.com (2603:10a6:200:89::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25 via Frontend
- Transport; Thu, 20 Aug 2020 18:40:05 +0000
+ Transport; Thu, 20 Aug 2020 18:40:06 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.171]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e34673f-3f3c-425e-50a8-08d8453874f9
+X-MS-Office365-Filtering-Correlation-Id: 89201796-fd8c-4480-ea49-08d84538758b
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3032:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB30323A77DA0E0E5C29CE4144C15A0@AM6PR08MB3032.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3032645D84153C17076A3580C15A0@AM6PR08MB3032.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H22EwgTuQUNi7hdu14FGy9+7RD1CRKltrB8w7h3Wb+6JciMFIini2rXibTpjaG9JJ2bS952x2olvCYz6xRNcyJKQpaDBNVjOZ7ryqu9RTlyOlRIY7YVMvQCQiUhhSbudgblNDGlIRbcpsF6BYSUh0ir8RfELslhYJZn23/3mCtKGzDlzCjSPQG7bDp9QArEMbLsOILw2Z9tG25lnExXNbAYBxNdzAvRWyX42YDyWlX7Hu+d2J/GGdf40YXaD6ADalKsjwZGWZhbP5jPUikNhTQWCBCHzbJh3KAzHJfMya+mpM0untRIaKJDpmOcXZoObgEjOFWVfYp63o3RKWsfCPQ==
+X-Microsoft-Antispam-Message-Info: JVZryucyoszKam8UxEEkJ8xJbCz/sge75jK03F1uo2UwD/iT8PSFSGwepDM2+MKaCkllgmaegPLKeWCuIjA4P7NGz6V0nbccx8YZ7Ln/YqYU5jDbGPhyxlYKLfF4CtXw7zkvV7hwZC3ntpSCiA2VPtNquADWvJhhk9vftZSkMbfiyN0uulOEeuuIu983r3H03WqnoU9CZuPg7bh7LcaXWNSiJ9BRKTUpHBkxD0wSGLhQ1DZUvl9UHx9yBtDs9JfobG3isudjYGX2QuhTnCN/RVgpYbZtZJsJXr7wBHaonDD2nfdq3Of96ZeObOK261+N0mS3fZ9f86yiEjStwCx7Yw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39840400004)(376002)(346002)(396003)(136003)(4326008)(6666004)(8676002)(16526019)(186003)(26005)(316002)(6486002)(83380400001)(36756003)(86362001)(2906002)(478600001)(6916009)(5660300002)(8936002)(66946007)(66476007)(66556008)(6506007)(1076003)(6512007)(956004)(2616005)(52116002);
+ SFS:(4636009)(366004)(39840400004)(376002)(346002)(396003)(136003)(4326008)(6666004)(8676002)(16526019)(186003)(26005)(316002)(107886003)(6486002)(83380400001)(36756003)(86362001)(2906002)(478600001)(6916009)(5660300002)(8936002)(66946007)(66476007)(66556008)(6506007)(1076003)(6512007)(956004)(2616005)(52116002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: KSfhn5nAAh5+a7b1heexq1Y/jS1HH1BUg1DEZZDkSYKgfDeyvvFProl30RUoful3K/Ndd9jXqFJQQa/IARme8sS0TAm8udav/ggYfYECUGDKJcyBuu0OApmdTrgNaGS/jB3Wh/urZ6YjZv4iklqsnv2QS4dd5t39gCEQnxMJg3D7r0WZRlFRmuo35YnSZLZ+fxbc92X35vUkEqrX2Hh9M1xy5I1t1DJ4NX4vL2YdAerGLdbI/eCD0A+Dsl28ya1ZtpJ+crQCSPzTJqpoPY4kTYv+Oi4Licd7r9E4Mn2+pRccFA2/SXM4L7HFpjtLlHw+RzcsZ3eJFK/BCc+lAVMgbX8EfD6kEYNKmIrp9AH19YnCNGHg9L0FUwVwtFLiSP2GY3NZklPAs0QBqWhhT3O8r3nHdvHVhgtw41jshlWvvFnDOjpMLq4oUlu1RJ5MkJDt4hxGvwGkJTLz4LtM87r6tgP7E48UPsycV0tDcC2N5Fjacr/0nHisMTi1KzEqVZf50pJl9snONoiLvwUhPIIj8S1h38reiXEYGMf2SSjNob13kU1cNCIDayiRCfKYEPDwMzRdOQcagPAEXY5f1zO+cxDny3sr7bfUh16u+cmM/jKmVEowdS2oLS4k/JEWfRhxYdYZd0qx+aNBZN2Ml4Vb9g==
+X-MS-Exchange-AntiSpam-MessageData: 0fv7/ZirdL7KMbrpreZ7TNfGZ1zehwXZCh0ZWLTxudC2ffm+APts0JnL5RQqyd5Nj4MV3zyDrpCO2MFsNZA+4lvDERb3LPvgy7gQgh+WY+6mpR3+XL6ZJNtG95RdZjRP2Fp57T9HYMqNdBj1p3nDMArgnJ4qUvz1+wDz58lk7HhK2PV1pajmXNMtyHoYA9JHPfAvBV4zwKSw6lyLckTzGV6fA2MZ3eaJQPDRhp69PF+52acS0p1tvNp617FYkZ6HNs6peCt5g4eLCYGDY4JRx9pwFEQrCL/SRbylvLnoYCGrdKlWOMgYK1usLyrB6/ej+P2naewok6dcCkxA1E090mihsORAR3wOBHEcGaLR2XC/s5fUtcskJlfufpQ8FORFn6uT6HYyAfKkbqoxEqgag+9kDIw9wZGxIvFGA3KT+rtl0dzFZZ3ye/pXGS/1lE4cWKyv3r6rPsd5x5RXKtyqf4A66SN+SDQR8M2DGfcmciqqBZ1C1ykXvEremZHh829phzPci0tI7pFehvXreOmr4aR0LsPxcuCpfc5UGkcd/UOQGubXlbQCuI0g+vKuUk0HM2xXH1Mfn9RKHrHYq+AImW5HjUXN3tVhqqz+p4P5sUyKqbjXBeGw2tbNiSdaQKMkPfjk9N++msx7AYH/oepH0A==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e34673f-3f3c-425e-50a8-08d8453874f9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89201796-fd8c-4480-ea49-08d84538758b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 18:40:05.8305 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 18:40:06.6848 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4k4PWSpm3qvHMds9GsEQTLyjEjwaUMzpZokZkfbfiaIfdQ8UUQBHpdqynd+qOy/hsvd+sAF6YdlC1qR2KM0DNlkhz75bH/BHfPgOY9iOfDQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7phw0/8TgYffKO+7jIBz+6AIghEYu2oWzbd5i6xLlUCFoAZ0CcgGhULcMRnFZIBicpM7jaFEcYCPtnIbOfWP1+CmWH1AXEuyVajAe8j2cuE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3032
-Received-SPF: pass client-ip=40.107.0.105;
+Received-SPF: pass client-ip=40.107.0.104;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 14:40:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 14:40:13
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -117,56 +116,107 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, den@openvz.org
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The comments states, that on misaligned request we should have already
-been waiting. But for bdrv_padding_rmw_read, we called
-bdrv_mark_request_serialising with align = request_alignment, and now
-we serialise with align = cluster_size. So we may have to wait again
-with larger alignment.
-
-Note, that the only user of BDRV_REQ_SERIALISING is backup which issues
-cluster-aligned requests, so seems the assertion should not fire for
-now. But it's wrong anyway.
+To be reused in separate.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ block/io.c | 71 +++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 41 insertions(+), 30 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index ad3a51ed53..b18680a842 100644
+index b18680a842..5b96715058 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -1881,7 +1881,6 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
-                           BdrvTrackedRequest *req, int flags)
+@@ -727,43 +727,54 @@ static bool tracked_request_overlaps(BdrvTrackedRequest *req,
+     return true;
+ }
+ 
++/* Called with self->bs->reqs_lock held */
++static BdrvTrackedRequest *
++bdrv_find_conflicting_request(BdrvTrackedRequest *self)
++{
++    BdrvTrackedRequest *req;
++
++    QLIST_FOREACH(req, &self->bs->tracked_requests, list) {
++        if (req == self || (!req->serialising && !self->serialising)) {
++            continue;
++        }
++        if (tracked_request_overlaps(req, self->overlap_offset,
++                                     self->overlap_bytes))
++        {
++            /*
++             * Hitting this means there was a reentrant request, for
++             * example, a block driver issuing nested requests.  This must
++             * never happen since it means deadlock.
++             */
++            assert(qemu_coroutine_self() != req->co);
++
++            /*
++             * If the request is already (indirectly) waiting for us, or
++             * will wait for us as soon as it wakes up, then just go on
++             * (instead of producing a deadlock in the former case).
++             */
++            if (!req->waiting_for) {
++                return req;
++            }
++        }
++    }
++
++    return NULL;
++}
++
+ static bool coroutine_fn
+ bdrv_wait_serialising_requests_locked(BlockDriverState *bs,
+                                       BdrvTrackedRequest *self)
  {
-     BlockDriverState *bs = child->bs;
--    bool waited;
-     int64_t end_sector = DIV_ROUND_UP(offset + bytes, BDRV_SECTOR_SIZE);
+     BdrvTrackedRequest *req;
+-    bool retry;
+     bool waited = false;
  
-     if (bs->read_only) {
-@@ -1893,15 +1892,7 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
-     assert(!(flags & ~BDRV_REQ_MASK));
+-    do {
+-        retry = false;
+-        QLIST_FOREACH(req, &bs->tracked_requests, list) {
+-            if (req == self || (!req->serialising && !self->serialising)) {
+-                continue;
+-            }
+-            if (tracked_request_overlaps(req, self->overlap_offset,
+-                                         self->overlap_bytes))
+-            {
+-                /* Hitting this means there was a reentrant request, for
+-                 * example, a block driver issuing nested requests.  This must
+-                 * never happen since it means deadlock.
+-                 */
+-                assert(qemu_coroutine_self() != req->co);
+-
+-                /* If the request is already (indirectly) waiting for us, or
+-                 * will wait for us as soon as it wakes up, then just go on
+-                 * (instead of producing a deadlock in the former case). */
+-                if (!req->waiting_for) {
+-                    self->waiting_for = req;
+-                    qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
+-                    self->waiting_for = NULL;
+-                    retry = true;
+-                    waited = true;
+-                    break;
+-                }
+-            }
+-        }
+-    } while (retry);
++    while ((req = bdrv_find_conflicting_request(self))) {
++        self->waiting_for = req;
++        qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
++        self->waiting_for = NULL;
++        waited = true;
++    }
++
+     return waited;
+ }
  
-     if (flags & BDRV_REQ_SERIALISING) {
--        waited = bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
--        /*
--         * For a misaligned request we should have already waited earlier,
--         * because we come after bdrv_padding_rmw_read which must be called
--         * with the request already marked as serialising.
--         */
--        assert(!waited ||
--               (req->offset == req->overlap_offset &&
--                req->bytes == req->overlap_bytes));
-+        bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
-     } else {
-         bdrv_wait_serialising_requests(req);
-     }
 -- 
 2.21.3
 
