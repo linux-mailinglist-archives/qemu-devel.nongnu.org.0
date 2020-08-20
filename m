@@ -2,108 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A49F24C5D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 20:51:24 +0200 (CEST)
-Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676A324C5CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 20:45:35 +0200 (CEST)
+Received: from localhost ([::1]:39216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8pel-0006VQ-3i
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 14:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35396)
+	id 1k8pZ8-0007jq-Dv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 14:45:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8pUK-000177-In; Thu, 20 Aug 2020 14:40:36 -0400
-Received: from mail-eopbgr00105.outbound.protection.outlook.com
- ([40.107.0.105]:40648 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k8pUk-0001bX-0P
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 14:41:02 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:49685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8pUI-0003Bm-J6; Thu, 20 Aug 2020 14:40:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LP1z2W7Rz7oHuJfY4/kaFXgbo5yy8nmmIqOfkWitEiBhSLgnw5mLznmJZLjeQ3eSjLyGdMw61bQXXQkv2yPoTiZzBrsFStjvMqSOtzK3EXGrFlPv090UXxXEo2xMUX1WhhbuqymCehkm6vDOYqzlwEN/t8ZJ/vWPbzrd3W6PzoDaVJPCV14PWFpEnKCdoOG8c/CztqJE5iQrqE0x9VNqpG25ZYNPfyDFQw8JfoYf2hB1wIAgATZJRq2Np9iLd1p8CzOmwg1zTWZtdmIHYjOdIQYnI3tAziJqe/f/CmweG57TpCjLzKSaFTc8tz8pB4pUSmsN0fxIDCL3Nr1Yr9EIYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PojbpGlAjyIZLQtIBV+fJDsMPKIisfljgBp7buOOgss=;
- b=RGWo4ituEu5mw84kcldHM635pNZAtr8OfDMQGAsVTeoEEweHoiQ0N9UfFCrERqNGKBS692roKvAQSiTwlSmd+MPXY1jQn0oOlXZzb9F7CAEXElcW286XS5aQchy8SFKR8Eehi44TQJ6NKZ3BQ8QHkpSLuczg9OR9gGakkWA1BiC5yTSBhUbkDt5gfE02ZbMyAKyl14emY8v5SVsuQWozjPt/0GYe5FwQ6XslDALXvt1zfCbG3fKGvmyxBt6UFXysCg3XCIv7otv640j4SknsGa45XYAPRkZtNkgZYW1/3R8elYXlo6z1SMGCkRB3+vXXvRaUcDk5YPh/0AF8c23B9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PojbpGlAjyIZLQtIBV+fJDsMPKIisfljgBp7buOOgss=;
- b=iOQ3L8WzYBoOJLc30YMRDeJQsZHNJMados4xIkq8Ohc2B2bnwh8wv/dJIp92ZdrKdGNIIKkQst7gWgOL7aVv0jz7XCnChs7ZxqApsSJL6c1QaXkjMv+BEVlJQzs84AE6fzLWL82U10J4PECByS7sxhx+HNRRfwK7ClATzb+3x3U=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3032.eurprd08.prod.outlook.com (2603:10a6:209:43::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25; Thu, 20 Aug
- 2020 18:40:12 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3283.027; Thu, 20 Aug 2020
- 18:40:12 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 10/10] iotests: add 298 to test new preallocate filter
- driver
-Date: Thu, 20 Aug 2020 21:39:50 +0300
-Message-Id: <20200820183950.13109-11-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200820183950.13109-1-vsementsov@virtuozzo.com>
-References: <20200820183950.13109-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM4PR0202CA0003.eurprd02.prod.outlook.com
- (2603:10a6:200:89::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k8pUe-0003Se-5r
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 14:41:01 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MkIEJ-1kXCsS3yFl-00kiT1; Thu, 20 Aug 2020 20:40:50 +0200
+Subject: Re: [PATCH v2 44/58] qom: provide convenient macros for declaring and
+ defining types
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20200820001236.1284548-1-ehabkost@redhat.com>
+ <20200820001236.1284548-45-ehabkost@redhat.com>
+ <20200820174506.GE642093@habkost.net>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <3cbd1150-3b91-3213-7e42-6f01f45a511e@vivier.eu>
+Date: Thu, 20 Aug 2020 20:40:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.171) by
- AM4PR0202CA0003.eurprd02.prod.outlook.com (2603:10a6:200:89::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25 via Frontend
- Transport; Thu, 20 Aug 2020 18:40:12 +0000
-X-Mailer: git-send-email 2.21.3
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b35401eb-43f9-4d15-f74c-08d845387932
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3032:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3032F4DAD3816D4E7554C81FC15A0@AM6PR08MB3032.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YsAA7DLFvE5sJl6rLsOLatGSMMMugGYY111kPqiiYrhosPu9JqRqRWcb+EwAKLGyrZN+Mtw4tPgVleo5iRPk3NuucII7ouICahc+Oj8OyurjLrwWeXR7DJda+ciUz0u4yshu0swQgkft+aOxId/K2mvdOySQ5AusInYtPQKvpx7t06z71pmDlDUMuusBKtQYtY4YoqaCEGcC8J38b/oJNRCOP5meooMrnqGhpm4c9v4CyIILkkKEjHn0LTGsQJhtHwnkaomyMtw4BZJQu7+lv+fSJBFJel/KlKgkDdnCAZgQ+L257H1amLZLhrFMXnujBjyRdRVh6Q3WMrTe2vJtPUBa+qn+NSr4YIrw26U8mz2hIyrbN9ZDDMWCLldzOp/hj+apg4PB7f1A5N5j/9OAYJUuunNgPGjp/10Z6SsB6Gpojlc/+IOGnxkDd7t0/YbxJ+rDqoAjodBXcqlzk7oyQk3QBwVcgMRm8CVR6ox8yKc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39840400004)(376002)(346002)(396003)(136003)(4326008)(6666004)(8676002)(16526019)(186003)(26005)(316002)(107886003)(6486002)(83380400001)(36756003)(86362001)(2906002)(478600001)(6916009)(5660300002)(8936002)(66946007)(66476007)(66556008)(6506007)(1076003)(6512007)(956004)(2616005)(52116002)(2004002)(21314003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Dlde9cPbQI2+sGX+XJc3E682MXS3OylXTkhXzEiBeWC/IogNv0hCc+rN2dZQo6w63qLH7O9qpbcmdJnIQFzSBORC2Mp23MQmCJF5eHog1E1EfETtfmvJaBGnXeJQzxRtkHQZ4FsUSmFtBqq8WrYHy9od1aByP+AbGzxNQNC1WoP63VvM1FBwzkIJvvyE5nWzWriVaOtLBShGUFOiKDLwc6d3C6yntVNKPDMzaq1IJNU7QXTudZ0/F3i8EN/0+feP2NMZohvnK8gQkPXS/65G39FdfW9cwx7KeplyPuW2/ZTAYE6sCLvyjZHBaA9561X3T6ZQKKQrm31TdMy35WMFFGPBMBYimI2NoEnKmkn94P7pHjsWugPWudLuALwdzjYuAwcOoyhmV+sg81ujoKPdx613lFuA2EGxadMcxiFAioMVy3Rs0AIG/p3bM4Aq50duru+U12v7Z35ZwaDgkgi7ohT8BjVUpdAc/5x5iM31kBGhacIXUr/Mi5n2bdk0zst18R9hy+pWSyK0lmWOYXyQsykeCig81/2UcAuK2ShmOAAHGbuTIIK9dtVDloBTUm/qpM39RqdIPtCyzOW2/Kl4Qy0/upOSTifC4pz/d7V5w9lbuOPmPMaTSwrXB2q6ckodpbNfwlhBASuz/EsJ0/6W5g==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b35401eb-43f9-4d15-f74c-08d845387932
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 18:40:12.8117 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jT7NNvb55AuLxPxtXtSFgijA5Ym/oPB91xWuXfRE/HLHfKODNiIlawi5kOx3NygkI7kniVRzwyPTKHeEZ7NnF7eg3c8J6f3DFdsTrpHLdaw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3032
-Received-SPF: pass client-ip=40.107.0.105;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 14:40:09
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200820174506.GE642093@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Tg3WslglKDK1BihjHiiqs+IAiJQDIR6vCgnt3Lh+d/053aad7qT
+ Lh90b1HFH8QahNJYQB8DbylYKrd54HrrZB8kjlMSEYMVols8OWNwi/z12QWtUxvEs0iXByi
+ uma1o9QBg9l5SCWMv0SJfp+OcuszKAYUnb0K2lI9QAHo+qQ2wz0SyAivhT+ycAd4sFoaEBW
+ XsAbeOiDJ9totZPxfqP6A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AjsjG4l9mfc=:Q8a60narI+JV+jaAJJlwVJ
+ zDbYJDGbotf6CqamSZfs8kypLjUUDASxJ4kSRns6K5G9G2RnOkYG1Axe6VLrH0d0BZqtzRRdM
+ /vSUlpUj2bFZWS+rSCu+VEK8LYTPPlzzQ1TjLpAvUJNYWg82oSbRYMQeGKplGbHLhJ5zI6xyc
+ A2LP22D5yCQ2V0zhIrKoQ+T7vvj6fadTSGGJDPBMK842ymiP2+j8wfpXIUEnkeKtzwzkKcNAU
+ fGicrJkkWkHychza2AC73NSFLCW2K5IcZznT9V5ubXIY+rPwp3lOBbdjmWiMSxzQyPeANIcPQ
+ O4cakuUJhmZFU3UUPfoGVt6/dXYPolRH7t1JHuq6ml0McgMCDF6IQfnmFXBCl5SSuIL3cPR9H
+ fD1rsI7+6tVQ67LFus7rtkYD6VDwN+Rsl6jHpPI2S6F4Wjd1D1aUrh34OkNWnKHc8sBiiKtM8
+ oVXET3VWofQnHXOx4/IVoO89WFJoWTuLilR5JcDPET0oIjAmQBz1Kuie5SUNDy27zw9uMbyu8
+ T9JKcH+yzvzZfaebUNx1awTqrNXmv7ImC+IRlkE1ylfg4YMgjuODXqgg9xJutUkxT9JrjuUVq
+ v+5vFhK+uE6uFMzLccX49eHTw5tKZGkivdwENy8WXWyqAWslXhy16j9Sj5ZSqesaIiCcA1WTj
+ +PrQSayFQISkDZBuG/nEUM2cfKEu0ElvZfvgUmzUlU0xVDIwc7bDVluja3VsUuQGfxgqV8hBg
+ aqrrwZtlP48XprSffAU9hv1YYwp76G5o6PcZ8i/IVO9RQHCHWLG0mlMl3OiLee5bXBaSY9NMt
+ duc+1CBn8TVUaRsDFkggwLvwEiGfJfnGujTO/WRu1dIOgcLyZmL+otCGvCFp+6UHmSAkoF+
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 14:40:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,102 +117,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- tests/qemu-iotests/298     | 50 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/298.out |  6 +++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 57 insertions(+)
- create mode 100644 tests/qemu-iotests/298
- create mode 100644 tests/qemu-iotests/298.out
+Le 20/08/2020 à 19:45, Eduardo Habkost a écrit :
+> (CCing Eric Blake, who reviewed the original patch.  Sorry for
+> not CCing you previously, Eric)
+> 
+> On Wed, Aug 19, 2020 at 08:12:22PM -0400, Eduardo Habkost wrote:
+> [...]
+>> +/**
+>> + * OBJECT_DECLARE_TYPE:
+>> + * @ModuleObjName: the object name with initial capitalization
+>> + * @module_obj_name: the object name in lowercase with underscore separators
+>> + * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
+> 
+> We need to decide what to do with TYPE_SWIM:
+> 
+>   #define TYPE_SWIM "swim"
+>   typedef struct SWIM SWIM;
+>   #define SWIM(obj) OBJECT_CHECK(SWIM, (obj), TYPE_SWIM)
+> 
+> Both the typedef and type checking macros are called "SWIM".
+> This makes usage of OBJECT_DECLARE_TYPE impossible (because the
+> type checking function can't have the same as the typedef).  What
+> should be the recommended style here?  Rename the struct to
+> "Swim"?
 
-diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
-new file mode 100644
-index 0000000000..4f2087352a
---- /dev/null
-+++ b/tests/qemu-iotests/298
-@@ -0,0 +1,50 @@
-+#!/usr/bin/env python3
-+#
-+# Test for preallocate filter
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+from iotests import log
-+
-+iotests.script_initialize(supported_fmts=['qcow2'])
-+iotests.verify_o_direct()
-+
-+size = 10 * 1024 * 1024
-+disk = iotests.file_path('disk')
-+
-+iotests.qemu_img_create('-f', iotests.imgfmt, disk, str(size))
-+
-+opts = f'driver={iotests.imgfmt},' \
-+    f'file.driver=preallocate,file.file.filename={disk}'
-+p = iotests.QemuIoInteractive('--image-opts', '-t', 'none', opts)
-+
-+log(p.cmd('write 0 1M'), filters=[iotests.filter_qemu_io])
-+p.cmd('flush')
-+
-+if os.path.getsize(disk) > 100 * 1024 * 1024:
-+    log('file in progress is big, preallocation works')
-+
-+p.close()
-+
-+if os.path.getsize(disk) < 10 * 1024 * 1024:
-+    log('file is small after close')
-+
-+# Check that there are no leaks.
-+log(iotests.qemu_img_pipe('check', '-f', 'qcow2', disk),
-+    filters=[iotests.filter_img_check])
-diff --git a/tests/qemu-iotests/298.out b/tests/qemu-iotests/298.out
-new file mode 100644
-index 0000000000..baf8f8425c
---- /dev/null
-+++ b/tests/qemu-iotests/298.out
-@@ -0,0 +1,6 @@
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+file in progress is big, preallocation works
-+file is small after close
-+No errors were found on the image.
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 7f76066640..cdcde2fe48 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -306,6 +306,7 @@
- 295 rw
- 296 rw
- 297 meta
-+298 auto quick
- 299 auto quick
- 301 backing quick
- 302 quick
--- 
-2.21.3
+"Swim" looks good to me.
 
+Thanks,
+Laurent
 
