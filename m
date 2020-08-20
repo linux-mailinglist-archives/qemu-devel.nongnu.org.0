@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B3924C28E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:52:36 +0200 (CEST)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3C724C2A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:56:41 +0200 (CEST)
+Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8mrj-0000bp-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43660)
+	id 1k8mvg-0005mW-CR
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlE-0001CV-O7
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36254)
+ id 1k8mlP-0001JQ-SR
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:46:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k8mlB-0002lZ-Ns
- for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:45:52 -0400
+ id 1k8mlK-0002mt-3I
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:46:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k8mlA-0007o6-49
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:48 +0000
+ id 1k8mlI-0008Gu-J6
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 01CA12E8107
- for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 50E382E810C
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 15:45:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Aug 2020 15:37:47 -0000
-From: Thomas Huth <1871250@bugs.launchpad.net>
+Date: Thu, 20 Aug 2020 15:38:56 -0000
+From: Thomas Huth <1811533@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h chewi th-huth
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
+X-Launchpad-Bug-Commenters: dgilbert-h djdatte h-sieger th-huth vkuznets
+ zaltysz
+X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Message-Id: <159793786746.1602.9008144452232082445.malone@wampee.canonical.com>
-Subject: [Bug 1871250] Re: Failed to create HAX VM
+References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
+Message-Id: <159793793688.1692.9332074237055371995.malone@chaenomeles.canonical.com>
+Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
+ hv_stimer
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 0b7e36f9676cf64d91e317af716062a1f2cedc55
+X-Launchpad-Hash: 95b31ad4acf32f0ecdde6bc5c97e6fefd4966acc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 10:50:55
@@ -72,11 +74,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
+Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D9f5a0664187e9411c5c
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D76525114736e8f669766
 
 ** Changed in: qemu
        Status: Fix Committed =3D> Fix Released
@@ -85,48 +87,51 @@ https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D9f5a0664187e9411c5c
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871250
+https://bugs.launchpad.net/bugs/1811533
 
 Title:
-  Failed to create HAX VM
+  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hi,
+  Host:
+  Gentoo linux x86_64, kernel 4.20.1
+  Qemu 3.1.0 =
 
-  I'm running the latest (master) of QEMU, though the version doesn't
-  seem to matter - I also checked back to v4.2.0, exactly the same
-  issue. And this isn't about the VM (guest), if I even just try to run,
+  CPU: Intel i7 6850K
+  Chipset: X99
 
-  > "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
+  Guest:
+  Windows 10 Pro 64bit (1809)
+  Machine type: pc-q35_3.1
+  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
+pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
+=3D0x1fff
+  Memory: 16GB backed by 2MB huge pages
 
-  Basically, just get a window to open, with acceleration enabled ... I get,
-  Open the vm device error:/dev/hax_vm/vm00, ec:3
-  Failed to open vm 0
-  Failed to create HAX VM
-  No accelerator found.
+  Issue:
+  Once guest is started, log gets flooded with:
 
-  But I checked - I have installed Intel HAXM, and verified it's running,
-  > sc query intelhaxm
-  SERVICE_NAME: intelhaxm
-          TYPE               : 1  KERNEL_DRIVER
-          STATE              : 4  RUNNING
-                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOW=
-N)
-          WIN32_EXIT_CODE    : 0  (0x0)
-          SERVICE_EXIT_CODE  : 0  (0x0)
-          CHECKPOINT         : 0x0
-          WAIT_HINT          : 0x0
+  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
+  coherent sections at 103000
 
-  Just remove the accelerator (-accel hax), and I get a window - so this
-  is related to QEMU being able to contact / use the accelerator.
+  or
 
-  Help!?!?
+  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
+  prior to previous 1f000
 
-  Thanks!
+  (line endings change)
+
+  and as time goes guest loses network access (virtio-net-pci) and
+  general performance diminishes to extent of freezing applications.
+
+  Observations:
+  1) problem disappears when hv_stimer is removed
+  2) problem disappears when memory backing with huge pages is disabled
+  3) problem disappears when machine type is downgraded to pc-q35_3.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871250/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
 
