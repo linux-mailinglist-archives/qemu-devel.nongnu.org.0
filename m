@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578CC24ACAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 03:44:20 +0200 (CEST)
-Received: from localhost ([::1]:39450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DCE24ACB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 03:45:34 +0200 (CEST)
+Received: from localhost ([::1]:45118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Zco-0007M2-V3
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 21:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
+	id 1k8Ze1-0001DQ-60
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 21:45:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k8Zbh-0005nr-FZ; Wed, 19 Aug 2020 21:43:09 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50675)
+ id 1k8Zbh-0005nv-Ht; Wed, 19 Aug 2020 21:43:09 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51613 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1k8Zbb-0003xS-6C; Wed, 19 Aug 2020 21:43:06 -0400
+ id 1k8Zbb-0003xV-Lw; Wed, 19 Aug 2020 21:43:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BX6q54Ybfz9sTd; Thu, 20 Aug 2020 11:42:57 +1000 (AEST)
+ id 4BX6q543bwz9sTR; Thu, 20 Aug 2020 11:42:57 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1597887777;
- bh=OYAjZmQAmdvEtNtV04p2In/ISMFgg8OnNUkEn8nIsNQ=;
+ bh=iuIpG/F8UrzE4lEermCKFopXr2gJt10aW1SE2pBmWe4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CU+OJldp3hPnonTiTDPp3QodXUQYsfCmyk1In41sN+xzsc+XJlMw72vp5LMHXhyfA
- zRTJXr3DuPA2esOto712t4N4KDfmdB/qNpgKbxXdQYKKlW2ah3A35NO31VuMC3RK4a
- c0lmzezmoZNV6SFivKvVw/t7jNNhrcXcmJqzokPA=
-Date: Thu, 20 Aug 2020 11:36:59 +1000
+ b=n2yrrZouE29lyrigx+mk7CFoZ/CrGdn3UszPT6VeXrObvFIzLwgBwqJAkbPdlBZ3S
+ EolxzTlzOf6oaakKDlEQqSgvrQPFRA45vVvqZME78OZqfkxWN+Ww36KNt1+5Rmf2uY
+ SiNDDAOu7Q5qa24DVjwII9MiISeuQP79qZ4yVp9c=
+Date: Thu, 20 Aug 2020 11:42:38 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 7/8] spapr/xive: Use the xics flag to check for XIVE-only
- IRQ backends
-Message-ID: <20200820013659.GH271315@yekko.fritz.box>
-References: <20200819130843.2230799-1-clg@kaod.org>
- <20200819130843.2230799-8-clg@kaod.org>
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [PATCH v6 0/8] Generalize start-powered-off property from ARM
+Message-ID: <20200820014238.GI271315@yekko.fritz.box>
+References: <20200819164306.625357-1-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CNfT9TXqV7nd4cfk"
+ protocol="application/pgp-signature"; boundary="MFZs98Tklfu0WsCO"
 Content-Disposition: inline
-In-Reply-To: <20200819130843.2230799-8-clg@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200819164306.625357-1-bauerman@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/19 20:59:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -62,41 +60,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Gustavo Romero <gromero@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---CNfT9TXqV7nd4cfk
+--MFZs98Tklfu0WsCO
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 19, 2020 at 03:08:42PM +0200, C=E9dric Le Goater wrote:
-
-I can see why this is a good idea, but it really needs a rationale in
-the comment for posterity.
-
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> ---
->  hw/ppc/spapr_irq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Aug 19, 2020 at 01:42:58PM -0300, Thiago Jung Bauermann wrote:
+> This version has one small fix in patch 7, and adds Philippe's Reviewed-b=
+ys.
 >=20
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 80cf1c3d6bb2..d036c8fef519 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -172,7 +172,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, =
-Error **errp)
->           * To cover both and not confuse the OS, add an early failure in
->           * QEMU.
->           */
-> -        if (spapr->irq =3D=3D &spapr_irq_xive) {
-> +        if (!spapr->irq->xics) {
->              error_setg(errp, "XIVE-only machines require a POWER9 CPU");
->              return -1;
->          }
+> Applies cleanly on dgibson/ppc-for-5.2.
+>=20
+> Original cover letter below, followed by changelog:
+>=20
+>=20
+> The ARM code has a start-powered-off property in ARMCPU, which is a
+> subclass of CPUState. This property causes arm_cpu_reset() to set
+> CPUState::halted to 1, signalling that the CPU should start in a halted
+> state. Other architectures also have code which aim to achieve the same
+> effect, but without using a property.
+>=20
+> The ppc/spapr version has a bug where QEMU does a KVM_RUN on the vcpu
+> before cs->halted is set to 1, causing the vcpu to run while it's still in
+> an unitialized state (more details in patch 3).
+>=20
+> Peter Maydell mentioned the ARM start-powered-off property and
+> Eduardo=A0Habkost suggested making it generic, so this patch series does
+> that, for all cases which I was able to find via grep in the code.
+>=20
+> The only problem is that I was only able to test these changes on a ppc64=
+le
+> pseries KVM guest, so except for patches 2 and 3, all others are only
+> build-tested. Also, my grasp of QOM lifecycle is basically non-existant so
+> please be aware of that when reviewing this series.
+>=20
+> The last patch may be wrong, as pointed out by Eduardo, so I marked it as
+> RFC. It may make sense to drop it.
+
+Applied to ppc-for-5.2.
+
+>=20
+> Changes since v5:
+>=20
+> Patch "ppc/e500: Use start-powered-off CPUState property"
+> Patch "mips/cps: Use start-powered-off CPUState property"
+> Patch "sparc/sun4m: Remove main_cpu_reset()"
+> Patch "target/s390x: Use start-powered-off CPUState property"
+> - Added Philippe's Reviewed-by.
+>=20
+> Patch "sparc/sun4m: Use start-powered-off CPUState property"
+> - Move call to qdev_realize_and_unref() right after object_property_set_b=
+ool(),
+>   as suggested by Philippe.
+>=20
+> Changes since v4:
+>=20
+> Patch "ppc/e500: Use start-powered-off CPUState property"
+> Patch "sparc/sun4m: Use start-powered-off CPUState property"
+> - Use qdev_realize_and_unref() instead of qdev_realize(), as suggested
+>   by=A0Igor.
+> - Pass &error_fatal to qdev_realize_and_unref() instead of manually
+>   reporting the error and exiting QEMU, as suggested by Philippe.
+> - Changed object_property_set_bool() to use &error_fatal instead of
+>   &error_abort.
+>=20
+> Patch "mips/cps: Use start-powered-off CPUState property"
+> - Use qdev_realize_and_unref() instead of qdev_realize(), as suggested
+>   by=A0Igor.
+> - Use existing errp argument to propagate error back to the caller, as
+>   suggested by Philippe.
+> - Changed object_property_set_bool() to use existing errp argument to
+>   propagate error back to the caller instead of using &error_abort.
+>=20
+> Changes since v3:
+>=20
+> General:
+> - Added David's, Greg's and Cornelia's Reviewed-by and Acked-by to some
+>   of the patches.
+> - Rebased on top of dgibson/ppc-for-5.2.
+>=20
+> Patch "ppc/e500: Use start-powered-off CPUState property"
+> Patch "mips/cps: Use start-powered-off CPUState property"
+> Patch "sparc/sun4m: Use start-powered-off CPUState property"
+> - Initialize CPU object with object_new() and qdev_realize() instead
+>   of cpu_create().
+> - Removed Reviewed-by's and Acked-by's from these patches because of
+>   these changes.
+>=20
+> Changes since v2:
+>=20
+> General:
+> - Added Philippe's Reviewed-by to some of the patches.
+>=20
+> Patch "ppc/spapr: Use start-powered-off CPUState property"
+> - Set the CPUState::start_powered_off variable directly rather than using
+>   object_property_set_bool(). Suggested by Philippe.
+>=20
+> Patch "sparc/sun4m: Remove main_cpu_reset()"
+> - New patch. Suggested by Philippe.
+>=20
+> Patch "sparc/sun4m: Use start-powered-off CPUState property"
+> - Remove secondary_cpu_reset(). Suggested by Philippe.
+> - Remove setting of `cs->halted =3D 1` from cpu_devinit(). Suggested by P=
+hilippe.
+>=20
+> Patch "Don't set CPUState::halted in cpu_devinit()"
+> - Squashed into previous patch. Suggested by Philippe.
+>=20
+> Patch "sparc/sun4m: Use one cpu_reset() function for main and secondary C=
+PUs"
+> - Dropped.
+>=20
+> Patch "target/s390x: Use start-powered-off CPUState property"
+> - Set the CPUState::start_powered_off variable directly rather than using
+>   object_property_set_bool(). Suggested by Philippe.
+> - Mention in the commit message Eduardo's observation that before this
+>   patch, the code didn't set cs->halted on reset.
+>=20
+> Thiago Jung Bauermann (8):
+>   target/arm: Move start-powered-off property to generic CPUState
+>   target/arm: Move setting of CPU halted state to generic code
+>   ppc/spapr: Use start-powered-off CPUState property
+>   ppc/e500: Use start-powered-off CPUState property
+>   mips/cps: Use start-powered-off CPUState property
+>   sparc/sun4m: Remove main_cpu_reset()
+>   sparc/sun4m: Use start-powered-off CPUState property
+>   target/s390x: Use start-powered-off CPUState property
+>=20
+>  exec.c                  |  1 +
+>  hw/core/cpu.c           |  2 +-
+>  hw/mips/cps.c           | 14 ++++++++++----
+>  hw/ppc/e500.c           | 14 ++++++++++----
+>  hw/ppc/spapr_cpu_core.c | 10 +++++-----
+>  hw/sparc/sun4m.c        | 31 ++++---------------------------
+>  include/hw/core/cpu.h   |  4 ++++
+>  target/arm/cpu.c        |  4 +---
+>  target/arm/cpu.h        |  3 ---
+>  target/arm/kvm32.c      |  2 +-
+>  target/arm/kvm64.c      |  2 +-
+>  target/s390x/cpu.c      |  2 +-
+>  12 files changed, 39 insertions(+), 50 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -104,25 +228,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---CNfT9TXqV7nd4cfk
+--MFZs98Tklfu0WsCO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8907sACgkQbDjKyiDZ
-s5IGixAAqDPziaEn7qa3dAuK1myBHJF1OovXagQeTvqNkX93y12DVRjiU0+6NIJU
-lnzC/+MgPZbYQ+QF6zEEB9gkdKeQOb1CIhiICiXdHEgGq86piTPtWR9QxiH/siVd
-xzMt1yP99OVfsEVqpVUxiZTlP50ShSXTH3/PT4apHC8ErX6cd5eVS2RKrRlNzpDt
-5n2+QbSPFyKFyIPChKfuV49YJ4bSRnYDqG55Cc+xn3oC2D6zLTTQq2sCUW17jxHU
-SjPtSOX4US+nOl2eyBRs4Zpok9PNvu4laB1PZTH7UNlWlNW4T+AiducVQtDTPqP1
-whXlhufQ91GwYilNAPoeDZMCS7c6IRc77WLRpSuXpN7VSZEXNN4lyYV6/zX3U+Kj
-qkvcRbpWxj6uZpf57udSWMm4Pq63p4F67Mu7f5pGAjnrqPg7qyLsc9yNH+floGyp
-qU0YuvTWNpq+B2jDw09d9SWDtANBly43v1TojnJuFfU7F0oOY0CKzTuRT08Jd0VP
-1cx5JfEVBl+gJuXuEu2VovePB4h1G+5rVBepaCl2uJe3JClzf2UB6rhf5hm/GGXX
-X842EXZcaRrueq50RIT7vVZ2/Sxe2AsIv21ly8sYQjD2BqLOdwnGTmaIy4y6hEFw
-f7FPgmNZfLtxSe6/T7FBk4WM8o4O07UEuZ8uEfl/+DiBtn3up/Q=
-=HwzW
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl891Q4ACgkQbDjKyiDZ
+s5Ln+Q//ej17/yk3foCu19l8rVPvvPIR6cf0KzAFa0NjildGpMbU3VJ8MMBSoMrP
+HVFfD66xgPXEFhsmv+0DmQxOds2eAFLREnvRslNCee/RK1tHjiJ3S9lxrmFJN24V
+NHMJwx/1iitfNGX5MYaXTC68goiP6YHAwiHsgOzhIHGDHqc9Ue+mYQk9whaHnZY4
+vzOMIgnlJ2+B1+MkNBm0IlVu0FCJGVdpm7zsTOM3Lr/9PZV43BmUb2ItytrBnruM
+CRrLahXRHUAyibpiTG6t+dhiB1iZlq/tNlozN26JZVYXNe5OLpy+gnu/0Hp/+38Y
+rVa0k9aMT3MH6wnJavlqB+jaqvNvKtdqKzq8obMzZ1HZbZnWo4gV/7J/I9uSA4wx
+1S4J4Oe2AwcISH1KrMeSm7UdL6zywT9ZrheCyzGifFBOqR96IWpeUjdPk+QsJ/W7
+MyayVlUWg0dZpMmpagSW0D+9yc6r0e/OGQ8CeKByl1Wx8am0uHdnax7mL63RWXvl
+q3oMZ/M04gP0YI+SKAa6hL699K8Ms/nqGSzg6QqQLMqP5LlufnRDetlFTsa27j6I
+0Cd4+CEMeFnEcGRPelgKq9iynjexfe0vR1AdGW1/n51EsJv54G70GQ70RPG/RSUI
+Z/7zt76NMvIpDL3RNASXrjpwlj8oPwBzM3ftj1PR40zcxD4SpsY=
+=fFNL
 -----END PGP SIGNATURE-----
 
---CNfT9TXqV7nd4cfk--
+--MFZs98Tklfu0WsCO--
 
