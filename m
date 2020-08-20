@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FF924AC63
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:48:24 +0200 (CEST)
-Received: from localhost ([::1]:39228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F6C24AC53
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 02:39:19 +0200 (CEST)
+Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8Ykh-0005fZ-Dk
-	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
+	id 1k8Ybu-00022h-Qh
+	for lists+qemu-devel@lfdr.de; Wed, 19 Aug 2020 20:39:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
- id 1k8YOQ-0001qw-IE
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:25:22 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:46480)
+ id 1k8YQX-0006qu-1M
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:27:33 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:46518)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <root@moya.office.hostfission.com>)
- id 1k8YOO-0003bd-Ew
- for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:25:22 -0400
+ id 1k8YQV-00041T-A6
+ for qemu-devel@nongnu.org; Wed, 19 Aug 2020 20:27:32 -0400
 Received: from moya.office.hostfission.com (office.hostfission.com
  [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id BDBEC42773;
- Thu, 20 Aug 2020 10:25:16 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id 1A1B34276F;
+ Thu, 20 Aug 2020 10:27:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1597883116;
- bh=X6CIhxR1widW+lKAtGoVijCvwyIgBekd2uMq/7WCwEU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PF1V6gwYllJZW0u8SkgDDCmsGO7xvDuslRH7IDi4i4XKDFmGhniCd0YzZ+hdluCgV
- 92VV/TKjtTzWyDWhgJ+Qa5C1qe8RolNyKOHVzkOL/jxU1Ng4UjVY0PVBEPS/7otJuK
- CGbfEeM/UYGk6vcsKEKH02o/GpaFq9qDBdaDTdno=
+ s=mail; t=1597883250;
+ bh=bcRfL8lh4bOBR2cfHRoIVxxIWYuh5WpnjVgPf3WyWHc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=agBYUZvMaqiv63kiqP4TgfoRRECxvgQHhUFSXquQSrFCcDMJhTF71asvIruWv0Vrw
+ f5g0Ihgbf3fRpbQ961RwjZanBKb1zWg2YJaZXyI+J3uHnN/KfnOVdeDnCttuEpr2ST
+ cvja0qe/MQdIFwtXCqahL432xlFSdBwK1cmM/nXs=
 Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id A02B63A02DD; Thu, 20 Aug 2020 10:25:16 +1000 (AEST)
+ id 051013A0560; Thu, 20 Aug 2020 10:27:29 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 To: qemu-devel@nongnu.org
 Cc: Geoffrey McRae <geoff@hostfission.com>,
 	kraxel@redhat.com
-Subject: [PATCH v6 1/1] audio/jack: fix use after free segfault
-Date: Thu, 20 Aug 2020 10:25:15 +1000
-Message-Id: <20200820002515.75576-2-geoff@hostfission.com>
+Subject: [PATCH v7 0/1] audio/jack: fix use after free segfault
+Date: Thu, 20 Aug 2020 10:27:28 +1000
+Message-Id: <20200820002729.76290-1-geoff@hostfission.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200820002515.75576-1-geoff@hostfission.com>
-References: <20200820002515.75576-1-geoff@hostfission.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=139.99.139.48;
@@ -71,161 +69,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change registers a bottom handler to close the JACK client
-connection when a server shutdown signal is recieved. Without this
-libjack2 attempts to "clean up" old clients and causes a use after free
-segfault.
+v7:
+  * removed accidental inclusion of spice-input changes
 
-Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
----
+Geoffrey McRae (1):
+  audio/jack: fix use after free segfault
+
  audio/jackaudio.c | 51 +++++++++++++++++++++++++++++++++--------------
  ui/spice-input.c  |  2 ++
  2 files changed, 38 insertions(+), 15 deletions(-)
 
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 72ed7c4929..3492c6b63b 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu/module.h"
- #include "qemu/atomic.h"
-+#include "qemu/main-loop.h"
- #include "qemu-common.h"
- #include "audio.h"
- 
-@@ -63,6 +64,7 @@ typedef struct QJackClient {
-     QJackState      state;
-     jack_client_t  *client;
-     jack_nframes_t  freq;
-+    QEMUBH         *shutdown_bh;
- 
-     struct QJack   *j;
-     int             nchannels;
-@@ -306,21 +308,27 @@ static int qjack_xrun(void *arg)
-     return 0;
- }
- 
-+static void qjack_shutdown_bh(void *opaque)
-+{
-+    QJackClient *c = (QJackClient *)opaque;
-+    qjack_client_fini(c);
-+}
-+
- static void qjack_shutdown(void *arg)
- {
-     QJackClient *c = (QJackClient *)arg;
-     c->state = QJACK_STATE_SHUTDOWN;
-+    qemu_bh_schedule(c->shutdown_bh);
- }
- 
- static void qjack_client_recover(QJackClient *c)
- {
--    if (c->state == QJACK_STATE_SHUTDOWN) {
--        qjack_client_fini(c);
-+    if (c->state != QJACK_STATE_DISCONNECTED) {
-+        return;
-     }
- 
-     /* packets is used simply to throttle this */
--    if (c->state == QJACK_STATE_DISCONNECTED &&
--        c->packets % 100 == 0) {
-+    if (c->packets % 100 == 0) {
- 
-         /* if enabled then attempt to recover */
-         if (c->enabled) {
-@@ -417,6 +425,7 @@ static int qjack_client_init(QJackClient *c)
-         options |= JackServerName;
-     }
- 
-+    c->shutdown_bh = qemu_bh_new(qjack_shutdown_bh, c);
-     c->client = jack_client_open(client_name, options, &status,
-       c->opt->server_name);
- 
-@@ -489,8 +498,6 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
-     QJackOut *jo  = (QJackOut *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    qjack_client_fini(&jo->c);
--
-     jo->c.out       = true;
-     jo->c.enabled   = false;
-     jo->c.nchannels = as->nchannels;
-@@ -525,8 +532,6 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
-     QJackIn  *ji  = (QJackIn *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    qjack_client_fini(&ji->c);
--
-     ji->c.out       = false;
-     ji->c.enabled   = false;
-     ji->c.nchannels = as->nchannels;
-@@ -563,29 +568,45 @@ static void qjack_client_fini(QJackClient *c)
-         /* fallthrough */
- 
-     case QJACK_STATE_SHUTDOWN:
-+        qemu_bh_delete(c->shutdown_bh);
-+        c->shutdown_bh = NULL;
-+
-         jack_client_close(c->client);
-+        c->client = NULL;
-+
-+        qjack_buffer_free(&c->fifo);
-+        g_free(c->port);
-+
-+        c->state = QJACK_STATE_DISCONNECTED;
-         /* fallthrough */
- 
-     case QJACK_STATE_DISCONNECTED:
-         break;
-     }
--
--    qjack_buffer_free(&c->fifo);
--    g_free(c->port);
--
--    c->state = QJACK_STATE_DISCONNECTED;
- }
- 
- static void qjack_fini_out(HWVoiceOut *hw)
- {
-     QJackOut *jo = (QJackOut *)hw;
--    qjack_client_fini(&jo->c);
-+
-+    qemu_mutex_lock_iothread();
-+    if (jo->c.state != QJACK_STATE_DISCONNECTED) {
-+        qemu_bh_cancel(jo->c.shutdown_bh);
-+        qjack_client_fini(&jo->c);
-+    }
-+    qemu_mutex_unlock_iothread();
- }
- 
- static void qjack_fini_in(HWVoiceIn *hw)
- {
-     QJackIn *ji = (QJackIn *)hw;
--    qjack_client_fini(&ji->c);
-+
-+    qemu_mutex_lock_iothread();
-+    if (ji->c.state != QJACK_STATE_DISCONNECTED) {
-+        qemu_bh_cancel(ji->c.shutdown_bh);
-+        qjack_client_fini(&ji->c);
-+    }
-+    qemu_mutex_unlock_iothread();
- }
- 
- static void qjack_enable_out(HWVoiceOut *hw, bool enable)
-diff --git a/ui/spice-input.c b/ui/spice-input.c
-index cd4bb0043f..82c74fdf58 100644
---- a/ui/spice-input.c
-+++ b/ui/spice-input.c
-@@ -123,6 +123,8 @@ static void spice_update_buttons(QemuSpicePointer *pointer,
-         [INPUT_BUTTON_RIGHT]       = 0x02,
-         [INPUT_BUTTON_WHEEL_UP]    = 0x10,
-         [INPUT_BUTTON_WHEEL_DOWN]  = 0x20,
-+        [INPUT_BUTTON_SIDE]        = 0x40,
-+        [INPUT_BUTTON_EXTRA]       = 0x80
-     };
- 
-     if (wheel < 0) {
 -- 
 2.20.1
 
