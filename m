@@ -2,107 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9704E24C28D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:52:21 +0200 (CEST)
-Received: from localhost ([::1]:33992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0343324C2A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Aug 2020 17:55:23 +0200 (CEST)
+Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k8mrU-0000Iy-Kr
-	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1k8muP-0003ey-Nf
+	for lists+qemu-devel@lfdr.de; Thu, 20 Aug 2020 11:55:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8mob-0005SN-RX; Thu, 20 Aug 2020 11:49:22 -0400
-Received: from mail-am6eur05on2134.outbound.protection.outlook.com
- ([40.107.22.134]:39969 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k8moY-0003CK-KS; Thu, 20 Aug 2020 11:49:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y6E2Y8AkCjUg1RLPaYQv5aIHJvFzpNrE7Va2Z+yVhtm6uyNXubcqjHz5ZaKJxY4v/Hgt8zC2Ao7aG+NBO/IWQg5oJmG8xWQFKJbOjVc9V/1QU1n+B4cVzAvv9/lMvZ7LpETc3JcHuqFdGxBMQ7RBekh/x+co9v3/qnWKFV4YHzNoXljLHTyCL5rNfabnf5e31rzSnrbl1SFH6ND2Hv/D4uw3dhmf52P4rWypWcn/2jaKXSmLUnI8+zgpkVfbmNFcAgdglKaF6y+KeAvMYyQwc13Wv20XjXnY0muraHWM1f5GhoGedRcqmCxkLLTJqlrW8JISGy0kvfKga4RqAvMyOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yWhqiu87IxIRiypyTP+ORm5eA9Msd08cnBE36jSQelE=;
- b=G386Wt/9EYqrQzYWKsoqdV43LRp76j1f97ii5oE1cgSiOq0c4O9oN2y/hQZc3nK4CoPWbIcj+bdChYIammvole/3cWfwz/0l3CyLUQaSf0XIjxDInuoj9jRmFTMZ6U7jLsjAdjTHXhJOSZUEtWK2dFPZPpUjN1ElzA2favV56LX5hReh9T/GLDe3Go7H56ATGMB4Ya5piLdV/MC18Qm+4wcl51ERMk5RlRbstnav1BVryEBXHggjsR1KHp6goIxJe7n3jQTcMDcOB7my57AnEKWA/eSyyONUYcMfv7pyihmQCncdU4tRy546ZIe/ICWU2kxI7G2/P+GlGGknVGF1AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yWhqiu87IxIRiypyTP+ORm5eA9Msd08cnBE36jSQelE=;
- b=HSE78c2JJFHS8C9aqUSrBCz7CV+vINg47QUWAeY1plFM31BriAY5G65euwm8XfCF7a5Xc8yAroJge0zCWelGYa/L0kXtuEuIjJkPxnWp/jjb/kyylyuaaA+HPsBW0br9yV8hr+y3WehdVqz8IEJTcXSePnb7Rm3+9lzWkouPiVc=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4168.eurprd08.prod.outlook.com (2603:10a6:20b:aa::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25; Thu, 20 Aug
- 2020 15:49:15 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3283.027; Thu, 20 Aug 2020
- 15:49:14 +0000
-Subject: Re: [PATCH v4 4/4] iotests: Test node/bitmap aliases during migration
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200818133240.195840-1-mreitz@redhat.com>
- <20200818133240.195840-5-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b1ab8e28-f5ad-1cde-a706-02e4b32e1a0a@virtuozzo.com>
-Date: Thu, 20 Aug 2020 18:49:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <20200818133240.195840-5-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM3PR07CA0134.eurprd07.prod.outlook.com
- (2603:10a6:207:8::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1k8mpM-0006eD-1l
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:50:08 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1k8mpJ-0003H6-Ku
+ for qemu-devel@nongnu.org; Thu, 20 Aug 2020 11:50:07 -0400
+Received: by mail-ot1-x343.google.com with SMTP id t7so1845060otp.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Aug 2020 08:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1hHoa8Zhstwl+GX1djdWnX8Q/EMqOGBUg69hT7ehRLs=;
+ b=bwEm9MctvyHW79yJuejOeUFDJqkjPELS1gm/cb3VUKHIzxD/fdxAXjH9WHXN9t8qtj
+ cnvGuBv3gvdmvm4GUA2rg9zH0jcCoWbWzcLhulGJsVPgdi/Btse1GxEN20y1on7RAOlv
+ az2wIvwY7NaDwPeV545lf34JPRZ5F/87wrJ1W8deL68D4IG31MVEYhPk1wOaMVQQoDPW
+ Ue0MWUVQUJhPcJxf5uw7WRPWk249BKYH4NSH3Tts3e9EAoPin0hwVvMZGuKA6wF6Tw8z
+ PvBdj+GlTWekMtzPvEAKKYcrOa/qzQzC1lN1v9OwyNLWfqC1QgZcNrQ2jUCOxNRm7X0F
+ O+cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1hHoa8Zhstwl+GX1djdWnX8Q/EMqOGBUg69hT7ehRLs=;
+ b=q8GUmlZt+2gwsjHZ/2NtI7OODdzLL15s7lFgmvMW9fasvDi5day59X41jiP+GUjrvu
+ w5NJF84MH3DVKmmbJkqD4giMojwXMgcrqqYl4Jl0DT38YyPMxi8YURtwPM1T+zpfbJer
+ CPEUN9gJHSiZNvKM/mGhiiWRPw6KIqhXTxvcP/1UkedSXHwGDTb5ldVrAcq0Ij2BSfCs
+ WfLrhwPdiN3NKfkfQ77poHaf9dW6NK1MioV2zY/pQXktMUlRVmkSlxsRwmlkGQcR66WQ
+ AoTSYnBtXIoQR0X9dIEEnIW+Fqg4+oTqgeWfTWx6AnP4XFMtksgsUrNUBO29PwTK5iNx
+ 7SMA==
+X-Gm-Message-State: AOAM531GdkxYbwwQxasnt+UkSmdzzbOvPq9yM8TXQMY8LihQ663MwKZD
+ MHGk7Eha6K7GEseoiEQZRTAD8FddBeUY+UL7akU=
+X-Google-Smtp-Source: ABdhPJy4hCAoc3LYRKsXHzN/APve0vGlbBMOCmSybZ0hnNFb0VG2v6BWm9XNdfapaur32ntmtGn7JiaDQf2EVAIciaY=
+X-Received: by 2002:a9d:748e:: with SMTP id t14mr2479451otk.333.1597938603990; 
+ Thu, 20 Aug 2020 08:50:03 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.171) by
- AM3PR07CA0134.eurprd07.prod.outlook.com (2603:10a6:207:8::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.10 via Frontend Transport; Thu, 20 Aug 2020 15:49:14 +0000
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d02d414b-329b-4f70-3b0d-08d845209706
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4168:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4168F84AB0530073B1A7863BC15A0@AM6PR08MB4168.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EFc5BijwAA3cjkmygaGKPeu3TSgqdbsQobN4x85pGKAQFes+Jpp3/G14RcL2nH69/Tx210lNrWK6bHsF8nrgdV8P+81ahQDSGz9j09MiqSfpADbLWUXA4kbCUy5mxqSK6yLzrPQATCguc1mpj8CRLfHUOjmxxBnltR33ZglNCDR0r2qPfD5IovELkXOB5rHmUxfeWvBDmR+imHZ/Q0Rjmyv33a36byhOuJSvVoVa75+G07693HYnd056BMj+51CGV5ajphUtdjr28vtx0YtuJk9LOj2pXVBsYKUY+q6tAhRtYgf5PMTTpAMskVW7qxMKPDuGh717JY/GC6hV7EHA+gfnHvMiCHXWh2DXGQARzAurFN8H6wALIu1EIy0ywX7Z
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(376002)(346002)(136003)(396003)(366004)(8676002)(83380400001)(26005)(6486002)(31696002)(8936002)(36756003)(86362001)(956004)(66946007)(66556008)(66476007)(186003)(2616005)(16526019)(2906002)(478600001)(52116002)(5660300002)(4326008)(16576012)(316002)(54906003)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: WlF/tgyASE2+wKck37eNua40rAELeFk48S8WqaGBOcSwPMuDgUcwlbvFVsRXVNNVAWEY+dSav2lPr96+JHm5zmDpWcObjgIIOLvzJpbhL6KWqhsxKd6avRk6TJFwAaGXrCZAwynITXJc/Od/rWUUz2TUUTNBXInQjLSuwVXFqkwlBuL1h9C9+Di2DoBsFkgbMZAOI8Zd39Vbvx1DcESvKmsRtbm5CsNmn5JBFBThLxeGGD92CcE1QB86u7Fw75BTOlPM8nPfehWUlMCcig2+eZatLfzo3v8uJdZ1oyZf49MqYK+41FF4iPzrScEuEm0ANKXcpeCzNmGhfeoJYiFJAhdOt3DQaoSrxSaMauG59ERMK5q8tQk+NWB/TeupX7VsmHfk4ZYQKfDORBu0D+HwL1GcABoyDg2N6n6E1D3+GdKdElNGW6hgq/tiQvLcYKKYOEnwa7Hqm/NPGCbYx//xnBy/SW/Raxg4y5i0HCLkdgVzBDJG7w1IKb82dj1zRbhR8N9Vtv1svc3lm4322+YpG+d4tNroOoKExLE5SLFrHd1fV9lJzLJUad429+Pc+5U6VFvccdH9Px2GeDjUrIIDz8CtRbVy5Ubh0oXxTZJG6Dt7jhgNY0HBL20rC8UNcZUpQiYzJ7EXzUfglXhyCNd4Rw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d02d414b-329b-4f70-3b0d-08d845209706
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 15:49:14.9088 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GbyL/rlfvdaLw8LT8XtUZCok0WshYu88JemBk/lGqPaCnWsqqplJG0G7SIx/zqj7oFq/3eNlpTvFbprklyS4FDUYPMXH8EbkFLr1eFgbojQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4168
-Received-SPF: pass client-ip=40.107.22.134;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 11:49:16
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200819141533.66354-1-liq3ea@163.com>
+ <a9fc6988-3561-5199-d2ff-6ea4892461a1@redhat.com>
+In-Reply-To: <a9fc6988-3561-5199-d2ff-6ea4892461a1@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 20 Aug 2020 23:49:27 +0800
+Message-ID: <CAKXe6S+DrOv3WUJw-F06pwbOavhRamROCr-T0z0aaJnmZ9HCBA@mail.gmail.com>
+Subject: Re: [PATCH] qtest: add fuzz test case
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,118 +79,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-# MYPYPATH=../../python/ mypy 300
-300:154: error: Item "None" of "Optional[Match[Any]]" has no attribute "group"
-Found 1 error in 1 file (checked 1 source file)
+Thomas Huth <thuth@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8820=E6=97=A5=
+=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8810:24=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 19/08/2020 16.15, Li Qiang wrote:
+> > Currently the device fuzzer find a more and more issues.
+> > For every fuzz case, we need not only the fixes but also
+> > the coressponding test case. We can analysis the reproducer
+> > for every case and find what happened in where and write
+> > a beautiful test case. However the raw data of reproducer is not
+> > friendly to analysis. It will take a very long time, even far more
+> > than the fixes itself. So let's create a new file to hold all of
+> > the fuzz test cases and just use the raw data to act as the test
+> > case. This way nobody will be afraid of writing a test case for
+> > the fuzz reproducer.
+> >
+> > This patch adds the issue LP#1878263 test case.
+> >
+> > Signed-off-by: Li Qiang <liq3ea@163.com>
+> > ---
+> >  tests/qtest/Makefile.include |  2 ++
+> >  tests/qtest/fuzz-test.c      | 45 ++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 47 insertions(+)
+> >  create mode 100644 tests/qtest/fuzz-test.c
+> >
+> > diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.includ=
+e
+> > index b0204e44f2..ff460179c5 100644
+> > --- a/tests/qtest/Makefile.include
+> > +++ b/tests/qtest/Makefile.include
+> > @@ -7,6 +7,7 @@ check-qtest-generic-y +=3D machine-none-test
+> >  check-qtest-generic-y +=3D qmp-test
+> >  check-qtest-generic-y +=3D qmp-cmd-test
+> >  check-qtest-generic-y +=3D qom-test
+> > +check-qtest-generic-y +=3D fuzz-test
+>
+> I think this should go into check-qtest-i386-y instead ...
+>
+> > diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
+> > new file mode 100644
+> > index 0000000000..695c6dffb9
+> > --- /dev/null
+> > +++ b/tests/qtest/fuzz-test.c
+> > @@ -0,0 +1,45 @@
+> > +/*
+> > + * QTest testcase for fuzz case
+> > + *
+> > + * Copyright (c) 2020 Li Qiang <liq3ea@gmail.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +#include "libqtest.h"
+> > +
+> > +/*
+> > + * This used to trigger the assert in scsi_dma_complete
+> > + * https://bugs.launchpad.net/qemu/+bug/1878263
+> > + */
+> > +static void test_megasas_zero_iov_cnt(void)
+> > +{
+> > +    QTestState *s;
+> > +
+> > +    s =3D qtest_init("-nographic -monitor none -serial none "
+> > +                   "-M q35 -device megasas -device scsi-cd,drive=3Dnul=
+l0 "
+> > +                   "-blockdev driver=3Dnull-co,read-zeroes=3Don,node-n=
+ame=3Dnull0");
+>
+> ... since you hard-coded -M q35 here.
+>
+> Alternatively, you need to check qtest_get_arch() for "i386" /  "x86_64"
+> in the main() function.
+>
 
-- the only complain. Suggest a fix:
-
-diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
-index c6d86b1dbc..0241903743 100755
---- a/tests/qemu-iotests/300
-+++ b/tests/qemu-iotests/300
-@@ -148,11 +148,11 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-              result = vm.qmp('human-monitor-command',
-                              command_line='info migrate_parameters')
-  
--            hmp_mapping = re.search(r'^block-bitmap-mapping:\r?(\n  .*)*\n',
--                                    result['return'], flags=re.MULTILINE)
-+            m = re.search(r'^block-bitmap-mapping:\r?(\n  .*)*\n',
-+                          result['return'], flags=re.MULTILINE)
-+            hmp_mapping = m.group(0).replace('\r', '') if m else None
-  
--            self.assertEqual(hmp_mapping.group(0).replace('\r', ''),
--                             self.to_hmp_mapping(mapping))
-+            self.assertEqual(hmp_mapping, self.to_hmp_mapping(mapping))
-          else:
-              self.assert_qmp(result, 'error/desc', error)
-  
-===
-
-# flake8 300
-300:24:1: F401 'time' imported but unused
-300:34:1: E302 expected 2 blank lines, found 1
-300:42:67: E502 the backslash is redundant between brackets
-300:47:67: E502 the backslash is redundant between brackets
-300:67:53: E502 the backslash is redundant between brackets
-300:122:9: E125 continuation line with same indent as next logical line
-300:134:9: E125 continuation line with same indent as next logical line
-300:185:52: E502 the backslash is redundant between brackets
-300:186:72: E502 the backslash is redundant between brackets
-300:285:77: E502 the backslash is redundant between brackets
-300:305:77: E502 the backslash is redundant between brackets
-300:306:78: E502 the backslash is redundant between brackets
-300:330:77: E502 the backslash is redundant between brackets
-300:350:77: E502 the backslash is redundant between brackets
-300:385:57: E502 the backslash is redundant between brackets
-300:386:59: E502 the backslash is redundant between brackets
-300:387:67: E502 the backslash is redundant between brackets
-300:412:78: E502 the backslash is redundant between brackets
-300:425:78: E502 the backslash is redundant between brackets
-300:435:78: E502 the backslash is redundant between brackets
-300:436:76: E502 the backslash is redundant between brackets
-300:451:66: E502 the backslash is redundant between brackets
-300:473:78: E502 the backslash is redundant between brackets
-300:474:79: E502 the backslash is redundant between brackets
-300:488:78: E502 the backslash is redundant between brackets
-300:489:77: E502 the backslash is redundant between brackets
-
-- I post it just because ALE plugin in vim highlights all these things for me. Up to you, I don't ask you to fix it.
-
-18.08.2020 16:32, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   tests/qemu-iotests/300     | 595 +++++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/300.out |   5 +
->   tests/qemu-iotests/group   |   1 +
->   3 files changed, 601 insertions(+)
->   create mode 100755 tests/qemu-iotests/300
->   create mode 100644 tests/qemu-iotests/300.out
-> 
-
-[..]
-
-> +    def test_alias_on_both_migration(self) -> None:
-> +        src_map = self.mapping(self.src_node_name, 'node-alias',
-> +                               self.src_bmap_name, 'bmap-alias')
-> +
-> +        dst_map = self.mapping(self.dst_node_name, 'node-alias',
-> +                               self.dst_bmap_name, 'bmap-alias')
-> +
-> +        self.set_mapping(self.vm_a, src_map)
-> +        self.set_mapping(self.vm_b, dst_map)
-> +        self.migrate()
-> +        self.verify_dest_error(None)
-
-Hmm, probably verify_dest_error() should be called from migrate(), as you call it (almost) always after migrate()
-
-> +
-> +
-
-[..]
-
-> +    def test_unused_mapping_on_dst(self) -> None:
-> +        # Let the source not send any bitmaps
-> +        self.set_mapping(self.vm_a, [])
-> +
-> +        # Establish some mapping on the destination
-> +        self.set_mapping(self.vm_b, [])
-
-Seems, you wanted to specify non-empty mapping for vm_b, yes?
-With any non-empty mapping here, just to better correspond to the comments:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-(or keep this case with both mappings empty, and add one similar with empty mapping only on src)
+Hi Thomas,
+You're right. Anyway we write the northbridge. I just treat megasas as
+a generic device but
+forget this testcase is just for i386/x64 platform.
 
 
+Will correct this in next revision.
 
--- 
-Best regards,
-Vladimir
+Thanks,
+Li Qiang
+
+>  Thomas
+>
 
