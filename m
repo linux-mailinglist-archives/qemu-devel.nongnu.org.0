@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F5724D685
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 15:47:46 +0200 (CEST)
-Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFFF24D688
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 15:48:58 +0200 (CEST)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97OT-0000IA-3C
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 09:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48798)
+	id 1k97Pd-0002JR-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 09:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
- id 1k97Mm-0006wk-1e
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:46:00 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:45500)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <root@moya.office.hostfission.com>)
- id 1k97Mk-0001YO-2r
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:45:59 -0400
-Received: from moya.office.hostfission.com (office.hostfission.com
- [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id BEB85427AE;
- Fri, 21 Aug 2020 23:45:55 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1598017555;
- bh=t+j1DCvYERemptMnn8fWd/5gLpk86NvVv1XtD2x2gR4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vn03Sk915552j9b8EpjGAkjTKiquMtRX7YnFguO4d5yEhWdCSkSpCrCpB4B7l50En
- BmMpfj3xr/QbVlyQh8kDgM50C6LErDx5CVA+KhhzCSRPVGRxhW3TJIzAbXGK+huaIk
- MUQPjOPBdU4qC7xlDiZ/HHEKTGSyNj6JAqDQH348=
-Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id A1AF73A0099; Fri, 21 Aug 2020 23:45:55 +1000 (AEST)
-From: Geoffrey McRae <geoff@hostfission.com>
-To: qemu-devel@nongnu.org
-Cc: Geoffrey McRae <geoff@hostfission.com>, kraxel@redhat.com,
- pbonzini@redhat.com
-Subject: [PATCH v8 1/1] audio/jack: fix use after free segfault
-Date: Fri, 21 Aug 2020 23:45:54 +1000
-Message-Id: <20200821134554.101397-2-geoff@hostfission.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200821134554.101397-1-geoff@hostfission.com>
-References: <20200821134554.101397-1-geoff@hostfission.com>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1k97Mx-00079L-DZ
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:46:11 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42667
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1k97Mu-0001ZZ-Em
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:46:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598017567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uzoTuO4G1JaLrtIWjOkEwi3/9C7dpeT139vGHHW2miQ=;
+ b=WpYz9MeFO1pa6VsqjO7sREpt/MtycjRnihlH79rav7Ni3a31Ut7cqdnLOtKY5grZ4GBfi0
+ 9yTYl8j5tCX6OT/hPIWfw3PHyCzppdOSeWYsjWExeE8gSdrAoXCEhL/Wd2C5uaHWVHvnKy
+ PTRB5HJvb3NnL/uzZ9TxTLcBenbQ2aE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-1Bv6LbyQOvSZuMrat3VnWg-1; Fri, 21 Aug 2020 09:46:05 -0400
+X-MC-Unique: 1Bv6LbyQOvSZuMrat3VnWg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6061C800493;
+ Fri, 21 Aug 2020 13:46:03 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-164.ams2.redhat.com
+ [10.36.113.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 729BA5D9CC;
+ Fri, 21 Aug 2020 13:46:02 +0000 (UTC)
+Subject: Re: [PATCH v3 1/7] x86: lpc9: let firmware negotiate 'CPU hotplug
+ with SMI' features
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20200818122208.1243901-2-imammedo@redhat.com>
+ <20200820145635.1305276-1-imammedo@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <7fa8fa3f-7b7a-895b-ff17-2222ec55bc9c@redhat.com>
+Date: Fri, 21 Aug 2020 15:46:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=139.99.139.48;
- envelope-from=root@moya.office.hostfission.com; helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 09:45:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200820145635.1305276-1-imammedo@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,171 +85,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: boris.ostrovsky@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change registers a bottom handler to close the JACK client
-connection when a server shutdown signal is recieved. Without this
-libjack2 attempts to "clean up" old clients and causes a use after free
-segfault.
+Hi Igor,
 
-Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
----
- audio/jackaudio.c | 55 ++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 42 insertions(+), 13 deletions(-)
+On 08/20/20 16:56, Igor Mammedov wrote:
+> It will allow firmware to notify QEMU that firmware requires SMI
+> being triggered on CPU hot[un]plug, so that it would be able to account
+> for hotplugged CPU and relocate it to new SMM base and/or safely remove
+> CPU on unplug.
+> 
+> Using negotiated features, follow up patches will insert SMI upcall
+> into AML code, to make sure that firmware processes hotplug before
+> guest OS would attempt to use new CPU.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> v3:
+>   - rebase on top of "[PATCH v2] hw: add compat machines for 5.2"
+>     so apply that before this patch
+> v2:
+>   - rebase on top of 5.1 (move compat values to 5.1 machine)
+>   - make "x-smi-cpu-hotunplug" false by default (Laszlo Ersek <lersek@redhat.com>)
+> ---
+>  include/hw/i386/ich9.h |  2 ++
+>  hw/i386/pc.c           |  4 +++-
+>  hw/i386/pc_piix.c      |  1 +
+>  hw/i386/pc_q35.c       |  1 +
+>  hw/isa/lpc_ich9.c      | 13 +++++++++++++
+>  5 files changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+> index a98d10b252..d1bb3f7bf0 100644
+> --- a/include/hw/i386/ich9.h
+> +++ b/include/hw/i386/ich9.h
+> @@ -247,5 +247,7 @@ typedef struct ICH9LPCState {
+>  
+>  /* bit positions used in fw_cfg SMI feature negotiation */
+>  #define ICH9_LPC_SMI_F_BROADCAST_BIT            0
+> +#define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
+> +#define ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT       2
+>  
+>  #endif /* HW_ICH9_H */
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 9aa813949c..583db11d28 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -97,7 +97,9 @@
+>  #include "fw_cfg.h"
+>  #include "trace.h"
+>  
+> -GlobalProperty pc_compat_5_1[] = {};
+> +GlobalProperty pc_compat_5_1[] = {
+> +    { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
+> +};
+>  const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
+>  
+>  GlobalProperty pc_compat_5_0[] = {
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index c5ba70ca17..68f8ba1bf9 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -433,6 +433,7 @@ static void pc_i440fx_5_2_machine_options(MachineClass *m)
+>      m->alias = "pc";
+>      m->is_default = true;
+>      pcmc->default_cpu_version = 1;
+> +    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+>  }
+>  
+>  DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 0cb9c18cd4..b729cf9a58 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -359,6 +359,7 @@ static void pc_q35_5_2_machine_options(MachineClass *m)
+>      pc_q35_machine_options(m);
+>      m->alias = "q35";
+>      pcmc->default_cpu_version = 1;
+> +    compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+>  }
+>  
+>  DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
 
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 72ed7c4929..572ebea208 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu/module.h"
- #include "qemu/atomic.h"
-+#include "qemu/main-loop.h"
- #include "qemu-common.h"
- #include "audio.h"
- 
-@@ -63,6 +64,8 @@ typedef struct QJackClient {
-     QJackState      state;
-     jack_client_t  *client;
-     jack_nframes_t  freq;
-+    QemuMutex       shutdown_lock;
-+    QEMUBH         *shutdown_bh;
- 
-     struct QJack   *j;
-     int             nchannels;
-@@ -306,21 +309,27 @@ static int qjack_xrun(void *arg)
-     return 0;
- }
- 
-+static void qjack_shutdown_bh(void *opaque)
-+{
-+    QJackClient *c = (QJackClient *)opaque;
-+    qjack_client_fini(c);
-+}
-+
- static void qjack_shutdown(void *arg)
- {
-     QJackClient *c = (QJackClient *)arg;
-     c->state = QJACK_STATE_SHUTDOWN;
-+    qemu_bh_schedule(c->shutdown_bh);
- }
- 
- static void qjack_client_recover(QJackClient *c)
- {
--    if (c->state == QJACK_STATE_SHUTDOWN) {
--        qjack_client_fini(c);
-+    if (c->state != QJACK_STATE_DISCONNECTED) {
-+        return;
-     }
- 
-     /* packets is used simply to throttle this */
--    if (c->state == QJACK_STATE_DISCONNECTED &&
--        c->packets % 100 == 0) {
-+    if (c->packets % 100 == 0) {
- 
-         /* if enabled then attempt to recover */
-         if (c->enabled) {
-@@ -489,15 +498,18 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
-     QJackOut *jo  = (QJackOut *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    qjack_client_fini(&jo->c);
--
-     jo->c.out       = true;
-     jo->c.enabled   = false;
-     jo->c.nchannels = as->nchannels;
-     jo->c.opt       = dev->u.jack.out;
- 
-+    jo->c.shutdown_bh = qemu_bh_new(qjack_shutdown_bh, &jo->c);
-+    qemu_mutex_init(&jo->c.shutdown_lock);
-+
-     int ret = qjack_client_init(&jo->c);
-     if (ret != 0) {
-+        qemu_bh_delete(jo->c.shutdown_bh);
-+        qemu_mutex_destroy(&jo->c.shutdown_lock);
-         return ret;
-     }
- 
-@@ -525,15 +537,18 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
-     QJackIn  *ji  = (QJackIn *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    qjack_client_fini(&ji->c);
--
-     ji->c.out       = false;
-     ji->c.enabled   = false;
-     ji->c.nchannels = as->nchannels;
-     ji->c.opt       = dev->u.jack.in;
- 
-+    ji->c.shutdown_bh = qemu_bh_new(qjack_shutdown_bh, &ji->c);
-+    qemu_mutex_init(&ji->c.shutdown_lock);
-+
-     int ret = qjack_client_init(&ji->c);
-     if (ret != 0) {
-+        qemu_bh_delete(ji->c.shutdown_bh);
-+        qemu_mutex_destroy(&ji->c.shutdown_lock);
-         return ret;
-     }
- 
-@@ -555,7 +570,7 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
-     return 0;
- }
- 
--static void qjack_client_fini(QJackClient *c)
-+static void qjack_client_fini_locked(QJackClient *c)
- {
-     switch (c->state) {
-     case QJACK_STATE_RUNNING:
-@@ -564,28 +579,42 @@ static void qjack_client_fini(QJackClient *c)
- 
-     case QJACK_STATE_SHUTDOWN:
-         jack_client_close(c->client);
-+        c->client = NULL;
-+
-+        qjack_buffer_free(&c->fifo);
-+        g_free(c->port);
-+
-+        c->state = QJACK_STATE_DISCONNECTED;
-         /* fallthrough */
- 
-     case QJACK_STATE_DISCONNECTED:
-         break;
-     }
-+}
- 
--    qjack_buffer_free(&c->fifo);
--    g_free(c->port);
--
--    c->state = QJACK_STATE_DISCONNECTED;
-+static void qjack_client_fini(QJackClient *c)
-+{
-+    qemu_mutex_lock(&c->shutdown_lock);
-+    qjack_client_fini_locked(c);
-+    qemu_mutex_unlock(&c->shutdown_lock);
- }
- 
- static void qjack_fini_out(HWVoiceOut *hw)
- {
-     QJackOut *jo = (QJackOut *)hw;
-     qjack_client_fini(&jo->c);
-+
-+    qemu_bh_delete(jo->c.shutdown_bh);
-+    qemu_mutex_destroy(&jo->c.shutdown_lock);
- }
- 
- static void qjack_fini_in(HWVoiceIn *hw)
- {
-     QJackIn *ji = (QJackIn *)hw;
-     qjack_client_fini(&ji->c);
-+
-+    qemu_bh_delete(ji->c.shutdown_bh);
-+    qemu_mutex_destroy(&ji->c.shutdown_lock);
- }
- 
- static void qjack_enable_out(HWVoiceOut *hw, bool enable)
--- 
-2.20.1
+Sorry about the late response, I was away yesterday (public holiday in
+my country).
+
+The above two hunks should be dropped.
+
+Cornelia's patch already handles both of:
+- hw_compat_5_1,
+- pc_compat_5_1.
+in both of:
+- pc_i440fx_5_1_machine_options(),
+- pc_q35_5_1_machine_options().
+
+So you don't need to modify those functions any longer.
+
+Furthermore, the machine-options functions for 5.2 machine types should
+not be modified *at all*. The effect of the above two hunks is that the
+5.2 machine types will inherit the 5.1 compat props (such as
+
+  ICH9-LPC.x-smi-cpu-hotplug=off
+
+) and we do not want that.
+
+So please drop the above two hunks.
+
+If you could post a v4 of this patch today, that would be awesome; I
+would like to play with this series extensively still today. "tonight"
+is definitely an option, so if you can post the patch in the evening
+(CEST), that's still great from my POV!
+
+Thanks!
+Laszlo
+
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index cd6e169d47..19f32bed3e 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -373,6 +373,15 @@ static void smi_features_ok_callback(void *opaque)
+>          /* guest requests invalid features, leave @features_ok at zero */
+>          return;
+>      }
+> +    if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
+> +        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
+> +                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
+> +        /*
+> +         * cpu hot-[un]plug with SMI requires SMI broadcast,
+> +         * leave @features_ok at zero
+> +         */
+> +        return;
+> +    }
+>  
+>      /* valid feature subset requested, lock it down, report success */
+>      lpc->smi_negotiated_features = guest_features;
+> @@ -747,6 +756,10 @@ static Property ich9_lpc_properties[] = {
+>      DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
+>      DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
+>                        ICH9_LPC_SMI_F_BROADCAST_BIT, true),
+> +    DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
+> +                      ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
+> +    DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
+> +                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> 
 
 
