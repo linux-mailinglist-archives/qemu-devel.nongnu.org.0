@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C66724DF1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:10:08 +0200 (CEST)
-Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30C624DF2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:15:15 +0200 (CEST)
+Received: from localhost ([::1]:37628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9BUN-0004ya-9O
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
+	id 1k9BZL-0007UQ-0X
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k9BTa-0004Xj-Ka
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:09:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42784
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1k9BXx-0006Ak-GL
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:13:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k9BTW-0006m0-Gi
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:09:18 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1k9BXv-0007K6-Bn
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:13:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598033353;
+ s=mimecast20190719; t=1598033626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+34apQ9s1Z1PGS3ewog4hEW9tXOJDY+6THYlLwIoY+o=;
- b=KO6Gme5wh1Qg/Jwl/BFx1ocods+ueMzixGeFVD1eQgcqwLiQ9BgUvjrbBLTNkwh9dbEcOE
- ZGxxDbPwAd/wcE0ECxw28529yMClYW3V3jo4y2H9dMNXSYdPgAeyG0Y/pwLVBDu2Nv0OPB
- 2O+Sc66GxMcqbYHOQjsqKTqZJu59Qa8=
+ bh=WVRyCH/0B2Beqz10QLwON7xNDrSJ4bQ0T9yZbTyIBPY=;
+ b=OME1+3Je6urjXbrDjtom0nKbloVx4yBkR47lCD+zxl/Jbxwsn9WI+Ouo0+tUAdzidQ2smt
+ x5XkHl5r4gr3ISHK9wX/J/E5f6sezu/ynPqAMnK8W96e3ZkesUtc4LdKv4pTxpAKhmkcSZ
+ hcvFVW2ggGTElg8lWGOeN7X81b2GzFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-pC-oKG-rMZyzYcA3LdCweA-1; Fri, 21 Aug 2020 14:09:07 -0400
-X-MC-Unique: pC-oKG-rMZyzYcA3LdCweA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-515-_gFWXcMqObeVGba3harvVg-1; Fri, 21 Aug 2020 14:13:42 -0400
+X-MC-Unique: _gFWXcMqObeVGba3harvVg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBA651007469;
- Fri, 21 Aug 2020 18:09:06 +0000 (UTC)
-Received: from [10.3.113.76] (ovpn-113-76.phx2.redhat.com [10.3.113.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67CD37C53A;
- Fri, 21 Aug 2020 18:09:03 +0000 (UTC)
-Subject: Re: [PATCH] configure: silence 'shift' error message in version_ge()
-To: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20200821150014.42461-1-sgarzare@redhat.com>
- <CAFEAcA9zUDeig8TB4JDd_48v2AXcr7HGyjGq6r7KVx=sQyrjXA@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <88a7a480-fe70-68fe-4422-6020070045c3@redhat.com>
-Date: Fri, 21 Aug 2020 13:09:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 237521009462;
+ Fri, 21 Aug 2020 18:13:39 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04A687E331;
+ Fri, 21 Aug 2020 18:13:23 +0000 (UTC)
+Date: Fri, 21 Aug 2020 14:13:22 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: Suspicious QOM types without instance/class size
+Message-ID: <20200821181322.GL642093@habkost.net>
+References: <20200820215529.GH642093@habkost.net>
+ <20200821014732.GW271315@yekko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9zUDeig8TB4JDd_48v2AXcr7HGyjGq6r7KVx=sQyrjXA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200821014732.GW271315@yekko.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,63 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Cameron Esfahani <dirty@apple.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 10:21 AM, Peter Maydell wrote:
-> On Fri, 21 Aug 2020 at 16:00, Stefano Garzarella <sgarzare@redhat.com> wrote:
->>
->> If there are less than 2 arguments in version_ge(), the second shift
->> prints this error:
->>      ../configure: line 232: shift: shift count out of range
->>
->> Let's shut it up, since we're expecting this situation.
->>
->> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->> ---
->>   configure | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/configure b/configure
->> index 4e5fe33211..de4bd0df36 100755
->> --- a/configure
->> +++ b/configure
->> @@ -229,7 +229,7 @@ version_ge () {
->>           set x $local_ver1
->>           local_first=${2-0}
->>           # shift 2 does nothing if there are less than 2 arguments
->> -        shift; shift
->> +        shift; shift 2>/dev/null
+On Fri, Aug 21, 2020 at 11:47:32AM +1000, David Gibson wrote:
+> On Thu, Aug 20, 2020 at 05:55:29PM -0400, Eduardo Habkost wrote:
+> > While trying to convert TypeInfo declarations to the new
+> > OBJECT_DECLARE* macros, I've stumbled on a few suspicious cases
+> > where instance_size or class_size is not set, despite having type
+> > checker macros that use a specific type.
+> > 
+> > The ones with "WARNING" are abstract types (maybe not serious if
+> > subclasses set the appropriate sizes).  The ones with "ERROR"
+> > don't seem to be abstract types.
 > 
-> POSIX says
-> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#shift
 > 
-> "If the n operand is invalid or is greater than "$#", this may be
-> considered a syntax error and a non-interactive shell may exit"
+> Comment on the ones within my area:
+> > 
+> > WARNING: hw/input/adb.c:310:1: class_size should be set to sizeof(ADBDeviceClass)?
 > 
-> so I think that we need to actually avoid the excess shift,
-> not just suppress any warning it might print. (I'm not sure
-> Philippe's "shift || shift" patch can work for that, though,
-> as the exit status doesn't distinguish "valid shift but don't
-> do it again" from "valid shift and more args to come".)
+> Yeah, that looks like a bug (though we'll get away with it because
+> it's abstract).
 
-Indeed.  'shift || shift' is not going to work.  'shift; shift 
-2>/dev/null' is risky, as it can cause the shell to exit.  But this does 
-exactly what you want:
+Right, luckily we are not touching any ADBDeviceClass field
+inside adb_device_class_init().
 
-shift ${2:+2}
+> 
+> > WARNING: hw/ppc/pnv_lpc.c:771:1: instance_size should be set to sizeof(PnvLpcController)?
+> 
+> Ditto.
 
-which works out to 'shift 2' if $2 is set, or 'shift' (implicitly shift 
-1) if $2 is not set.
+Agreed.
 
+> 
+> Should I make fixes for these, or will you?
+
+Please send the fixes, and I will apply them before running the
+TypeInfo conversion script.
+
+> 
+> > ERROR: hw/ppc/spapr_drc.c:771:1: instance_size should be set to sizeof(SpaprDrc)?
+> 
+> I'm confused by this one.  I'm not exactly sure which definition is
+> tripping the error, and AFAICT they should all be correctly inheriting
+> instance_size from either TYPE_SPAPR_DR_CONNECTOR or
+> TYPE_SPAPR_DRC_PHSYICAL.  If anything, it looks like
+> TYPE_SPAPR_DRC_PHB could drop it's explicit override of instance_size.
+
+The error is triggered because of this type checking macro at
+include/hw/ppc/spapr_drc.h:
+
+#define SPAPR_DRC_PCI(obj) OBJECT_CHECK(SpaprDrc, (obj), \
+                                        TYPE_SPAPR_DRC_PCI)
+
+The expectation is that whatever type you use in OBJECT_CHECK
+will be the one used for instance_size.  The script also looks at
+the parent type, to reduce false positives, but this case was
+flagged because SPAPR_DRC_PCI uses SpaprDrc, but the parent type
+(SPAPR_DRC_PHYSICAL) uses SpaprDrcPhysical.
+
+Now, I don't understand why we have so many instance checker
+macros that use the same typedef (SpaprDrc).  If the code needs a
+valid SpaprDrc pointer, it can just use SPAPR_DR_CONNECTOR().
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Eduardo
 
 
