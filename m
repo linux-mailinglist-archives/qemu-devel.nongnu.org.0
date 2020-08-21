@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D6024D372
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:02:19 +0200 (CEST)
-Received: from localhost ([::1]:51110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8AF24D383
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:06:04 +0200 (CEST)
+Received: from localhost ([::1]:39930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94oM-0002WV-D3
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
+	id 1k94rz-00016Y-8g
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E7-0002sN-Qb
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29099
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k94E9-0002y4-Ss
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49488
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E0-0001hu-TA
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:51 -0400
+ id 1k94E1-0001iG-Tb
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005484;
+ s=mimecast20190719; t=1598005485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W646OUFQe73NK6Qe29Sh2VHx68bFqqG2GnS2YPXijAA=;
- b=R0ZYjVp1Yn1LIvIkWW4fFBB3aK6OPXy1+Cbh3/4BHHXSb9hclGTbSpw6SIKtHXZ51bsSAN
- 7pyu6mcie7Qy0FX0uNZyF5feudPNnwrACxGbaAivKKHmp2pGDET6KHErKtPhAJIP7lUx30
- pmGAoupzo5QGkjJWyOql5E4CKSLlxh8=
+ bh=uUYOV5R30awcdYvzBWUKo8CTuqBwQnIx6LfJ7URbYgQ=;
+ b=DF9uME2RRpoRhW8kJ171scuk225oYZ4qCjMP7sC/LhmdRNaKwsORJhn8T3fFLJImBojz5x
+ g0tqbI+kbJS0iU5KwowJ30OTrnbb3eHcRDjCLlRw4Cs4cF/I6jO3IRamreOLzQ6yig5Xu1
+ LMrfMuoCLt5CXqIQO1oS41MF31ETTNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-gDzFqIyNNeOcHIBNckRHEw-1; Fri, 21 Aug 2020 06:24:42 -0400
-X-MC-Unique: gDzFqIyNNeOcHIBNckRHEw-1
+ us-mta-440-Vsv3PLhSOW-1_fHznDXr7g-1; Fri, 21 Aug 2020 06:24:43 -0400
+X-MC-Unique: Vsv3PLhSOW-1_fHznDXr7g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 751911009440
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745D0191E2A0
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 267007E31F;
- Fri, 21 Aug 2020 10:24:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12B727E31F;
+ Fri, 21 Aug 2020 10:24:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 086/152] meson: convert hw/xen
-Date: Fri, 21 Aug 2020 06:22:23 -0400
-Message-Id: <20200821102329.29777-87-pbonzini@redhat.com>
+Subject: [PULL v8 088/152] meson: convert hw/semihosting
+Date: Fri, 21 Aug 2020 06:22:25 -0400
+Message-Id: <20200821102329.29777-89-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,141 +82,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure            |  7 +++++--
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/xen/Makefile.objs |  7 -------
- hw/xen/meson.build   | 20 ++++++++++++++++++++
- meson.build          |  6 ++++++
- 6 files changed, 32 insertions(+), 10 deletions(-)
- create mode 100644 hw/meson.build
- delete mode 100644 hw/xen/Makefile.objs
- create mode 100644 hw/xen/meson.build
+ hw/Makefile.objs             | 1 -
+ hw/meson.build               | 1 +
+ hw/semihosting/Makefile.objs | 2 --
+ hw/semihosting/meson.build   | 4 ++++
+ 4 files changed, 5 insertions(+), 3 deletions(-)
+ delete mode 100644 hw/semihosting/Makefile.objs
+ create mode 100644 hw/semihosting/meson.build
 
-diff --git a/configure b/configure
-index 3018da6336..f84dcac468 100755
---- a/configure
-+++ b/configure
-@@ -2736,6 +2736,8 @@ if test "$xen" != "no" ; then
-     fi
-     QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags $xen_pc)"
-     libs_softmmu="$($pkg_config --libs $xen_pc) $libs_softmmu"
-+    xen_cflags="$($pkg_config --cflags $xen_pc)"
-+    xen_libs="$($pkg_config --libs $xen_pc)"
-   else
- 
-     xen_libs="-lxenstore -lxenctrl -lxenguest"
-@@ -3016,9 +3018,8 @@ EOF
- 
-     if test "$xen" = yes; then
-       if test $xen_ctrl_version -ge 40701  ; then
--        libs_softmmu="$xen_stable_libs $libs_softmmu"
-+        xen_libs="$xen_libs $xen_stable_libs "
-       fi
--      libs_softmmu="$xen_libs $libs_softmmu"
-     fi
-   fi
- fi
-@@ -7309,6 +7310,8 @@ fi
- if test "$xen" = "yes" ; then
-   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
-   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
-+  echo "XEN_CFLAGS=$xen_cflags" >> $config_host_mak
-+  echo "XEN_LIBS=$xen_libs" >> $config_host_mak
- fi
- if test "$linux_aio" = "yes" ; then
-   echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 14b7ea4eb6..d204a906af 100644
+index bdf8bdf256..6a7ca0fcfe 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -35,7 +35,6 @@ devices-dirs-y += usb/
- devices-dirs-$(CONFIG_VFIO) += vfio/
- devices-dirs-y += virtio/
+@@ -36,7 +36,6 @@ devices-dirs-y += virtio/
  devices-dirs-y += watchdog/
--devices-dirs-$(CONFIG_XEN) += xen/
  devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
  devices-dirs-$(CONFIG_NUBUS) += nubus/
- devices-dirs-y += semihosting/
-diff --git a/hw/meson.build b/hw/meson.build
-new file mode 100644
-index 0000000000..08112a5e4b
---- /dev/null
-+++ b/hw/meson.build
-@@ -0,0 +1 @@
-+subdir('xen')
-diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
-deleted file mode 100644
-index 502b32d877..0000000000
---- a/hw/xen/Makefile.objs
-+++ /dev/null
-@@ -1,7 +0,0 @@
--# xen backend driver support
--common-obj-y += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-bus.o xen-bus-helper.o xen-backend.o
--
--obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
--obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
--obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
--obj-$(call lnot,$(CONFIG_XEN_PCI_PASSTHROUGH)) += xen_pt_stub.o
-diff --git a/hw/xen/meson.build b/hw/xen/meson.build
-new file mode 100644
-index 0000000000..076954b89c
---- /dev/null
-+++ b/hw/xen/meson.build
-@@ -0,0 +1,20 @@
-+softmmu_ss.add(when: ['CONFIG_XEN', xen], if_true: files(
-+  'xen-backend.c',
-+  'xen-bus-helper.c',
-+  'xen-bus.c',
-+  'xen-legacy-backend.c',
-+  'xen_devconfig.c',
-+  'xen_pvdev.c',
-+))
-+
-+xen_specific_ss = ss.source_set()
-+xen_specific_ss.add(when: 'CONFIG_XEN_PCI_PASSTHROUGH', if_true: files(
-+  'xen-host-pci-device.c',
-+  'xen_pt.c',
-+  'xen_pt_config_init.c',
-+  'xen_pt_graphics.c',
-+  'xen_pt_load_rom.c',
-+  'xen_pt_msi.c',
-+), if_false: files('xen_pt_stub.c'))
-+
-+specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
-diff --git a/meson.build b/meson.build
-index edb635347c..aa715e5428 100644
---- a/meson.build
-+++ b/meson.build
-@@ -325,6 +325,11 @@ numa = not_found
- if 'CONFIG_NUMA' in config_host
-   numa = declare_dependency(link_args: config_host['NUMA_LIBS'].split())
+-devices-dirs-y += semihosting/
+ devices-dirs-y += smbios/
  endif
-+xen = not_found
-+if 'CONFIG_XEN_BACKEND' in config_host
-+  xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
-+                           link_args: config_host['XEN_LIBS'].split())
-+endif
  
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -678,6 +683,7 @@ subdir('migration')
- subdir('monitor')
- subdir('net')
- subdir('replay')
-+subdir('hw')
- 
- # needed for fuzzing binaries
- subdir('tests/qtest/libqos')
+diff --git a/hw/meson.build b/hw/meson.build
+index fe7c466460..66a2f6cddd 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -1,2 +1,3 @@
+ subdir('core')
++subdir('semihosting')
+ subdir('xen')
+diff --git a/hw/semihosting/Makefile.objs b/hw/semihosting/Makefile.objs
+deleted file mode 100644
+index 4ad47c05c0..0000000000
+--- a/hw/semihosting/Makefile.objs
++++ /dev/null
+@@ -1,2 +0,0 @@
+-obj-$(CONFIG_SEMIHOSTING) += config.o
+-obj-$(CONFIG_SEMIHOSTING) += console.o
+diff --git a/hw/semihosting/meson.build b/hw/semihosting/meson.build
+new file mode 100644
+index 0000000000..f40ac574c4
+--- /dev/null
++++ b/hw/semihosting/meson.build
+@@ -0,0 +1,4 @@
++specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
++  'config.c',
++  'console.c',
++))
 -- 
 2.26.2
 
