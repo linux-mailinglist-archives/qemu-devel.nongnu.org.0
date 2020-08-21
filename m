@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693DC24E280
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 23:17:15 +0200 (CEST)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAABA24E27B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 23:15:50 +0200 (CEST)
+Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9EPS-0004vN-GD
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 17:17:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
+	id 1k9EO5-0002QE-BF
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 17:15:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k9EMf-0001Cr-Pl
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45713)
+ id 1k9EMe-0001Cc-HN
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k9EMd-0003rP-Eg
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:21 -0400
+ id 1k9EMc-0003r9-A9
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598044458;
+ s=mimecast20190719; t=1598044456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YyBdC6DrWxEOcaTmWBsVX06MBfedxztPrbNHOuoUEjY=;
- b=NgVHN2Dd5AzFSGOsG6nAYbs2Bjf6sPUkksJ51o3QeX6HqP3QdME3WlD0y5oSlK42wlhGqg
- cKNlht7ZcxTvoqy3wicfBxBXXM3DxCBc3NWyzzr/rXP/+/OXPy28Au44ANGhQ0rHdRxOC/
- KAlp8iG3UtJcpztfnSyS3vcmRDhO/e0=
+ bh=WT6M0kV2WEpDX6M+DA14YNo5y+C6gskroS4aUud5BiM=;
+ b=hte6Vtlb1MRX3IUKZ9x0SQjjI2PGg6szJxFGYJGbth7MSQhfwVo7iVyqZAQ7JtahogpBYk
+ kKfZjf+2TeuXEjb7XASRSXh5ZlvE+wDA7eaC6rRkWb3k+6n7oJbIbTriWirFD6zAPjOS8v
+ L3kgqweSSTjmF6Ih/WhfKX7+pEISwOo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-QnevI2CzP-S9UaeS7chJTQ-1; Fri, 21 Aug 2020 17:14:14 -0400
-X-MC-Unique: QnevI2CzP-S9UaeS7chJTQ-1
+ us-mta-280-99YkCtTOMTSndIooUP0d-w-1; Fri, 21 Aug 2020 17:14:15 -0400
+X-MC-Unique: 99YkCtTOMTSndIooUP0d-w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B8B056BE2
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091D81007469
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:14 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F1365C1D0
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BFDC5C1D0;
+ Fri, 21 Aug 2020 21:14:13 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] target/s390x: fix meson.build issue
-Date: Fri, 21 Aug 2020 17:14:07 -0400
-Message-Id: <20200821211412.17321-2-pbonzini@redhat.com>
+Subject: [PULL 2/6] util/meson.build: fix fdmon-io_uring build
+Date: Fri, 21 Aug 2020 17:14:08 -0400
+Message-Id: <20200821211412.17321-3-pbonzini@redhat.com>
 In-Reply-To: <20200821211412.17321-1-pbonzini@redhat.com>
 References: <20200821211412.17321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -82,31 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-files() is needed to avoid
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-../meson.build:977:2: ERROR: File tcg-stub.c does not exist.
+libqemuutil.a build fails with this error:
 
+  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `get_sqe':
+  qemu/build/../util/fdmon-io_uring.c:83: undefined reference to `io_uring_get_sqe'
+  /usr/bin/ld: qemu/build/../util/fdmon-io_uring.c:92: undefined reference to `io_uring_submit'
+  /usr/bin/ld: qemu/build/../util/fdmon-io_uring.c:96: undefined reference to `io_uring_get_sqe'
+  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `fdmon_io_uring_wait':
+  qemu/build/../util/fdmon-io_uring.c:289: undefined reference to `io_uring_submit_and_wait'
+  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `fdmon_io_uring_setup':
+  qemu/build/../util/fdmon-io_uring.c:328: undefined reference to `io_uring_queue_init'
+  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `fdmon_io_uring_destroy':
+  qemu/build/../util/fdmon-io_uring.c:343: undefined reference to `io_uring_queue_exit'
+  collect2: error: ld returned 1 exit status
+
+This patch fix the issue adding 'linux_io_uring' dependency for
+fdmon-io_uring.c
+
+Fixes: a81df1b68b ("libqemuutil, qapi, trace: convert to meson")
+Cc: pbonzini@redhat.com
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20200821154853.94379-1-sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/s390x/meson.build | 2 +-
+ util/meson.build | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index d2a3315903..c42eadb7d2 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -21,7 +21,7 @@ s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'vec_helper.c',
-   'vec_int_helper.c',
-   'vec_string_helper.c',
--), if_false: 'tcg-stub.c')
-+), if_false: files('tcg-stub.c'))
- 
- s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
- 
+diff --git a/util/meson.build b/util/meson.build
+index 23b8ad459b..e6b207a99e 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -4,7 +4,7 @@ util_ss.add(when: 'CONFIG_ATOMIC64', if_false: files('atomic64.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('fdmon-poll.c'))
+ util_ss.add(when: 'CONFIG_EPOLL_CREATE1', if_true: files('fdmon-epoll.c'))
+-util_ss.add(when: 'CONFIG_LINUX_IO_URING', if_true: files('fdmon-io_uring.c'))
++util_ss.add(when: ['CONFIG_LINUX_IO_URING', linux_io_uring], if_true: files('fdmon-io_uring.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('compatfd.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('event_notifier-posix.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('mmap-alloc.c'))
 -- 
 2.26.2
 
