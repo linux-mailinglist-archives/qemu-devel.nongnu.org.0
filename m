@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F9A24D70F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:11:54 +0200 (CEST)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32E624D707
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:10:19 +0200 (CEST)
+Received: from localhost ([::1]:38154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97lp-0004KY-Hk
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
+	id 1k97kI-0000tb-PP
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:10:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iu-000750-6b
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iu-00075F-8b
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:52 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37642
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32250
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iq-0004Vm-7W
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97ir-0004Vw-CG
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598018927;
+ s=mimecast20190719; t=1598018928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TJk+cO4vCXrgKyAzZSSTC8ZmGTjFhu1hEJnG5JapE7w=;
- b=emWA1EYy96BIXZNmQTa5vz25FDJ/UnPFhkPPTkAPysCr9YcZLAxdzHeygjQiSgtNn8gDdG
- sjs8EIzqDp3uRTsiVoCKR4jRiz9AbiniPQp25xBfKggm5UN6kEU9EOIcrRidSl7EkrDVEA
- 0pJoROvtPwsEwO21Yf4q7EMM1UUHwns=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=emZF2mYnnEZmfx/We7TVxfW8bQGfU8OWig/qmvfgpYU=;
+ b=fzQ560FDCZGRVubhjKn10ZxTV8kGggu+mEAuCvuE9JEr0ez2sm5ckg+zhXtgrBcvUgraF5
+ eWFQqQ2Mkt2QJuv81m+3/pJyZ+1vzc5CAim1Ewt7AavcFOCiG2yzZZRKRDmjjFu4N/VBfj
+ iLwkVwwRTYp/ZRZQWF7GQwlpPq8Qqss=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-PyASLVMuNd6YxEUxZ7ncFg-1; Fri, 21 Aug 2020 10:08:30 -0400
-X-MC-Unique: PyASLVMuNd6YxEUxZ7ncFg-1
+ us-mta-290-a0TGXhipO16Jiv12XfvLXQ-1; Fri, 21 Aug 2020 10:08:31 -0400
+X-MC-Unique: a0TGXhipO16Jiv12XfvLXQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A6861074665
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 14:08:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D00211074666;
+ Fri, 21 Aug 2020 14:08:29 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-220.phx2.redhat.com [10.3.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00ADB7B92A
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 14:08:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B8797A40B;
+ Fri, 21 Aug 2020 14:08:29 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/14] bitmaps patches for 2020-08-21
-Date: Fri, 21 Aug 2020 09:08:12 -0500
-Message-Id: <20200821140826.194322-1-eblake@redhat.com>
+Subject: [PULL 01/14] iotests: add test for QCOW2 header dump
+Date: Fri, 21 Aug 2020 09:08:13 -0500
+Message-Id: <20200821140826.194322-2-eblake@redhat.com>
+In-Reply-To: <20200821140826.194322-1-eblake@redhat.com>
+References: <20200821140826.194322-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -53,9 +56,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -76,102 +79,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7fd51e68c34fcefdb4d6fd646ed3346f780f89f4:
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-08-21 12:42:49 +0100)
+The simple script creates a QCOW2 image and fills it with some data.
+Two bitmaps are created as well. Then the script reads the image header
+with extensions from the disk by running the script qcow2.py and dumps
+the information to the output. Other entities, such as snapshots, may
+be added to the test later.
 
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-08-21
-
-for you to fetch changes up to cb5c6cd2dc984812f560fbe41f57a6bfc34d8708:
-
-  iotests: Test node/bitmap aliases during migration (2020-08-21 08:56:09 -0500)
-
-----------------------------------------------------------------
-bitmaps patches for 2020-08-21
-
-- Andrey Shinkevich: Enhance qcow2.py for iotest inspection of qcow2 images
-- Max Reitz: Add block-bitmap-mapping migration parameter
-
-----------------------------------------------------------------
-Andrey Shinkevich (11):
-      iotests: add test for QCOW2 header dump
-      qcow2_format.py: make printable data an extension class member
-      qcow2_format.py: change Qcow2BitmapExt initialization method
-      qcow2_format.py: dump bitmap flags in human readable way.
-      qcow2_format.py: Dump bitmap directory information
-      qcow2_format.py: pass cluster size to substructures
-      qcow2_format.py: Dump bitmap table serialized entries
-      qcow2.py: Introduce '-j' key to dump in JSON format
-      qcow2_format.py: collect fields to dump in JSON format
-      qcow2_format.py: support dumping metadata in JSON format
-      iotests: dump QCOW2 header in JSON in #303
-
-Max Reitz (3):
-      migration: Add block-bitmap-mapping parameter
-      iotests.py: Let wait_migration() return on failure
-      iotests: Test node/bitmap aliases during migration
-
- qapi/migration.json                | 104 ++++++-
- migration/migration.h              |   3 +
- migration/block-dirty-bitmap.c     | 410 +++++++++++++++++++++----
- migration/migration.c              |  30 ++
- monitor/hmp-cmds.c                 |  30 ++
- tests/qemu-iotests/300             | 593 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/300.out         |   5 +
- tests/qemu-iotests/303             |  63 ++++
- tests/qemu-iotests/303.out         | 158 ++++++++++
- tests/qemu-iotests/group           |   2 +
- tests/qemu-iotests/iotests.py      |  18 +-
- tests/qemu-iotests/qcow2.py        |  18 +-
- tests/qemu-iotests/qcow2_format.py | 215 ++++++++++++--
- 13 files changed, 1566 insertions(+), 83 deletions(-)
- create mode 100755 tests/qemu-iotests/300
- create mode 100644 tests/qemu-iotests/300.out
+Suggested-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <1596742557-320265-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ tests/qemu-iotests/303     | 60 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/303.out | 60 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 121 insertions(+)
  create mode 100755 tests/qemu-iotests/303
  create mode 100644 tests/qemu-iotests/303.out
 
-Andrey Shinkevich (11):
-  iotests: add test for QCOW2 header dump
-  qcow2_format.py: make printable data an extension class member
-  qcow2_format.py: change Qcow2BitmapExt initialization method
-  qcow2_format.py: dump bitmap flags in human readable way.
-  qcow2_format.py: Dump bitmap directory information
-  qcow2_format.py: pass cluster size to substructures
-  qcow2_format.py: Dump bitmap table serialized entries
-  qcow2.py: Introduce '-j' key to dump in JSON format
-  qcow2_format.py: collect fields to dump in JSON format
-  qcow2_format.py: support dumping metadata in JSON format
-  iotests: dump QCOW2 header in JSON in #303
-
-Max Reitz (3):
-  migration: Add block-bitmap-mapping parameter
-  iotests.py: Let wait_migration() return on failure
-  iotests: Test node/bitmap aliases during migration
-
- qapi/migration.json                | 104 ++++-
- migration/migration.h              |   3 +
- migration/block-dirty-bitmap.c     | 410 +++++++++++++++++---
- migration/migration.c              |  30 ++
- monitor/hmp-cmds.c                 |  30 ++
- tests/qemu-iotests/300             | 593 +++++++++++++++++++++++++++++
- tests/qemu-iotests/300.out         |   5 +
- tests/qemu-iotests/303             |  63 +++
- tests/qemu-iotests/303.out         | 158 ++++++++
- tests/qemu-iotests/group           |   2 +
- tests/qemu-iotests/iotests.py      |  18 +-
- tests/qemu-iotests/qcow2.py        |  18 +-
- tests/qemu-iotests/qcow2_format.py | 215 ++++++++++-
- 13 files changed, 1566 insertions(+), 83 deletions(-)
- create mode 100755 tests/qemu-iotests/300
- create mode 100644 tests/qemu-iotests/300.out
- create mode 100755 tests/qemu-iotests/303
- create mode 100644 tests/qemu-iotests/303.out
-
+diff --git a/tests/qemu-iotests/303 b/tests/qemu-iotests/303
+new file mode 100755
+index 000000000000..e9accdc7bc92
+--- /dev/null
++++ b/tests/qemu-iotests/303
+@@ -0,0 +1,60 @@
++#!/usr/bin/env python3
++#
++# Test for dumping of qcow2 image metadata
++#
++# Copyright (c) 2020 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import iotests
++import subprocess
++from iotests import qemu_img_create, qemu_io, file_path, log, filter_qemu_io
++
++iotests.script_initialize(supported_fmts=['qcow2'])
++
++disk = file_path('disk')
++chunk = 1024 * 1024
++
++
++def create_bitmap(bitmap_number, disabled):
++    granularity = 1 << (14 + bitmap_number)
++    bitmap_name = 'bitmap-' + str(bitmap_number)
++    args = ['bitmap', '--add', '-g', f'{granularity}', '-f', iotests.imgfmt,
++            disk, bitmap_name]
++    if disabled:
++        args.append('--disable')
++
++    iotests.qemu_img_pipe(*args)
++
++
++def write_to_disk(offset, size):
++    write = f'write {offset} {size}'
++    log(qemu_io('-c', write, disk), filters=[filter_qemu_io])
++
++
++def add_bitmap(num, begin, end, disabled):
++    log(f'Add bitmap {num}')
++    create_bitmap(num, disabled)
++    for i in range(begin, end):
++        write_to_disk((i) * chunk, chunk)
++    log('')
++
++
++qemu_img_create('-f', iotests.imgfmt, disk, '10M')
++
++add_bitmap(1, 0, 6, False)
++add_bitmap(2, 6, 8, True)
++dump = ['qcow2.py', disk, 'dump-header']
++subprocess.run(dump)
+diff --git a/tests/qemu-iotests/303.out b/tests/qemu-iotests/303.out
+new file mode 100644
+index 000000000000..8d7973ccc201
+--- /dev/null
++++ b/tests/qemu-iotests/303.out
+@@ -0,0 +1,60 @@
++Add bitmap 1
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++wrote 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++wrote 1048576/1048576 bytes at offset 2097152
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++wrote 1048576/1048576 bytes at offset 3145728
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++wrote 1048576/1048576 bytes at offset 4194304
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++wrote 1048576/1048576 bytes at offset 5242880
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++
++Add bitmap 2
++wrote 1048576/1048576 bytes at offset 6291456
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++wrote 1048576/1048576 bytes at offset 7340032
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++
++magic                     0x514649fb
++version                   3
++backing_file_offset       0x0
++backing_file_size         0x0
++cluster_bits              16
++size                      10485760
++crypt_method              0
++l1_size                   1
++l1_table_offset           0x30000
++refcount_table_offset     0x10000
++refcount_table_clusters   1
++nb_snapshots              0
++snapshot_offset           0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        [0]
++refcount_order            4
++header_length             112
++
++Header extension:
++magic                     0x6803f857 (Feature table)
++length                    336
++data                      <binary>
++
++Header extension:
++magic                     0x23852875 (Bitmaps)
++length                    24
++nb_bitmaps                2
++reserved32                0
++bitmap_directory_size     0x40
++bitmap_directory_offset   0x9d0000
++
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 7f76066640a6..ecff2621cddc 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -309,4 +309,5 @@
+ 299 auto quick
+ 301 backing quick
+ 302 quick
++303 rw quick
+ 304 rw quick
 -- 
 2.28.0
 
