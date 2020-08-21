@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6AA24D253
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:30:19 +0200 (CEST)
-Received: from localhost ([::1]:33106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A77C24D233
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:23:00 +0200 (CEST)
+Received: from localhost ([::1]:57690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94JO-0004ze-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
+	id 1k94CJ-0008C2-66
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94DL-0001F7-Hp
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55867)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k94Be-0007la-0P
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:22:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50835
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94DH-0001Uq-It
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:03 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k94Bc-0001Ib-8Q
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:22:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005438;
+ s=mimecast20190719; t=1598005335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1SQ8Qd6WpWLPTjlCJOQr22XNtc4Jn8PlOeGida0Zo9Y=;
- b=dFGIMnkZJ3f3LFmf0Xu/VnqrhIZC4Nyw63hlTNsAqsZjZZAD+dT1TyQ7HqiVaPx7csM2gT
- mjEIGgrUoLzz/9WOp8yCUgtFpCOx6E1g0t/0Apui4VJ2R+07V4kFFeOXRhbMiqnCVQ3F7J
- UI4DxSK+Hm8hCrPAANMVEUJDS2ur9Ak=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xGKd/2qrKpTete6WnHrnhmcYnOsEt+1oXy3ua31eZPU=;
+ b=DXqxnZ3dGTE3iZz03RIT3n7yyaW6CHGCZ8jKWQkEeqN/L6Vb2QH3v6R3Lu/+2vP7jhu0Ih
+ OqLHg3TjiodWef85B2+he2sovtmM10JaK4QMfHswjLYBSllgA75k3rqEqKmSRQcUPYeY4O
+ y6S+IjAaFCXLqCcJ2ApxymtXXLNdiNg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-7FgOZn7vPM-Diy3Ef7by2A-1; Fri, 21 Aug 2020 06:23:56 -0400
-X-MC-Unique: 7FgOZn7vPM-Diy3Ef7by2A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-480-sgy-5aA4NBWpY1q-89FxIQ-1; Fri, 21 Aug 2020 06:22:11 -0400
+X-MC-Unique: sgy-5aA4NBWpY1q-89FxIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A5951AE
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:56 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B14FD7AECF;
- Fri, 21 Aug 2020 10:23:55 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB8DF191E2B7;
+ Fri, 21 Aug 2020 10:22:10 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D6A1100AE55;
+ Fri, 21 Aug 2020 10:22:08 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 028/152] meson: add version.o
-Date: Fri, 21 Aug 2020 06:21:25 -0400
-Message-Id: <20200821102329.29777-29-pbonzini@redhat.com>
-In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
-References: <20200821102329.29777-1-pbonzini@redhat.com>
+Subject: [PATCH v3] configure: add support for pseudo-"in source tree" builds
+Date: Fri, 21 Aug 2020 11:22:04 +0100
+Message-Id: <20200821102204.337859-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +78,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Meson requires the build dir to be separate from the source tree. Many
+people are used to just running "./configure && make" though and the
+meson conversion breaks that.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+This introduces some backcompat support to make it appear as if an
+"in source tree" build is being done, but with the results in the
+"build/" directory. This allows "./configure && make" to work as it
+did historically, albeit with the output binaries staying under build/.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- meson.build | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 4e9eb5da5c..feb3c8a30c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -49,8 +49,14 @@ targetos = host_machine.system()
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
- socket = []
-+version_res = []
- if targetos == 'windows'
-   socket = cc.find_library('ws2_32')
-+
-+  win = import('windows')
-+  version_res = win.compile_resources('version.rc',
-+                                      depend_files: files('pc-bios/qemu-nsis.ico'),
-+                                      include_directories: include_directories('.'))
- endif
- glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
-                           link_args: config_host['GLIB_LIBS'].split())
-@@ -235,7 +241,7 @@ libqemuutil = static_library('qemuutil',
-                              sources: util_ss.sources() + stub_ss.sources() + genh,
-                              dependencies: [util_ss.dependencies(), m, glib, socket])
- qemuutil = declare_dependency(link_with: libqemuutil,
--                              sources: genh)
-+                              sources: genh + version_res)
+Changed in v3:
+
+ - remove bashism  ==
+ - avoid need for quoting when generating GNUmakefile
+ - change line breaks in GNUmakefile for clarity
+
+ .gitignore |  2 ++
+ configure  | 52 +++++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 51 insertions(+), 3 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 92311284ef..4ccb9ed975 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,3 +1,5 @@
++/GNUmakefile
++/build/
+ /.doctrees
+ /config-devices.*
+ /config-all-devices.*
+diff --git a/configure b/configure
+index cc5f58f31a..4e5fe33211 100755
+--- a/configure
++++ b/configure
+@@ -11,6 +11,55 @@ unset CLICOLOR_FORCE GREP_OPTIONS
+ # Don't allow CCACHE, if present, to use cached results of compile tests!
+ export CCACHE_RECACHE=yes
  
- summary_info = {}
- summary_info += {'Install prefix':    config_host['prefix']}
++# make source path absolute
++source_path=$(cd "$(dirname -- "$0")"; pwd)
++
++if test "$PWD" = "$source_path"
++then
++    echo "Using './build' as the directory for build output"
++
++    MARKER=build/auto-created-by-configure
++
++    if test -e build
++    then
++        if test -f $MARKER
++        then
++           rm -rf build
++        else
++            echo "ERROR: ./build dir already exists and was not previously created by configure"
++            exit 1
++        fi
++    fi
++
++    mkdir build
++    touch $MARKER
++
++    cat > GNUmakefile <<'EOF'
++# This file is auto-generated by configure to support in-source tree
++# 'make' command invocation
++
++ifeq ($(MAKECMDGOALS),)
++recurse: all
++endif
++
++.NOTPARALLEL: %
++%: force
++	@echo 'changing dir to build for $(MAKE) "$(MAKECMDGOALS)"...'
++	@$(MAKE) -C build -f Makefile $(MAKECMDGOALS)
++	@if test "$(MAKECMDGOALS)" = "distclean" && \
++	    test -e build/auto-created-by-configure ; \
++	then \
++	    rm -rf build GNUmakefile ; \
++	fi
++force: ;
++.PHONY: force
++GNUmakefile: ;
++
++EOF
++    cd build
++    exec $source_path/configure "$@"
++fi
++
+ # Temporary directory used for files created while
+ # configure runs. Since it is in the build directory
+ # we can safely blow away any previous version of it
+@@ -297,9 +346,6 @@ ld_has() {
+     $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
+ }
+ 
+-# make source path absolute
+-source_path=$(cd "$(dirname -- "$0")"; pwd)
+-
+ if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
+ then
+   error_exit "main directory cannot contain spaces nor colons"
 -- 
 2.26.2
-
 
 
